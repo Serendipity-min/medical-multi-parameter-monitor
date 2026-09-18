@@ -1,0 +1,92 @@
+# ==========================================
+# 医疗项目代码与文档仓库 Git 忽略配置
+# ==========================================
+
+# 1. 压缩包与大容量归档（禁止推送）
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+*.bz2
+
+# 2. 二进制可执行程序、动态库与安装包
+*.exe
+*.dll
+*.so
+*.dylib
+*.msi
+*.iso
+setup.exe
+
+# 3. 视频与大容量多媒体
+*.mp4
+*.avi
+*.flv
+*.wmv
+*.mov
+*.mkv
+
+# 4. 上位机运行环境及 PC 端桌面工具
+**/java/**
+**/jre/**
+**/bin/server/**
+**/jmods/**
+**/modules
+血氧/上位机/
+**/调试助手/
+**/HK-08B+血压脉搏波形采集安装程序/
+
+# 5. 串口屏开发包中与本项目无关的应用示例
+**/1. 入门教程/
+**/2.【MODBUS通讯】串口屏_MODBUS资料/
+**/5.【4G应用】M型串口屏_4G应用说明/
+**/8.【M系列】指纹识别应用/
+**/3. 软件工具/
+
+# 6. Keil MDK / IAR / GCC 嵌入式编译中间文件与输出目标
+*.o
+*.obj
+*.d
+*.crf
+*.axf
+*.hex
+*.bin
+*.map
+*.lnp
+*.sct
+*.dep
+*.build_log.htm
+*.htm
+*.iex
+*.lib
+*.a
+*.dbgconf
+*.scvd
+
+# 7. Keil / 编辑器临时文件与工作空间设置
+*.uvgui.*
+*.uvguix.*
+*.uvgui_*
+*.uvopt
+*.uvoptx
+*.Bak
+*.bak
+*.orig
+*.~*
+*.tmp
+~*
+**/DebugConfig/
+**/List/
+**/Obj/
+**/OBJ/
+**/Listing/
+**/Output/
+
+# 8. 操作系统与 IDE 本地缓存
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+*.swp
