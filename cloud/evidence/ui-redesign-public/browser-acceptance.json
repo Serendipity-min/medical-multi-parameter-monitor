@@ -1,0 +1,22 @@
+{
+  "passed": 15,
+  "checks": [
+    "Four modules only and connection dialog dismisses after login",
+    "RR numeric and real received LIVE trend render separately from RESP",
+    "NIBP SYS/DIA pair renders without an invented pressure waveform",
+    "Waveform window control changes the display scale",
+    "Fullscreen control enters and exits browser fullscreen",
+    "All four modules fit within a 1920x1080 screen",
+    "Public browser LIVE values and Canvas signal rendered",
+    "Invalid UI hides numeric values",
+    "Node-A offline UI isolation",
+    "Node-B offline UI isolation",
+    "REPLAY reaches separate panel and LIVE expires",
+    "Network disconnect and automatic reconnection",
+    "Silent stream expires and recovers",
+    "Page refresh and authenticated resubscription",
+    "Mobile layout has no horizontal overflow"
+  ],
+  "simulation": true,
+  "timestamp": "2026-09-19T08:05:35Z"
+}
