@@ -90,3 +90,14 @@ Desktop.ini
 .vscode/
 .idea/
 *.swp
+
+# 云端依赖、运行凭据与构建缓存仅保存在本机，不进入仓库。
+.venv/
+__pycache__/
+.pytest_cache/
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+*.local.json

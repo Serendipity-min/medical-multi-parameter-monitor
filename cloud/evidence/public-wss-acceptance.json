@@ -1,0 +1,19 @@
+{
+  "passed": 12,
+  "checks": [
+    "HTTPS health and certificate validation",
+    "Browser WSS authenticated",
+    "Gateway WSS and synthetic multi-parameter LIVE",
+    "Node-A offline isolates Node-B",
+    "Node-B offline isolates Node-A",
+    "Invalid scalar and waveform suppressed",
+    "REPLAY does not replace LIVE",
+    "Silent connected gateway becomes stale",
+    "Browser resubscription recovers current snapshot",
+    "Gateway disconnect immediately invalidates LIVE",
+    "Gateway reconnection and new session",
+    "Device/view token roles are separated"
+  ],
+  "simulation": true,
+  "timestamp": "2026-09-19T07:14:07Z"
+}

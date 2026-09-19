@@ -1,0 +1,23 @@
+[Unit]
+Description=Medical monitor phase 1 simulation backend
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/opt/medical-monitor/current/backend
+EnvironmentFile=/opt/medical-monitor/config/backend.env
+# 单进程负责内存状态与订阅，不能在没有共享状态服务时增加 worker。
+ExecStart=/opt/medical-monitor/current/.venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 18765 --workers 1 --ws-max-size 65536 --ws-max-queue 8 --no-access-log
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=15
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
