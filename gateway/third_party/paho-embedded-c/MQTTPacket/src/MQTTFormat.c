@@ -80,7 +80,8 @@ int MQTTStringFormat_connect(char* strbuf, int strbuflen, MQTTPacket_connectData
 		safe_append(strbuf, strbuflen, &strindex,
 				", user name %.*s", data->username.lenstring.len, data->username.lenstring.data);
 	if (data->password.lenstring.data && data->password.lenstring.len > 0)
-		safe_append(strbuf, strbuflen, &strindex, ", password ***");
+		/* 调试格式化也只输出固定占位符，不拼接密码内容。 */
+		safe_append(strbuf, strbuflen, &strindex, ", password [REDACTED]");
 	return strindex;
 }
 

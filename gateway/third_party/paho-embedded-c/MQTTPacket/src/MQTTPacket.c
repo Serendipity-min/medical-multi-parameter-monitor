@@ -320,6 +320,12 @@ int MQTTPacket_read(unsigned char* buf, int buflen, int (*getfn)(unsigned char*,
 	MQTTHeader header = {0};
 	int len = 0;
 	int rem_len = 0;
+	unsigned char encoded_length[MAX_NO_OF_REMAINING_LENGTH_BYTES];
+	int length_bytes;
+
+	/* 调用方容量无效时不得触碰缓冲区或读取回调。 */
+	if (buf == NULL || buflen <= 0 || getfn == NULL)
+		goto exit;
 
 	/* 1. read the header byte.  This has the packet type in it */
 	if ((*getfn)(buf, 1) != 1)
@@ -327,12 +333,17 @@ int MQTTPacket_read(unsigned char* buf, int buflen, int (*getfn)(unsigned char*,
 
 	len = 1;
 	/* 2. read the remaining length.  This is variable in itself */
-	MQTTPacket_decode(getfn, &rem_len);
-	len += MQTTPacket_encode(buf + 1, rem_len); /* put the original remaining length back into the buffer */
+	/* 截断或超过四字节时立即传播错误，禁止继续编码长度或读取正文。 */
+	if (MQTTPacket_decode(getfn, &rem_len) <= 0)
+		goto exit;
+	length_bytes = MQTTPacket_encode(encoded_length, rem_len);
+	len += length_bytes;
 
 	/* 3. read the rest of the buffer using a callback to supply the rest of the data */
-	if((rem_len + len) > buflen)
+	/* 校验后再回填前缀，容量减法只在 len 合法时执行。 */
+	if (len < 0 || len > buflen || rem_len < 0 || rem_len > buflen - len)
 		goto exit;
+	memcpy(buf + 1, encoded_length, (size_t)length_bytes);
 	if (rem_len && ((*getfn)(buf + len, rem_len) != rem_len))
 		goto exit;
 
@@ -436,4 +447,3 @@ exit:
 	trp->state = 0;
 	return rc;
 }
-

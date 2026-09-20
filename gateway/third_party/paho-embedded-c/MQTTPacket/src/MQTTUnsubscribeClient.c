@@ -97,10 +97,9 @@ int MQTTDeserialize_unsuback(unsigned short* packetid, unsigned char* buf, int b
 
 	FUNC_ENTRY;
 	rc = MQTTDeserialize_ack(&type, &dup, packetid, buf, buflen);
-	if (type == UNSUBACK)
-		rc = 1;
+	/* ACK 可能在读到 type 后因截断失败；包装器不得把底层失败改成成功。 */
+	rc = (rc == 1 && type == UNSUBACK) ? 1 : 0;
 	FUNC_EXIT_RC(rc);
 	return rc;
 }
-
 
