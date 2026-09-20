@@ -107,11 +107,17 @@ int MQTTDeserialize_suback(unsigned short* packetid, int maxcount, int* count, i
 	int lenlen = 0;
 
 	FUNC_ENTRY;
+	if (!buf || buflen < 3)
+		goto exit;
+
 	header.byte = readChar(&curdata);
 	if (header.bits.type != SUBACK)
 		goto exit;
 
-	if ((lenlen = MQTTPacket_decodeBuf(curdata, &mylen)) < 0) /* read remaining length */
+	if ((lenlen = MQTTPacket_decodeBufSafe(curdata, buflen - 1, &mylen)) < 0) /* read remaining length */
+		goto exit;
+
+	if (1 + lenlen + mylen > buflen || mylen < 0)
 		goto exit;
 
 	curdata += lenlen; /* move pointer after remaining length field */
@@ -124,7 +130,7 @@ int MQTTDeserialize_suback(unsigned short* packetid, int maxcount, int* count, i
 	*count = 0;
 	while (curdata < enddata)
 	{
-		if (*count > maxcount)
+		if (*count >= maxcount)
 		{
 			rc = -1;
 			goto exit;

@@ -37,6 +37,14 @@ static int step(const char *name, const char *command, uint32_t timeout)
     return ok;
 }
 
+static inline void secure_memzero(void *ptr, size_t len)
+{
+    volatile unsigned char *p = (volatile unsigned char *)ptr;
+    while (len--)
+        *p++ = 0;
+    __asm__ __volatile__("" : : "r"(ptr) : "memory");
+}
+
 /* 每次重连建立干净会话；离线恢复由 Router 负责，LWT 仅表达网关离线状态。 */
 int gateway_mqtt_open(const MpFrame *will_frame)
 {
@@ -58,7 +66,7 @@ int gateway_mqtt_open(const MpFrame *will_frame)
     options.will.topicName.cstring = "mpm/v1/GW-C-001/status";
     options.will.message.cstring = will;
     int ok = MQTTConnect(&client, &options) == SUCCESS;
-    memset(will, 0, sizeof(will));
+    secure_memzero(will, sizeof(will));
     console(ok ? "GW MQTT_CONNECTED\r\n" : "GW FAIL MQTT_CONNECT\r\n");
     return ok;
 }
@@ -143,6 +151,6 @@ int gateway_network_open(void)
         return 0;
     (void)snprintf(command, sizeof(command), "AT+CIPSTART=\"SSL\",\"%s\",8883", config->host);
     int ok = step("TLS", command, 30000);
-    memset(command, 0, sizeof(command));
+    secure_memzero(command, sizeof(command));
     return ok;
 }

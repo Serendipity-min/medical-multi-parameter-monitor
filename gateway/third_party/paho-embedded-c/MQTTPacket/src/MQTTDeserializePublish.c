@@ -44,14 +44,22 @@ int MQTTDeserialize_publish(unsigned char* dup, int* qos, unsigned char* retaine
 	int lenlen = 0;
 
 	FUNC_ENTRY;
+	if (!buf || buflen < 2)
+		goto exit;
+
 	header.byte = readChar(&curdata);
 	if (header.bits.type != PUBLISH)
 		goto exit;
 	*dup = header.bits.dup;
 	*qos = header.bits.qos;
 	*retained = header.bits.retain;
+	if (*qos == 3)
+		goto exit;
 
-	if ((lenlen = MQTTPacket_decodeBuf(curdata, &mylen)) < 0) /* read remaining length */
+	if ((lenlen = MQTTPacket_decodeBufSafe(curdata, buflen - 1, &mylen)) < 0) /* read remaining length */
+		goto exit;
+
+	if (1 + lenlen + mylen > buflen || mylen < 0)
 		goto exit;
 
 	curdata += lenlen; /* move pointer after remaining length field */
@@ -62,9 +70,15 @@ int MQTTDeserialize_publish(unsigned char* dup, int* qos, unsigned char* retaine
 		goto exit;
 
 	if (*qos > 0)
+	{
+		if (enddata - curdata < 2)
+			goto exit;
 		*packetid = readInt(&curdata);
+	}
 
 	*payloadlen = enddata - curdata;
+	if (*payloadlen < 0)
+		goto exit;
 	*payload = curdata;
 	rc = 1;
 exit:
@@ -93,11 +107,17 @@ int MQTTDeserialize_ack(unsigned char* packettype, unsigned char* dup, unsigned 
 	int lenlen = 0;
 
 	FUNC_ENTRY;
+	if (!buf || buflen < 3)
+		goto exit;
+
 	header.byte = readChar(&curdata);
 	*dup = header.bits.dup;
 	*packettype = header.bits.type;
 
-	if ((lenlen = MQTTPacket_decodeBuf(curdata, &mylen)) < 0) /* read remaining length */
+	if ((lenlen = MQTTPacket_decodeBufSafe(curdata, buflen - 1, &mylen)) < 0) /* read remaining length */
+		goto exit;
+
+	if (1 + lenlen + mylen > buflen || mylen < 0)
 		goto exit;
 
 	curdata += lenlen; /* move pointer after remaining length field */

@@ -18,6 +18,7 @@
 #include "MQTTPacket.h"
 
 #include <string.h>
+#include <stdarg.h>
 
 
 const char* MQTTPacket_names[] =
@@ -34,26 +35,52 @@ const char* MQTTPacket_getName(unsigned short packetid)
 }
 
 
+static void safe_append(char* strbuf, int strbuflen, int* strindex, const char* format, ...)
+{
+	if (*strindex < strbuflen - 1 && *strindex >= 0)
+	{
+		va_list args;
+		va_start(args, format);
+		int n = vsnprintf(&strbuf[*strindex], (size_t)(strbuflen - *strindex), format, args);
+		va_end(args);
+		if (n > 0)
+		{
+			if (*strindex + n < strbuflen)
+				*strindex += n;
+			else
+				*strindex = strbuflen - 1;
+		}
+	}
+}
+
+
 int MQTTStringFormat_connect(char* strbuf, int strbuflen, MQTTPacket_connectData* data)
 {
 	int strindex = 0;
+
+	if (!strbuf || strbuflen <= 0)
+		return 0;
 
 	strindex = snprintf(strbuf, strbuflen,
 			"CONNECT MQTT version %d, client id %.*s, clean session %d, keep alive %d",
 			(int)data->MQTTVersion, data->clientID.lenstring.len, data->clientID.lenstring.data,
 			(int)data->cleansession, data->keepAliveInterval);
+	if (strindex >= strbuflen)
+		strindex = strbuflen - 1;
+	if (strindex < 0)
+		strindex = 0;
+
 	if (data->willFlag)
-		strindex += snprintf(&strbuf[strindex], strbuflen - strindex,
+		safe_append(strbuf, strbuflen, &strindex,
 				", will QoS %d, will retain %d, will topic %.*s, will message %.*s",
 				data->will.qos, data->will.retained,
 				data->will.topicName.lenstring.len, data->will.topicName.lenstring.data,
 				data->will.message.lenstring.len, data->will.message.lenstring.data);
 	if (data->username.lenstring.data && data->username.lenstring.len > 0)
-		strindex += snprintf(&strbuf[strindex], strbuflen - strindex,
+		safe_append(strbuf, strbuflen, &strindex,
 				", user name %.*s", data->username.lenstring.len, data->username.lenstring.data);
 	if (data->password.lenstring.data && data->password.lenstring.len > 0)
-		strindex += snprintf(&strbuf[strindex], strbuflen - strindex,
-				", password %.*s", data->password.lenstring.len, data->password.lenstring.data);
+		safe_append(strbuf, strbuflen, &strindex, ", password ***");
 	return strindex;
 }
 

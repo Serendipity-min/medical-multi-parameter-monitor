@@ -103,6 +103,7 @@ DLLExport int MQTTPacket_equals(MQTTString* a, char* b);
 DLLExport int MQTTPacket_encode(unsigned char* buf, int length);
 int MQTTPacket_decode(int (*getcharfn)(unsigned char*, int), int* value);
 int MQTTPacket_decodeBuf(unsigned char* buf, int* value);
+int MQTTPacket_decodeBufSafe(const unsigned char* buf, int buflen, int* value);
 
 int readInt(unsigned char** pptr);
 char readChar(unsigned char** pptr);

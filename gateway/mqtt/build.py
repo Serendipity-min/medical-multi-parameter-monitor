@@ -39,7 +39,12 @@ sources = [
     *sorted((core / '301').glob('*.c')),
     *base.SOURCES[1:],
     vendor / 'MQTTClient-C/src/MQTTClient.c',
-    *sorted((vendor / 'MQTTPacket/src').glob('*.c')),
+    vendor / 'MQTTPacket/src/MQTTConnectClient.c',
+    vendor / 'MQTTPacket/src/MQTTDeserializePublish.c',
+    vendor / 'MQTTPacket/src/MQTTPacket.c',
+    vendor / 'MQTTPacket/src/MQTTSerializePublish.c',
+    vendor / 'MQTTPacket/src/MQTTSubscribeClient.c',
+    vendor / 'MQTTPacket/src/MQTTUnsubscribeClient.c',
 ]
 objects = []
 for source in sources:

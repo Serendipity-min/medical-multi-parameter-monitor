@@ -94,16 +94,15 @@ static int decodePacket(MQTTClient* c, int* value, int timeout)
 
         if (++len > MAX_NO_OF_REMAINING_LENGTH_BYTES)
         {
-            rc = MQTTPACKET_READ_ERROR; /* bad data */
-            goto exit;
+            return MQTTPACKET_READ_ERROR; /* bad data */
         }
         rc = c->ipstack->mqttread(c->ipstack, &i, 1, timeout);
         if (rc != 1)
-            goto exit;
+            return MQTTPACKET_READ_ERROR;
         *value += (i & 127) * multiplier;
         multiplier *= 128;
     } while ((i & 128) != 0);
-exit:
+
     return len;
 }
 
@@ -121,21 +120,26 @@ static int readPacket(MQTTClient* c, Timer* timer)
 
     len = 1;
     /* 2. read the remaining length.  This is variable in itself */
-    decodePacket(c, &rem_len, TimerLeftMS(timer));
+    if (decodePacket(c, &rem_len, TimerLeftMS(timer)) <= 0)
+    {
+        rc = FAILURE;
+        goto exit;
+    }
     len += MQTTPacket_encode(c->readbuf + 1, rem_len); /* put the original remaining length back into the buffer */
 
-    if (rem_len > (c->readbuf_size - len))
+    if (rem_len > (int)(c->readbuf_size - len))
     {
         rc = BUFFER_OVERFLOW;
         goto exit;
     }
 
     /* 3. read the rest of the buffer using a callback to supply the rest of the data */
-    if (rem_len > 0 && (rc = c->ipstack->mqttread(c->ipstack, c->readbuf + len, rem_len, TimerLeftMS(timer)) != rem_len)) {
-        rc = 0;
+    if (rem_len > 0 && (rc = c->ipstack->mqttread(c->ipstack, c->readbuf + len, rem_len, TimerLeftMS(timer))) != rem_len) {
+        rc = FAILURE;
         goto exit;
     }
 
+    c->read_packet_len = len + rem_len;
     header.byte = c->readbuf[0];
     rc = header.bits.type;
     if (c->keepAliveInterval > 0)
@@ -276,36 +280,18 @@ int cycle(MQTTClient* c, Timer* timer)
             break;
         case PUBLISH:
         {
-            MQTTString topicName;
-            MQTTMessage msg;
-            int intQoS;
-            msg.payloadlen = 0; /* this is a size_t, but deserialize publish sets this as int */
-            if (MQTTDeserialize_publish(&msg.dup, &intQoS, &msg.retained, &msg.id, &topicName,
-               (unsigned char**)&msg.payload, (int*)&msg.payloadlen, c->readbuf, c->readbuf_size) != 1)
-                goto exit;
-            msg.qos = (enum QoS)intQoS;
-            deliverMessage(c, &topicName, &msg);
-            if (msg.qos != QOS0)
-            {
-                if (msg.qos == QOS1)
-                    len = MQTTSerialize_ack(c->buf, c->buf_size, PUBACK, 0, msg.id);
-                else if (msg.qos == QOS2)
-                    len = MQTTSerialize_ack(c->buf, c->buf_size, PUBREC, 0, msg.id);
-                if (len <= 0)
-                    rc = FAILURE;
-                else
-                    rc = sendPacket(c, len, timer);
-                if (rc == FAILURE)
-                    goto exit; // there was a problem
-            }
-            break;
+            /* 网关固件属于纯上行遥测发布端，不订阅下行主题。
+             * 拒绝非预期的下行 PUBLISH 帧，消除远程攻击面。
+             */
+            rc = FAILURE;
+            goto exit;
         }
         case PUBREC:
         case PUBREL:
         {
             unsigned short mypacketid;
             unsigned char dup, type;
-            if (MQTTDeserialize_ack(&type, &dup, &mypacketid, c->readbuf, c->readbuf_size) != 1)
+            if (MQTTDeserialize_ack(&type, &dup, &mypacketid, c->readbuf, (int)c->read_packet_len) != 1)
                 rc = FAILURE;
             else if ((len = MQTTSerialize_ack(c->buf, c->buf_size,
                 (packet_type == PUBREC) ? PUBREL : PUBCOMP, 0, mypacketid)) <= 0)
@@ -442,7 +428,7 @@ int MQTTConnectWithResults(MQTTClient* c, MQTTPacket_connectData* options, MQTTC
     {
         data->rc = 0;
         data->sessionPresent = 0;
-        if (MQTTDeserialize_connack(&data->sessionPresent, &data->rc, c->readbuf, c->readbuf_size) == 1)
+        if (MQTTDeserialize_connack(&data->sessionPresent, &data->rc, c->readbuf, (int)c->read_packet_len) == 1)
             rc = data->rc;
         else
             rc = FAILURE;
@@ -546,7 +532,7 @@ int MQTTSubscribeWithResults(MQTTClient* c, const char* topicFilter, enum QoS qo
         unsigned short mypacketid;
         data->grantedQoS = QOS0;
         int granted_qos = 0;
-        if (MQTTDeserialize_suback(&mypacketid, 1, &count, &granted_qos, c->readbuf, c->readbuf_size) == 1)
+        if (MQTTDeserialize_suback(&mypacketid, 1, &count, &granted_qos, c->readbuf, (int)c->read_packet_len) == 1)
         {
             data->grantedQoS = (enum QoS)granted_qos;
             if (data->grantedQoS != 0x80)
@@ -599,7 +585,7 @@ int MQTTUnsubscribe(MQTTClient* c, const char* topicFilter)
     if (waitfor(c, UNSUBACK, &timer) == UNSUBACK)
     {
         unsigned short mypacketid;  // should be the same as the packetid above
-        if (MQTTDeserialize_unsuback(&mypacketid, c->readbuf, c->readbuf_size) == 1)
+        if (MQTTDeserialize_unsuback(&mypacketid, c->readbuf, (int)c->read_packet_len) == 1)
         {
             /* remove the subscription message handler associated with this topic, if there is one */
             MQTTSetMessageHandler(c, topicFilter, NULL);
@@ -651,7 +637,7 @@ int MQTTPublish(MQTTClient* c, const char* topicName, MQTTMessage* message)
         {
             unsigned short mypacketid;
             unsigned char dup, type;
-            if (MQTTDeserialize_ack(&type, &dup, &mypacketid, c->readbuf, c->readbuf_size) != 1)
+            if (MQTTDeserialize_ack(&type, &dup, &mypacketid, c->readbuf, (int)c->read_packet_len) != 1)
                 rc = FAILURE;
         }
         else
@@ -663,7 +649,7 @@ int MQTTPublish(MQTTClient* c, const char* topicName, MQTTMessage* message)
         {
             unsigned short mypacketid;
             unsigned char dup, type;
-            if (MQTTDeserialize_ack(&type, &dup, &mypacketid, c->readbuf, c->readbuf_size) != 1)
+            if (MQTTDeserialize_ack(&type, &dup, &mypacketid, c->readbuf, (int)c->read_packet_len) != 1)
                 rc = FAILURE;
         }
         else

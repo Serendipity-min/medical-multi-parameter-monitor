@@ -7,6 +7,14 @@
 #include <string.h>
 #include <stdio.h>
 
+static inline void secure_memzero(void *ptr, size_t len)
+{
+    volatile unsigned char *p = (volatile unsigned char *)ptr;
+    while (len--)
+        *p++ = 0;
+    __asm__ __volatile__("" : : "r"(ptr) : "memory");
+}
+
 extern volatile uint32_t g_uptime_ms;
 static char response[4096];
 static uint32_t response_length;
@@ -173,7 +181,7 @@ int main(void)
                     char command[64];
                     (void)snprintf(command, sizeof(command), "AT+CWLAP=\"%.32s\"", line + 5);
                     query(command);
-                    memset(command, 0, sizeof(command));
+                    secure_memzero(command, sizeof(command));
                     console_write("SCAN_DONE\r\n");
                 }
                 else
