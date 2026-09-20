@@ -57,7 +57,7 @@ sequenceDiagram
     participant SENSOR as HKS-12C 血氧模组
 
     Note over MCU,SENSOR: 1. 上电握手与启动测量
-    MCU->>SENSOR: 0xFF 0xC7 0x03 0xCD 0xA0 (启动测量)
+    MCU->>SENSOR: 0xFF 0xC7 0x03 CKSUM(0xA3) 0xA0 (启动测量)
     
     Note over MCU,SENSOR: 2. 连续 50Hz 周期上报 (每 20ms 一帧)
     loop 每隔 20ms 上报一帧
@@ -65,16 +65,16 @@ sequenceDiagram
     end
 
     Note over MCU,SENSOR: 3. 停止测量
-    MCU->>SENSOR: 0xFF 0xC7 0x03 CKSUM 0xA1 (停止测量)
+    MCU->>SENSOR: 0xFF 0xC7 0x03 CKSUM(0xA4) 0xA1 (停止测量)
     SENSOR-->>MCU: 0xFF 0xC7 0x03 CKSUM 0xA1 (响应确认)
 ```
 
 #### 1. 启动测量指令
-* **单片机发送**：`0xFF 0xC7 0x03 0xCD 0xA0`
+* **单片机发送**：`0xFF 0xC7 0x03 CKSUM 0xA0`
   * `0xFF`：固定帧头；
   * `0xC7`：血氧模块设备识别码（Device ID）；
   * `0x03`：后续字节长度（长度 1B + 校验和 1B + 命令 1B）；
-  * `0xCD`：累加校验和（`(0x03 + 0xA0 + 0x00) & 0xFF = 0xA3`，厂商出厂默认校验兼容码）；
+  * `CKSUM`：原厂累加校验和，公式 `(0x03 + 0xA0) & 0xFF = 0xA3`（注：历史笔记中偶现的 `0xCD` 经考证为混淆了 HKB-08B 血压设备码，驱动中严禁硬编码静态 `0xCD`，详见《关键技术疑点攻关与架构设计纠偏报告》）；
   * `0xA0`：启动采集控制码。
 
 #### 2. 50Hz 连续体征数据上报帧
@@ -89,7 +89,7 @@ sequenceDiagram
   * **`XL`（Byte 7）**：**脉率数值（PR）**，单位 bpm，量程 47～255 bpm。**若当前值为 `0`，代表正在统计周期或未检出稳定脉搏**。
 
 #### 3. 停止测量指令
-* **单片机发送**：`0xFF 0xC7 0x03 0xCD 0xA1`（`0xA1` 为停止命令码）。
+* **单片机发送**：`0xFF 0xC7 0x03 CKSUM 0xA1`（校验和 `(0x03 + 0xA1) & 0xFF = 0xA4`）。
 
 ---
 
