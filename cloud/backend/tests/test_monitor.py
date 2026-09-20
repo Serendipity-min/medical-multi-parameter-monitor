@@ -1,157 +1,130 @@
-"""验收关键语义：断线失效、历史隔离、鉴权、重复包与慢浏览器。"""
-
+"""验证 MQTT 迁移中的状态边界和浏览器订阅生命周期。"""
 import asyncio
 import json
-from pathlib import Path
-import secrets
 import sys
-import time
-
+from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 from starlette.websockets import WebSocketDisconnect
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'tools' / 'mock_gateway'))
-from app.adapters import MockJsonAdapter
+from app.adapters import decode_mqtt
 from app.hub import Hub
 from app.main import create_app
-from main import make_frame
 
+BASE = 'mpm/v1/GW-DEV-001'
 
-@pytest.fixture
-def client(monkeypatch):
-    # 测试令牌每次生成，与部署凭据完全独立。
-    device, view = secrets.token_urlsafe(32), secrets.token_urlsafe(32)
-    monkeypatch.setenv('MONITOR_DEVICE_TOKEN', device)
-    monkeypatch.setenv('MONITOR_VIEW_TOKEN', view)
-    monkeypatch.setenv('MONITOR_ALLOWED_ORIGINS', 'http://testserver')
-    with TestClient(create_app()) as test_client:
-        yield test_client, device, view
+def message(suffix='NODE-B/telemetry/hr', **changes):
+    body = {'timestamp': 1000000, 'seq': 1, 'session_id': 'session-a',
+            'validity': 'VALID', 'source': 'MOCK', 'synthetic': True, 'value': 72.0, 'unit': 'bpm'}
+    body.update(changes)
+    return decode_mqtt(BASE+'/'+suffix, json.dumps(body).encode())
 
+def ready():
+    clock = [1000.0]
+    hub = Hub(['GW-DEV-001'], clock=lambda: clock[0], monotonic=lambda: clock[0])
+    hub.broker_connected = True
+    for suffix in ['status', 'NODE-A/status', 'NODE-B/status']:
+        hub.ingest(message(suffix, value='ONLINE', unit='state'))
+    return hub, clock
 
-def frame(seq=0, control=None):
-    return MockJsonAdapter().decode(json.dumps(make_frame(seq, 'test-session', control)))
+def test_per_stream_expiry_does_not_follow_other_messages():
+    hub, clock = ready()
+    hub.ingest(message())
+    clock[0] += 6
+    hub.ingest(message('NODE-B/telemetry/temp', timestamp=1006000, value=36.6, unit='degC'))
+    streams = {s['stream']:s for s in hub.snapshot('GW-DEV-001')['streams']}
+    assert streams['HR']['validity'] == 'STALE' and streams['HR']['value'] is None
+    assert streams['TEMP']['value'] == 36.6
 
+def test_qos_duplicates_and_session_restart():
+    hub, _ = ready()
+    assert hub.ingest(message())
+    assert not hub.ingest(message())
+    assert not hub.ingest(message(seq=0))
+    assert hub.ingest(message(session_id='session-b', seq=0, timestamp=1000001))
+    assert not hub.ingest(message(session_id='session-c', timestamp=999000))
 
-def test_replay_does_not_refresh_live_and_disconnect_clears_values():
-    hub = Hub('GW-DEV-001')
-    owner = object()
-    assert hub.connect(owner)
-    hub.ingest(frame())
-    assert hub.snapshot()['live_fresh']
-    hub.ingest(frame(1, {'mode': 'REPLAY', 'node_a_online': False}))
-    snapshot = hub.snapshot()
-    assert snapshot['live']['seq'] == 0
-    assert snapshot['live']['nodes']['NODE-A']['online']
-    hub.live_received -= 6
-    snapshot = hub.snapshot()
-    assert snapshot['gateway_online'] and not snapshot['live_fresh']
-    assert snapshot['live']['nodes']['NODE-B']['signals']['HR']['value'] is None
-    hub.disconnect(owner)
-    assert not hub.snapshot()['gateway_online']
+def test_will_old_timestamp_offlines_current_session():
+    hub, _ = ready()
+    hub.ingest(message())
+    hub.ingest(message('status', seq=10, timestamp=1000010, unit='state', value='ONLINE'))
+    assert hub.ingest(message('status', seq=2**53-1, timestamp=999000, unit='state', value='OFFLINE', validity='OFFLINE'))
+    snapshot=hub.snapshot('GW-DEV-001')
+    assert snapshot['gateway_state']=='OFFLINE'
+    assert snapshot['streams'][0]['value'] is None
+    assert hub.ingest(message('status', seq=11, timestamp=1000020, unit='state', value='ONLINE'))
+    assert hub.snapshot('GW-DEV-001')['gateway_state']=='ONLINE'
 
+def test_old_session_will_cannot_offline_new_session():
+    hub, _ = ready()
+    hub.ingest(message('status', session_id='new', timestamp=1000010, value='ONLINE', unit='state'))
+    assert not hub.ingest(message('status', value='OFFLINE', unit='state', seq=2**53-1))
+    assert hub.snapshot('GW-DEV-001')['gateway_state']=='ONLINE'
 
-@pytest.mark.parametrize('control', [{'quality': 'INVALID'}, {'quality': 'STALE'}, {'node_b_online': False}])
-def test_invalid_and_offline_cannot_display_values(control):
-    hub = Hub('GW-DEV-001'); hub.connect(object()); hub.ingest(frame(control=control))
-    signals = hub.snapshot()['live']['nodes']['NODE-B']['signals']
-    assert signals['HR']['value'] is None
-    assert signals['ECG']['samples'] == []
+def test_replay_never_overwrites_live_or_refreshes_state():
+    hub, clock = ready()
+    hub.ingest(message())
+    hub.ingest(message('NODE-B/replay/hr', source='REPLAY', value=50.0, timestamp=900000))
+    assert hub.snapshot('GW-DEV-001')['streams'][0]['value']==72
+    clock[0]+=16
+    hub.ingest(message('NODE-B/replay/hr', source='REPLAY', value=51.0, timestamp=901000))
+    snap=hub.snapshot('GW-DEV-001')
+    assert snap['gateway_state']=='STALE' and snap['replay']['synthetic']
 
+def test_broker_disconnect_and_node_offline_clear_values():
+    hub, _ = ready()
+    hub.ingest(message())
+    hub.ingest(message('NODE-B/status', value='OFFLINE', validity='OFFLINE', unit='state', seq=2))
+    assert hub.snapshot('GW-DEV-001')['streams'][0]['validity']=='OFFLINE'
+    hub.broker_connected=False
+    assert hub.snapshot('GW-DEV-001')['gateway_state']=='OFFLINE'
 
-def test_old_live_and_duplicate_and_session_rules():
-    hub = Hub('GW-DEV-001'); hub.connect(object())
-    old = frame(); old.captured_at -= 20
-    assert hub.ingest(old)
-    assert not hub.snapshot()['live_fresh']
-    assert not hub.ingest(frame())
-    altered = frame(1); altered.session_id = 'another-session'
-    with pytest.raises(ValueError): hub.ingest(altered)
-    future = frame(1); future.captured_at = time.time() + 60
-    with pytest.raises(ValueError): hub.ingest(future)
+def test_invalid_and_old_retained_status():
+    hub, clock = ready()
+    hub.ingest(message(validity='INVALID'))
+    assert hub.snapshot('GW-DEV-001')['streams'][0]['value'] is None
+    clock[0] += 16
+    # 保留的 ONLINE 即使刚收到，也必须检查原始采集时间。
+    hub.current.clear()
+    hub.ingest(message('status', value='ONLINE', unit='state'))
+    assert hub.snapshot('GW-DEV-001')['gateway_state']=='STALE'
 
+@pytest.mark.parametrize('changes', [dict(source='LIVE'),dict(source='REPLAY'),dict(unit='degC'),
+                                   dict(gateway_id='other'),dict(timestamp=1.2),dict(value=float('nan'))])
+def test_reject_bad_payload(changes):
+    with pytest.raises(ValueError): message(**changes)
 
-def test_bounded_subscriber_and_connection_ownership():
-    hub = Hub('GW-DEV-001'); first = object(); second = object()
-    assert hub.connect(first)
-    assert not hub.connect(second)
-    hub.disconnect(second)
-    assert hub.owner is first
-    queue = asyncio.Queue(maxsize=1); hub.subscribers.add(queue)
-    for seq in range(30): hub.ingest(frame(seq))
-    assert queue.qsize() == 1
-    assert queue.get_nowait()['live']['seq'] == 29
+def test_wave_and_replay_topic_validation():
+    wave=message('NODE-B/telemetry/ecg', value=None, unit='mV', samples=[0.0,1.0], sample_rate=250)
+    assert wave.stream=='ECG'
+    with pytest.raises(ValueError): message('NODE-B/telemetry/ecg', value=None, unit='mV', samples=[], sample_rate=250)
+    with pytest.raises(ValueError): message('NODE-A/telemetry/hr')
+    with pytest.raises(ValueError): message('NODE-B/telemetry/fault', value='x', unit='code')
 
+def test_future_gateway_and_bounded_subscriber():
+    hub, _ = ready()
+    with pytest.raises(ValueError): hub.ingest(message(timestamp=1006000))
+    queue=asyncio.Queue(maxsize=1)
+    hub.subscribers[queue]='GW-DEV-001'
+    hub.publish(); hub.publish()
+    assert queue.qsize()==1
 
-def test_adapter_rejects_incomplete_or_nonfinite_payload():
-    payload = make_frame(0, 'test')
-    payload['nodes']['NODE-B']['signals']['HR']['value'] = float('nan')
-    with pytest.raises(ValueError): MockJsonAdapter().decode(json.dumps(payload))
-    payload = make_frame(0, 'test'); del payload['nodes']['NODE-A']
-    with pytest.raises(ValueError): MockJsonAdapter().decode(json.dumps(payload))
-
-
-def test_health_and_websocket_roundtrip(client):
-    c, device, view = client
-    assert c.get('/health').json()['status'] == 'ok'
-    with c.websocket_connect('/ws/v1/monitor', headers={'Origin': 'http://testserver'}) as browser:
-        browser.send_json({'token': view}); assert not browser.receive_json()['gateway_online']
-        with c.websocket_connect('/device/v1/ingest') as gateway:
-            gateway.send_json({'token': device}); assert gateway.receive_json()['type'] == 'ready'
-            gateway.send_json(make_frame(0, 'test')); assert gateway.receive_json()['accepted']
-            for _ in range(4):
-                snapshot = browser.receive_json()
-                if snapshot['gateway_online']: break
-            assert snapshot['live']['nodes']['NODE-B']['signals']['HR']['value'] == 72
-        for _ in range(4):
-            snapshot = browser.receive_json()
-            if not snapshot['gateway_online']: break
-        assert not snapshot['live_fresh']
-
-
-def test_auth_and_origin_and_role_separation(client):
-    c, device, view = client
-    for endpoint, token, headers in [('/device/v1/ingest', view, {}), ('/ws/v1/monitor', device, {'Origin': 'http://testserver'}), ('/ws/v1/monitor', view, {'Origin': 'http://untrusted.example'})]:
+def test_browser_auth_and_no_device_ingest(monkeypatch):
+    monkeypatch.setenv('MONITOR_TESTING','1')
+    monkeypatch.delenv('MONITOR_MQTT_CONFIG',raising=False)
+    monkeypatch.setenv('MONITOR_VIEW_TOKEN','unit-test-view-token-not-production-123')
+    monkeypatch.setenv('MONITOR_ALLOWED_ORIGINS','http://testserver')
+    app=create_app()
+    with TestClient(app) as client:
+        assert client.get('/health').json()['status']=='degraded'
         with pytest.raises(WebSocketDisconnect):
-            with c.websocket_connect(endpoint, headers=headers) as ws:
-                ws.send_json({'token': token}); ws.receive_json()
-
-
-def test_restart_and_browser_resubscribe(client):
-    c, device, view = client
-    for _ in range(2):
-        with c.websocket_connect('/device/v1/ingest') as gateway:
-            gateway.send_json({'token': device}); gateway.receive_json()
-            gateway.send_json(make_frame(0, 'new-session')); assert gateway.receive_json()['accepted']
-            with c.websocket_connect('/ws/v1/monitor', headers={'Origin': 'http://testserver'}) as browser:
-                browser.send_json({'token': view}); assert browser.receive_json()['live_fresh']
-
-
-def test_missing_tokens_fail_startup(monkeypatch):
-    monkeypatch.delenv('MONITOR_DEVICE_TOKEN', raising=False)
-    monkeypatch.delenv('MONITOR_VIEW_TOKEN', raising=False)
-    with pytest.raises(RuntimeError):
-        with TestClient(create_app()): pass
-
-
-@pytest.mark.parametrize('binary', [True, False])
-def test_malformed_auth_is_rejected_without_internal_error(client, binary):
-    c, _, _ = client
-    with pytest.raises(WebSocketDisconnect) as error:
-        with c.websocket_connect('/device/v1/ingest') as ws:
-            if binary:
-                ws.send_bytes(b'not-a-text-frame')
-            else:
-                ws.send_json({'token': '无效模拟令牌'})
-            ws.receive_json()
-    assert error.value.code == 1008
-
-
-def test_binary_device_payload_closes_by_protocol(client):
-    c, device, _ = client
-    with pytest.raises(WebSocketDisconnect) as error:
-        with c.websocket_connect('/device/v1/ingest') as ws:
-            ws.send_json({'token': device}); ws.receive_json()
-            ws.send_bytes(b'not-MOCK-json'); ws.receive_json()
-    assert error.value.code == 1008
+            with client.websocket_connect('/device/v1/ingest'): pass
+        with client.websocket_connect('/ws/v1/monitor',headers={'origin':'http://testserver'}) as ws:
+            ws.send_json({'token':'unit-test-view-token-not-production-123','gateway_id':'GW-C-001'})
+            assert ws.receive_json()['gateway_id']=='GW-C-001'
+        assert not app.state.hub.subscribers
+        with pytest.raises(WebSocketDisconnect):
+            with client.websocket_connect('/ws/v1/monitor',headers={'origin':'http://testserver'}) as ws:
+                ws.send_json({'token':'wrong'})
+                ws.receive_json()

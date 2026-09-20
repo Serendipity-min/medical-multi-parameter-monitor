@@ -1,0 +1,11 @@
+[Unit]
+Description=Check monitor MQTT certificate renewal daily
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+RandomizedDelaySec=300
+Unit=medical-monitor-certificate.service
+
+[Install]
+WantedBy=timers.target

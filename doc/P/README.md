@@ -6,6 +6,10 @@
 
 - [Gateway-C → MQTT/TLS → 云端 → Web 执行合同 v0.2](P_第一阶段_GatewayC云端Web执行方案合同_v0.2.md)
 - [v0.7 分支与历史成果迁移记录](P_v0.7分支与历史成果迁移记录.md)
+- [MQTT 真机与云端执行报告](P_MQTT真机云端执行报告_2026-09-20.md)
+- [MQTT 接口语义](P_MQTT接口语义_v0.7.md)
+- [当前部署与回滚](../../cloud/deploy/README.md)
+- [Gateway 构建与恢复](../../gateway/mqtt/README.md)
 - 开发分支：`dev/p-gateway-cloud-v07`；旧分支 `codex/p-cloud-phase1` 停用。
 
 ## v0.1 云端先行历史成果

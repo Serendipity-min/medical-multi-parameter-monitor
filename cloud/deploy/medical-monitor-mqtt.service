@@ -1,0 +1,18 @@
+[Unit]
+Description=Medical monitor MQTT TLS broker
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/mosquitto -c /opt/medical-monitor/broker/mosquitto.conf
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/opt/medical-monitor/broker/data
+UMask=0027
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,16 @@
+{
+  "checks": [
+    "TLS certificate verified and backend subscribed",
+    "Wrong password rejected",
+    "Anonymous client rejected",
+    "Untrusted certificate rejected",
+    "Plain MQTT rejected by TLS listener",
+    "QoS1 PUBACK and authorized publish received",
+    "Publisher cannot write another gateway",
+    "Backend account cannot publish",
+    "Publisher account cannot subscribe to data",
+    "New subscriber receives retained ONLINE",
+    "Abnormal TCP loss triggers retained OFFLINE Will"
+  ],
+  "passed": 11
+}

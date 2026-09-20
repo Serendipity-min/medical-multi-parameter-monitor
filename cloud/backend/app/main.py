@@ -1,4 +1,4 @@
-"""FastAPI 入口：鉴权后接入模拟设备与浏览器，外层由现有 Nginx 终止 TLS。"""
+"""FastAPI 入口：MQTT 订阅接入设备，鉴权后向浏览器推送；外层由 Nginx 终止 HTTPS。"""
 
 import asyncio
 import contextlib
@@ -11,15 +11,14 @@ from pathlib import Path
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.staticfiles import StaticFiles
-from pydantic import ValidationError
-from .adapters import MockJsonAdapter
+from .mqtt_adapter import MqttAdapter
 from .hub import Hub
 
 logger = logging.getLogger('medical-monitor')
 
 
 async def receive_text_frame(ws: WebSocket) -> str:
-    # MOCK/1 仅接受文本帧；二进制帧应按协议拒绝，不能触发内部 KeyError。
+    # 浏览器只接受文本鉴权帧，二进制帧按无效输入拒绝。
     message = await ws.receive()
     if message['type'] == 'websocket.disconnect':
         raise WebSocketDisconnect(message.get('code', 1000))
@@ -32,34 +31,47 @@ async def receive_text_frame(ws: WebSocket) -> str:
 def create_app() -> FastAPI:
     @asynccontextmanager
     async def lifespan(app):
-        device_token = os.environ.get('MONITOR_DEVICE_TOKEN', '')
         view_token = os.environ.get('MONITOR_VIEW_TOKEN', '')
-        if min(len(device_token), len(view_token)) < 32 or device_token == view_token:
-            raise RuntimeError('Configure two distinct tokens of at least 32 characters')
-        app.state.tokens = {'device': device_token, 'view': view_token}
+        if len(view_token) < 32:
+            raise RuntimeError('Configure a view token of at least 32 characters')
+        app.state.tokens = {'view': view_token}
         app.state.origins = set(os.environ.get('MONITOR_ALLOWED_ORIGINS', 'http://127.0.0.1:5173').split(','))
-        app.state.hub = Hub(os.environ.get('MONITOR_GATEWAY_ID', 'GW-DEV-001'))
+        gateways = os.environ.get('MONITOR_GATEWAY_IDS', 'GW-DEV-001,GW-C-001').split(',')
+        app.state.hub = Hub(gateways)
+        config = os.environ.get('MONITOR_MQTT_CONFIG')
+        # 单元测试可显式关闭网络；正式启动缺少配置立即失败，避免假健康。
+        if not config and os.environ.get('MONITOR_TESTING') != '1':
+            raise RuntimeError('MONITOR_MQTT_CONFIG is required')
+        adapter = MqttAdapter(app.state.hub, config) if config else None
+        app.state.adapter = adapter
+        mqtt_task = asyncio.create_task(adapter.run()) if adapter else None
 
         async def tick():
             while True:
-                await asyncio.sleep(1)
+                await asyncio.sleep(.1)
                 app.state.hub.publish()
 
         task = asyncio.create_task(tick())
         try:
             yield
         finally:
+            if mqtt_task:
+                mqtt_task.cancel()
+                await asyncio.gather(mqtt_task, return_exceptions=True)
             task.cancel()
             with contextlib.suppress(asyncio.CancelledError):
                 await task
 
-    app = FastAPI(title='Medical monitor simulation', lifespan=lifespan,
+    app = FastAPI(title='Medical monitor', lifespan=lifespan,
                   docs_url=None, redoc_url=None, openapi_url=None)
 
     @app.get('/health')
     @app.get('/api/health')
     async def health():
-        return {'status': 'ok', 'simulation': True, 'protocol': 'MVIEW/1'}
+        return {'status': 'ok' if app.state.hub.broker_connected else 'degraded',
+                'transport': 'MQTT 3.1.1/TLS', 'mqtt_connected': app.state.hub.broker_connected,
+                'accepted': app.state.hub.accepted, 'rejected': app.state.hub.rejected,
+                'dropped': app.state.adapter.dropped if app.state.adapter else 0}
 
     async def authenticate(ws: WebSocket, role: str) -> bool:
         origin = ws.headers.get('origin')
@@ -74,42 +86,16 @@ def create_app() -> FastAPI:
             token = data.get('token', '') if isinstance(data, dict) else ''
             if len(raw) > 4096 or not isinstance(token, str) or not token.isascii() or not secrets.compare_digest(token, app.state.tokens[role]):
                 raise ValueError('authentication rejected')
+            gateway = data.get('gateway_id', app.state.hub.gateways[0])
+            if gateway not in app.state.hub.gateways:
+                raise ValueError('gateway rejected')
+            ws.state.gateway_id = gateway
         except (ValueError, asyncio.TimeoutError, WebSocketDisconnect):
             with contextlib.suppress(RuntimeError, WebSocketDisconnect):
                 await ws.close(code=1008)
             logger.info('authentication rejected role=%s', role)
             return False
         return True
-
-    @app.websocket('/device/v1/ingest')
-    async def ingest(ws: WebSocket):
-        if not await authenticate(ws, 'device'):
-            return
-        hub = app.state.hub
-        owner = object()
-        if not hub.connect(owner):
-            await ws.close(code=1008, reason='gateway already connected')
-            return
-        logger.info('gateway connected')
-        try:
-            await ws.send_json({'type': 'ready'})
-            while True:
-                try:
-                    raw = await receive_text_frame(ws)
-                    if len(raw) > 65536:
-                        await ws.close(code=1009)
-                        break
-                    accepted = hub.ingest(MockJsonAdapter().decode(raw))
-                except (ValueError, ValidationError):
-                    # 不输出原始载荷/异常详情，防止凭据或后续真实数据进入日志。
-                    await ws.close(code=1008, reason='invalid MOCK/1 frame')
-                    break
-                await ws.send_json({'type': 'ack', 'accepted': accepted})
-        except WebSocketDisconnect:
-            pass
-        finally:
-            hub.disconnect(owner)
-            logger.info('gateway disconnected')
 
     @app.websocket('/ws/v1/monitor')
     async def monitor(ws: WebSocket):
@@ -120,8 +106,8 @@ def create_app() -> FastAPI:
             await ws.close(code=1013)
             return
         queue = asyncio.Queue(maxsize=1)
-        hub.subscribers.add(queue)
-        queue.put_nowait(hub.snapshot())
+        hub.subscribers[queue] = ws.state.gateway_id
+        queue.put_nowait(hub.snapshot(ws.state.gateway_id))
 
         async def sender():
             while True:
@@ -140,7 +126,7 @@ def create_app() -> FastAPI:
         except (WebSocketDisconnect, RuntimeError, ValueError, asyncio.TimeoutError):
             pass
         finally:
-            hub.subscribers.discard(queue)
+            hub.subscribers.pop(queue, None)
             for task in tasks:
                 task.cancel()
             await asyncio.gather(*tasks, return_exceptions=True)

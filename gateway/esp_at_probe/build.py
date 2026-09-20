@@ -1,6 +1,7 @@
 """以项目内固定配置构建 STM32F407 ESP AT 查询固件，避免依赖图形 IDE 状态。"""
 
 from pathlib import Path
+import argparse
 import subprocess
 import sys
 
@@ -43,6 +44,17 @@ def run(command: list[str]) -> None:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--network-probe', action='store_true', help='构建只读分区与指定 SSID 查询固件')
+    parser.add_argument('--bridge', action='store_true', help='构建本机证书配置诊断桥')
+    args = parser.parse_args()
+    sources = list(SOURCES)
+    if args.network_probe:
+        sources[0] = PROJECT / 'src' / 'network_probe.c'
+    target = 'esp_network_probe' if args.network_probe else 'esp_at_probe'
+    if args.bridge:
+        sources[0] = PROJECT / 'src' / 'bridge.c'
+        target = 'esp_diagnostic_bridge'
     if not GCC.is_file():
         raise FileNotFoundError(f"未找到 ARM GCC：{GCC}")
     if not STARTUP.is_file() or not LIBRARY.is_dir():
@@ -51,7 +63,7 @@ def main() -> int:
     BUILD.mkdir(exist_ok=True)
     include_flags = [f"-I{path}" for path in INCLUDES]
     objects: list[Path] = []
-    for source in SOURCES:
+    for source in sources:
         object_file = BUILD / f"{source.stem}.o"
         # 仅将 -Werror 施加到本项目源码；不为兼容新编译器而改写用户提供的旧版 ST 库。
         warnings = PROJECT_WARNING_FLAGS if source.is_relative_to(PROJECT) else []
@@ -62,8 +74,8 @@ def main() -> int:
     run([str(GCC), *COMMON_FLAGS, "-c", str(STARTUP), "-o", str(startup_object)])
     objects.append(startup_object)
 
-    elf = BUILD / "esp_at_probe.elf"
-    binary = BUILD / "esp_at_probe.bin"
+    elf = BUILD / (target + ".elf")
+    binary = BUILD / (target + ".bin")
     run([
         str(GCC), *COMMON_FLAGS, "-T", str(PROJECT / "STM32F407ZGT6_FLASH.ld"),
         "-Wl,--gc-sections", "--specs=nano.specs", "--specs=nosys.specs", "-o", str(elf),

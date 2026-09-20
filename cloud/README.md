@@ -1,60 +1,48 @@
-# P 第一阶段：云端先行
+# P 第一阶段：MQTT/TLS 云端与监护大屏
 
-> 当前代码为从 `codex/p-cloud-phase1` 完整迁入 `dev/p-gateway-cloud-v07` 的 WSS 历史基线。
-> 新执行依据为 [P 合同 v0.2](../doc/P/P_第一阶段_GatewayC云端Web执行方案合同_v0.2.md)。
-> 下方启动与测试说明仍对应旧实现；完成 MQTT/TLS 迁移后再更新，不能据此判定 v0.2 已验收。
+执行 [P 合同 v0.2](../doc/P/P_第一阶段_GatewayC云端Web执行方案合同_v0.2.md)，分支 `dev/p-gateway-cloud-v07`。
 
-范围依据 `doc/P/P_第一阶段_云端先行执行方案合同_v0.1.md` 与 v0.6 总方案。
-仅实现模拟网关 → Backend → Web。正式 MMP/2、硬件控制、数据库和报警不在此阶段。
-
-## 本机启动（PowerShell，Python 3.11+ / Node 22.12+）
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r cloud/backend/requirements.lock
-
-# 两个随机值仅在当前终端环境中生成，不写进代码或命令字面量。
-$env:MONITOR_DEVICE_TOKEN = [Convert]::ToBase64String([Security.Cryptography.RandomNumberGenerator]::GetBytes(36))
-$env:MONITOR_VIEW_TOKEN = [Convert]::ToBase64String([Security.Cryptography.RandomNumberGenerator]::GetBytes(36))
-$env:MONITOR_ALLOWED_ORIGINS = 'http://127.0.0.1:5173'
-.\.venv\Scripts\python.exe -m uvicorn app.main:app --app-dir cloud/backend --host 127.0.0.1 --port 18765 --ws-max-size 65536 --no-access-log
+```text
+STM32 Paho MQTT 3.1.1 → ESP8266 AT SSL Socket → Mosquitto TLS:8883
+                                                    ↓ 只读订阅
+服务器合成源 → 独立 Gateway Topic                 FastAPI → WSS → Web
 ```
 
-另开终端运行前端：
+Web 位于已有主域名 `/medical-monitor/`。设备不再使用 WSS 上传；WSS 仅用于浏览器。
+`GW-DEV-001` 是服务器 Mock，`GW-C-001` 是 STM32 真机合成源，两者均明确标记 MOCK。
+四模块展示 ECG、呼吸、血氧、血压，另有 TEMP。RR 趋势来自收到的 RR 数值，RESP 是独立呼吸波形。
 
-```powershell
-cd cloud/web
-npm ci --no-audit --no-fund
-npm run dev
+## 本机开发
+
+Python 3.11+、Node 22.12+。安装 `cloud/backend/requirements.lock`。
+准备仓库外 MQTT JSON：`host, port, username, password, client_id`；可选 `ca_file`。
+环境变量：`MONITOR_MQTT_CONFIG` 指向该 JSON，`MONITOR_VIEW_TOKEN` 为至少 32 字符随机只读令牌，
+`MONITOR_ALLOWED_ORIGINS=http://127.0.0.1:5173`，`MONITOR_GATEWAY_IDS=GW-DEV-001,GW-C-001`。
+真实主机和凭据不得写入示例或 Git。
+
+```text
+python -m uvicorn app.main:app --app-dir cloud/backend --host 127.0.0.1 --port 18765 --no-access-log
 ```
 
-访问 `http://127.0.0.1:5173/medical-monitor/`，输入对应的只读 Token。
-从受控凭据文件或进程环境取得 Token，不将其提交到 Git。
-页面刷新后需要重新输入 Token；同一次页面会话的网络断线与 Backend 重启会自动重连。
+另开终端在 `cloud/web` 执行 `npm ci --no-audit --no-fund`、`npm run dev`。
+访问本机 `/medical-monitor/` 输入只读 Token。刷新需重新输入；同一页面断网自动重连。
+WebSocket 首帧包含 token、gateway_id，Token 不进入 URL。
+合成源：`python cloud/tools/mock_mqtt/main.py --config <外部mock.json> --control <外部控制.json>`。
+Mock 配置另含 `gateway_id: GW-DEV-001`。控制文件支持 `mode: MOCK/REPLAY`、`validity: VALID/INVALID/STALE`、
+`pause`、`network_online`、`node_a_online`、`node_b_online`；控制入口仅为本机文件。
 
-Mock 启动方式及外部配置见 [Mock README](tools/mock_gateway/README.md)。
-部署方式见 [部署说明](deploy/README.md)。
+## 验证与交付
 
-## 功能验证
+安装 `requirements-dev.txt` 后运行 `python -m pytest cloud/backend/tests -q`；在 `cloud/web` 运行 `npm run build`。
 
-```powershell
-.\.venv\Scripts\python.exe -m pip install -r cloud/backend/requirements-dev.txt -c cloud/backend/requirements.lock
-.\.venv\Scripts\python.exe -m pytest cloud/backend/tests -q
-cd cloud/web
-npm run build
-```
+- [部署与回滚](deploy/README.md)
+- [当前接口](../doc/P/P_MQTT接口语义_v0.7.md)
+- [执行与验收报告](../doc/P/P_MQTT真机云端执行报告_2026-09-20.md)
+- [Gateway 构建与恢复](../gateway/mqtt/README.md)
+- `tools/mqtt_acceptance.py`：Broker 连接、ACL、QoS1、Retain、LWT 功能验证。
+- `tools/browser_acceptance.py`：agent-browser 交互、故障及恢复验证。
+- `evidence/mqtt-v07/`：脱敏结果与截图。
 
-远端模拟验收在本机运行 `cloud/tools/acceptance.py --config <外部配置> --report <输出JSON>`。
-执行前停止该网关的其他 Mock 进程，避免同一 Gateway 的独占连接被占用。
-该验收只注入模拟数据，不启动安全扫描。
-
-## 结构与限制
-
-- `backend/app/adapters.py`：MOCK/1 JSON → 内部 Frame。
-- `backend/app/hub.py`：单 Gateway、单 worker、LIVE/REPLAY 隔离、5 秒过期、最多 32 个浏览器。
-- `web/src`：TypeScript + Canvas 2D；8 秒有界窗口，掉帧时断开波形。
-- `deploy`：现有 Nginx 的路径 include、systemd 和首次离线部署脚本。
-- `tools/mock_gateway`：本机合成信号源与运行时控制文件。
-
-内存状态在 Backend 重启时清空；不承诺长期记录或多 worker 水平扩展。
-页面只展示 LIVE 的波形与标量；REPLAY 以独立到达记录与采集时间展示，不提供历史波形播放器。
+Backend 单 worker、内存状态，无长期存储；REPLAY 为独立到达记录，不是历史播放器。
+真实传感器、正式 RR 算法、CANopen OD/PDO 和 Flash 离线缓存留待后续阶段。
+`tools/mock_gateway`、`tools/acceptance.py`、旧 `deploy/install.py` 为 WSS 历史实现，不用于本次运行。

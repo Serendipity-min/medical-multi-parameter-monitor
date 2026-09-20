@@ -1,0 +1,83 @@
+{
+  "checks": [
+    "STM32 Paho MQTT 3.1.1 publishes nine synthetic streams through verified TLS",
+    "ESP Wi-Fi disconnect produces Gateway OFFLINE",
+    "ESP Wi-Fi reconnect restores nine streams without a PC publisher",
+    "STM32 reconnects after Broker restart and republishes retained state"
+  ],
+  "transitions": [
+    {
+      "seconds": 0.58,
+      "state": "ONLINE"
+    },
+    {
+      "seconds": 25.25,
+      "state": "STALE"
+    },
+    {
+      "seconds": 36.28,
+      "state": "OFFLINE"
+    },
+    {
+      "seconds": 48.26,
+      "state": "ONLINE"
+    },
+    {
+      "seconds": 50.75,
+      "state": "OFFLINE"
+    },
+    {
+      "seconds": 66.23,
+      "state": "ONLINE"
+    }
+  ],
+  "serial_status": [
+    "GW PUBLISH_OK",
+    "GW WIFI_TEST_DISCONNECTED",
+    "GW RECONNECT",
+    "GW OK AT",
+    "GW OK ECHO",
+    "GW OK VOLATILE",
+    "GW OK STA",
+    "GW OK WIFI",
+    "GW OK SINGLE",
+    "GW OK PASSIVE",
+    "GW OK CA_VERIFY",
+    "GW OK CERT_NAME",
+    "GW OK SNI",
+    "GW OK TLS",
+    "GW CONNECT_PACKET_SENT",
+    "GW CONNACK_CODE 0",
+    "GW MQTT_CONNECTED",
+    "GW READ_AT_FAIL",
+    "GW RECONNECT",
+    "GW OK AT",
+    "GW OK ECHO",
+    "GW OK VOLATILE",
+    "GW OK STA",
+    "GW OK WIFI",
+    "GW OK SINGLE",
+    "GW OK PASSIVE",
+    "GW OK CA_VERIFY",
+    "GW OK CERT_NAME",
+    "GW OK SNI",
+    "GW FAIL TLS",
+    "GW OK AT",
+    "GW OK ECHO",
+    "GW OK VOLATILE",
+    "GW OK STA",
+    "GW OK WIFI",
+    "GW OK SINGLE",
+    "GW OK PASSIVE",
+    "GW OK CA_VERIFY",
+    "GW OK CERT_NAME",
+    "GW OK SNI",
+    "GW OK TLS",
+    "GW CONNECT_PACKET_SENT",
+    "GW CONNACK_CODE 0",
+    "GW MQTT_CONNECTED"
+  ],
+  "duration_seconds": 76.26,
+  "source": "MOCK",
+  "physical_sensors": false
+}

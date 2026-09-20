@@ -15,6 +15,7 @@ def main():
     parser.add_argument('--control', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--restart-ssh-alias', help='显式指定时，测试本项目 Backend 重启与 Nginx reload')
+    parser.add_argument('--control-ssh-alias', help='显式指定时控制服务器上的合成发布器')
     args = parser.parse_args()
     config = json.loads(args.config.read_text(encoding='utf-8-sig'))
     executable = shutil.which('agent-browser.cmd') or shutil.which('agent-browser')
@@ -27,7 +28,7 @@ def main():
         # Windows 首次启动的浏览器守护进程可能继承 stdout 句柄；用临时文件
         # 避免 capture_output 等待所有后代关闭管道，从而造成验收进程挂起。
         with tempfile.TemporaryFile(mode='w+', encoding='utf-8') as output:
-            result = subprocess.run([executable, '--session', 'medical-monitor-phase1', *parts],
+            result = subprocess.run([executable, '--session', 'medical-monitor-mqtt-v07', *parts],
                                     input=script, stdout=output, stderr=output, text=True, encoding='utf-8', timeout=30)
             if result.returncode:
                 # CLI 错误可能包含当前 URL，不写进报告。
@@ -51,6 +52,11 @@ def main():
         temporary = args.control.with_suffix('.tmp')
         temporary.write_text(json.dumps(values), encoding='utf-8')
         temporary.replace(args.control)
+        if args.control_ssh_alias:
+            # 仅同步无凭据的故障开关，原子替换文件避免服务读到半写 JSON。
+            code = "from pathlib import Path\np=Path('/opt/medical-monitor/mqtt-config/mock-control.json')\nt=p.with_suffix('.next')\nt.write_text(" + repr(json.dumps(values)) + ")\nt.chmod(0o644)\nt.replace(p)"
+            result = subprocess.run(['ssh', args.control_ssh_alias, 'sudo python3 -'], input=code, text=True, capture_output=True, timeout=20)
+            assert result.returncode == 0
 
     def passed(name):
         checks.append(name)
@@ -67,14 +73,14 @@ def main():
         control()
         login()
         cli('set', 'viewport', '1920', '1080')
-        assert evaluate('document.querySelectorAll("[data-module]").length === 4 && !document.querySelector("#value-TEMP")')
+        assert evaluate('document.querySelectorAll("[data-module]").length === 4 && document.querySelector("#value-TEMP").textContent === "36.6" && document.querySelector("#source-banner").textContent.includes("MOCK")')
         assert evaluate('!document.querySelector("#access-dialog").open')
-        passed('Four modules only and connection dialog dismisses after login')
+        passed('Four modules plus TEMP and explicit MOCK source')
         wait('Array.from(document.querySelector("#wave-ECG").getContext("2d").getImageData(0,0,300,100).data).some((v,i,a) => i%4===1 && v>150 && v>a[i-1]*1.2)')
         # 核验 RR 图确实绘制了接收到的 RR，而不是仅创建空 Canvas。
         wait('(() => { const c=document.querySelector("#trend-RR"); return Array.from(c.getContext("2d").getImageData(0,0,c.width,c.height).data).some((v,i,a)=>i%4===0 && v>160 && a[i+1]>130 && a[i+2]<150); })()')
         assert evaluate('document.querySelector("#value-RR").textContent === "15"')
-        passed('RR numeric and real received LIVE trend render separately from RESP')
+        passed('RR numeric and received current RR trend render separately from RESP')
         assert evaluate('document.querySelector("#pressure-sys").textContent === "118" && document.querySelector("#pressure-dia").textContent === "76"')
         passed('NIBP SYS/DIA pair renders without an invented pressure waveform')
         cli('click', '[data-window="16"]')
@@ -89,9 +95,9 @@ def main():
         assert evaluate('document.documentElement.scrollHeight <= innerHeight && document.documentElement.scrollWidth <= innerWidth')
         passed('All four modules fit within a 1920x1080 screen')
         cli('screenshot', str((args.output / 'public-live.png').resolve()))
-        passed('Public browser LIVE values and Canvas signal rendered')
-        control(quality='INVALID')
-        wait('document.querySelector("#state-HR").textContent === "INVALID" && document.querySelector("#value-HR").textContent === "—"')
+        passed('Public browser MOCK values and Canvas signal rendered')
+        control(validity='INVALID')
+        wait('document.querySelector("#state-HR").textContent.includes("INVALID") && document.querySelector("#value-HR").textContent === "—"')
         assert evaluate('document.querySelector("#value-RR").textContent === "—" && document.querySelector("#rr-trend-status").textContent.includes("无有效")')
         passed('Invalid UI hides numeric values')
         control(node_a_online=False)
@@ -102,7 +108,7 @@ def main():
         passed('Node-B offline UI isolation')
         control(); wait('document.querySelector("#value-HR").textContent === "72"')
         control(mode='REPLAY')
-        wait('document.querySelector("#replay-status").textContent.includes("已收补传")')
+        wait('document.querySelector("#replay-status").textContent.includes("模拟补传")')
         wait('document.querySelector("#value-HR").textContent === "—" && document.querySelector("#gateway").textContent.includes("ONLINE")')
         cli('screenshot', str((args.output / 'public-replay.png').resolve()))
         passed('REPLAY reaches separate panel and LIVE expires')
@@ -128,6 +134,20 @@ def main():
             assert result.returncode == 0
             wait('document.querySelector("#value-HR").textContent === "72"')
             passed('Nginx validated reload while streaming')
+        # 切换到尚无数据的真机网关必须清空模拟值，不能串源。
+        cli('select', '#gateway-select', 'GW-C-001')
+        wait('document.querySelector("#gateway-id").textContent === "GW-C-001" && document.querySelector("#value-HR").textContent === "—"')
+        cli('select', '#gateway-select', 'GW-DEV-001')
+        wait('document.querySelector("#value-HR").textContent === "72"')
+        passed('Gateway selection isolates data sources')
+        if args.restart_ssh_alias:
+            result = subprocess.run(['ssh', args.restart_ssh_alias, 'sudo systemctl stop medical-monitor-mqtt'], capture_output=True, timeout=30)
+            assert result.returncode == 0
+            wait('document.querySelector("#gateway").textContent.includes("OFFLINE") && document.querySelector("#value-HR").textContent === "—"', timeout=15)
+            result = subprocess.run(['ssh', args.restart_ssh_alias, 'sudo systemctl start medical-monitor-mqtt'], capture_output=True, timeout=30)
+            assert result.returncode == 0
+            wait('document.querySelector("#gateway").textContent.includes("ONLINE") && document.querySelector("#value-HR").textContent === "72"', timeout=25)
+            passed('Broker restart restores MQTT publisher and backend subscription')
         cli('set', 'viewport', '390', '844')
         assert evaluate('document.documentElement.scrollWidth <= innerWidth')
         cli('screenshot', str((args.output / 'public-mobile.png').resolve()))
