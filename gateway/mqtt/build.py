@@ -3,8 +3,13 @@
 import importlib.util
 from pathlib import Path
 import subprocess
+import sys
 
 ROOT = Path(__file__).resolve().parent
+# 编译前只读核验 Paho 原始/补丁 SHA 和显式源白名单；失败时不生成新固件。
+subprocess.run(
+    [sys.executable, str(ROOT.parent / 'third_party/verify_paho_integrity.py')], check=True
+)
 spec = importlib.util.spec_from_file_location('probe_build', ROOT.parent / 'esp_at_probe/build.py')
 base = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(base)
