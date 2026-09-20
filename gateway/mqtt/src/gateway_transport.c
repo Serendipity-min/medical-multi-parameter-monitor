@@ -50,7 +50,11 @@ int gateway_mqtt_open(const MpFrame *will_frame)
 {
     char will[512];
     if (!mp_json(will_frame, will, sizeof(will)))
+    {
+        /* 序列化失败时也可能已有部分内容，返回前清除整个临时缓冲区。 */
+        secure_memzero(will, sizeof(will));
         return 0;
+    }
     MQTTClientInit(&client, &network, 5000, tx_buffer, sizeof(tx_buffer), rx_buffer,
                    sizeof(rx_buffer));
     MQTTPacket_connectData options = MQTTPacket_connectData_initializer;
@@ -109,7 +113,10 @@ int gateway_network_open(void)
         return 0;
     (void)snprintf(command, sizeof(command), "AT+CWJAP=\"%s\",\"%s\"", config->ssid,
                    config->wifi_password);
-    if (!step("WIFI", command, 30000))
+    int wifi_ok = step("WIFI", command, 30000);
+    /* 先清除 SSID/口令再分支，Wi-Fi 失败及后续提前返回都不残留该命令。 */
+    secure_memzero(command, sizeof(command));
+    if (!wifi_ok)
         return 0;
     (void)at_command("AT+CIPCLOSE", 2000);
     if (!step("SINGLE", "AT+CIPMUX=0", 2000) || !step("PASSIVE", "AT+CIPRECVMODE=1", 2000))
@@ -143,11 +150,16 @@ int gateway_network_open(void)
     if (!step("CA_VERIFY", "AT+CIPSSLCCONF=2,0,0", 2000))
         return 0;
     (void)snprintf(command, sizeof(command), "AT+CIPSSLCCN=\"%s\"", config->host);
-    if (!step("CERT_NAME", command, 2000))
+    int cert_ok = step("CERT_NAME", command, 2000);
+    /* 复用缓冲区中的外部连接配置也在每次使用后清除，不依赖最终成功路径。 */
+    secure_memzero(command, sizeof(command));
+    if (!cert_ok)
         return 0;
     /* 此模块存在 SNI 优先的行为，两个名称必须绑定同一个外部配置目标。 */
     (void)snprintf(command, sizeof(command), "AT+CIPSSLCSNI=\"%s\"", config->host);
-    if (!step("SNI", command, 2000))
+    int sni_ok = step("SNI", command, 2000);
+    secure_memzero(command, sizeof(command));
+    if (!sni_ok)
         return 0;
     (void)snprintf(command, sizeof(command), "AT+CIPSTART=\"SSL\",\"%s\",8883", config->host);
     int ok = step("TLS", command, 30000);

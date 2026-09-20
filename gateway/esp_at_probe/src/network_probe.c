@@ -123,7 +123,11 @@ static bool query(const char *command)
                    (unsigned long)response_length, (unsigned long)receive_errors,
                    overflow ? 1U : 0U);
     console_write(meta);
-    return receive_errors == 0 && !overflow && strstr(response, "\r\nOK\r\n") != NULL;
+    bool ok = receive_errors == 0 && !overflow && strstr(response, "\r\nOK\r\n") != NULL;
+    /* 回复可能回显含 SSID 的命令；先保存判断结果，再清除成功、错误或超时的内容。 */
+    secure_memzero(response, sizeof(response));
+    response_length = 0;
+    return ok;
 }
 
 int main(void)
@@ -189,12 +193,19 @@ int main(void)
             }
             else
                 console_write("UNKNOWN_COMMAND\r\n");
+            /* 正常执行、参数拒绝和超长行丢弃共用清理，不能只重置有效长度。 */
+            secure_memzero(line, sizeof(line));
             length = 0;
             discard = false;
         }
         else if (!discard && length < sizeof(line) - 1U)
             line[length++] = c;
         else
-            discard = true; /* 超长行整体丢弃，不执行被截断后的命令。 */
+        {
+            /* 超长行整体丢弃；立即擦除已收前缀，不等待对端补发换行。 */
+            if (!discard)
+                secure_memzero(line, sizeof(line));
+            discard = true;
+        }
     }
 }

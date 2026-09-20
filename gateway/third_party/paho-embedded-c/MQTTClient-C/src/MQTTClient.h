@@ -125,6 +125,7 @@ typedef struct MQTTClient
 
     Network* ipstack;
     Timer last_sent, last_received;
+    /* 仅完整接收后有效；初始化、下一次接收及失败/超时期间均为零。 */
     size_t read_packet_len;
 #if defined(MQTT_TASK)
     Mutex mutex;

@@ -1,9 +1,9 @@
 name: Gateway and cloud checks
 on:
   push:
-    branches: [dev/p-gateway-cloud-v07]
+    branches: [dev/p-gateway-cloud-v07, fix/p4-security-closeout]
   pull_request:
-    branches: [main, integration/v0.7]
+    branches: [main, integration/v0.7, P4]
   workflow_dispatch:
 permissions:
   contents: read
@@ -29,6 +29,13 @@ jobs:
         run: python -m pip install -r cloud/backend/requirements-dev.txt -c cloud/backend/requirements.lock
       - name: Backend and operations regressions
         run: python -m pytest cloud/backend/tests -q
+      - name: Paho vendor integrity and Gateway source allowlist
+        run: |
+          python gateway/third_party/verify_paho_integrity.py
+          python -m unittest discover -s gateway/third_party/tests -p 'test_*.py'
+      # 固定本机输入与现有 ASan/UBSan 用例；不进行随机输入、网络测试或自动扫描。
+      - name: Fixed MQTT sanitizer regressions
+        run: python gateway/canopen/run_security_regression.py
       - name: CANopenNode protocol and offline router
         run: python gateway/canopen/build_host.py
       - name: C canonical frames accepted by Backend

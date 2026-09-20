@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "baseline": "ec75b10c885b066f6a7bd6142cc1a9cf98b6affa",
+  "evidence_type": "historical_artifacts_retained_with_P4",
+  "new_scan_performed_in_P41": false,
+  "scans": [
+    {"ruleset": "p/c", "target": "gateway", "scanned_files": 98, "findings": 7, "errors": 28, "syntax_errors": 8, "partial_parsing": 20, "status": "COVERAGE_GAP"},
+    {"ruleset": "p/python", "target": "cloud", "scanned_files": 18, "findings": 4, "errors": 0, "status": "RESULTS_REQUIRE_TRIAGE"},
+    {"ruleset": "p/secrets", "target": "cloud", "scanned_files": 76, "findings": 0, "errors": 0, "status": "NO_FINDINGS_IN_RECORDED_SCOPE"},
+    {"ruleset": "p/secrets", "target": "gateway", "scanned_files": 166, "findings": 0, "errors": 0, "status": "NO_FINDINGS_IN_RECORDED_SCOPE"},
+    {"ruleset": "task132l", "target": "unresolved_historical_target", "scanned_files": 0, "findings": 0, "errors": 1, "engine_requested": "OSS", "status": "ERROR_COVERAGE_GAP"}
+  ],
+  "python_dispositions": {"SEC-PY-01": "False Positive", "SEC-PY-02": "Accepted Risk"},
+  "post_fix_zero_findings_claim": "not_independently_supported_by_retained_artifacts",
+  "raw_artifacts": {"removed_from_branch_head": true, "local_backup_sha256_verified": true, "tracked_files_removed": 9, "history_rewritten": false}
+}

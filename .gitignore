@@ -101,3 +101,9 @@ dist/
 .env.*
 !.env.example
 *.local.json
+
+# 原始静态分析结果留在本机证据目录；仓库只保存经脱敏的结论和固定回归。
+static_analysis_semgrep_*/
+semgrep_raw/
+security_scan_raw/
+*.sarif

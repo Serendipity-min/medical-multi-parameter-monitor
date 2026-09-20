@@ -67,6 +67,8 @@ void MQTTClientInit(MQTTClient* c, Network* network, unsigned int command_timeou
     c->buf_size = sendbuf_size;
     c->readbuf = readbuf;
     c->readbuf_size = readbuf_size;
+    /* 初始化和每次接收均清零；解析器只能使用本次完整报文的实际长度。 */
+    c->read_packet_len = 0;
     c->isconnected = 0;
     c->cleansession = 0;
     c->ping_outstanding = 0;
@@ -112,9 +114,17 @@ static int readPacket(MQTTClient* c, Timer* timer)
     MQTTHeader header = {0};
     int len = 0;
     int rem_len = 0;
+    unsigned char encoded_length[4];
+    int length_bytes;
+    int rc = FAILURE;
+
+    /* 任何失败/超时路径都不得复用上一包长度，包括首字节尚未收到的情况。 */
+    c->read_packet_len = 0;
+    if (c->readbuf == NULL || c->readbuf_size == 0)
+        goto exit;
 
     /* 1. read the header byte.  This has the packet type in it */
-    int rc = c->ipstack->mqttread(c->ipstack, c->readbuf, 1, TimerLeftMS(timer));
+    rc = c->ipstack->mqttread(c->ipstack, c->readbuf, 1, TimerLeftMS(timer));
     if (rc != 1)
         goto exit;
 
@@ -125,13 +135,17 @@ static int readPacket(MQTTClient* c, Timer* timer)
         rc = FAILURE;
         goto exit;
     }
-    len += MQTTPacket_encode(c->readbuf + 1, rem_len); /* put the original remaining length back into the buffer */
-
-    if (rem_len > (int)(c->readbuf_size - len))
+    /* 先在固定临时区编码，再验证容量；不能先写 readbuf 后检查边界。
+     * 先检查符号和前缀长度，再做 size_t 减法，避免无符号下溢。 */
+    length_bytes = MQTTPacket_encode(encoded_length, rem_len);
+    len += length_bytes;
+    if (len < 0 || (size_t)len > c->readbuf_size || rem_len < 0 ||
+        (size_t)rem_len > c->readbuf_size - (size_t)len)
     {
         rc = BUFFER_OVERFLOW;
         goto exit;
     }
+    memcpy(c->readbuf + 1, encoded_length, (size_t)length_bytes);
 
     /* 3. read the rest of the buffer using a callback to supply the rest of the data */
     if (rem_len > 0 && (rc = c->ipstack->mqttread(c->ipstack, c->readbuf + len, rem_len, TimerLeftMS(timer))) != rem_len) {
@@ -139,7 +153,7 @@ static int readPacket(MQTTClient* c, Timer* timer)
         goto exit;
     }
 
-    c->read_packet_len = len + rem_len;
+    c->read_packet_len = (size_t)len + (size_t)rem_len;
     header.byte = c->readbuf[0];
     rc = header.bits.type;
     if (c->keepAliveInterval > 0)
