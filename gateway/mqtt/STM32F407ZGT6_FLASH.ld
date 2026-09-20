@@ -63,15 +63,17 @@ SECTIONS
     _ebss = .;
   } > RAM
 
-  /* newlib-nano 的 _sbrk 桩依赖 end/_end；本项目不进行动态分配，但必须提供边界。 */
+  /* CANopenNode 仅在初始化/节点通信复位时分配；堆上限由 heap.c 强制执行。 */
   end = .;
   _end = .;
 
   ._user_heap_stack (NOLOAD) :
   {
     . = ALIGN(8);
-    . = . + 0x200;
-    . = . + 0x800;
+    _heap_start = .;
+    . = . + 0x6000;
+    _heap_end = .;
+    . = . + 0x2000;
     . = ALIGN(8);
   } > RAM
 

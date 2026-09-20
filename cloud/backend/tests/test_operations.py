@@ -14,6 +14,21 @@ sys.path.insert(0, str(ROOT/'backend'))
 from app.diagnostics import EventLog
 
 
+@pytest.mark.parametrize('code,severity', [(0, 'notice'), (128, 'warning')])
+def test_disconnect_severity_distinguishes_normal_shutdown(code, severity):
+    from app.mqtt_adapter import MqttAdapter
+    from types import SimpleNamespace
+    import queue
+    events = []
+    adapter = MqttAdapter.__new__(MqttAdapter)
+    adapter.pending = queue.Queue()
+    adapter.pending.put(('obsolete', b'old'))
+    adapter.log = SimpleNamespace(emit=lambda *args, **fields: events.append((args, fields)))
+    adapter.on_disconnect(None, None, None, SimpleNamespace(value=code), None)
+    assert events == [(('mqtt_disconnected', severity), {'code': code})]
+    assert not adapter.connected and adapter.pending.empty()
+
+
 def module(name):
     spec = importlib.util.spec_from_file_location(name, ROOT/'deploy'/(name+'.py'))
     result = importlib.util.module_from_spec(spec)

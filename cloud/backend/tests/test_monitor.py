@@ -80,6 +80,17 @@ def test_broker_disconnect_and_node_offline_clear_values():
     hub.broker_connected=False
     assert hub.snapshot('GW-DEV-001')['gateway_state']=='OFFLINE'
 
+def test_live_and_replayed_emcy_use_same_browser_schema_without_current_alarm():
+    hub, _ = ready()
+    # 非合成 LIVE 沿用同一快照字段；历史 EMCY 只进入 replay，不覆盖当前事件。
+    hub.ingest(message(source='LIVE', synthetic=False))
+    hub.ingest(message('NODE-B/event', value='EMCY-0000', unit='code', source='LIVE', synthetic=False))
+    hub.ingest(message('NODE-B/replay/fault', value='EMCY-1000', unit='code', source='REPLAY', synthetic=False, timestamp=900000))
+    snap=hub.snapshot('GW-DEV-001')
+    assert snap['streams'][0]['source']=='LIVE' and snap['streams'][0]['value']==72
+    assert snap['event']['value']=='EMCY-0000'
+    assert snap['replay']['value']=='EMCY-1000' and snap['replay']['source']=='REPLAY'
+
 def test_invalid_and_old_retained_status():
     hub, clock = ready()
     hub.ingest(message(validity='INVALID'))

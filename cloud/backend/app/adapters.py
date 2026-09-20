@@ -28,6 +28,7 @@ def decode_mqtt(topic: str, payload: bytes) -> Telemetry:
     message = Telemetry.model_validate(data)
     if (kind == 'replay') != (message.source == 'REPLAY'):
         raise ValueError('replay topic source mismatch')
-    if kind in {'telemetry', 'replay'} and stream in {'NODE_STATUS', 'GATEWAY_STATUS', 'FAULT'}:
+    # 历史 EMCY 进入 REPLAY 区，不作为当前报警；旧状态始终禁止补传。
+    if kind in {'telemetry', 'replay'} and (stream in {'NODE_STATUS', 'GATEWAY_STATUS'} or (stream == 'FAULT' and kind != 'replay')):
         raise ValueError('reserved stream')
     return message

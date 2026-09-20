@@ -1,4 +1,4 @@
-name: Phase 1 checks
+name: Gateway and cloud checks
 on:
   push:
     branches: [dev/p-gateway-cloud-v07]
@@ -29,6 +29,10 @@ jobs:
         run: python -m pip install -r cloud/backend/requirements-dev.txt -c cloud/backend/requirements.lock
       - name: Backend and operations regressions
         run: python -m pytest cloud/backend/tests -q
+      - name: CANopenNode protocol and offline router
+        run: python gateway/canopen/build_host.py
+      - name: C canonical frames accepted by Backend
+        run: python gateway/canopen/tools/check_canonical.py
       - name: Build monitoring UI
         working-directory: cloud/web
         run: |

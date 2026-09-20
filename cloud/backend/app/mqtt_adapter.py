@@ -59,7 +59,8 @@ class MqttAdapter:
 
     def on_disconnect(self, client, userdata, flags, reason_code, properties):
         self.connected = False
-        self.log.emit('mqtt_disconnected', 'warning', code=reason_code.value)
+        # 正常维护断连不应伪装成异常；非零 MQTT 原因码仍保留 warning。
+        self.log.emit('mqtt_disconnected', 'notice' if reason_code.value == 0 else 'warning', code=reason_code.value)
         # 重连期间丢弃队列旧消息，避免旧 ONLINE 延迟复活设备。
         while True:
             try:

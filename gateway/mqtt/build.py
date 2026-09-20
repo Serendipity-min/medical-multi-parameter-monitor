@@ -10,16 +10,18 @@ spec.loader.exec_module(base)
 vendor=ROOT.parent/'third_party/paho-embedded-c'
 build=ROOT/'build'
 build.mkdir(exist_ok=True)
-includes=[ROOT/'src',*base.INCLUDES,vendor/'MQTTClient-C/src',vendor/'MQTTPacket/src']
-flags=[*base.COMMON_FLAGS,'-DMQTTCLIENT_PLATFORM_HEADER=gateway_platform.h','-DMAX_MESSAGE_HANDLERS=1',
+canopen=ROOT.parent/'canopen'
+core=ROOT.parent/'third_party/CANopenNode'
+includes=[ROOT/'src',canopen/'src',core,*base.INCLUDES,vendor/'MQTTClient-C/src',vendor/'MQTTPacket/src']
+flags=[*base.COMMON_FLAGS,'-DCO_MULTIPLE_OD','-DMQTTCLIENT_PLATFORM_HEADER=gateway_platform.h','-DMAX_MESSAGE_HANDLERS=1',
        *[f'-I{path}' for path in includes]]
-sources=[ROOT/'src/main.c',ROOT/'src/platform.c',*base.SOURCES[1:],vendor/'MQTTClient-C/src/MQTTClient.c',
+sources=[*sorted((ROOT/'src').glob('*.c')),*sorted((canopen/'src').glob('*.c')),canopen/'stm32/bxcan_loopback.c',ROOT.parent/'data_model/model.c',ROOT.parent/'storage/router.c',core/'CANopen.c',*sorted((core/'301').glob('*.c')),*base.SOURCES[1:],vendor/'MQTTClient-C/src/MQTTClient.c',
          *sorted((vendor/'MQTTPacket/src').glob('*.c'))]
 objects=[]
 for source in sources:
     target=build/(source.stem+'.o')
     # 第三方代码仅包含 PATCHES.md 中列出的补丁；平台代码以全部告警为错误构建。
-    warnings=['-Wextra','-Werror'] if source.is_relative_to(ROOT/'src') else []
+    warnings=['-Wextra','-Werror'] if (source.is_relative_to(ROOT/'src') or source.is_relative_to(canopen) or source.parent.name in ('data_model','storage')) else []
     subprocess.run([str(base.GCC),*flags,*warnings,'-c',str(source),'-o',str(target)],check=True)
     objects.append(target)
 startup=build/'startup.o'

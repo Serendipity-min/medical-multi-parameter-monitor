@@ -1,0 +1,16 @@
+{
+  "passed": false,
+  "checks": [],
+  "elapsed_s": 20.36,
+  "received": {
+    "GATEWAY_STATUS": 1,
+    "NODE_STATUS": 2
+  },
+  "decode_errors": {},
+  "persisted_samples_synthetic_only": true,
+  "limitations": [
+    "Single-board internal loopback uses two CANopenNode test producers; no physical A/B acceptance",
+    "RAM cache is finite and volatile; overflow is counted"
+  ],
+  "last_metrics": null
+}

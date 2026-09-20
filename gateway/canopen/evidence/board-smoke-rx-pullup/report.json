@@ -1,0 +1,24 @@
+{
+  "checks": [
+    "F407 CANopenNode / bxCAN loopback / TLS MQTT dual node startup"
+  ],
+  "elapsed_s": 38.89,
+  "received": {
+    "GATEWAY_STATUS": 1,
+    "NODE_STATUS": 15,
+    "PPG": 168,
+    "RESP": 28,
+    "ECG": 28,
+    "SPO2": 1
+  },
+  "decode_errors": {},
+  "synthetic_only": true,
+  "limitations": [
+    "Single-board internal loopback uses two CANopenNode test producers; no physical A/B acceptance",
+    "RAM cache is finite and volatile; overflow is counted"
+  ],
+  "last_metrics": {
+    "elapsed_s": 38.203,
+    "message": "GW METRICS can=16549 drop=0 cache=96 lost=504 replay=0 nodes=11"
+  }
+}

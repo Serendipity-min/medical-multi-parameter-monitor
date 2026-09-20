@@ -13,6 +13,8 @@ void TimerCountdownMS(Timer *timer, unsigned int milliseconds);
 void TimerCountdown(Timer *timer, unsigned int seconds);
 int TimerLeftMS(Timer *timer);
 void platform_init(void);
+void platform_set_poll(void (*callback)(void));
+void platform_poll(void);
 void console(const char *message);
 int console_char(void);
 int at_command(const char *command, uint32_t timeout_ms);
