@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "baseline": "ec75b10c885b066f6a7bd6142cc1a9cf98b6affa",
+  "code_and_configuration_commit": "e59c03b88a8a249d39331fcf9929688fa27edd8a",
+  "branch": "fix/p4-security-closeout",
+  "fixed_sanitizer_regression": {"status": "PASS", "parser_reader_cases": 29, "client_cases": 10, "formatter_cases": 3, "total_cases": 42, "sanitizers": ["ASan", "UBSan"], "first_run": "truncated_UNSUBACK_assertion_failed_then_wrapper_fixed"},
+  "project_regression": {"backend_tests": 28, "backend_deprecation_warnings": 2, "canopen_protocol_checks": 12, "router_checks": 11, "canonical_messages": 41, "canonical_streams": 11, "integrity_tests": 9, "gateway_build": "PASS", "probe_build": "PASS", "web_build": "PASS"},
+  "vendor_integrity": {"status": "PASS", "pristine_files": 12, "patched_files": 9, "gateway_paho_sources": 7, "gateway_formatter_symbols": 0},
+  "firmware_sha256": {"gateway_mqtt_bin": "5fd386b8bfe0bcf54d4f53ffb1ec6483d086a1c3287b4fe6c37a3ddeacd90547", "esp_network_probe_bin": "8962c1cf560f3c4fda2bb5a62f7e1feb380dd1b0c7d8307d2269e68519bed409"},
+  "new_semgrep_scan": false,
+  "network_security_testing": false,
+  "hardware_flashing": false,
+  "deployment": false,
+  "history_rewritten": false,
+  "ci": {"status": "PENDING_PUSH"}
+}
