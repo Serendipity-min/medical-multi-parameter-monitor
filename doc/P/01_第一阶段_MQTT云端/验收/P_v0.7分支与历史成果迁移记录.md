@@ -33,7 +33,7 @@ P/A/B 文档整理与 P 合同 v0.1/v0.2 在新开发分支归档；用户已有
 ## 当前能力与后续范围
 
 上述验证仅说明旧 WSS 云端实现迁移完整，不代表 MQTT/TLS 新合同已完成。
-后续工作以 [P 合同 v0.2](P_第一阶段_GatewayC云端Web执行方案合同_v0.2.md) 为准：
+后续工作以 [P 合同 v0.2](../合同/P_第一阶段_GatewayC云端Web执行方案合同_v0.2.md) 为准：
 Mosquitto、MQTT Adapter、Mock MQTT Publisher、按流状态模型、浏览器数据语义及
 Gateway-C/ESP8266 网络出口。RR 正式算法与真实 CANopen 接入仍不属于本阶段主线交付。
 

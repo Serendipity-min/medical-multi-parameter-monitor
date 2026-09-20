@@ -45,3 +45,5 @@ RR 趋势与 RESP 波形分开，当前 RR 为合成值，不表示完成正式�
 - WebSocket：type=snapshot、schema_version=1，含选中 Gateway、节点状态、streams、独立 replay/event。
   后端 10Hz 发布快照，无新 seq 时不重复追加采样点。
 - Backend 单进程，重启清空内存，依靠 retained 状态和新数据恢复；无持久化承诺。
+
+复核补充：Backend clean_session=True，停机期间不积存该会话的 QoS1 消息；retained 仅最后状态，不能保证停机不丢数据。当前共享 View Token 仅供合成数据阶段；真实人体数据接入前需另行完成访问控制方案。

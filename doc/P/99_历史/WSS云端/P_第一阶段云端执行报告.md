@@ -30,7 +30,7 @@
 | 部署来源 | 运行源文件、前端构建产物、service/snippet 与本机 SHA-256 一致 |
 | 干净环境 | 本机新建 venv 运行测试；服务器新建 venv 从上传的 Linux wheels 离线安装成功 |
 
-证据位于 [cloud/evidence](../../cloud/evidence)：
+证据位于 [cloud/evidence](../../../../cloud/evidence)：
 `public-wss-acceptance.json`、`browser-acceptance.json`、`existing-pages.json`、
 `deployment-transfer.json`、`protocol-fix-transfer.json`、`deployed-source-sha256.json`，以及 LIVE/REPLAY/手机截图。
 报告及脚本不包含真实服务器地址、Token、私钥或连接主机映射。
@@ -46,7 +46,7 @@ Nginx 配置原件：`/opt/medical-monitor/backups/phase1-20260919-01/nginx-site
 随后对 `backend/app/main.py` 做了非文本帧/非 ASCII 令牌的协议拒绝修正：单文件同样经本机暂存、
 上传哈希核验与清理；旧文件已备份。最终代码以 `deployed-source-sha256.json` 为准。
 
-恢复步骤见 [部署与回滚说明](P_云端部署与回滚说明.md) 及 [部署 README](../../cloud/deploy/README.md)。
+恢复步骤见 [部署与回滚说明](P_云端部署与回滚说明.md) 及 [部署 README](../../../../cloud/deploy/README.md)。
 
 ## 使用与交接
 
@@ -55,7 +55,7 @@ Nginx 配置原件：`/opt/medical-monitor/backups/phase1-20260919-01/nginx-site
 本次为展示保留一个本机 Mock 进程；关闭本机/停止进程后云端显示 OFFLINE/STALE，属于预期行为。
 运行控制文件、进程号及凭据保存在本机 `.codex/private/`，未纳入 Git。
 
-第二人启动步骤见 [cloud README](../../cloud/README.md)。已验证新虚拟环境安装运行，但尚无第二位人员实际复核记录。
+第二人启动步骤见 [cloud README](../../../../cloud/README.md)。已验证新虚拟环境安装运行，但尚无第二位人员实际复核记录。
 已有用户未提交的合同、硬件文档和草稿原样保留，不混入本次代码提交。
 
 ## 阶段边界与已知限制

@@ -6,12 +6,38 @@ import os
 from pathlib import Path
 import re
 import shutil
+import stat
 import subprocess
 import time
 import urllib.request
 import zipfile
 
 ROOT = Path('/opt/medical-monitor')
+
+def validate_preflight(bundle, expected_hash, release_name, root=ROOT, uid=None):
+    """先验证全部输入；显式检查在 python -O 下也不能被移除。"""
+    if (os.geteuid() if uid is None else uid) != 0:
+        raise RuntimeError('Root privileges required')
+    if not re.fullmatch(r'[a-zA-Z0-9-]+', release_name):
+        raise RuntimeError('Invalid release name')
+    if not re.fullmatch(r'[0-9a-f]{64}', expected_hash) or hashlib.sha256(bundle.read_bytes()).hexdigest() != expected_hash:
+        raise RuntimeError('Bundle checksum mismatch')
+    release = root/'releases'/release_name
+    backup = root/'backups'/release_name
+    if any(path.exists() or path.is_symlink() for path in [release, backup, root/'broker', root/'mqtt-config']):
+        raise RuntimeError('Deployment target already exists')
+    validate_archive(bundle, release)
+    return release, backup
+
+def validate_archive(bundle, release):
+    # 同时拒绝路径穿越、绝对路径和 ZIP 符号链接；验证整个包后才允许写入。
+    with zipfile.ZipFile(bundle) as archive:
+        for item in archive.infolist():
+            path = Path(item.filename)
+            if ('\\' in item.filename or ':' in item.filename or path.is_absolute()
+                    or '..' in path.parts or not (release/path).resolve().is_relative_to(release.resolve())
+                    or stat.S_ISLNK(item.external_attr >> 16)):
+                raise RuntimeError('Unsafe archive member')
 
 def run(*args):
     result = subprocess.run(args, capture_output=True, timeout=120)
@@ -32,13 +58,9 @@ def main():
     parser.add_argument('--config',type=Path,required=True)
     parser.add_argument('--release',required=True)
     args=parser.parse_args()
-    assert os.geteuid()==0 and re.fullmatch(r'[a-zA-Z0-9-]+',args.release)
-    assert hashlib.sha256(args.bundle.read_bytes()).hexdigest()==args.sha256
+    release, backup = validate_preflight(args.bundle, args.sha256, args.release)
     config=json.loads(args.config.read_text())
-    release=ROOT/'releases'/args.release
-    backup=ROOT/'backups'/args.release
     broker=ROOT/'broker'
-    assert not release.exists() and not backup.exists() and not broker.exists()
     # 独立 listener 必须空闲；已有 Mosquitto 配置和服务不作修改。
     import socket
     with socket.socket() as sock:
@@ -54,8 +76,6 @@ def main():
     (backup/'nginx-config.txt').write_bytes(run('nginx','-T'))
     release.mkdir()
     with zipfile.ZipFile(args.bundle) as archive:
-        for name in archive.namelist():
-            assert (release/name).resolve().is_relative_to(release)
         archive.extractall(release)
     run('python3','-m','venv',str(release/'.venv'))
     run(str(release/'.venv/bin/python'),'-m','pip','install','--no-index','--find-links',str(release/'wheels'),'-r',str(release/'backend/requirements.lock'))
@@ -87,14 +107,18 @@ def main():
     private_json(mqtt_config/'mock-control.json',{})
     private_json(broker/'certificate-source.json',
                  {'certificate':config['certificate'],'private_key':config['private_key']},owner='root')
+    (ROOT/'logs').mkdir(mode=0o755, exist_ok=True)
+    for component, owner in [('broker','mosquitto'),('backend','ubuntu')]:
+        folder = ROOT/'logs'/component
+        folder.mkdir(mode=0o750, exist_ok=True)
+        shutil.chown(folder, user=owner, group=owner)
     # 合成源由服务器服务托管；证书定时器只复制现有续签文件，不联网下载。
-    for name in ['medical-monitor-mqtt.service','medical-monitor-mock.service',
+    for name in ['medical-monitor.service','medical-monitor-mqtt.service','medical-monitor-mock.service',
                  'medical-monitor-certificate.service','medical-monitor-certificate.timer']:
         shutil.copyfile(release/'deploy'/name,Path('/etc/systemd/system')/name)
     switched=False
     try:
         run('systemctl','daemon-reload')
-        run('systemctl','enable','--now','medical-monitor-mqtt')
         env=ROOT/'config/backend.env'
         lines=[line for line in env.read_text().splitlines() if not line.startswith(('MONITOR_DEVICE_TOKEN=','MONITOR_GATEWAY_ID=','MONITOR_MQTT_CONFIG=','MONITOR_GATEWAY_IDS='))]
         lines += ['MONITOR_MQTT_CONFIG=/opt/medical-monitor/mqtt-config/backend.json','MONITOR_GATEWAY_IDS=GW-DEV-001,GW-C-001']
@@ -103,6 +127,8 @@ def main():
         link.symlink_to(release)
         link.replace(ROOT/'current')
         switched=True
+        # 日志代理位于新发布中，current 切换后才能启动新版 Broker unit。
+        run('systemctl','enable','--now','medical-monitor-mqtt')
         run('systemctl','restart','medical-monitor')
         for _ in range(30):
             try:
@@ -123,6 +149,8 @@ def main():
             link.symlink_to(old)
             link.replace(ROOT/'current')
         shutil.copy2(backup/'backend.env',ROOT/'config/backend.env')
+        shutil.copy2(backup/'backend.service','/etc/systemd/system/medical-monitor.service')
+        run('systemctl','daemon-reload')
         run('systemctl','restart','medical-monitor')
         run('systemctl','disable','--now','medical-monitor-mqtt')
         raise RuntimeError('Upgrade failed; previous backend restored') from None

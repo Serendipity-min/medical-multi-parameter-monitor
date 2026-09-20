@@ -66,10 +66,10 @@ RR 趋势仅收录当前标签页实际收到的有效 LIVE 值，不提前填�
 - 本轮仅更新静态前端，无需开放端口，未修改 Nginx、证书、DNS 或后端服务。
 - 文件经本机 `E:/Server_file` 暂存上传，核对大小与 SHA-256 后删除本次暂存文件。
 
-记录目录：[本地验证](../../cloud/evidence/ui-redesign-local/browser-acceptance.json)、
-[公网验证](../../cloud/evidence/ui-redesign-public/browser-acceptance.json)、
-[部署清单](../../cloud/evidence/ui-redesign-public/deployment.json)、
-[静态资源及既有页面核验](../../cloud/evidence/ui-redesign-public/http-verification.json)。
+记录目录：[本地验证](../../../../cloud/evidence/ui-redesign-local/browser-acceptance.json)、
+[公网验证](../../../../cloud/evidence/ui-redesign-public/browser-acceptance.json)、
+[部署清单](../../../../cloud/evidence/ui-redesign-public/deployment.json)、
+[静态资源及既有页面核验](../../../../cloud/evidence/ui-redesign-public/http-verification.json)。
 截图位于上述两个 evidence 目录，覆盖 LIVE、REPLAY 和手机页面。
 
 发布目录：`/opt/medical-monitor/web-releases/ui-four-module-20260919-080446`。

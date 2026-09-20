@@ -122,7 +122,7 @@ P5 接通后再准备可回滚的 STM32 查询固件，读取 ESP AT 版本和 T
 完成查询后已恢复 STM32 原始首扇区，并验证完整 1 MiB Flash 与备份一致；
 COM15 被动监听确认 `DMA_ADC` 输出恢复。ESP 固件、Wi-Fi 配置及服务器均未修改。
 
-证据：[硬件查询 JSON](../../gateway/esp_at_probe/evidence/hardware-query.json)。
-测试代码：[诊断固件说明](../../gateway/esp_at_probe/README.md)。
+证据：[硬件查询 JSON](../../../../gateway/esp_at_probe/evidence/hardware-query.json)。
+测试代码：[诊断固件说明](../../../../gateway/esp_at_probe/README.md)。
 原始 Flash、备份校验、下载/恢复日志、原始 AT 回复仅存于本机
 `C:/Users/Serendipity/.codex/private/stm32-gateway-probe-20260920/`，不进入 Git。

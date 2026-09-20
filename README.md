@@ -1,7 +1,7 @@
 # 多参数心电监护仪系统样机
 
 当前依据 [v0.7 最终总合同](<doc/多参数监护仪_总开发合同与系统方案_v0.7 .md>)，
-P 执行 [Gateway-C → MQTT/TLS → 云端 → Web 第一阶段合同 v0.2](doc/P/P_第一阶段_GatewayC云端Web执行方案合同_v0.2.md)。
+P 执行 [Gateway-C → MQTT/TLS → 云端 → Web 第一阶段合同 v0.2](doc/P/01_第一阶段_MQTT云端/合同/P_第一阶段_GatewayC云端Web执行方案合同_v0.2.md)。
 开发分支 `dev/p-gateway-cloud-v07`；旧 `codex/p-cloud-phase1` 已迁移停用。实现尚未合入 main。
 
 ## 当前可用成果
@@ -12,8 +12,8 @@ P 执行 [Gateway-C → MQTT/TLS → 云端 → Web 第一阶段合同 v0.2](doc
 - 服务器独立运行模拟网关；真机已验证九路合成数据上云、断网及 Broker 重启恢复，测试后恢复开发板原程序。
 - 数据仍为合成测试源；不代表 A/B 传感器、真实 RR 算法或医疗测量精度已经完成。
 
-[本轮执行和验收报告](doc/P/P_MQTT真机云端执行报告_2026-09-20.md) ·
-[接口语义](doc/P/P_MQTT接口语义_v0.7.md) ·
+[本轮执行和验收报告](doc/P/01_第一阶段_MQTT云端/验收/P_MQTT真机云端执行报告_2026-09-20.md) ·
+[接口语义](doc/P/01_第一阶段_MQTT云端/设计与接口/P_MQTT接口语义_v0.7.md) ·
 [云端开发](cloud/README.md) · [部署与回滚](cloud/deploy/README.md) · [Gateway 工程](gateway/mqtt/README.md)
 
 ## 文档分工

@@ -1,6 +1,6 @@
 # P 第一阶段：MQTT/TLS 云端与监护大屏
 
-执行 [P 合同 v0.2](../doc/P/P_第一阶段_GatewayC云端Web执行方案合同_v0.2.md)，分支 `dev/p-gateway-cloud-v07`。
+执行 [P 合同 v0.2](../doc/P/01_第一阶段_MQTT云端/合同/P_第一阶段_GatewayC云端Web执行方案合同_v0.2.md)，分支 `dev/p-gateway-cloud-v07`。
 
 ```text
 STM32 Paho MQTT 3.1.1 → ESP8266 AT SSL Socket → Mosquitto TLS:8883
@@ -36,8 +36,8 @@ Mock 配置另含 `gateway_id: GW-DEV-001`。控制文件支持 `mode: MOCK/REPL
 安装 `requirements-dev.txt` 后运行 `python -m pytest cloud/backend/tests -q`；在 `cloud/web` 运行 `npm run build`。
 
 - [部署与回滚](deploy/README.md)
-- [当前接口](../doc/P/P_MQTT接口语义_v0.7.md)
-- [执行与验收报告](../doc/P/P_MQTT真机云端执行报告_2026-09-20.md)
+- [当前接口](../doc/P/01_第一阶段_MQTT云端/设计与接口/P_MQTT接口语义_v0.7.md)
+- [执行与验收报告](../doc/P/01_第一阶段_MQTT云端/验收/P_MQTT真机云端执行报告_2026-09-20.md)
 - [Gateway 构建与恢复](../gateway/mqtt/README.md)
 - `tools/mqtt_acceptance.py`：Broker 连接、ACL、QoS1、Retain、LWT 功能验证。
 - `tools/browser_acceptance.py`：agent-browser 交互、故障及恢复验证。
