@@ -5,5 +5,5 @@ volatile uint32_t g_uptime_ms;
 
 void SysTick_Handler(void)
 {
-  g_uptime_ms++;
+    g_uptime_ms++;
 }

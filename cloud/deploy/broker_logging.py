@@ -1,4 +1,5 @@
 """捕获 Mosquitto error/warning/notice，仅把固定错误类别和数字码落盘。"""
+
 import os
 from pathlib import Path
 import re
@@ -6,7 +7,7 @@ import signal
 import subprocess
 import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'backend'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'backend'))
 from app.diagnostics import EventLog
 
 
@@ -16,11 +17,16 @@ def classify(line):
     codes = re.findall(r'error:([0-9a-f]{8}):', text)
     if codes:
         return 'tls_error', 'error', {'openssl_code': int(codes[0], 16)}
-    for fragment, event in [('address already in use','listener_in_use'),
-                            ('permission denied','file_permission_denied'),
-                            ('certificate','tls_certificate_error'), ('pwfile','credentials_file_error'),
-                            ('not authoris','authentication_denied'), ('not authoriz','authentication_denied'),
-                            ('protocol error','protocol_error'), ('out of memory','memory_error')]:
+    for fragment, event in [
+        ('address already in use', 'listener_in_use'),
+        ('permission denied', 'file_permission_denied'),
+        ('certificate', 'tls_certificate_error'),
+        ('pwfile', 'credentials_file_error'),
+        ('not authoris', 'authentication_denied'),
+        ('not authoriz', 'authentication_denied'),
+        ('protocol error', 'protocol_error'),
+        ('out of memory', 'memory_error'),
+    ]:
         if fragment in text:
             return event, 'error', {}
     if 'terminating' in text:
@@ -36,16 +42,22 @@ def classify(line):
     return 'broker_notice', 'notice', {}
 
 
+# 包装进程拥有 Broker 子进程和日志句柄；结束或异常时必须回收二者，不能留下孤儿进程。
 def main():
     log = EventLog('broker', os.environ.get('MONITOR_LOG_DIR'))
     child = None
     try:
-        child = subprocess.Popen(['/usr/sbin/mosquitto', '-c', '/opt/medical-monitor/broker/mosquitto.conf'],
-                                 stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        child = subprocess.Popen(
+            ['/usr/sbin/mosquitto', '-c', '/opt/medical-monitor/broker/mosquitto.conf'],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+        )
+
         def forward(number, frame):
             # 证书刷新仍通过主进程 HUP，代理须转发到 Broker；停止也正常保存持久状态。
             if child.poll() is None:
                 child.send_signal(number)
+
         for number in (signal.SIGTERM, signal.SIGINT, signal.SIGHUP):
             signal.signal(number, forward)
         log.emit('broker_started')

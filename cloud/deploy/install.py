@@ -23,6 +23,7 @@ def command(*args):
         raise RuntimeError(f'{args[0]} failed ({result.returncode})')
 
 
+# 仅安装显式指定的本机已上传包；命令有副作用，不能作为普通导入或只读验证入口运行。
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--bundle', type=Path, required=True)
@@ -56,8 +57,17 @@ def main():
         archive.extractall(release)
     command('python3', '-m', 'venv', str(release / '.venv'))
     # 所有依赖来自本机上传的 wheel，不允许服务器访问 PyPI 或其他下载源。
-    command(str(release / '.venv/bin/python'), '-m', 'pip', 'install', '--no-index',
-            '--find-links', str(release / 'wheels'), '-r', str(release / 'backend/requirements.lock'))
+    command(
+        str(release / '.venv/bin/python'),
+        '-m',
+        'pip',
+        'install',
+        '--no-index',
+        '--find-links',
+        str(release / 'wheels'),
+        '-r',
+        str(release / 'backend/requirements.lock'),
+    )
     backup = ROOT / 'backups' / args.release
     backup.mkdir(parents=True, mode=0o700)
     os.chmod(backup.parent, 0o700)
@@ -80,7 +90,7 @@ def main():
             except Exception:
                 if attempt == 19:
                     raise RuntimeError('Backend readiness failed') from None
-                time.sleep(.5)
+                time.sleep(0.5)
         # 配置落盘后先语法验证；只有验证通过才 reload 现有 Nginx。
         index = text.rfind('}')
         target.write_text(text[:index] + INCLUDE + '\n' + text[index:])

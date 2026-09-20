@@ -1,7 +1,10 @@
 """只接受合同中的 MQTT Topic，不保留旧设备 WSS/MMP 入口。"""
+
 import json
 from .models import Telemetry
 
+
+# MQTT Topic 是路由身份的唯一来源；载荷先校验大小和结构，再交给严格模型检查。
 def decode_mqtt(topic: str, payload: bytes) -> Telemetry:
     if len(payload) > 32768:
         raise ValueError('payload too large')
@@ -29,6 +32,8 @@ def decode_mqtt(topic: str, payload: bytes) -> Telemetry:
     if (kind == 'replay') != (message.source == 'REPLAY'):
         raise ValueError('replay topic source mismatch')
     # 历史 EMCY 进入 REPLAY 区，不作为当前报警；旧状态始终禁止补传。
-    if kind in {'telemetry', 'replay'} and (stream in {'NODE_STATUS', 'GATEWAY_STATUS'} or (stream == 'FAULT' and kind != 'replay')):
+    if kind in {'telemetry', 'replay'} and (
+        stream in {'NODE_STATUS', 'GATEWAY_STATUS'} or (stream == 'FAULT' and kind != 'replay')
+    ):
         raise ValueError('reserved stream')
     return message

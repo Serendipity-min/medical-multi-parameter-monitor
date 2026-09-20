@@ -1,7 +1,14 @@
 #ifndef MP_CAN_DRIVER_H
 #define MP_CAN_DRIVER_H
 #include "301/CO_driver.h"
-typedef struct { unsigned id; bool enabled; CO_CANmodule_t *module; } MpCanPort;
+
+typedef struct
+{
+    unsigned id;
+    bool enabled;
+    CO_CANmodule_t *module;
+} MpCanPort;
+
 void mp_bus_poll(void);
 void mp_bus_receive(MpCanFrame *frame);
 int mp_bus_transmit(MpCanFrame *frame);

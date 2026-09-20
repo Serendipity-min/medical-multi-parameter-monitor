@@ -21,9 +21,12 @@ async def until(ws, predicate, timeout=12):
                 return message
 
 
+# 历史 WSS 验收脚本保留为阶段证据；运行前须核对目标是否仍提供对应设备接口。
 async def verify(config):
     checks = []
-    with urllib.request.urlopen(config['origin'] + '/medical-monitor/api/health', timeout=15) as response:
+    with urllib.request.urlopen(
+        config['origin'] + '/medical-monitor/api/health', timeout=15
+    ) as response:
         assert response.status == 200 and json.load(response)['simulation']
     checks.append('HTTPS health and certificate validation')
     origin = config['origin']
@@ -47,7 +50,9 @@ async def verify(config):
                 return frame
 
             await send()
-            result = await until(browser, lambda s: s['live'] and s['live']['seq'] == 0 and s['live_fresh'])
+            result = await until(
+                browser, lambda s: s['live'] and s['live']['seq'] == 0 and s['live_fresh']
+            )
             assert result['gateway_online']
             assert len(result['live']['nodes']['NODE-B']['signals']['ECG']['samples']) == 50
             checks.append('Gateway WSS and synthetic multi-parameter LIVE')
@@ -86,8 +91,10 @@ async def verify(config):
         assert not result['live_fresh']
         checks.append('Gateway disconnect immediately invalidates LIVE')
         async with connect(config['device_url']) as gateway:
-            await gateway.send(json.dumps({'token': config['device_token']})); await gateway.recv()
-            await gateway.send(json.dumps(make_frame(0, str(uuid.uuid4())))); await gateway.recv()
+            await gateway.send(json.dumps({'token': config['device_token']}))
+            await gateway.recv()
+            await gateway.send(json.dumps(make_frame(0, str(uuid.uuid4()))))
+            await gateway.recv()
             await until(browser, lambda s: s['live_fresh'])
         checks.append('Gateway reconnection and new session')
     async with connect(config['device_url']) as unauthorized:
@@ -98,8 +105,12 @@ async def verify(config):
         except ConnectionClosed as exc:
             assert exc.rcvd and exc.rcvd.code == 1008
     checks.append('Device/view token roles are separated')
-    return {'passed': len(checks), 'checks': checks, 'simulation': True,
-            'timestamp': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}
+    return {
+        'passed': len(checks),
+        'checks': checks,
+        'simulation': True,
+        'timestamp': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
+    }
 
 
 if __name__ == '__main__':
