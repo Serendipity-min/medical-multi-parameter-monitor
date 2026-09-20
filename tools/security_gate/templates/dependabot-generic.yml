@@ -1,0 +1,6 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: {interval: weekly}
+# 首次接入按实际目录增加 pip/npm；不要为不存在的依赖文件宣称覆盖。

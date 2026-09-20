@@ -1,0 +1,21 @@
+{
+  "name": "medical-monitor",
+  "source_roots": ["cloud/backend", "cloud/web/src", "gateway/canopen/src", "gateway/data_model", "gateway/storage", "gateway/mqtt/src", "gateway/esp_at_probe/src"],
+  "requirements": ["cloud/backend/requirements.lock"],
+  "npm_roots": ["cloud/web"],
+  "first_party_c": ["gateway/canopen/src", "gateway/data_model", "gateway/storage", "gateway/mqtt/src", "gateway/esp_at_probe/src"],
+  "github_repository": "Serendipity-min/medical-multi-parameter-monitor",
+  "compile_capture": ["{python}", "gateway/canopen/build_host.py"],
+  "commands": [
+    {"name": "sanitizer-fixed", "argv": ["{python}", "gateway/canopen/run_security_regression.py"], "required_file": "gateway/canopen/run_security_regression.py", "modes": ["quick", "pr", "release"], "mandatory": true},
+    {"name": "backend-tests", "argv": ["{python}", "-m", "pytest", "cloud/backend/tests", "-q", "-p", "no:cacheprovider"], "modes": ["quick", "pr", "release"], "mandatory": true},
+    {"name": "canopen-host-tests", "argv": ["{python}", "gateway/canopen/build_host.py"], "modes": ["quick", "pr", "release"], "mandatory": true},
+    {"name": "c-backend-test", "argv": ["{python}", "gateway/canopen/tools/check_canonical.py"], "modes": ["pr", "release"], "mandatory": true},
+    {"name": "paho-integrity", "argv": ["{python}", "gateway/third_party/verify_paho_integrity.py"], "required_file": "gateway/third_party/verify_paho_integrity.py", "modes": ["pr", "release"], "mandatory": true},
+    {"name": "web-build", "argv": ["npm", "run", "build"], "cwd": "cloud/web", "modes": ["quick", "pr", "release"], "mandatory": true},
+    {"name": "gateway-build", "argv": ["{python}", "gateway/mqtt/build.py"], "modes": ["pr", "release"], "mandatory": false}
+  ],
+  "coverage_notes": ["ARM-only units absent from host compile database are explicit coverage gaps; no compiler flags are discarded"],
+  "manual_checklist": ["browser_no_mqtt", "gateway_publish_only", "no_remote_nibp", "mock_live_replay_isolated", "stale_offline_no_old_value", "mqtt_no_anonymous", "tls_verification", "secrets_outside_git", "backend_internal", "nginx_broker_boundaries", "real_data_identity", "retention_policy", "no_physiological_payload_logs", "backup_permissions", "dependency_provenance", "residual_risk_owner"],
+  "real_data_checklist": ["no_shared_test_token", "revocable_identity_or_vpn", "https_wss", "redacted_access_logs", "retention_deletion", "backup_permissions", "mock_live_isolation", "no_dangerous_remote_control"]
+}
