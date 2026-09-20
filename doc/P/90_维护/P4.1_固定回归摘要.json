@@ -8,9 +8,10 @@
   "vendor_integrity": {"status": "PASS", "pristine_files": 12, "patched_files": 9, "gateway_paho_sources": 7, "gateway_formatter_symbols": 0},
   "firmware_sha256": {"gateway_mqtt_bin": "5fd386b8bfe0bcf54d4f53ffb1ec6483d086a1c3287b4fe6c37a3ddeacd90547", "esp_network_probe_bin": "8962c1cf560f3c4fda2bb5a62f7e1feb380dd1b0c7d8307d2269e68519bed409"},
   "new_semgrep_scan": false,
+  "semgrep_scope_note": "No agent-initiated scan; existing repository integration reported SUCCESS automatically; findings not read and result excluded from acceptance.",
   "network_security_testing": false,
   "hardware_flashing": false,
   "deployment": false,
   "history_rewritten": false,
-  "ci": {"status": "PENDING_PUSH"}
+  "ci": {"status": "PASS", "run_id": 35518138651, "event": "pull_request", "conclusion": "success", "tested_head": "e7302b462100f670e557605ad3c144c354c8d9f5", "pull_request": 3, "base_branch": "P4", "superseded_push_run": 35518125496, "superseded_push_conclusion": "cancelled_by_concurrency", "receipt_changes": "documentation_only"}
 }
