@@ -1,0 +1,97 @@
+name: Explicit Security Gate
+# 按用户策略只提供人工入口；普通 push/PR 不自动扫描，也不自动运行 ZAP。
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        type: choice
+        options: [doctor, quick, pr, release]
+        default: doctor
+        required: true
+      ref:
+        description: Exact commit SHA to inspect
+        type: string
+        required: true
+      authorize_scan:
+        description: I authorize the selected repository-local scan
+        type: boolean
+        default: false
+      base:
+        description: PR base commit (required for pr)
+        type: string
+      target:
+        description: Explicitly authorized staging URL (release only)
+        type: string
+      authorize_target:
+        description: I authorize ZAP Baseline for the supplied target
+        type: boolean
+        default: false
+permissions:
+  contents: read
+  security-events: read
+jobs:
+  gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      SECURITY_GATE_OUTPUT_ROOT: ${{ runner.temp }}/security-gate-output
+      SECURITY_GATE_TOOL_ROOT: ${{ runner.temp }}/security-gate-tools
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6, Node 24
+        with:
+          ref: ${{ inputs.ref }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6, Node 24
+        with:
+          python-version: '3.13'
+      - name: Verify explicit scope
+        env:
+          MODE: ${{ inputs.mode }}
+          AUTHORIZED: ${{ inputs.authorize_scan }}
+          REQUESTED_REF: ${{ inputs.ref }}
+        run: |
+          python - <<'PY'
+          import os, re, subprocess
+          assert re.fullmatch(r'[0-9a-f]{40}', os.environ['REQUESTED_REF']), 'Exact SHA required'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip() == os.environ['REQUESTED_REF']
+          assert os.environ['MODE'] == 'doctor' or os.environ['AUTHORIZED'] == 'true', 'Explicit authorization required'
+          PY
+      - name: Bootstrap isolated tools
+        continue-on-error: true
+        run: python tools/security_gate/bootstrap.py --install --authorized-machine --system-deps
+      # Semgrep Pro 需 runner 管理员预装/预认证；缺失按 TOOL_ERROR 报告，不记录或转存登录令牌。
+      - name: Prepare medical project tests when configured
+        run: |
+          if test -f cloud/backend/requirements-dev.txt; then
+            python tools/security_gate/prepare.py --repo . --requirements cloud/backend/requirements-dev.txt --constraints cloud/backend/requirements.lock --authorized-machine
+          fi
+      - name: Run the same deterministic gate
+        env:
+          MODE: ${{ inputs.mode }}
+          AUTHORIZED: ${{ inputs.authorize_scan }}
+          BASE: ${{ inputs.base }}
+          TARGET: ${{ inputs.target }}
+          TARGET_AUTHORIZED: ${{ inputs.authorize_target }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import os, subprocess, sys
+          cmd = [sys.executable,'tools/security_gate/gate.py',os.environ['MODE'],'--repo','.']
+          if os.environ['AUTHORIZED'] == 'true': cmd.append('--authorize')
+          if os.environ['BASE']: cmd += ['--base',os.environ['BASE']]
+          if os.environ['TARGET']: cmd += ['--target',os.environ['TARGET']]
+          if os.environ['TARGET_AUTHORIZED'] == 'true': cmd.append('--authorize-target')
+          raise SystemExit(subprocess.call(cmd))
+          PY
+      - name: Upload sanitized summaries only
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7, Node 24
+        with:
+          name: security-gate-summary
+          path: |
+            ${{ runner.temp }}/security-gate-output/**/gate-result.json
+            ${{ runner.temp }}/security-gate-output/**/gate-report.md
+            ${{ runner.temp }}/security-gate-output/**/coverage.json
+            ${{ runner.temp }}/security-gate-output/**/report-integrity.json
+          retention-days: 14
