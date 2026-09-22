@@ -1,297 +1,93 @@
-// 主监护屏 DOM 装配层：构建专业医疗监护仪 1080p 零滚动主视图与 Dialog 骨架。
+// 仅静态模板进入 innerHTML；快照字段统一由组件写入 textContent。
+import { routes, type Route } from '../router/hashRouter';
+import { parameters, type Parameter } from './parameters';
+import type { ScalarChannel, WaveChannel } from '../types';
 
-const pulseIcon =
-  '<svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M2 17h7l4-10 6 20 4-10h7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-const expandIcon =
-  '<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7 3H3v4m10-4h4v4M3 13v4h4m10-4v4h-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
+const icons: Record<Route | 'settings', string> = {
+  overview: '<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>',
+  ecg: '<path d="M2 12h5l3-8 4 16 3-8h5"/>',
+  spo2: '<path d="M12 2C9 7 5 10 5 15a7 7 0 0 0 14 0c0-5-4-8-7-13Z"/>',
+  resp: '<path d="M12 3v9m0-4C7 3 3 9 3 15s6 6 7 2l2-5 2 5c1 4 7 4 7-2S17 3 12 8"/>',
+  nibp: '<path d="M4 5h10v14H4zM14 9h3a4 4 0 0 1 4 4v3m-17-6h10"/>',
+  temp: '<path d="M9 14V5a3 3 0 0 1 6 0v9a5 5 0 1 1-6 0Zm3-7v10m5-10h4m-4 4h3"/>',
+  settings: '<path d="m12 2 3 3h4v4l3 3-3 3v4h-4l-3 3-3-3H5v-4l-3-3 3-3V5h4Z"/><circle cx="12" cy="12" r="3"/>',
+};
+const labels: Record<Route, string> = { overview: '监护总览', temp: '体温', ecg: '心电', spo2: '血氧', resp: '呼吸', nibp: '血压' };
+const svg = (key: Route | 'settings') => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[key]}</svg>`;
 
 export function setupMonitorDOM(container: HTMLElement): void {
   container.innerHTML = `
-<div class="app-shell">
-  <!-- 顶部系统状态栏 -->
-  <header class="app-header">
-    <div class="header-left">
-      <div class="brand-badge">
-        <span class="brand-icon">${pulseIcon}</span>
-        <div class="brand-text">
-          <h1>多参数监护</h1>
-          <span class="brand-sub">床旁/中央大屏视图</span>
-        </div>
-      </div>
-      <div class="simulation-badge">
-        <span id="source-banner">等待数据源</span>
-      </div>
-      <div class="gateway-controller">
-        <label for="gateway-select" class="visually-hidden">选择网关</label>
-        <select id="gateway-select" title="切换数据源网关">
-          <option value="GW-DEV-001">模拟网关 GW-DEV-001</option>
-          <option value="GW-C-001">真机网关 GW-C-001</option>
-        </select>
-        <strong id="gateway-id" class="gateway-tag">GW-DEV-001</strong>
-      </div>
-      <div class="nodes-status">
-        <span id="gateway" class="node-chip">Gateway · OFFLINE</span>
-        <span id="node-a" class="node-chip">Node-A · OFFLINE</span>
-        <span id="node-b" class="node-chip">Node-B · OFFLINE</span>
-      </div>
+    <div class="app-shell">
+      <header class="app-header">
+        <a class="brand" href="#/overview">${svg('ecg')}<span>多参数监护<small>工程样机 · 未接入患者身份</small></span></a>
+        <div class="system-identity"><strong id="gateway-id">GW-DEV-001</strong><span id="connection">未连接</span><i id="connection-dot"></i></div>
+        <div class="nodes-status"><span id="gateway" class="node-chip">Gateway · OFFLINE</span><span id="node-a" class="node-chip">Node-A · OFFLINE</span><span id="node-b" class="node-chip">Node-B · OFFLINE</span></div>
+        <strong id="source-banner" class="source-banner">等待数据源</strong>
+        <div class="system-clock"><time id="clock">--:--:--</time><span id="today"></span></div>
+        <button id="open-access" class="button-quiet">连接数据源</button>
+      </header>
+      <div class="context-bar"><span id="mode">等待数据</span><span id="received-at">最后通信：--</span><strong id="frozen-status" role="status" hidden>DISPLAY FROZEN / 本地显示已冻结</strong></div>
+      <main id="route-view" class="monitor-main"></main>
+      <div class="technical-strip"><span id="replay-status">尚未收到补传</span><span id="event-status">无事件</span><span id="source-note">暂无有效数据</span><span id="updated">最后采集时间：--</span></div>
+      <nav class="bottom-nav" aria-label="监护页面">
+        ${routes.map((route) => `<a href="#/${route}" data-route="${route}">${svg(route)}<span>${labels[route]}</span></a>`).join('')}
+        <button id="open-settings">${svg('settings')}<span>连接设置</span></button>
+        <button id="freeze" aria-pressed="false"><b class="freeze-icon">Ⅱ</b><span>冻结显示</span></button>
+      </nav>
     </div>
+    <dialog id="access-dialog" aria-labelledby="access-title"><form id="access-form">
+      <div class="dialog-heading"><h2 id="access-title">连接与本地显示设置</h2><button type="button" id="close-access" aria-label="关闭连接设置">×</button></div>
+      <label for="gateway-select">数据源网关</label><select id="gateway-select"><option value="GW-DEV-001">模拟网关 GW-DEV-001</option><option value="GW-C-001">真机网关 GW-C-001</option></select>
+      <label for="view-token">只读访问令牌</label><input id="view-token" type="password" autocomplete="off" placeholder="输入当前网关的访问令牌" required>
+      <p id="access-message" role="status">令牌仅保存在当前浏览器内存中，刷新或断开后清除。</p>
+      <div class="local-settings"><span>波形显示窗口</span><button type="button" data-window="8" aria-pressed="true">8 秒</button><button type="button" data-window="16" aria-pressed="false">16 秒</button><button type="button" id="fullscreen"><span>全屏显示</span></button></div>
+      <p class="muted">设置仅作用于浏览器显示与订阅；工程样机仅供系统联调，不用于临床判断。</p>
+      <div class="dialog-actions"><button type="button" id="disconnect">断开连接</button><button type="submit" class="button-primary">验证并连接</button></div>
+    </form></dialog>`;
+}
 
-    <div class="header-right">
-      <div class="connection-status">
-        <span class="dot" id="connection-dot"></span>
-        <span id="connection">未连接</span>
-      </div>
-      <div class="mode-tag" id="mode">LIVE · 等待数据</div>
-      <div class="window-control" aria-label="走纸视窗">
-        <button data-window="8" class="window-btn active" aria-pressed="true">8 秒</button>
-        <button data-window="16" class="window-btn" aria-pressed="false">16 秒</button>
-      </div>
-      <div class="system-clock">
-        <time id="clock">--:--:--</time>
-        <span id="today"></span>
-      </div>
-      <div class="header-actions">
-        <button id="open-access" class="button-primary">连接数据源</button>
-        <button id="fullscreen" class="button-quiet" title="切换全屏">${expandIcon}<span>全屏显示</span></button>
-      </div>
-    </div>
-  </header>
+function number(channel: ScalarChannel): string {
+  return channel === 'NIBP'
+    ? '<div class="pressure-reading" id="value-NIBP"><div><small>SYS</small><strong id="pressure-sys">--</strong></div><span>/</span><div><small>DIA</small><strong id="pressure-dia">--</strong></div></div>'
+    : `<strong id="value-${channel}" class="vital-number">--</strong>`;
+}
 
-  <!-- 中央四大核心生理参数成行布局 (70% 波形 + 30% 读数) -->
-  <main class="monitor-main">
-    <div class="monitor-layout">
+function reading(p: Parameter): string {
+  const unit = p.scalar === 'NIBP' ? 'mmHg' : p.scalar === 'TEMP' ? '°C' : p.scalar === 'SpO2' ? '%' : p.scalar === 'RR' ? '次/分' : 'bpm';
+  const title = { HR: '心率 HR', SpO2: '血氧 SpO₂', RR: '呼吸率 RR · 算法输出', NIBP: '无创血压 NIBP', TEMP: '红外体温 TEMP', PR: '脉率 PR' }[p.scalar];
+  return `<div class="reading"><div class="panel-heading"><strong>${title}</strong><span>${unit}</span></div>${number(p.scalar)}<div class="reading-meta"><span id="state-${p.scalar}">STALE · OFFLINE</span><span>${p.node}</span></div>${p.scalar === 'NIBP' ? '<span class="measurement-time">最近测量 <time id="bp-updated">--</time></span>' : ''}</div>${p.scalar === 'SpO2' ? '<div class="pr-reading"><span>脉率 PR <small>bpm</small></span><strong id="value-PR">--</strong><small id="state-PR">STALE · OFFLINE</small></div>' : ''}`;
+}
 
-      <!-- 行 1: 心电图与心率 (ECG Lead II & HR) -->
-      <section class="param-row ecg-row" data-module="ECG" aria-labelledby="ecg-title">
-        <div class="waveform-cell">
-          <div class="trace-header">
-            <div class="channel-title">
-              <span class="channel-dot ecg-dot"></span>
-              <strong id="ecg-title">ECG II</strong>
-              <span class="trace-scale">1.0x &nbsp; 25mm/s</span>
-            </div>
-            <span id="quality-ECG" class="quality-badge">STALE</span>
-          </div>
-          <div class="canvas-container">
-            <canvas id="wave-ECG" aria-label="ECG 心电模拟波形"></canvas>
-            <p class="empty-note" id="empty-ECG">连接数据源后显示心电波形</p>
-          </div>
-          <div class="wave-axis">
-            <span class="window-start">−8 秒</span>
-            <span>相对幅值 (mV)</span>
-            <span>当前</span>
-          </div>
-        </div>
-        <div class="numeric-cell ecg-numeric">
-          <div class="numeric-header">
-            <span class="numeric-title">心率 HR</span>
-            <span class="numeric-unit">bpm</span>
-          </div>
-          <div class="numeric-body">
-            <strong id="value-HR" class="huge-number">—</strong>
-          </div>
-          <div class="numeric-footer">
-            <span id="state-HR" class="state-tag">STALE</span>
-            <span class="source-tag">Node-B · 心电同源</span>
-          </div>
-        </div>
-      </section>
+function wave(channel: WaveChannel, route: Route, detail = false): string {
+  const name = channel === 'ECG' ? 'ECG · 单导联 RA–LA' : channel === 'PPG' ? 'PLETH · 容积脉搏波' : 'RESP · 阻抗呼吸';
+  return `<section class="wave-panel ${route}" data-module="${channel === 'PPG' ? 'SpO2' : channel}"><div class="panel-heading"><a href="#/${route}"><strong>${name}</strong>${detail ? '' : '<span class="open-mark">↗</span>'}</a><span id="quality-${channel}">STALE</span></div><a class="canvas-container" href="#/${route}" aria-label="${name}详情"><canvas id="wave-${channel}" aria-label="${name}，相对幅值"></canvas><span class="empty-note" id="empty-${channel}">等待有效波形</span></a><div class="wave-axis"><span class="window-start">−8 秒</span><span>相对幅值 · ${channel === 'ECG' ? '250' : '50'} Hz</span><span>当前</span></div></section>`;
+}
 
-      <!-- 行 2: 血氧容积波与血氧饱和度/脉率 (PPG & SpO2/PR) -->
-      <section class="param-row spo2-row" data-module="SpO2" aria-labelledby="spo2-title">
-        <div class="waveform-cell">
-          <div class="trace-header">
-            <div class="channel-title">
-              <span class="channel-dot spo2-dot"></span>
-              <strong id="spo2-title">PLETH</strong>
-              <span class="trace-scale">PPG 容积脉搏波</span>
-            </div>
-            <span id="quality-PPG" class="quality-badge">STALE</span>
-          </div>
-          <div class="canvas-container">
-            <canvas id="wave-PPG" aria-label="PPG 血氧脉搏模拟波形"></canvas>
-            <p class="empty-note" id="empty-PPG">等待有效血氧数据</p>
-          </div>
-          <div class="wave-axis">
-            <span class="window-start">−8 秒</span>
-            <span>脉搏容积变化</span>
-            <span>当前</span>
-          </div>
-        </div>
-        <div class="numeric-cell spo2-numeric">
-          <div class="dual-numeric">
-            <div class="numeric-subcell">
-              <div class="numeric-header">
-                <span class="numeric-title">血氧 SpO₂</span>
-                <span class="numeric-unit">%</span>
-              </div>
-              <div class="numeric-body">
-                <strong id="value-SpO2" class="huge-number">—</strong>
-              </div>
-              <div class="numeric-footer">
-                <span id="state-SpO2" class="state-tag">STALE</span>
-              </div>
-            </div>
-            <div class="numeric-divider"></div>
-            <div class="numeric-subcell">
-              <div class="numeric-header">
-                <span class="numeric-title">脉率 PR</span>
-                <span class="numeric-unit">bpm</span>
-              </div>
-              <div class="numeric-body">
-                <strong id="value-PR" class="large-number">—</strong>
-              </div>
-              <div class="numeric-footer">
-                <span id="state-PR" class="state-tag">STALE</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+function trend(channel: ScalarChannel, title: string): string {
+  return `<section class="trend-panel"><div class="panel-heading"><strong>${title}</strong><span id="history-range">本次会话 · 尚无记录</span></div><div class="trend-canvas-box"><canvas id="session-trend" data-channel="${channel}" aria-label="${title}，本次会话实际收到的记录"></canvas><span class="empty-note" id="history-empty">收到新记录后显示趋势</span></div><div class="wave-axis"><span id="trend-start">--</span><span>仅本次浏览器会话 · 最多保留 60 分钟</span><span id="trend-end">--</span></div></section>`;
+}
 
-      <!-- 行 3: 呼吸阻抗波与呼吸率/趋势 (RESP & RR) -->
-      <section class="param-row resp-row" data-module="RESP" aria-labelledby="resp-title">
-        <div class="waveform-cell resp-waveform">
-          <div class="trace-header">
-            <div class="channel-title">
-              <span class="channel-dot resp-dot"></span>
-              <strong id="resp-title">RESP</strong>
-              <span class="trace-scale">胸阻抗呼吸波</span>
-            </div>
-            <span id="quality-RESP" class="quality-badge">STALE</span>
-          </div>
-          <div class="canvas-container resp-canvas-box">
-            <canvas id="wave-RESP" aria-label="RESP 呼吸模拟波形"></canvas>
-            <p class="empty-note" id="empty-RESP">等待有效呼吸数据</p>
-          </div>
-          <div class="trend-strip">
-            <div class="trend-header">
-              <span class="trend-title">RR 算法趋势 (最近 120 秒)</span>
-              <span id="rr-trend-status" class="trend-status">等待 RR 数据</span>
-            </div>
-            <div class="trend-canvas-box">
-              <canvas id="trend-RR" aria-label="算法输出 RR 呼吸率趋势，最近 120 秒"></canvas>
-            </div>
-            <div class="trend-axis">
-              <span>−120 秒</span>
-              <span>当前</span>
-            </div>
-          </div>
-        </div>
-        <div class="numeric-cell resp-numeric">
-          <div class="numeric-header">
-            <span class="numeric-title">呼吸率 RR</span>
-            <span class="numeric-unit">次/分</span>
-          </div>
-          <div class="numeric-body">
-            <strong id="value-RR" class="huge-number">—</strong>
-          </div>
-          <div class="numeric-footer">
-            <span id="state-RR" class="state-tag">STALE</span>
-            <span class="source-tag">算法输出 · Node-B</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- 行 4: 辅助系统状态 (REPLAY/EVENT/TEMP) 与血压 (NIBP) -->
-      <section class="param-row aux-row" data-module="NIBP" aria-labelledby="bp-title">
-        <div class="aux-cell">
-          <div class="aux-cards">
-            <!-- 历史补传独立专区 -->
-            <div class="aux-card replay-card" aria-label="历史补传状态">
-              <div class="aux-card-title">
-                <span class="replay-label">REPLAY</span>
-                <strong>历史补传状态</strong>
-              </div>
-              <p id="replay-status" class="aux-card-content">尚未收到补传</p>
-            </div>
-
-            <!-- 系统事件专区 -->
-            <div class="aux-card event-card" aria-label="系统与技术事件">
-              <div class="aux-card-title">
-                <span class="event-icon">⚠</span>
-                <strong>系统技术事件</strong>
-              </div>
-              <p id="event-status" class="aux-card-content">无事件</p>
-            </div>
-
-            <!-- 体温卡片 (TEMP) -->
-            <div class="aux-card temp-card" aria-label="体温">
-              <div class="aux-card-title">
-                <span class="channel-dot temp-dot"></span>
-                <strong>体温 TEMP</strong>
-                <span id="state-TEMP" class="quality-badge">STALE</span>
-              </div>
-              <div class="temp-body">
-                <strong id="value-TEMP" class="large-number">—</strong>
-                <span class="temp-unit">°C</span>
-              </div>
-              <span class="temp-source">红外测温 · Node-B</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="numeric-cell nibp-numeric">
-          <div class="numeric-header">
-            <div class="channel-title">
-              <span class="channel-dot nibp-dot"></span>
-              <strong id="bp-title">NIBP 血压</strong>
-            </div>
-            <span class="numeric-unit">mmHg</span>
-          </div>
-          <div class="pressure-reading" id="value-NIBP" aria-label="收缩压与舒张压">
-            <div class="pressure-item">
-              <span class="pressure-sublabel">SYS 收缩</span>
-              <strong id="pressure-sys" class="huge-number">—</strong>
-            </div>
-            <span class="pressure-slash">/</span>
-            <div class="pressure-item">
-              <span class="pressure-sublabel">DIA 舒张</span>
-              <strong id="pressure-dia" class="huge-number">—</strong>
-            </div>
-          </div>
-          <div class="pressure-footer">
-            <span id="state-NIBP" class="state-tag">STALE</span>
-            <div class="pressure-time">
-              <span>上次测量:</span>
-              <time id="bp-updated">—</time>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </div>
-  </main>
-
-  <!-- 底部时间戳与工程声明栏 -->
-  <footer class="app-footer">
-    <span id="updated">最后采集时间：—</span>
-    <span id="source-note">等待数据来源</span>
-    <span class="disclaimer">工程样机 · 仅供系统联调与测试，不用于临床判断</span>
-  </footer>
-</div>
-
-<!-- 访问令牌鉴权对话框 -->
-<dialog id="access-dialog" aria-labelledby="access-title">
-  <form id="access-form">
-    <div class="dialog-heading">
-      <div>
-        <span class="small-label">监护安全认证</span>
-        <h2 id="access-title">连接监护数据源</h2>
-      </div>
-      <button type="button" id="close-access" class="close-button" aria-label="关闭连接设置">×</button>
-    </div>
-    <p class="dialog-desc">请输入只读访问令牌（View Token），订阅所选网关的实时快照与波形流。</p>
-    <div class="dialog-field">
-      <label for="view-token">监护访问令牌</label>
-      <input id="view-token" type="password" autocomplete="off" placeholder="输入只读令牌 (如 view-token-...)" required>
-    </div>
-    <p id="access-message" role="status">令牌仅在当前浏览器内存中使用，刷新或断开后需重新验证。</p>
-    <div class="dialog-actions">
-      <button type="button" id="disconnect" class="button-quiet">断开连接</button>
-      <button type="submit" class="button-primary">验证并连接</button>
-    </div>
-  </form>
-</dialog>
-`;
+export function renderRoute(route: Route, container: HTMLElement): void {
+  container.className = `monitor-main route-${route}`;
+  document.querySelectorAll<HTMLElement>('[data-route]').forEach((link) => {
+    if (link.dataset.route === route) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  });
+  if (route === 'overview') {
+    container.innerHTML = `<div class="overview-layout"><div class="overview-waves">${wave('ECG', 'ecg')}${wave('PPG', 'spo2')}${wave('RESP', 'resp')}</div><div class="overview-numerics">${['ecg', 'spo2', 'resp', 'nibp', 'temp'].map((key) => {
+      const p = parameters[key as keyof typeof parameters];
+      return `<a href="#/${p.route}" class="numeric-tile ${p.route}" aria-label="打开${p.title}">${reading(p)}</a>`;
+    }).join('')}</div></div>`;
+    return;
+  }
+  const p = parameters[route];
+  container.innerHTML = `<div class="detail-heading ${route}"><div>${svg(route)}<h1>${p.title}<small>${p.english}</small></h1><span>${p.subtitle}</span></div><a href="#/overview">返回总览 ↗</a></div>
+    <div class="detail-layout ${route}"><div class="detail-main">
+      <section class="detail-vital"><div class="detail-reading">${reading(p)}</div><div class="sensor-summary"><span>采集配置</span><strong>${p.device}</strong><span>${p.subtitle}</span><div><span id="detail-node">${p.node} · OFFLINE</span><span id="detail-updated">最近采集：--</span></div></div></section>
+      ${p.wave ? wave(p.wave, route, true) : ''}
+      ${trend(p.scalar, p.scalar === 'NIBP' ? 'SYS / DIA · 离散测量记录' : `${p.scalar} · 本次会话趋势`)}
+      <div class="detail-note"><span>${p.wave ? '波形采用相对幅值显示，不提供临床物理标定。' : '仅显示已接收测量结果。'}</span><span>有效性来自数据帧，不表示传感器自检通过。</span></div>
+    </div><aside class="detail-aside"><section class="device-panel"><div class="panel-heading"><strong>采集信息</strong><span>静态配置说明</span></div><dl>${p.facts.map(([key, value]) => `<div><dt>${key}</dt><dd>${value}</dd></div>`).join('')}</dl><p>节点在线只代表通信状态。</p></section>
+      <section class="history-panel"><div class="panel-heading"><strong>最近记录</strong><span id="history-count">0 条</span></div><p class="history-caption">本次会话 · 断线保留 / 切换网关清空</p><div class="history-table-wrap"><table><thead><tr><th>采集时间</th><th>数值</th><th>有效性 / 来源</th></tr></thead><tbody id="history-rows"></tbody></table><p id="table-empty">尚未收到记录</p></div><button id="export-csv" disabled>导出本次会话 CSV</button><span id="export-status" role="status"></span></section>
+    </aside></div>`;
 }

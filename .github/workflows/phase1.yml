@@ -44,4 +44,6 @@ jobs:
         working-directory: cloud/web
         run: |
           npm ci --no-audit --no-fund
+          # 六页面共用状态与真实会话历史的固定回归，无网络目标。
+          npm test
           npm run build

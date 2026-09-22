@@ -1,5 +1,5 @@
 // 纯函数转换层：将后端快照数据转化为 UI 展现所需的 ViewModel。
-// 严格遵守语义边界：无测量值或非 VALID 时显示 '—'，绝不自行伪造 MAP/PI 或算法衍生数据。
+// 无测量值或非 VALID 时显示 '--'；波形与算法标量分别判定，不推断探头状态。
 
 import type { MonitorViewModel, ScalarChannel, ScalarReading, Signal, Snapshot } from '../types';
 
@@ -22,19 +22,19 @@ export function toMonitorViewModel(data: Snapshot): MonitorViewModel {
 
   const formatScalar = (channel: ScalarChannel): ScalarReading => {
     const signal = signals.get(channel) ?? null;
-    const valid = signal?.validity === 'VALID';
+    const valid = signal?.validity === 'VALID' && signal.source !== 'REPLAY';
     const value = signal?.value ?? null;
     const unit = defaultUnits[channel];
     const source = signal ? signal.source : 'OFFLINE';
     const nodeId = signal ? signal.node_id : '';
 
     if (channel === 'NIBP') {
-      const isArray = Array.isArray(value) && value.length >= 2;
+      const isArray = Array.isArray(value) && value.length >= 2 && value.slice(0, 2).every(Number.isFinite);
       return {
         channel,
         rawValue: value,
-        formatted: valid && isArray ? String(Math.round(value[0])) : '—',
-        subFormatted: valid && isArray ? String(Math.round(value[1])) : '—',
+        formatted: valid && isArray ? String(Math.round(value[0])) : '--',
+        subFormatted: valid && isArray ? String(Math.round(value[1])) : '--',
         unit,
         validity: signal?.validity ?? 'OFFLINE',
         source,
@@ -43,8 +43,8 @@ export function toMonitorViewModel(data: Snapshot): MonitorViewModel {
       };
     }
 
-    let formatted = '—';
-    if (valid && typeof value === 'number') {
+    let formatted = '--';
+    if (valid && typeof value === 'number' && Number.isFinite(value)) {
       formatted = channel === 'TEMP' ? value.toFixed(1) : String(Math.round(value));
     }
 
@@ -56,6 +56,7 @@ export function toMonitorViewModel(data: Snapshot): MonitorViewModel {
       validity: signal?.validity ?? 'OFFLINE',
       source,
       nodeId: nodeId || (channel === 'SpO2' || channel === 'PR' ? 'Node-A' : 'Node-B'),
+      updatedTime: signal ? new Date(signal.timestamp).toLocaleTimeString('zh-CN', { hour12: false }) : '--',
     };
   };
 
@@ -87,6 +88,10 @@ export function toMonitorViewModel(data: Snapshot): MonitorViewModel {
   const eventStatus = data.event ? `事件：${data.event.value}` : '无事件';
 
   return {
+    waves: Object.fromEntries(['ECG', 'RESP', 'PPG'].map((name) => {
+      const signal = signals.get(name);
+      return [name, { validity: signal?.source === 'REPLAY' ? 'STALE' : signal?.validity ?? 'OFFLINE', source: signal?.source ?? 'OFFLINE' }];
+    })) as MonitorViewModel['waves'],
     gatewayId: data.gateway_id,
     gatewayState: data.gateway_state || 'OFFLINE',
     nodeAState: data.nodes['NODE-A'] || 'OFFLINE',
@@ -106,8 +111,8 @@ export function getEmptyViewModel(reason = '等待数据'): MonitorViewModel {
   const createEmptyScalar = (channel: ScalarChannel): ScalarReading => ({
     channel,
     rawValue: null,
-    formatted: '—',
-    subFormatted: channel === 'NIBP' ? '—' : undefined,
+    formatted: '--',
+    subFormatted: channel === 'NIBP' ? '--' : undefined,
     unit: defaultUnits[channel],
     validity: 'STALE',
     source: 'OFFLINE',
@@ -116,6 +121,7 @@ export function getEmptyViewModel(reason = '等待数据'): MonitorViewModel {
   });
 
   return {
+    waves: { ECG: { validity: 'STALE', source: 'OFFLINE' }, RESP: { validity: 'STALE', source: 'OFFLINE' }, PPG: { validity: 'STALE', source: 'OFFLINE' } },
     gatewayId: 'GW-DEV-001',
     gatewayState: 'OFFLINE',
     nodeAState: 'OFFLINE',

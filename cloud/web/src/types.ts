@@ -63,6 +63,7 @@ export interface ScalarReading {
 }
 
 export interface MonitorViewModel {
+  waves: Record<WaveChannel, { validity: Validity; source: string }>;
   gatewayId: string;
   gatewayState: string;
   nodeAState: string;

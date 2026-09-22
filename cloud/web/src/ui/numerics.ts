@@ -31,7 +31,7 @@ export class NumericsView {
     const rr = vm.scalars.RR;
     this.setText('value-RR', rr.formatted);
     this.setText('state-RR', `${rr.validity} · ${rr.source}`);
-    if (rr.validity === 'VALID' && rr.formatted !== '—') {
+    if (rr.validity === 'VALID' && rr.formatted !== '--') {
       this.setText('rr-trend-status', `最近 120 秒 · ${rr.source}`);
     } else {
       this.setText('rr-trend-status', '无有效 RR 数据');
@@ -50,18 +50,18 @@ export class NumericsView {
     this.setText('state-TEMP', `${temp.validity} · ${temp.source}`);
 
     // 6. 波形通道质量标牌与空状态指示
-    const ecgValid = hr.validity === 'VALID';
-    this.setText('quality-ECG', `${hr.validity} · ${hr.source}`);
+    const ecgValid = vm.waves.ECG.validity === 'VALID';
+    this.setText('quality-ECG', `${vm.waves.ECG.validity} · ${vm.waves.ECG.source}`);
     const emptyEcg = this.getEl('empty-ECG');
     if (emptyEcg) emptyEcg.hidden = ecgValid;
 
-    const respValid = rr.validity === 'VALID';
-    this.setText('quality-RESP', `${rr.validity} · ${rr.source}`);
+    const respValid = vm.waves.RESP.validity === 'VALID';
+    this.setText('quality-RESP', `${vm.waves.RESP.validity} · ${vm.waves.RESP.source}`);
     const emptyResp = this.getEl('empty-RESP');
     if (emptyResp) emptyResp.hidden = respValid;
 
-    const ppgValid = spo2.validity === 'VALID';
-    this.setText('quality-PPG', `${spo2.validity} · ${spo2.source}`);
+    const ppgValid = vm.waves.PPG.validity === 'VALID';
+    this.setText('quality-PPG', `${vm.waves.PPG.validity} · ${vm.waves.PPG.source}`);
     const emptyPpg = this.getEl('empty-PPG');
     if (emptyPpg) emptyPpg.hidden = ppgValid;
 
