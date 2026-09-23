@@ -6,6 +6,8 @@ export interface StatusBarCallbacks {
   onGatewayChange: (gatewayId: string) => void;
   onWindowChange: (windowSeconds: number) => void;
   onOpenAccess: () => void;
+  onCloseAccess: () => void;
+  onDisplayError: (message: string) => void;
 }
 
 export class StatusBar {
@@ -48,6 +50,10 @@ export class StatusBar {
     };
 
     this.fullscreenBtn.onclick = async () => {
+      // 先撤下模态层再进入全屏，否则根元素会盖住弹窗，但弹窗仍拦截主界面点击。
+      // 关闭必须同步发生，保留此次真实点击授予的全屏权限。
+      callbacks.onCloseAccess();
+      this.fullscreenBtn.disabled = true;
       try {
         if (document.fullscreenElement) {
           await document.exitFullscreen();
@@ -55,11 +61,15 @@ export class StatusBar {
           await document.documentElement.requestFullscreen();
         }
       } catch {
-        this.connectionEl.textContent = '浏览器未允许全屏，可按 F11';
+        // 显示设置错误留在弹窗里，避免下一帧连接状态刷新后提示立即消失。
+        callbacks.onDisplayError('浏览器未允许切换全屏，可使用浏览器的全屏菜单或按 F11。');
+      } finally {
+        this.fullscreenBtn.disabled = false;
       }
     };
 
     document.addEventListener('fullscreenchange', () => {
+      this.fullscreenBtn.setAttribute('aria-pressed', String(Boolean(document.fullscreenElement)));
       const span = this.fullscreenBtn.querySelector('span');
       if (span) {
         span.textContent = document.fullscreenElement ? '退出全屏' : '全屏显示';

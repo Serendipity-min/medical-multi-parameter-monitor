@@ -26,7 +26,7 @@ export function setupMonitorDOM(container: HTMLElement): void {
         <div class="system-clock"><time id="clock">--:--:--</time><span id="today"></span></div>
         <button id="open-access" class="button-quiet">连接数据源</button>
       </header>
-      <div class="context-bar"><span id="mode">等待数据</span><span id="received-at">最后通信：--</span><strong id="frozen-status" role="status" hidden>DISPLAY FROZEN / 本地显示已冻结</strong></div>
+      <div class="context-bar"><span id="mode">等待数据</span><span id="received-at" title="本页累计接收的快照数，不等于保存到文件的记录数。冻结只固定画面，内存缓冲继续更新。">最后通信：--</span><strong id="frozen-status" role="status" hidden>DISPLAY FROZEN / 本地显示已冻结 · 仍在接收</strong></div>
       <main id="route-view" class="monitor-main"></main>
       <div class="technical-strip"><span id="replay-status">尚未收到补传</span><span id="event-status">无事件</span><span id="source-note">暂无有效数据</span><span id="updated">最后采集时间：--</span></div>
       <nav class="bottom-nav" aria-label="监护页面">
@@ -43,7 +43,12 @@ export function setupMonitorDOM(container: HTMLElement): void {
       <div class="local-settings"><span>波形显示窗口</span><button type="button" data-window="8" aria-pressed="true">8 秒</button><button type="button" data-window="16" aria-pressed="false">16 秒</button><button type="button" id="fullscreen"><span>全屏显示</span></button></div>
       <p class="muted">设置仅作用于浏览器显示与订阅；工程样机仅供系统联调，不用于临床判断。</p>
       <div class="dialog-actions"><button type="button" id="disconnect">断开连接</button><button type="submit" class="button-primary">验证并连接</button></div>
-    </form></dialog>`;
+    </form></dialog>
+    <dialog id="connection-error-dialog" class="connection-error" role="alertdialog" aria-labelledby="connection-error-title" aria-describedby="connection-error-message">
+      <div class="dialog-heading"><h2 id="connection-error-title">连接失败</h2><button type="button" id="close-connection-error" aria-label="关闭连接失败提示">×</button></div>
+      <p id="connection-error-message"></p><p class="muted">未通过验证时不会显示监护数据，也不会反复自动尝试该令牌。</p>
+      <div class="dialog-actions"><button type="button" id="retry-access" class="button-primary">重新输入令牌</button></div>
+    </dialog>`;
 }
 
 function number(channel: ScalarChannel): string {
@@ -64,7 +69,8 @@ function wave(channel: WaveChannel, route: Route, detail = false): string {
 }
 
 function trend(channel: ScalarChannel, title: string): string {
-  return `<section class="trend-panel"><div class="panel-heading"><strong>${title}</strong><span id="history-range">本次会话 · 尚无记录</span></div><div class="trend-canvas-box"><canvas id="session-trend" data-channel="${channel}" aria-label="${title}，本次会话实际收到的记录"></canvas><span class="empty-note" id="history-empty">收到新记录后显示趋势</span></div><div class="wave-axis"><span id="trend-start">--</span><span>仅本次浏览器会话 · 最多保留 60 分钟</span><span id="trend-end">--</span></div></section>`;
+  const legend = channel === 'NIBP' ? '<div class="trend-legend"><span>● SYS 收缩压</span><span>● DIA 舒张压</span></div>' : '';
+  return `<section class="trend-panel"><div class="panel-heading"><strong>${title}</strong><span id="history-range">本次会话 · 尚无记录</span></div>${legend}<div class="trend-canvas-box"><canvas id="session-trend" data-channel="${channel}" aria-label="${title}，本次会话实际收到的记录"></canvas><span class="empty-note" id="history-empty">收到新记录后显示趋势</span></div><div class="wave-axis"><span id="trend-start">--</span><span>仅本次浏览器会话 · 最多保留 60 分钟</span><span id="trend-end">--</span></div></section>`;
 }
 
 export function renderRoute(route: Route, container: HTMLElement): void {

@@ -3,11 +3,11 @@ import type { MonitorStore } from '../state/monitorStore';
 import type { ScalarChannel, WaveChannel } from '../types';
 
 export const WAVE_COLORS: Record<WaveChannel, string> = {
-  ECG: '#75ff9e', RESP: '#ffe37a', PPG: '#bdf4ff',
+  ECG: '#39ff84', RESP: '#ffdf32', PPG: '#ff5267',
 };
 const TREND_COLORS: Record<ScalarChannel, string> = {
   HR: WAVE_COLORS.ECG, RR: WAVE_COLORS.RESP, SpO2: WAVE_COLORS.PPG,
-  PR: WAVE_COLORS.PPG, TEMP: '#00daf3', NIBP: '#dfe2eb',
+  PR: WAVE_COLORS.PPG, TEMP: '#00e5ff', NIBP: '#55ddff',
 };
 
 export class WaveformRenderer {
@@ -56,7 +56,7 @@ export class WaveformRenderer {
       if (!prepared) continue;
       const { ctx, width, height } = prepared;
       // 网格仅作视觉定位，不声明物理走纸速度或电压标定。
-      ctx.strokeStyle = '#1c242d';
+      ctx.strokeStyle = '#203244';
       ctx.lineWidth = .5;
       ctx.beginPath();
       for (let x = 0; x < width; x += 40) { ctx.moveTo(x, 0); ctx.lineTo(x, height); }
@@ -68,7 +68,7 @@ export class WaveformRenderer {
       const high = Math.max(...points.map((p) => p.y));
       const span = high - low || 1;
       ctx.strokeStyle = WAVE_COLORS[channel];
-      ctx.lineWidth = 1.8;
+      ctx.lineWidth = 2;
       ctx.lineJoin = 'round';
       ctx.beginPath();
       let started = false;
@@ -112,9 +112,33 @@ export class WaveformRenderer {
       ctx.fillText(channel === 'TEMP' ? value.toFixed(1) : String(Math.round(value)), 0, y + 3);
       ctx.beginPath(); ctx.moveTo(36, y); ctx.lineTo(width, y); ctx.stroke();
     }
+    // 面积色只沿实际有效记录绘制；会话、来源和采集中断处均断开，不表示正常范围。
+    const gradient = ctx.createLinearGradient(0, 0, 0, height);
+    gradient.addColorStop(0, TREND_COLORS[channel] + '40');
+    gradient.addColorStop(1, TREND_COLORS[channel] + '04');
+    let segment: typeof records[number][] = [];
+    const fillSegment = () => {
+      if (segment.length > 1) {
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.moveTo(xAt(segment[0].timestamp), height - 8);
+        for (const item of segment) ctx.lineTo(xAt(item.timestamp), yAt(item.value as number));
+        ctx.lineTo(xAt(segment.at(-1)!.timestamp), height - 8);
+        ctx.closePath();
+        ctx.fill();
+      }
+      segment = [];
+    };
+    for (const record of records) {
+      const lastPoint = segment.at(-1);
+      if (typeof record.value !== 'number' || (lastPoint && (lastPoint.segment !== record.segment || lastPoint.source !== record.source || record.timestamp - lastPoint.timestamp >= 10000))) fillSegment();
+      if (typeof record.value === 'number') segment.push(record);
+    }
+    fillSegment();
+
     ctx.strokeStyle = TREND_COLORS[channel];
     ctx.fillStyle = TREND_COLORS[channel];
-    ctx.lineWidth = 1.6;
+    ctx.lineWidth = 2;
     let previous: typeof records[number] | null = null;
     for (const record of records) {
       if (record.value === null) { previous = null; continue; }
@@ -122,8 +146,13 @@ export class WaveformRenderer {
       if (Array.isArray(record.value)) {
         // NIBP 只有 SYS/DIA 成对离散结果，不连成虚构的连续压力波形。
         const [sys, dia] = record.value;
+        ctx.strokeStyle = '#528caa';
+        ctx.lineWidth = 1.4;
         ctx.beginPath(); ctx.moveTo(x, yAt(sys)); ctx.lineTo(x, yAt(dia)); ctx.stroke();
-        for (const value of [sys, dia]) { ctx.beginPath(); ctx.arc(x, yAt(value), 2.5, 0, Math.PI * 2); ctx.fill(); }
+        for (const [value, color] of [[sys, '#f0f8ff'], [dia, TREND_COLORS.NIBP]] as const) {
+          ctx.fillStyle = color;
+          ctx.beginPath(); ctx.arc(x, yAt(value), 3.5, 0, Math.PI * 2); ctx.fill();
+        }
       } else {
         const y = yAt(record.value);
         if (previous && typeof previous.value === 'number' && previous.segment === record.segment && previous.source === record.source && record.timestamp - previous.timestamp < 10000) {

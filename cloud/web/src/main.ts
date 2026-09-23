@@ -30,9 +30,8 @@ const socket = new MonitorSocket({
   onStatusChange: (statusText, isOnline) => {
     store.setConnection(statusText, isOnline);
   },
-  onAuthFailed: (reason) => {
-    accessDialog.setMessage(reason);
-    accessDialog.show();
+  onConnectionFailed: (title, reason) => {
+    accessDialog.showError(title, reason);
   },
   onDisconnected: (reason) => {
     store.clearLive(reason);
@@ -49,6 +48,14 @@ const statusBar = new StatusBar({
     store.setWindowMs(windowSeconds * 1000);
   },
   onOpenAccess: () => {
+    accessDialog.show();
+  },
+  onCloseAccess: () => {
+    accessDialog.close();
+  },
+  onDisplayError: (message) => {
+    // 全屏权限失败只影响本地显示，重新呈现设置提示，不改变数据连接。
+    accessDialog.setMessage(message);
     accessDialog.show();
   },
 });

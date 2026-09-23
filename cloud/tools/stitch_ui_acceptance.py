@@ -48,7 +48,8 @@ def main():
 
     def control(**values):
         temporary = args.control.with_suffix('.tmp')
-        temporary.write_text(json.dumps(values), encoding='utf-8')
+        # 功能回归使用固定值便于精确断言；日常预览默认为多样化场景。
+        temporary.write_text(json.dumps({'scenario': 'fixed', **values}), encoding='utf-8')
         temporary.replace(args.control)
 
     def passed(name):
@@ -198,9 +199,12 @@ def main():
         cli('click', '[data-window="8"]')
         cli('click', '#fullscreen')
         wait('document.fullscreenElement !== null')
+        assert evaluate('!document.querySelector("#access-dialog").open')
+        # 进入全屏后设置层必须退出；重新打开设置才能操作退出按钮。
+        cli('click', '#open-settings')
         cli('click', '#fullscreen')
         wait('document.fullscreenElement === null')
-        cli('click', '#close-access')
+        assert evaluate('!document.querySelector("#access-dialog").open')
         passed('25 设置、显示窗口和全屏可操作')
         assert evaluate('!location.search && !location.hash.includes("token") && localStorage.length === 0 && sessionStorage.length === 0 && document.querySelector("#view-token").value === ""')
         passed('26 Token 不在 URL、存储或输入框中保留')
@@ -226,11 +230,44 @@ def main():
         resources = evaluate('[...performance.getEntriesByType("resource")].map(x=>new URL(x.name).origin).every(x=>x===location.origin)')
         assert resources
         passed('30 运行时仅加载本源资源，无 CDN 或外部字体')
+        # 在独立回环验收实例观察默认动态场景，不能扰动用户正在查看的预览。
+        control(scenario='varied')
+        connect()
+        route('overview')
+        observed = {name: set() for name in ('HR', 'RR', 'SpO2', 'PR', 'TEMP')}
+        deadline = time.monotonic() + 35
+        while time.monotonic() < deadline:
+            values = evaluate('Object.fromEntries(["HR","RR","SpO2","PR","TEMP"].map(k=>[k,document.getElementById("value-"+k).textContent]))')
+            for name, value in values.items():
+                observed[name].add(value)
+            time.sleep(2)
+        assert all(len(values - {'--'}) > 1 for values in observed.values())
+        passed('31 默认预览各标量随时间变化，不预填假历史')
+        screenshot('overview-varied')
+        route('spo2')
+        assert evaluate('getComputedStyle(document.querySelector("#value-SpO2")).color === "rgb(255, 82, 103)"')
+        assert evaluate('getComputedStyle(document.querySelector("[data-route=spo2]")).color === "rgb(255, 82, 103)"')
+        wait('(() => {const c=document.querySelector("#wave-PPG");return [...c.getContext("2d").getImageData(0,0,c.width,c.height).data].some((v,i,a)=>i%4===0 && v>200 && a[i+1]<120 && a[i+2]<160);})()')
+        screenshot('spo2-varied')
+        passed('32 血氧读数、PPG 波形与活动导航统一红色')
+        route('nibp')
+        count = evaluate('document.querySelector("#history-rows").children.length')
+        assert 2 <= count <= 3
+        evaluate('window.__blobFactory=URL.createObjectURL;window.__csv=null;URL.createObjectURL=function(blob){blob.text().then(text=>window.__csv=text);return window.__blobFactory(blob);};true')
+        cli('click', '#export-csv')
+        wait('window.__csv !== null')
+        assert evaluate(r'(() => {const times=window.__csv.split("\r\n").slice(1).map(line=>Date.parse(line.split("\",\"")[0].slice(1)));return times.slice(1).every((t,i)=>t-times[i]===30000);})()')
+        evaluate('URL.createObjectURL=window.__blobFactory;delete window.__csv;true')
+        screenshot('nibp-varied')
+        passed('33 NIBP 约每 30 秒一条，CSV 测量时间间隔 30000ms')
+        for key in ('ecg', 'resp', 'temp'):
+            route(key)
+            screenshot(key + '-varied')
         report = {'passed': len(checks), 'checks': checks, 'simulation': True, 'target': 'loopback-only',
                   'timestamp': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}
         (args.output / 'browser-acceptance.json').write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
     finally:
-        control()
+        control(scenario='varied')
         cli('close')
 
 

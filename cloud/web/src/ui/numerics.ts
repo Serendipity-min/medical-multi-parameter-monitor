@@ -13,6 +13,11 @@ export class NumericsView {
   }
 
   public update(vm: MonitorViewModel): void {
+    // 有效性和通道颜色分开表达；VALID 不推断生理正常或探头自检结果。
+    for (const reading of Object.values(vm.scalars)) {
+      const badge = this.getEl(`state-${reading.channel}`);
+      if (badge) badge.dataset.validity = reading.validity;
+    }
     // 1. HR 心率
     const hr = vm.scalars.HR;
     this.setText('value-HR', hr.formatted);

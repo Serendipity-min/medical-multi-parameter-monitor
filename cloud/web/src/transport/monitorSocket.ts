@@ -6,7 +6,7 @@ import type { Snapshot } from '../types';
 export interface TransportCallbacks {
   onSnapshot: (data: Snapshot) => void;
   onStatusChange: (statusText: string, isOnline: boolean) => void;
-  onAuthFailed: (reason: string) => void;
+  onConnectionFailed: (title: string, reason: string) => void;
   onDisconnected: (reason: string) => void;
 }
 
@@ -39,6 +39,7 @@ export class MonitorSocket {
 
     const ws = new WebSocket(url);
     this.socket = ws;
+    let incompatibleSnapshot = false;
 
     ws.onopen = () => {
       if (this.socket !== ws) return;
@@ -57,7 +58,10 @@ export class MonitorSocket {
         this.callbacks.onStatusChange('监护通道已连接', true);
         this.callbacks.onSnapshot(data);
       } catch (err) {
-        ws.close(1008);
+        // 本地协议校验失败不能误报为令牌错误，保留失败类别供关闭回调使用。
+        incompatibleSnapshot = true;
+        // 浏览器主动关闭只允许 1000 或 3000–4999；使用应用码避免 close 自身抛错。
+        ws.close(4002);
       }
     };
 
@@ -67,9 +71,15 @@ export class MonitorSocket {
       this.callbacks.onStatusChange('监护通道已断开', false);
       this.callbacks.onDisconnected('连接断开');
 
-      if (event.code === 1008) {
+      // 对端可能以普通关闭码响应本地主动关闭，不能丢失已确认的格式失败原因。
+      if (incompatibleSnapshot || event.code === 1008) {
         this.token = '';
-        this.callbacks.onAuthFailed('访问令牌或来源校验失败，请重新输入。');
+        this.callbacks.onConnectionFailed(
+          incompatibleSnapshot ? '数据格式不兼容' : '访问验证失败',
+          incompatibleSnapshot
+            ? '收到的数据格式与当前页面不兼容，已停止连接。请刷新页面后重试；这不表示访问令牌已过期。'
+            : '访问令牌无效或不匹配，或所选网关未获授权。请核对当前站点的完整令牌后重试；本机预览与服务器的令牌可能不同。',
+        );
         return;
       }
 
