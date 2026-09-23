@@ -1,0 +1,53 @@
+{
+  "recorded_at": "2026-09-22T11:01:51.278996+00:00",
+  "purpose": "user_requested_server_ui_review",
+  "ssh_alias": "tencent-codex",
+  "activation": {
+    "release": "stitch-ui-review-20260922-105734",
+    "previous_release": "mqtt-v07-phase2-20260920-01",
+    "bundle_sha256": "1bdb67d32740081fbc7744ab6b40fa3403951cdafbca575c67b30e09131b4711",
+    "web_index_verified": true,
+    "mqtt_connected": true,
+    "scenario": "varied",
+    "unchanged_service_pids": {
+      "medical-monitor": true,
+      "medical-monitor-mqtt": true,
+      "nginx": true
+    },
+    "backend_target_unchanged": true,
+    "source_head": "1a85d5c48b6930c6f00be1022dfb0a5938bbb421",
+    "uncommitted_preview": true,
+    "security_gate_executed": false,
+    "git_push_executed": false
+  },
+  "functional_verification": {
+    "https_page_matches_local_build": true,
+    "authenticated_snapshot_frames": 378,
+    "all_observed_sources_mock": true,
+    "scalar_unique_counts": {
+      "HR": 24,
+      "SPO2": 4,
+      "PR": 25,
+      "RR": 7,
+      "TEMP": 8
+    },
+    "nibp_measurements": 2,
+    "nibp_intervals_ms": [
+      30000
+    ],
+    "nibp_values_vary": true,
+    "service_states": {
+      "medical-monitor": "active",
+      "medical-monitor-mock": "active",
+      "medical-monitor-mqtt": "active",
+      "nginx": "active"
+    },
+    "passed": true
+  },
+  "security_gate_executed": false,
+  "github_push_executed": false,
+  "merge_executed": false,
+  "source_state": "uncommitted UI review changes on codex/p4-vite-clang-triage",
+  "existing_view_token_preserved": true,
+  "previous_release_required_for_shared_backend_and_venv": true
+}

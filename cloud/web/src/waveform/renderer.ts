@@ -1,13 +1,13 @@
-// Canvas 2D 渲染引擎：高刷新率波形扫描、DPR 自适应、采样断点起笔与 RR 算法趋势带。
-// 独立运作，不关心 MQTT/WebSocket/网关网络逻辑。
-
+// 全应用只有一个 RAF。路由销毁旧 Canvas 后自然停止该通道绘制，不销毁共享缓冲。
 import type { MonitorStore } from '../state/monitorStore';
-import type { Point, WaveChannel } from '../types';
+import type { ScalarChannel, WaveChannel } from '../types';
 
 export const WAVE_COLORS: Record<WaveChannel, string> = {
-  ECG: '#00e676',  // 经典监护高光绿 (G > 150, G > R*1.2)
-  RESP: '#ffd600', // 呼吸警示琥珀黄 (R > 160, G > 130, B < 150)
-  PPG: '#00e5ff',  // 容积血氧青蓝 (R:0, G:229, B:255)
+  ECG: '#39ff84', RESP: '#ffdf32', PPG: '#ff5267',
+};
+const TREND_COLORS: Record<ScalarChannel, string> = {
+  HR: WAVE_COLORS.ECG, RR: WAVE_COLORS.RESP, SpO2: WAVE_COLORS.PPG,
+  PR: WAVE_COLORS.PPG, TEMP: '#00e5ff', NIBP: '#55ddff',
 };
 
 export class WaveformRenderer {
@@ -32,138 +32,135 @@ export class WaveformRenderer {
     cancelAnimationFrame(this.animFrameId);
   }
 
-  // 按物理设备像素比设置位图，用 CSS 逻辑像素绘制，保证 Retina / 4K 屏无模糊与锯齿
-  private prepareCanvas(canvasId: string): { ctx: CanvasRenderingContext2D; width: number; height: number } | null {
-    const canvas = document.querySelector<HTMLCanvasElement>(`#${canvasId}`);
-    if (!canvas) return null;
-
+  private prepareCanvas(id: string) {
+    const canvas = document.getElementById(id) as HTMLCanvasElement | null;
+    if (!canvas || !canvas.clientWidth || !canvas.clientHeight) return null;
     const width = canvas.clientWidth;
     const height = canvas.clientHeight;
-    if (width === 0 || height === 0) return null;
-
     const dpr = window.devicePixelRatio || 1;
-    const targetWidth = Math.round(width * dpr);
-    const targetHeight = Math.round(height * dpr);
-
-    if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
-      canvas.width = targetWidth;
-      canvas.height = targetHeight;
+    if (canvas.width !== Math.round(width * dpr) || canvas.height !== Math.round(height * dpr)) {
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
     }
-
     const ctx = canvas.getContext('2d');
     if (!ctx) return null;
-
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, width, height);
-    return { ctx, width, height };
+    return { ctx, width, height, canvas };
   }
 
   public render(): void {
-    const now = performance.now();
-    const channels: WaveChannel[] = ['ECG', 'RESP', 'PPG'];
-
-    // 1. 绘制三大主波形通道（ECG, RESP, PPG）
-    for (const name of channels) {
-      const prepared = this.prepareCanvas(`wave-${name}`);
+    const now = this.store.frozenAt || performance.now();
+    for (const channel of ['ECG', 'PPG', 'RESP'] as WaveChannel[]) {
+      const prepared = this.prepareCanvas(`wave-${channel}`);
       if (!prepared) continue;
       const { ctx, width, height } = prepared;
-
-      // 绘制临床监护底纹微网格 (32px x 28px)
-      ctx.strokeStyle = '#16202c';
-      ctx.lineWidth = 0.6;
+      // 网格仅作视觉定位，不声明物理走纸速度或电压标定。
+      ctx.strokeStyle = '#203244';
+      ctx.lineWidth = .5;
       ctx.beginPath();
-      for (let x = 0; x < width; x += 32) {
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, height);
-      }
-      for (let y = 0; y < height; y += 28) {
-        ctx.moveTo(0, y);
-        ctx.lineTo(width, y);
-      }
+      for (let x = 0; x < width; x += 40) { ctx.moveTo(x, 0); ctx.lineTo(x, height); }
+      for (let y = 0; y < height; y += 32) { ctx.moveTo(0, y); ctx.lineTo(width, y); }
       ctx.stroke();
-
-      const buffer = this.store.buffers[name];
-      if (!buffer || buffer.length === 0) continue;
-
-      // 绘制生理走纸波形
-      ctx.strokeStyle = WAVE_COLORS[name];
-      ctx.lineWidth = 1.8;
+      const points = this.store.displayBuffer(channel).filter((p) => now - p.t <= this.store.windowMs && Number.isFinite(p.y));
+      if (!points.length) continue;
+      const low = Math.min(...points.map((p) => p.y));
+      const high = Math.max(...points.map((p) => p.y));
+      const span = high - low || 1;
+      ctx.strokeStyle = WAVE_COLORS[channel];
+      ctx.lineWidth = 2;
       ctx.lineJoin = 'round';
-      ctx.lineCap = 'round';
       ctx.beginPath();
-
       let started = false;
-      const windowMs = this.store.windowMs;
-
-      for (const point of buffer) {
-        const x = width * (1 - (now - point.t) / windowMs);
-        const y = height * (name === 'RESP' ? 0.5 - point.y * 0.4 : 0.73 - point.y * 0.58);
-
+      for (const point of points) {
+        const x = width * (1 - (now - point.t) / this.store.windowMs);
+        const y = height * (.84 - (point.y - low) / span * .68);
         if (x < 0 || x > width) continue;
-
-        // 核心安全规则：检测到采样间隔 > 100ms 或序列号断点时，强制重新起笔 moveTo
-        if (!started || point.gap) {
-          ctx.moveTo(x, y);
-          started = true;
-        } else {
-          ctx.lineTo(x, y);
-        }
+        if (!started || point.gap) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+        started = true;
       }
       ctx.stroke();
     }
+    this.renderTrend();
+  }
 
-    // 2. 绘制 RR 算法独立趋势带（最近 120 秒）
-    const preparedTrend = this.prepareCanvas('trend-RR');
-    if (preparedTrend) {
-      const { ctx, width, height } = preparedTrend;
-      const rrTrend = this.store.rrTrend;
-
-      const values = rrTrend.map((p) => p.y);
-      const low = values.length > 0 ? Math.floor(Math.min(10, ...values) / 5) * 5 : 10;
-      const high = values.length > 0 ? Math.ceil(Math.max(20, ...values) / 5) * 5 : 20;
-
-      const xAt = (t: number) => 32 + (width - 36) * (1 - (now - t) / 120000);
-      const yAt = (value: number) => 8 + (height - 16) * (1 - (value - low) / (high - low || 1));
-
-      // 趋势刻度与基准线
-      ctx.font = '10px "Segoe UI", sans-serif';
-      ctx.fillStyle = '#64748b';
-      ctx.strokeStyle = '#1e293b';
-      ctx.lineWidth = 0.7;
-
-      for (const value of [low, high]) {
-        const y = yAt(value);
-        ctx.fillText(String(value), 2, y + 3);
+  private renderTrend(): void {
+    const prepared = this.prepareCanvas('session-trend');
+    if (!prepared) return;
+    const { ctx, width, height, canvas } = prepared;
+    const channel = canvas.dataset.channel as ScalarChannel;
+    const records = this.store.displayHistory(channel);
+    const values = records.flatMap((r) => r.value === null ? [] : Array.isArray(r.value) ? r.value : [r.value]);
+    if (!values.length) return;
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const padding = Math.max((max - min) * .15, channel === 'TEMP' ? .1 : 1);
+    const low = min - padding;
+    const high = max + padding;
+    // 横轴是本次真实接收的采集时间范围，不虚构过去一小时的记录。
+    const first = Math.min(...records.map((r) => r.timestamp));
+    const last = Math.max(...records.map((r) => r.timestamp));
+    const xAt = (t: number) => last === first ? width / 2 : 40 + (width - 56) * (t - first) / (last - first);
+    const yAt = (value: number) => 12 + (height - 26) * (1 - (value - low) / (high - low));
+    ctx.font = '10px Consolas, monospace';
+    ctx.fillStyle = '#8996a4';
+    ctx.strokeStyle = '#2a323b';
+    ctx.lineWidth = .7;
+    for (const value of [low, (low + high) / 2, high]) {
+      const y = yAt(value);
+      ctx.fillText(channel === 'TEMP' ? value.toFixed(1) : String(Math.round(value)), 0, y + 3);
+      ctx.beginPath(); ctx.moveTo(36, y); ctx.lineTo(width, y); ctx.stroke();
+    }
+    // 面积色只沿实际有效记录绘制；会话、来源和采集中断处均断开，不表示正常范围。
+    const gradient = ctx.createLinearGradient(0, 0, 0, height);
+    gradient.addColorStop(0, TREND_COLORS[channel] + '40');
+    gradient.addColorStop(1, TREND_COLORS[channel] + '04');
+    let segment: typeof records[number][] = [];
+    const fillSegment = () => {
+      if (segment.length > 1) {
+        ctx.fillStyle = gradient;
         ctx.beginPath();
-        ctx.moveTo(30, y);
-        ctx.lineTo(width, y);
-        ctx.stroke();
-      }
-
-      // 趋势折线绘制
-      ctx.strokeStyle = WAVE_COLORS.RESP;
-      ctx.fillStyle = WAVE_COLORS.RESP;
-      ctx.lineWidth = 1.7;
-      ctx.beginPath();
-
-      let previous: Point | null = null;
-      for (const point of rrTrend) {
-        if (now - point.t > 120000) continue;
-        if (!previous || point.t - previous.t > 2500) {
-          ctx.moveTo(xAt(point.t), yAt(point.y));
-        } else {
-          ctx.lineTo(xAt(point.t), yAt(point.y));
-        }
-        previous = point;
-      }
-      ctx.stroke();
-
-      // 最新数值点发光指示
-      if (previous && now - previous.t < 5000) {
-        ctx.beginPath();
-        ctx.arc(xAt(previous.t), yAt(previous.y), 2.7, 0, Math.PI * 2);
+        ctx.moveTo(xAt(segment[0].timestamp), height - 8);
+        for (const item of segment) ctx.lineTo(xAt(item.timestamp), yAt(item.value as number));
+        ctx.lineTo(xAt(segment.at(-1)!.timestamp), height - 8);
+        ctx.closePath();
         ctx.fill();
       }
+      segment = [];
+    };
+    for (const record of records) {
+      const lastPoint = segment.at(-1);
+      if (typeof record.value !== 'number' || (lastPoint && (lastPoint.segment !== record.segment || lastPoint.source !== record.source || record.timestamp - lastPoint.timestamp >= 10000))) fillSegment();
+      if (typeof record.value === 'number') segment.push(record);
+    }
+    fillSegment();
+
+    ctx.strokeStyle = TREND_COLORS[channel];
+    ctx.fillStyle = TREND_COLORS[channel];
+    ctx.lineWidth = 2;
+    let previous: typeof records[number] | null = null;
+    for (const record of records) {
+      if (record.value === null) { previous = null; continue; }
+      const x = xAt(record.timestamp);
+      if (Array.isArray(record.value)) {
+        // NIBP 只有 SYS/DIA 成对离散结果，不连成虚构的连续压力波形。
+        const [sys, dia] = record.value;
+        ctx.strokeStyle = '#528caa';
+        ctx.lineWidth = 1.4;
+        ctx.beginPath(); ctx.moveTo(x, yAt(sys)); ctx.lineTo(x, yAt(dia)); ctx.stroke();
+        for (const [value, color] of [[sys, '#f0f8ff'], [dia, TREND_COLORS.NIBP]] as const) {
+          ctx.fillStyle = color;
+          ctx.beginPath(); ctx.arc(x, yAt(value), 3.5, 0, Math.PI * 2); ctx.fill();
+        }
+      } else {
+        const y = yAt(record.value);
+        if (previous && typeof previous.value === 'number' && previous.segment === record.segment && previous.source === record.source && record.timestamp - previous.timestamp < 10000) {
+          ctx.beginPath(); ctx.moveTo(xAt(previous.timestamp), yAt(previous.value)); ctx.lineTo(x, y); ctx.stroke();
+        }
+        ctx.beginPath(); ctx.arc(x, y, 2, 0, Math.PI * 2); ctx.fill();
+      }
+      previous = record;
     }
   }
 }

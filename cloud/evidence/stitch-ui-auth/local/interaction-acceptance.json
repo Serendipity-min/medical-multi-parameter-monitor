@@ -1,0 +1,23 @@
+{
+  "target": "loopback-only",
+  "simulation": true,
+  "checks": [
+    "normal 错误令牌出现独立失败弹窗",
+    "normal 仅有一个模态弹窗且不回显令牌",
+    "normal 校验失败不自动重试",
+    "关闭失败提示后导航恢复",
+    "fullscreen 错误令牌出现独立失败弹窗",
+    "fullscreen 仅有一个模态弹窗且不回显令牌",
+    "fullscreen 校验失败不自动重试",
+    "重新输入按钮打开设置并聚焦令牌框",
+    "正确令牌重试后连接成功并保留全屏",
+    "成功后设置不残留旧认证错误",
+    "冻结继续接收但不改变冻结读数，提示说明内存缓冲",
+    "本地不兼容快照单独提示，不归咎令牌过期",
+    "反馈流程无未捕获异常或 Promise 拒绝"
+  ],
+  "status": "passed",
+  "suite": "connection-feedback",
+  "passed": 13,
+  "timestamp": "2026-09-22T11:40:11Z"
+}

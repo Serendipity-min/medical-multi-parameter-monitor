@@ -10,8 +10,10 @@ import time
 import uuid
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'backend'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from app.models import CHANNELS, UNITS, WAVES
 from app.mqtt_adapter import configured_client
+from preview_signals import PreviewTimeline, scalar_value, waveform
 
 
 # 所有模拟源明确携带 synthetic；REPLAY 仅改变传输类别，不把合成数据伪装为 LIVE。
@@ -77,6 +79,8 @@ def run(config, control_path=None, duration=0):
         session, seq = uuid.uuid4().hex, 0
         capture_origin = int(time.time() * 1000)
         next_tick = time.monotonic()
+        preview_origin, preview_started = capture_origin, next_tick
+        preview_timeline = PreviewTimeline()
         client = configured_client(config, config['client_id'])
         will = payload(session, 2**53 - 1, 'GATEWAY_STATUS', 'OFFLINE', validity='OFFLINE')
         client.will_set(base + '/status', json.dumps(will), qos=1, retain=True)
@@ -141,19 +145,33 @@ def run(config, control_path=None, duration=0):
                 }
                 for node, streams in CHANNELS.items():
                     for stream in sorted(streams):
-                        if stream not in WAVES and seq % 5:
-                            continue
+                        varied = control.get('scenario') == 'varied'
+                        if varied:
+                            # 服务器审核预览复用本机节奏：血压 30s、体温 2s、其余标量 1s。
+                            # 未选择 varied 时保留原固定场景，已有验收的精确数值不变。
+                            captured = preview_timeline.capture(
+                                stream, time.monotonic() - preview_started,
+                                (source, control.get('validity', 'VALID')),
+                            )
+                            if captured is None:
+                                continue
+                            stream_value = scalar_value(stream, captured)
+                            stream_stamp = preview_origin + round(captured * 1000) - (60000 if source == 'REPLAY' else 0)
+                        else:
+                            if stream not in WAVES and seq % 5:
+                                continue
+                            stream_value, stream_stamp = values.get(stream), stamp
                         body = payload(
                             session,
                             seq,
                             stream,
-                            values.get(stream),
+                            stream_value,
                             source,
                             control.get('validity', 'VALID'),
-                            stamp,
+                            stream_stamp,
                         )
                         if stream in WAVES:
-                            body.update(wave(stream, seq))
+                            body.update(waveform(stream, captured) if varied else wave(stream, seq))
                         kind = 'replay' if source == 'REPLAY' else 'telemetry'
                         messages.append(
                             (

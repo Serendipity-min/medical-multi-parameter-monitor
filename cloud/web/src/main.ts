@@ -3,7 +3,9 @@
 
 import './style.css';
 import { AccessDialog } from './ui/accessDialog';
-import { setupMonitorDOM } from './ui/monitorView';
+import { setupMonitorDOM, renderRoute } from './ui/monitorView';
+import { HashRouter } from './router/hashRouter';
+import { SessionView } from './ui/sessionView';
 import { NumericsView } from './ui/numerics';
 import { StatusBar } from './ui/statusBar';
 import { MonitorStore } from './state/monitorStore';
@@ -18,6 +20,7 @@ setupMonitorDOM(app);
 const store = new MonitorStore();
 const renderer = new WaveformRenderer(store);
 const numerics = new NumericsView();
+const sessionView = new SessionView(store);
 
 // 3. 实例化纯网络传输层
 const socket = new MonitorSocket({
@@ -27,9 +30,8 @@ const socket = new MonitorSocket({
   onStatusChange: (statusText, isOnline) => {
     store.setConnection(statusText, isOnline);
   },
-  onAuthFailed: (reason) => {
-    accessDialog.setMessage(reason);
-    accessDialog.show();
+  onConnectionFailed: (title, reason) => {
+    accessDialog.showError(title, reason);
   },
   onDisconnected: (reason) => {
     store.clearLive(reason);
@@ -39,12 +41,21 @@ const socket = new MonitorSocket({
 // 4. 实例化顶部状态栏与鉴权弹窗
 const statusBar = new StatusBar({
   onGatewayChange: (gatewayId) => {
+    store.changeGateway(gatewayId);
     socket.changeGateway(gatewayId);
   },
   onWindowChange: (windowSeconds) => {
     store.setWindowMs(windowSeconds * 1000);
   },
   onOpenAccess: () => {
+    accessDialog.show();
+  },
+  onCloseAccess: () => {
+    accessDialog.close();
+  },
+  onDisplayError: (message) => {
+    // 全屏权限失败只影响本地显示，重新呈现设置提示，不改变数据连接。
+    accessDialog.setMessage(message);
     accessDialog.show();
   },
 });
@@ -60,10 +71,21 @@ const accessDialog = new AccessDialog({
 });
 
 // 5. 状态订阅：状态驱动 UI 刷新
-store.subscribe((state) => {
-  numerics.update(state.currentViewModel);
+const updateView = () => {
+  const state = store;
+  numerics.update(state.displayViewModel);
   statusBar.update(state.currentViewModel, state.isConnected, state.connectionText);
+  sessionView.update();
+};
+const router = new HashRouter((route) => {
+  renderRoute(route, document.getElementById('route-view')!);
+  sessionView.mount(route);
+  updateView();
 });
+router.start();
+store.subscribe(updateView);
+document.getElementById('open-settings')!.onclick = () => accessDialog.show();
+document.getElementById('freeze')!.onclick = () => store.toggleFreeze();
 
 // 6. 启动 Canvas 渲染循环
 renderer.start();
