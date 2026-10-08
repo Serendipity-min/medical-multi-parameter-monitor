@@ -1,6 +1,7 @@
 # Gateway-C MQTT 传输与阶段二 CANopen 汇聚
 
-STM32F407ZG 运行 Paho Embedded C MQTT 3.1.1，ESP8266 运行原厂 AT，以 SSL Socket 提供传输。
+P5 分支的 STM32F407ZG 裸机运行固定 coreMQTT v2.3.1 / MQTT 3.1.1；ESP8266 原厂 AT
+仍提供原有 SSL Socket。P4 继续保留 Hardened Paho 基线；P5 尚未真机验收或合入 P4。
 不需要商家 MQTT AT 固件，也未刷写 ESP8266 启动镜像。当前模块 AT 2.3.0.0-dev / Bin 2.2.0 ESP8266_1MB。
 这只描述 AT 构建，未通过 ROM 工具确认物理 Flash 容量。
 
@@ -10,8 +11,14 @@ Wi-Fi 插座实际使用 USART3 PB10/PB11；本机调试为 USART1 PA9/PA10、CO
 P5 当前接线已在前序记录核对，勿依据旧 P1 描述盲目改接。
 `python gateway/mqtt/build.py` 使用本机 ARM GNU 14.2、既有 ST 标准库与 HSI 16MHz。
 输出 build/gateway_mqtt.bin；本项目 C 代码以 -Wall -Wextra -Werror 构建。
-Paho 固定 commit 6035ea2d4922bb7558b444fb2a051743f3f1974b，许可证和唯一兼容补丁见 ../third_party/paho-embedded-c。
-当前入口已拆分为 CANopen Adapter、Canonical Model、Router、MQTT Transport。第一阶段原固件资源和验收结果保留在历史证据；当前资源见阶段二构建记录。采用有界 UART 中断环形缓冲和协作CAN调度，不是最终 RTOS/DMA 架构。
+coreMQTT 固定 commit `2beef04725328923e05e576b884212d53ec97af7`，原字节、MIT 许可和哈希见
+`../third_party/coreMQTT`；构建前离线核验 active 源白名单。Paho PATCH-01/02/03 与清单原样保留。
+主循环、CANopen、模型和 Router 未改。QoS1 发布成功必须经过匹配本次 packet ID 的 PUBACK；
+SEND OK 或 MQTT_Publish 返回成功均不足以 ACK Router。一个 context、一个在途 QoS1 记录。
+当前资源与测试见 [P5 阶段材料](../../doc/P/04_第四阶段_P5_coreMQTT裸机迁移/README.md)。
+
+普通测试：`python gateway/mqtt/tests/run_p5_host_tests.py`，详情见 [tests/README.md](tests/README.md)。
+本轮硬件 B01–B04 和统一 Security Gate 未运行。下文硬件/历史 acceptance 命令仅供获准窗口参考。
 
 ## 配置与烧录边界
 

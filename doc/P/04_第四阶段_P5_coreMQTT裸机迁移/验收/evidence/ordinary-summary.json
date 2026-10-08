@@ -1,0 +1,57 @@
+{
+  "code_commit": "505be8a9977997328e816761a3ca51cf9b7ce171",
+  "integrity_tests": {
+    "passed": 6,
+    "failed": 0
+  },
+  "can_router": [
+    {
+      "protocol": "CANopenNode",
+      "checks": 12,
+      "frames": 2588,
+      "dropped": 617,
+      "allocated_cumulative": 23504
+    },
+    {
+      "pipeline_checks": 11,
+      "cache_capacity": 32,
+      "overflow_dropped": 46,
+      "frame_bytes": 1032,
+      "router_bytes": 49576
+    }
+  ],
+  "canonical": {
+    "c_to_backend_messages": 41,
+    "streams": [
+      "ECG",
+      "GATEWAY_STATUS",
+      "HR",
+      "NIBP",
+      "NODE_STATUS",
+      "PPG",
+      "PR",
+      "RESP",
+      "RR",
+      "SPO2",
+      "TEMP"
+    ],
+    "browser_schema_version": 1
+  },
+  "backend": {
+    "passed": 28,
+    "failed": 0,
+    "warnings": 2
+  },
+  "raw_log_sha256": {
+    "arm-build.log": "f6e7eb3436cdf964c78870a5beddc81580b3587fd3216703e0236b328dd93d48",
+    "backend.log": "c77e644273499416d60b63f1fe181ef728178808da121d6d972d3073e6b9cec8",
+    "can-router.log": "84648019558dae2be267dede67629453d8c478b1ae9631d06af60944b0344de7",
+    "canonical.log": "0af103fc8950457277f1e2834e513d6e0fec096acf00631aaf0c947fe01c9869",
+    "host.log": "78d589841d928097efd9f96cf9a8d9495cf19e66053eb4316d6cbccc08e10443",
+    "integrity-tests.log": "c134e305a661e114ef2d94975c277aceb570ae446b13f84d53133d315062608b"
+  },
+  "security_gate": "NOT_AUTHORIZED/NOT_RUN",
+  "hardware": "NOT_RUN",
+  "hosted_semgrep": "AUTHORIZED_SEPARATELY_PENDING",
+  "isolated_broker": "BLOCKED_NOT_INSTALLED"
+}
