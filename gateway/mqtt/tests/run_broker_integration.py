@@ -285,7 +285,7 @@ def main():
               'code_commit': os.environ.get('P5_COMMIT') or subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
               'broker': 'Mosquitto 2.0.21 Debian 2.0.21-1', 'transport': 'POSIX TCP loopback; ESP/TLS NOT_RUN',
               'physical_nodes': False, 'real_patient_data': False, 'security_gate': 'NOT_AUTHORIZED/NOT_RUN',
-              'baseline': P4_SHA, 'checks': [], 'variants': {}}
+              'baseline': P4_SHA, 'checks': [], 'variants': {}, 'broker_cleanup': []}
     # 摘要绑定真实编译文件；旧 HEAD 只代表父提交，不能冒充未提交夹具已存在于该提交。
     inputs = [MQTT / 'tests/broker_gateway.c', Path(__file__),
               MQTT / 'tests/mocks/p4_platform_for_broker.h',
@@ -357,6 +357,7 @@ def main():
                 if late: late.close()
                 if observer: observer.close()
                 broker.close()
+                report['broker_cleanup'].append({'pid': broker.process.pid, 'stopped': broker.process.poll() is not None})
         check('p4_p5_normal_payload_and_will_equivalence', report['variants']['P4'] == report['variants']['P5'])
         for mode in ('delay', 'drop'):
             broker = Broker(runtime, out / mode)
@@ -387,6 +388,9 @@ def main():
                 if proxy: proxy.close()
                 if observer: observer.close()
                 broker.close()
+                report['broker_cleanup'].append({'pid': broker.process.pid, 'stopped': broker.process.poll() is not None})
+        check('all_owned_isolated_brokers_stopped', len(report['broker_cleanup']) == 4
+              and all(item['stopped'] for item in report['broker_cleanup']))
         report['result'] = 'PASS'
     except BaseException as error:
         report['result'] = 'FAIL'
