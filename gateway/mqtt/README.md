@@ -20,6 +20,12 @@ SEND OK 或 MQTT_Publish 返回成功均不足以 ACK Router。一个 context、
 普通测试：`python gateway/mqtt/tests/run_p5_host_tests.py`，详情见 [tests/README.md](tests/README.md)。
 本轮硬件 B01–B04 和统一 Security Gate 未运行。下文硬件/历史 acceptance 命令仅供获准窗口参考。
 
+P0 补充：保留 assert，Gateway 侧固定输出 `GW ASSERT_FATAL` 后停机；UART 每字符最多
+8192 次就绪检查，禁止用 stdio/OS signal、关闭 assert 或自动复位来消除告警。现场 UART
+不可用时跳过输出，`gateway_assert_latched=1` 仍可供后续获准调试观察。软件单测与 ARM 反汇编
+已验证实现路径，实际串口与停机行为仍待硬件窗口。隔离 Mosquitto 的 30 项普通对照已通过，
+详见 [P0 补充证据](../../doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/P5_P0_证据与资源补充_v1.0.md)。
+
 ## 配置与烧录边界
 
 1. 烧录前用 J-Link 对原始 1MiB Flash 双读并验证一致，备份放在仓库外；记录哈希。

@@ -9,7 +9,7 @@
 | RUNBOOK / MAINTENANCE | [云网关接管 v1.1](01_第一阶段_MQTT云端/合同/P_云网关实现原理_代码设计与维护接管手册_v1.1.md)、[统一维护手册 v1.1](90_维护/多参数监护仪_P端云网关维护手册与工作流程_v1.1.md) | P4 现行维护入口；v1.0 留作历史 |
 | EVIDENCE / ACCEPTANCE | [第一阶段](01_第一阶段_MQTT云端/README.md)、[第二阶段结项](02_第二阶段_CANopen可靠性/验收/P_第二阶段_CANopen汇聚与Gateway可靠性结项说明_v0.2.md)、[六页 UI 验收](03_第三阶段_UI重构/验收/02_Stitch六页面最终替换与安全准出报告_2026-09-22.md)、[安全证据](90_维护/README.md) | 记录当时真实测试和未覆盖范围，不回填伪历史 |
 | HISTORY | [99 历史](99_历史/README.md) | 被替代合同及 WSS 成果，仅供追溯 |
-| P5 | [正式合同](P5_coreMQTT裸机迁移正式执行合同_v1.0.md)、[设计/普通测试/资源证据](04_第四阶段_P5_coreMQTT裸机迁移/README.md) | 裸机 coreMQTT 3.1.1 软件迁移；待隔离 Broker、真机、动态资源及单独 Security Gate；未合并 P4 |
+| P5 | [正式合同](P5_coreMQTT裸机迁移正式执行合同_v1.0.md)、[设计/普通测试/资源证据](04_第四阶段_P5_coreMQTT裸机迁移/README.md) | 软件、P0 assert 处置与隔离 Broker 对照通过；待真机、动态资源及单独 Security Gate；未合并 P4 |
 
 阶段状态：第一阶段 MQTT/Cloud 已完成；第二阶段在 **CANopen 测试节点和 Router** 范围内阶段准出；第三阶段完成 Vite 7.3.5 六页面工程样机 UI。Paho P4.1 安全整改与统一 Security Gate 已建立，PR #4 的最终 HEAD 取得条件通过，**不等于 release 或真实数据准出**。当前仍未完成真实 Node-A/B、外部三板 CAN、正式 RR 算法、Flash 持久缓存、FreeRTOS 迁移、24h 稳定性和 Release Security Gate。
 

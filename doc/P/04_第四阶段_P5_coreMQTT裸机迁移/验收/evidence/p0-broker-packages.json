@@ -1,0 +1,50 @@
+{
+  "source": "Debian cached apt index + official HTTPS packages",
+  "packages": [
+    {
+      "Package": "mosquitto",
+      "Version": "2.0.21-1",
+      "Filename": "pool/main/m/mosquitto/mosquitto_2.0.21-1_amd64.deb",
+      "Size": "274344",
+      "SHA256": "7687db9cd62d8f59da33a511d8ca202a653edf9c164afc56e9a1efc7a2d5abe7"
+    },
+    {
+      "Package": "libmosquitto1",
+      "Version": "2.0.21-1",
+      "Filename": "pool/main/m/mosquitto/libmosquitto1_2.0.21-1_amd64.deb",
+      "Size": "96128",
+      "SHA256": "d249f578c6e65483e92e9ff2fdee24b9526ebebdac6bdab111b1633da488b30f"
+    },
+    {
+      "Package": "libcjson1",
+      "Version": "1.7.18-3.1+deb13u1",
+      "Filename": "pool/main/c/cjson/libcjson1_1.7.18-3.1+deb13u1_amd64.deb",
+      "Size": "29848",
+      "SHA256": "e10b7fb966251f4f09690cb35f9e8fed6924194ec2d6973910d9e157cda82657"
+    },
+    {
+      "Package": "libdlt2",
+      "Version": "2.18.10-10+b1",
+      "Filename": "pool/main/d/dlt-daemon/libdlt2_2.18.10-10+b1_amd64.deb",
+      "Size": "62432",
+      "SHA256": "93c5c2a51d0de4bbaa0a7d2c457d8719bbcb73a1d74210f83f243b55b78aec31"
+    },
+    {
+      "Package": "libwebsockets19t64",
+      "Version": "4.3.5-1+deb13u2",
+      "Filename": "pool/main/libw/libwebsockets/libwebsockets19t64_4.3.5-1+deb13u2_amd64.deb",
+      "Size": "230780",
+      "SHA256": "d518b148939adffa78e60c6a6129150b81643ee89d8948d19f8ac71e0f3c8553"
+    },
+    {
+      "Package": "libwrap0",
+      "Version": "7.6.q-36",
+      "Filename": "pool/main/t/tcp-wrappers/libwrap0_7.6.q-36_amd64.deb",
+      "Size": "55256",
+      "SHA256": "cde12afa15d6b1556c5e0564d22edf3b99e6b8fa94c59ccd8b8eebbb62dc19ec"
+    }
+  ],
+  "system_install": false,
+  "staging_cleanup": "BLOCKED_BY_AUTOMATIC_APPROVAL",
+  "staging_directory": "E:/Server_file/P5-isolated-mosquitto-20261008"
+}

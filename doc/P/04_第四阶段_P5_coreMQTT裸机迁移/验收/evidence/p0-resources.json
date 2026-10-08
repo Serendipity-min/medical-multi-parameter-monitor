@@ -1,0 +1,70 @@
+{
+  "generated_at": "2026-10-08T04:05:16.940376+00:00",
+  "code_commit": "e598fc63719acdf49a99c6da46c656dc8c607782",
+  "P4": {
+    "sections": {
+      ".isr_vector": 392,
+      ".text": 29676,
+      ".init": 4,
+      ".fini": 4,
+      ".ARM": 8,
+      ".data": 88,
+      ".bss": 87300,
+      "._user_heap_stack": 32772,
+      ".ARM.attributes": 48,
+      ".comment": 69,
+      ".debug_line_str": 457,
+      ".debug_frame": 2132
+    },
+    "static_ram": 87388,
+    "ram_with_reservation": 120160,
+    "elf_sha256": "1b3d646fdf72603cb3455be4a9f34b04b9b5c9ea35902740a856a59ea490a5b7",
+    "bin_sha256": "5fd386b8bfe0bcf54d4f53ffb1ec6483d086a1c3287b4fe6c37a3ddeacd90547",
+    "bin_bytes": 30180,
+    "buffer_symbols": [
+      "20001260 00000044 b client",
+      "200012a4 00000008 b network",
+      "20000860 00000200 b rx_buffer",
+      "20000a60 00000800 b tx_buffer"
+    ]
+  },
+  "P5_P0": {
+    "sections": {
+      ".isr_vector": 392,
+      ".text": 35048,
+      ".init": 4,
+      ".fini": 4,
+      ".ARM": 8,
+      ".data": 88,
+      ".bss": 87348,
+      "._user_heap_stack": 32772,
+      ".ARM.attributes": 48,
+      ".comment": 69,
+      ".debug_line_str": 457,
+      ".debug_frame": 2132
+    },
+    "ram_with_reservation": 120208,
+    "static_ram": 87436,
+    "bin_bytes": 35552,
+    "elf_sha256": "c5eb2278669fe520c391c0e4dc69a13539686d724bdff6724cc4cc041e3f9a35",
+    "bin_sha256": "fd81076b9b34ad0a8f4ee35c08cd7ea14704f6d7b04620741cdf083c9c6c1069"
+  },
+  "removed_symbols": [
+    "abort",
+    "raise",
+    "_kill",
+    "_getpid",
+    "_exit"
+  ],
+  "assert_enabled": true,
+  "arm_build_warning_count": 0,
+  "dynamic_resources": "NOT_MEASURED",
+  "hardware": "NOT_RUN",
+  "security_gate": "NOT_AUTHORIZED/NOT_RUN",
+  "raw_log_sha256": {
+    "p0-arm-final.log": "d8f793786641fe3516302b2d1884f9a735f1457230d669cd956ca8b02bb75d1f",
+    "p0-broker-final.log": "6c895938a5d3d3707dcdbd4f5f9ca892063f7174f65b3893a7fa20407b52d6b2",
+    "p0-host-final.log": "bc49a131b36e5cfda28c558c76b2754b3dcb5812a42c6a7fb0617fd21049e343",
+    "p0-integrity-final.log": "7537b9984c8afbb8597dae0701e7aa6796f19dc023797ef5e6d2beb1418a7ab9"
+  }
+}
