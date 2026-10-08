@@ -7,7 +7,7 @@
 
 软件迁移、ARM 构建、42 项 C 普通用例、6 项来源用例通过；隔离真实 Mosquitto 的 30 项
 P4/P5 对照与 Will/retain/PUBACK/保活通过。assert 的 OS 桩依赖已由获授权的有界诊断停机替换。
-正式 ESP/TLS 真机准出、动态性能和统一 Security Gate 尚未完成。
+正式 ESP/TLS 合成 Smoke、Wi-Fi 恢复和原 Flash 全片恢复已通过；动态性能及统一 Security Gate 尚未完成。
 用户另外授权本次 GitHub App 自动 Semgrep 检查；它与统一 Security Gate 的授权和准出分开记录。
 P4/main、A/B、CANopen/Router/模型、Cloud 和历史证据未改；P6 未启动。
 
@@ -21,6 +21,8 @@ P4/main、A/B、CANopen/Router/模型、Cloud 和历史证据未改；P6 未启�
 - [P0 最新证据及资源](验收/P5_P0_证据与资源补充_v1.0.md)
 - [已授权真机窗口：AT前置STOP及原Flash恢复](验收/P5_真机窗口预检STOP与恢复报告_20261008.md)
 - [AT独立复核：24/24通过、原Flash全片恢复](验收/P5_ESP8266_AT独立复核报告_20261008.md)
+- [真机合成Smoke/Wi-Fi恢复与完整Flash恢复](验收/P5_真机合成Smoke与WiFi恢复报告_20261008.md)
 
 2026-10-08 AT 独立复核后，当前 AT 前置条件已建立；历史故障的具体根因仍未被证实。
-原 STOP 报告保留当时结果，Smoke/Wi-Fi 恢复在获准窗口继续执行，不能由 AT 通过代替。
+原 STOP 报告保留当时结果。后续获准窗口B01/B02/B04已实际通过；首轮Wi-Fi观察期限不足及
+重试结果分别归档。30秒断网触发32帧缓存淘汰，最后lost=203，不宣称无损。

@@ -1,7 +1,7 @@
 # Gateway-C MQTT 传输与阶段二 CANopen 汇聚
 
 P5 分支的 STM32F407ZG 裸机运行固定 coreMQTT v2.3.1 / MQTT 3.1.1；ESP8266 原厂 AT
-仍提供原有 SSL Socket。P4 继续保留 Hardened Paho 基线；P5 尚未真机验收或合入 P4。
+仍提供原有 SSL Socket。P4 继续保留 Hardened Paho 基线；P5 真机合成Smoke/Wi-Fi恢复已通过，全阶段待审。
 不需要商家 MQTT AT 固件，也未刷写 ESP8266 启动镜像。当前模块 AT 2.3.0.0-dev / Bin 2.2.0 ESP8266_1MB。
 这只描述 AT 构建，未通过 ROM 工具确认物理 Flash 容量。
 
@@ -18,7 +18,10 @@ SEND OK 或 MQTT_Publish 返回成功均不足以 ACK Router。一个 context、
 当前资源与测试见 [P5 阶段材料](../../doc/P/04_第四阶段_P5_coreMQTT裸机迁移/README.md)。
 
 普通测试：`python gateway/mqtt/tests/run_p5_host_tests.py`，详情见 [tests/README.md](tests/README.md)。
-本轮硬件 B01–B04 和统一 Security Gate 未运行。下文硬件/历史 acceptance 命令仅供获准窗口参考。
+2026-10-08获准窗口B01/B02/B04通过，原1MiB完整Flash已恢复并独立回读一致；B03和统一Security Gate未授权。
+详见[真机报告](../../doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/P5_真机合成Smoke与WiFi恢复报告_20261008.md)。
+30秒断网使原32帧缓存满载，最后lost=203，不代表无损采集。动态资源对照仍待审。
+下文硬件/历史 acceptance 命令仅供获准窗口参考。
 
 P0 补充：保留 assert，Gateway 侧固定输出 `GW ASSERT_FATAL` 后停机；UART 每字符最多
 8192 次就绪检查，禁止用 stdio/OS signal、关闭 assert 或自动复位来消除告警。现场 UART
