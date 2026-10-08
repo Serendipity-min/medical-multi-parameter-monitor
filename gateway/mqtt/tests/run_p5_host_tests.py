@@ -36,6 +36,7 @@ def main() -> int:
     report['source_sha256'] = {p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
                                for p in inputs}
     suites = {'transport': ['mqtt_transport_adapter.c'],
+              'assert_fault': ['gateway_assert.c'],
               'qos_ack': ['mqtt_transport_adapter.c', 'gateway_transport.c'],
               'connect_keepalive': ['mqtt_transport_adapter.c', 'gateway_transport.c']}
     for name, project_sources in suites.items():
@@ -44,7 +45,9 @@ def main() -> int:
                    '-I' + str(VENDOR / 'source/interface'),
                    *[str(MQTT / 'src' / source) for source in project_sources],
                    str(MQTT / f'tests/test_p5_{name}.c'), '-o', str(out / name)]
-        if name != 'transport':
+        if name == 'assert_fault':
+            command[1:1] = ['-DGATEWAY_ASSERT_HOST_TEST']
+        elif name != 'transport':
             # 编译同一官方库与同一模型/Router，只替换 ESP 字节 I/O 和固定合成配置。
             command[1:1] = ['-DGATEWAY_MQTT_HOST_TEST',
                             str(MQTT / 'tests/mocks/mock_esp.c'),
