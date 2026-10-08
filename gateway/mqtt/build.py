@@ -1,4 +1,4 @@
-"""冻结 Paho 源码与平台头，复用已验证的 F407 HSI/标准库构建基础。"""
+"""固定 coreMQTT v2.3.1，复用原 F407 裸机构建；不连接硬件或网络服务。"""
 
 import importlib.util
 from pathlib import Path
@@ -6,14 +6,14 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parent
-# 编译前只读核验 Paho 原始/补丁 SHA 和显式源白名单；失败时不生成新固件。
+# 编译前离线核验 coreMQTT 固定原字节和 active 白名单；不运行安全回归。
 subprocess.run(
-    [sys.executable, str(ROOT.parent / 'third_party/verify_paho_integrity.py')], check=True
+    [sys.executable, str(ROOT.parent / 'third_party/verify_coremqtt_integrity.py')], check=True
 )
 spec = importlib.util.spec_from_file_location('probe_build', ROOT.parent / 'esp_at_probe/build.py')
 base = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(base)
-vendor = ROOT.parent / 'third_party/paho-embedded-c'
+vendor = ROOT.parent / 'third_party/coreMQTT'
 build = ROOT / 'build'
 build.mkdir(exist_ok=True)
 canopen = ROOT.parent / 'canopen'
@@ -22,20 +22,21 @@ includes = [
     ROOT / 'src',
     canopen / 'src',
     core,
-    ROOT.parent / 'third_party/coreMQTT/source/include',
-    ROOT.parent / 'third_party/coreMQTT/source/interface',
+    vendor / 'source/include',
+    vendor / 'source/interface',
     *base.INCLUDES,
-    vendor / 'MQTTClient-C/src',
-    vendor / 'MQTTPacket/src',
 ]
 flags = [
     *base.COMMON_FLAGS,
     '-DCO_MULTIPLE_OD',
-    '-DMQTTCLIENT_PLATFORM_HEADER=gateway_platform.h',
-    '-DMAX_MESSAGE_HANDLERS=1',
     *[f'-I{path}' for path in includes],
 ]
 # 入口、项目适配和固定上游核心分别列出；这里仅构建文件，不连接开发板或烧录。
+mqtt_sources = [
+    vendor / 'source/core_mqtt.c',
+    vendor / 'source/core_mqtt_serializer.c',
+    vendor / 'source/core_mqtt_state.c',
+]
 sources = [
     *sorted((ROOT / 'src').glob('*.c')),
     *sorted((canopen / 'src').glob('*.c')),
@@ -45,13 +46,7 @@ sources = [
     core / 'CANopen.c',
     *sorted((core / '301').glob('*.c')),
     *base.SOURCES[1:],
-    vendor / 'MQTTClient-C/src/MQTTClient.c',
-    vendor / 'MQTTPacket/src/MQTTConnectClient.c',
-    vendor / 'MQTTPacket/src/MQTTDeserializePublish.c',
-    vendor / 'MQTTPacket/src/MQTTPacket.c',
-    vendor / 'MQTTPacket/src/MQTTSerializePublish.c',
-    vendor / 'MQTTPacket/src/MQTTSubscribeClient.c',
-    vendor / 'MQTTPacket/src/MQTTUnsubscribeClient.c',
+    *mqtt_sources,
 ]
 objects = []
 for source in sources:
@@ -81,6 +76,7 @@ subprocess.run(
         '-T',
         str(ROOT / 'STM32F407ZGT6_FLASH.ld'),
         '-Wl,--gc-sections',
+        '-Wl,-Map=' + str(build / 'gateway_mqtt.map'),
         '--specs=nano.specs',
         '--specs=nosys.specs',
         '-o',

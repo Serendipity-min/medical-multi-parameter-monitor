@@ -1,7 +1,6 @@
 #ifndef GATEWAY_TRANSPORT_H
 #define GATEWAY_TRANSPORT_H
 #include "gateway_platform.h"
-#include "MQTTClient.h"
 #include "../../data_model/model.h"
 int gateway_config_valid(void);
 uint32_t gateway_epoch(void);

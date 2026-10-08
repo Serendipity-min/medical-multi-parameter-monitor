@@ -1,7 +1,7 @@
 name: Gateway and cloud checks
 on:
   push:
-    branches: [dev/p-gateway-cloud-v07, fix/p4-security-closeout]
+    branches: [dev/p-gateway-cloud-v07, fix/p4-security-closeout, P5-coremqtt-baremetal]
   pull_request:
     branches: [main, integration/v0.7, P4]
   workflow_dispatch:
@@ -14,6 +14,9 @@ jobs:
   test-and-build:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      # 用户在 P5 预检裁定中授权该分支仅跑普通测试；不把 PR 当安全门授权。
+      P5_SCOPE: ${{ github.head_ref == 'P5-coremqtt-baremetal' || github.ref_name == 'P5-coremqtt-baremetal' }}
     steps:
       # 固定 Action 提交；CI 仅做无凭据测试和构建，不连接服务器或开发板。
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -30,12 +33,20 @@ jobs:
       - name: Backend and operations regressions
         run: python -m pytest cloud/backend/tests -q
       - name: Paho vendor integrity and Gateway source allowlist
+        if: env.P5_SCOPE != 'true'
         run: |
           python gateway/third_party/verify_paho_integrity.py
           python -m unittest discover -s gateway/third_party/tests -p 'test_*.py'
       # 固定本机输入与现有 ASan/UBSan 用例；不进行随机输入、网络测试或自动扫描。
       - name: Fixed MQTT sanitizer regressions
+        if: env.P5_SCOPE != 'true'
         run: python gateway/canopen/run_security_regression.py
+      - name: P5 pinned coreMQTT and ordinary MQTT regressions
+        if: env.P5_SCOPE == 'true'
+        run: |
+          python gateway/third_party/verify_coremqtt_integrity.py
+          python gateway/mqtt/tests/run_p5_host_tests.py
+          python -m unittest discover -s gateway/mqtt/tests -p 'test_p5_integrity.py'
       - name: CANopenNode protocol and offline router
         run: python gateway/canopen/build_host.py
       - name: C canonical frames accepted by Backend

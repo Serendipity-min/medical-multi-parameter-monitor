@@ -14,6 +14,11 @@ static unsigned char reply[4096], network_bytes[256];
 static unsigned int reply_length, network_length, network_offset;
 static void (*poll_callback)(void);
 static int polling;
+/* AT 内部单调计时独立于 MQTT 库和 SNTP epoch，不再导出 Paho Timer 类型。 */
+typedef struct
+{
+    uint32_t deadline;
+} Timer;
 
 void platform_set_poll(void (*callback)(void))
 {
@@ -96,31 +101,15 @@ int console_char(void)
     return (USART1->SR & USART_SR_RXNE) ? (int)(USART1->DR & 255U) : -1;
 }
 
-void TimerInit(Timer *timer)
-{
-    timer->deadline = g_uptime_ms;
-}
-
 /* 有符号差适用于小于半个 uint32 周期的短超时，可跨毫秒计数回绕比较。 */
-char TimerIsExpired(Timer *timer)
+static char TimerIsExpired(Timer *timer)
 {
     return (int32_t)(g_uptime_ms - timer->deadline) >= 0;
 }
 
-void TimerCountdownMS(Timer *timer, unsigned int ms)
+static void TimerCountdownMS(Timer *timer, unsigned int ms)
 {
     timer->deadline = g_uptime_ms + ms;
-}
-
-void TimerCountdown(Timer *timer, unsigned int seconds)
-{
-    TimerCountdownMS(timer, seconds * 1000U);
-}
-
-int TimerLeftMS(Timer *timer)
-{
-    int32_t left = (int32_t)(timer->deadline - g_uptime_ms);
-    return left > 0 ? left : 0;
 }
 
 void delay_ms(uint32_t ms)
@@ -201,7 +190,7 @@ int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout)
     return length;
 }
 
-/* 先消费上次读取的剩余字节；SSL 被动读取分块到缓存，按 Paho 要求累计返回。 */
+/* 先消费上次剩余字节；SSL 被动读取分块到缓存，短读按实际字节数交给适配层。 */
 int esp_mqtt_recv(unsigned char *data, int length, uint32_t timeout)
 {
     int copied = 0;
@@ -275,25 +264,6 @@ void esp_mqtt_reset(void)
     __enable_irq();
 }
 
-/* P5-03 暂保 Paho 桥接，便于独立验证传输抽取；客户端切换后移除这组类型依赖。 */
-static int mqtt_write(Network *network, unsigned char *data, int length, int timeout)
-{
-    (void)network;
-    return esp_mqtt_send(data, length, (uint32_t)timeout);
-}
-
-static int mqtt_read(Network *network, unsigned char *data, int length, int timeout)
-{
-    (void)network;
-    return esp_mqtt_recv(data, length, (uint32_t)(timeout > 0 ? timeout : 1));
-}
-
-void network_init(Network *network)
-{
-    esp_mqtt_reset();
-    network->mqttread = mqtt_read;
-    network->mqttwrite = mqtt_write;
-}
 
 static void init_uart(void)
 {
