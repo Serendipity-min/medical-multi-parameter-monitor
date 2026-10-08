@@ -1,6 +1,10 @@
 #ifndef GATEWAY_PLATFORM_H
 #define GATEWAY_PLATFORM_H
 #include <stdint.h>
+/* 与 MQTT 库无关的 ESP 二进制接口；长度与实际读写结果不转换成布尔值。 */
+int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout_ms);
+int esp_mqtt_recv(unsigned char *data, int length, uint32_t timeout_ms);
+void esp_mqtt_reset(void);
 
 typedef struct
 {

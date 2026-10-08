@@ -179,9 +179,8 @@ const char *at_response(void)
 }
 
 /* 先请求精确长度，再发送 MQTT 二进制并确认 ESP 结果；这不是 Broker 的 PUBACK。 */
-static int mqtt_write(Network *network, unsigned char *data, int length, int timeout)
+int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout)
 {
-    (void)network;
     if (length <= 0 || length > 2048)
         return -1;
     char command[40];
@@ -203,9 +202,8 @@ static int mqtt_write(Network *network, unsigned char *data, int length, int tim
 }
 
 /* 先消费上次读取的剩余字节；SSL 被动读取分块到缓存，按 Paho 要求累计返回。 */
-static int mqtt_read(Network *network, unsigned char *data, int length, int timeout)
+int esp_mqtt_recv(unsigned char *data, int length, uint32_t timeout)
 {
-    (void)network;
     int copied = 0;
     Timer timer;
     TimerCountdownMS(&timer, (unsigned int)(timeout > 0 ? timeout : 1));
@@ -267,16 +265,34 @@ static int mqtt_read(Network *network, unsigned char *data, int length, int time
     return copied;
 }
 
-void network_init(Network *network)
+void esp_mqtt_reset(void)
 {
-    network->mqttread = mqtt_read;
-    network->mqttwrite = mqtt_write;
     network_length = network_offset = 0;
     /* 上一连接留下的异步提示不是新 MQTT 包，建立 SSL 前重新初始化队列。 */
     __disable_irq();
     tail = head;
     errors = 0;
     __enable_irq();
+}
+
+/* P5-03 暂保 Paho 桥接，便于独立验证传输抽取；客户端切换后移除这组类型依赖。 */
+static int mqtt_write(Network *network, unsigned char *data, int length, int timeout)
+{
+    (void)network;
+    return esp_mqtt_send(data, length, (uint32_t)timeout);
+}
+
+static int mqtt_read(Network *network, unsigned char *data, int length, int timeout)
+{
+    (void)network;
+    return esp_mqtt_recv(data, length, (uint32_t)(timeout > 0 ? timeout : 1));
+}
+
+void network_init(Network *network)
+{
+    esp_mqtt_reset();
+    network->mqttread = mqtt_read;
+    network->mqttwrite = mqtt_write;
 }
 
 static void init_uart(void)

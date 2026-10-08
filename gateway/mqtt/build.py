@@ -22,6 +22,8 @@ includes = [
     ROOT / 'src',
     canopen / 'src',
     core,
+    ROOT.parent / 'third_party/coreMQTT/source/include',
+    ROOT.parent / 'third_party/coreMQTT/source/interface',
     *base.INCLUDES,
     vendor / 'MQTTClient-C/src',
     vendor / 'MQTTPacket/src',
