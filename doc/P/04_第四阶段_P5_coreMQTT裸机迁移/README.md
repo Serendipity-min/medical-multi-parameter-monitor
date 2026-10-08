@@ -19,3 +19,4 @@ P4/main、A/B、CANopen/Router/模型、Cloud 和历史证据未改；P6 未启�
 - [P0 assert 审查与处置](验收/P5_P0_assert只读复核与处置报告_v1.0.md)
 - [P0 隔离 Mosquitto 实测](验收/P5_P0_隔离Mosquitto集成验证报告_v1.0.md)
 - [P0 最新证据及资源](验收/P5_P0_证据与资源补充_v1.0.md)
+- [已授权真机窗口：AT前置STOP及原Flash恢复](验收/P5_真机窗口预检STOP与恢复报告_20261008.md)
