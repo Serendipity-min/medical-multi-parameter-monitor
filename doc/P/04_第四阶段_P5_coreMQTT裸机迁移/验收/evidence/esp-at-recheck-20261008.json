@@ -1,0 +1,380 @@
+{
+  "archived_at": "2026-10-08T15:58:21.369815+08:00",
+  "source_report_sha256": "8fa73b393f2bd1244676648ad164726844c779ed92ce93e29cbbd2a3887ebc19",
+  "executed_helper_sha256": "00778a52e80907e5e7245be05fbb7d2f59259b9544644e6872a49f1c31e44630",
+  "verification": {
+    "fresh_and_restored_full_flash_match": true,
+    "at_commands_passed": 24,
+    "at_commands_total": 24,
+    "boot_count": 2,
+    "esp_cold_power_cycles": 0,
+    "bridge_errors_per_boot": [
+      0,
+      0
+    ]
+  },
+  "host_response_timer": {
+    "implementation": "GetTickCount64()",
+    "resolution_s": 0.015625,
+    "note": "GetTickCount64量化结果，不用于证明低于10ms或MCU性能。"
+  },
+  "conclusion": {
+    "at_precondition": "PASS",
+    "historical_root_cause": "NOT_PROVEN",
+    "p5_f407_tls_mqtt_smoke": "NOT_RUN",
+    "wifi_recovery": "NOT_RUN",
+    "full_flash_backup_restore": "PASS",
+    "p5_final_acceptance": "HOLD"
+  },
+  "hardware_report": {
+    "started_utc": "2026-10-08T07:55:48.071775+00:00",
+    "private_directory": "C:\\Users\\Serendipity\\.codex\\private\\p5-hardware-20261008T061416Z\\at-recheck-20261008T075548Z",
+    "code_sha": "7d9ce8a4781f0be17566dcaabc9add9ac81209a5",
+    "user_document_sha256": "94de720aea0e0bf7b4c1e004d6c330d2a28745db093062335b04214725ac27ea",
+    "bridge_bin_sha256": "523bf9c2dd4d59c0f6c564d9f16c0cc51a9160c47b8a7be31f7ddad4832df8ff",
+    "bridge_source_sha256": "ff8cc71f1152e43a339dadc85505d1bdd2cd964b3b048e834f24f3523ffc7e24",
+    "original_flash_sha256": "852d7618f8fc46c80cbe035ebd41f4e21e4d5a76a26cf10a39e0600f7a89ffb8",
+    "temporary_write_attempted": true,
+    "p5_main_firmware_installed": false,
+    "network_connections_attempted": false,
+    "esp_configuration_set_commands": false,
+    "security_gate": "NOT_AUTHORIZED/NOT_RUN",
+    "boots": [
+      {
+        "number": 1,
+        "first_at_startup_delay_s": 0.3,
+        "at_repeats": [
+          {
+            "bytes": 10,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "fixed_response_repr": "b'AT\\r\\n\\r\\nOK\\r\\n'",
+            "terminal_elapsed_ms": 0.0,
+            "command": "AT"
+          },
+          {
+            "bytes": 10,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "fixed_response_repr": "b'AT\\r\\n\\r\\nOK\\r\\n'",
+            "terminal_elapsed_ms": 16.0,
+            "command": "AT"
+          },
+          {
+            "bytes": 10,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "fixed_response_repr": "b'AT\\r\\n\\r\\nOK\\r\\n'",
+            "terminal_elapsed_ms": 0.0,
+            "command": "AT"
+          },
+          {
+            "bytes": 10,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "fixed_response_repr": "b'AT\\r\\n\\r\\nOK\\r\\n'",
+            "terminal_elapsed_ms": 15.0,
+            "command": "AT"
+          },
+          {
+            "bytes": 10,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "fixed_response_repr": "b'AT\\r\\n\\r\\nOK\\r\\n'",
+            "terminal_elapsed_ms": 0.0,
+            "command": "AT"
+          },
+          {
+            "bytes": 10,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "fixed_response_repr": "b'AT\\r\\n\\r\\nOK\\r\\n'",
+            "terminal_elapsed_ms": 16.0,
+            "command": "AT"
+          },
+          {
+            "bytes": 10,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "fixed_response_repr": "b'AT\\r\\n\\r\\nOK\\r\\n'",
+            "terminal_elapsed_ms": 0.0,
+            "command": "AT"
+          },
+          {
+            "bytes": 10,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "fixed_response_repr": "b'AT\\r\\n\\r\\nOK\\r\\n'",
+            "terminal_elapsed_ms": 15.0,
+            "command": "AT"
+          },
+          {
+            "bytes": 10,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "fixed_response_repr": "b'AT\\r\\n\\r\\nOK\\r\\n'",
+            "terminal_elapsed_ms": 0.0,
+            "command": "AT"
+          },
+          {
+            "bytes": 10,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "fixed_response_repr": "b'AT\\r\\n\\r\\nOK\\r\\n'",
+            "terminal_elapsed_ms": 16.0,
+            "command": "AT"
+          }
+        ],
+        "unflushed_first_at": {
+          "bytes": 10,
+          "ok": true,
+          "error": false,
+          "busy": false,
+          "fixed_response_repr": "b'AT\\r\\n\\r\\nOK\\r\\n'",
+          "terminal_elapsed_ms": 16.0,
+          "command": "AT"
+        },
+        "blank_crlf_flush": {
+          "bytes": 22,
+          "ok": false,
+          "error": true,
+          "busy": false,
+          "fixed_response_repr": "b'\\r\\n\\r\\nERROR\\r\\n\\r\\n\\r\\nERROR\\r\\n'"
+        },
+        "after_flush_at": {
+          "bytes": 10,
+          "ok": true,
+          "error": false,
+          "busy": false,
+          "fixed_response_repr": "b'AT\\r\\n\\r\\nOK\\r\\n'",
+          "terminal_elapsed_ms": 0.0,
+          "command": "AT"
+        },
+        "queries": {
+          "mode": {
+            "bytes": 29,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "terminal_elapsed_ms": 0.0,
+            "command": "AT+CWMODE?",
+            "value": 2
+          },
+          "sysstore": {
+            "bytes": 33,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "terminal_elapsed_ms": 0.0,
+            "command": "AT+SYSSTORE?",
+            "value": 1
+          },
+          "cipmode": {
+            "bytes": 31,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "terminal_elapsed_ms": 15.0,
+            "command": "AT+CIPMODE?",
+            "value": 0
+          },
+          "cipmux": {
+            "bytes": 29,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "terminal_elapsed_ms": 0.0,
+            "command": "AT+CIPMUX?",
+            "value": 0
+          },
+          "autoconnect": {
+            "bytes": 35,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "terminal_elapsed_ms": 16.0,
+            "command": "AT+CWAUTOCONN?",
+            "value": 1
+          },
+          "version": {
+            "bytes": 189,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "terminal_elapsed_ms": 15.0,
+            "command": "AT+GMR",
+            "version_fields": {
+              "AT version": "2.3.0.0-dev(s-bcd64d2 - ESP8266 - Jun 23 2021 11",
+              "SDK version": "v3.4-22-g967752e2",
+              "Bin version": "2.2.0(ESP8266_1MB)"
+            }
+          }
+        },
+        "state": {
+          "bridge_errors": 0,
+          "cpu_fixed_state": [
+            "PC = 08000314, CycleCnt = 01B2C914",
+            "XPSR = 61000000: APSR = nZCvq, EPSR = 01000000, IPSR = 000 (NoException)",
+            "CFBP = 00000000, CONTROL = 00, FAULTMASK = 00, BASEPRI = 00, PRIMASK = 00",
+            "PC = 08000314, CycleCnt = 01B2C914",
+            "XPSR = 61000000: APSR = nZCvq, EPSR = 01000000, IPSR = 000 (NoException)",
+            "CFBP = 00000000, CONTROL = 00, FAULTMASK = 00, BASEPRI = 00, PRIMASK = 00",
+            "20000004 = 00000000 "
+          ]
+        }
+      },
+      {
+        "number": 2,
+        "first_at_startup_delay_s": 0.3,
+        "at_repeats": [
+          {
+            "bytes": 10,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "fixed_response_repr": "b'AT\\r\\n\\r\\nOK\\r\\n'",
+            "terminal_elapsed_ms": 0.0,
+            "command": "AT"
+          },
+          {
+            "bytes": 10,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "fixed_response_repr": "b'AT\\r\\n\\r\\nOK\\r\\n'",
+            "terminal_elapsed_ms": 16.0,
+            "command": "AT"
+          },
+          {
+            "bytes": 10,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "fixed_response_repr": "b'AT\\r\\n\\r\\nOK\\r\\n'",
+            "terminal_elapsed_ms": 0.0,
+            "command": "AT"
+          },
+          {
+            "bytes": 10,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "fixed_response_repr": "b'AT\\r\\n\\r\\nOK\\r\\n'",
+            "terminal_elapsed_ms": 0.0,
+            "command": "AT"
+          },
+          {
+            "bytes": 10,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "fixed_response_repr": "b'AT\\r\\n\\r\\nOK\\r\\n'",
+            "terminal_elapsed_ms": 0.0,
+            "command": "AT"
+          },
+          {
+            "bytes": 10,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "fixed_response_repr": "b'AT\\r\\n\\r\\nOK\\r\\n'",
+            "terminal_elapsed_ms": 0.0,
+            "command": "AT"
+          },
+          {
+            "bytes": 10,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "fixed_response_repr": "b'AT\\r\\n\\r\\nOK\\r\\n'",
+            "terminal_elapsed_ms": 0.0,
+            "command": "AT"
+          },
+          {
+            "bytes": 10,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "fixed_response_repr": "b'AT\\r\\n\\r\\nOK\\r\\n'",
+            "terminal_elapsed_ms": 0.0,
+            "command": "AT"
+          },
+          {
+            "bytes": 10,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "fixed_response_repr": "b'AT\\r\\n\\r\\nOK\\r\\n'",
+            "terminal_elapsed_ms": 0.0,
+            "command": "AT"
+          },
+          {
+            "bytes": 10,
+            "ok": true,
+            "error": false,
+            "busy": false,
+            "fixed_response_repr": "b'AT\\r\\n\\r\\nOK\\r\\n'",
+            "terminal_elapsed_ms": 0.0,
+            "command": "AT"
+          }
+        ],
+        "unflushed_first_at": {
+          "bytes": 10,
+          "ok": true,
+          "error": false,
+          "busy": false,
+          "fixed_response_repr": "b'AT\\r\\n\\r\\nOK\\r\\n'",
+          "terminal_elapsed_ms": 16.0,
+          "command": "AT"
+        },
+        "blank_crlf_flush": {
+          "bytes": 22,
+          "ok": false,
+          "error": true,
+          "busy": false,
+          "fixed_response_repr": "b'\\r\\n\\r\\nERROR\\r\\n\\r\\n\\r\\nERROR\\r\\n'"
+        },
+        "after_flush_at": {
+          "bytes": 10,
+          "ok": true,
+          "error": false,
+          "busy": false,
+          "fixed_response_repr": "b'AT\\r\\n\\r\\nOK\\r\\n'",
+          "terminal_elapsed_ms": 16.0,
+          "command": "AT"
+        },
+        "state": {
+          "bridge_errors": 0,
+          "cpu_fixed_state": [
+            "PC = 08000312, CycleCnt = 01A53470",
+            "XPSR = 61000000: APSR = nZCvq, EPSR = 01000000, IPSR = 000 (NoException)",
+            "CFBP = 00000000, CONTROL = 00, FAULTMASK = 00, BASEPRI = 00, PRIMASK = 00",
+            "PC = 08000312, CycleCnt = 01A53470",
+            "XPSR = 61000000: APSR = nZCvq, EPSR = 01000000, IPSR = 000 (NoException)",
+            "CFBP = 00000000, CONTROL = 00, FAULTMASK = 00, BASEPRI = 00, PRIMASK = 00",
+            "20000004 = 00000000 "
+          ]
+        }
+      }
+    ],
+    "stage": "FINISHED",
+    "fresh_double_backup_match": true,
+    "vtref_v": 3.3,
+    "bridge_independent_readback_match": true,
+    "at_recheck_passed": true,
+    "original_flash_restored": true,
+    "restored_flash_sha256": "852d7618f8fc46c80cbe035ebd41f4e21e4d5a76a26cf10a39e0600f7a89ffb8",
+    "original_dma_adc_observed": true,
+    "elapsed_s": 23.032
+  }
+}
