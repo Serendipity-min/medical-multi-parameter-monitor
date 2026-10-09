@@ -1,19 +1,33 @@
 """以项目内固定配置构建 STM32F407 ESP AT 查询固件，避免依赖图形 IDE 状态。"""
 
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 import argparse
+import os
+import shutil
 import subprocess
 import sys
 
 PROJECT = Path(__file__).resolve().parent
 BUILD = PROJECT / "build"
-LIBRARY = Path(
-    r"E:\stm32\stm32文件\1，STM32F4xx固件库\stm32f4_dsp_stdperiph_lib\STM32F4xx_DSP_StdPeriph_Lib_V1.4.0"
-)
-TOOLCHAIN = Path(r"C:\Program Files (x86)\Arm GNU Toolchain arm-none-eabi\14.2 rel1\bin")
-GCC = TOOLCHAIN / "arm-none-eabi-gcc.exe"
-OBJCOPY = TOOLCHAIN / "arm-none-eabi-objcopy.exe"
-SIZE = TOOLCHAIN / "arm-none-eabi-size.exe"
+_WINDOWS_LIBRARY = r"E:\stm32\stm32文件\1，STM32F4xx固件库\stm32f4_dsp_stdperiph_lib\STM32F4xx_DSP_StdPeriph_Lib_V1.4.0"
+_WINDOWS_TOOLCHAIN = r"C:\Program Files (x86)\Arm GNU Toolchain arm-none-eabi\14.2 rel1\bin"
+if sys.platform == "win32":
+    # Windows未注入配置时保留原工具链、SDK及.exe名称，不改变既有构建行为。
+    _default_library = Path(_WINDOWS_LIBRARY)
+    _default_toolchain = Path(_WINDOWS_TOOLCHAIN)
+    _tool_suffix = ".exe"
+else:
+    # WSL复用同一E盘SDK，只选择原生ARM工具；不把Windows.exe与POSIX参数混用。
+    _sdk = PureWindowsPath(_WINDOWS_LIBRARY)
+    _default_library = Path("/mnt") / _sdk.drive[0].lower() / Path(*_sdk.parts[1:])
+    _default_toolchain = Path(shutil.which("arm-none-eabi-gcc") or "/usr/bin/arm-none-eabi-gcc").parent
+    _tool_suffix = ""
+# 仅接受外部显式路径；环境变量由获准构建/Gate进程注入，不改系统PATH或生产配置。
+LIBRARY = Path(os.environ.get("P5_STM32F4_SDK_ROOT", str(_default_library)))
+TOOLCHAIN = Path(os.environ.get("P5_ARM_TOOLCHAIN_BIN", str(_default_toolchain)))
+GCC = TOOLCHAIN / ("arm-none-eabi-gcc" + _tool_suffix)
+OBJCOPY = TOOLCHAIN / ("arm-none-eabi-objcopy" + _tool_suffix)
+SIZE = TOOLCHAIN / ("arm-none-eabi-size" + _tool_suffix)
 
 # 只编译实际使用的外设驱动，既缩短构建时间，也减小固件的攻击面与可审计范围。
 SOURCES = [
