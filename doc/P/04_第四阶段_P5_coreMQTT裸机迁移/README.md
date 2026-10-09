@@ -36,3 +36,10 @@ P4/main、A/B、CANopen/Router/模型、Cloud 和历史证据未改；P6 未启�
 [C2 H16测量计划](设计/P5_H16动态资源与P4对照测量计划_v1.0.md)和[纯脱机解析器](../../../gateway/mqtt/tests/measurement/README.md)
 已准备，22项新工具边界验证通过；演示数据不是真机测量。M01–M05的必要诊断覆盖层尚未获批实现，
 下一轮先裁定最小插桩、真实诊断产物和新C3测试单；本轮完成C2后停止，不沿用旧硬件窗口。
+
+## 2026-10-09 功能冻结与安全门提案
+
+[最终审查合同](合同/P5_coreMQTT功能验收_SecurityGate与PR6最终审查执行合同_v1.0.md)本轮只授权F0/F1/G0。
+[功能验收冻结与风险清单](验收/P5_coreMQTT_功能验收冻结与风险清单_v1.0.md)确认核心功能PASS_WITH_LIMITATIONS，
+包含当前42/6项、CAN/Router/Canonical/Backend普通复测及既有真机/Broker证据核对；诊断分支以精确SHA只读引用，不整支合流。
+Gate活动coreMQTT覆盖仍有缺口，报告附最小未应用Diff；正式Gate、风险接受和合并尚待独立授权，PR #6保持Draft，P6未开始。
