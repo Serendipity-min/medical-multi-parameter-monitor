@@ -55,12 +55,19 @@ static void service(void)
     if (c == 'E')
     {
         static bool fault;
-        fault = !fault;
-        if (fault)
-            CO_errorReport(stack.nodes[0].co->em, CO_EM_GENERIC_ERROR, CO_EMC_GENERIC, 0);
+        if (!stack.nodes[0].co || !stack.nodes[0].co->em)
+        {
+            console("GW EMCY_TEST_NODE_UNAVAILABLE\r\n");
+        }
         else
-            CO_errorReset(stack.nodes[0].co->em, CO_EM_GENERIC_ERROR, 0);
-        console("GW EMCY_TEST_CHANGED\r\n");
+        {
+            fault = !fault;
+            if (fault)
+                CO_errorReport(stack.nodes[0].co->em, CO_EM_GENERIC_ERROR, CO_EMC_GENERIC, 0);
+            else
+                CO_errorReset(stack.nodes[0].co->em, CO_EM_GENERIC_ERROR, 0);
+            console("GW EMCY_TEST_CHANGED\r\n");
+        }
     }
 }
 
