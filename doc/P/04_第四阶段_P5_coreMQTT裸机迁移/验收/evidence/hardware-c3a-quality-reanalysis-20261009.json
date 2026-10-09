@@ -1,0 +1,982 @@
+{
+  "kind": "OFFLINE_EXISTING_C3A_METRIC_QUALITY_REANALYSIS",
+  "schema_version": 1,
+  "original_report_sha256": "1077ad20896c6ce1d5bd2206ca321ee5bb1e1c41e76c1a9c1393ac567e7136c4",
+  "original_source_commit": "d21a796547be6812f12fc15ce9f7852fcde58151",
+  "runs": [
+    {
+      "raw_observation": {
+        "magic": 3260881504,
+        "profile": 3260022785,
+        "variant": 4,
+        "initialized": 1,
+        "marker_address": 134250112,
+        "core_hz": 16000000,
+        "clock_seq": 208500,
+        "irq_flags": 32,
+        "foreground_flags": 64,
+        "tick_head": 104212,
+        "tick_tail": 104211,
+        "tick_dropped": 5,
+        "tick_drop_base": 5,
+        "tick_armed": 1,
+        "dropped_observations": 0,
+        "unmatched_ticks": 0,
+        "depth": 2,
+        "window_generation": 1,
+        "recovery_generation": 2,
+        "boundary_skipped_ticks": 0,
+        "event_count": 10,
+        "network_valid_mask": 511,
+        "cache_snapshot_mask": 3,
+        "cache_drained_observed": 0,
+        "heap_peak_bytes": 9400,
+        "heap_enomem_count": 0,
+        "heap_error_base": 0,
+        "live_observed": 1,
+        "replay_observed": 1,
+        "aggregate": [
+          {
+            "success": 1,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 4007556,
+            "max_cycles": 4007556,
+            "inclusive_cycles": 4007556,
+            "direct_child_cycles": 3966900
+          },
+          {
+            "success": 69,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 3179371,
+            "max_cycles": 9687618,
+            "inclusive_cycles": 363133688,
+            "direct_child_cycles": 333986581
+          },
+          {
+            "success": 139,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 2028537,
+            "max_cycles": 39592869,
+            "inclusive_cycles": 501184182,
+            "direct_child_cycles": 494154214
+          },
+          {
+            "success": 1,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 109912,
+            "max_cycles": 109912,
+            "inclusive_cycles": 109912,
+            "direct_child_cycles": 108830
+          },
+          {
+            "success": 208,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 2011809,
+            "max_cycles": 39576381,
+            "inclusive_cycles": 768584303,
+            "direct_child_cycles": 767080207
+          },
+          {
+            "success": 1,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 108830,
+            "max_cycles": 108830,
+            "inclusive_cycles": 108830,
+            "direct_child_cycles": 107546
+          },
+          {
+            "success": 209,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 970641,
+            "max_cycles": 7230176,
+            "inclusive_cycles": 465559680,
+            "direct_child_cycles": 350481117
+          },
+          {
+            "success": 421,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 1556,
+            "max_cycles": 38490746,
+            "inclusive_cycles": 305545394,
+            "direct_child_cycles": 226271762
+          },
+          {
+            "success": 90781,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 8169,
+            "max_cycles": 159127,
+            "inclusive_cycles": 963576752,
+            "direct_child_cycles": 0
+          },
+          {
+            "success": 445187,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 481,
+            "max_cycles": 258802,
+            "inclusive_cycles": 1076530532,
+            "direct_child_cycles": 0
+          }
+        ],
+        "active_spans": [
+          {
+            "scope": 1,
+            "serial": 550717,
+            "generation": 1,
+            "cycle": 1667230531,
+            "millisecond": 104190
+          },
+          {
+            "scope": 9,
+            "serial": 550815,
+            "generation": 1,
+            "cycle": 1668188905,
+            "millisecond": 104250
+          }
+        ],
+        "events": [
+          {
+            "scope": 264,
+            "start": 1600794584,
+            "end": 1600953711,
+            "bound_ms": 11
+          },
+          {
+            "scope": 265,
+            "start": 1472714854,
+            "end": 1472973656,
+            "bound_ms": 18
+          },
+          {
+            "scope": 262,
+            "start": 1244745588,
+            "end": 1251975764,
+            "bound_ms": 454
+          },
+          {
+            "scope": 263,
+            "start": 1583740230,
+            "end": 1622230976,
+            "bound_ms": 2407
+          },
+          {
+            "scope": 256,
+            "start": 793249133,
+            "end": 797256689,
+            "bound_ms": 252
+          },
+          {
+            "scope": 261,
+            "start": 797259284,
+            "end": 797368114,
+            "bound_ms": 8
+          },
+          {
+            "scope": 259,
+            "start": 797258959,
+            "end": 797368871,
+            "bound_ms": 8
+          },
+          {
+            "scope": 260,
+            "start": 1582671404,
+            "end": 1622247785,
+            "bound_ms": 2475
+          },
+          {
+            "scope": 258,
+            "start": 1582655696,
+            "end": 1622248565,
+            "bound_ms": 2476
+          },
+          {
+            "scope": 257,
+            "start": 1242289691,
+            "end": 1251977309,
+            "bound_ms": 607
+          }
+        ],
+        "network_us": [
+          13416894,
+          43496034,
+          43498788,
+          43504921,
+          45504601,
+          45504638,
+          49563943,
+          49812700,
+          50665083
+        ],
+        "first_business_id": {
+          "node": 1,
+          "stream": 0,
+          "seq": 40,
+          "epoch": 1791509455,
+          "boot": 65537
+        },
+        "cache_before": {
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "drop": 0
+        },
+        "cache_after": {
+          "cache": 32,
+          "lost": 342,
+          "replay": 22,
+          "drop": 0
+        },
+        "first_live_us": 50124073,
+        "first_replay_us": 52911041
+      },
+      "tick_quality": {
+        "status": "PRE_WINDOW_CUMULATIVE_LOSS_ONLY",
+        "raw_irq_flags": 32,
+        "raw_foreground_flags": 64,
+        "raw_tick_dropped": 5,
+        "raw_tick_drop_base": 5,
+        "window_new_tick_drops": 0,
+        "window_unmatched_ticks": 0,
+        "pending_at_freeze": 1,
+        "current_window_loss_free": true
+      },
+      "halt_timing": {
+        "grade": "BOUNDED_INTERVAL",
+        "request_us": 108256386,
+        "request_source": "DERIVED_FROM_RECORDED_TRANSACTION_ELAPSED",
+        "confirm_us": 109261052,
+        "possible_cpu_stop_us": [
+          108256386,
+          109261052
+        ],
+        "confirm_delay_us": 1004666,
+        "exact_cpu_stop_us": null,
+        "exact_cpu_pause_us": null,
+        "pause_control_transaction_upper_bound_us": 1026405,
+        "confirm_is_actual_stop": false
+      },
+      "checks": {
+        "cycle_clock_usable_for_limited_observation": true,
+        "flags_recognized": true,
+        "thread_context_verified": true,
+        "active_span_structure_valid": true,
+        "max_event_structure_valid": true
+      },
+      "metrics": {
+        "M01": {
+          "grade": "LIMITED_OBSERVATION",
+          "limited_observation_usable": true,
+          "reasons": [
+            "COMPLETED_CALLS_ONLY",
+            "ACTIVE_CALLS_NOT_IN_COMPLETED_AGGREGATE",
+            "UNRESOLVED_STOP_INTERVAL",
+            "UNCALIBRATED_PROBE_OVERHEAD"
+          ],
+          "values": {
+            "OPEN": {
+              "success": 1,
+              "failure": 0,
+              "invalid": 0,
+              "min_cycles": 4007556,
+              "max_cycles": 4007556,
+              "inclusive_cycles": 4007556,
+              "direct_child_cycles": 3966900,
+              "max_seen_nominal_ms": 250.47225
+            },
+            "PUBLISH_Q0": {
+              "success": 69,
+              "failure": 0,
+              "invalid": 0,
+              "min_cycles": 3179371,
+              "max_cycles": 9687618,
+              "inclusive_cycles": 363133688,
+              "direct_child_cycles": 333986581,
+              "max_seen_nominal_ms": 605.476125
+            },
+            "PUBLISH_Q1": {
+              "success": 139,
+              "failure": 0,
+              "invalid": 0,
+              "min_cycles": 2028537,
+              "max_cycles": 39592869,
+              "inclusive_cycles": 501184182,
+              "direct_child_cycles": 494154214,
+              "max_seen_nominal_ms": 2474.5543125
+            },
+            "YIELD": {
+              "success": 1,
+              "failure": 0,
+              "invalid": 0,
+              "min_cycles": 109912,
+              "max_cycles": 109912,
+              "inclusive_cycles": 109912,
+              "direct_child_cycles": 108830,
+              "max_seen_nominal_ms": 6.8695
+            }
+          },
+          "comparison": "NOT_COMPARABLE_FOR_ACCEPTANCE",
+          "acceptance_pass": false,
+          "active_scopes": [
+            "PUBLISH_Q0",
+            "CAN_CALLBACK"
+          ],
+          "full_window_maximum_complete": false,
+          "event_provenance_valid": true,
+          "max_seen_record_provenance_valid": true,
+          "completed_statistics_usable": true
+        },
+        "M02": {
+          "grade": "LIMITED_OBSERVATION",
+          "limited_observation_usable": true,
+          "reasons": [
+            "SYSTICK_ISR_SAMPLE_TO_COOPERATIVE_SERVICE_DONE",
+            "COMPLETED_MATCHED_SERVICES_ONLY",
+            "PENDING_TASKS_EXCLUDED",
+            "HARDWARE_DUE_TO_ISR_NOT_MEASURED"
+          ],
+          "values": {
+            "success": 90781,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 8169,
+            "max_cycles": 159127,
+            "inclusive_cycles": 963576752,
+            "direct_child_cycles": 0,
+            "max_seen_nominal_ms": 9.9454375,
+            "tick_quality": {
+              "status": "PRE_WINDOW_CUMULATIVE_LOSS_ONLY",
+              "raw_irq_flags": 32,
+              "raw_foreground_flags": 64,
+              "raw_tick_dropped": 5,
+              "raw_tick_drop_base": 5,
+              "window_new_tick_drops": 0,
+              "window_unmatched_ticks": 0,
+              "pending_at_freeze": 1,
+              "current_window_loss_free": true
+            }
+          },
+          "comparison": "NOT_COMPARABLE_FOR_ACCEPTANCE",
+          "acceptance_pass": false,
+          "full_window_maximum_complete": false
+        },
+        "M03": {
+          "grade": "PARTIAL",
+          "limited_observation_usable": true,
+          "reasons": [
+            "FULL_GATEWAY_PUBLISH_INCLUSIVE_ONLY",
+            "CPU_PURE_NOT_MEASURED",
+            "LIBRARY_API_BOUNDARIES_NOT_EQUIVALENT",
+            "UNCALIBRATED_PROBE_OVERHEAD"
+          ],
+          "values": {
+            "Q0": {
+              "success": 69,
+              "failure": 0,
+              "invalid": 0,
+              "min_cycles": 3179371,
+              "max_cycles": 9687618,
+              "inclusive_cycles": 363133688,
+              "direct_child_cycles": 333986581
+            },
+            "Q1": {
+              "success": 139,
+              "failure": 0,
+              "invalid": 0,
+              "min_cycles": 2028537,
+              "max_cycles": 39592869,
+              "inclusive_cycles": 501184182,
+              "direct_child_cycles": 494154214
+            }
+          },
+          "comparison": "NOT_COMPARABLE_FOR_ACCEPTANCE",
+          "acceptance_pass": false
+        },
+        "M04": {
+          "grade": "BLOCKED",
+          "limited_observation_usable": false,
+          "reasons": [
+            "BLOCKED_UNSAFE_SENTINEL",
+            "STACK_HIGH_WATER_NOT_MEASURED"
+          ],
+          "values": null,
+          "comparison": "NOT_COMPARABLE_FOR_ACCEPTANCE",
+          "acceptance_pass": false
+        },
+        "M05": {
+          "grade": "LIMITED_OBSERVATION",
+          "limited_observation_usable": true,
+          "reasons": [
+            "SBRK_HIGH_WATER_INCLUDES_INITIALIZATION",
+            "DOES_NOT_ESTABLISH_STACK_SAFETY"
+          ],
+          "values": {
+            "peak_bytes": 9400,
+            "remaining_bytes": 15176,
+            "raw_ENOMEM_total": 0,
+            "raw_ENOMEM_base": 0,
+            "window_ENOMEM_delta": 0
+          },
+          "comparison": "LIMITED_SAME_METHOD_SINGLE_RUN_PEAK_COMPARISON",
+          "acceptance_pass": false
+        },
+        "M06": {
+          "grade": "LIMITED_OBSERVATION",
+          "limited_observation_usable": true,
+          "reasons": [
+            "COMPLETED_DEVICE_ENDPOINTS_BEFORE_HALT",
+            "NOMINAL_16MHZ_CLOCK",
+            "DEVICE_PUBLISH_SUCCESS_NOT_BROKER_ACK",
+            "ONE_RUN_PER_VARIANT_NO_MEDIAN_GATE"
+          ],
+          "values": {
+            "network_open_to_TLS_us": 4059305,
+            "TLS_to_CONNACK_us": 248757,
+            "CONNACK_to_first_business_us": 852383,
+            "network_open_to_first_business_us": 5160445
+          },
+          "comparison": "EXPLORATORY_SINGLE_RUN_NOMINAL_TIME_ONLY",
+          "acceptance_pass": false
+        },
+        "M07": {
+          "grade": "LIMITED_OBSERVATION",
+          "limited_observation_usable": true,
+          "reasons": [
+            "OBSERVED_CACHE_EMPTY_AT_LAST_SNAPSHOT_ONLY",
+            "NO_TERMINAL_SNAPSHOT_TIMESTAMP",
+            "NO_LOSSLESS_OR_FULL_DRAIN_CLAIM",
+            "CACHE_BASELINES_DIFFER_ACROSS_PILOT_RUNS"
+          ],
+          "values": {
+            "before": {
+              "cache": 0,
+              "lost": 0,
+              "replay": 0,
+              "drop": 0
+            },
+            "after": {
+              "cache": 32,
+              "lost": 342,
+              "replay": 22,
+              "drop": 0
+            },
+            "deltas": {
+              "lost": 342,
+              "replay": 22,
+              "drop": 0
+            },
+            "raw_last_snapshot_empty": 0,
+            "drain_claim_consistent": true,
+            "live_replay_time_usable": true,
+            "LIVE_before_REPLAY": true
+          },
+          "comparison": "NO_LOSS_RATE_COMPARISON_WITH_DIFFERENT_BASELINES",
+          "acceptance_pass": false
+        }
+      },
+      "original_strict_decode_status": "PROBE_LOSS_OR_UNSTABLE_HALT",
+      "whole_window_acceptance": "NOT_QUALIFIED",
+      "H16_acceptance": "NOT_GRANTED",
+      "hardware_tests_executed_this_analysis": false,
+      "variant": "P4",
+      "snapshot_sha256": "30227d67c2a112e2805a0a808189f0cb32fc967361cf3e8a9b38f8b3d430e711",
+      "snapshot_bytes": 1264
+    },
+    {
+      "raw_observation": {
+        "magic": 3260881504,
+        "profile": 3260022785,
+        "variant": 5,
+        "initialized": 1,
+        "marker_address": 134255288,
+        "core_hz": 16000000,
+        "clock_seq": 197786,
+        "irq_flags": 32,
+        "foreground_flags": 64,
+        "tick_head": 98855,
+        "tick_tail": 98855,
+        "tick_dropped": 5,
+        "tick_drop_base": 5,
+        "tick_armed": 1,
+        "dropped_observations": 0,
+        "unmatched_ticks": 0,
+        "depth": 2,
+        "window_generation": 1,
+        "recovery_generation": 2,
+        "boundary_skipped_ticks": 0,
+        "event_count": 10,
+        "network_valid_mask": 511,
+        "cache_snapshot_mask": 3,
+        "cache_drained_observed": 0,
+        "heap_peak_bytes": 9400,
+        "heap_enomem_count": 0,
+        "heap_error_base": 0,
+        "live_observed": 1,
+        "replay_observed": 1,
+        "aggregate": [
+          {
+            "success": 1,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 2495574,
+            "max_cycles": 2495574,
+            "inclusive_cycles": 2495574,
+            "direct_child_cycles": 2440472
+          },
+          {
+            "success": 76,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 3192902,
+            "max_cycles": 9753861,
+            "inclusive_cycles": 400357734,
+            "direct_child_cycles": 368401603
+          },
+          {
+            "success": 146,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 1835883,
+            "max_cycles": 40793839,
+            "inclusive_cycles": 467505176,
+            "direct_child_cycles": 457675036
+          },
+          {
+            "success": 2,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 335060,
+            "max_cycles": 381801,
+            "inclusive_cycles": 716861,
+            "direct_child_cycles": 714279
+          },
+          {
+            "success": 222,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 991165,
+            "max_cycles": 7318859,
+            "inclusive_cycles": 518564755,
+            "direct_child_cycles": 515855693
+          },
+          {
+            "success": 631,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 155856,
+            "max_cycles": 928415,
+            "inclusive_cycles": 240528737,
+            "direct_child_cycles": 239134988
+          },
+          {
+            "success": 224,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 350006,
+            "max_cycles": 7241223,
+            "inclusive_cycles": 508532165,
+            "direct_child_cycles": 381659257
+          },
+          {
+            "success": 635,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 9996,
+            "max_cycles": 925372,
+            "inclusive_cycles": 238642364,
+            "direct_child_cycles": 176724231
+          },
+          {
+            "success": 90690,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 8169,
+            "max_cycles": 165672,
+            "inclusive_cycles": 960575074,
+            "direct_child_cycles": 0
+          },
+          {
+            "success": 441563,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 481,
+            "max_cycles": 265242,
+            "inclusive_cycles": 1073374846,
+            "direct_child_cycles": 0
+          }
+        ],
+        "active_spans": [
+          {
+            "scope": 1,
+            "serial": 500213,
+            "generation": 1,
+            "cycle": 1581953277,
+            "millisecond": 98860
+          },
+          {
+            "scope": 4,
+            "serial": 500264,
+            "generation": 1,
+            "cycle": 1582475984,
+            "millisecond": 98893
+          }
+        ],
+        "events": [
+          {
+            "scope": 264,
+            "start": 1408794680,
+            "end": 1408960352,
+            "bound_ms": 12
+          },
+          {
+            "scope": 265,
+            "start": 1408714936,
+            "end": 1408980178,
+            "bound_ms": 18
+          },
+          {
+            "scope": 262,
+            "start": 990335901,
+            "end": 997577124,
+            "bound_ms": 454
+          },
+          {
+            "scope": 263,
+            "start": 800232789,
+            "end": 801158161,
+            "bound_ms": 60
+          },
+          {
+            "scope": 256,
+            "start": 705243571,
+            "end": 707739145,
+            "bound_ms": 158
+          },
+          {
+            "scope": 260,
+            "start": 990304608,
+            "end": 997623467,
+            "bound_ms": 459
+          },
+          {
+            "scope": 261,
+            "start": 800232262,
+            "end": 801160677,
+            "bound_ms": 60
+          },
+          {
+            "scope": 258,
+            "start": 1370910450,
+            "end": 1411704289,
+            "bound_ms": 2551
+          },
+          {
+            "scope": 259,
+            "start": 720250374,
+            "end": 720632175,
+            "bound_ms": 26
+          },
+          {
+            "scope": 257,
+            "start": 987870386,
+            "end": 997624247,
+            "bound_ms": 611
+          }
+        ],
+        "network_us": [
+          8013822,
+          38229687,
+          38231850,
+          38238888,
+          40238661,
+          40238698,
+          44062896,
+          44218140,
+          45240743
+        ],
+        "first_business_id": {
+          "node": 1,
+          "stream": 0,
+          "seq": 40,
+          "epoch": 1791509592,
+          "boot": 65537
+        },
+        "cache_before": {
+          "cache": 1,
+          "lost": 0,
+          "replay": 0,
+          "drop": 0
+        },
+        "cache_after": {
+          "cache": 32,
+          "lost": 325,
+          "replay": 23,
+          "drop": 0
+        },
+        "first_live_us": 44365130,
+        "first_replay_us": 44982793
+      },
+      "tick_quality": {
+        "status": "PRE_WINDOW_CUMULATIVE_LOSS_ONLY",
+        "raw_irq_flags": 32,
+        "raw_foreground_flags": 64,
+        "raw_tick_dropped": 5,
+        "raw_tick_drop_base": 5,
+        "window_new_tick_drops": 0,
+        "window_unmatched_ticks": 0,
+        "pending_at_freeze": 0,
+        "current_window_loss_free": true
+      },
+      "halt_timing": {
+        "grade": "BOUNDED_INTERVAL",
+        "request_us": 240739131,
+        "request_source": "DERIVED_FROM_RECORDED_TRANSACTION_ELAPSED",
+        "confirm_us": 241743504,
+        "possible_cpu_stop_us": [
+          240739131,
+          241743504
+        ],
+        "confirm_delay_us": 1004373,
+        "exact_cpu_stop_us": null,
+        "exact_cpu_pause_us": null,
+        "pause_control_transaction_upper_bound_us": 1026850,
+        "confirm_is_actual_stop": false
+      },
+      "checks": {
+        "cycle_clock_usable_for_limited_observation": true,
+        "flags_recognized": true,
+        "thread_context_verified": true,
+        "active_span_structure_valid": true,
+        "max_event_structure_valid": true
+      },
+      "metrics": {
+        "M01": {
+          "grade": "LIMITED_OBSERVATION",
+          "limited_observation_usable": true,
+          "reasons": [
+            "COMPLETED_CALLS_ONLY",
+            "ACTIVE_CALLS_NOT_IN_COMPLETED_AGGREGATE",
+            "UNRESOLVED_STOP_INTERVAL",
+            "UNCALIBRATED_PROBE_OVERHEAD"
+          ],
+          "values": {
+            "OPEN": {
+              "success": 1,
+              "failure": 0,
+              "invalid": 0,
+              "min_cycles": 2495574,
+              "max_cycles": 2495574,
+              "inclusive_cycles": 2495574,
+              "direct_child_cycles": 2440472,
+              "max_seen_nominal_ms": 155.973375
+            },
+            "PUBLISH_Q0": {
+              "success": 76,
+              "failure": 0,
+              "invalid": 0,
+              "min_cycles": 3192902,
+              "max_cycles": 9753861,
+              "inclusive_cycles": 400357734,
+              "direct_child_cycles": 368401603,
+              "max_seen_nominal_ms": 609.6163125
+            },
+            "PUBLISH_Q1": {
+              "success": 146,
+              "failure": 0,
+              "invalid": 0,
+              "min_cycles": 1835883,
+              "max_cycles": 40793839,
+              "inclusive_cycles": 467505176,
+              "direct_child_cycles": 457675036,
+              "max_seen_nominal_ms": 2549.6149375
+            },
+            "YIELD": {
+              "success": 2,
+              "failure": 0,
+              "invalid": 0,
+              "min_cycles": 335060,
+              "max_cycles": 381801,
+              "inclusive_cycles": 716861,
+              "direct_child_cycles": 714279,
+              "max_seen_nominal_ms": 23.8625625
+            }
+          },
+          "comparison": "NOT_COMPARABLE_FOR_ACCEPTANCE",
+          "acceptance_pass": false,
+          "active_scopes": [
+            "PUBLISH_Q0",
+            "LIBRARY_PUBLISH"
+          ],
+          "full_window_maximum_complete": false,
+          "event_provenance_valid": true,
+          "max_seen_record_provenance_valid": true,
+          "completed_statistics_usable": true
+        },
+        "M02": {
+          "grade": "LIMITED_OBSERVATION",
+          "limited_observation_usable": true,
+          "reasons": [
+            "SYSTICK_ISR_SAMPLE_TO_COOPERATIVE_SERVICE_DONE",
+            "COMPLETED_MATCHED_SERVICES_ONLY",
+            "PENDING_TASKS_EXCLUDED",
+            "HARDWARE_DUE_TO_ISR_NOT_MEASURED"
+          ],
+          "values": {
+            "success": 90690,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 8169,
+            "max_cycles": 165672,
+            "inclusive_cycles": 960575074,
+            "direct_child_cycles": 0,
+            "max_seen_nominal_ms": 10.3545,
+            "tick_quality": {
+              "status": "PRE_WINDOW_CUMULATIVE_LOSS_ONLY",
+              "raw_irq_flags": 32,
+              "raw_foreground_flags": 64,
+              "raw_tick_dropped": 5,
+              "raw_tick_drop_base": 5,
+              "window_new_tick_drops": 0,
+              "window_unmatched_ticks": 0,
+              "pending_at_freeze": 0,
+              "current_window_loss_free": true
+            }
+          },
+          "comparison": "NOT_COMPARABLE_FOR_ACCEPTANCE",
+          "acceptance_pass": false,
+          "full_window_maximum_complete": false
+        },
+        "M03": {
+          "grade": "PARTIAL",
+          "limited_observation_usable": true,
+          "reasons": [
+            "FULL_GATEWAY_PUBLISH_INCLUSIVE_ONLY",
+            "CPU_PURE_NOT_MEASURED",
+            "LIBRARY_API_BOUNDARIES_NOT_EQUIVALENT",
+            "UNCALIBRATED_PROBE_OVERHEAD"
+          ],
+          "values": {
+            "Q0": {
+              "success": 76,
+              "failure": 0,
+              "invalid": 0,
+              "min_cycles": 3192902,
+              "max_cycles": 9753861,
+              "inclusive_cycles": 400357734,
+              "direct_child_cycles": 368401603
+            },
+            "Q1": {
+              "success": 146,
+              "failure": 0,
+              "invalid": 0,
+              "min_cycles": 1835883,
+              "max_cycles": 40793839,
+              "inclusive_cycles": 467505176,
+              "direct_child_cycles": 457675036
+            }
+          },
+          "comparison": "NOT_COMPARABLE_FOR_ACCEPTANCE",
+          "acceptance_pass": false
+        },
+        "M04": {
+          "grade": "BLOCKED",
+          "limited_observation_usable": false,
+          "reasons": [
+            "BLOCKED_UNSAFE_SENTINEL",
+            "STACK_HIGH_WATER_NOT_MEASURED"
+          ],
+          "values": null,
+          "comparison": "NOT_COMPARABLE_FOR_ACCEPTANCE",
+          "acceptance_pass": false
+        },
+        "M05": {
+          "grade": "LIMITED_OBSERVATION",
+          "limited_observation_usable": true,
+          "reasons": [
+            "SBRK_HIGH_WATER_INCLUDES_INITIALIZATION",
+            "DOES_NOT_ESTABLISH_STACK_SAFETY"
+          ],
+          "values": {
+            "peak_bytes": 9400,
+            "remaining_bytes": 15176,
+            "raw_ENOMEM_total": 0,
+            "raw_ENOMEM_base": 0,
+            "window_ENOMEM_delta": 0
+          },
+          "comparison": "LIMITED_SAME_METHOD_SINGLE_RUN_PEAK_COMPARISON",
+          "acceptance_pass": false
+        },
+        "M06": {
+          "grade": "LIMITED_OBSERVATION",
+          "limited_observation_usable": true,
+          "reasons": [
+            "COMPLETED_DEVICE_ENDPOINTS_BEFORE_HALT",
+            "NOMINAL_16MHZ_CLOCK",
+            "DEVICE_PUBLISH_SUCCESS_NOT_BROKER_ACK",
+            "ONE_RUN_PER_VARIANT_NO_MEDIAN_GATE"
+          ],
+          "values": {
+            "network_open_to_TLS_us": 3824198,
+            "TLS_to_CONNACK_us": 155244,
+            "CONNACK_to_first_business_us": 1022603,
+            "network_open_to_first_business_us": 5002045
+          },
+          "comparison": "EXPLORATORY_SINGLE_RUN_NOMINAL_TIME_ONLY",
+          "acceptance_pass": false
+        },
+        "M07": {
+          "grade": "LIMITED_OBSERVATION",
+          "limited_observation_usable": true,
+          "reasons": [
+            "OBSERVED_CACHE_EMPTY_AT_LAST_SNAPSHOT_ONLY",
+            "NO_TERMINAL_SNAPSHOT_TIMESTAMP",
+            "NO_LOSSLESS_OR_FULL_DRAIN_CLAIM",
+            "CACHE_BASELINES_DIFFER_ACROSS_PILOT_RUNS"
+          ],
+          "values": {
+            "before": {
+              "cache": 1,
+              "lost": 0,
+              "replay": 0,
+              "drop": 0
+            },
+            "after": {
+              "cache": 32,
+              "lost": 325,
+              "replay": 23,
+              "drop": 0
+            },
+            "deltas": {
+              "lost": 325,
+              "replay": 23,
+              "drop": 0
+            },
+            "raw_last_snapshot_empty": 0,
+            "drain_claim_consistent": true,
+            "live_replay_time_usable": true,
+            "LIVE_before_REPLAY": true
+          },
+          "comparison": "NO_LOSS_RATE_COMPARISON_WITH_DIFFERENT_BASELINES",
+          "acceptance_pass": false
+        }
+      },
+      "original_strict_decode_status": "PROBE_LOSS_OR_UNSTABLE_HALT",
+      "whole_window_acceptance": "NOT_QUALIFIED",
+      "H16_acceptance": "NOT_GRANTED",
+      "hardware_tests_executed_this_analysis": false,
+      "variant": "P5",
+      "snapshot_sha256": "6aa9575a7fdc6f34933d6dc32ca01115e4c4e3e67022cb29193ff4d0e1b89232",
+      "snapshot_bytes": 1264
+    }
+  ],
+  "hardware_activity_this_round": false,
+  "H16_acceptance": "NOT_GRANTED"
+}

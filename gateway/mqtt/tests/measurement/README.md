@@ -79,3 +79,10 @@ python gateway/mqtt/tests/measurement/r1_snapshot_index.py gateway/mqtt/tests/me
 本次本地接口依赖`pylink-square==2.0.2`、既有Windows J-Link5.12 DLL和Cloud/serial观察依赖；导入模块不连接硬件。
 2026-10-09窗口已完成，两版原始字节留私有目录，公开只保存脱敏JSON；严格H16质量没有通过，下一次硬件需另批完整窗口。
 统一结果见[综合回执](../../../../doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/P5_收尾综合回执与C3A受限窗口方案_20261009.md)。
+
+## 既有C3A快照的逐指标离线评级
+
+`analyze_c3a_quality.py`只读取已归档的P4/P5各两份本地快照，按冻结布局与原报告SHA绑定，独占创建新JSON。
+保留原始flags和计数，区分窗口前累计tick丢失与窗口新增/配对失败，以及活动span与已完成调用。
+M01～M07独立评级，M03始终PARTIAL、M04始终BLOCKED；HALT请求/确认用区间表达，永不输出全窗或H16 PASS。
+原`r2_snapshot_bytes.py`严格拒绝器和历史报告不变。结果及17项新增负向测试见[离线质量综合回执](../../../../doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/P5_C3A_诊断质量离线收尾综合回执_20261009.md)。
