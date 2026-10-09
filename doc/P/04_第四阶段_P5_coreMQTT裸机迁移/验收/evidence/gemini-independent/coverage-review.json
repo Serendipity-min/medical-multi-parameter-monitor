@@ -1,0 +1,77 @@
+{
+  "semgrep_pro": {
+    "files_scanned": 66,
+    "files_skipped": 0,
+    "scan_errors": 0,
+    "findings": 0
+  },
+  "gitleaks": {
+    "commits_scanned": "P4..P5 (81 files delta)",
+    "raw_findings": 6,
+    "accepted_findings": 6,
+    "unhandled_secrets": 0
+  },
+  "trivy": {
+    "targets_scanned": 3,
+    "licenses_analyzed": 65,
+    "vulnerabilities": 1
+  },
+  "pip_audit": {
+    "packages_checked": 16,
+    "vulnerabilities": 0
+  },
+  "npm_audit": {
+    "packages_checked": 65,
+    "vulnerabilities": 1
+  },
+  "clang_tidy": {
+    "translation_units_covered": 12,
+    "translation_units_expected": 21,
+    "coverage_gaps_count": 9,
+    "coverage_gaps": [
+      {
+        "path": "gateway/esp_at_probe/src/bridge.c",
+        "reason": "ARM-only peripheral driver; requires STM32F4 toolchain and CMSIS headers"
+      },
+      {
+        "path": "gateway/esp_at_probe/src/main.c",
+        "reason": "ARM-only hardware probe entry; requires STM32F4 toolchain"
+      },
+      {
+        "path": "gateway/esp_at_probe/src/network_probe.c",
+        "reason": "ARM-only hardware probe module; requires STM32F4 toolchain"
+      },
+      {
+        "path": "gateway/esp_at_probe/src/stm32f4xx_it.c",
+        "reason": "ARM-only interrupt vectors; requires STM32F4 toolchain"
+      },
+      {
+        "path": "gateway/esp_at_probe/src/syscalls.c",
+        "reason": "ARM-only newlib syscall stubs; requires STM32F4 toolchain"
+      },
+      {
+        "path": "gateway/esp_at_probe/src/system_stm32f4xx.c",
+        "reason": "ARM CMSIS system clock init; requires STM32F4 toolchain"
+      },
+      {
+        "path": "gateway/mqtt/src/heap.c",
+        "reason": "ARM newlib sbrk memory boundary implementation"
+      },
+      {
+        "path": "gateway/mqtt/src/main.c",
+        "reason": "ARM main application entry and hardware peripheral loop"
+      },
+      {
+        "path": "gateway/mqtt/src/platform.c",
+        "reason": "ARM USART/DMA/RingBuffer platform driver"
+      }
+    ]
+  },
+  "asan_ubsan": {
+    "status": "OK",
+    "executed": true,
+    "test_cases": 42,
+    "failures": 0,
+    "report_md_disclaimer_explained": "gate-report.md default template string 'Not executed in this mode' contradicts reality of step p5-coremqtt-asan-ubsan running 42 tests with exit 0"
+  }
+}
