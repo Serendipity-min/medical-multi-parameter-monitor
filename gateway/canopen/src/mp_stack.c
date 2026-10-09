@@ -11,6 +11,9 @@ static void stop_node(MpNode *n)
         CO_delete(n->co);
     n->co = NULL;
     n->port.module = NULL;
+    /* OD本身是静态存储，扩展对象却属于已释放的CANopen实例；保留原始值并注销回调引用。 */
+    for (unsigned i = 0; i < n->od.nentry; i++)
+        n->od.entries[i].extension = NULL;
 }
 
 /* 上游 EMCY 回调没有项目实例参数；当前单测试系统通过 active 保存 A/B 最新故障码。 */

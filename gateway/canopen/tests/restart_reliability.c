@@ -122,6 +122,9 @@ static void stopped(unsigned node)
 {
     MpNode *n = &stack.nodes[node - 1];
     assert(!n->port.enabled && !n->co && !n->port.module);
+    /* OD条目留在静态节点内，不能继续指向已删除的NMT/EM/HB/PDO扩展对象。 */
+    for (unsigned i = 0; i < n->od.nentry; i++)
+        assert(!n->od.entries[i].extension);
 }
 
 static void restart_case(unsigned node, unsigned kind)
@@ -161,7 +164,11 @@ static void restart_case(unsigned node, unsigned kind)
     run(1200);
     assert(live_blocks == baseline_blocks);
     assert(mp_stack_online(&stack, 1) && mp_stack_online(&stack, 2));
+    OD_entry_t *heartbeat = OD_find(&stack.nodes[node - 1].od.od, 0x1017);
+    assert(heartbeat->extension == &stack.nodes[node - 1].co->NMT->OD_1017_extension);
     mp_stack_close(&stack);
+    for (unsigned closed = 1; closed <= 3; closed++)
+        stopped(closed);
     assert(live_blocks == 0);
 }
 
