@@ -42,3 +42,32 @@ CLI exit=0仅表示解析完成；exit=2表示输入/文件不合格，二者都
 本轮只验证解析器，未写`c3-measurement-summary.json`。
 
 测量方案：[P5 H16计划](../../../../doc/P/04_第四阶段_P5_coreMQTT裸机迁移/设计/P5_H16动态资源与P4对照测量计划_v1.0.md)。
+
+## C2.5 追加：隔离诊断覆盖层
+
+[diagnostic/](diagnostic/README.md)新增本地来源导出/patch/编译调度器和普通Host测试；以上“只读JSON、无子进程”约束仍指原analyze_h16解析器。
+新调度器可调用本地Git/GCC/WSL，仍不含设备/服务器/扫描/提交能力。原解析器及22项测试代码只读不变。
+C2.5仅生成两套带诊断标记的隔离产物，56项新诊断测试与既有22项检查分开；M04 BLOCKED，其余均无实机测量。
+
+## C2.5-R1 审计口径
+
+审计发现当前探针每轮只留最大类别样本；不能把这些最大值填入`analyze_h16.py`的逐次`cycle_samples`后解释其中位数。
+M02仅称`SYSTICK_ISR_SAMPLE_TO_COOPERATIVE_SERVICE_DONE`；M03只报告完整Gateway发布包容周期，纯CPU成本未测；
+M04保持`BLOCKED_UNSAFE_SENTINEL`；M07只称`OBSERVED_CACHE_EMPTY_AT_LAST_SNAPSHOT`，不代表终点全量排空。
+新[r1_snapshot_index.py](r1_snapshot_index.py)只检查脱机索引的连续三轮、冻结SHA、固件身份和丢样声明，
+不读取真机或导出`analyze_h16.py`输入，永远不授予H16验收。实际快照流程见[R1规约](../../../../doc/P/04_第四阶段_P5_coreMQTT裸机迁移/设计/P5_C25_R1_快照与扰动判废规约_v1.0.md)。
+
+## C2.5-R2 脱机原始字节链
+
+索引器现要求`--event-log`，并从独立SHA链记录核对D、halt、双读、保存、resume与下一D的绝对顺序。
+`r2_generate_layout.py`用ARM编译器生成`ProbeState`的版本化布局，输出目录必须是忽略build下的新空目录；
+`r2_snapshot_bytes.py`只读两份已保存的本地1264B文件；`r2_verify_bundle.py`再把六轮真实文件SHA与索引/事件链绑定。
+三者均不连接设备，输出固定不授予H16/C3A。人工合成样本与完整普通测试：
+
+```text
+python gateway/mqtt/tests/measurement/r2_generate_layout.py --output-dir gateway/mqtt/build/h16-diagnostic/r2-layout-new-run
+python -m unittest discover -s gateway/mqtt/tests/measurement -p "test_*.py" -v
+python gateway/mqtt/tests/measurement/r1_snapshot_index.py gateway/mqtt/tests/measurement/fixtures/r1-snapshot-index-synthetic.json --event-log gateway/mqtt/tests/measurement/fixtures/r2-synthetic-event-log.json
+```
+
+固定布局SHA、现场暂停限制和指标字段边界见[R2规约](../../../../doc/P/04_第四阶段_P5_coreMQTT裸机迁移/设计/P5_C25_R2_原始快照链路与C3A申请规约_v1.0.md)。

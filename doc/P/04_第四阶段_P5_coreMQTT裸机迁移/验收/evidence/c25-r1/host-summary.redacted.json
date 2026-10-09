@@ -1,0 +1,108 @@
+{
+  "kind": "OFFLINE_DIAGNOSTIC_HOST_TESTS",
+  "hardware_activity": false,
+  "broker_activity": false,
+  "security_gate": "NOT_AUTHORIZED/NOT_RUN",
+  "tests": [
+    {
+      "name": "build_contract",
+      "exit_code": 0,
+      "cases": 9,
+      "command": [
+        "<PYTHON311>",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "<REPO>\\gateway\\mqtt\\tests\\measurement\\diagnostic\\tests",
+        "-p",
+        "test_build_contract.py",
+        "-v"
+      ],
+      "log_sha256": "a8e37e85c679b3176347e0b3bd0c1ecc0f69336e9e118b7f19593881221087d7"
+    },
+    {
+      "name": "probe",
+      "exit_code": 0,
+      "cases": 23,
+      "command": [
+        "wsl",
+        "-d",
+        "HERA-C3",
+        "--",
+        "<C25_HOST_RUN>/probe"
+      ],
+      "log_sha256": "8cd30d8ff72d0869ac3014fe15a7be12a9d5d1fd57b4164023cf45d3f0fb1a67"
+    },
+    {
+      "name": "P4-overlay",
+      "exit_code": 0,
+      "cases": 8,
+      "command": [
+        "wsl",
+        "-d",
+        "HERA-C3",
+        "--",
+        "<C25_HOST_RUN>/P4-overlay"
+      ],
+      "log_sha256": "6a09c8d3f74c46c971aaf162a6478c6503ed4efade3e00b8270609a7d06362d8"
+    },
+    {
+      "name": "P4-heap",
+      "exit_code": 0,
+      "cases": 4,
+      "command": [
+        "wsl",
+        "-d",
+        "HERA-C3",
+        "--",
+        "<C25_HOST_RUN>/P4-heap"
+      ],
+      "log_sha256": "ab3bc716cfa9bbf3fba36c6b9951d099431ee6770aec7a61f3e2084f4ef1045c"
+    },
+    {
+      "name": "P5-overlay",
+      "exit_code": 0,
+      "cases": 8,
+      "command": [
+        "wsl",
+        "-d",
+        "HERA-C3",
+        "--",
+        "<C25_HOST_RUN>/P5-overlay"
+      ],
+      "log_sha256": "6a09c8d3f74c46c971aaf162a6478c6503ed4efade3e00b8270609a7d06362d8"
+    },
+    {
+      "name": "P5-heap",
+      "exit_code": 0,
+      "cases": 4,
+      "command": [
+        "wsl",
+        "-d",
+        "HERA-C3",
+        "--",
+        "<C25_HOST_RUN>/P5-heap"
+      ],
+      "log_sha256": "ab3bc716cfa9bbf3fba36c6b9951d099431ee6770aec7a61f3e2084f4ef1045c"
+    }
+  ],
+  "source_run": "<C25_ARM_RUN>",
+  "passed": 56,
+  "input_sha256": {
+    "gateway/mqtt/tests/measurement/diagnostic/build_diagnostic.py": "f7fe5f3e299909906f451e8b91d44ef4c9da8ac9e3ef55d8a9a1a33f6d9a158f",
+    "gateway/mqtt/tests/measurement/diagnostic/prepare_overlays.py": "9376923fd1570cb04370e89122fb70e563d86e57e48078618b1975efacc4ed18",
+    "gateway/mqtt/tests/measurement/diagnostic/probe_config.h": "f805e6baeb5b730e6deac0822f13dd81ca1578dd2530d0d1df60171175405b1a",
+    "gateway/mqtt/tests/measurement/diagnostic/probe_events.c": "a040517ac7712559de4106dd03d0f6186a23ebe1dd2288b6dc144ad116919cb5",
+    "gateway/mqtt/tests/measurement/diagnostic/probe_events.h": "a13ca7a6399ac1dbe22cb92ba8961b1a0484ce63c8449815558a4db6cd6f6487",
+    "gateway/mqtt/tests/measurement/diagnostic/verify_isolation.py": "9d7c35c6ddb28c9771b8b8690b45b85a59e5bc1467c918e8426e78823747fe30",
+    "gateway/mqtt/tests/measurement/diagnostic/overlays/P4.patch": "458b82dfe5adc74556900435fe3ab094535ef72195df0f2eb1efd7a1ab7d0539",
+    "gateway/mqtt/tests/measurement/diagnostic/overlays/P5.patch": "c66213dda6debb6136da13de27e8cde2d82fc1df01dcf1cb40b3300f166eecce",
+    "gateway/mqtt/tests/measurement/diagnostic/tests/p4_host_platform.c": "f111c7ee1a4466c67ffea74c93179eab437ceef48b953d9bf5ea497b752b0456",
+    "gateway/mqtt/tests/measurement/diagnostic/tests/run_host_tests.py": "1042effc404594e1f0ee7196e0ff80e5597609417e89015051676fae5c5a02af",
+    "gateway/mqtt/tests/measurement/diagnostic/tests/test_build_contract.py": "a196f0dcb26faec3e1f4dd18a74bd39d9b3f2fe4e78985c6b757280506e2af99",
+    "gateway/mqtt/tests/measurement/diagnostic/tests/test_heap_host.c": "f53beee52d58bb85fcc3f0fc6df58b31f5ccfe4566034ea047cc12c5fd349771",
+    "gateway/mqtt/tests/measurement/diagnostic/tests/test_overlay_host.c": "ce445c3ed479be656e3cea5dff01eab1f1f6798bdca398d2a6f4b25a4598debd",
+    "gateway/mqtt/tests/measurement/diagnostic/tests/test_probe_host.c": "0475a62c3bdda49e50c0657ccd47fa0df0f5fa3cddaefb29b46520022d3a7eaf"
+  }
+}

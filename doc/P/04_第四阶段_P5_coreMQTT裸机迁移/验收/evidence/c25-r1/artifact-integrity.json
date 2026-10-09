@@ -1,0 +1,229 @@
+{
+  "kind": "C25_R1_LOCAL_ARTIFACT_RECHECK",
+  "hardware_activity": false,
+  "broker_activity": false,
+  "security_gate": "NOT_AUTHORIZED/NOT_RUN",
+  "build_not_rerun": true,
+  "original_reports_sha256": {
+    "reports/build-summary.json": "e820eb620397f1c8f41bb03a856c8a3198d613302923ce594ca4971eb4d0818c",
+    "reports/isolation-resources.json": "1dc501a1e81cbbde63b65d27482796242ce9ae579063b768ed2ff28f56d5133b",
+    "reports/P4-sections.txt": "b588daf800d3eec9e6ba229ba828a40d65fe80aa45fc6622d3808ecb01db04b9",
+    "reports/P4-symbols.txt": "125603e65babc85df29a366e012cb58c8f5ee53633dd597ad387866e593d6690",
+    "reports/P5-sections.txt": "aa7f27bd10307ec16f17b8a9c6e5242ef1b9da4f8778baa316bca9374234dcbe",
+    "reports/P5-symbols.txt": "ca32d4bf672532e7b8c5f119814ab2b518a2393e85b0b3d251daa950a5952786",
+    "reports/parser22.log": "5298746e6385a3d344d2eebb704b6df233cae1262e8c5f2fe23943a13d46c58b"
+  },
+  "original_host_summary_sha256": "1a49c9d8a0eedb042b9a8230c2bd139525c63ede8114a4d21eec3ba12d3750a8",
+  "variants": {
+    "P4": {
+      "source_commit": "8dee339491cfd4edc468bb9451511d421f26db5e",
+      "production_bin_sha256": "5fd386b8bfe0bcf54d4f53ffb1ec6483d086a1c3287b4fe6c37a3ddeacd90547",
+      "overlay_sha256": "458b82dfe5adc74556900435fe3ab094535ef72195df0f2eb1efd7a1ab7d0539",
+      "compiler": "arm-none-eabi-gcc.exe (Arm GNU Toolchain 14.2.Rel1 (Build arm-14.52)) 14.2.1 20241119",
+      "source_count": 38,
+      "fixed_input_hashes_verified": 39,
+      "vendor_integrity_exit_recorded": 0,
+      "command_count_recorded": 40,
+      "per_command_exit_code_originally_recorded": false,
+      "completed_build_implies_successful_subprocesses": true,
+      "compile_log_count": 38,
+      "compile_and_link_nonempty_logs": [],
+      "compiler_link_warning_count": 0,
+      "artifacts": {
+        "gateway_mqtt.elf": {
+          "sha256": "1074cab9da56dd091a596d7ff3341d4ab7413c455a85149d5a05d54ede5a23e7",
+          "bytes": 65460
+        },
+        "gateway_mqtt.bin": {
+          "sha256": "fabd82b305e2fe1bc4bbc0d06bdde91d05daabd7f91c70ca017f48e4617ab551",
+          "bytes": 33040
+        },
+        "gateway_mqtt.map": {
+          "sha256": "410dd0ded5fd5a9b8c9d0d120ef9c5bfcd91003baf51535942898cece5d1c5ff",
+          "bytes": 222449
+        }
+      },
+      "sections": {
+        ".isr_vector": {
+          "size": 392,
+          "address": 134217728
+        },
+        ".text": {
+          "size": 32536,
+          "address": 134218128
+        },
+        ".init": {
+          "size": 4,
+          "address": 134250664
+        },
+        ".fini": {
+          "size": 4,
+          "address": 134250668
+        },
+        ".ARM": {
+          "size": 8,
+          "address": 134250672
+        },
+        ".data": {
+          "size": 88,
+          "address": 536870912
+        },
+        ".bss": {
+          "size": 88568,
+          "address": 536871000
+        },
+        "._user_heap_stack": {
+          "size": 32768,
+          "address": 536959568
+        },
+        ".ARM.attributes": {
+          "size": 48,
+          "address": 0
+        },
+        ".comment": {
+          "size": 69,
+          "address": 0
+        },
+        ".debug_line_str": {
+          "size": 475,
+          "address": 0
+        },
+        ".debug_frame": {
+          "size": 2164,
+          "address": 0
+        }
+      },
+      "static_ram": 88656,
+      "ram_with_reservation": 121424,
+      "static_ram_delta": 1268,
+      "ram_delta": 1264,
+      "ram_remaining": 9648,
+      "probe_state_bytes": 1264,
+      "heap_start": "0x20015a50",
+      "heap_end": "0x2001ba50",
+      "vendor_files_untouched": true
+    },
+    "P5": {
+      "source_commit": "e598fc63719acdf49a99c6da46c656dc8c607782",
+      "production_bin_sha256": "fd81076b9b34ad0a8f4ee35c08cd7ea14704f6d7b04620741cdf083c9c6c1069",
+      "overlay_sha256": "c66213dda6debb6136da13de27e8cde2d82fc1df01dcf1cb40b3300f166eecce",
+      "compiler": "arm-none-eabi-gcc.exe (Arm GNU Toolchain 14.2.Rel1 (Build arm-14.52)) 14.2.1 20241119",
+      "source_count": 36,
+      "fixed_input_hashes_verified": 37,
+      "vendor_integrity_exit_recorded": 0,
+      "command_count_recorded": 38,
+      "per_command_exit_code_originally_recorded": false,
+      "completed_build_implies_successful_subprocesses": true,
+      "compile_log_count": 36,
+      "compile_and_link_nonempty_logs": [],
+      "compiler_link_warning_count": 0,
+      "artifacts": {
+        "gateway_mqtt.elf": {
+          "sha256": "f70e2d043ca6b08c6d5820263a07122caeaafccc7e3b4faf2da977da0a5dbeca",
+          "bytes": 72260
+        },
+        "gateway_mqtt.bin": {
+          "sha256": "47a444ebd3642dffef80364309d0b100cc048b456d75dde0b2806a7f9a052efc",
+          "bytes": 38640
+        },
+        "gateway_mqtt.map": {
+          "sha256": "49fd2a785f3bf6c33f60adb8653f4cabfeaefcf8303791f1235e1d47562d44bc",
+          "bytes": 233359
+        }
+      },
+      "sections": {
+        ".isr_vector": {
+          "size": 392,
+          "address": 134217728
+        },
+        ".text": {
+          "size": 38136,
+          "address": 134218128
+        },
+        ".init": {
+          "size": 4,
+          "address": 134256264
+        },
+        ".fini": {
+          "size": 4,
+          "address": 134256268
+        },
+        ".ARM": {
+          "size": 8,
+          "address": 134256272
+        },
+        ".data": {
+          "size": 88,
+          "address": 536870912
+        },
+        ".bss": {
+          "size": 88616,
+          "address": 536871000
+        },
+        "._user_heap_stack": {
+          "size": 32768,
+          "address": 536959616
+        },
+        ".ARM.attributes": {
+          "size": 48,
+          "address": 0
+        },
+        ".comment": {
+          "size": 69,
+          "address": 0
+        },
+        ".debug_line_str": {
+          "size": 475,
+          "address": 0
+        },
+        ".debug_frame": {
+          "size": 2164,
+          "address": 0
+        }
+      },
+      "static_ram": 88704,
+      "ram_with_reservation": 121472,
+      "static_ram_delta": 1268,
+      "ram_delta": 1264,
+      "ram_remaining": 9600,
+      "probe_state_bytes": 1264,
+      "heap_start": "0x20015a80",
+      "heap_end": "0x2001ba80",
+      "vendor_files_untouched": true
+    }
+  },
+  "host_tests": {
+    "cases": 56,
+    "groups": {
+      "build_contract": 9,
+      "probe": 23,
+      "P4-overlay": 8,
+      "P4-heap": 4,
+      "P5-overlay": 8,
+      "P5-heap": 4
+    },
+    "recorded_exit_codes": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "all_source_hashes_match_current": true,
+    "all_log_hashes_match": true
+  },
+  "derived_files_sha256": {
+    "build-summary.redacted.json": "1457bf69a97c162bc8e399c1eaaff4c843794d73c20a638cbdd4fe423cd3a6fa",
+    "host-summary.redacted.json": "987fc23410f5878e29e8d8b63d105d3b299970c0cd20b87f1f567fa73e1958dc",
+    "isolation-resources.json": "98af3b61f19008f852364dedbd4b16cfe691dd0d150416165eaef11b7a219e58",
+    "P4-sections.redacted.txt": "41efcdcc03a82564ae3b1379fc0d6b83eae02341959b408945016a9eb88cd0f6",
+    "P4-symbols.txt": "73a0ec85345ff4247a70fc4732dfcf3a50e0345b3d7278eb7e308540c0cc0f22",
+    "P5-sections.redacted.txt": "7edb58725f8c1646153f2f35aed83cf62fb0a9619efb5e666450d1407166195c",
+    "P5-symbols.txt": "c76fc78f2a1ec8f052091e871436528a7b8fe2a9b0db4153b6caf0a0d364d778"
+  },
+  "parser22": {
+    "log_sha256": "5298746e6385a3d344d2eebb704b6df233cae1262e8c5f2fe23943a13d46c58b",
+    "historical_result": "22/22 PASS NOT_RERUN"
+  }
+}

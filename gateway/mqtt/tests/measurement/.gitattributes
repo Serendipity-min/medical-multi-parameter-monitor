@@ -1,0 +1,7 @@
+# 诊断源及精确Patch已被构建/审查摘要按原始字节冻结，禁止跨平台行尾转换。
+diagnostic/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# Patch上下文中的空行前缀是格式的一部分，不能当作源码尾随空格删除。
+diagnostic/overlays/*.patch -whitespace
+# R1/R2样本也在历史差异清单内按字节登记，保留其原始CRLF而不重造日志链。
+fixtures/r1-*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+fixtures/r2-*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

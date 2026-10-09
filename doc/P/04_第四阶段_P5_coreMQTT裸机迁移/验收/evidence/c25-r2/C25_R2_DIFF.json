@@ -1,0 +1,80 @@
+{
+  "kind": "C25_R2_DIFF_FROM_REVIEWED_R1_ZIP",
+  "r1_zip_sha256": "597b0f262b3742df33af4608757fca0ca771935ff61d53d4738557269661a43e",
+  "unchanged_r1_payload_count": 31,
+  "changed_r1_payload_count": 4,
+  "unchanged_r1_payload_sha256": {
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/设计/P5_C25_R1_快照与扰动判废规约_v1.0.md": "0525ee833efb32e3a87e226a8aa95a59a5522e8459a0c487fb74a06c84fd97f1",
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/设计/P5_C2_5_诊断覆盖层差异与构建审查_v1.0.md": "950706ded9020c9fd2e032a59fd15d57f750b3f85700f9687e863266e028ee8e",
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/P5_C25_R1_修复回执与证据索引_v1.0.md": "6d4eee1f38ab58caab1fb733dab1e42ac15972a0afd833e0b7daddea03122376",
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/P5_C2_5_离线编译与测试回执_v1.0.md": "36a75e41ce5b4af6fb579c8ddc2f420e2d9d0f12b474fa0a89b0f3a222456681",
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/c25-r1/C25_R1_DIFF.json": "892467d2487f35916d9072335ba875116b597d2dbac49385abcf2a1b35992a75",
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/c25-r1/P4-sections.redacted.txt": "41efcdcc03a82564ae3b1379fc0d6b83eae02341959b408945016a9eb88cd0f6",
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/c25-r1/P4-symbols.txt": "73a0ec85345ff4247a70fc4732dfcf3a50e0345b3d7278eb7e308540c0cc0f22",
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/c25-r1/P5-sections.redacted.txt": "7edb58725f8c1646153f2f35aed83cf62fb0a9619efb5e666450d1407166195c",
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/c25-r1/P5-symbols.txt": "c76fc78f2a1ec8f052091e871436528a7b8fe2a9b0db4153b6caf0a0d364d778",
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/c25-r1/analyze-h16-22-rerun.log": "5298746e6385a3d344d2eebb704b6df233cae1262e8c5f2fe23943a13d46c58b",
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/c25-r1/artifact-integrity.json": "1acaff35caa59fe7cfab87e16b25cc91caf0f9bd6c3ee87b72382f596ece8cfc",
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/c25-r1/build-summary.redacted.json": "1457bf69a97c162bc8e399c1eaaff4c843794d73c20a638cbdd4fe423cd3a6fa",
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/c25-r1/host-summary.redacted.json": "987fc23410f5878e29e8d8b63d105d3b299970c0cd20b87f1f567fa73e1958dc",
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/c25-r1/isolation-resources.json": "98af3b61f19008f852364dedbd4b16cfe691dd0d150416165eaef11b7a219e58",
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/c25-r1/r1-index-tests-v2.log": "53b0034ce8c33111b764c8229995f00fd106fd5dcfca7e1711ba4c24b63e6612",
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/c25-r1/r1-index-tests.log": "b09e211c6021be89dc158bad52a9f0ab88e6cfc5c823fccdd2d6421c37290ca6",
+    "gateway/mqtt/tests/measurement/diagnostic/README.md": "6c9e1a79f7f22f10195df4491239a4623aa53d153bd20b6a31497e640dbe9289",
+    "gateway/mqtt/tests/measurement/diagnostic/build_diagnostic.py": "f7fe5f3e299909906f451e8b91d44ef4c9da8ac9e3ef55d8a9a1a33f6d9a158f",
+    "gateway/mqtt/tests/measurement/diagnostic/overlays/P4.patch": "458b82dfe5adc74556900435fe3ab094535ef72195df0f2eb1efd7a1ab7d0539",
+    "gateway/mqtt/tests/measurement/diagnostic/overlays/P5.patch": "c66213dda6debb6136da13de27e8cde2d82fc1df01dcf1cb40b3300f166eecce",
+    "gateway/mqtt/tests/measurement/diagnostic/prepare_overlays.py": "9376923fd1570cb04370e89122fb70e563d86e57e48078618b1975efacc4ed18",
+    "gateway/mqtt/tests/measurement/diagnostic/probe_config.h": "f805e6baeb5b730e6deac0822f13dd81ca1578dd2530d0d1df60171175405b1a",
+    "gateway/mqtt/tests/measurement/diagnostic/probe_events.c": "a040517ac7712559de4106dd03d0f6186a23ebe1dd2288b6dc144ad116919cb5",
+    "gateway/mqtt/tests/measurement/diagnostic/probe_events.h": "a13ca7a6399ac1dbe22cb92ba8961b1a0484ce63c8449815558a4db6cd6f6487",
+    "gateway/mqtt/tests/measurement/diagnostic/tests/p4_host_platform.c": "f111c7ee1a4466c67ffea74c93179eab437ceef48b953d9bf5ea497b752b0456",
+    "gateway/mqtt/tests/measurement/diagnostic/tests/run_host_tests.py": "1042effc404594e1f0ee7196e0ff80e5597609417e89015051676fae5c5a02af",
+    "gateway/mqtt/tests/measurement/diagnostic/tests/test_build_contract.py": "a196f0dcb26faec3e1f4dd18a74bd39d9b3f2fe4e78985c6b757280506e2af99",
+    "gateway/mqtt/tests/measurement/diagnostic/tests/test_heap_host.c": "f53beee52d58bb85fcc3f0fc6df58b31f5ccfe4566034ea047cc12c5fd349771",
+    "gateway/mqtt/tests/measurement/diagnostic/tests/test_overlay_host.c": "ce445c3ed479be656e3cea5dff01eab1f1f6798bdca398d2a6f4b25a4598debd",
+    "gateway/mqtt/tests/measurement/diagnostic/tests/test_probe_host.c": "0475a62c3bdda49e50c0657ccd47fa0df0f5fa3cddaefb29b46520022d3a7eaf",
+    "gateway/mqtt/tests/measurement/diagnostic/verify_isolation.py": "9d7c35c6ddb28c9771b8b8690b45b85a59e5bc1467c918e8426e78823747fe30"
+  },
+  "changed_r1_payload_sha256": {
+    "gateway/mqtt/tests/measurement/README.md": {
+      "r1_sha256": "f7631eacb17a2333f60eced785160bb5e3866507cd6869eac045c0480df0fb30",
+      "r2_sha256": "d30a20803408534486175c25b4eb8c4a469579cfeb45e935ebac036c362341ba"
+    },
+    "gateway/mqtt/tests/measurement/fixtures/r1-snapshot-index-synthetic.json": {
+      "r1_sha256": "f91d4b016d60d9ff1f738fdb5d117755a35386ca3fd5f142fe0dad2307013edd",
+      "r2_sha256": "c4f1b6b8c3497f0364fff7e354e6cf2675a10d8749eb9a07ece497bfe1d2cb8a"
+    },
+    "gateway/mqtt/tests/measurement/r1_snapshot_index.py": {
+      "r1_sha256": "57bcff5d4b0512facc8cd25e119494bf46e7c6a65329df51c6f7e49031cf9f6b",
+      "r2_sha256": "662c5c8daa33ef869cd735a5fd297a93c8e35eaac6f7bcd23a20b84cd1f675de"
+    },
+    "gateway/mqtt/tests/measurement/test_r1_snapshot_index.py": {
+      "r1_sha256": "43884fb0eb64f0246c875c5dcb4b38d87c9acdfc5d1d9daeeea50aba42ce2cc9",
+      "r2_sha256": "c028a97fe90c461f2e17dc0b9f5f0464a9500a07c6641287c2f11928d1842770"
+    }
+  },
+  "new_r2_files_sha256": {
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/设计/P5_C25_R2_原始快照链路与C3A申请规约_v1.0.md": "447ab4cfdf0a4d481751e433fb6ce20ff534385d5c7a4d80bb1ba6f37190e918",
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/P5_C25_R2_离线实现回执与证据索引_v1.0.md": "32f155da3c3c8ebcdbbdee14c30ce37b3a9deb56ac38bba8c3bf2c233f00ae3b",
+    "gateway/mqtt/tests/measurement/r2_generate_layout.py": "61a7793ea532d0fb51f6cf1e9f44591b5ca897c7e97873e1189f7d95e32571aa",
+    "gateway/mqtt/tests/measurement/r2_snapshot_bytes.py": "93ae63c38d2646bdd0058d0baff02af7612acbdc800f059638cc4badf4447b1c",
+    "gateway/mqtt/tests/measurement/r2_verify_bundle.py": "f754a7d7f414b25d75beeae578331085f72abf0e7b70f68590380a1493af79a2",
+    "gateway/mqtt/tests/measurement/test_r2_event_order.py": "b59c8543aaa2026bdfbcacb90ff8c92c000d3dd25ea001c313e57f5a5a7963fc",
+    "gateway/mqtt/tests/measurement/test_r2_snapshot_bytes.py": "f666519c607e041bfc1e9a880cadd42570e637ceb495a108db454ff8b3f1e7aa",
+    "gateway/mqtt/tests/measurement/test_r2_verify_bundle.py": "4aea0e1e416ba8e1c26b3c6742d157fffa06fb56df9b9e4a32993204bd94c38a",
+    "gateway/mqtt/tests/measurement/fixtures/r2-synthetic-event-log.json": "de1caff633c2549dcc85b7d546de97e04c101d77eeb8592e2518f69e40ebe7db",
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/c25-r2/probe-layout-v2.json": "151a70d3f2bc874939844289d34ce1df48a65301a61a20a5d7884eab8ba36e7b",
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/c25-r2/r2-measurement-tests.log": "e989b0f23aab6a40ee4466af3432e63ed4ecb022983ed70883935954be7cbdd4",
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/c25-r2/r2-measurement-tests-final.log": "58aea0a22e44e295f1e6014f2909995cbd240b351c27ca7bcdc355f55f5d2ea5",
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/c25-r2/layout-reproduction.json": "d9152539c79cea1aeec846ca863363b4433965bacf393d9eb72eedafc4b1b3d7"
+  },
+  "diagnostic_patch_sha256": {
+    "P4": "458b82dfe5adc74556900435fe3ab094535ef72195df0f2eb1efd7a1ab7d0539",
+    "P5": "c66213dda6debb6136da13de27e8cde2d82fc1df01dcf1cb40b3300f166eecce"
+  },
+  "production_source_changed": false,
+  "diagnostic_probe_source_changed": false,
+  "hardware_activity": false,
+  "git_add_commit_push": false
+}

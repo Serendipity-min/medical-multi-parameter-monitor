@@ -1,0 +1,248 @@
+{
+  "layout_version": "C25_ARM_GCC14_2_PROBE_V2",
+  "endianness": "little",
+  "abi": "cortex-m4-hard-float",
+  "compiler": "arm-none-eabi-gcc.exe (Arm GNU Toolchain 14.2.Rel1 (Build arm-14.52)) 14.2.1 20241119",
+  "probe_events_h_sha256": "a13ca7a6399ac1dbe22cb92ba8961b1a0484ce63c8449815558a4db6cd6f6487",
+  "probe_config_h_sha256": "f805e6baeb5b730e6deac0822f13dd81ca1578dd2530d0d1df60171175405b1a",
+  "variants": {
+    "P4": {
+      "elf_sha256": "1074cab9da56dd091a596d7ff3341d4ab7413c455a85149d5a05d54ede5a23e7",
+      "probe_state_address": 536956400,
+      "marker_address": 134250112,
+      "probe_state_bytes": 1264,
+      "layout_object_sha256": "1c8d263292d305f4f10e11a83970ce51baec478de248820844ad0d1204bf0ebf",
+      "types": {
+        "ProbeState": {
+          "size": 1264,
+          "fields": {
+            "magic": 0,
+            "profile": 4,
+            "variant": 8,
+            "marker_address": 12,
+            "core_hz": 16,
+            "initialized": 20,
+            "irq_flags": 24,
+            "clock_seq": 28,
+            "clock_lo": 32,
+            "clock_hi": 36,
+            "last_cycle": 40,
+            "last_ms": 44,
+            "tick_head": 48,
+            "tick_tail": 52,
+            "tick_dropped": 56,
+            "tick_armed": 60,
+            "ticks": 64,
+            "foreground_flags": 192,
+            "dropped_observations": 196,
+            "unmatched_ticks": 200,
+            "serial": 204,
+            "depth": 208,
+            "window_generation": 212,
+            "window_start_ms": 216,
+            "boundary_skipped_ticks": 220,
+            "heap_error_base": 224,
+            "tick_drop_base": 228,
+            "spans": 232,
+            "aggregate": 424,
+            "event_count": 824,
+            "events": 828,
+            "network_us": 1088,
+            "network_valid_mask": 1160,
+            "recovery_generation": 1164,
+            "first_business_id": 1168,
+            "cache_before": 1188,
+            "cache_after": 1204,
+            "cache_snapshot_mask": 1220,
+            "cache_drained_observed": 1224,
+            "first_live_us": 1232,
+            "first_replay_us": 1240,
+            "live_observed": 1248,
+            "replay_observed": 1252,
+            "heap_peak_bytes": 1256,
+            "heap_enomem_count": 1260
+          }
+        },
+        "ProbeAggregate": {
+          "size": 40,
+          "fields": {
+            "success": 0,
+            "failure": 4,
+            "invalid": 8,
+            "min_cycles": 12,
+            "max_cycles": 16,
+            "reserved": 20,
+            "inclusive_cycles": 24,
+            "direct_child_cycles": 32
+          }
+        },
+        "ProbeSpan": {
+          "size": 32,
+          "fields": {
+            "cycle": 0,
+            "millisecond": 4,
+            "scope": 8,
+            "serial": 12,
+            "generation": 16,
+            "reserved": 20,
+            "direct_child_cycles": 24
+          }
+        },
+        "ProbeTick": {
+          "size": 8,
+          "fields": {
+            "tick": 0,
+            "cycle": 4
+          }
+        },
+        "ProbeEvent": {
+          "size": 16,
+          "fields": {
+            "scope": 0,
+            "start": 4,
+            "end": 8,
+            "bound_ms": 12
+          }
+        },
+        "ProbeCache": {
+          "size": 16,
+          "fields": {
+            "cache": 0,
+            "lost": 4,
+            "replay": 8,
+            "drop": 12
+          }
+        },
+        "ProbeFrameId": {
+          "size": 20,
+          "fields": {
+            "node": 0,
+            "stream": 4,
+            "seq": 8,
+            "epoch": 12,
+            "boot": 16
+          }
+        }
+      }
+    },
+    "P5": {
+      "elf_sha256": "f70e2d043ca6b08c6d5820263a07122caeaafccc7e3b4faf2da977da0a5dbeca",
+      "probe_state_address": 536956448,
+      "marker_address": 134255288,
+      "probe_state_bytes": 1264,
+      "layout_object_sha256": "1c8d263292d305f4f10e11a83970ce51baec478de248820844ad0d1204bf0ebf",
+      "types": {
+        "ProbeState": {
+          "size": 1264,
+          "fields": {
+            "magic": 0,
+            "profile": 4,
+            "variant": 8,
+            "marker_address": 12,
+            "core_hz": 16,
+            "initialized": 20,
+            "irq_flags": 24,
+            "clock_seq": 28,
+            "clock_lo": 32,
+            "clock_hi": 36,
+            "last_cycle": 40,
+            "last_ms": 44,
+            "tick_head": 48,
+            "tick_tail": 52,
+            "tick_dropped": 56,
+            "tick_armed": 60,
+            "ticks": 64,
+            "foreground_flags": 192,
+            "dropped_observations": 196,
+            "unmatched_ticks": 200,
+            "serial": 204,
+            "depth": 208,
+            "window_generation": 212,
+            "window_start_ms": 216,
+            "boundary_skipped_ticks": 220,
+            "heap_error_base": 224,
+            "tick_drop_base": 228,
+            "spans": 232,
+            "aggregate": 424,
+            "event_count": 824,
+            "events": 828,
+            "network_us": 1088,
+            "network_valid_mask": 1160,
+            "recovery_generation": 1164,
+            "first_business_id": 1168,
+            "cache_before": 1188,
+            "cache_after": 1204,
+            "cache_snapshot_mask": 1220,
+            "cache_drained_observed": 1224,
+            "first_live_us": 1232,
+            "first_replay_us": 1240,
+            "live_observed": 1248,
+            "replay_observed": 1252,
+            "heap_peak_bytes": 1256,
+            "heap_enomem_count": 1260
+          }
+        },
+        "ProbeAggregate": {
+          "size": 40,
+          "fields": {
+            "success": 0,
+            "failure": 4,
+            "invalid": 8,
+            "min_cycles": 12,
+            "max_cycles": 16,
+            "reserved": 20,
+            "inclusive_cycles": 24,
+            "direct_child_cycles": 32
+          }
+        },
+        "ProbeSpan": {
+          "size": 32,
+          "fields": {
+            "cycle": 0,
+            "millisecond": 4,
+            "scope": 8,
+            "serial": 12,
+            "generation": 16,
+            "reserved": 20,
+            "direct_child_cycles": 24
+          }
+        },
+        "ProbeTick": {
+          "size": 8,
+          "fields": {
+            "tick": 0,
+            "cycle": 4
+          }
+        },
+        "ProbeEvent": {
+          "size": 16,
+          "fields": {
+            "scope": 0,
+            "start": 4,
+            "end": 8,
+            "bound_ms": 12
+          }
+        },
+        "ProbeCache": {
+          "size": 16,
+          "fields": {
+            "cache": 0,
+            "lost": 4,
+            "replay": 8,
+            "drop": 12
+          }
+        },
+        "ProbeFrameId": {
+          "size": 20,
+          "fields": {
+            "node": 0,
+            "stream": 4,
+            "seq": 8,
+            "epoch": 12,
+            "boot": 16
+          }
+        }
+      }
+    }
+  }
+}

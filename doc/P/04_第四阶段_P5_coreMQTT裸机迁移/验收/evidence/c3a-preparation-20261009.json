@@ -1,0 +1,82 @@
+{
+  "kind": "OFFLINE_C3A_PREPARATION_ONLY",
+  "user_date": "2026-10-09",
+  "hardware_activity": false,
+  "diagnostic_branch": "codex/p5-c3a-diagnostic",
+  "branch_base": "de36cc1b9bbe7c98757d6fffb4c87b32ffde8f53",
+  "pr6_at_readonly_check": {
+    "state": "OPEN",
+    "draft": true,
+    "head": "de36cc1b9bbe7c98757d6fffb4c87b32ffde8f53",
+    "base": "P4"
+  },
+  "frozen_artifacts": {
+    "P4": {
+      "source": "8dee339491cfd4edc468bb9451511d421f26db5e",
+      "bin": "fabd82b305e2fe1bc4bbc0d06bdde91d05daabd7f91c70ca017f48e4617ab551",
+      "elf": "1074cab9da56dd091a596d7ff3341d4ab7413c455a85149d5a05d54ede5a23e7",
+      "bin_bytes": 33040,
+      "elf_bytes": 65460
+    },
+    "P5": {
+      "source": "e598fc63719acdf49a99c6da46c656dc8c607782",
+      "bin": "47a444ebd3642dffef80364309d0b100cc048b456d75dde0b2806a7f9a052efc",
+      "elf": "f70e2d043ca6b08c6d5820263a07122caeaafccc7e3b4faf2da977da0a5dbeca",
+      "bin_bytes": 38640,
+      "elf_bytes": 72260
+    }
+  },
+  "bridge_sha256": "523bf9c2dd4d59c0f6c564d9f16c0cc51a9160c47b8a7be31f7ddad4832df8ff",
+  "bridge_bytes": 1664,
+  "historical_backups_match": {
+    "original-1MiB.bin": true,
+    "original-1MiB-second.bin": true,
+    "restored-1MiB-readback.bin": true
+  },
+  "historical_backup_sha256": "852d7618f8fc46c80cbe035ebd41f4e21e4d5a76a26cf10a39e0600f7a89ffb8",
+  "fresh_flash_backup": "REQUIRED_IN_AUTHORIZED_WINDOW_NOT_EXECUTED",
+  "private_uid_guard_available": true,
+  "private_config_available": true,
+  "production_input_diff_from_tested_source": [],
+  "portable_tests": {
+    "exit_code": 0,
+    "cases": 53,
+    "no_old_build_inputs": true,
+    "log_sha256": "6a832409290b3692077b4afe20de82126f08cf38b8e66899dbf81be19315d744",
+    "inputs_sha256": {
+      "gateway/mqtt/tests/measurement/analyze_h16.py": "6123aefc59795332ac7fa608205e65784d07145177828b9851dd1fcda1b3c23d",
+      "gateway/mqtt/tests/measurement/r1_snapshot_index.py": "662c5c8daa33ef869cd735a5fd297a93c8e35eaac6f7bcd23a20b84cd1f675de",
+      "gateway/mqtt/tests/measurement/r2_generate_layout.py": "61a7793ea532d0fb51f6cf1e9f44591b5ca897c7e97873e1189f7d95e32571aa",
+      "gateway/mqtt/tests/measurement/r2_snapshot_bytes.py": "93ae63c38d2646bdd0058d0baff02af7612acbdc800f059638cc4badf4447b1c",
+      "gateway/mqtt/tests/measurement/r2_verify_bundle.py": "f754a7d7f414b25d75beeae578331085f72abf0e7b70f68590380a1493af79a2",
+      "gateway/mqtt/tests/measurement/test_analyze_h16.py": "7c6f2f099142bb5a9ab98f72768b4f3029f142bbb45fd61c80bfe4799fdcda35",
+      "gateway/mqtt/tests/measurement/test_r1_snapshot_index.py": "c028a97fe90c461f2e17dc0b9f5f0464a9500a07c6641287c2f11928d1842770",
+      "gateway/mqtt/tests/measurement/test_r2_event_order.py": "b59c8543aaa2026bdfbcacb90ff8c92c000d3dd25ea001c313e57f5a5a7963fc",
+      "gateway/mqtt/tests/measurement/test_r2_snapshot_bytes.py": "02475224fe83a9a5b633bb3c6c97ba458c3ba29b6de07b39e2f86433b63228dd",
+      "gateway/mqtt/tests/measurement/test_r2_verify_bundle.py": "6ba0b4fde740ae7833cb5d5320322d2cc6f5f29255f146c3462548eeb4369a28",
+      "gateway/mqtt/tests/measurement/fixtures/h16-synthetic-demo.json": "ac0021f0d68486a5d1c5323f83beadc9b1989de466de1c26ce7127ee0a630779",
+      "gateway/mqtt/tests/measurement/fixtures/r1-snapshot-index-synthetic.json": "c4f1b6b8c3497f0364fff7e354e6cf2675a10d8749eb9a07ece497bfe1d2cb8a",
+      "gateway/mqtt/tests/measurement/fixtures/r2-synthetic-event-log.json": "de1caff633c2549dcc85b7d546de97e04c101d77eeb8592e2518f69e40ebe7db",
+      "gateway/mqtt/tests/measurement/diagnostic/probe_events.h": "a13ca7a6399ac1dbe22cb92ba8961b1a0484ce63c8449815558a4db6cd6f6487",
+      "gateway/mqtt/tests/measurement/diagnostic/probe_config.h": "f805e6baeb5b730e6deac0822f13dd81ca1578dd2530d0d1df60171175405b1a",
+      "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/c25-r2/probe-layout-v2.json": "151a70d3f2bc874939844289d34ce1df48a65301a61a20a5d7884eab8ba36e7b"
+    }
+  },
+  "pilot_limits": {
+    "sample_runs_per_variant": 1,
+    "application_installs_max": 4,
+    "config_writes_max": 2,
+    "explicit_reset_halt_sequences_max": 10,
+    "measurement_halts_max": 2,
+    "D_measurement_max": 2,
+    "D_cleanup_max": 2,
+    "running_cycle_reads_per_variant_max": 2,
+    "full_1MiB_restore": 1
+  },
+  "C3A_authorization": "PENDING",
+  "M03": "PARTIAL_UNCALIBRATED_INCLUSIVE",
+  "M04": "BLOCKED_NONBLOCKING_FOR_COLLECTION",
+  "security_gate": "NOT_AUTHORIZED",
+  "P5_final": "HOLD",
+  "P6": "NOT_STARTED"
+}

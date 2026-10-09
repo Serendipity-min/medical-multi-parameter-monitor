@@ -1,0 +1,316 @@
+diff --git a/gateway/esp_at_probe/src/stm32f4xx_it.c b/gateway/esp_at_probe/src/stm32f4xx_it.c
+--- a/gateway/esp_at_probe/src/stm32f4xx_it.c
++++ b/gateway/esp_at_probe/src/stm32f4xx_it.c
+@@ -1,4 +1,5 @@
+ #include "main.h"
++#include "probe_events.h"
+ 
+ /* 系统节拍仅累加运行时间；不在中断中执行串口解析，避免命令输入阻塞实时性。 */
+ volatile uint32_t g_uptime_ms;
+@@ -6,4 +7,6 @@
+ void SysTick_Handler(void)
+ {
+     g_uptime_ms++;
++    /* 定长非阻塞ISR记录，不格式化、不做网络或分配。 */
++    probe_tick(g_uptime_ms);
+ }
+diff --git a/gateway/mqtt/src/gateway_transport.c b/gateway/mqtt/src/gateway_transport.c
+--- a/gateway/mqtt/src/gateway_transport.c
++++ b/gateway/mqtt/src/gateway_transport.c
+@@ -6,6 +6,9 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
++#include "probe_events.h"
++static MQTTStatus_t diagnostic_library_publish(MQTTContext_t *, const MQTTPublishInfo_t *, uint16_t);
++static MQTTStatus_t diagnostic_library_process(MQTTContext_t *);
+ 
+ /* 一个串行发布者、一个在途 QoS1 记录；总 TX/RX 容量沿用 P4，不分配堆。 */
+ static NetworkContext_t network;
+@@ -43,6 +46,8 @@
+ static int step(const char *name, const char *command, uint32_t timeout)
+ {
+     int ok = at_command(command, timeout);
++    if (ok && !strcmp(name, "TLS"))
++        probe_network_point(PROBE_TLS_READY);
+     console(ok ? "GW OK " : "GW FAIL ");
+     console(name);
+     console("\r\n");
+@@ -85,7 +90,7 @@
+ /* 不完整包可在多次 ProcessLoop 间继续，但总装配时间有限，不能无限续活连接。 */
+ static int process_once(void)
+ {
+-    MQTTStatus_t status = MQTT_ProcessLoop(&client);
++    MQTTStatus_t status = diagnostic_library_process(&client);
+     if (status == MQTTNeedMoreBytes)
+     {
+         if (!partial_waiting)
+@@ -104,7 +109,7 @@
+ }
+ 
+ /* 重连清空 context/记录和 RX；包标识在本次开机中继续递增，拒绝旧会话迟到 ACK。 */
+-int gateway_mqtt_open(const MpFrame *will_frame)
++static int original_gateway_mqtt_open(const MpFrame *will_frame)
+ {
+     char will[512];
+     if (!mp_json(will_frame, will, sizeof(will)))
+@@ -147,7 +152,10 @@
+     int ok = status == MQTTSuccess && network.connected && !session_present
+              && (uint32_t)(g_uptime_ms - start) < 5000U;
+     if (ok)
++    {
+         mqtt_online = 1;
++        probe_network_point(PROBE_CONNACK);
++    }
+     else
+         mqtt_failed();
+     secure_memzero(will, sizeof(will));
+@@ -156,7 +164,7 @@
+ }
+ 
+ /* 序列化失败直接返回给 Router 回存；不能把截断的 JSON 当作成功消息发送。 */
+-int gateway_mqtt_publish(const MpFrame *frame)
++static int original_gateway_mqtt_publish(const MpFrame *frame)
+ {
+     if (!mqtt_online || !network.connected)
+         return 0;
+@@ -178,7 +186,7 @@
+     next_packet_seed = client.nextPacketId;
+     uint32_t start = g_uptime_ms;
+     mqtt_adapter_begin(&network, 5000);
+-    int ok = MQTT_Publish(&client, &message, pending_id) == MQTTSuccess;
++    int ok = diagnostic_library_publish(&client, &message, pending_id) == MQTTSuccess;
+     if (message.qos == MQTTQoS1)
+     {
+         /* Publish/SEND OK 只是发送结果；匹配 PUBACK 到达后才允许 Router 成功 ACK。 */
+@@ -195,7 +203,7 @@
+ }
+ 
+ /* 没有业务帧时仍处理 MQTT 保活和接收，避免空闲连接被 Broker 关闭。 */
+-int gateway_mqtt_yield(void)
++static int original_gateway_mqtt_yield(void)
+ {
+     if (!mqtt_online || !network.connected)
+         return 0;
+@@ -210,7 +218,7 @@
+ }
+ 
+ /* 固定顺序为 AT 配置、入网、可信时间、证书名称校验、TLS；任何失败由外层重试。 */
+-int gateway_network_open(void)
++static int original_gateway_network_open(void)
+ {
+     char command[256];
+     mqtt_failed();
+@@ -277,3 +285,52 @@
+         mqtt_adapter_reset(&network);
+     return ok;
+ }
++
++static MQTTStatus_t diagnostic_library_publish(MQTTContext_t *context, const MQTTPublishInfo_t *message, uint16_t id)
++{
++    ProbeToken span = probe_begin(PROBE_LIBRARY_PUBLISH);
++    MQTTStatus_t result = MQTT_Publish(context, message, id);
++    probe_end(span, result == MQTTSuccess);
++    return result;
++}
++static MQTTStatus_t diagnostic_library_process(MQTTContext_t *context)
++{
++    ProbeToken span = probe_begin(PROBE_PROCESS);
++    MQTTStatus_t result = MQTT_ProcessLoop(context);
++    probe_end(span, result == MQTTSuccess);
++    return result;
++}
++
++/* 包围原实现整体；任何早返回、发送失败和PUBACK等待均先完成原逻辑，再原样返回。 */
++int gateway_mqtt_open(const MpFrame *will_frame)
++{
++    ProbeToken span = probe_begin(PROBE_OPEN);
++    int result = original_gateway_mqtt_open(will_frame);
++    probe_end(span, result);
++    return result;
++}
++int gateway_mqtt_publish(const MpFrame *frame)
++{
++    unsigned scope = frame && frame->rate && !frame->replay ? PROBE_PUBLISH_Q0 : PROBE_PUBLISH_Q1;
++    ProbeToken span = probe_begin(scope);
++    int result = original_gateway_mqtt_publish(frame);
++    probe_end(span, result);
++    int business = frame && frame->synthetic && frame->stream < MP_NODE_STATUS;
++    uint32_t already = probe_state.network_valid_mask & (1U << PROBE_FIRST_BUSINESS);
++    probe_frame_result(result, frame ? frame->synthetic : 0, business, frame ? frame->valid : 0, frame ? frame->replay : 0);
++    if (!already && (probe_state.network_valid_mask & (1U << PROBE_FIRST_BUSINESS)))
++        probe_first_business_id(frame->node, frame->stream, frame->seq, frame->epoch, frame->boot);
++    return result;
++}
++int gateway_mqtt_yield(void)
++{
++    ProbeToken span = probe_begin(PROBE_YIELD);
++    int result = original_gateway_mqtt_yield();
++    probe_end(span, result);
++    return result;
++}
++int gateway_network_open(void)
++{
++    probe_network_point(PROBE_RECOVERY_START);
++    return original_gateway_network_open();
++}
+diff --git a/gateway/mqtt/src/heap.c b/gateway/mqtt/src/heap.c
+--- a/gateway/mqtt/src/heap.c
++++ b/gateway/mqtt/src/heap.c
+@@ -1,6 +1,7 @@
+ /* CANopenNode 初始化使用 calloc；堆有固定上限，绝不越过预留主栈。 */
+ #include <stddef.h>
+ #include <errno.h>
++#include "probe_events.h"
+ extern char _heap_start, _heap_end;
+ 
+ /* newlib 堆只能增长到链接脚本保留区末尾；不足时返回 ENOMEM，不能挤占栈。 */
+@@ -11,10 +12,12 @@
+         current = &_heap_start;
+     if (increment < 0 || increment > (&_heap_end - current))
+     {
++        probe_heap_enomem();
+         errno = ENOMEM;
+         return (void *)-1;
+     }
+     char *previous = current;
+     current += increment;
++    probe_heap_peak((uint32_t)(current - &_heap_start));
+     return previous;
+ }
+diff --git a/gateway/mqtt/src/main.c b/gateway/mqtt/src/main.c
+--- a/gateway/mqtt/src/main.c
++++ b/gateway/mqtt/src/main.c
+@@ -1,6 +1,7 @@
+ /* 第二阶段：CANopen Adapter → Canonical Model → Router → MQTT/离线缓存。 */
+ #include "gateway_transport.h"
+ #include "mp_adapter.h"
++#include "probe_events.h"
+ #include <stdio.h>
+ 
+ /* 大对象放静态区；发布中的独立帧副本仍由循环栈帧持有。 */
+@@ -22,12 +23,17 @@
+         serviced++;
+         mp_stack_tick(&stack);
+         mp_adapter_poll(&adapter, &stack, &router);
++        /* 仅诊断副本：记录同一计划tick的合成协作完成点。 */
++        probe_service_done(serviced);
+     }
+ 
+     /* 这些单字符入口仅用于本机测试；R/G 重建协议实例，不代表整块板掉电。 */
+     int c = console_char();
+     if (c == 'D')
++    {
++        probe_network_point(PROBE_D_REQUEST);
+         disconnect_requested = 1;
++    }
+     if (c == 'A' || c == 'B')
+     {
+         unsigned node = c == 'A' ? 1 : 2;
+@@ -90,6 +96,7 @@
+         }
+     }
+     serviced = g_uptime_ms;
++    probe_service_arm(serviced);
+     mp_adapter_init(&adapter);
+     mp_router_init(&router);
+     platform_set_poll(service);
+@@ -128,10 +135,13 @@
+             if (disconnect_requested)
+             {
+                 disconnect_requested = 0;
++                (void)probe_window_begin();
++                probe_cache_snapshot(1, router.cn, router.dropped, router.replayed, mp_bus_dropped());
+                 mp_router_online(&router, false);
+                 (void)at_command("AT+CWQAP", 3000);
+                 console("GW WIFI_TEST_DISCONNECTED\r\n");
+                 delay_ms(30000);
++                probe_network_point(PROBE_PAUSE_END);
+                 break;
+             }
+ 
+@@ -141,6 +151,7 @@
+             {
+                 bool ok = gateway_mqtt_publish(&f);
+                 mp_router_ack(&router, &f, ok);
++                probe_cache_snapshot(0, router.cn, router.dropped, router.replayed, mp_bus_dropped());
+                 if (!ok)
+                     break;
+             }
+@@ -163,7 +174,10 @@
+         }
+         mp_router_online(&router, false);
+         console("GW RECONNECT\r\n");
++        probe_network_point(PROBE_CLEANUP_BEGIN);
+         gateway_network_close();
++        probe_network_point(PROBE_CLEANUP_DELAY_BEGIN);
+         delay_ms(2000);
++        probe_network_point(PROBE_CLEANUP_END);
+     }
+ }
+diff --git a/gateway/mqtt/src/platform.c b/gateway/mqtt/src/platform.c
+--- a/gateway/mqtt/src/platform.c
++++ b/gateway/mqtt/src/platform.c
+@@ -7,6 +7,7 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
++#include "probe_events.h"
+ #define CAPACITY 8192U
+ static volatile unsigned char ring[CAPACITY];
+ static volatile uint32_t head, tail, errors;
+@@ -36,7 +37,10 @@
+     if (poll_callback && !polling)
+     {
+         polling = 1;
++        /* CAN子区间与AT嵌套，父span只扣直接子区间一次。 */
++        ProbeToken can_span = probe_begin(PROBE_CAN_CALLBACK);
+         poll_callback();
++        probe_end(can_span, 1);
+         polling = 0;
+     }
+ }
+@@ -168,7 +172,7 @@
+ }
+ 
+ /* 先请求精确长度，再发送 MQTT 二进制并确认 ESP 结果；这不是 Broker 的 PUBACK。 */
+-int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout)
++static int original_esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout)
+ {
+     if (length <= 0 || length > 2048)
+         return -1;
+@@ -191,7 +195,7 @@
+ }
+ 
+ /* 先消费上次剩余字节；SSL 被动读取分块到缓存，短读按实际字节数交给适配层。 */
+-int esp_mqtt_recv(unsigned char *data, int length, uint32_t timeout)
++static int original_esp_mqtt_recv(unsigned char *data, int length, uint32_t timeout)
+ {
+     int copied = 0;
+     Timer timer;
+@@ -298,8 +302,25 @@
+ void platform_init(void)
+ {
+     init_uart();
++    probe_init(SystemCoreClock);
+     if (SysTick_Config(SystemCoreClock / 1000U))
+         while (1)
+         {
+         }
+ }
++
++/* 同原参数/结果包围完整AT传输，探针不会截断或改变错误传播。 */
++int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout)
++{
++    ProbeToken span = probe_begin(PROBE_AT_SEND);
++    int result = original_esp_mqtt_send(data, length, timeout);
++    probe_end(span, result >= 0);
++    return result;
++}
++int esp_mqtt_recv(unsigned char *data, int length, uint32_t timeout)
++{
++    ProbeToken span = probe_begin(PROBE_AT_RECV);
++    int result = original_esp_mqtt_recv(data, length, timeout);
++    probe_end(span, result >= 0);
++    return result;
++}

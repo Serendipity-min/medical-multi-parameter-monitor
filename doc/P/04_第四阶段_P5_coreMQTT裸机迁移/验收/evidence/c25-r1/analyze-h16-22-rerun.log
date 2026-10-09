@@ -1,0 +1,27 @@
+test_baseline_drift_and_duplicate_runs_are_rejected (test_analyze_h16.H16OfflineTests.test_baseline_drift_and_duplicate_runs_are_rejected) ... ok
+test_cache_loss_and_not_drained_remain_visible (test_analyze_h16.H16OfflineTests.test_cache_loss_and_not_drained_remain_visible) ... ok
+test_counter_interval_bound_is_enforced (test_analyze_h16.H16OfflineTests.test_counter_interval_bound_is_enforced) ... ok
+test_demo_does_not_grant_hardware_acceptance (test_analyze_h16.H16OfflineTests.test_demo_does_not_grant_hardware_acceptance) ... ok
+test_duplicate_json_keys_are_not_silently_overwritten (test_analyze_h16.H16OfflineTests.test_duplicate_json_keys_are_not_silently_overwritten) ... ok
+test_endpoint_clock_or_measurement_bin_drift_blocks_comparison (test_analyze_h16.H16OfflineTests.test_endpoint_clock_or_measurement_bin_drift_blocks_comparison) ... ok
+test_environment_drift_blocks_comparison (test_analyze_h16.H16OfflineTests.test_environment_drift_blocks_comparison) ... ok
+test_fixed_fault_pause_excluded_from_network_comparison (test_analyze_h16.H16OfflineTests.test_fixed_fault_pause_excluded_from_network_comparison) ... ok
+test_frozen_memory_capacity_or_variant_binary_drift_is_rejected (test_analyze_h16.H16OfflineTests.test_frozen_memory_capacity_or_variant_binary_drift_is_rejected) ... ok
+test_invalid_frame_or_crossed_timestamp_is_rejected (test_analyze_h16.H16OfflineTests.test_invalid_frame_or_crossed_timestamp_is_rejected) ... ok
+test_lost_observations_or_debugger_pause_do_not_count_as_valid_samples (test_analyze_h16.H16OfflineTests.test_lost_observations_or_debugger_pause_do_not_count_as_valid_samples) ... ok
+test_missing_cycles_and_invalid_boolean_counts_do_not_become_measurements (test_analyze_h16.H16OfflineTests.test_missing_cycles_and_invalid_boolean_counts_do_not_become_measurements) ... ok
+test_multiple_wrap_cannot_be_guessed (test_analyze_h16.H16OfflineTests.test_multiple_wrap_cannot_be_guessed) ... ok
+test_node_status_is_not_first_valid_business_frame (test_analyze_h16.H16OfflineTests.test_node_status_is_not_first_valid_business_frame) ... ok
+test_replay_before_live_is_visible_and_does_not_grant_acceptance (test_analyze_h16.H16OfflineTests.test_replay_before_live_is_visible_and_does_not_grant_acceptance) ... ok
+test_twenty_percent_is_review_boundary_and_not_auto_pass (test_analyze_h16.H16OfflineTests.test_twenty_percent_is_review_boundary_and_not_auto_pass) ... ok
+test_two_runs_are_insufficient (test_analyze_h16.H16OfflineTests.test_two_runs_are_insufficient) ... ok
+test_uint32_single_wrap_is_reconstructed (test_analyze_h16.H16OfflineTests.test_uint32_single_wrap_is_reconstructed) ... ok
+test_unknown_fields_and_non_synthetic_input_are_rejected (test_analyze_h16.H16OfflineTests.test_unknown_fields_and_non_synthetic_input_are_rejected) ... ok
+test_unknown_heap_failure_count_is_not_zero (test_analyze_h16.H16OfflineTests.test_unknown_heap_failure_count_is_not_zero) ... ok
+test_unmeasured_stack_is_not_reservation_as_measurement (test_analyze_h16.H16OfflineTests.test_unmeasured_stack_is_not_reservation_as_measurement) ... ok
+test_unsafe_stack_observation_is_not_accepted (test_analyze_h16.H16OfflineTests.test_unsafe_stack_observation_is_not_accepted) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.011s
+
+OK
