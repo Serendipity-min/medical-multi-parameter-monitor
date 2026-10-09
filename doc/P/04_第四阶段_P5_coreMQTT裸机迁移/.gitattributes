@@ -8,6 +8,7 @@
 验收/evidence/c25-r1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 验收/evidence/c25-r2/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 验收/evidence/c3a-preparation* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+验收/evidence/hardware-c3a-* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 # 原合同Markdown硬换行和原始section表的空尾行保留，不改写历史哈希材料。
 合同/P5_C2_5_*.md -whitespace
 验收/evidence/c25-r1/*-sections.redacted.txt -whitespace

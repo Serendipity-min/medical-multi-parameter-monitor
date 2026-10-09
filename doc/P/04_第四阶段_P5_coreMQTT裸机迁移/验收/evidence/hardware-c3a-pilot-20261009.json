@@ -1,0 +1,637 @@
+{
+  "kind": "REAL_C3A_TWO_RUN_PILOT",
+  "user_date": "2026-10-09",
+  "window_id": "p5-c3a-20261009T011740Z",
+  "preparation_commit": "f505b122da432c2081a784e68ef39608a3884354",
+  "source_P4": "8dee339491cfd4edc468bb9451511d421f26db5e",
+  "source_P5": "e598fc63719acdf49a99c6da46c656dc8c607782",
+  "physical_nodes": false,
+  "real_patient_data": false,
+  "counts": {
+    "app_installs": 4,
+    "config_writes": 2,
+    "reset_commands": 10,
+    "measurement_D": 2,
+    "cleanup_D": 2,
+    "measurement_halts": 2,
+    "full_restore": 1
+  },
+  "approved_limits": {
+    "app_installs": 4,
+    "config_writes": 2,
+    "reset_commands": 10,
+    "measurement_D": 2,
+    "cleanup_D": 2,
+    "measurement_halts": 2,
+    "full_restore": 1
+  },
+  "fresh_identity": {
+    "uid_guard_match": true,
+    "chip_id_match": true,
+    "flash_kib": 1024,
+    "vtref_volts": 3.3
+  },
+  "restoration": {
+    "flash_bytes": 1048576,
+    "full_backup_double_read_match": true,
+    "full_restore_independent_readback_match": true,
+    "sha256": "852d7618f8fc46c80cbe035ebd41f4e21e4d5a76a26cf10a39e0600f7a89ffb8",
+    "verifybin_success_in_private_log": true,
+    "ESP_mode_store_query_restored": true,
+    "ESP_before": {
+      "mode": 2,
+      "sysstore": 1,
+      "echo": true,
+      "gmr_sha256": "0e9b75e7baa831449898c1940251ed60f192a4a8c151da6a50ddd87e2bb81535"
+    },
+    "DMA_ADC_observed": true,
+    "cold_power_cycle": false
+  },
+  "runtime_tools": {
+    "pylink_square": "2.0.2",
+    "jlink": "5.12 local existing DLL and Commander",
+    "source_sha256": {
+      "run_c3a_window.py": "0d1d92c8ebd67d9c8e90584e4b02daedf14c3807f84cc471beb162a203fe339a",
+      "c3a_jlink.py": "22ff1141032973b4a1a5b0dbe22fc443d917ec7f989344a800b2b3b332cb3290"
+    }
+  },
+  "observer_scope": "existing configured target: normal synthetic publish / subscribe-only Broker / readonly Backend",
+  "backend_observer": {
+    "connected": true,
+    "fixed_snapshots": 2681,
+    "clock_role": "qualitative legacy observer; precision timings use HOST_QPC_US or MCU nominal cycle clock"
+  },
+  "runs": [
+    {
+      "variant": "P4",
+      "bin_sha256": "fabd82b305e2fe1bc4bbc0d06bdde91d05daabd7f91c70ca017f48e4617ab551",
+      "snapshot_read1_sha256": "30227d67c2a112e2805a0a808189f0cb32fc967361cf3e8a9b38f8b3d430e711",
+      "snapshot_read2_sha256": "30227d67c2a112e2805a0a808189f0cb32fc967361cf3e8a9b38f8b3d430e711",
+      "snapshot_bytes": 1264,
+      "first_business_numeric_identity": {
+        "node": 1,
+        "stream": 0,
+        "seq": 40,
+        "epoch": 1791509455,
+        "boot": 65537
+      },
+      "raw_numeric_observation": {
+        "profile": 3260022785,
+        "core_hz": 16000000,
+        "clock_seq": 208500,
+        "irq_flags": 32,
+        "foreground_flags": 64,
+        "depth": 2,
+        "window_generation": 1,
+        "recovery_generation": 2,
+        "dropped_observations": 0,
+        "unmatched_ticks": 0,
+        "tick_dropped": 5,
+        "tick_drop_base": 5,
+        "tick_head": 104212,
+        "tick_tail": 104211,
+        "network_valid_mask": 511,
+        "cache_snapshot_mask": 3,
+        "heap_peak_bytes": 9400,
+        "heap_enomem_count": 0,
+        "heap_error_base": 0,
+        "cache_drained_observed": 0,
+        "network_us": [
+          13416894,
+          43496034,
+          43498788,
+          43504921,
+          45504601,
+          45504638,
+          49563943,
+          49812700,
+          50665083
+        ],
+        "aggregate": [
+          {
+            "success": 1,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 4007556,
+            "max_cycles": 4007556,
+            "inclusive_cycles": 4007556,
+            "direct_child_cycles": 3966900
+          },
+          {
+            "success": 69,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 3179371,
+            "max_cycles": 9687618,
+            "inclusive_cycles": 363133688,
+            "direct_child_cycles": 333986581
+          },
+          {
+            "success": 139,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 2028537,
+            "max_cycles": 39592869,
+            "inclusive_cycles": 501184182,
+            "direct_child_cycles": 494154214
+          },
+          {
+            "success": 1,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 109912,
+            "max_cycles": 109912,
+            "inclusive_cycles": 109912,
+            "direct_child_cycles": 108830
+          },
+          {
+            "success": 208,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 2011809,
+            "max_cycles": 39576381,
+            "inclusive_cycles": 768584303,
+            "direct_child_cycles": 767080207
+          },
+          {
+            "success": 1,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 108830,
+            "max_cycles": 108830,
+            "inclusive_cycles": 108830,
+            "direct_child_cycles": 107546
+          },
+          {
+            "success": 209,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 970641,
+            "max_cycles": 7230176,
+            "inclusive_cycles": 465559680,
+            "direct_child_cycles": 350481117
+          },
+          {
+            "success": 421,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 1556,
+            "max_cycles": 38490746,
+            "inclusive_cycles": 305545394,
+            "direct_child_cycles": 226271762
+          },
+          {
+            "success": 90781,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 8169,
+            "max_cycles": 159127,
+            "inclusive_cycles": 963576752,
+            "direct_child_cycles": 0
+          },
+          {
+            "success": 445187,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 481,
+            "max_cycles": 258802,
+            "inclusive_cycles": 1076530532,
+            "direct_child_cycles": 0
+          }
+        ],
+        "cache_before": {
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "drop": 0
+        },
+        "cache_after": {
+          "cache": 32,
+          "lost": 342,
+          "replay": 22,
+          "drop": 0
+        },
+        "first_live_us": 50124073,
+        "first_replay_us": 52911041,
+        "quality": "RAW_NUMERIC_INSPECTION_NOT_ACCEPTANCE"
+      },
+      "host_qpc_events_us": {
+        "D_SENT": 18247104,
+        "HALT": 109261052,
+        "READ1_DONE": 109278082,
+        "READ2_DONE": 109279170,
+        "SNAPSHOT_PERSISTED": 109280679,
+        "RESUME": 109282791
+      },
+      "HALT_request_us_derived_from_recorded_elapsed": 108256386,
+      "HALT_ack_delay_us": 1004666,
+      "pause_control_transaction_upper_bound_us": 1026405,
+      "registers_at_halt": {
+        "XPSR": 553648128,
+        "MSP": 536999244,
+        "PSP": 0,
+        "CONTROL": 0,
+        "PRIMASK": 0,
+        "BASEPRI": 0,
+        "FAULTMASK": 0,
+        "PC": 134237898,
+        "IPSR": 0
+      },
+      "strict_decode_status": "PROBE_LOSS_OR_UNSTABLE_HALT",
+      "calibration_hz": 16158122.364083612,
+      "full_window_cycle_hz_using_ack_time": 15968147.624570735,
+      "clock_consistency_under_2_percent_test": true,
+      "M01_max_seen_ms": {
+        "open": 250.47225,
+        "qos0_publish": 605.476125,
+        "qos1_publish": 2474.5543125,
+        "yield": 6.8695
+      },
+      "M02_ISR_sample_to_service_max_seen_ms": 9.9454375,
+      "M05_heap_peak_bytes": 9400,
+      "M05_heap_remaining_bytes": 15176,
+      "M05_ENOMEM_delta": 0,
+      "M06_device_nominal_us": {
+        "D_to_pause_end": 30079140,
+        "post_pause_to_network_open": 2008604,
+        "network_open_to_TLS": 4059305,
+        "TLS_to_CONNACK": 248757,
+        "CONNACK_to_first_business": 852383,
+        "network_open_to_first_business": 5160445,
+        "D_to_first_business": 37248189
+      },
+      "M07_device_first_LIVE_us_after_D": 36707179,
+      "M07_device_first_REPLAY_us_after_D": 39494147,
+      "M07_device_LIVE_status_before_REPLAY": true,
+      "broker_correlated_after_OFFLINE": {
+        "OFFLINE": {
+          "at_us": 40277737,
+          "node": "GATEWAY",
+          "stream": "GATEWAY_STATUS",
+          "session_id": "can-1791509455-65536",
+          "timestamp": 1791509464000,
+          "seq": 4294967295,
+          "validity": "OFFLINE",
+          "source": "MOCK",
+          "synthetic": true,
+          "value": "OFFLINE"
+        },
+        "first_LIVE": {
+          "at_us": 54429292,
+          "node": "NODE-A",
+          "stream": "NODE_STATUS",
+          "session_id": "can-1791509455-65537",
+          "timestamp": 1791509504784,
+          "seq": 11,
+          "validity": "VALID",
+          "source": "MOCK",
+          "synthetic": true
+        },
+        "first_VALID_business": {
+          "at_us": 55194292,
+          "node": "NODE-A",
+          "stream": "PPG",
+          "session_id": "can-1791509455-65537",
+          "timestamp": 1791509504980,
+          "seq": 40,
+          "validity": "VALID",
+          "source": "MOCK",
+          "synthetic": true
+        },
+        "first_REPLAY": {
+          "at_us": 57284478,
+          "node": "NODE-B",
+          "stream": "ECG",
+          "session_id": "can-1791509455-65537",
+          "timestamp": 1791509499996,
+          "seq": 35,
+          "validity": "VALID",
+          "source": "REPLAY",
+          "synthetic": true
+        },
+        "D_to_first_VALID_business_us": 36947188
+      },
+      "post_halt_OFFLINE_observed": false,
+      "broker_fixed_message_count": 336,
+      "raw_capture_is_not_full_window_acceptance": true
+    },
+    {
+      "variant": "P5",
+      "bin_sha256": "47a444ebd3642dffef80364309d0b100cc048b456d75dde0b2806a7f9a052efc",
+      "snapshot_read1_sha256": "6aa9575a7fdc6f34933d6dc32ca01115e4c4e3e67022cb29193ff4d0e1b89232",
+      "snapshot_read2_sha256": "6aa9575a7fdc6f34933d6dc32ca01115e4c4e3e67022cb29193ff4d0e1b89232",
+      "snapshot_bytes": 1264,
+      "first_business_numeric_identity": {
+        "node": 1,
+        "stream": 0,
+        "seq": 40,
+        "epoch": 1791509592,
+        "boot": 65537
+      },
+      "raw_numeric_observation": {
+        "profile": 3260022785,
+        "core_hz": 16000000,
+        "clock_seq": 197786,
+        "irq_flags": 32,
+        "foreground_flags": 64,
+        "depth": 2,
+        "window_generation": 1,
+        "recovery_generation": 2,
+        "dropped_observations": 0,
+        "unmatched_ticks": 0,
+        "tick_dropped": 5,
+        "tick_drop_base": 5,
+        "tick_head": 98855,
+        "tick_tail": 98855,
+        "network_valid_mask": 511,
+        "cache_snapshot_mask": 3,
+        "heap_peak_bytes": 9400,
+        "heap_enomem_count": 0,
+        "heap_error_base": 0,
+        "cache_drained_observed": 0,
+        "network_us": [
+          8013822,
+          38229687,
+          38231850,
+          38238888,
+          40238661,
+          40238698,
+          44062896,
+          44218140,
+          45240743
+        ],
+        "aggregate": [
+          {
+            "success": 1,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 2495574,
+            "max_cycles": 2495574,
+            "inclusive_cycles": 2495574,
+            "direct_child_cycles": 2440472
+          },
+          {
+            "success": 76,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 3192902,
+            "max_cycles": 9753861,
+            "inclusive_cycles": 400357734,
+            "direct_child_cycles": 368401603
+          },
+          {
+            "success": 146,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 1835883,
+            "max_cycles": 40793839,
+            "inclusive_cycles": 467505176,
+            "direct_child_cycles": 457675036
+          },
+          {
+            "success": 2,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 335060,
+            "max_cycles": 381801,
+            "inclusive_cycles": 716861,
+            "direct_child_cycles": 714279
+          },
+          {
+            "success": 222,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 991165,
+            "max_cycles": 7318859,
+            "inclusive_cycles": 518564755,
+            "direct_child_cycles": 515855693
+          },
+          {
+            "success": 631,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 155856,
+            "max_cycles": 928415,
+            "inclusive_cycles": 240528737,
+            "direct_child_cycles": 239134988
+          },
+          {
+            "success": 224,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 350006,
+            "max_cycles": 7241223,
+            "inclusive_cycles": 508532165,
+            "direct_child_cycles": 381659257
+          },
+          {
+            "success": 635,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 9996,
+            "max_cycles": 925372,
+            "inclusive_cycles": 238642364,
+            "direct_child_cycles": 176724231
+          },
+          {
+            "success": 90690,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 8169,
+            "max_cycles": 165672,
+            "inclusive_cycles": 960575074,
+            "direct_child_cycles": 0
+          },
+          {
+            "success": 441563,
+            "failure": 0,
+            "invalid": 0,
+            "min_cycles": 481,
+            "max_cycles": 265242,
+            "inclusive_cycles": 1073374846,
+            "direct_child_cycles": 0
+          }
+        ],
+        "cache_before": {
+          "cache": 1,
+          "lost": 0,
+          "replay": 0,
+          "drop": 0
+        },
+        "cache_after": {
+          "cache": 32,
+          "lost": 325,
+          "replay": 23,
+          "drop": 0
+        },
+        "first_live_us": 44365130,
+        "first_replay_us": 44982793,
+        "quality": "RAW_NUMERIC_INSPECTION_NOT_ACCEPTANCE"
+      },
+      "host_qpc_events_us": {
+        "D_SENT": 150723819,
+        "HALT": 241743504,
+        "READ1_DONE": 241760874,
+        "READ2_DONE": 241762283,
+        "SNAPSHOT_PERSISTED": 241763831,
+        "RESUME": 241765981
+      },
+      "HALT_request_us_derived_from_recorded_elapsed": 240739131,
+      "HALT_ack_delay_us": 1004373,
+      "pause_control_transaction_upper_bound_us": 1026850,
+      "registers_at_halt": {
+        "XPSR": -2130706432,
+        "MSP": 536999288,
+        "PSP": 0,
+        "CONTROL": 0,
+        "PRIMASK": 0,
+        "BASEPRI": 0,
+        "FAULTMASK": 0,
+        "PC": 134250534,
+        "IPSR": 0
+      },
+      "strict_decode_status": "PROBE_LOSS_OR_UNSTABLE_HALT",
+      "calibration_hz": 16150723.915974004,
+      "full_window_cycle_hz_using_ack_time": 15975493.826810552,
+      "clock_consistency_under_2_percent_test": true,
+      "M01_max_seen_ms": {
+        "open": 155.973375,
+        "qos0_publish": 609.6163125,
+        "qos1_publish": 2549.6149375,
+        "yield": 23.8625625
+      },
+      "M02_ISR_sample_to_service_max_seen_ms": 10.3545,
+      "M05_heap_peak_bytes": 9400,
+      "M05_heap_remaining_bytes": 15176,
+      "M05_ENOMEM_delta": 0,
+      "M06_device_nominal_us": {
+        "D_to_pause_end": 30215865,
+        "post_pause_to_network_open": 2009011,
+        "network_open_to_TLS": 3824198,
+        "TLS_to_CONNACK": 155244,
+        "CONNACK_to_first_business": 1022603,
+        "network_open_to_first_business": 5002045,
+        "D_to_first_business": 37226921
+      },
+      "M07_device_first_LIVE_us_after_D": 36351308,
+      "M07_device_first_REPLAY_us_after_D": 36968971,
+      "M07_device_LIVE_status_before_REPLAY": true,
+      "broker_correlated_after_OFFLINE": {
+        "OFFLINE": {
+          "at_us": 178281328,
+          "node": "GATEWAY",
+          "stream": "GATEWAY_STATUS",
+          "session_id": "can-1791509592-65536",
+          "timestamp": 1791509596000,
+          "seq": 4294967295,
+          "validity": "OFFLINE",
+          "source": "MOCK",
+          "synthetic": true,
+          "value": "OFFLINE"
+        },
+        "first_LIVE": {
+          "at_us": 186681787,
+          "node": "NODE-A",
+          "stream": "NODE_STATUS",
+          "session_id": "can-1791509592-65537",
+          "timestamp": 1791509636189,
+          "seq": 11,
+          "validity": "VALID",
+          "source": "MOCK",
+          "synthetic": true
+        },
+        "first_VALID_business": {
+          "at_us": 187622356,
+          "node": "NODE-A",
+          "stream": "PPG",
+          "session_id": "can-1791509592-65537",
+          "timestamp": 1791509636980,
+          "seq": 40,
+          "validity": "VALID",
+          "source": "MOCK",
+          "synthetic": true
+        },
+        "first_REPLAY": {
+          "at_us": 187208423,
+          "node": "NODE-B",
+          "stream": "RESP",
+          "session_id": "can-1791509592-65537",
+          "timestamp": 1791509631980,
+          "seq": 35,
+          "validity": "VALID",
+          "source": "REPLAY",
+          "synthetic": true
+        },
+        "D_to_first_VALID_business_us": 36898537
+      },
+      "post_halt_OFFLINE_observed": false,
+      "broker_fixed_message_count": 354,
+      "raw_capture_is_not_full_window_acceptance": true
+    }
+  ],
+  "M03": "PARTIAL_UNCALIBRATED_INCLUSIVE_ONLY",
+  "M04": "BLOCKED_UNSAFE_SENTINEL",
+  "H16_acceptance": "HOLD_PARTIAL_INVALID_FULL_WINDOW_QUALITY",
+  "security_gate": "NOT_AUTHORIZED",
+  "production_broker_fault": "NOT_RUN",
+  "assert_injection": "NOT_RUN",
+  "P6": "NOT_STARTED",
+  "archive_private_files_sha256": {
+    "backend-fixed-metadata.json": "4cf89e42ed4480fe5a22dc7b39950690d40c98fac699db574e2439c3ee0f278b",
+    "before-1MiB.bin": "852d7618f8fc46c80cbe035ebd41f4e21e4d5a76a26cf10a39e0600f7a89ffb8",
+    "before-second-1MiB.bin": "852d7618f8fc46c80cbe035ebd41f4e21e4d5a76a26cf10a39e0600f7a89ffb8",
+    "bridge-before-app-readback.bin": "523bf9c2dd4d59c0f6c564d9f16c0cc51a9160c47b8a7be31f7ddad4832df8ff",
+    "bridge-restore-app-readback.bin": "523bf9c2dd4d59c0f6c564d9f16c0cc51a9160c47b8a7be31f7ddad4832df8ff",
+    "broker-fixed-metadata.json": "c512e7f22c81bf9a2005cf975664e56c0483e1c46e455fa77836adc79be8dd9c",
+    "c3a_jlink_commander_attempt.py": "9d70550d9bb381b00ff33781bba829bcdee75ede661cb02a91064e242b0d8c53",
+    "commander-readonly-precheck-private.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "commander-readonly-precheck-v2-private.log": "822639e6cff6041f832e110a4bfb2fced4aa062213cf3590c679f62788760980",
+    "executed-c3a_jlink.py": "22ff1141032973b4a1a5b0dbe22fc443d917ec7f989344a800b2b3b332cb3290",
+    "executed-run_c3a_window.py": "0d1d92c8ebd67d9c8e90584e4b02daedf14c3807f84cc471beb162a203fe339a",
+    "execution-started.json": "fc8335267336fac5172a8b157bee51d9be35ebdf10f65231b268ba64c6ed66bd",
+    "fresh-identify-backup-private.log": "5be08efe5ed67e89b4f4bc69c766b568b6eca6e940018aeb891a1a849560a8e7",
+    "fresh-identify-backup.jlink": "cd4b0aa01b15e7c3714f0012167f53394f99c96c043e4744da0392cebc19210a",
+    "install-bridge-before-private.log": "25319c7f62ac85cd8505df8bd3795db0207e71b41ccd7661013b40f2d619e6d2",
+    "install-bridge-before.jlink": "164df63ee139c604383c2291460fd58257751926cda5964c56433a09bf5b4b55",
+    "install-bridge-restore-private.log": "02e568750ccfc3002dc96db81cdab56cc844439b6ad139be7a3df30d8407470c",
+    "install-bridge-restore.jlink": "ee54af6bd063fa2e989531bbf31725b1d831b103419ad4a6d899263b1915c83c",
+    "install-p4-private.log": "f1ec39c3bf32d1a2d9025396cde5719a6c0528d814d6d7fe458faaecdcdeaa09",
+    "install-p4.jlink": "6c910b92c00f890be3642e59d4ed0aaddf283b3c2c1f6ded6b69add787b5d8b0",
+    "install-p5-private.log": "30ece28146571ddc73cf57c6d86261205db72039fa83703cb9df5c1ee9abb5db",
+    "install-p5.jlink": "80b76b0008caa887f172624fa9e4eacbeeb26b6c48064d74f70f1f0fcb1c0b87",
+    "p4-app-readback.bin": "fabd82b305e2fe1bc4bbc0d06bdde91d05daabd7f91c70ca017f48e4617ab551",
+    "P4-capture-during-halt.json": "7f64c2da2423d6a4e928de6b52d80b1e65466a477730903772d71ac6a71db1ae",
+    "p4-config-readback.bin": "a8bb7edcbc31b0fbed3071381e76fed18181736619dc3cc6e0585b5d61b9b57c",
+    "P4-measurement.json": "d0c937d676ac157a470e179e4b32674353ee3ee17042b109cfbfd94dc1d4e22c",
+    "P4-snapshot-read1.bin": "30227d67c2a112e2805a0a808189f0cb32fc967361cf3e8a9b38f8b3d430e711",
+    "P4-snapshot-read2.bin": "30227d67c2a112e2805a0a808189f0cb32fc967361cf3e8a9b38f8b3d430e711",
+    "p5-app-readback.bin": "47a444ebd3642dffef80364309d0b100cc048b456d75dde0b2806a7f9a052efc",
+    "P5-capture-during-halt.json": "01d0aa13bd02abafedf86650c48abce517f1b2ec624ace3406000a8e93e8a26b",
+    "p5-config-readback.bin": "a8bb7edcbc31b0fbed3071381e76fed18181736619dc3cc6e0585b5d61b9b57c",
+    "P5-measurement.json": "eebe8e942894c6facaebcf3b709336d5382a0f3dc85d54d9a5136dbecad0707f",
+    "P5-snapshot-read1.bin": "6aa9575a7fdc6f34933d6dc32ca01115e4c4e3e67022cb29193ff4d0e1b89232",
+    "P5-snapshot-read2.bin": "6aa9575a7fdc6f34933d6dc32ca01115e4c4e3e67022cb29193ff4d0e1b89232",
+    "precheck.json": "e777b09ad23c0ab73630f62a1047f419ca5ac7c8f250cbadca4aefdc5822222d",
+    "restore-original-private.log": "b2101d0451ad225d27b5eab5a407c3527c2b7827023f0fcad5b6001daa761bbb",
+    "restore-original.jlink": "9133eeeca3c454ea516d727c2cc3d692d0b211b4e2da23c6086ea385fe570ec4",
+    "restored-1MiB-readback.bin": "852d7618f8fc46c80cbe035ebd41f4e21e4d5a76a26cf10a39e0600f7a89ffb8",
+    "serial-fixed-diagnostics.json": "6ded083e7609a2215928cf8c274c2643adb6266fde7dbda12a742bff110ce527",
+    "start-bridge-before-private.log": "06fad11c98b2ffacf50a530d89764a0a19ec0d5f7ddf1ab05eb5f174da49d1eb",
+    "start-bridge-before.jlink": "983798b143eb3e7a9c25dd37ea0e5f519223327d92c642d86a6051c06d2ac596",
+    "start-bridge-restore-private.log": "06fad11c98b2ffacf50a530d89764a0a19ec0d5f7ddf1ab05eb5f174da49d1eb",
+    "start-bridge-restore.jlink": "983798b143eb3e7a9c25dd37ea0e5f519223327d92c642d86a6051c06d2ac596",
+    "start-p4-private.log": "28fb069ee88af1423172f25172c8577697b5d1e2e646731afb964e7281747893",
+    "start-p4.jlink": "25df0d951a66f2bb67b559818472f42139e8d05ada0597e86eea50872bed84fd",
+    "start-p5-private.log": "90adbaeeda94e1f4cf272e61946010321ff4b69cdc88a57601252e235382b016",
+    "start-p5.jlink": "664cdd9ab051f6a75d12734bc40358259fb2fa8317f52eea33cb796b5ef8169b",
+    "stdin-readonly-shape-private.log": "fa9972f0619ec52d34566c100c68ec33bf41427feca19d4ef4497374d8740171",
+    "window-journal.json": "fea58826c6db43d666865f9c03df648d9dd07b9d915b620080cc1174d42d832b"
+  },
+  "interpretation": [
+    "P4/P5 one run each, no median or regression gate.",
+    "Both snapshots have active spans; maximum values are max seen completed calls only.",
+    "Both irq_flags=32, tick_dropped=base=5: lifetime startup losses, current-window delta=0; strict verifier still rejects.",
+    "PyLink 2.0.2 halt sleeps one second after the SDK call; HALT timestamp is acknowledgement, not exact CPU stopping instant.",
+    "No raw flash/config/RAM snapshots or connection values are included in this public projection."
+  ]
+}
