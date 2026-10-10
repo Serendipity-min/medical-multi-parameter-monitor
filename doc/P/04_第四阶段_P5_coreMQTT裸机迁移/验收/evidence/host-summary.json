@@ -1,0 +1,86 @@
+{
+  "started_at": "2026-10-08T02:49:01.401103+00:00",
+  "commit": "505be8a9977997328e816761a3ca51cf9b7ce171",
+  "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+  "result": "PASS",
+  "passed": 38,
+  "synthetic": true,
+  "source_sha256": {
+    "gateway/mqtt/src/core_mqtt_config.h": "53f3b0a749f5504fbf42119b0ada326db8dde1d107bf89b03dda42cc515103c9",
+    "gateway/mqtt/src/gateway_config.h": "5e6a3906488f9b9173077e35fd2e65221a9fb070ef8c8d169cf9911e03a6e04c",
+    "gateway/mqtt/src/gateway_platform.h": "bbaa86bfd017baf17f083de7dd8ee38a716dd6f115e6e7aa746cf798ea121e90",
+    "gateway/mqtt/src/gateway_transport.c": "bbcd9d2b08870b72b4e107073a14f11975a10dbb9b52039f7bc6573d47d1a406",
+    "gateway/mqtt/src/gateway_transport.h": "5bfbc4dfe2b489222518af481025976c2d5b02f75f9d0a2d29275439bc7a7fc4",
+    "gateway/mqtt/src/heap.c": "20bf6b3b9c5ddc276ba4d85016ce14ae1425c18e24e5f020bea011d9168b2923",
+    "gateway/mqtt/src/main.c": "a5ee04e9e3a080330c2dac111c0d5d4497e391e71ae5111effdb1a241f4b32d1",
+    "gateway/mqtt/src/mqtt_transport_adapter.c": "e9ea41b21ced0c9faa1cea8646562c69aa8e63e0506dfd4fa9f66f7bdf795028",
+    "gateway/mqtt/src/mqtt_transport_adapter.h": "778928348f18068e9195ea7590b9099bd375a662553b7ab4fc8a8c631c18a924",
+    "gateway/mqtt/src/platform.c": "089327057db035e1323b6de8a31b9be63ef47336448220718853fd87e69fe08e",
+    "gateway/mqtt/tests/mocks/mock_esp.c": "451ad01a86caf5a02b6fc33e50ad2feba8f338e48863df7a256e806f7bb34db2",
+    "gateway/mqtt/tests/mocks/mock_esp.h": "9bee51aaefbfc90ba11b3e580d7c79d820a74332f0430c2b1ac37195ba39f3e9",
+    "gateway/mqtt/tests/test_p5_connect_keepalive.c": "975b9c2802c08822c5951be60bfcc1eee03d3e364bda2b347883820b87ddc6c2",
+    "gateway/mqtt/tests/test_p5_qos_ack.c": "ab2980051c79209481c423c52383e52922a6feafe0ade542af9d1e0097b8ad06",
+    "gateway/mqtt/tests/test_p5_transport.c": "7ab1a615667a2aba562f8d569fcca70b50ed0df0f7f0ebf105b50eedf7b8bd21",
+    "gateway/third_party/coreMQTT/upstream.json": "6bd79091c82cfa9b53c75f9f9a04ba63f71cbe40a0850ad41c9a7bfd01b940d9",
+    "gateway/data_model/model.c": "bfebbc230ef5fdd5f2448b820eb6c0e53f8c40e546a46392aa9199e325234cd9",
+    "gateway/storage/router.c": "66565a7cd649f8bcad0c3d8ccda20aa08dbb79cc5d29b3143e8dd09688227462"
+  },
+  "suites": [
+    {
+      "suite": "transport",
+      "exit_code": 0,
+      "cases": [
+        "PASS transport_writev_exact_binary_and_erasure",
+        "PASS transport_partial_receive",
+        "PASS transport_no_data_is_zero",
+        "PASS transport_receive_error_disconnects",
+        "PASS transport_partial_send_count",
+        "PASS transport_oversize_rejected_before_send",
+        "PASS transport_zero_and_null_boundaries",
+        "PASS transport_deadline_wraparound",
+        "PASS transport_closed_is_error"
+      ]
+    },
+    {
+      "suite": "qos_ack",
+      "exit_code": 0,
+      "cases": [
+        "PASS qos1_matching_puback",
+        "PASS qos1_delayed_puback_precedes_router_ack",
+        "PASS qos1_wrong_id_failure_returns_router_frame",
+        "PASS qos1_missing_ack_bounded_timeout",
+        "PASS qos1_late_ack_is_not_success",
+        "PASS qos1_partial_puback_assembles",
+        "PASS qos1_incomplete_ack_is_not_success",
+        "PASS qos1_duplicate_ack_cannot_confirm_next_frame",
+        "PASS qos1_previous_session_ack_rejected",
+        "PASS qos0_complete_send_without_puback",
+        "PASS qos0_send_error_propagates",
+        "PASS qos0_zero_send_has_finite_budget",
+        "PASS qos0_partial_send_completes_exact_packet",
+        "PASS replay_qos1_payload_sequence_and_time_unchanged",
+        "PASS publish_only_inbound_publish_disconnects",
+        "PASS publish_only_inbound_qos1_disconnects",
+        "PASS qos1_wait_survives_tick_wraparound",
+        "PASS oversize_json_never_sends_truncated_payload"
+      ]
+    },
+    {
+      "suite": "connect_keepalive",
+      "exit_code": 0,
+      "cases": [
+        "PASS connect_mqtt311_clean_session_lwt_auth_keepalive15",
+        "PASS connect_exact_client_credentials_will_topic_payload",
+        "PASS connect_refused_connack_stays_offline",
+        "PASS connect_partial_connack",
+        "PASS connect_missing_connack_bounded_timeout",
+        "PASS keepalive_pingreq_and_pingresp",
+        "PASS keepalive_missing_pingresp_disconnects",
+        "PASS tls_ca_failure_no_plaintext_fallback",
+        "PASS tls_sni_failure_stops_connection",
+        "PASS idle_partial_packet_has_total_timeout",
+        "PASS gateway_status_qos1_retained"
+      ]
+    }
+  ]
+}

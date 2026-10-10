@@ -1,0 +1,725 @@
+{
+  "schema_version": 1,
+  "kind": "P5_FUNCTIONAL_FREEZE_F1_G0_ONLY",
+  "user_date": "2026-10-09",
+  "F0": {
+    "branch": "P5-coremqtt-baremetal",
+    "head_at_precheck": "de36cc1b9bbe7c98757d6fffb4c87b32ffde8f53",
+    "worktree_clean_at_start": true,
+    "P4": "8dee339491cfd4edc468bb9451511d421f26db5e",
+    "main": "50699048010c57ba10f8573461844c525b022a07",
+    "diagnostic_branch_readonly": "38ccef7fd7e265b848880dd2ca1015ca3f3a7099",
+    "production_source_sha": "e598fc63719acdf49a99c6da46c656dc8c607782",
+    "production_input_git_diff": [],
+    "known_user_untracked_documents_preserved_in_original_worktree": 3
+  },
+  "contract": {
+    "canonical_path": "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/合同/P5_coreMQTT功能验收_SecurityGate与PR6最终审查执行合同_v1.0.md",
+    "original_source_sha256": "e6c2b3938c2116e7c4edb2124055f594e5c9bb5e9e20665c78c7d38af55a654a",
+    "archive_sha256": "e6c2b3938c2116e7c4edb2124055f594e5c9bb5e9e20665c78c7d38af55a654a"
+  },
+  "P5_FUNCTIONAL_VERDICT": "PASS_WITH_LIMITATIONS",
+  "P5_FINAL_MERGE_STATUS": "HOLD",
+  "checks": {
+    "active_vendor": {
+      "status": "PASS_CURRENT_RECHECK",
+      "files": 9,
+      "tag": "v2.3.1",
+      "commit": "2beef04725328923e05e576b884212d53ec97af7",
+      "license": "MIT"
+    },
+    "ordinary_MQTT_and_assert": {
+      "status": "PASS_CURRENT_RETEST",
+      "passed": 42,
+      "assert_cases_included": 4,
+      "MQTT_transport_protocol_cases": 38,
+      "source_commit": "de36cc1b9bbe7c98757d6fffb4c87b32ffde8f53"
+    },
+    "source_contract": {
+      "status": "PASS_CURRENT_RETEST",
+      "passed": 6
+    },
+    "isolated_broker": {
+      "status": "PASS_RECORDED_INPUT_HASH_RECHECK",
+      "passed": 30,
+      "rerun_this_round": false,
+      "production_broker_touched": false
+    },
+    "CAN_Router": {
+      "status": "PASS_CURRENT_RETEST",
+      "CAN_cases": 12,
+      "Router_cases": 11
+    },
+    "canonical": {
+      "status": "PASS_CURRENT_RETEST",
+      "messages": 41,
+      "RR": "INVALID",
+      "schema_version": 1
+    },
+    "Backend": {
+      "status": "PASS_CURRENT_RETEST",
+      "passed": 28
+    },
+    "ARM_build": {
+      "status": "PASS_RECORDED_ARTIFACT_AND_LOG_RECHECK",
+      "rebuilt_this_round": false,
+      "recorded_warning_count": 0,
+      "production_source_sha": "e598fc63719acdf49a99c6da46c656dc8c607782"
+    },
+    "hardware_B01_B02_B04": {
+      "status": "PASS_RECORDED_RAW_EVIDENCE_RECHECK",
+      "rerun_this_round": false,
+      "topology": "CAN1_SILENT_LOOPBACK_TWO_SYNTHETIC_NODES",
+      "historical_lost": 203
+    },
+    "assert": {
+      "Host": "PASS_4_INCLUDED_IN_42",
+      "ARM": "RECORDED_WARNING_ZERO",
+      "real_hardware_injection": "NOT_RUN"
+    },
+    "static_RAM": {
+      "status": "PASS_ARTIFACT_REFERENCED",
+      "P4": 120160,
+      "P5": 120208,
+      "delta_bytes": 48,
+      "Stack_HWM": "NOT_MEASURED"
+    },
+    "H16": {
+      "status": "LIMITED_REFERENCE_NOT_GRANTED",
+      "diagnostic_commit": "38ccef7fd7e265b848880dd2ca1015ca3f3a7099",
+      "sbrk_peak_bytes": {
+        "P4": 9400,
+        "P5": 9400
+      },
+      "nominal_single_reconnect_s": {
+        "P4": 5.160445,
+        "P5": 5.002045
+      },
+      "M03": "PARTIAL",
+      "M04": "BLOCKED_UNSAFE_SENTINEL"
+    },
+    "B03": {
+      "status": "NOT_RUN_WAIVER_REQUESTED",
+      "owner_waiver": "PENDING"
+    },
+    "cold_boot_and_assert_HW": {
+      "status": "NOT_RUN_RISK_ACCEPTANCE_PENDING"
+    },
+    "security_gate": {
+      "status": "NOT_AUTHORIZED_NOT_RUN",
+      "active_core_sanitizer": "COVERAGE_GAP_NOT_EXECUTED"
+    }
+  },
+  "production_artifacts": {
+    "P4": {
+      "bin": {
+        "bytes": 30180,
+        "sha256": "5fd386b8bfe0bcf54d4f53ffb1ec6483d086a1c3287b4fe6c37a3ddeacd90547",
+        "matches_recorded_artifact": true
+      },
+      "elf": {
+        "bytes": 59996,
+        "sha256": "1b3d646fdf72603cb3455be4a9f34b04b9b5c9ea35902740a856a59ea490a5b7",
+        "matches_recorded_artifact": true
+      },
+      "ram_with_heap_stack_reservation": 120160,
+      "sections": {
+        ".isr_vector": 392,
+        ".text": 29676,
+        ".init": 4,
+        ".fini": 4,
+        ".ARM": 8,
+        ".data": 88,
+        ".bss": 87300,
+        "._user_heap_stack": 32772,
+        ".ARM.attributes": 48,
+        ".comment": 69,
+        ".debug_line_str": 457,
+        ".debug_frame": 2132
+      }
+    },
+    "P5": {
+      "bin": {
+        "bytes": 35552,
+        "sha256": "fd81076b9b34ad0a8f4ee35c08cd7ea14704f6d7b04620741cdf083c9c6c1069",
+        "matches_recorded_artifact": true
+      },
+      "elf": {
+        "bytes": 66796,
+        "sha256": "c5eb2278669fe520c391c0e4dc69a13539686d724bdff6724cc4cc041e3f9a35",
+        "matches_recorded_artifact": true
+      },
+      "ram_with_heap_stack_reservation": 120208,
+      "sections": {
+        ".isr_vector": 392,
+        ".text": 35048,
+        ".init": 4,
+        ".fini": 4,
+        ".ARM": 8,
+        ".data": 88,
+        ".bss": 87348,
+        "._user_heap_stack": 32772,
+        ".ARM.attributes": 48,
+        ".comment": 69,
+        ".debug_line_str": 457,
+        ".debug_frame": 2132
+      }
+    }
+  },
+  "report_and_JSON_fingerprints": {
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/P5_普通功能验证报告_v1.0.md": {
+      "source_commit": "de36cc1b9bbe7c98757d6fffb4c87b32ffde8f53",
+      "git_blob_sha256": "780357517a8e54b5f87df9c0846f6c1581d077f5f3341ad980b5d47ee5086989",
+      "original_preserved_raw_sha256": "780357517a8e54b5f87df9c0846f6c1581d077f5f3341ad980b5d47ee5086989",
+      "current_checkout_raw_sha256": "71c29341a6134e2e5aeab00f87f3100ebc5a8872a7de30635e5136bf6371cd5f"
+    },
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/P5_P0_证据与资源补充_v1.0.md": {
+      "source_commit": "de36cc1b9bbe7c98757d6fffb4c87b32ffde8f53",
+      "git_blob_sha256": "fc687f3745f6b3a60d84401efbd9232f1690f3649297850edfd868bc1ab80075",
+      "original_preserved_raw_sha256": "fc687f3745f6b3a60d84401efbd9232f1690f3649297850edfd868bc1ab80075",
+      "current_checkout_raw_sha256": "b54bcfc8cb6f762fd3a37e25284423c1a54c1e461ef7bc0b603257bd18d27adb"
+    },
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/P5_P0_隔离Mosquitto集成验证报告_v1.0.md": {
+      "source_commit": "de36cc1b9bbe7c98757d6fffb4c87b32ffde8f53",
+      "git_blob_sha256": "e95119dad750e9a849005a2fd80632358b12f8d58e9cfedb97cd2739dad18c5a",
+      "original_preserved_raw_sha256": "e95119dad750e9a849005a2fd80632358b12f8d58e9cfedb97cd2739dad18c5a",
+      "current_checkout_raw_sha256": "e98c1a431ce8f79bc3ab3a379559bc25cfa53145f8a8d137e3a9084a72610369"
+    },
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/P5_P0_assert只读复核与处置报告_v1.0.md": {
+      "source_commit": "de36cc1b9bbe7c98757d6fffb4c87b32ffde8f53",
+      "git_blob_sha256": "473dd0ab13a4f8a2e7840a055e84cbe32f784b626b8b0a54451f256f72f132a0",
+      "original_preserved_raw_sha256": "473dd0ab13a4f8a2e7840a055e84cbe32f784b626b8b0a54451f256f72f132a0",
+      "current_checkout_raw_sha256": "6b36209feb87482ba4f51ffd81f9d0e6428c96460790a208651206612910ab51"
+    },
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/P5_真机合成Smoke与WiFi恢复报告_20261008.md": {
+      "source_commit": "de36cc1b9bbe7c98757d6fffb4c87b32ffde8f53",
+      "git_blob_sha256": "12e5c5de7e52c4f73a561d37da84c1a25abe1b91c48ad7c35c8e37059534b767",
+      "original_preserved_raw_sha256": "12e5c5de7e52c4f73a561d37da84c1a25abe1b91c48ad7c35c8e37059534b767",
+      "current_checkout_raw_sha256": "944f9e0b7425c7a457e3bbf8c4d45c2fca8dca0ad760eae8898d6c926f8377ae"
+    },
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/P5_ESP8266_AT独立复核报告_20261008.md": {
+      "source_commit": "de36cc1b9bbe7c98757d6fffb4c87b32ffde8f53",
+      "git_blob_sha256": "f375a2741079722bcef80c2bf1376f589051a0f5d9f527eb2d812918428999ad",
+      "original_preserved_raw_sha256": "f375a2741079722bcef80c2bf1376f589051a0f5d9f527eb2d812918428999ad",
+      "current_checkout_raw_sha256": "8f56c7af4457f54bda2116cb32774e3a4e38fba37fb7e7f7502dc386c59c6b47"
+    },
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/P5_真机窗口预检STOP与恢复报告_20261008.md": {
+      "source_commit": "de36cc1b9bbe7c98757d6fffb4c87b32ffde8f53",
+      "git_blob_sha256": "ab421d679f168b3533a2b12012004b79ad87af2b498e9248a6c929fc98e575b9",
+      "original_preserved_raw_sha256": "ab421d679f168b3533a2b12012004b79ad87af2b498e9248a6c929fc98e575b9",
+      "current_checkout_raw_sha256": "1db9a2d5950962e94e5684391293121c9fc82047003496fc851d2a34c718000d"
+    },
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/p0-host-summary.json": {
+      "source_commit": "de36cc1b9bbe7c98757d6fffb4c87b32ffde8f53",
+      "git_blob_sha256": "8dd55a0401591e8b0ff6f1e274e10e83ff0fbfa65d73804152d61fce09dcec82",
+      "original_preserved_raw_sha256": "77e5da06daf63ae564ae74bcdb4c902c046ac646df5c78e26b785fb9f927bacb",
+      "current_checkout_raw_sha256": "77e5da06daf63ae564ae74bcdb4c902c046ac646df5c78e26b785fb9f927bacb"
+    },
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/p0-broker-summary.json": {
+      "source_commit": "de36cc1b9bbe7c98757d6fffb4c87b32ffde8f53",
+      "git_blob_sha256": "7afe56e83fa4169db758a5d2bb20bd94e5084983624f1aa9cdfcce0664e3e683",
+      "original_preserved_raw_sha256": "98dffb6a4f6e7ceb8b720de899f6b9b68b14002466646a090f75e761f78dd737",
+      "current_checkout_raw_sha256": "98dffb6a4f6e7ceb8b720de899f6b9b68b14002466646a090f75e761f78dd737"
+    },
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/p0-resources.json": {
+      "source_commit": "de36cc1b9bbe7c98757d6fffb4c87b32ffde8f53",
+      "git_blob_sha256": "7dde1bc49efcd116228280c93d1391ed54998eac52beee14d52993431da0252d",
+      "original_preserved_raw_sha256": "c18728dffe6363ab7f7cc1e73255f1fcc8c6d8e8b9500b3e28b16b2744d3fc93",
+      "current_checkout_raw_sha256": "c18728dffe6363ab7f7cc1e73255f1fcc8c6d8e8b9500b3e28b16b2744d3fc93"
+    },
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/ordinary-summary.json": {
+      "source_commit": "de36cc1b9bbe7c98757d6fffb4c87b32ffde8f53",
+      "git_blob_sha256": "3037cd61e4eae8ff44975938069240ba102422b0318c1c3c9341b8609a641896",
+      "original_preserved_raw_sha256": "21363075e99bb7a732dc8d25fe8db5f7626afc69c1b2ebe7ba7079fd83fc4054",
+      "current_checkout_raw_sha256": "21363075e99bb7a732dc8d25fe8db5f7626afc69c1b2ebe7ba7079fd83fc4054"
+    },
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/hardware-smoke-wifi-20261008.json": {
+      "source_commit": "de36cc1b9bbe7c98757d6fffb4c87b32ffde8f53",
+      "git_blob_sha256": "055c7d0817168ee3dc8eb001110750ed44eecf71e58f0bfb4fda4f2ff4a9b3e7",
+      "original_preserved_raw_sha256": "9ea6514aaa4c5ee78a095f5c78129921a23b193f91ed910a92d83ec1f5e75b69",
+      "current_checkout_raw_sha256": "9ea6514aaa4c5ee78a095f5c78129921a23b193f91ed910a92d83ec1f5e75b69"
+    },
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/hardware-window-stop-20261008.json": {
+      "source_commit": "de36cc1b9bbe7c98757d6fffb4c87b32ffde8f53",
+      "git_blob_sha256": "fa7767e7ec26481fcda142bf154ef89f615d90bfc2867a109ac61f41cc2f3403",
+      "original_preserved_raw_sha256": "938e34d4ccd039656dd138bed9e40ccce86639ac1791f2aa6646e16a53f1818f",
+      "current_checkout_raw_sha256": "938e34d4ccd039656dd138bed9e40ccce86639ac1791f2aa6646e16a53f1818f"
+    },
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/esp-at-recheck-20261008.json": {
+      "source_commit": "de36cc1b9bbe7c98757d6fffb4c87b32ffde8f53",
+      "git_blob_sha256": "cd16837b4740e9a653ef0fd23d5496acb57382227d60b43755c43cd0658f0533",
+      "original_preserved_raw_sha256": "38dc7ee5766fc4f0d807947ec7adac3800ba25a1c82917b35fc226e11841df64",
+      "current_checkout_raw_sha256": "38dc7ee5766fc4f0d807947ec7adac3800ba25a1c82917b35fc226e11841df64"
+    },
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/c1-audit-manifest.json": {
+      "source_commit": "de36cc1b9bbe7c98757d6fffb4c87b32ffde8f53",
+      "git_blob_sha256": "bad7035d4e748f944543046786d21e59db89d9f465727e0487b629f7b48aef87",
+      "original_preserved_raw_sha256": "650dd47f7d1b011b646697c7cbed0b6794b094412b19355a79f251d4c12690aa",
+      "current_checkout_raw_sha256": "650dd47f7d1b011b646697c7cbed0b6794b094412b19355a79f251d4c12690aa"
+    }
+  },
+  "historical_input_byte_verification": {
+    "p0-host-summary.json": {
+      "gateway/mqtt/src/core_mqtt_config.h": {
+        "recorded_raw_sha256": "53f3b0a749f5504fbf42119b0ada326db8dde1d107bf89b03dda42cc515103c9",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "88872f791c2c20950b03391aafd7618df113f6b376971ff45eaf6849ef81f4ad",
+        "new_checkout_raw_match": false,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": true
+      },
+      "gateway/mqtt/src/gateway_assert.c": {
+        "recorded_raw_sha256": "87dbe88014694a220f3e167afc19314aa3a1e96d2cbbd0619e6dbbd405b5dca3",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "d29eb278706acf7a4249a2104b05f22cf859c61de5d924773c785228d7523d17",
+        "new_checkout_raw_match": false,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": true
+      },
+      "gateway/mqtt/src/gateway_config.h": {
+        "recorded_raw_sha256": "5e6a3906488f9b9173077e35fd2e65221a9fb070ef8c8d169cf9911e03a6e04c",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "5e6a3906488f9b9173077e35fd2e65221a9fb070ef8c8d169cf9911e03a6e04c",
+        "new_checkout_raw_match": true,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": false
+      },
+      "gateway/mqtt/src/gateway_platform.h": {
+        "recorded_raw_sha256": "bbaa86bfd017baf17f083de7dd8ee38a716dd6f115e6e7aa746cf798ea121e90",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "bbaa86bfd017baf17f083de7dd8ee38a716dd6f115e6e7aa746cf798ea121e90",
+        "new_checkout_raw_match": true,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": false
+      },
+      "gateway/mqtt/src/gateway_transport.c": {
+        "recorded_raw_sha256": "bbcd9d2b08870b72b4e107073a14f11975a10dbb9b52039f7bc6573d47d1a406",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "bbcd9d2b08870b72b4e107073a14f11975a10dbb9b52039f7bc6573d47d1a406",
+        "new_checkout_raw_match": true,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": false
+      },
+      "gateway/mqtt/src/gateway_transport.h": {
+        "recorded_raw_sha256": "5bfbc4dfe2b489222518af481025976c2d5b02f75f9d0a2d29275439bc7a7fc4",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "5bfbc4dfe2b489222518af481025976c2d5b02f75f9d0a2d29275439bc7a7fc4",
+        "new_checkout_raw_match": true,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": false
+      },
+      "gateway/mqtt/src/heap.c": {
+        "recorded_raw_sha256": "20bf6b3b9c5ddc276ba4d85016ce14ae1425c18e24e5f020bea011d9168b2923",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "20bf6b3b9c5ddc276ba4d85016ce14ae1425c18e24e5f020bea011d9168b2923",
+        "new_checkout_raw_match": true,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": false
+      },
+      "gateway/mqtt/src/main.c": {
+        "recorded_raw_sha256": "a5ee04e9e3a080330c2dac111c0d5d4497e391e71ae5111effdb1a241f4b32d1",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "a5ee04e9e3a080330c2dac111c0d5d4497e391e71ae5111effdb1a241f4b32d1",
+        "new_checkout_raw_match": true,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": false
+      },
+      "gateway/mqtt/src/mqtt_transport_adapter.c": {
+        "recorded_raw_sha256": "e9ea41b21ced0c9faa1cea8646562c69aa8e63e0506dfd4fa9f66f7bdf795028",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "beb93429f95cba5fe88f170010363613391df41975475abcbe1842c7692019aa",
+        "new_checkout_raw_match": false,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": true
+      },
+      "gateway/mqtt/src/mqtt_transport_adapter.h": {
+        "recorded_raw_sha256": "778928348f18068e9195ea7590b9099bd375a662553b7ab4fc8a8c631c18a924",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "e95954aa35f96fdd5c8ba813dacf0605d7e38c055f6658391d9be28d26ca4ade",
+        "new_checkout_raw_match": false,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": true
+      },
+      "gateway/mqtt/src/platform.c": {
+        "recorded_raw_sha256": "089327057db035e1323b6de8a31b9be63ef47336448220718853fd87e69fe08e",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "089327057db035e1323b6de8a31b9be63ef47336448220718853fd87e69fe08e",
+        "new_checkout_raw_match": true,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": false
+      },
+      "gateway/mqtt/tests/broker_gateway.c": {
+        "recorded_raw_sha256": "498ebc6d7ead6281db91b3b179765e751d31413f79199f886a402950ff1b3149",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "4b48f0fc325b2bfd6795aad730403d450c736a23e205b2594252ea3fcc32fb2a",
+        "new_checkout_raw_match": false,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": true
+      },
+      "gateway/mqtt/tests/mocks/mock_esp.c": {
+        "recorded_raw_sha256": "451ad01a86caf5a02b6fc33e50ad2feba8f338e48863df7a256e806f7bb34db2",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "7f1f8c411d8d2123cc6b816eb366bb10a9cdcd2a1110b45644952f7f41759483",
+        "new_checkout_raw_match": false,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": true
+      },
+      "gateway/mqtt/tests/mocks/mock_esp.h": {
+        "recorded_raw_sha256": "9bee51aaefbfc90ba11b3e580d7c79d820a74332f0430c2b1ac37195ba39f3e9",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "dab063e8ed7e46ba868d9e165752f2c0af986a66541887846b520ea6850effb6",
+        "new_checkout_raw_match": false,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": true
+      },
+      "gateway/mqtt/tests/mocks/p4_platform_for_broker.h": {
+        "recorded_raw_sha256": "5d8321fbe5732f6ea962b554ac62bdaa5b1b6a1e8a45c1655090cda5a8c4f660",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "dc76239ebfeaa0760cda490dad6a3c8de67eb5227737d6136abd65699dde9569",
+        "new_checkout_raw_match": false,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": true
+      },
+      "gateway/mqtt/tests/test_p5_assert_fault.c": {
+        "recorded_raw_sha256": "398172498d58da5bf71ed513cdbc3a59a7a66be3b6cddb7275f5f54104d39dd1",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "a49d3bf0b007696774d74d13f4a777cba2cf7d98dc753e107cbc1ab7cbc8d83c",
+        "new_checkout_raw_match": false,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": true
+      },
+      "gateway/mqtt/tests/test_p5_connect_keepalive.c": {
+        "recorded_raw_sha256": "975b9c2802c08822c5951be60bfcc1eee03d3e364bda2b347883820b87ddc6c2",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "b1ad40092564698360c0aed5aa6db8644b2f941a1aa32b1ccd6d4ea61068d2f3",
+        "new_checkout_raw_match": false,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": true
+      },
+      "gateway/mqtt/tests/test_p5_qos_ack.c": {
+        "recorded_raw_sha256": "ab2980051c79209481c423c52383e52922a6feafe0ade542af9d1e0097b8ad06",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "1a63126391d353c0ac4000c4a961717c865712c174cfdb361013d0517b8485e1",
+        "new_checkout_raw_match": false,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": true
+      },
+      "gateway/mqtt/tests/test_p5_transport.c": {
+        "recorded_raw_sha256": "7ab1a615667a2aba562f8d569fcca70b50ed0df0f7f0ebf105b50eedf7b8bd21",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "f4d850f3cf896fcc9555df98c58c2a87a7f9391a904ad20eef51e05223ecf7bd",
+        "new_checkout_raw_match": false,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": true
+      },
+      "gateway/third_party/coreMQTT/upstream.json": {
+        "recorded_raw_sha256": "6bd79091c82cfa9b53c75f9f9a04ba63f71cbe40a0850ad41c9a7bfd01b940d9",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "6bd79091c82cfa9b53c75f9f9a04ba63f71cbe40a0850ad41c9a7bfd01b940d9",
+        "new_checkout_raw_match": true,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": false
+      },
+      "gateway/data_model/model.c": {
+        "recorded_raw_sha256": "bfebbc230ef5fdd5f2448b820eb6c0e53f8c40e546a46392aa9199e325234cd9",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "bfebbc230ef5fdd5f2448b820eb6c0e53f8c40e546a46392aa9199e325234cd9",
+        "new_checkout_raw_match": true,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": false
+      },
+      "gateway/storage/router.c": {
+        "recorded_raw_sha256": "66565a7cd649f8bcad0c3d8ccda20aa08dbb79cc5d29b3143e8dd09688227462",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "66565a7cd649f8bcad0c3d8ccda20aa08dbb79cc5d29b3143e8dd09688227462",
+        "new_checkout_raw_match": true,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": false
+      }
+    },
+    "p0-broker-summary.json": {
+      "gateway/mqtt/tests/broker_gateway.c": {
+        "recorded_raw_sha256": "498ebc6d7ead6281db91b3b179765e751d31413f79199f886a402950ff1b3149",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "4b48f0fc325b2bfd6795aad730403d450c736a23e205b2594252ea3fcc32fb2a",
+        "new_checkout_raw_match": false,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": true
+      },
+      "gateway/mqtt/tests/run_broker_integration.py": {
+        "recorded_raw_sha256": "0ca038bb4fc6fd8c21ce8e3a1ee60b02dec0a7d20d43a399a1568d98954a0b87",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "3a0eb4228ee3658883002279c3b880f6797b528376f44312a71cd5894a975c5b",
+        "new_checkout_raw_match": false,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": true
+      },
+      "gateway/mqtt/tests/mocks/p4_platform_for_broker.h": {
+        "recorded_raw_sha256": "5d8321fbe5732f6ea962b554ac62bdaa5b1b6a1e8a45c1655090cda5a8c4f660",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "dc76239ebfeaa0760cda490dad6a3c8de67eb5227737d6136abd65699dde9569",
+        "new_checkout_raw_match": false,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": true
+      },
+      "gateway/mqtt/src/gateway_transport.c": {
+        "recorded_raw_sha256": "bbcd9d2b08870b72b4e107073a14f11975a10dbb9b52039f7bc6573d47d1a406",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "bbcd9d2b08870b72b4e107073a14f11975a10dbb9b52039f7bc6573d47d1a406",
+        "new_checkout_raw_match": true,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": false
+      },
+      "gateway/mqtt/src/mqtt_transport_adapter.c": {
+        "recorded_raw_sha256": "e9ea41b21ced0c9faa1cea8646562c69aa8e63e0506dfd4fa9f66f7bdf795028",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "beb93429f95cba5fe88f170010363613391df41975475abcbe1842c7692019aa",
+        "new_checkout_raw_match": false,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": true
+      },
+      "gateway/data_model/model.c": {
+        "recorded_raw_sha256": "bfebbc230ef5fdd5f2448b820eb6c0e53f8c40e546a46392aa9199e325234cd9",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "bfebbc230ef5fdd5f2448b820eb6c0e53f8c40e546a46392aa9199e325234cd9",
+        "new_checkout_raw_match": true,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": false
+      },
+      "gateway/storage/router.c": {
+        "recorded_raw_sha256": "66565a7cd649f8bcad0c3d8ccda20aa08dbb79cc5d29b3143e8dd09688227462",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "66565a7cd649f8bcad0c3d8ccda20aa08dbb79cc5d29b3143e8dd09688227462",
+        "new_checkout_raw_match": true,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": false
+      },
+      "gateway/third_party/coreMQTT/upstream.json": {
+        "recorded_raw_sha256": "6bd79091c82cfa9b53c75f9f9a04ba63f71cbe40a0850ad41c9a7bfd01b940d9",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "6bd79091c82cfa9b53c75f9f9a04ba63f71cbe40a0850ad41c9a7bfd01b940d9",
+        "new_checkout_raw_match": true,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": false
+      },
+      "gateway/third_party/paho-embedded-c/patched.json": {
+        "recorded_raw_sha256": "fc825b058b012d81b45930308ce3412c10a73490809748f43edf34599194c1c9",
+        "preserved_raw_match": true,
+        "new_checkout_raw_sha256": "fc825b058b012d81b45930308ce3412c10a73490809748f43edf34599194c1c9",
+        "new_checkout_raw_match": true,
+        "git_blob_identity_unchanged": true,
+        "checkout_CRLF_only": false
+      }
+    }
+  },
+  "historical_p0_raw_logs": {
+    "p0-arm-final.log": {
+      "sha256": "d8f793786641fe3516302b2d1884f9a735f1457230d669cd956ca8b02bb75d1f",
+      "recorded_sha256": "d8f793786641fe3516302b2d1884f9a735f1457230d669cd956ca8b02bb75d1f",
+      "match": true
+    },
+    "p0-broker-final.log": {
+      "sha256": "6c895938a5d3d3707dcdbd4f5f9ca892063f7174f65b3893a7fa20407b52d6b2",
+      "recorded_sha256": "6c895938a5d3d3707dcdbd4f5f9ca892063f7174f65b3893a7fa20407b52d6b2",
+      "match": true
+    },
+    "p0-host-final.log": {
+      "sha256": "bc49a131b36e5cfda28c558c76b2754b3dcb5812a42c6a7fb0617fd21049e343",
+      "recorded_sha256": "bc49a131b36e5cfda28c558c76b2754b3dcb5812a42c6a7fb0617fd21049e343",
+      "match": true
+    },
+    "p0-integrity-final.log": {
+      "sha256": "7537b9984c8afbb8597dae0701e7aa6796f19dc023797ef5e6d2beb1418a7ab9",
+      "recorded_sha256": "7537b9984c8afbb8597dae0701e7aa6796f19dc023797ef5e6d2beb1418a7ab9",
+      "match": true
+    }
+  },
+  "historical_CAN_Backend_raw_logs_at_original_location": "UNAVAILABLE; ordinary suites reexecuted, historical summaries retained unchanged",
+  "historical_hardware_disk_evidence": [
+    {
+      "private_run_id": "functional-window-20261008T080837Z",
+      "functional_complete": false,
+      "full_flash_double_read_and_restore_equal": true,
+      "flash_sha256": "852d7618f8fc46c80cbe035ebd41f4e21e4d5a76a26cf10a39e0600f7a89ffb8",
+      "production_app_readback_matches": true,
+      "historical_restore_confirmed": true,
+      "DMA_ADC_observed": true,
+      "raw_private_report_sha256": "0b67d36f384f316ee86b6d2632a1cb5da562013d8c1008bdd2fb2b573075eb33"
+    },
+    {
+      "private_run_id": "functional-window-20261008T081316Z",
+      "functional_complete": true,
+      "full_flash_double_read_and_restore_equal": true,
+      "flash_sha256": "852d7618f8fc46c80cbe035ebd41f4e21e4d5a76a26cf10a39e0600f7a89ffb8",
+      "production_app_readback_matches": true,
+      "historical_restore_confirmed": true,
+      "DMA_ADC_observed": true,
+      "raw_private_report_sha256": "bb52cd67a7cbd432c156fbcc0d303516c2fd1669e901f24d2ee49224d2f6ff5d"
+    }
+  ],
+  "diagnostic_references_not_merged": {
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/P5_C3A_诊断质量离线收尾综合回执_20261009.md": {
+      "commit": "38ccef7fd7e265b848880dd2ca1015ca3f3a7099",
+      "sha256": "811aecd606ee8c015207952883d2f85449ba44797abf8b1caefeed0139f7a25f",
+      "url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/blob/38ccef7fd7e265b848880dd2ca1015ca3f3a7099/doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/P5_C3A_诊断质量离线收尾综合回执_20261009.md"
+    },
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/hardware-c3a-quality-reanalysis-20261009.json": {
+      "commit": "38ccef7fd7e265b848880dd2ca1015ca3f3a7099",
+      "sha256": "c5f72dd591de5e22b31b2ada5c7dc226fe97a840e6d6747050f431ded1df2da3",
+      "url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/blob/38ccef7fd7e265b848880dd2ca1015ca3f3a7099/doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/hardware-c3a-quality-reanalysis-20261009.json"
+    },
+    "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/hardware-c3a-pilot-20261009.json": {
+      "commit": "38ccef7fd7e265b848880dd2ca1015ca3f3a7099",
+      "sha256": "1077ad20896c6ce1d5bd2206ca321ee5bb1e1c41e76c1a9c1393ac567e7136c4",
+      "url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/blob/38ccef7fd7e265b848880dd2ca1015ca3f3a7099/doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/hardware-c3a-pilot-20261009.json"
+    }
+  },
+  "current_ordinary_host": {
+    "started_at": "2026-10-09T03:06:57.307760+00:00",
+    "commit": "de36cc1b9bbe7c98757d6fffb4c87b32ffde8f53",
+    "passed": 42,
+    "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+    "suite_counts": {
+      "transport": 9,
+      "assert_fault": 4,
+      "qos_ack": 18,
+      "connect_keepalive": 11
+    },
+    "source_sha256": {
+      "gateway/mqtt/src/core_mqtt_config.h": "88872f791c2c20950b03391aafd7618df113f6b376971ff45eaf6849ef81f4ad",
+      "gateway/mqtt/src/gateway_assert.c": "d29eb278706acf7a4249a2104b05f22cf859c61de5d924773c785228d7523d17",
+      "gateway/mqtt/src/gateway_config.h": "5e6a3906488f9b9173077e35fd2e65221a9fb070ef8c8d169cf9911e03a6e04c",
+      "gateway/mqtt/src/gateway_platform.h": "bbaa86bfd017baf17f083de7dd8ee38a716dd6f115e6e7aa746cf798ea121e90",
+      "gateway/mqtt/src/gateway_transport.c": "bbcd9d2b08870b72b4e107073a14f11975a10dbb9b52039f7bc6573d47d1a406",
+      "gateway/mqtt/src/gateway_transport.h": "5bfbc4dfe2b489222518af481025976c2d5b02f75f9d0a2d29275439bc7a7fc4",
+      "gateway/mqtt/src/heap.c": "20bf6b3b9c5ddc276ba4d85016ce14ae1425c18e24e5f020bea011d9168b2923",
+      "gateway/mqtt/src/main.c": "a5ee04e9e3a080330c2dac111c0d5d4497e391e71ae5111effdb1a241f4b32d1",
+      "gateway/mqtt/src/mqtt_transport_adapter.c": "beb93429f95cba5fe88f170010363613391df41975475abcbe1842c7692019aa",
+      "gateway/mqtt/src/mqtt_transport_adapter.h": "e95954aa35f96fdd5c8ba813dacf0605d7e38c055f6658391d9be28d26ca4ade",
+      "gateway/mqtt/src/platform.c": "089327057db035e1323b6de8a31b9be63ef47336448220718853fd87e69fe08e",
+      "gateway/mqtt/tests/broker_gateway.c": "4b48f0fc325b2bfd6795aad730403d450c736a23e205b2594252ea3fcc32fb2a",
+      "gateway/mqtt/tests/mocks/mock_esp.c": "7f1f8c411d8d2123cc6b816eb366bb10a9cdcd2a1110b45644952f7f41759483",
+      "gateway/mqtt/tests/mocks/mock_esp.h": "dab063e8ed7e46ba868d9e165752f2c0af986a66541887846b520ea6850effb6",
+      "gateway/mqtt/tests/mocks/p4_platform_for_broker.h": "dc76239ebfeaa0760cda490dad6a3c8de67eb5227737d6136abd65699dde9569",
+      "gateway/mqtt/tests/test_p5_assert_fault.c": "a49d3bf0b007696774d74d13f4a777cba2cf7d98dc753e107cbc1ab7cbc8d83c",
+      "gateway/mqtt/tests/test_p5_connect_keepalive.c": "b1ad40092564698360c0aed5aa6db8644b2f941a1aa32b1ccd6d4ea61068d2f3",
+      "gateway/mqtt/tests/test_p5_qos_ack.c": "1a63126391d353c0ac4000c4a961717c865712c174cfdb361013d0517b8485e1",
+      "gateway/mqtt/tests/test_p5_transport.c": "f4d850f3cf896fcc9555df98c58c2a87a7f9391a904ad20eef51e05223ecf7bd",
+      "gateway/third_party/coreMQTT/upstream.json": "6bd79091c82cfa9b53c75f9f9a04ba63f71cbe40a0850ad41c9a7bfd01b940d9",
+      "gateway/data_model/model.c": "bfebbc230ef5fdd5f2448b820eb6c0e53f8c40e546a46392aa9199e325234cd9",
+      "gateway/storage/router.c": "66565a7cd649f8bcad0c3d8ccda20aa08dbb79cc5d29b3143e8dd09688227462"
+    },
+    "result_json_sha256": "212a186b425b86b6bc9477e3f4c1be4d6daf9324b386161d99cd3605a53c3329"
+  },
+  "current_ordinary_logs": {
+    "integrity-current.log": "b32a9f894acf281631646412ac507fd9689affab5a10cd3feec3a58c103ddfd3",
+    "can-router-current.log": "84648019558dae2be267dede67629453d8c478b1ae9631d06af60944b0344de7",
+    "backend-current.log": "375e7a27d61f9f5076ce1cf3a152e5d5e59ed0425f1381bd81ea8b57e174b022",
+    "canonical-current.log": "0af103fc8950457277f1e2834e513d6e0fec096acf00631aaf0c947fe01c9869"
+  },
+  "CI_at_F0_exact_head_only": {
+    "headRefOid": "de36cc1b9bbe7c98757d6fffb4c87b32ffde8f53",
+    "isDraft": true,
+    "state": "OPEN",
+    "statusCheckRollup": [
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-08T09:22:37Z",
+        "conclusion": "CANCELLED",
+        "detailsUrl": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/37756205058/job/113241269878",
+        "name": "test-and-build",
+        "startedAt": "2026-10-08T09:22:36Z",
+        "status": "COMPLETED",
+        "workflowName": "Phase 1 checks"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-08T09:23:06Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/37756209642/job/113241285599",
+        "name": "test-and-build",
+        "startedAt": "2026-10-08T09:22:40Z",
+        "status": "COMPLETED",
+        "workflowName": "Phase 1 checks"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-08T09:25:01Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://semgrep.dev/orgs/2226189588_personal_org/projects/6628009/scans/242233154",
+        "name": "semgrep-cloud-platform/scan",
+        "startedAt": "2026-10-08T09:22:44Z",
+        "status": "COMPLETED",
+        "workflowName": ""
+      }
+    ]
+  },
+  "gate_proposal": {
+    "status": "UNAPPLIED_PROPOSAL_NOT_EXECUTED",
+    "files": [
+      ".security-gate.json",
+      "tools/security_gate/profiles/medical-monitor.json",
+      "gateway/mqtt/tests/run_p5_host_tests.py"
+    ],
+    "patch_sha256": "d0c3bb5a3b06e726a49e23d8af67e7462ee185f7359ff3f3543d3fe728715a04",
+    "base_worktree_sha256": {
+      ".security-gate.json": "69992dff2f8e7f8a7942f85fb1157915f7a60f6d726eb01e03e201bd21ce6e5d",
+      "tools/security_gate/profiles/medical-monitor.json": "69992dff2f8e7f8a7942f85fb1157915f7a60f6d726eb01e03e201bd21ce6e5d",
+      "gateway/mqtt/tests/run_p5_host_tests.py": "4b9a535213685bc2afa1957a608eadef435321c019ee9d22f18e22ee477a01c8"
+    },
+    "proposed_profile_sha256": {
+      ".security-gate.json": "1d6194eaaecc7e8837efc1979ba33d4b2300bc9a4d1d352c750131d8dd9354e2",
+      "tools/security_gate/profiles/medical-monitor.json": "1d6194eaaecc7e8837efc1979ba33d4b2300bc9a4d1d352c750131d8dd9354e2"
+    },
+    "validation": [
+      "JSON_PARSED",
+      "PYTHON_AST_PARSED",
+      "PYTHON_COMPILED_NOT_EXECUTED",
+      "GIT_APPLY_CHECK_PASS_NOT_APPLIED"
+    ],
+    "gate_execution": false,
+    "sanitizers_executed": false,
+    "workflow_modified": false,
+    "active_files_unchanged": true,
+    "recommended_modes": [
+      "doctor",
+      "pr"
+    ],
+    "execution_prerequisites": [
+      "P5_COMMIT_from_approved_HEAD_for_gitless_source_snapshot",
+      "Approved_clean_POSIX_checkout_for_HERA_C3_git",
+      "Project_test_interpreter_not_verified_or_prepared",
+      "Mandatory_Windows_ARM_builder_execution_not_aligned_with_HERA_C3",
+      "Locked_project_dependency_network_scope_requires_G1_decision"
+    ],
+    "local_patch_relative_path": "gateway/mqtt/build/p5-final-f0-f1-g0-20261009/p5-active-client-gate-proposal-v2.patch"
+  },
+  "gate_current_config_fingerprints": {
+    ".security-gate.json": "69992dff2f8e7f8a7942f85fb1157915f7a60f6d726eb01e03e201bd21ce6e5d",
+    "tools/security_gate/profiles/medical-monitor.json": "69992dff2f8e7f8a7942f85fb1157915f7a60f6d726eb01e03e201bd21ce6e5d",
+    "tools/security_gate/gate.py": "3d7d0226a9cca83b4265d025c59dbe31a3dcd36ddb1839c71803f70b4dc100a1",
+    "tools/security_gate/adapters.py": "537e2a0464231307474cc72a4df65505670fd1894924fc41ba1273fb9d497ab9",
+    "tools/security_gate/toolchain.lock.json": "acfcee11d984f19c03dc40efd6ed1c19c58d01c28bc189e28b5be70c2c519590",
+    ".github/workflows/security-gate.yml": "49ec7c048ed462dabab92f5215e48ce335c932c39ca4e69505774c7899e05847"
+  },
+  "blockers": [
+    "G1_PROFILE_PATCH_APPLICATION_NOT_AUTHORIZED",
+    "ACTIVE_COREMQTT_SANITIZER_COVERAGE_GAP",
+    "G1_EXACT_POST_PATCH_SHA_AUTHORIZATION_REQUIRED",
+    "POSIX_GATE_CHECKOUT_AND_PROJECT_TEST_ENV_REQUIRED",
+    "MANDATORY_ARM_BUILD_ENVIRONMENT_NOT_ALIGNED",
+    "OWNER_H16_B03_COLD_BOOT_ASSERT_RISK_DECISIONS_PENDING"
+  ],
+  "actions_not_performed": [
+    "Gate doctor/quick/pr/release",
+    "ASan/UBSan",
+    "scanner installation",
+    "scanner upgrade",
+    "CI Gate workflow change",
+    "board access",
+    "production Broker operations",
+    "diagnostic branch merge/cherry-pick",
+    "PR merge",
+    "P6"
+  ]
+}

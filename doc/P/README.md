@@ -1,6 +1,6 @@
 # P 文档导航与当前基线
 
-更新于 2026-09-23。总需求仍以[最终总合同 v0.7](<../多参数监护仪_总开发合同与系统方案_v0.7 .md>)为准；**当前 P 集成基线**为 `P4@09695ff2023ef6fd8dadaf5ecd64268b384a9190`（[PR #4](https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/4) 已合并）。`main@50699048010c57ba10f8573461844c525b022a07` 是稳定历史主干；`dev/node-a-v07` 和 `dev/node-b-v07` 是 A/B 各自的开发分支。历史报告中的 `dev/p-gateway-cloud-v07`、`dev/p-web-ui-v07` 和旧 SHA 只描述当时的工作，不是当前系统基线。
+更新于 2026-10-08。总需求仍以[最终总合同 v0.7](<../多参数监护仪_总开发合同与系统方案_v0.7 .md>)为准；**P 集成基线**为 `P4@8dee339491cfd4edc468bb9451511d421f26db5e`（PR #4 / #5 已合并）。当前独立软件开发分支为 `P5-coremqtt-baremetal`；P5 唯一执行合同是[正式合同 v1.0](P5_coreMQTT裸机迁移正式执行合同_v1.0.md)，状态与未完成项见 [P5 阶段材料](04_第四阶段_P5_coreMQTT裸机迁移/README.md)。`main@50699048010c57ba10f8573461844c525b022a07` 是稳定历史主干；`dev/node-a-v07` / `dev/node-b-v07` 继续独立开发。历史分支和旧 SHA 仅描述当时工作。
 
 | 分类 | 入口 | 当前结论 |
 |---|---|---|
@@ -9,6 +9,7 @@
 | RUNBOOK / MAINTENANCE | [云网关接管 v1.1](01_第一阶段_MQTT云端/合同/P_云网关实现原理_代码设计与维护接管手册_v1.1.md)、[统一维护手册 v1.1](90_维护/多参数监护仪_P端云网关维护手册与工作流程_v1.1.md) | P4 现行维护入口；v1.0 留作历史 |
 | EVIDENCE / ACCEPTANCE | [第一阶段](01_第一阶段_MQTT云端/README.md)、[第二阶段结项](02_第二阶段_CANopen可靠性/验收/P_第二阶段_CANopen汇聚与Gateway可靠性结项说明_v0.2.md)、[六页 UI 验收](03_第三阶段_UI重构/验收/02_Stitch六页面最终替换与安全准出报告_2026-09-22.md)、[安全证据](90_维护/README.md) | 记录当时真实测试和未覆盖范围，不回填伪历史 |
 | HISTORY | [99 历史](99_历史/README.md) | 被替代合同及 WSS 成果，仅供追溯 |
+| P5 | [正式合同](P5_coreMQTT裸机迁移正式执行合同_v1.0.md)、[设计/普通测试/资源证据](04_第四阶段_P5_coreMQTT裸机迁移/README.md) | 软件、P0 assert及隔离Broker通过；真机B01/B02/B04通过并恢复原Flash；C1审计及C2测量方案/脱机工具已准备，等待新授权，未合并P4 |
 
 阶段状态：第一阶段 MQTT/Cloud 已完成；第二阶段在 **CANopen 测试节点和 Router** 范围内阶段准出；第三阶段完成 Vite 7.3.5 六页面工程样机 UI。Paho P4.1 安全整改与统一 Security Gate 已建立，PR #4 的最终 HEAD 取得条件通过，**不等于 release 或真实数据准出**。当前仍未完成真实 Node-A/B、外部三板 CAN、正式 RR 算法、Flash 持久缓存、FreeRTOS 迁移、24h 稳定性和 Release Security Gate。
 

@@ -14,6 +14,11 @@ static unsigned char reply[4096], network_bytes[256];
 static unsigned int reply_length, network_length, network_offset;
 static void (*poll_callback)(void);
 static int polling;
+/* AT 内部单调计时独立于 MQTT 库和 SNTP epoch，不再导出 Paho Timer 类型。 */
+typedef struct
+{
+    uint32_t deadline;
+} Timer;
 
 void platform_set_poll(void (*callback)(void))
 {
@@ -96,31 +101,15 @@ int console_char(void)
     return (USART1->SR & USART_SR_RXNE) ? (int)(USART1->DR & 255U) : -1;
 }
 
-void TimerInit(Timer *timer)
-{
-    timer->deadline = g_uptime_ms;
-}
-
 /* 有符号差适用于小于半个 uint32 周期的短超时，可跨毫秒计数回绕比较。 */
-char TimerIsExpired(Timer *timer)
+static char TimerIsExpired(Timer *timer)
 {
     return (int32_t)(g_uptime_ms - timer->deadline) >= 0;
 }
 
-void TimerCountdownMS(Timer *timer, unsigned int ms)
+static void TimerCountdownMS(Timer *timer, unsigned int ms)
 {
     timer->deadline = g_uptime_ms + ms;
-}
-
-void TimerCountdown(Timer *timer, unsigned int seconds)
-{
-    TimerCountdownMS(timer, seconds * 1000U);
-}
-
-int TimerLeftMS(Timer *timer)
-{
-    int32_t left = (int32_t)(timer->deadline - g_uptime_ms);
-    return left > 0 ? left : 0;
 }
 
 void delay_ms(uint32_t ms)
@@ -179,9 +168,8 @@ const char *at_response(void)
 }
 
 /* 先请求精确长度，再发送 MQTT 二进制并确认 ESP 结果；这不是 Broker 的 PUBACK。 */
-static int mqtt_write(Network *network, unsigned char *data, int length, int timeout)
+int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout)
 {
-    (void)network;
     if (length <= 0 || length > 2048)
         return -1;
     char command[40];
@@ -202,10 +190,9 @@ static int mqtt_write(Network *network, unsigned char *data, int length, int tim
     return length;
 }
 
-/* 先消费上次读取的剩余字节；SSL 被动读取分块到缓存，按 Paho 要求累计返回。 */
-static int mqtt_read(Network *network, unsigned char *data, int length, int timeout)
+/* 先消费上次剩余字节；SSL 被动读取分块到缓存，短读按实际字节数交给适配层。 */
+int esp_mqtt_recv(unsigned char *data, int length, uint32_t timeout)
 {
-    (void)network;
     int copied = 0;
     Timer timer;
     TimerCountdownMS(&timer, (unsigned int)(timeout > 0 ? timeout : 1));
@@ -267,10 +254,8 @@ static int mqtt_read(Network *network, unsigned char *data, int length, int time
     return copied;
 }
 
-void network_init(Network *network)
+void esp_mqtt_reset(void)
 {
-    network->mqttread = mqtt_read;
-    network->mqttwrite = mqtt_write;
     network_length = network_offset = 0;
     /* 上一连接留下的异步提示不是新 MQTT 包，建立 SSL 前重新初始化队列。 */
     __disable_irq();
@@ -278,6 +263,7 @@ void network_init(Network *network)
     errors = 0;
     __enable_irq();
 }
+
 
 static void init_uart(void)
 {

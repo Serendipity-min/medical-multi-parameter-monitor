@@ -1,0 +1,39 @@
+{
+  "mode": "pr",
+  "target_sha": "d1e7388a91149a7c66e6cf1a5df7321bbb8eab12",
+  "base_sha": "8dee339491cfd4edc468bb9451511d421f26db5e",
+  "command": [
+    "/usr/bin/python3",
+    "/root/.local/state/p5-g1/p5-g1-20261009T063133Z-2e55aa/repo/tools/security_gate/gate.py",
+    "pr",
+    "--repo",
+    "/root/.local/state/p5-g1/p5-g1-20261009T063133Z-2e55aa/repo",
+    "--output-root",
+    "/mnt/e/security-gate-results/p5-gemini-independent-20261009T114500Z/gate",
+    "--base",
+    "8dee339491cfd4edc468bb9451511d421f26db5e",
+    "--authorize"
+  ],
+  "exit_code": 2,
+  "duration_seconds": 224.288,
+  "gate_runs": [
+    "/mnt/e/security-gate-results/p5-gemini-independent-20261009T114500Z/gate/pr-2026-10-09T114917.932439_0000-ead29d"
+  ],
+  "harvested_host_results": 3,
+  "arm_artifacts": {
+    "gateway_mqtt.map": {
+      "bytes": 274973,
+      "sha256": "b2812ed4f72c12e19eac714b7e2f6b23091779bef5b094ff373cfd32654dbfcc"
+    },
+    "gateway_mqtt.elf": {
+      "bytes": 66820,
+      "sha256": "4c20bb677293cafe9cb91b4ff7f81fc49e9c03add7faaaf3800769b900e99c47"
+    },
+    "gateway_mqtt.bin": {
+      "bytes": 35892,
+      "sha256": "47e7b37ca870028c0efcfa75957993bac1376e8c5a8cacf81cffb5e8abcdf69d"
+    }
+  },
+  "console_sha256": "45bd9dc35742d04f82a79b9556ba39586b8d9ec7eaf56f881d7cdf0482044920",
+  "retry_count": 0
+}
