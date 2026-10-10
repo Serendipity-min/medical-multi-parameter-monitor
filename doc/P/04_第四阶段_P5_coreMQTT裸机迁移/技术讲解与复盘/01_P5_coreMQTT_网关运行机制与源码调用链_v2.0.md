@@ -180,9 +180,9 @@ sequenceDiagram
 ### 2.3 关键执行机制：中断、协作轮询与单主线程防饥饿
 
 裸机系统没有抢占式多任务内核，如何保证高波特率串口收发与高实时性 CAN 采样不互相卡死？
-1. **SysTick 滴答时钟**：`SysTick_Handler` 仅维护全局递增变量 `volatile uint32_t g_uptime_ms`，严禁在中断中执行耗时计算；
-2. **UART3 中断与无锁环形缓冲区**：
-   ESP8266 发送的数据通过 `USART3_IRQHandler` 接收，中断例程仅将字节压入固定尺寸环形缓冲区 `g_rx_ring`，不解析 AT 行，不触发 MQTT 逻辑；
+1. **系统主频与 SysTick 滴答时钟**：当前工程样机运行在 **16 MHz HSI**（内部高速 RC 振荡器，未启用外部 HSE 晶振及 PLL 倍频至 168 MHz），`SysTick_Config(SystemCoreClock / 1000U)` 配置 1ms 毫秒基准中断，`SysTick_Handler` 仅维护全局递增变量 `volatile uint32_t g_uptime_ms`，严禁在中断中执行耗时计算；
+2. **UART3 中断与 8192 B 环形缓冲区**：
+   ESP8266 串口数据通过 `USART3_IRQHandler` 接收，中断例程仅将字节压入固定尺寸为 **8192 B**（8 KiB）的静态环形缓冲区 `ring[CAPACITY]`（`CAPACITY = 8192U`，`gateway/mqtt/src/platform.c`），不解析 AT 行，不触发 MQTT 协议逻辑；
 3. **协作调度钩子 (`platform_set_poll(service)`)**：
    当网络层处于阻塞等待（如 `at_command` 阻塞等待响应、或 `MQTT_ProcessLoop` 等待网络字节）时，内部循环反复调用 `platform_poll()`。`platform_poll()` 触发 `service()` 回调：
    ```c
@@ -307,6 +307,12 @@ flowchart LR
   3. KeepAlive 保活时钟维护（15 秒超时主动触发 PINGREQ）；
   4. 业务数据队列与断网有损淘汰策略。
 
+> **硬件设计事实：无 GPIO 硬复位引脚，纯软件超时与状态机自愈**
+> 当前硬件未连接或配置 ESP8266 的 GPIO RST 硬件复位引脚。遇到 AT 指令超时（单命令 2000–3000ms 滴答超时）或网络断开时，系统完全依靠软件状态机容错：
+> 1. 先通过 `gateway_network_close()` 发送 `AT+CIPCLOSE` 拆除残留套接字；
+> 2. 重连入口调用 `esp_mqtt_reset()`（关中断重置 `tail = head; errors = 0; network_length = 0;`）原子清空接收环形队列；
+> 3. 重新按序执行 `AT`、`ATE0`、`AT+SYSSTORE=0`、`AT+CWMODE=1`、`AT+CWJAP`、`AT+CIPSNTPCFG=1,0`，实现纯软件层的受控冷重连。重试等待期间由 `platform_poll()` 协作维持 CANopen 现场总线心跳。
+
 ---
 
 ### 4.2 `TransportInterface_t` 适配层与 `writev` 零拷贝拼装
@@ -369,7 +375,8 @@ sequenceDiagram
 > **核心认知防坑**：
 > 1. **QoS 0 ≠ 失败不感知**：若串口写超时或 ESP 返回 `ERROR`，本地发送立刻返回失败；但若已送达 ESP，Broker 是否收到在协议层完全不可知；
 > 2. **QoS 1 匹配性校验**：必须验证 PUBACK 中的 `Packet ID` 与本地发送的 ID 严格一致。迟到的、错号的、或上一会话遗留的 PUBACK 均被判定为非法；
-> 3. **QoS 1 ≠ Exactly Once**：QoS 1 保证至少一次送达（At Least Once）。在断网重连重发过程中，Broker 或后端可能收到重复报文，因此下游必须支持去重。
+> 3. **QoS 1 ≠ Exactly Once**：QoS 1 保证至少一次送达（At Least Once）。在断网重连重发过程中，Broker 或后端可能收到重复报文，因此下游必须支持去重；
+> 4. **MQTT PUBACK ≠ Backend 消费确认**：必须深刻理解 MQTT 协议的单跳（Hop-by-Hop）传输属性。Broker 返回的 PUBACK 仅代表第一跳 Broker 节点成功接收了该报文并承担后续路由职责，绝不等于下游 Python 后端、Hub 服务或临床数据库已成功消费、解析和持久化。如果后端服务断线或入库处理异常，Broker 依然会向网关返回 PUBACK。端到端业务确认需在更高应用层另行规划。
 
 ---
 
@@ -504,19 +511,25 @@ flowchart TD
 
 ## 7. 静态配置与动态内存资源台账
 
-本样机遵循嵌入式高可靠编码规范：coreMQTT 协议层与传输适配层**完全不依赖动态内存分配**；但 CANopenNode 实例初始化（`CO_new`）依然使用 `calloc`（由工程专有的固定静态堆池 `heap.c` 托管，分配失败即返回错误并安全隔离）。
+本样机遵循嵌入式高可靠编码规范：coreMQTT 协议层与传输适配层**完全不依赖动态内存分配**；CANopenNode 实例初始化（`CO_new`）依然使用 `calloc`，但其底层通过专有静态堆管理 `heap.c` 与链接脚本 `STM32F407ZGT6_FLASH.ld` 进行了硬边界隔离约束，分配不足立即返回 `ENOMEM` 并安全终止，绝不越界挤占系统栈。
 
-| 模块 / 结构体 | 分配位置 | 占用大小 (字节) | 归属源文件 | 生命周期 |
+| 模块 / 结构体 / 内存段 | 分配位置 | 占用大小 (字节) | 归属源文件 / 脚本 | 生命周期与用途说明 |
 |---|---|---|---|---|
-| `MpStack stack` | BSS 静态段 | 约 38,400 | `gateway/mqtt/src/main.c` | 系统全生命周期驻留 |
-| `MpAdapter adapter` | BSS 静态段 | 约 3,200 | `gateway/mqtt/src/main.c` | 系统全生命周期驻留 |
-| `MpRouter router` | BSS 静态段 | 49,576 | `gateway/mqtt/src/main.c` | 16 live + 32 cache 帧缓冲区 |
-| `MQTTContext_t` | BSS 静态段 | 约 256 | `gateway/mqtt/src/gateway_transport.c` | coreMQTT 协议上下文 |
+| `MpStack stack` | BSS 静态段 | 约 38,400 | `gateway/mqtt/src/main.c` | 系统全生命周期驻留，3 节点协议栈实例 |
+| `MpAdapter adapter` | BSS 静态段 | 约 3,200 | `gateway/mqtt/src/main.c` | 系统全生命周期驻留，批次波形汇聚与时钟锚定 |
+| `MpRouter router` | BSS 静态段 | 49,576 | `gateway/mqtt/src/main.c` | 16 live + 32 cache 帧静态双级缓存队列 |
+| `MQTTContext_t` | BSS 静态段 | 约 256 | `gateway/mqtt/src/gateway_transport.c` | coreMQTT 协议状态机上下文 |
 | `NetworkContext_t` | BSS 静态段 | 2,120 | `gateway/mqtt/src/mqtt_transport_adapter.c` | 包含 2048 字节发送拼装缓冲区 |
-| `g_rx_ring` | BSS 静态段 | 4,096 | `gateway/mqtt/src/gateway_platform.c` | UART3 接收环形无锁缓冲区 |
-| **ARM 固件构建总计** | **Flash: 35,624 B** | **RAM BSS: 120,120 B** | **Data: 88 B** | **RAM 占用率约 91.7% (120,208 / 131,072 B)** |
+| `ring[CAPACITY]` | BSS 静态段 | 8,192 (8 KiB) | `gateway/mqtt/src/platform.c` | UART3 中断接收环形缓冲区 (`CAPACITY=8192U`) |
+| **有界动态堆 (Heap 预留)** | `._user_heap_stack` | 24,576 (24 KiB) | `STM32F407ZGT6_FLASH.ld` | `_heap_start` 至 `_heap_end`，供 `_sbrk` 限制性分配 |
+| **主栈预留区 (Stack 预留)** | `._user_heap_stack` | 8,192 (8 KiB) | `STM32F407ZGT6_FLASH.ld` | `_heap_end` 向上静态预留的主栈保护隔离带 |
+| **ARM 固件构建总计** | **Flash: 35,624 B** | **RAM BSS: 120,120 B** | **Data: 88 B** | **已链接分配: 120,208 / 131,072 B (91.7%)** |
 
-> **关键提醒**：当前链接脚本 `STM32F407ZGT6_FLASH.ld` 配置的常规 RAM 仅为 **128 KiB**（131,072 字节），静态数据（Data + BSS = 120,208 字节）已占用该区域约 **91.7%**，剩余空间由系统运行时栈和预留区域占用。此外，**极端负载下的运行时栈高水位（Stack High-Water Mark）尚未完成真机仪器级打标测量**，属于工程样机已知受控风险。
+> **深入理解内存分布与 10,864 B 剩余 RAM 的含义**：
+> 1. **配置 RAM 容量**：STM32F407ZGT6 物理 SRAM 总计 192 KiB，但链接脚本 `STM32F407ZGT6_FLASH.ld` 仅规划使用了常规 SRAM 的前 **128 KiB**（`LENGTH = 128K`，即 131,072 B），起始地址 `0x20000000`，栈顶 `_estack = 0x20020000`；
+> 2. **已分配静态段**：Data 段（88 B）+ BSS 段（含未初始化全局变量 87,348 B + Heap 预留 24,576 B + Stack 预留 8,192 B + 对齐 4 B，合计 120,120 B），链接期已分配 **120,208 B**，占 128 KiB 配置空间的 **91.7%**；
+> 3. **10,864 B 剩余 RAM**：从预留段末尾（`0x2001D590`）到 RAM 上限 `_estack`（`0x20020000`）之间，恰好剩余 `0x2A70` = **10,864 字节**。这 10,864 字节并非内存浪费或泄漏，而是系统主运行栈（MSP）从高地址向低地址自然生长的实际可用栈余量，供中断嵌套和复杂局部变量使用；
+> 4. **客观风险与边界**：在极端中断嵌套和深层调用下，该约 10.6 KB 栈空间的**运行时栈高水位（Stack High-Water Mark）尚未完成真机打标实测**，属于工程样机已知受控风险（RSK-P5-001）。
 
 ---
 
@@ -530,14 +543,15 @@ flowchart TD
 - "P5 阶段将原 Paho 迁移为 AWS coreMQTT v2.3.1，协议层实现零动态内存分配与状态解耦，显著降低了裸机长周期运行风险。"
 - "强调：MQTT 3.1.1、纯裸机单主线程、后端 Python 仍用 paho-mqtt 订阅。"
 
-[0:45 - 1:45] 拓扑与调度模型 (画出分层框图)
+[04:5 - 1:45] 拓扑与调度模型 (画出分层框图)
 - "当前验证拓扑是单块 F407 利用 bxCAN 静默环回运行 3 个独立 CANopen 实例；目标三板分布式拓扑已做好架构隔离。"
-- "调度无 RTOS：SysTick 维护全局毫秒；UART3 中断只写入 4KB 环形缓冲；网络阻塞等待期间通过 platform_poll 协作推进 CAN 采样（单次上限 8ms 防饥饿）。"
+- "调度无 RTOS：系统以 16 MHz HSI 运行，SysTick 维护 1ms 毫秒基准；UART3 中断只写入 8KB 环形缓冲；网络阻塞等待期间通过 platform_poll 协作推进 CAN 采样（单次上限 8ms 防饥饿）。"
+- "ESP8266 无硬件 GPIO 复位引脚，遇到断网或超时通过 software timeout、AT+CIPCLOSE、esp_mqtt_reset() 原子清空队列与有序重发 AT 指令自愈。"
 
 [1:45 - 2:45] 数据管道与可靠传输 (画出 Router 双级缓存与 QoS 1 时序)
 - "高频波形在 Adapter 处实施 1 秒批次汇聚（ECG 250 点，PPG 50 点），封装为携带单调递增 seq 和绝对时间戳的 MpFrame。"
 - "传输采用向量写 writev 聚合单次 CIPSEND，降低串口与网络开销；ESP8266 专职硬件 TLS 与 SNTP 校时。"
-- "QoS 1 必须收到并匹配 PUBACK 的 Packet ID，Router 才出队确认；断网时 16 实时 + 32 缓存队列实施有界淘汰（实测 lost=203，承认有损）。"
+- "QoS 1 必须收到并匹配 PUBACK 的 Packet ID，Router 才出队确认；注意 MQTT PUBACK 仅代表第一跳 Broker 接收，不等于后端消费确认；断网时 16 实时 + 32 缓存队列实施有界淘汰（实测 lost=203，承认有损）。"
 
 [2:45 - 3:30] 核心 Bug 复盘与最新最小修复 (GEMINI-P5-001)
 - "复盘了历史 CANopen 重启未解挂导致的空指针崩塌问题；"
