@@ -1,15 +1,13 @@
 # P5：裸机 coreMQTT v2.3.1 / MQTT 3.1.1
 
 唯一合同：[正式 v1.0](../P5_coreMQTT裸机迁移正式执行合同_v1.0.md)。
-本轮软件基线 `P4@8dee339`；首轮软件证据绑定 `505be8a`；最新 P0 实现与验证绑定
-`e598fc63719acdf49a99c6da46c656dc8c607782`。历史报告原样保留，最新证据见下方 P0 补充。
-当前为 **P5_PENDING_HARDWARE_AND/OR_SECURITY**，动态资源仍待测。
+本轮软件基线 `P4@8dee339`；首轮软件证据绑定 `505be8a`；最新实现与验证绑定 `2e13ff3be398ae33ab4d4ab8a9ba0fec3c5d6855`（包含 GEMINI-P5-001 最小修复与 5 项专项用例）。历史报告原样保留。
+当前审计结论为 **CONDITIONAL PASS**（统一 Security Gate 退出码 2，绑定受测基线 `d1e7388a91149a7c66e6cf1a5df7321bbb8eab12`；短 Smoke PASS 持续 43.812s / 25 帧，测试 BIN SHA-256 `7694dc197a8b2363ad605e1da784e3fa791af7d69888e23755e69b7e627a099b`；原板卡 1MiB Flash 已通过全片双读校验 `15102707af11cfb7f57bac250bd30e583274d9f992292f5db6576a4b69c37354` 完整恢复，板载无 P5 固件）。
 
-软件迁移、ARM 构建、42 项 C 普通用例、6 项来源用例通过；隔离真实 Mosquitto 的 30 项
-P4/P5 对照与 Will/retain/PUBACK/保活通过。assert 的 OS 桩依赖已由获授权的有界诊断停机替换。
-正式 ESP/TLS 合成 Smoke、Wi-Fi 恢复和原 Flash 全片恢复已通过；动态性能及统一 Security Gate 尚未完成。
+软件迁移、ARM 构建、42 项 C 普通用例、6 项来源用例、5 项 EMCY 专项用例通过；隔离真实 Mosquitto 的 30 项 P4/P5 对照与 Will/retain/PUBACK/保活通过。assert 的 OS 桩依赖已由获授权的有界诊断停机替换。
+**重要边界**：在最终源码最小修复（`2e13ff3`）后，尚未重新进行全量统一 Security Gate 复跑，亦未将新编译 BIN 上板执行新一轮真机 Smoke 测试；相关结论由历史受测基线与离线 Host / ARM 构建支撑。
 用户另外授权本次 GitHub App 自动 Semgrep 检查；它与统一 Security Gate 的授权和准出分开记录。
-P4/main、A/B、CANopen/Router/模型、Cloud 和历史证据未改；P6 未启动。
+P4/main、A/B、CANopen/Router/模型、Cloud 和历史证据未改；PR #6 保持 Draft，P6 未启动。
 
 - [本轮重建的 P4 基线](baseline.md)
 - [接口迁移与构建清单](设计/P5_接口迁移与构建清单_v1.0.md)

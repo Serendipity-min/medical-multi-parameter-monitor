@@ -6,8 +6,8 @@
 > - **前序审计固定起点 (START_HEAD)**：`cc2c3a9fa135958aa26613821f11f411f54f62ae`
 > - **第四阶段基线提交 (P4_BASE)**：`8dee339491cfd4edc468bb9451511d421f26db5e`
 > - **历史 Security Gate 独立复跑 SHA**：`d1e7388a91149a7c66e6cf1a5df7321bbb8eab12` (CONDITIONAL_PASS / EXIT_2)
-> - **历史短 Smoke 固件 BIN SHA-256**：`7694dc192fa26e2e5050f24eeae78328b9ecf80164cb6ff84cb139931b26938a` (43.812s / 25帧上报)
-> - **当前物理开发板回读全片 Flash SHA-256**：`15102707252277d32db8df1f88764b85cefb2b3117462fa03328e75294a50d2f` (1MiB 双读一致，板载无 P5 固件)
+> - **历史短 Smoke 固件 BIN SHA-256**：`7694dc197a8b2363ad605e1da784e3fa791af7d69888e23755e69b7e627a099b` (43.812s / 25帧上报)
+> - **当前物理开发板回读全片 Flash SHA-256**：`15102707af11cfb7f57bac250bd30e583274d9f992292f5db6576a4b69c37354` (1MiB 双读一致，板载无 P5 固件)
 > - **文档正式提交 (DOCS_COMMIT)**：将在本文档纳入 Git 提交后记录于外部交接回执中，正文不自引用。
 
 ---
@@ -48,8 +48,8 @@
 flowchart TB
     subgraph Current_Topology["当前验证拓扑：单板合成三实例 (F407 bxCAN Loopback)"]
         subgraph STM32F407["STM32F407ZGT6 (单板裸机)"]
-            NA["实例 0: Node-A\n(PPG/SpO2/NIBP/TEMP)\nOD + TPDO"]
-            NB["实例 1: Node-B\n(ECG/HR/RESP)\nOD + TPDO"]
+            NA["实例 0: Node-A\n(PPG/SpO2/PR/NIBP)\nOD + TPDO"]
+            NB["实例 1: Node-B\n(ECG/HR/RESP/RR/TEMP)\nOD + TPDO"]
             GW["实例 2: Gateway\nRPDO + Adapter + Router\n+ coreMQTT Client"]
             bxCAN["bxCAN 控制器 (Silent Loopback 模式)"]
             NA <-->|内部总线回环| bxCAN
@@ -86,7 +86,7 @@ flowchart TD
     subgraph Layer5["5. 云端接入与业务呈现"]
         Broker["MQTT Broker (EMQX / Mosquitto)"]
         Backend["Python Backend (paho-mqtt, Hub, FastAPI)"]
-        WebUI["Web 大屏 (Vue3 + Canvas 实时波形)"]
+        WebUI["Web 大屏 (Vite + TypeScript + 原生 DOM/Canvas 实时波形)"]
         Broker <-->|MQTT 3.1.1| Backend
         Backend <-->|WebSocket| WebUI
     end
@@ -226,15 +226,15 @@ sequenceDiagram
 
 | 节点 | 节点 ID | 映射参数 | 采样频率 | OD 索引与格式 | 异常标志位 / 质量位 |
 |---|---|---|---|---|---|
-| **Node-A** (前置 A) | 0x01 | PPG (光电容积脉搏波) | 50 Hz | `0x2001:01` (uint16) | 探头脱落、弱灌注标志 |
-| | | SpO2 (血氧饱和度) | 1 Hz | `0x2002:01` (uint8, %) | 范围 0–100% |
-| | | PR (脉率) | 1 Hz | `0x2003:01` (uint16, bpm) | 0 表示无效 |
-| | | NIBP (无创血压) | 事件触发 | `0x2004:01..03` (收缩/舒张/平均) | 充气错误、测量超限 |
-| | | TEMP (体温) | 0.1 Hz | `0x2005:01` (uint16, 0.1℃) | 探头未连接 |
-| **Node-B** (前置 B) | 0x02 | ECG (心电图) | 250 Hz | `0x2010:01` (int16, 0.1μV) | 导联脱落 (Lead-off) |
-| | | HR (心率) | 1 Hz | `0x2011:01` (uint16, bpm) | 心动过速/过缓 |
-| | | RESP (呼吸波) | 50 Hz | `0x2012:01` (int16) | 窒息报警 (Apnea) |
-| | | RR (呼吸率) | 1 Hz | `0x2013:01` (uint8, rpm) | `0xFF` (`RR INVALID`) |
+| **Node-A** (前置 A) | 0x01 | PPG (光电容积脉搏波) | 50 Hz | `0x2110:01` / `0x3110:01` (uint16) | 探头脱落、弱灌注标志 |
+| | | SpO2 (血氧饱和度) | 1 Hz | `0x2120:01` / `0x3120:01` (uint16, %) | 范围 0–100% |
+| | | PR (脉率) | 1 Hz | `0x2120:02` / `0x3120:02` (uint16, bpm) | 0 表示无效 |
+| | | NIBP (无创血压) | 1 Hz / 事件 | `0x2120:03..04` (收缩/舒张, uint16) | 充气错误、测量超限 |
+| **Node-B** (前置 B) | 0x02 | ECG (心电图) | 250 Hz | `0x2110:01` / `0x3210:01` (int16, 0.1μV) | 导联脱落 (Lead-off) |
+| | | RESP (呼吸波) | 50 Hz | `0x2111:01` / `0x3211:01` (int16) | 窒息报警 (Apnea) |
+| | | HR (心率) | 1 Hz | `0x2120:01` / `0x3220:01` (uint16, bpm) | 心动过速/过缓 |
+| | | RR (呼吸率) | 1 Hz | `0x2120:02` / `0x3220:02` (uint8, rpm) | `0xFF` (`RR INVALID`) |
+| | | TEMP (体温) | 1 Hz | `0x2120:03` / `0x3220:03` (int16, 0.1℃) | 探头未连接 |
 | **Gateway** (网关) | 0x03 | 自身状态 / 诊断 | 0.2 Hz (5s) | 内部生成，不占外总线 | WiFi 信号、丢包统计 |
 
 > **关键容错语义：`RR INVALID (0xFF)`**
@@ -299,7 +299,7 @@ flowchart LR
 - **ESP8266 负责**：
   1. Wi-Fi 物理连接与重连（`AT+CWJAP`）；
   2. TLS 握手、服务端证书 CA 链校验、SNI 域名上报与对端证书主机名校验（CCN）；
-  3. SNTP 绝对时间获取（`AT+CIPSNTPCFG` / `AT+CIPSNTPTIME?`）；
+  3. SNTP 绝对时间获取（`AT+CIPSNTPCFG=1,0` 配置 NTP 且 UTC 偏移 0，`AT+SYSTIMESTAMP?` 查询系统绝对时间戳）；
   4. 底层 TCP 流量控制与重传。
 - **STM32 coreMQTT 负责**：
   1. MQTT 报文编码（CONNECT, PUBLISH, PINGREQ, DISCONNECT）；
@@ -504,7 +504,7 @@ flowchart TD
 
 ## 7. 静态配置与动态内存资源台账
 
-本系统遵循严苛的嵌入式高可靠编码规范，除 CANopen 初始化由专有静态池模拟托管外，核心业务与 MQTT 传输层**完全消除动态堆分配 (`malloc`)**。
+本样机遵循嵌入式高可靠编码规范：coreMQTT 协议层与传输适配层**完全不依赖动态内存分配**；但 CANopenNode 实例初始化（`CO_new`）依然使用 `calloc`（由工程专有的固定静态堆池 `heap.c` 托管，分配失败即返回错误并安全隔离）。
 
 | 模块 / 结构体 | 分配位置 | 占用大小 (字节) | 归属源文件 | 生命周期 |
 |---|---|---|---|---|
@@ -514,9 +514,9 @@ flowchart TD
 | `MQTTContext_t` | BSS 静态段 | 约 256 | `gateway/mqtt/src/gateway_transport.c` | coreMQTT 协议上下文 |
 | `NetworkContext_t` | BSS 静态段 | 2,120 | `gateway/mqtt/src/mqtt_transport_adapter.c` | 包含 2048 字节发送拼装缓冲区 |
 | `g_rx_ring` | BSS 静态段 | 4,096 | `gateway/mqtt/src/gateway_platform.c` | UART3 接收环形无锁缓冲区 |
-| **ARM 固件构建总计** | **Flash: 35,624 B** | **RAM BSS: 120,120 B** | **Data: 88 B** | **RAM 占用率约 62.6% (120KB / 192KB)** |
+| **ARM 固件构建总计** | **Flash: 35,624 B** | **RAM BSS: 120,120 B** | **Data: 88 B** | **RAM 占用率约 91.7% (120,208 / 131,072 B)** |
 
-> **关键提醒**：静态 RAM 虽已被严格控制在 120KB（占 F407 192KB 的 62.6%），但**运行时栈高水位（Stack High-Water Mark）尚未完成真机仪器级打标测量**。主循环中 `MpFrame f`（约 1KB）在栈上复制分配，未来任务化迁移时必须为任务分配至少 4KB 独立栈空间。
+> **关键提醒**：当前链接脚本 `STM32F407ZGT6_FLASH.ld` 配置的常规 RAM 仅为 **128 KiB**（131,072 字节），静态数据（Data + BSS = 120,208 字节）已占用该区域约 **91.7%**，剩余空间由系统运行时栈和预留区域占用。此外，**极端负载下的运行时栈高水位（Stack High-Water Mark）尚未完成真机仪器级打标测量**，属于工程样机已知受控风险。
 
 ---
 
@@ -526,8 +526,8 @@ flowchart TD
 
 ```text
 [0:00 - 0:45] 业务背景与定位
-- "我们做的是多参数监护仪网关，将 Node-A（PPG/SpO2/NIBP）与 Node-B（ECG/RESP）的生理数据安全上云。"
-- "P5 阶段将原 Paho 迁移为 AWS coreMQTT v2.3.1，核心是零动态内存分配与状态解耦，消除了裸机环境下的内存泄漏风险。"
+- "我们做的是多参数心电监护仪系统工程样机网关，将 Node-A（PPG/SpO2/PR/NIBP）与 Node-B（ECG/HR/RESP/RR/TEMP）的生理数据安全上云。"
+- "P5 阶段将原 Paho 迁移为 AWS coreMQTT v2.3.1，协议层实现零动态内存分配与状态解耦，显著降低了裸机长周期运行风险。"
 - "强调：MQTT 3.1.1、纯裸机单主线程、后端 Python 仍用 paho-mqtt 订阅。"
 
 [0:45 - 1:45] 拓扑与调度模型 (画出分层框图)

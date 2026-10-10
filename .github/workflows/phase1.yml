@@ -47,6 +47,7 @@ jobs:
           python gateway/third_party/verify_coremqtt_integrity.py
           python gateway/mqtt/tests/run_p5_host_tests.py
           python -m unittest discover -s gateway/mqtt/tests -p 'test_p5_integrity.py'
+          python gateway/mqtt/tests/test_p5_emcy_console.py
       - name: CANopenNode protocol and offline router
         run: python gateway/canopen/build_host.py
       - name: C canonical frames accepted by Backend
