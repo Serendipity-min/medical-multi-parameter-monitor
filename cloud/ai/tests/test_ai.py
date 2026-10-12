@@ -152,7 +152,7 @@ def test_utf8_boundary_and_wire_roundtrip():
     assert decode(payload, now)['fact_digest'] == '2' * 32
 
 
-@pytest.mark.parametrize('bad', ['[v9]恶意标签', '控制\x00字符', '\ud800'])
+@pytest.mark.parametrize('bad', ['[v9]恶意标签', '控制\x00字符', '\ud800', '\u202e伪造方向', '\u0085控制', '😀'])
 def test_voice_control_and_invalid_unicode_rejected(bad):
     with pytest.raises(ValueError): encode('1' * 32, '2' * 32, bad, 100000)
 

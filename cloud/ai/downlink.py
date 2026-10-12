@@ -12,7 +12,9 @@ TTL_MS = 15000
 
 def short_text(text: str) -> str:
     # 禁止 TW-TTS 内嵌控制标签及控制字符，截断只落在完整字符边界。
-    if any(ord(c) < 32 or ord(c) == 127 or c in '[]' for c in text):
+    if any(ord(c) < 32 or 0x7f <= ord(c) <= 0x9f or c in '[]'
+           or 0x200b <= ord(c) <= 0x200f or 0x2028 <= ord(c) <= 0x202e
+           or 0x2060 <= ord(c) <= 0x206f or ord(c) == 0xfeff or ord(c) >= 0xfffe for c in text):
         raise ValueError('VOICE_TEXT')
     raw = text.encode('utf-8', errors='strict')
     return raw[:MAX_TEXT].decode('utf-8', errors='ignore')
@@ -81,6 +83,9 @@ class IsolatedPublisher:
         connected = threading.Event()
         accepted = []
         client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, protocol=mqtt.MQTTv311)
+        client.connect_timeout = 2
+        client.max_inflight_messages_set(1)
+        client.max_queued_messages_set(1)
         client.username_pw_set(self.username, self.password)
         def on_connect(_client, _userdata, _flags, reason, _properties):
             accepted.append(not reason.is_failure)

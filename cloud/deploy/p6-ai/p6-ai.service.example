@@ -1,0 +1,20 @@
+# 仅供阶段复核的独立服务模板；不安装、不替换现有 Backend/Nginx。
+[Unit]
+Description=P6 isolated text AI
+After=network-online.target
+
+[Service]
+User=medical-ai
+Group=medical-ai
+WorkingDirectory=/opt/medical-monitor-p6
+# 凭据只从服务器外部文件注入，文件由管理员设置属主/最小权限，不进入源码。
+EnvironmentFile=/etc/medical-monitor/p6-ai.env
+ExecStart=/opt/medical-monitor-p6/.venv/bin/python -m uvicorn cloud.ai.app:create_app --factory --host 127.0.0.1 --port 18766 --workers 1 --no-access-log
+Restart=on-failure
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

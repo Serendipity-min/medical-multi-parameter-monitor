@@ -73,6 +73,7 @@ def create_app(settings=None, reader=None, provider=None, publisher=None):
             question = Question.model_validate_json(raw)
             if not question.question.strip() or any(ord(c) < 32 for c in question.question):
                 raise ValueError('QUESTION_TEXT')
+            question.question.encode('utf-8', errors='strict')
         except (ValidationError, ValueError):
             raise HTTPException(422, 'QUESTION_INVALID') from None
         if question.gateway_id not in settings.gateways:
