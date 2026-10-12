@@ -79,10 +79,12 @@ def main():
         result = base.command(process, 'scalar'); state = base.command(process, 'voice')
         check('expired_voice_does_not_change_puback_success', result['ok'] and state['rejected'] >= 4)
         publish(observer, b'x' * 600)
-        process.wait(timeout=8)
-        check('oversize_mqtt_rx_refused_without_buffer_growth', process.returncode == 0)
-        process = subprocess.Popen([str(out / 'gateway'), str(broker.port)], stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True, bufsize=1)
-        check('new_session_after_oversize_has_normal_qos1', base.line_from(process)['ready'] and base.command(process, 'scalar')['ok'])
+        # 固定上游将过大 MQTT 报文有界 drain 后继续，不假设必须断开，更不能改库迎合断言。
+        time.sleep(.1)
+        after_oversize = base.command(process, 'scalar'); oversized_state = base.command(process, 'voice')
+        check('oversize_mqtt_rx_drained_without_uart_or_buffer_growth',
+              after_oversize['ok'] and oversized_state['tts_bytes'] == state['tts_bytes'] and oversized_state['completed'] == state['completed'])
+        check('session_after_oversize_has_normal_qos1', after_oversize['puback_before_return'])
         stop(process); process = None
         # 受控代理仅作用于进程自有 loopback 测试链路，错号不得确认 Router。
         class WrongAck(base.AckProxy):
