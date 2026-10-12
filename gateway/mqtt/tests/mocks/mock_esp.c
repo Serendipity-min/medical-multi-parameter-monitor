@@ -19,6 +19,9 @@ unsigned char mock_packet[2048];
 size_t mock_packet_length;
 const char *mock_fail_at;
 MpRouter *mock_router_probe;
+#ifdef GATEWAY_P6_VOICE
+int mock_suback_mode;
+#endif
 static unsigned char wire[2048], rx[1024], ack[12];
 static size_t wire_length, rx_length, rx_offset, ack_length;
 static uint32_t ack_at;
@@ -80,6 +83,19 @@ static void sent_packet(void)
         unsigned char ping[] = {0xd0, 0};
         if (!mock_drop_ping) mock_queue(ping, sizeof(ping));
     }
+#ifdef GATEWAY_P6_VOICE
+    else if (type == 0x80)
+    {
+        /* 固定 Topic 的普通 MQTT311 SUBACK；测试控制仅替换 Broker 字节响应。 */
+        size_t remaining;
+        size_t offset = header_size(wire, &remaining);
+        assert(remaining >= 2U);
+        unsigned char suback[] = {0x90, 3, wire[offset], wire[offset + 1], 1};
+        if (mock_suback_mode == 1) suback[3]++;
+        if (mock_suback_mode == 2) suback[4] = 0x80;
+        if (mock_suback_mode != 3) mock_queue(suback, sizeof(suback));
+    }
+#endif
     else if (type == 0x30 && (wire[0] & 6U) == 2U)
     {
         size_t remaining, start = header_size(wire, &remaining);

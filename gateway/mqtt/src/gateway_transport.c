@@ -3,6 +3,14 @@
 #include "gateway_config.h"
 #include "core_mqtt.h"
 #include "mqtt_transport_adapter.h"
+#include "p6_config.h"
+#if GATEWAY_P6_VOICE
+#include "p6_voice.h"
+/* QoS1 入站记录与原出站槽分离，不扩大原 512B RX 或 312B Flash 配置。 */
+static MQTTPubAckInfo_t incoming[1];
+static uint16_t subscribe_id;
+static int subscribed;
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -59,6 +67,10 @@ static inline void secure_memzero(void *ptr, size_t len)
 
 static void mqtt_failed(void)
 {
+#if GATEWAY_P6_VOICE
+    subscribe_id = 0;
+    subscribed = 0;
+#endif
     mqtt_online = 0;
     session_error = 1;
     acknowledged = 0;
@@ -66,11 +78,39 @@ static void mqtt_failed(void)
     mqtt_adapter_close(&network);
 }
 
-/* 仅确认本次在途标识；未知下行业务立即使连接失败，不消费或执行载荷。 */
+/* 出站 PUBACK 仅确认原 pending_id；P6 订阅/下行拥有独立状态，不能确认 Router。 */
 static void mqtt_event(MQTTContext_t *context, MQTTPacketInfo_t *packet,
                        MQTTDeserializedInfo_t *decoded)
 {
-    if (context != &client || (packet->type & 0xf0U) == MQTT_PACKET_TYPE_PUBLISH)
+    if (context != &client)
+    {
+        mqtt_failed();
+        return;
+    }
+#if GATEWAY_P6_VOICE
+    if (packet->type == MQTT_PACKET_TYPE_SUBACK)
+    {
+        uint8_t *codes = NULL;
+        size_t count = 0;
+        if (subscribe_id && decoded->packetIdentifier == subscribe_id
+            && MQTT_GetSubAckStatusCodes(packet, &codes, &count) == MQTTSuccess
+            && count == 1U && codes[0] == 1U)
+            subscribed = 1;
+        else mqtt_failed();
+        return;
+    }
+    if ((packet->type & 0xf0U) == MQTT_PACKET_TYPE_PUBLISH && subscribed
+        && decoded->deserializationResult == MQTTSuccess && decoded->pPublishInfo)
+    {
+        const MQTTPublishInfo_t *message = decoded->pPublishInfo;
+        /* 回调只校验并入单条播放槽，不写 UART、不等待播放、不执行任何设备命令。 */
+        (void)p6_voice_receive(message->pTopicName, message->topicNameLength,
+                               message->pPayload, message->payloadLength, message->qos,
+                               message->retain, (uint64_t)gateway_epoch() * 1000U, g_uptime_ms);
+        return;
+    }
+#endif
+    if ((packet->type & 0xf0U) == MQTT_PACKET_TYPE_PUBLISH)
     {
         mqtt_failed();
         return;
@@ -115,13 +155,22 @@ int gateway_mqtt_open(const MpFrame *will_frame)
     }
     session_error = acknowledged = partial_waiting = mqtt_online = 0;
     pending_id = 0;
+#if GATEWAY_P6_VOICE
+    subscribe_id = 0; subscribed = 0;
+    memset(incoming, 0, sizeof(incoming));
+#endif
     memset(outgoing, 0, sizeof(outgoing));
     memset(rx_buffer, 0, sizeof(rx_buffer));
     TransportInterface_t transport = mqtt_adapter_interface(&network);
     MQTTFixedBuffer_t buffer = {rx_buffer, sizeof(rx_buffer)};
     MQTTStatus_t status = MQTT_Init(&client, &transport, mqtt_adapter_time, mqtt_event, &buffer);
     if (status == MQTTSuccess)
-        status = MQTT_InitStatefulQoS(&client, outgoing, 1, NULL, 0);
+        status = MQTT_InitStatefulQoS(&client, outgoing, 1,
+#if GATEWAY_P6_VOICE
+                                      incoming, 1);
+#else
+                                      NULL, 0);
+#endif
     client.nextPacketId = next_packet_seed;
     MQTTConnectInfo_t options = {0};
     options.keepAliveSeconds = 15;
@@ -150,6 +199,24 @@ int gateway_mqtt_open(const MpFrame *will_frame)
         mqtt_online = 1;
     else
         mqtt_failed();
+#if GATEWAY_P6_VOICE
+    if (ok && p6_voice_bound())
+    {
+        MQTTSubscribeInfo_t subscription = {0};
+        subscription.qos = MQTTQoS1;
+        subscription.pTopicFilter = P6_VOICE_TOPIC;
+        subscription.topicFilterLength = (uint16_t)(sizeof(P6_VOICE_TOPIC) - 1U);
+        subscribe_id = MQTT_GetPacketId(&client);
+        next_packet_seed = client.nextPacketId;
+        ok = MQTT_Subscribe(&client, &subscription, 1, subscribe_id) == MQTTSuccess;
+        while (ok && !subscribed && (uint32_t)(g_uptime_ms - start) < 5000U)
+            ok = process_once();
+        ok = ok && subscribed && !session_error && network.connected
+             && (uint32_t)(g_uptime_ms - start) < 5000U;
+        subscribe_id = 0;
+        if (!ok) mqtt_failed();
+    }
+#endif
     secure_memzero(will, sizeof(will));
     console(ok ? "GW MQTT_CONNECTED\r\n" : "GW FAIL MQTT_CONNECT\r\n");
     return ok;

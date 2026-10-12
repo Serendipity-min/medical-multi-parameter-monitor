@@ -13,6 +13,10 @@ extern unsigned char mock_packet[2048];
 extern size_t mock_packet_length;
 extern const char *mock_fail_at;
 extern MpRouter *mock_router_probe;
+#ifdef GATEWAY_P6_VOICE
+/* 仅 P6 脱机夹具选择 SUBACK 成功/错号/拒绝/丢失，不改原 42 项输入。 */
+extern int mock_suback_mode;
+#endif
 void mock_reset(void);
 MpFrame mock_frame(MpStream stream, uint16_t rate, bool replay);
 void mock_connect(void);

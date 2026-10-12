@@ -2,6 +2,10 @@
 #include "gateway_transport.h"
 #include "mp_adapter.h"
 #include <stdio.h>
+#include "p6_config.h"
+#if GATEWAY_P6_VOICE
+#include "p6_voice.h"
+#endif
 
 /* 大对象放静态区；发布中的独立帧副本仍由循环栈帧持有。 */
 static MpStack stack;
@@ -14,6 +18,10 @@ extern int mp_bxcan_init(void);
 /* 网络等待期间协作推进 CAN；只标记断网请求，真正断开在发布循环边界处理。 */
 static void service(void)
 {
+#if GATEWAY_P6_VOICE
+    /* 无已核验 UART 回调时状态为 OFF；有回调时单次最多写 32B，绝不等待播放。 */
+    p6_voice_poll(g_uptime_ms);
+#endif
     mp_bus_poll();
     /* CAN 栈在主线程运行，UART 中断只入环形缓冲；限制单次追赶，避免网络饥饿。 */
     unsigned budget = 8;

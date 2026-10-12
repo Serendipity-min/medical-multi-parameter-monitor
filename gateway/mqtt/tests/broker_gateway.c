@@ -12,6 +12,13 @@
 #include <sys/socket.h>
 #include <time.h>
 #include <unistd.h>
+#ifdef P6_BROKER_TEST
+#include "p6_voice.h"
+/* 只在 P6 脱机 Broker 夹具注入字节计数回调，不选择真实 UART。 */
+static unsigned tts_bytes;
+static int tts_writer(void *context, const uint8_t *data, size_t size)
+{ (void)context; (void)data; tts_bytes += (unsigned)size; return (int)size; }
+#endif
 
 const GatewayConfig gateway_test_config = {
     GATEWAY_CONFIG_MAGIC, 1700000000U, "synthetic-wifi", "synthetic-wifi-password",
@@ -29,6 +36,9 @@ void platform_poll(void)
     struct timespec now;
     clock_gettime(CLOCK_MONOTONIC, &now);
     g_uptime_ms = (uint32_t)((uint64_t)now.tv_sec * 1000U + (uint32_t)now.tv_nsec / 1000000U);
+#ifdef P6_BROKER_TEST
+    p6_voice_poll(g_uptime_ms);
+#endif
 }
 void mp_model_poll(void) { platform_poll(); }
 void console(const char *message) { (void)message; }
@@ -167,11 +177,19 @@ int main(int argc, char **argv)
     setvbuf(stdout, NULL, _IOLBF, 0);
     platform_poll();
     MpFrame will = frame_for("status"); will.valid = false;
+#ifdef P6_BROKER_TEST
+    p6_voice_bind(tts_writer, NULL, g_uptime_ms - 2000U);
+    p6_voice_poll(g_uptime_ms);
+#endif
     if (!gateway_config_valid() || !gateway_network_open() || !gateway_mqtt_open(&will)) return 2;
     MpRouter router; mp_router_init(&router); mp_router_online(&router, true);
     MpFrame online = frame_for("status");
     if (!gateway_mqtt_publish(&online)) return 3;
+#ifdef P6_BROKER_TEST
+    printf("{\"ready\":true,\"epoch\":%lu}\n", (unsigned long)gateway_epoch());
+#else
     puts("{\"ready\":true}");
+#endif
     for (;;)
     {
         struct pollfd input = {STDIN_FILENO, POLLIN, 0};
@@ -181,6 +199,27 @@ int main(int argc, char **argv)
             if (!fgets(command, sizeof(command), stdin)) break;
             command[strcspn(command, "\r\n")] = 0;
             if (!strcmp(command, "close")) break;
+#ifdef P6_BROKER_TEST
+            if (!strcmp(command, "voice") || !strcmp(command, "accepted") || !strcmp(command, "completed"))
+            {
+                if (!strcmp(command, "accepted")) p6_voice_feedback(0x41, g_uptime_ms);
+                if (!strcmp(command, "completed")) p6_voice_feedback(0x4f, g_uptime_ms);
+                platform_poll();
+                const TwTts *tts = p6_voice_driver();
+                printf("{\"state\":%d,\"tts_bytes\":%u,\"accepted\":%lu,\"completed\":%lu,\"rejected\":%lu,\"epoch\":%lu}\n",
+                       tts->state, tts_bytes, (unsigned long)tts->accepted, (unsigned long)tts->completed,
+                       (unsigned long)p6_voice_rejected(), (unsigned long)gateway_epoch());
+                continue;
+            }
+            if (!strcmp(command, "reconnect"))
+            {
+                gateway_network_close();
+                int reconnected = gateway_network_open() && gateway_mqtt_open(&will);
+                printf("{\"reconnected\":%s}\n", reconnected ? "true" : "false");
+                if (!reconnected) break;
+                continue;
+            }
+#endif
             if (strcmp(command, "scalar") && strcmp(command, "wave") && strcmp(command, "replay")) return 65;
             MpFrame frame = frame_for(command), sent;
             mp_router_put(&router, &frame);

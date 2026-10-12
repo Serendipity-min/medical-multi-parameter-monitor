@@ -4,6 +4,12 @@ import importlib.util
 from pathlib import Path
 import subprocess
 import sys
+import argparse
+
+# 仅新增脱机构建开关；默认产物名称/标志保持 P4 行为，不提供烧录入口。
+parser = argparse.ArgumentParser()
+parser.add_argument('--p6-voice', action='store_true')
+options = parser.parse_args()
 
 ROOT = Path(__file__).resolve().parent
 # 编译前离线核验 coreMQTT 固定原字节和 active 白名单；不运行安全回归。
@@ -14,8 +20,8 @@ spec = importlib.util.spec_from_file_location('probe_build', ROOT.parent / 'esp_
 base = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(base)
 vendor = ROOT.parent / 'third_party/coreMQTT'
-build = ROOT / 'build'
-build.mkdir(exist_ok=True)
+build = ROOT / ('build/p6-enabled' if options.p6_voice else 'build')
+build.mkdir(parents=True, exist_ok=True)
 canopen = ROOT.parent / 'canopen'
 core = ROOT.parent / 'third_party/CANopenNode'
 includes = [
@@ -29,6 +35,7 @@ includes = [
 flags = [
     *base.COMMON_FLAGS,
     '-DCO_MULTIPLE_OD',
+    *(['-DGATEWAY_P6_VOICE=1', '-fstack-usage'] if options.p6_voice else []),
     *[f'-I{path}' for path in includes],
 ]
 # 入口、项目适配和固定上游核心分别列出；这里仅构建文件，不连接开发板或烧录。
