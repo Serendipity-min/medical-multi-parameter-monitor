@@ -19,3 +19,5 @@ UART 协议依据：[TW-TTS 开发者官方手册 V0.21](https://www.haohaodada.
 - 原 `run_p5_host_tests.py` 42 项、来源 6 项、EMCY 5 项、隔离 Broker 30 项及 CANopen/Backend/Web 保留。
 
 所有结果只可称 `HOST_VERIFIED`；未操作开发板或听到喇叭出声。Security Gate、真实 Broker 与公网部署均未执行。
+
+驱动状态由主循环单一所有者维护；后续硬件 UART IRQ 只能入有界接收缓冲，不能直接调用 feedback/bind 修改共享状态。该 IRQ/引脚适配尚未实施，需要硬件窗口明确资源和并发约束。

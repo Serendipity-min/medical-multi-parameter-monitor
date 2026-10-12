@@ -1,0 +1,19 @@
+{
+  "result": "PASS",
+  "mode": "LOCAL_BROWSER_MOCK",
+  "actual_model_calls": 0,
+  "checks": [
+    "mock_question_answer_with_source",
+    "independent_AI_auth_rejection",
+    "voice_enable_disabled_service",
+    "pending_then_cancelled_via_DOM_submit_and_click_events",
+    "desktop_1920x1080",
+    "mobile_390x844",
+    "original_monitor_WSS_continues_after_AI_process_stop",
+    "original_backend_health_200_after_AI_stop"
+  ],
+  "monitor_frames_before": 5,
+  "monitor_frames_after": 264,
+  "monitor_data": "MONITOR_TESTING=1; OFFLINE snapshots, no patient/production feed",
+  "tooling_note": "agent-browser PowerShell stdin/native clicks unreliable in this session; base64 eval/DOM events verified submit/cancel; initial CLI wait failed and was not counted as success"
+}

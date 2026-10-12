@@ -1,0 +1,197 @@
+{
+  "code_commit": "9012a2edfed3c74613bc2782b13ea6d6f4c58628",
+  "checks": {
+    "p5-host": {
+      "exit_code": 0,
+      "log": "p5-host.log"
+    },
+    "core-integrity": {
+      "exit_code": 0,
+      "log": "core-integrity.log"
+    },
+    "source-tests": {
+      "exit_code": 0,
+      "log": "source-tests.log"
+    },
+    "emcy": {
+      "exit_code": 0,
+      "log": "emcy.log"
+    },
+    "p6-host": {
+      "exit_code": 0,
+      "log": "p6-host.log"
+    },
+    "backend": {
+      "exit_code": 0,
+      "log": "backend.log"
+    },
+    "ai": {
+      "exit_code": 0,
+      "log": "ai.log"
+    },
+    "web-test": {
+      "exit_code": 0,
+      "log": "web-test.log"
+    },
+    "web-build": {
+      "exit_code": 0,
+      "log": "web-build.log"
+    },
+    "arm-default": {
+      "exit_code": 0,
+      "log": "arm-default.log"
+    },
+    "arm-p6": {
+      "exit_code": 0,
+      "log": "arm-p6.log"
+    },
+    "isolated-a2": {
+      "exit_code": 0,
+      "log": "isolated-a2.log"
+    },
+    "isolated-b1": {
+      "exit_code": 0,
+      "log": "isolated-b1.log"
+    },
+    "original-broker": {
+      "exit_code": 0,
+      "log": "original-broker.log"
+    },
+    "can-router": {
+      "exit_code": 0,
+      "log": "can-router.log"
+    },
+    "canonical": {
+      "exit_code": 0,
+      "log": "canonical.log"
+    }
+  },
+  "result": "PASS",
+  "source_sha256": {
+    "cloud/ai/__init__.py": "df9565a521153d8ea3f650b0dd8285939e0b3751b5df3a5d0cb1adcdcf1f138d",
+    "cloud/ai/app.py": "6f9cc8d63467227c25121c8ddf81f38c21a54c2d27265a61a256089fd13af5fc",
+    "cloud/ai/downlink.py": "db6a5da8d40fc9b953b3cc6085887e6c7ddae16721af76a7d81dcdd0942664c3",
+    "cloud/ai/facts.py": "2c1d4a0d64ff0beb9674af578ce362fc88069c3a8140c5d38b3894b8025df8a7",
+    "cloud/ai/providers.py": "28fbc1300aaca41679ca5d9dd1f2a5864b9afd34dc30d3b0d45d03477616beed",
+    "cloud/ai/snapshot.py": "5959bcbe888b8278cb21df3d228a659884f7266dc38d313ca9fbb80acbfaf516",
+    "cloud/ai/tests/broker_runtime.py": "409e5100c06bbdb3ca289cde037a24207c57faec32a06b419bff44e4905fe26d",
+    "cloud/ai/tests/run_isolated.py": "b671b5b6d7816d1967bb8c8691e948ae07566f62c5257ef0699d26696240c9fa",
+    "cloud/ai/tests/test_ai.py": "660244820caa792dd258d6ffcbaf78a9f02c7a2598492de97adf71f785ed72c1",
+    "cloud/ai/tests/test_readonly.py": "206708deb61cf04a26f095a72fcaea9959723b2f4a6c47be4edd7926d9496d6c",
+    "cloud/web/.prettierrc.json": "2ba128a1f12151d46163325fbcde23b50851bea708ef1f278ddb608df9e17065",
+    "cloud/web/package-lock.json": "e50e3895ba5940e06229bc059ab72b22bea2fdbe26946689b0648f8149d2dd1d",
+    "cloud/web/package.json": "191a6d6566d67219e26e61b0e6bbc89d95dcfb3ad559a56f9edf991e537413d0",
+    "cloud/web/src/main.ts": "1199499114c631dcfb180825f2586bd3c25312a5fcf9f8f783573b66cbe38afd",
+    "cloud/web/src/model/viewModel.ts": "a03bb262836eedbeb6bc816f25dc81847d668c50543cd3ead6810554545a1d45",
+    "cloud/web/src/router/hashRouter.ts": "05f894970faad0e9d8dbbf36d02dd10186bc02693fae674de2045a72d78f9c7b",
+    "cloud/web/src/state/monitorStore.ts": "d2a32b2f50eb64d0940aa140746dfcf270a2cf9d83cc44bdeaf0f6c3b12c0d93",
+    "cloud/web/src/state/sessionHistory.ts": "d9357676a2e29e00925f82f8fd657284f7d0cc26a2e5bd2ac48e9da96e2a590e",
+    "cloud/web/src/style.css": "d13dc808d1d1be03c448e5f5ab779f8c72df75e616e13d8f3078d1375c616656",
+    "cloud/web/src/transport/monitorSocket.ts": "5cf1ed7f992597ae5722764d46f2f735036ed12a069a39025a82c850f57d74fc",
+    "cloud/web/src/types.ts": "41454cf2af97e09413098774721e443922fd6987b4146b9685d620ad5dcd1372",
+    "cloud/web/src/ui/accessDialog.ts": "d01f8db87e75c90ce85531c93fb05ca2ba5f5177a4c5625d8d4e0b4914282509",
+    "cloud/web/src/ui/aiPanel.css": "906acc8b5e944d4c8fe7ddd4e2b02e483ee14646a7e243dbfa9ba21211489c39",
+    "cloud/web/src/ui/aiPanel.ts": "aedb8591b7f5979878aacb889833dc79075ada646bd8e6b587f09d702535c08b",
+    "cloud/web/src/ui/monitorView.ts": "0d26ca3a3e849432b5a49615a6b250a640a9727b37d87260881b2f99157e781f",
+    "cloud/web/src/ui/numerics.ts": "6fe668aa4e0e9188a694866eead55bec9ef0c937271b452c78ee7c0ad8f27c3e",
+    "cloud/web/src/ui/parameters.ts": "5b31ab0ef2a2878bd72e23ff0a354168994f8c49830ba4403e6c89fad2bc4102",
+    "cloud/web/src/ui/sessionView.ts": "4284ff366ed9de4cb64f902ad95973851f14f033bd2523d367f1d852325c849c",
+    "cloud/web/src/ui/statusBar.ts": "1dce0a5274b885db9a88d42c5e6061a0fb829531291f927394a8e786395a1825",
+    "cloud/web/src/waveform/renderer.ts": "e925b80e790cdb17d67e76bcbd57fb15d2ef049827050319346a9a89f8cd6418",
+    "cloud/web/tests/state.test.ts": "03a1a39ce55c3c84149df6360e2b3d3eac1fe53e64d9831ae8d75d3dcbbe1f22",
+    "cloud/web/tsconfig.json": "c45ab51bad44dd5de2e2c6d643768d53a99ce9ae4a237b470a613bae190d18e4",
+    "cloud/web/vite.config.ts": "0083d3bbb6f8129f3bef30360b7cfdd77b73f9b245706ef846b98cdbc005dee5",
+    "gateway/canopen/build_host.py": "b8d64528b7012f37531fbde91d3cc3274da92307e6d45e8f05ffd4642606cf6d",
+    "gateway/canopen/evidence/board-acceptance-final/report.json": "937b00c46482d1c6622e0fa2ca732d66b70f48758702fae76afdf0e6de810a7d",
+    "gateway/canopen/evidence/board-acceptance-r3/report.json": "88a2f3ec52b2569ecba42c05429bca8b0600b6cfc9d730ba2b1ec0183f13f4d4",
+    "gateway/canopen/evidence/board-acceptance-r4/report.json": "300742510918669ddb8f5485d0c656d1732281fdec78a33e42eaf1700c8402c9",
+    "gateway/canopen/evidence/board-acceptance-r5/report.json": "5aa9cd55026d916a1b2c7acea7f8d8aa7d6d0775d1e29861ce00fb30b8937791",
+    "gateway/canopen/evidence/board-acceptance-r6/report.json": "f550f29ed55ae24d97862a206e16ff8704e78961abb34a90eff72b9ec77b4396",
+    "gateway/canopen/evidence/board-acceptance-r7/report.json": "2ede1337eecbe7e4777b724384f80234bfd7f7ea6411a58a7cf90fb8fbeb3352",
+    "gateway/canopen/evidence/board-acceptance-r8/report.json": "190dec3a88d120a4b6fc8524b8e3b592ed66fb35be11ec78e0088fd0c0953f33",
+    "gateway/canopen/evidence/board-acceptance/report.json": "b91fa93533d06c2c2151ff36434f967cafa31a085270f6b6cdde8fb6e4498f9e",
+    "gateway/canopen/evidence/board-smoke-rx-pullup/report.json": "c4cc453c933e828cec1b284196c1f322c125dcd9cf3a9ce96102aa3f04886299",
+    "gateway/canopen/evidence/board-smoke/report.json": "a675179e05309dd37a6f6b6ac12b8d27ee8f8b568e0abfc08e624fd9a3fbed4e",
+    "gateway/canopen/evidence/browser-fixture/report.json": "3bae125ef7ad2730f673a018b6b22d0bbe112eec5ee1f25060f4e1bb7ac9401b",
+    "gateway/canopen/evidence/browser-public/report.json": "099dc9c982c6d61de44d4c0df166fc4f2599affa388175329ce8be056be8ea97",
+    "gateway/canopen/evidence/host/build.json": "9cc7ebaa21e5bd3b36126d119f5ac1b808425dd3aa90f84d813ab880e06300c1",
+    "gateway/canopen/evidence/host/regression.json": "cc089c81a61b0decf7eb12c6e9acf7be3571a374d01fd2134c055364dc1ea72e",
+    "gateway/canopen/evidence/restoration.json": "90b8344cf9170adb8d54fc71614b6815d94fe9a8f4284f834ac7b788808165f7",
+    "gateway/canopen/run_security_regression.py": "b1edecce610cc30bf6aa62d5e47eb66d020b2e1d13b0ba095ad79cdfa79ffec8",
+    "gateway/canopen/src/CO_driver_target.h": "dbeb9232f3894062b94b22d4334b9de59fcc4bdba3bf82869d6dc74b40b5850f",
+    "gateway/canopen/src/mp_adapter.c": "9a5ede83cb4d337fbe10b55e78ecf1897bf746b67225a3cfda46f3f1fd3a9349",
+    "gateway/canopen/src/mp_adapter.h": "c45135b24bfed10140682cf0d3960b5c85d3a17222198f314db0e420cf6aa532",
+    "gateway/canopen/src/mp_can_driver.c": "8eeb2a3447a2e69a8b72c289cc93ef451c541ce5cd521e9313c523d9b074b1d2",
+    "gateway/canopen/src/mp_can_driver.h": "cbf4ee27d32cc9e4b62e0c804c1aa101d8a540ef8781f8c925fa75c776102057",
+    "gateway/canopen/src/mp_od.c": "687e3c58770a5f7ad0de96eeeda089515be44f4458fd854395811b852fb7c0fc",
+    "gateway/canopen/src/mp_od.h": "90b481bf6c33b16db3ea91915679eed71a8a0fa07aabff2ba27915bb98d31969",
+    "gateway/canopen/src/mp_stack.c": "4e8ba6dd9a0d20977fa8480d345796b81684de49a5804c5ff04e0b868def26b2",
+    "gateway/canopen/src/mp_stack.h": "4076311a7092599d247adedb9d4017e38e264efbfb1e1e488d83e7e0d69a3355",
+    "gateway/canopen/stm32/bxcan_loopback.c": "0f2f20d7e9e39eb21d1f138d531d6e3eae2eb51c74b98d6f9937fa4e0e5bd3e5",
+    "gateway/canopen/tests/emit.c": "eeee6e2ea7033ab6f72aa21a60e438e68a8951fe9f0b89f6aa4e84416e06ab37",
+    "gateway/canopen/tests/mqtt_host_platform.h": "c00addc993bb8d75a6b1bfbb774e9504fef22042113ec50669baf4148444b929",
+    "gateway/canopen/tests/pipeline.c": "81f1054c3031e0f2e66801a43b7809b43e19268f6255de9fec315f102ca8fa6b",
+    "gateway/canopen/tests/protocol.c": "d07058744ab8466ca22f9f090e8e51d2407e65c3d8b9898e610e59b55fb179ae",
+    "gateway/canopen/tests/restart_reliability.c": "ab94c74b1d03fa953097cde549c4bbe57d507129dd335e7759b266529853d84a",
+    "gateway/canopen/tests/test_mqtt_bounded.c": "e221e5e753d0101c1166bc36519b1218ceea9773ef754c08efb4890bba8097a0",
+    "gateway/canopen/tests/test_mqtt_client_bounds.c": "c4ea304ba3ee10e381038e99e9b43d43dbf38ab60e8b741b07c93ef1febe810e",
+    "gateway/canopen/tests/test_mqtt_formatter.c": "34b3bc88ea0c957aa6138e2f4f181e3c8fb19e3972e627c60f47f36160a5989a",
+    "gateway/canopen/tools/board_acceptance.py": "0b01aded7d380b44879758d31b06c59704ff6d416d5f0bf6435827f25937bea6",
+    "gateway/canopen/tools/browser_phase2.py": "df1f0c79a1bf4be84c2c578172e6f993d1241094bd84b2be82c8a5137365b2e9",
+    "gateway/canopen/tools/check_canonical.py": "5eb04a7597ad651d2742f9a45ec9fd32736f92b3d0907a091422e0f9ec2642c0",
+    "gateway/data_model/model.c": "bfebbc230ef5fdd5f2448b820eb6c0e53f8c40e546a46392aa9199e325234cd9",
+    "gateway/data_model/model.h": "e990a92bce12a1e001456273899c0f61634b6b8b4a9380ea988f0e97149e55a2",
+    "gateway/mqtt/STM32F407ZGT6_FLASH.ld": "a54eee01e41b863e8ec206b03fc26f89749ff5bdc5349c22b7d403a4f616ef71",
+    "gateway/mqtt/acceptance.py": "566d58398c0ce15c895239442aea432bb454128af20596c7a6925fa39bd357e0",
+    "gateway/mqtt/build.py": "a021092f0539c516ff633ece026d694d0048edb9e92d92605c1d7b659fa8f36b",
+    "gateway/mqtt/evidence/browser-hardware.json": "968e15b8172067c6a29dac54c046e2881a5d279a0f26c4c1efcc44c4ddb22d2d",
+    "gateway/mqtt/evidence/hardware-acceptance.json": "d95220a78f81956f68d96bf54b3bc457801eb4b8da598db5975ae209aa6e604b",
+    "gateway/mqtt/evidence/tls-and-restoration.json": "4577542da9d41f5c0dc0b51a5a0d88838df054452f423fea4a4e63003d6e3406",
+    "gateway/mqtt/provision.py": "c1bd28b86dafbc136f3b3824dea60dd49ffaaab56666e800fea6dee3b1af2e92",
+    "gateway/mqtt/src/core_mqtt_config.h": "88872f791c2c20950b03391aafd7618df113f6b376971ff45eaf6849ef81f4ad",
+    "gateway/mqtt/src/gateway_assert.c": "d29eb278706acf7a4249a2104b05f22cf859c61de5d924773c785228d7523d17",
+    "gateway/mqtt/src/gateway_config.h": "5e6a3906488f9b9173077e35fd2e65221a9fb070ef8c8d169cf9911e03a6e04c",
+    "gateway/mqtt/src/gateway_platform.h": "bbaa86bfd017baf17f083de7dd8ee38a716dd6f115e6e7aa746cf798ea121e90",
+    "gateway/mqtt/src/gateway_transport.c": "b48f9bcd15c4ab80d39ea92df506e8306aeae124e61d29c19cbd63416afb0775",
+    "gateway/mqtt/src/gateway_transport.h": "5bfbc4dfe2b489222518af481025976c2d5b02f75f9d0a2d29275439bc7a7fc4",
+    "gateway/mqtt/src/heap.c": "20bf6b3b9c5ddc276ba4d85016ce14ae1425c18e24e5f020bea011d9168b2923",
+    "gateway/mqtt/src/main.c": "e87c8bd3da5a1f8c829a0111be70c5ba0a1fbf5ea0b74616e76637d1e01e7177",
+    "gateway/mqtt/src/mqtt_transport_adapter.c": "beb93429f95cba5fe88f170010363613391df41975475abcbe1842c7692019aa",
+    "gateway/mqtt/src/mqtt_transport_adapter.h": "e95954aa35f96fdd5c8ba813dacf0605d7e38c055f6658391d9be28d26ca4ade",
+    "gateway/mqtt/src/p6_config.h": "ab7559d3c574a66d12dcfd0e3e091f6d826c8bb824d4ce1afec60eeec0d87983",
+    "gateway/mqtt/src/p6_voice.c": "36e9c2c090cd2a5ead3b9ad01ee1033616d77ed17bef9e0b92e8aa08708de4fe",
+    "gateway/mqtt/src/p6_voice.h": "ba900f314d77f144f9dc8550cacb2d076996c1d2af9f3346a9ef4a1ff27aeddf",
+    "gateway/mqtt/src/platform.c": "089327057db035e1323b6de8a31b9be63ef47336448220718853fd87e69fe08e",
+    "gateway/mqtt/tests/broker_gateway.c": "e7f5606ffc66eb7ed7cff464e844d45655514f7e16069590e736fa93f1c0fbfb",
+    "gateway/mqtt/tests/measurement/analyze_h16.py": "eff6e3b416ff6bc6b9913e45035adc968191aef5a8296f9aa746e1737086c9a6",
+    "gateway/mqtt/tests/measurement/fixtures/h16-synthetic-demo.json": "ac0021f0d68486a5d1c5323f83beadc9b1989de466de1c26ce7127ee0a630779",
+    "gateway/mqtt/tests/measurement/test_analyze_h16.py": "13f31b3a49fac3a31e327427415db202ec029c2dad708aad93f405b4b1ffa9a5",
+    "gateway/mqtt/tests/mocks/mock_esp.c": "11d81c3f04d2978dd1f437f4fe135a0dda059c244e3470f159a62037608dd257",
+    "gateway/mqtt/tests/mocks/mock_esp.h": "fc312af2f994a43d445392b6c989e7402a070ef57a834ed7fb86b8b39d1e5fcf",
+    "gateway/mqtt/tests/mocks/p4_platform_for_broker.h": "dc76239ebfeaa0760cda490dad6a3c8de67eb5227737d6136abd65699dde9569",
+    "gateway/mqtt/tests/run_broker_integration.py": "3a0eb4228ee3658883002279c3b880f6797b528376f44312a71cd5894a975c5b",
+    "gateway/mqtt/tests/run_p5_host_tests.py": "b2a640caaa89d0370b58e33cd07c3958952a6dafb8cbde8b504af8979806b872",
+    "gateway/mqtt/tests/run_p6_broker.py": "688e4d883639b4807a0d27d9605c3a69a21cd2cfda7987c1bb2a923282050b2b",
+    "gateway/mqtt/tests/run_p6_host_tests.py": "f030c8103e67a276eca4a8d04915737baf4cf77b9af656a8e66215527838e179",
+    "gateway/mqtt/tests/test_p5_assert_fault.c": "a49d3bf0b007696774d74d13f4a777cba2cf7d98dc753e107cbc1ab7cbc8d83c",
+    "gateway/mqtt/tests/test_p5_connect_keepalive.c": "b1ad40092564698360c0aed5aa6db8644b2f941a1aa32b1ccd6d4ea61068d2f3",
+    "gateway/mqtt/tests/test_p5_emcy_console.c": "082c675330b4f43cdd814f071232f1cc6d04970c2cb77c4f583925d6e55103ae",
+    "gateway/mqtt/tests/test_p5_emcy_console.py": "221422848aa52b72dedd5e94acec0cfd7fb64b301ab7794466b3a3ab08157e02",
+    "gateway/mqtt/tests/test_p5_integrity.py": "373edeadc72cb6f33a0c3ffaeb987320a42af76ac391d77a1a62419805ba3f5b",
+    "gateway/mqtt/tests/test_p5_qos_ack.c": "1a63126391d353c0ac4000c4a961717c865712c174cfdb361013d0517b8485e1",
+    "gateway/mqtt/tests/test_p5_transport.c": "f4d850f3cf896fcc9555df98c58c2a87a7f9391a904ad20eef51e05223ecf7bd",
+    "gateway/mqtt/tests/test_p6_mqtt.c": "d0811b86f8b845c9cdb427a9a87e06a55842511724729ef839897f2e63554f4d",
+    "gateway/mqtt/tests/test_p6_voice.c": "1214ed39ad4630baab0e17c8f69916ea00f67f7603a99fff82baf1ccea2a275b",
+    "gateway/storage/router.c": "66565a7cd649f8bcad0c3d8ccda20aa08dbb79cc5d29b3143e8dd09688227462",
+    "gateway/storage/router.h": "626a7321f6f132bc79bcead9d8e45d1c4c0c1a5a330556f7bd05cfa3623ebe35",
+    "gateway/third_party/coreMQTT/source/core_mqtt.c": "98cfdd1651acd725296164e9a865c51d0cd137b531a54e2e0c937846c202de0c",
+    "gateway/third_party/coreMQTT/source/core_mqtt_serializer.c": "1e4bf5a2b307f37f3cbc83a898e9c6b89b873daf93968fddb81eac06bb113c0b",
+    "gateway/third_party/coreMQTT/source/core_mqtt_state.c": "af5c215f11692c7ced8a90b9d6f9c9c23d2476538ff77a38952945f642fbc8cf",
+    "gateway/third_party/coreMQTT/source/include/core_mqtt.h": "2c49f123cf30d07607c0d7589fcc466906dbdc7d19662b5c834869b8763c40f9",
+    "gateway/third_party/coreMQTT/source/include/core_mqtt_config_defaults.h": "e56ff8c4e440be37d4ca413315f10c503fe47d558922b78830aef18878f9f9cd",
+    "gateway/third_party/coreMQTT/source/include/core_mqtt_serializer.h": "7d14754eda1efc43b8f7e85ccb0b03bcbae363444a6f22c11b6850e5d094aa23",
+    "gateway/third_party/coreMQTT/source/include/core_mqtt_state.h": "97a82665b7a363c4dfce018066cff913d03ac04848058b5e458d694f6e2f2ae7",
+    "gateway/third_party/coreMQTT/source/interface/transport_interface.h": "2118819dd0f7d2e64c312f071c0d4ab688d2fa36a659b91aeab557d888ac1c73",
+    "gateway/third_party/coreMQTT/upstream.json": "6bd79091c82cfa9b53c75f9f9a04ba63f71cbe40a0850ad41c9a7bfd01b940d9"
+  }
+}

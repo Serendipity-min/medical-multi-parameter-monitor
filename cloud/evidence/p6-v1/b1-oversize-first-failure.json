@@ -1,0 +1,10 @@
+{
+  "result": "FAIL",
+  "exit_code": 1,
+  "stage": "B1 added oversize test",
+  "frozen_source_commit": "41988c88edcb0b486447b016409742a530597bab",
+  "reason": "Test incorrectly expected disconnect; pinned coreMQTT drains oversized packets and continues without delivering application payload",
+  "exception": "subprocess.TimeoutExpired: gateway did not exit within 8 seconds",
+  "cleanup": "owned gateway and broker stopped by finally",
+  "script_sha256": "548383c4675b8db45ebd8fe6cc0c4f75b38381ad720edd0a4eee7f84ca0f8d01"
+}

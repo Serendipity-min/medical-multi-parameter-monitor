@@ -1,0 +1,87 @@
+{
+  "result": "PASS",
+  "exit_code": 0,
+  "parent_commit": "9012a2edfed3c74613bc2782b13ea6d6f4c58628",
+  "broker": "Mosquitto 2.0.21 loopback",
+  "mode": "HOST_VERIFIED",
+  "hardware": "NOT_RUN",
+  "ESP_AT_TLS": "NOT_RUN",
+  "checks": [
+    "p6_subscribe_and_original_status_qos1",
+    "legal_voice_during_real_telemetry_matching_puback",
+    "uart_frame_sent_without_waiting_playback",
+    "41_is_acceptance_only",
+    "4f_only_host_completion",
+    "broker_duplicate_business_turn_refused",
+    "malformed_application_frame_rejected_telemetry_survives",
+    "disconnect_reconnect_resubscribes",
+    "dedup_survives_real_reconnect",
+    "expired_voice_does_not_change_puback_success",
+    "oversize_mqtt_rx_drained_without_uart_or_buffer_growth",
+    "session_after_oversize_has_normal_qos1",
+    "p6_delayed_puback_no_early_success",
+    "p6_wrong_puback_recaches_even_with_voice",
+    "all_owned_broker_gateway_proxy_processes_stopped"
+  ],
+  "records": [
+    {
+      "command": "scalar",
+      "ok": true,
+      "elapsed_ms": 0,
+      "published_id": 3,
+      "puback_id": 3,
+      "puback_before_return": true,
+      "pings": 0,
+      "cache": 0,
+      "router_online": true,
+      "seq": 17,
+      "timestamp": 1800000000123
+    },
+    {
+      "state": 4,
+      "tts_bytes": 26,
+      "accepted": 0,
+      "completed": 0,
+      "rejected": 0,
+      "epoch": 1800000000
+    },
+    {
+      "command": "scalar",
+      "ok": true,
+      "elapsed_ms": 701,
+      "published_id": 3,
+      "puback_id": 3,
+      "puback_before_return": true,
+      "pings": 0,
+      "cache": 0,
+      "router_online": true,
+      "seq": 17,
+      "timestamp": 1800000000123
+    },
+    {
+      "command": "scalar",
+      "ok": false,
+      "elapsed_ms": 1,
+      "published_id": 3,
+      "puback_id": 4,
+      "puback_before_return": false,
+      "pings": 0,
+      "cache": 1,
+      "router_online": false,
+      "seq": 17,
+      "timestamp": 1800000000123
+    }
+  ],
+  "binary_sha256": "4998b8ba3e05922fe134b14810ed95c6576201a124ff6d5a936b71abc44b94aa",
+  "source_sha256": {
+    "gateway/mqtt/tests/broker_gateway.c": "e7f5606ffc66eb7ed7cff464e844d45655514f7e16069590e736fa93f1c0fbfb",
+    "gateway/mqtt/src/gateway_transport.c": "b48f9bcd15c4ab80d39ea92df506e8306aeae124e61d29c19cbd63416afb0775",
+    "gateway/mqtt/src/mqtt_transport_adapter.c": "beb93429f95cba5fe88f170010363613391df41975475abcbe1842c7692019aa",
+    "gateway/mqtt/src/p6_voice.c": "36e9c2c090cd2a5ead3b9ad01ee1033616d77ed17bef9e0b92e8aa08708de4fe",
+    "gateway/data_model/model.c": "bfebbc230ef5fdd5f2448b820eb6c0e53f8c40e546a46392aa9199e325234cd9",
+    "gateway/storage/router.c": "66565a7cd649f8bcad0c3d8ccda20aa08dbb79cc5d29b3143e8dd09688227462",
+    "gateway/third_party/coreMQTT/source/core_mqtt.c": "98cfdd1651acd725296164e9a865c51d0cd137b531a54e2e0c937846c202de0c",
+    "gateway/third_party/coreMQTT/source/core_mqtt_serializer.c": "1e4bf5a2b307f37f3cbc83a898e9c6b89b873daf93968fddb81eac06bb113c0b",
+    "gateway/third_party/coreMQTT/source/core_mqtt_state.c": "af5c215f11692c7ced8a90b9d6f9c9c23d2476538ff77a38952945f642fbc8cf"
+  }
+}

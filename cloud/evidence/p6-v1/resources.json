@@ -1,0 +1,128 @@
+{
+  "baseline": {
+    "sha": "67f5f57bd82c6e326e9e78ec9540481c80105e5f",
+    "text": 35624,
+    "data": 88,
+    "bss": 120120,
+    "ram_unused": 10864,
+    "host": 42,
+    "integrity": 6,
+    "emcy": 5,
+    "exit_code": 0,
+    "artifacts": {
+      "baseline.bin": "07ca422052a83c79e8b5361237ee53e08e8e2368cd8e6233d9d63859f57985db",
+      "baseline.elf": "7bd9f8cae9c839da87fd2484ee1aa60304e96b208de50350421b51eea3ef30fa",
+      "baseline.map": "a52a0ec4772258754ead41cd8bc6122500a995e48f3d9779cce80f119e3de9f4"
+    },
+    "section_sizes": {
+      ".isr_vector": 392,
+      ".text": 35216,
+      ".init": 4,
+      ".fini": 4,
+      ".ARM": 8,
+      ".data": 88,
+      ".bss": 87348,
+      "._user_heap_stack": 32772,
+      ".ARM.attributes": 48,
+      ".comment": 69,
+      ".debug_line_str": 457,
+      ".debug_frame": 2132
+    }
+  },
+  "builds": {
+    "default": {
+      "text": 35624,
+      "data": 88,
+      "bss": 120120,
+      "ram_unallocated": 10864,
+      "delta_text": 0,
+      "delta_data": 0,
+      "delta_bss": 0,
+      "elf_sha256": "1d0ac7ccf52338ad179e8fca174f346ce7351c4a254dd12dda005663da28a018",
+      "bin_sha256": "a83ce9ff20cc5122e5f25960e697e8311312d5d1e9287ee89b1d9db0d08c5010",
+      "map_sha256": "b8b100ebe6fe3ad7a38880def30bbddee3801afef27540157c5839442af4404b",
+      "section_sizes": {
+        ".isr_vector": 392,
+        ".text": 35216,
+        ".init": 4,
+        ".fini": 4,
+        ".ARM": 8,
+        ".data": 88,
+        ".bss": 87348,
+        "._user_heap_stack": 32772,
+        ".ARM.attributes": 48,
+        ".comment": 69,
+        ".debug_line_str": 457,
+        ".debug_frame": 2132
+      }
+    },
+    "p6_enabled_unbound": {
+      "text": 37372,
+      "data": 88,
+      "bss": 120568,
+      "ram_unallocated": 10416,
+      "delta_text": 1748,
+      "delta_data": 0,
+      "delta_bss": 448,
+      "elf_sha256": "de587cef3f86d6494214e13a0444eeadf96b48ada5c0f9a0287513b1787c839c",
+      "bin_sha256": "2bfc8e07384e0e061c945fea5d265c48b733f685d76cb69f0b23c61d7c498024",
+      "map_sha256": "2fe8f2f24db6ae9d543f92d6a2c8bb2a705f71adf6c6e6d4ff633136fc6f69cf",
+      "section_sizes": {
+        ".isr_vector": 392,
+        ".text": 36964,
+        ".init": 4,
+        ".fini": 4,
+        ".ARM": 8,
+        ".data": 88,
+        ".bss": 87796,
+        "._user_heap_stack": 32772,
+        ".ARM.attributes": 48,
+        ".comment": 69,
+        ".debug_line_str": 457,
+        ".debug_frame": 2132
+      }
+    }
+  },
+  "size_summary_note": "GNU size text/bss are aggregate columns; section_sizes contains actual .text/.bss. Aggregate bss includes reserved heap/stack section.",
+  "default_bin_identical_to_baseline": false,
+  "default_elf_identical_to_baseline": false,
+  "reserved_heap_bytes": 24576,
+  "reserved_stack_bytes": 8192,
+  "rx_bytes": 512,
+  "flash_config_bytes": 312,
+  "compiler_stack_frames": {
+    "p6_voice.su": [
+      "p6_voice.c:14:5:p6_utf8_valid\t20\tstatic",
+      "p6_voice.c:42:6:tw_tts_init\t24\tstatic",
+      "p6_voice.c:49:5:tw_tts_queue\t24\tstatic",
+      "p6_voice.c:60:6:tw_tts_poll\t16\tstatic",
+      "p6_voice.c:82:6:tw_tts_feedback\t0\tstatic",
+      "p6_voice.c:95:6:p6_voice_bind\t8\tstatic",
+      "p6_voice.c:102:5:p6_voice_bound\t0\tstatic",
+      "p6_voice.c:103:14:p6_voice_driver\t0\tstatic",
+      "p6_voice.c:104:10:p6_voice_rejected\t0\tstatic",
+      "p6_voice.c:105:6:p6_voice_poll\t0\tstatic",
+      "p6_voice.c:112:6:p6_voice_feedback\t0\tstatic",
+      "p6_voice.c:121:5:p6_voice_receive\t56\tstatic"
+    ],
+    "gateway_transport.su": [
+      "gateway_transport.c:60:20:secure_memzero\t0\tstatic",
+      "gateway_transport.c:68:13:mqtt_failed\t0\tstatic",
+      "gateway_transport.c:126:12:process_once\t8\tstatic",
+      "gateway_transport.c:51:12:step\t16\tstatic",
+      "gateway_transport.c:37:5:gateway_config_valid\t0\tstatic",
+      "gateway_transport.c:45:10:gateway_epoch\t0\tstatic",
+      "gateway_transport.c:82:13:mqtt_event\t64\tstatic",
+      "gateway_transport.c:147:5:gateway_mqtt_open\t656\tstatic",
+      "gateway_transport.c:226:5:gateway_mqtt_publish\t176\tstatic",
+      "gateway_transport.c:265:5:gateway_mqtt_yield\t8\tstatic",
+      "gateway_transport.c:273:6:gateway_network_close\t8\tstatic",
+      "gateway_transport.c:280:5:gateway_network_open\t288\tstatic"
+    ],
+    "main.su": [
+      "main.c:19:13:service\t24\tstatic",
+      "main.c:82:5:main\t2296\tstatic"
+    ]
+  },
+  "dynamic_stack_cpu_uart_hardware": "NOT_RUN"
+}

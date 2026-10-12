@@ -1,0 +1,62 @@
+{
+  "parent_commit": "9012a2edfed3c74613bc2782b13ea6d6f4c58628",
+  "security_gate": "NOT_RUN",
+  "hardware": "NOT_RUN",
+  "suites": [
+    {
+      "suite": "voice",
+      "exit_code": 0,
+      "cases": [
+        "PASS unbound_off_preserves_p4",
+        "PASS boot_delay_and_tick_wrap",
+        "PASS official_utf8_frame_no_xor_partial_nonblocking",
+        "PASS 41_acceptance_and_4f_completion_separate_ordered",
+        "PASS module_error_latches_no_auto_replay",
+        "PASS zero_writer_bounded_timeout_wrap",
+        "PASS writer_cannot_exceed_budget",
+        "PASS accept_feedback_missing_timeout",
+        "PASS play_feedback_missing_timeout_no_completion",
+        "PASS unicode_overlong_surrogate_bidi_tags_boundary_rejected",
+        "PASS voice_queue_only_duplicate_rejected",
+        "PASS expired_rejected",
+        "PASS future_rejected",
+        "PASS ttl_limit_rejected",
+        "PASS length_mismatch_rejected",
+        "PASS size_above_294_rejected",
+        "PASS topic_device_qos_retain_whitelist",
+        "PASS device_frequency_limit",
+        "PASS out_of_order_high_watermark",
+        "PASS next_valid_after_completion",
+        "PASS queued_expiry_before_first_uart_byte"
+      ]
+    },
+    {
+      "suite": "mqtt",
+      "exit_code": 0,
+      "cases": [
+        "PASS enabled_unbound_keeps_p4_publish_only",
+        "PASS inbound_same_packet_id_not_outgoing_ack_queue_only",
+        "PASS duplicate_business_id_refused_telemetry_survives",
+        "PASS illegal_voice_and_qos1_telemetry_coexist",
+        "PASS reconnect_preserves_business_dedup",
+        "PASS voice_does_not_mask_wrong_puback_router_recaches",
+        "PASS wrong_suback_not_success",
+        "PASS refused_suback_not_success",
+        "PASS missing_suback_bounded",
+        "PASS late_suback_cannot_confirm_outgoing_publish"
+      ]
+    }
+  ],
+  "source_sha256": {
+    "gateway/mqtt/src/p6_voice.c": "36e9c2c090cd2a5ead3b9ad01ee1033616d77ed17bef9e0b92e8aa08708de4fe",
+    "gateway/mqtt/src/p6_voice.h": "ba900f314d77f144f9dc8550cacb2d076996c1d2af9f3346a9ef4a1ff27aeddf",
+    "gateway/mqtt/src/p6_config.h": "ab7559d3c574a66d12dcfd0e3e091f6d826c8bb824d4ce1afec60eeec0d87983",
+    "gateway/mqtt/src/gateway_transport.c": "b48f9bcd15c4ab80d39ea92df506e8306aeae124e61d29c19cbd63416afb0775",
+    "gateway/mqtt/tests/mocks/mock_esp.c": "11d81c3f04d2978dd1f437f4fe135a0dda059c244e3470f159a62037608dd257",
+    "gateway/mqtt/tests/test_p6_voice.c": "1214ed39ad4630baab0e17c8f69916ea00f67f7603a99fff82baf1ccea2a275b",
+    "gateway/mqtt/tests/test_p6_mqtt.c": "d0811b86f8b845c9cdb427a9a87e06a55842511724729ef839897f2e63554f4d"
+  },
+  "exit_code": 0,
+  "passed": 31,
+  "result": "HOST_VERIFIED"
+}
