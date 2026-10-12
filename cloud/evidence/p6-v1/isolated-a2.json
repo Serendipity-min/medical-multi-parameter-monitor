@@ -1,0 +1,125 @@
+{
+  "result": "PASS",
+  "exit_code": 0,
+  "mode": "MOCK",
+  "downlink": "SIMULATED_DOWNLINK",
+  "broker": "Mosquitto 2.0.21 loopback",
+  "checks": [
+    "HTTP_answer_and_SIMULATED_DOWNLINK_share_turn_and_facts",
+    "duplicate_refused",
+    "publisher_rate_bounded",
+    "late_subscriber_no_retained_voice"
+  ],
+  "answer": {
+    "turn_id": "4aa2cfbea2524f81be8700c4c23dc115",
+    "session_id": "da90e75d3c4e4ddbad8414601b484ba2",
+    "gateway_id": "GW-C-001",
+    "model_mode": "MOCK",
+    "answer_kind": "DETERMINISTIC",
+    "answer": "心率：72 bpm；模拟数据，非真人测量。",
+    "facts": [
+      {
+        "stream": "HR",
+        "node_id": "NODE-B",
+        "gateway_id": "GW-C-001",
+        "unit": "bpm",
+        "label": "心率",
+        "value": 72.0,
+        "validity": "VALID",
+        "source": "MOCK",
+        "synthetic": true,
+        "timestamp": 1791805031974,
+        "session_id": "p6-synthetic-fixture",
+        "seq": 1
+      },
+      {
+        "stream": "SPO2",
+        "node_id": "NODE-A",
+        "gateway_id": "GW-C-001",
+        "unit": "%",
+        "label": "血氧",
+        "value": 98.0,
+        "validity": "VALID",
+        "source": "MOCK",
+        "synthetic": true,
+        "timestamp": 1791805031974,
+        "session_id": "p6-synthetic-fixture",
+        "seq": 1
+      },
+      {
+        "stream": "PR",
+        "node_id": "NODE-A",
+        "gateway_id": "GW-C-001",
+        "unit": "bpm",
+        "label": "脉率",
+        "value": 71.0,
+        "validity": "VALID",
+        "source": "MOCK",
+        "synthetic": true,
+        "timestamp": 1791805031974,
+        "session_id": "p6-synthetic-fixture",
+        "seq": 1
+      },
+      {
+        "stream": "RR",
+        "node_id": "NODE-B",
+        "gateway_id": "GW-C-001",
+        "unit": "breaths/min",
+        "label": "呼吸率",
+        "value": null,
+        "validity": "INVALID",
+        "source": "MOCK",
+        "synthetic": true,
+        "timestamp": 1791805031974,
+        "session_id": "p6-synthetic-fixture",
+        "seq": 1
+      },
+      {
+        "stream": "TEMP",
+        "node_id": "NODE-B",
+        "gateway_id": "GW-C-001",
+        "unit": "degC",
+        "label": "体温",
+        "value": 36.5,
+        "validity": "VALID",
+        "source": "MOCK",
+        "synthetic": true,
+        "timestamp": 1791805031974,
+        "session_id": "p6-synthetic-fixture",
+        "seq": 1
+      },
+      {
+        "stream": "NIBP",
+        "node_id": "NODE-A",
+        "gateway_id": "GW-C-001",
+        "unit": "mmHg",
+        "label": "血压",
+        "value": [
+          118.0,
+          76.0
+        ],
+        "validity": "VALID",
+        "source": "MOCK",
+        "synthetic": true,
+        "timestamp": 1791805031974,
+        "session_id": "p6-synthetic-fixture",
+        "seq": 1
+      }
+    ],
+    "fact_digest": "3dd9e56fc8bcd0f31b6c8c81f1948000",
+    "voice_text": "心率：72 bpm；模拟数据，非真人测量。",
+    "voice_status": "BROKER_PUBACK_ONLY",
+    "real_model": "REAL_MODEL_BLOCKED"
+  },
+  "received": {
+    "turn_id": "4aa2cfbea2524f81be8700c4c23dc115",
+    "fact_digest": "3dd9e56fc8bcd0f31b6c8c81f1948000",
+    "text": "心率：72 bpm；模拟数据，非真人测量。",
+    "issued_ms": 1791805031975,
+    "expires_ms": 1791805046975,
+    "status": "SIMULATED_DOWNLINK"
+  },
+  "wire_sha256": "1aa7dc045eb3ebd99d56a5eb2705d92f7745a1c20da3b9ec10bcff69cd94e8ec",
+  "packet_bytes": 105,
+  "cleanup": "owned_process_stopped"
+}

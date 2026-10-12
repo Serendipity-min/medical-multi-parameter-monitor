@@ -2,6 +2,7 @@
 // 严禁在此堆砌 HTML 结构、网络状态机或波形算法。
 
 import './style.css';
+import './ui/aiPanel.css';
 import { AccessDialog } from './ui/accessDialog';
 import { setupMonitorDOM, renderRoute } from './ui/monitorView';
 import { HashRouter } from './router/hashRouter';
@@ -11,6 +12,7 @@ import { StatusBar } from './ui/statusBar';
 import { MonitorStore } from './state/monitorStore';
 import { MonitorSocket } from './transport/monitorSocket';
 import { WaveformRenderer } from './waveform/renderer';
+import { AiPanel } from './ui/aiPanel';
 
 // 1. 初始化 DOM 结构
 const app = document.querySelector<HTMLDivElement>('#app')!;
@@ -39,6 +41,9 @@ const socket = new MonitorSocket({
 });
 
 // 4. 实例化顶部状态栏与鉴权弹窗
+// AI 使用独立令牌和接口，不能读写 MonitorSocket 的监护鉴权或状态。
+new AiPanel(() => socket.getGatewayId());
+
 const statusBar = new StatusBar({
   onGatewayChange: (gatewayId) => {
     store.changeGateway(gatewayId);

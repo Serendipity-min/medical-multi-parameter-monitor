@@ -1,0 +1,18 @@
+/* 沿用监护深蓝底与青色交互色；问答层独立，六页面/波形布局保持原结构。 */
+.ai-panel { width: min(820px, calc(100vw - 32px)); max-height: 90dvh; padding: 24px; overflow: auto; }
+.ai-panel .dialog-heading h2 { margin: 0; }
+.ai-panel .dialog-heading p { color: var(--muted); margin: 8px 0 0; }
+.ai-panel .ai-source { display: flex; justify-content: space-between; gap: 16px; margin: 18px 0; color: var(--temp); }
+.ai-panel form > label { display: block; margin-top: 12px; }
+.ai-panel textarea { width: 100%; resize: vertical; min-height: 76px; background: var(--surface); color: inherit; border: 1px solid var(--line); padding: 12px; font: inherit; }
+.ai-history { height: 32dvh; min-height: 180px; overflow: auto; margin: 20px 0; padding: 0 16px; background: #080e16; border-left: 3px solid var(--temp); }
+.ai-turn { padding: 16px 0; border-bottom: 1px solid var(--line); }
+.ai-turn h3 { font-size: 16px; margin: 0 0 10px; }
+.ai-answer { white-space: pre-wrap; line-height: 1.7; margin: 0; }
+.ai-facts { color: var(--muted); font-size: 12px; margin-top: 12px; }
+.ai-facts p { margin: 4px 0; overflow-wrap: anywhere; }
+.ai-turn small { display: block; font-size: 11px; color: var(--muted); margin-top: 8px; overflow-wrap: anywhere; }
+.ai-panel .ai-voice { display: flex; align-items: center; gap: 8px; }
+.ai-panel .ai-voice input { width: auto; margin: 0; accent-color: var(--temp); }
+.ai-panel #ai-status { color: var(--temp); }
+@media (max-width: 600px) { .ai-panel { padding: 16px; } .ai-panel .ai-source { flex-direction: column; gap: 6px; } }

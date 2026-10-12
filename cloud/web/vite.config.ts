@@ -5,6 +5,11 @@ export default defineConfig({
   base: '/medical-monitor/',
   server: {
     proxy: {
+      // P6 只代理到独立本机服务；正式 Nginx 配置留待部署窗口审阅。
+      '/medical-monitor/ai': {
+        target: 'http://127.0.0.1:18766',
+        rewrite: (p) => p.replace('/medical-monitor/ai', ''),
+      },
       '/medical-monitor/api': {
         target: 'http://127.0.0.1:18765',
         rewrite: (p) => p.replace('/medical-monitor', ''),

@@ -102,6 +102,9 @@ dist/
 !.env.example
 *.local.json
 
+# P6 本机隔离 Broker、合成凭据和构建产物不得进入版本控制。
+/build/p6/
+
 # 原始静态分析结果留在本机证据目录；仓库只保存经脱敏的结论和固定回归。
 static_analysis_semgrep_*/
 semgrep_raw/

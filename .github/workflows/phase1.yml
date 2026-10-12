@@ -16,7 +16,8 @@ jobs:
     timeout-minutes: 15
     env:
       # 用户在 P5 预检裁定中授权该分支仅跑普通测试；不把 PR 当安全门授权。
-      P5_SCOPE: ${{ github.head_ref == 'P5-coremqtt-baremetal' || github.ref_name == 'P5-coremqtt-baremetal' }}
+      # P4 已合入 coreMQTT，面向 P4 的 PR 与 P6 推送必须保留活动客户端检查。
+      P5_SCOPE: ${{ github.base_ref == 'P4' || github.ref_name == 'P4' || startsWith(github.head_ref, 'dev/p6-') || startsWith(github.ref_name, 'dev/p6-') || github.head_ref == 'P5-coremqtt-baremetal' || github.ref_name == 'P5-coremqtt-baremetal' }}
     steps:
       # 固定 Action 提交；CI 仅做无凭据测试和构建，不连接服务器或开发板。
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -32,6 +33,8 @@ jobs:
         run: python -m pip install -r cloud/backend/requirements-dev.txt -c cloud/backend/requirements.lock
       - name: Backend and operations regressions
         run: python -m pytest cloud/backend/tests -q
+      - name: P6 isolated text and downlink contracts
+        run: python -m pytest cloud/ai/tests -q
       - name: Paho vendor integrity and Gateway source allowlist
         if: env.P5_SCOPE != 'true'
         run: |
