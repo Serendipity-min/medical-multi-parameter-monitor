@@ -1,0 +1,18 @@
+{
+  "observed_head": "200d1e7d3478da735369105b7d5a97158f96dfb2",
+  "pull_request_created": false,
+  "ordinary_checks": "LOCAL_PASS; phase1 push branch list excludes P6",
+  "automatic_workflow": ".github/workflows/security-gate.yml",
+  "run_id": 38246581405,
+  "status": "completed",
+  "conclusion": "failure",
+  "jobs": [],
+  "cli_diagnostic": "This run likely failed because of a workflow file issue.",
+  "baseline_sha": "67f5f57bd82c6e326e9e78ec9540481c80105e5f",
+  "baseline_run_id": 38031377591,
+  "baseline_conclusion": "failure",
+  "baseline_cli_diagnostic": "This run likely failed because of a workflow file issue.",
+  "workflow_diff_from_baseline_exit_code": 0,
+  "manual_security_gate": "NOT_RUN",
+  "workflow_policy_change": "NOT_AUTHORIZED/NOT_PERFORMED"
+}

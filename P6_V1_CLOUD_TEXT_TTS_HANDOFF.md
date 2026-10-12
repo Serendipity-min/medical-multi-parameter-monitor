@@ -50,6 +50,8 @@ TW-TTS 采用 `FD + length(text+2) + 01 + 04(UTF-8) + text`，无末尾 XOR。96
 
 CI 仅修正 P4 已为 coreMQTT 的选择条件并保留原必需检查，增加普通 P6 用例；未取消步骤、修改安全门或启动扫描。当前 push 触发清单未包含 P6，且本轮不建 PR，因此本回执的 PASS 来自真实本机检查，不能写为 GitHub CI PASS。
 
+首次推送文档提交 `200d1e7d3478da735369105b7d5a97158f96dfb2` 后，GitHub 自动产生 [security-gate.yml 失败记录 38246581405](https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/38246581405)，状态 completed/failure，**jobs=[]**；CLI 提示“likely failed because of a workflow file issue”，不是扫描结论。固定 P4 同样已有 [失败记录 38031377591](https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/38031377591)，同样提示工作流文件问题。本轮该工作流对固定 P4 无差异，未启动或运行任何 Gate job；不能把此自动失败隐藏或写为 GitHub 全绿。具体工作流修复留待后续明确安排，不改安全门政策。
+
 受保护范围 `gateway/canopen`、`gateway/data_model`、`gateway/storage`、`gateway/third_party`、`platform.c`、312B 配置定义及 Security Gate 配置对固定 P4 的 Git diff 退出码 **0（无差异）**。原 Backend 源码/依赖未修改。
 
 ## 4. 最终测试与退出码
