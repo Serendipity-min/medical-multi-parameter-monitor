@@ -1,8 +1,38 @@
 # P6_V1_CLOUD_TEXT_TTS_HANDOFF
 
-合同：MPM-P6-V1-20261012 v1.0。日期：2026-10-12（Asia/Shanghai）。
+合同：MPM-P6-V1-20261012 v1.0。最新回执日期：2026-10-14（Asia/Shanghai）。
 
-本回执交付本地隔离软件成果。**真实豆包接入未完成、生产部署未执行、喇叭未验收。** 用户最新指令为“暂时不同意 PR，提交到 P6 分支即可”；因此不创建 PR、不合并，推送分支后停止，等待后续优化安排。
+**最新结果：REAL_MODEL_VERIFIED。** 2026-10-14 用户授权正式 API、指定模型、小额预算和隔离服务真实验证，本轮已完成下述窗口。仍不创建 PR、不操作开发板、不切换生产 Web/Nginx/Broker。
+
+## 0. 2026-10-14 真实云端验证窗口（当前结果）
+
+模型 `doubao-seed-2-0-mini-260428`，采用官方 HTTPS Chat Completions，JSON 输出、关闭深度思考、单次最多 256 回答 token、不自动重试。已完整阅读[官方快速入门](https://docs.volcengine.com/docs/ark/quick-start?lang=zh)，其推荐存量业务使用 Chat API，故沿用已有适配。
+
+云端新增独立 `/opt/medical-monitor-p6` 与 `p6-ai.service`，Python 3.12 独立 venv、只绑定 loopback、专用非登录用户、已启动并启用。新增源码/静态大屏/离线 wheels 共 3,876,949B，本机先暂存 `E:/Server_file`，上传 SHA256 核验后自动清理本次本机暂存。服务器只做 `pip --no-index` 离线安装，没有直接下载文件；原监护 Backend/MQTT 服务启动时间仍为 2026-09-20，未重启或热替换，没有修改生产 Nginx/主站 Web/Broker ACL。
+
+API Key 仅进入外部凭据配置：本机当前用户 DPAPI 加密，服务器环境文件 0600；真实密钥不在源码、测试、日志、浏览器、MQTT 或 Git 中。应用 AI 令牌与 ARK Key 分离，浏览器仅经 stdin 注入独立应用令牌，截图前已清空密码框。
+
+| 本轮检查 | 实测结果 | 退出码 |
+|---|---|---:|
+| 云端真实模型/一般健康提示 | 2 次 HTTP 验证 + 1 次大屏真实请求，均 `REAL_REQUEST_USED / VALIDATED`，返回模型 ID 精确匹配 | 0 |
+| 当前 HR 读数核对 | 服务端事实数值/单位与可见答案一致，MOCK/synthetic 明示；未调用模型 | 0 |
+| GW-C-001 离线读数 | OFFLINE、value=null，不返回旧数值；未调用模型 | 0 |
+| AI 普通功能回归 | 46 PASS，含文字独立校验、预算跨重启、慢模型后重取快照 | 0 |
+| 原 Backend 回归 | 28 PASS | 0 |
+| Web 状态测试 / 构建 | 11 PASS / 构建成功 | 0 / 0 |
+| 云端源码与本机运行源码 SHA256 | 一致 | 0 |
+
+真实请求总计 **3 次、3578 token**，不是 HTTP Mock：保存服务返回的 request_id、reported_model、finish_reason、usage、延迟及实际回答。五个独占预算槽跨进程/重启共享，失败也消耗一次；本窗口剩余 **2 次**，不得通过重启补满。未读取或伪造账户账单金额。
+
+本轮模型从“模板选择”升级为有边界的自然中文解释，一般健康提示/数据来源知识可针对问题生成。数字和单位仍由事实层确定性输出；模型解释禁止复述数值/单位，独立拒绝临床诊断/药量/治疗指令与控制字符。校验不代表完整医疗安全审计或临床准入。只读数据来自**现有 MONITOR WSS 的 MOCK/synthetic 源**，不是新增假装真实的患者数据；真实 Gateway 当前 OFFLINE。
+
+大屏验证在独立 P6 服务托管的隔离预览完成，生产大屏未发布替换。预览中的原监护 WSS 保持未连接，AI 面板由服务端独立只读获取事实；没有为了演示向原 Hub 写数据。固件/TW-TTS/CANopen/Router/AT/TLS 均无本轮改动，不需要新增 ARM 构建或烧录。
+
+证据：[本轮摘要](cloud/evidence/p6-v1-real-20261014/summary.json)、[真实 API 与读数](cloud/evidence/p6-v1-real-20261014/real-api.json)、[大屏真实回复](cloud/evidence/p6-v1-real-20261014/browser-response.json)、[云端服务/预算/源码](cloud/evidence/p6-v1-real-20261014/cloud-runtime.json)、[桌面截图](cloud/evidence/p6-v1-real-20261014/real-ai-desktop.png)、[移动端截图](cloud/evidence/p6-v1-real-20261014/real-ai-mobile.png)、[测试日志](cloud/evidence/p6-v1-real-20261014/logs/)。观测时 P6 服务 MemoryCurrent 为 37,462,016B（瞬时值，非峰值）；没有 MCU 资源变化。
+
+本轮父提交 `a015a0f4d0ce715b7a3b63212a4795be3725ce61`，新增受测源码按文件 SHA256 绑定本轮摘要；完成后仅作一次 Git 提交，最终提交 SHA 由 Git/交付消息记录，不伪造自引用 SHA。不创建 PR、不运行正式 Security Gate。隔离云端服务保留运行，本机临时浏览器与验证转发在完成后关闭。
+
+以下第 1–6 节为 **2026-10-12 历史冻结记录**，其中 REAL_MODEL_BLOCKED、模板选择和未部署的结论仅描述当时状态；当前真实接入以本节为准。历史失败与资源记录保留，不复写成新结果。
 
 ## 1. 阶段裁定
 

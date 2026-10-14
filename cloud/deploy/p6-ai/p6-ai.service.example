@@ -15,6 +15,8 @@ NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=true
+# 真实调用预算槽需要持久化；源码和外部密钥文件仍由管理员持有。
+ReadWritePaths=/var/lib/medical-monitor-p6
 
 [Install]
 WantedBy=multi-user.target

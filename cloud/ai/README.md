@@ -12,11 +12,17 @@
 
 现在数值类问题优先确定性读取有效事实。节点、网关、来源、session/seq、单位、时间独立检查；INVALID/STALE/OFFLINE/REPLAY 不返回当前数值。不得提交浏览器读数。模拟来源必须明确标注。
 
-V1 的模型解释采用受限模板：豆包选择“数据质量 / 一般复测建议 / 项目架构”类别，服务端验证输出 JSON 并映射经审核的文字。任意模型自由文字不进入答案或播报。此版本是有限范围问答，不能宣称支持开放临床咨询、诊断、处方或治疗。模型不可执行设备控制。
+2026-10-14 真实云端窗口已将模板选择升级为有边界的自然文字回答。豆包返回 quality/general/project 类别与简短 explanation；服务端独立拒绝数值/单位、诊疗/药量指令、控制/方向字符和标签。事实数值仍由服务端确定性生成，模型耗时导致快照临近过期时重新只读取快照。不能宣称这些校验覆盖全部医疗风险，此版本不支持开放临床咨询、诊断、处方或治疗，也不能执行设备控制。
 
-真实服务模式 `DOUBAO` 只从服务器环境读取 `ARK_API_KEY`、`ARK_MODEL_ID`，并要求 `P6_REAL_ACCOUNT_APPROVED=1` 和 `P6_REAL_BUDGET_APPROVED=1`；每进程最多 5 次、单次 64 token、8 秒模型超时。不设置这些批准标志就不能做真实调用。本次真实调用 0 次，状态 `REAL_MODEL_BLOCKED`；HTTP 契约测试使用假响应。
+真实服务模式 `DOUBAO` 只从服务器环境读取 `ARK_API_KEY`、`ARK_MODEL_ID`，并要求 `P6_REAL_ACCOUNT_APPROVED=1`、`P6_REAL_BUDGET_APPROVED=1` 和已经建立的外部 `P6_REAL_BUDGET_DIR`。预算以五个独占文件槽跨进程/重启持久化，失败也消耗一次，不自动重试。单次最多 256 回答 token，关闭深度思考，8 秒模型超时。没有完整配置仍不能真实调用。
+
+当前独立服务器服务 `p6-ai.service` 已使用 `doubao-seed-2-0-mini-260428` 完成 3 次真实调用，状态 `REAL_MODEL_VERIFIED`，总 token 3578；当前窗口剩余 2 次，不能通过重启补满。密钥与只读监护凭据在服务器外部配置，权限 0600，不在 Git/浏览器/日志中。单元测试仍只用假 HTTP 响应。当前监护输入为现有 MONITOR 接口中的 MOCK/synthetic 数据，不是真人测量。
+
+隔离大屏通过 `P6_WEB_DIR` 指定构建目录，从独立服务的 `/medical-monitor/` 展示；AI 路由支持 `/medical-monitor/ai/api/v1/text`。服务只绑定 loopback，负责人通过既有 SSH 别名转发访问，不改生产 Nginx/主站 Web。预览中的原监护 WSS 未接通，本轮只核验 AI 面板的真实云端回答。应用 AI 访问令牌独立于 ARK Key，验证后已清空浏览器密码框。
 
 接口依据：[火山方舟官方数据面/鉴权](https://docs.volcengine.com/docs/ark/base-url-and-authentication?lang=zh)。使用官方 HTTPS Chat Completions，不引入 SDK、不自动重试计费请求。
+
+已阅读[官方快速入门](https://docs.volcengine.com/docs/ark/quick-start?lang=zh)；其将 Chat API 推荐用于存量业务迭代。本期保留已有 Chat Completions 适配，采用官方 JSON 输出与[关闭深度思考](https://docs.volcengine.com/docs/ark/deep-thinking?lang=zh)，不进行 SDK/Responses 迁移。真实请求的模型 ID、request_id、finish_reason、usage 与截图见 `cloud/evidence/p6-v1-real-20261014/`。
 
 ## 下行契约
 
@@ -29,3 +35,5 @@ V1 的模型解释采用受限模板：豆包选择“数据质量 / 一般复�
 `BROKER_PUBACK_ONLY` 只表示 Broker 收到消息，`SIMULATED_DOWNLINK` 只表示模拟 Gateway 收到；均不能表示喇叭已完成。播报开关控制下一轮是否下发；取消/关闭阻止尚未下发的回答，不能撤回已交给 Broker 的文本。
 
 验证：`python -m pytest cloud/ai/tests -q`；`python cloud/ai/tests/run_isolated.py --runtime <已核验的本机 Mosquitto runtime>`。夹具临时端口、独立账户/ACL、不改生产配置、进程自有并清理。只做普通功能验证，不运行 Security Gate。
+
+真实验证入口 `python cloud/ai/tests/verify_real.py --output <证据目录> --authorize-real-calls`：通过安全外部环境注入应用 `P6_AI_TOKEN`，先核验 MONITOR 当前/离线数值，再执行两次有预算的真实问答。此入口不由 Pytest/CI 自动运行，重跑会消费剩余真实预算，必须有当前窗口的授权。

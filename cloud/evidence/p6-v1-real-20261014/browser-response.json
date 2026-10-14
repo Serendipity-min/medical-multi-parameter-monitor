@@ -1,0 +1,117 @@
+{
+  "answer": "血压：112/72 mmHg；模拟数据，非真人测量。\n脉率：77 bpm；模拟数据，非真人测量。\n血氧：96 %；模拟数据，非真人测量。\n心率：77 bpm；模拟数据，非真人测量。\n呼吸率：14 breaths/min；模拟数据，非真人测量。\n体温：36.7 degC；模拟数据，非真人测量。\n久坐办公时建议每间隔一段时间起身活动，比如缓慢伸展肢体、走动几步。日常可选择轻度放松的活动舒缓身体，若感到明显不适建议寻求专业人员的评估。",
+  "answer_kind": "VERIFIED_EXPLANATION",
+  "fact_digest": "200f1f25e137b96d2be153ca927ad6c1",
+  "facts": [
+    {
+      "gateway_id": "GW-DEV-001",
+      "label": "血压",
+      "node_id": "NODE-A",
+      "seq": 9298435,
+      "session_id": "9fc20fc30dd9428faa6cc05a86b91d36",
+      "source": "MOCK",
+      "stream": "NIBP",
+      "synthetic": true,
+      "timestamp": 1791961387880,
+      "unit": "mmHg",
+      "validity": "VALID",
+      "value": [
+        112,
+        72
+      ]
+    },
+    {
+      "gateway_id": "GW-DEV-001",
+      "label": "脉率",
+      "node_id": "NODE-A",
+      "seq": 9298535,
+      "session_id": "9fc20fc30dd9428faa6cc05a86b91d36",
+      "source": "MOCK",
+      "stream": "PR",
+      "synthetic": true,
+      "timestamp": 1791961407880,
+      "unit": "bpm",
+      "validity": "VALID",
+      "value": 77
+    },
+    {
+      "gateway_id": "GW-DEV-001",
+      "label": "血氧",
+      "node_id": "NODE-A",
+      "seq": 9298535,
+      "session_id": "9fc20fc30dd9428faa6cc05a86b91d36",
+      "source": "MOCK",
+      "stream": "SPO2",
+      "synthetic": true,
+      "timestamp": 1791961407880,
+      "unit": "%",
+      "validity": "VALID",
+      "value": 96
+    },
+    {
+      "gateway_id": "GW-DEV-001",
+      "label": "心率",
+      "node_id": "NODE-B",
+      "seq": 9298535,
+      "session_id": "9fc20fc30dd9428faa6cc05a86b91d36",
+      "source": "MOCK",
+      "stream": "HR",
+      "synthetic": true,
+      "timestamp": 1791961407880,
+      "unit": "bpm",
+      "validity": "VALID",
+      "value": 77
+    },
+    {
+      "gateway_id": "GW-DEV-001",
+      "label": "呼吸率",
+      "node_id": "NODE-B",
+      "seq": 9298535,
+      "session_id": "9fc20fc30dd9428faa6cc05a86b91d36",
+      "source": "MOCK",
+      "stream": "RR",
+      "synthetic": true,
+      "timestamp": 1791961407880,
+      "unit": "breaths/min",
+      "validity": "VALID",
+      "value": 14
+    },
+    {
+      "gateway_id": "GW-DEV-001",
+      "label": "体温",
+      "node_id": "NODE-B",
+      "seq": 9298535,
+      "session_id": "9fc20fc30dd9428faa6cc05a86b91d36",
+      "source": "MOCK",
+      "stream": "TEMP",
+      "synthetic": true,
+      "timestamp": 1791961407880,
+      "unit": "degC",
+      "validity": "VALID",
+      "value": 36.7
+    }
+  ],
+  "gateway_id": "GW-DEV-001",
+  "model_evidence": {
+    "call": 3,
+    "finish_reason": "stop",
+    "http_status": 200,
+    "latency_ms": 1134,
+    "reported_model": "doubao-seed-2-0-mini-260428",
+    "request_id": "021791961408935640844006c495b97e3327b5d9afec856ac3464",
+    "requested_model": "doubao-seed-2-0-mini-260428",
+    "status": "VALIDATED",
+    "usage": {
+      "completion_tokens": 51,
+      "prompt_tokens": 1140,
+      "total_tokens": 1191
+    }
+  },
+  "model_input_fact_digest": "200f1f25e137b96d2be153ca927ad6c1",
+  "model_mode": "DOUBAO",
+  "real_model": "REAL_REQUEST_USED",
+  "session_id": "adcdcef96beb4afc90534c7efa778327",
+  "turn_id": "a98a9e25baeb467e96aff8024c161e5d",
+  "voice_status": "PAUSED",
+  "voice_text": "血压：112/72 mmHg；模拟数据，非真人测量。"
+}

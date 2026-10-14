@@ -1,0 +1,34 @@
+{
+  "result": "REAL_MODEL_VERIFIED",
+  "date": "2026-10-14",
+  "source_parent": "a015a0f4d0ce715b7a3b63212a4795be3725ce61",
+  "model_id": "doubao-seed-2-0-mini-260428",
+  "real_calls": 3,
+  "budget_limit": 5,
+  "budget_remaining": 2,
+  "total_tokens": 3578,
+  "deployment": "isolated loopback p6-ai.service; enabled",
+  "monitor_data": "existing MONITOR WSS, MOCK/synthetic; real GW-C-001 OFFLINE",
+  "production_monitor_web_nginx_broker_changed": false,
+  "firmware_changed": false,
+  "pr_created": false,
+  "server_source_matches_local": true,
+  "source_sha256": {
+    "cloud/ai/providers.py": "40741521f34feaf3467d8d8bf7928342a36fbe2db463d99dc63b5715406140f6",
+    "cloud/ai/app.py": "4a05fc797a5cd5431400041c86b89b6b9b712e198a24403ca163fbcc6824d825",
+    "cloud/ai/snapshot.py": "5959bcbe888b8278cb21df3d228a659884f7266dc38d313ca9fbb80acbfaf516",
+    "cloud/ai/facts.py": "2c1d4a0d64ff0beb9674af578ce362fc88069c3a8140c5d38b3894b8025df8a7",
+    "cloud/web/src/ui/aiPanel.ts": "29d77acb68a81d17ef3803a1edf642f9c32c7895da4c386666afc5b9e9546378",
+    "cloud/deploy/p6-ai/install_isolated.py": "b2fdc67935a5881ca15891f6c063f67dc1b8e50289795c9d8426d2c63958bd70"
+  },
+  "test_exits": {
+    "AI": 0,
+    "Backend": 0,
+    "WebTest": 0,
+    "WebBuild": 0
+  },
+  "screenshots": [
+    "real-ai-desktop.png",
+    "real-ai-mobile.png"
+  ]
+}

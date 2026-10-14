@@ -9,6 +9,8 @@ import time
 import uuid
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from pathlib import Path
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 from .downlink import IsolatedPublisher, encode, short_text
 from .facts import extract, digest, answer_facts, KEYWORDS
@@ -57,10 +59,12 @@ def create_app(settings=None, reader=None, provider=None, publisher=None):
     @app.get('/health')
     async def health():
         return {'status': 'ok', 'model_mode': settings.mode, 'snapshot_mode': settings.snapshot_mode,
-                'real_model': 'REAL_MODEL_BLOCKED' if settings.mode == 'MOCK' else 'CONFIGURED_NOT_PROVEN',
-                'voice_mode': 'ISOLATED' if publisher else 'DISABLED'}
+                'real_model': 'REAL_MODEL_BLOCKED' if settings.mode == 'MOCK' else 'REAL_MODEL_VERIFIED' if (getattr(provider, 'last_call', None) or {}).get('status') == 'VALIDATED' else 'CONFIGURED_NOT_PROVEN',
+                'voice_mode': 'ISOLATED' if publisher else 'DISABLED',
+                'model_id': getattr(provider, 'model', None), 'budget_used': getattr(provider, 'budget_used', 0)}
 
     @app.post('/api/v1/text')
+    @app.post('/medical-monitor/ai/api/v1/text')
     async def text(request: Request):
         authenticate(request)
         raw = bytearray()
@@ -96,8 +100,13 @@ def create_app(settings=None, reader=None, provider=None, publisher=None):
             async with asyncio.timeout(12):
                 snapshot = await reader.read(question.gateway_id)
                 facts = extract(snapshot, question.gateway_id, int(time.time() * 1000))
+                prompt_digest = digest(facts)
                 deterministic = any(k in question.question for k in KEYWORDS) and any(k in question.question for k in ('多少', '当前', '现在'))
                 explanation = '' if deterministic else await provider.explain(question.question, facts, session['history'])
+                model_evidence = getattr(explanation, 'evidence', None)
+                # 真实模型耗时可能超过快照寿命，重新只读取新快照，不能把旧时刻数值续活。
+                if int(time.time() * 1000) - snapshot['server_time'] > 4000:
+                    snapshot = await reader.read(question.gateway_id)
                 # 模型耗时期间可能过期，返回和播报前重新独立核验时间与来源。
                 facts = extract(snapshot, question.gateway_id, int(time.time() * 1000))
                 answer = answer_facts(facts, question.question) + ('\n' + explanation if explanation else '')
@@ -123,6 +132,7 @@ def create_app(settings=None, reader=None, provider=None, publisher=None):
                 return dict(turn_id=turn_id, session_id=question.session_id, gateway_id=question.gateway_id,
                             model_mode=settings.mode, answer_kind='DETERMINISTIC' if deterministic else 'VERIFIED_EXPLANATION',
                             answer=answer, facts=facts, fact_digest=fact_digest, voice_text=voice_text,
+                            model_evidence=model_evidence, model_input_fact_digest=prompt_digest,
                             voice_status=voice_status, real_model='REAL_MODEL_BLOCKED' if settings.mode == 'MOCK' else 'REAL_REQUEST_USED' if not deterministic else 'NOT_CALLED')
         except TimeoutError:
             raise HTTPException(504, 'AI_TIMEOUT') from None
@@ -135,4 +145,10 @@ def create_app(settings=None, reader=None, provider=None, publisher=None):
             raise HTTPException(503, 'AI_UNAVAILABLE') from None
         finally:
             active.discard(question.session_id)
+    # 隔离大屏仅在明确配置静态目录时托管，不写生产 Nginx 或原监护 Web。
+    web_dir = os.environ.get('P6_WEB_DIR')
+    if web_dir:
+        if not Path(web_dir).is_dir():
+            raise ValueError('P6_WEB_DIR_REQUIRED')
+        app.mount('/medical-monitor', StaticFiles(directory=web_dir, html=True), name='p6-preview')
     return app

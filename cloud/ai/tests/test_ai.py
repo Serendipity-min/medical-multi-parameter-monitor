@@ -122,25 +122,76 @@ def test_real_model_requires_server_account_and_budget(monkeypatch):
     with pytest.raises(ValueError, match='REAL_MODEL_BLOCKED'): Provider('DOUBAO')
 
 
-def test_doubao_http_contract_and_independent_output_validation(monkeypatch):
+def test_doubao_http_contract_and_independent_output_validation(monkeypatch, tmp_path):
     import httpx
     original = httpx.AsyncClient
     monkeypatch.setenv('ARK_API_KEY', 'synthetic-not-a-real-key')
     monkeypatch.setenv('ARK_MODEL_ID', 'synthetic-model')
     monkeypatch.setenv('P6_REAL_ACCOUNT_APPROVED', '1')
     monkeypatch.setenv('P6_REAL_BUDGET_APPROVED', '1')
-    outputs = iter(['{"kind":"quality"}', '{"kind":"take-drug","dose":50}'])
+    monkeypatch.setenv('P6_REAL_BUDGET_DIR', str(tmp_path))
+    outputs = iter([json.dumps({'kind': 'quality', 'explanation': EXPLANATIONS['quality']}), '{"kind":"take-drug","dose":50}'])
     def handle(request):
         assert request.url.path == '/api/v3/chat/completions'
         assert request.headers['Authorization'] == 'Bearer synthetic-not-a-real-key'
         assert json.loads(request.content)['model'] == 'synthetic-model'
-        return httpx.Response(200, json={'choices': [{'message': {'content': next(outputs)}}]})
+        assert json.loads(request.content)['thinking'] == {'type': 'disabled'}
+        assert json.loads(request.content)['max_tokens'] == 256
+        return httpx.Response(200, json={'model': 'synthetic-model', 'id': 'synthetic-response',
+                                       'usage': {'total_tokens': 12},
+                                       'choices': [{'finish_reason': 'stop', 'message': {'content': next(outputs)}}]})
     monkeypatch.setattr(httpx, 'AsyncClient', lambda **kwargs: original(transport=httpx.MockTransport(handle), **kwargs))
     provider = Provider('DOUBAO')
     assert asyncio.run(provider.explain('解释', [], [])) == EXPLANATIONS['quality']
     with pytest.raises(ValueError): asyncio.run(provider.explain('解释', [], []))
     provider.calls = 5
     with pytest.raises(ValueError, match='CALL_LIMIT'): asyncio.run(provider.explain('解释', [], []))
+
+
+@pytest.mark.parametrize('text', ['当前心率72 bpm。', '体温是三十六度。', '建议服药。', '你患有疾病。', '建议休息[标签]。', '当前读数偏高。'])
+def test_generated_health_text_independently_rejects_numbers_and_clinical_instructions(text):
+    from cloud.ai.providers import validate_explanation
+    with pytest.raises(ValueError): validate_explanation({'kind': 'general', 'explanation': text})
+
+
+def test_budget_cannot_reset_after_process_restart(monkeypatch, tmp_path):
+    monkeypatch.setenv('ARK_API_KEY', 'synthetic-key')
+    monkeypatch.setenv('ARK_MODEL_ID', 'synthetic-model')
+    monkeypatch.setenv('P6_REAL_ACCOUNT_APPROVED', '1')
+    monkeypatch.setenv('P6_REAL_BUDGET_APPROVED', '1')
+    monkeypatch.setenv('P6_REAL_BUDGET_DIR', str(tmp_path))
+    first = Provider('DOUBAO')
+    for _ in range(5): first.reserve_call()
+    restarted = Provider('DOUBAO')
+    assert restarted.budget_used == 5
+    with pytest.raises(ValueError, match='CALL_LIMIT'): restarted.reserve_call()
+    c = TestClient(create_app(Settings(TOKEN, mode='DOUBAO', snapshot_mode='MOCK'), provider=restarted))
+    assert c.get('/health').status_code == 200
+    assert c.get('/health').json()['real_model'] == 'CONFIGURED_NOT_PROVEN'
+
+
+def test_slow_explanation_refreshes_snapshot_instead_of_reviving_old_reading(monkeypatch):
+    # 模拟模型耗时五秒并更新第二份读数，验证旧快照不会被当作当前事实续活。
+    clock = [1800000000.0]
+    monkeypatch.setattr('cloud.ai.app.time.time', lambda: clock[0])
+    class Reader:
+        reads = 0
+        async def read(self, gateway):
+            self.reads += 1
+            snap = await SnapshotReader('MOCK').read(gateway)
+            snap['streams'][0]['value'] = 72.0 if self.reads == 1 else 78.0
+            return snap
+    class Slow:
+        async def explain(self, *_):
+            clock[0] += 5
+            return EXPLANATIONS['quality']
+    reader = Reader()
+    data = body(); data['question'] = '解释数据来源'
+    result = post(client(reader=reader, provider=Slow()), data)
+    assert result.status_code == 200 and reader.reads == 2
+    output = result.json()
+    assert '心率：78 bpm' in output['answer'] and '心率：72 bpm' not in output['answer']
+    assert output['model_input_fact_digest'] != output['fact_digest']
 
 
 def test_utf8_boundary_and_wire_roundtrip():

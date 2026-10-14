@@ -80,7 +80,9 @@ export class AiPanel {
       const history = this.element('ai-history'); history.append(turn);
       while (history.children.length > 8) history.firstElementChild!.remove();
       history.scrollTop = history.scrollHeight;
-      this.element('ai-mode').textContent = data.model_mode === 'MOCK' ? 'MOCK · 未完成真实豆包接入' : '豆包 · 经核验解释';
+      // 确定性读数没有调用模型，不能被“豆包”标签误标为真实生成回答。
+      this.element('ai-mode').textContent = data.model_mode === 'MOCK' ? 'MOCK · 未完成真实豆包接入'
+        : data.real_model === 'REAL_REQUEST_USED' ? '豆包真实回答 · 已核验' : '监护事实核对 · 本轮未调用模型';
       const voiceLabels: Record<string, string> = { PAUSED: '设备播报已暂停', DISABLED: '设备播报服务未启用', BROKER_PUBACK_ONLY: '下发已被 Broker 接收，播报状态未验证', RATE_LIMITED: '播报频率受限', DOWNLINK_FAILED: '播报下发失败' };
       this.status(`回答完成 · ${voiceLabels[data.voice_status] ?? '播报状态未知'}`);
     } catch (error) {

@@ -1,0 +1,483 @@
+{
+  "mode": "REAL_DOUBAO_WITH_READONLY_MONITOR",
+  "model_id": "doubao-seed-2-0-mini-260428",
+  "cases": [
+    {
+      "case": "current_reading",
+      "http_status": 200,
+      "response": {
+        "turn_id": "f0ecd0a3ffc947d78d6dd09269889384",
+        "session_id": "51cba437b033456d90f6de9d2dee72b4",
+        "gateway_id": "GW-DEV-001",
+        "model_mode": "DOUBAO",
+        "answer_kind": "DETERMINISTIC",
+        "answer": "心率：65 bpm；模拟数据，非真人测量。",
+        "facts": [
+          {
+            "stream": "NIBP",
+            "node_id": "NODE-A",
+            "gateway_id": "GW-DEV-001",
+            "unit": "mmHg",
+            "label": "血压",
+            "value": [
+              128.0,
+              82.0
+            ],
+            "validity": "VALID",
+            "source": "MOCK",
+            "synthetic": true,
+            "timestamp": 1791961297880,
+            "session_id": "9fc20fc30dd9428faa6cc05a86b91d36",
+            "seq": 9297985
+          },
+          {
+            "stream": "PR",
+            "node_id": "NODE-A",
+            "gateway_id": "GW-DEV-001",
+            "unit": "bpm",
+            "label": "脉率",
+            "value": 65.0,
+            "validity": "VALID",
+            "source": "MOCK",
+            "synthetic": true,
+            "timestamp": 1791961313880,
+            "session_id": "9fc20fc30dd9428faa6cc05a86b91d36",
+            "seq": 9298065
+          },
+          {
+            "stream": "SPO2",
+            "node_id": "NODE-A",
+            "gateway_id": "GW-DEV-001",
+            "unit": "%",
+            "label": "血氧",
+            "value": 99.0,
+            "validity": "VALID",
+            "source": "MOCK",
+            "synthetic": true,
+            "timestamp": 1791961313880,
+            "session_id": "9fc20fc30dd9428faa6cc05a86b91d36",
+            "seq": 9298065
+          },
+          {
+            "stream": "HR",
+            "node_id": "NODE-B",
+            "gateway_id": "GW-DEV-001",
+            "unit": "bpm",
+            "label": "心率",
+            "value": 65.0,
+            "validity": "VALID",
+            "source": "MOCK",
+            "synthetic": true,
+            "timestamp": 1791961313880,
+            "session_id": "9fc20fc30dd9428faa6cc05a86b91d36",
+            "seq": 9298065
+          },
+          {
+            "stream": "RR",
+            "node_id": "NODE-B",
+            "gateway_id": "GW-DEV-001",
+            "unit": "breaths/min",
+            "label": "呼吸率",
+            "value": 14.0,
+            "validity": "VALID",
+            "source": "MOCK",
+            "synthetic": true,
+            "timestamp": 1791961313880,
+            "session_id": "9fc20fc30dd9428faa6cc05a86b91d36",
+            "seq": 9298065
+          },
+          {
+            "stream": "TEMP",
+            "node_id": "NODE-B",
+            "gateway_id": "GW-DEV-001",
+            "unit": "degC",
+            "label": "体温",
+            "value": 36.1,
+            "validity": "VALID",
+            "source": "MOCK",
+            "synthetic": true,
+            "timestamp": 1791961313880,
+            "session_id": "9fc20fc30dd9428faa6cc05a86b91d36",
+            "seq": 9298065
+          }
+        ],
+        "fact_digest": "229dc63ce8c291ef6ee6f7d0285ccedb",
+        "voice_text": "心率：65 bpm；模拟数据，非真人测量。",
+        "model_evidence": null,
+        "model_input_fact_digest": "229dc63ce8c291ef6ee6f7d0285ccedb",
+        "voice_status": "PAUSED",
+        "real_model": "NOT_CALLED"
+      },
+      "result": "PASS"
+    },
+    {
+      "case": "offline_reading",
+      "http_status": 200,
+      "response": {
+        "turn_id": "12e25349c7ca47b68026ab96ba43c3f9",
+        "session_id": "e22aaea782884c11aa778d616c0d9b49",
+        "gateway_id": "GW-C-001",
+        "model_mode": "DOUBAO",
+        "answer_kind": "DETERMINISTIC",
+        "answer": "心率：OFFLINE，没有可用当前读数；模拟数据，非真人测量。",
+        "facts": [
+          {
+            "stream": "NIBP",
+            "node_id": "NODE-A",
+            "gateway_id": "GW-C-001",
+            "unit": "mmHg",
+            "label": "血压",
+            "value": null,
+            "validity": "OFFLINE",
+            "source": "MOCK",
+            "synthetic": true,
+            "timestamp": 1791541856000,
+            "session_id": "can-1791541828-65537",
+            "seq": 2
+          },
+          {
+            "stream": "PR",
+            "node_id": "NODE-A",
+            "gateway_id": "GW-C-001",
+            "unit": "bpm",
+            "label": "脉率",
+            "value": null,
+            "validity": "OFFLINE",
+            "source": "MOCK",
+            "synthetic": true,
+            "timestamp": 1791541856000,
+            "session_id": "can-1791541828-65537",
+            "seq": 2
+          },
+          {
+            "stream": "SPO2",
+            "node_id": "NODE-A",
+            "gateway_id": "GW-C-001",
+            "unit": "%",
+            "label": "血氧",
+            "value": null,
+            "validity": "OFFLINE",
+            "source": "MOCK",
+            "synthetic": true,
+            "timestamp": 1791541858000,
+            "session_id": "can-1791541828-65537",
+            "seq": 3
+          },
+          {
+            "stream": "HR",
+            "node_id": "NODE-B",
+            "gateway_id": "GW-C-001",
+            "unit": "bpm",
+            "label": "心率",
+            "value": null,
+            "validity": "OFFLINE",
+            "source": "MOCK",
+            "synthetic": true,
+            "timestamp": 1791541856000,
+            "session_id": "can-1791541828-65537",
+            "seq": 2
+          },
+          {
+            "stream": "RR",
+            "node_id": "NODE-B",
+            "gateway_id": "GW-C-001",
+            "unit": "breaths/min",
+            "label": "呼吸率",
+            "value": null,
+            "validity": "OFFLINE",
+            "source": "MOCK",
+            "synthetic": true,
+            "timestamp": 1791541856000,
+            "session_id": "can-1791541828-65537",
+            "seq": 2
+          },
+          {
+            "stream": "TEMP",
+            "node_id": "NODE-B",
+            "gateway_id": "GW-C-001",
+            "unit": "degC",
+            "label": "体温",
+            "value": null,
+            "validity": "OFFLINE",
+            "source": "MOCK",
+            "synthetic": true,
+            "timestamp": 1791541856000,
+            "session_id": "can-1791541828-65537",
+            "seq": 2
+          }
+        ],
+        "fact_digest": "0b27ccc15f98e42e52a1289ecc3335f3",
+        "voice_text": "心率：OFFLINE，没有可用当前读数；模拟数据，非真人测量。",
+        "model_evidence": null,
+        "model_input_fact_digest": "0b27ccc15f98e42e52a1289ecc3335f3",
+        "voice_status": "PAUSED",
+        "real_model": "NOT_CALLED"
+      },
+      "result": "PASS"
+    },
+    {
+      "case": "general_health",
+      "http_status": 200,
+      "response": {
+        "turn_id": "5a10596fc76844c1af60a348c3ba0315",
+        "session_id": "00dece5e068d4067a196d225635c5aba",
+        "gateway_id": "GW-DEV-001",
+        "model_mode": "DOUBAO",
+        "answer_kind": "VERIFIED_EXPLANATION",
+        "answer": "血压：128/82 mmHg；模拟数据，非真人测量。\n脉率：65 bpm；模拟数据，非真人测量。\n血氧：99 %；模拟数据，非真人测量。\n心率：65 bpm；模拟数据，非真人测量。\n呼吸率：14 breaths/min；模拟数据，非真人测量。\n体温：36.1 degC；模拟数据，非真人测量。\n工作间隙感到疲劳时，可起身进行短暂伸展活动放松身体，也可远眺或做深呼吸舒缓身心。若疲劳持续或伴随不适，建议及时咨询医护人员评估状况。",
+        "facts": [
+          {
+            "stream": "NIBP",
+            "node_id": "NODE-A",
+            "gateway_id": "GW-DEV-001",
+            "unit": "mmHg",
+            "label": "血压",
+            "value": [
+              128.0,
+              82.0
+            ],
+            "validity": "VALID",
+            "source": "MOCK",
+            "synthetic": true,
+            "timestamp": 1791961297880,
+            "session_id": "9fc20fc30dd9428faa6cc05a86b91d36",
+            "seq": 9297985
+          },
+          {
+            "stream": "PR",
+            "node_id": "NODE-A",
+            "gateway_id": "GW-DEV-001",
+            "unit": "bpm",
+            "label": "脉率",
+            "value": 65.0,
+            "validity": "VALID",
+            "source": "MOCK",
+            "synthetic": true,
+            "timestamp": 1791961313880,
+            "session_id": "9fc20fc30dd9428faa6cc05a86b91d36",
+            "seq": 9298065
+          },
+          {
+            "stream": "SPO2",
+            "node_id": "NODE-A",
+            "gateway_id": "GW-DEV-001",
+            "unit": "%",
+            "label": "血氧",
+            "value": 99.0,
+            "validity": "VALID",
+            "source": "MOCK",
+            "synthetic": true,
+            "timestamp": 1791961313880,
+            "session_id": "9fc20fc30dd9428faa6cc05a86b91d36",
+            "seq": 9298065
+          },
+          {
+            "stream": "HR",
+            "node_id": "NODE-B",
+            "gateway_id": "GW-DEV-001",
+            "unit": "bpm",
+            "label": "心率",
+            "value": 65.0,
+            "validity": "VALID",
+            "source": "MOCK",
+            "synthetic": true,
+            "timestamp": 1791961313880,
+            "session_id": "9fc20fc30dd9428faa6cc05a86b91d36",
+            "seq": 9298065
+          },
+          {
+            "stream": "RR",
+            "node_id": "NODE-B",
+            "gateway_id": "GW-DEV-001",
+            "unit": "breaths/min",
+            "label": "呼吸率",
+            "value": 14.0,
+            "validity": "VALID",
+            "source": "MOCK",
+            "synthetic": true,
+            "timestamp": 1791961313880,
+            "session_id": "9fc20fc30dd9428faa6cc05a86b91d36",
+            "seq": 9298065
+          },
+          {
+            "stream": "TEMP",
+            "node_id": "NODE-B",
+            "gateway_id": "GW-DEV-001",
+            "unit": "degC",
+            "label": "体温",
+            "value": 36.1,
+            "validity": "VALID",
+            "source": "MOCK",
+            "synthetic": true,
+            "timestamp": 1791961313880,
+            "session_id": "9fc20fc30dd9428faa6cc05a86b91d36",
+            "seq": 9298065
+          }
+        ],
+        "fact_digest": "229dc63ce8c291ef6ee6f7d0285ccedb",
+        "voice_text": "血压：128/82 mmHg；模拟数据，非真人测量。",
+        "model_evidence": {
+          "call": 1,
+          "requested_model": "doubao-seed-2-0-mini-260428",
+          "status": "VALIDATED",
+          "http_status": 200,
+          "reported_model": "doubao-seed-2-0-mini-260428",
+          "request_id": "021791961314612276b7ea097d56db2840fe05b4d1a72916f60b3",
+          "finish_reason": "stop",
+          "latency_ms": 1446,
+          "usage": {
+            "completion_tokens": 48,
+            "prompt_tokens": 1141,
+            "total_tokens": 1189
+          }
+        },
+        "model_input_fact_digest": "229dc63ce8c291ef6ee6f7d0285ccedb",
+        "voice_status": "PAUSED",
+        "real_model": "REAL_REQUEST_USED"
+      },
+      "result": "PASS"
+    },
+    {
+      "case": "source_explanation",
+      "http_status": 200,
+      "response": {
+        "turn_id": "ca0617496ade47179225e8176af14852",
+        "session_id": "a1e33c85c1364ac290646d6cb2df7e13",
+        "gateway_id": "GW-DEV-001",
+        "model_mode": "DOUBAO",
+        "answer_kind": "VERIFIED_EXPLANATION",
+        "answer": "血压：128/82 mmHg；模拟数据，非真人测量。\n脉率：62 bpm；模拟数据，非真人测量。\n血氧：98 %；模拟数据，非真人测量。\n心率：63 bpm；模拟数据，非真人测量。\n呼吸率：14 breaths/min；模拟数据，非真人测量。\n体温：36 degC；模拟数据，非真人测量。\n模拟数据是系统生成的合成测试数据，并非实际监护获得的真人数据；历史补传是设备离线后恢复时补充传输的过往监护数据；当前读数是设备实时采集的最新监护数据。",
+        "facts": [
+          {
+            "stream": "NIBP",
+            "node_id": "NODE-A",
+            "gateway_id": "GW-DEV-001",
+            "unit": "mmHg",
+            "label": "血压",
+            "value": [
+              128.0,
+              82.0
+            ],
+            "validity": "VALID",
+            "source": "MOCK",
+            "synthetic": true,
+            "timestamp": 1791961297880,
+            "session_id": "9fc20fc30dd9428faa6cc05a86b91d36",
+            "seq": 9297985
+          },
+          {
+            "stream": "PR",
+            "node_id": "NODE-A",
+            "gateway_id": "GW-DEV-001",
+            "unit": "bpm",
+            "label": "脉率",
+            "value": 62.0,
+            "validity": "VALID",
+            "source": "MOCK",
+            "synthetic": true,
+            "timestamp": 1791961315880,
+            "session_id": "9fc20fc30dd9428faa6cc05a86b91d36",
+            "seq": 9298075
+          },
+          {
+            "stream": "SPO2",
+            "node_id": "NODE-A",
+            "gateway_id": "GW-DEV-001",
+            "unit": "%",
+            "label": "血氧",
+            "value": 98.0,
+            "validity": "VALID",
+            "source": "MOCK",
+            "synthetic": true,
+            "timestamp": 1791961315880,
+            "session_id": "9fc20fc30dd9428faa6cc05a86b91d36",
+            "seq": 9298075
+          },
+          {
+            "stream": "HR",
+            "node_id": "NODE-B",
+            "gateway_id": "GW-DEV-001",
+            "unit": "bpm",
+            "label": "心率",
+            "value": 63.0,
+            "validity": "VALID",
+            "source": "MOCK",
+            "synthetic": true,
+            "timestamp": 1791961315880,
+            "session_id": "9fc20fc30dd9428faa6cc05a86b91d36",
+            "seq": 9298075
+          },
+          {
+            "stream": "RR",
+            "node_id": "NODE-B",
+            "gateway_id": "GW-DEV-001",
+            "unit": "breaths/min",
+            "label": "呼吸率",
+            "value": 14.0,
+            "validity": "VALID",
+            "source": "MOCK",
+            "synthetic": true,
+            "timestamp": 1791961315880,
+            "session_id": "9fc20fc30dd9428faa6cc05a86b91d36",
+            "seq": 9298075
+          },
+          {
+            "stream": "TEMP",
+            "node_id": "NODE-B",
+            "gateway_id": "GW-DEV-001",
+            "unit": "degC",
+            "label": "体温",
+            "value": 36.0,
+            "validity": "VALID",
+            "source": "MOCK",
+            "synthetic": true,
+            "timestamp": 1791961315880,
+            "session_id": "9fc20fc30dd9428faa6cc05a86b91d36",
+            "seq": 9298075
+          }
+        ],
+        "fact_digest": "1e2de674a2fbc3a84b1a4b11e14beab5",
+        "voice_text": "血压：128/82 mmHg；模拟数据，非真人测量。",
+        "model_evidence": {
+          "call": 2,
+          "requested_model": "doubao-seed-2-0-mini-260428",
+          "status": "VALIDATED",
+          "http_status": 200,
+          "reported_model": "doubao-seed-2-0-mini-260428",
+          "request_id": "021791961316085ed0e184fb98d17720dee9f0ee33ee7e1cc4aa4",
+          "finish_reason": "stop",
+          "latency_ms": 1086,
+          "usage": {
+            "completion_tokens": 57,
+            "prompt_tokens": 1141,
+            "total_tokens": 1198
+          }
+        },
+        "model_input_fact_digest": "1e2de674a2fbc3a84b1a4b11e14beab5",
+        "voice_status": "PAUSED",
+        "real_model": "REAL_REQUEST_USED"
+      },
+      "result": "PASS"
+    }
+  ],
+  "health_before": {
+    "status": "ok",
+    "model_mode": "DOUBAO",
+    "snapshot_mode": "MONITOR",
+    "real_model": "CONFIGURED_NOT_PROVEN",
+    "voice_mode": "DISABLED",
+    "model_id": "doubao-seed-2-0-mini-260428",
+    "budget_used": 0
+  },
+  "health_after": {
+    "status": "ok",
+    "model_mode": "DOUBAO",
+    "snapshot_mode": "MONITOR",
+    "real_model": "REAL_MODEL_VERIFIED",
+    "voice_mode": "DISABLED",
+    "model_id": "doubao-seed-2-0-mini-260428",
+    "budget_used": 2
+  },
+  "result": "PASS",
+  "exit_code": 0
+}
