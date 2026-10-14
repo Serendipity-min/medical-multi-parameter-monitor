@@ -1,0 +1,34 @@
+{
+  "ai": {
+    "exit_code": 0,
+    "command": "python -m pytest cloud/ai/tests -q"
+  },
+  "backend": {
+    "exit_code": 0,
+    "command": "python -m pytest cloud/backend/tests -q"
+  },
+  "web": {
+    "exit_code": 0,
+    "command": "npm.cmd test"
+  },
+  "build": {
+    "exit_code": 0,
+    "command": "npm.cmd run build"
+  },
+  "browser": {
+    "exit_code": 0,
+    "command": "python cloud/web/tests/ui_browser.py"
+  },
+  "service": {
+    "exit_code": 0,
+    "command": "python cloud/web/tests/ui_service.py"
+  },
+  "server_readonly": {
+    "exit_code": 0,
+    "command": "python cloud/web/tests/read_server_structure.py --phase after"
+  },
+  "diff_check": {
+    "exit_code": 0,
+    "command": "git diff --check"
+  }
+}

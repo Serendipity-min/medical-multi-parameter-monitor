@@ -3,7 +3,7 @@ import type { ScalarChannel, WaveChannel } from '../types';
 import type { Route } from '../router/hashRouter';
 
 export interface Parameter {
-  route: Exclude<Route, 'overview'>;
+  route: Exclude<Route, 'overview' | 'ai'>;
   title: string;
   english: string;
   scalar: ScalarChannel;
@@ -14,7 +14,8 @@ export interface Parameter {
   facts: [string, string][];
 }
 
-export const parameters: Record<Exclude<Route, 'overview'>, Parameter> = {
+// AI 是只读交互页，不进入参数配置或趋势索引。
+export const parameters: Record<Exclude<Route, 'overview' | 'ai'>, Parameter> = {
   ecg: { route: 'ecg', title: '心电监测', english: 'ELECTROCARDIOGRAM', scalar: 'HR', wave: 'ECG', node: 'Node-B', device: 'ADS1292R', subtitle: '单导联 RA–LA · 250 Hz', facts: [['采集模块', 'ADS1292R'], ['采集节点', 'Node-B'], ['导联配置', 'RA / LA / RL（静态配置）'], ['采样率', '250 Hz'], ['滤波配置', '由 Node-B 固件定义'], ['电极状态', '当前协议未提供']] },
   spo2: { route: 'spo2', title: '血氧与脉率', english: 'PULSE OXIMETRY', scalar: 'SpO2', wave: 'PPG', node: 'Node-A', device: 'AFE4490', subtitle: '红光 / 红外光采集 · 50 Hz', facts: [['采集模块', 'AFE4490'], ['采集节点', 'Node-A'], ['光路配置', '红光 / 红外光'], ['PPG 采样率', '50 Hz'], ['波形单位', '相对幅值'], ['探头状态', '当前协议未提供']] },
   resp: { route: 'resp', title: '呼吸监测', english: 'IMPEDANCE RESPIRATION', scalar: 'RR', wave: 'RESP', node: 'Node-B', device: 'ADS1292R', subtitle: '阻抗呼吸 · 50 Hz · RR 算法输出', facts: [['采集模块', 'ADS1292R'], ['采集节点', 'Node-B'], ['测量方式', '阻抗呼吸'], ['采样率', '50 Hz'], ['波形单位', '相对幅值'], ['呼吸率来源', 'RR 标量 / 算法输出']] },

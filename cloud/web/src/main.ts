@@ -42,12 +42,13 @@ const socket = new MonitorSocket({
 
 // 4. 实例化顶部状态栏与鉴权弹窗
 // AI 使用独立令牌和接口，不能读写 MonitorSocket 的监护鉴权或状态。
-new AiPanel(() => socket.getGatewayId());
+const aiPanel = new AiPanel(() => socket.getGatewayId(), store);
 
 const statusBar = new StatusBar({
   onGatewayChange: (gatewayId) => {
     store.changeGateway(gatewayId);
     socket.changeGateway(gatewayId);
+    aiPanel.update();
   },
   onWindowChange: (windowSeconds) => {
     store.setWindowMs(windowSeconds * 1000);
@@ -81,9 +82,13 @@ const updateView = () => {
   numerics.update(state.displayViewModel);
   statusBar.update(state.currentViewModel, state.isConnected, state.connectionText);
   sessionView.update();
+  aiPanel.update();
 };
 const router = new HashRouter((route) => {
+  // 离开 AI 只取消待回答；连接、缓冲和问答实例继续由根部持有。
+  aiPanel.leave();
   renderRoute(route, document.getElementById('route-view')!);
+  if (route === 'ai') aiPanel.mount(document.getElementById('route-view')!);
   sessionView.mount(route);
   updateView();
 });

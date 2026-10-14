@@ -1,0 +1,70 @@
+{
+  "inspection": "READ_ONLY",
+  "services": {
+    "p6-ai.service": {
+      "MainPID": "394625",
+      "ExecMainStartTimestamp": "Wed 2026-10-14 14:59:35 CST",
+      "WorkingDirectory": "/opt/medical-monitor-p6",
+      "User": "medical-ai",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "medical-monitor.service": {
+      "MainPID": "845095",
+      "ExecMainStartTimestamp": "Sun 2026-09-20 18:35:06 CST",
+      "WorkingDirectory": "/opt/medical-monitor/current/backend",
+      "User": "ubuntu",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "medical-monitor-mqtt.service": {
+      "MainPID": "851111",
+      "ExecMainStartTimestamp": "Sun 2026-09-20 19:01:31 CST",
+      "WorkingDirectory": "",
+      "User": "mosquitto",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "nginx.service": {
+      "MainPID": "3631",
+      "ExecMainStartTimestamp": "Wed 2026-05-13 15:26:05 CST",
+      "WorkingDirectory": "",
+      "User": "",
+      "ActiveState": "active",
+      "SubState": "running"
+    }
+  },
+  "formal_release": "/opt/medical-monitor/releases/stitch-ui-interaction-20260922-113809",
+  "formal_index_sha256": "92a48ceea4afb3a3c5b6f34fadd7d3b56063e725321aa2471e3a9285db7a48f0",
+  "p6_index_sha256": "bb6a1bacf4483892c2612e159ba550e3220d0112f8be7b96fbdf6e23ecaa8367",
+  "budget_used": 3,
+  "budget_remaining": 2,
+  "budget_file_hashes": {
+    "call-01.json": "a4b46c4e8bb933bcbc9e6396e67305b20e6ca1d5aea5289206f4cc8359692bd2",
+    "call-02.json": "8e15d79d1ef3fc2b1d3caaff381853172367abe12ddd092c0411488899583c4c",
+    "call-03.json": "743ddf4cabd469b1f4cb2dc170883b8e0f4f59eee13d49af55253d8832d750e0"
+  },
+  "nginx": [
+    {
+      "path": "/etc/nginx/snippets/medical-monitor.conf",
+      "sha256": "8e9509551d97489c6cd6a92d4d44f9d6ef06392f031db285e0b1f05d30143ca2",
+      "entries": [
+        {
+          "location": "/medical-monitor",
+          "loopback_ports": [],
+          "static_paths": [],
+          "websocket_upgrade": false
+        },
+        {
+          "location": "/medical-monitor/",
+          "loopback_ports": [
+            "18765"
+          ],
+          "static_paths": [],
+          "websocket_upgrade": true
+        }
+      ]
+    }
+  ],
+  "p6_unit_sha256": "1006334e3ccf3523587d48c4482902ef6314c1549e0410fef11f1b934eccc8f2"
+}

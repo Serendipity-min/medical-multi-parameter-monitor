@@ -1,0 +1,118 @@
+{
+  "start_sha": "3403900593ef10afcb99ce3122acaf436b08e381",
+  "branch": "dev/p6-cloud-ai-text-tts-v1",
+  "result": "PASS",
+  "captured_at": "2026-10-14T08:40:57.173261+00:00",
+  "local_tests": {
+    "ai": 46,
+    "backend": 28,
+    "web": 15,
+    "browser": 38,
+    "existing_ai_mock_ui": 6
+  },
+  "new_real_calls": 0,
+  "total_real_calls": 3,
+  "approved_total": 5,
+  "remaining": 2,
+  "scope": "frontend UI / local fixtures / review evidence only",
+  "production": "UNCHANGED, NOT_DEPLOYED",
+  "security_gate": "NOT_RUN",
+  "github_actions": "NOT_CLAIMED",
+  "pr": "NOT_CREATED",
+  "device": "NOT_RUN, prior HOST_VERIFIED unchanged",
+  "source_hashes": {
+    "cloud/web/src/main.ts": "966da2d17115e1e615cc6f750f4dc29fb0c0fe89a2ad92991926141acae47af4",
+    "cloud/web/src/model/viewModel.ts": "a03bb262836eedbeb6bc816f25dc81847d668c50543cd3ead6810554545a1d45",
+    "cloud/web/src/router/hashRouter.ts": "a3d8287e6184ac6dd3e21b4b69a85f277949d169028a7257d24237890984018e",
+    "cloud/web/src/state/monitorStore.ts": "a26cbc1aef740c8f9674df605586c44d4073fb1cd805f2921e12bcca51f28afb",
+    "cloud/web/src/state/sessionHistory.ts": "d9357676a2e29e00925f82f8fd657284f7d0cc26a2e5bd2ac48e9da96e2a590e",
+    "cloud/web/src/style.css": "192fec0afbcbcbd1c78efa105b70acf6943ddce73b006f81e83f6f94838c6042",
+    "cloud/web/src/transport/monitorSocket.ts": "5cf1ed7f992597ae5722764d46f2f735036ed12a069a39025a82c850f57d74fc",
+    "cloud/web/src/types.ts": "41454cf2af97e09413098774721e443922fd6987b4146b9685d620ad5dcd1372",
+    "cloud/web/src/ui/accessDialog.ts": "d01f8db87e75c90ce85531c93fb05ca2ba5f5177a4c5625d8d4e0b4914282509",
+    "cloud/web/src/ui/aiPanel.css": "df017fd2fa6ef554c87b71bdeaa09a736f44bb997bb86ffa4963bdf3ca908372",
+    "cloud/web/src/ui/aiPanel.ts": "64293414e49eea551e7aa7e1ebcc00a0d428dcc0aae98edfa5d8e1ee0d21c687",
+    "cloud/web/src/ui/aiResponse.ts": "3650eab937b65f6cd435727350dd32cee1cd59d3287883c4c501cc99da0e55ff",
+    "cloud/web/src/ui/monitorView.ts": "caddb90b192b2e4c740f0945833734693f6c7a31d3ccc412cc5446c7e525827c",
+    "cloud/web/src/ui/numerics.ts": "6fe668aa4e0e9188a694866eead55bec9ef0c937271b452c78ee7c0ad8f27c3e",
+    "cloud/web/src/ui/parameters.ts": "f472c41b5f5ee23ae495ac585417f099300787725ae74ef8c1e5bfac191ead8c",
+    "cloud/web/src/ui/sessionView.ts": "9e5cb42e8dae983633609dd9bb528d67d9477bd4e807c4925ed351572fbfb189",
+    "cloud/web/src/ui/statusBar.ts": "1dce0a5274b885db9a88d42c5e6061a0fb829531291f927394a8e786395a1825",
+    "cloud/web/src/waveform/renderer.ts": "e925b80e790cdb17d67e76bcbd57fb15d2ef049827050319346a9a89f8cd6418",
+    "cloud/web/tests/ai.test.ts": "33748fe0307f75ba3b2f85e0b4afce0241ae917c69d7febeda60cd1d393d5bb7",
+    "cloud/web/tests/read_server_structure.py": "5f7076f0296a40e5947fa07757c8525b3a2cbc1047e587a2a23545d34ec9455c",
+    "cloud/web/tests/run.mjs": "b55f84086b5b18fe262f3258297eab6f8de972a8904a0eb59f8e7204988b38ba",
+    "cloud/web/tests/state.test.ts": "021b6531b32d98ecb7e262bb681cb24cecc1142640ba9c8ece2b2b28e97d93eb",
+    "cloud/web/tests/ui_browser.py": "be272917242c65b35168984d4e8d2533710e270b2f10ad80212daeb5823acc84",
+    "cloud/web/tests/ui_fixture.py": "c2814ae75f07091dd177efcb7b5f101e0040e5460ab9d74c3259e7fb814604b6",
+    "cloud/web/tests/ui_service.py": "1aff81f1a251894bf4a3ee9bbfc4b02b14e8d044d9f3fdfa8b60ceca3a8f28ca"
+  },
+  "build_assets": [
+    {
+      "path": "cloud/web/dist/assets/index-DleY3Yrd.js",
+      "bytes": 47974,
+      "gzip_bytes": 16551,
+      "sha256": "974997e8b985e8ac81b6597aec85d2c33c563b308ec7cc746d847c21422a08db"
+    },
+    {
+      "path": "cloud/web/dist/assets/index-DlwcF99u.css",
+      "bytes": 18316,
+      "gzip_bytes": 4589,
+      "sha256": "b55e3faca578225f6bed7dfad57a2a930564eb5011019ad44d25cc6977583d47"
+    },
+    {
+      "path": "cloud/web/dist/index.html",
+      "bytes": 419,
+      "gzip_bytes": 319,
+      "sha256": "61b1403a7943bac3f13aef7d9d13e84de0480a36c1cbc6f85a4ffb89ea8a521b"
+    }
+  ],
+  "baseline_build_log": "cloud/evidence/p6-v1-real-20261014/logs/web-build.log",
+  "baseline_log_kb": {
+    "css": 14.64,
+    "js": 41.74,
+    "css_gzip": 3.92,
+    "js_gzip": 14.96
+  },
+  "bounds": {
+    "ai_turns": 8,
+    "latest_snapshot": 1,
+    "additional_monitor_sockets": 0,
+    "new_dependencies": 0,
+    "arm_resource_change": "NONE"
+  },
+  "tests": {
+    "ai": {
+      "exit_code": 0,
+      "command": "python -m pytest cloud/ai/tests -q"
+    },
+    "backend": {
+      "exit_code": 0,
+      "command": "python -m pytest cloud/backend/tests -q"
+    },
+    "web": {
+      "exit_code": 0,
+      "command": "npm.cmd test"
+    },
+    "build": {
+      "exit_code": 0,
+      "command": "npm.cmd run build"
+    },
+    "browser": {
+      "exit_code": 0,
+      "command": "python cloud/web/tests/ui_browser.py"
+    },
+    "service": {
+      "exit_code": 0,
+      "command": "python cloud/web/tests/ui_service.py"
+    },
+    "server_readonly": {
+      "exit_code": 0,
+      "command": "python cloud/web/tests/read_server_structure.py --phase after"
+    },
+    "diff_check": {
+      "exit_code": 0,
+      "command": "git diff --check"
+    }
+  }
+}
