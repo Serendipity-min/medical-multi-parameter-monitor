@@ -1,0 +1,12 @@
+{
+  "full_exit": 2,
+  "full_status": "FAIL_INHERITED_SOURCE_WHITESPACE_OR_EOL",
+  "inherited_issue_locations": 18222,
+  "authored_code_tools_documents_exit": 0,
+  "original_snapshot_bytes_preserved": true,
+  "raw_output_local_only": true,
+  "no_security_scans": true,
+  "CRLF_aware_full_exit": 2,
+  "CRLF_aware_inherited_issue_locations": 1169,
+  "note": "Default check also treats preserved CRLF as whitespace; CRLF-aware check still reports existing copied-source spaces. Authored files pass; source bytes not cleaned."
+}

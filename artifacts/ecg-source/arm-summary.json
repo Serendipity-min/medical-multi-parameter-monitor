@@ -1,0 +1,29 @@
+{
+  "scope": "ORDINARY_ARM_OFFLINE_BUILD",
+  "hardware_operations": [],
+  "status": "PASS",
+  "exit_code": 0,
+  "errors": 0,
+  "warnings": 0,
+  "resources": {
+    "code": 2284,
+    "ro": 8504,
+    "rw": 24,
+    "zi": 9096
+  },
+  "dma_buffer_address": "0x20000060",
+  "outputs": {
+    "MPM_ECG_SOURCE.axf": {
+      "bytes": 300288,
+      "sha256": "5174b71749d2e653db246be637be3358b49e7367c3d603e8e9637b61895ab7aa"
+    },
+    "MPM_ECG_SOURCE.bin": {
+      "bytes": 10812,
+      "sha256": "ae13ba5c776ca875a67a51ff372f50c281a19e114e44d89c7572b3be4f392c3a"
+    },
+    "MPM_ECG_SOURCE.map": {
+      "bytes": 41799,
+      "sha256": "5b9b80b646cde7d5cd782889452285271cee5f57b0cc8f1e37ceace6d55ebfe3"
+    }
+  }
+}

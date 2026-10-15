@@ -1,0 +1,37 @@
+"""从新ELF符号和固定宽度公开结构建立地址表，禁止复用旧镜像RAM地址。"""
+from pathlib import Path
+import hashlib
+import json
+import re
+
+root=Path(__file__).resolve().parent
+symbols=(root/'证据/symbols.txt').read_text(errors='replace')
+def symbol(name,size):
+    matches=re.findall(r'\b'+re.escape(name)+r'\s+0x([0-9a-fA-F]{8})\s+[^\n]*?0x'+f'{size:x}'+r'\s*$',symbols,re.M)
+    assert len(matches)==1,(name,matches)
+    return int(matches[0],16)
+u32=['tag','abi_version','samples','last_sequence','last_sample_ms','segment','discontinuities','clipped_samples']
+signed=['ecg_raw','resp_raw','ecg_filtered','resp_filtered']
+more=['hr','rpm','hr_valid','rpm_valid','hr_reason','rpm_reason','hr_candidates','hr_accepted','resp_candidates',
+      'resp_accepted','hr_last_cycle_ms','resp_last_cycle_ms','hr_fresh_intervals','resp_fresh_intervals']
+flt=['ecg_rms_codes','resp_rms_codes','ecg_mains_fraction','resp_mains_fraction']
+fields=[(f,'u32') for f in u32]+[(f,'i32') for f in signed]+[(f,'u32') for f in more]+[(f,'f32') for f in flt]
+diag=symbol('g_bio_v2',120)
+profile={'protocol_version':'1.0','adapter_id':'ads1292r_swd_ring24_biov2','adapter_version':'2.0',
+         'device_model':'STM32F407ZG','expected_uid':'LOCAL_UID_OMITTED_REVIEW_ONLY',
+         'binding':{},'slots_addr':symbol('slots',3072),'head_addr':symbol('head',4),'tail_addr':symbol('tail',4),
+         'adc_stats_addr':symbol('s_stats',48),'adc_ready_addr':symbol('s_ready',1),
+         'diag_addr':diag,'diag_bytes':120,'live_state_bytes':8192,
+         # 地址从本轮ELF获取；12字节仅为初始化回读，不能复用旧镜像地址。
+         'adc_readback_addr':symbol('g_ads_readback',12),'adc_readback_bytes':12,
+         'expected_registers':{'0':0x73,'1':1,'2':0xE0,'3':0xF0,'4':0x40,'5':0x40,'6':0xEC,'7':0,'9':0xEA,'10':3,'11':0x0C},
+         'public_fields':[{'field':name,'type':kind,'offset':i*4,'address':diag+i*4} for i,(name,kind) in enumerate(fields)],
+         'ui_fields':[]}
+for name,size,kind in [('s_bpm',2,'u16'),('s_rpm',2,'u16'),('s_bpm_valid',1,'u8'),('s_rpm_valid',1,'u8')]:
+    profile['ui_fields'].append({'field':name,'type':kind,'address':symbol(name,size)})
+for key,path in [('bin',root/'实验固件/OBJ/BIO_V2.bin'),('elf',root/'实验固件/OBJ/BIO_V2.axf'),('symbols',root/'证据/symbols.txt')]:
+    profile['binding'][key+'_sha256']=hashlib.sha256(path.read_bytes()).hexdigest()
+assert diag+120<=0x20000000+profile['live_state_bytes']
+profile['layout_proof']='ARM ELF size=120 and Host sizeof=120, every member is fixed 32-bit with 4-byte alignment'
+(root/'证据/bio_v2_profile.json').write_text(json.dumps(profile,ensure_ascii=False,indent=2),encoding='utf-8')
+print(json.dumps({k:profile[k] for k in ['slots_addr','adc_stats_addr','diag_addr','binding']},indent=2))

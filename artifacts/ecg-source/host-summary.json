@@ -1,0 +1,275 @@
+{
+  "scope": "ORDINARY_HOST_REAL_C_WITH_MMIO_MODEL",
+  "hardware_operations": [],
+  "analog_calibration": false,
+  "checks": [
+    {
+      "name": "boot_OFF_no_TRGO_DMA_DAC",
+      "pass": true
+    },
+    {
+      "name": "nominal_clock_binding",
+      "pass": true
+    },
+    {
+      "name": "timer_plan_84000000",
+      "pass": true
+    },
+    {
+      "name": "timer_plan_42000000",
+      "pass": true
+    },
+    {
+      "name": "timer_plan_0",
+      "pass": true
+    },
+    {
+      "name": "timer_plan_84000001",
+      "pass": true
+    },
+    {
+      "name": "timer_plan_168000000",
+      "pass": true
+    },
+    {
+      "name": "timer_null_rejected",
+      "pass": true
+    },
+    {
+      "name": "table_identity_2",
+      "pass": true
+    },
+    {
+      "name": "table_bounds_2",
+      "pass": true
+    },
+    {
+      "name": "start_mode_2",
+      "pass": true
+    },
+    {
+      "name": "DMA_mapping_width_2",
+      "pass": true
+    },
+    {
+      "name": "pipeline_no_start_duplicate_or_wrap_skip_2",
+      "pass": true
+    },
+    {
+      "name": "UG_before_DAC_trigger_2",
+      "pass": true
+    },
+    {
+      "name": "DMA_counter_is_tables_not_beats_2",
+      "pass": true
+    },
+    {
+      "name": "same_mode_no_restart_2",
+      "pass": true
+    },
+    {
+      "name": "OFF_stops_output_2",
+      "pass": true
+    },
+    {
+      "name": "table_identity_3",
+      "pass": true
+    },
+    {
+      "name": "table_bounds_3",
+      "pass": true
+    },
+    {
+      "name": "QRS_count_and_rational_rate_3",
+      "pass": true
+    },
+    {
+      "name": "start_mode_3",
+      "pass": true
+    },
+    {
+      "name": "DMA_mapping_width_3",
+      "pass": true
+    },
+    {
+      "name": "pipeline_no_start_duplicate_or_wrap_skip_3",
+      "pass": true
+    },
+    {
+      "name": "UG_before_DAC_trigger_3",
+      "pass": true
+    },
+    {
+      "name": "DMA_counter_is_tables_not_beats_3",
+      "pass": true
+    },
+    {
+      "name": "same_mode_no_restart_3",
+      "pass": true
+    },
+    {
+      "name": "OFF_stops_output_3",
+      "pass": true
+    },
+    {
+      "name": "table_identity_4",
+      "pass": true
+    },
+    {
+      "name": "table_bounds_4",
+      "pass": true
+    },
+    {
+      "name": "QRS_count_and_rational_rate_4",
+      "pass": true
+    },
+    {
+      "name": "start_mode_4",
+      "pass": true
+    },
+    {
+      "name": "DMA_mapping_width_4",
+      "pass": true
+    },
+    {
+      "name": "pipeline_no_start_duplicate_or_wrap_skip_4",
+      "pass": true
+    },
+    {
+      "name": "UG_before_DAC_trigger_4",
+      "pass": true
+    },
+    {
+      "name": "DMA_counter_is_tables_not_beats_4",
+      "pass": true
+    },
+    {
+      "name": "same_mode_no_restart_4",
+      "pass": true
+    },
+    {
+      "name": "OFF_stops_output_4",
+      "pass": true
+    },
+    {
+      "name": "static_same_code_no_DMA",
+      "pass": true
+    },
+    {
+      "name": "rotate_first_point_preloaded",
+      "pass": true
+    },
+    {
+      "name": "invalid_code_no_partial_publish_0",
+      "pass": true
+    },
+    {
+      "name": "invalid_code_no_partial_publish_4095",
+      "pass": true
+    },
+    {
+      "name": "invalid_table_length",
+      "pass": true
+    },
+    {
+      "name": "null_table_pointer",
+      "pass": true
+    },
+    {
+      "name": "invalid_mode_safe_static",
+      "pass": true
+    },
+    {
+      "name": "fault_latched_no_auto_restart",
+      "pass": true
+    },
+    {
+      "name": "explicit_OFF_keeps_failure_evidence",
+      "pass": true
+    },
+    {
+      "name": "clock_drift_reject_HSI",
+      "pass": true
+    },
+    {
+      "name": "clock_drift_reject_APB1",
+      "pass": true
+    },
+    {
+      "name": "clock_drift_reject_not_PLL",
+      "pass": true
+    },
+    {
+      "name": "DMA_error_priority_64",
+      "pass": true
+    },
+    {
+      "name": "DMA_error_priority_256",
+      "pass": true
+    },
+    {
+      "name": "DMA_error_priority_512",
+      "pass": true
+    },
+    {
+      "name": "DMA_error_priority_2560",
+      "pass": true
+    },
+    {
+      "name": "DAC_underrun_8192",
+      "pass": true
+    },
+    {
+      "name": "DAC_underrun_536870912",
+      "pass": true
+    },
+    {
+      "name": "mode_change_preserves_pending_DMA_error",
+      "pass": true
+    },
+    {
+      "name": "spurious_DMA_IRQ_keeps_original_flags",
+      "pass": true
+    },
+    {
+      "name": "mode_change_preserves_pending_DAC_error",
+      "pass": true
+    },
+    {
+      "name": "spurious_DAC_IRQ_keeps_original_flags",
+      "pass": true
+    },
+    {
+      "name": "pending_combined_errors_both_recorded",
+      "pass": true
+    },
+    {
+      "name": "DMA_disable_timeout_reset_latches",
+      "pass": true
+    },
+    {
+      "name": "unconfirmed_DMA_stop_highZ",
+      "pass": true
+    },
+    {
+      "name": "failed_OFF_not_false_success",
+      "pass": true
+    },
+    {
+      "name": "critical_section_preserves_disabled_IRQ",
+      "pass": true
+    }
+  ],
+  "compile_exit": 0,
+  "status": "PASS",
+  "passed": 64,
+  "total": 64,
+  "source_sha256": {
+    "main.c": "16c85ed9e507c56056b790b5da75793797f3f6dafe1e61cdbf5c31305eaee7f6",
+    "source_driver.c": "0423749ebbbeadd2409d7dc1a237adfb9732ee53b7dc0e762ae6ab78a9f0df36",
+    "source_driver.h": "6737cc4f5382852a2c647d3c2ab389ad1901f7fae4b859b149a8c398ab0cdb45",
+    "source_waveform.c": "9aca061720aa908d58a891d04426ea0e905d289035aaed3d52730d0214cadcd9",
+    "source_waveform.h": "eaa0c95bed2e588c951834f2cbced1e8ba47efde58af73fd5b4661cd8965d7b9",
+    "waveform_tables.c": "a53ede926685ff4385ad9d583f5f9e62dd3b952c9f5ccf7d07972ab955cdd682"
+  }
+}

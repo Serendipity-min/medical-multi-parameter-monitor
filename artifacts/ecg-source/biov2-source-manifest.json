@@ -1,0 +1,210 @@
+{
+  "scope": "READ_ONLY_B_BOARD_SOURCE_SNAPSHOT_NOT_BUILDABLE_FULL_FIRMWARE",
+  "files": [
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/bio_v2.c",
+      "review_path": "review/biov2-current/HARDWARE/bio_v2.c",
+      "sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+      "bytes": 12391,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/bio_v2.h",
+      "review_path": "review/biov2-current/HARDWARE/bio_v2.h",
+      "sha256": "76198016006ab8de6126a7cb051aeb3ab296c5655152c74cf5565bd85aba0913",
+      "bytes": 1729,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/ads1292.c",
+      "review_path": "review/biov2-current/HARDWARE/ads1292.c",
+      "sha256": "f99c3d567338f95b4cbae5579554d15e3af4928f8b1a39e0f18b9dbd30192ced",
+      "bytes": 15092,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/ads1292.h",
+      "review_path": "review/biov2-current/HARDWARE/ads1292.h",
+      "sha256": "fa5eaf065b6015d15865a783d5b64444fdacaa77c1fbed5f8a14061c2a8bbf28",
+      "bytes": 4799,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/ecg_frame_queue.c",
+      "review_path": "review/biov2-current/HARDWARE/ecg_frame_queue.c",
+      "sha256": "cab4719c4151386acbac422f28af517a5b54c8c3c933a52a9207b1c0140e319f",
+      "bytes": 1481,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/ecg_frame_queue.h",
+      "review_path": "review/biov2-current/HARDWARE/ecg_frame_queue.h",
+      "sha256": "c6922d907966865586acd4c1427b34653d4e93d9a5a6d3d1f68278f98ffafc72",
+      "bytes": 876,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/spi.c",
+      "review_path": "review/biov2-current/HARDWARE/spi.c",
+      "sha256": "5e09707c47cec710172a4e78e7ca21c15c7359d964d0fbe8bf5c2498243a8ec0",
+      "bytes": 3718,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/spi.h",
+      "review_path": "review/biov2-current/HARDWARE/spi.h",
+      "sha256": "fcc45addcce5a791b345404f77af2327ed5b6cb7167e432e46db8e9bf1815363",
+      "bytes": 333,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/hr_page.c",
+      "review_path": "review/biov2-current/HARDWARE/hr_page.c",
+      "sha256": "b531140946aba2ee8ef037cf1939c81784df0810075669055233a830e2c28741",
+      "bytes": 39937,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/hr_page.h",
+      "review_path": "review/biov2-current/HARDWARE/hr_page.h",
+      "sha256": "e604d984105492124fcfa5a703c52ab238ae7952a04b845950a907764f25617d",
+      "bytes": 4253,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/timer.c",
+      "review_path": "review/biov2-current/HARDWARE/timer.c",
+      "sha256": "a06d7c4ef0e4a38cc355a6829bedf744436258e8e340b026a966cfcadf6ecaf1",
+      "bytes": 2429,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/timer.h",
+      "review_path": "review/biov2-current/HARDWARE/timer.h",
+      "sha256": "57ba5444ffa77b72c89562496ac12c37055040fb0e47321588f8f0e0b41fa99c",
+      "bytes": 130,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/systick.c",
+      "review_path": "review/biov2-current/HARDWARE/systick.c",
+      "sha256": "bd0666b7c8cd31448d7791fc51866873283a0649648c57a339c8b52908e31a50",
+      "bytes": 1063,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/systick.h",
+      "review_path": "review/biov2-current/HARDWARE/systick.h",
+      "sha256": "c51d0250c353e48068cf34de4d04a4a21c12d86a51e4ee429d9c7671a3e65172",
+      "bytes": 405,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/beep.c",
+      "review_path": "review/biov2-current/HARDWARE/beep.c",
+      "sha256": "9bcdfb8baee1c4d7a0f956ca0551b830d56a3dd34276e33ac566ffdabf982d80",
+      "bytes": 2061,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/beep.h",
+      "review_path": "review/biov2-current/HARDWARE/beep.h",
+      "sha256": "4b7960c58bca4069638d6ab42d002a767788223517e1fcbc949c4432777e2a6b",
+      "bytes": 127,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/can.c",
+      "review_path": "review/biov2-current/HARDWARE/can.c",
+      "sha256": "6fd10608a11e7bd23a155a2f594686f1c81e4390d917314d5be2cb587819da8c",
+      "bytes": 6392,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/can.h",
+      "review_path": "review/biov2-current/HARDWARE/can.h",
+      "sha256": "ef5215dcd0bfb3f963160eac48ae2a6a7c6dfc55389a2f91ec22a5a57b8bce14",
+      "bytes": 1300,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/canopen.c",
+      "review_path": "review/biov2-current/HARDWARE/canopen.c",
+      "sha256": "447d2ff2ec32eb10fda4be0ce94bdaeea992c8db5d778ff4afdae07210ae1157",
+      "bytes": 20422,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/canopen.h",
+      "review_path": "review/biov2-current/HARDWARE/canopen.h",
+      "sha256": "338e99155f71bbd20b7e500953ea25055e0dfc52b3f0c9a39429369daf6b2aef",
+      "bytes": 4773,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/USER/main.c",
+      "review_path": "review/biov2-current/USER/main.c",
+      "sha256": "b8bffcefd8520b20ec81a6e0805a9cfd629ce636ba73b390675e1f6e5911a3e6",
+      "bytes": 3314,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/USER/system_stm32f4xx.c",
+      "review_path": "review/biov2-current/USER/system_stm32f4xx.c",
+      "sha256": "b530011f741dfeae02f182a08ea11bfc670d42795c9dec0d98a70041cdcaf54a",
+      "bytes": 47787,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/USER/system_stm32f4xx.h",
+      "review_path": "review/biov2-current/USER/system_stm32f4xx.h",
+      "sha256": "50f5887a8d62d774e1bc3d0a2e8892dd43b5d200a2f6d9266f5b747d5810cb0f",
+      "bytes": 2233,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/USER/stm32f4xx_conf.h",
+      "review_path": "review/biov2-current/USER/stm32f4xx_conf.h",
+      "sha256": "1de02ba948488f61e50a0d217390ec90c0459ed63944acb9854426904469152b",
+      "bytes": 4593,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/USER/stm32f4xx_it.c",
+      "review_path": "review/biov2-current/USER/stm32f4xx_it.c",
+      "sha256": "7efb4c9dd77744869ccdc7333f8cf0faa6a1d29b31c8151956f36b4297ea00e7",
+      "bytes": 1620,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/USER/stm32f4xx_it.h",
+      "review_path": "review/biov2-current/USER/stm32f4xx_it.h",
+      "sha256": "e7f9b4ad495d3b8ba24e65b3445d135964c10f895a4691c2bd5f50b6c2d14752",
+      "bytes": 2063,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/实验固件/CORE/startup_stm32f40_41xxx.s",
+      "review_path": "review/biov2-current/CORE/startup_stm32f40_41xxx.s",
+      "sha256": "fee2962668dbef36f1b03863ce488490738cafcc6f17a89f56dabdd551f73a9d",
+      "bytes": 29605,
+      "source_bytes_changed": false
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/build_arm.py",
+      "review_path": "review/biov2-current/build_arm.py",
+      "original_sha256": "5de998ce6b1e5a0611ad6140168c411464abf67f8bb1b66abba9d38723c910d3",
+      "sha256": "5de998ce6b1e5a0611ad6140168c411464abf67f8bb1b66abba9d38723c910d3",
+      "source_bytes_changed": false,
+      "redaction": null
+    },
+    {
+      "origin_relative": "doc/B/心率+呼吸/新算法_v2/make_profile.py",
+      "review_path": "review/biov2-current/make_profile.py",
+      "original_sha256": "5af512e459f3c39c6429f6242f3a04234fe01db591806e81e4fd7c54d561e4cc",
+      "sha256": "4a333369e47ff055a946becc7326373428b08cb04aca2f365336490e6c61bd94",
+      "source_bytes_changed": true,
+      "redaction": "board UID omitted; never use this review generator for hardware"
+    }
+  ]
+}
