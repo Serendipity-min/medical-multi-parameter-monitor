@@ -5,7 +5,7 @@
 
 - 日期：2026-10-16
 - 最新 Commit：本里程碑提交（以 `dev/node-a-v07` 当前 HEAD 为准）
-- 已完成：按合同将 STM32F407 工程源文件导入 `node_a/STM32F407_HOSPITAL/`；导入 `doc/A/NodeA项目书.md` 来源快照；导入 `doc/A/CANopen_协议扩展_NodeA.md` 来源快照；保留 `USER/STM32F407_Template.uvprojx`；完成工程相对路径和 CANopen 文档的只读核对；补充资料导入记录和未验收阶段报告。
+- 已完成：按合同将 STM32F407 工程源文件导入 `node_a/STM32F407_HOSPITAL/`；导入 `doc/A/NodeA项目书.md` 来源快照；导入 `doc/A/CANopen_协议扩展_NodeA.md` 来源快照；保留 `USER/STM32F407_Template.uvprojx`；完成工程相对路径和 CANopen 文档的只读核对；补充资料导入记录和未验收阶段报告。协议说明按来源原样保留，其中的本机路径仅作溯源信息，不作为仓库可复现证据。
 - 正在进行：等待 A 首轮硬件只读核对和真实采集证据。
 - 硬件实测状态：未开始；本里程碑未编译、未烧录、未连接硬件。
 - 测试结果：未运行项目测试；未运行 Security Gate（P 未授权）。
