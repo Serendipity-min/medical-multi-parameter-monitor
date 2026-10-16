@@ -1,0 +1,47 @@
+{
+  "action": "flash",
+  "status": "PASS",
+  "port": "COM15",
+  "tool_sha256": "1b3eb2943d1172bee53a2826d1d7fb2d309d87cbc07b1bad42766696c702ac4d",
+  "stm32loader_version": "0.7.1",
+  "pyserial_version": "3.5",
+  "boot_control": "OPERATOR_MANUAL",
+  "phase": "BOUND_IDENTITY_AND_FLASH_OPERATION",
+  "ROM_initial_version": 49,
+  "ROM_version": 49,
+  "ROM_supported_commands": [
+    0,
+    1,
+    2,
+    17,
+    33,
+    49,
+    68,
+    99,
+    115,
+    130,
+    146
+  ],
+  "ROM_restore_commands_verified": true,
+  "bin_sha256": "b61f4948fa0ff36fcc191c543841770e9ce9c97e65a614f6e086a8b3e8afc05e",
+  "verified_full_flash_sha256": "84b1760b0a73165c7847de1dc15f154394766015af1665d3b4c594153fb05be9",
+  "original_sha256": "15102707af11cfb7f57bac250bd30e583274d9f992292f5db6576a4b69c37354",
+  "erased_sectors": [
+    0
+  ],
+  "untouched_sectors_equal": true,
+  "manual_BOOT0_GND_and_RESET_required_for_application": true,
+  "scope": "G2S_SOURCE_S_USB_MANUAL_FLASH",
+  "operator_voltage_reports_V": {
+    "VOUT1_3V3": 3.33,
+    "VOUT2_5V": 4.87
+  },
+  "original_pre_and_double_backup_equal": true,
+  "independent_post_read_file_comparison": true,
+  "original_G1_and_B2_tracked_files_unchanged": true,
+  "protected_original_files_unchanged": 99,
+  "application_start": "WAITING_OPERATOR_BOOT0_GND_AND_RESET",
+  "DAC_physical_modes_tested": [],
+  "dynamic_result": "DYNAMIC_UNVERIFIED",
+  "original_full_restore_live_test": "NOT_EXECUTED"
+}

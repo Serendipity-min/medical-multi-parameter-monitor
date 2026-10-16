@@ -1,0 +1,36 @@
+{
+  "protocol_version": "1.0",
+  "record_status": "CANDIDATE_WIRE_PROFILE_V1",
+  "adapter_id": "ads1292r_ecap_wire",
+  "adapter_version": "v1",
+  "transport_kind": "ECAP_BINARY_STREAM",
+  "firmware_binding": {
+    "device_model": "STM32F407ZG",
+    "bin_sha256": null,
+    "elf_sha256": null,
+    "symbol_file_sha256": null,
+    "flash_1mib_sha256": null
+  },
+  "slot_ring": {
+    "slots_addr": null,
+    "slot_bytes": null,
+    "capacity": null,
+    "chunk_bytes": null,
+    "head_addr": null,
+    "tail_addr": null,
+    "status_mask": "0xF01FFF",
+    "status_expected": "0xC00000",
+    "published_tail_window": null
+  },
+  "state_regions": [],
+  "symbol_table": [],
+  "wire_profile": {
+    "profile_id": 1,
+    "magic": "ECAP",
+    "wire_version": 1,
+    "max_payload_len": 1024,
+    "sample_record_bytes": 28,
+    "max_records_per_frame": 16
+  },
+  "notes": "候选连续传输协议 ECAP v1 适配配置（对应设计第 9 节），用于流式帧编解码、故障恢复与离线夹具验证。"
+}

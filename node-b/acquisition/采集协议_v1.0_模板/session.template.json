@@ -1,0 +1,84 @@
+{
+  "protocol_version": "1.0",
+  "record_status": "TEMPLATE_NOT_ACQUIRED",
+  "dataset_id": null,
+  "sample_id": null,
+  "condition_id": null,
+  "run_id": null,
+  "operator_id": null,
+  "created_utc": null,
+  "input": {
+    "declared_kind": "UNKNOWN",
+    "verified_kind": "UNKNOWN",
+    "active_output_confirmed": null,
+    "model": null,
+    "anonymous_fixture_id": null,
+    "no_live_person_connected_confirmed": null,
+    "evidence_paths": [],
+    "ecg_hr_setpoint_bpm": null,
+    "ecg_amplitude_value": null,
+    "ecg_amplitude_unit": null,
+    "ecg_amplitude_definition": null,
+    "resp_setpoint_per_min": null,
+    "resp_amplitude_value": null,
+    "resp_amplitude_unit": null,
+    "noise_settings": null
+  },
+  "device": {
+    "model": null,
+    "identity_hash": null,
+    "sensor_model": "ADS1292R",
+    "wiring_evidence_paths": []
+  },
+  "firmware": {
+    "bin_sha256": null,
+    "elf_sha256": null,
+    "source_revision": null,
+    "source_dirty": null,
+    "source_diff_sha256": null,
+    "build_tool_identity": null,
+    "capture_config_sha256": null
+  },
+  "tool": {
+    "version": null,
+    "source_sha256": null,
+    "adapter_id": null,
+    "adapter_version": null,
+    "adapter_profile_path": "adapter_profile.json",
+    "adapter_profile_sha256": null,
+    "symbol_file_sha256": null
+  },
+  "timebase": {
+    "source_seq_semantics": null,
+    "device_tick_unit": null,
+    "device_tick_bits": null,
+    "device_tick_hz_nominal": null,
+    "device_tick_hz_verified": null,
+    "irq_cycles_hz_nominal": null,
+    "irq_cycles_hz_verified": null,
+    "host_monotonic_clock_identity": null,
+    "reference_sync_method": "UNKNOWN",
+    "reference_sync_uncertainty_us": null
+  },
+  "plan": {
+    "warmup_s": null,
+    "analysis_window_s": null,
+    "maximum_wall_time_s": null,
+    "nominal_sample_rate_hz": null,
+    "expected_channels": ["resp", "ecg"],
+    "approved_hardware_action_list": [],
+    "authorization_reference": null,
+    "success_criteria_reference": null
+  },
+  "reference": {
+    "kind": "NONE",
+    "reference_id": null,
+    "evidence_paths": [],
+    "accuracy_evaluation": "NOT_EVALUATED_WITHOUT_REFERENCE"
+  },
+  "privacy": {
+    "raw_data_local_only": true,
+    "contains_personal_data": null
+  },
+  "notes": "这是待填写的设计模板，不是实际采集回执；未知信息保持 null，不得从示例或当前固件补造历史身份。"
+}

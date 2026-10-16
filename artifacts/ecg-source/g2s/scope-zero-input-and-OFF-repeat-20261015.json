@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-15 Asia/Shanghai",
+  "scope": "DSO_ZERO_INPUT_OBSERVATION_OPERATOR_REPORTED_SHORT",
+  "photo_sha256": "7d30b9f36103bec6a037313490bacf36807004d0b5960c4cc03b47aad4d53f27",
+  "operator_probe_mapping": {
+    "red": "S.PA4",
+    "black": "S.GND"
+  },
+  "operator_short_test": "Reported shorted for this screenshot; contact itself not shown",
+  "visible_settings": {
+    "vertical": "1V/div",
+    "probe": "X1",
+    "horizontal": "200ms/div",
+    "coupling": "DC",
+    "acquisition": "RUN"
+  },
+  "screen_readouts_unvalidated": {
+    "Vmax_mV": 40.0,
+    "Vmin_mV": -80.0,
+    "Vpp_mV": 120.0,
+    "Vavg_mV": 0.0,
+    "Vrms_mV": 23.09,
+    "automatic_frequency_Hz": 10.42,
+    "period_ms": 96.0
+  },
+  "interpretation": "Approximate zero-input baseline observed. Not a calibrated noise measurement; automatic frequency on near-flat input is not accepted as a waveform rate.",
+  "new_operator_powered_OFF_DMM_V": {
+    "PA4_GND": 0.54,
+    "PA5_GND": 0.55
+  },
+  "OFF_DMM_history_V": [
+    {
+      "PA4": 0.19,
+      "PA5": 0.29,
+      "power_timing": "UNRESOLVED"
+    },
+    {
+      "PA4": 0.44,
+      "PA5": 0.45,
+      "power_timing": "REPORTED_POWERED_OFF"
+    },
+    {
+      "PA4": 0.54,
+      "PA5": 0.55,
+      "power_timing": "REPORTED_POWERED_OFF"
+    }
+  ],
+  "BIAS_started": false,
+  "next_gate": "Confirm scope tips no longer shorted and red PA4/black GND before enabling BIAS",
+  "old_evidence_unchanged": true
+}

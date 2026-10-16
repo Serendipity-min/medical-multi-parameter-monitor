@@ -1,0 +1,10 @@
+{
+  "run": "host-20261016T021820579259Z",
+  "scope": "PUBLIC_COPY_HOST_PRECHECK_DEPENDENCY_FAILURE",
+  "component": "acquisition",
+  "tests": 27,
+  "errors": 1,
+  "reason": "缺少未随公开包分发的本地旧镜像BIN/ELF；不得用历史产物或伪造ARM文件补齐",
+  "original_log_sha256": "d34867ae8a1df9e1a12f453212fa44f0f473750a6d4a6ba901893ec8a2650615",
+  "resolution": "只改普通测试夹具，显式合成文件/符号绑定并验证篡改拒绝；实际预检规则不放宽"
+}

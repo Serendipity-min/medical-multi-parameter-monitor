@@ -1,0 +1,40 @@
+{
+  "protocol_version": "1.0",
+  "analysis_version": "1.0.0",
+  "warmup_s": 30.0,
+  "analysis_window_s": 120.0,
+  "allow_short_record_actual_span": true,
+  "timebase_policy": {
+    "use_nominal_tick_for_observation_when_unverified": true,
+    "dwt_wrap_modulus": "4294967296",
+    "max_unambiguous_gap_ms": 12000
+  },
+  "spectrum_policy": {
+    "detrend": "linear",
+    "ecg_welch_nperseg": 8192,
+    "resp_welch_nperseg": 16384,
+    "mains_fundamental_hz": 50.0,
+    "mains_harmonics": [1, 2],
+    "band_edges_hz": [
+      [0.03, 0.05],
+      [0.05, 0.1],
+      [0.1, 0.15],
+      [0.15, 0.5],
+      [0.5, 1.0],
+      [1.0, 5.0],
+      [5.0, 40.0]
+    ]
+  },
+  "respiration_exploration_policy": {
+    "sos_bandpass_hz": [0.1, 0.5],
+    "sos_order": 3,
+    "trim_each_end_s": 10.0,
+    "acf_search_lag_s": [1.5, 10.0]
+  },
+  "offline_replay_policy": {
+    "enable_python_float32_resp_replay": true,
+    "enable_c_host_replay_if_available": true,
+    "filter_initial_state": "ZERO_INIT_PRODUCTION_MATCH"
+  },
+  "notes": "固定版本离线分析配置模板；插值仅用于可视化或分带网格积分，不回填原始样本。"
+}

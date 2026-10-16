@@ -1,0 +1,99 @@
+"""本轮明确获准的非人体烧录窗口：先双读原Flash，再安装精确候选并独立核验。"""
+from pathlib import Path
+import argparse
+import datetime
+import hashlib
+import json
+import re
+import shutil
+import struct
+import subprocess
+import sys
+
+root=Path(__file__).resolve().parent;base=root.parent
+sys.path.insert(0,str(base/'工具'))
+from acq_swd import ascii_mapping
+from acq_storage import require
+parser=argparse.ArgumentParser(description='新算法候选安装：默认只显示动作计划')
+parser.add_argument('--execute',action='store_true')
+parser.add_argument('--confirm-no-human',action='store_true')
+args=parser.parse_args()
+if not args.execute:
+    print('PLAN ONLY: read identity / double Flash / install exact candidate / VerifyBin / independent read / boot / resume')
+    raise SystemExit(0)
+require(args.confirm_no_human,'必须确认没有活人连接电极')
+
+profile=json.loads((root/'证据/bio_v2_profile.json').read_text(encoding='utf-8'))
+host=json.loads((root/'证据/host_receipt.json').read_text(encoding='utf-8'))
+arm=json.loads((root/'证据/arm_receipt.json').read_text(encoding='utf-8'))
+require(host['pass']==host['total'] and arm['errors']==0 and arm['exit_code']==0,'Host/ARM门禁未通过')
+binary=root/'实验固件/OBJ/BIO_V2.bin'
+sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
+require(sha(binary)==profile['binding']['bin_sha256'] and binary.stat().st_size<=32768,'候选身份/Flash范围不符')
+require(sha(root/'实验固件/HARDWARE/bio_v2.c')==host['algorithm_sha256'],'算法源文件偏离已测试输入')
+stamp=datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ')
+work=base/'OBJ'/('biov2-hardware-'+stamp);work.mkdir(exist_ok=False)
+shutil.copyfile(binary,work/'candidate.bin')
+receipt={'scope':'AUTHORIZED_NONHUMAN_NEW_ALGORITHM_FLASH_AND_BOOT',
+         'no_live_person_connected_user_confirmed':True,'reference_rates':'UNKNOWN',
+         'candidate_sha256':sha(binary),'candidate_bytes':binary.stat().st_size,'status':'PRECHECK',
+         'hardware_flash_attempted':False}
+def command(name,lines,prefix,timeout=60):
+    script=work/(name+'.jlink');script.write_text('\n'.join(lines)+'\n',encoding='ascii')
+    result=subprocess.run(['E:/stm32/j_link/JLink_V512/JLink.exe','-device','STM32F407ZG','-if','SWD',
+                           '-speed','4000','-autoconnect','1','-CommanderScript',prefix+script.name],
+                          capture_output=True,timeout=timeout)
+    (work/(name+'.stdout.log')).write_bytes(result.stdout)
+    (work/(name+'.stderr.log')).write_bytes(result.stderr)
+    text=(result.stdout+result.stderr).decode('ascii',errors='replace')
+    receipt[name+'_exit_code']=result.returncode
+    if result.returncode or re.search(r'\b(?:Error:|Failed|Cannot connect|Could not|Unknown command)',text,re.I):
+        raise RuntimeError(name+'命令失败；停止，原始日志保留')
+    return text
+try:
+    with ascii_mapping(work) as prefix:
+        text=command('precheck',['mem32 0x1FFF7A10 3','mem32 0xE0042000 1',
+             'savebin '+prefix+'original-a.bin 0x08000000 0x100000',
+             'savebin '+prefix+'original-b.bin 0x08000000 0x100000','exit'],prefix,75)
+        match=re.search(r'1FFF7A10\s*=\s*([0-9A-F]{8})\s+([0-9A-F]{8})\s+([0-9A-F]{8})',text,re.I)
+        require(match and '-'.join(match.groups()).upper()==profile['expected_uid'],'板卡身份不符，STOP')
+        chip=re.search(r'E0042000\s*=\s*([0-9A-F]{8})',text,re.I)
+        require(chip and int(chip.group(1),16)&0xfff==0x413,'器件不符F407家族，STOP')
+        require((work/'original-a.bin').stat().st_size==1048576,'Flash读取长度错误')
+        require((work/'original-a.bin').read_bytes()==(work/'original-b.bin').read_bytes(),'原Flash双读不一致，STOP')
+        before=(work/'original-a.bin').read_bytes()
+        receipt['original_flash_sha256']=sha(work/'original-a.bin')
+        require(receipt['original_flash_sha256']=='6d44275aac8edec2ab2892d543a1658032fdd515421ca6a6de961bdb9f1c343e','Flash偏离当前冻结基线，STOP')
+        receipt['hardware_flash_attempted']=True
+        text=command('install',['h','loadbin '+prefix+'candidate.bin 0x08000000',
+             'verifybin '+prefix+'candidate.bin 0x08000000',
+             'savebin '+prefix+'installed-flash.bin 0x08000000 0x100000',
+             'r','g','sleep 6000','h','regs',
+             'savebin '+prefix+'boot-ram.bin 0x20000000 0x20000',
+             'mem32 0xE000EDF0 1','g','mem32 0xE000EDF0 1','exit'],prefix,90)
+        require(re.search(r'Verif(?:y|ication).*?(?:successful|success|O.K.)',text,re.I),'缺少Verify输出')
+        after=(work/'installed-flash.bin').read_bytes()
+        require(len(after)==1048576 and after[:len(binary.read_bytes())]==binary.read_bytes(),'独立Flash回读不符')
+        require(after[32768:]==before[32768:],'Flash变更越出应用前32KiB，STOP')
+        ram=(work/'boot-ram.bin').read_bytes();require(len(ram)==131072,'RAM长度错误')
+        pub=struct.unpack_from('<30I',ram,profile['diag_addr']-0x20000000)
+        stats=struct.unpack_from('<12I',ram,profile['adc_stats_addr']-0x20000000)
+        ready=ram[profile['adc_ready_addr']-0x20000000]
+        require(pub[0]==0x324f4942 and pub[1]==2 and pub[2]>250 and ready==1,'新固件启动/采样未通过')
+        require(stats[3]==stats[4]==stats[5]==stats[7]==stats[8]==0,'启动阶段驱动错误')
+        states=[int(v,16) for v in re.findall(r'E000EDF0\s*=\s*([0-9A-F]{8})',text,re.I)]
+        require(len(states)>=2 and states[-2]&(1<<17) and not states[-1]&(1<<17),'暂停/恢复确认不符')
+        receipt.update(status='BOOTCHECK_PASS',observed_full_flash_sha256=hashlib.sha256(after).hexdigest(),
+                       old_flash_preserved_outside_first_32k=True,diag_samples=pub[2],
+                       adc_irq=stats[0],adc_captured=stats[1],adc_delivered=stats[2],adc_ready=ready,
+                       diag_tag='BIO2',diag_version=2,target_end_state='RUNNING_CONFIRMED_BEFORE_DISCONNECT')
+        profile['binding']['flash_1mib_sha256']=receipt['observed_full_flash_sha256']
+        (root/'证据/bio_v2_installed_profile.json').write_text(json.dumps(profile,indent=2),encoding='utf-8')
+except BaseException as exc:
+    receipt.update(status='STOP',error=type(exc).__name__+': '+str(exc),
+                   recovery='NOT_AUTOMATIC; read original-a/b evidence before any recovery operation')
+    raise
+finally:
+    (work/'install_receipt.json').write_text(json.dumps(receipt,ensure_ascii=False,indent=2),encoding='utf-8')
+    (root/'证据/latest_hardware.json').write_text(json.dumps({'work':str(work.resolve()),'receipt':receipt},ensure_ascii=False,indent=2),encoding='utf-8')
+print(json.dumps(receipt,ensure_ascii=True,indent=2))

@@ -1,0 +1,50 @@
+{
+  "protocol_version": "1.0",
+  "record_status": "TEMPLATE_NOT_VERIFIED",
+  "channels": [
+    {
+      "channel_id": "resp",
+      "physical_source": "ADS1292R.CH1",
+      "role": "respiration_impedance_raw",
+      "raw_type": "signed_integer",
+      "valid_bits": 24,
+      "raw_unit": "adc_code",
+      "nominal_sample_rate_hz": null,
+      "gain": null,
+      "reference_voltage_v": null,
+      "register_config_source_ref": null,
+      "physical_conversion": {
+        "formula": "physical = (raw_code - offset_code) * scale",
+        "offset_code": null,
+        "scale": null,
+        "physical_unit": null,
+        "calibration_source_ref": null,
+        "status": "NOT_VERIFIED"
+      },
+      "notes": "阻抗和呼吸率不能仅由 ADC 码值乘电压比例获得；未知转换不输出假定物理单位。"
+    },
+    {
+      "channel_id": "ecg",
+      "physical_source": "ADS1292R.CH2",
+      "role": "ecg_raw",
+      "raw_type": "signed_integer",
+      "valid_bits": 24,
+      "raw_unit": "adc_code",
+      "nominal_sample_rate_hz": null,
+      "gain": null,
+      "reference_voltage_v": null,
+      "register_config_source_ref": null,
+      "physical_conversion": {
+        "formula": "physical = (raw_code - offset_code) * scale",
+        "offset_code": null,
+        "scale": null,
+        "physical_unit": null,
+        "calibration_source_ref": null,
+        "status": "NOT_VERIFIED"
+      },
+      "notes": "输入范围、参考电压、增益和实际缩放核对前，仅以 adc_code 分析。"
+    }
+  ],
+  "source_flags_dictionary_ref": null,
+  "adc_status_dictionary_ref": null
+}

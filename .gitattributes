@@ -1,2 +1,10 @@
 # 固定供应商文件字节换行，保证 Windows 与 CI 的 SHA-256 完整性核验一致。
 gateway/third_party/paho-embedded-c/** text eol=lf
+
+# Node-B归档的资料清单以实际字节SHA核对，源板工具与证据保持同样口径。
+ecg-source/g2s-usb/** -text
+artifacts/ecg-source/g2s/** -text
+# 三份导航/属性文件固定LF，保证不同签出环境的资料清单也可复核。
+/.gitattributes text eol=lf
+/README.md text eol=lf
+/doc/B/README.md text eol=lf

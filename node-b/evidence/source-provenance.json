@@ -1,0 +1,1868 @@
+{
+  "date": "2026-10-16",
+  "scope": "EXPLICIT_CURATED_PUBLIC_COPIES",
+  "files": [
+    {
+      "path": "node-b/firmware/biov2/实验固件/CORE/arm_common_tables.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/CORE/arm_common_tables.h",
+      "original_sha256": "126517411c54094b6d350853b997e7414b4a77711d801811b6750208bed63537",
+      "published_sha256": "126517411c54094b6d350853b997e7414b4a77711d801811b6750208bed63537",
+      "bytes": 7253,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/CORE/arm_const_structs.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/CORE/arm_const_structs.h",
+      "original_sha256": "7b5f63fa5ed80a98068c4157c5f9073cdc1a432016c3916ae3028140c617583c",
+      "published_sha256": "7b5f63fa5ed80a98068c4157c5f9073cdc1a432016c3916ae3028140c617583c",
+      "bytes": 3942,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/CORE/arm_math.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/CORE/arm_math.h",
+      "original_sha256": "ad247f1cec31c9d33b41288c8eb3b771bc446a5889df28e4e15ec291022f6004",
+      "published_sha256": "ad247f1cec31c9d33b41288c8eb3b771bc446a5889df28e4e15ec291022f6004",
+      "bytes": 252177,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/CORE/core_cm4.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/CORE/core_cm4.h",
+      "original_sha256": "9b7fea7bd9d781849b22130db320b5946b73a4ccb1b297b179cff7e85447c2d9",
+      "published_sha256": "9b7fea7bd9d781849b22130db320b5946b73a4ccb1b297b179cff7e85447c2d9",
+      "bytes": 109142,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/CORE/core_cm4_simd.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/CORE/core_cm4_simd.h",
+      "original_sha256": "767a6d37afba9850afaf090faa2ff14730cb61beed8516ab9f3e72853c93a0e0",
+      "published_sha256": "767a6d37afba9850afaf090faa2ff14730cb61beed8516ab9f3e72853c93a0e0",
+      "bytes": 22735,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/CORE/core_cmFunc.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/CORE/core_cmFunc.h",
+      "original_sha256": "77ac1af1083cc8f62ea260578108e22d6474cd2f9a1c398cad9988768bd29052",
+      "published_sha256": "77ac1af1083cc8f62ea260578108e22d6474cd2f9a1c398cad9988768bd29052",
+      "bytes": 17146,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/CORE/core_cmInstr.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/CORE/core_cmInstr.h",
+      "original_sha256": "198df99902af512ffb2a54a7aa3bce7642e8825a30b46b93b5fb6df88851c472",
+      "published_sha256": "198df99902af512ffb2a54a7aa3bce7642e8825a30b46b93b5fb6df88851c472",
+      "bytes": 20513,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/CORE/startup_stm32f40_41xxx.s",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/CORE/startup_stm32f40_41xxx.s",
+      "original_sha256": "fee2962668dbef36f1b03863ce488490738cafcc6f17a89f56dabdd551f73a9d",
+      "published_sha256": "fee2962668dbef36f1b03863ce488490738cafcc6f17a89f56dabdd551f73a9d",
+      "bytes": 29605,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/misc.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/misc.h",
+      "original_sha256": "fe0b20dc5129ec5dbfeefdc0b552b6fd5f208e0fab3f64a0aac70819dcd08037",
+      "published_sha256": "fe0b20dc5129ec5dbfeefdc0b552b6fd5f208e0fab3f64a0aac70819dcd08037",
+      "bytes": 6924,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_adc.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_adc.h",
+      "original_sha256": "f5d6218c383f4c426f32d36c4263276c4baa11fac55e73a55420bc9c55182c13",
+      "published_sha256": "f5d6218c383f4c426f32d36c4263276c4baa11fac55e73a55420bc9c55182c13",
+      "bytes": 32880,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_can.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_can.h",
+      "original_sha256": "a3eebee84d8e739789de599b8fa90c608db7c2d28d04d1ef0199317930717120",
+      "published_sha256": "a3eebee84d8e739789de599b8fa90c608db7c2d28d04d1ef0199317930717120",
+      "bytes": 27318,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_crc.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_crc.h",
+      "original_sha256": "a458fe147e54f913fdb8d9aac05248d96f2d7e1349ebfbbbf8078bba2c670fb4",
+      "published_sha256": "a458fe147e54f913fdb8d9aac05248d96f2d7e1349ebfbbbf8078bba2c670fb4",
+      "bytes": 2416,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_cryp.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_cryp.h",
+      "original_sha256": "0da14dc2577ca24411dd476ff35cbc341e5d19760a13e642499b54298a21b23e",
+      "published_sha256": "0da14dc2577ca24411dd476ff35cbc341e5d19760a13e642499b54298a21b23e",
+      "bytes": 14481,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_dac.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_dac.h",
+      "original_sha256": "2c2eeb87b713a4d21a37b59685b9da057665cb793dc822c9a7b5139be7b3b84e",
+      "published_sha256": "2c2eeb87b713a4d21a37b59685b9da057665cb793dc822c9a7b5139be7b3b84e",
+      "bytes": 14946,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_dbgmcu.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_dbgmcu.h",
+      "original_sha256": "0db3db80fe1aa17e1f7cae45cc016a3023a7554f1653bc47ee96a25b0116b91a",
+      "published_sha256": "0db3db80fe1aa17e1f7cae45cc016a3023a7554f1653bc47ee96a25b0116b91a",
+      "bytes": 4296,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_dcmi.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_dcmi.h",
+      "original_sha256": "cb9e75b2042d47a5ca20fc5102ffe2626faf8cab6bc7f29f42a24851347ac748",
+      "published_sha256": "cb9e75b2042d47a5ca20fc5102ffe2626faf8cab6bc7f29f42a24851347ac748",
+      "bytes": 12977,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_dma.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_dma.h",
+      "original_sha256": "02341e80f9a541076afff5f63600926a687b8b56c5f934ae0236bbbf1fe54633",
+      "published_sha256": "02341e80f9a541076afff5f63600926a687b8b56c5f934ae0236bbbf1fe54633",
+      "bytes": 28882,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_dma2d.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_dma2d.h",
+      "original_sha256": "e482dc75e4239757fbaa35337d4c04072963a0716918058666249fa18cd1dbe1",
+      "published_sha256": "e482dc75e4239757fbaa35337d4c04072963a0716918058666249fa18cd1dbe1",
+      "bytes": 19692,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_exti.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_exti.h",
+      "original_sha256": "2de6a414a32404eba150f6f06177a38fdd427e3b3eb35caf10f69927f4c055ff",
+      "published_sha256": "2de6a414a32404eba150f6f06177a38fdd427e3b3eb35caf10f69927f4c055ff",
+      "bytes": 8012,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_flash.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_flash.h",
+      "original_sha256": "186476404dc1aada0e990770dabc6545f9961503e5ae39890fdabfa92e8adf18",
+      "published_sha256": "186476404dc1aada0e990770dabc6545f9961503e5ae39890fdabfa92e8adf18",
+      "bytes": 24467,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_flash_ramfunc.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_flash_ramfunc.h",
+      "original_sha256": "905ba4fcc88b977882b543f6f90583ad9f1e13c00962e21763bd5a603c1da494",
+      "published_sha256": "905ba4fcc88b977882b543f6f90583ad9f1e13c00962e21763bd5a603c1da494",
+      "bytes": 3275,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_fmc.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_fmc.h",
+      "original_sha256": "c29f56f845e699f12b020bf7e72aa404c5b5c2bd6bf9a5038b3e7c7e15f0be71",
+      "published_sha256": "c29f56f845e699f12b020bf7e72aa404c5b5c2bd6bf9a5038b3e7c7e15f0be71",
+      "bytes": 44924,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_fsmc.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_fsmc.h",
+      "original_sha256": "c2d804ef66ce58b29f4d2c0865cd6abdc7e56fa4c027059d48190bf8f9e1c2a0",
+      "published_sha256": "c2d804ef66ce58b29f4d2c0865cd6abdc7e56fa4c027059d48190bf8f9e1c2a0",
+      "bytes": 27181,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_gpio.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_gpio.h",
+      "original_sha256": "8ec09c73453016095f18f263da39ea1a8559419584bd2090740cebd69a67f867",
+      "published_sha256": "8ec09c73453016095f18f263da39ea1a8559419584bd2090740cebd69a67f867",
+      "bytes": 23548,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_hash.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_hash.h",
+      "original_sha256": "ec91e634d86846684da5c52601dd396e61c66d6ed2ebac7f26056961ec4e8a04",
+      "published_sha256": "ec91e634d86846684da5c52601dd396e61c66d6ed2ebac7f26056961ec4e8a04",
+      "bytes": 10084,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_i2c.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_i2c.h",
+      "original_sha256": "42e56d9bb2b111fdcd45e23a3b0ef4575f5a89198f5139a94f52526f5ab536f5",
+      "published_sha256": "42e56d9bb2b111fdcd45e23a3b0ef4575f5a89198f5139a94f52526f5ab536f5",
+      "bytes": 31939,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_iwdg.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_iwdg.h",
+      "original_sha256": "26ecc2a4b5bb925262181d7bd220ebaa5126bc928e6fb76c01e8f4a4664af47f",
+      "published_sha256": "26ecc2a4b5bb925262181d7bd220ebaa5126bc928e6fb76c01e8f4a4664af47f",
+      "bytes": 4323,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_ltdc.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_ltdc.h",
+      "original_sha256": "890de684fa058e3db1d516c613dba8258af56b5dafcd5eb6514bafa16393c6f0",
+      "published_sha256": "890de684fa058e3db1d516c613dba8258af56b5dafcd5eb6514bafa16393c6f0",
+      "bytes": 21191,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_pwr.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_pwr.h",
+      "original_sha256": "da06bc8d0e93935066b5528b8e90586569675af3ac508539dd58d474e98aacf7",
+      "published_sha256": "da06bc8d0e93935066b5528b8e90586569675af3ac508539dd58d474e98aacf7",
+      "bytes": 7728,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_rcc.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_rcc.h",
+      "original_sha256": "49a6285869951e419e529cdc33a431abf85c99168484f0bcd06e40a797137fbe",
+      "published_sha256": "49a6285869951e419e529cdc33a431abf85c99168484f0bcd06e40a797137fbe",
+      "bytes": 30063,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_rng.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_rng.h",
+      "original_sha256": "4ecdbb3008a0c1cdd9316df38d36306f823d2848d462609b748805f3d6b2d651",
+      "published_sha256": "4ecdbb3008a0c1cdd9316df38d36306f823d2848d462609b748805f3d6b2d651",
+      "bytes": 3958,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_rtc.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_rtc.h",
+      "original_sha256": "5245d8b11c02355dfded024c7340258c9def3d1be7f9ea7e02572d80adc65aa1",
+      "published_sha256": "5245d8b11c02355dfded024c7340258c9def3d1be7f9ea7e02572d80adc65aa1",
+      "bytes": 40546,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_sai.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_sai.h",
+      "original_sha256": "b6469d9e0d3536aabd85962dda8b9caf9945c5a9717c170af908465f69d5e693",
+      "published_sha256": "b6469d9e0d3536aabd85962dda8b9caf9945c5a9717c170af908465f69d5e693",
+      "bytes": 25470,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_sdio.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_sdio.h",
+      "original_sha256": "81c9af6c0f4e5d0c9138ce830db23642896ea809240b42c12e83a138e7198c78",
+      "published_sha256": "81c9af6c0f4e5d0c9138ce830db23642896ea809240b42c12e83a138e7198c78",
+      "bytes": 22777,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_spi.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_spi.h",
+      "original_sha256": "86785aa59c7ee4c0270493121f9fb5f24235f8dcdb199aee795078b7f7c4a6d1",
+      "published_sha256": "86785aa59c7ee4c0270493121f9fb5f24235f8dcdb199aee795078b7f7c4a6d1",
+      "bytes": 21178,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_syscfg.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_syscfg.h",
+      "original_sha256": "d2c9dad92e7f50848b70c6b688c5d7e0ae76bbc4a2afd426e7994357cd8e29c3",
+      "published_sha256": "d2c9dad92e7f50848b70c6b688c5d7e0ae76bbc4a2afd426e7994357cd8e29c3",
+      "bytes": 8974,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_tim.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_tim.h",
+      "original_sha256": "01714c33a0fdbbd3f08c530684999765ed4843601aa1f29b2310e835a293c8df",
+      "published_sha256": "01714c33a0fdbbd3f08c530684999765ed4843601aa1f29b2310e835a293c8df",
+      "bytes": 51689,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_usart.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_usart.h",
+      "original_sha256": "41ab3ee4f6e7ed6d0afcbbbe9905ae6345fccd9b1deffa1346781806fb5a7c7d",
+      "published_sha256": "41ab3ee4f6e7ed6d0afcbbbe9905ae6345fccd9b1deffa1346781806fb5a7c7d",
+      "bytes": 17935,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_wwdg.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/inc/stm32f4xx_wwdg.h",
+      "original_sha256": "2267624089c093cffe2915ef049a094374dc694a9752b59a0a31f38715d1ddff",
+      "published_sha256": "2267624089c093cffe2915ef049a094374dc694a9752b59a0a31f38715d1ddff",
+      "bytes": 3542,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/src/misc.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/src/misc.c",
+      "original_sha256": "4d0b131e42b44e8ad0de1630acf5dccfa7800d2bd952933ea639d79faf3f08c9",
+      "published_sha256": "4d0b131e42b44e8ad0de1630acf5dccfa7800d2bd952933ea639d79faf3f08c9",
+      "bytes": 11443,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/src/stm32f4xx_can.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/src/stm32f4xx_can.c",
+      "original_sha256": "ee493be61736abf05c1adfc2d0fdfa9a17d01cc8301bf3536a039e8731a5d09f",
+      "published_sha256": "ee493be61736abf05c1adfc2d0fdfa9a17d01cc8301bf3536a039e8731a5d09f",
+      "bytes": 60150,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/src/stm32f4xx_exti.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/src/stm32f4xx_exti.c",
+      "original_sha256": "5332622af20155911e12a2db864654876c85aeab2a20cd7d61b1534f97c18b6e",
+      "published_sha256": "5332622af20155911e12a2db864654876c85aeab2a20cd7d61b1534f97c18b6e",
+      "bytes": 9828,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/src/stm32f4xx_gpio.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/src/stm32f4xx_gpio.c",
+      "original_sha256": "3043fe9e52501fad9cea9afa95e741f0697d658471d930610447623784e80bf8",
+      "published_sha256": "3043fe9e52501fad9cea9afa95e741f0697d658471d930610447623784e80bf8",
+      "bytes": 25202,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/src/stm32f4xx_rcc.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/src/stm32f4xx_rcc.c",
+      "original_sha256": "4169568c167d701fada6c2366d2537c62d194dbe9a311e513fc9ff80061dc998",
+      "published_sha256": "4169568c167d701fada6c2366d2537c62d194dbe9a311e513fc9ff80061dc998",
+      "bytes": 98839,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/src/stm32f4xx_spi.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/src/stm32f4xx_spi.c",
+      "original_sha256": "d170e859aa5bba0bf09c28104dbe2c724f225cc0252ebe6a7327c2b0c0321224",
+      "published_sha256": "d170e859aa5bba0bf09c28104dbe2c724f225cc0252ebe6a7327c2b0c0321224",
+      "bytes": 52522,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/src/stm32f4xx_syscfg.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/src/stm32f4xx_syscfg.c",
+      "original_sha256": "50df08b1fa5afa13bc0e41eff85d2d40193a6992a5775f442cba99548d88a695",
+      "published_sha256": "50df08b1fa5afa13bc0e41eff85d2d40193a6992a5775f442cba99548d88a695",
+      "bytes": 9575,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/src/stm32f4xx_tim.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/src/stm32f4xx_tim.c",
+      "original_sha256": "5148767f785e72eb404d137d9d9198e8a4458c4eca936cc449bcd86e1aa1c7e9",
+      "published_sha256": "5148767f785e72eb404d137d9d9198e8a4458c4eca936cc449bcd86e1aa1c7e9",
+      "bytes": 124732,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/src/stm32f4xx_usart.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/FWLIB/src/stm32f4xx_usart.c",
+      "original_sha256": "f76877834c69e6f44f6a5daa61191ae06c17ef19c80318b3e05542f7bd6d869c",
+      "published_sha256": "f76877834c69e6f44f6a5daa61191ae06c17ef19c80318b3e05542f7bd6d869c",
+      "bytes": 57949,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/ads1292.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/ads1292.c",
+      "original_sha256": "f99c3d567338f95b4cbae5579554d15e3af4928f8b1a39e0f18b9dbd30192ced",
+      "published_sha256": "f99c3d567338f95b4cbae5579554d15e3af4928f8b1a39e0f18b9dbd30192ced",
+      "bytes": 15092,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/ads1292.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/ads1292.h",
+      "original_sha256": "fa5eaf065b6015d15865a783d5b64444fdacaa77c1fbed5f8a14061c2a8bbf28",
+      "published_sha256": "fa5eaf065b6015d15865a783d5b64444fdacaa77c1fbed5f8a14061c2a8bbf28",
+      "bytes": 4799,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/beep.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/beep.c",
+      "original_sha256": "9bcdfb8baee1c4d7a0f956ca0551b830d56a3dd34276e33ac566ffdabf982d80",
+      "published_sha256": "9bcdfb8baee1c4d7a0f956ca0551b830d56a3dd34276e33ac566ffdabf982d80",
+      "bytes": 2061,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/beep.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/beep.h",
+      "original_sha256": "4b7960c58bca4069638d6ab42d002a767788223517e1fcbc949c4432777e2a6b",
+      "published_sha256": "4b7960c58bca4069638d6ab42d002a767788223517e1fcbc949c4432777e2a6b",
+      "bytes": 127,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/bio_v2.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/bio_v2.c",
+      "original_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+      "published_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+      "bytes": 12391,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/bio_v2.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/bio_v2.h",
+      "original_sha256": "76198016006ab8de6126a7cb051aeb3ab296c5655152c74cf5565bd85aba0913",
+      "published_sha256": "76198016006ab8de6126a7cb051aeb3ab296c5655152c74cf5565bd85aba0913",
+      "bytes": 1729,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/can.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/can.c",
+      "original_sha256": "6fd10608a11e7bd23a155a2f594686f1c81e4390d917314d5be2cb587819da8c",
+      "published_sha256": "6fd10608a11e7bd23a155a2f594686f1c81e4390d917314d5be2cb587819da8c",
+      "bytes": 6392,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/can.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/can.h",
+      "original_sha256": "ef5215dcd0bfb3f963160eac48ae2a6a7c6dfc55389a2f91ec22a5a57b8bce14",
+      "published_sha256": "ef5215dcd0bfb3f963160eac48ae2a6a7c6dfc55389a2f91ec22a5a57b8bce14",
+      "bytes": 1300,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/canopen.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/canopen.c",
+      "original_sha256": "447d2ff2ec32eb10fda4be0ce94bdaeea992c8db5d778ff4afdae07210ae1157",
+      "published_sha256": "447d2ff2ec32eb10fda4be0ce94bdaeea992c8db5d778ff4afdae07210ae1157",
+      "bytes": 20422,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/canopen.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/canopen.h",
+      "original_sha256": "338e99155f71bbd20b7e500953ea25055e0dfc52b3f0c9a39429369daf6b2aef",
+      "published_sha256": "338e99155f71bbd20b7e500953ea25055e0dfc52b3f0c9a39429369daf6b2aef",
+      "bytes": 4773,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/ecg_frame_queue.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/ecg_frame_queue.c",
+      "original_sha256": "cab4719c4151386acbac422f28af517a5b54c8c3c933a52a9207b1c0140e319f",
+      "published_sha256": "cab4719c4151386acbac422f28af517a5b54c8c3c933a52a9207b1c0140e319f",
+      "bytes": 1481,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/ecg_frame_queue.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/ecg_frame_queue.h",
+      "original_sha256": "c6922d907966865586acd4c1427b34653d4e93d9a5a6d3d1f68278f98ffafc72",
+      "published_sha256": "c6922d907966865586acd4c1427b34653d4e93d9a5a6d3d1f68278f98ffafc72",
+      "bytes": 876,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/hr_page.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/hr_page.c",
+      "original_sha256": "b531140946aba2ee8ef037cf1939c81784df0810075669055233a830e2c28741",
+      "published_sha256": "b531140946aba2ee8ef037cf1939c81784df0810075669055233a830e2c28741",
+      "bytes": 39937,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/hr_page.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/hr_page.h",
+      "original_sha256": "e604d984105492124fcfa5a703c52ab238ae7952a04b845950a907764f25617d",
+      "published_sha256": "e604d984105492124fcfa5a703c52ab238ae7952a04b845950a907764f25617d",
+      "bytes": 4253,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/spi.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/spi.c",
+      "original_sha256": "5e09707c47cec710172a4e78e7ca21c15c7359d964d0fbe8bf5c2498243a8ec0",
+      "published_sha256": "5e09707c47cec710172a4e78e7ca21c15c7359d964d0fbe8bf5c2498243a8ec0",
+      "bytes": 3718,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/spi.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/spi.h",
+      "original_sha256": "fcc45addcce5a791b345404f77af2327ed5b6cb7167e432e46db8e9bf1815363",
+      "published_sha256": "fcc45addcce5a791b345404f77af2327ed5b6cb7167e432e46db8e9bf1815363",
+      "bytes": 333,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/systick.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/systick.c",
+      "original_sha256": "bd0666b7c8cd31448d7791fc51866873283a0649648c57a339c8b52908e31a50",
+      "published_sha256": "bd0666b7c8cd31448d7791fc51866873283a0649648c57a339c8b52908e31a50",
+      "bytes": 1063,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/systick.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/systick.h",
+      "original_sha256": "c51d0250c353e48068cf34de4d04a4a21c12d86a51e4ee429d9c7671a3e65172",
+      "published_sha256": "c51d0250c353e48068cf34de4d04a4a21c12d86a51e4ee429d9c7671a3e65172",
+      "bytes": 405,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/timer.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/timer.c",
+      "original_sha256": "a06d7c4ef0e4a38cc355a6829bedf744436258e8e340b026a966cfcadf6ecaf1",
+      "published_sha256": "a06d7c4ef0e4a38cc355a6829bedf744436258e8e340b026a966cfcadf6ecaf1",
+      "bytes": 2429,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/timer.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/HARDWARE/timer.h",
+      "original_sha256": "57ba5444ffa77b72c89562496ac12c37055040fb0e47321588f8f0e0b41fa99c",
+      "published_sha256": "57ba5444ffa77b72c89562496ac12c37055040fb0e47321588f8f0e0b41fa99c",
+      "bytes": 130,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/SCREEN/cmd_process.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/SCREEN/cmd_process.c",
+      "original_sha256": "1e6458e19fe61922815a6d0fc0d7a8d5aa2faedba7a303bcb95e440ce5161d0d",
+      "published_sha256": "1e6458e19fe61922815a6d0fc0d7a8d5aa2faedba7a303bcb95e440ce5161d0d",
+      "bytes": 4976,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/SCREEN/cmd_process.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/SCREEN/cmd_process.h",
+      "original_sha256": "608a6a38607ff9333ea732f889a073277889d4315b99c097719f8df2ea82b423",
+      "published_sha256": "608a6a38607ff9333ea732f889a073277889d4315b99c097719f8df2ea82b423",
+      "bytes": 7337,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/SCREEN/cmd_queue.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/SCREEN/cmd_queue.c",
+      "original_sha256": "70226503db0972c91c4490a307f3d4d8d1023049b279867717157a3212604b2c",
+      "published_sha256": "70226503db0972c91c4490a307f3d4d8d1023049b279867717157a3212604b2c",
+      "bytes": 5071,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/SCREEN/cmd_queue.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/SCREEN/cmd_queue.h",
+      "original_sha256": "b48301640a6cc8bc4ef8715a30772ab76c7193c0198dd6ab8c0e8b4710f68123",
+      "published_sha256": "b48301640a6cc8bc4ef8715a30772ab76c7193c0198dd6ab8c0e8b4710f68123",
+      "bytes": 923,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/SCREEN/hmi_driver.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/SCREEN/hmi_driver.c",
+      "original_sha256": "0cf00eaf0b032f20ead1f172a253c2765816be80264f3026fd7c5ea81e7fd287",
+      "published_sha256": "0cf00eaf0b032f20ead1f172a253c2765816be80264f3026fd7c5ea81e7fd287",
+      "bytes": 44723,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/SCREEN/hmi_driver.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/SCREEN/hmi_driver.h",
+      "original_sha256": "ee9a7de81e69f265290fe03c147f0a2df2391db6ebd2b24f0f76d039b1de9738",
+      "published_sha256": "ee9a7de81e69f265290fe03c147f0a2df2391db6ebd2b24f0f76d039b1de9738",
+      "bytes": 25490,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/SCREEN/hmi_user_uart.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/SCREEN/hmi_user_uart.c",
+      "original_sha256": "5e8ddf6fde70675bacc84fbbc513a01c2000725a2eb7945c463af436b43c027a",
+      "published_sha256": "5e8ddf6fde70675bacc84fbbc513a01c2000725a2eb7945c463af436b43c027a",
+      "bytes": 3986,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/SCREEN/hmi_user_uart.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/SCREEN/hmi_user_uart.h",
+      "original_sha256": "aaf15d2cdee3815cac454417a7b7a74e8a4f122e27e37c27472cff4c0efdef93",
+      "published_sha256": "aaf15d2cdee3815cac454417a7b7a74e8a4f122e27e37c27472cff4c0efdef93",
+      "bytes": 1483,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/SCREEN/hw_config.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/SCREEN/hw_config.c",
+      "original_sha256": "ab225cf8477bd4a0cfabc988f26713a9656592bfb91e26c86a0e01a9e8b28490",
+      "published_sha256": "ab225cf8477bd4a0cfabc988f26713a9656592bfb91e26c86a0e01a9e8b28490",
+      "bytes": 1200,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/SCREEN/hw_config.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/SCREEN/hw_config.h",
+      "original_sha256": "3910e830cf87cf9d26b087d9150254543e20001b61d3202dfd04690913b9f0ac",
+      "published_sha256": "3910e830cf87cf9d26b087d9150254543e20001b61d3202dfd04690913b9f0ac",
+      "bytes": 610,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/SCREEN/ulitity.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/SCREEN/ulitity.c",
+      "original_sha256": "d5e9eb07cb657e9d9e635099b02413c671158afd5ea38807d0363dd0f18c1075",
+      "published_sha256": "d5e9eb07cb657e9d9e635099b02413c671158afd5ea38807d0363dd0f18c1075",
+      "bytes": 1206,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/SCREEN/ulitity.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/SCREEN/ulitity.h",
+      "original_sha256": "44f6f81885dffa53b5c0e21e79f84dfc28b330c0c13a16a989e36e1711e0d299",
+      "published_sha256": "44f6f81885dffa53b5c0e21e79f84dfc28b330c0c13a16a989e36e1711e0d299",
+      "bytes": 469,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/USER/BIO_V2.uvprojx",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/USER/BIO_V2.uvprojx",
+      "original_sha256": "5ea0360e81402057d68d80139116d9efef3e37dc2ecf7220cd987907bc9e3fb7",
+      "published_sha256": "5ea0360e81402057d68d80139116d9efef3e37dc2ecf7220cd987907bc9e3fb7",
+      "bytes": 20068,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/USER/main.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/USER/main.c",
+      "original_sha256": "b8bffcefd8520b20ec81a6e0805a9cfd629ce636ba73b390675e1f6e5911a3e6",
+      "published_sha256": "b8bffcefd8520b20ec81a6e0805a9cfd629ce636ba73b390675e1f6e5911a3e6",
+      "bytes": 3314,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/USER/stm32f4xx.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/USER/stm32f4xx.h",
+      "original_sha256": "f646cccb5b0bbc917be824fff049167a83956169b0e114acdb8c0484985dc26c",
+      "published_sha256": "f646cccb5b0bbc917be824fff049167a83956169b0e114acdb8c0484985dc26c",
+      "bytes": 704100,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/USER/stm32f4xx_conf.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/USER/stm32f4xx_conf.h",
+      "original_sha256": "1de02ba948488f61e50a0d217390ec90c0459ed63944acb9854426904469152b",
+      "published_sha256": "1de02ba948488f61e50a0d217390ec90c0459ed63944acb9854426904469152b",
+      "bytes": 4593,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/USER/stm32f4xx_it.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/USER/stm32f4xx_it.c",
+      "original_sha256": "7efb4c9dd77744869ccdc7333f8cf0faa6a1d29b31c8151956f36b4297ea00e7",
+      "published_sha256": "7efb4c9dd77744869ccdc7333f8cf0faa6a1d29b31c8151956f36b4297ea00e7",
+      "bytes": 1620,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/USER/stm32f4xx_it.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/USER/stm32f4xx_it.h",
+      "original_sha256": "e7f9b4ad495d3b8ba24e65b3445d135964c10f895a4691c2bd5f50b6c2d14752",
+      "published_sha256": "e7f9b4ad495d3b8ba24e65b3445d135964c10f895a4691c2bd5f50b6c2d14752",
+      "bytes": 2063,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/USER/system_stm32f4xx.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/USER/system_stm32f4xx.c",
+      "original_sha256": "b530011f741dfeae02f182a08ea11bfc670d42795c9dec0d98a70041cdcaf54a",
+      "published_sha256": "b530011f741dfeae02f182a08ea11bfc670d42795c9dec0d98a70041cdcaf54a",
+      "bytes": 47787,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/USER/system_stm32f4xx.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/实验固件/USER/system_stm32f4xx.h",
+      "original_sha256": "50f5887a8d62d774e1bc3d0a2e8892dd43b5d200a2f6d9266f5b747d5810cb0f",
+      "published_sha256": "50f5887a8d62d774e1bc3d0a2e8892dd43b5d200a2f6d9266f5b747d5810cb0f",
+      "bytes": 2233,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/ads1292.c",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/HARDWARE/ads1292.c",
+      "original_sha256": "7f6f58fe24e97de248937f864b26554c8793a5d6d4b170a2f9b10b5e3e3ebf1f",
+      "published_sha256": "7f6f58fe24e97de248937f864b26554c8793a5d6d4b170a2f9b10b5e3e3ebf1f",
+      "bytes": 14668,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/ads1292.h",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/HARDWARE/ads1292.h",
+      "original_sha256": "3bd1e01219991536fe23daf22f6640f5c9ed851152c94b5699207d4787af82d4",
+      "published_sha256": "3bd1e01219991536fe23daf22f6640f5c9ed851152c94b5699207d4787af82d4",
+      "bytes": 4555,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/beep.c",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/HARDWARE/beep.c",
+      "original_sha256": "9bcdfb8baee1c4d7a0f956ca0551b830d56a3dd34276e33ac566ffdabf982d80",
+      "published_sha256": "9bcdfb8baee1c4d7a0f956ca0551b830d56a3dd34276e33ac566ffdabf982d80",
+      "bytes": 2061,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/beep.h",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/HARDWARE/beep.h",
+      "original_sha256": "4b7960c58bca4069638d6ab42d002a767788223517e1fcbc949c4432777e2a6b",
+      "published_sha256": "4b7960c58bca4069638d6ab42d002a767788223517e1fcbc949c4432777e2a6b",
+      "bytes": 127,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/can.c",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/HARDWARE/can.c",
+      "original_sha256": "6fd10608a11e7bd23a155a2f594686f1c81e4390d917314d5be2cb587819da8c",
+      "published_sha256": "6fd10608a11e7bd23a155a2f594686f1c81e4390d917314d5be2cb587819da8c",
+      "bytes": 6392,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/can.h",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/HARDWARE/can.h",
+      "original_sha256": "ef5215dcd0bfb3f963160eac48ae2a6a7c6dfc55389a2f91ec22a5a57b8bce14",
+      "published_sha256": "ef5215dcd0bfb3f963160eac48ae2a6a7c6dfc55389a2f91ec22a5a57b8bce14",
+      "bytes": 1300,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/canopen.c",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/HARDWARE/canopen.c",
+      "original_sha256": "447d2ff2ec32eb10fda4be0ce94bdaeea992c8db5d778ff4afdae07210ae1157",
+      "published_sha256": "447d2ff2ec32eb10fda4be0ce94bdaeea992c8db5d778ff4afdae07210ae1157",
+      "bytes": 20422,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/canopen.h",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/HARDWARE/canopen.h",
+      "original_sha256": "338e99155f71bbd20b7e500953ea25055e0dfc52b3f0c9a39429369daf6b2aef",
+      "published_sha256": "338e99155f71bbd20b7e500953ea25055e0dfc52b3f0c9a39429369daf6b2aef",
+      "bytes": 4773,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/ecg_filter.c",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/HARDWARE/ecg_filter.c",
+      "original_sha256": "2cb6f31142a695ddd65d2392f40e6a4ca6fc5e2a6402e2dd94bcf4f3b7514a95",
+      "published_sha256": "2cb6f31142a695ddd65d2392f40e6a4ca6fc5e2a6402e2dd94bcf4f3b7514a95",
+      "bytes": 4253,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/ecg_filter.h",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/HARDWARE/ecg_filter.h",
+      "original_sha256": "02ef66af4936154835dcc4fd660f8aef1198d6c0600d7fd2e133a37705fd29f1",
+      "published_sha256": "02ef66af4936154835dcc4fd660f8aef1198d6c0600d7fd2e133a37705fd29f1",
+      "bytes": 803,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/ecg_frame_queue.c",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/HARDWARE/ecg_frame_queue.c",
+      "original_sha256": "cab4719c4151386acbac422f28af517a5b54c8c3c933a52a9207b1c0140e319f",
+      "published_sha256": "cab4719c4151386acbac422f28af517a5b54c8c3c933a52a9207b1c0140e319f",
+      "bytes": 1481,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/ecg_frame_queue.h",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/HARDWARE/ecg_frame_queue.h",
+      "original_sha256": "c6922d907966865586acd4c1427b34653d4e93d9a5a6d3d1f68278f98ffafc72",
+      "published_sha256": "c6922d907966865586acd4c1427b34653d4e93d9a5a6d3d1f68278f98ffafc72",
+      "bytes": 876,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/hr_page.c",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/HARDWARE/hr_page.c",
+      "original_sha256": "972b71d9026bb9d1d20434340fe72a32647bef181644f1625bf17c238daac387",
+      "published_sha256": "972b71d9026bb9d1d20434340fe72a32647bef181644f1625bf17c238daac387",
+      "bytes": 43704,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/hr_page.h",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/HARDWARE/hr_page.h",
+      "original_sha256": "e604d984105492124fcfa5a703c52ab238ae7952a04b845950a907764f25617d",
+      "published_sha256": "e604d984105492124fcfa5a703c52ab238ae7952a04b845950a907764f25617d",
+      "bytes": 4253,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/pan_tompkins.c",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/HARDWARE/pan_tompkins.c",
+      "original_sha256": "faee8e201d8d7ff02ee4cb428ba321b3b154ce86febac1ee2735c4d7aafab364",
+      "published_sha256": "faee8e201d8d7ff02ee4cb428ba321b3b154ce86febac1ee2735c4d7aafab364",
+      "bytes": 20556,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/pan_tompkins.h",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/HARDWARE/pan_tompkins.h",
+      "original_sha256": "14f138e58cc8f19d5fbe387ef6a46abc62632a35813104379c3dfb66bc381e19",
+      "published_sha256": "14f138e58cc8f19d5fbe387ef6a46abc62632a35813104379c3dfb66bc381e19",
+      "bytes": 2292,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/resp_rate.c",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/HARDWARE/resp_rate.c",
+      "original_sha256": "86fd53daafe3f046abcadf6be92e8bbc069eba22ca3aca1d1936c30eb022aef4",
+      "published_sha256": "86fd53daafe3f046abcadf6be92e8bbc069eba22ca3aca1d1936c30eb022aef4",
+      "bytes": 9738,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/resp_rate.h",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/HARDWARE/resp_rate.h",
+      "original_sha256": "c70c9fd97b2503f676984cbd130f37bca5ab357a7f394633d4e9b884caccf54f",
+      "published_sha256": "c70c9fd97b2503f676984cbd130f37bca5ab357a7f394633d4e9b884caccf54f",
+      "bytes": 1152,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/spi.c",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/HARDWARE/spi.c",
+      "original_sha256": "fe3f0a1f80cd7c6b2fa07935082e658bb83aac0baf6f61a18c15616185057fdc",
+      "published_sha256": "fe3f0a1f80cd7c6b2fa07935082e658bb83aac0baf6f61a18c15616185057fdc",
+      "bytes": 3694,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/spi.h",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/HARDWARE/spi.h",
+      "original_sha256": "fcc45addcce5a791b345404f77af2327ed5b6cb7167e432e46db8e9bf1815363",
+      "published_sha256": "fcc45addcce5a791b345404f77af2327ed5b6cb7167e432e46db8e9bf1815363",
+      "bytes": 333,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/systick.c",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/HARDWARE/systick.c",
+      "original_sha256": "bd0666b7c8cd31448d7791fc51866873283a0649648c57a339c8b52908e31a50",
+      "published_sha256": "bd0666b7c8cd31448d7791fc51866873283a0649648c57a339c8b52908e31a50",
+      "bytes": 1063,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/systick.h",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/HARDWARE/systick.h",
+      "original_sha256": "c51d0250c353e48068cf34de4d04a4a21c12d86a51e4ee429d9c7671a3e65172",
+      "published_sha256": "c51d0250c353e48068cf34de4d04a4a21c12d86a51e4ee429d9c7671a3e65172",
+      "bytes": 405,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/timer.c",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/HARDWARE/timer.c",
+      "original_sha256": "a06d7c4ef0e4a38cc355a6829bedf744436258e8e340b026a966cfcadf6ecaf1",
+      "published_sha256": "a06d7c4ef0e4a38cc355a6829bedf744436258e8e340b026a966cfcadf6ecaf1",
+      "bytes": 2429,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/timer.h",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/HARDWARE/timer.h",
+      "original_sha256": "57ba5444ffa77b72c89562496ac12c37055040fb0e47321588f8f0e0b41fa99c",
+      "published_sha256": "57ba5444ffa77b72c89562496ac12c37055040fb0e47321588f8f0e0b41fa99c",
+      "bytes": 130,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/SCREEN/cmd_process.c",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/SCREEN/cmd_process.c",
+      "original_sha256": "1e6458e19fe61922815a6d0fc0d7a8d5aa2faedba7a303bcb95e440ce5161d0d",
+      "published_sha256": "1e6458e19fe61922815a6d0fc0d7a8d5aa2faedba7a303bcb95e440ce5161d0d",
+      "bytes": 4976,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/SCREEN/cmd_process.h",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/SCREEN/cmd_process.h",
+      "original_sha256": "608a6a38607ff9333ea732f889a073277889d4315b99c097719f8df2ea82b423",
+      "published_sha256": "608a6a38607ff9333ea732f889a073277889d4315b99c097719f8df2ea82b423",
+      "bytes": 7337,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/SCREEN/cmd_queue.c",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/SCREEN/cmd_queue.c",
+      "original_sha256": "70226503db0972c91c4490a307f3d4d8d1023049b279867717157a3212604b2c",
+      "published_sha256": "70226503db0972c91c4490a307f3d4d8d1023049b279867717157a3212604b2c",
+      "bytes": 5071,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/SCREEN/cmd_queue.h",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/SCREEN/cmd_queue.h",
+      "original_sha256": "b48301640a6cc8bc4ef8715a30772ab76c7193c0198dd6ab8c0e8b4710f68123",
+      "published_sha256": "b48301640a6cc8bc4ef8715a30772ab76c7193c0198dd6ab8c0e8b4710f68123",
+      "bytes": 923,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/SCREEN/hmi_driver.c",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/SCREEN/hmi_driver.c",
+      "original_sha256": "0cf00eaf0b032f20ead1f172a253c2765816be80264f3026fd7c5ea81e7fd287",
+      "published_sha256": "0cf00eaf0b032f20ead1f172a253c2765816be80264f3026fd7c5ea81e7fd287",
+      "bytes": 44723,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/SCREEN/hmi_driver.h",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/SCREEN/hmi_driver.h",
+      "original_sha256": "ee9a7de81e69f265290fe03c147f0a2df2391db6ebd2b24f0f76d039b1de9738",
+      "published_sha256": "ee9a7de81e69f265290fe03c147f0a2df2391db6ebd2b24f0f76d039b1de9738",
+      "bytes": 25490,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/SCREEN/hmi_user_uart.c",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/SCREEN/hmi_user_uart.c",
+      "original_sha256": "5e8ddf6fde70675bacc84fbbc513a01c2000725a2eb7945c463af436b43c027a",
+      "published_sha256": "5e8ddf6fde70675bacc84fbbc513a01c2000725a2eb7945c463af436b43c027a",
+      "bytes": 3986,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/SCREEN/hmi_user_uart.h",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/SCREEN/hmi_user_uart.h",
+      "original_sha256": "aaf15d2cdee3815cac454417a7b7a74e8a4f122e27e37c27472cff4c0efdef93",
+      "published_sha256": "aaf15d2cdee3815cac454417a7b7a74e8a4f122e27e37c27472cff4c0efdef93",
+      "bytes": 1483,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/SCREEN/hw_config.c",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/SCREEN/hw_config.c",
+      "original_sha256": "ab225cf8477bd4a0cfabc988f26713a9656592bfb91e26c86a0e01a9e8b28490",
+      "published_sha256": "ab225cf8477bd4a0cfabc988f26713a9656592bfb91e26c86a0e01a9e8b28490",
+      "bytes": 1200,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/SCREEN/hw_config.h",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/SCREEN/hw_config.h",
+      "original_sha256": "3910e830cf87cf9d26b087d9150254543e20001b61d3202dfd04690913b9f0ac",
+      "published_sha256": "3910e830cf87cf9d26b087d9150254543e20001b61d3202dfd04690913b9f0ac",
+      "bytes": 610,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/SCREEN/ulitity.c",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/SCREEN/ulitity.c",
+      "original_sha256": "d5e9eb07cb657e9d9e635099b02413c671158afd5ea38807d0363dd0f18c1075",
+      "published_sha256": "d5e9eb07cb657e9d9e635099b02413c671158afd5ea38807d0363dd0f18c1075",
+      "bytes": 1206,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/SCREEN/ulitity.h",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/SCREEN/ulitity.h",
+      "original_sha256": "44f6f81885dffa53b5c0e21e79f84dfc28b330c0c13a16a989e36e1711e0d299",
+      "published_sha256": "44f6f81885dffa53b5c0e21e79f84dfc28b330c0c13a16a989e36e1711e0d299",
+      "bytes": 469,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/USER/HR_TFT.uvprojx",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/USER/HR_TFT.uvprojx",
+      "original_sha256": "10b476b9d0ccd0fb4bb054be16233d1dbea00f49fb17f58deeb84166546d9dce",
+      "published_sha256": "10b476b9d0ccd0fb4bb054be16233d1dbea00f49fb17f58deeb84166546d9dce",
+      "bytes": 20532,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/USER/main.c",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/USER/main.c",
+      "original_sha256": "c02b761d68c687d78c1797cf50b368077d591dfa3905a031d650b90c3102269a",
+      "published_sha256": "c02b761d68c687d78c1797cf50b368077d591dfa3905a031d650b90c3102269a",
+      "bytes": 3499,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/USER/stm32f4xx.h",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/USER/stm32f4xx.h",
+      "original_sha256": "f646cccb5b0bbc917be824fff049167a83956169b0e114acdb8c0484985dc26c",
+      "published_sha256": "f646cccb5b0bbc917be824fff049167a83956169b0e114acdb8c0484985dc26c",
+      "bytes": 704100,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/USER/stm32f4xx_conf.h",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/USER/stm32f4xx_conf.h",
+      "original_sha256": "1de02ba948488f61e50a0d217390ec90c0459ed63944acb9854426904469152b",
+      "published_sha256": "1de02ba948488f61e50a0d217390ec90c0459ed63944acb9854426904469152b",
+      "bytes": 4593,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/USER/stm32f4xx_it.c",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/USER/stm32f4xx_it.c",
+      "original_sha256": "7efb4c9dd77744869ccdc7333f8cf0faa6a1d29b31c8151956f36b4297ea00e7",
+      "published_sha256": "7efb4c9dd77744869ccdc7333f8cf0faa6a1d29b31c8151956f36b4297ea00e7",
+      "bytes": 1620,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/USER/stm32f4xx_it.h",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/USER/stm32f4xx_it.h",
+      "original_sha256": "e7f9b4ad495d3b8ba24e65b3445d135964c10f895a4691c2bd5f50b6c2d14752",
+      "published_sha256": "e7f9b4ad495d3b8ba24e65b3445d135964c10f895a4691c2bd5f50b6c2d14752",
+      "bytes": 2063,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/USER/system_stm32f4xx.c",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/USER/system_stm32f4xx.c",
+      "original_sha256": "b530011f741dfeae02f182a08ea11bfc670d42795c9dec0d98a70041cdcaf54a",
+      "published_sha256": "b530011f741dfeae02f182a08ea11bfc670d42795c9dec0d98a70041cdcaf54a",
+      "bytes": 47787,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/USER/system_stm32f4xx.h",
+      "origin": "doc/B/心率+呼吸/心率+呼吸/USER/system_stm32f4xx.h",
+      "original_sha256": "50f5887a8d62d774e1bc3d0a2e8892dd43b5d200a2f6d9266f5b747d5810cb0f",
+      "published_sha256": "50f5887a8d62d774e1bc3d0a2e8892dd43b5d200a2f6d9266f5b747d5810cb0f",
+      "bytes": 2233,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/biov2-before-isolation/HARDWARE/bio_v2.c",
+      "origin": "doc/B/心率+呼吸/新算法_v2/证据/通道独立修复前_20261013T111533Z/实验固件/HARDWARE/bio_v2.c",
+      "original_sha256": "007d10dc254480814c2226815a4ba347bf4d7b3a4e934c26a3b730af4b61c25d",
+      "published_sha256": "007d10dc254480814c2226815a4ba347bf4d7b3a4e934c26a3b730af4b61c25d",
+      "bytes": 11300,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/biov2-before-isolation/HARDWARE/bio_v2.h",
+      "origin": "doc/B/心率+呼吸/新算法_v2/证据/通道独立修复前_20261013T111533Z/实验固件/HARDWARE/bio_v2.h",
+      "original_sha256": "313ad6226aeebec09e5d827f67a1d43322fbb2e69c05fb5a5e93fc643274ba1b",
+      "published_sha256": "313ad6226aeebec09e5d827f67a1d43322fbb2e69c05fb5a5e93fc643274ba1b",
+      "bytes": 1499,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/vendor-f407-local-port/README_F407移植说明.md",
+      "origin": "doc/B/ADS1292R模块资料V4.1 - 副本/测试程序/STM32F407/STM32F407_FIR_ADS1292_usart/README_F407移植说明.md",
+      "original_sha256": "6f755b9161db6b260695a4d4d4851caf3043e9ce4e709e28716d9242bab3b3dc",
+      "published_sha256": "6f755b9161db6b260695a4d4d4851caf3043e9ce4e709e28716d9242bab3b3dc",
+      "bytes": 1354,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/vendor-f407-local-port/Project/main.c",
+      "origin": "doc/B/ADS1292R模块资料V4.1 - 副本/测试程序/STM32F407/STM32F407_FIR_ADS1292_usart/Project/main.c",
+      "original_sha256": "673a269a35ea0bc0b32100a024fbc919fee8548b4ab058dd442f0622d6a1bd99",
+      "published_sha256": "673a269a35ea0bc0b32100a024fbc919fee8548b4ab058dd442f0622d6a1bd99",
+      "bytes": 17116,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/vendor-f407-local-port/Project/DSP_FIR.uvprojx",
+      "origin": "doc/B/ADS1292R模块资料V4.1 - 副本/测试程序/STM32F407/STM32F407_FIR_ADS1292_usart/Project/DSP_FIR.uvprojx",
+      "original_sha256": "0fb3b334564c650afe8611a1c78761652128ebfd913bf2b63576037d403e884e",
+      "published_sha256": "0fb3b334564c650afe8611a1c78761652128ebfd913bf2b63576037d403e884e",
+      "bytes": 23942,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/vendor-f407-local-port/User/ADS1292/ads1292.c",
+      "origin": "doc/B/ADS1292R模块资料V4.1 - 副本/测试程序/STM32F407/STM32F407_FIR_ADS1292_usart/User/ADS1292/ads1292.c",
+      "original_sha256": "2ed5d286dc06acafcd64c138ca1805fe6bd4020e55888ad360e9c039e80a2dc4",
+      "published_sha256": "2ed5d286dc06acafcd64c138ca1805fe6bd4020e55888ad360e9c039e80a2dc4",
+      "bytes": 7663,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/vendor-f407-local-port/User/ADS1292/ads1292.h",
+      "origin": "doc/B/ADS1292R模块资料V4.1 - 副本/测试程序/STM32F407/STM32F407_FIR_ADS1292_usart/User/ADS1292/ads1292.h",
+      "original_sha256": "7cab0d59388ac5a2e4a4d1138698bfa608245fa4b7476f63756a26d7303cd688",
+      "published_sha256": "7cab0d59388ac5a2e4a4d1138698bfa608245fa4b7476f63756a26d7303cd688",
+      "bytes": 3013,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/vendor-f407-local-port/User/EXTI/exti.c",
+      "origin": "doc/B/ADS1292R模块资料V4.1 - 副本/测试程序/STM32F407/STM32F407_FIR_ADS1292_usart/User/EXTI/exti.c",
+      "original_sha256": "07641831b5c59ac1e79d267acee8db185d99b6e2a0c111a629d0520a5f2c234f",
+      "published_sha256": "07641831b5c59ac1e79d267acee8db185d99b6e2a0c111a629d0520a5f2c234f",
+      "bytes": 3432,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/vendor-f407-local-port/User/EXTI/exti.h",
+      "origin": "doc/B/ADS1292R模块资料V4.1 - 副本/测试程序/STM32F407/STM32F407_FIR_ADS1292_usart/User/EXTI/exti.h",
+      "original_sha256": "d10b370bb2072aad2a8a824255eb1754d437ba3845051aa89ec8e51ed12a75f9",
+      "published_sha256": "d10b370bb2072aad2a8a824255eb1754d437ba3845051aa89ec8e51ed12a75f9",
+      "bytes": 2264,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/vendor-f407-local-port/User/SPI/spi.c",
+      "origin": "doc/B/ADS1292R模块资料V4.1 - 副本/测试程序/STM32F407/STM32F407_FIR_ADS1292_usart/User/SPI/spi.c",
+      "original_sha256": "74044e8ac916907d021d65656364bfde9cb0e4e241430ccc4c3317b66f0201ef",
+      "published_sha256": "74044e8ac916907d021d65656364bfde9cb0e4e241430ccc4c3317b66f0201ef",
+      "bytes": 6475,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/vendor-f407-local-port/User/SPI/spi.h",
+      "origin": "doc/B/ADS1292R模块资料V4.1 - 副本/测试程序/STM32F407/STM32F407_FIR_ADS1292_usart/User/SPI/spi.h",
+      "original_sha256": "a1454578280d6bda49dd5ac89b4b9bf8de9f3256d9b15c5171cbe289cf8455df",
+      "published_sha256": "a1454578280d6bda49dd5ac89b4b9bf8de9f3256d9b15c5171cbe289cf8455df",
+      "bytes": 1237,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/firmware/biov2/tests/run_host.py",
+      "origin": "doc/B/心率+呼吸/新算法_v2/tests/run_host.py",
+      "original_sha256": "ccf463f4dcc82354d6ec252e3895d20596113adf09d104715194ae0da530bc7a",
+      "published_sha256": "69069bd9c002a4770e8295e0339406473bdb5f812e0b16672af6c807e97e174a",
+      "bytes": 7641,
+      "byte_identical": false
+    },
+    {
+      "path": "node-b/firmware/biov2/tests/run_channel_isolation.py",
+      "origin": "doc/B/心率+呼吸/新算法_v2/tests/run_channel_isolation.py",
+      "original_sha256": "b2acb64c4e3aa61529bd6b5e8adf641f00b4a8110016ac2b05008267a2030749",
+      "published_sha256": "9ad7ff3e04a33ca8e9c1fbcec1f3f707ed3bad4eff56215ddd9d58d1462bfcab",
+      "bytes": 8206,
+      "byte_identical": false
+    },
+    {
+      "path": "node-b/acquisition/工具/acq.py",
+      "origin": "doc/B/心率+呼吸/工具/acq.py",
+      "original_sha256": "2cdfd56c5fcd5bfa14c6b77444d7aee5616c246703b40668716359c9e457b0da",
+      "published_sha256": "bfb7b45b91c4169c792aec78b02f2fd0f033234ec82ac6c08f30506294cfba12",
+      "bytes": 8749,
+      "byte_identical": false
+    },
+    {
+      "path": "node-b/acquisition/工具/acq_protocol.py",
+      "origin": "doc/B/心率+呼吸/工具/acq_protocol.py",
+      "original_sha256": "356674eb8d6affca4364a906ce5521bbb34286490f152f36376836d025237092",
+      "published_sha256": "356674eb8d6affca4364a906ce5521bbb34286490f152f36376836d025237092",
+      "bytes": 26212,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/acquisition/工具/acq_storage.py",
+      "origin": "doc/B/心率+呼吸/工具/acq_storage.py",
+      "original_sha256": "ccb0367e447d094818e3f282ff5afe1d56f65639e0bd6ebcf6a242f83ac55b1f",
+      "published_sha256": "49aba8024207bb010b9992db80f622c56b8ee6d25a8c546ef157c225ac1a10f8",
+      "bytes": 15710,
+      "byte_identical": false
+    },
+    {
+      "path": "node-b/acquisition/工具/acq_processing.py",
+      "origin": "doc/B/心率+呼吸/工具/acq_processing.py",
+      "original_sha256": "03af01331ae98241748c36b2656bbb43f16deab0c6d05ffaa9ba9fc091d31188",
+      "published_sha256": "03af01331ae98241748c36b2656bbb43f16deab0c6d05ffaa9ba9fc091d31188",
+      "bytes": 26649,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/acquisition/工具/acq_swd.py",
+      "origin": "doc/B/心率+呼吸/工具/acq_swd.py",
+      "original_sha256": "e4f06b79e11a658cd30605fe49be15e5d7c96aff4b19486d3e26b87e18c4d3a2",
+      "published_sha256": "e4f06b79e11a658cd30605fe49be15e5d7c96aff4b19486d3e26b87e18c4d3a2",
+      "bytes": 18849,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/acquisition/工具/ecap_wire.py",
+      "origin": "doc/B/心率+呼吸/工具/ecap_wire.py",
+      "original_sha256": "3c4d4cf62f19a8aa194743ea81d43bc65db40e02ef2e5ccc9083c6f44fce9d16",
+      "published_sha256": "3c4d4cf62f19a8aa194743ea81d43bc65db40e02ef2e5ccc9083c6f44fce9d16",
+      "bytes": 13345,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/acquisition/工具/stable_slot_export.py",
+      "origin": "doc/B/心率+呼吸/工具/stable_slot_export.py",
+      "original_sha256": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2",
+      "published_sha256": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2",
+      "bytes": 26313,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/acquisition/工具/tests/test_acq.py",
+      "origin": "doc/B/心率+呼吸/工具/tests/test_acq.py",
+      "original_sha256": "66bf21fecf6ab57e0ec219a63852a39c77100ce283b5d49276337cf29e87bf5c",
+      "published_sha256": "5fd215cad258f1f1193e3c980688abf3a0b2640bef8112e00ad4eb188f44193a",
+      "bytes": 20016,
+      "byte_identical": false
+    },
+    {
+      "path": "node-b/acquisition/工具/profiles/ads1292r_ecap_wire_v1.json",
+      "origin": "doc/B/心率+呼吸/工具/profiles/ads1292r_ecap_wire_v1.json",
+      "original_sha256": "34ac7be7c24917b5d598c73e037e7c212b49b8f4c43d8dcda28fbe6c5fb6f851",
+      "published_sha256": "34ac7be7c24917b5d598c73e037e7c212b49b8f4c43d8dcda28fbe6c5fb6f851",
+      "bytes": 1004,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/acquisition/工具/profiles/ads1292r_swd_ring24_v1_9f58a890.json",
+      "origin": "doc/B/心率+呼吸/工具/profiles/ads1292r_swd_ring24_v1_9f58a890.json",
+      "original_sha256": "44448cc01ee5934910b5853fadbb8ddbd048153f86a48470c6d892341419ed14",
+      "published_sha256": "44448cc01ee5934910b5853fadbb8ddbd048153f86a48470c6d892341419ed14",
+      "bytes": 26622,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/acquisition/采集协议_v1.0_模板/adapter_profile.template.json",
+      "origin": "doc/B/心率+呼吸/采集协议_v1.0_模板/adapter_profile.template.json",
+      "original_sha256": "da4e68835662b09cec0e2e23346ba8c776bcb1e404e5d767a11331ce40142c66",
+      "published_sha256": "da4e68835662b09cec0e2e23346ba8c776bcb1e404e5d767a11331ce40142c66",
+      "bytes": 968,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/acquisition/采集协议_v1.0_模板/analysis_config.template.json",
+      "origin": "doc/B/心率+呼吸/采集协议_v1.0_模板/analysis_config.template.json",
+      "original_sha256": "a5edaea330a69ac0c605dcdb729a08fb9c5b62aae342acd4a2cd6c421285f8e8",
+      "published_sha256": "a5edaea330a69ac0c605dcdb729a08fb9c5b62aae342acd4a2cd6c421285f8e8",
+      "bytes": 1135,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/acquisition/采集协议_v1.0_模板/channels.template.json",
+      "origin": "doc/B/心率+呼吸/采集协议_v1.0_模板/channels.template.json",
+      "original_sha256": "3bdfd44d1281a00bb0509d060395352e4a84447409f08830e981828190002685",
+      "published_sha256": "3bdfd44d1281a00bb0509d060395352e4a84447409f08830e981828190002685",
+      "bytes": 1608,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/acquisition/采集协议_v1.0_模板/condition.template.json",
+      "origin": "doc/B/心率+呼吸/采集协议_v1.0_模板/condition.template.json",
+      "original_sha256": "3a647054d6e6a38aa9532fa91d2e3cd524734ff07cb19e3f0e885310b855ca3c",
+      "published_sha256": "3a647054d6e6a38aa9532fa91d2e3cd524734ff07cb19e3f0e885310b855ca3c",
+      "bytes": 1186,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/acquisition/采集协议_v1.0_模板/dataset_index.template.csv",
+      "origin": "doc/B/心率+呼吸/采集协议_v1.0_模板/dataset_index.template.csv",
+      "original_sha256": "7e4080dadf78df3f1572753d913d243ed2fb5a464d804197198ed7b3c7ee00a8",
+      "published_sha256": "7e4080dadf78df3f1572753d913d243ed2fb5a464d804197198ed7b3c7ee00a8",
+      "bytes": 191,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/acquisition/采集协议_v1.0_模板/README.md",
+      "origin": "doc/B/心率+呼吸/采集协议_v1.0_模板/README.md",
+      "original_sha256": "7ead71be66bf275fad73c1e8e83556a7db32eb0a0d72513ddd1ccf81bee97b7c",
+      "published_sha256": "7ead71be66bf275fad73c1e8e83556a7db32eb0a0d72513ddd1ccf81bee97b7c",
+      "bytes": 3359,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/acquisition/采集协议_v1.0_模板/session.template.json",
+      "origin": "doc/B/心率+呼吸/采集协议_v1.0_模板/session.template.json",
+      "original_sha256": "4b1f79038293cf417e39bb1c87c1e680fc2c338963430e3f08afb17f79d3dbca",
+      "published_sha256": "4b1f79038293cf417e39bb1c87c1e680fc2c338963430e3f08afb17f79d3dbca",
+      "bytes": 2384,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/history/02_ECG_ADS1292R数据采集故障静态排查分析报告_v1.0.md",
+      "origin": "doc/B/心率+呼吸/02_ECG_ADS1292R数据采集故障静态排查分析报告_v1.0.md",
+      "original_sha256": "7cc6cd27796825cea824dec23766459446e4ddca66698ee07069f442838dfaf9",
+      "published_sha256": "e186730b9ba1fe778e57af5b713ab9529f1908dd224ed5208d9a9be1ccd1690f",
+      "bytes": 22940,
+      "byte_identical": false
+    },
+    {
+      "path": "node-b/history/ECG_Gemini假人采样离线复核与下轮验证方案_20261012.md",
+      "origin": "doc/B/心率+呼吸/ECG_Gemini假人采样离线复核与下轮验证方案_20261012.md",
+      "original_sha256": "905fef59bff4181dd71383340c2aaf372dddfde14937db15ac5da961d919bd6e",
+      "published_sha256": "905fef59bff4181dd71383340c2aaf372dddfde14937db15ac5da961d919bd6e",
+      "bytes": 12778,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/history/ECG心率呼吸同步采集核验_20261012.md",
+      "origin": "doc/B/心率+呼吸/ECG心率呼吸同步采集核验_20261012.md",
+      "original_sha256": "9f09dcae75cdd5494a8f6870b7e9845511efcebc01048a776e8dbeaaaa7ef46a",
+      "published_sha256": "3308c14db6b7084b0ca13aa048d0e67376898ade08cb4701f661448ee99adb3e",
+      "bytes": 16570,
+      "byte_identical": false
+    },
+    {
+      "path": "node-b/history/ECG本轮连续采样与未检出心率原因复核_20261012.md",
+      "origin": "doc/B/心率+呼吸/ECG本轮连续采样与未检出心率原因复核_20261012.md",
+      "original_sha256": "f331b49bc16a75337ac73e53d2f7917f84e830c64e9913abcd7ff6d65f88b28f",
+      "published_sha256": "f331b49bc16a75337ac73e53d2f7917f84e830c64e9913abcd7ff6d65f88b28f",
+      "bytes": 11163,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/history/ECG模拟器连续采样与心率核验_20261012.md",
+      "origin": "doc/B/心率+呼吸/ECG模拟器连续采样与心率核验_20261012.md",
+      "original_sha256": "ade9f5d965f29905e4241d65cbb053f3a346a928275dd1ecfaaa984c6ce29ced",
+      "published_sha256": "bfbaecb21d04ebf38c0779c77b369fb5b7abb31b211b67e948f7f746f157ab6b",
+      "bytes": 17124,
+      "byte_identical": false
+    },
+    {
+      "path": "node-b/history/ECG真机排查与修改决策_20261010.md",
+      "origin": "doc/B/心率+呼吸/ECG真机排查与修改决策_20261010.md",
+      "original_sha256": "f8ddd77aa5010e49f90486cc630c7ed389f9efe7beb4011ace44b574cdc19c51",
+      "published_sha256": "bf8c6753230377bbe2aa02fbf2b111342c2031f5cfc98b0a77243cf7b7f59efd",
+      "bytes": 30051,
+      "byte_identical": false
+    },
+    {
+      "path": "node-b/history/ECG采集异常_代码排查报告_20261010.md",
+      "origin": "doc/B/心率+呼吸/ECG采集异常_代码排查报告_20261010.md",
+      "original_sha256": "9937a75e10f523a3055a8211fef55ed04f46cca7afea333dab2fb425503650fc",
+      "published_sha256": "25f1800d6f2cf4ac0766a4cd78e06289e64ca78bfcac333992eedf762c1bb7ab",
+      "bytes": 27478,
+      "byte_identical": false
+    },
+    {
+      "path": "node-b/history/ECG采集连续性修复与START_DRDY根因验证_20261010.md",
+      "origin": "doc/B/心率+呼吸/ECG采集连续性修复与START_DRDY根因验证_20261010.md",
+      "original_sha256": "8c417bf1f9b69060c72aba96615f1c6c280649bcde49f7db27958953401070cc",
+      "published_sha256": "79fe9c9fa2dd522376e0f7988f9a16ea1ed610aa27f301cb5f3c0679e65701c4",
+      "bytes": 17640,
+      "byte_identical": false
+    },
+    {
+      "path": "node-b/history/ECG阶段性原因复盘与未排除因素_20261015.md",
+      "origin": "doc/B/心率+呼吸/ECG阶段性原因复盘与未排除因素_20261015.md",
+      "original_sha256": "188668ddf53689d41356f374eacac2a0b623b352bddf360b717c0ee139d5f388",
+      "published_sha256": "83e8bb6e6399e30a3f2a0e51be0b9d23a71073b7d1d10b1cf5fb565df6d51a2d",
+      "bytes": 14905,
+      "byte_identical": false
+    },
+    {
+      "path": "node-b/history/ECG首拍恢复修复与断开电极复测回执_20261012.md",
+      "origin": "doc/B/心率+呼吸/ECG首拍恢复修复与断开电极复测回执_20261012.md",
+      "original_sha256": "bea5540968d6054f9e7b470fc7f3d379c1d415f13d9fb55e5a60aa13887d8aab",
+      "published_sha256": "959754dff5424b7e1a93519040e0f69c9f0cb33234380ad87d5f089b295db16b",
+      "bytes": 9916,
+      "byte_identical": false
+    },
+    {
+      "path": "node-b/history/内部对照诊断_20261013/内部对照真机实测与恢复综合回执_20261013.md",
+      "origin": "doc/B/心率+呼吸/内部对照诊断_20261013/内部对照真机实测与恢复综合回执_20261013.md",
+      "original_sha256": "4e9e753dc59bfeb31cda8dafd35738b875e564ab4973251cffbf21361975611e",
+      "published_sha256": "a610664491b748cae5b0a0746ca7236479f9baad7439b2d3871b884a262a4a2c",
+      "bytes": 10243,
+      "byte_identical": false
+    },
+    {
+      "path": "node-b/history/内部对照诊断_20261013/内部短接与测试信号对照方案及接线说明.md",
+      "origin": "doc/B/心率+呼吸/内部对照诊断_20261013/内部短接与测试信号对照方案及接线说明.md",
+      "original_sha256": "b80032567a238ad1f47cd0a81d9570b80b536965c435cff150000795c48eb6d4",
+      "published_sha256": "d51fab360744d2e3fb61812f685e55d45e340fb02091fa1c59674ca087b0ec94",
+      "bytes": 10888,
+      "byte_identical": false
+    },
+    {
+      "path": "node-b/history/实测数据/R7_心率呼吸_20261012T1930/复核_20261012/R7_独立离线复核与原因定位_20261012.md",
+      "origin": "doc/B/心率+呼吸/实测数据/R7_心率呼吸_20261012T1930/复核_20261012/R7_独立离线复核与原因定位_20261012.md",
+      "original_sha256": "fa8f96bd9c842f29552fbbf30015a20e090b7daeade85b62298a8093346c8fb2",
+      "published_sha256": "fa8f96bd9c842f29552fbbf30015a20e090b7daeade85b62298a8093346c8fb2",
+      "bytes": 14023,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/history/工具/标准采样工具使用说明_v1.0.md",
+      "origin": "doc/B/心率+呼吸/工具/标准采样工具使用说明_v1.0.md",
+      "original_sha256": "cc7b25a00f67b0555fa45794651ca07593743ea3e8a96e731d231bd5a203d9b1",
+      "published_sha256": "d5f0afacbf58b051212da55f41e13aeaeab4cbe2a89cbef3c2ee5ef725a3e3cc",
+      "bytes": 10970,
+      "byte_identical": false
+    },
+    {
+      "path": "node-b/history/工频单变量诊断_20261013/单变量排查方案与接线调整条件.md",
+      "origin": "doc/B/心率+呼吸/工频单变量诊断_20261013/单变量排查方案与接线调整条件.md",
+      "original_sha256": "9b93121825345c566768e9f3d217ce2a90dc819a5ac5d56646eafed44f27a281",
+      "published_sha256": "9b93121825345c566768e9f3d217ce2a90dc819a5ac5d56646eafed44f27a281",
+      "bytes": 4273,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/history/工频单变量诊断_20261013/工频干扰单变量实测综合回执_20261013.md",
+      "origin": "doc/B/心率+呼吸/工频单变量诊断_20261013/工频干扰单变量实测综合回执_20261013.md",
+      "original_sha256": "deb05347965c10f867a1a6ba1d72d58dfe406541f09f1ac7950c6eb17348630e",
+      "published_sha256": "7781f3edf1028c98e375c5f676df1694f3db25590ae3ad751e92f0e3e0c55691",
+      "bytes": 11313,
+      "byte_identical": false
+    },
+    {
+      "path": "node-b/history/新算法_v2/USB烧录与去JLink对照准备_20261013.md",
+      "origin": "doc/B/心率+呼吸/新算法_v2/USB烧录与去JLink对照准备_20261013.md",
+      "original_sha256": "633fe9e992b4d4fbb8bb2cc6764f01c7aa1148d63b1d5ee8519bc12d3f178789",
+      "published_sha256": "633fe9e992b4d4fbb8bb2cc6764f01c7aa1148d63b1d5ee8519bc12d3f178789",
+      "bytes": 4285,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/history/新算法_v2/双通道独立削顶最小修复与脱机验证_20261013.md",
+      "origin": "doc/B/心率+呼吸/新算法_v2/双通道独立削顶最小修复与脱机验证_20261013.md",
+      "original_sha256": "7a32fbbb8fdb857d2b5162755b419f76ea84e01431275ed31a890016d0178036",
+      "published_sha256": "7a32fbbb8fdb857d2b5162755b419f76ea84e01431275ed31a890016d0178036",
+      "bytes": 7880,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/history/新算法_v2/新算法设计与烧录实测综合回执_20261013.md",
+      "origin": "doc/B/心率+呼吸/新算法_v2/新算法设计与烧录实测综合回执_20261013.md",
+      "original_sha256": "0456eccc3552d0f1fde20470bcc5d8fbf42dc1a590aafc51645788dcd44e6682",
+      "published_sha256": "95274b5f1cd8cd745c87eb977991e739ffaa3964e6efddbaf13ddb71ce063f8b",
+      "bytes": 10712,
+      "byte_identical": false
+    },
+    {
+      "path": "node-b/history/新算法_v2/正常采集RLD核对最小修复与一轮验证_20261013.md",
+      "origin": "doc/B/心率+呼吸/新算法_v2/正常采集RLD核对最小修复与一轮验证_20261013.md",
+      "original_sha256": "a4200498962e1bade2e0a6ed576b21c80def81421f2c06df018ba0f04b597402",
+      "published_sha256": "674ba4ee64ae7a62d5343b4a7d5ed26bd9f878793661c063bffd5195723342cc",
+      "bytes": 6788,
+      "byte_identical": false
+    },
+    {
+      "path": "node-b/history/新算法_v2/真机验证准备_20261015/ECG独立与RLD呼吸单变量真机验证方案.md",
+      "origin": "doc/B/心率+呼吸/新算法_v2/真机验证准备_20261015/ECG独立与RLD呼吸单变量真机验证方案.md",
+      "original_sha256": "87ef9e5dd48fff2c1a7af546917897ba33145d73a262710921251b9b5f9db2ae",
+      "published_sha256": "fc9adaa433a9f0628a71c17b76ff7c529a821124c5068ce8f2e43908ade311c1",
+      "bytes": 17098,
+      "byte_identical": false
+    },
+    {
+      "path": "node-b/history/新算法_v2/真机验证准备_20261015/第二块F407自制ECG工程源方案.md",
+      "origin": "doc/B/心率+呼吸/新算法_v2/真机验证准备_20261015/第二块F407自制ECG工程源方案.md",
+      "original_sha256": "8887528c7fc724ee5a1137423db72bc55d2334855d814b6ec1c31aac52327e26",
+      "published_sha256": "bcbc2b1e0c3d3871f6a71d052b7f60c09d2288acbb791c3e490abfffafc09966",
+      "bytes": 8919,
+      "byte_identical": false
+    },
+    {
+      "path": "node-b/history/标准采样工具实现与脱机验收回执_20261013.md",
+      "origin": "doc/B/心率+呼吸/标准采样工具实现与脱机验收回执_20261013.md",
+      "original_sha256": "55acda7012339a472109ca8b2c7deebc83c183ecc4abb0e0fd342b00a234b006",
+      "published_sha256": "55acda7012339a472109ca8b2c7deebc83c183ecc4abb0e0fd342b00a234b006",
+      "bytes": 5250,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/history/标准采集本轮数据离线复核_20261013.md",
+      "origin": "doc/B/心率+呼吸/标准采集本轮数据离线复核_20261013.md",
+      "original_sha256": "dbd7d94cee15fbc647a45c05c6cb3b6cbb479c4f5f4ee73a236fd487e4d5661a",
+      "published_sha256": "dbd7d94cee15fbc647a45c05c6cb3b6cbb479c4f5f4ee73a236fd487e4d5661a",
+      "bytes": 10766,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/history/第二轮模拟源数据分析与厂商算法对照_20261013.md",
+      "origin": "doc/B/心率+呼吸/第二轮模拟源数据分析与厂商算法对照_20261013.md",
+      "original_sha256": "40065426a1e71ca5e0c1e28cb8c5af714c1e763201921bf8415dca1d8e255d93",
+      "published_sha256": "4556bb4a0c8cef7475609c2ed76752b7264e8b1aa3250559c681769103e5979d",
+      "bytes": 16987,
+      "byte_identical": false
+    },
+    {
+      "path": "node-b/history/通用多样本采集工具与数据协议设计_v1.0_20261013.md",
+      "origin": "doc/B/心率+呼吸/通用多样本采集工具与数据协议设计_v1.0_20261013.md",
+      "original_sha256": "1c6ad393b68ef620e26dabda5e407f29ddd1ec16e026a08d4c7bdd31157ca2f9",
+      "published_sha256": "1c6ad393b68ef620e26dabda5e407f29ddd1ec16e026a08d4c7bdd31157ca2f9",
+      "bytes": 27120,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/history/采集工具问题清单与重新采集要求_20261012.md",
+      "origin": "doc/B/心率+呼吸/采集工具问题清单与重新采集要求_20261012.md",
+      "original_sha256": "f83f3f0e7e3f37d35d2e950192fd2e15ac69289303cf2456b7d588f563fdaf4e",
+      "published_sha256": "f83f3f0e7e3f37d35d2e950192fd2e15ac69289303cf2456b7d588f563fdaf4e",
+      "bytes": 13122,
+      "byte_identical": true
+    },
+    {
+      "path": "ecg-source/g2s-usb/app_session.py",
+      "origin": "LOCAL_SOURCE_S/ecg-source/g2s-usb/app_session.py",
+      "original_sha256": "a0b6ca57bbcfde30496faf3b08ee63e00cdf0ceaba854d04e761c1e559a04455",
+      "published_sha256": "a0b6ca57bbcfde30496faf3b08ee63e00cdf0ceaba854d04e761c1e559a04455",
+      "bytes": 3765,
+      "byte_identical": true
+    },
+    {
+      "path": "ecg-source/g2s-usb/build_usb.py",
+      "origin": "LOCAL_SOURCE_S/ecg-source/g2s-usb/build_usb.py",
+      "original_sha256": "0df0b7fe546d396fca900d6bfd5ff1ac32c49699967bb59805ab6f1a1248f785",
+      "published_sha256": "0df0b7fe546d396fca900d6bfd5ff1ac32c49699967bb59805ab6f1a1248f785",
+      "bytes": 5274,
+      "byte_identical": true
+    },
+    {
+      "path": "ecg-source/g2s-usb/console.c",
+      "origin": "LOCAL_SOURCE_S/ecg-source/g2s-usb/console.c",
+      "original_sha256": "8013c1496aceacc14de90da959afa681b70c14af3b2468c9b802834b67812961",
+      "published_sha256": "8013c1496aceacc14de90da959afa681b70c14af3b2468c9b802834b67812961",
+      "bytes": 3204,
+      "byte_identical": true
+    },
+    {
+      "path": "ecg-source/g2s-usb/console.h",
+      "origin": "LOCAL_SOURCE_S/ecg-source/g2s-usb/console.h",
+      "original_sha256": "260de264fd72372106178d3d23a986ccd6cf402e0dc450a4526a5b28ddf988ff",
+      "published_sha256": "260de264fd72372106178d3d23a986ccd6cf402e0dc450a4526a5b28ddf988ff",
+      "bytes": 366,
+      "byte_identical": true
+    },
+    {
+      "path": "ecg-source/g2s-usb/main_usb.c",
+      "origin": "LOCAL_SOURCE_S/ecg-source/g2s-usb/main_usb.c",
+      "original_sha256": "191618a043e9529a039a4b6696e29621195d0fad2cd1bb06cbb9cda71cf12fc2",
+      "published_sha256": "191618a043e9529a039a4b6696e29621195d0fad2cd1bb06cbb9cda71cf12fc2",
+      "bytes": 2447,
+      "byte_identical": true
+    },
+    {
+      "path": "ecg-source/g2s-usb/observe_bias.py",
+      "origin": "LOCAL_SOURCE_S/ecg-source/g2s-usb/observe_bias.py",
+      "original_sha256": "73dfc9dc1ce43cf9feec0773521c93d86d74d0796fc97dbea32b408193e81870",
+      "published_sha256": "73dfc9dc1ce43cf9feec0773521c93d86d74d0796fc97dbea32b408193e81870",
+      "bytes": 4757,
+      "byte_identical": true
+    },
+    {
+      "path": "ecg-source/g2s-usb/README.md",
+      "origin": "LOCAL_SOURCE_S/ecg-source/g2s-usb/README.md",
+      "original_sha256": "b471dc0ab9a2f52715e1e767f6865c2f724614be3dc00381447f2de6b0c4536c",
+      "published_sha256": "b471dc0ab9a2f52715e1e767f6865c2f724614be3dc00381447f2de6b0c4536c",
+      "bytes": 5203,
+      "byte_identical": true
+    },
+    {
+      "path": "ecg-source/g2s-usb/test_console.py",
+      "origin": "LOCAL_SOURCE_S/ecg-source/g2s-usb/test_console.py",
+      "original_sha256": "067efb7c04aa423cdc49a6db7079cea9665cb008a330767b10db26f3af145439",
+      "published_sha256": "067efb7c04aa423cdc49a6db7079cea9665cb008a330767b10db26f3af145439",
+      "bytes": 6430,
+      "byte_identical": true
+    },
+    {
+      "path": "ecg-source/g2s-usb/test_observe_bias.py",
+      "origin": "LOCAL_SOURCE_S/ecg-source/g2s-usb/test_observe_bias.py",
+      "original_sha256": "c0c6e2a003a10971a111190b0d5635f3e110ca8bed62c14b022e35006ad4d7a4",
+      "published_sha256": "c0c6e2a003a10971a111190b0d5635f3e110ca8bed62c14b022e35006ad4d7a4",
+      "bytes": 3722,
+      "byte_identical": true
+    },
+    {
+      "path": "ecg-source/g2s-usb/test_usb_rom.py",
+      "origin": "LOCAL_SOURCE_S/ecg-source/g2s-usb/test_usb_rom.py",
+      "original_sha256": "057079da09b3bf70f5b7209162aae91d894c13611cda6a4a1750952b84f934a7",
+      "published_sha256": "057079da09b3bf70f5b7209162aae91d894c13611cda6a4a1750952b84f934a7",
+      "bytes": 9097,
+      "byte_identical": true
+    },
+    {
+      "path": "ecg-source/g2s-usb/usb_rom.py",
+      "origin": "LOCAL_SOURCE_S/ecg-source/g2s-usb/usb_rom.py",
+      "original_sha256": "1b3eb2943d1172bee53a2826d1d7fb2d309d87cbc07b1bad42766696c702ac4d",
+      "published_sha256": "1b3eb2943d1172bee53a2826d1d7fb2d309d87cbc07b1bad42766696c702ac4d",
+      "bytes": 13825,
+      "byte_identical": true
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/BIAS-digital-transition-20261015T093526Z.json",
+      "origin": "LOCAL_SOURCE_S/artifacts/ecg-source/g2s/BIAS-digital-transition-20261015T093526Z.json",
+      "original_sha256": "e1f126ceaa70a392818726d19f97b56a63acbffe7c5aab989817cc4c0435193c",
+      "published_sha256": "e1f126ceaa70a392818726d19f97b56a63acbffe7c5aab989817cc4c0435193c",
+      "bytes": 1519,
+      "byte_identical": true
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/BIAS-instrument-and-mode-continuity-hold-20261015.json",
+      "origin": "LOCAL_SOURCE_S/artifacts/ecg-source/g2s/BIAS-instrument-and-mode-continuity-hold-20261015.json",
+      "original_sha256": "10fb5971cc86527c446e3f136aef20df5118fb58c77a1f82f59e0a3149fa9191",
+      "published_sha256": "10fb5971cc86527c446e3f136aef20df5118fb58c77a1f82f59e0a3149fa9191",
+      "bytes": 3014,
+      "byte_identical": true
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/bias-monitor-host-20261015T100211645303Z.json",
+      "origin": "LOCAL_SOURCE_S/artifacts/ecg-source/g2s/bias-monitor-host-20261015T100211645303Z.json",
+      "original_sha256": "7062185c883dd3ba6aefdf3616d44eaa060c0f8da44806a9a8e4af5e2ab4b7a1",
+      "published_sha256": "7062185c883dd3ba6aefdf3616d44eaa060c0f8da44806a9a8e4af5e2ab4b7a1",
+      "bytes": 1664,
+      "byte_identical": true
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/BIAS同连接观测说明_20261015.md",
+      "origin": "LOCAL_SOURCE_S/artifacts/ecg-source/g2s/BIAS同连接观测说明_20261015.md",
+      "original_sha256": "77b72d1c7ac74ef70fba4d9c745130b49a11bb9004e0f414b0f9242d3f7d7585",
+      "published_sha256": "77b72d1c7ac74ef70fba4d9c745130b49a11bb9004e0f414b0f9242d3f7d7585",
+      "bytes": 1524,
+      "byte_identical": true
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/OFF-digital-and-scope-check-20261015T092616Z.json",
+      "origin": "LOCAL_SOURCE_S/artifacts/ecg-source/g2s/OFF-digital-and-scope-check-20261015T092616Z.json",
+      "original_sha256": "92a301283e6a2b52c4f7e43e3fb410a43580213e7113e40f71e0224f79849d88",
+      "published_sha256": "92a301283e6a2b52c4f7e43e3fb410a43580213e7113e40f71e0224f79849d88",
+      "bytes": 1303,
+      "byte_identical": true
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/OFF-DMM-only-operator-followup-20261015.json",
+      "origin": "LOCAL_SOURCE_S/artifacts/ecg-source/g2s/OFF-DMM-only-operator-followup-20261015.json",
+      "original_sha256": "c82892a8c2e91278a2f36d42914d81f9f5902b2e5b62b430bfa3fac872d48858",
+      "published_sha256": "c82892a8c2e91278a2f36d42914d81f9f5902b2e5b62b430bfa3fac872d48858",
+      "bytes": 693,
+      "byte_identical": true
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/OFF-operator-review-20261015.json",
+      "origin": "LOCAL_SOURCE_S/artifacts/ecg-source/g2s/OFF-operator-review-20261015.json",
+      "original_sha256": "729bf750f31fe2c446798ea444ab6b1213ad02284a9e594e40410bbab2418fbb",
+      "published_sha256": "729bf750f31fe2c446798ea444ab6b1213ad02284a9e594e40410bbab2418fbb",
+      "bytes": 1067,
+      "byte_identical": true
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/OFF-power-timing-clarification-20261015.json",
+      "origin": "LOCAL_SOURCE_S/artifacts/ecg-source/g2s/OFF-power-timing-clarification-20261015.json",
+      "original_sha256": "25f53469e1add21ed206b6a751eda548a74bcda1f2a32f2318894cc631f93eb0",
+      "published_sha256": "25f53469e1add21ed206b6a751eda548a74bcda1f2a32f2318894cc631f93eb0",
+      "bytes": 1293,
+      "byte_identical": true
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/OFF-powered-instrument-discrepancy-20261015.json",
+      "origin": "LOCAL_SOURCE_S/artifacts/ecg-source/g2s/OFF-powered-instrument-discrepancy-20261015.json",
+      "original_sha256": "364dd0099a9893084e978dfac724e334fa85071ae976d7a5041193fca7273227",
+      "published_sha256": "364dd0099a9893084e978dfac724e334fa85071ae976d7a5041193fca7273227",
+      "bytes": 1220,
+      "byte_identical": true
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/OFF-reconnected-20261015T091626Z.json",
+      "origin": "LOCAL_SOURCE_S/artifacts/ecg-source/g2s/OFF-reconnected-20261015T091626Z.json",
+      "original_sha256": "e57526c931416e4c379dedf3a2388d2bff5431186708e865fca8afee9bdb2192",
+      "published_sha256": "e57526c931416e4c379dedf3a2388d2bff5431186708e865fca8afee9bdb2192",
+      "bytes": 970,
+      "byte_identical": true
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/S0照片与JLink参考线核验补充.md",
+      "origin": "LOCAL_SOURCE_S/artifacts/ecg-source/g2s/S0照片与JLink参考线核验补充.md",
+      "original_sha256": "f77cd1b21e8cab8a631d6273ea855aecf0fe9711537303b407e1d88211b6d02e",
+      "published_sha256": "f77cd1b21e8cab8a631d6273ea855aecf0fe9711537303b407e1d88211b6d02e",
+      "bytes": 3741,
+      "byte_identical": true
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/S0现场操作与记录清单.md",
+      "origin": "LOCAL_SOURCE_S/artifacts/ecg-source/g2s/S0现场操作与记录清单.md",
+      "original_sha256": "e20762c49e9213583eb3166302d2eb98678b6b4606793b749cb1d26c3e848a39",
+      "published_sha256": "e20762c49e9213583eb3166302d2eb98678b6b4606793b749cb1d26c3e848a39",
+      "bytes": 5364,
+      "byte_identical": true
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/scope-zero-input-and-OFF-repeat-20261015.json",
+      "origin": "LOCAL_SOURCE_S/artifacts/ecg-source/g2s/scope-zero-input-and-OFF-repeat-20261015.json",
+      "original_sha256": "bb9b6870fbc87a8c451ad417b6f304987321bf88722ba7b58acfeb3fa92a7980",
+      "published_sha256": "bb9b6870fbc87a8c451ad417b6f304987321bf88722ba7b58acfeb3fa92a7980",
+      "bytes": 1491,
+      "byte_identical": true
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-app-reply-tests.json",
+      "origin": "LOCAL_SOURCE_S/artifacts/ecg-source/g2s/usb-app-reply-tests.json",
+      "original_sha256": "393c1322485c83930f863cd298611f0a19f8279561c495007fa3dec773f6f7a2",
+      "published_sha256": "393c1322485c83930f863cd298611f0a19f8279561c495007fa3dec773f6f7a2",
+      "bytes": 120,
+      "byte_identical": true
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-application-OFF-start-20261015T085827Z.json",
+      "origin": "LOCAL_SOURCE_S/artifacts/ecg-source/g2s/usb-application-OFF-start-20261015T085827Z.json",
+      "original_sha256": "92e5cfae8c7eba66ba7019c02963e841057fc3b30729a5994db4fd3b17bf3a73",
+      "published_sha256": "92e5cfae8c7eba66ba7019c02963e841057fc3b30729a5994db4fd3b17bf3a73",
+      "bytes": 789,
+      "byte_identical": true
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-arm-20261015T082914023821Z.json",
+      "origin": "LOCAL_SOURCE_S/artifacts/ecg-source/g2s/usb-arm-20261015T082914023821Z.json",
+      "original_sha256": "33344445a5b6cacaf70bd3bae1f86ffde41471c8310dac64b9f4d6c2a4155203",
+      "published_sha256": "33344445a5b6cacaf70bd3bae1f86ffde41471c8310dac64b9f4d6c2a4155203",
+      "bytes": 751,
+      "byte_identical": true
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-console-host-20261015T082913974002Z.json",
+      "origin": "LOCAL_SOURCE_S/artifacts/ecg-source/g2s/usb-console-host-20261015T082913974002Z.json",
+      "original_sha256": "3cd6a67dc7595324f7f8a3141ca9a9d594ea2dd077f68bef30ea23340c5c0da1",
+      "published_sha256": "3cd6a67dc7595324f7f8a3141ca9a9d594ea2dd077f68bef30ea23340c5c0da1",
+      "bytes": 3207,
+      "byte_identical": true
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-console-host-20261015T083007703807Z.json",
+      "origin": "LOCAL_SOURCE_S/artifacts/ecg-source/g2s/usb-console-host-20261015T083007703807Z.json",
+      "original_sha256": "b4800c94dadecb71c250c6aab1d31fdf83f0c3a188ec81d4a713f330c1eb5149",
+      "published_sha256": "b4800c94dadecb71c250c6aab1d31fdf83f0c3a188ec81d4a713f330c1eb5149",
+      "bytes": 3333,
+      "byte_identical": true
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-manual-flash-20261015T085200Z.json",
+      "origin": "LOCAL_SOURCE_S/artifacts/ecg-source/g2s/usb-manual-flash-20261015T085200Z.json",
+      "original_sha256": "cbb52efd91881d22c54c4090c491a00114f1222f05ec318c755667d2a12075ff",
+      "published_sha256": "cbb52efd91881d22c54c4090c491a00114f1222f05ec318c755667d2a12075ff",
+      "bytes": 1476,
+      "byte_identical": true
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-rom-host-20261015T083243980957Z.json",
+      "origin": "LOCAL_SOURCE_S/artifacts/ecg-source/g2s/usb-rom-host-20261015T083243980957Z.json",
+      "original_sha256": "b63e19c67bf8a97cc4c9babb75ef8b670de73f1ccb4e57597ca0b1d2699b4121",
+      "published_sha256": "b63e19c67bf8a97cc4c9babb75ef8b670de73f1ccb4e57597ca0b1d2699b4121",
+      "bytes": 127,
+      "byte_identical": true
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-rom-host-20261015T083444005082Z.json",
+      "origin": "LOCAL_SOURCE_S/artifacts/ecg-source/g2s/usb-rom-host-20261015T083444005082Z.json",
+      "original_sha256": "3c3eb4fa4bcb821cd252b6b7d0c88f954bb81e0dbe97842a3d54700eae557e7f",
+      "published_sha256": "3c3eb4fa4bcb821cd252b6b7d0c88f954bb81e0dbe97842a3d54700eae557e7f",
+      "bytes": 127,
+      "byte_identical": true
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-rom-host-20261015T084210439339Z.json",
+      "origin": "LOCAL_SOURCE_S/artifacts/ecg-source/g2s/usb-rom-host-20261015T084210439339Z.json",
+      "original_sha256": "c0ab25f880c317ad4515cacfc459e6f134c655dea9c2893db6db0d61374e0afa",
+      "published_sha256": "c0ab25f880c317ad4515cacfc459e6f134c655dea9c2893db6db0d61374e0afa",
+      "bytes": 127,
+      "byte_identical": true
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-rom-host-20261015T084930627610Z.json",
+      "origin": "LOCAL_SOURCE_S/artifacts/ecg-source/g2s/usb-rom-host-20261015T084930627610Z.json",
+      "original_sha256": "6e66ebbccf0a7cd7043df476420e9459617f9db72a5d1eb1c29be5ca55966529",
+      "published_sha256": "6e66ebbccf0a7cd7043df476420e9459617f9db72a5d1eb1c29be5ca55966529",
+      "bytes": 127,
+      "byte_identical": true
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-window-progress-20261015.json",
+      "origin": "LOCAL_SOURCE_S/artifacts/ecg-source/g2s/usb-window-progress-20261015.json",
+      "original_sha256": "cf64b2dbe4c5ed96845eeb1431e16cc6702e2a8757dfb06d5a5168a117979c60",
+      "published_sha256": "cf64b2dbe4c5ed96845eeb1431e16cc6702e2a8757dfb06d5a5168a117979c60",
+      "bytes": 2419,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/hardware/ADS1292模块电路原理图.pdf",
+      "origin": "doc/B/ADS1292模块电路原理图.pdf",
+      "original_sha256": "dd8a66e9019d4a958adb0dc83741261daf8cd45a0a46faea93cb9dbdca14c069",
+      "published_sha256": "dd8a66e9019d4a958adb0dc83741261daf8cd45a0a46faea93cb9dbdca14c069",
+      "bytes": 358092,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/hardware/ADS1292.pdf",
+      "origin": "doc/B/ADS1292.pdf",
+      "original_sha256": "61b75558717059aa2866c2bb65cf9faae99deb09592c3d9adf616d13e25742ab",
+      "published_sha256": "61b75558717059aa2866c2bb65cf9faae99deb09592c3d9adf616d13e25742ab",
+      "bytes": 3020097,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/hardware/STM32F407_原理图.pdf",
+      "origin": "LOCAL_BOARD_REFERENCE/STM32F407_原理图.pdf",
+      "original_sha256": "7737115dc272d6daff1f3bb08b7c8c23c10415c10bca57c3d72979adf53b46b2",
+      "published_sha256": "7737115dc272d6daff1f3bb08b7c8c23c10415c10bca57c3d72979adf53b46b2",
+      "bytes": 226861,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/tests/test_production_queue.c",
+      "origin": "doc/B/心率+呼吸/排查证据_20261010/R2_采集连续性修复/test_production_queue.c",
+      "original_sha256": "3df11013f39b8d1e7c4760aeb5cbb38d547b57b053c7e5fceb54d5590742965d",
+      "published_sha256": "3df11013f39b8d1e7c4760aeb5cbb38d547b57b053c7e5fceb54d5590742965d",
+      "bytes": 2196,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/biov2-local-tools/capture_v2.py.txt",
+      "origin": "doc/B/心率+呼吸/新算法_v2/capture_v2.py",
+      "original_sha256": "77f5219340ab21d7380cc774a34ef7424b215712e7c847f8f00fac3b44fd1af4",
+      "published_sha256": "77f5219340ab21d7380cc774a34ef7424b215712e7c847f8f00fac3b44fd1af4",
+      "bytes": 10949,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/biov2-local-tools/make_profile.py.txt",
+      "origin": "doc/B/心率+呼吸/新算法_v2/make_profile.py",
+      "original_sha256": "5af512e459f3c39c6429f6242f3a04234fe01db591806e81e4fd7c54d561e4cc",
+      "published_sha256": "4929ceadce2dd5ed895de872e00bc65f601b94b12170cc4ed63693c522611f2e",
+      "bytes": 2810,
+      "byte_identical": false
+    },
+    {
+      "path": "node-b/reference/biov2-local-tools/install_and_bootcheck.py.txt",
+      "origin": "doc/B/心率+呼吸/新算法_v2/install_and_bootcheck.py",
+      "original_sha256": "a66caf0220a7f30979e2b862af6db5541c1b17c874b1f16c106f14bdd0986cf6",
+      "published_sha256": "a66caf0220a7f30979e2b862af6db5541c1b17c874b1f16c106f14bdd0986cf6",
+      "bytes": 6766,
+      "byte_identical": true
+    },
+    {
+      "path": "node-b/reference/biov2-local-tools/build_arm.py.txt",
+      "origin": "doc/B/心率+呼吸/新算法_v2/build_arm.py",
+      "original_sha256": "5de998ce6b1e5a0611ad6140168c411464abf67f8bb1b66abba9d38723c910d3",
+      "published_sha256": "5de998ce6b1e5a0611ad6140168c411464abf67f8bb1b66abba9d38723c910d3",
+      "bytes": 2652,
+      "byte_identical": true
+    }
+  ],
+  "adaptation_notes": [
+    "生产C/H/S与原Keil工程不改；公开回归改输出目录和旧源相对路径",
+    "真实UID默认值从工具移除；测试只用合成UID",
+    "私有实测回放明确NOT_RUN，未以合成输入替代",
+    "现场专用安装/采集脚本以脱敏txt保存，不作为执行入口"
+  ]
+}

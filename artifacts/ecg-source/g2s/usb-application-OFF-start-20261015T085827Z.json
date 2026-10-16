@@ -1,0 +1,29 @@
+{
+  "scope": "SOURCE_S_REAL_UART_DIGITAL_OBSERVATION_NOT_ANALOG",
+  "record": {
+    "time_utc": "2026-10-15T08:58:27.526692+00:00",
+    "command": "info",
+    "reply": {
+      "ok": true,
+      "fw": "ecg-source-usb-1",
+      "mode": 0,
+      "state": 0,
+      "faults": 0,
+      "console_errors": 0,
+      "core_hz": 168000000,
+      "timer_hz": 84000000,
+      "psc": 0,
+      "arr": 0,
+      "table_length": 0,
+      "completed_tables": 0,
+      "completed_dma_samples": 0,
+      "last_dma_flags": 0,
+      "last_dac_flags": 0
+    }
+  },
+  "BOOT0_BOOT1_GND": "OPERATOR_CONFIRMED",
+  "OFF_physical_DC": "WAITING_OPERATOR_READINGS",
+  "OFF_scope": "WAITING_OPERATOR_PHOTO",
+  "new_live_session_id_reference": "LOCAL_ONLY",
+  "no_dynamic_mode_started": true
+}

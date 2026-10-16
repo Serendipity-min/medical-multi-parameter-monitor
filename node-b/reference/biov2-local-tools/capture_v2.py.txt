@@ -1,0 +1,147 @@
+"""新镜像专用台架采集，输出统一文件协议；不调用旧生理算法、不再次烧录。"""
+from pathlib import Path
+import argparse
+from contextlib import ExitStack
+import csv
+import hashlib
+import json
+import struct
+import sys
+import time
+
+root=Path(__file__).resolve().parent;base=root.parent
+sys.path.insert(0,str(base/'工具'))
+from acq_swd import JLinkClient,ascii_mapping,HALTED,RESET_SEEN
+from acq_storage import require,unique_id
+from acq_protocol import (SAMPLES_HEADERS,FIRMWARE_STATE_HEADERS,OBSERVATIONS_HEADERS,
+                          write_strict_csv,dump_strict_json,write_events_jsonl)
+from acq_processing import make_samples,summarize
+from stable_slot_export import StableSlots
+parser=argparse.ArgumentParser(description='新算法非人体采集：默认只预览')
+parser.add_argument('--execute',action='store_true')
+parser.add_argument('--confirm-no-human',action='store_true')
+args=parser.parse_args()
+if not args.execute:
+    print('PLAN ONLY: verify new image / reset / capture 150s / halt tail snapshot / resume / offline export')
+    raise SystemExit(0)
+require(args.confirm_no_human,'必须确认没有活人连接电极')
+
+profile=json.loads((root/'证据/bio_v2_installed_profile.json').read_text(encoding='utf-8'))
+run=base/'OBJ/标准采集数据_v2/runs'/unique_id('run')
+run.mkdir(parents=True,exist_ok=False);(run/'raw').mkdir();(run/'derived').mkdir()
+session={'protocol_version':'1.0','run_id':run.name,'dataset_id':'标准采集数据_v2','sample_id':'nonhuman-sim-001',
+         'condition_id':'new-engine-no-reference','input':{'declared_kind':'UNKNOWN','verified_kind':'UNKNOWN',
+         'description':'用户确认非人体模拟，没有明确心率/呼吸率；主动输出及型号未核实',
+         'no_live_person_connected_confirmed':True},'firmware':profile['binding'],
+         'timebase':{'irq_cycles_hz_nominal':168000000,'device_tick_hz_nominal':1000},
+         'plan':{'warmup_s':30,'analysis_window_s':120,'capture_duration_s':150},
+         'reference':{'kind':'NONE'},'adapter_id':profile['adapter_id']}
+dump_strict_json(session,run/'session.json');dump_strict_json(profile,run/'adapter_profile.json')
+dump_strict_json({'protocol_version':'1.0','channels':[{'channel_id':'resp','physical_source':'ADS1292R.CH1','raw_unit':'adc_code'},
+                  {'channel_id':'ecg','physical_source':'ADS1292R.CH2','raw_unit':'adc_code'}]},run/'channels.json')
+receipt={'status':'PRECHECK','identity_status':'UNKNOWN','target_end_state':'UNKNOWN','hardware_flash_writes':0}
+client=None
+try:
+    with ExitStack() as stack:
+        prefix=stack.enter_context(ascii_mapping(run/'raw'))
+        client=JLinkClient('E:/stm32/j_link/JLink_V512/JLink.exe',run/'raw',prefix)
+        # 注册关闭在映射释放之前；失败只关闭进程，不擅自追加恢复/烧录。
+        stack.callback(client.close)
+        _,uid=client.command('mem32 0x1FFF7A10 3')
+        require(profile['expected_uid'].replace('-', ' ') in uid.upper(),'板卡身份不符')
+        a=client.read('flash-a.bin',0x08000000,1048576,45)
+        b=client.read('flash-b.bin',0x08000000,1048576,45)
+        require(a.read_bytes()==b.read_bytes(),'Flash双读不一致')
+        require(hashlib.sha256(a.read_bytes()).hexdigest()==profile['binding']['flash_1mib_sha256'],'已安装镜像身份漂移')
+        receipt['identity_status']='VERIFIED'
+        client.command('r');status,_=client.command('g');require(not status&HALTED,'未确认启动')
+        start=time.monotonic();n=0
+        while time.monotonic()-start<150:
+            require(not (run/'STOP').exists(),'操作者停止')
+            client.read(f'slot_{n:05d}.bin',profile['slots_addr'],3072)
+            require(not client.last_status&(HALTED|RESET_SEEN),'意外暂停/复位')
+            if n%10==0:
+                client.read(f'state_{n:05d}.bin',0x20000000,profile['live_state_bytes'])
+                require(not client.last_status&(HALTED|RESET_SEEN),'状态读取期间意外暂停/复位')
+            if n%100==0:print(json.dumps({'capture_s':time.monotonic()-start,'polls':n,'run':str(run)},ensure_ascii=True),flush=True)
+            n+=1;time.sleep(min(.1,max(0,150-(time.monotonic()-start))))
+        status,_=client.command('h');require(status&HALTED,'未确认尾段暂停')
+        client.command('regs');client.read('final-paused-ram.bin',0x20000000,131072,20)
+        require(client.last_status&HALTED,'尾段读取期间未保持暂停')
+        status,_=client.command('g');require(not status&HALTED,'恢复未确认')
+        time.sleep(.02);status,_=client.command();require(not status&HALTED,'第二次运行确认未通过')
+        receipt.update(status='CAPTURE_COMPLETED',polls=n,target_end_state='RUNNING_CONFIRMED_BEFORE_DISCONNECT',
+                       paused_snapshot_evidence='DHCSR_CONFIRMED')
+except BaseException as exc:
+    receipt.update(status='STOP_OR_INCOMPLETE',error=str(exc));raise
+finally:
+    dump_strict_json(receipt,run/'acquisition_receipt.json')
+    originals=[run/'session.json',run/'adapter_profile.json',run/'channels.json',run/'acquisition_receipt.json']
+    originals += [p for p in (run/'raw').rglob('*') if p.is_file()]
+    dump_strict_json({'protocol_version':'1.0','self_excluded':True,'files':[{'path':p.relative_to(run).as_posix(),
+        'size_bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in originals]},run/'raw_manifest.json')
+    dump_strict_json({'run':str(run.resolve()),'receipt':receipt},root/'证据/latest_capture.json')
+
+collector=StableSlots(False)
+for p in sorted((run/'raw').glob('slot_*.bin')):collector.add_running_chunk(p.read_bytes(),p.relative_to(run).as_posix())
+ram=(run/'raw/final-paused-ram.bin').read_bytes();head=struct.unpack_from('<I',ram,profile['head_addr']-0x20000000)[0]
+offset=profile['slots_addr']-0x20000000
+collector.add_paused_snapshot(ram[offset:offset+3072],head,'raw/final-paused-ram.bin',offset)
+selected=collector.select();events=[];samples,segments,mapping=make_samples(session,collector,selected,events)
+analysis=run/'derived'/unique_id('analysis');analysis.mkdir()
+write_strict_csv(analysis/'samples.csv',SAMPLES_HEADERS,samples)
+(analysis/'stable_frames.bin').write_bytes(b''.join(selected.frames.values()))
+obs=[]
+for item in collector.observations:
+    chosen=selected.frames_by_boot.get(item.boot_id,{}).get(item.source_seq)
+    selected_obs=bool(chosen and hashlib.sha256(chosen).hexdigest()==item.record_sha256
+                      and item.validation_status=='VALID_FORMAT')
+    obs.append(dict(zip(OBSERVATIONS_HEADERS,[run.name,item.boot_id or None,mapping.get((item.boot_id,item.source_seq)),
+        item.source_seq,item.observation_id,item.source_path,item.byte_offset,item.byte_length,item.record_sha256,
+        item.validation_status,'SELECTED_VERSION' if selected_obs else 'RETAINED_NOT_SELECTED','原件保留'])))
+write_strict_csv(analysis/'observations.csv',OBSERVATIONS_HEADERS,obs)
+io=[json.loads(line) for line in (run/'raw/io.jsonl').read_text(encoding='utf-8').splitlines()]
+timing={row['file']:row for row in io if row.get('file')}
+states=[];diags=[]
+files=sorted((run/'raw').glob('state_*.bin'))+[run/'raw/final-paused-ram.bin']
+for index,p in enumerate(files):
+    blob=p.read_bytes();rel=p.relative_to(run).as_posix();values={}
+    for field in profile['public_fields']:
+        values[field['field']]=struct.unpack_from('<'+{'u32':'I','i32':'i','f32':'f'}[field['type']],blob,field['address']-0x20000000)[0]
+    if values['tag']==0 and values['abi_version']==0 and not diags:
+        # 复位后的BSS原件保留；初始化尚未执行时不能伪造算法状态或误报ABI漂移。
+        continue
+    require(values['tag']==0x324f4942 and values['abi_version']==2,'状态ABI不符')
+    diags.append(values)
+    for field in profile['public_fields']+profile['ui_fields']:
+        name=field['field'];module='resp_algorithm' if name.startswith(('resp','rpm')) else ('ecg_algorithm' if name.startswith(('hr','ecg')) else 'adc_driver')
+        if field in profile['ui_fields']:module='ui'
+        value=struct.unpack_from('<'+{'u32':'I','i32':'i','f32':'f','u16':'H','u8':'B'}[field['type']],blob,field['address']-0x20000000)[0]
+        valid=values['rpm_valid'] if module=='resp_algorithm' else (values['hr_valid'] if module=='ecg_algorithm' else None)
+        t=timing.get(rel,{})
+        states.append(dict(zip(FIRMWARE_STATE_HEADERS,[run.name,'boot_0001',None,index,module,name,value,field['type'],
+            'algorithm_diagnostic',valid,values['last_sequence'],values['last_sample_ms'],t.get('request_ns'),t.get('confirmation_ns'),
+            'HALTED_MEMORY_POINT' if p.name.startswith('final') else 'LIVE_UNCOORDINATED',rel])))
+write_strict_csv(analysis/'firmware_state.csv',FIRMWARE_STATE_HEADERS,states)
+stats_names=['irq_count','captured','delivered','bad_status','spi_errors','queue_overflow','queue_peak','init_errors',
+             'long_gap_count','min_irq_gap_cycles','max_irq_gap_cycles','max_read_cycles']
+stats=dict(zip(stats_names,struct.unpack_from('<12I',ram,profile['adc_stats_addr']-0x20000000)))
+complete=bool(samples) and not selected.pending and not selected.multi_repeat_conflicts and not selected.paused_conflicts
+complete=complete and len(samples)//2==stats['captured'] and not any(stats[k] for k in ['bad_status','spi_errors','queue_overflow','init_errors','long_gap_count'])
+quality={'integrity':{'status':'PASS' if complete else 'INCOMPLETE','events':len(samples)//2,
+                     'pending':list(selected.pending),'conflicts':list(selected.conflicts)},
+         'segments':segments,'driver':stats,'snapshots':len(diags),
+         'snapshot_hr_valid':sum(bool(d['hr_valid']) for d in diags),
+         'snapshot_resp_valid':sum(bool(d['rpm_valid']) for d in diags),
+         'hr_values':sorted({d['hr'] for d in diags if d['hr_valid']}),
+         'resp_values':sorted({d['rpm'] for d in diags if d['rpm_valid']}),
+         'last_diagnostic':diags[-1],'accuracy':'NOT_EVALUATED_WITHOUT_REFERENCE'}
+write_events_jsonl(events,analysis/'events.jsonl');dump_strict_json(quality,analysis/'quality.json')
+dump_strict_json({'input_raw_manifest_sha256':hashlib.sha256((run/'raw_manifest.json').read_bytes()).hexdigest(),
+                 'tool_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                 'scope':'BIOV2_STANDARD_EXPORT','hardware_operations_in_analysis':[]},analysis/'analysis_receipt.json')
+summarize(samples,session,analysis,quality)
+dump_strict_json({'self_excluded':True,'files':[{'path':p.relative_to(analysis).as_posix(),'size_bytes':p.stat().st_size,
+                 'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in analysis.rglob('*') if p.is_file()]},analysis/'manifest.json')
+dump_strict_json({'run':str(run.resolve()),'analysis':str(analysis.resolve()),'quality':quality},root/'证据/latest_analysis.json')
+print(json.dumps(quality,ensure_ascii=True,indent=2))
