@@ -19,9 +19,11 @@ static bp_last_t bp;
 static bp_state_t bp_state;
 static CO_CANmodule_t *module;
 static unsigned init_count, hb_count, ppg_count, sdo_count, emcy_count;
+static unsigned quality_count;
 static uint32_t hb_at, last_ppg_tick;
 static uint8_t strict_ppg=1;
 static uint8_t hb_state;
+static uint8_t wire_mode;
 static uint8_t sdo_data[8];
 static NodeCanIrq irq_state;
 static int wave_available;
@@ -53,10 +55,13 @@ CO_CANtx_t *CO_CANtxBufferInit(CO_CANmodule_t *m,uint16_t i,uint16_t id,bool_t r
 }
 CO_ReturnError_t CO_CANsend(CO_CANmodule_t *m,CO_CANtx_t *t) {
     (void)m;
+    /* 可选导出真实协议栈发送结果供另一进程的 Gateway RPDO 消费；只是 Host 外设边界。 */
+    if(wire_mode) {printf("%u %u %u ",uwTick,t->ident,t->DLC);for(unsigned i=0;i<t->DLC;i++) printf("%02X",t->data[i]);puts("");return CO_ERROR_NO;}
     if(t->ident==0x701 && t->data[0]!=0) { if(hb_count && hb_state==t->data[0]) assert(uwTick-hb_at>=499 && uwTick-hb_at<=501); hb_at=uwTick;hb_state=t->data[0];hb_count++; }
     if(t->ident==0x181) { uint32_t tick;memcpy(&tick,t->data+4,4);if(ppg_count && strict_ppg) assert((uint32_t)(tick-last_ppg_tick)==20);last_ppg_tick=tick;ppg_count++; }
     if(t->ident==0x581) { sdo_count++;memcpy(sdo_data,t->data,8); }
     if(t->ident==0x81) emcy_count++;
+    if(t->ident==0x681) quality_count++;
     return CO_ERROR_NO;
 }
 void CO_CANmodule_process(CO_CANmodule_t *m) { (void)m; }
@@ -69,14 +74,21 @@ static void inject(uint16_t id,uint8_t dlc,const uint8_t *data) {
 }
 static void tick(void) { uwTick++; if(uwTick%8==0) { wave_available=1;wave_tick=uwTick; } g_meas.result_time_ms=uwTick;canopen_app_process(); }
 int main(int argc,char **argv) {
-    (void)argc;(void)argv;
+    wire_mode=argc>1 && !strcmp(argv[1],"--wire");
     g_meas.spo2=98;g_meas.pulse_rate=72;g_meas.result_valid=1;g_meas.probe_state=1;
     bp.valid=1;bp.sys=118;bp.dia=76;
     assert(canopen_app_init()==0);
+    if(wire_mode) {
+        uint64_t relative=1800000000000ULL-441763200000ULL;
+        uint32_t ms=(uint32_t)(relative%86400000u);uint16_t days=(uint16_t)(relative/86400000u);uint8_t data[6];
+        memcpy(data,&ms,4);memcpy(data+4,&days,2);inject(0x100,6,data);
+        for(unsigned i=0;i<6500;i++) tick();return 0;
+    }
     for(unsigned i=0;i<1600;i++) tick();
     assert(init_count==1); /* 原 CO_RESET_NOT 错误在此复现，不能用桩 PASS 掩盖。 */
     assert(hb_count>=3 && OD_PERSIST_COMM.x1017_producerHeartbeatTime==500);
     assert(OD_PERSIST_COMM.x1014_COB_ID_EMCY==0x81);
+    assert(quality_count>=2); /* 第五 TPDO 定时器必须来自标准 0x1804:05。 */
     uint8_t sdo[]={0x40,0x17,0x10,0,0,0,0,0};inject(0x601,8,sdo);tick();
     assert(sdo_count && sdo_data[0]==0x4B && sdo_data[4]==0xF4 && sdo_data[5]==1);
     assert(OD_RAM.x2100_epoch_tick.epoch==0); /* 默认软 RTC 不具备可信 UTC 身份。 */

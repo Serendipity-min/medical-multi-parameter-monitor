@@ -1158,6 +1158,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
             .dataLength = 4
         }
     },
+    /* TPDO eventTimer 标准子索引为5，SYNCStartValue为6；4为保留空洞。 */
     .o_1804_TPDOCommunicationParameter = {
         {
             .dataOrig = &OD_PERSIST_COMM.x1804_TPDOCommunicationParameter.highestSub_indexSupported,
@@ -1185,13 +1186,13 @@ static CO_PROGMEM ODObjs_t ODObjs = {
         },
         {
             .dataOrig = &OD_PERSIST_COMM.x1804_TPDOCommunicationParameter.eventTimer,
-            .subIndex = 4,
+            .subIndex = 5,
             .attribute = ODA_SDO_RW | ODA_MB,
             .dataLength = 2
         },
         {
             .dataOrig = &OD_PERSIST_COMM.x1804_TPDOCommunicationParameter.SYNCStartValue,
-            .subIndex = 5,
+            .subIndex = 6,
             .attribute = ODA_SDO_RW | ODA_MB,
             .dataLength = 1
         },
