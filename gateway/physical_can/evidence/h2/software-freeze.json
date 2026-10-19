@@ -1,0 +1,94 @@
+{
+  "base_sha": "ac813d9db690b5cfeff0c39658c1ee38a69b8940",
+  "hardware_stage": "A_READ_ONLY_BACKUP_PASS_NO_FLASH_WRITES_C_NOT_ACCESSED",
+  "ARM_manifest": "gateway/physical_can/evidence/h2/arm-20261019T071225849833Z.json",
+  "C_image": {
+    "sha256": "490de4458740ad3c90132e73619bbc017ec5433ffe28714cae3508f7348f1317",
+    "bytes": 24304,
+    "start": "0x08000000",
+    "end_exclusive": "0x8005ef0",
+    "erase_sectors": [
+      0,
+      1
+    ],
+    "protected_regions": [
+      "0x08060000..0x0807ffff",
+      "0x080e0000..0x080fffff"
+    ]
+  },
+  "A_image_plan": "gateway/physical_can/evidence/h2/node-a-image-plan.json",
+  "source_identity": {
+    "gateway/physical_can/bench/README.md": {
+      "worktree_sha256": "f77e92bbb792bcb3b7d55440bd73ec97356f414d35a4e1766f9c74c1b0d77a01",
+      "staged_blob_sha256": "f77e92bbb792bcb3b7d55440bd73ec97356f414d35a4e1766f9c74c1b0d77a01"
+    },
+    "gateway/physical_can/bench/STM32F407_BENCH.ld": {
+      "worktree_sha256": "f5c0bcf5577947bfef9a113e67391373243a7a9fc43561024122056a65b27927",
+      "staged_blob_sha256": "f5c0bcf5577947bfef9a113e67391373243a7a9fc43561024122056a65b27927"
+    },
+    "gateway/physical_can/bench/backup_a.py": {
+      "worktree_sha256": "2caffb7fc11d36bc033b21023c92b507edfaf61fdac0e120770647bf3869d462",
+      "staged_blob_sha256": "7caec81ff181e1c1e440c5ff2c115c0a2e1d0d784e9363d2bd79e98f7ca5e9a9"
+    },
+    "gateway/physical_can/bench/bench.c": {
+      "worktree_sha256": "52e68e692d2ca0f22ccd34eeea0f735fe531822cd5ed70041a61d843e4bfc740",
+      "staged_blob_sha256": "52e68e692d2ca0f22ccd34eeea0f735fe531822cd5ed70041a61d843e4bfc740"
+    },
+    "gateway/physical_can/bench/bench.h": {
+      "worktree_sha256": "4c28a292fc264751407455ff169af1d0ed77d086b390c23933c6e8d15a34d417",
+      "staged_blob_sha256": "4c28a292fc264751407455ff169af1d0ed77d086b390c23933c6e8d15a34d417"
+    },
+    "gateway/physical_can/bench/flash_a.py": {
+      "worktree_sha256": "eb71123310bc65fc5ad09b8aa6298824c41048c987867415fb861d757773c803",
+      "staged_blob_sha256": "eb71123310bc65fc5ad09b8aa6298824c41048c987867415fb861d757773c803"
+    },
+    "gateway/physical_can/bench/flash_c.py": {
+      "worktree_sha256": "552c9b6f97a2a7b79058f57acca573b239860a2e041dbe4e1b96341b2f12d5f8",
+      "staged_blob_sha256": "552c9b6f97a2a7b79058f57acca573b239860a2e041dbe4e1b96341b2f12d5f8"
+    },
+    "gateway/physical_can/bench/platform.c": {
+      "worktree_sha256": "e686583203e89f2f92727b94195e6ee27833052232d194ecb83ed5dcc1798759",
+      "staged_blob_sha256": "e686583203e89f2f92727b94195e6ee27833052232d194ecb83ed5dcc1798759"
+    },
+    "gateway/physical_can/bench_build.py": {
+      "worktree_sha256": "0b0d5888dc26a4eed11257ea488aa390c838ebed38363e06ce0b2ed7fd057f18",
+      "staged_blob_sha256": "0b0d5888dc26a4eed11257ea488aa390c838ebed38363e06ce0b2ed7fd057f18"
+    },
+    "gateway/physical_can/src/bxcan_physical.c": {
+      "worktree_sha256": "bd019cd02ca3618d631645f407e318e1291f416b405785c038b63be4882fd167",
+      "staged_blob_sha256": "bd019cd02ca3618d631645f407e318e1291f416b405785c038b63be4882fd167"
+    },
+    "gateway/physical_can/tests/bench_host.c": {
+      "worktree_sha256": "c979a0607e3679ce09aeb09ca26edafd0c91bb93c69dffc4106ced1ac32425ac",
+      "staged_blob_sha256": "c979a0607e3679ce09aeb09ca26edafd0c91bb93c69dffc4106ced1ac32425ac"
+    },
+    "gateway/physical_can/tests/test_a_flash_gate.py": {
+      "worktree_sha256": "9642c5bba149af00ea9bdafecbb5996a90b1bc8453167215fde72914a517e6fb",
+      "staged_blob_sha256": "9642c5bba149af00ea9bdafecbb5996a90b1bc8453167215fde72914a517e6fb"
+    },
+    "gateway/physical_can/tests/test_flash_plan.py": {
+      "worktree_sha256": "0d23e18094cb55847f6b77e1f91bb86679a5232bd9c8e91ed511879e74d7aaca",
+      "staged_blob_sha256": "0d23e18094cb55847f6b77e1f91bb86679a5232bd9c8e91ed511879e74d7aaca"
+    }
+  },
+  "regression_exit_codes": {
+    "node-a-host": 0,
+    "node-a-keil": 0,
+    "h0-startup-host": 0,
+    "physical-host": 0,
+    "physical-arm": 0,
+    "physical-wire": 0,
+    "p5-can-host": 0,
+    "canonical": 0,
+    "p5-arm": 0,
+    "backend": 0,
+    "isolated-broker": 0,
+    "physical-wire-broker": 0
+  },
+  "A_backup_initial_failure_preserved": true,
+  "A_backup_corrected_PASS": true,
+  "C_full_backup": "USER_WAIVED",
+  "flash_modified": false,
+  "network": "NOT_LINKED_IN_BENCH",
+  "security_gate": "NOT_RUN"
+}

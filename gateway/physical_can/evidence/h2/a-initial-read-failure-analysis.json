@@ -1,0 +1,14 @@
+{
+  "mode": "OFFLINE_REVIEW_OF_EXISTING_READBACK",
+  "physical_actions_after_failure": "NONE_UNTIL_USER_EXPLICIT_CONTINUE",
+  "first_identity_process_exit": 0,
+  "first_gate_exit": 1,
+  "actual_first_read_address": "0x40015800",
+  "first_value": 0,
+  "correct_address_from_project_ST_header": "0xE0042000",
+  "cause": "SCRIPT_ADDRESS_ERROR_NOT_PROOF_OF_WRONG_CHIP",
+  "user_resumed_with_A_still_powered": true,
+  "corrected_backup_exit": 0,
+  "flash_erase_or_write_during_backup": false,
+  "sensitive_raw_logs": "RESTRICTED_LOCAL_ONLY"
+}

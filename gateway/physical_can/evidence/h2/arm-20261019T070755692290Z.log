@@ -1,0 +1,4 @@
+E:\medical-monitor-node-a\gateway\physical_can\bench\bench.c: In function 'bench_step':
+E:\medical-monitor-node-a\gateway\physical_can\bench\bench.c:124:35: error: implicit declaration of function 'mp_bus_hardware_poll' [-Wimplicit-function-declaration]
+  124 |     } else if(!bench_stats.fault) mp_bus_hardware_poll();
+      |                                   ^~~~~~~~~~~~~~~~~~~~

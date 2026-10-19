@@ -6,6 +6,9 @@
 #include "stm32f4xx_rcc.h"
 #include "stm32f4xx_gpio.h"
 #include <string.h>
+#ifdef CAN_ONLY_BENCH
+#include "bench.h"
+#endif
 static PhysicalTx tx;
 uint32_t physical_rx_overflow,physical_bad_frame;
 static int wait_init(bool enabled) {
@@ -31,10 +34,18 @@ int mp_bxcan_init(void) {
     CAN1->FMR|=CAN_FMR_FINIT;CAN1->FA1R&=~1u;CAN1->FS1R|=1u;CAN1->FM1R&=~1u;CAN1->FFA1R&=~1u;
     CAN1->sFilterRegister[0].FR1=0;CAN1->sFilterRegister[0].FR2=0;CAN1->FA1R|=1u;CAN1->FMR&=~CAN_FMR_FINIT;
     CAN1->MCR&=~CAN_MCR_INRQ;if(!wait_init(false)) return 0;
-    mp_bus_set_online(true);physical_link_ready=true;return 1;
+    mp_bus_set_online(true);physical_link_ready=true;
+#ifdef CAN_ONLY_BENCH
+    /* 仅离线bench观测真实寄存器；完整候选编译时不包含这些钩子。 */
+    bench_observe_registers(clocks.PCLK1_Frequency,CAN1->BTR,CAN1->ESR,CAN1->TSR,physical_rx_overflow,physical_bad_frame);
+#endif
+    return 1;
 }
 static void fail_link(void) { CAN1->TSR=CAN_TSR_ABRQ0;physical_invalidate(); }
 void mp_bus_hardware_poll(void) {
+#ifdef CAN_ONLY_BENCH
+    bench_observe_registers(bench_stats.pclk,CAN1->BTR,CAN1->ESR,CAN1->TSR,physical_rx_overflow,physical_bad_frame);
+#endif
     if(CAN1->ESR&CAN_ESR_BOFF) {tx.fault=true;fail_link();return;}
     if(CAN1->RF0R&CAN_RF0R_FOVR0) {physical_rx_overflow++;CAN1->RF0R=CAN_RF0R_FOVR0;}
     unsigned budget=3;
@@ -43,7 +54,12 @@ void mp_bus_hardware_poll(void) {
         f.ident=(uint16_t)(id>>21);f.dlc=CAN1->sFIFOMailBox[0].RDTR&15u;
         uint32_t lo=CAN1->sFIFOMailBox[0].RDLR,hi=CAN1->sFIFOMailBox[0].RDHR;memcpy(f.data,&lo,4);memcpy(f.data+4,&hi,4);
         CAN1->RF0R=CAN_RF0R_RFOM0;
-        if(!(id&(CAN_RI0R_IDE|CAN_RI0R_RTR)) && f.dlc<=8) physical_receive(&f);else physical_bad_frame++;
+        if(!(id&(CAN_RI0R_IDE|CAN_RI0R_RTR)) && f.dlc<=8) {
+#ifdef CAN_ONLY_BENCH
+            bench_observe_rx(&f);
+#endif
+            physical_receive(&f);
+        } else physical_bad_frame++;
     }
 }
 int mp_bus_transmit(MpCanFrame *f) {
@@ -51,8 +67,16 @@ int mp_bus_transmit(MpCanFrame *f) {
     unsigned action=physical_tx_step(&tx,g_uptime_ms,(tsr&CAN_TSR_TME0)!=0,(tsr&CAN_TSR_RQCP0)!=0,
         (tsr&CAN_TSR_TXOK0)!=0,(tsr&CAN_TSR_TERR0)!=0,(CAN1->ESR&CAN_ESR_BOFF)!=0);
     if(action==LINK_FAULT) {fail_link();return 0;}
-    if(action==LINK_ACK) {CAN1->TSR=CAN_TSR_RQCP0;return 1;}
+    if(action==LINK_ACK) {
+#ifdef CAN_ONLY_BENCH
+        bench_observe_tx(f,true); /* 只在真实TSR.TXOK判定后记录成功。 */
+#endif
+        CAN1->TSR=CAN_TSR_RQCP0;return 1;
+    }
     if(action==LINK_START) {
+#ifdef CAN_ONLY_BENCH
+        bench_observe_tx(f,false);
+#endif
         uint32_t lo,hi;memcpy(&lo,f->data,4);memcpy(&hi,f->data+4,4);CAN1->TSR=CAN_TSR_RQCP0;
         CAN1->sTxMailBox[0].TDTR=f->dlc;CAN1->sTxMailBox[0].TDLR=lo;CAN1->sTxMailBox[0].TDHR=hi;
         CAN1->sTxMailBox[0].TIR=((uint32_t)f->ident<<21)|CAN_TI0R_TXRQ;
