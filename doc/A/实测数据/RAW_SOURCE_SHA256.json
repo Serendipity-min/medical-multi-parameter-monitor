@@ -1,0 +1,33 @@
+{
+  "note": "原始串口字节未入版本库（.gitignore:54 *.bin 全局规则）；此清单记录本机原件的 SHA-256，com15_text.log 为该字节流的逐行文本记录，分析上与原件等价。",
+  "rounds": {
+    "A1_NodeA_CAN_20261019T192020": {
+      "com15_raw.bin": {
+        "bytes": 209643,
+        "sha256": "8d21e2b356db467488e0174ba5f96b810e003f760255fc7314c1c1a17dd03d62"
+      },
+      "com15_text.log": {
+        "bytes": 211455,
+        "sha256": "0cbda36c315d9339a6cdeb329ebd2cb12aa6d7cbe1c91fa3b453d202881b22bb"
+      },
+      "capture_receipt.json": {
+        "bytes": 269,
+        "sha256": "ed9e5546029c793e5af053513bd1309e61725b82a5aeb9bbe881c658eabe9323"
+      }
+    },
+    "A2_NodeA_CAN_20261019T192617": {
+      "com15_raw.bin": {
+        "bytes": 420933,
+        "sha256": "ceb566b58feae9a2c52a53370bf8ba7156984421aaac23a31e646bfc58bb8ef1"
+      },
+      "com15_text.log": {
+        "bytes": 424569,
+        "sha256": "7fe73ee1f179092ea0105ed122a6ef27e2054d9c806f8dc14a635bcbcc26207f"
+      },
+      "capture_receipt.json": {
+        "bytes": 853,
+        "sha256": "b92e1b70e7c99f5e68f2a946bb197e045e5fd11cca8d9ae9d5cb222201b5494d"
+      }
+    }
+  }
+}
