@@ -1,0 +1,13 @@
+{
+  "source": "ACTUAL_C_UART_AND_OPERATOR_REQUEST",
+  "first_new_181_device_ms": 930448,
+  "user_report": "没有合格夹具；提出使用人体并佩戴后采集，未确认具体佩戴时刻",
+  "classification": "UNQUALIFIED_SOURCE_CHANGE_DO_NOT_ACCEPT_AS_NONHUMAN_VALIDATION",
+  "assistant_actions": "P closes C protocol and invalidates model; STOP ends Host capture; no A measurement/pressure command issued",
+  "window1_observer_exit_code": 1,
+  "window1_analysis_exit_code": 1,
+  "window1_failure_cause": "Operator pause after source change, not a hardware FOVR/software RX overflow",
+  "window2": "NOT_STARTED_PENDING_NO_HUMAN_CONFIRMATION",
+  "raw_samples": "ACL_RESTRICTED_LOCAL_ONLY",
+  "public_sample_values": "REDACTED"
+}

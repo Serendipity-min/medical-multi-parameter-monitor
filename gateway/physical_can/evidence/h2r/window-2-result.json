@@ -1,0 +1,188 @@
+{
+  "number": 2,
+  "attempt": 1,
+  "checks": {
+    "observer_exit_zero": true,
+    "interior_device_duration_at_least_300s": true,
+    "complete_contiguous_reports": true,
+    "all_reports_online_without_can_error": true,
+    "all_loss_counters_zero": true,
+    "disconnected_source_state_retained": true
+  },
+  "exit_code": 0,
+  "capture_stamp": "20261019T102058Z",
+  "log": "c-continuous-20261019T102058Z.log",
+  "host_observation_seconds": 312.781,
+  "first_report": 1538,
+  "last_report": 2167,
+  "complete_reports": 630,
+  "interior_device_duration_seconds": 314.507,
+  "host_report_integrity": {
+    "protocol_available": true,
+    "complete_reports": 630,
+    "missing_reports": 0,
+    "missing_lines": 0,
+    "incomplete_reports": 0,
+    "duplicate_lines": 0,
+    "invalid_tags": 0,
+    "device_boot_markers": 0,
+    "trailing_partial_report": false,
+    "interpretation": "HOST_OBSERVED_DIAGNOSTIC_GAPS; UART and hardware counters are separate"
+  },
+  "rhythm": {
+    "701": {
+      "count_delta": 624,
+      "appeared_after_start": false,
+      "first_snapshot_last_ms": 1525316,
+      "end_snapshot_last_ms": 1840553,
+      "lifetime_dt_min_ms": 504,
+      "lifetime_dt_max_ms_includes_cold_power_off": 31495,
+      "report_last_timestamp_advance_min_ms": 504,
+      "report_last_timestamp_advance_max_ms": 508
+    },
+    "181": {
+      "count_delta": 0,
+      "appeared_after_start": false,
+      "first_snapshot_last_ms": 1071064,
+      "end_snapshot_last_ms": 1071064,
+      "lifetime_dt_min_ms": 0,
+      "lifetime_dt_max_ms_includes_cold_power_off": 2169,
+      "report_last_timestamp_advance_min_ms": null,
+      "report_last_timestamp_advance_max_ms": null
+    },
+    "381": {
+      "count_delta": 313,
+      "appeared_after_start": false,
+      "first_snapshot_last_ms": 1523997,
+      "end_snapshot_last_ms": 1840243,
+      "lifetime_dt_min_ms": 1008,
+      "lifetime_dt_max_ms_includes_cold_power_off": 32010,
+      "report_last_timestamp_advance_min_ms": 1008,
+      "report_last_timestamp_advance_max_ms": 1022
+    },
+    "481": {
+      "count_delta": 313,
+      "appeared_after_start": false,
+      "first_snapshot_last_ms": 1523997,
+      "end_snapshot_last_ms": 1840243,
+      "lifetime_dt_min_ms": 1008,
+      "lifetime_dt_max_ms_includes_cold_power_off": 32009,
+      "report_last_timestamp_advance_min_ms": 1009,
+      "report_last_timestamp_advance_max_ms": 1022
+    },
+    "681": {
+      "count_delta": 313,
+      "appeared_after_start": false,
+      "first_snapshot_last_ms": 1524727,
+      "end_snapshot_last_ms": 1840970,
+      "lifetime_dt_min_ms": 14,
+      "lifetime_dt_max_ms_includes_cold_power_off": 32010,
+      "report_last_timestamp_advance_min_ms": 1009,
+      "report_last_timestamp_advance_max_ms": 1015
+    }
+  },
+  "loss_counters_start": {
+    "rx_queue": {
+      "hw_fovr": "0",
+      "sw_over": "0",
+      "depth": "0",
+      "high": "4",
+      "hw_full": "0",
+      "fifo_high": "1",
+      "irq_calls": "13531",
+      "irq_frames": "13528",
+      "reinit_discard": "0",
+      "fault_discard": "0",
+      "stale_discard": "0",
+      "bus_drop": "0",
+      "rs": "1536",
+      "rl": "9"
+    },
+    "model": {
+      "frames": "1398",
+      "invalid": "1023",
+      "seq": "168",
+      "session": "196609",
+      "over": "0",
+      "bad": "0",
+      "uart_drop": "0",
+      "lag": "13",
+      "stream": "3",
+      "valid": "0",
+      "synthetic": "0",
+      "stamp": "000001a318618020",
+      "router_drop": "0",
+      "rs": "1536",
+      "rl": "8"
+    },
+    "host_log": {
+      "protocol_available": true,
+      "complete_reports": 381,
+      "missing_reports": 0,
+      "missing_lines": 0,
+      "incomplete_reports": 0,
+      "duplicate_lines": 0,
+      "invalid_tags": 0,
+      "device_boot_markers": 0,
+      "trailing_partial_report": true,
+      "interpretation": "HOST_OBSERVED_DIAGNOSTIC_GAPS; UART and hardware counters are separate"
+    }
+  },
+  "loss_counters_end": {
+    "rx_queue": {
+      "hw_fovr": "0",
+      "sw_over": "0",
+      "depth": "0",
+      "high": "4",
+      "hw_full": "0",
+      "fifo_high": "1",
+      "irq_calls": "15095",
+      "irq_frames": "15092",
+      "reinit_discard": "0",
+      "fault_discard": "0",
+      "stale_discard": "0",
+      "bus_drop": "0",
+      "rs": "2168",
+      "rl": "9"
+    },
+    "model": {
+      "frames": "2058",
+      "invalid": "1557",
+      "seq": "325",
+      "session": "196609",
+      "over": "0",
+      "bad": "0",
+      "uart_drop": "0",
+      "lag": "13",
+      "stream": "3",
+      "valid": "0",
+      "synthetic": "0",
+      "stamp": "000001a318665a50",
+      "router_drop": "0",
+      "rs": "2168",
+      "rl": "8"
+    },
+    "host_log": {
+      "protocol_available": true,
+      "complete_reports": 1013,
+      "missing_reports": 0,
+      "missing_lines": 0,
+      "incomplete_reports": 0,
+      "duplicate_lines": 0,
+      "invalid_tags": 0,
+      "device_boot_markers": 0,
+      "trailing_partial_report": true,
+      "interpretation": "HOST_OBSERVED_DIAGNOSTIC_GAPS; UART and hardware counters are separate"
+    }
+  },
+  "timing_lifetime_maxima": {
+    "cycles_per_ms": "16000",
+    "main_gap_cycles": "571229",
+    "report_max_cycles": "183261",
+    "irq_max_cycles": "221",
+    "dequeue_lag_cycles": "195731",
+    "rs": "2168",
+    "rl": "10"
+  },
+  "limits": "No per-frame sample-perfect comparison; lifetime rhythm includes cold boots; acquisition source requires separate operator evidence."
+}

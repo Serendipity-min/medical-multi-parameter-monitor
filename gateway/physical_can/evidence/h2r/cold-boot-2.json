@@ -1,0 +1,28 @@
+{
+  "mode": "REAL_C_CAPTURE_NORMAL_NODE_A_COLD_BOOT",
+  "attempt": 2,
+  "operator": "A_J5_INDEPENDENT_POWER_JLINK_DISCONNECTED_NO_RESET_NO_HUMAN",
+  "operator_report": "A第2次已上电，本次测试正常；按用户最新指令取消第三次",
+  "bootup": {
+    "id": "701",
+    "dlc": "1",
+    "data": "00",
+    "at": "710790",
+    "boot_n": "2"
+  },
+  "first_operational_heartbeat": {
+    "id": "701",
+    "dlc": "1",
+    "data": "05",
+    "at": "711294",
+    "boot_n": "2"
+  },
+  "delta_boot_to_op_ms": 504,
+  "C_not_reset_between_attempts": true,
+  "A_PC_MSP_VTOR_forced": false,
+  "direct_PC_reading": "NOT_READ_DEBUGGER_DISCONNECTED; application execution inferred from immutable application and actual protocol/screens",
+  "C_capture_stamp": "20261019T100317Z",
+  "old_model_invalidation": "EXPLICIT_P_INVALIDATION_NOT_AUTOMATIC_TIMEOUT_CLAIM",
+  "time_recovery": "See cold-boot-2-before-time.json and cold-boot-2-time-restored.json",
+  "status": "NORMAL_BOOT_EVENT_OBSERVED"
+}

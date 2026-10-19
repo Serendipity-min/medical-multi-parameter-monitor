@@ -1,0 +1,183 @@
+{
+  "mode": "REAL_HARDWARE_UART_CAPTURE",
+  "stamp": "20261019T102058Z",
+  "state": "CAPTURING",
+  "exit_code": null,
+  "await_manual_boot": false,
+  "commands": [
+    {
+      "command": "G",
+      "elapsed_s": 16.328,
+      "device_ms_before": "1172001"
+    },
+    {
+      "command": "T",
+      "elapsed_s": 25.797,
+      "device_ms_before": "1182001"
+    },
+    {
+      "command": "D",
+      "elapsed_s": 354.422,
+      "device_ms_before": "1513001"
+    },
+    {
+      "command": "D",
+      "elapsed_s": 687.375,
+      "device_ms_before": "1851500"
+    }
+  ],
+  "latest": {
+    "ms": "1859500",
+    "armed": "1",
+    "fault": "0",
+    "PCLK1": "16000000",
+    "BTR": "001c0001",
+    "TEC": "0",
+    "REC": "0",
+    "LEC": "0",
+    "BOFF": "0",
+    "TXOK": "2983",
+    "NMT_START": "3",
+    "NMT_TXOK": "3",
+    "A": "1",
+    "B": "0",
+    "time": "BENCH_TEST_TIME_UNTRUSTED",
+    "paused": "0",
+    "diag_ms": "1000",
+    "rs": "2197",
+    "rl": "1"
+  },
+  "rx": {
+    "701": {
+      "id": "701",
+      "n": "3328",
+      "first": "147285",
+      "last": "1859256",
+      "dt_min": "504",
+      "dt_max": "31495",
+      "dlc": "1",
+      "data": "0500000000000000",
+      "rs": "2197",
+      "rl": "2"
+    },
+    "181": {
+      "id": "181",
+      "n": "6856",
+      "first": "930448",
+      "last": "1071064",
+      "dt_min": "0",
+      "dt_max": "2169",
+      "dlc": "8",
+      "data": "REDACTED_SAMPLE_PAYLOAD",
+      "rs": "2197",
+      "rl": "3"
+    },
+    "381": {
+      "id": "381",
+      "n": "1665",
+      "first": "147285",
+      "last": "1859450",
+      "dt_min": "1008",
+      "dt_max": "32010",
+      "dlc": "8",
+      "data": "REDACTED_SAMPLE_PAYLOAD",
+      "rs": "2197",
+      "rl": "4"
+    },
+    "481": {
+      "id": "481",
+      "n": "1665",
+      "first": "147285",
+      "last": "1859451",
+      "dt_min": "1008",
+      "dt_max": "32009",
+      "dlc": "8",
+      "data": "a5d4496bfe5b1100",
+      "rs": "2197",
+      "rl": "5"
+    },
+    "681": {
+      "id": "681",
+      "n": "1671",
+      "first": "147286",
+      "last": "1859167",
+      "dt_min": "14",
+      "dt_max": "32010",
+      "dlc": "8",
+      "data": "0000000001000000",
+      "rs": "2197",
+      "rl": "6"
+    }
+  },
+  "elapsed_s": 697.359,
+  "recognized_lines": 12508,
+  "log": "c-continuous-20261019T102058Z.log",
+  "host_log": {
+    "protocol_available": true,
+    "complete_reports": 1042,
+    "missing_reports": 0,
+    "missing_lines": 0,
+    "incomplete_reports": 0,
+    "duplicate_lines": 0,
+    "invalid_tags": 0,
+    "device_boot_markers": 0,
+    "trailing_partial_report": false,
+    "interpretation": "HOST_OBSERVED_DIAGNOSTIC_GAPS; UART and hardware counters are separate"
+  },
+  "mirror": {
+    "epoch": "1800000677",
+    "tick": "1137662",
+    "Q": "00000000",
+    "gen": "1",
+    "fresh": "1c",
+    "values": "REDACTED_SAMPLES",
+    "wave": "REDACTED_SAMPLE/0",
+    "HBboot": "2",
+    "HBop": "3326",
+    "rs": "2197",
+    "rl": "7"
+  },
+  "model": {
+    "frames": "2097",
+    "invalid": "1588",
+    "seq": "334",
+    "session": "196609",
+    "over": "0",
+    "bad": "0",
+    "uart_drop": "0",
+    "lag": "13",
+    "stream": "3",
+    "valid": "0",
+    "synthetic": "0",
+    "stamp": "000001a31866a0a0",
+    "router_drop": "0",
+    "rs": "2197",
+    "rl": "8"
+  },
+  "rx_queue": {
+    "hw_fovr": "0",
+    "sw_over": "0",
+    "depth": "0",
+    "high": "4",
+    "hw_full": "0",
+    "fifo_high": "1",
+    "irq_calls": "15188",
+    "irq_frames": "15185",
+    "reinit_discard": "0",
+    "fault_discard": "0",
+    "stale_discard": "0",
+    "bus_drop": "0",
+    "rs": "2197",
+    "rl": "9"
+  },
+  "timing": {
+    "cycles_per_ms": "16000",
+    "main_gap_cycles": "571229",
+    "report_max_cycles": "183261",
+    "irq_max_cycles": "221",
+    "dequeue_lag_cycles": "195731",
+    "rs": "2197",
+    "rl": "10"
+  },
+  "sample_payloads": "REDACTED; raw UART retained in ACL-restricted local directory"
+}

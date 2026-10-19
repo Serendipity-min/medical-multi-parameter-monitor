@@ -1,0 +1,97 @@
+{
+  "mode": "H2R_FINAL_REAL_HARDWARE_OUTCOME",
+  "utc": "2026-10-19T10:33:17.534182+00:00",
+  "base_sha": "a9951fd2f8c66437e2db195a85daa23fef7054b3",
+  "loaded_firmware_source_commit": "7fc6f5932f5789450e3327a77f8a7c4d2e1a4e88",
+  "H2R": "H2R_PASS",
+  "acceptance_scope": "USER_AMENDED_TWO_COLD_BOOTS; ORIGINAL_THREE_BOOT_REQUIREMENT_NOT_COMPLETED",
+  "H2R_FIFO": "PASS_TWO_NONOVERLAPPING_WINDOWS_DISCONNECTED_SENSOR_LOAD",
+  "H2R_COLD_BOOT": "PASS_USER_AMENDED_TWO_ATTEMPTS; THIRD_CANCELLED_BY_USER",
+  "direct_A_PC_measurement": "NOT_READ; NO_FORCED_PC_MSP_VTOR; APP_EXECUTION_INDIRECTLY_SUPPORTED",
+  "REAL_SENSOR_VALIDATION": "REAL_SENSOR_VALIDATION_BLOCKED",
+  "sensor_missing_streams": "PENDING_NO_QUALIFIED_NONHUMAN_FIXTURE",
+  "H3": "H3_NOT_AUTHORIZED",
+  "loss_counters_cumulative_final": {
+    "hardware_FOVR": "0",
+    "software_RX_overflow": "0",
+    "Router_drop": "0",
+    "Host_missing_reports": 0,
+    "Host_missing_lines": 0,
+    "device_UART_dropped_bytes": "0",
+    "bad_frames": "0",
+    "bus_drop": "0"
+  },
+  "windows": [
+    {
+      "file": "window-1-attempt-2-result.json",
+      "host_seconds": 312.25,
+      "interior_device_seconds": 314.0,
+      "observer_exit": 0,
+      "analysis_exit": 0,
+      "C_diag_ms": 1000
+    },
+    {
+      "file": "window-2-result.json",
+      "host_seconds": 312.781,
+      "interior_device_seconds": 314.507,
+      "observer_exit": 0,
+      "analysis_exit": 0,
+      "C_diag_ms": 500
+    }
+  ],
+  "interrupted_attempt": {
+    "observer_exit": 1,
+    "analysis_exit": 1,
+    "host_seconds": 260.89,
+    "cause": "OPERATOR_P_AFTER_UNQUALIFIED_SOURCE_CHANGE_NOT_CAN_LOSS",
+    "retained": true
+  },
+  "regression": {
+    "checks": 17,
+    "exit_codes": "ALL_ZERO",
+    "file": "regression-20261019T095503Z/results.json"
+  },
+  "captures": {
+    "20261019T100317Z": 0,
+    "20261019T101409Z": 0,
+    "20261019T102058Z": 0
+  },
+  "end_state": {
+    "C": "RX_ONLY_PAUSED_PROTOCOL_TX_STOPPED_DIAG_RESTORED_1HZ",
+    "Host_capture": "CLOSED",
+    "A": "AUTONOMOUS_APPLICATION_NOT_HALTED_OR_POWERED_OFF_BY_TOOL",
+    "power_off": "FIELD_OPERATION_NOT_PERFORMED_BY_TOOL"
+  },
+  "Node_B": "OFFLINE_NOT_INSTALLED",
+  "A_flashed_this_round": false,
+  "C_protected_sectors_7_11_unchanged": true,
+  "raw_evidence_identity": [
+    {
+      "name": "c-continuous-20261019T100317Z.raw.log",
+      "bytes": 774918,
+      "sha256": "4355eed9f0d74890a546de641f92c0b6f83a738b6dbd47b316708a9615c7bfa5",
+      "contents": "PRIVATE_NOT_COMMITTED"
+    },
+    {
+      "name": "c-continuous-20261019T101409Z.raw.log",
+      "bytes": 414267,
+      "sha256": "eda7d34e646d339c15039445dcdc3ecbe84dbd234400b7a89489e06b93c41893",
+      "contents": "PRIVATE_NOT_COMMITTED"
+    },
+    {
+      "name": "c-continuous-20261019T102058Z.raw.log",
+      "bytes": 1472244,
+      "sha256": "7ca537d359ad922f9f0ef895af31f1bbbb3d4c499ec5019dad8b927abf7dcc9f",
+      "contents": "PRIVATE_NOT_COMMITTED"
+    }
+  ],
+  "limits": [
+    "No physiological accuracy claim",
+    "No per-sample perfect transport proof",
+    "No qualified source for accepted waveform validation",
+    "P/G maintenance invalidation tested; automatic recovery only Host tested",
+    "BOOT/NRST transient cause remains undetermined",
+    "No full C backup or full rollback claim"
+  ],
+  "forbidden_actions_performed": []
+}

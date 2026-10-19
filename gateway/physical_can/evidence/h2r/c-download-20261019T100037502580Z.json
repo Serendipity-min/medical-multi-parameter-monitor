@@ -1,0 +1,55 @@
+{
+  "role": "C",
+  "port": "COM15",
+  "mode": "CAN_ONLY_BENCH_USB_RANGE_DOWNLOAD",
+  "C_full_backup": "WAIVED_BY_USER",
+  "exit_code": 0,
+  "stage": "VERIFIED_RESET_ASSERTED_BEFORE_CLOSE",
+  "flash_write_started": true,
+  "variant": "H2R_IRQ_STATIC_RX",
+  "source_commit": "7fc6f5932f5789450e3327a77f8a7c4d2e1a4e88",
+  "plan": {
+    "start": 134217728,
+    "end_exclusive": 134244388,
+    "sectors": [
+      0,
+      1
+    ],
+    "bytes": 26660,
+    "sha256": "79a5ddf9a49fe592f22f625269ef7fd88e1578aa36b1229477aa8b943eb35be5"
+  },
+  "A_backup_verified": true,
+  "C_identity_match": true,
+  "previous_application": {
+    "bytes": 24304,
+    "sha256": "490de4458740ad3c90132e73619bbc017ec5433ffe28714cae3508f7348f1317",
+    "readback_match": true
+  },
+  "protected_before": {
+    "0x8060000": {
+      "sector_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "first_312B_sha256": "26e1989c6b3b3e1b905dcc17405a2767a1a3ebbb76b26ae3ac6b16bfd61c031c"
+    },
+    "0x80e0000": {
+      "sector_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "first_312B_sha256": "26e1989c6b3b3e1b905dcc17405a2767a1a3ebbb76b26ae3ac6b16bfd61c031c"
+    }
+  },
+  "protected_after": {
+    "0x8060000": {
+      "sector_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "first_312B_sha256": "26e1989c6b3b3e1b905dcc17405a2767a1a3ebbb76b26ae3ac6b16bfd61c031c"
+    },
+    "0x80e0000": {
+      "sector_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "first_312B_sha256": "26e1989c6b3b3e1b905dcc17405a2767a1a3ebbb76b26ae3ac6b16bfd61c031c"
+    }
+  },
+  "protected_unchanged": true,
+  "image_readback_match": true,
+  "options_unchanged": true,
+  "RDP_level_zero": true,
+  "option_bytes_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+  "physical_CAN": "NOT_TESTED",
+  "reset_asserted_before_port_close": true
+}
