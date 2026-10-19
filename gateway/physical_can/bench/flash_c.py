@@ -55,8 +55,11 @@ def program_verified(boot,image,plan,progress=None):
     progress=progress or (lambda stage,details:None)
     if image_plan(image,plan['sha256'])!=plan:raise GateError('PLAN_CHANGED')
     if not boot.extended_erase:raise GateError('EXTENDED_ERASE_UNSUPPORTED')
-    options=read_exact(boot,0x40023C14,4)
-    if (int.from_bytes(options,'little')>>8)&255!=0xAA:raise GateError('RDP_NOT_LEVEL_ZERO')
+    # 串口ROM不等同于SWD任意寄存器访问；从F407选项字节映射区读取整组16字节。
+    # USER位于byte0，RDP位于byte1；与本轮A同型号芯片的只读映射核对一致。
+    progress('C_READ_OPTION_BYTES',{})
+    options=read_exact(boot,0x1FFFC000,16)
+    if options[1]!=0xAA:raise GateError('RDP_NOT_LEVEL_ZERO')
     before=protected_hashes(boot)
     progress('PROTECTED_HASHES_VERIFIED',{'protected_before':before})
     # 必须传非空、明确的扇区列表；库中None/空列表会触发整片擦除，绝不使用。
@@ -69,8 +72,8 @@ def program_verified(boot,image,plan,progress=None):
     if read_exact(boot,START,len(padded))!=padded:raise GateError('READBACK_MISMATCH')
     after=protected_hashes(boot)
     if after!=before:raise GateError('PROTECTED_DATA_CHANGED_STOP')
-    if read_exact(boot,0x40023C14,4)!=options:raise GateError('OPTIONS_CHANGED_STOP')
-    return {'protected_before':before,'protected_after':after,'protected_unchanged':True,'image_readback_match':True,'options_unchanged':True}
+    if read_exact(boot,0x1FFFC000,16)!=options:raise GateError('OPTIONS_CHANGED_STOP')
+    return {'protected_before':before,'protected_after':after,'protected_unchanged':True,'image_readback_match':True,'options_unchanged':True,'RDP_level_zero':True,'option_bytes_sha256':digest(options)}
 
 def external_identity(path):
     # literal_eval只读取声明值，不执行外部脚本，且不输出UID。

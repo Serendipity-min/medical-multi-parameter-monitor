@@ -14,7 +14,10 @@ def image(size=24000):
 class Device:
     def __init__(self):self.extended_erase=True;self.erased=None;self.written=None;self.corrupt=False;self.rdp=0xAA
     def read_memory_data(self,address,length):
-        if address==0x40023C14:return (self.rdp<<8).to_bytes(4,'little')
+        if address==0x1FFFC000:
+            assert length==16
+            return bytes([0xed,self.rdp])+b'\xff'*14
+        if address==0x40023C14:raise AssertionError('UART ROM must not depend on peripheral read')
         if address==m.START:return self.written if self.written is not None else bytes(length)
         return bytes([1 if self.corrupt and self.written else 0xff])*length
     def extended_erase_memory(self,pages):
