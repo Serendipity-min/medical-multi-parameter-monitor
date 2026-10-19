@@ -302,6 +302,11 @@ static void init_uart(void)
 
 void platform_init(void)
 {
+#ifdef MP_CAN_RX_IRQ
+    /* USB ROM GO不保证VTOR指向应用；与H2R相同，在UART/SysTick中断前定位应用向量。
+       这是C应用自身正常启动初始化，不对A手工改PC/MSP/VTOR。 */
+    SCB->VTOR=0x08000000u;__DSB();__ISB();
+#endif
     init_uart();
     if (SysTick_Config(SystemCoreClock / 1000U))
         while (1)

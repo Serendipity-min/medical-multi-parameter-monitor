@@ -3,10 +3,10 @@
   "mode": "ARM_PHYSICAL_CAN1_CANDIDATE",
   "hardware": "NOT_RUN",
   "image": {
-    "sha256": "6221241ade673ca367fe0db773ca075f655b070e0ef69dd34942328c928fc487",
-    "bytes": 38620,
+    "sha256": "795a8951ed41b45a8c7b0a81b971a151aac8c31c53ee25a39c4dcb16e5b2b2ca",
+    "bytes": 38632,
     "start": 134217728,
-    "end_exclusive": 134256348,
+    "end_exclusive": 134256360,
     "erase_sectors": [
       0,
       1,
@@ -15,17 +15,17 @@
     "load_segments": [
       {
         "start": 134217728,
-        "end_exclusive": 134256260,
-        "bytes": 38532
+        "end_exclusive": 134256272,
+        "bytes": 38544
       },
       {
-        "start": 134256260,
-        "end_exclusive": 134256348,
+        "start": 134256272,
+        "end_exclusive": 134256360,
         "bytes": 88
       }
     ],
     "initial_sp": 537001472,
-    "reset_vector": 134247537,
+    "reset_vector": 134247549,
     "CAN1_RX0_vector": {
       "address": 134235949,
       "strong_handler": true
@@ -1464,7 +1464,7 @@
     "gateway/mqtt/src/gateway_transport.c": "a0e6898ca8b0c3e9f00fe711be70b6df3237a47c3da65bd28c9ebce52a8d9b96",
     "gateway/mqtt/src/heap.c": "20bf6b3b9c5ddc276ba4d85016ce14ae1425c18e24e5f020bea011d9168b2923",
     "gateway/mqtt/src/mqtt_transport_adapter.c": "beb93429f95cba5fe88f170010363613391df41975475abcbe1842c7692019aa",
-    "gateway/mqtt/src/platform.c": "b407b754a5d251c5d6afcceed1ab82575d1838d8ebab19a0dbe67483a43c89f0",
+    "gateway/mqtt/src/platform.c": "8129be4e4ad194abd85631a588de2da10fb9a8159c652ee50fc7add363cb9600",
     "gateway/esp_at_probe/src/stm32f4xx_it.c": "ae30c76f83be269d9aa67731649aa48bfe4a5dff679cd537eef9faa563b90b97",
     "gateway/esp_at_probe/src/system_stm32f4xx.c": "6207199ed2e3aa34cb6e01a730f06ed2f0de0946c8b66bd02407379a04e9735e",
     "gateway/esp_at_probe/src/syscalls.c": "796e258d6c2e20e2d1f629c43d7d6ea17b32d3040c466055ae9a2a084caf9ead",

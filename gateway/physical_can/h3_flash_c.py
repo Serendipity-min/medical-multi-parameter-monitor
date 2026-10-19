@@ -37,14 +37,15 @@ def verify_plan(manifest,image,config):
     return plan
 
 
-def program(boot,image,plan,config,baseline,backup,progress):
+def program(boot,image,plan,config,baseline,backup,progress,current_application=None):
     # 所有只读身份/原件/保护摘要验证通过后，才发第一条擦除命令。
     if not boot.extended_erase:raise GateError('EXTENDED_ERASE_REQUIRED')
     options=read_exact(boot,0x1FFFC000,16)
     if options[1]!=0xAA or sha(options)!=baseline['options_sha256']:raise GateError('OPTION_BASELINE_CHANGED')
     before=protected_hashes(boot)
     if before!=baseline['protected']:raise GateError('PROTECTED_BASELINE_CHANGED')
-    if read_exact(boot,START,len(backup))!=backup:raise GateError('APPLICATION_BACKUP_DOES_NOT_MATCH_BOARD')
+    expected=backup if current_application is None else current_application
+    if read_exact(boot,START,len(expected))!=expected:raise GateError('EXPECTED_CURRENT_APPLICATION_DOES_NOT_MATCH_BOARD')
     progress('ERASE_APPLICATION_0_1_2',{'flash_write_started':True})
     boot.extended_erase_memory([0,1,2])
     padded=image+b'\xff'*((-len(image))%4)
@@ -60,9 +61,25 @@ def program(boot,image,plan,config,baseline,backup,progress):
             'configuration_flash_written':False,'volatile_config_readback_match':True}
 
 
+def restore_application(boot,baseline,backup,current,progress):
+    """同一C的受限原件回写与读回；任何检查失败都不继续重试/重刷。"""
+    options=read_exact(boot,0x1FFFC000,16)
+    if options[1]!=0xAA or sha(options)!=baseline['options_sha256']:raise GateError('ROLLBACK_OPTIONS_CHANGED')
+    if protected_hashes(boot)!=baseline['protected']:raise GateError('ROLLBACK_PROTECTED_CHANGED')
+    if not boot.extended_erase or read_exact(boot,START,len(current))!=current:raise GateError('ROLLBACK_CURRENT_IMAGE_MISMATCH')
+    progress('VERIFY_APPLICATION_ROLLBACK_0_1_2',{'rollback_write_started':True})
+    boot.extended_erase_memory([0,1,2]);boot.write_memory_data(START,backup)
+    if read_exact(boot,START,len(backup))!=backup:raise GateError('ROLLBACK_READBACK_FAILED_STOP')
+    if protected_hashes(boot)!=baseline['protected'] or read_exact(boot,0x1FFFC000,16)!=options:raise GateError('ROLLBACK_PROTECTION_FAILED_STOP')
+    return {'application_rollback_readback_verified':True,'rollback_sectors':[0,1,2],
+            'rollback_bytes':len(backup),'rollback_sha256':sha(backup),'rollback_application_executed':False}
+
+
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--commit',required=True);parser.add_argument('--preflight',type=Path,required=True)
     parser.add_argument('--config',type=Path,required=True)
+    parser.add_argument('--current-receipt',type=Path);parser.add_argument('--current-image',type=Path)
+    parser.add_argument('--verify-rollback-first',action='store_true')
     parser.add_argument('--observe-seconds',type=int,default=0);args=parser.parse_args()
     if not 0<=args.observe_seconds<=1800:parser.error('observe range 0..1800')
     stamp=datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
@@ -90,6 +107,14 @@ def main():
         if Path(name).name!=name:raise GateError('BACKUP_PATH')
         backup=(PRIVATE/name).read_bytes()
         if sha(backup)!=baseline['application_backup']['sha256'] or len(backup)!=0xC000:raise GateError('BACKUP_BYTES_CHANGED')
+        current_application=None
+        if args.current_receipt or args.current_image:
+            if not args.current_receipt or not args.current_image:raise GateError('CURRENT_IMAGE_AND_RECEIPT_REQUIRED')
+            receipt=json.loads(args.current_receipt.read_text());current_application=args.current_image.read_bytes()
+            # 只接受本轮已经回读验证且保护区未变的候选，原H2R恢复原件仍须保留。
+            if not receipt.get('image_readback_match') or not receipt.get('protected_unchanged') or not receipt.get('options_unchanged') or receipt.get('protected_after')!=baseline['protected']:raise GateError('CURRENT_RECEIPT_NOT_VERIFIED')
+            if sha(current_application)!=receipt['image']['sha256']:raise GateError('CURRENT_CANDIDATE_BYTES_CHANGED')
+            result['previous_candidate_sha256']=sha(current_application)
         a=Path('E:/medical-monitor-node-a-handoff/h2-private/a-backup-20261019T074319128346Z')
         for name in ('flash-first.bin','flash-second.bin'):
             if sha((a/name).read_bytes())!='0fd4a4e8417b87a157fdf3e4f7c5a2a553c5aa9f69b4417fcac03c3a73d91516':raise GateError('A_ORIGINAL_BACKUP_CHANGED')
@@ -102,7 +127,12 @@ def main():
             progress('CONNECT_ROM',{});connection.connect();boot=Stm32Bootloader(connection,device_family='F4',verbosity=0)
             boot.reset_from_system_memory();boot.get();verify_f4_identity(boot,identity)
             result['C_identity_match']=True
-            result.update(program(boot,image,plan,config,baseline,backup,progress))
+            if args.verify_rollback_first:
+                if current_application is None:raise GateError('ROLLBACK_REQUIRES_VERIFIED_CURRENT_CANDIDATE')
+                result.update(restore_application(boot,baseline,backup,current_application,progress))
+                current_application=None
+                progress('ROLLBACK_VERIFIED_APPLY_FIXED_CANDIDATE',{'application_rollback_readback_verified':True})
+            result.update(program(boot,image,plan,config,baseline,backup,progress,current_application))
             # ROM标准GO执行经核验应用向量，不向A写PC/MSP/VTOR，也不跳过C的启动代码。
             progress('GO_STANDARD_APPLICATION_VECTOR',{})
             boot.go(START)

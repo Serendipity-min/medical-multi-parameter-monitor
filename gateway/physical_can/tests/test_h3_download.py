@@ -74,3 +74,22 @@ def test_program_writes_exact_app_sectors_and_ram(monkeypatch):
     assert rom.erases==[[0,1,2]]
     assert [addr for addr,size in rom.writes]==[gate.START,0x2001FE00]
     assert result['protected_before']==result['protected_after'] and not result['configuration_flash_written']
+
+
+def test_update_candidate_requires_matching_current_bytes(monkeypatch):
+    rom=Rom();m,image,config=inputs();baseline={'options_sha256':gate.sha(rom.options),'protected':{'same':True}}
+    monkeypatch.setattr(gate,'protected_hashes',lambda boot:{'same':True})
+    prior=b'previous-verified-application';rom.image=prior
+    with pytest.raises(gate.GateError):gate.program(rom,image,m['image'],config,baseline,rom.backup,lambda *a:None)
+    assert not rom.erases
+    gate.program(rom,image,m['image'],config,baseline,rom.backup,lambda *a:None,current_application=prior)
+    assert rom.erases==[[0,1,2]] and rom.backup==b'\xff'*0xC000
+
+
+def test_application_rollback_has_exact_scope_and_no_run(monkeypatch):
+    rom=Rom();baseline={'options_sha256':gate.sha(rom.options),'protected':{'same':True}}
+    monkeypatch.setattr(gate,'protected_hashes',lambda boot:{'same':True})
+    current=b'prior-candidate';rom.image=current
+    result=gate.restore_application(rom,baseline,rom.backup,current,lambda *a:None)
+    assert rom.image==rom.backup and rom.erases==[[0,1,2]]
+    assert rom.writes==[(gate.START,len(rom.backup))] and not result['rollback_application_executed']

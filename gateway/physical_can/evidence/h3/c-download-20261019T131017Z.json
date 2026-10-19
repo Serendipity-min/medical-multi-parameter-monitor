@@ -1,0 +1,79 @@
+{
+  "role": "C",
+  "port": "COM15",
+  "action": "H3_ISOLATED_NETWORK_DOWNLOAD",
+  "exit_code": 0,
+  "flash_write_started": true,
+  "source_commit": "5f6490bd732af359477f99824c4599e27c4ff8b1",
+  "image": {
+    "sha256": "6221241ade673ca367fe0db773ca075f655b070e0ef69dd34942328c928fc487",
+    "bytes": 38620,
+    "start": 134217728,
+    "end_exclusive": 134256348,
+    "erase_sectors": [
+      0,
+      1,
+      2
+    ],
+    "load_segments": [
+      {
+        "start": 134217728,
+        "end_exclusive": 134256260,
+        "bytes": 38532
+      },
+      {
+        "start": 134256260,
+        "end_exclusive": 134256348,
+        "bytes": 88
+      }
+    ],
+    "initial_sp": 537001472,
+    "reset_vector": 134247537,
+    "CAN1_RX0_vector": {
+      "address": 134235949,
+      "strong_handler": true
+    },
+    "protected_sectors": [
+      7,
+      11
+    ],
+    "mass_erase": false,
+    "option_bytes_write": false
+  },
+  "volatile_config_sha256": "16367a2d728b47053eab9229195dc89d347f2afc528dde67c177e923bd7dcc87",
+  "A_original_backup_verified": true,
+  "stage": "APPLICATION_VERIFIED_RAM_CONFIG_ONLY_GO_SENT",
+  "C_identity_match": true,
+  "image_readback_match": true,
+  "protected_unchanged": true,
+  "options_unchanged": true,
+  "protected_before": {
+    "0x8060000": {
+      "sector_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "first_312B_sha256": "26e1989c6b3b3e1b905dcc17405a2767a1a3ebbb76b26ae3ac6b16bfd61c031c"
+    },
+    "0x80e0000": {
+      "sector_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "first_312B_sha256": "26e1989c6b3b3e1b905dcc17405a2767a1a3ebbb76b26ae3ac6b16bfd61c031c"
+    }
+  },
+  "protected_after": {
+    "0x8060000": {
+      "sector_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "first_312B_sha256": "26e1989c6b3b3e1b905dcc17405a2767a1a3ebbb76b26ae3ac6b16bfd61c031c"
+    },
+    "0x80e0000": {
+      "sector_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "first_312B_sha256": "26e1989c6b3b3e1b905dcc17405a2767a1a3ebbb76b26ae3ac6b16bfd61c031c"
+    }
+  },
+  "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+  "configuration_flash_written": false,
+  "volatile_config_readback_match": true,
+  "boot_wait_marker_seen": false,
+  "download_verified": true,
+  "go_sent": true,
+  "observation_exit_code": 0,
+  "physical_CAN": "NOT_ACCEPTED",
+  "C_full_flash_backup": false
+}
