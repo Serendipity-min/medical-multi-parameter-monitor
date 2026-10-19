@@ -1,0 +1,12 @@
+{
+  "mode": "LOCAL_HOST_SENSOR_STUBS_TO_REAL_STACKS_AND_ISOLATED_BROKER",
+  "hardware": "NOT_RUN",
+  "ESP_AT_TLS": "NOT_RUN",
+  "production_broker": "NOT_ACCESSED",
+  "real_patient_data": false,
+  "exit_code": 1,
+  "compile_exit": 0,
+  "observed_process_exit": 1,
+  "failure_type": "FileExistsError",
+  "reason": "Broker fixture refuses reused directory; fixed by unique per-run child without deletion"
+}

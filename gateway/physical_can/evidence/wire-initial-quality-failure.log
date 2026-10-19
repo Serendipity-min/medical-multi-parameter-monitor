@@ -1,0 +1,13 @@
+mpm/v1/GW-C-001/NODE-A/status	{"timestamp":1800000000001,"seq":1,"session_id":"can-1800000000-65536","validity":"OFFLINE","source":"LIVE","synthetic":false,"unit":"state","value":"OFFLINE"}
+mpm/v1/GW-C-001/NODE-B/status	{"timestamp":1800000000001,"seq":1,"session_id":"can-1800000000-65536","validity":"OFFLINE","source":"LIVE","synthetic":false,"unit":"state","value":"OFFLINE"}
+mpm/v1/GW-C-001/status	{"timestamp":1800000000001,"seq":1,"session_id":"can-1800000000-65536","validity":"VALID","source":"LIVE","synthetic":false,"unit":"state","value":"ONLINE"}
+mpm/v1/GW-C-001/NODE-A/status	{"timestamp":1800000000502,"seq":1,"session_id":"can-1800000000-65537","validity":"VALID","source":"LIVE","synthetic":false,"unit":"state","value":"ONLINE"}
+mpm/v1/GW-C-001/NODE-A/status	{"timestamp":1800000005001,"seq":2,"session_id":"can-1800000000-65537","validity":"VALID","source":"LIVE","synthetic":false,"unit":"state","value":"ONLINE"}
+mpm/v1/GW-C-001/NODE-B/status	{"timestamp":1800000005001,"seq":2,"session_id":"can-1800000000-65536","validity":"OFFLINE","source":"LIVE","synthetic":false,"unit":"state","value":"OFFLINE"}
+mpm/v1/GW-C-001/status	{"timestamp":1800000005001,"seq":2,"session_id":"can-1800000000-65536","validity":"VALID","source":"LIVE","synthetic":false,"unit":"state","value":"ONLINE"}
+Assertion failed!
+
+Program: E:\medical-monitor-node-a\gateway\physical_can\build\physical_host.exe
+File: E:\medical-monitor-node-a\gateway\physical_can\tests\wire.c, Line 30
+
+Expression: waves>=4 && scalars>=2 && b_offline

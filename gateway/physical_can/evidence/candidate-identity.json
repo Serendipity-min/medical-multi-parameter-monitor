@@ -1,0 +1,30 @@
+{
+  "baseline": "67f5f57bd82c6e326e9e78ec9540481c80105e5f",
+  "original_gateway_files_unchanged": true,
+  "mode": "INDEPENDENT_PHYSICAL_CAN1_CANDIDATE_NOT_FLASHED",
+  "clock_profiles": {
+    "node_a_pclk1_hz": 42000000,
+    "gateway_c_pclk1_hz": 16000000,
+    "bitrate": 500000
+  },
+  "hardware": "NOT_RUN",
+  "production_broker": "NOT_ACCESSED",
+  "sha256": {
+    "gateway/physical_can/src/adapter.c": "39c5b3df61b5d19f357f3d737bbe5e56cc94cb2e703ce3e37108b5385b9a5011",
+    "gateway/physical_can/src/bxcan_physical.c": "06643510d0e032ebaac181f9c07900c44c29aead264b6b09cf89a2b1b9f39d87",
+    "gateway/physical_can/src/link_policy.h": "347db5acea6c162310bd6e7e59eefef371400ec8966f6429348dce6a150c5a52",
+    "gateway/physical_can/src/main.c": "4d2ee5c00a416a6c4333d4b2e1d81d33cc103bd20fe1b0ff9bb2730b2efa2cb8",
+    "gateway/physical_can/src/physical.h": "ca74e38a248cdaeb5d71fabb8901fad23b0dc2fa754ba79ad58062fed8fb9d5f",
+    "gateway/physical_can/src/stack.c": "d8b04e87313dba9853e0caa47079dcf07b32e388afba50ac8fe03d4b159fdee2",
+    "gateway/physical_can/tests/broker_wire.c": "63041bdb017e48298b8c8957297b1347ac6b1b53506ba9dc42a43e989d5a3c76",
+    "gateway/physical_can/tests/protocol.c": "d2f0f9aba23859faa519f9e4b8c2600c23aba2c8582b17ef7d40b7e353309979",
+    "gateway/physical_can/tests/run_wire_broker.py": "750634facf0ca1b46fa2d096f94ecde7ec91215421af6a141ed94477e1b76ce5",
+    "gateway/physical_can/tests/wire.c": "5321723185f37dfe312a9df5467c80361766c42643ad0061cb3c29bd1dc6cb20",
+    "gateway/physical_can/build.py": "f582fb477b7e07ff694a8e7e18d22603e93137c9856268f1b5dcb5b5459f8aec",
+    "gateway/esp_at_probe/src/system_stm32f4xx.c": "6207199ed2e3aa34cb6e01a730f06ed2f0de0946c8b66bd02407379a04e9735e",
+    "gateway/mqtt/STM32F407ZGT6_FLASH.ld": "a54eee01e41b863e8ec206b03fc26f89749ff5bdc5349c22b7d403a4f616ef71",
+    "node-a/STM32F407_HOSPITAL/USER/STM32F407_Template.uvprojx": "4bb8673baf2a7b179ec3930ceef27d746fee2bb4c5370d765905881eddb6cea8"
+  },
+  "wire_evidence_provenance": "HOST_SIMULATED_SENSOR_INPUT_REAL_NODE_A_AND_GATEWAY_STACKS; LIVE_FIELDS_ARE_PROTOCOL_TEST_ONLY",
+  "configuration_sha256": "a1f33bb53d8e9f34af784905fabf18090334e914e697581719b9ff759233fe7a"
+}

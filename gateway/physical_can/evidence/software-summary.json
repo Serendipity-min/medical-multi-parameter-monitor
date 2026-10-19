@@ -1,0 +1,77 @@
+{
+  "baseline": "67f5f57bd82c6e326e9e78ec9540481c80105e5f",
+  "import_commit": "2c4885404723a0a7c303c8c0184940e9ed188108",
+  "node_a_final_commit": "e1516c33aab8fd6b02d377abfdf3395da6d868bc",
+  "contract_sha256": "5232584687defaf4b475ef2c5c8c21562d8a838b0fcd695369649fa3725878cc",
+  "photo_sha256": "c8f659b92db3582217046a90d4aea45703604721010bf2d1f445ddff97133e94",
+  "photo_scope": "one partial board photo, identity/pin numbering NOT_CONFIRMED",
+  "configuration_sha256": "a1f33bb53d8e9f34af784905fabf18090334e914e697581719b9ff759233fe7a",
+  "created_at": "2026-10-19T02:39:51.863802+00:00",
+  "test_exits": {
+    "a1_host_compile": 0,
+    "a1_host_run": 0,
+    "a1_keil": 0,
+    "candidate_host_compile_run": 0,
+    "candidate_arm": 0,
+    "node_a_to_c_wire": 0,
+    "wire_mqtt_broker_backend": 0,
+    "original_can_p5_host_invoker_observed": 0,
+    "original_p5_isolated_broker_invoker_observed": 0,
+    "original_gateway_arm": 0,
+    "backend_28": 0,
+    "canonical_backend": 0
+  },
+  "case_counts": {
+    "original_can_protocol": 12,
+    "original_can_pipeline": 11,
+    "original_can_restart": 17,
+    "p5_host": 42,
+    "p5_isolated_broker": 30,
+    "backend": 28,
+    "original_canonical_messages": 41,
+    "node_a_actual_host_can_records": 359,
+    "wire_broker_messages": 24,
+    "matching_pubacks": 19
+  },
+  "known_failures": {
+    "original_reset_assertion": 3,
+    "host_initial_missing_lss_link": 1,
+    "initial_ppg_startup_assertion": 3,
+    "initial_keil_debug_variable": 2,
+    "initial_arm_manifest_harness": 1,
+    "initial_wire_quality_timer": 3,
+    "broker_retry_directory_harness": 1
+  },
+  "real_hardware": "NOT_AUTHORIZED/NOT_RUN",
+  "real_can_electrical_ack": "NOT_RUN",
+  "esp_at_tls_real_network": "NOT_RUN",
+  "production_broker": "NOT_ACCESSED",
+  "security_gate": "NOT_RUN",
+  "pr": "NOT_CREATED",
+  "merge": "NOT_RUN",
+  "owned_isolated_brokers_stopped": true,
+  "resource_bytes": {
+    "node_a_keil_base": {
+      "code": 45316,
+      "ro": 3072,
+      "rw": 1492,
+      "zi": 15556
+    },
+    "node_a_keil_final": {
+      "code": 46344,
+      "ro": 3072,
+      "rw": 1528,
+      "zi": 15616
+    },
+    "original_gateway_arm": {
+      "text": 35564,
+      "data": 88,
+      "bss": 120120
+    },
+    "candidate_gateway_arm": {
+      "text": 35736,
+      "data": 88,
+      "bss": 120224
+    }
+  }
+}
