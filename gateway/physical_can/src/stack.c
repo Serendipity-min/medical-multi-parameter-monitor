@@ -53,7 +53,8 @@ static int gateway_init(MpStack *s) {
     if(CO_CANopenInit(g->co,NULL,NULL,&g->od.od,NULL,CO_NMT_STARTUP_TO_OPERATIONAL,100,1000,1000,false,3,&error)!=CO_ERROR_NO) return -3;
     if(CO_CANopenInitPDO(g->co,g->co->em,&g->od.od,3,&error)!=CO_ERROR_NO) return -4;
     CO_EM_initCallbackRx(g->co->em,emergency);g->port.enabled=true;CO_CANsetNormalMode(g->co->CANmodule);
-    mp_stack_nmt(s,0,CO_NMT_ENTER_OPERATIONAL);return 0;
+    /* 此处物理 CAN 尚未就绪；START 由 lifecycle 在硬件清队列之后提交。 */
+    return 0;
 }
 int mp_stack_init(MpStack *s,uint32_t epoch) {
     memset(s,0,sizeof(*s));s->epoch=epoch;active=s;elapsed_wrap=0;mp_bus_reset();

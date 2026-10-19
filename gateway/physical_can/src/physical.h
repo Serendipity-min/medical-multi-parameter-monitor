@@ -11,4 +11,6 @@ bool physical_fresh(unsigned node,unsigned pdo,uint32_t now);
 void physical_invalidate(void);
 uint64_t physical_now(const MpStack *stack);
 int mp_bxcan_init(void);
+/* false 为首次启动，true 为本地显式重初始化；返回0仅表示 START 已入队。 */
+int physical_gateway_open(MpStack *stack,bool restart);
 #endif

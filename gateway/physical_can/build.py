@@ -34,7 +34,8 @@ try:
         vendor=ROOT/'gateway/third_party/coreMQTT'
         includes=[HERE/'src',MQTT/'src',CO/'src',VENDOR,vendor/'source/include',vendor/'source/interface',*base.INCLUDES]
         flags=[*base.COMMON_FLAGS,'-DCO_MULTIPLE_OD',*['-I'+str(p) for p in includes]]
-        sources=[*common,HERE/'src/main.c',HERE/'src/bxcan_physical.c',*[p for p in sorted((MQTT/'src').glob('*.c')) if p.name!='main.c'],*base.SOURCES[1:],vendor/'source/core_mqtt.c',vendor/'source/core_mqtt_serializer.c',vendor/'source/core_mqtt_state.c']
+        # 启动与 G 共用硬件就绪后单次 NMT 入口；Host 协议夹具无需链接物理生命周期。
+        sources=[*common,HERE/'src/main.c',HERE/'src/lifecycle.c',HERE/'src/bxcan_physical.c',*[p for p in sorted((MQTT/'src').glob('*.c')) if p.name!='main.c'],*base.SOURCES[1:],vendor/'source/core_mqtt.c',vendor/'source/core_mqtt_serializer.c',vendor/'source/core_mqtt_state.c']
         objects=[]
         for i,source in enumerate(sources):
             # 仅候选项目代码启用额外告警为错误，不更改固定第三方核心的编译语义。

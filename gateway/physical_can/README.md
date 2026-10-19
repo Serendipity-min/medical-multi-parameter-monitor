@@ -5,6 +5,7 @@
 ## 行为与构建
 
 - 只 CO_new Gateway（Node-ID3）；A/B 仅有十路 RPDO 镜像、Heartbeat consumer 和 EMCY 观察，无本地 A/B CO 实例或采样器。A/B/R/E 模拟控制入口不进入此 main；G 是显式本地重初始化，D 保留原网络断开测试入口。
+- H0：启动和 G 共用 `physical_gateway_open`，协议初始化及 bxCAN 清队列完成后才单次提交 NMT START。返回成功仅表示入队，发送完成仍需 TXOK；网络重连不重发 START。无物理就绪则返回失败，不借共享驱动的离线返回值宣称成功。
 - 正常 CAN1，PA11 RX / PA12 TX AF9；运行时读取 PCLK1，16MHz 用 2×16TQ、42MHz 用 6×14TQ，均为 500k。BTR 不设置 SILM/LBKM。当前 Gateway 系统配置是 HSI/APB1 16MHz，不能照搬 A 的 42MHz 常数。
 - Tx 非阻塞，原队首仅硬件 RQCP+TXOK 后才出队；未 ACK 100ms、发送错误或 Bus-off 锁止链路、清队列、撤销在线身份，需显式重初始化。ABOM 不绕过软件锁止。初始化有 Tick/CPU 双重预算。Host 只验证状态策略，寄存器和实际电气 ACK 仍待 H2。
 - 只有物理 Heartbeat ACTIVE/OPERATIONAL 才在线，超时 1500ms。新 boot/generation 清接收新鲜度；PDO 必须 DLC=8，质量/时间/标量独立 1500ms 新鲜度门控。未收 B 时立即周期报告 OFFLINE，无 B 测量值。
@@ -18,9 +19,13 @@
 ```text
 python gateway/physical_can/build.py --host
 python gateway/physical_can/build.py
+python gateway/physical_can/tests/run_startup.py
+python gateway/physical_can/tests/run_startup.py --baseline
 python node-a/tests/run_host.py --phase a1-final
 python node-a/tests/build_keil.py
 ```
+
+H0 startup 的默认模式须退出 0；`--baseline` 使用固定受审提交的 stack 字节复现原初始化顺序，预期退出 1（START 被清队列丢弃）。原始退出码、源码 SHA 和本轮普通回归位于 `evidence/h0/`；TXOK 是 Host 寄存器输入模拟，不能替代实板 CAN ACK。
 
 Host 正常测试与 wire 测试共用一个临时 exe，顺序运行，避免相互覆盖。跨栈 wire：运行 Node-A Host 的 `--wire` 保存 CO_CANsend 原始记录，然后 `python gateway/physical_can/build.py --host --wire gateway/physical_can/evidence/node-a-can-frames.txt`。隔离 Broker 复现用 `python gateway/physical_can/tests/run_wire_broker.py --runtime <已有隔离 Mosquitto runtime>`；Windows 委派到已安装 HERA-C3，**不下载安装包、不联系生产 Broker**。测试启动的监听固定 loopback、临时端口与合成认证，并清理自有 PID。
 

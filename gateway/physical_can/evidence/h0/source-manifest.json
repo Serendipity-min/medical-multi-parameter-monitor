@@ -1,0 +1,132 @@
+{
+  "base_sha": "1dfc9667d14941456bae75ba130ac8a8b219ccef",
+  "hardware": "NOT_ACCESSED",
+  "production_broker": "NOT_ACCESSED",
+  "protected_source_diff_exit": 0,
+  "protected_sources": [
+    "node-a/STM32F407_HOSPITAL",
+    "gateway/mqtt",
+    "gateway/canopen",
+    "gateway/data_model",
+    "gateway/storage",
+    "gateway/third_party"
+  ],
+  "source_identity": {
+    "gateway/physical_can/README.md": {
+      "build_input_sha256": "58deaadb466e94d1ba9d8a823a3e3b179e85d55c8e6ae6688da43c45400e98b7",
+      "git_blob_bytes_sha256": "58deaadb466e94d1ba9d8a823a3e3b179e85d55c8e6ae6688da43c45400e98b7",
+      "git_blob_sha1": "4ac2bf7507cc1416e94597af25c43965c6156026",
+      "normalization": "IDENTICAL"
+    },
+    "gateway/physical_can/build.py": {
+      "build_input_sha256": "7ff9bed98c1e6c2844c6866bafce41b149ef617de6a6801ca9b62e03104151b3",
+      "git_blob_bytes_sha256": "7ff9bed98c1e6c2844c6866bafce41b149ef617de6a6801ca9b62e03104151b3",
+      "git_blob_sha1": "4e700a9d4ba32f91f59a922d655ff4156fb042ad",
+      "normalization": "IDENTICAL"
+    },
+    "gateway/physical_can/src/lifecycle.c": {
+      "build_input_sha256": "3625b2643980892f0e39d9044e5a2f37cc02adaa196496cc46d62c60b5dd76c8",
+      "git_blob_bytes_sha256": "3625b2643980892f0e39d9044e5a2f37cc02adaa196496cc46d62c60b5dd76c8",
+      "git_blob_sha1": "edecd47dac0faade9427ed28909164ee8ba3edae",
+      "normalization": "IDENTICAL"
+    },
+    "gateway/physical_can/src/main.c": {
+      "build_input_sha256": "f5c184a1c1ba1cd3ef6164424ed23c5bf3b86380300b692454bd174cc18aafde",
+      "git_blob_bytes_sha256": "832af012be78cee4d46f75d1b8296c9d02583eceaeffffba642ded42ab87741e",
+      "git_blob_sha1": "58dd6dfc0c045201823aca28684aeb4cd373c5ad",
+      "normalization": "CRLF_LF_ONLY"
+    },
+    "gateway/physical_can/src/physical.h": {
+      "build_input_sha256": "0f52dab3dd4aced108993a291ac51371b57b33695ca9d47bfd3c75dcd6b39189",
+      "git_blob_bytes_sha256": "0f52dab3dd4aced108993a291ac51371b57b33695ca9d47bfd3c75dcd6b39189",
+      "git_blob_sha1": "151e9a789fe77cdf7a8e4c095d019231eeb233b1",
+      "normalization": "IDENTICAL"
+    },
+    "gateway/physical_can/src/stack.c": {
+      "build_input_sha256": "8d1aa24d59e29680f251e406e87a9b00cebd9b165e3c1cf40029c699fed9460a",
+      "git_blob_bytes_sha256": "8d1aa24d59e29680f251e406e87a9b00cebd9b165e3c1cf40029c699fed9460a",
+      "git_blob_sha1": "289517b0183c6b1e347261998037553b35a3b120",
+      "normalization": "IDENTICAL"
+    },
+    "gateway/physical_can/tests/run_startup.py": {
+      "build_input_sha256": "fce46a9c17ece2a2e7e686c24f47c66103b39d003b9af8ae098d3979254a53af",
+      "git_blob_bytes_sha256": "fce46a9c17ece2a2e7e686c24f47c66103b39d003b9af8ae098d3979254a53af",
+      "git_blob_sha1": "21b44f08d5e33434658409785383cfa6d592c000",
+      "normalization": "IDENTICAL"
+    },
+    "gateway/physical_can/tests/startup.c": {
+      "build_input_sha256": "124b398733a63d867c10ef873b635401458eeaa868f52ecec2ded164a7a95218",
+      "git_blob_bytes_sha256": "124b398733a63d867c10ef873b635401458eeaa868f52ecec2ded164a7a95218",
+      "git_blob_sha1": "b3544d1b352b7c1fae50733a150b82518e5fd1c9",
+      "normalization": "IDENTICAL"
+    }
+  },
+  "artifact_identity": {
+    "gateway/physical_can/build/gateway_physical_can.elf": {
+      "bytes": 67444,
+      "sha256": "603362a74394e089899bd8239ba584d0f1e69313c9b364c20d402ab02efa1660",
+      "committed": false
+    },
+    "gateway/physical_can/build/gateway_physical_can.bin": {
+      "bytes": 35904,
+      "sha256": "acef322869d551e43d538cfb45cacde33ab9b2c29c76f329b4d83be4106f131b",
+      "committed": false
+    },
+    "node-a/STM32F407_HOSPITAL/OBJ/STM32F407_Template.axf": {
+      "bytes": 867752,
+      "sha256": "c6a2af2392fb24c1501d6ceb6ecd9063759fa1af6e8992abef8c755b6423ea1d",
+      "committed": false
+    }
+  },
+  "resources": {
+    "gateway_before": {
+      "text": 35764,
+      "data": 88,
+      "bss": 120232
+    },
+    "gateway_after": {
+      "text": 35808,
+      "data": 88,
+      "bss": 120232
+    },
+    "node_a": {
+      "code": 46344,
+      "ro": 3072,
+      "rw": 1528,
+      "zi": 15616
+    }
+  },
+  "evidence_sha256": {
+    "backend.log": "f0d70ab8265205f9f05c19bb9f641410e7562288993f673190a84ca3aceba58d",
+    "canonical.log": "0af103fc8950457277f1e2834e513d6e0fec096acf00631aaf0c947fe01c9869",
+    "generated/gateway/physical_can/evidence/arm-result.json": "cd68c050765f2af680ce0e84c7151f854d65cca958887fc6ad3dec9c928bd582",
+    "generated/gateway/physical_can/evidence/arm.log": "6505a2d44e3ac14f9a69cfed91352f8e9c6d24704c51bc79ac1bc59ce31ccbd3",
+    "generated/gateway/physical_can/evidence/host-result.json": "19bcd9c411f701ffd6450e3828280ff641d680536193a1e8dea4538547b99848",
+    "generated/gateway/physical_can/evidence/wire-broker-result.json": "ab6aa9a64932202b939b487e97f3bb4083f4b961294035406b57b74b3606607b",
+    "generated/gateway/physical_can/evidence/wire-result.json": "471158e7e81b81d7d30e861b0b762180c5e2323071c06fb77b8b9d48a21ee93d",
+    "isolated-broker.log": "0c90f60e6f90f514602377aab7363e65b2e7fa14b692960b977df504f6916106",
+    "node-a-host-exit.json": "1f06778e465affce2b3e0fb2b62dcb7ffb5c56c122b6efeb14e15bcfee0f4d5a",
+    "node-a-host-raw.log": "db40c395293f863383879e58a6913a34dc6a7a33d901a36ebf71b71a36b14c53",
+    "node-a-host.log": "2806f7f351ec8330967fa900d76ef88df567016035c10631ce6bbc2261589591",
+    "node-a-keil-build.log": "d011e525c1224c07afdbee668326807d903d914e883ee2a1cd195b23359bb942",
+    "node-a-keil.log": "2dedd8477fce121a5048423b24f027f7a6cb4195353af16fc0869a006bb95f06",
+    "p0-broker-latest.json": "08eb59ef1756487aab5537b374895354fc9a3156a2e5cc49f55b9b974c68179e",
+    "p5-arm.log": "c460a801b7ad05362f1ac988cbcbeb2f06f6877748ab11e7e14e7216448dedf1",
+    "p5-can-host.log": "fdc7e2e75e0307881a0bfa3ce82f2798f398fc4f685892ccdedccf655149375d",
+    "p5-tests-latest.json": "12b35b3fe6387567b144003dc7585250f3cc981186b021d1f496b1b364c9bb18",
+    "physical-arm.log": "10ca8a0c0d2382bb1135302f6a99882406ee3b6c639f290e4d7183fdba1555fa",
+    "physical-host.log": "8eaa3fe46b94be6838e4ee502b11aa7da7e9f45655ae58f9705215977cb1e5f7",
+    "physical-wire-broker.log": "c2bfc76438c589ff894c74567437cadf5792bf57c9340b356ab42a7465966e47",
+    "physical-wire.log": "30def2542eb153726c924812dec382c66aed2efe72e930b144a14b516c6fbb33",
+    "regression-results.json": "d194f37369166fb31ccccdada594f7c8f8b7fc0ddff89bacddb5c4585cbeceac",
+    "startup-baseline-result.json": "6eb5dc177dba18805ead923ece1dadbaf5711833298afbcff9b4943c6cdbb1d8",
+    "startup-baseline.log": "a3e13c57685e3834a1fad1088d627aa82bbc1e02dd0c08e3d3a7c1599a34cf76",
+    "startup-fixed-result.json": "687f51189ec9897e54a80d035f0d3b4936b3781b36504a5999ba7ebb8f5ef4d1",
+    "startup-fixed.log": "f773548b8ed0a8f212109e311ce4f68c3679734dbd9cf133c836638c26cd5eb2"
+  },
+  "notes": [
+    "Raw evidence is byte-preserved, including CRLF; source-only git diff --check exits 0.",
+    "Baseline test exit 1 is the expected reproduced failure for boot and G, not a fixed-path failure.",
+    "Host TXOK injection is not electrical CAN ACK. Existing evidence restored byte-for-byte after fresh results were archived."
+  ]
+}

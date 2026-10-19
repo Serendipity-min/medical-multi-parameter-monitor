@@ -1,0 +1,6 @@
+PASS negative: preloaded START discarded by physical init
+PASS boot: one START retained until simulated driver TXOK
+PASS explicit G: one START retained until simulated driver TXOK
+PASS absent/unfinished physical link: failure, no START success
+PASS recovery after failed G; absent Node-B remains OFFLINE; HARDWARE_NOT_RUN
+PASS bounded enqueue overflow: failure and pending queue invalidated

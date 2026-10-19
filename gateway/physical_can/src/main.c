@@ -10,7 +10,6 @@ static MpAdapter adapter;
 static MpRouter router;
 static uint32_t serviced, diagnostic_at;
 static int disconnect_requested;
-extern int mp_bxcan_init(void);
 
 /* 网络等待期间协作推进 CAN；只标记断网请求，真正断开在发布循环边界处理。 */
 /* 仅推进 Gateway 消费者；网络等待中也处理外部 CAN。没有 A/B/E/R 测试生产入口。 */
@@ -21,9 +20,9 @@ static void service(void)
     int c=console_char();
     if(c=='D') disconnect_requested=1;
     if(c=='G') {
-        int rc=mp_stack_restart(&stack,3);
-        if(rc || !mp_bxcan_init()) console("GW PHYSICAL_CAN_RESTART_FAILED\r\n");
-        else console("GW PHYSICAL_CAN_RESTARTED_CANDIDATE\r\n");
+        int rc=physical_gateway_open(&stack,true);
+        if(rc) console("GW PHYSICAL_CAN_RESTART_FAILED\r\n");
+        else console("GW PHYSICAL_CAN_RESTARTED_CANDIDATE NMT_QUEUED_NOT_ACKED\r\n");
     }
 }
 
@@ -40,13 +39,12 @@ int main(void)
     }
 
     /* 时间未校准前可以收发 CAN，但 Adapter 不生成可上云的采集时间戳。 */
-    int rc = mp_stack_init(&stack, 0);
-    int hardware = rc ? 0 : mp_bxcan_init();
-    if (rc || !hardware)
+    /* 与 G 路径共用初始化次序；入队成功不宣称真实总线已 ACK。 */
+    int rc = physical_gateway_open(&stack, false);
+    if (rc)
     {
         char line[80];
-        (void)snprintf(line, sizeof(line), "GW CAN_INIT_FAIL code=%d hardware=%d\r\n", rc,
-                       hardware);
+        (void)snprintf(line, sizeof(line), "GW CAN_INIT_FAIL code=%d\r\n", rc);
         console(line);
         while (1)
         {
