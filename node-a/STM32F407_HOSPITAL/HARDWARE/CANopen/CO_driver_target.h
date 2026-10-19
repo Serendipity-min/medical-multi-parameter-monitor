@@ -54,7 +54,7 @@
 #define CO_CONFIG_EM        (CO_CONFIG_EM_PRODUCER | CO_CONFIG_EM_PROD_CONFIGURABLE | CO_CONFIG_EM_HISTORY)
 #define CO_CONFIG_SDO_SRV   (CO_CONFIG_SDO_SRV_SEGMENTED)
 /* CO_CONFIG_SDO_CLI  不定义 -> SDO 客户端关闭 */
-#define CO_CONFIG_TIME      (CO_CONFIG_TIME_ENABLE)
+#define CO_CONFIG_TIME      (CO_CONFIG_TIME_ENABLE | CO_CONFIG_FLAG_CALLBACK_PRE)
 #define CO_CONFIG_SYNC      (CO_CONFIG_SYNC_ENABLE)
 #define CO_CONFIG_PDO       (CO_CONFIG_RPDO_ENABLE | CO_CONFIG_TPDO_ENABLE            \
                              | CO_CONFIG_RPDO_TIMERS_ENABLE | CO_CONFIG_TPDO_TIMERS_ENABLE \
@@ -137,18 +137,21 @@ typedef struct {
     void* addrNV;
 } CO_storage_entry_t;
 
+/* 目标驱动保存/恢复最外层 PRIMASK，不会打开调用前已屏蔽的 IRQ。 */
+void node_can_lock(void);
+void node_can_unlock(void);
 /* (un)lock critical section in CO_CANsend() */
 /* 裸机无 RTOS：临界区用全局关中断实现（临界段极短，不会造成 UART 接收溢出）。 */
-#define CO_LOCK_CAN_SEND(CAN_MODULE)   __disable_irq()
-#define CO_UNLOCK_CAN_SEND(CAN_MODULE) __enable_irq()
+#define CO_LOCK_CAN_SEND(CAN_MODULE) node_can_lock()
+#define CO_UNLOCK_CAN_SEND(CAN_MODULE) node_can_unlock()
 
 /* (un)lock critical section in CO_errorReport() or CO_errorReset() */
-#define CO_LOCK_EMCY(CAN_MODULE)       __disable_irq()
-#define CO_UNLOCK_EMCY(CAN_MODULE)     __enable_irq()
+#define CO_LOCK_EMCY(CAN_MODULE) node_can_lock()
+#define CO_UNLOCK_EMCY(CAN_MODULE) node_can_unlock()
 
 /* (un)lock critical section when accessing Object Dictionary */
-#define CO_LOCK_OD(CAN_MODULE)         __disable_irq()
-#define CO_UNLOCK_OD(CAN_MODULE)       __enable_irq()
+#define CO_LOCK_OD(CAN_MODULE) node_can_lock()
+#define CO_UNLOCK_OD(CAN_MODULE) node_can_unlock()
 
 /* Synchronization between CAN receive and data processing threads. */
 /* 裸机下接收在 ISR 中完成预处理，主循环轮询处理；编译器屏障即可。 */

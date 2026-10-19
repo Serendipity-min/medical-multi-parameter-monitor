@@ -20,22 +20,23 @@
 /*******************************************************************************
     OD data initialization of all groups
 *******************************************************************************/
+/* A1：TIME 消费、500ms HB、EMCY 0x81；测试身份无设备 UID，PPG 仅新重采样点触发。 */
 OD_ATTR_PERSIST_COMM OD_PERSIST_COMM_t OD_PERSIST_COMM = {
     .x1000_deviceType = 0x00000000,
     .x1005_COB_ID_SYNCMessage = 0x00000080,
     .x1006_communicationCyclePeriod = 0x00000000,
     .x1007_synchronousWindowLength = 0x00000000,
-    .x1012_COB_IDTimeStampObject = 0x00000100,
-    .x1014_COB_ID_EMCY = 0x00000080,
+    .x1012_COB_IDTimeStampObject = 0x80000100,
+    .x1014_COB_ID_EMCY = 0x00000081,
     .x1015_inhibitTimeEMCY = 0x0000,
     .x1016_consumerHeartbeatTime_sub0 = 0x08,
     .x1016_consumerHeartbeatTime = {0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000},
-    .x1017_producerHeartbeatTime = 0x0000,
+    .x1017_producerHeartbeatTime = 0x01F4,
     .x1018_identity = {
         .highestSub_indexSupported = 0x04,
         .vendor_ID = 0x00000000,
-        .productCode = 0x00000000,
-        .revisionNumber = 0x00000000,
+        .productCode = 0x4D504D41,
+        .revisionNumber = 0x00010001,
         .serialNumber = 0x00000000
     },
     .x1019_synchronousCounterOverflowValue = 0x00,
@@ -118,12 +119,12 @@ OD_ATTR_PERSIST_COMM OD_PERSIST_COMM_t OD_PERSIST_COMM = {
         .COB_IDUsedByTPDO = 0x00000181,
         .transmissionType = 0xFF,
         .inhibitTime = 0x0000,
-        .eventTimer = 0x0008,
+        .eventTimer = 0x0000,
         .SYNCStartValue = 0x00
     },
         .x1801_TPDOCommunicationParameter = {
         .highestSub_indexSupported = 0x06,
-        .COB_IDUsedByTPDO = 0x00000281,
+        .COB_IDUsedByTPDO = 0x80000281,
         .transmissionType = 0xFF,
         .inhibitTime = 0x0000,
         .eventTimer = 0x0000,

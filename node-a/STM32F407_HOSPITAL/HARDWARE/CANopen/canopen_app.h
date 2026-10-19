@@ -16,7 +16,7 @@
  * 设计要点：
  *   - 启用 CO_USE_GLOBALS，CO_new(NULL,...) 返回全局静态对象，免 heap；
  *   - Node-A 固定 500kbps、Node-ID=1、上电即自主进入 OPERATIONAL（无需 NMT 主机）；
- *   - 波形（PPG/ECG）按既定方案"后补"，本版仅上报标量 + 状态。
+ *   - PPG 由真实接收点夹持的线性重采样输出 50Hz，质量 bit8 标识；无新点不重复发送。
  */
 #ifndef CANOPEN_APP_H
 #define CANOPEN_APP_H
@@ -43,7 +43,7 @@ uint8_t canopen_app_init(void);
 /* 主循环周期处理：在 main 的 while(1) 内每轮调用一次（建议放在业务任务之后）。
  * 内部以 uwTick 自算时间差(us)，调用 CO_process + CO_process_SYNC/RPDO/TPDO，
  * 并在通信正常时调用 canopen_app_produce() 刷新 TPDO 数据源。
- * 若 CO_process 返回通信/应用重置请求，会自动重跑初始化（应用层无需干预）。 */
+ * CO_RESET_COMM 只重建通信；CO_RESET_APP 锁止 CAN 并等待本地显式初始化，不复位双屏。 */
 void canopen_app_process(void);
 
 /* 生产者：把应用层最新生理参数写入 OD RAM 区(2100~2130 + 2110 波形)供 TPDO 周期上报。

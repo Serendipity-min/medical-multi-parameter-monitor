@@ -19,6 +19,10 @@
 #include "stm32f4xx_gpio.h"
 #include "stm32f4xx_rcc.h"
 #include "misc.h"
+#include "node_irq.h"
+static NodeCanIrq irq_state;
+void node_can_lock(void) { node_irq_lock(&irq_state); }
+void node_can_unlock(void) { node_irq_unlock(&irq_state); }
 
 /* 本地错误计数，供 CO_CANmodule_process() 计算 CANerrorStatus */
 static volatile uint16_t rxErrors = 0;
@@ -68,7 +72,8 @@ CO_CANmodule_init(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[],
     NVIC_InitTypeDef        nvic;
 
     (void)CANptr;
-    (void)CANbitRate;   /* 本项目固定 500kbps，见下方 BTR 配置 */
+    /* 拒绝不同位率；GPIO/UART 不受此失败路径影响。 */
+    if (CANbitRate != 500u) return CO_ERROR_ILLEGAL_ARGUMENT;
 
     /* 参数检查 */
     if (CANmodule == NULL || rxArray == NULL || txArray == NULL) {
@@ -128,7 +133,8 @@ CO_CANmodule_init(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[],
     can.CAN_BS1  = CAN_BS1_11tq;
     can.CAN_BS2  = CAN_BS2_2tq;
     can.CAN_Prescaler = 6;
-    CAN_Init(CAN1, &can);             /* 内部：进入初始化模式→写寄存器→回到正常模式 */
+    /* 初始化失败不能假报成功；保留双屏主循环继续工作。 */
+    if (CAN_Init(CAN1, &can) != CAN_InitStatus_Success) return CO_ERROR_ILLEGAL_BAUDRATE;
 
     /* ---- 接收过滤器：bank0，屏蔽模式，掩码=0 → 接收所有标准帧进 FIFO0 ----
      * 关键：bxCAN 若没有任何激活的过滤器，所有接收帧都会被丢弃。
