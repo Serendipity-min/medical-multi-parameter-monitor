@@ -84,6 +84,13 @@ def external_identity(path):
     if set(wanted)!=set(('EXPECTED_UID','EXPECTED_CHIP_ID')):raise GateError('IDENTITY_SOURCE_INVALID')
     return wanted
 
+def verify_f4_identity(boot,identity):
+    if boot.get_id()!=int(identity['EXPECTED_CHIP_ID'],16):raise GateError('C_CHIP_SIZE_MISMATCH')
+    # F4的ROM可能拒绝OTP区域2/12字节短读；复用库已有256字节专用读取，不能放宽身份校验。
+    size,uid=boot.get_flash_size_and_uid()
+    if size!=1024:raise GateError('C_CHIP_SIZE_MISMATCH')
+    if boot.format_uid(uid)!=identity['EXPECTED_UID']:raise GateError('C_UID_MISMATCH')
+
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--manifest',type=Path,required=True)
     parser.add_argument('--commit',required=True);parser.add_argument('--identity-source',type=Path,required=True)
@@ -124,12 +131,8 @@ def main():
             result['stage']='C_OPEN_UART';connection.connect();boot=Stm32Bootloader(connection,device_family='F4',verbosity=0)
             result['stage']='C_RESET_TO_ROM';boot.reset_from_system_memory()
             result['stage']='C_GET_BOOTLOADER';boot.get()
-            result['stage']='C_GET_CHIP_ID'
-            if boot.get_id()!=int(identity['EXPECTED_CHIP_ID'],16):raise GateError('C_CHIP_SIZE_MISMATCH')
-            result['stage']='C_READ_FLASH_SIZE'
-            if boot.get_flash_size()!=1024:raise GateError('C_CHIP_SIZE_MISMATCH')
-            result['stage']='C_READ_IDENTITY'
-            if Stm32Bootloader.format_uid(boot.get_uid())!=identity['EXPECTED_UID']:raise GateError('C_UID_MISMATCH')
+            result['stage']='C_READ_F4_IDENTITY_BLOCK_256B'
+            verify_f4_identity(boot,identity)
             result['C_identity_match']=True;result['stage']='PROTECTED_RANGE_PROGRAM'
             def progress(stage,details):result.update({'stage':stage,**details})
             result.update(program_verified(boot,image,plan,progress))

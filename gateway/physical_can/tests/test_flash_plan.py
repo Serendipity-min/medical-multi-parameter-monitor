@@ -23,6 +23,27 @@ class Device:
         assert address==m.START and address+len(data)<=m.LIMIT;self.written=bytes(data)
 
 class Tests(unittest.TestCase):
+    def test_f4_uses_block_reader_not_otp_short_reads(self):
+        class F4:
+            def get_id(self):return 0x413
+            def get_flash_size_and_uid(self):return 1024,b'HOST_SYNTHETIC'
+            def format_uid(self,uid):return 'HOST_FAKE_ID'
+            def get_flash_size(self):raise AssertionError('OTP short read forbidden')
+            def get_uid(self):raise AssertionError('OTP short read forbidden')
+        m.verify_f4_identity(F4(),{'EXPECTED_CHIP_ID':'0x413','EXPECTED_UID':'HOST_FAKE_ID'})
+    def test_f4_block_reader_still_rejects_wrong_size(self):
+        class F4:
+            def get_id(self):return 0x413
+            def get_flash_size_and_uid(self):return 512,b'HOST_SYNTHETIC'
+        with self.assertRaisesRegex(m.GateError,'C_CHIP_SIZE_MISMATCH'):
+            m.verify_f4_identity(F4(),{'EXPECTED_CHIP_ID':'0x413','EXPECTED_UID':'HOST_FAKE_ID'})
+    def test_f4_block_reader_still_rejects_wrong_identity(self):
+        class F4:
+            def get_id(self):return 0x413
+            def get_flash_size_and_uid(self):return 1024,b'HOST_SYNTHETIC'
+            def format_uid(self,uid):return 'HOST_OTHER_ID'
+        with self.assertRaisesRegex(m.GateError,'C_UID_MISMATCH'):
+            m.verify_f4_identity(F4(),{'EXPECTED_CHIP_ID':'0x413','EXPECTED_UID':'HOST_FAKE_ID'})
     def test_size_and_vectors(self):
         for data in (b'',bytes(65537),bytes(100)):
             with self.assertRaises(m.GateError):m.image_plan(data,m.digest(data))
