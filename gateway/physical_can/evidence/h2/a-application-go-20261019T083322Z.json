@@ -1,0 +1,22 @@
+{
+  "mode": "A_EXPLICIT_DEBUG_APPLICATION_START_NO_FLASH",
+  "process_exit_code": 0,
+  "register_lines": [
+    "J-Link>PC = 1FFF3DA0, CycleCnt = 00000000",
+    "SP(R13)= 20001D80, MSP= 20001D80, PSP= 00000000, R14(LR) = FFFFFFFF",
+    "XPSR = 01000000: APSR = nzcvq, EPSR = 01000000, IPSR = 000 (NoException)",
+    "J-Link>J-Link>XPSR = 0x01000000",
+    "J-Link>PC = 080001A0, CycleCnt = 00000000",
+    "SP(R13)= 200042F8, MSP= 200042F8, PSP= 00000000, R14(LR) = FFFFFFFF",
+    "XPSR = 01000000: APSR = nzcvq, EPSR = 01000000, IPSR = 000 (NoException)",
+    "J-Link>E000EDF0 = 01010001",
+    "J-Link>E000ED08 = 08000000",
+    "J-Link>E000101C = 08002268",
+    "J-Link>40006400 = 00010060 00000C08 1C000000 00000000",
+    "40006410 = 00000000 0000800B 00000000 001A0005",
+    "J-Link>40023800 = 03036583 07405408 0000940A"
+  ],
+  "go_sent": true,
+  "flash_or_option_write_or_backup": false,
+  "cold_boot_proven": false
+}

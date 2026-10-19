@@ -1,0 +1,39 @@
+{
+  "authorization_update": {
+    "source": "USER_DIRECT_INSTRUCTION",
+    "additional_backup": "NOT_REQUESTED_NOT_PERFORMED",
+    "proceed_with_u3_measurement_pin_unknown": true,
+    "operator_reports_both_boards_tested_and_powered": true,
+    "three_wires_connected_no_cross_board_power": "USER_CONFIRMED",
+    "u3_vcc_gate": "USER_WAIVED_MEASUREMENT_CONFIRMATION_NOT_A_MEASURED_PASS"
+  },
+  "real_hardware_attempt": {
+    "command": "S",
+    "command_count": 1,
+    "nmt_start_count": 1,
+    "nmt_txok_count": 0,
+    "tec": 8,
+    "rec": 0,
+    "lec": 3,
+    "bus_off": false,
+    "bench_fault": 3,
+    "received_node_a_frames": 0,
+    "node_b_online": false,
+    "status": "FAILED_NO_ACK_STOPPED_NO_AUTOMATIC_RETRY"
+  },
+  "node_a_read_only_diagnosis": {
+    "vtor_hex": "1FFF0000",
+    "pc_sample_hex": "1FFF369C",
+    "boot_alias_vector_hex": ["20001D80", "1FFF3DA1"],
+    "flash_vector_hex": ["200042F8", "080001A1"],
+    "flash_vector_matches_planned_image": true,
+    "can_mcr_hex": "00010002",
+    "can_btr_hex": "01230000",
+    "conclusion": "SYSTEM_ROM_RUNNING_NODE_A_APPLICATION_NOT_RUNNING",
+    "boot_selection_root_cause": "NOT_YET_CONFIRMED",
+    "halt_reset_flash_write_or_backup_performed": false
+  },
+  "next_action": "CONFIRM_NODE_A_BOOT_SELECTION_AND_POWER_CONNECTION_BEFORE_RECOVERY",
+  "five_minute_observation": "NOT_STARTED",
+  "bench_time_injected": false
+}

@@ -1,0 +1,45 @@
+{
+  "mode": "REAL_HARDWARE_CAN_START",
+  "commands_sent": [
+    "S"
+  ],
+  "exit_code": 1,
+  "latest": {
+    "ms": "170000",
+    "armed": "1",
+    "fault": "3",
+    "PCLK1": "16000000",
+    "BTR": "001c0001",
+    "TEC": "8",
+    "REC": "0",
+    "LEC": "3",
+    "BOFF": "0",
+    "TXOK": "0",
+    "NMT_START": "1",
+    "NMT_TXOK": "0",
+    "A": "0",
+    "B": "0",
+    "time": "TIME_BLOCKED"
+  },
+  "fault": {
+    "ms": "170000",
+    "armed": "1",
+    "fault": "3",
+    "PCLK1": "16000000",
+    "BTR": "001c0001",
+    "TEC": "8",
+    "REC": "0",
+    "LEC": "3",
+    "BOFF": "0",
+    "TXOK": "0",
+    "NMT_START": "1",
+    "NMT_TXOK": "0",
+    "A": "0",
+    "B": "0",
+    "time": "TIME_BLOCKED"
+  },
+  "elapsed_s": 1.375,
+  "log": "c-start-20261019T082101Z.log",
+  "A_C_three_wires": "USER_CONFIRMED_CONNECTED_NO_CROSS_POWER",
+  "U3_VCC": "UNKNOWN_USER_AUTHORIZED_PROCEED"
+}

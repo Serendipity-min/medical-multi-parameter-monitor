@@ -1,0 +1,14 @@
+{
+  "mode": "REAL_A_READ_ONLY_BOOT_STATE_NO_HALT_RESET",
+  "exit_code": 0,
+  "register_lines": [
+    "J-Link>E000EDF0 = 01010001",
+    "J-Link>E000ED08 = 1FFF0000",
+    "J-Link>E000101C = 1FFF369C",
+    "J-Link>00000000 = 20001D80 1FFF3DA1",
+    "J-Link>40013800 = 00000000",
+    "J-Link>E000E010 = 00000004 00080000 00000000 4000493E",
+    "J-Link>E000EDF0 = 01010001"
+  ],
+  "read_error_present": false
+}

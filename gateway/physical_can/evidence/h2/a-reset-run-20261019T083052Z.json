@@ -1,0 +1,20 @@
+{
+  "mode": "A_EXPLICIT_AUTHORIZED_RESET_AND_GO_NO_FLASH",
+  "process_exit_code": 0,
+  "register_lines": [
+    "J-Link>E000EDF0 = 01010001",
+    "J-Link>E000ED08 = 1FFF0000",
+    "J-Link>E000101C = 1FFF36C8",
+    "J-Link>00000000 = 20001D80 1FFF3DA1",
+    "J-Link>40006400 = 00010002 0000040A 1C000000 00000000",
+    "40006410 = 00000000 00000000 00000000 01230000",
+    "J-Link>40023800 = 03006583 44033010 0000000A"
+  ],
+  "events": [
+    "VTref = 3.300V",
+    "J-Link>Reset delay: 0 ms",
+    "Reset type NORMAL: Resets core & peripherals via SYSRESETREQ & VECTRESET bit.",
+    "J-Link>J-Link>Sleep(1500)"
+  ],
+  "flash_write_or_backup": false
+}

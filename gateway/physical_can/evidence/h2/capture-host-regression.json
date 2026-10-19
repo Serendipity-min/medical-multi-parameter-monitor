@@ -1,0 +1,14 @@
+{
+  "command": "python gateway/physical_can/tests/test_capture_uart.py",
+  "exit_code": 0,
+  "tests_run": 8,
+  "result": "PASS",
+  "hardware_accessed": false,
+  "observed_stdout": "Ran 8 tests; OK",
+  "failure_that_triggered_fix": {
+    "capture": "c-continuous-20261019T085444Z.json",
+    "exception_type": "PermissionError",
+    "exit_code": 1,
+    "action": "Status snapshot replace PermissionError becomes a skipped publication, with counter; raw UART capture continues."
+  }
+}

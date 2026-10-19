@@ -1,0 +1,107 @@
+{
+  "mode": "REAL_HARDWARE_UART_CAPTURE",
+  "stamp": "20261019T084905Z",
+  "state": "DURATION_COMPLETED",
+  "exit_code": 0,
+  "await_manual_boot": false,
+  "commands": [],
+  "latest": {
+    "ms": "314000",
+    "armed": "0",
+    "fault": "0",
+    "PCLK1": "16000000",
+    "BTR": "001c0001",
+    "TEC": "0",
+    "REC": "0",
+    "LEC": "0",
+    "BOFF": "0",
+    "TXOK": "0",
+    "NMT_START": "0",
+    "NMT_TXOK": "0",
+    "A": "0",
+    "B": "0",
+    "time": "TIME_BLOCKED"
+  },
+  "rx": {
+    "701": {
+      "id": "701",
+      "n": "620",
+      "first": "22",
+      "last": "313831",
+      "dt_min": "383",
+      "dt_max": "1226",
+      "dlc": "1",
+      "data": "0500000000000000"
+    },
+    "181": {
+      "id": "181",
+      "n": "3013",
+      "first": "21",
+      "last": "302357",
+      "dt_min": "0",
+      "dt_max": "237287",
+      "dlc": "8",
+      "data": "REDACTED_SAMPLE_PAYLOAD"
+    },
+    "381": {
+      "id": "381",
+      "n": "312",
+      "first": "20",
+      "last": "313326",
+      "dt_min": "1",
+      "dt_max": "1731",
+      "dlc": "8",
+      "data": "REDACTED_SAMPLE_PAYLOAD"
+    },
+    "481": {
+      "id": "481",
+      "n": "312",
+      "first": "20",
+      "last": "313326",
+      "dt_min": "1",
+      "dt_max": "1731",
+      "dlc": "8",
+      "data": "00000000cf840e00"
+    },
+    "681": {
+      "id": "681",
+      "n": "317",
+      "first": "21",
+      "last": "313483",
+      "dt_min": "1",
+      "dt_max": "1060",
+      "dlc": "8",
+      "data": "0000000001000000"
+    }
+  },
+  "elapsed_s": 10.063,
+  "recognized_lines": 80,
+  "log": "c-continuous-20261019T084905Z.log",
+  "mirror": {
+    "epoch": "0",
+    "tick": "0",
+    "Q": "00000000",
+    "gen": "0",
+    "fresh": "00",
+    "values": "REDACTED_SAMPLES",
+    "wave": "REDACTED_SAMPLE/0",
+    "HBboot": "0",
+    "HBop": "620"
+  },
+  "model": {
+    "frames": "0",
+    "invalid": "0",
+    "seq": "0",
+    "session": "0",
+    "over": "0",
+    "bad": "0",
+    "uart_drop": "0",
+    "lag": "0",
+    "stream": "0",
+    "valid": "0",
+    "synthetic": "0",
+    "stamp": "0000000000000000",
+    "router_drop": "0"
+  },
+  "sample_payloads": "REDACTED; raw UART retained in ACL-restricted local directory"
+}

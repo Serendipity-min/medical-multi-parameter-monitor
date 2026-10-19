@@ -1,0 +1,22 @@
+{
+  "role": "C",
+  "port": "COM15",
+  "mode": "CAN_ONLY_BENCH_USB_RANGE_DOWNLOAD",
+  "C_full_backup": "WAIVED_BY_USER",
+  "exit_code": 1,
+  "stage": "C_IDENTITY_READ_ONLY",
+  "flash_write_started": false,
+  "source_commit": "c6a0040fe6810a3db92463292afdbcfe7403822b",
+  "plan": {
+    "start": 134217728,
+    "end_exclusive": 134242032,
+    "sectors": [
+      0,
+      1
+    ],
+    "bytes": 24304,
+    "sha256": "490de4458740ad3c90132e73619bbc017ec5433ffe28714cae3508f7348f1317"
+  },
+  "A_backup_verified": true,
+  "failure_type": "CommandError"
+}

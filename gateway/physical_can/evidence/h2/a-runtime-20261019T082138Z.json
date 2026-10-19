@@ -1,0 +1,16 @@
+{
+  "mode": "REAL_A_READ_ONLY_RUNTIME_NO_HALT_RESET_FLASH",
+  "process_exit_code": 0,
+  "register_lines": [
+    "J-Link>E000EDF0 = 01010001",
+    "J-Link>08000000 = 200042F8 080001A1",
+    "J-Link>40006400 = 00010002 0000040A 1C000000 00000000",
+    "40006410 = 00000000 00000000 00000000 01230000",
+    "J-Link>40023800 = 03006583 44033010 0000000A",
+    "J-Link>40023840 = 06040000",
+    "J-Link>40020000 = AA800000 00000000 0FE80000",
+    "J-Link>40020024 = 000AA000"
+  ],
+  "read_error_present": false,
+  "timeout": false
+}

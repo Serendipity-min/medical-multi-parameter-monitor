@@ -1,0 +1,107 @@
+{
+  "mode": "REAL_HARDWARE_UART_CAPTURE",
+  "stamp": "20261019T090059Z",
+  "state": "DURATION_COMPLETED",
+  "exit_code": 0,
+  "await_manual_boot": false,
+  "commands": [],
+  "latest": {
+    "ms": "1342009",
+    "armed": "1",
+    "fault": "0",
+    "PCLK1": "16000000",
+    "BTR": "001c0001",
+    "TEC": "0",
+    "REC": "0",
+    "LEC": "0",
+    "BOFF": "0",
+    "TXOK": "1404",
+    "NMT_START": "1",
+    "NMT_TXOK": "1",
+    "A": "1",
+    "B": "0",
+    "time": "BENCH_TEST_TIME_UNTRUSTED"
+  },
+  "rx": {
+    "701": {
+      "id": "701",
+      "n": "2651",
+      "first": "22",
+      "last": "1341906",
+      "dt_min": "383",
+      "dt_max": "1226",
+      "dlc": "1",
+      "data": "0500000000000000"
+    },
+    "181": {
+      "id": "181",
+      "n": "38701",
+      "first": "21",
+      "last": "1333518",
+      "dt_min": "0",
+      "dt_max": "293763",
+      "dlc": "8",
+      "data": "REDACTED_SAMPLE_PAYLOAD"
+    },
+    "381": {
+      "id": "381",
+      "n": "1328",
+      "first": "20",
+      "last": "1341904",
+      "dt_min": "1",
+      "dt_max": "1731",
+      "dlc": "8",
+      "data": "REDACTED_SAMPLE_PAYLOAD"
+    },
+    "481": {
+      "id": "481",
+      "n": "1327",
+      "first": "20",
+      "last": "1341904",
+      "dt_min": "1",
+      "dt_max": "2022",
+      "dlc": "8",
+      "data": "7dd4496b4d081e00"
+    },
+    "681": {
+      "id": "681",
+      "n": "1350",
+      "first": "21",
+      "last": "1341016",
+      "dt_min": "1",
+      "dt_max": "1897",
+      "dlc": "8",
+      "data": "0000000001000000"
+    }
+  },
+  "elapsed_s": 312.25,
+  "recognized_lines": 2528,
+  "log": "c-continuous-20261019T090059Z.log",
+  "mirror": {
+    "epoch": "1800000637",
+    "tick": "1968205",
+    "Q": "00000000",
+    "gen": "1",
+    "fresh": "1c",
+    "values": "REDACTED_SAMPLES",
+    "wave": "REDACTED_SAMPLE/1960715",
+    "HBboot": "0",
+    "HBop": "2651"
+  },
+  "model": {
+    "frames": "1336",
+    "invalid": "439",
+    "seq": "316",
+    "session": "65537",
+    "over": "43",
+    "bad": "0",
+    "uart_drop": "0",
+    "lag": "13",
+    "stream": "3",
+    "valid": "0",
+    "synthetic": "0",
+    "stamp": "000001a318660460",
+    "router_drop": "0"
+  },
+  "sample_payloads": "REDACTED; raw UART retained in ACL-restricted local directory"
+}

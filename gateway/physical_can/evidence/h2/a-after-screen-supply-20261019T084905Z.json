@@ -1,0 +1,18 @@
+{
+  "mode": "A_AFTER_SCREEN_SUPPLY_CORRECTION_READ_ONLY",
+  "process_exit_code": 0,
+  "register_lines": [
+    "J-Link>E000EDF0 = 01010001",
+    "J-Link>E000ED08 = 08000000",
+    "J-Link>E000101C = 08003A4C",
+    "J-Link>40006400 = 00010060 00000C08 1C000000 00000000",
+    "40006410 = 00000000 0000800B 00000000 001A0005",
+    "J-Link>40023800 = 03036583 07405408 0000940A",
+    "J-Link>20000024 = 000E64F0",
+    "J-Link>2000003C = 000004A4",
+    "J-Link>200000BC = 001D7475 0001BB8E",
+    "J-Link>20000158 = 00000000 00000000 00000000 00000143"
+  ],
+  "read_error_present": false,
+  "flash_or_backup": false
+}

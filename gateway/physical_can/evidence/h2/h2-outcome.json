@@ -1,0 +1,105 @@
+{
+  "outcome": "H2_BLOCKED",
+  "link_status": "REAL_NMT_TXOK_HEARTBEAT_FOUR_PDO_AND_LOCAL_MIRROR_OBSERVED",
+  "final_capture": "20261019T090059Z",
+  "capture_exit_code": 0,
+  "host_elapsed_s": 312.25,
+  "device_observation_ms": 315006,
+  "new_commands_during_final_window": [],
+  "all_armed": true,
+  "all_A_online": true,
+  "all_B_offline": true,
+  "max_tec": 0,
+  "max_rec": 0,
+  "max_lec": 0,
+  "any_busoff": false,
+  "any_bench_fault": false,
+  "last": {
+    "ms": "1342009",
+    "armed": "1",
+    "fault": "0",
+    "PCLK1": "16000000",
+    "BTR": "001c0001",
+    "TEC": "0",
+    "REC": "0",
+    "LEC": "0",
+    "BOFF": "0",
+    "TXOK": "1404",
+    "NMT_START": "1",
+    "NMT_TXOK": "1",
+    "A": "1",
+    "B": "0",
+    "time": "BENCH_TEST_TIME_UNTRUSTED"
+  },
+  "fifo_overflow_before": 29,
+  "fifo_overflow_after": 43,
+  "fifo_overflow_delta": 14,
+  "uart_drop_max": 0,
+  "bad_frame_max": 0,
+  "router_drop_max": 0,
+  "model_frames_delta": 659,
+  "model_invalid_frames_delta": 233,
+  "rx": {
+    "701": {
+      "total_received": 2651,
+      "window_count_delta": 623,
+      "window_average_interval_ms": 505.504,
+      "boot_lifetime_dt_min_ms": 383,
+      "boot_lifetime_dt_max_ms": 1226,
+      "last_dlc": 1
+    },
+    "181": {
+      "total_received": 38701,
+      "window_count_delta": 14825,
+      "window_average_interval_ms": 20.676,
+      "boot_lifetime_dt_min_ms": 0,
+      "boot_lifetime_dt_max_ms": 293763,
+      "last_dlc": 8
+    },
+    "381": {
+      "total_received": 1328,
+      "window_count_delta": 312,
+      "window_average_interval_ms": 1011.173,
+      "boot_lifetime_dt_min_ms": 1,
+      "boot_lifetime_dt_max_ms": 1731,
+      "last_dlc": 8
+    },
+    "481": {
+      "total_received": 1327,
+      "window_count_delta": 312,
+      "window_average_interval_ms": 1011.173,
+      "boot_lifetime_dt_min_ms": 1,
+      "boot_lifetime_dt_max_ms": 2022,
+      "last_dlc": 8
+    },
+    "681": {
+      "total_received": 1350,
+      "window_count_delta": 323,
+      "window_average_interval_ms": 973.43,
+      "boot_lifetime_dt_min_ms": 1,
+      "boot_lifetime_dt_max_ms": 1897,
+      "last_dlc": 8
+    }
+  },
+  "mirror_consistency": {
+    "scalar4_match": true,
+    "epoch_tick_match": true,
+    "quality_generation_match": true,
+    "wave_value_tick_match": true
+  },
+  "sample_values_persisted": false,
+  "source": "USER_REPORTED_HUMAN_SOURCE_ENGINEERING_COMMUNICATION_ONLY",
+  "clinical_accuracy_and_electrical_safety": "NOT_VALIDATED",
+  "A_bootup_captured": false,
+  "A_cold_boot_proven": false,
+  "screen_display": "USER_REPORTS_NORMAL_AFTER_CONVERTER_POWER",
+  "time": "BENCH_TEST_TIME_UNTRUSTED_NO_SNTP_NO_CLOUD",
+  "remaining": [
+    "C_RX_FIFO_OVERFLOW_INCREASING",
+    "A_BOOT_SELECTION_ROOT_CAUSE_UNKNOWN",
+    "A_BOOTUP_AND_OLD_VALUE_RESTART_ACCEPTANCE_NOT_DONE",
+    "SUPPLY_AND_HUMAN_CONNECTION_SAFETY_NOT_VALIDATED"
+  ],
+  "hardware_power_off": "NOT_CONFIRMED",
+  "physical_firmware_changes_during_final_window": false
+}

@@ -1,0 +1,26 @@
+{
+  "role": "A",
+  "interface": "JLINK_SWD_1000KHZ",
+  "exit_code": 0,
+  "flash_write_started": true,
+  "stage": "VERIFIED_NOT_RUN",
+  "source_commit": "c6a0040fe6810a3db92463292afdbcfe7403822b",
+  "image_sha256": "506423dc295318a8de730d0d6b5100fc4ef199c349ee3acd2fbba350bf576f88",
+  "bytes": 49888,
+  "start": "0x08000000",
+  "end_exclusive": "0x800c2e0",
+  "affected_sectors": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "precheck_process_exit": 0,
+  "download_process_exit": 0,
+  "image_readback_match": true,
+  "outside_64KiB_unchanged": true,
+  "options_unchanged": true,
+  "after_flash_sha256": "4c2730ebc9a8eab33b1e4d585db7deb47567261b6369165e47ecaf9630f35f3a",
+  "IWDG_debug_freeze_only": true,
+  "target_execution": "HALT_REQUESTED_NO_GO_COMMAND"
+}

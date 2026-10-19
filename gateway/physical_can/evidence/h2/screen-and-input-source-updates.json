@@ -1,0 +1,35 @@
+{
+  "source": "USER_REPORTED",
+  "events": [
+    {
+      "event": "BOTH_EXTERNAL_SERIAL_SCREENS_BLACK_OR_NO_BACKLIGHT",
+      "action": "NEW_COMMANDS_STOPPED_CAPTURE_CLOSED_POWER_OFF_REQUESTED",
+      "power_off_confirmation": "NOT_RECEIVED"
+    },
+    {
+      "event": "OPERATOR_REPORTS_JLINK_SUPPLY_INSUFFICIENT_FOR_SCREENS",
+      "change": "OPERATOR_CHANGED_TO_CONVERTER_POWER",
+      "screens": "BOTH_DISPLAY_NORMALLY_AFTER_CHANGE_NO_READINGS_YET",
+      "converter_model_voltage_and_isolation": "NOT_MEASURED_OR_CONFIRMED",
+      "attribution": "USER_REPORTED_NOT_INDEPENDENTLY_VERIFIED"
+    },
+    {
+      "event": "OPERATOR_REPORTS_SENSOR_MODULES_POWERED_AND_CONNECTED_NO_PROBES",
+      "simulation_hardware": "NO_COMPATIBLE_SIMULATOR_CONFIRMED"
+    },
+    {
+      "event": "OPERATOR_EXPLICITLY_REQUESTS_HUMAN_MEASUREMENT_REPORTS_ALREADY_WEARING_SENSORS",
+      "assistant_action": "ADVISED_REMOVAL_DUE_UNVERIFIED_ELECTRICAL_SAFETY_NO_REMOTE_PRESSURE_ACTUATION_OR_NODE_A_RESTART",
+      "data_provenance": "USER_REPORTED_HUMAN_SOURCE_FOR_SUBSEQUENT_READ_ONLY_OBSERVATION",
+      "public_data": "PROTOCOL_COUNTERS_TIMINGS_QUALITY_ONLY_SAMPLE_VALUES_REDACTED",
+      "clinical_or_human_connection_safety_validation": "NOT_PERFORMED_NOT_CLAIMED"
+    }
+  ],
+  "subsequent_host_action": "C_COMMUNICATION_PROCESSING_AND_EXPLICIT_UNTRUSTED_BENCH_TIME_ONLY",
+  "node_a_bp_pump_command_sent": false,
+  "node_a_reset_after_human_connection_report": false,
+  "latest_A_application_verified": true,
+  "latest_A_CAN_error_register_zero": true,
+  "probe_flags_read_only_evidence": "a-sensor-flags-20261019T085358Z.json",
+  "h3": "NOT_AUTHORIZED_NOT_STARTED"
+}

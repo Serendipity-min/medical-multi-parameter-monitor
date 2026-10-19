@@ -1,0 +1,22 @@
+{
+  "mode": "A_DEBUG_APPLICATION_ENTRY_PREPARE_HALTED_NO_FLASH",
+  "process_exit_code": 0,
+  "expected_msp": "0x200042f8",
+  "expected_pc": "0x80001a0",
+  "register_lines": [
+    "J-Link>PC = 1FFF3DA0, CycleCnt = 00000000",
+    "SP(R13)= 20001D80, MSP= 20001D80, PSP= 00000000, R14(LR) = FFFFFFFF",
+    "XPSR = 01000000: APSR = nzcvq, EPSR = 01000000, IPSR = 000 (NoException)",
+    "J-Link>MSP = 0x200042F8",
+    "R13 (SP)",
+    "R15 (PC)",
+    "J-Link>XPSR = 0x01000000",
+    "J-Link>Writing 08000000 -> E000ED08",
+    "J-Link>PC = 1FFF3DA0, CycleCnt = 00000000",
+    "SP(R13)= 200042F8, MSP= 200042F8, PSP= 00000000, R14(LR) = FFFFFFFF",
+    "XPSR = 01000000: APSR = nzcvq, EPSR = 01000000, IPSR = 000 (NoException)",
+    "J-Link>E000ED08 = 08000000"
+  ],
+  "go_sent": false,
+  "flash_or_option_write": false
+}
