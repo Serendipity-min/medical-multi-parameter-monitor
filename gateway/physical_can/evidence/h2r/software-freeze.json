@@ -1,0 +1,51 @@
+{
+  "mode": "H2R_SOFTWARE_FREEZE_BEFORE_C_DOWNLOAD",
+  "base_sha": "a9951fd2f8c66437e2db195a85daa23fef7054b3",
+  "ARM_manifest": "gateway/physical_can/evidence/h2r/arm-20261019T095507439179Z.json",
+  "image": {
+    "sha256": "79a5ddf9a49fe592f22f625269ef7fd88e1578aa36b1229477aa8b943eb35be5",
+    "bytes": 26660,
+    "start": "0x08000000",
+    "end_exclusive": "0x8006824",
+    "erase_sectors": [
+      0,
+      1
+    ],
+    "protected_regions": [
+      "0x08060000..0x0807ffff",
+      "0x080e0000..0x080fffff"
+    ]
+  },
+  "C_IRQ_vector": {
+    "slot": 36,
+    "address": "0x800478d",
+    "strong_handler": true
+  },
+  "regression_dir": "gateway/physical_can/evidence/h2r/regression-20261019T095503Z",
+  "regression_exit_codes": {
+    "h2r-host": 0,
+    "h2r-arm": 0,
+    "capture-host": 0,
+    "download-gate-host": 0,
+    "a-download-gate-host": 0,
+    "node-a-host": 0,
+    "node-a-keil": 0,
+    "h0-startup-host": 0,
+    "physical-host": 0,
+    "physical-arm": 0,
+    "physical-wire": 0,
+    "p5-can-host": 0,
+    "canonical": 0,
+    "p5-arm": 0,
+    "backend": 0,
+    "isolated-broker": 0,
+    "physical-wire-broker": 0
+  },
+  "old_evidence_restored": true,
+  "source_scope": "gateway/physical_can only",
+  "node_a_source_changed": false,
+  "operator_C_download_role_confirmed": true,
+  "operator_no_human_A_off_jlink_detached_C_USB_COM15_ESP_disconnected": true,
+  "hardware": "NOT_YET_ACCESSED_H2R",
+  "C_full_backup": "NOT_PERFORMED_NO_FULL_RECOVERY_CLAIM"
+}

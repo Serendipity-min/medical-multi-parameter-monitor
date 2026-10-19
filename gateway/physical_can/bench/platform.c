@@ -4,6 +4,7 @@
 #include "stm32f4xx_gpio.h"
 #include "stm32f4xx_rcc.h"
 #include "stm32f4xx_usart.h"
+#include <string.h>
 static char output[4096];
 static unsigned head,tail;
 volatile uint32_t g_uptime_ms;
@@ -11,11 +12,18 @@ void SysTick_Handler(void) {g_uptime_ms++;}
 void console(const char *s) {
     while(*s) {
         unsigned next=(head+1u)%sizeof(output);
-        if(next==tail) {bench_stats.uart_dropped++;return;}
+        /* 记录实际未入队字节数，不能把一次截断误记为只丢一个字节。 */
+        if(next==tail) {bench_stats.uart_dropped+=(uint32_t)strlen(s);return;}
         output[head]=*s++;head=next;
     }
 }
 static void platform_init(void) {
+#ifdef CAN_BENCH_IRQ
+    /* C应用正规向量表重定位及DWT观测；不改变A的BOOT脚/选项或人工设置其PC。 */
+    SCB->VTOR=0x08000000u;__DSB();__ISB();
+    CoreDebug->DEMCR|=CoreDebug_DEMCR_TRCENA_Msk;
+    DWT->CYCCNT=0;DWT->CTRL|=DWT_CTRL_CYCCNTENA_Msk;
+#endif
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA,ENABLE);RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1,ENABLE);
     GPIO_InitTypeDef gpio;GPIO_StructInit(&gpio);gpio.GPIO_Pin=GPIO_Pin_9|GPIO_Pin_10;
     gpio.GPIO_Mode=GPIO_Mode_AF;gpio.GPIO_OType=GPIO_OType_PP;gpio.GPIO_PuPd=GPIO_PuPd_UP;gpio.GPIO_Speed=GPIO_Speed_50MHz;

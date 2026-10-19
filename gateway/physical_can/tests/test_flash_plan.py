@@ -26,6 +26,25 @@ class Device:
         assert address==m.START and address+len(data)<=m.LIMIT;self.written=bytes(data)
 
 class Tests(unittest.TestCase):
+    def test_h2r_manifest_cannot_select_polling_image(self):
+        base={'mode':'CAN_ONLY_BENCH_ARM','exit_code':0,'variant':'H2_POLLING'}
+        with self.assertRaises(m.GateError):m.verify_variant(base,True)
+        irq=dict(base,variant='H2R_IRQ_STATIC_RX',CAN1_RX0_vector={'strong_handler':True})
+        m.verify_variant(irq,True)
+        with self.assertRaises(m.GateError):m.verify_variant(irq,False)
+        with self.assertRaises(m.GateError):m.verify_variant(dict(irq,CAN1_RX0_vector={}),True)
+    def test_previous_application_match_required_before_programming(self):
+        data=image();device=Device();device.written=data
+        self.assertTrue(m.verify_previous_application(device,data,m.digest(data))['readback_match'])
+        device.written=b'\xff'*len(data)
+        with self.assertRaisesRegex(m.GateError,'PREVIOUS_APPLICATION_MISMATCH'):
+            m.verify_previous_application(device,data,m.digest(data))
+        self.assertIsNone(device.erased)
+    def test_protected_baseline_change_blocks_before_erase(self):
+        data=image();device=Device()
+        with self.assertRaisesRegex(m.GateError,'PROTECTED_BASELINE_MISMATCH_BEFORE_ERASE'):
+            m.program_verified(device,data,m.image_plan(data,m.digest(data)),expected_protected={'wrong':{}})
+        self.assertIsNone(device.erased)
     def test_f4_uses_block_reader_not_otp_short_reads(self):
         class F4:
             def get_id(self):return 0x413

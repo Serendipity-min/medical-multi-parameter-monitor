@@ -1,0 +1,9 @@
+PASS CAN_ONLY_BENCH Host: disarmed/no-network/no-sensors/B-OFFLINE/NMT simulated-TXOK/time opt-in/HB timeout/fault latch; HARDWARE_NOT_RUN
+PASS CAN_ONLY_BENCH Host: disarmed/no-network/no-sensors/B-OFFLINE/NMT simulated-TXOK/time opt-in/HB timeout/fault latch; HARDWARE_NOT_RUN
+PASS IRQ: 4+ burst/1Hz clustered PDO/foreground stall/arrival timestamp/order
+Assertion failed!
+
+Program: E:\medical-monitor-node-a\gateway\physical_can\build\h2r\rx_irq_mmio.exe
+File: E:\medical-monitor-node-a\gateway\physical_can\tests\rx_irq_mmio.c, Line 62
+
+Expression: bench_rx_depth()==4 && !bench_rx_path.hw_overrun && bench_rx_path.hw_full==1

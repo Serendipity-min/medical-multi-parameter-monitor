@@ -7,6 +7,10 @@ extern PhysicalNode physical_nodes[2];
 extern bool physical_link_ready;
 extern uint32_t physical_malformed;
 void physical_receive(MpCanFrame *frame);
+#ifdef CAN_BENCH_IRQ
+/* 仅IRQ bench使用入队时刻，避免软件排队延迟被错误计为新的采集新鲜度。 */
+void physical_receive_at(MpCanFrame *frame,uint32_t received_ms);
+#endif
 bool physical_fresh(unsigned node,unsigned pdo,uint32_t now);
 void physical_invalidate(void);
 uint64_t physical_now(const MpStack *stack);

@@ -44,9 +44,22 @@ int main(int argc,char **argv) {
     input(0x681,8,0,1);input(0x481,8,0,g_uptime_ms);input(0x381,8,0,0);advance(2);
     assert(bench_stats.rx[3].count==1 && bench_stats.quality==0 && bench_stats.model_frames==0);
     assert(bench_stats.scalar[0]==0 && !bench_stats.test_time); /* 无传感器/授时不填示例值。 */
+#ifdef CAN_BENCH_IRQ
+    MpCanFrame delayed={0};delayed.ident=0x381;delayed.dlc=8;
+    /* 队列内已老化的PDO保留真实入队时刻，不因主循环取出而延长1500ms有效窗。 */
+    physical_receive_at(&delayed,g_uptime_ms-1490u);
+    assert(physical_fresh(1,2,g_uptime_ms));advance(11);
+    assert(!physical_fresh(1,2,g_uptime_ms));
+#endif
     bench_command('T');advance(2);assert(bench_stats.test_time && bench_stats.model_frames>0);
     assert(strstr(output,"BENCH_TEST_TIME_UNTRUSTED"));
+    uint32_t starts_before_pause=bench_stats.tx_started;
+    bench_command('P');assert(bench_stats.paused && !bench_stats.test_time && !bench_stats.last_valid);
+    advance(1100);assert(bench_stats.tx_started==starts_before_pause && !bench_stats.fault);
+    uint32_t boots_before=bench_stats.bootups;input(0x701,1,0,0);
+    assert(bench_stats.bootups==boots_before+1 && !bench_stats.node_a_online);
     bench_command('G');advance(2);assert(!bench_stats.test_time && !bench_stats.fault);
+    assert(!bench_stats.paused && bench_stats.tx_started>starts_before_pause);
     input(0x701,1,5,0);advance(1600);assert(!bench_stats.node_a_online && !bench_stats.node_b_online);
     assert(strstr(output,"NODE_B_OFFLINE") && strstr(output,"NMT_TXOK="));
     /* 各故障场景独立进程运行，故障后S/G不能自动解除锁止。 */

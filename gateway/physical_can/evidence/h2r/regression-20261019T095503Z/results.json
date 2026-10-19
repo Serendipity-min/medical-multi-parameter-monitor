@@ -1,0 +1,192 @@
+[
+  {
+    "name": "h2r-host",
+    "command": [
+      "python",
+      "gateway/physical_can/bench_build.py",
+      "--h2r",
+      "--host"
+    ],
+    "exit_code": 0,
+    "started_utc": "2026-10-19T09:55:03.826969+00:00",
+    "finished_utc": "2026-10-19T09:55:07.253940+00:00"
+  },
+  {
+    "name": "h2r-arm",
+    "command": [
+      "python",
+      "gateway/physical_can/bench_build.py",
+      "--h2r"
+    ],
+    "exit_code": 0,
+    "started_utc": "2026-10-19T09:55:07.253940+00:00",
+    "finished_utc": "2026-10-19T09:55:12.471271+00:00"
+  },
+  {
+    "name": "capture-host",
+    "command": [
+      "python",
+      "gateway/physical_can/tests/test_capture_uart.py"
+    ],
+    "exit_code": 0,
+    "started_utc": "2026-10-19T09:55:12.471271+00:00",
+    "finished_utc": "2026-10-19T09:55:12.870465+00:00"
+  },
+  {
+    "name": "download-gate-host",
+    "command": [
+      "python",
+      "gateway/physical_can/tests/test_flash_plan.py"
+    ],
+    "exit_code": 0,
+    "started_utc": "2026-10-19T09:55:12.870465+00:00",
+    "finished_utc": "2026-10-19T09:55:13.148248+00:00"
+  },
+  {
+    "name": "a-download-gate-host",
+    "command": [
+      "python",
+      "gateway/physical_can/tests/test_a_flash_gate.py"
+    ],
+    "exit_code": 0,
+    "started_utc": "2026-10-19T09:55:13.149249+00:00",
+    "finished_utc": "2026-10-19T09:55:13.897900+00:00"
+  },
+  {
+    "name": "node-a-host",
+    "command": [
+      "python",
+      "node-a/tests/run_host.py",
+      "--phase",
+      "h2r"
+    ],
+    "exit_code": 0,
+    "started_utc": "2026-10-19T09:55:13.898419+00:00",
+    "finished_utc": "2026-10-19T09:55:16.116954+00:00"
+  },
+  {
+    "name": "node-a-keil",
+    "command": [
+      "D:/keil/UV4/UV4.exe",
+      "-r",
+      "E:\\medical-monitor-node-a\\node-a\\STM32F407_HOSPITAL\\USER\\STM32F407_Template.uvprojx",
+      "-o",
+      "E:\\medical-monitor-node-a\\gateway\\physical_can\\evidence\\h2r\\regression-20261019T095503Z\\node-a-keil-build.log"
+    ],
+    "exit_code": 0,
+    "started_utc": "2026-10-19T09:55:16.116954+00:00",
+    "finished_utc": "2026-10-19T09:55:26.987092+00:00"
+  },
+  {
+    "name": "h0-startup-host",
+    "command": [
+      "python",
+      "gateway/physical_can/tests/run_startup.py"
+    ],
+    "exit_code": 0,
+    "started_utc": "2026-10-19T09:55:26.987092+00:00",
+    "finished_utc": "2026-10-19T09:55:29.390639+00:00"
+  },
+  {
+    "name": "physical-host",
+    "command": [
+      "python",
+      "gateway/physical_can/build.py",
+      "--host"
+    ],
+    "exit_code": 0,
+    "started_utc": "2026-10-19T09:55:29.390639+00:00",
+    "finished_utc": "2026-10-19T09:55:32.098570+00:00"
+  },
+  {
+    "name": "physical-arm",
+    "command": [
+      "python",
+      "gateway/physical_can/build.py"
+    ],
+    "exit_code": 0,
+    "started_utc": "2026-10-19T09:55:32.098570+00:00",
+    "finished_utc": "2026-10-19T09:55:38.417844+00:00"
+  },
+  {
+    "name": "physical-wire",
+    "command": [
+      "python",
+      "gateway/physical_can/build.py",
+      "--host",
+      "--wire",
+      "gateway/physical_can/evidence/node-a-can-frames.txt"
+    ],
+    "exit_code": 0,
+    "started_utc": "2026-10-19T09:55:38.418844+00:00",
+    "finished_utc": "2026-10-19T09:55:40.900654+00:00"
+  },
+  {
+    "name": "p5-can-host",
+    "command": [
+      "python",
+      "gateway/mqtt/tests/run_p5_host_tests.py",
+      "--with-can-capture"
+    ],
+    "exit_code": 0,
+    "started_utc": "2026-10-19T09:55:40.900654+00:00",
+    "finished_utc": "2026-10-19T09:56:00.835864+00:00"
+  },
+  {
+    "name": "canonical",
+    "command": [
+      "python",
+      "gateway/canopen/tools/check_canonical.py"
+    ],
+    "exit_code": 0,
+    "started_utc": "2026-10-19T09:56:00.835864+00:00",
+    "finished_utc": "2026-10-19T09:56:01.528334+00:00"
+  },
+  {
+    "name": "p5-arm",
+    "command": [
+      "python",
+      "gateway/mqtt/build.py"
+    ],
+    "exit_code": 0,
+    "started_utc": "2026-10-19T09:56:01.529333+00:00",
+    "finished_utc": "2026-10-19T09:56:07.912966+00:00"
+  },
+  {
+    "name": "backend",
+    "command": [
+      "python",
+      "-m",
+      "pytest",
+      "cloud/backend/tests",
+      "-q"
+    ],
+    "exit_code": 0,
+    "started_utc": "2026-10-19T09:56:07.912966+00:00",
+    "finished_utc": "2026-10-19T09:56:12.295546+00:00"
+  },
+  {
+    "name": "isolated-broker",
+    "command": [
+      "python",
+      "gateway/mqtt/tests/run_broker_integration.py",
+      "--runtime",
+      "E:/medical-monitor-p5/isolated-broker/runtime"
+    ],
+    "exit_code": 0,
+    "started_utc": "2026-10-19T09:56:12.296412+00:00",
+    "finished_utc": "2026-10-19T09:56:57.946424+00:00"
+  },
+  {
+    "name": "physical-wire-broker",
+    "command": [
+      "python",
+      "gateway/physical_can/tests/run_wire_broker.py",
+      "--runtime",
+      "E:/medical-monitor-p5/isolated-broker/runtime"
+    ],
+    "exit_code": 0,
+    "started_utc": "2026-10-19T09:56:57.947424+00:00",
+    "finished_utc": "2026-10-19T09:57:07.109245+00:00"
+  }
+]

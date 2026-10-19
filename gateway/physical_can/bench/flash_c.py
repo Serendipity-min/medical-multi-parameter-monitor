@@ -51,7 +51,7 @@ def protected_hashes(boot):
         result[hex(address)]={'sector_sha256':h.hexdigest(),'first_312B_sha256':digest(prefix)}
     return result
 
-def program_verified(boot,image,plan,progress=None):
+def program_verified(boot,image,plan,progress=None,expected_protected=None):
     progress=progress or (lambda stage,details:None)
     if image_plan(image,plan['sha256'])!=plan:raise GateError('PLAN_CHANGED')
     if not boot.extended_erase:raise GateError('EXTENDED_ERASE_UNSUPPORTED')
@@ -61,6 +61,8 @@ def program_verified(boot,image,plan,progress=None):
     options=read_exact(boot,0x1FFFC000,16)
     if options[1]!=0xAA:raise GateError('RDP_NOT_LEVEL_ZERO')
     before=protected_hashes(boot)
+    if expected_protected is not None and before!=expected_protected:
+        raise GateError('PROTECTED_BASELINE_MISMATCH_BEFORE_ERASE')
     progress('PROTECTED_HASHES_VERIFIED',{'protected_before':before})
     # 必须传非空、明确的扇区列表；库中None/空列表会触发整片擦除，绝不使用。
     progress('ERASE_ATTEMPTED',{'flash_write_started':True})
@@ -94,12 +96,30 @@ def verify_f4_identity(boot,identity):
     if size!=1024:raise GateError('C_CHIP_SIZE_MISMATCH')
     if boot.format_uid(uid)!=identity['EXPECTED_UID']:raise GateError('C_UID_MISMATCH')
 
+def verify_variant(manifest,h2r):
+    if manifest.get('mode')!='CAN_ONLY_BENCH_ARM' or manifest.get('exit_code')!=0:
+        raise GateError('ARM_NOT_VERIFIED')
+    if h2r:
+        if manifest.get('variant')!='H2R_IRQ_STATIC_RX' or not manifest.get('CAN1_RX0_vector',{}).get('strong_handler'):
+            raise GateError('H2R_IRQ_VARIANT_NOT_VERIFIED')
+    elif manifest.get('variant','H2_POLLING')!='H2_POLLING':
+        raise GateError('BENCH_VARIANT_MISMATCH')
+
+def verify_previous_application(boot,data,sha):
+    # 比较既有应用，不保存C整片Flash，不把新镜像写到未核实身份的旧固件上。
+    image_plan(data,sha)
+    if read_exact(boot,START,len(data))!=data:raise GateError('PREVIOUS_APPLICATION_MISMATCH')
+    return {'bytes':len(data),'sha256':sha,'readback_match':True}
+
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--manifest',type=Path,required=True)
     parser.add_argument('--commit',required=True);parser.add_argument('--identity-source',type=Path,required=True)
     parser.add_argument('--a-backup-dir',type=Path,required=True)
     parser.add_argument('--private-dir',type=Path,required=True)
     parser.add_argument('--flash-confirm-role',choices=['C'],required=True)
+    parser.add_argument('--h2r',action='store_true')
+    parser.add_argument('--current-image',type=Path);parser.add_argument('--current-sha256')
+    parser.add_argument('--protected-baseline',type=Path)
     args=parser.parse_args()
     stamp=datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     result={'role':'C','port':'COM15','mode':'CAN_ONLY_BENCH_USB_RANGE_DOWNLOAD','C_full_backup':'WAIVED_BY_USER','exit_code':1,'stage':'OFFLINE_GATES','flash_write_started':False}
@@ -109,12 +129,23 @@ def main():
         head=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
         if head!=args.commit:raise GateError('SOURCE_COMMIT_CHANGED')
         manifest=json.loads(args.manifest.read_text(encoding='utf-8'))
-        if manifest['mode']!='CAN_ONLY_BENCH_ARM' or manifest['exit_code']!=0:raise GateError('ARM_NOT_VERIFIED')
+        verify_variant(manifest,args.h2r)
         for key in ('source_sha256','build_input_sha256'):
             for rel,sha in manifest[key].items():
                 if not rel.startswith('external-sdk/') and digest((ROOT/rel).read_bytes())!=sha:raise GateError('SOURCE_BYTES_CHANGED')
         if subprocess.run(['git','diff','--quiet','HEAD','--','gateway/physical_can/bench','gateway/physical_can/src','gateway/physical_can/bench_build.py'],cwd=ROOT).returncode:raise GateError('UNCOMMITTED_CODE')
-        image=(HERE/'build/bench/can_only_bench.bin').read_bytes();plan=image_plan(image,manifest['image']['sha256'])
+        image=(HERE/('build/h2r/can_only_bench.bin' if args.h2r else 'build/bench/can_only_bench.bin')).read_bytes();plan=image_plan(image,manifest['image']['sha256'])
+        expected_protected=None;previous=None
+        if args.h2r:
+            if not args.current_image or not args.current_sha256 or not args.protected_baseline:
+                raise GateError('H2R_PREVIOUS_IMAGE_AND_PROTECTED_BASELINE_REQUIRED')
+            if b'H2R_IRQ_RX_QUEUE_128' not in image:raise GateError('H2R_IRQ_IMAGE_MARKER_MISSING')
+            previous=args.current_image.read_bytes();image_plan(previous,args.current_sha256)
+            baseline=json.loads(args.protected_baseline.read_text(encoding='utf-8'))
+            if baseline.get('exit_code')!=0 or not baseline.get('protected_unchanged'):
+                raise GateError('PROTECTED_BASELINE_NOT_VERIFIED')
+            expected_protected=baseline['protected_after']
+        result['variant']='H2R_IRQ_STATIC_RX' if args.h2r else 'H2_POLLING'
         if plan['sectors']!=manifest['image']['erase_sectors']:raise GateError('ARM_SECTOR_PLAN_MISMATCH')
         proof=json.loads((args.a_backup_dir/'private-summary.json').read_text(encoding='utf-8'))
         if proof.get('exit_code')!=0 or not proof.get('independent_reads_match'):raise GateError('A_BACKUP_NOT_VERIFIED')
@@ -137,8 +168,10 @@ def main():
             result['stage']='C_READ_F4_IDENTITY_BLOCK_256B'
             verify_f4_identity(boot,identity)
             result['C_identity_match']=True;result['stage']='PROTECTED_RANGE_PROGRAM'
+            if previous is not None:
+                result['previous_application']=verify_previous_application(boot,previous,args.current_sha256)
             def progress(stage,details):result.update({'stage':stage,**details})
-            result.update(program_verified(boot,image,plan,progress))
+            result.update(program_verified(boot,image,plan,progress,expected_protected))
             connection.enable_reset(True)
         result.update({'exit_code':0,'stage':'VERIFIED_RESET_ASSERTED_BEFORE_CLOSE','physical_CAN':'NOT_TESTED','reset_asserted_before_port_close':True})
     except BaseException as error:
@@ -151,7 +184,7 @@ def main():
         if 'private' in locals() and private.is_dir():
             (private/('c-uart-'+stamp+'.raw.log')).write_text(diagnostic.getvalue(),encoding='utf-8')
         # 只保存脱敏结果；没有C Flash原件/配置正文/UID，也不自动恢复运行原网关。
-        (HERE/'evidence/h2'/('c-download-'+stamp+'.json')).write_text(json.dumps(result,indent=2),encoding='utf-8')
+        (HERE/('evidence/h2r' if args.h2r else 'evidence/h2')/('c-download-'+stamp+'.json')).write_text(json.dumps(result,indent=2),encoding='utf-8')
         print(json.dumps(result,indent=2))
     return result['exit_code']
 

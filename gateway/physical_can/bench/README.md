@@ -41,3 +41,17 @@ python gateway/physical_can/tests/test_flash_plan.py
 原始UART字节仅保存于预先建立的受限本地目录；版本库中的记录移除181/381样值和MIRROR测量值，保留标识、计数、采集tick和质量。程序公开的valid是源/通信有效性标记，不能作为人体连接安全或生理准确度认证。真实来源、模拟来源和未核实来源必须在交接记录中分别说明。
 
 `python gateway/physical_can/tests/test_capture_uart.py`只验证Host命令门禁与脱敏，不打开串口。被动CAN初始化时`armed=0`，A/B协议在线位尚未建立，不能仅凭此时的`A=0`判定物理收不到A；应同时检查RX计数。
+
+## H2R独立接收候选
+
+`bench_build.py --h2r [--host]`生成`build/h2r/`和`evidence/h2r/`，保留H2已受测BIN及原始失败。只在该目标替换为`bxcan_irq.c`和`rx_irq.c`；原完整物理候选/内部回环不切换驱动。CAN1_RX0强中断向量与实际向量表槽位一并检查。
+
+IRQ只按W1C语义释放三深度硬件FIFO，发布128项静态SPSC队列，使用32位无锁release/acquire原子保证完整帧可见。标准帧的IRQ接收时刻随帧入队，主循环处理协议时保留该时间，不扩展1500ms新鲜度。IDE/RTR/非法DLC、硬件FOVR、软件满队列分别计数并锁止；重初始化只清待处理项并记录数量，不清累计故障。FULL/FOVR是锁存事件计数，不等同准确丢帧总数。
+
+RXQ记录硬件FOVR、软件队列溢出/深度/高水位、FIFO FULL、重初始化和故障后丢弃；MODEL记录Router丢弃、设备UART未入队字节；TIMING记录DWT周期数（HSI名义16MHz）、前台服务间隔、诊断报告耗时、IRQ及出队滞后。硬件路径服务函数还会在显式重初始化前调用一次以保存残留状态，`irq_calls`因此是FIFO服务调用数。所有时间测量都有仪表和时基边界，不把软件IRQ时间当作线上的精确到帧时间。
+
+每份诊断带BEGIN/END、递增报告序号和逐行标号。Host记录完整报告数、缺报告、缺行及重复行，与UART/hardware/Router计数分开。Host可观测缺行可能来自设备UART或Host通路，不据一个计数推断故障位置；附着/停止边界半份报告单独标注。
+
+`capture_uart.py --h2r --seconds 360`默认只监听，控制文件在`build/h2r/`。S启动协议；T显式本地非可信授时；P在A断电前显式停止C协议发送并撤销旧有效模型，C控制器和RX队列继续捕获Boot-up；G只在无故障的P暂停状态由Host明确提交恢复协议，重新T前保持TIME_BLOCKED。P/G不重启C、不清接收/模型累计计数，不以C重置掩盖A失败。D在1Hz/2Hz之间改变C诊断负载，A的TPDO频率、采集算法和有效窗均不变。
+
+H2R C下载必须显式`--h2r`并提供原H2应用文件/摘要和已验证sector7/11基线；旧应用不匹配、保护区已有变化或IRQ目标不符，均在擦写前停止。只读比较旧应用不等于保存C整片备份；C原整片恢复仍未经验证。A正常冷启动不能用SetPC/MSP/VTOR人工启动代替。

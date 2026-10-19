@@ -70,6 +70,50 @@ class CaptureTests(unittest.TestCase):
         self.assertEqual(status['status_publish_busy'], 1)
         self.assertTrue(capture.publish_status(path, status))
 
+    def test_cold_boot_controls_are_explicit_and_fault_gated(self):
+        self.assertTrue(capture.command_allowed('P', self.ready, 1))
+        self.assertFalse(capture.command_allowed('G', self.ready, 1))
+        paused = dict(self.ready, paused='1', A='0')
+        self.assertTrue(capture.command_allowed('G', paused, 1))
+        self.assertFalse(capture.command_allowed('T', paused, 1))
+        self.assertFalse(capture.command_allowed('P', paused, 1))
+        self.assertTrue(capture.command_allowed('D', self.ready, 1))
+        for command in ('G', 'P', 'D'):
+            self.assertFalse(capture.command_allowed(command, dict(paused, fault='6'), 1))
+
+    def test_report_tracker_distinguishes_line_and_report_gaps(self):
+        tracker = capture.ReportTracker()
+        # 附着时的半份报告不算丢行；有BEGIN声明后才可判定缺失。
+        tracker.feed('BENCH ms=1 rs=4 rl=2')
+        tracker.feed('DIAG_END seq=4 lines=2')
+        tracker.feed('DIAG_BEGIN seq=5 expected=2')
+        tracker.feed('BENCH ms=1 rs=5 rl=1')
+        tracker.feed('RXQ hw_fovr=0 rs=5 rl=2')
+        tracker.feed('DIAG_END seq=5 lines=2')
+        self.assertEqual(tracker.snapshot()['complete_reports'], 1)
+        tracker.feed('DIAG_BEGIN seq=7 expected=2')
+        tracker.feed('BENCH ms=1 rs=7 rl=1')
+        tracker.feed('BENCH ms=1 rs=7 rl=1')
+        tracker.feed('DIAG_END seq=7 lines=2')
+        result = tracker.snapshot()
+        self.assertEqual(result['missing_reports'], 1)
+        self.assertEqual(result['missing_lines'], 1)
+        self.assertEqual(result['duplicate_lines'], 1)
+        self.assertEqual(result['incomplete_reports'], 1)
+
+    def test_report_tracker_keeps_loss_across_real_device_boot_marker(self):
+        tracker = capture.ReportTracker()
+        tracker.feed('DIAG_BEGIN seq=10 expected=2')
+        tracker.feed('BENCH ms=1 rs=10 rl=1')
+        tracker.feed('DIAG_BEGIN seq=11 expected=2')
+        self.assertEqual(tracker.snapshot()['missing_lines'], 1)
+        tracker.feed('CAN_ONLY_BENCH OFFLINE_NO_CONFIG')
+        tracker.feed('DIAG_BEGIN seq=1 expected=1')
+        tracker.feed('BENCH ms=1 rs=1 rl=1')
+        tracker.feed('DIAG_END seq=1 lines=1')
+        self.assertEqual(tracker.snapshot()['missing_lines'], 1)
+        self.assertEqual(tracker.snapshot()['device_boot_markers'], 1)
+
 
 if __name__ == '__main__':
     unittest.main()

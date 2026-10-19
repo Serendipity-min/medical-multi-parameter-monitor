@@ -7,6 +7,13 @@ uint32_t physical_malformed;
 static MpStack *active;
 static uint32_t time_sent;
 static uint64_t elapsed_wrap;
+#ifdef CAN_BENCH_IRQ
+static uint32_t received_at;
+static bool timed_receive;
+void physical_receive_at(MpCanFrame *f,uint32_t at) {
+    received_at=at;timed_receive=true;physical_receive(f);timed_receive=false;
+}
+#endif
 /* CAN/缓存时效仍使用原32位差值；绝对 UTC 单独扩展回绕，避免49.7天后倒退。 */
 uint64_t physical_now(const MpStack *s) {return (uint64_t)s->epoch*1000u+elapsed_wrap+s->milliseconds;}
 
@@ -35,7 +42,12 @@ void physical_receive(MpCanFrame *f) {
                 if(!generation) {physical_malformed++;return;}
                 if(generation!=n->generation) {uint32_t session=n->session_generation+1u;memset(n,0,sizeof(*n));n->generation=generation;n->session_generation=session;}
             }
-            n->seen[pdo]=true;n->at[pdo]=active->milliseconds;
+            n->seen[pdo]=true;
+#ifdef CAN_BENCH_IRQ
+            n->at[pdo]=timed_receive?received_at:active->milliseconds;
+#else
+            n->at[pdo]=active->milliseconds;
+#endif
         }
     }
     mp_bus_receive(f);
