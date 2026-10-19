@@ -7,6 +7,12 @@ uint32_t physical_malformed;
 static MpStack *active;
 static uint32_t time_sent;
 static uint64_t elapsed_wrap;
+static int32_t utc_fraction_adjust;
+/* 接收/新鲜度仍使用原uptime域；UTC只调整小数差，不能改变帧龄或协议tick。 */
+void physical_sync_utc(MpStack *s,uint64_t trusted_ms) {
+    s->epoch=(uint32_t)(trusted_ms/1000u)-s->milliseconds/1000u;
+    utc_fraction_adjust=(int32_t)(trusted_ms%1000u)-(int32_t)(s->milliseconds%1000u);
+}
 #if defined(CAN_BENCH_IRQ) || defined(MP_CAN_RX_IRQ)
 static uint32_t received_at;
 static bool timed_receive;
@@ -16,7 +22,10 @@ void physical_receive_at(MpCanFrame *f,uint32_t at) {
 }
 #endif
 /* CAN/缓存时效仍使用原32位差值；绝对 UTC 单独扩展回绕，避免49.7天后倒退。 */
-uint64_t physical_now(const MpStack *s) {return (uint64_t)s->epoch*1000u+elapsed_wrap+s->milliseconds;}
+uint64_t physical_now(const MpStack *s) {
+    uint64_t base=(uint64_t)s->epoch*1000u+elapsed_wrap+s->milliseconds;
+    return utc_fraction_adjust<0?base-(uint32_t)(-utc_fraction_adjust):base+(uint32_t)utc_fraction_adjust;
+}
 
 void physical_invalidate(void) {
     memset(physical_nodes,0,sizeof(physical_nodes));physical_link_ready=false;
@@ -70,7 +79,7 @@ static int gateway_init(MpStack *s) {
     return 0;
 }
 int mp_stack_init(MpStack *s,uint32_t epoch) {
-    memset(s,0,sizeof(*s));s->epoch=epoch;active=s;elapsed_wrap=0;mp_bus_reset();
+    memset(s,0,sizeof(*s));s->epoch=epoch;active=s;elapsed_wrap=0;utc_fraction_adjust=0;mp_bus_reset();
     memset(physical_nodes,0,sizeof(physical_nodes));physical_link_ready=false;physical_malformed=0;time_sent=0u-10000u;
     int rc=gateway_init(s);if(rc) mp_stack_close(s);return rc;
 }

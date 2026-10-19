@@ -8,8 +8,9 @@ import tempfile
 import time
 import urllib.request
 
-os.environ['P6_BROWSER_SESSION']='h3-real-isolated'
-os.environ['P6_BROWSER_EVIDENCE']='cloud/evidence/h3/real-browser'
+# 真机窗口使用独立证据目录/会话，保留首次软件快照真实调用的原件。
+os.environ.setdefault('P6_BROWSER_SESSION','h3-real-isolated')
+os.environ.setdefault('P6_BROWSER_EVIDENCE','cloud/evidence/h3/real-browser')
 from ui_browser import ROOT,OUT,URL,cli,js,wait,check,checks
 
 
@@ -58,12 +59,16 @@ print(json.dumps(data))
             check('node_b_fact_offline',"document.querySelector('[data-channel=HR] strong').textContent.includes('--')")
             check('test_source_visible',"document.querySelector('#ai-source').textContent.includes('模拟')")
             check('voice_default_off',"!document.querySelector('#ai-voice').checked")
-            js("document.querySelector('.ai-access').open=false;for(const el of document.querySelectorAll('.ai-turn>h3,.ai-answer'))el.textContent='问答正文按合同不存档';const tag=document.createElement('div');tag.textContent='H3隔离验证 · 真实豆包API / 非个人软件合成快照 · 非硬件E2E';tag.style.cssText='position:fixed;top:0;left:0;z-index:99999;background:#fff4cc;color:#302600;padding:6px 20px';document.body.append(tag)")
+            label=os.environ.get('H3_UI_LABEL','H3隔离验证 · 真实豆包API / 非个人软件合成快照 · 非硬件E2E')
+            js("document.querySelector('.ai-access').open=false;for(const el of document.querySelectorAll('.ai-turn>h3,.ai-answer'))el.textContent='问答正文按合同不存档';const tag=document.createElement('div');tag.textContent="+json.dumps(label)+";tag.style.cssText='position:fixed;top:0;left:0;z-index:99999;background:#fff4cc;color:#302600;padding:6px 20px';document.body.append(tag)")
+            if os.environ.get('H3_UI_REDACT_VALUES')=='1':
+                # 截图保留真实来源/有效性；读数仅在临时浏览器与MQTT/WSS内存中核对。
+                js("for(const el of document.querySelectorAll('[data-channel] strong'))el.textContent='读数不存档'")
             for width,height,name in [(1920,1080,'desktop'),(390,844,'mobile')]:
                 cli('set','viewport',str(width),str(height))
                 check(name+'_no_horizontal_overflow','document.documentElement.scrollWidth<=innerWidth')
                 cli('screenshot',str(OUT/(name+'.png')))
-            report={'exit_code':0,'checks':checks,'cases':results,'source':'MOCK_NONPERSONAL_SOFTWARE_FIXTURE',
+            report={'exit_code':0,'checks':checks,'cases':results,'source':os.environ.get('H3_UI_DATA_SOURCE','MOCK_NONPERSONAL_SOFTWARE_FIXTURE'),
                     'hardware_e2e':'NOT_TESTED','real_calls':sum(r['real_model']=='REAL_REQUEST_USED' for r in results),
                     'route':'Vite full prefix → SSH loopback → actual FastAPI → Doubao'}
             (OUT/'result.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')

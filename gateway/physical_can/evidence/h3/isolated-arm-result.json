@@ -3,10 +3,10 @@
   "mode": "ARM_PHYSICAL_CAN1_CANDIDATE",
   "hardware": "NOT_RUN",
   "image": {
-    "sha256": "795a8951ed41b45a8c7b0a81b971a151aac8c31c53ee25a39c4dcb16e5b2b2ca",
-    "bytes": 38632,
+    "sha256": "317aee869e4cb5996d630491a8f442cfedd64a2e0c128d283469399fcaea08db",
+    "bytes": 38720,
     "start": 134217728,
-    "end_exclusive": 134256360,
+    "end_exclusive": 134256448,
     "erase_sectors": [
       0,
       1,
@@ -15,19 +15,19 @@
     "load_segments": [
       {
         "start": 134217728,
-        "end_exclusive": 134256272,
-        "bytes": 38544
+        "end_exclusive": 134256360,
+        "bytes": 38632
       },
       {
-        "start": 134256272,
-        "end_exclusive": 134256360,
+        "start": 134256360,
+        "end_exclusive": 134256448,
         "bytes": 88
       }
     ],
     "initial_sp": 537001472,
-    "reset_vector": 134247549,
+    "reset_vector": 134247629,
     "CAN1_RX0_vector": {
-      "address": 134235949,
+      "address": 134236029,
       "strong_handler": true
     },
     "protected_sectors": [
@@ -1437,7 +1437,7 @@
     ]
   ],
   "source_sha256": {
-    "gateway/physical_can/src/stack.c": "331518c9328b686dd08f05ba83c6f98371727fcbb8b565992f0cbc73506c23cf",
+    "gateway/physical_can/src/stack.c": "9dc6144a1909ce72a55c49bf4ebf0ed97eae004cf142ad5eb97b68dce88ae788",
     "gateway/physical_can/src/adapter.c": "729191ca1a257952aecfa27173ef65cd651fb8a4abcede2ef8e4c10c14915538",
     "gateway/canopen/src/mp_can_driver.c": "8eeb2a3447a2e69a8b72c289cc93ef451c541ce5cd521e9313c523d9b074b1d2",
     "gateway/canopen/src/mp_od.c": "687e3c58770a5f7ad0de96eeeda089515be44f4458fd854395811b852fb7c0fc",
@@ -1456,12 +1456,12 @@
     "gateway/third_party/CANopenNode/301/CO_SYNC.c": "f140a45ea032cbf360a2fb8429ed7498a37c1e9ecedcb2b5d6dc387ea21c78a9",
     "gateway/third_party/CANopenNode/301/CO_TIME.c": "bea365c4d56bcd83182018c54fa4c2bf921dd835d10f3332ef191a148ff17bdc",
     "gateway/third_party/CANopenNode/301/crc16-ccitt.c": "bc9a9278008276eefd264e6724b906230f7f8b3c32183c50443201c4ff4f25b8",
-    "gateway/physical_can/src/main.c": "bbb5166f51ac4e53f6c3d5b83fb9e5dd32ad9ab2337606cd2c1f37c1d6587f96",
+    "gateway/physical_can/src/main.c": "7535f8b1640d1b9d373ae3ddb554f551cca468acc97daf2bcfada49bc0455d4d",
     "gateway/physical_can/src/lifecycle.c": "f98c9a69942b171a09c7b120aaaa96651b6a5213ace7afb0d52bfa899e04188f",
     "gateway/physical_can/src/bxcan_network_irq.c": "d0afa87f340cedb0505a4c2818cc3969c9ed6b34169089713e2e1b8dd5409733",
     "gateway/physical_can/bench/rx_irq.c": "d9d252bbf4b234b294c26fd97391fa472a7967085bbb37f5654adf879420a613",
     "gateway/mqtt/src/gateway_assert.c": "d29eb278706acf7a4249a2104b05f22cf859c61de5d924773c785228d7523d17",
-    "gateway/mqtt/src/gateway_transport.c": "a0e6898ca8b0c3e9f00fe711be70b6df3237a47c3da65bd28c9ebce52a8d9b96",
+    "gateway/mqtt/src/gateway_transport.c": "db4be34789cf1f58a8d0c809a22a4503f74420a71af70451df430c617097fc77",
     "gateway/mqtt/src/heap.c": "20bf6b3b9c5ddc276ba4d85016ce14ae1425c18e24e5f020bea011d9168b2923",
     "gateway/mqtt/src/mqtt_transport_adapter.c": "beb93429f95cba5fe88f170010363613391df41975475abcbe1842c7692019aa",
     "gateway/mqtt/src/platform.c": "8129be4e4ad194abd85631a588de2da10fb9a8159c652ee50fc7add363cb9600",
@@ -1481,7 +1481,7 @@
     "gateway/physical_can/H3_NETWORK_FLASH.ld": "f3a4fb289a5b9b30b695a07259ec8b5948571f9eebc5969c37e76e4d778b16c9",
     "gateway/physical_can/H3_ISOLATED_FLASH.ld": "d82d9ba75be340bd9be59298b8d9abf45a7e7278df508f940a717b5b0f0cea5a",
     "gateway/physical_can/src/link_policy.h": "55288a8dba60172d79488081224275a27a87b8c57afd04e53dfa457e7348250b",
-    "gateway/physical_can/src/physical.h": "3677e91f5452cd8e1d3c5e3182b6b60ac4a7c8944ef050a2e3b74e1be8b0035e",
+    "gateway/physical_can/src/physical.h": "f9756f367ca08854bacfafae11e1cd035d640faec07e7ccbe827422eb7b8a047",
     "gateway/physical_can/src/rx_metrics.h": "46c78305044981b5d80ecd444764f6b70bebd4f37ab52c54a3d3d01e01ccf05b",
     "gateway/physical_can/bench/bench.h": "06a688be6edca97729eedb042ced9ffc2fa456a9cff258278b3e5b3fa60433c0",
     "gateway/physical_can/bench/rx_irq.h": "5e07ee1c5a864c9aa97d2ce12441ac6ca4accc9b585e38d3526e77d7b320381b",
@@ -1489,7 +1489,7 @@
     "gateway/mqtt/src/core_mqtt_config.h": "88872f791c2c20950b03391aafd7618df113f6b376971ff45eaf6849ef81f4ad",
     "gateway/mqtt/src/gateway_config.h": "2b1bfd529d360cca0a2abdfd71df055113b1bad1a74bf4f29efc0e7ad3bfd121",
     "gateway/mqtt/src/gateway_platform.h": "655f782b94a4e58d5781fa888f4b91c5bd3d45b774e35852cb0f17ebe8dedce8",
-    "gateway/mqtt/src/gateway_transport.h": "5bfbc4dfe2b489222518af481025976c2d5b02f75f9d0a2d29275439bc7a7fc4",
+    "gateway/mqtt/src/gateway_transport.h": "3a1842a217d42e6ab602fc31bc97d399d18697a3dcbd86deed26bc4826478faa",
     "gateway/mqtt/src/mqtt_transport_adapter.h": "e95954aa35f96fdd5c8ba813dacf0605d7e38c055f6658391d9be28d26ca4ade",
     "external-sdk/Libraries/CMSIS/Device/ST/STM32F4xx/Source/Templates/gcc_ride7/startup_stm32f40_41xxx.s": "7130bda839175b88ae9b13c03f2e0e993139b253eebd03f1f1ef23840dc569a4"
   }

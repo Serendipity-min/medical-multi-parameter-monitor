@@ -58,9 +58,10 @@ static void diagnostics(void) {
             (unsigned long)((physical_rx_metrics.esr>>16)&255),(unsigned long)(physical_rx_metrics.esr>>24),
             (unsigned long)((physical_rx_metrics.esr>>4)&7),(unsigned long)((physical_rx_metrics.esr>>2)&1));
         console(line);
-        (void)snprintf(line,sizeof(line),"GW DELIVERY qos1_puback=%lu qos0_send=%lu failed=%lu last_node=%lu last_stream=%lu last_seq=%lu last_timestamp=%llu\r\n",
+        /* nano printf不支持%llu；高低32位可无损还原UTC，不输出不受支持的格式。 */
+        (void)snprintf(line,sizeof(line),"GW DELIVERY qos1_puback=%lu qos0_send=%lu failed=%lu last_node=%lu last_stream=%lu last_seq=%lu last_ms_hi=%lu last_ms_lo=%lu\r\n",
             (unsigned long)qos1_acked,(unsigned long)qos0_sent,(unsigned long)publish_failed,
-            (unsigned long)last_node,(unsigned long)last_stream,(unsigned long)last_seq,(unsigned long long)last_timestamp);
+            (unsigned long)last_node,(unsigned long)last_stream,(unsigned long)last_seq,(unsigned long)(last_timestamp>>32),(unsigned long)last_timestamp);
         console(line);
         (void)snprintf(line,sizeof(line),"GW DIAG_END seq=%lu lines=4\r\n",(unsigned long)diagnostic_seq);console(line);
 #endif
@@ -159,8 +160,14 @@ int main(void)
         }
 
         /* 启动时间基准只设一次，重连不能改变缓存帧的会话身份和采集时间。 */
-        if (!stack.epoch)
+        if (!stack.epoch) {
+#ifdef MP_CAN_RX_IRQ
+            /* SNTP整数秒和C uptime具有不同小数起点，不能直接拼接二者的小数。 */
+            physical_sync_utc(&stack,gateway_epoch_milliseconds());
+#else
             stack.epoch = gateway_epoch() - stack.milliseconds / 1000;
+#endif
+        }
         MpFrame will = {0};
         will.node = 3;
         will.stream = MP_GATEWAY_STATUS;

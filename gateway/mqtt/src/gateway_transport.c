@@ -46,6 +46,11 @@ uint32_t gateway_epoch(void)
     return epoch + (uint32_t)(g_uptime_ms - epoch_tick) / 1000;
 }
 
+uint64_t gateway_epoch_milliseconds(void)
+{
+    return (uint64_t)epoch*1000u+(uint32_t)(g_uptime_ms-epoch_tick);
+}
+
 /* 日志只输出固定步骤名；command 可能含凭据，不能连同原始回复一起记录。 */
 static int step(const char *name, const char *command, uint32_t timeout)
 {

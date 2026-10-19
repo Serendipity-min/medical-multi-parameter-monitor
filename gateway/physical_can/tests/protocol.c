@@ -78,6 +78,13 @@ int main(void) {
     /* 绝对 UTC 跨本地32位计数回绕仍严格递增，不能回到开机日期。 */
     stack.milliseconds=0xFFFFFFFEu;tick();uint64_t before_wrap=physical_now(&stack);
     tick();assert(physical_now(&stack)==before_wrap+1u);tick();assert(physical_now(&stack)==before_wrap+2u);
-    mp_stack_close(&stack);puts("Gateway-only / external RPDO / A valid / B OFFLINE / stale / restart PASS");
+    /* 秒级SNTP与uptime小数不同时仍精确映射UTC，不改变接收/时效时钟。 */
+    mp_stack_close(&stack);assert(!mp_stack_init(&stack,0));physical_link_ready=true;
+    stack.milliseconds=7654;physical_sync_utc(&stack,1800000000123ULL);
+    assert(stack.milliseconds==7654 && physical_now(&stack)==1800000000123ULL);
+    tick();assert(physical_now(&stack)==1800000000124ULL);
+    stack.milliseconds=0xFFFFFFFEu;before_wrap=physical_now(&stack);
+    tick();assert(physical_now(&stack)==before_wrap+1);tick();assert(physical_now(&stack)==before_wrap+2);
+    mp_stack_close(&stack);puts("Gateway-only / external RPDO / A valid / B OFFLINE / stale / restart / UTC fraction PASS");
     return 0;
 }
