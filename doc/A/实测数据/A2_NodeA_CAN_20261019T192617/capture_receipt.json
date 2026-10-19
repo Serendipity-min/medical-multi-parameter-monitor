@@ -1,0 +1,47 @@
+{
+  "round": "A2",
+  "port": "COM15",
+  "baud": 115200,
+  "duration_s": 300,
+  "mode": "PASSIVE_RX_ONLY_NO_BYTES_WRITTEN",
+  "dtr": false,
+  "rts": false,
+  "started": "20261019T192617",
+  "opened": true,
+  "bytes": 420933,
+  "lines": 3636,
+  "frames_381": 303,
+  "latest_vitals": {
+    "spo2": 0.0,
+    "pr": 0.0,
+    "sys": 0.0,
+    "dia": 0.0,
+    "t_s": 299.2
+  },
+  "bp_first_seen": {
+    "spo2": 97.0,
+    "pr": 67.0,
+    "sys": 109.0,
+    "dia": 78.0,
+    "t_s": 67.7
+  },
+  "bp_events": [
+    {
+      "spo2": 97.0,
+      "pr": 67.0,
+      "sys": 109.0,
+      "dia": 78.0,
+      "t_s": 67.7,
+      "event": "BP_FIRST_SEEN"
+    },
+    {
+      "spo2": 0.0,
+      "pr": 0.0,
+      "sys": 0.0,
+      "dia": 0.0,
+      "t_s": 157.8,
+      "event": "BP_EXPIRED"
+    }
+  ],
+  "finished": "20261019T193117"
+}
