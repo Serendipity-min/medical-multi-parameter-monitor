@@ -5,7 +5,7 @@
   "contract_sha256": "5232584687defaf4b475ef2c5c8c21562d8a838b0fcd695369649fa3725878cc",
   "photo_sha256": "c8f659b92db3582217046a90d4aea45703604721010bf2d1f445ddff97133e94",
   "photo_scope": "one partial board photo, identity/pin numbering NOT_CONFIRMED",
-  "configuration_sha256": "a1f33bb53d8e9f34af784905fabf18090334e914e697581719b9ff759233fe7a",
+  "configuration_sha256": "3ed21b5f32f0fa6b55f2afa25315c4b1c43b54bd48381c8ba96b8b80263ffc48",
   "created_at": "2026-10-19T02:39:51.863802+00:00",
   "test_exits": {
     "a1_host_compile": 0,
@@ -69,9 +69,10 @@
       "bss": 120120
     },
     "candidate_gateway_arm": {
-      "text": 35736,
+      "text": 35764,
       "data": 88,
-      "bss": 120224
+      "bss": 120232
     }
-  }
+  },
+  "gateway_utc_wrap_regression": "PASS: UTC increments across uint32 milliseconds rollover"
 }

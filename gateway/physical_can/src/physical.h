@@ -9,5 +9,6 @@ extern uint32_t physical_malformed;
 void physical_receive(MpCanFrame *frame);
 bool physical_fresh(unsigned node,unsigned pdo,uint32_t now);
 void physical_invalidate(void);
+uint64_t physical_now(const MpStack *stack);
 int mp_bxcan_init(void);
 #endif

@@ -69,6 +69,9 @@ int main(void) {
     physical_invalidate();assert(!mp_stack_online(&stack,1) && !mp_stack_online(&stack,2));
     assert(mp_stack_restart(&stack,1)==-1);assert(!mp_stack_restart(&stack,3));physical_link_ready=true;mp_bus_set_online(true);
     assert(!physical_nodes[0].seen[3] && !physical_nodes[1].seen[4]);
+    /* 绝对 UTC 跨本地32位计数回绕仍严格递增，不能回到开机日期。 */
+    stack.milliseconds=0xFFFFFFFEu;tick();uint64_t before_wrap=physical_now(&stack);
+    tick();assert(physical_now(&stack)==before_wrap+1u);tick();assert(physical_now(&stack)==before_wrap+2u);
     mp_stack_close(&stack);puts("Gateway-only / external RPDO / A valid / B OFFLINE / stale / restart PASS");
     return 0;
 }

@@ -53,7 +53,7 @@ static void wave(MpAdapter *a, MpStack *s, MpRouter *r, unsigned node, unsigned 
         || f->synthetic != ((a->quality[node-1]&0x80000000u)!=0))
         f->count = 0;
     a->tick[node - 1][channel] = tick;
-    uint64_t stamp=capture(od,base,tick,(uint64_t)s->epoch*1000+s->milliseconds);
+    uint64_t stamp=capture(od,base,tick,physical_now(s));
     if(!stamp) { f->count=0;return; }
     if (!f->count)
     {
@@ -76,7 +76,7 @@ void mp_adapter_poll(MpAdapter *a, MpStack *s, MpRouter *r)
 {
     if (!s->epoch)
         return; /* 未获得可信时间前不向云端伪造时间戳。 */
-    uint64_t now = (uint64_t)s->epoch * 1000 + s->milliseconds;
+    uint64_t now = physical_now(s);
     MpOD *od = &s->nodes[2].od;
     for (unsigned node = 1; node <= 2; node++)
     {

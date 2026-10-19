@@ -72,7 +72,7 @@ int main(void)
         MpFrame will = {0};
         will.node = 3;
         will.stream = MP_GATEWAY_STATUS;
-        will.timestamp = (uint64_t)gateway_epoch() * 1000;
+        will.timestamp = physical_now(&stack);
         will.seq = 0xffffffffU;
         will.epoch = stack.epoch;
         will.boot = stack.nodes[2].boot << 16;

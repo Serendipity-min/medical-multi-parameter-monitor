@@ -10,14 +10,14 @@
   "hardware": "NOT_RUN",
   "production_broker": "NOT_ACCESSED",
   "sha256": {
-    "gateway/physical_can/src/adapter.c": "39c5b3df61b5d19f357f3d737bbe5e56cc94cb2e703ce3e37108b5385b9a5011",
+    "gateway/physical_can/src/adapter.c": "24f2e7d1b1e9d716b19d50eb66447e0a6608b08d0963a721733ba1298da24d96",
     "gateway/physical_can/src/bxcan_physical.c": "06643510d0e032ebaac181f9c07900c44c29aead264b6b09cf89a2b1b9f39d87",
     "gateway/physical_can/src/link_policy.h": "347db5acea6c162310bd6e7e59eefef371400ec8966f6429348dce6a150c5a52",
-    "gateway/physical_can/src/main.c": "4d2ee5c00a416a6c4333d4b2e1d81d33cc103bd20fe1b0ff9bb2730b2efa2cb8",
-    "gateway/physical_can/src/physical.h": "ca74e38a248cdaeb5d71fabb8901fad23b0dc2fa754ba79ad58062fed8fb9d5f",
-    "gateway/physical_can/src/stack.c": "d8b04e87313dba9853e0caa47079dcf07b32e388afba50ac8fe03d4b159fdee2",
+    "gateway/physical_can/src/main.c": "5745dc28a114891467baed27bb7a7583671f91678e287ffee963c51a610cf345",
+    "gateway/physical_can/src/physical.h": "f0ad88a55a1811d933b2b1c09a0b2e0ebefb5c4749cd1d108c8d04f0863afc01",
+    "gateway/physical_can/src/stack.c": "a4b45153756a21960234faac6611b031c6fe662e3a75e3e043cfe4aaece8e059",
     "gateway/physical_can/tests/broker_wire.c": "63041bdb017e48298b8c8957297b1347ac6b1b53506ba9dc42a43e989d5a3c76",
-    "gateway/physical_can/tests/protocol.c": "d2f0f9aba23859faa519f9e4b8c2600c23aba2c8582b17ef7d40b7e353309979",
+    "gateway/physical_can/tests/protocol.c": "23009f424a2a44dedae1edc2ecb2951707f28d52b836b163aaa78810f6b1c61a",
     "gateway/physical_can/tests/run_wire_broker.py": "750634facf0ca1b46fa2d096f94ecde7ec91215421af6a141ed94477e1b76ce5",
     "gateway/physical_can/tests/wire.c": "5321723185f37dfe312a9df5467c80361766c42643ad0061cb3c29bd1dc6cb20",
     "gateway/physical_can/build.py": "f582fb477b7e07ff694a8e7e18d22603e93137c9856268f1b5dcb5b5459f8aec",
@@ -26,5 +26,5 @@
     "node-a/STM32F407_HOSPITAL/USER/STM32F407_Template.uvprojx": "4bb8673baf2a7b179ec3930ceef27d746fee2bb4c5370d765905881eddb6cea8"
   },
   "wire_evidence_provenance": "HOST_SIMULATED_SENSOR_INPUT_REAL_NODE_A_AND_GATEWAY_STACKS; LIVE_FIELDS_ARE_PROTOCOL_TEST_ONLY",
-  "configuration_sha256": "a1f33bb53d8e9f34af784905fabf18090334e914e697581719b9ff759233fe7a"
+  "configuration_sha256": "3ed21b5f32f0fa6b55f2afa25315c4b1c43b54bd48381c8ba96b8b80263ffc48"
 }

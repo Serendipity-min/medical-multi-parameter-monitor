@@ -10,6 +10,7 @@
 - 只有物理 Heartbeat ACTIVE/OPERATIONAL 才在线，超时 1500ms。新 boot/generation 清接收新鲜度；PDO 必须 DLC=8，质量/时间/标量独立 1500ms 新鲜度门控。未收 B 时立即周期报告 OFFLINE，无 B 测量值。
 - 外部 Boot-up 使用 Gateway 观察代次更新会话，即使 Node-A 掉电后 RAM generation 重新为1也不会复用旧身份；来源位变化也丢弃部分波形，不能混拼 LIVE/MOCK。
 - TIME 只有上层 SNTP epoch 非零才每 10s 发；Node-A 30s 超时撤销 UTC。采样时间采用有符号 tick 差，支持跨秒/回绕附近的点，拒绝不合理旧时刻/未来时刻。未同步/过期不伪造 LIVE 有效采样。CAN TIME 的授时者身份依赖已核验的隔离物理总线，不宣称密码学认证。
+- 独立候选以64位扩展累计毫秒，CAN1 TIME、采集比较与 Gateway 状态时间跨49.7天计数回绕仍递增；原 P4 32位调度、时效差值与 MQTT 实现不改。
 - 波形每 50 点一批；采样间断、有效性变化、boot 或 PDO 过期丢弃未完成批次。质量 bit8 表示 Node-A 接收时基重采样，bit31 保留来源语义。
 
 本机普通验证入口：

@@ -6,6 +6,9 @@ bool physical_link_ready;
 uint32_t physical_malformed;
 static MpStack *active;
 static uint32_t time_sent;
+static uint64_t elapsed_wrap;
+/* CAN/缓存时效仍使用原32位差值；绝对 UTC 单独扩展回绕，避免49.7天后倒退。 */
+uint64_t physical_now(const MpStack *s) {return (uint64_t)s->epoch*1000u+elapsed_wrap+s->milliseconds;}
 
 void physical_invalidate(void) {
     memset(physical_nodes,0,sizeof(physical_nodes));physical_link_ready=false;
@@ -53,7 +56,7 @@ static int gateway_init(MpStack *s) {
     mp_stack_nmt(s,0,CO_NMT_ENTER_OPERATIONAL);return 0;
 }
 int mp_stack_init(MpStack *s,uint32_t epoch) {
-    memset(s,0,sizeof(*s));s->epoch=epoch;active=s;mp_bus_reset();
+    memset(s,0,sizeof(*s));s->epoch=epoch;active=s;elapsed_wrap=0;mp_bus_reset();
     memset(physical_nodes,0,sizeof(physical_nodes));physical_link_ready=false;physical_malformed=0;time_sent=0u-10000u;
     int rc=gateway_init(s);if(rc) mp_stack_close(s);return rc;
 }
@@ -81,14 +84,16 @@ int mp_stack_online(MpStack *s,unsigned node) {
         && CO_HBconsumer_getNmtState(hb,node-1,&state)==0 && state==CO_NMT_OPERATIONAL;
 }
 void mp_stack_tick(MpStack *s) {
-    s->milliseconds++;mp_bus_poll();MpNode *g=&s->nodes[2];
+    s->milliseconds++;
+    if(!s->milliseconds) elapsed_wrap+=0x100000000ULL;
+    mp_bus_poll();MpNode *g=&s->nodes[2];
     if(!g->co || !g->port.enabled) return;
     CO_NMT_reset_cmd_t reset=CO_process(g->co,false,1000,NULL);
     if(reset!=CO_RESET_NOT) { physical_invalidate();g->port.enabled=false;return; }
     CO_process_RPDO(g->co,false,1000,NULL);CO_process_TPDO(g->co,false,1000,NULL);
     /* 标准 TIME 仅在上层已获得可信 SNTP epoch 后发出；不是默认日期或测试生产者。 */
     if(physical_link_ready && s->epoch && (uint32_t)(s->milliseconds-time_sent)>=10000u) {
-        uint64_t unix_ms=(uint64_t)s->epoch*1000u+s->milliseconds;
+        uint64_t unix_ms=physical_now(s);
         uint64_t relative=unix_ms-441763200000ULL;
         uint32_t ms=(uint32_t)(relative%86400000u);uint16_t days=(uint16_t)(relative/86400000u);
         CO_CANtx_t tx={0};tx.ident=0x100;tx.DLC=6;memcpy(tx.data,&ms,4);memcpy(tx.data+4,&days,2);
