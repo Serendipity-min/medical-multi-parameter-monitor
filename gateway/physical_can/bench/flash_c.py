@@ -88,11 +88,13 @@ def main():
     parser=argparse.ArgumentParser();parser.add_argument('--manifest',type=Path,required=True)
     parser.add_argument('--commit',required=True);parser.add_argument('--identity-source',type=Path,required=True)
     parser.add_argument('--a-backup-dir',type=Path,required=True)
+    parser.add_argument('--private-dir',type=Path,required=True)
     parser.add_argument('--flash-confirm-role',choices=['C'],required=True)
     args=parser.parse_args()
     stamp=datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     result={'role':'C','port':'COM15','mode':'CAN_ONLY_BENCH_USB_RANGE_DOWNLOAD','C_full_backup':'WAIVED_BY_USER','exit_code':1,'stage':'OFFLINE_GATES','flash_write_started':False}
     connection=None
+    diagnostic=io.StringIO()
     try:
         head=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
         if head!=args.commit:raise GateError('SOURCE_COMMIT_CHANGED')
@@ -109,6 +111,8 @@ def main():
         for name in ('flash-first.bin','flash-second.bin'):
             if digest((args.a_backup_dir/name).read_bytes())!=proof['backup_sha256']:raise GateError('A_BACKUP_MISSING_OR_CHANGED')
         identity=external_identity(args.identity_source)
+        private=args.private_dir.resolve()
+        if private.is_relative_to(ROOT) or not private.is_dir():raise GateError('PRIVATE_DIAGNOSTIC_DIRECTORY_REQUIRED')
         result.update({'source_commit':head,'plan':plan,'A_backup_verified':True,'stage':'C_IDENTITY_READ_ONLY'})
         from importlib.metadata import version
         if version('stm32loader')!='0.7.1':raise GateError('LOADER_VERSION_CHANGED')
@@ -116,10 +120,15 @@ def main():
         from stm32loader.bootloader import Stm32Bootloader
         connection=SerialConnection('COM15',115200,'E');connection.reset_active_high=True;connection.boot0_active_low=True
         # 底层输出留在内存且丢弃，防止设备标识或原始内容进入日志。
-        with redirect_stdout(io.StringIO()),redirect_stderr(io.StringIO()):
-            connection.connect();boot=Stm32Bootloader(connection,device_family='F4',verbosity=0)
-            boot.reset_from_system_memory();boot.get()
-            if boot.get_id()!=int(identity['EXPECTED_CHIP_ID'],16) or boot.get_flash_size()!=1024:raise GateError('C_CHIP_SIZE_MISMATCH')
+        with redirect_stdout(diagnostic),redirect_stderr(diagnostic):
+            result['stage']='C_OPEN_UART';connection.connect();boot=Stm32Bootloader(connection,device_family='F4',verbosity=0)
+            result['stage']='C_RESET_TO_ROM';boot.reset_from_system_memory()
+            result['stage']='C_GET_BOOTLOADER';boot.get()
+            result['stage']='C_GET_CHIP_ID'
+            if boot.get_id()!=int(identity['EXPECTED_CHIP_ID'],16):raise GateError('C_CHIP_SIZE_MISMATCH')
+            result['stage']='C_READ_FLASH_SIZE'
+            if boot.get_flash_size()!=1024:raise GateError('C_CHIP_SIZE_MISMATCH')
+            result['stage']='C_READ_IDENTITY'
             if Stm32Bootloader.format_uid(boot.get_uid())!=identity['EXPECTED_UID']:raise GateError('C_UID_MISMATCH')
             result['C_identity_match']=True;result['stage']='PROTECTED_RANGE_PROGRAM'
             def progress(stage,details):result.update({'stage':stage,**details})
@@ -129,8 +138,12 @@ def main():
     except BaseException as error:
         result['failure_type']=type(error).__name__
         if isinstance(error,GateError):result['failure_code']=str(error)
+        # 底层异常仅进受限私有日志，用于定位UART阶段；不能写入Git或直接回显。
+        diagnostic.write('\nPRIVATE_EXCEPTION '+repr(error)+'\n')
     finally:
         if connection and connection.serial_connection:connection.serial_connection.close()
+        if 'private' in locals() and private.is_dir():
+            (private/('c-uart-'+stamp+'.raw.log')).write_text(diagnostic.getvalue(),encoding='utf-8')
         # 只保存脱敏结果；没有C Flash原件/配置正文/UID，也不自动恢复运行原网关。
         (HERE/'evidence/h2'/('c-download-'+stamp+'.json')).write_text(json.dumps(result,indent=2),encoding='utf-8')
         print(json.dumps(result,indent=2))
