@@ -1,0 +1,248 @@
+{
+  "legacy_regression_first": [
+    {
+      "name": "h2r-host",
+      "command": [
+        "python",
+        "gateway/physical_can/bench_build.py",
+        "--h2r",
+        "--host"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-19T12:11:38.447977+00:00",
+      "finished_utc": "2026-10-19T12:11:41.896979+00:00"
+    },
+    {
+      "name": "h2r-arm",
+      "command": [
+        "python",
+        "gateway/physical_can/bench_build.py",
+        "--h2r"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-19T12:11:41.898006+00:00",
+      "finished_utc": "2026-10-19T12:11:47.070931+00:00"
+    },
+    {
+      "name": "capture-host",
+      "command": [
+        "python",
+        "gateway/physical_can/tests/test_capture_uart.py"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-19T12:11:47.071935+00:00",
+      "finished_utc": "2026-10-19T12:11:47.488372+00:00"
+    },
+    {
+      "name": "download-gate-host",
+      "command": [
+        "python",
+        "gateway/physical_can/tests/test_flash_plan.py"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-19T12:11:47.488372+00:00",
+      "finished_utc": "2026-10-19T12:11:47.748397+00:00"
+    },
+    {
+      "name": "a-download-gate-host",
+      "command": [
+        "python",
+        "gateway/physical_can/tests/test_a_flash_gate.py"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-19T12:11:47.749107+00:00",
+      "finished_utc": "2026-10-19T12:11:48.500132+00:00"
+    },
+    {
+      "name": "node-a-host",
+      "command": [
+        "python",
+        "node-a/tests/run_host.py",
+        "--phase",
+        "h2r"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-19T12:11:48.500132+00:00",
+      "finished_utc": "2026-10-19T12:11:50.825277+00:00"
+    },
+    {
+      "name": "node-a-keil",
+      "command": [
+        "D:/keil/UV4/UV4.exe",
+        "-r",
+        "E:\\medical-monitor-h3\\node-a\\STM32F407_HOSPITAL\\USER\\STM32F407_Template.uvprojx",
+        "-o",
+        "E:\\medical-monitor-h3\\gateway\\physical_can\\evidence\\h2r\\regression-20261019T121137Z\\node-a-keil-build.log"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-19T12:11:50.826278+00:00",
+      "finished_utc": "2026-10-19T12:12:00.563742+00:00"
+    },
+    {
+      "name": "h0-startup-host",
+      "command": [
+        "python",
+        "gateway/physical_can/tests/run_startup.py"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-19T12:12:00.563742+00:00",
+      "finished_utc": "2026-10-19T12:12:03.005062+00:00"
+    },
+    {
+      "name": "physical-host",
+      "command": [
+        "python",
+        "gateway/physical_can/build.py",
+        "--host"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-19T12:12:03.005062+00:00",
+      "finished_utc": "2026-10-19T12:12:05.679734+00:00"
+    },
+    {
+      "name": "physical-arm",
+      "command": [
+        "python",
+        "gateway/physical_can/build.py"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-19T12:12:05.679734+00:00",
+      "finished_utc": "2026-10-19T12:12:11.941965+00:00"
+    },
+    {
+      "name": "physical-wire",
+      "command": [
+        "python",
+        "gateway/physical_can/build.py",
+        "--host",
+        "--wire",
+        "gateway/physical_can/evidence/node-a-can-frames.txt"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-19T12:12:11.942964+00:00",
+      "finished_utc": "2026-10-19T12:12:14.461332+00:00"
+    },
+    {
+      "name": "p5-can-host",
+      "command": [
+        "python",
+        "gateway/mqtt/tests/run_p5_host_tests.py",
+        "--with-can-capture"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-19T12:12:14.461332+00:00",
+      "finished_utc": "2026-10-19T12:12:34.526860+00:00"
+    },
+    {
+      "name": "canonical",
+      "command": [
+        "python",
+        "gateway/canopen/tools/check_canonical.py"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-19T12:12:34.526860+00:00",
+      "finished_utc": "2026-10-19T12:12:35.208793+00:00"
+    },
+    {
+      "name": "p5-arm",
+      "command": [
+        "python",
+        "gateway/mqtt/build.py"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-19T12:12:35.209813+00:00",
+      "finished_utc": "2026-10-19T12:12:41.623946+00:00"
+    },
+    {
+      "name": "backend",
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "cloud/backend/tests",
+        "-q"
+      ],
+      "exit_code": 1,
+      "started_utc": "2026-10-19T12:12:41.624947+00:00",
+      "finished_utc": "2026-10-19T12:12:46.695150+00:00"
+    },
+    {
+      "name": "isolated-broker",
+      "command": [
+        "python",
+        "gateway/mqtt/tests/run_broker_integration.py",
+        "--runtime",
+        "E:/medical-monitor-p5/isolated-broker/runtime"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-19T12:12:46.696151+00:00",
+      "finished_utc": "2026-10-19T12:13:32.417517+00:00"
+    },
+    {
+      "name": "physical-wire-broker",
+      "command": [
+        "python",
+        "gateway/physical_can/tests/run_wire_broker.py",
+        "--runtime",
+        "E:/medical-monitor-p5/isolated-broker/runtime"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-19T12:13:32.417517+00:00",
+      "finished_utc": "2026-10-19T12:13:41.683129+00:00"
+    }
+  ],
+  "backend_repeat": {
+    "exit_code": 0,
+    "passed": 28
+  },
+  "ai_backend_joint": {
+    "exit_code": 0,
+    "passed": 79
+  },
+  "web_tests": {
+    "exit_code": 0
+  },
+  "web_build": {
+    "exit_code": 0
+  },
+  "browser_mock": {
+    "exit_code": 0,
+    "checks": 38
+  },
+  "browser_actual_mock_service": {
+    "exit_code": 0,
+    "checks": 6
+  },
+  "browser_real": {
+    "exit_code": 0,
+    "checks": 5,
+    "real_calls": 1
+  },
+  "ai_http_real": {
+    "exit_code": 0,
+    "real_calls": 4
+  },
+  "hardware_tool_tests": {
+    "exit_code": 0,
+    "passed": 14
+  },
+  "at_version_parser": {
+    "exit_code": 0
+  },
+  "irq_ordering": {
+    "normal_exit": 0,
+    "coalesced_reference_expected_exit": 3,
+    "reference_actual_exit": 3
+  },
+  "ai_mqtt_simulated_gateway": {
+    "exit_code": 0,
+    "checks": 4,
+    "physical_speaker": "NOT_TESTED"
+  },
+  "arm_targets": {
+    "isolated-arm": 0,
+    "arm": 0
+  },
+  "physical_hardware_e2e": "NOT_YET_RUN",
+  "formal_release": "NOT_CHANGED"
+}

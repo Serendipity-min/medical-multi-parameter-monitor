@@ -1,4 +1,4 @@
-"""从仓库外配置生成 STM32 sector 7 配置，不输出敏感字段。"""
+"""从仓库外配置生成 STM32 sector11配置，不输出敏感字段；生成不等于获准擦写。"""
 
 import argparse
 import json

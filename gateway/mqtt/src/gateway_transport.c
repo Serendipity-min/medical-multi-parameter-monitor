@@ -1,3 +1,7 @@
+/* 正式默认端口保持8883；独立H3隔离构建才使用单独TLS监听，不改变配置结构布局。 */
+#ifndef MP_MQTT_TLS_PORT
+#define MP_MQTT_TLS_PORT 8883
+#endif
 /* 复用第一阶段已验证的 ESP SSL/CA/时间校验，只在外部配置中保存凭据。 */
 #include "gateway_transport.h"
 #include "gateway_config.h"
@@ -6,6 +10,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef MP_CAN_RX_IRQ
+#include "at_version.h"
+#endif
 
 /* 一个串行发布者、一个在途 QoS1 记录；总 TX/RX 容量沿用 P4，不分配堆。 */
 static NetworkContext_t network;
@@ -218,6 +225,14 @@ int gateway_network_open(void)
     if (!step("AT", "AT", 2000) || !step("ECHO", "ATE0", 2000) ||
         !step("VOLATILE", "AT+SYSSTORE=0", 2000) || !step("STA", "AT+CWMODE=1", 3000))
         return 0;
+#ifdef MP_CAN_RX_IRQ
+    /* 官方只读GMR查询，不改变模块固件/Flash；原始回复不进控制台。 */
+    char version[32];
+    if(!at_command("AT+GMR",2000) || !gateway_at_version(at_response(),version)) {
+        console("GW FAIL AT_VERSION\r\n");return 0;
+    }
+    (void)snprintf(command,sizeof(command),"GW AT_VERSION value=%s\r\n",version);console(command);
+#endif
     /* 对有效配置生成相同命令；显式字段边界也让 host 编译器证明不会跨字段读取。 */
     (void)snprintf(command, sizeof(command), "AT+CWJAP=\"%.*s\",\"%.*s\"",
                    (int)sizeof(config->ssid) - 1, config->ssid,
@@ -256,6 +271,9 @@ int gateway_network_open(void)
         console("GW FAIL TIME\r\n");
         return 0;
     }
+#ifdef MP_CAN_RX_IRQ
+    (void)snprintf(command,sizeof(command),"GW SNTP_VALID epoch=%lu uptime=%lu\r\n",(unsigned long)epoch,(unsigned long)epoch_tick);console(command);
+#endif
     if (!step("CA_VERIFY", "AT+CIPSSLCCONF=2,0,0", 2000))
         return 0;
     (void)snprintf(command, sizeof(command), "AT+CIPSSLCCN=\"%s\"", config->host);
@@ -270,7 +288,7 @@ int gateway_network_open(void)
     secure_memzero(command, sizeof(command));
     if (!sni_ok)
         return 0;
-    (void)snprintf(command, sizeof(command), "AT+CIPSTART=\"SSL\",\"%s\",8883", config->host);
+    (void)snprintf(command, sizeof(command), "AT+CIPSTART=\"SSL\",\"%s\",%u", config->host, (unsigned)MP_MQTT_TLS_PORT);
     int ok = step("TLS", command, 30000);
     secure_memzero(command, sizeof(command));
     if (ok)

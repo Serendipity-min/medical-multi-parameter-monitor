@@ -1,0 +1,6 @@
+Assertion failed!
+
+Program: E:\medical-monitor-h3\gateway\physical_can\build\h3-irq\physical_host.exe
+File: E:\medical-monitor-h3\gateway\physical_can\tests\network_order.c, Line 68
+
+Expression: batches>=3 && points>=150 && !bench_rx_path.hw_overrun && !bench_rx_path.sw_overrun

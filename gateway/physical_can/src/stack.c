@@ -7,9 +7,10 @@ uint32_t physical_malformed;
 static MpStack *active;
 static uint32_t time_sent;
 static uint64_t elapsed_wrap;
-#ifdef CAN_BENCH_IRQ
+#if defined(CAN_BENCH_IRQ) || defined(MP_CAN_RX_IRQ)
 static uint32_t received_at;
 static bool timed_receive;
+bool physical_receive_due(uint32_t at) {return active && (int32_t)(active->milliseconds-at)>=0;}
 void physical_receive_at(MpCanFrame *f,uint32_t at) {
     received_at=at;timed_receive=true;physical_receive(f);timed_receive=false;
 }
@@ -43,7 +44,7 @@ void physical_receive(MpCanFrame *f) {
                 if(generation!=n->generation) {uint32_t session=n->session_generation+1u;memset(n,0,sizeof(*n));n->generation=generation;n->session_generation=session;}
             }
             n->seen[pdo]=true;
-#ifdef CAN_BENCH_IRQ
+#if defined(CAN_BENCH_IRQ) || defined(MP_CAN_RX_IRQ)
             n->at[pdo]=timed_receive?received_at:active->milliseconds;
 #else
             n->at[pdo]=active->milliseconds;
@@ -112,5 +113,8 @@ void mp_stack_tick(MpStack *s) {
         CO_CANtx_t tx={0};tx.ident=0x100;tx.DLC=6;memcpy(tx.data,&ms,4);memcpy(tx.data+4,&days,2);
         if(CO_CANsend(g->co->CANmodule,&tx)==CO_ERROR_NO) time_sent=s->milliseconds;
     }
+    /* IRQ目标每tick只交付一帧，调用者随后运行Adapter，再允许下一帧更新RPDO。 */
+#ifndef MP_CAN_RX_IRQ
     mp_bus_poll();
+#endif
 }

@@ -1,0 +1,15 @@
+{
+  "result": "PASS",
+  "exit_code": 0,
+  "checks": [
+    "actual_service_deterministic",
+    "actual_service_general_health_mock",
+    "actual_service_voice_disabled",
+    "actual_service_voice_has_no_broker",
+    "actual_service_invalid_no_value",
+    "actual_service_offline_no_value"
+  ],
+  "real_calls": 0,
+  "service": "existing cloud.ai.app, MOCK provider, MONITOR reader over local fixture WS, MQTT disabled",
+  "last_answer": "你 · 现在心率多少心率：77 bpm；模拟数据，非真人测量。MOCK · 模拟回答回答依据 · 6 项事实 · PAUSED心率 · NODE-B · VALID / MOCK / synthetic · 2026/10/19 20:23:17 · local-ui-fixture #3584825194血氧 · NODE-A · VALID / MOCK / synthetic · 2026/10/19 20:23:17 · local-ui-fixture #3584825194脉率 · NODE-A · VALID / MOCK / synthetic · 2026/10/19 20:23:17 · local-ui-fixture #3584825194呼吸率 · NODE-B · VALID / MOCK / synthetic · 2026/10/19 20:23:17 · local-ui-fixture #3584825194体温 · NODE-B · VALID / MOCK / synthetic · 2026/10/19 20:23:17 · local-ui-fixture #3584825194血压 · NODE-A · VALID / MOCK / synthetic · 2026/10/19 20:23:17 · local-ui-fixture #3584825194回答 cd2b29c26e024c6b87be43722757c9f6 · 会话 9534f6052d314994a27451d0a93cfac6 · 事实 60dbf1759fbf89949ca5b6c530e2bf3fPAUSED · 设备播报已暂停"
+}

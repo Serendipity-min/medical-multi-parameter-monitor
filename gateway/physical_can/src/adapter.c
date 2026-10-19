@@ -10,6 +10,15 @@ void mp_adapter_init(MpAdapter *a)
     a->status_tick = 0u - 5000u; /* 缺席 B 从首次有可信时间即报告 OFFLINE。 */
 }
 
+/* 非个人模拟信号只在明确的隔离构建标TEST；正式构建仍保留原源质量位语义。 */
+static bool synthetic_source(const MpAdapter *a,unsigned node) {
+#ifdef MP_H3_TEST_SOURCE
+    (void)a;return node!=3;
+#else
+    return node!=3 && (a->quality[node-1]&0x80000000u)!=0;
+#endif
+}
+
 /* 统一建立帧身份；node=3 专用于网关状态，物理网关状态不标记为合成采样。 */
 static MpFrame frame(MpAdapter *a, MpStack *s, unsigned node, MpStream stream, uint64_t timestamp)
 {
@@ -20,7 +29,7 @@ static MpFrame frame(MpAdapter *a, MpStack *s, unsigned node, MpStream stream, u
     f.epoch = s->epoch;
     f.boot = (s->nodes[2].boot << 16) | (node <= 2 ? (a->boot[node - 1] & 65535U) : 0);
     f.seq = ++a->seq[node - 1][stream];
-    f.synthetic = node == 3 ? false : (a->quality[node - 1] & 0x80000000U) != 0;
+    f.synthetic = synthetic_source(a,node);
     return f;
 }
 
@@ -50,7 +59,7 @@ static void wave(MpAdapter *a, MpStack *s, MpRouter *r, unsigned node, unsigned 
     bool valid = (a->quality[node - 1] & (1U << channel)) != 0;
     /* 采样时钟不连续、有效性变化或节点重启时丢弃未完成的小批次，不能拼接伪连续波形。 */
     if ((uint32_t)(tick - a->tick[node - 1][channel]) != 1000 / rate || f->valid != valid
-        || f->synthetic != ((a->quality[node-1]&0x80000000u)!=0))
+        || f->synthetic != synthetic_source(a,node))
         f->count = 0;
     a->tick[node - 1][channel] = tick;
     uint64_t stamp=capture(od,base,tick,physical_now(s));

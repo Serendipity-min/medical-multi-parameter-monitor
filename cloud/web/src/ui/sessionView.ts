@@ -19,7 +19,7 @@ export class SessionView {
   public mount(route: Route): void {
     this.route = route;
     const button = document.querySelector<HTMLButtonElement>('#export-csv');
-    if (button && route !== 'overview') {
+    if (button && route !== 'overview' && route !== 'ai') {
       button.onclick = () => {
         // 只有显式点击才生成本地 Blob；读取当前会话，不请求后端或上传文件。
         const records = this.store.history.entries(parameters[route].scalar);
@@ -45,7 +45,8 @@ export class SessionView {
     freeze.setAttribute('aria-pressed', String(frozen));
     freeze.querySelector('span')!.textContent = frozen ? '恢复显示' : '冻结显示';
     document.querySelectorAll('.window-start').forEach((label) => { label.textContent = `−${store.windowMs / 1000} 秒`; });
-    if (this.route === 'overview') return;
+    // 第七页共用全局冻结状态，但不创建参数趋势或导出控件。
+    if (this.route === 'overview' || this.route === 'ai') return;
     const p = parameters[this.route];
     const vm = store.displayViewModel;
     const scalar = vm.scalars[p.scalar];

@@ -1,0 +1,63 @@
+................F...........                                             [100%]
+================================== FAILURES ===================================
+___________________ test_browser_auth_and_no_device_ingest ____________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000183ED72AD90>
+
+    def test_browser_auth_and_no_device_ingest(monkeypatch):
+        monkeypatch.setenv('MONITOR_TESTING', '1')
+        monkeypatch.delenv('MONITOR_MQTT_CONFIG', raising=False)
+        monkeypatch.setenv('MONITOR_VIEW_TOKEN', 'unit-test-view-token-not-production-123')
+        monkeypatch.setenv('MONITOR_ALLOWED_ORIGINS', 'http://testserver')
+        app = create_app()
+        with TestClient(app) as client:
+            assert client.get('/health').json()['status'] == 'degraded'
+            with pytest.raises(WebSocketDisconnect):
+                with client.websocket_connect('/device/v1/ingest'):
+                    pass
+>           with client.websocket_connect(
+                '/ws/v1/monitor', headers={'origin': 'http://testserver'}
+            ) as ws:
+
+cloud\backend\tests\test_monitor.py:195: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\site-packages\starlette\testclient.py:123: in __exit__
+    return self.exit_stack.__exit__(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\contextlib.py:601: in __exit__
+    raise exc_details[1]
+C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\contextlib.py:586: in __exit__
+    if cb(*exc_details):
+       ^^^^^^^^^^^^^^^^
+C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\contextlib.py:469: in _exit_wrapper
+    callback(*args, **kwds)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = None, timeout = None
+
+    def result(self, timeout=None):
+        """Return the result of the call that the future represents.
+    
+        Args:
+            timeout: The number of seconds to wait for the result if the future
+                isn't done. If None, then there is no limit on the wait time.
+    
+        Returns:
+            The result of the call that the future represents.
+    
+        Raises:
+            CancelledError: If the future was cancelled.
+            TimeoutError: If the future didn't finish executing before the given
+                timeout.
+            Exception: If the call raised then that exception will be raised.
+        """
+        try:
+            with self._condition:
+                if self._state in [CANCELLED, CANCELLED_AND_NOTIFIED]:
+>                   raise CancelledError()
+E                   concurrent.futures._base.CancelledError
+
+C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\concurrent\futures\_base.py:447: CancelledError
+=========================== short test summary info ===========================
+FAILED cloud/backend/tests/test_monitor.py::test_browser_auth_and_no_device_ingest
+1 failed, 27 passed in 3.70s

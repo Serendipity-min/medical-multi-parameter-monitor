@@ -20,6 +20,8 @@ typedef struct {
 } BenchRxPath;
 extern BenchRxPath bench_rx_path;
 void bench_rx_irq(void);
+/* 消费前查看IRQ时刻；仅单消费者读取，不推进tail，避免提前覆盖RPDO。 */
+bool bench_rx_peek(BenchRxItem *item);
 bool bench_rx_take(BenchRxItem *item);
 uint32_t bench_rx_depth(void);
 /* 仅在CAN RX IRQ已禁用时清空待处理项；保留累计丢失、故障和高水位。 */

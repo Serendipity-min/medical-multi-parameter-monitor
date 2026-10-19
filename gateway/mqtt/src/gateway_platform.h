@@ -12,6 +12,8 @@ void platform_set_poll(void (*callback)(void));
 void platform_poll(void);
 void console(const char *message);
 int console_char(void);
+/* UART当前门禁与累计错误分离；累计值供H3隔离窗口比较。 */
+uint32_t platform_uart_errors_total(void);
 int at_command(const char *command, uint32_t timeout_ms);
 const char *at_response(void);
 void delay_ms(uint32_t milliseconds);

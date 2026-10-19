@@ -10,6 +10,9 @@
 #define CAPACITY 8192U
 static volatile unsigned char ring[CAPACITY];
 static volatile uint32_t head, tail, errors;
+/* 重连可清当前错误门禁，但累计诊断绝不随之清零。 */
+static volatile uint32_t uart_hw_total,uart_overflow_total;
+uint32_t platform_uart_errors_total(void) {return uart_hw_total+uart_overflow_total;}
 static unsigned char reply[4096], network_bytes[256];
 static unsigned int reply_length, network_length, network_offset;
 static void (*poll_callback)(void);
@@ -48,13 +51,15 @@ void USART3_IRQHandler(void)
     if (!(status & (USART_SR_RXNE | USART_SR_ORE | USART_SR_NE | USART_SR_FE)))
         return;
     unsigned char value = (unsigned char)USART3->DR;
-    if (status & (USART_SR_ORE | USART_SR_NE | USART_SR_FE))
-        errors++;
+    if (status & (USART_SR_ORE | USART_SR_NE | USART_SR_FE)) {
+        errors++;uart_hw_total++;
+    }
     if (status & USART_SR_RXNE)
     {
         uint32_t next = (head + 1U) % CAPACITY;
-        if (next == tail)
-            errors++;
+        if (next == tail) {
+            errors++;uart_overflow_total++;
+        }
         else
         {
             ring[head] = value;

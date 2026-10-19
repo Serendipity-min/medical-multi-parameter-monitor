@@ -125,7 +125,10 @@ test('冻结只冻结显示，继续接收历史；新无效状态优先清空',
 test('断连清除当前值并保留分段历史；显式切换网关清空', () => {
   const store = new MonitorStore();
   store.ingestSnapshot(snapshot([signal()]));
+  // AI 溯源同样受断连/换网关清理约束，不能沿用上一个网关的原始事实。
+  assert.equal(store.latestSnapshot?.gateway_id, 'GW-DEV-001');
   store.clearLive('断开连接');
+  assert.equal(store.latestSnapshot, null);
   assert.equal(store.currentViewModel.scalars.RR.formatted, '--');
   assert.equal(store.history.entries('RR').length, 1);
   store.changeGateway('GW-C-001');

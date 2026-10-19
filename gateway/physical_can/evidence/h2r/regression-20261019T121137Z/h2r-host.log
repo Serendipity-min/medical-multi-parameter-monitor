@@ -1,0 +1,9 @@
+host-20261019T121138616674Z exit 0
+PASS CAN_ONLY_BENCH Host: disarmed/no-network/no-sensors/B-OFFLINE/NMT simulated-TXOK/time opt-in/HB timeout/fault latch; HARDWARE_NOT_RUN
+PASS CAN_ONLY_BENCH Host: disarmed/no-network/no-sensors/B-OFFLINE/NMT simulated-TXOK/time opt-in/HB timeout/fault latch; HARDWARE_NOT_RUN
+PASS IRQ: 4+ burst/1Hz clustered PDO/foreground stall/arrival timestamp/order
+PASS IRQ: full3 plus fourth during release; exact W1C, all frames drained
+PASS IRQ: distinct HW/SW loss; lockout and reinit preserve fault/high-water/counters
+PASS IRQ: IDE/RTR/DLC filtering, ring index and timestamp wrap
+PASS H2R MMIO/SPSC; no hardware accessed, no real sensor/physical acceptance claimed
+

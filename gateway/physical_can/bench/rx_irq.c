@@ -1,6 +1,10 @@
 /* 中断只释放硬件FIFO并发布固定大小项；没有UART、堆、协议回调或Router操作。 */
 #include "rx_irq.h"
+#ifdef MP_CAN_RX_IRQ
+#include "gateway_platform.h"
+#else
 #include "bench.h"
+#endif
 #include <limits.h>
 
 _Static_assert((BENCH_RX_CAPACITY&(BENCH_RX_CAPACITY-1u))==0,"power-of-two queue required");
@@ -45,6 +49,12 @@ void bench_rx_irq(void) {
     }
     uint32_t elapsed=bench_clock_cycles()-started;
     if(elapsed>bench_rx_path.isr_cycles_max) bench_rx_path.isr_cycles_max=elapsed;
+}
+bool bench_rx_peek(BenchRxItem *item) {
+    uint32_t tail=atomic_load_explicit(&bench_rx_path.tail,memory_order_relaxed);
+    uint32_t head=atomic_load_explicit(&bench_rx_path.head,memory_order_acquire);
+    if(head==tail) return false;
+    *item=bench_rx_path.items[tail&(BENCH_RX_CAPACITY-1u)];return true;
 }
 bool bench_rx_take(BenchRxItem *item) {
     uint32_t tail=atomic_load_explicit(&bench_rx_path.tail,memory_order_relaxed);

@@ -1,0 +1,165 @@
+{
+  "tested_at": "2026-10-19T12:21:12.338425+00:00",
+  "cases": [
+    {
+      "case": "auth",
+      "http": 401
+    },
+    {
+      "case": "method",
+      "http": 405
+    },
+    {
+      "case": "unknown",
+      "http": 404
+    },
+    {
+      "case": "current_readings",
+      "http": 200,
+      "real_model": "NOT_CALLED",
+      "answer_kind": "DETERMINISTIC",
+      "model_evidence": null,
+      "fact_digest": "79bbb649f007c2d6273bf14e8bba6595",
+      "node_b_offline": true,
+      "source": "MOCK",
+      "synthetic": true,
+      "values_and_answers_saved": false
+    },
+    {
+      "case": "general_health",
+      "http": 200,
+      "real_model": "REAL_REQUEST_USED",
+      "answer_kind": "VERIFIED_EXPLANATION",
+      "model_evidence": {
+        "call": "3a36417b4dd444fdba1430379fc5236a",
+        "requested_model": "doubao-seed-2-0-mini-260428",
+        "status": "VALIDATED",
+        "billing_state": "UNKNOWN_TOKEN_USAGE_RECORDED",
+        "http_status": 200,
+        "usage": {
+          "completion_tokens": 53,
+          "prompt_tokens": 535,
+          "total_tokens": 588
+        },
+        "reported_model": "doubao-seed-2-0-mini-260428",
+        "request_id": "0217924124651665e054c6d0ba743fab13ed8d72af4b8b2d712d0",
+        "finish_reason": "stop",
+        "latency_ms": 1174
+      },
+      "fact_digest": "6d58784fd344560878ed1094ba87b560",
+      "node_b_offline": true,
+      "source": "MOCK",
+      "synthetic": true,
+      "values_and_answers_saved": false
+    },
+    {
+      "case": "expired_readings",
+      "http": 200,
+      "real_model": "REAL_REQUEST_USED",
+      "answer_kind": "VERIFIED_EXPLANATION",
+      "model_evidence": {
+        "call": "606ea7fd5034428da40fa1633833f437",
+        "requested_model": "doubao-seed-2-0-mini-260428",
+        "status": "VALIDATED",
+        "billing_state": "UNKNOWN_TOKEN_USAGE_RECORDED",
+        "http_status": 200,
+        "usage": {
+          "completion_tokens": 38,
+          "prompt_tokens": 539,
+          "total_tokens": 577
+        },
+        "reported_model": "doubao-seed-2-0-mini-260428",
+        "request_id": "02179241246633778af8113c224ccdd69578c3b63d1e71acd13d6",
+        "finish_reason": "stop",
+        "latency_ms": 1115
+      },
+      "fact_digest": "b0c5802e77a354403ceee8d48c1f5289",
+      "node_b_offline": true,
+      "source": "MOCK",
+      "synthetic": true,
+      "values_and_answers_saved": false
+    },
+    {
+      "case": "node_b_absent",
+      "http": 200,
+      "real_model": "REAL_REQUEST_USED",
+      "answer_kind": "VERIFIED_EXPLANATION",
+      "model_evidence": {
+        "call": "d978405e21fc4fc987063740623abc45",
+        "requested_model": "doubao-seed-2-0-mini-260428",
+        "status": "VALIDATED",
+        "billing_state": "UNKNOWN_TOKEN_USAGE_RECORDED",
+        "http_status": 200,
+        "usage": {
+          "completion_tokens": 44,
+          "prompt_tokens": 537,
+          "total_tokens": 581
+        },
+        "reported_model": "doubao-seed-2-0-mini-260428",
+        "request_id": "021792412467464c237340934591b89d6de6b6a9271c1b92bd40d",
+        "finish_reason": "stop",
+        "latency_ms": 963
+      },
+      "fact_digest": "c190f0c2f1d140b558e087364555f8ae",
+      "node_b_offline": true,
+      "source": "MOCK",
+      "synthetic": true,
+      "values_and_answers_saved": false
+    },
+    {
+      "case": "project",
+      "http": 200,
+      "real_model": "REAL_REQUEST_USED",
+      "answer_kind": "VERIFIED_EXPLANATION",
+      "model_evidence": {
+        "call": "4c60eea479584ba5ab78d00babe13c46",
+        "requested_model": "doubao-seed-2-0-mini-260428",
+        "status": "VALIDATED",
+        "billing_state": "UNKNOWN_TOKEN_USAGE_RECORDED",
+        "http_status": 200,
+        "usage": {
+          "completion_tokens": 52,
+          "prompt_tokens": 536,
+          "total_tokens": 588
+        },
+        "reported_model": "doubao-seed-2-0-mini-260428",
+        "request_id": "021792412468438f1aca4493aa6c7087a6ccfbfdb4be61525ffdc",
+        "finish_reason": "stop",
+        "latency_ms": 939
+      },
+      "fact_digest": "be3dd99f21a6d51754bf079141b92bee",
+      "node_b_offline": true,
+      "source": "MOCK",
+      "synthetic": true,
+      "values_and_answers_saved": false
+    },
+    {
+      "case": "snapshot_timeout",
+      "http": 504,
+      "error": "AI_TIMEOUT"
+    }
+  ],
+  "health": {
+    "status": "ok",
+    "model_mode": "DOUBAO",
+    "snapshot_mode": "MONITOR",
+    "real_model": "REAL_MODEL_VERIFIED",
+    "voice_mode": "DISABLED",
+    "model_id": "doubao-seed-2-0-mini-260428",
+    "budget_used": 7,
+    "usage": {
+      "requests": 7,
+      "usage": {
+        "prompt_tokens": 5569,
+        "completion_tokens": 343,
+        "total_tokens": 5912
+      },
+      "states": {},
+      "billing_state": "TOKEN_USAGE_RECORDED_COST_NOT_INFERRED",
+      "lifetime_cap": null
+    }
+  },
+  "hardware_e2e": "NOT_TESTED",
+  "billing": "OPERATOR_REPORTED_FREE_OR_TRIAL_COST_NOT_INFERRED",
+  "pass": true
+}

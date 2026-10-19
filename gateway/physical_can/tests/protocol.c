@@ -9,6 +9,12 @@ static MpStack stack;
 static MpAdapter adapter;
 static MpRouter router;
 static unsigned ppg_frames,scalars,b_offline,b_measurements;
+/* 隔离联网目标显式标记非个人测试源；常规物理目标仍按原质量位判断。 */
+#ifdef MP_H3_TEST_SOURCE
+#define EXPECT_SYNTHETIC true
+#else
+#define EXPECT_SYNTHETIC false
+#endif
 static void input(uint16_t id,uint8_t dlc,uint32_t a,uint32_t b) {
     MpCanFrame f={0};f.ident=id;f.dlc=dlc;memcpy(f.data,&a,4);memcpy(f.data+4,&b,4);physical_receive(&f);
 }
@@ -16,8 +22,8 @@ static void drain(void) {
     MpFrame f;
     while(mp_router_take(&router,&f,stack.milliseconds)) {
         if(f.node==2) {if(f.stream==MP_NODE_STATUS && !f.valid) b_offline++;else if(f.stream!=MP_FAULT) b_measurements++;}
-        if(f.stream==MP_PPG) {assert(!f.synthetic && f.count==50 && f.rate==50);assert(f.timestamp<((uint64_t)stack.epoch*1000+stack.milliseconds+1000));ppg_frames++;}
-        if(f.stream==MP_SPO2) {assert(f.values[0]==9800 && !f.synthetic);scalars++;}
+        if(f.stream==MP_PPG) {assert(f.synthetic==EXPECT_SYNTHETIC && f.count==50 && f.rate==50);assert(f.timestamp<((uint64_t)stack.epoch*1000+stack.milliseconds+1000));ppg_frames++;}
+        if(f.stream==MP_SPO2) {assert(f.values[0]==9800 && f.synthetic==EXPECT_SYNTHETIC);scalars++;}
         mp_router_ack(&router,&f,true);
     }
 }

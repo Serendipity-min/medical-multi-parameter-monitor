@@ -1,0 +1,190 @@
+{
+  "exit_code": 0,
+  "checks": [
+    "node_b_fact_offline",
+    "test_source_visible",
+    "voice_default_off",
+    "desktop_no_horizontal_overflow",
+    "mobile_no_horizontal_overflow"
+  ],
+  "cases": [
+    {
+      "answer_kind": "DETERMINISTIC",
+      "answer_present": true,
+      "fact_digest": "b00ee6d77e8de5787cf8f310603b7f67",
+      "facts": [
+        {
+          "node_id": "NODE-A",
+          "source": "MOCK",
+          "stream": "SPO2",
+          "synthetic": true,
+          "validity": "VALID"
+        },
+        {
+          "node_id": "NODE-A",
+          "source": "MOCK",
+          "stream": "PR",
+          "synthetic": true,
+          "validity": "VALID"
+        },
+        {
+          "node_id": "NODE-A",
+          "source": "MOCK",
+          "stream": "NIBP",
+          "synthetic": true,
+          "validity": "VALID"
+        },
+        {
+          "node_id": "NODE-B",
+          "source": "MOCK",
+          "stream": "HR",
+          "synthetic": true,
+          "validity": "OFFLINE"
+        },
+        {
+          "node_id": "NODE-B",
+          "source": "MOCK",
+          "stream": "RR",
+          "synthetic": true,
+          "validity": "OFFLINE"
+        },
+        {
+          "node_id": "NODE-B",
+          "source": "MOCK",
+          "stream": "TEMP",
+          "synthetic": true,
+          "validity": "OFFLINE"
+        }
+      ],
+      "http": 200,
+      "model_evidence": null,
+      "real_model": "NOT_CALLED",
+      "case": "current"
+    },
+    {
+      "answer_kind": "VERIFIED_EXPLANATION",
+      "answer_present": true,
+      "fact_digest": "e79b0f2fe04f270cf253ff8f558531ba",
+      "facts": [
+        {
+          "node_id": "NODE-A",
+          "source": "MOCK",
+          "stream": "SPO2",
+          "synthetic": true,
+          "validity": "VALID"
+        },
+        {
+          "node_id": "NODE-A",
+          "source": "MOCK",
+          "stream": "PR",
+          "synthetic": true,
+          "validity": "VALID"
+        },
+        {
+          "node_id": "NODE-A",
+          "source": "MOCK",
+          "stream": "NIBP",
+          "synthetic": true,
+          "validity": "VALID"
+        },
+        {
+          "node_id": "NODE-B",
+          "source": "MOCK",
+          "stream": "HR",
+          "synthetic": true,
+          "validity": "OFFLINE"
+        },
+        {
+          "node_id": "NODE-B",
+          "source": "MOCK",
+          "stream": "RR",
+          "synthetic": true,
+          "validity": "OFFLINE"
+        },
+        {
+          "node_id": "NODE-B",
+          "source": "MOCK",
+          "stream": "TEMP",
+          "synthetic": true,
+          "validity": "OFFLINE"
+        }
+      ],
+      "http": 200,
+      "model_evidence": {
+        "billing_state": "UNKNOWN_TOKEN_USAGE_RECORDED",
+        "call": "baa5234af4b147f79ac57e46f3e36e0b",
+        "finish_reason": "stop",
+        "http_status": 200,
+        "latency_ms": 1021,
+        "reported_model": "doubao-seed-2-0-mini-260428",
+        "request_id": "021792413481138e78c31fe06d4434dfef0260629e4a08bf58cb5",
+        "requested_model": "doubao-seed-2-0-mini-260428",
+        "status": "VALIDATED",
+        "usage": {
+          "completion_tokens": 66,
+          "prompt_tokens": 535,
+          "total_tokens": 601
+        }
+      },
+      "real_model": "REAL_REQUEST_USED",
+      "case": "general"
+    },
+    {
+      "answer_kind": "DETERMINISTIC",
+      "answer_present": true,
+      "fact_digest": "a05ed44e35b402000ab78ea428ee6f56",
+      "facts": [
+        {
+          "node_id": "NODE-A",
+          "source": "MOCK",
+          "stream": "SPO2",
+          "synthetic": true,
+          "validity": "VALID"
+        },
+        {
+          "node_id": "NODE-A",
+          "source": "MOCK",
+          "stream": "PR",
+          "synthetic": true,
+          "validity": "VALID"
+        },
+        {
+          "node_id": "NODE-A",
+          "source": "MOCK",
+          "stream": "NIBP",
+          "synthetic": true,
+          "validity": "VALID"
+        },
+        {
+          "node_id": "NODE-B",
+          "source": "MOCK",
+          "stream": "HR",
+          "synthetic": true,
+          "validity": "OFFLINE"
+        },
+        {
+          "node_id": "NODE-B",
+          "source": "MOCK",
+          "stream": "RR",
+          "synthetic": true,
+          "validity": "OFFLINE"
+        },
+        {
+          "node_id": "NODE-B",
+          "source": "MOCK",
+          "stream": "TEMP",
+          "synthetic": true,
+          "validity": "OFFLINE"
+        }
+      ],
+      "http": 200,
+      "model_evidence": null,
+      "real_model": "NOT_CALLED",
+      "case": "absent_b"
+    }
+  ],
+  "source": "MOCK_NONPERSONAL_SOFTWARE_FIXTURE",
+  "hardware_e2e": "NOT_TESTED",
+  "real_calls": 1,
+  "route": "Vite full prefix → SSH loopback → actual FastAPI → Doubao"
+}

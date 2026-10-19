@@ -1,0 +1,39 @@
+{
+  "action": "C_READ_ONLY_ROM_PREFLIGHT",
+  "flash_write_started": false,
+  "exit_code": 0,
+  "stage": "READ_ONLY_COMPLETE_RESET_ASSERTED_BEFORE_CLOSE",
+  "C_identity_match": true,
+  "RDP_level_zero": true,
+  "application": {
+    "bytes": 26660,
+    "sha256": "79a5ddf9a49fe592f22f625269ef7fd88e1578aa36b1229477aa8b943eb35be5",
+    "H2R_match": true
+  },
+  "protected": {
+    "0x8060000": {
+      "sector_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "first_312B_sha256": "26e1989c6b3b3e1b905dcc17405a2767a1a3ebbb76b26ae3ac6b16bfd61c031c"
+    },
+    "0x80e0000": {
+      "sector_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "first_312B_sha256": "26e1989c6b3b3e1b905dcc17405a2767a1a3ebbb76b26ae3ac6b16bfd61c031c"
+    }
+  },
+  "config": {
+    "all_ff": true,
+    "magic_valid": false,
+    "bytes": 312
+  },
+  "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+  "application_backup": {
+    "bytes": 49152,
+    "sha256": "1185e8d74ce5bf320ed3b92a3dfc5d8771b66a99502d0e2ccd31491c83c370a0",
+    "private_file": "c-sector0-2-20261019T122613Z.bin",
+    "sectors": [
+      0,
+      1,
+      2
+    ]
+  }
+}

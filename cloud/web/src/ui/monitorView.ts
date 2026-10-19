@@ -10,9 +10,10 @@ const icons: Record<Route | 'settings', string> = {
   resp: '<path d="M12 3v9m0-4C7 3 3 9 3 15s6 6 7 2l2-5 2 5c1 4 7 4 7-2S17 3 12 8"/>',
   nibp: '<path d="M4 5h10v14H4zM14 9h3a4 4 0 0 1 4 4v3m-17-6h10"/>',
   temp: '<path d="M9 14V5a3 3 0 0 1 6 0v9a5 5 0 1 1-6 0Zm3-7v10m5-10h4m-4 4h3"/>',
+  ai: '<path d="M4 4h16v12H9l-5 4V4Z"/><path d="M8 8h8M8 12h5"/>',
   settings: '<path d="m12 2 3 3h4v4l3 3-3 3v4h-4l-3 3-3-3H5v-4l-3-3 3-3V5h4Z"/><circle cx="12" cy="12" r="3"/>',
 };
-const labels: Record<Route, string> = { overview: '监护总览', temp: '体温', ecg: '心电', spo2: '血氧', resp: '呼吸', nibp: '血压' };
+const labels: Record<Route, string> = { overview: '监护总览', temp: '体温', ecg: '心电', spo2: '血氧', resp: '呼吸', nibp: '血压', ai: 'AI 助手' };
 const svg = (key: Route | 'settings') => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[key]}</svg>`;
 
 export function setupMonitorDOM(container: HTMLElement): void {
@@ -25,6 +26,7 @@ export function setupMonitorDOM(container: HTMLElement): void {
         <strong id="source-banner" class="source-banner">等待数据源</strong>
         <div class="system-clock"><time id="clock">--:--:--</time><span id="today"></span></div>
         <button id="open-access" class="button-quiet">连接数据源</button>
+        <a id="open-ai" class="button-quiet ai-shortcut" href="#/ai">AI 助手</a>
       </header>
       <div class="context-bar"><span id="mode">等待数据</span><span id="received-at" title="本页累计接收的快照数，不等于保存到文件的记录数。冻结只固定画面，内存缓冲继续更新。">最后通信：--</span><strong id="frozen-status" role="status" hidden>DISPLAY FROZEN / 本地显示已冻结 · 仍在接收</strong></div>
       <main id="route-view" class="monitor-main"></main>
@@ -79,6 +81,8 @@ export function renderRoute(route: Route, container: HTMLElement): void {
     if (link.dataset.route === route) link.setAttribute('aria-current', 'page');
     else link.removeAttribute('aria-current');
   });
+  // AI 页面由持久单实例装入，静态监护渲染器只清空旧参数视图。
+  if (route === 'ai') { container.replaceChildren(); return; }
   if (route === 'overview') {
     container.innerHTML = `<div class="overview-layout"><div class="overview-waves">${wave('ECG', 'ecg')}${wave('PPG', 'spo2')}${wave('RESP', 'resp')}</div><div class="overview-numerics">${['ecg', 'spo2', 'resp', 'nibp', 'temp'].map((key) => {
       const p = parameters[key as keyof typeof parameters];

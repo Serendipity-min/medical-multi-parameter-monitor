@@ -9,6 +9,8 @@ export type StoreListener = (state: MonitorStore) => void;
 
 export class MonitorStore {
   public currentViewModel: MonitorViewModel = getEmptyViewModel('等待数据');
+  // 仅保留最新原始快照供事实溯源；AI 页只读，不增加网络订阅。
+  public latestSnapshot: Snapshot | null = null;
   public buffers: Record<WaveChannel, Point[]> = { ECG: [], RESP: [], PPG: [] };
   public rrTrend: Point[] = [];
   public windowMs = 8000;
@@ -91,6 +93,7 @@ export class MonitorStore {
   public clearLive(reason: string): void {
     const gateway = this.currentViewModel.gatewayId;
     this.currentViewModel = getEmptyViewModel(reason);
+    this.latestSnapshot = null;
     this.currentViewModel.gatewayId = gateway;
     this.history.breakContinuity();
     this.frozenAt = 0;
@@ -111,6 +114,7 @@ export class MonitorStore {
     this.lastReceivedAt = Date.now();
     this.receivedCount += 1;
     if (this.currentViewModel.gatewayId !== data.gateway_id) this.changeGateway(data.gateway_id);
+    this.latestSnapshot = data;
     this.currentViewModel = toMonitorViewModel(data);
     this.history.ingest(data, this.lastReceivedAt);
 
