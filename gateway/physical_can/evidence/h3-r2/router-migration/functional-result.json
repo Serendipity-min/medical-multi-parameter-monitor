@@ -1,0 +1,19 @@
+{
+  "command": [
+    "python",
+    "-m",
+    "pytest",
+    "cloud/backend/tests",
+    "cloud/ai/tests",
+    "gateway/physical_can/tests",
+    "-q"
+  ],
+  "exit_code": 0,
+  "hardware_accessed": false,
+  "firmware_source_unchanged": true,
+  "source_sha256": {
+    "gateway/physical_can/r2_config_record.py": "e57e9aa81e02522c5b602c630ced814d76401ab2475f2f5c28800e10a7e9b5a4",
+    "gateway/physical_can/r2_flash_c.py": "bd4ec6128cd57b3101bdb5f13df99518869ec4e0df6e30bb29c0ee781e0c8514",
+    "gateway/physical_can/tests/test_r2_wifi_migration.py": "44fc648ba1d2524743902290739cc80269a4834d5f2505ef9e197bc06c7c6df5"
+  }
+}

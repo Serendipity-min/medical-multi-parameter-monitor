@@ -2,7 +2,7 @@
 
 本轮合同：MPM-H3-002 R1.0；执行者为 Codex。沿用合同指定的唯一文件名，不代表执行者变更为 DeepSeek。用户已排除第八节 ECG 采购和选型，本轮没有执行该支线。
 
-**阶段结论：H3_PARTIAL_CONTINUE。C 的一次正常BOOT、J5独立供电/USB拔除及Flash配置保留窗口已经实测通过（连续在线310.045秒，见第10节）；下一步按负责人指令准备改接2.4GHz路由器。NIBP_PENDING；FORMAL_RELEASE_NOT_AUTHORIZED；FORMAL_ROLLBACK_NOT_RUN。** 不宣告整体 H3_PASS、七页正式上线或生理准确性通过。
+**阶段结论：H3_PARTIAL_CONTINUE。C 的一次正常BOOT、J5独立供电/USB拔除及Flash配置保留窗口已经实测通过（连续在线310.045秒，见第10节）；负责人指定改接2.4GHz路由器，generation2配置及sector3专用更新工具已准备、联合236项回归通过，实板换网待现场窗口（第11节）。NIBP_PENDING；FORMAL_RELEASE_NOT_AUTHORIZED；FORMAL_ROLLBACK_NOT_RUN。** 不宣告整体 H3_PASS、七页正式上线或生理准确性通过。
 
 ## 1. Git、镜像及现场身份
 
@@ -216,3 +216,20 @@ Git对原始Windows日志的CRCRLF/编译器末尾空格检查有提示，保留
 全部证据在`gateway/physical_can/evidence/h3-r2/c-window/`：`hardware-assessment.json`、`program-*.json`、`controlled-rom-backup-*.json`、`cold-observer-result.json`、654行`cold-mqtt-metadata.jsonl`（SHA256 `4096582226e5b49de04f0c605e30c440152004945f9f2703c487a19e765b2235`）、`isolation-stop-*.json`及前后身份核对。公开记录不含配置正文、Flash原件、UID、真实主机或生理值。操作编排通用源码保存在`operator-tools/`供复核。
 
 坏配置启动仅Host验证，未向实板写故障配置；这是一次成功冷启动，不虚报三次。没有编程后失败，因此未实际调用C原件恢复；没有执行正式activate/rollback或网络故障注入。H3整体仍PARTIAL，后续路由器迁移单独保留配置代次和证据，不覆盖本次热点结果。
+
+## 11. 路由器迁移准备：仅sector3，尚未写板
+
+负责人指定目标`@Tenda_B93620`，复用此前本机受限目录中的私密配置；没有在聊天、命令行或仓库重新写入密码。现有C固件仍是第10节43172B隔离镜像，不重新开发联网固件。当前持久Wi-Fi仍为手机热点，电脑切换网络不会自动改变C。
+
+新记录336B、generation2，SHA256 **`3b1a8c344dfad1d1faa82bc962811e50a467eec9adbc1cec5b2a32979c6a2c25`**；旧generation1记录为`5c22cee1d7978faec50ea5431f749b36ac1ea01de52742342317e91a08a3ce18`。仅替换原312B配置中SSID/密码的两段固定字段；MQTT主机/身份/口令/client_id和授时下限逐字节不变。两份记录仅在本机受限目录，仓库只保存散列。`prepared-plan.json`明确`hardware_accessed=false`、`flash_written=false`，不是实板迁移成功。
+
+`r2_flash_c.py`新增`wifi-plan/wifi-backup/wifi-update/wifi-restore`：
+
+- 默认仍只生成离线计划；Wi-Fi窗口必须单独绑定新旧配置SHA、现有应用SHA、C身份源、COM15、当前工具提交、到期时间以及**仅sector3**。旧允许sector0–3的窗口不能直接用于新操作。
+- 换网前重新双读现有64KiB及磁盘回读，要求与当前43172B应用、generation1配置重建的完整摘要`52a4c9d621375d63cd995c1a003d98473e9be3387d31cd857e702a27bee7e6f8`一致；最初42728B旧应用的备份不能冒充这次换网回退原件。
+- 只擦sector3的16KiB（0x0800C000–0x0800FFFF），写336B记录、commit最后写；完整应用区0–2仅比较，不发送应用擦写命令。最终核对完整64KiB、sector7/11和options。无RAM注入、无GO，不将ROM复位当独立冷启动。
+- 更新中途失败立即停；恢复也仅允许sector3，先双读当前摘要、确认原应用和保护区未变，再恢复本窗口的热点配置并读回。未发生实板失败，目前恢复只在Host模型验证，没有声称实际回滚已执行。
+
+新增23项针对性检查，覆盖只改Wi-Fi/代次、拒绝MQTT或时间字段变化、更新及恢复均无应用擦写、当前应用/备份/保护区异常时不擦除、pending/commit读回失败、失败后恢复、重新双读备份、旧授权范围拒绝、UTF-8字段限长/内嵌NUL/AT转义和离线计划不导入串口。与原33项下载工具检查合计56项通过；Backend/AI/物理Gateway联合**236 passed、4 subtests passed，原始退出码0**。新证据目录`gateway/physical_can/evidence/h3-r2/router-migration/`。本次只改Host配置工具，固件源码/资源/镜像字节均未变，不重复ARM构建。
+
+待现场执行范围已具体化：A/双屏及C先断电、A J-Link保持拔下；C仅USB/COM15下载，B0=3.3V/B1=GND，核验并备份后只更新上述sector3新配置。完成读回后断电把C B0恢复GND、B1保持GND，移除USB、J5独立供电，恢复A原供电；无探头/袖带。临时8884仅现场出口/32及本机环回，独立观察至少300秒后清理；不改云安全组、生产8883、正式页面或A固件。合同第1节和最终授权矩阵要求实际写入前向负责人提供精确范围，原单次热点窗口已结束，不能将其复用为任意配置烧录授权。本轮目标“改接路由器”已明确，不重复征询网络选择，等待该范围的现场就绪回复。

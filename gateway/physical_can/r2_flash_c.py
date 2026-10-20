@@ -88,6 +88,75 @@ def checked_backup(baseline,backup):
         raise GateError('WINDOW_BACKUP_REQUIRED')
 
 
+def wifi_plan(manifest,image,old_record,record):
+    """换网只允许两段Wi-Fi字段及递增代次变化，禁止顺带改MQTT身份或授时下限。"""
+    plan=offline_plan(manifest,image,record)
+    old_generation=validate(old_record);new_generation=validate(record)
+    if new_generation!=old_generation+1:raise GateError('WIFI_GENERATION_SEQUENCE')
+    before=old_record[24:];after=record[24:]
+    if before[:8]!=after[:8] or before[106:]!=after[106:] or before[8:106]==after[8:106]:
+        raise GateError('WIFI_ONLY_CHANGE_REQUIRED')
+    return {**plan,'previous_record_sha256':sha(old_record),'erase_sectors':[3],
+            'application_written':False,'generation':new_generation,
+            'expected_previous_flash_sha256':sha(image.ljust(CONFIG-START,b'\xff')+old_record.ljust(0x4000,b'\xff'))}
+
+
+def capture_wifi_backup(boot,plan,previous,private,identity_sha):
+    # 上一窗口保护区摘要只作身份基线；这次换网回退原件必须重新从板上双读，不能复用首次烧录前的旧应用。
+    expected={'protected':previous['protected'],'options_sha256':previous['options_sha256']}
+    protection(boot,expected)
+    first=read_exact(boot,START,SPAN);second=read_exact(boot,START,SPAN)
+    if first!=second:raise GateError('BACKUP_READS_DIFFER')
+    if sha(first)!=plan['expected_previous_flash_sha256']:raise GateError('CURRENT_WIFI_BASELINE_MISMATCH')
+    protection(boot,expected)
+    import os
+    for name in ('c-sector0-3-first.bin','c-sector0-3-second.bin'):
+        fd=os.open(private/name,os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)
+        with os.fdopen(fd,'wb') as f:f.write(first)
+    if any((private/name).read_bytes()!=first for name in ('c-sector0-3-first.bin','c-sector0-3-second.bin')):
+        raise GateError('BACKUP_DISK_READBACK_FAILED')
+    return {**expected,'exit_code':0,'double_read_match':True,'bytes':SPAN,'sha256':sha(first),
+            'identity_source_sha256':identity_sha,'private_files':['c-sector0-3-first.bin','c-sector0-3-second.bin']}
+
+
+def write_wifi_sector(boot,record,application,baseline,progress):
+    """更新和失败恢复共用sector3事务；整应用区仅校验，不发任何应用擦写指令。"""
+    validate(record)
+    if not boot.extended_erase:raise GateError('EXTENDED_ERASE_REQUIRED')
+    protection(boot,baseline)
+    if read_exact(boot,START,CONFIG-START)!=application:raise GateError('WIFI_APPLICATION_CHANGED')
+    progress('ERASE_WIFI_SECTOR3',{'flash_write_started':True,'application_written':False})
+    boot.extended_erase_memory([3])
+    boot.write_memory_data(CONFIG,record[:20]);boot.write_memory_data(CONFIG+24,record[24:])
+    pending=record[:20]+b'\xff'*4+record[24:]
+    if read_exact(boot,CONFIG,0x4000)!=pending.ljust(0x4000,b'\xff'):raise GateError('CONFIG_PENDING_READBACK_FAILED')
+    boot.write_memory_data(CONFIG+20,record[20:24])
+    expected=application+record.ljust(0x4000,b'\xff')
+    if read_exact(boot,START,SPAN)!=expected:raise GateError('FINAL_64K_READBACK_FAILED')
+    protection(boot,baseline)
+    return {'exit_code':0,'flash_readback_sha256':sha(expected),'application_unchanged':True,
+            'config_readback_match':True,'protected_unchanged':True,'options_unchanged':True,
+            'automatic_go':False,'physical_cold_boot':'NOT_TESTED'}
+
+
+def update_wifi(boot,manifest,image,old_record,record,baseline,backup,progress):
+    plan=wifi_plan(manifest,image,old_record,record);checked_backup(baseline,backup)
+    if sha(backup)!=plan['expected_previous_flash_sha256']:raise GateError('WIFI_WINDOW_BACKUP_MISMATCH')
+    if read_exact(boot,START,SPAN)!=backup:raise GateError('CURRENT_64K_CHANGED')
+    return write_wifi_sector(boot,record,backup[:CONFIG-START],baseline,progress)
+
+
+def restore_wifi(boot,baseline,backup,current_sha,progress):
+    checked_backup(baseline,backup)
+    # 即使更新中途失败，也必须先知道当前完整摘要并双读一致；保护区或应用有变化时拒绝恢复。
+    record=backup[CONFIG-START:CONFIG-START+336];validate(record)
+    if backup[CONFIG-START+336:]!=b'\xff'*(0x4000-336):raise GateError('WIFI_BACKUP_PADDING')
+    first=read_exact(boot,START,SPAN);second=read_exact(boot,START,SPAN)
+    if first!=second or sha(first)!=current_sha:raise GateError('RESTORE_CURRENT_64K_MISMATCH')
+    result=write_wifi_sector(boot,record,backup[:CONFIG-START],baseline,progress)
+    return {**result,'restore_readback_match':True,'restored_sha256':sha(backup)}
+
+
 def program(boot,manifest,image,record,baseline,backup,progress):
     offline_plan(manifest,image,record);checked_backup(baseline,backup)
     if not boot.extended_erase:raise GateError('EXTENDED_ERASE_REQUIRED')
@@ -133,8 +202,11 @@ def check_window(window,action,plan,commit,identity_sha):
     if expires.tzinfo is None or expires<=datetime.now(timezone.utc):raise GateError('OWNER_WINDOW_EXPIRED')
     if window.get('role')!='C' or window.get('port')!='COM15' or window.get('source_commit')!=commit or action not in window.get('actions',[]):
         raise GateError('OWNER_WINDOW_SCOPE')
-    if window.get('erase_sectors')!=[0,1,2,3] or window.get('image_sha256')!=plan['image_sha256'] or window.get('record_sha256')!=plan['record_sha256']:
+    wifi_action=action.startswith('wifi-')
+    if window.get('erase_sectors')!=([3] if wifi_action else [0,1,2,3]) or window.get('image_sha256')!=plan['image_sha256'] or window.get('record_sha256')!=plan['record_sha256']:
         raise GateError('OWNER_WINDOW_IMAGE_CONFIG_SCOPE')
+    if wifi_action and window.get('previous_record_sha256')!=plan.get('previous_record_sha256'):
+        raise GateError('OWNER_WINDOW_PREVIOUS_CONFIG_SCOPE')
     if window.get('identity_source_sha256')!=identity_sha or window.get('mqtt_tls_port')!=8884:
         raise GateError('OWNER_WINDOW_IDENTITY_NETWORK_SCOPE')
 
@@ -169,9 +241,9 @@ def synchronize_ready_rom(uart,boot,reset_connection=None):
 
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--action',choices=('plan','backup','program','restore'),default='plan')
+    parser=argparse.ArgumentParser();parser.add_argument('--action',choices=('plan','backup','program','restore','wifi-plan','wifi-backup','wifi-update','wifi-restore'),default='plan')
     for flag in ('manifest','image','record'):parser.add_argument('--'+flag,type=Path,required=True)
-    for flag in ('owner-window','private-dir','identity-source','previous-receipt','baseline','sdk-root'):
+    for flag in ('owner-window','private-dir','identity-source','previous-receipt','baseline','sdk-root','previous-record','previous-baseline'):
         parser.add_argument('--'+flag,type=Path)
     parser.add_argument('--commit');parser.add_argument('--expected-current-sha256')
     parser.add_argument('--reset-c',action='store_true')
@@ -181,28 +253,35 @@ def main():
     try:
         if args.record.resolve().is_relative_to(ROOT):raise GateError('EXTERNAL_RECORD_REQUIRED')
         manifest=json.loads(args.manifest.read_text());image=args.image.read_bytes();record=args.record.read_bytes()
-        plan=offline_plan(manifest,image,record);result['plan']=plan
-        if args.action=='plan':
+        wifi_action=args.action.startswith('wifi-')
+        if wifi_action:
+            if not args.previous_record or args.previous_record.resolve().is_relative_to(ROOT):raise GateError('EXTERNAL_PREVIOUS_RECORD_REQUIRED')
+            old_record=args.previous_record.read_bytes();plan=wifi_plan(manifest,image,old_record,record)
+        else:plan=offline_plan(manifest,image,record)
+        result['plan']=plan
+        if args.action in ('plan','wifi-plan'):
             result.update(exit_code=0,physical_actions_authorized=False);print(json.dumps(result));return 0
         if not all((args.owner_window,args.private_dir,args.identity_source,args.commit)):raise GateError('SEPARATE_OWNER_WINDOW_REQUIRED')
-        for path in (args.owner_window,args.private_dir,args.identity_source,args.baseline):
+        for path in (args.owner_window,args.private_dir,args.identity_source,args.baseline,args.previous_baseline):
             if path and path.resolve().is_relative_to(ROOT):raise GateError('PRIVATE_PATH_REQUIRED')
         window=json.loads(args.owner_window.read_text())
         check_window(window,args.action,plan,args.commit,sha(args.identity_source.read_bytes()))
         if args.reset_c and not window.get('controlled_c_rom_reset'):raise GateError('EXPLICIT_C_RESET_WINDOW_REQUIRED')
         verify_sources(manifest,args.commit,args.sdk_root)
         if not args.private_dir.is_dir():raise GateError('PRIVATE_DIRECTORY_REQUIRED')
-        if args.action=='backup':
-            if args.baseline or not args.previous_receipt:raise GateError('BACKUP_PREVIOUS_RECEIPT_REQUIRED')
+        if args.action in ('backup','wifi-backup'):
+            if args.baseline or not (args.previous_baseline if wifi_action else args.previous_receipt):raise GateError('BACKUP_PREVIOUS_RECEIPT_REQUIRED')
             if any((args.private_dir/n).exists() for n in ('baseline.json','c-sector0-3-first.bin','c-sector0-3-second.bin')):raise GateError('BACKUP_DESTINATION_OCCUPIED')
-            previous=json.loads(args.previous_receipt.read_text())
+            previous=json.loads((args.previous_baseline if wifi_action else args.previous_receipt).read_text())
+            if wifi_action and previous.get('identity_source_sha256')!=sha(args.identity_source.read_bytes()):raise GateError('BACKUP_DEVICE_IDENTITY_CHANGED')
         else:
             if not args.baseline:raise GateError('WINDOW_BASELINE_REQUIRED')
             baseline=json.loads(args.baseline.read_text())
             if baseline['identity_source_sha256']!=sha(args.identity_source.read_bytes()):raise GateError('BACKUP_DEVICE_IDENTITY_CHANGED')
             backup=(args.baseline.parent/'c-sector0-3-first.bin').read_bytes();checked_backup(baseline,backup)
+            if wifi_action and sha(backup)!=plan['expected_previous_flash_sha256']:raise GateError('WIFI_WINDOW_BACKUP_MISMATCH')
             if (args.baseline.parent/'c-sector0-3-second.bin').read_bytes()!=backup:raise GateError('SECOND_BACKUP_CHANGED')
-            if args.action=='restore' and not args.expected_current_sha256:raise GateError('RESTORE_CURRENT_SHA_REQUIRED')
+            if args.action in ('restore','wifi-restore') and not args.expected_current_sha256:raise GateError('RESTORE_CURRENT_SHA_REQUIRED')
         stamp=datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
         receipt=args.private_dir/('r2-c-'+args.action+'-'+stamp+'.json')
         def progress(stage,fields):
@@ -222,11 +301,14 @@ def main():
             boot=Stm32Bootloader(connection,device_family='F4',verbosity=0)
             result['controlled_c_reset_requested']=args.reset_c
             synchronize_ready_rom(uart,boot,connection if args.reset_c else None);verify_f4_identity(boot,identity)
-            if args.action=='backup':
-                value=capture_backup(boot,previous,args.private_dir,sha(args.identity_source.read_bytes()))
+            if args.action in ('backup','wifi-backup'):
+                value=(capture_wifi_backup(boot,plan,previous,args.private_dir,sha(args.identity_source.read_bytes())) if wifi_action
+                       else capture_backup(boot,previous,args.private_dir,sha(args.identity_source.read_bytes())))
                 with (args.private_dir/'baseline.json').open('x') as f:json.dump(value,f,indent=2)
                 result['backup']={k:v for k,v in value.items() if k!='private_files'}
             elif args.action=='program':result.update(program(boot,manifest,image,record,baseline,backup,progress))
+            elif args.action=='wifi-update':result.update(update_wifi(boot,manifest,image,old_record,record,baseline,backup,progress))
+            elif args.action=='wifi-restore':result.update(restore_wifi(boot,baseline,backup,args.expected_current_sha256,progress))
             else:result.update(restore(boot,baseline,backup,args.expected_current_sha256,progress))
         result.update(exit_code=0,automatic_go=False,physical_cold_boot='NOT_TESTED')
     except BaseException as exc:

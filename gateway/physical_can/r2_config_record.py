@@ -46,6 +46,18 @@ def validate(record):
     return generation
 
 
+def replace_wifi(record,ssid,password):
+    """外部凭据仅在内存转换；SSID按UTF-8字节限长，拒绝截断、内嵌NUL及AT转义。"""
+    generation=validate(record);fields=[]
+    for value,size in ((ssid,33),(password,65)):
+        if not isinstance(value,str):raise RecordError('WIFI_FIELD_TYPE')
+        raw=value.encode('utf-8')
+        if len(raw)>=size or b'\0' in raw:raise RecordError('WIFI_FIELD_LENGTH_OR_NUL')
+        fields.append(raw.ljust(size,b'\0'))
+    payload=record[24:32]+b''.join(fields)+record[130:]
+    return pack(payload,generation+1)
+
+
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--payload',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True);parser.add_argument('--generation',type=int,required=True)
