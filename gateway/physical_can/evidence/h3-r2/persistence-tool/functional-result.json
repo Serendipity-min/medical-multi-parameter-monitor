@@ -1,0 +1,19 @@
+{
+  "command": [
+    "python",
+    "-m",
+    "pytest",
+    "cloud/backend/tests",
+    "cloud/ai/tests",
+    "gateway/physical_can/tests",
+    "-q"
+  ],
+  "exit_code": 0,
+  "hardware_accessed": false,
+  "firmware_source_unchanged": true,
+  "tool_source_sha256": {
+    "gateway/physical_can/r2_config_record.py": "5dfa730703106415d5bd8b7dcf02a8891bbde7c27d7620c540b214ab4104a984",
+    "gateway/physical_can/r2_flash_c.py": "9a37c146cda575f0cba02a77fc3aba87954c97cf581b83d1f1d47ea2e57e93b1",
+    "gateway/physical_can/tests/test_r2_persistent_download.py": "9346975e53d063cf6988a64599ff21e2e0e9a1410eeb27dc941e677a61c38d1d"
+  }
+}

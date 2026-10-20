@@ -1,0 +1,36 @@
+{
+  "role": "C",
+  "port": "COM15",
+  "image_sha256": "59229f1b34660f053538737fc0fd17c814fde5502a0dfe33603e8e08b72ca8a5",
+  "image_bytes": 43172,
+  "record_sha256": "5c22cee1d7978faec50ea5431f749b36ac1ea01de52742342317e91a08a3ce18",
+  "record_bytes": 336,
+  "application_sectors": [
+    0,
+    1,
+    2
+  ],
+  "config_sector": 3,
+  "config_erase_bytes": 16384,
+  "backup_bytes": 65536,
+  "commit_written_last": true,
+  "ram_injection": false,
+  "automatic_go": false,
+  "protected_sectors": [
+    7,
+    11
+  ],
+  "option_bytes_write": false,
+  "recorded_utc": "2026-10-20T10:22:51.776961+00:00",
+  "config_generation": 1,
+  "accepted_storage_policy": "OWNER_ACCEPTED_SECTOR3_BENCH_PLAINTEXT_THIS_TURN",
+  "payload_sha256": "886e5cbbae184dd541549b1933c4ae8dcf9680754958f8136d170a730ab030a8",
+  "payload_provenance": "matched prior verified C isolation RAM receipt",
+  "identity_source_sha256": "e796c22c34d7243b25353540db17c9c3835dde981ee0cacc3a33ae46032fe8e1",
+  "storage_encrypted": false,
+  "real_config_written_outside_repo": true,
+  "flash_written": false,
+  "hardware_accessed": false,
+  "owner_hardware_window": "NOT_GRANTED",
+  "network_prerequisite": "isolated8884 listener currently absent; no server/cloud changes performed"
+}
