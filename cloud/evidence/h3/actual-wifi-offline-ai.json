@@ -1,0 +1,31 @@
+{
+  "http": 200,
+  "action": "ACTUAL_WIFI_OFFLINE_DETERMINISTIC_AI",
+  "questions_answers_values_saved": false,
+  "real_model": "NOT_CALLED",
+  "answer_kind": "DETERMINISTIC",
+  "facts": [
+    {
+      "stream": "NIBP",
+      "node_id": "NODE-A",
+      "validity": "OFFLINE",
+      "source": "MOCK",
+      "synthetic": true
+    },
+    {
+      "stream": "PR",
+      "node_id": "NODE-A",
+      "validity": "OFFLINE",
+      "source": "MOCK",
+      "synthetic": true
+    },
+    {
+      "stream": "SPO2",
+      "node_id": "NODE-A",
+      "validity": "OFFLINE",
+      "source": "MOCK",
+      "synthetic": true
+    }
+  ],
+  "all_fact_values_none": true
+}

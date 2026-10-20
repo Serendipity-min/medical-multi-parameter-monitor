@@ -12,6 +12,7 @@
 #include <string.h>
 #ifdef MP_CAN_RX_IRQ
 #include "at_version.h"
+#include "wifi_status.h"
 #endif
 
 /* 一个串行发布者、一个在途 QoS1 记录；总 TX/RX 容量沿用 P4，不分配堆。 */
@@ -292,6 +293,23 @@ int gateway_network_open(void)
     secure_memzero(command, sizeof(command));
     if (!wifi_ok)
         return 0;
+#ifdef MP_CAN_RX_IRQ
+    /* 查询结果只报告信号/休眠枚举；SSID、BSSID和原始回复不写控制台。 */
+    int channel,rssi;
+    if(at_command("AT+CWJAP?",2000) && gateway_wifi_signal(at_response(),&channel,&rssi)) {
+        (void)snprintf(command,sizeof(command),"GW WIFI_SIGNAL channel=%d rssi=%d\r\n",channel,rssi);console(command);
+    } else console("GW WIFI_SIGNAL_UNAVAILABLE\r\n");
+    int sleep_before=at_command("AT+SLEEP?",2000)?gateway_sleep_mode(at_response()):-1;
+#ifdef MP_H3_WIFI_AWAKE
+    /* 仅显式H3候选关闭无线休眠；不写模块Flash，不改变TLS/5000ms/PUBACK门禁。 */
+    if(sleep_before<0 || (sleep_before!=0 && !step("WIFI_AWAKE","AT+SLEEP=0",2000)))return 0;
+    int sleep_after=at_command("AT+SLEEP?",2000)?gateway_sleep_mode(at_response()):-1;
+    if(sleep_after!=0) {console("GW FAIL WIFI_AWAKE_VERIFY\r\n");return 0;}
+#else
+    int sleep_after=sleep_before;
+#endif
+    (void)snprintf(command,sizeof(command),"GW WIFI_SLEEP before=%d after=%d\r\n",sleep_before,sleep_after);console(command);
+#endif
     (void)at_command("AT+CIPCLOSE", 2000);
     if (!step("SINGLE", "AT+CIPMUX=0", 2000) || !step("PASSIVE", "AT+CIPRECVMODE=1", 2000))
         return 0;

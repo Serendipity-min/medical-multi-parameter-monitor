@@ -107,6 +107,23 @@ def test_broker_disconnect_and_node_offline_clear_values():
     assert hub.snapshot('GW-DEV-001')['gateway_state'] == 'OFFLINE'
 
 
+@pytest.mark.parametrize('explicit_offline', [False, True])
+def test_absent_node_stays_offline_when_gateway_stales(explicit_offline):
+    hub, clock = ready()
+    hub.ingest(message())
+    if explicit_offline:
+        hub.ingest(message('NODE-B/status',value='OFFLINE',validity='OFFLINE',unit='state',seq=2))
+    else:
+        # 从未收到真实B心跳与明确OFFLINE都是缺席，网关陈旧不能把缺席改成STALE。
+        del hub.current[('GW-DEV-001','NODE-B','NODE_STATUS')]
+    clock[0] += 16
+    snap = hub.snapshot('GW-DEV-001')
+    assert snap['gateway_state'] == 'STALE'
+    assert snap['nodes'] == {'NODE-A':'STALE','NODE-B':'OFFLINE'}
+    assert snap['streams'][0]['validity'] == 'OFFLINE'
+    assert snap['streams'][0]['value'] is None
+
+
 def test_live_and_replayed_emcy_use_same_browser_schema_without_current_alarm():
     hub, _ = ready()
     # 非合成 LIVE 沿用同一快照字段；历史 EMCY 只进入 replay，不覆盖当前事件。

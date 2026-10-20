@@ -1,0 +1,11 @@
+{
+  "command": [
+    "python",
+    "-m",
+    "pytest",
+    "cloud/backend/tests",
+    "cloud/ai/tests",
+    "-q"
+  ],
+  "exit_code": 0
+}

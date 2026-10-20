@@ -1,0 +1,39 @@
+{
+  "checks": [
+    {
+      "command": [
+        "gcc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Igateway/mqtt/src",
+        "gateway/physical_can/tests/wifi_status.c",
+        "-o",
+        "gateway/physical_can/build/h3-isolated/wifi_status.exe"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "gateway/physical_can/build/h3-isolated/wifi_status.exe"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "cloud/backend/tests",
+        "cloud/ai/tests",
+        "gateway/physical_can/tests/test_h3_resume.py",
+        "gateway/physical_can/tests/test_h3_download.py",
+        "gateway/physical_can/tests/test_h3_observe.py",
+        "-q"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "exit_code": 0
+}

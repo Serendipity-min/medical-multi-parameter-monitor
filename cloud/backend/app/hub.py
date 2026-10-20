@@ -77,7 +77,9 @@ class Hub:
         gateway_state = self._state(gateway, 'GATEWAY')
         nodes, streams = {}, []
         for node, names in CHANNELS.items():
-            state = self._state(gateway, node) if gateway_state == 'ONLINE' else gateway_state
+            node_state = self._state(gateway, node)
+            # 缺席/明确OFFLINE的节点不能因网关陈旧变为STALE；只有原在线节点继承网关不可用状态。
+            state = node_state if node_state == 'OFFLINE' or gateway_state == 'ONLINE' else gateway_state
             nodes[node] = state
             for name in sorted(names):
                 entry = self.current.get((gateway, node, name))

@@ -7,6 +7,10 @@
 int main(void)
 {
     mock_connect();
+#ifdef MP_H3_WIFI_AWAKE
+    assert(mock_sleep_mode==0);
+    PASS("explicit_irq_candidate_verifies_wifi_awake");
+#endif
     size_t offset = 1;
     while (mock_packet[offset++] & 128U) { }
     assert(mock_packet[0] == 0x10 && !memcmp(mock_packet + offset, "\0\4MQTT\4", 7));
@@ -75,5 +79,11 @@ int main(void)
     assert(gateway_mqtt_publish(&state));
     assert((mock_packet[0] & 7U) == 3U);
     PASS("gateway_status_qos1_retained");
+#ifdef MP_H3_WIFI_AWAKE
+    /* 无线配置失败不得继续TLS；不把未生效的候选策略记成成功。 */
+    mock_reset();mock_fail_at="AT+SLEEP=0";
+    assert(!gateway_network_open() && !mock_tls_started);
+    PASS("wifi_awake_configuration_failure_stops_before_tls");
+#endif
     return 0;
 }

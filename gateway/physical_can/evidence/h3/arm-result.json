@@ -2,11 +2,12 @@
   "feature": "H3_NETWORK_IRQ",
   "mode": "ARM_PHYSICAL_CAN1_CANDIDATE",
   "hardware": "NOT_RUN",
+  "wifi_awake": false,
   "image": {
-    "sha256": "31cc9193a52c5c0fd3107a90489e943720f47bb84db3c3c3181f1dd0e6b86ad4",
-    "bytes": 38980,
+    "sha256": "1e1840d271a7252788dc3753c801c9973f49e3b8e299a8f3593df723c83fae50",
+    "bytes": 39716,
     "start": 134217728,
-    "end_exclusive": 134256708,
+    "end_exclusive": 134257444,
     "erase_sectors": [
       0,
       1,
@@ -15,17 +16,17 @@
     "load_segments": [
       {
         "start": 134217728,
-        "end_exclusive": 134256620,
-        "bytes": 38892
+        "end_exclusive": 134257356,
+        "bytes": 39628
       },
       {
-        "start": 134256620,
-        "end_exclusive": 134256708,
+        "start": 134257356,
+        "end_exclusive": 134257444,
         "bytes": 88
       }
     ],
     "initial_sp": 537001984,
-    "reset_vector": 134247777,
+    "reset_vector": 134248041,
     "CAN1_RX0_vector": {
       "address": 134235969,
       "strong_handler": true
@@ -1338,7 +1339,7 @@
     "gateway/physical_can/src/bxcan_network_irq.c": "d0afa87f340cedb0505a4c2818cc3969c9ed6b34169089713e2e1b8dd5409733",
     "gateway/physical_can/bench/rx_irq.c": "d9d252bbf4b234b294c26fd97391fa472a7967085bbb37f5654adf879420a613",
     "gateway/mqtt/src/gateway_assert.c": "d29eb278706acf7a4249a2104b05f22cf859c61de5d924773c785228d7523d17",
-    "gateway/mqtt/src/gateway_transport.c": "c8b945253cc3168f855616cc6dd0798077ef627a870d2a1a28de22ee383ac7c5",
+    "gateway/mqtt/src/gateway_transport.c": "3786815eac572e60af70e5f875ca3e7c8766327e35f38f78732386cf19cdaac9",
     "gateway/mqtt/src/heap.c": "20bf6b3b9c5ddc276ba4d85016ce14ae1425c18e24e5f020bea011d9168b2923",
     "gateway/mqtt/src/mqtt_transport_adapter.c": "beb93429f95cba5fe88f170010363613391df41975475abcbe1842c7692019aa",
     "gateway/mqtt/src/platform.c": "e67d75c18fa3f3fc785cad44aa0c8c3ae06b0e4d38c528d71799efe1f456fff9",
@@ -1353,7 +1354,7 @@
     "gateway/third_party/coreMQTT/source/core_mqtt_state.c": "af5c215f11692c7ced8a90b9d6f9c9c23d2476538ff77a38952945f642fbc8cf"
   },
   "build_input_sha256": {
-    "gateway/physical_can/build.py": "ee17bb4e5c14e736fc49e169d0da824834801a52616369b9500ede0f49fb8eae",
+    "gateway/physical_can/build.py": "e7a378ac8285599c3383b8f76b44e2ba62c54573531713aed4dfce928e144f4f",
     "gateway/physical_can/image_manifest.py": "c531b33f108f981cc0069ef70b96dae37e23553a6dd4b13e80540330e5505e86",
     "gateway/physical_can/H3_NETWORK_FLASH.ld": "f3a4fb289a5b9b30b695a07259ec8b5948571f9eebc5969c37e76e4d778b16c9",
     "gateway/physical_can/H3_ISOLATED_FLASH.ld": "d82d9ba75be340bd9be59298b8d9abf45a7e7278df508f940a717b5b0f0cea5a",
@@ -1368,6 +1369,7 @@
     "gateway/mqtt/src/gateway_platform.h": "655f782b94a4e58d5781fa888f4b91c5bd3d45b774e35852cb0f17ebe8dedce8",
     "gateway/mqtt/src/gateway_transport.h": "3a1842a217d42e6ab602fc31bc97d399d18697a3dcbd86deed26bc4826478faa",
     "gateway/mqtt/src/mqtt_transport_adapter.h": "e95954aa35f96fdd5c8ba813dacf0605d7e38c055f6658391d9be28d26ca4ade",
+    "gateway/mqtt/src/wifi_status.h": "c2e231036e703c88a99181dd2a2f7fbcf90c3a6ba0b821e4dc9515e72e3a33af",
     "external-sdk/Libraries/CMSIS/Device/ST/STM32F4xx/Source/Templates/gcc_ride7/startup_stm32f40_41xxx.s": "7130bda839175b88ae9b13c03f2e0e993139b253eebd03f1f1ef23840dc569a4"
   }
 }

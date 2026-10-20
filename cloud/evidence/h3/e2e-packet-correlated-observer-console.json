@@ -1,0 +1,94 @@
+{
+  "source": "ACTUAL_ISOLATED_MQTT_WSS_OBSERVATION_NOT_CLINICAL_ACCURACY",
+  "started_utc": "2026-10-20T01:41:57.621555+00:00",
+  "target_seconds": 420,
+  "mqtt_received": 1126,
+  "mqtt_invalid": 0,
+  "mqtt_qos": {
+    "1": 829,
+    "0": 297
+  },
+  "wss_snapshots": 4160,
+  "matched_valid_streams": {
+    "SPO2": 3664,
+    "PR": 3561,
+    "PPG": 3701
+  },
+  "value_mismatches": 0,
+  "node_b_online_seen": false,
+  "unexpected_node_a_source": 0,
+  "active_ranges": [
+    {
+      "seconds": 46.862
+    },
+    {
+      "seconds": 1.815
+    },
+    {
+      "seconds": 52.654
+    },
+    {
+      "seconds": 1.817
+    },
+    {
+      "seconds": 7.165
+    },
+    {
+      "seconds": 5.854
+    },
+    {
+      "seconds": 25.937
+    },
+    {
+      "seconds": 18.769
+    },
+    {
+      "seconds": 35.322
+    },
+    {
+      "seconds": 20.684
+    },
+    {
+      "seconds": 4.24
+    },
+    {
+      "seconds": 70.859
+    },
+    {
+      "seconds": 24.929
+    },
+    {
+      "seconds": 42.918
+    }
+  ],
+  "raw_measurements_saved": false,
+  "exit_code": 1,
+  "backend_health_before": {
+    "status": "ok",
+    "transport": "MQTT 3.1.1/TLS",
+    "mqtt_connected": true,
+    "accepted": 4874,
+    "rejected": 1890,
+    "dropped": 0
+  },
+  "mqtt_connack": 0,
+  "elapsed_s": 420.021,
+  "longest_active_s": 70.859,
+  "mqtt_stream_counts": {
+    "NODE_STATUS": 158,
+    "GATEWAY_STATUS": 80,
+    "SPO2": 193,
+    "PR": 192,
+    "NIBP": 192,
+    "PPG": 311
+  },
+  "backend_health_after": {
+    "status": "ok",
+    "transport": "MQTT 3.1.1/TLS",
+    "mqtt_connected": true,
+    "accepted": 5997,
+    "rejected": 1891,
+    "dropped": 0
+  },
+  "finished_utc": "2026-10-20T01:48:57.686476+00:00"
+}

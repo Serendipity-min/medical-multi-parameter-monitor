@@ -1,0 +1,155 @@
+{
+  "action": "ISOLATED_WIFI_DISCONNECT_RECOVERY",
+  "started_utc": "2026-10-20T01:48:16.676812+00:00",
+  "valid_while_gateway_unavailable": 0,
+  "node_b_online_seen": false,
+  "replay_used_as_current": false,
+  "raw_measurements_saved": false,
+  "recovered_at_s": 63.989,
+  "elapsed_s": 74.07,
+  "unavailable_seen": true,
+  "recovered_seen": true,
+  "transitions": [
+    {
+      "elapsed_s": 0.003,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "VALID",
+        "PR": "VALID",
+        "SPO2": "VALID"
+      }
+    },
+    {
+      "elapsed_s": 12.495,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "VALID",
+        "PR": "STALE",
+        "SPO2": "VALID"
+      }
+    },
+    {
+      "elapsed_s": 14.316,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "STALE",
+        "PR": "STALE",
+        "SPO2": "VALID"
+      }
+    },
+    {
+      "elapsed_s": 14.417,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "STALE",
+        "PR": "STALE",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 18.967,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "STALE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "STALE",
+        "PPG": "STALE",
+        "PR": "STALE",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 24.017,
+      "gateway": "STALE",
+      "nodes": {
+        "NODE-A": "STALE",
+        "NODE-B": "STALE"
+      },
+      "validities": {
+        "NIBP": "STALE",
+        "PPG": "STALE",
+        "PR": "STALE",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 34.218,
+      "gateway": "OFFLINE",
+      "nodes": {
+        "NODE-A": "OFFLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "OFFLINE",
+        "PPG": "OFFLINE",
+        "PR": "OFFLINE",
+        "SPO2": "OFFLINE"
+      }
+    },
+    {
+      "elapsed_s": 48.453,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "STALE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "STALE",
+        "PPG": "STALE",
+        "PR": "STALE",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 63.384,
+      "gateway": "STALE",
+      "nodes": {
+        "NODE-A": "STALE",
+        "NODE-B": "STALE"
+      },
+      "validities": {
+        "NIBP": "STALE",
+        "PPG": "STALE",
+        "PR": "STALE",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 63.989,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "STALE",
+        "PR": "VALID",
+        "SPO2": "VALID"
+      }
+    }
+  ],
+  "exit_code": 0
+}
