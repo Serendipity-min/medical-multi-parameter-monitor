@@ -257,11 +257,12 @@ int gateway_mqtt_publish(const MpFrame *frame)
     /* 保留原5000ms/PUBACK门禁；诊断放在清在途状态之前，以区分发送与确认失败。 */
     if(!ok) {
         char diagnostic[256];
-        mqtt_diagnostic(6,publish_status,g_uptime_ms-start);
+        uint32_t failed_at=g_uptime_ms;
+        mqtt_diagnostic(6,publish_status,failed_at-start);
         /* 只在失败后输出，不给正常逐包发布增加UART延迟；保留发送/确认阶段界限。 */
         EspIoMetrics io;platform_io_snapshot(&io);
         (void)snprintf(diagnostic,sizeof(diagnostic),"GW MQTT_BUDGET send_ms=%lu wait_ms=%lu buffered=%lu\r\n",
-            (unsigned long)(sent_at-start),(unsigned long)(g_uptime_ms-sent_at),(unsigned long)client.index);console(diagnostic);
+            (unsigned long)(sent_at-start),(unsigned long)(failed_at-sent_at),(unsigned long)client.index);console(diagnostic);
         (void)snprintf(diagnostic,sizeof(diagnostic),"GW MQTT_IO tx_calls=%lu tx_ok=%lu tx_len=%lu tx_ms=%lu phase=%lu queries=%lu empty=%lu hint=%lu rx_bytes=%lu reads=%lu\r\n",
             (unsigned long)io.tx_calls,(unsigned long)io.tx_confirmed,(unsigned long)io.tx_length,
             (unsigned long)io.tx_ms,(unsigned long)io.tx_phase,(unsigned long)io.rx_queries,
