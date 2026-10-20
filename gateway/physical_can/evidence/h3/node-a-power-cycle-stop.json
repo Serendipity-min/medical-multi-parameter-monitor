@@ -1,0 +1,73 @@
+{
+  "status": "H3_BLOCKED_NODE_A_POWER_CYCLE_GATEWAY_LATCH",
+  "field_report": "A J-Link removed; independent power cycled; both displays normal",
+  "capture_state": "DEVICE_STOP",
+  "capture_exit_code": 1,
+  "last_complete_counters": {
+    "model": {
+      "can": 4180,
+      "drop": 0,
+      "cache": 0,
+      "lost": 53,
+      "replay": 75,
+      "nodes": 10
+    },
+    "queue": {
+      "fovr": 0,
+      "sw": 0,
+      "bad": 0,
+      "high": 7,
+      "depth": 0,
+      "irq": 96646,
+      "lag_cycles": 466654,
+      "stale": 0,
+      "fault": 0,
+      "uart": 0
+    },
+    "can": {
+      "hb": 3987,
+      "boot": 0,
+      "p181": 86532,
+      "p381": 1995,
+      "p481": 1995,
+      "p681": 2137,
+      "txok": 4180,
+      "txfail": 0,
+      "nmt": 1,
+      "time": 188,
+      "TEC": 0,
+      "REC": 0,
+      "LEC": 0,
+      "BOFF": 0
+    },
+    "delivery": {
+      "qos1_puback": 3922,
+      "qos0_send": 1369,
+      "failed": 0,
+      "last_node": 1,
+      "last_stream": 3,
+      "last_seq": 939,
+      "last_ms_hi": 417,
+      "last_ms_lo": 1466777568
+    }
+  },
+  "host_log": {
+    "complete": 65,
+    "missing_reports": 0,
+    "missing_lines": 0,
+    "duplicate_lines": 0,
+    "invalid_tags": 0,
+    "trailing_partial_report": false
+  },
+  "fatal_marker": "GW CAN_FAULT_NETWORK_CLOSED_STOP",
+  "actual_final_esr_available": false,
+  "bus_off_confirmed": false,
+  "node_a_bootup_after_true_power_cycle_verified": false,
+  "source_evidence": {
+    "tx_policy": "gateway/physical_can/src/link_policy.h:21",
+    "network_stop": "gateway/physical_can/src/main.c:100"
+  },
+  "inference": "A loss leaves C without another CAN ACK peer; existing 100ms/error/BOFF latch can invalidate link. Exact final cause not captured.",
+  "additional_flash_or_reset_after_stop": false,
+  "formal_publish_performed": false
+}

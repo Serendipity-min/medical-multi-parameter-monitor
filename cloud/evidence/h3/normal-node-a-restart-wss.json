@@ -1,0 +1,52 @@
+{
+  "gateway_state": "ONLINE",
+  "nodes": {
+    "NODE-A": "ONLINE",
+    "NODE-B": "OFFLINE"
+  },
+  "server_time": 1792468122436,
+  "streams": [
+    {
+      "stream": "NIBP",
+      "node_id": "NODE-A",
+      "validity": "INVALID",
+      "source": "MOCK",
+      "synthetic": true,
+      "session_id": "can-1792466146-65537",
+      "seq": 929,
+      "timestamp": 1792468120000
+    },
+    {
+      "stream": "PPG",
+      "node_id": "NODE-A",
+      "validity": "STALE",
+      "source": "MOCK",
+      "synthetic": true,
+      "session_id": "can-1792466146-65537",
+      "seq": 2385,
+      "timestamp": 1792468070373
+    },
+    {
+      "stream": "PR",
+      "node_id": "NODE-A",
+      "validity": "INVALID",
+      "source": "MOCK",
+      "synthetic": true,
+      "session_id": "can-1792466146-65537",
+      "seq": 930,
+      "timestamp": 1792468122000
+    },
+    {
+      "stream": "SPO2",
+      "node_id": "NODE-A",
+      "validity": "INVALID",
+      "source": "MOCK",
+      "synthetic": true,
+      "session_id": "can-1792466146-65537",
+      "seq": 930,
+      "timestamp": 1792468122000
+    }
+  ],
+  "invalid_values_visible": 0,
+  "raw_values_saved": false
+}
