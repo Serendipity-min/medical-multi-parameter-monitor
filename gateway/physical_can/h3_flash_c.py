@@ -21,6 +21,12 @@ START=0x08000000
 def sha(data):return hashlib.sha256(data).hexdigest()
 
 
+def synchronize_manual_rom(uart):
+    # 现场已手动复位且BOOT跳帽固定；只同步ROM，不再触发DTR/RTS复位脉冲。
+    uart.write(b'\x7f')
+    if uart.read(1) not in (b'\x79',b'\x1f'):raise GateError('MANUAL_ROM_SYNC_NOT_CONFIRMED')
+
+
 def verify_plan(manifest,image,config):
     plan=manifest['image']
     if manifest.get('exit_code')!=0 or manifest.get('feature')!='H3_NETWORK_IRQ':raise GateError('UNVERIFIED_ARM')
@@ -93,6 +99,7 @@ def main():
     parser.add_argument('--current-receipt',type=Path);parser.add_argument('--current-image',type=Path)
     parser.add_argument('--read-current-image',action='store_true')
     parser.add_argument('--verify-rollback-first',action='store_true')
+    parser.add_argument('--manual-rom',action='store_true')
     parser.add_argument('--observe-seconds',type=int,default=0);args=parser.parse_args()
     if not 0<=args.observe_seconds<=1800:parser.error('observe range 0..1800')
     stamp=datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
@@ -140,8 +147,21 @@ def main():
         identity=external_identity(Path('E:/stm32/ai_serial_console/tools/flash.py'))
         connection=SerialConnection('COM15',115200,'E');connection.reset_active_high=True;connection.boot0_active_low=True
         with redirect_stdout(capture),redirect_stderr(capture):
-            progress('CONNECT_ROM',{});connection.connect();boot=Stm32Bootloader(connection,device_family='F4',verbosity=0)
-            boot.reset_from_system_memory();boot.get();verify_f4_identity(boot,identity)
+            progress('CONNECT_ROM',{})
+            if args.manual_rom:
+                import serial
+                # 打开前预设本机已核验的释放RESET电平，避免默认打开再改电平造成跳变。
+                uart=serial.Serial(port=None,baudrate=115200,parity='E',timeout=2,write_timeout=2)
+                uart.dtr=True;uart.rts=True;uart.port='COM15';uart.open()
+                connection.serial_connection=uart
+            else:
+                connection.connect();connection.serial_connection.write_timeout=2
+            boot=Stm32Bootloader(connection,device_family='F4',verbosity=0)
+            progress('ROM_SYNC',{'manual_rom':args.manual_rom})
+            if args.manual_rom:synchronize_manual_rom(connection.serial_connection)
+            else:boot.reset_from_system_memory()
+            progress('ROM_GET',{});boot.get()
+            progress('VERIFY_C_IDENTITY',{});verify_f4_identity(boot,identity)
             result['C_identity_match']=True
             if args.read_current_image:
                 # 此处只读+保存；后续program仍会重核保护区/选项字节及当前应用，才允许擦除。

@@ -1,0 +1,19 @@
+{
+  "isolated_only": true,
+  "started": [
+    "medical-monitor-h3-broker-diagnostic",
+    "medical-monitor-h3-backend-nodebfix"
+  ],
+  "host_rule": {
+    "action": "add",
+    "port": 8884,
+    "source": "CURRENT_SSH_PEER_SINGLE_ADDRESS",
+    "production_ports_changed": false,
+    "address_saved": false,
+    "rule_present": true
+  },
+  "AI_started": false,
+  "real_model_calls": 0,
+  "production_units_changed": false,
+  "exit_code": 0
+}

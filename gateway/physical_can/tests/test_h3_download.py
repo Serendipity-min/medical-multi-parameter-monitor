@@ -24,6 +24,20 @@ def inputs():
     return manifest,image,config
 
 
+@pytest.mark.parametrize('reply',[b'\x79',b'\x1f',b''])
+def test_manual_rom_sync_never_resets_or_programs(reply):
+    # 只提供read/write接口；若同步偷偷操作复位/Flash，本夹具会立即失败。
+    class Uart:
+        def __init__(self):self.writes=[]
+        def write(self,data):self.writes.append(data)
+        def read(self,length):assert length==1;return reply
+    uart=Uart()
+    if reply:gate.synchronize_manual_rom(uart)
+    else:
+        with pytest.raises(gate.GateError,match='MANUAL_ROM_SYNC_NOT_CONFIRMED'):gate.synchronize_manual_rom(uart)
+    assert uart.writes==[b'\x7f']
+
+
 @pytest.mark.parametrize('case',['sector','hash','reservation','config_size','config_magic','time_floor','stack'])
 def test_offline_download_rejects_bad_inputs(case):
     m,image,config=inputs()
