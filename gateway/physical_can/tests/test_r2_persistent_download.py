@@ -97,6 +97,21 @@ def test_manual_rom_stabilizes_and_discards_old_host_input_before_sync(monkeypat
     assert events==[('sleep',.3),'clear_host_input',('write',b'\x7f'),('read',1),'get']
 
 
+def test_explicit_c_rom_reset_only_toggles_reset_and_keeps_boot_untouched(monkeypatch):
+    events=[]
+    class Connection:
+        def enable_reset(self,on):events.append(('reset',on))
+    class Uart:
+        def reset_input_buffer(self):events.append('clear_host_input')
+        def write(self,data):events.append(('write',data))
+        def read(self,size):return b'\x79'
+    class Boot:
+        def get(self):events.append('get')
+    monkeypatch.setattr(gate.time,'sleep',lambda value:events.append(('sleep',value)))
+    gate.synchronize_ready_rom(Uart(),Boot(),Connection())
+    assert events==[('reset',True),('sleep',.1),('reset',False),('sleep',.3),'clear_host_input',('write',b'\x7f'),'get']
+
+
 @pytest.mark.parametrize('fault',['sectors','app_hash','sp','irq','ram','normal_port','load','record_crc','record_uncommitted'])
 def test_offline_plan_blocks_wrong_scope(fault):
     m,image,config=fixture_inputs()

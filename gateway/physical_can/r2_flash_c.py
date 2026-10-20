@@ -153,10 +153,15 @@ def verify_sources(manifest,commit,sdk):
             if not path.is_relative_to(parent) or sha(path.read_bytes())!=digest:raise GateError('BUILD_INPUT_CHANGED')
 
 
-def synchronize_ready_rom(uart,boot):
+def synchronize_ready_rom(uart,boot,reset_connection=None):
     # CH340打开可能释放NRST；复用旧工具的稳定等待，不能紧接open发送自动波特率字节。
     # 仅清空Host输入缓冲，再发同步字；不改变BOOT/复位电平、不清设备错误计数。
     from gateway.physical_can.h3_flash_c import synchronize_manual_rom
+    if reset_connection is not None:
+        # 仅显式C复位选项使用既有极性；不操作BOOT线，不把ROM复位当正常冷启动。
+        reset_connection.enable_reset(True)
+        time.sleep(.1)
+        reset_connection.enable_reset(False)
     time.sleep(.3)
     uart.reset_input_buffer()
     synchronize_manual_rom(uart)
@@ -169,6 +174,7 @@ def main():
     for flag in ('owner-window','private-dir','identity-source','previous-receipt','baseline','sdk-root'):
         parser.add_argument('--'+flag,type=Path)
     parser.add_argument('--commit');parser.add_argument('--expected-current-sha256')
+    parser.add_argument('--reset-c',action='store_true')
     args=parser.parse_args();uart=None;capture=io.StringIO()
     result={'role':'C','exit_code':1,'action':args.action,'flash_write_started':False,'hardware_accessed':False}
     receipt=None
@@ -181,7 +187,9 @@ def main():
         if not all((args.owner_window,args.private_dir,args.identity_source,args.commit)):raise GateError('SEPARATE_OWNER_WINDOW_REQUIRED')
         for path in (args.owner_window,args.private_dir,args.identity_source,args.baseline):
             if path and path.resolve().is_relative_to(ROOT):raise GateError('PRIVATE_PATH_REQUIRED')
-        check_window(json.loads(args.owner_window.read_text()),args.action,plan,args.commit,sha(args.identity_source.read_bytes()))
+        window=json.loads(args.owner_window.read_text())
+        check_window(window,args.action,plan,args.commit,sha(args.identity_source.read_bytes()))
+        if args.reset_c and not window.get('controlled_c_rom_reset'):raise GateError('EXPLICIT_C_RESET_WINDOW_REQUIRED')
         verify_sources(manifest,args.commit,args.sdk_root)
         if not args.private_dir.is_dir():raise GateError('PRIVATE_DIRECTORY_REQUIRED')
         if args.action=='backup':
@@ -205,13 +213,15 @@ def main():
         import serial
         from stm32loader.uart import SerialConnection
         from stm32loader.bootloader import Stm32Bootloader
-        # 仅接受现场已手动进入ROM的状态；不自动改BOOT/复位，不GO，结束留待断电改正常BOOT。
+        # 默认仅同步手动ROM；显式复位也只作用C，结束不GO、不改变BOOT接线。
         with redirect_stdout(capture),redirect_stderr(capture):
             uart=serial.Serial(port=None,baudrate=115200,parity='E',timeout=2,write_timeout=2)
             uart.dtr=True;uart.rts=True;uart.port='COM15';result['hardware_accessed']=True;uart.open()
             connection=SerialConnection('COM15',115200,'E');connection.serial_connection=uart
+            connection.reset_active_high=True;connection.boot0_active_low=True
             boot=Stm32Bootloader(connection,device_family='F4',verbosity=0)
-            synchronize_ready_rom(uart,boot);verify_f4_identity(boot,identity)
+            result['controlled_c_reset_requested']=args.reset_c
+            synchronize_ready_rom(uart,boot,connection if args.reset_c else None);verify_f4_identity(boot,identity)
             if args.action=='backup':
                 value=capture_backup(boot,previous,args.private_dir,sha(args.identity_source.read_bytes()))
                 with (args.private_dir/'baseline.json').open('x') as f:json.dump(value,f,indent=2)
