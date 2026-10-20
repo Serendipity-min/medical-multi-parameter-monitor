@@ -1,0 +1,24 @@
+{
+  "listeners": [
+    {
+      "port": 8883,
+      "listener_present": true,
+      "processes": [
+        {
+          "pid": "851112",
+          "unit": "medical-monitor-mqtt.service",
+          "cwd": "/",
+          "executable": "/usr/sbin/mosquitto"
+        }
+      ]
+    },
+    {
+      "port": 8884,
+      "listener_present": false,
+      "processes": []
+    }
+  ],
+  "formal_mutations": false,
+  "default_unit_is_not_business_identity": true,
+  "exit_code": 0
+}
