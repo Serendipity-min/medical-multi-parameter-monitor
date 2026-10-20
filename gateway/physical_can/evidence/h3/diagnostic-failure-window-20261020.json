@@ -1,0 +1,64 @@
+{
+  "status": "FAIL_NOT_RELEASE_ELIGIBLE",
+  "uart_window_seconds": 1200.0,
+  "latest_counters": {
+    "model": {
+      "can": 2543,
+      "drop": 0,
+      "cache": 0,
+      "lost": 423,
+      "replay": 334,
+      "nodes": 10
+    },
+    "queue": {
+      "fovr": 0,
+      "sw": 0,
+      "bad": 0,
+      "high": 8,
+      "depth": 1,
+      "irq": 59887,
+      "lag_cycles": 711563,
+      "stale": 0,
+      "fault": 0,
+      "uart": 0
+    },
+    "can": {
+      "hb": 2393,
+      "boot": 0,
+      "p181": 53858,
+      "p381": 1198,
+      "p481": 1198,
+      "p681": 1240,
+      "txok": 2543,
+      "txfail": 0,
+      "nmt": 1,
+      "time": 121,
+      "TEC": 0,
+      "REC": 0,
+      "LEC": 0,
+      "BOFF": 0
+    },
+    "delivery": {
+      "qos1_puback": 2206,
+      "qos0_send": 662,
+      "failed": 18,
+      "last_node": 1,
+      "last_stream": 0,
+      "last_seq": 1552,
+      "last_ms_hi": 417,
+      "last_ms_lo": 1458831324
+    }
+  },
+  "host_log": {
+    "complete": 242,
+    "missing_reports": 0,
+    "missing_lines": 0,
+    "duplicate_lines": 0,
+    "invalid_tags": 0,
+    "trailing_partial_report": false
+  },
+  "reason": "PUBLICATION_BUDGET_FAILURES_AND_ROUTER_LOSS",
+  "qos_for_each_failed_frame": "PENDING_NEXT_CANDIDATE",
+  "broker_diagnostic_restart_is_planned_fault_injection": true,
+  "raw_measurements_saved_to_git": false
+}

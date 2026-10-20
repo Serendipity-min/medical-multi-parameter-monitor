@@ -3,10 +3,10 @@
   "mode": "ARM_PHYSICAL_CAN1_CANDIDATE",
   "hardware": "NOT_RUN",
   "image": {
-    "sha256": "c46da4494d7bc4c7b4561f3ac6ce22c0b45c7711989412085acde4e2c1bcc00c",
-    "bytes": 38984,
+    "sha256": "6aecb5ea4d03d9f57a051b8701c49bffb8e01d3e5b6dd622e1b3f0f51e50d6cc",
+    "bytes": 39120,
     "start": 134217728,
-    "end_exclusive": 134256712,
+    "end_exclusive": 134256848,
     "erase_sectors": [
       0,
       1,
@@ -15,17 +15,17 @@
     "load_segments": [
       {
         "start": 134217728,
-        "end_exclusive": 134256624,
-        "bytes": 38896
+        "end_exclusive": 134256760,
+        "bytes": 39032
       },
       {
-        "start": 134256624,
-        "end_exclusive": 134256712,
+        "start": 134256760,
+        "end_exclusive": 134256848,
         "bytes": 88
       }
     ],
     "initial_sp": 537001472,
-    "reset_vector": 134247769,
+    "reset_vector": 134247837,
     "CAN1_RX0_vector": {
       "address": 134236029,
       "strong_handler": true
@@ -1461,7 +1461,7 @@
     "gateway/physical_can/src/bxcan_network_irq.c": "d0afa87f340cedb0505a4c2818cc3969c9ed6b34169089713e2e1b8dd5409733",
     "gateway/physical_can/bench/rx_irq.c": "d9d252bbf4b234b294c26fd97391fa472a7967085bbb37f5654adf879420a613",
     "gateway/mqtt/src/gateway_assert.c": "d29eb278706acf7a4249a2104b05f22cf859c61de5d924773c785228d7523d17",
-    "gateway/mqtt/src/gateway_transport.c": "5814e420fb5bf6ff57ff84c1d0597dc547bc53d184ba41a49ce489bcb26af003",
+    "gateway/mqtt/src/gateway_transport.c": "c8b945253cc3168f855616cc6dd0798077ef627a870d2a1a28de22ee383ac7c5",
     "gateway/mqtt/src/heap.c": "20bf6b3b9c5ddc276ba4d85016ce14ae1425c18e24e5f020bea011d9168b2923",
     "gateway/mqtt/src/mqtt_transport_adapter.c": "beb93429f95cba5fe88f170010363613391df41975475abcbe1842c7692019aa",
     "gateway/mqtt/src/platform.c": "e67d75c18fa3f3fc785cad44aa0c8c3ae06b0e4d38c528d71799efe1f456fff9",

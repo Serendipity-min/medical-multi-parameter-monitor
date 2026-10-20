@@ -19,6 +19,7 @@ def main() -> int:
     parser.add_argument('--asan-ubsan', action='store_true')
     parser.add_argument('--authorize-sanitizers', action='store_true')
     parser.add_argument('--with-can-capture', action='store_true')
+    parser.add_argument('--network-irq', action='store_true')
     args = parser.parse_args()
     # 普通CI默认无sanitizer；安全模式必须在G1授权后显式选择，不能隐式升级普通测试。
     if args.asan_ubsan != args.authorize_sanitizers:
@@ -47,6 +48,7 @@ def main() -> int:
     report['commit'] = source_commit
     report['asan_ubsan'] = args.asan_ubsan
     report['with_can_capture'] = args.with_can_capture
+    report['network_irq'] = args.network_irq
     report['compiler'] = subprocess.check_output(['gcc', '--version'], text=True).splitlines()[0]
     # 文件摘要绑定本次真实编译输入；即使提交后再增补文档，也不混淆测试代码版本。
     inputs = [*sorted((MQTT / 'src').glob('*.[ch]')),
@@ -74,6 +76,9 @@ def main() -> int:
                             str(ROOT / 'gateway/storage/router.c'),
                             *[str(VENDOR / 'source' / source) for source in
                               ['core_mqtt.c', 'core_mqtt_serializer.c', 'core_mqtt_state.c']]]
+        if args.network_irq:
+            # 相同42项协议断言覆盖IRQ候选的版本查询/失败诊断，不能只编译旧轮询分支。
+            command[1:1] = ['-DMP_CAN_RX_IRQ']
         if args.asan_ubsan:
             # 同一42项固定夹具编译真实活动源码；编译和链接一起启用，不关闭任何诊断。
             command[1:1] = ['-fsanitize=address,undefined', '-fno-omit-frame-pointer', '-g']

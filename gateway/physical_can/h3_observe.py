@@ -41,7 +41,7 @@ def observe(uart,seconds,private,initial=b''):
                 if kind not in {*GROUPS,'DIAG_BEGIN','DIAG_END','BOOT','WAIT_NODE_A_FIRST_HEARTBEAT','OK','FAIL',
                                 'AT_VERSION','SNTP_VALID','MQTT_CONNECTED','RECONNECT','CONFIG_REQUIRED',
                                 'CAN_FAULT_NETWORK_CLOSED_STOP','WAIT_NODE_A_RX_FAULT_STOP',
-                                'MQTT_ERROR','READ_AVAILABLE_FAIL','READ_AVAILABLE_HEADER_FAIL',
+                                'MQTT_ERROR','MQTT_PENDING','READ_AVAILABLE_FAIL','READ_AVAILABLE_HEADER_FAIL',
                                 'READ_AT_FAIL','READ_HEADER_FAIL','READ_LENGTH_FAIL',
                                 'WRITE_PROMPT_FAIL','WRITE_SEND_FAIL'}:continue
                 if not re.fullmatch(r'[A-Za-z0-9_=., /:-]+',text):continue

@@ -17,6 +17,13 @@ from cloud.backend.app.adapters import decode_mqtt
 from cloud.deploy.h3.isolated_server import STATE,load_env
 
 
+def save_status(result,out):
+    # 每个观测仅写自身状态；取消跨会话共享文件，避免并发replace争用/混淆结果。
+    own=out/'status.json';temporary=out/'status.tmp'
+    body=json.dumps(result,indent=2)
+    temporary.write_text(body);temporary.replace(own)
+
+
 async def observe(seconds):
     from websockets.asyncio.client import connect
     config=json.loads((STATE/'backend.json').read_text());env=load_env(STATE/'backend.env')
@@ -96,8 +103,7 @@ async def observe(seconds):
                         else:result['value_mismatches']+=1
                     result.update(elapsed_s=round(now-started,3),longest_active_s=round(best,3),
                                   mqtt_stream_counts=dict(received),matched_valid_streams=dict(matched),mqtt_qos=dict(qos))
-                    status=STATE/'e2e-status.json';tmp=status.with_suffix('.tmp')
-                    tmp.write_text(json.dumps(result,indent=2));tmp.replace(status)
+                    save_status(result,out)
                 if result['value_mismatches'] or result['node_b_online_seen'] or result['unexpected_node_a_source']:break
         if active is not None:result['active_ranges'].append({'seconds':round(active_last-active,3)})
         result['backend_health_after']=httpx.get('http://127.0.0.1:18775/health',trust_env=False).json()
@@ -105,7 +111,7 @@ async def observe(seconds):
     finally:
         c.disconnect();c.loop_stop();meta.close();wss_meta.close()
         result['finished_utc']=datetime.now(timezone.utc).isoformat()
-        (out/'result.json').write_text(json.dumps(result,indent=2));(STATE/'e2e-status.json').write_text(json.dumps(result,indent=2))
+        (out/'result.json').write_text(json.dumps(result,indent=2));save_status(result,out)
     return result
 
 

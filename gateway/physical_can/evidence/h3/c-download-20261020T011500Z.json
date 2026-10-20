@@ -1,0 +1,81 @@
+{
+  "role": "C",
+  "port": "COM15",
+  "action": "H3_ISOLATED_NETWORK_DOWNLOAD",
+  "exit_code": 0,
+  "flash_write_started": true,
+  "previous_candidate_sha256": "317aee869e4cb5996d630491a8f442cfedd64a2e0c128d283469399fcaea08db",
+  "source_commit": "a61883f4ea2b688054d1639316bbb46e509847aa",
+  "image": {
+    "sha256": "c46da4494d7bc4c7b4561f3ac6ce22c0b45c7711989412085acde4e2c1bcc00c",
+    "bytes": 38984,
+    "start": 134217728,
+    "end_exclusive": 134256712,
+    "erase_sectors": [
+      0,
+      1,
+      2
+    ],
+    "load_segments": [
+      {
+        "start": 134217728,
+        "end_exclusive": 134256624,
+        "bytes": 38896
+      },
+      {
+        "start": 134256624,
+        "end_exclusive": 134256712,
+        "bytes": 88
+      }
+    ],
+    "initial_sp": 537001472,
+    "reset_vector": 134247769,
+    "CAN1_RX0_vector": {
+      "address": 134236029,
+      "strong_handler": true
+    },
+    "protected_sectors": [
+      7,
+      11
+    ],
+    "mass_erase": false,
+    "option_bytes_write": false
+  },
+  "volatile_config_sha256": "16367a2d728b47053eab9229195dc89d347f2afc528dde67c177e923bd7dcc87",
+  "A_original_backup_verified": true,
+  "stage": "APPLICATION_VERIFIED_RAM_CONFIG_ONLY_GO_SENT",
+  "C_identity_match": true,
+  "current_candidate_readback_verified": true,
+  "image_readback_match": true,
+  "protected_unchanged": true,
+  "options_unchanged": true,
+  "protected_before": {
+    "0x8060000": {
+      "sector_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "first_312B_sha256": "26e1989c6b3b3e1b905dcc17405a2767a1a3ebbb76b26ae3ac6b16bfd61c031c"
+    },
+    "0x80e0000": {
+      "sector_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "first_312B_sha256": "26e1989c6b3b3e1b905dcc17405a2767a1a3ebbb76b26ae3ac6b16bfd61c031c"
+    }
+  },
+  "protected_after": {
+    "0x8060000": {
+      "sector_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "first_312B_sha256": "26e1989c6b3b3e1b905dcc17405a2767a1a3ebbb76b26ae3ac6b16bfd61c031c"
+    },
+    "0x80e0000": {
+      "sector_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "first_312B_sha256": "26e1989c6b3b3e1b905dcc17405a2767a1a3ebbb76b26ae3ac6b16bfd61c031c"
+    }
+  },
+  "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+  "configuration_flash_written": false,
+  "volatile_config_readback_match": true,
+  "boot_wait_marker_seen": true,
+  "download_verified": true,
+  "go_sent": true,
+  "observation_exit_code": 0,
+  "physical_CAN": "NOT_ACCEPTED",
+  "C_full_flash_backup": false
+}

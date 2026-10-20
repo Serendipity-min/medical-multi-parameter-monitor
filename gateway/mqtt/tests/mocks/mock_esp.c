@@ -22,15 +22,20 @@ MpRouter *mock_router_probe;
 static unsigned char wire[2048], rx[1024], ack[12];
 static size_t wire_length, rx_length, rx_offset, ack_length;
 static uint32_t ack_at;
+static int version_response;
 
 void platform_poll(void) { g_uptime_ms++; }
 void mp_model_poll(void) { platform_poll(); }
 void console(const char *text) { (void)text; }
 void delay_ms(uint32_t ms) { g_uptime_ms += ms; }
-const char *at_response(void) { return "+SYSTIMESTAMP:1800000000"; }
+const char *at_response(void) {
+    /* IRQ候选同样执行真实GMR解析；测试仅提供固定版本，不包含模块身份字段。 */
+    return version_response?"AT version:2.3.0.0\r\nOK\r\n":"+SYSTIMESTAMP:1800000000";
+}
 int at_command(const char *command, uint32_t timeout)
 {
     (void)timeout;
+    version_response=!strcmp(command,"AT+GMR");
     if (mock_fail_at && !strcmp(command, mock_fail_at)) return 0;
     if (!strncmp(command, "AT+CIPSTART=", 12)) mock_tls_started = 1;
     /* 假配置中只允许 SSL:8883，名称命令绑定同一合成主机。 */
@@ -162,6 +167,7 @@ void mock_reset(void)
     mock_delay_ms = mock_read_limit = mock_send_limit = 0;
     mock_send_error = mock_send_zero = mock_connack_code = mock_drop_ping = 0;
     mock_drop_connack = 0;
+    version_response = 0;
     mock_tls_started = mock_ping_count = 0;
     mock_last_id = mock_old_id = 0;
     mock_fail_at = NULL;

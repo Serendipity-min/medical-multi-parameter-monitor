@@ -5,7 +5,6 @@ import hashlib
 import json
 import os
 from pathlib import Path
-import pwd
 import secrets
 import shlex
 import shutil
@@ -36,6 +35,8 @@ def store_env(path, values):
 
 
 def prepare():
+    # pwd仅用于Linux服务账户准备；纯状态/配置读取工具可在Windows导入。
+    import pwd
     if STATE.exists():raise RuntimeError('H3_STATE_ALREADY_EXISTS')
     STATE.mkdir(mode=0o750)
     user=pwd.getpwnam('medical-ai');os.chown(STATE,user.pw_uid,user.pw_gid)

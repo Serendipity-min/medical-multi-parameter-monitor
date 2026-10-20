@@ -235,7 +235,14 @@ int gateway_mqtt_publish(const MpFrame *frame)
     ok = ok && !session_error && network.connected && (uint32_t)(g_uptime_ms - start) < 5000U;
 #ifdef MP_CAN_RX_IRQ
     /* 保留原5000ms/PUBACK门禁；诊断放在清在途状态之前，以区分发送与确认失败。 */
-    if(!ok)mqtt_diagnostic(6,publish_status,g_uptime_ms-start);
+    if(!ok) {
+        char diagnostic[160];
+        mqtt_diagnostic(6,publish_status,g_uptime_ms-start);
+        /* QoS0本来就没有PUBACK，必须记录实际QoS才能把总预算失败归因于确认等待。 */
+        (void)snprintf(diagnostic,sizeof(diagnostic),"GW MQTT_PENDING id=%u qos=%u node=%u stream=%u seq=%lu replay=%u\r\n",
+            pending_id,(unsigned)message.qos,frame->node,frame->stream,(unsigned long)frame->seq,(unsigned)frame->replay);
+        console(diagnostic);
+    }
 #endif
     pending_id = 0;
     acknowledged = 0;

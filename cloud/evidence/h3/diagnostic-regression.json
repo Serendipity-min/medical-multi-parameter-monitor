@@ -1,0 +1,14 @@
+{
+  "command": [
+    "python",
+    "-m",
+    "pytest",
+    "cloud/backend/tests",
+    "cloud/ai/tests",
+    "gateway/physical_can/tests/test_h3_resume.py",
+    "gateway/physical_can/tests/test_h3_download.py",
+    "gateway/physical_can/tests/test_h3_observe.py",
+    "-q"
+  ],
+  "exit_code": 0
+}
