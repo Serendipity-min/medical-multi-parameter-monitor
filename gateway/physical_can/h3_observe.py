@@ -9,6 +9,20 @@ ROOT=Path(__file__).resolve().parents[2]
 GROUPS={'METRICS':'model','RXQ':'queue','CANPROOF':'can','DELIVERY':'delivery'}
 
 
+def save_state(path,state):
+    # Windows读者短暂占用目标时，原子替换可报共享冲突；仅重试宿主文件操作，
+    # 不重开串口、不清空设备计数。持续失败仍抛出并保留原始UART日志。
+    temporary=path.with_suffix('.tmp')
+    temporary.write_text(json.dumps(state,indent=2),encoding='utf-8')
+    for attempt in range(10):
+        try:
+            temporary.replace(path)
+            return
+        except PermissionError:
+            if attempt==9:raise
+            time.sleep(.01)
+
+
 def observe(uart,seconds,private,initial=b''):
     stamp=datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
     evidence=ROOT/'gateway/physical_can/evidence/h3'
@@ -19,6 +33,7 @@ def observe(uart,seconds,private,initial=b''):
     state={'state':'CAPTURING','stamp':stamp,'boot_wait_marker_seen':False,'boot_markers':0,
            'latest':{},'host_log':{'complete':0,'missing_reports':0,'missing_lines':0,'duplicate_lines':0,'invalid_tags':0},'reports':[]}
     report=None;previous=None;seen=set();pending=bytearray(initial);started=time.monotonic();saved=0
+    delivery_baseline=None
     with (private/('h3-uart-'+stamp+'.raw.log')).open('xb') as raw,public.open('x',encoding='utf-8') as log:
         raw.write(initial)
         while time.monotonic()-started<seconds:
@@ -26,7 +41,7 @@ def observe(uart,seconds,private,initial=b''):
                 commands=control_path.read_text(encoding='utf-8').splitlines()
                 for command in commands[consumed:]:
                     if command=='STOP':state['state']='CAPTURE_STOPPED'
-                    elif command=='D' and state.get('mqtt_connected_seen') and not state['latest'].get('queue',{}).get('fault',1):
+                    elif command=='D' and (state.get('mqtt_connected_seen') or state.get('delivery_progress_seen')) and not state['latest'].get('queue',{}).get('fault',1):
                         uart.write(b'D');state['disconnect_command_sent']=True
                     else:state['state']='UNKNOWN_OR_UNREADY_CONTROL_STOP'
                 consumed=len(commands)
@@ -60,6 +75,12 @@ def observe(uart,seconds,private,initial=b''):
                     report=seq;previous=seq;seen=set()
                 elif kind in GROUPS:
                     state['latest'][GROUPS[kind]]={k:int(v) for k,v in fields.items()}
+                    if kind=='DELIVERY':
+                        # 被动重接可能错过启动标记；仅本会话实际新增PUBACK可证明当前网络进展。
+                        # 不拿上次进程缓存的累计值或单条旧诊断当作D命令就绪依据。
+                        acknowledged=int(fields.get('qos1_puback',0))
+                        if delivery_baseline is None:delivery_baseline=acknowledged
+                        elif acknowledged>delivery_baseline:state['delivery_progress_seen']=True
                     if kind in seen:state['host_log']['duplicate_lines']+=1
                     seen.add(kind)
                 elif kind=='DIAG_END':
@@ -82,7 +103,7 @@ def observe(uart,seconds,private,initial=b''):
                 if any(q.get(k,0) for k in ('fovr','sw','fault','stale')) or can.get('BOFF',0):state['state']='CAN_FAULT_STOP'
             state.update(elapsed_s=round(time.monotonic()-started,3),updated_utc=datetime.now(timezone.utc).isoformat())
             if time.monotonic()-saved>=.5 or state['state']!='CAPTURING':
-                temp=status_path.with_suffix('.tmp');temp.write_text(json.dumps(state,indent=2),encoding='utf-8');temp.replace(status_path);saved=time.monotonic()
+                save_state(status_path,state);saved=time.monotonic()
             if state['state']!='CAPTURING':break
     state['host_log']['trailing_partial_report']=report is not None
     if state['state']=='CAPTURING':state['state']='CAPTURE_COMPLETE'

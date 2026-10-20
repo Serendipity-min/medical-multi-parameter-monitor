@@ -1,0 +1,23 @@
+{
+  "ordinary_regression_only": true,
+  "broad_python": {
+    "command": "python -m pytest cloud/backend/tests cloud/ai/tests gateway/physical_can/tests/test_h3_observe.py gateway/physical_can/tests/test_h3_download.py gateway/physical_can/tests/test_h3_resume.py -q",
+    "passed": 118,
+    "exit_code": 0
+  },
+  "observer_targeted": {
+    "passed": 15,
+    "exit_code": 0
+  },
+  "security_gate_executed": false,
+  "reattach_first_run": {
+    "passed": 5,
+    "failed": 1,
+    "exit_code": 1,
+    "failure": "TEST_FIXTURE_PARENT_DIRECTORY_MISSING_NOT_DEVICE_FAILURE"
+  },
+  "targeted_corrected": {
+    "passed": 18,
+    "exit_code": 0
+  }
+}

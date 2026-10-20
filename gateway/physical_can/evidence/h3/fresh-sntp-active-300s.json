@@ -1,0 +1,161 @@
+{
+  "scope": "ACTUAL_CAN_AND_PUBLISH_COUNTERS_ONLY_CROSS_REFERENCE_E2E_PROBE_RESTORED",
+  "start_utc": "2026-10-20T03:37:41.471121+00:00",
+  "end_utc": "2026-10-20T03:42:41.469106+00:00",
+  "elapsed_s": 300.0,
+  "counter_start": {
+    "model": {
+      "can": 2752,
+      "drop": 0,
+      "cache": 0,
+      "lost": 0,
+      "replay": 39,
+      "nodes": 10
+    },
+    "queue": {
+      "fovr": 0,
+      "sw": 0,
+      "bad": 0,
+      "high": 7,
+      "depth": 0,
+      "irq": 64247,
+      "lag_cycles": 466654,
+      "stale": 0,
+      "fault": 0,
+      "uart": 0
+    },
+    "can": {
+      "hb": 2629,
+      "boot": 0,
+      "p181": 57582,
+      "p381": 1316,
+      "p481": 1316,
+      "p681": 1404,
+      "txok": 2752,
+      "txfail": 0,
+      "nmt": 1,
+      "time": 120,
+      "TEC": 0,
+      "REC": 0,
+      "LEC": 0,
+      "BOFF": 0
+    },
+    "delivery": {
+      "qos1_puback": 2538,
+      "qos0_send": 893,
+      "failed": 0,
+      "last_node": 1,
+      "last_stream": 3,
+      "last_seq": 600,
+      "last_ms_hi": 417,
+      "last_ms_lo": 1466097568
+    }
+  },
+  "counter_end": {
+    "model": {
+      "can": 3382,
+      "drop": 0,
+      "cache": 0,
+      "lost": 0,
+      "replay": 40,
+      "nodes": 10
+    },
+    "queue": {
+      "fovr": 0,
+      "sw": 0,
+      "bad": 0,
+      "high": 7,
+      "depth": 1,
+      "irq": 80191,
+      "lag_cycles": 466654,
+      "stale": 0,
+      "fault": 0,
+      "uart": 0
+    },
+    "can": {
+      "hb": 3229,
+      "boot": 0,
+      "p181": 72006,
+      "p381": 1616,
+      "p481": 1616,
+      "p681": 1724,
+      "txok": 3382,
+      "txfail": 0,
+      "nmt": 1,
+      "time": 150,
+      "TEC": 0,
+      "REC": 0,
+      "LEC": 0,
+      "BOFF": 0
+    },
+    "delivery": {
+      "qos1_puback": 3169,
+      "qos0_send": 1145,
+      "failed": 0,
+      "last_node": 1,
+      "last_stream": 3,
+      "last_seq": 750,
+      "last_ms_hi": 417,
+      "last_ms_lo": 1466397568
+    }
+  },
+  "deltas": {
+    "model": {
+      "can": 630,
+      "drop": 0,
+      "cache": 0,
+      "lost": 0,
+      "replay": 1,
+      "nodes": 0
+    },
+    "queue": {
+      "fovr": 0,
+      "sw": 0,
+      "bad": 0,
+      "high": 0,
+      "depth": 1,
+      "irq": 15944,
+      "lag_cycles": 0,
+      "stale": 0,
+      "fault": 0,
+      "uart": 0
+    },
+    "can": {
+      "hb": 600,
+      "boot": 0,
+      "p181": 14424,
+      "p381": 300,
+      "p481": 300,
+      "p681": 320,
+      "txok": 630,
+      "txfail": 0,
+      "nmt": 0,
+      "time": 30,
+      "TEC": 0,
+      "REC": 0,
+      "LEC": 0,
+      "BOFF": 0
+    },
+    "delivery": {
+      "qos1_puback": 631,
+      "qos0_send": 252,
+      "failed": 0,
+      "last_node": 0,
+      "last_stream": 0,
+      "last_seq": 150,
+      "last_ms_hi": 0,
+      "last_ms_lo": 300000
+    }
+  },
+  "host_log": {
+    "complete": 207,
+    "missing_reports": 0,
+    "missing_lines": 0,
+    "duplicate_lines": 0,
+    "invalid_tags": 0
+  },
+  "no_reset_or_counter_clear": true,
+  "no_raw_values_saved": true,
+  "e2e_reference": "e2e-probe-restored-observer-console.json",
+  "window_within_continuous_fresh_ppg": true
+}

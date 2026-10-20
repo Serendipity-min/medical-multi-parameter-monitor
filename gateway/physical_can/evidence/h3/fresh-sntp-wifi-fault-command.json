@@ -1,0 +1,54 @@
+{
+  "action": "AUTHORIZED_30S_WIFI_DISCONNECT",
+  "uart_stamp": "20261020T034336Z",
+  "delivery_progress_seen": true,
+  "pre_fault_counters": {
+    "model": {
+      "can": 3550,
+      "drop": 0,
+      "cache": 0,
+      "lost": 0,
+      "replay": 40,
+      "nodes": 10
+    },
+    "queue": {
+      "fovr": 0,
+      "sw": 0,
+      "bad": 0,
+      "high": 7,
+      "depth": 0,
+      "irq": 84134,
+      "lag_cycles": 466654,
+      "stale": 0,
+      "fault": 0,
+      "uart": 0
+    },
+    "can": {
+      "hb": 3389,
+      "boot": 0,
+      "p181": 75536,
+      "p381": 1696,
+      "p481": 1696,
+      "p681": 1817,
+      "txok": 3550,
+      "txfail": 0,
+      "nmt": 1,
+      "time": 158,
+      "TEC": 0,
+      "REC": 0,
+      "LEC": 0,
+      "BOFF": 0
+    },
+    "delivery": {
+      "qos1_puback": 3337,
+      "qos0_send": 1207,
+      "failed": 0,
+      "last_node": 1,
+      "last_stream": 3,
+      "last_seq": 790,
+      "last_ms_hi": 417,
+      "last_ms_lo": 1466477568
+    }
+  },
+  "no_reset": true
+}

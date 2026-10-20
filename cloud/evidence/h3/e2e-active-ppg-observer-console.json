@@ -1,0 +1,113 @@
+{
+  "source": "ACTUAL_ISOLATED_MQTT_WSS_OBSERVATION_NOT_CLINICAL_ACCURACY",
+  "started_utc": "2026-10-20T03:28:40.724015+00:00",
+  "target_seconds": 360,
+  "mqtt_received": 1031,
+  "mqtt_invalid": 0,
+  "mqtt_qos": {
+    "1": 760,
+    "0": 271
+  },
+  "wss_snapshots": 3567,
+  "matched_valid_streams": {
+    "PPG": 3252,
+    "SPO2": 3044,
+    "PR": 2970
+  },
+  "value_mismatches": 0,
+  "node_b_online_seen": false,
+  "unexpected_node_a_source": 0,
+  "active_ranges": [
+    {
+      "seconds": 5.272
+    },
+    {
+      "seconds": 1.917
+    },
+    {
+      "seconds": 11.809
+    },
+    {
+      "seconds": 32.7
+    },
+    {
+      "seconds": 116.062
+    },
+    {
+      "seconds": 18.068
+    },
+    {
+      "seconds": 27.756
+    },
+    {
+      "seconds": 31.793
+    },
+    {
+      "seconds": 17.767
+    },
+    {
+      "seconds": 35.83
+    }
+  ],
+  "raw_measurements_saved": false,
+  "exit_code": 1,
+  "criterion": "active-ppg",
+  "longest_active_ppg_s": 127.88,
+  "invalid_values_visible": 0,
+  "node_b_not_offline": 0,
+  "validity_observations": {
+    "NIBP:INVALID": 3567,
+    "PPG:VALID": 3283,
+    "PR:VALID": 2999,
+    "SPO2:VALID": 3075,
+    "SPO2:INVALID": 492,
+    "PR:INVALID": 568,
+    "PPG:STALE": 268,
+    "PPG:INVALID": 16
+  },
+  "active_ppg_ranges": [
+    {
+      "seconds": 64.817
+    },
+    {
+      "seconds": 117.477
+    },
+    {
+      "seconds": 20.691
+    },
+    {
+      "seconds": 127.88
+    }
+  ],
+  "backend_health_before": {
+    "status": "ok",
+    "transport": "MQTT 3.1.1/TLS",
+    "mqtt_connected": true,
+    "accepted": 9202,
+    "rejected": 2209,
+    "dropped": 0
+  },
+  "mqtt_connack": 0,
+  "elapsed_s": 360.015,
+  "longest_active_s": 116.062,
+  "mqtt_stream_counts": {
+    "NODE_STATUS": 146,
+    "GATEWAY_STATUS": 73,
+    "PPG": 272,
+    "SPO2": 180,
+    "PR": 180,
+    "NIBP": 180
+  },
+  "backend_health_after": {
+    "status": "ok",
+    "transport": "MQTT 3.1.1/TLS",
+    "mqtt_connected": true,
+    "accepted": 10230,
+    "rejected": 2209,
+    "dropped": 0
+  },
+  "all_three_valid_exit_code": 1,
+  "active_ppg_exit_code": 1,
+  "finished_utc": "2026-10-20T03:34:40.783634+00:00",
+  "process_exit_code": 1
+}

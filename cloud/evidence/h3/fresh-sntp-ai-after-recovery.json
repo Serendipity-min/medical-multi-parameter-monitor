@@ -1,0 +1,29 @@
+{
+  "http": 200,
+  "real_model": "NOT_CALLED",
+  "answer_kind": "DETERMINISTIC",
+  "facts": [
+    {
+      "stream": "NIBP",
+      "node_id": "NODE-A",
+      "validity": "INVALID",
+      "source": "MOCK",
+      "synthetic": true
+    },
+    {
+      "stream": "PR",
+      "node_id": "NODE-A",
+      "validity": "VALID",
+      "source": "MOCK",
+      "synthetic": true
+    },
+    {
+      "stream": "SPO2",
+      "node_id": "NODE-A",
+      "validity": "VALID",
+      "source": "MOCK",
+      "synthetic": true
+    }
+  ],
+  "raw_answer_saved": false
+}

@@ -1,0 +1,127 @@
+{
+  "exit_code": 0,
+  "checks": [
+    "node_b_fact_offline",
+    "test_source_visible",
+    "voice_default_off",
+    "desktop_no_horizontal_overflow",
+    "mobile_no_horizontal_overflow"
+  ],
+  "cases": [
+    {
+      "answer_kind": "DETERMINISTIC",
+      "answer_present": true,
+      "fact_digest": "211e487def784bc5aba1e1a058094347",
+      "facts": [
+        {
+          "node_id": "NODE-A",
+          "source": "MOCK",
+          "stream": "NIBP",
+          "synthetic": true,
+          "validity": "INVALID"
+        },
+        {
+          "node_id": "NODE-A",
+          "source": "MOCK",
+          "stream": "PR",
+          "synthetic": true,
+          "validity": "VALID"
+        },
+        {
+          "node_id": "NODE-A",
+          "source": "MOCK",
+          "stream": "SPO2",
+          "synthetic": true,
+          "validity": "VALID"
+        }
+      ],
+      "http": 200,
+      "model_evidence": null,
+      "real_model": "NOT_CALLED",
+      "case": "current"
+    },
+    {
+      "answer_kind": "VERIFIED_EXPLANATION",
+      "answer_present": true,
+      "fact_digest": "211e487def784bc5aba1e1a058094347",
+      "facts": [
+        {
+          "node_id": "NODE-A",
+          "source": "MOCK",
+          "stream": "NIBP",
+          "synthetic": true,
+          "validity": "INVALID"
+        },
+        {
+          "node_id": "NODE-A",
+          "source": "MOCK",
+          "stream": "PR",
+          "synthetic": true,
+          "validity": "VALID"
+        },
+        {
+          "node_id": "NODE-A",
+          "source": "MOCK",
+          "stream": "SPO2",
+          "synthetic": true,
+          "validity": "VALID"
+        }
+      ],
+      "http": 200,
+      "model_evidence": {
+        "billing_state": "UNKNOWN_TOKEN_USAGE_RECORDED",
+        "call": "f8abdbd93d1a48ee9fc142504fc2427d",
+        "finish_reason": "stop",
+        "http_status": 200,
+        "latency_ms": 1367,
+        "reported_model": "doubao-seed-2-0-mini-260428",
+        "request_id": "021792466963903593075d5bfc3e0cbf107ff469a4d1c91f1cdea",
+        "requested_model": "doubao-seed-2-0-mini-260428",
+        "status": "VALIDATED",
+        "usage": {
+          "completion_tokens": 60,
+          "prompt_tokens": 430,
+          "total_tokens": 490
+        }
+      },
+      "real_model": "REAL_REQUEST_USED",
+      "case": "general"
+    },
+    {
+      "answer_kind": "DETERMINISTIC",
+      "answer_present": true,
+      "fact_digest": "6e409b87b0831ce4008d00f2a34a158b",
+      "facts": [
+        {
+          "node_id": "NODE-A",
+          "source": "MOCK",
+          "stream": "NIBP",
+          "synthetic": true,
+          "validity": "INVALID"
+        },
+        {
+          "node_id": "NODE-A",
+          "source": "MOCK",
+          "stream": "PR",
+          "synthetic": true,
+          "validity": "VALID"
+        },
+        {
+          "node_id": "NODE-A",
+          "source": "MOCK",
+          "stream": "SPO2",
+          "synthetic": true,
+          "validity": "VALID"
+        }
+      ],
+      "http": 200,
+      "model_evidence": null,
+      "real_model": "NOT_CALLED",
+      "case": "absent_b"
+    }
+  ],
+  "source": "ACTUAL_CAN_NONPERSONAL_TEST_SOURCE",
+  "hardware_e2e": "NOT_TESTED",
+  "real_calls": 1,
+  "route": "Vite full prefix → SSH loopback → actual FastAPI → Doubao"
+}

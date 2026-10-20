@@ -1,0 +1,352 @@
+{
+  "action": "ISOLATED_WIFI_FAULT_STRICT_NODE_B",
+  "started_utc": "2026-10-20T03:43:47.052952+00:00",
+  "node_b_not_offline": 0,
+  "invalid_current_value": 0,
+  "valid_while_gateway_unavailable": 0,
+  "replay_used_as_current": 0,
+  "unavailable_seen": true,
+  "recovered_seen": true,
+  "raw_measurements_saved": false,
+  "transitions": [
+    {
+      "elapsed_s": 0.003,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "VALID",
+        "PR": "INVALID",
+        "SPO2": "VALID"
+      }
+    },
+    {
+      "elapsed_s": 1.88,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "VALID",
+        "PR": "VALID",
+        "SPO2": "VALID"
+      }
+    },
+    {
+      "elapsed_s": 13.584,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "VALID",
+        "PR": "VALID",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 13.685,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "VALID",
+        "PR": "INVALID",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 15.603,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "VALID",
+        "PR": "INVALID",
+        "SPO2": "VALID"
+      }
+    },
+    {
+      "elapsed_s": 15.704,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "VALID",
+        "PR": "VALID",
+        "SPO2": "VALID"
+      }
+    },
+    {
+      "elapsed_s": 17.622,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "VALID",
+        "PR": "VALID",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 17.723,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "VALID",
+        "PR": "INVALID",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 21.96,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "VALID",
+        "PR": "STALE",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 22.162,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "STALE",
+        "PR": "STALE",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 30.534,
+      "gateway": "STALE",
+      "nodes": {
+        "NODE-A": "STALE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "STALE",
+        "PPG": "STALE",
+        "PR": "STALE",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 39.913,
+      "gateway": "OFFLINE",
+      "nodes": {
+        "NODE-A": "OFFLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "OFFLINE",
+        "PPG": "OFFLINE",
+        "PR": "OFFLINE",
+        "SPO2": "OFFLINE"
+      }
+    },
+    {
+      "elapsed_s": 54.539,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "STALE",
+        "PR": "STALE",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 54.842,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "VALID",
+        "PR": "STALE",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 55.851,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "VALID",
+        "PR": "STALE",
+        "SPO2": "VALID"
+      }
+    },
+    {
+      "elapsed_s": 55.952,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "VALID",
+        "PR": "VALID",
+        "SPO2": "VALID"
+      }
+    },
+    {
+      "elapsed_s": 65.64,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "VALID",
+        "PR": "VALID",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 65.741,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "VALID",
+        "PR": "INVALID",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 67.658,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "VALID",
+        "PR": "INVALID",
+        "SPO2": "VALID"
+      }
+    },
+    {
+      "elapsed_s": 67.758,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "VALID",
+        "PR": "VALID",
+        "SPO2": "VALID"
+      }
+    },
+    {
+      "elapsed_s": 97.53,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "VALID",
+        "PR": "VALID",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 97.731,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "VALID",
+        "PR": "INVALID",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 99.85,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "VALID",
+        "PR": "INVALID",
+        "SPO2": "VALID"
+      }
+    },
+    {
+      "elapsed_s": 101.766,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "INVALID",
+        "PPG": "VALID",
+        "PR": "VALID",
+        "SPO2": "VALID"
+      }
+    }
+  ],
+  "elapsed_s": 180.058,
+  "exit_code": 0,
+  "process_exit_code": 0
+}

@@ -47,3 +47,27 @@ HSE候选已实际烧录并核验，sector7/11和选项字节未变。诊断中�
 新候选40928B，SHA256 `35d91a1e8db7762af06ef39b289ee871e20ac10cd74046ac988fbf9d9c00ebe4`，仅sector0–2。SNTP策略Host、原P5 42项、fresh-SNTP P5 44项、两种fresh-SNTP ARM及Python107项通过。首次fresh P5揭示短读未累积（退出1），修复后原日志和通过记录均保留。该候选尚待硬件验证，正式发布仍暂停；正式候选Nginx仅准备并做语法检查，未切换任何原入口。
 
 参考：[ST RM0090](https://www.st.com/resource/en/reference_manual/dm00031020-stm32f405-415-stm32f407-417-stm32f427-437-and-stm32f429-439-advanced-arm-based-32-bit-mcus-stmicroelectronics.pdf)、[ESP8266规格](https://documentation.espressif.com/0a-esp8266ex_datasheet_cn.html)、[ESP-AT 2.3 TCP/IP命令](https://docs.espressif.com/projects/esp-at/en/release-v2.3.0.0_esp8266/AT_Command_Set/TCP-IP_AT_Commands.html)。
+
+
+## 03:39 UTC：新鲜SNTP实板结果与停源记录
+
+C候选源码 `71eb0948b3e54cbf049f4e23c7c2462a9b3953f9` / 镜像SHA `35d91a1e8db7762af06ef39b289ee871e20ac10cd74046ac988fbf9d9c00ebe4` 已实板下载并逐字节读回、保护区及选项字节核验通过。下载回执整体退出1来自后续Host状态文件PermissionError，不能误写成Flash读回失败；原回执/日志保留。Host原子替换增加有界重试，经模拟短暂占用与持续失败回归验证；持续失败仍显式抛出，不触碰设备计数。03:26 UTC仅被动重开串口继续监听，没有复位、RAM注入或Flash写入；前后观测之间存在Host记录空窗，不能拼成无间断日志。
+
+真实UDP SNTP初期多次拒绝样本，最终取得RTT61ms、估计半程不确定性30ms的新鲜回复，随后进入TLS/MQTT。600.086s云端观测：MQTT1513、Backend新增时间拒收0、队列丢失0、匹配数值差异0、Node-B未在线。PPG/PR/SpO2消息年龄中位数约306/504/383ms，原2–3秒偏旧问题在本次样本中已消除。原严格“三流同时持续VALID300s”指标最长76.294s，退出1保留。另增加显式active-ppg评估，仍保留原三流指标及退出码，不改生产TTL/质量/发送频率；空波形、过期、未来包、错误来源、B非OFFLINE均不通过。360.015s补充观测PPG最长127.880s，仍退出1，无效值隐藏/缺席B正确。
+
+停波与C接收PDO同步：例如5秒PPG PDO从约250降为40，PUBACK持续增加且发布失败/Router丢失为0。现场随后确认已取下探头；该窗口按停源测试保留，不能冒充连续有源300秒。现场已重新接回本轮声明的非个人测试源并开始新的420秒观测。没有把原INVALID/STALE改为VALID。临床测量准确度未验证，非个人来源始终MOCK/synthetic，网关自身LIVE；未进入正式发布。
+
+新一轮真实浏览器隔离检查5项通过，新增1次实际豆包调用，截图隐去问答正文和体征值。凭据仅在服务器和临时进程内存，后续用量以持久流水汇总。原正式Backend/Broker/AI/Nginx未切换。
+
+
+## 03:48 UTC：重新接回探头后的活跃窗口通过
+
+现场重新接回已声明的非个人测试源后，420.080s MQTT/WSS观测退出0：连续新鲜PPG348.261s，MQTT1226、匹配数值差异0、无效值可见0、B非OFFLINE0、Backend拒收2209→2209。有效SpO2/PR均在内存逐层匹配；真实传感器质量使标量间歇INVALID，原“三流全部连续VALID”辅助指标87.687s/退出1原样保留。合同要求实际活跃负载300s及质量语义准确，没有要求修改源质量或要求连续血压；因此新增显式active-ppg门禁与原辅助指标分别交付，未更改生产时效和质量判定。
+
+同一新鲜PPG区间内的板端精确300.000s（03:37:41–03:42:41 UTC）独立回执 `fresh-sntp-active-300s.json`：FIFO/软件队列/Router/UART/主机日志新增丢失0，TX失败/发布失败0，实际PPG PDO持续接收，TIME持续发出。具体累计起止值及增量保留，不把QoS0 SEND OK等同于PUBACK或上屏。端到端逐层结果另见 `e2e-probe-restored-observer-console.json`。
+
+实际D命令断网30秒后的180.058s观测退出0：STALE→OFFLINE→ONLINE，故障后新鲜PPG恢复；B始终OFFLINE、不可用网关下VALID0、无效标量/波形暴露0、历史补传冒充当前0。网关首次STALE在观测30.534s，恢复新PPG在54.842s；不是从D发出开始计算的恢复耗时。断网导致32槽历史缓存累计溢出53条，按预期故障窗口计入Router丢失，未清零，不能用此故障窗口替代正常窗口零丢失证明。
+
+一次离线AI检查因测试session_id格式不符返回422（未调用豆包）；修正为32位十六进制时网络已恢复，因此200/NOT_CALLED仅作为恢复后当前事实检查，不冒称捕获了离线分支。更早的实际离线AI验证仍保留。新浏览器调用后流水为历史3次3578 Token＋H3新增7次3918 Token，共10次7496 Token；H3七次均VALIDATED，费用仍仅有操作者免费/体验说明，未推断实际费用为0。
+
+NIBP本轮没有获得新的有效血压输入，保持INVALID；本轮未声称验证临床准确度或有效血压90秒过期真机路径。原Node-A应用未改/未烧录，C当前仍RAM配置，保护sector7/11与选项字节未变。正式发布尚未获本合同要求的最终现场窗口确认，原站未切换。

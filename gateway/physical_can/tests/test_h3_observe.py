@@ -21,7 +21,7 @@ def report(seq,omit='',boff=0):
 
 
 def run(tmp_path,monkeypatch,data):
-    root=tmp_path/'repo';private=tmp_path/'private';private.mkdir()
+    root=tmp_path/'repo';private=tmp_path/'private';private.mkdir(parents=True)
     (root/'gateway/physical_can/evidence/h3').mkdir(parents=True)
     (root/'gateway/physical_can/build/h3-isolated').mkdir(parents=True)
     monkeypatch.setattr(observer,'ROOT',root)
@@ -48,3 +48,37 @@ def test_busoff_stops_passive_capture(tmp_path,monkeypatch):
 def test_unknown_content_never_enters_public_log(tmp_path,monkeypatch):
     state,public=run(tmp_path,monkeypatch,b'GW UNKNOWN synthetic-private-payload\n'+report(1))
     assert 'synthetic-private-payload' not in public and state['host_log']['complete']==1
+
+
+def test_transient_windows_reader_does_not_stop_uart(tmp_path,monkeypatch):
+    # 模拟目标文件被读者短占用；重试成功必须保持设备/Host计数原值。
+    original=Path.replace;calls=[]
+    def replace(path,target):
+        calls.append(1)
+        if len(calls)<3:raise PermissionError('synthetic sharing conflict')
+        return original(path,target)
+    monkeypatch.setattr(Path,'replace',replace)
+    monkeypatch.setattr(observer.time,'sleep',lambda _:None)
+    target=tmp_path/'status.json'
+    observer.save_state(target,{'fovr':7,'host_missing':2})
+    import json
+    assert json.loads(target.read_text())=={'fovr':7,'host_missing':2}
+    assert len(calls)==3
+
+
+def test_persistent_status_failure_is_not_hidden(tmp_path,monkeypatch):
+    calls=[]
+    def replace(path,target):
+        calls.append(1);raise PermissionError('synthetic persistent conflict')
+    monkeypatch.setattr(Path,'replace',replace)
+    monkeypatch.setattr(observer.time,'sleep',lambda _:None)
+    with pytest.raises(PermissionError):observer.save_state(tmp_path/'status.json',{'fovr':7})
+    assert len(calls)==10 and (tmp_path/'status.tmp').is_file()
+
+
+def test_passive_reattach_requires_new_puback_not_old_total(tmp_path,monkeypatch):
+    # 错过CONNECT标记时，首个累计计数不能证明链路仍活跃。
+    state,_=run(tmp_path,monkeypatch,report(1)+report(2))
+    assert not state.get('delivery_progress_seen')
+    state,_=run(tmp_path/'later',monkeypatch,report(3)+report(4).replace(b'qos1_puback=7',b'qos1_puback=8'))
+    assert state['delivery_progress_seen']

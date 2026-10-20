@@ -24,7 +24,18 @@ def save_status(result,out):
     temporary.write_text(body);temporary.replace(own)
 
 
-async def observe(seconds):
+def active_ppg(snapshot):
+    # 合同活跃负载门禁要求真实新PPG持续到达；标量质量INVALID不能伪改VALID。
+    # 仍按既有5秒时效，缺席B必须明确OFFLINE；三流全VALID的旧指标另行保留。
+    ppg=next((s for s in snapshot['streams'] if s['stream']=='PPG'),{})
+    age=snapshot['server_time']-ppg.get('timestamp',0)
+    return (snapshot['gateway_state']=='ONLINE' and snapshot['nodes'].get('NODE-A')=='ONLINE'
+            and snapshot['nodes'].get('NODE-B')=='OFFLINE' and ppg.get('validity')=='VALID'
+            and ppg.get('source')=='MOCK' and ppg.get('synthetic') is True
+            and 0<=age<=5000 and bool(ppg.get('samples')))
+
+
+async def observe(seconds,criterion='all-three-valid'):
     from websockets.asyncio.client import connect
     config=json.loads((STATE/'backend.json').read_text());env=load_env(STATE/'backend.env')
     if config['port']!=8884 or config['username']!='h3-backend':raise ValueError('ISOLATED_ONLY')
@@ -34,7 +45,9 @@ async def observe(seconds):
             'started_utc':datetime.now(timezone.utc).isoformat(),'target_seconds':seconds,
             'mqtt_received':0,'mqtt_invalid':0,'mqtt_qos':{},'wss_snapshots':0,
             'matched_valid_streams':{},'value_mismatches':0,'node_b_online_seen':False,
-            'unexpected_node_a_source':0,'active_ranges':[],'raw_measurements_saved':False,'exit_code':1}
+            'unexpected_node_a_source':0,'active_ranges':[],'raw_measurements_saved':False,'exit_code':1,
+            'criterion':criterion,'longest_active_ppg_s':0,'invalid_values_visible':0,'node_b_not_offline':0,
+            'validity_observations':{},'active_ppg_ranges':[]}
     latest={};lock=threading.Lock();ready=threading.Event();received=Counter();matched=Counter();qos=Counter();wss_last={}
     meta=(out/'mqtt-metadata.jsonl').open('x',encoding='utf-8')
     wss_meta=(out/'wss-metadata.jsonl').open('x',encoding='utf-8')
@@ -62,6 +75,7 @@ async def observe(seconds):
             with lock:result['mqtt_invalid']+=1
     c.on_connect=on_connect;c.on_subscribe=on_subscribe;c.on_message=on_message
     started=time.monotonic();active=None;active_last=None;best=0.0
+    ppg_active=None;ppg_last=None;ppg_best=0.0;validities=Counter()
     try:
         import httpx
         result['backend_health_before']=httpx.get('http://127.0.0.1:18775/health',trust_env=False).json()
@@ -81,6 +95,17 @@ async def observe(seconds):
                     s=streams.get(name,{})
                     good=good and s.get('validity')=='VALID' and s.get('source')=='MOCK' and s.get('synthetic') is True
                 now=time.monotonic()
+                if snapshot.get('nodes',{}).get('NODE-B')!='OFFLINE':result['node_b_not_offline']+=1
+                for stream in snapshot['streams']:
+                    validities[stream['stream']+':'+stream['validity']]+=1
+                    if stream['validity']!='VALID' and (stream.get('value') is not None or stream.get('samples')):
+                        result['invalid_values_visible']+=1
+                if active_ppg(snapshot):
+                    if ppg_active is None:ppg_active=now
+                    ppg_last=now;ppg_best=max(ppg_best,now-ppg_active)
+                elif ppg_active is not None:
+                    result['active_ppg_ranges'].append({'seconds':round(ppg_last-ppg_active,3)})
+                    ppg_active=None
                 if good:
                     if active is None:active=now;active_last=now
                     active_last=now;best=max(best,now-active)
@@ -102,12 +127,22 @@ async def observe(seconds):
                         if same:matched[s['stream']]+=1
                         else:result['value_mismatches']+=1
                     result.update(elapsed_s=round(now-started,3),longest_active_s=round(best,3),
+                                  longest_active_ppg_s=round(ppg_best,3),validity_observations=dict(validities),
                                   mqtt_stream_counts=dict(received),matched_valid_streams=dict(matched),mqtt_qos=dict(qos))
                     save_status(result,out)
                 if result['value_mismatches'] or result['node_b_online_seen'] or result['unexpected_node_a_source']:break
         if active is not None:result['active_ranges'].append({'seconds':round(active_last-active,3)})
+        if ppg_active is not None:result['active_ppg_ranges'].append({'seconds':round(ppg_last-ppg_active,3)})
         result['backend_health_after']=httpx.get('http://127.0.0.1:18775/health',trust_env=False).json()
-        result['exit_code']=int(best<300 or result['mqtt_invalid']>0 or result['value_mismatches']>0 or result['node_b_online_seen'] or result['unexpected_node_a_source']>0 or result['backend_health_after']['dropped']>0)
+        shared_failure=(result['mqtt_invalid']>0 or result['value_mismatches']>0 or result['node_b_online_seen']
+                        or result['unexpected_node_a_source']>0 or result['backend_health_after']['dropped']>0
+                        or result['invalid_values_visible']>0 or result['node_b_not_offline']>0
+                        or result['backend_health_after']['rejected']>result['backend_health_before']['rejected'])
+        result['all_three_valid_exit_code']=int(best<300 or shared_failure)
+        # 活跃PPG路径还须实际核对过有效SpO2/PR；不能用空闲/纯无效窗口代替。
+        result['active_ppg_exit_code']=int(ppg_best<300 or shared_failure
+            or any(matched[name]==0 for name in ('PPG','SPO2','PR')))
+        result['exit_code']=result['active_ppg_exit_code'] if criterion=='active-ppg' else result['all_three_valid_exit_code']
     finally:
         c.disconnect();c.loop_stop();meta.close();wss_meta.close()
         result['finished_utc']=datetime.now(timezone.utc).isoformat()
@@ -116,9 +151,10 @@ async def observe(seconds):
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--seconds',type=int,default=420);args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--seconds',type=int,default=420)
+    parser.add_argument('--criterion',choices=('all-three-valid','active-ppg'),default='all-three-valid');args=parser.parse_args()
     if not 300<=args.seconds<=1800:parser.error('range 300..1800')
     try:
-        result=asyncio.run(observe(args.seconds));print(json.dumps(result,indent=2));raise SystemExit(result['exit_code'])
+        result=asyncio.run(observe(args.seconds,args.criterion));print(json.dumps(result,indent=2));raise SystemExit(result['exit_code'])
     except Exception as exc:
         print(json.dumps({'failure_type':type(exc).__name__,'details_suppressed':True}));raise SystemExit(1)
