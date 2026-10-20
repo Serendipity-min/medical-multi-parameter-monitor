@@ -1,0 +1,772 @@
+{
+  "action": "ACTUAL_NODE_A_POWER_CYCLE_WSS",
+  "started_utc": "2026-10-20T06:24:35.707882+00:00",
+  "baseline_online": true,
+  "node_a_offline_seen": true,
+  "new_session_recovered": true,
+  "node_b_not_offline": 0,
+  "invalid_values_visible": 0,
+  "gateway_unavailable_after_baseline": 127,
+  "transitions": [
+    {
+      "elapsed_s": 0.004,
+      "gateway": "OFFLINE",
+      "nodes": {
+        "NODE-A": "OFFLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [],
+      "validities": {}
+    },
+    {
+      "elapsed_s": 158.041,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [],
+      "validities": {}
+    },
+    {
+      "elapsed_s": 158.142,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 158.243,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "PR": "INVALID",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 158.343,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "INVALID",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 202.388,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 204.302,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 208.737,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 208.938,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "INVALID",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 216.393,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 216.796,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "INVALID",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 218.308,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 219.719,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "INVALID",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 220.323,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 222.238,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 222.44,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "INVALID",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 226.37,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 226.571,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 229.291,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "INVALID",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 230.299,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 232.818,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 233.019,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "INVALID",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 236.343,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 236.746,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 236.847,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "INVALID",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 242.387,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 242.69,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 244.402,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "INVALID",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 246.316,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 246.417,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 247.927,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "INVALID",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 250.347,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 251.354,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 251.656,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "INVALID",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 256.39,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 256.491,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 256.591,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "INVALID",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 260.319,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 264.147,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "INVALID",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 264.55,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "INVALID",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 274.323,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 282.286,
+      "gateway": "STALE",
+      "nodes": {
+        "NODE-A": "STALE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "STALE",
+        "PR": "STALE",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 293.28,
+      "gateway": "OFFLINE",
+      "nodes": {
+        "NODE-A": "OFFLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "OFFLINE",
+        "PR": "OFFLINE",
+        "SPO2": "OFFLINE"
+      }
+    },
+    {
+      "elapsed_s": 295.095,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "OFFLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "OFFLINE",
+        "PR": "OFFLINE",
+        "SPO2": "OFFLINE"
+      }
+    },
+    {
+      "elapsed_s": 346.524,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 348.036,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538",
+        "can-1792477355-65540"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "STALE",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 348.137,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65538",
+        "can-1792477355-65540"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "INVALID",
+        "SPO2": "INVALID"
+      }
+    },
+    {
+      "elapsed_s": 348.339,
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "sessions": [
+        "can-1792477355-65540"
+      ],
+      "validities": {
+        "NIBP": "INVALID",
+        "PR": "INVALID",
+        "SPO2": "INVALID"
+      }
+    }
+  ],
+  "raw_measurements_saved": false,
+  "exit_code": 1,
+  "elapsed_s": 368.107,
+  "finished_utc": "2026-10-20T06:30:43.816179+00:00",
+  "process_exit_code": 1
+}

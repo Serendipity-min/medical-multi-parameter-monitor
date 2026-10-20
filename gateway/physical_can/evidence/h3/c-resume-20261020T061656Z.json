@@ -1,0 +1,43 @@
+{
+  "action": "C_VERIFY_RAM_RESUME",
+  "flash_write_started": false,
+  "reset_sent": false,
+  "exit_code": 1,
+  "image": {
+    "sha256": "b1de90885d2e3dd7833bdccf314f085d91de57c334b2bb37b4b118b9f11feaa5",
+    "bytes": 41612,
+    "start": 134217728,
+    "end_exclusive": 134259340,
+    "erase_sectors": [
+      0,
+      1,
+      2
+    ],
+    "load_segments": [
+      {
+        "start": 134217728,
+        "end_exclusive": 134259252,
+        "bytes": 41524
+      },
+      {
+        "start": 134259252,
+        "end_exclusive": 134259340,
+        "bytes": 88
+      }
+    ],
+    "initial_sp": 537001472,
+    "reset_vector": 134249449,
+    "CAN1_RX0_vector": {
+      "address": 134236385,
+      "strong_handler": true
+    },
+    "protected_sectors": [
+      7,
+      11
+    ],
+    "mass_erase": false,
+    "option_bytes_write": false
+  },
+  "failure_type": "GateError",
+  "failure_code": "ROM_SYNC_NOT_CONFIRMED"
+}

@@ -1,0 +1,38 @@
+{
+  "original_services": {
+    "medical-monitor.service": {
+      "pid": "845095",
+      "state": "active"
+    },
+    "medical-monitor-mqtt.service": {
+      "pid": "851111",
+      "state": "active"
+    },
+    "p6-ai.service": {
+      "pid": "394625",
+      "state": "active"
+    }
+  },
+  "original_services_unchanged": true,
+  "original_hashes_unchanged": true,
+  "original_web_unchanged": true,
+  "owned_services_stopped": [
+    "medical-monitor-h3-backend-nodebfix.service",
+    "medical-monitor-h3-broker-diagnostic.service"
+  ],
+  "stop_exit_code": 0,
+  "host_rule": {
+    "action": "remove",
+    "port": 8884,
+    "source": "CURRENT_SSH_PEER_SINGLE_ADDRESS",
+    "production_ports_changed": false,
+    "address_saved": false,
+    "rule_present": false
+  },
+  "formal_route_changed": false,
+  "AI_calls_this_repair": 0,
+  "credentials_ledgers_backups_preserved": true,
+  "prior_cleanup_attempt_exit": 1,
+  "prior_failure": "Wrong static index relative path; failed before mutation",
+  "exit_code": 0
+}

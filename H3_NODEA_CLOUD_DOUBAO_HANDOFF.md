@@ -1,5 +1,57 @@
 # H3_NODEA_CLOUD_DOUBAO_HANDOFF
 
+更新：2026-10-20。**A 真断电导致 C 永久锁止：修复并完成实板恢复验证；整体 H3 仍为 PARTIAL，未正式发布。** 下方“上轮交接原始记录”保留历史阻断及原始退出码，其中旧镜像、锁止与停止状态已由本节更新；不删除失败记录。
+
+## 本次修复与代码身份
+
+在 `dev/h3-nodea-cloud-ai-integration` / `E:/medical-monitor-h3` 继续用户授权的修复。固件源码提交 `ab5861c600a4a43b184ff1fe17d13ba9aa11bb96`；UART工具提交 `171c6e86a26a53b4c37e70003fe74318e07433b5`；包含本节及最终证据的提交为其后继，实际最终 HEAD 在 Git 回执提供，避免自引用 SHA。A、P6、P4、main 的远端固定 SHA 均未变，见 `gateway/physical_can/evidence/h3/power-cycle-fix/protected-refs-final.json`。
+
+原联网驱动把无 ACK 与所有 CAN 故障一并永久锁止。现在仅完整联网 IRQ 目标采用 NART 单次发送；确认完整发送失败且 LEC=3 时，停止 TX、保留 RX，进入 PEER_WAIT。只有之后新收到的合法 A 心跳/Boot-up 才清等待，并先丢弃旧 TIME/NMT、定向发送 Node1 NMT START。真实 TXOK 才计成功。未知错误、100ms 卡邮箱、Bus-off 仍锁止，新增首次 ESR/TSR/时间/协议复位快照；不清累计计数、不延长数据有效期或 MQTT 预算。旧 `link_policy.h` 与 P4/bench 路径保留。[ST RM0090](https://www.st.com/resource/en/reference_manual/rm0090-stm32f407-advanced-armbased-32bit-mcus-stmicroelectronics.pdf) 为 NART/ACK 错误及 LEC 软件标记的依据。
+
+修改范围：`peer_tx.h`、联网 `bxcan_network_irq.c`、IRQ 条件编译的共享 CAN 队列与物理 stack、独立 PEER/最终故障诊断、Host 硬件替身与真实驱动恢复测试、受限下载/RAM 恢复工具及脱敏 UART/WSS 观察。未修改或烧录 Node-A，未接人体或开展新的采集、豆包调用。
+
+## 实板断电恢复结果
+
+C 同一 UART 会话 `20261020T062235Z` 全程保持，A 的 J-Link 已拔下，由现场只切换 A/双屏独立供电；C 未复位。精确原件在 `gateway/physical_can/evidence/h3/power-cycle-fix/`。
+
+| 项目 | 实测结果 |
+|---|---|
+| A 断电前 | Boot-up=1、NMT TXOK=1、TXOK=195，A ONLINE，B OFFLINE |
+| A 断电后 | 一次 TERR/LEC3 ACK 错误，TEC=8；PEER_WAIT=1，no_ack=1；不再持续重发；未 Bus-off、未致命锁止 |
+| A 恢复供电 | Boot-up=2、NMT TXOK=2、TXOK=564；peer_returns=1、wait=0，TEC=0；C 启动标记仍为1 |
+| 新会话 | 云端 `can-1792477355-65538` → `can-1792477355-65540`，捕获 A OFFLINE 后重新 ONLINE；无输入读数保持 INVALID/STALE，不复活旧值 |
+| 分层计数 | FOVR/SW/UART/Host 缺行及 Router lost 均0；有意丢弃旧 CAN 发送项158，独立累计并计入原 drop；不是隐藏为零丢失 |
+| 恢复判定 | `hardware-assessment.json` 所有11项通过、退出0；RAM恢复/观察进程退出0 |
+| 云端连续性 | 完整 WSS 观察退出**1**：一次 MQTT 发布失败后自动重连，网关127个快照非 ONLINE，随后恢复新会话；快照数不等于秒数。B非OFFLINE=0、无效值泄露=0。保留 `actual-wss-restart.json`，不称本轮云端零中断通过 |
+
+本次实测证实 ACK 缺失恢复路径正常；上轮锁止未保存最终寄存器，因此不能倒推上轮一定未 Bus-off。当前只完成无输入的正常冷启动/恢复，不把 Host 合成测量当作新实板生理采集。
+
+## 镜像、保护与测试退出码
+
+C 当前镜像41612B，SHA256 `b1de90885d2e3dd7833bdccf314f085d91de57c334b2bb37b4b118b9f11feaa5`，应用范围 `0x08000000–0x0800A28B`，仅sector0–2。text41516/data88/bss123088，相对上轮40928B镜像增加684B、BSS增加48B；SRAM配置仍312B、预留512B。sector7/11及选项字节在下载前后、最终恢复时均核对未变，未整片擦除。A原两份完整备份保留仓库外，不再备份。
+
+| 验证 | 原始结果 |
+|---|---|
+| 真实联网驱动 Host 恢复 | 20秒无对端、Boot-up、NMT真实TXOK、旧TIME清理、全新PDO；退出0 |
+| 强故障保护 | Bus-off/未知发送错误/100ms卡邮箱分别仍致命锁止，首次快照不变；退出0 |
+| IRQ协议/逐帧顺序/旧物理协议 | 各退出0 |
+| CANopen/Router | Windows原运行器误执行既有ELF退出1，保留；WSL真实回归退出0 |
+| P5兼容 | 原42项、新鲜授时44项均退出0 |
+| Backend/AI/工具 | 联合122项退出0；最终下载/恢复/观察定向30项退出0 |
+| ARM | 隔离、正常两个目标均退出0 |
+| 首次Host夹具 | 故障注入被夹具TXOK覆盖，退出3，修正夹具后通过；原件保留 |
+| 下载/主机异常 | 首次ROM握手退出1、未写Flash；第二次已完整烧录读回后，我误判进度中止了主机观察，整体回执1。之后多次ROM同步失败均未写Flash，原件保留；最终复用已证实的自动连接时序恢复RAM、观察退出0，无追加Flash写入 |
+
+最终成功恢复回执 `c-resume-20261020T062156Z.json`，UART原件/结果 `uart-20261020T062235Z*`。完整保护区读取有阶段回执；UART写入有2秒上限，观察期间保持同一串口句柄。手动ROM支路未获本次实板成功验证，不将离线测试替代硬件证据。
+
+## 运行服务、剩余事项与停止状态
+
+仅临时重启隔离 Broker `runtime-37808287a557` 与 Backend `runtime-2ffd1d372ace`，没有启动隔离AI、没有新增模型调用，原10请求/7496 Token流水未改。实测结束已停止这两个活动隔离服务并撤销本轮8884主机临时规则；正式三服务PID、Web、Nginx和配置哈希核对未变，清理退出0，见 `isolation-cleanup.json`。首次清理检查静态文件路径错误退出1，发生在任何清理变更之前，纠正路径后完成。未发布新的 HTTPS 入口或执行正式回滚。
+
+本次锁止问题已解决。整体H3后续仍需处理/复核本轮MQTT短暂中断、NIBP有效输入及90秒过期路径、C持久配置与正常启动方式，并取得合同内正式发布窗口及公网数据范围确认。C仍使用下载BOOT接线和RAM会话配置，断电会丢失配置；请勿把它视为正式常驻固件。原8884云安全组条目仍待现场撤销/收敛；未修改正式云端或其他安全组。当前已结束监听和真机操作；关闭串口后C持续运行状态未另行验证，不作为C冷启动验收。提交推送后等待审核，本次不再次安排电脑睡眠。
+
+## 上轮交接原始记录（历史状态，以下保留原文）
+
 交接日期：2026-10-20。最终裁定：**H3_BLOCKED（已有部分真实链路通过；未正式发布）**。
 
 本轮遵循MPM-H3-001同一合同连续执行。最后正常断电重启A时，C输出 `GW CAN_FAULT_NETWORK_CLOSED_STOP` 后关闭网络并永久停留，未捕获重启Boot-up/新会话；按合同自动停止条款停止真机操作及正式切换。未绕过锁止、重新烧录或把之前通过窗口写成整体H3_PASS。操作者最后报告A已拔下J-Link、独立上电且两屏正常；这不能代替C捕获新Boot-up的验收证据。

@@ -1,0 +1,74 @@
+{
+  "state": "CAPTURING",
+  "stamp": "20261020T062235Z",
+  "elapsed_s": 424.328,
+  "updated_utc": "2026-10-20T06:29:40.120074+00:00",
+  "boot_markers": 1,
+  "latest": {
+    "model": {
+      "can": 392,
+      "drop": 66,
+      "cache": 18,
+      "lost": 0,
+      "replay": 28,
+      "nodes": 0
+    },
+    "queue": {
+      "fovr": 0,
+      "sw": 0,
+      "bad": 0,
+      "high": 4,
+      "depth": 0,
+      "irq": 945,
+      "lag_cycles": 437081,
+      "stale": 0,
+      "fault": 0,
+      "uart": 0
+    },
+    "can": {
+      "hb": 378,
+      "boot": 1,
+      "p181": 0,
+      "p381": 189,
+      "p481": 189,
+      "p681": 189,
+      "txok": 392,
+      "txfail": 1,
+      "nmt": 1,
+      "time": 12,
+      "TEC": 8,
+      "REC": 0,
+      "LEC": 3,
+      "BOFF": 0
+    },
+    "delivery": {
+      "qos1_puback": 224,
+      "qos0_send": 0,
+      "failed": 1,
+      "last_node": 1,
+      "last_stream": 1,
+      "last_seq": 43,
+      "last_ms_hi": 417,
+      "last_ms_lo": 1476352568
+    }
+  },
+  "peer": {
+    "wait": 1,
+    "losses": 1,
+    "returns": 0,
+    "no_ack": 1,
+    "discarded": 66,
+    "esr": 524336,
+    "tsr": 469762057,
+    "at_ms": 391961
+  },
+  "host_log": {
+    "complete": 45,
+    "missing_reports": 0,
+    "missing_lines": 0,
+    "duplicate_lines": 0,
+    "invalid_tags": 0
+  },
+  "fatal_can": null,
+  "mqtt_connected_seen": true
+}

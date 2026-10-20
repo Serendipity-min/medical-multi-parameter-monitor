@@ -1,0 +1,25 @@
+{
+  "scope": "A_TRUE_POWER_OFF_C_LATCH_REPAIR",
+  "source_commit": "ab5861c600a4a43b184ff1fe17d13ba9aa11bb96",
+  "checks": {
+    "no_C_reboot": true,
+    "real_ACK_loss": true,
+    "new_bootup": true,
+    "NMT_real_TXOK": true,
+    "peer_resumed": true,
+    "TXOK_progress": true,
+    "no_busoff_or_fault": true,
+    "no_FIFO_SW_UART_or_Host_loss": true,
+    "new_cloud_session": true,
+    "B_offline_and_invalid_values_hidden": true,
+    "protected_and_resume_verified": true
+  },
+  "exit_code": 0,
+  "full_WSS_observer_exit_code": 1,
+  "full_WSS_gateway_unavailable_samples": 127,
+  "MQTT_publish_failed_final": 1,
+  "intentional_stale_CAN_discard": 158,
+  "physiological_acquisition": "NOT_TESTED_NO_INPUT",
+  "overall_H3": "PARTIAL_NOT_DEPLOYED",
+  "AI_calls": 0
+}

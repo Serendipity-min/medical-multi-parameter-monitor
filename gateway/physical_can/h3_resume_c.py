@@ -10,7 +10,7 @@ import time
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
-from gateway.physical_can.h3_flash_c import PRIVATE, START, sha, verify_plan
+from gateway.physical_can.h3_flash_c import PRIVATE, START, sha, verify_plan, synchronize_manual_rom
 from gateway.physical_can.bench.flash_c import GateError, external_identity, verify_f4_identity, read_exact, protected_hashes
 
 
@@ -65,28 +65,34 @@ def main():
             raise GateError('PREFLIGHT_NOT_VERIFIED')
         # 本机C下载线reset_active_high=True：DTR=True才是释放NRST；
         # boot0_active_low=True对应RTS=True保持下载状态。不能套用两线均False。
-        uart = serial.Serial(port=None, baudrate=115200, parity='E', timeout=2, write_timeout=2)
-        uart.dtr = True
-        uart.rts = True
-        uart.port = 'COM15'
         with redirect_stdout(capture), redirect_stderr(capture):
-            uart.open()
             connection = SerialConnection('COM15', 115200, 'E')
-            connection.serial_connection = uart
             connection.reset_active_high = True
             connection.boot0_active_low = True
+            if args.reset_c:
+                # 自动复位路径严格复用已成功下载的SerialConnection打开/脉冲时序。
+                connection.connect();uart=connection.serial_connection;uart.write_timeout=2
+            else:
+                uart = serial.Serial(port=None, baudrate=115200, parity='E', timeout=2, write_timeout=2)
+                uart.dtr=True;uart.rts=True;uart.port='COM15';uart.open()
+                connection.serial_connection=uart
+            # CH340打开时可能释放此前保持的NRST；给ROM启动留固定稳定时间，
+            # 不在释放复位的同一瞬间发送自动波特率同步字节。
+            time.sleep(.3)
             boot = Stm32Bootloader(connection, device_family='F4', verbosity=0)
+            result['stage']='ROM_SYNC';target.write_text(json.dumps(result,indent=2),encoding='utf-8')
             if args.reset_c:
                 # 现场已确认A断电时，复用本轮成功的C下载线复位极性和握手时序。
                 result['reset_sent'] = True
                 boot.reset_from_system_memory()
             else:
-                uart.write(b'\x7f')
-                if uart.read(1) not in (b'\x79', b'\x1f'):
-                    raise GateError('ROM_SYNC_NOT_CONFIRMED')
+                synchronize_manual_rom(uart)
             boot.get()
+            result['stage']='VERIFY_C_IDENTITY';target.write_text(json.dumps(result,indent=2),encoding='utf-8')
             verify_f4_identity(boot, external_identity(Path('E:/stm32/ai_serial_console/tools/flash.py')))
             result['C_identity_match'] = True
+            # 完整保护区读取需要传输256KiB；明确阶段，不能把耗时读取误判为握手停滞。
+            result['stage']='VERIFY_APP_PROTECTED_AND_RAM';target.write_text(json.dumps(result,indent=2),encoding='utf-8')
             result.update(resume_verified(boot, image, config, baseline))
             target.write_text(json.dumps(result, indent=2), encoding='utf-8')
             uart.parity = 'N'
