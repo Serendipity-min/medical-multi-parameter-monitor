@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 import struct
 import subprocess
+import time
 
 from gateway.physical_can.bench.flash_c import GateError,read_exact,protected_hashes,external_identity,verify_f4_identity
 from gateway.physical_can.r2_config_record import validate,RecordError
@@ -152,6 +153,16 @@ def verify_sources(manifest,commit,sdk):
             if not path.is_relative_to(parent) or sha(path.read_bytes())!=digest:raise GateError('BUILD_INPUT_CHANGED')
 
 
+def synchronize_ready_rom(uart,boot):
+    # CH340打开可能释放NRST；复用旧工具的稳定等待，不能紧接open发送自动波特率字节。
+    # 仅清空Host输入缓冲，再发同步字；不改变BOOT/复位电平、不清设备错误计数。
+    from gateway.physical_can.h3_flash_c import synchronize_manual_rom
+    time.sleep(.3)
+    uart.reset_input_buffer()
+    synchronize_manual_rom(uart)
+    boot.get()
+
+
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--action',choices=('plan','backup','program','restore'),default='plan')
     for flag in ('manifest','image','record'):parser.add_argument('--'+flag,type=Path,required=True)
@@ -194,14 +205,13 @@ def main():
         import serial
         from stm32loader.uart import SerialConnection
         from stm32loader.bootloader import Stm32Bootloader
-        from gateway.physical_can.h3_flash_c import synchronize_manual_rom
         # 仅接受现场已手动进入ROM的状态；不自动改BOOT/复位，不GO，结束留待断电改正常BOOT。
         with redirect_stdout(capture),redirect_stderr(capture):
             uart=serial.Serial(port=None,baudrate=115200,parity='E',timeout=2,write_timeout=2)
             uart.dtr=True;uart.rts=True;uart.port='COM15';result['hardware_accessed']=True;uart.open()
             connection=SerialConnection('COM15',115200,'E');connection.serial_connection=uart
             boot=Stm32Bootloader(connection,device_family='F4',verbosity=0)
-            synchronize_manual_rom(uart);boot.get();verify_f4_identity(boot,identity)
+            synchronize_ready_rom(uart,boot);verify_f4_identity(boot,identity)
             if args.action=='backup':
                 value=capture_backup(boot,previous,args.private_dir,sha(args.identity_source.read_bytes()))
                 with (args.private_dir/'baseline.json').open('x') as f:json.dump(value,f,indent=2)

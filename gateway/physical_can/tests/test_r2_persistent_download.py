@@ -84,6 +84,19 @@ int main(void){H3ConfigRecord r;if(fread(&r,1,sizeof(r),stdin)!=sizeof(r))return
         with pytest.raises(record.RecordError):record.validate(bad)
 
 
+def test_manual_rom_stabilizes_and_discards_old_host_input_before_sync(monkeypatch):
+    events=[]
+    class Uart:
+        def reset_input_buffer(self):events.append('clear_host_input')
+        def write(self,data):events.append(('write',data))
+        def read(self,size):events.append(('read',size));return b'\x79'
+    class Boot:
+        def get(self):events.append('get')
+    monkeypatch.setattr(gate.time,'sleep',lambda value:events.append(('sleep',value)))
+    gate.synchronize_ready_rom(Uart(),Boot())
+    assert events==[('sleep',.3),'clear_host_input',('write',b'\x7f'),('read',1),'get']
+
+
 @pytest.mark.parametrize('fault',['sectors','app_hash','sp','irq','ram','normal_port','load','record_crc','record_uncommitted'])
 def test_offline_plan_blocks_wrong_scope(fault):
     m,image,config=fixture_inputs()
