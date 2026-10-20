@@ -1,0 +1,181 @@
+{
+  "state": "CAPTURING",
+  "stamp": "20261020T074147Z",
+  "updated_utc": "2026-10-20T07:44:02.493339+00:00",
+  "elapsed_s": 135.015,
+  "latest": {
+    "model": {
+      "can": 222,
+      "drop": 0,
+      "cache": 0,
+      "lost": 0,
+      "replay": 0,
+      "nodes": 10
+    },
+    "queue": {
+      "fovr": 0,
+      "sw": 0,
+      "bad": 0,
+      "high": 4,
+      "depth": 0,
+      "irq": 550,
+      "lag_cycles": 433944,
+      "stale": 0,
+      "fault": 0,
+      "uart": 0
+    },
+    "can": {
+      "hb": 220,
+      "boot": 1,
+      "p181": 0,
+      "p381": 110,
+      "p481": 110,
+      "p681": 110,
+      "txok": 222,
+      "txfail": 0,
+      "nmt": 1,
+      "time": 0,
+      "TEC": 0,
+      "REC": 0,
+      "LEC": 0,
+      "BOFF": 0
+    },
+    "delivery": {
+      "qos1_puback": 0,
+      "qos0_send": 0,
+      "failed": 0,
+      "last_node": 0,
+      "last_stream": 0,
+      "last_seq": 0,
+      "last_ms_hi": 0,
+      "last_ms_lo": 0
+    }
+  },
+  "host_log": {
+    "complete": 23,
+    "missing_reports": 0,
+    "missing_lines": 0,
+    "duplicate_lines": 0,
+    "invalid_tags": 0
+  },
+  "sntp_rejects": [
+    {
+      "utc": "2026-10-20T07:42:38.334571+00:00",
+      "reason": 2,
+      "received": 0,
+      "rtt_ms": 1008
+    },
+    {
+      "utc": "2026-10-20T07:42:43.835451+00:00",
+      "reason": 2,
+      "received": 0,
+      "rtt_ms": 1003
+    },
+    {
+      "utc": "2026-10-20T07:42:48.854041+00:00",
+      "reason": 2,
+      "received": 0,
+      "rtt_ms": 1005
+    },
+    {
+      "utc": "2026-10-20T07:42:54.380848+00:00",
+      "reason": 2,
+      "received": 0,
+      "rtt_ms": 1013
+    },
+    {
+      "utc": "2026-10-20T07:42:59.884290+00:00",
+      "reason": 2,
+      "received": 0,
+      "rtt_ms": 1000
+    },
+    {
+      "utc": "2026-10-20T07:43:05.416469+00:00",
+      "reason": 2,
+      "received": 0,
+      "rtt_ms": 1014
+    },
+    {
+      "utc": "2026-10-20T07:43:10.940348+00:00",
+      "reason": 2,
+      "received": 0,
+      "rtt_ms": 1015
+    },
+    {
+      "utc": "2026-10-20T07:43:16.439080+00:00",
+      "reason": 2,
+      "received": 0,
+      "rtt_ms": 1002
+    },
+    {
+      "utc": "2026-10-20T07:43:21.960660+00:00",
+      "reason": 2,
+      "received": 0,
+      "rtt_ms": 1001
+    },
+    {
+      "utc": "2026-10-20T07:43:27.489948+00:00",
+      "reason": 2,
+      "received": 0,
+      "rtt_ms": 1015
+    },
+    {
+      "utc": "2026-10-20T07:43:33.011131+00:00",
+      "reason": 2,
+      "received": 0,
+      "rtt_ms": 1015
+    },
+    {
+      "utc": "2026-10-20T07:43:38.009832+00:00",
+      "reason": 2,
+      "received": 0,
+      "rtt_ms": 1000
+    },
+    {
+      "utc": "2026-10-20T07:43:43.539981+00:00",
+      "reason": 2,
+      "received": 0,
+      "rtt_ms": 1013
+    },
+    {
+      "utc": "2026-10-20T07:43:49.096088+00:00",
+      "reason": 2,
+      "received": 0,
+      "rtt_ms": 1001
+    },
+    {
+      "utc": "2026-10-20T07:43:54.576886+00:00",
+      "reason": 2,
+      "received": 0,
+      "rtt_ms": 1015
+    },
+    {
+      "utc": "2026-10-20T07:44:00.091693+00:00",
+      "reason": 2,
+      "received": 0,
+      "rtt_ms": 1011
+    }
+  ],
+  "wifi_signal": {
+    "channel": "1",
+    "rssi": "-33"
+  },
+  "esp_io": {
+    "tx_ok": 13,
+    "tx_ms": 21,
+    "queries": 776,
+    "empty": 776,
+    "rx_bytes": 0
+  },
+  "peer": {
+    "wait": 0,
+    "losses": 0,
+    "returns": 0,
+    "no_ack": 0,
+    "discarded": 0,
+    "esr": 0,
+    "tsr": 0,
+    "at_ms": 0
+  },
+  "boot_markers": 1
+}

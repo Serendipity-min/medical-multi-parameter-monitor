@@ -35,6 +35,7 @@ int mock_sleep_mode;
 #ifdef MP_H3_FRESH_SNTP
 static int ntp_socket;
 int mock_ntp_fault;
+unsigned mock_ntp_server_mask;
 #endif
 
 void platform_poll(void) { g_uptime_ms++; }
@@ -46,7 +47,7 @@ const char *at_response(void) {
     if(response_kind==1)return "AT version:2.3.0.0\r\nOK\r\n";
     if(response_kind==2)return "+CWJAP:\"synthetic\",\"00:00:00:00:00:00\",6,-40,0,1,3,0,0\r\nOK\r\n";
     if(response_kind==3)return mock_sleep_mode?"+SLEEP:3\r\nOK\r\n":"+SLEEP:0\r\nOK\r\n";
-    if(response_kind==4)return "+CIPSNTPCFG:1,0,\"ntp.example.invalid\"\r\nOK\r\n";
+    if(response_kind==4)return "+CIPSNTPCFG:1,0,\"ntp.example.invalid\",\"ntp2.example.invalid\",\"ntp3.example.invalid\"\r\nOK\r\n";
     return "+SYSTIMESTAMP:1800000000";
 }
 int at_command(const char *command, uint32_t timeout)
@@ -58,7 +59,13 @@ int at_command(const char *command, uint32_t timeout)
     if(!strcmp(command,"AT+SLEEP=0"))mock_sleep_mode=0;
     if (!strncmp(command, "AT+CIPSTART=\"SSL\"", 16)) mock_tls_started = 1;
 #ifdef MP_H3_FRESH_SNTP
-    if(!strncmp(command,"AT+CIPSTART=\"UDP\"",16)) {ntp_socket=1;return 1;}
+    if(!strncmp(command,"AT+CIPSTART=\"UDP\"",16)) {
+        /* 仅允许配置内的合成端点，累计选择集合供真实联网入口回归使用。 */
+        unsigned bit=strstr(command,"\"ntp.example.invalid\"")?1u:
+            strstr(command,"\"ntp2.example.invalid\"")?2u:
+            strstr(command,"\"ntp3.example.invalid\"")?4u:0u;
+        assert(bit);mock_ntp_server_mask|=bit;ntp_socket=1;return 1;
+    }
     if(!strcmp(command,"AT+CIPCLOSE"))ntp_socket=0;
 #endif
     /* 假配置中只允许 SSL:8883，名称命令绑定同一合成主机。 */

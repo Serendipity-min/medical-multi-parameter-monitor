@@ -297,11 +297,19 @@ void gateway_network_close(void)
 
 /* 固定顺序为 AT 配置、入网、可信时间、证书名称校验、TLS；任何失败由外层重试。 */
 #ifdef MP_H3_FRESH_SNTP
+/* 单个配置端点不可达时，下次外层重连轮换；每次仍只发一个有界请求。 */
+static unsigned sntp_server_cursor;
 static int fresh_sntp(void) {
     char server[65]={0},command[112];
-    if(!at_command("AT+CIPSNTPCFG?",2000) || !sntp_first_server(at_response(),server)) {
+    if(!at_command("AT+CIPSNTPCFG?",2000)) {
         console("GW FAIL SNTP_SERVER_CONFIG\r\n");return 0;
     }
+    unsigned selected=sntp_server_cursor;
+    if(!sntp_server_at(at_response(),selected,server))selected=0;
+    if(!sntp_server_at(at_response(),selected,server)) {
+        console("GW FAIL SNTP_SERVER_CONFIG\r\n");return 0;
+    }
+    sntp_server_cursor=(selected+1u)%3u;
     (void)snprintf(command,sizeof(command),"AT+CIPSTART=\"UDP\",\"%s\",123",server);
     int opened=at_command(command,5000);
     secure_memzero(server,sizeof(server));secure_memzero(command,sizeof(command));
@@ -334,14 +342,16 @@ static int fresh_sntp(void) {
         else if((reply[0]>>6)==3)reason=4;
         else if(valid && !closed)reason=8;
         char diagnostic[96];
-        (void)snprintf(diagnostic,sizeof(diagnostic),"GW SNTP_REJECT reason=%u received=%d rtt_ms=%lu\r\n",
-            reason,received,(unsigned long)rtt);console(diagnostic);
+        (void)snprintf(diagnostic,sizeof(diagnostic),"GW SNTP_REJECT reason=%u received=%d rtt_ms=%lu server_index=%u\r\n",
+            reason,received,(unsigned long)rtt,selected);console(diagnostic);
         console("GW FAIL SNTP_FRESH_SAMPLE\r\n");return 0;
     }
     epoch=(uint32_t)(sample/1000u);epoch_fraction=(uint32_t)(sample%1000u);
     epoch_tick=start+rtt;
-    char line[112];(void)snprintf(line,sizeof(line),"GW SNTP_SAMPLE rtt_ms=%lu uncertainty_ms=%lu epoch=%lu fraction=%lu\r\n",
-        (unsigned long)rtt,(unsigned long)(rtt/2u),(unsigned long)epoch,(unsigned long)epoch_fraction);console(line);
+    /* 成功端点继续使用；只有失败才在下一轮切换，不改变nonce/RTT/TLS门禁。 */
+    sntp_server_cursor=selected;
+    char line[128];(void)snprintf(line,sizeof(line),"GW SNTP_SAMPLE rtt_ms=%lu uncertainty_ms=%lu epoch=%lu fraction=%lu server_index=%u\r\n",
+        (unsigned long)rtt,(unsigned long)(rtt/2u),(unsigned long)epoch,(unsigned long)epoch_fraction,selected);console(line);
     return 1;
 }
 #endif

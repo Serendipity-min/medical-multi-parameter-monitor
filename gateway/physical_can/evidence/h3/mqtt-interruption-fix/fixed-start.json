@@ -1,0 +1,109 @@
+{
+  "state": "CAPTURING",
+  "stamp": "20261020T074147Z",
+  "updated_utc": "2026-10-20T07:42:57.385983+00:00",
+  "elapsed_s": 69.906,
+  "latest": {
+    "model": {
+      "can": 92,
+      "drop": 0,
+      "cache": 0,
+      "lost": 0,
+      "replay": 0,
+      "nodes": 10
+    },
+    "queue": {
+      "fovr": 0,
+      "sw": 0,
+      "bad": 0,
+      "high": 4,
+      "depth": 0,
+      "irq": 225,
+      "lag_cycles": 433944,
+      "stale": 0,
+      "fault": 0,
+      "uart": 0
+    },
+    "can": {
+      "hb": 90,
+      "boot": 1,
+      "p181": 0,
+      "p381": 45,
+      "p481": 45,
+      "p681": 45,
+      "txok": 92,
+      "txfail": 0,
+      "nmt": 1,
+      "time": 0,
+      "TEC": 0,
+      "REC": 0,
+      "LEC": 0,
+      "BOFF": 0
+    },
+    "delivery": {
+      "qos1_puback": 0,
+      "qos0_send": 0,
+      "failed": 0,
+      "last_node": 0,
+      "last_stream": 0,
+      "last_seq": 0,
+      "last_ms_hi": 0,
+      "last_ms_lo": 0
+    }
+  },
+  "host_log": {
+    "complete": 10,
+    "missing_reports": 0,
+    "missing_lines": 0,
+    "duplicate_lines": 0,
+    "invalid_tags": 0
+  },
+  "sntp_rejects": [
+    {
+      "utc": "2026-10-20T07:42:38.334571+00:00",
+      "reason": 2,
+      "received": 0,
+      "rtt_ms": 1008
+    },
+    {
+      "utc": "2026-10-20T07:42:43.835451+00:00",
+      "reason": 2,
+      "received": 0,
+      "rtt_ms": 1003
+    },
+    {
+      "utc": "2026-10-20T07:42:48.854041+00:00",
+      "reason": 2,
+      "received": 0,
+      "rtt_ms": 1005
+    },
+    {
+      "utc": "2026-10-20T07:42:54.380848+00:00",
+      "reason": 2,
+      "received": 0,
+      "rtt_ms": 1013
+    }
+  ],
+  "wifi_signal": {
+    "channel": "1",
+    "rssi": "-33"
+  },
+  "esp_io": {
+    "tx_ok": 3,
+    "tx_ms": 19,
+    "queries": 119,
+    "empty": 119,
+    "rx_bytes": 0
+  },
+  "peer": {
+    "wait": 0,
+    "losses": 0,
+    "returns": 0,
+    "no_ack": 0,
+    "discarded": 0,
+    "esr": 0,
+    "tsr": 0,
+    "at_ms": 0
+  },
+  "boot_markers": 1
+}

@@ -5,10 +5,10 @@
   "wifi_awake": false,
   "fresh_sntp": true,
   "image": {
-    "sha256": "2683e3f833e329a77b35c709e37148589aca99550a07ffb2bf5e5f988a51619b",
-    "bytes": 42472,
+    "sha256": "c3bc10c6bb01831fb7c1f7a44dabb5fc0295fa667045a5428856bd6991250b6f",
+    "bytes": 42728,
     "start": 134217728,
-    "end_exclusive": 134260200,
+    "end_exclusive": 134260456,
     "erase_sectors": [
       0,
       1,
@@ -17,17 +17,17 @@
     "load_segments": [
       {
         "start": 134217728,
-        "end_exclusive": 134260112,
-        "bytes": 42384
+        "end_exclusive": 134260368,
+        "bytes": 42640
       },
       {
-        "start": 134260112,
-        "end_exclusive": 134260200,
+        "start": 134260368,
+        "end_exclusive": 134260456,
         "bytes": 88
       }
     ],
     "initial_sp": 537001472,
-    "reset_vector": 134250009,
+    "reset_vector": 134250197,
     "CAN1_RX0_vector": {
       "address": 134236473,
       "strong_handler": true
@@ -1543,7 +1543,7 @@
     "gateway/physical_can/src/bxcan_network_irq.c": "30acec583e81a3af26aa06aaf3cd5bf232cd3ab949e68abb67f612429f2ccfc8",
     "gateway/physical_can/bench/rx_irq.c": "d9d252bbf4b234b294c26fd97391fa472a7967085bbb37f5654adf879420a613",
     "gateway/mqtt/src/gateway_assert.c": "d29eb278706acf7a4249a2104b05f22cf859c61de5d924773c785228d7523d17",
-    "gateway/mqtt/src/gateway_transport.c": "ecdc54523504ed53d1c9e09050ffaa796f3afb577047ab5f6df6769c8bf98007",
+    "gateway/mqtt/src/gateway_transport.c": "880f6baf9625e41c7d3499f8f95d345ec0c9e5245c7ba3b8aad660542cff5de3",
     "gateway/mqtt/src/heap.c": "20bf6b3b9c5ddc276ba4d85016ce14ae1425c18e24e5f020bea011d9168b2923",
     "gateway/mqtt/src/mqtt_transport_adapter.c": "beb93429f95cba5fe88f170010363613391df41975475abcbe1842c7692019aa",
     "gateway/mqtt/src/platform.c": "71d5e4f0f91faa609cd6b1e256b6f33d9ce921365a13fb1b817f4688f5832261",
@@ -1576,7 +1576,7 @@
     "gateway/mqtt/src/gateway_platform.h": "fd419ae3ac3bdc937356a639034875ff9bfb2435f4a6386f61534fff92cc1eeb",
     "gateway/mqtt/src/gateway_transport.h": "3a1842a217d42e6ab602fc31bc97d399d18697a3dcbd86deed26bc4826478faa",
     "gateway/mqtt/src/mqtt_transport_adapter.h": "e95954aa35f96fdd5c8ba813dacf0605d7e38c055f6658391d9be28d26ca4ade",
-    "gateway/mqtt/src/sntp_sample.h": "1df0243903391cb284b400106aa6da9de217e633d91bfa4d36635489612e9993",
+    "gateway/mqtt/src/sntp_sample.h": "43e911a6e3b710c78439946bd3297f6729385db6aaed695df82f0c3daa50371a",
     "gateway/mqtt/src/wifi_status.h": "c2e231036e703c88a99181dd2a2f7fbcf90c3a6ba0b821e4dc9515e72e3a33af",
     "external-sdk/Libraries/CMSIS/Device/ST/STM32F4xx/Source/Templates/gcc_ride7/startup_stm32f40_41xxx.s": "7130bda839175b88ae9b13c03f2e0e993139b253eebd03f1f1ef23840dc569a4"
   }

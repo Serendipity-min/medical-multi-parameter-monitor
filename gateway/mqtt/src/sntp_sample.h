@@ -10,10 +10,20 @@ static inline uint32_t sntp_u32(const unsigned char *p) {
 static inline void sntp_put32(unsigned char *p,uint32_t v) {
     p[0]=(unsigned char)(v>>24);p[1]=(unsigned char)(v>>16);p[2]=(unsigned char)(v>>8);p[3]=(unsigned char)v;
 }
-/* 目标从模块当前SNTP配置读取；仅接收一个有界DNS名，不在源码内固化真实连接地址。 */
-static inline int sntp_first_server(const char *reply,char server[65]) {
+/* 仅从模块当前配置选择最多三个有界DNS名；不内置地址，也不越过本行读取。 */
+static inline int sntp_server_at(const char *reply,unsigned index,char server[65]) {
+    if(index>=3)return 0;
     const char *p=strstr(reply,"+CIPSNTPCFG:");
-    if(!p || !(p=strchr(p,'"')))return 0;
+    if(!p)return 0;
+    const char *line_end=strpbrk(p,"\r\n");
+    p=strchr(p,'"');if(!p || (line_end && p>=line_end))return 0;
+    for(unsigned at=0;at<index;at++) {
+        p=strchr(p+1,'"');if(!p || (line_end && p>=line_end))return 0;p++;
+        while(*p==' ')p++;
+        if(*p++!=',')return 0;
+        while(*p==' ')p++;
+        if(*p!='"')return 0;
+    }
     p++;size_t length=0;
     while(p[length] && p[length]!='"') {
         char c=p[length];
@@ -23,6 +33,9 @@ static inline int sntp_first_server(const char *reply,char server[65]) {
     }
     if(!length || p[length]!='"')return 0;
     server[length]=0;return 1;
+}
+static inline int sntp_first_server(const char *reply,char server[65]) {
+    return sntp_server_at(reply,0,server);
 }
 /* 真实SNTP回复必须匹配本次请求的8字节originate；闰秒未同步/KoD/旧包均不授时。
  * 收到时刻按服务器发送时间加网络半程估计；RTT大于1秒则拒绝，不放宽监护TTL。 */

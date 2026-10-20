@@ -1,0 +1,23 @@
+{
+  "source": "PC_HOTSPOT_OFFICIAL_DEFAULT_NTP_CONTROL",
+  "not_confirmed_device_selected_server": true,
+  "tests": [
+    {
+      "configured_default_index": 0,
+      "failure_type": "TimeoutError",
+      "details_suppressed": true
+    },
+    {
+      "configured_default_index": 1,
+      "reply_bytes": 48,
+      "rtt_ms": 890.0,
+      "nonce_match": true,
+      "stratum": 1
+    },
+    {
+      "configured_default_index": 2,
+      "failure_type": "TimeoutError",
+      "details_suppressed": true
+    }
+  ]
+}

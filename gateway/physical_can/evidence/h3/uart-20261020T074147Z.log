@@ -1,0 +1,1047 @@
+GW CLOCK hse=1 core_hz=8000000
+GW BOOT CANOPENNODE PHYSICAL_CAN1 CANDIDATE_NOT_ACCEPTED
+GW WAIT_NODE_A_FIRST_HEARTBEAT NO_NETWORK_YET
+GW DIAG_BEGIN seq=1 lines=4
+GW METRICS can=2 drop=0 cache=0 lost=0 replay=0 nodes=00
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=4 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=1 boot=1 p181=0 p381=1 p481=1 p681=1 txok=2 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=1 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW FAIL AT
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW DIAG_BEGIN seq=2 lines=4
+GW METRICS can=12 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=28 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=11 boot=1 p181=0 p381=6 p481=6 p681=6 txok=12 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=2 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-33
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW DIAG_BEGIN seq=3 lines=4
+GW METRICS can=22 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=53 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=21 boot=1 p181=0 p381=11 p481=11 p681=11 txok=22 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=3 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW DIAG_BEGIN seq=4 lines=4
+GW METRICS can=32 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=78 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=31 boot=1 p181=0 p381=16 p481=16 p681=16 txok=32 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=4 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW DIAG_BEGIN seq=5 lines=4
+GW METRICS can=42 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=103 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=40 boot=1 p181=0 p381=21 p481=21 p681=21 txok=42 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=5 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW FAIL TIME
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW DIAG_BEGIN seq=6 lines=4
+GW METRICS can=52 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=128 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=50 boot=1 p181=0 p381=26 p481=26 p681=26 txok=52 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=6 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-42
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW DIAG_BEGIN seq=7 lines=4
+GW METRICS can=62 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=153 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=60 boot=1 p181=0 p381=31 p481=31 p681=31 txok=62 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=7 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1008
+GW FAIL SNTP_FRESH_SAMPLE
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-41
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW DIAG_BEGIN seq=8 lines=4
+GW METRICS can=72 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=178 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=70 boot=1 p181=0 p381=36 p481=36 p681=36 txok=72 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=8 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1003
+GW FAIL SNTP_FRESH_SAMPLE
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-32
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW DIAG_BEGIN seq=9 lines=4
+GW METRICS can=82 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=200 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=80 boot=1 p181=0 p381=40 p481=40 p681=40 txok=82 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=9 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW ESP_IO tx_ok=3 tx_ms=19 queries=119 empty=119 rx_bytes=0
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1005
+GW FAIL SNTP_FRESH_SAMPLE
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW DIAG_BEGIN seq=10 lines=4
+GW METRICS can=92 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=225 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=90 boot=1 p181=0 p381=45 p481=45 p681=45 txok=92 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=10 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-33
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1013
+GW FAIL SNTP_FRESH_SAMPLE
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW DIAG_BEGIN seq=11 lines=4
+GW METRICS can=102 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=250 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=100 boot=1 p181=0 p381=50 p481=50 p681=50 txok=102 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=11 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-33
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1000
+GW FAIL SNTP_FRESH_SAMPLE
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW DIAG_BEGIN seq=12 lines=4
+GW METRICS can=112 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=275 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=110 boot=1 p181=0 p381=55 p481=55 p681=55 txok=112 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=12 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-34
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1014
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=13 lines=4
+GW METRICS can=122 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=300 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=120 boot=1 p181=0 p381=60 p481=60 p681=60 txok=122 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=13 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-34
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1015
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=14 lines=4
+GW METRICS can=132 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=325 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=130 boot=1 p181=0 p381=65 p481=65 p681=65 txok=132 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=14 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-41
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1002
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=15 lines=4
+GW METRICS can=142 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=350 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=140 boot=1 p181=0 p381=70 p481=70 p681=70 txok=142 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=15 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-36
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1001
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=16 lines=4
+GW METRICS can=152 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=375 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=150 boot=1 p181=0 p381=75 p481=75 p681=75 txok=152 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=16 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-37
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1015
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=17 lines=4
+GW METRICS can=162 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=400 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=160 boot=1 p181=0 p381=80 p481=80 p681=80 txok=162 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=17 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-33
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW DIAG_BEGIN seq=18 lines=4
+GW METRICS can=172 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=425 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=170 boot=1 p181=0 p381=85 p481=85 p681=85 txok=172 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=18 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1015
+GW FAIL SNTP_FRESH_SAMPLE
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-34
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW DIAG_BEGIN seq=19 lines=4
+GW METRICS can=182 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=450 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=180 boot=1 p181=0 p381=90 p481=90 p681=90 txok=182 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=19 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1000
+GW FAIL SNTP_FRESH_SAMPLE
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-34
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW DIAG_BEGIN seq=20 lines=4
+GW METRICS can=192 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=475 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=190 boot=1 p181=0 p381=95 p481=95 p681=95 txok=192 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=20 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1013
+GW FAIL SNTP_FRESH_SAMPLE
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW DIAG_BEGIN seq=21 lines=4
+GW METRICS can=202 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=500 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=200 boot=1 p181=0 p381=100 p481=100 p681=100 txok=202 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=21 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW ESP_IO tx_ok=13 tx_ms=21 queries=776 empty=776 rx_bytes=0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-30
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1001
+GW FAIL SNTP_FRESH_SAMPLE
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW DIAG_BEGIN seq=22 lines=4
+GW METRICS can=212 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=525 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=210 boot=1 p181=0 p381=105 p481=105 p681=105 txok=212 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=22 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-32
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1015
+GW FAIL SNTP_FRESH_SAMPLE
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW DIAG_BEGIN seq=23 lines=4
+GW METRICS can=222 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=550 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=220 boot=1 p181=0 p381=110 p481=110 p681=110 txok=222 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=23 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-33
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1011
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=24 lines=4
+GW METRICS can=232 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=575 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=230 boot=1 p181=0 p381=115 p481=115 p681=115 txok=232 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=24 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-30
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1003
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=25 lines=4
+GW METRICS can=242 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=600 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=240 boot=1 p181=0 p381=120 p481=120 p681=120 txok=242 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=25 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-30
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1001
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=26 lines=4
+GW METRICS can=252 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=625 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=250 boot=1 p181=0 p381=125 p481=125 p681=125 txok=252 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=26 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-46
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1000
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=27 lines=4
+GW METRICS can=262 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=650 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=260 boot=1 p181=0 p381=130 p481=130 p681=130 txok=262 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=27 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-39
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1001
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=28 lines=4
+GW METRICS can=272 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=675 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=270 boot=1 p181=0 p381=135 p481=135 p681=135 txok=272 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=28 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-35
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1001
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=29 lines=4
+GW METRICS can=282 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=700 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=280 boot=1 p181=0 p381=140 p481=140 p681=140 txok=282 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=29 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-40
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW DIAG_BEGIN seq=30 lines=4
+GW METRICS can=292 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=725 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=290 boot=1 p181=0 p381=145 p481=145 p681=145 txok=292 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=30 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1016
+GW FAIL SNTP_FRESH_SAMPLE
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-38
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW DIAG_BEGIN seq=31 lines=4
+GW METRICS can=302 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=750 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=300 boot=1 p181=0 p381=150 p481=150 p681=150 txok=302 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=31 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1011
+GW FAIL SNTP_FRESH_SAMPLE
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-36
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW DIAG_BEGIN seq=32 lines=4
+GW METRICS can=312 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=775 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=310 boot=1 p181=0 p381=155 p481=155 p681=155 txok=312 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=32 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1009
+GW FAIL SNTP_FRESH_SAMPLE
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW DIAG_BEGIN seq=33 lines=4
+GW METRICS can=322 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=800 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=320 boot=1 p181=0 p381=160 p481=160 p681=160 txok=322 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=33 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW ESP_IO tx_ok=24 tx_ms=21 queries=1440 empty=1440 rx_bytes=0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-38
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1000
+GW FAIL SNTP_FRESH_SAMPLE
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW DIAG_BEGIN seq=34 lines=4
+GW METRICS can=332 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=825 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=330 boot=1 p181=0 p381=165 p481=165 p681=165 txok=332 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=34 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-40
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1001
+GW FAIL SNTP_FRESH_SAMPLE
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW DIAG_BEGIN seq=35 lines=4
+GW METRICS can=342 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=850 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=340 boot=1 p181=0 p381=170 p481=170 p681=170 txok=342 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=35 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-44
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1015
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=36 lines=4
+GW METRICS can=352 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=875 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=350 boot=1 p181=0 p381=175 p481=175 p681=175 txok=352 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=36 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-44
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1015
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=37 lines=4
+GW METRICS can=362 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=900 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=360 boot=1 p181=0 p381=180 p481=180 p681=180 txok=362 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=37 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-41
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1001
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=38 lines=4
+GW METRICS can=372 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=925 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=370 boot=1 p181=0 p381=185 p481=185 p681=185 txok=372 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=38 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-41
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1015
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=39 lines=4
+GW METRICS can=382 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=950 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=380 boot=1 p181=0 p381=190 p481=190 p681=190 txok=382 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=39 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-37
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1007
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=40 lines=4
+GW METRICS can=392 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=975 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=390 boot=1 p181=0 p381=195 p481=195 p681=195 txok=392 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=40 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-37
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1015
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=41 lines=4
+GW METRICS can=402 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=1000 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=400 boot=1 p181=0 p381=200 p481=200 p681=200 txok=402 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=41 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-37
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1015
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=42 lines=4
+GW METRICS can=412 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=1025 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=410 boot=1 p181=0 p381=205 p481=205 p681=205 txok=412 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=42 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-30
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1013
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=43 lines=4
+GW METRICS can=422 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=1050 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=420 boot=1 p181=0 p381=210 p481=210 p681=210 txok=422 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=43 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-35
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW DIAG_BEGIN seq=44 lines=4
+GW METRICS can=432 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=1075 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=430 boot=1 p181=0 p381=215 p481=215 p681=215 txok=432 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=44 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1011
+GW FAIL SNTP_FRESH_SAMPLE
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-33
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW DIAG_BEGIN seq=45 lines=4
+GW METRICS can=442 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=1100 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=440 boot=1 p181=0 p381=220 p481=220 p681=220 txok=442 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=45 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW ESP_IO tx_ok=35 tx_ms=19 queries=2114 empty=2114 rx_bytes=0
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1001
+GW FAIL SNTP_FRESH_SAMPLE
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-37
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW DIAG_BEGIN seq=46 lines=4
+GW METRICS can=452 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=1125 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=450 boot=1 p181=0 p381=225 p481=225 p681=225 txok=452 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=46 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1001
+GW FAIL SNTP_FRESH_SAMPLE
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW DIAG_BEGIN seq=47 lines=4
+GW METRICS can=462 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=1150 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=460 boot=1 p181=0 p381=230 p481=230 p681=230 txok=462 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=47 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-37
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1000
+GW FAIL SNTP_FRESH_SAMPLE
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW DIAG_BEGIN seq=48 lines=4
+GW METRICS can=472 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=1175 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=470 boot=1 p181=0 p381=235 p481=235 p681=235 txok=472 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=48 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-37
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1015
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=49 lines=4
+GW METRICS can=482 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=1200 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=480 boot=1 p181=0 p381=240 p481=240 p681=240 txok=482 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=49 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-35
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1000
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=50 lines=4
+GW METRICS can=492 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=1225 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=490 boot=1 p181=0 p381=245 p481=245 p681=245 txok=492 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=50 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-37
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1004
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=51 lines=4
+GW METRICS can=502 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=1250 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=500 boot=1 p181=0 p381=250 p481=250 p681=250 txok=502 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=51 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-39
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1002
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=52 lines=4
+GW METRICS can=512 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=1275 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=510 boot=1 p181=0 p381=255 p481=255 p681=255 txok=512 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=52 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-37
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1000
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=53 lines=4
+GW METRICS can=522 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=1300 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=520 boot=1 p181=0 p381=260 p481=260 p681=260 txok=522 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=53 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-37
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1000
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=54 lines=4
+GW METRICS can=532 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=1325 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=530 boot=1 p181=0 p381=265 p481=265 p681=265 txok=532 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=54 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-36
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW DIAG_BEGIN seq=55 lines=4
+GW METRICS can=542 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=1350 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=540 boot=1 p181=0 p381=270 p481=270 p681=270 txok=542 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=55 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1002
+GW FAIL SNTP_FRESH_SAMPLE
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-37
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW DIAG_BEGIN seq=56 lines=4
+GW METRICS can=552 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=1375 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=550 boot=1 p181=0 p381=275 p481=275 p681=275 txok=552 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=56 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1015
+GW FAIL SNTP_FRESH_SAMPLE
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW DIAG_BEGIN seq=57 lines=4
+GW METRICS can=562 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=1400 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=560 boot=1 p181=0 p381=280 p481=280 p681=280 txok=562 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=57 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW ESP_IO tx_ok=46 tx_ms=18 queries=2779 empty=2779 rx_bytes=0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-36
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1002
+GW FAIL SNTP_FRESH_SAMPLE
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW DIAG_BEGIN seq=58 lines=4
+GW METRICS can=572 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=1425 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=570 boot=1 p181=0 p381=285 p481=285 p681=285 txok=572 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=58 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-36
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1004
+GW FAIL SNTP_FRESH_SAMPLE
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW DIAG_BEGIN seq=59 lines=4
+GW METRICS can=582 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=1450 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=580 boot=1 p181=0 p381=290 p481=290 p681=290 txok=582 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=59 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-36
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1015
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=60 lines=4
+GW METRICS can=592 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=1475 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=590 boot=1 p181=0 p381=295 p481=295 p681=295 txok=592 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=60 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW WIFI_SIGNAL channel=1 rssi=-36
+GW WIFI_SLEEP before=1 after=1
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_REJECT reason=2 received=0 rtt_ms=1014
+GW FAIL SNTP_FRESH_SAMPLE
+GW DIAG_BEGIN seq=61 lines=4
+GW METRICS can=602 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=4 depth=0 irq=1500 lag_cycles=433944 stale=0 fault=0 uart=0
+GW CANPROOF hb=600 boot=1 p181=0 p381=300 p481=300 p681=300 txok=602 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=61 lines=4
+GW PEER wait=0 losses=0 returns=0 no_ack=0 discarded=0 esr=0 tsr=0 at_ms=0

@@ -1,0 +1,81 @@
+{
+  "role": "C",
+  "port": "COM15",
+  "action": "H3_ISOLATED_NETWORK_DOWNLOAD",
+  "exit_code": 0,
+  "flash_write_started": true,
+  "previous_candidate_sha256": "b1de90885d2e3dd7833bdccf314f085d91de57c334b2bb37b4b118b9f11feaa5",
+  "source_commit": "a200808f74fd6299ee3a9d2f54089a068f94826b",
+  "image": {
+    "sha256": "2683e3f833e329a77b35c709e37148589aca99550a07ffb2bf5e5f988a51619b",
+    "bytes": 42472,
+    "start": 134217728,
+    "end_exclusive": 134260200,
+    "erase_sectors": [
+      0,
+      1,
+      2
+    ],
+    "load_segments": [
+      {
+        "start": 134217728,
+        "end_exclusive": 134260112,
+        "bytes": 42384
+      },
+      {
+        "start": 134260112,
+        "end_exclusive": 134260200,
+        "bytes": 88
+      }
+    ],
+    "initial_sp": 537001472,
+    "reset_vector": 134250009,
+    "CAN1_RX0_vector": {
+      "address": 134236473,
+      "strong_handler": true
+    },
+    "protected_sectors": [
+      7,
+      11
+    ],
+    "mass_erase": false,
+    "option_bytes_write": false
+  },
+  "volatile_config_sha256": "886e5cbbae184dd541549b1933c4ae8dcf9680754958f8136d170a730ab030a8",
+  "A_original_backup_verified": true,
+  "stage": "APPLICATION_VERIFIED_RAM_CONFIG_ONLY_GO_SENT",
+  "manual_rom": false,
+  "C_identity_match": true,
+  "image_readback_match": true,
+  "protected_unchanged": true,
+  "options_unchanged": true,
+  "protected_before": {
+    "0x8060000": {
+      "sector_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "first_312B_sha256": "26e1989c6b3b3e1b905dcc17405a2767a1a3ebbb76b26ae3ac6b16bfd61c031c"
+    },
+    "0x80e0000": {
+      "sector_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "first_312B_sha256": "26e1989c6b3b3e1b905dcc17405a2767a1a3ebbb76b26ae3ac6b16bfd61c031c"
+    }
+  },
+  "protected_after": {
+    "0x8060000": {
+      "sector_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "first_312B_sha256": "26e1989c6b3b3e1b905dcc17405a2767a1a3ebbb76b26ae3ac6b16bfd61c031c"
+    },
+    "0x80e0000": {
+      "sector_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "first_312B_sha256": "26e1989c6b3b3e1b905dcc17405a2767a1a3ebbb76b26ae3ac6b16bfd61c031c"
+    }
+  },
+  "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+  "configuration_flash_written": false,
+  "volatile_config_readback_match": true,
+  "boot_wait_marker_seen": true,
+  "download_verified": true,
+  "go_sent": true,
+  "observation_exit_code": 0,
+  "physical_CAN": "NOT_ACCEPTED",
+  "C_full_flash_backup": false
+}

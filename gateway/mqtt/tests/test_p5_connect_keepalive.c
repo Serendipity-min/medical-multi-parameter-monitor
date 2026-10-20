@@ -3,6 +3,9 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
+#ifdef MP_H3_FRESH_SNTP
+#include "sntp_sample.h"
+#endif
 #define PASS(name) puts("PASS " name)
 int main(void)
 {
@@ -80,8 +83,24 @@ int main(void)
     assert((mock_packet[0] & 7U) == 3U);
     PASS("gateway_status_qos1_retained");
 #ifdef MP_H3_FRESH_SNTP
-    /* 使用真实联网入口核对坏SNTP的失败关闭；不以旧RTC或默认年份绕过。 */
+    /* 三个端点连续无回复时必须逐轮选择，均不能带着旧RTC进入TLS。 */
+    extern unsigned mock_ntp_server_mask;
     extern int mock_ntp_fault;
+    mock_reset();mock_ntp_fault=4;mock_ntp_server_mask=0;
+    for(unsigned attempt=0;attempt<3;attempt++)assert(!gateway_network_open() && !mock_tls_started);
+    assert(mock_ntp_server_mask==7u);
+    mock_ntp_fault=0;assert(gateway_network_open() && mock_tls_started);
+    PASS("fresh_sntp_configured_server_rotation_and_recovery");
+    /* 端点缺失、越界、AT注入字符及跨行引号都不能成为连接目标。 */
+    char server[65];
+    const char *configured="+CIPSNTPCFG:1,0,\"one.invalid\",\"two.invalid\",\"three.invalid\"\r\nOK\r\n";
+    assert(sntp_server_at(configured,2,server) && !strcmp(server,"three.invalid"));
+    assert(!sntp_server_at(configured,3,server));
+    assert(!sntp_server_at("+CIPSNTPCFG:1,0,\"one.invalid\"\r\nOK \"other.invalid\"",1,server));
+    assert(!sntp_server_at("+CIPSNTPCFG:1,0\r\nOK \"other.invalid\"",0,server));
+    assert(!sntp_server_at("+CIPSNTPCFG:1,0,\"bad;AT\"",0,server));
+    PASS("fresh_sntp_server_selection_bounds_and_line_boundary");
+    /* 使用真实联网入口核对坏SNTP的失败关闭；不以旧RTC或默认年份绕过。 */
     for(int fault=1;fault<=4;fault++) {
         mock_reset();mock_ntp_fault=fault;
         assert(!gateway_network_open() && !mock_tls_started);
