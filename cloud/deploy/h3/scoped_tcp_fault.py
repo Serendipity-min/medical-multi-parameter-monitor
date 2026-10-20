@@ -1,5 +1,6 @@
 """对当前现场唯一的8884连接注入6秒丢包；不触及其他连接或正式端口。"""
 import ipaddress
+from datetime import datetime,timezone
 import json
 import os
 import re
@@ -30,7 +31,8 @@ def inject():
           '-m','comment','--comment',comment,'-j','DROP']
     result={'action':'BOUNDED_ISOLATED_TCP_LOSS','seconds':6,'port':8884,
             'scope':'SINGLE_EXISTING_FIELD_CONNECTION','addresses_or_source_ports_saved':False,
-            'production_ports_changed':False,'rule_removed':False,'exit_code':1}
+            'production_ports_changed':False,'rule_removed':False,'exit_code':1,
+            'started_utc':datetime.now(timezone.utc).isoformat()}
     def interrupted(_number,_frame):raise RuntimeError('FAULT_INTERRUPTED')
     previous={n:signal.signal(n,interrupted) for n in (signal.SIGINT,signal.SIGTERM)}
     installed=False
@@ -50,6 +52,7 @@ def inject():
             result['rule_removed']=removed.returncode==0
         for number,handler in previous.items():signal.signal(number,handler)
     result['exit_code']=int(not result['rule_removed'] or not result.get('dropped_packets'))
+    result['finished_utc']=datetime.now(timezone.utc).isoformat()
     return result
 
 

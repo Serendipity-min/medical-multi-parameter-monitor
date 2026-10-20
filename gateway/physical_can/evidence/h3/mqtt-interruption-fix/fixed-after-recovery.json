@@ -1,0 +1,137 @@
+{
+  "state": "CAPTURING",
+  "stamp": "20261020T075056Z",
+  "updated_utc": "2026-10-20T08:02:26.550771+00:00",
+  "elapsed_s": 690.406,
+  "latest": {
+    "model": {
+      "can": 1308,
+      "drop": 0,
+      "cache": 0,
+      "lost": 0,
+      "replay": 20,
+      "nodes": 10
+    },
+    "queue": {
+      "fovr": 0,
+      "sw": 0,
+      "bad": 0,
+      "high": 4,
+      "depth": 0,
+      "irq": 3125,
+      "lag_cycles": 435349,
+      "stale": 0,
+      "fault": 0,
+      "uart": 0
+    },
+    "can": {
+      "hb": 1250,
+      "boot": 1,
+      "p181": 0,
+      "p381": 625,
+      "p481": 625,
+      "p681": 625,
+      "txok": 1308,
+      "txfail": 0,
+      "nmt": 1,
+      "time": 56,
+      "TEC": 0,
+      "REC": 0,
+      "LEC": 0,
+      "BOFF": 0
+    },
+    "delivery": {
+      "qos1_puback": 1152,
+      "qos0_send": 0,
+      "failed": 1,
+      "last_node": 1,
+      "last_stream": 3,
+      "last_seq": 276,
+      "last_ms_hi": 417,
+      "last_ms_lo": 1481978568
+    }
+  },
+  "host_log": {
+    "complete": 126,
+    "missing_reports": 0,
+    "missing_lines": 0,
+    "duplicate_lines": 0,
+    "invalid_tags": 0
+  },
+  "mqtt_failures": [
+    {
+      "utc": "2026-10-20T07:59:32.336323+00:00",
+      "elapsed_s": 516.188,
+      "error": {
+        "stage": 6,
+        "status": 0,
+        "elapsed": 5016,
+        "ack": 0,
+        "connected": 1
+      },
+      "mqtt_budget": {
+        "send_ms": 59,
+        "wait_ms": 4957,
+        "buffered": 0
+      },
+      "mqtt_io": {
+        "tx_calls": 794,
+        "tx_ok": 794,
+        "tx_len": 192,
+        "tx_ms": 54,
+        "phase": 3,
+        "queries": 16559,
+        "empty": 15767,
+        "hint": 0,
+        "rx_bytes": 3210,
+        "reads": 792
+      },
+      "mqtt_pending": {
+        "id": 790,
+        "qos": 1,
+        "node": 1,
+        "stream": 9,
+        "seq": 77,
+        "replay": 0
+      }
+    }
+  ],
+  "sntp_rejects": [
+    {
+      "utc": "2026-10-20T07:53:04.525086+00:00",
+      "reason": 2,
+      "received": 0,
+      "rtt_ms": 1000,
+      "server_index": 0
+    }
+  ],
+  "wifi_signal": {
+    "channel": "1",
+    "rssi": "-55"
+  },
+  "fresh_sntp_sample": {
+    "rtt_ms": "173",
+    "uncertainty_ms": "86",
+    "epoch": "1792483175",
+    "fraction": "890",
+    "server_index": "1"
+  },
+  "esp_io": {
+    "tx_ok": 1118,
+    "tx_ms": 54,
+    "queries": 22752,
+    "empty": 21635,
+    "rx_bytes": 4548
+  },
+  "peer": {
+    "wait": 0,
+    "losses": 0,
+    "returns": 0,
+    "no_ack": 0,
+    "discarded": 0,
+    "esr": 0,
+    "tsr": 0,
+    "at_ms": 0
+  },
+  "boot_markers": 1
+}

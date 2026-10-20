@@ -1,0 +1,17 @@
+{
+  "action": "BOUNDED_ISOLATED_TCP_LOSS",
+  "seconds": 6,
+  "port": 8884,
+  "scope": "SINGLE_EXISTING_FIELD_CONNECTION",
+  "addresses_or_source_ports_saved": false,
+  "production_ports_changed": false,
+  "rule_removed": true,
+  "exit_code": 0,
+  "started_utc": "2026-10-20T07:59:26.042086+00:00",
+  "dropped_packets": 3,
+  "dropped_bytes": 783,
+  "elapsed_s": 6.002,
+  "finished_utc": "2026-10-20T07:59:32.053822+00:00",
+  "operator_action": "fault",
+  "recorded_utc": "2026-10-20T07:59:32.650085+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "original_services": {
+    "medical-monitor.service": {
+      "pid": "845095",
+      "state": "active"
+    },
+    "medical-monitor-mqtt.service": {
+      "pid": "851111",
+      "state": "active"
+    },
+    "p6-ai.service": {
+      "pid": "394625",
+      "state": "active"
+    }
+  },
+  "original_services_unchanged": true,
+  "original_hashes_unchanged": true,
+  "original_web_unchanged": true,
+  "stop_exit_code": 0,
+  "owned_services_stopped": {
+    "medical-monitor-h3-backend-nodebfix.service": "inactive",
+    "medical-monitor-h3-broker-diagnostic.service": "inactive"
+  },
+  "AI_calls_this_repair": 0,
+  "formal_route_changed": false,
+  "exit_code": 0,
+  "operator_action": "stop-isolation",
+  "recorded_utc": "2026-10-20T08:02:55.129297+00:00"
+}

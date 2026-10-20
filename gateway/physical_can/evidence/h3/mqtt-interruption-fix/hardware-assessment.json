@@ -1,0 +1,98 @@
+{
+  "source": "ACTUAL_ISOLATED_C_FIRMWARE_AND_BACKEND_NO_PHYSIO_INPUT",
+  "checks": {
+    "normal_uart_window_at_least_300s": true,
+    "normal_wss_continuous_320s": true,
+    "normal_no_publish_failure": true,
+    "single_scoped_fault_removed": true,
+    "exactly_one_intentional_failure": true,
+    "actual_puback_after_recovery": true,
+    "cloud_recovered_no_invalid_leak": true,
+    "same_c_boot_no_can_stop": true,
+    "can_reception_continued": true,
+    "hardware_and_software_rx_clean": true,
+    "host_logs_complete": true,
+    "unchanged_5s_qos1_ack_gate": true,
+    "complete_failure_diagnostics": true,
+    "failure_correlates_with_injection": true
+  },
+  "normal_observed_uart_s": 329.234,
+  "normal_puback_increase": 693,
+  "after_recovery_delivery": {
+    "qos1_puback": 1152,
+    "qos0_send": 0,
+    "failed": 1,
+    "last_node": 1,
+    "last_stream": 3,
+    "last_seq": 276,
+    "last_ms_hi": 417,
+    "last_ms_lo": 1481978568
+  },
+  "after_recovery_router": {
+    "can": 1308,
+    "drop": 0,
+    "cache": 0,
+    "lost": 0,
+    "replay": 20,
+    "nodes": 10
+  },
+  "after_recovery_queue": {
+    "fovr": 0,
+    "sw": 0,
+    "bad": 0,
+    "high": 4,
+    "depth": 0,
+    "irq": 3125,
+    "lag_cycles": 435349,
+    "stale": 0,
+    "fault": 0,
+    "uart": 0
+  },
+  "after_recovery_host_log": {
+    "complete": 126,
+    "missing_reports": 0,
+    "missing_lines": 0,
+    "duplicate_lines": 0,
+    "invalid_tags": 0
+  },
+  "intentional_failure": [
+    {
+      "utc": "2026-10-20T07:59:32.336323+00:00",
+      "elapsed_s": 516.188,
+      "error": {
+        "stage": 6,
+        "status": 0,
+        "elapsed": 5016,
+        "ack": 0,
+        "connected": 1
+      },
+      "mqtt_budget": {
+        "send_ms": 59,
+        "wait_ms": 4957,
+        "buffered": 0
+      },
+      "mqtt_io": {
+        "tx_calls": 794,
+        "tx_ok": 794,
+        "tx_len": 192,
+        "tx_ms": 54,
+        "phase": 3,
+        "queries": 16559,
+        "empty": 15767,
+        "hint": 0,
+        "rx_bytes": 3210,
+        "reads": 792
+      },
+      "mqtt_pending": {
+        "id": 790,
+        "qos": 1,
+        "node": 1,
+        "stream": 9,
+        "seq": 77,
+        "replay": 0
+      }
+    }
+  ],
+  "physiological_accuracy_claimed": false,
+  "exit_code": 0
+}

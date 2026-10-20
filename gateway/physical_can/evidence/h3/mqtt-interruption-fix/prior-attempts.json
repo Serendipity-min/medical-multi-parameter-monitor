@@ -1,0 +1,47 @@
+{
+  "purpose": "Preserve initial failures rather than replacing them with later PASS results",
+  "attempts": [
+    {
+      "step": "automatic_pc_wifi_restore",
+      "exit_code": 1,
+      "result": "Initial helper assumed ASCII profile names; corrected decoding, then Windows location permission blocked netsh connect/current-SSID query",
+      "correction": "Operator manually restored original Wi-Fi; owned temporary profile deleted and absence verified; location settings unchanged",
+      "evidence": "pc-wifi-automatic-restore-failed.json / pc-wifi-restored.json"
+    },
+    {
+      "step": "initial_tcp_header_parser",
+      "exit_code": 1,
+      "result": "Linux any-interface double spaces were not accepted; zero parsed events",
+      "correction": "Accept variable whitespace; real header fixture added; corrected 600-second capture exit 0",
+      "evidence": "baseline-tcp.json / baseline-tcp-corrected.json"
+    },
+    {
+      "step": "initial_console_host_fixture",
+      "exit_code": 1,
+      "failed_tests": 2,
+      "result": "Fixture linked the entire main translation unit and Windows PE retained unused unresolved symbols",
+      "correction": "Compile the actual console and actual diagnostics functions with bounded hardware substitutes; bug reference fails with exit 3, fixed implementation exits 0"
+    },
+    {
+      "step": "baseline_detached_checkout",
+      "exit_code": 1,
+      "result": "BUILD_INPUT_CHANGED before reset or Flash mutation because Git checkout changed line endings",
+      "correction": "Restore seven files only after LF-normalized bytes matched the immutable build manifest; no gate bypass",
+      "evidence": "baseline-source-reproduction.json"
+    },
+    {
+      "step": "first_diagnostic_download",
+      "exit_code": 1,
+      "flash_write_started": false,
+      "result": "UNCOMMITTED_FIRMWARE; normally committed completed validation files before retry",
+      "evidence": "../c-download-20261020T073653Z.json"
+    },
+    {
+      "step": "first_diagnostic_image_runtime",
+      "tool_exit_code": 0,
+      "functional_result": "NOT_ONLINE: no fresh SNTP reply; zero PUBACK; strict TLS time gate retained",
+      "correction": "Rotate only configured NTP endpoints on later connection attempts; same nonce, RTT and freshness checks",
+      "evidence": "../uart-20261020T074147Z-result.json"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "source": "ACTUAL_ISOLATED_WSS_NO_PHYSIO_INPUT",
+  "gateway_states": {
+    "ONLINE": 1460,
+    "STALE": 23,
+    "OFFLINE": 6
+  },
+  "node_a_states": {
+    "ONLINE": 1460,
+    "STALE": 23,
+    "OFFLINE": 6
+  },
+  "node_b_states": {
+    "OFFLINE": 1489
+  },
+  "invalid_values_visible": 0,
+  "snapshots": 1489,
+  "observed_s": 150.008,
+  "elapsed_s": 150.011,
+  "sessions": [
+    "can-1792482655-65538"
+  ],
+  "finished_utc": "2026-10-20T08:01:38.044054+00:00",
+  "raw_values_saved": false,
+  "transitions": [
+    {
+      "elapsed_s": 0.003,
+      "gateway": "ONLINE",
+      "a": "ONLINE",
+      "b": "OFFLINE"
+    },
+    {
+      "elapsed_s": 28.711,
+      "gateway": "STALE",
+      "a": "STALE",
+      "b": "OFFLINE"
+    },
+    {
+      "elapsed_s": 31.03,
+      "gateway": "OFFLINE",
+      "a": "OFFLINE",
+      "b": "OFFLINE"
+    },
+    {
+      "elapsed_s": 31.636,
+      "gateway": "ONLINE",
+      "a": "ONLINE",
+      "b": "OFFLINE"
+    }
+  ],
+  "expected_network_interruption": true,
+  "exit_code": 0,
+  "operator_action": "wss-fault",
+  "recorded_utc": "2026-10-20T08:01:38.636674+00:00"
+}

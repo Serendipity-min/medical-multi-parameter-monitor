@@ -1,0 +1,99 @@
+{
+  "state": "CAPTURING",
+  "stamp": "20261020T075056Z",
+  "updated_utc": "2026-10-20T07:55:30.905899+00:00",
+  "elapsed_s": 274.75,
+  "latest": {
+    "model": {
+      "can": 436,
+      "drop": 0,
+      "cache": 0,
+      "lost": 0,
+      "replay": 2,
+      "nodes": 10
+    },
+    "queue": {
+      "fovr": 0,
+      "sw": 0,
+      "bad": 0,
+      "high": 4,
+      "depth": 0,
+      "irq": 1050,
+      "lag_cycles": 435349,
+      "stale": 0,
+      "fault": 0,
+      "uart": 0
+    },
+    "can": {
+      "hb": 420,
+      "boot": 1,
+      "p181": 0,
+      "p381": 211,
+      "p481": 211,
+      "p681": 211,
+      "txok": 436,
+      "txfail": 0,
+      "nmt": 1,
+      "time": 14,
+      "TEC": 0,
+      "REC": 0,
+      "LEC": 0,
+      "BOFF": 0
+    },
+    "delivery": {
+      "qos1_puback": 291,
+      "qos0_send": 0,
+      "failed": 0,
+      "last_node": 1,
+      "last_stream": 3,
+      "last_seq": 69,
+      "last_ms_hi": 417,
+      "last_ms_lo": 1481564568
+    }
+  },
+  "host_log": {
+    "complete": 43,
+    "missing_reports": 0,
+    "missing_lines": 0,
+    "duplicate_lines": 0,
+    "invalid_tags": 0
+  },
+  "sntp_rejects": [
+    {
+      "utc": "2026-10-20T07:53:04.525086+00:00",
+      "reason": 2,
+      "received": 0,
+      "rtt_ms": 1000,
+      "server_index": 0
+    }
+  ],
+  "wifi_signal": {
+    "channel": "1",
+    "rssi": "-30"
+  },
+  "fresh_sntp_sample": {
+    "rtt_ms": "140",
+    "uncertainty_ms": "70",
+    "epoch": "1792482788",
+    "fraction": "667",
+    "server_index": "1"
+  },
+  "esp_io": {
+    "tx_ok": 232,
+    "tx_ms": 55,
+    "queries": 4685,
+    "empty": 4453,
+    "rx_bytes": 966
+  },
+  "peer": {
+    "wait": 0,
+    "losses": 0,
+    "returns": 0,
+    "no_ack": 0,
+    "discarded": 0,
+    "esr": 0,
+    "tsr": 0,
+    "at_ms": 0
+  },
+  "boot_markers": 1
+}
