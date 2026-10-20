@@ -8,7 +8,8 @@ import subprocess
 ROOT=Path(__file__).resolve().parents[2]
 HERE=Path(__file__).resolve().parent
 CO=ROOT/'gateway/canopen';VENDOR=ROOT/'gateway/third_party/CANopenNode';MQTT=ROOT/'gateway/mqtt'
-parser=argparse.ArgumentParser();parser.add_argument('--host',action='store_true');parser.add_argument('--irq',action='store_true');parser.add_argument('--isolated',action='store_true');parser.add_argument('--wifi-awake',action='store_true');parser.add_argument('--fresh-sntp',action='store_true');parser.add_argument('--rx-order',action='store_true');parser.add_argument('--wire',type=Path);args=parser.parse_args()
+parser=argparse.ArgumentParser();parser.add_argument('--host',action='store_true');parser.add_argument('--irq',action='store_true');parser.add_argument('--isolated',action='store_true');parser.add_argument('--wifi-awake',action='store_true');parser.add_argument('--fresh-sntp',action='store_true');parser.add_argument('--rx-order',action='store_true');parser.add_argument('--peer-cycle',action='store_true');parser.add_argument('--wire',type=Path);args=parser.parse_args()
+if args.peer_cycle and (not args.host or not args.irq or args.rx_order or args.wire):parser.error('--peer-cycle requires --host --irq alone')
 if args.isolated and not args.irq:parser.error('--isolated requires --irq')
 if args.wifi_awake and not args.irq:parser.error('--wifi-awake requires --irq')
 if args.fresh_sntp and not args.irq:parser.error('--fresh-sntp requires --irq')
@@ -25,11 +26,15 @@ def run(cmd,input_data=None):
 log=bytearray();result={'feature':'H3_NETWORK_IRQ' if args.irq else 'LEGACY_POLLING','mode':'HOST' if args.host else 'ARM_PHYSICAL_CAN1_CANDIDATE','hardware':'NOT_RUN','wifi_awake':args.wifi_awake,'fresh_sntp':args.fresh_sntp}
 try:
     if args.host:
-        sources=[*common,HERE/('tests/network_order.c' if args.rx_order else 'tests/wire.c' if args.wire else 'tests/protocol.c')]
+        sources=[*common,HERE/('tests/peer_power_cycle.c' if args.peer_cycle else 'tests/network_order.c' if args.rx_order else 'tests/wire.c' if args.wire else 'tests/protocol.c')]
         if args.rx_order: sources.append(HERE/'bench/rx_irq.c')
-        run(['gcc','-std=c11','-O1','-g','-DCO_MULTIPLE_OD',*(['-DMP_CAN_RX_IRQ'] if args.irq else []),*(['-DMP_H3_TEST_SOURCE','-DMP_MQTT_TLS_PORT=8884'] if args.isolated else []),'-Wall','-Wextra','-Wno-unused-parameter','-I'+str(HERE/'src'),'-I'+str(HERE/'bench'),'-I'+str(MQTT/'src'),'-I'+str(CO/'src'),'-I'+str(VENDOR),*sources,'-o',build/'physical_host.exe'])
+        # 重启回归直接编译生产驱动，仅用Host头文件替换寄存器/时钟边界。
+        if args.peer_cycle:sources += [HERE/'src/bxcan_network_irq.c',HERE/'bench/rx_irq.c']
+        run(['gcc','-std=c11','-O1','-g','-DCO_MULTIPLE_OD',*(['-DMP_CAN_RX_IRQ'] if args.irq else []),*(['-DMP_H3_TEST_SOURCE','-DMP_MQTT_TLS_PORT=8884'] if args.isolated else []),'-Wall','-Wextra','-Wno-unused-parameter',*(['-I'+str(HERE/'tests/hw')] if args.peer_cycle else []),'-I'+str(HERE/'src'),'-I'+str(HERE/'bench'),'-I'+str(MQTT/'src'),'-I'+str(CO/'src'),'-I'+str(VENDOR),*sources,'-o',build/'physical_host.exe'])
         start=len(log)
         run([build/'physical_host.exe'],args.wire.read_bytes() if args.wire else None)
+        if args.peer_cycle:
+            for fault in ('busoff','unknown-error','stuck'):run([build/'physical_host.exe',fault])
         if args.wire:
             (evidence/'node-a-to-c-canonical.jsonl').write_bytes(log[start:])
             result['wire_sha256']=hashlib.sha256(args.wire.read_bytes()).hexdigest()
@@ -66,7 +71,7 @@ except ValueError as e:
     # 下载计划门禁失败同样保留非零构建证据，不能被finally中的缺失退出码掩盖。
     result.update(exit_code=1,validation_error=str(e))
 finally:
-    name=('rx-order-' if args.rx_order else '')+('isolated-' if args.isolated else '')+('wire' if args.wire else 'host' if args.host else 'arm')
+    name=('peer-cycle-' if args.peer_cycle else 'rx-order-' if args.rx_order else '')+('isolated-' if args.isolated else '')+('wire' if args.wire else 'host' if args.host else 'arm')
     (evidence/(name+'.log')).write_bytes(log)
     result['commands']=commands
     # SDK 在仓库外，单独命名并保存字节摘要，不能因 relative_to 异常掩盖真实构建退出码。

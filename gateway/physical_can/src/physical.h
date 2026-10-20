@@ -20,4 +20,10 @@ void physical_sync_utc(MpStack *stack,uint64_t trusted_ms);
 int mp_bxcan_init(void);
 /* false 为首次启动，true 为本地显式重初始化；返回0仅表示 START 已入队。 */
 int physical_gateway_open(MpStack *stack,bool restart);
+#ifdef MP_CAN_RX_IRQ
+bool physical_peer_waiting(void);
+void physical_peer_lost(void);
+void physical_peer_returned(void);
+void physical_protocol_fault(unsigned reset);
+#endif
 #endif

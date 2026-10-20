@@ -1,0 +1,12 @@
+BASELINE: no ACK becomes permanent LINK_FAULT
+PASS: ACK-only recovery / new heartbeat required / arbitration budget / BOFF latch
+PASS: actual driver / 20s A off / RX alive / fresh Boot-up / old TIME discarded / NMT TXOK / B OFFLINE
+BASELINE: no ACK becomes permanent LINK_FAULT
+PASS: ACK-only recovery / new heartbeat required / arbitration budget / BOFF latch
+PASS: real driver hard fault snapshot preserved; heartbeat cannot unlock
+BASELINE: no ACK becomes permanent LINK_FAULT
+PASS: ACK-only recovery / new heartbeat required / arbitration budget / BOFF latch
+PASS: real driver hard fault snapshot preserved; heartbeat cannot unlock
+BASELINE: no ACK becomes permanent LINK_FAULT
+PASS: ACK-only recovery / new heartbeat required / arbitration budget / BOFF latch
+PASS: real driver hard fault snapshot preserved; heartbeat cannot unlock

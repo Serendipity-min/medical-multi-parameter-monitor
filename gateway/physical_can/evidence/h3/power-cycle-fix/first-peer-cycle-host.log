@@ -1,0 +1,11 @@
+BASELINE: no ACK becomes permanent LINK_FAULT
+PASS: ACK-only recovery / new heartbeat required / arbitration budget / BOFF latch
+PASS: actual driver / 20s A off / RX alive / fresh Boot-up / old TIME discarded / NMT TXOK / B OFFLINE
+BASELINE: no ACK becomes permanent LINK_FAULT
+PASS: ACK-only recovery / new heartbeat required / arbitration budget / BOFF latch
+Assertion failed!
+
+Program: E:\medical-monitor-h3\gateway\physical_can\build\h3-irq\physical_host.exe
+File: E:\medical-monitor-h3\gateway\physical_can\tests\peer_power_cycle.c, Line 76
+
+Expression: !physical_link_ready && physical_rx_metrics.fault==8

@@ -64,6 +64,12 @@ static void diagnostics(void) {
             (unsigned long)last_node,(unsigned long)last_stream,(unsigned long)last_seq,(unsigned long)(last_timestamp>>32),(unsigned long)last_timestamp);
         console(line);
         (void)snprintf(line,sizeof(line),"GW DIAG_END seq=%lu lines=4\r\n",(unsigned long)diagnostic_seq);console(line);
+        /* 对端缺席/旧TX丢弃与严重故障分别累计；仍保留原四行报告的完整性校验。 */
+        (void)snprintf(line,sizeof(line),"GW PEER wait=%lu losses=%lu returns=%lu no_ack=%lu discarded=%lu esr=%lu tsr=%lu at_ms=%lu\r\n",
+            (unsigned long)physical_rx_metrics.peer_wait,(unsigned long)physical_rx_metrics.peer_losses,
+            (unsigned long)physical_rx_metrics.peer_returns,(unsigned long)physical_rx_metrics.tx_no_ack,
+            (unsigned long)physical_rx_metrics.tx_peer_discard,(unsigned long)physical_rx_metrics.peer_event_esr,
+            (unsigned long)physical_rx_metrics.peer_event_tsr,(unsigned long)physical_rx_metrics.peer_event_at_ms);console(line);
 #endif
     }
 }
@@ -99,6 +105,13 @@ static void service(void)
 /* CAN锁止后关闭隔离网络并停机，禁止靠自动重连把故障窗口接续成PASS。 */
 static void stop_on_can_fault(void) {
     if(physical_link_ready)return;
+    /* 在AT关闭前输出首次故障锁存和完整计数，避免最后一次5秒报告漏掉真实原因。 */
+    char line[160];
+    (void)snprintf(line,sizeof(line),"GW CAN_FAULT reason=%lu esr=%lu tsr=%lu at_ms=%lu reset=%lu\r\n",
+        (unsigned long)physical_rx_metrics.fault,(unsigned long)physical_rx_metrics.fault_esr,
+        (unsigned long)physical_rx_metrics.fault_tsr,(unsigned long)physical_rx_metrics.fault_at_ms,
+        (unsigned long)physical_rx_metrics.protocol_reset);console(line);
+    diagnostic_at=g_uptime_ms-5000u;diagnostics();
     mp_router_online(&router,false);gateway_network_close();
     console("GW CAN_FAULT_NETWORK_CLOSED_STOP\r\n");while(1) {}
 }

@@ -54,7 +54,7 @@ def observe(uart,seconds,private,initial=b''):
                 # 仅固定格式的计数行/步骤名可公开，未知输出仅保留于受限原件。
                 kind=text.split()[1] if len(text.split())>1 else ''
                 if kind not in {*GROUPS,'DIAG_BEGIN','DIAG_END','BOOT','WAIT_NODE_A_FIRST_HEARTBEAT','OK','FAIL',
-                                'AT_VERSION','SNTP_VALID','MQTT_CONNECTED','RECONNECT','CONFIG_REQUIRED',
+                                'AT_VERSION','SNTP_VALID','MQTT_CONNECTED','RECONNECT','CONFIG_REQUIRED','PEER','CAN_FAULT',
                                 'CAN_FAULT_NETWORK_CLOSED_STOP','WAIT_NODE_A_RX_FAULT_STOP',
                                 'MQTT_ERROR','MQTT_PENDING','WIFI_SIGNAL','WIFI_SIGNAL_UNAVAILABLE','WIFI_SLEEP','CLOCK','SNTP_SAMPLE',
                                 'READ_AVAILABLE_FAIL','READ_AVAILABLE_HEADER_FAIL',
@@ -93,6 +93,8 @@ def observe(uart,seconds,private,initial=b''):
                     else:state['host_log']['missing_lines']+=4-len(seen)
                     report=None;seen=set()
                 if kind=='SNTP_VALID':state['sntp']=fields
+                if kind=='PEER':state['peer']={k:int(v) for k,v in fields.items()}
+                if kind=='CAN_FAULT':state['fatal_can']={k:int(v) for k,v in fields.items()}
                 if kind=='SNTP_SAMPLE':state['fresh_sntp_sample']=fields
                 if kind=='AT_VERSION':state['at_version']=fields.get('value')
                 if kind=='CLOCK':state['clock']=fields

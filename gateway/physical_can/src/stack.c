@@ -31,6 +31,21 @@ void physical_invalidate(void) {
     memset(physical_nodes,0,sizeof(physical_nodes));physical_link_ready=false;
     if(active) mp_bus_set_online(false);
 }
+#ifdef MP_CAN_RX_IRQ
+/* Host协议夹具没有MMIO驱动；真正联网驱动提供强符号。缺席只清PDO新鲜度，
+ * 保留观察代次和累计计数，不关闭CAN接收或重建协议栈。 */
+__attribute__((weak)) bool physical_peer_waiting(void) {return false;}
+void physical_peer_lost(void) {
+    for(unsigned i=0;i<2;i++)memset(physical_nodes[i].seen,0,sizeof(physical_nodes[i].seen));
+}
+void physical_peer_returned(void) {
+    if(active && active->nodes[2].co)
+        CO_NMT_sendCommand(active->nodes[2].co->NMT,CO_NMT_ENTER_OPERATIONAL,1);
+}
+__attribute__((weak)) void physical_protocol_fault(unsigned reset) {
+    (void)reset;physical_invalidate();
+}
+#endif
 bool physical_fresh(unsigned node,unsigned pdo,uint32_t now) {
     return node>=1 && node<=2 && pdo<5 && physical_nodes[node-1].seen[pdo]
         && (uint32_t)(now-physical_nodes[node-1].at[pdo])<=1500u;
@@ -101,6 +116,9 @@ void mp_stack_nmt(MpStack *s,unsigned node,CO_NMT_command_t command) {
     if(s->nodes[2].co) CO_NMT_sendCommand(s->nodes[2].co->NMT,command,node);
 }
 int mp_stack_online(MpStack *s,unsigned node) {
+#ifdef MP_CAN_RX_IRQ
+    if(physical_peer_waiting())return 0;
+#endif
     if(node<1 || node>2 || !physical_link_ready || !s->nodes[2].co) return 0;
     CO_NMT_internalState_t state;CO_HBconsumer_t *hb=s->nodes[2].co->HBcons;
     return hb && CO_HBconsumer_getState(hb,node-1)==CO_HBconsumer_ACTIVE
@@ -112,7 +130,15 @@ void mp_stack_tick(MpStack *s) {
     mp_bus_poll();MpNode *g=&s->nodes[2];
     if(!g->co || !g->port.enabled) return;
     CO_NMT_reset_cmd_t reset=CO_process(g->co,false,1000,NULL);
-    if(reset!=CO_RESET_NOT) { physical_invalidate();g->port.enabled=false;return; }
+    if(reset!=CO_RESET_NOT) {
+#ifdef MP_CAN_RX_IRQ
+        /* 单独保存协议复位原因，不与无ACK或FIFO故障混为一类。 */
+        physical_protocol_fault((unsigned)reset);
+#else
+        physical_invalidate();
+#endif
+        g->port.enabled=false;return;
+    }
     CO_process_RPDO(g->co,false,1000,NULL);CO_process_TPDO(g->co,false,1000,NULL);
     /* 标准 TIME 仅在上层已获得可信 SNTP epoch 后发出；不是默认日期或测试生产者。 */
     if(physical_link_ready && s->epoch && (uint32_t)(s->milliseconds-time_sent)>=10000u) {

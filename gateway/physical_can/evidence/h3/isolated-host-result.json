@@ -3,6 +3,7 @@
   "mode": "HOST",
   "hardware": "NOT_RUN",
   "wifi_awake": false,
+  "fresh_sntp": false,
   "exit_code": 0,
   "commands": [
     [
@@ -50,9 +51,9 @@
     ]
   ],
   "source_sha256": {
-    "gateway/physical_can/src/stack.c": "9dc6144a1909ce72a55c49bf4ebf0ed97eae004cf142ad5eb97b68dce88ae788",
+    "gateway/physical_can/src/stack.c": "99c3c50a7993020540aadb8501ed39f34cb45ea2db03908a1a97fbccaeb5ba27",
     "gateway/physical_can/src/adapter.c": "729191ca1a257952aecfa27173ef65cd651fb8a4abcede2ef8e4c10c14915538",
-    "gateway/canopen/src/mp_can_driver.c": "8eeb2a3447a2e69a8b72c289cc93ef451c541ce5cd521e9313c523d9b074b1d2",
+    "gateway/canopen/src/mp_can_driver.c": "ae6a9a6bc06afb48e2655dbc7f1ddf288b91ad8fda8093fe278885c578bde0b4",
     "gateway/canopen/src/mp_od.c": "687e3c58770a5f7ad0de96eeeda089515be44f4458fd854395811b852fb7c0fc",
     "gateway/data_model/model.c": "bfebbc230ef5fdd5f2448b820eb6c0e53f8c40e546a46392aa9199e325234cd9",
     "gateway/storage/router.c": "66565a7cd649f8bcad0c3d8ccda20aa08dbb79cc5d29b3143e8dd09688227462",
@@ -72,14 +73,15 @@
     "gateway/physical_can/tests/protocol.c": "8ffe27f33a380f183a8e6c844a57b9744d2c1144a223a12a6a923f0846013236"
   },
   "build_input_sha256": {
-    "gateway/physical_can/build.py": "22ea1ec55f676320c50fa055556c5864824e2a329226aee974cd8719d92ade3f",
+    "gateway/physical_can/build.py": "0856fd1432cec84af12b1b189ded78fd3797465020131322c9ade18f46591b90",
     "gateway/physical_can/image_manifest.py": "c531b33f108f981cc0069ef70b96dae37e23553a6dd4b13e80540330e5505e86",
     "gateway/physical_can/H3_NETWORK_FLASH.ld": "f3a4fb289a5b9b30b695a07259ec8b5948571f9eebc5969c37e76e4d778b16c9",
     "gateway/physical_can/H3_ISOLATED_FLASH.ld": "d82d9ba75be340bd9be59298b8d9abf45a7e7278df508f940a717b5b0f0cea5a",
     "gateway/physical_can/src/hse_clock.h": "b9c54d39afd41b1c00e99fa93e108c4d45f1013cee927d15bbcb85192f401e32",
     "gateway/physical_can/src/link_policy.h": "55288a8dba60172d79488081224275a27a87b8c57afd04e53dfa457e7348250b",
-    "gateway/physical_can/src/physical.h": "f9756f367ca08854bacfafae11e1cd035d640faec07e7ccbe827422eb7b8a047",
-    "gateway/physical_can/src/rx_metrics.h": "46c78305044981b5d80ecd444764f6b70bebd4f37ab52c54a3d3d01e01ccf05b",
+    "gateway/physical_can/src/peer_tx.h": "2dabba839c06551e0fe36cb6cdc642a63c53c1a5766c79c688b4c4101ac1d41f",
+    "gateway/physical_can/src/physical.h": "d4c9599349f5801b6475d4f1f7649bcfc47383fe9336801b2826ce44f2296a12",
+    "gateway/physical_can/src/rx_metrics.h": "2e3305c0633b5e5c58b59a097b75076f6f46c2ab20ae71e87167048380662daa",
     "gateway/physical_can/bench/bench.h": "06a688be6edca97729eedb042ced9ffc2fa456a9cff258278b3e5b3fa60433c0",
     "gateway/physical_can/bench/rx_irq.h": "5e07ee1c5a864c9aa97d2ce12441ac6ca4accc9b585e38d3526e77d7b320381b",
     "gateway/mqtt/src/at_version.h": "7b4bcacefb8f54a02e5d6d781e8143aab837160b363d887a76029158c5e5e048",
@@ -88,6 +90,7 @@
     "gateway/mqtt/src/gateway_platform.h": "655f782b94a4e58d5781fa888f4b91c5bd3d45b774e35852cb0f17ebe8dedce8",
     "gateway/mqtt/src/gateway_transport.h": "3a1842a217d42e6ab602fc31bc97d399d18697a3dcbd86deed26bc4826478faa",
     "gateway/mqtt/src/mqtt_transport_adapter.h": "e95954aa35f96fdd5c8ba813dacf0605d7e38c055f6658391d9be28d26ca4ade",
+    "gateway/mqtt/src/sntp_sample.h": "1df0243903391cb284b400106aa6da9de217e633d91bfa4d36635489612e9993",
     "gateway/mqtt/src/wifi_status.h": "c2e231036e703c88a99181dd2a2f7fbcf90c3a6ba0b821e4dc9515e72e3a33af"
   }
 }

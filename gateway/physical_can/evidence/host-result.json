@@ -1,6 +1,9 @@
 {
+  "feature": "LEGACY_POLLING",
   "mode": "HOST",
   "hardware": "NOT_RUN",
+  "wifi_awake": false,
+  "fresh_sntp": false,
   "exit_code": 0,
   "commands": [
     [
@@ -12,40 +15,42 @@
       "-Wall",
       "-Wextra",
       "-Wno-unused-parameter",
-      "-IE:\\medical-monitor-node-a\\gateway\\physical_can\\src",
-      "-IE:\\medical-monitor-node-a\\gateway\\canopen\\src",
-      "-IE:\\medical-monitor-node-a\\gateway\\third_party\\CANopenNode",
-      "E:\\medical-monitor-node-a\\gateway\\physical_can\\src\\stack.c",
-      "E:\\medical-monitor-node-a\\gateway\\physical_can\\src\\adapter.c",
-      "E:\\medical-monitor-node-a\\gateway\\canopen\\src\\mp_can_driver.c",
-      "E:\\medical-monitor-node-a\\gateway\\canopen\\src\\mp_od.c",
-      "E:\\medical-monitor-node-a\\gateway\\data_model\\model.c",
-      "E:\\medical-monitor-node-a\\gateway\\storage\\router.c",
-      "E:\\medical-monitor-node-a\\gateway\\third_party\\CANopenNode\\CANopen.c",
-      "E:\\medical-monitor-node-a\\gateway\\third_party\\CANopenNode\\301\\CO_Emergency.c",
-      "E:\\medical-monitor-node-a\\gateway\\third_party\\CANopenNode\\301\\CO_fifo.c",
-      "E:\\medical-monitor-node-a\\gateway\\third_party\\CANopenNode\\301\\CO_HBconsumer.c",
-      "E:\\medical-monitor-node-a\\gateway\\third_party\\CANopenNode\\301\\CO_NMT_Heartbeat.c",
-      "E:\\medical-monitor-node-a\\gateway\\third_party\\CANopenNode\\301\\CO_Node_Guarding.c",
-      "E:\\medical-monitor-node-a\\gateway\\third_party\\CANopenNode\\301\\CO_ODinterface.c",
-      "E:\\medical-monitor-node-a\\gateway\\third_party\\CANopenNode\\301\\CO_PDO.c",
-      "E:\\medical-monitor-node-a\\gateway\\third_party\\CANopenNode\\301\\CO_SDOclient.c",
-      "E:\\medical-monitor-node-a\\gateway\\third_party\\CANopenNode\\301\\CO_SDOserver.c",
-      "E:\\medical-monitor-node-a\\gateway\\third_party\\CANopenNode\\301\\CO_SYNC.c",
-      "E:\\medical-monitor-node-a\\gateway\\third_party\\CANopenNode\\301\\CO_TIME.c",
-      "E:\\medical-monitor-node-a\\gateway\\third_party\\CANopenNode\\301\\crc16-ccitt.c",
-      "E:\\medical-monitor-node-a\\gateway\\physical_can\\tests\\protocol.c",
+      "-IE:\\medical-monitor-h3\\gateway\\physical_can\\src",
+      "-IE:\\medical-monitor-h3\\gateway\\physical_can\\bench",
+      "-IE:\\medical-monitor-h3\\gateway\\mqtt\\src",
+      "-IE:\\medical-monitor-h3\\gateway\\canopen\\src",
+      "-IE:\\medical-monitor-h3\\gateway\\third_party\\CANopenNode",
+      "E:\\medical-monitor-h3\\gateway\\physical_can\\src\\stack.c",
+      "E:\\medical-monitor-h3\\gateway\\physical_can\\src\\adapter.c",
+      "E:\\medical-monitor-h3\\gateway\\canopen\\src\\mp_can_driver.c",
+      "E:\\medical-monitor-h3\\gateway\\canopen\\src\\mp_od.c",
+      "E:\\medical-monitor-h3\\gateway\\data_model\\model.c",
+      "E:\\medical-monitor-h3\\gateway\\storage\\router.c",
+      "E:\\medical-monitor-h3\\gateway\\third_party\\CANopenNode\\CANopen.c",
+      "E:\\medical-monitor-h3\\gateway\\third_party\\CANopenNode\\301\\CO_Emergency.c",
+      "E:\\medical-monitor-h3\\gateway\\third_party\\CANopenNode\\301\\CO_fifo.c",
+      "E:\\medical-monitor-h3\\gateway\\third_party\\CANopenNode\\301\\CO_HBconsumer.c",
+      "E:\\medical-monitor-h3\\gateway\\third_party\\CANopenNode\\301\\CO_NMT_Heartbeat.c",
+      "E:\\medical-monitor-h3\\gateway\\third_party\\CANopenNode\\301\\CO_Node_Guarding.c",
+      "E:\\medical-monitor-h3\\gateway\\third_party\\CANopenNode\\301\\CO_ODinterface.c",
+      "E:\\medical-monitor-h3\\gateway\\third_party\\CANopenNode\\301\\CO_PDO.c",
+      "E:\\medical-monitor-h3\\gateway\\third_party\\CANopenNode\\301\\CO_SDOclient.c",
+      "E:\\medical-monitor-h3\\gateway\\third_party\\CANopenNode\\301\\CO_SDOserver.c",
+      "E:\\medical-monitor-h3\\gateway\\third_party\\CANopenNode\\301\\CO_SYNC.c",
+      "E:\\medical-monitor-h3\\gateway\\third_party\\CANopenNode\\301\\CO_TIME.c",
+      "E:\\medical-monitor-h3\\gateway\\third_party\\CANopenNode\\301\\crc16-ccitt.c",
+      "E:\\medical-monitor-h3\\gateway\\physical_can\\tests\\protocol.c",
       "-o",
-      "E:\\medical-monitor-node-a\\gateway\\physical_can\\build\\physical_host.exe"
+      "E:\\medical-monitor-h3\\gateway\\physical_can\\build\\physical_host.exe"
     ],
     [
-      "E:\\medical-monitor-node-a\\gateway\\physical_can\\build\\physical_host.exe"
+      "E:\\medical-monitor-h3\\gateway\\physical_can\\build\\physical_host.exe"
     ]
   ],
   "source_sha256": {
-    "gateway/physical_can/src/stack.c": "a4b45153756a21960234faac6611b031c6fe662e3a75e3e043cfe4aaece8e059",
-    "gateway/physical_can/src/adapter.c": "24f2e7d1b1e9d716b19d50eb66447e0a6608b08d0963a721733ba1298da24d96",
-    "gateway/canopen/src/mp_can_driver.c": "8eeb2a3447a2e69a8b72c289cc93ef451c541ce5cd521e9313c523d9b074b1d2",
+    "gateway/physical_can/src/stack.c": "99c3c50a7993020540aadb8501ed39f34cb45ea2db03908a1a97fbccaeb5ba27",
+    "gateway/physical_can/src/adapter.c": "729191ca1a257952aecfa27173ef65cd651fb8a4abcede2ef8e4c10c14915538",
+    "gateway/canopen/src/mp_can_driver.c": "ae6a9a6bc06afb48e2655dbc7f1ddf288b91ad8fda8093fe278885c578bde0b4",
     "gateway/canopen/src/mp_od.c": "687e3c58770a5f7ad0de96eeeda089515be44f4458fd854395811b852fb7c0fc",
     "gateway/data_model/model.c": "bfebbc230ef5fdd5f2448b820eb6c0e53f8c40e546a46392aa9199e325234cd9",
     "gateway/storage/router.c": "66565a7cd649f8bcad0c3d8ccda20aa08dbb79cc5d29b3143e8dd09688227462",
@@ -62,6 +67,6 @@
     "gateway/third_party/CANopenNode/301/CO_SYNC.c": "f140a45ea032cbf360a2fb8429ed7498a37c1e9ecedcb2b5d6dc387ea21c78a9",
     "gateway/third_party/CANopenNode/301/CO_TIME.c": "bea365c4d56bcd83182018c54fa4c2bf921dd835d10f3332ef191a148ff17bdc",
     "gateway/third_party/CANopenNode/301/crc16-ccitt.c": "bc9a9278008276eefd264e6724b906230f7f8b3c32183c50443201c4ff4f25b8",
-    "gateway/physical_can/tests/protocol.c": "23009f424a2a44dedae1edc2ecb2951707f28d52b836b163aaa78810f6b1c61a"
+    "gateway/physical_can/tests/protocol.c": "8ffe27f33a380f183a8e6c844a57b9744d2c1144a223a12a6a923f0846013236"
   }
 }

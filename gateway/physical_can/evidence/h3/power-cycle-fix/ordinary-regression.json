@@ -1,0 +1,80 @@
+{
+  "irq-protocol": {
+    "command": [
+      "python",
+      "gateway/physical_can/build.py",
+      "--host",
+      "--irq",
+      "--isolated"
+    ],
+    "exit_code": 0
+  },
+  "irq-rx-order": {
+    "command": [
+      "python",
+      "gateway/physical_can/build.py",
+      "--host",
+      "--irq",
+      "--rx-order"
+    ],
+    "exit_code": 0
+  },
+  "legacy-protocol": {
+    "command": [
+      "python",
+      "gateway/physical_can/build.py",
+      "--host"
+    ],
+    "exit_code": 0
+  },
+  "canopen-router": {
+    "command": [
+      "python",
+      "gateway/canopen/build_host.py"
+    ],
+    "exit_code": 1
+  },
+  "canopen-router-wsl": {
+    "command": [
+      "wsl",
+      "-d",
+      "HERA-C3",
+      "--cd",
+      "/mnt/e/medical-monitor-h3",
+      "--",
+      "python3",
+      "gateway/canopen/build_host.py"
+    ],
+    "exit_code": 0
+  },
+  "p5-legacy": {
+    "command": [
+      "python",
+      "gateway/mqtt/tests/run_p5_host_tests.py"
+    ],
+    "exit_code": 0
+  },
+  "p5-fresh": {
+    "command": [
+      "python",
+      "gateway/mqtt/tests/run_p5_host_tests.py",
+      "--network-irq",
+      "--fresh-sntp"
+    ],
+    "exit_code": 0
+  },
+  "python-functional": {
+    "command": [
+      "python",
+      "-m",
+      "pytest",
+      "cloud/backend/tests",
+      "cloud/ai/tests",
+      "gateway/physical_can/tests/test_h3_observe.py",
+      "gateway/physical_can/tests/test_h3_download.py",
+      "gateway/physical_can/tests/test_h3_resume.py",
+      "-q"
+    ],
+    "exit_code": 0
+  }
+}

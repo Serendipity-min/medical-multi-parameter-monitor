@@ -36,6 +36,17 @@ uint32_t mp_bus_dropped(void)
     return dropped;
 }
 
+#ifdef MP_CAN_RX_IRQ
+/* 仅主循环、且不在transmit回调中调用；接收端口/协议时钟保持运行。
+ * 对端回来前清理未送达的旧控制帧，每项累计到CAN丢弃，绝不记为TXOK。 */
+uint32_t mp_bus_discard_pending(void)
+{
+    uint32_t discarded=count;
+    dropped+=discarded;count=head=tail=0;
+    return discarded;
+}
+#endif
+
 /* 按 CANopenNode 注册的 ID/掩码分发，同一实例命中首个接收槽即停止查找。 */
 void mp_bus_receive(MpCanFrame *frame)
 {
@@ -77,11 +88,17 @@ void mp_bus_poll(void)
     unsigned budget = 64;
     while (count && budget--)
     {
-        if (!mp_bus_transmit(&pending[tail]))
+        int transmitted=mp_bus_transmit(&pending[tail]);
+        if (!transmitted)
             break;
         tail = (tail + 1) % 128;
         count--;
+#ifdef MP_CAN_RX_IRQ
+        if(transmitted==MP_CAN_TX_DISCARD)dropped++;
+        else frames++;
+#else
         frames++;
+#endif
     }
 }
 

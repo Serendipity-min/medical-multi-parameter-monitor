@@ -82,3 +82,12 @@ def test_passive_reattach_requires_new_puback_not_old_total(tmp_path,monkeypatch
     assert not state.get('delivery_progress_seen')
     state,_=run(tmp_path/'later',monkeypatch,report(3)+report(4).replace(b'qos1_puback=7',b'qos1_puback=8'))
     assert state['delivery_progress_seen']
+
+
+def test_peer_absence_keeps_capture_but_latched_fault_is_recorded(tmp_path,monkeypatch):
+    # 对端无ACK是独立计数，不能伪称Bus-off；真正停机保留首次寄存器证据。
+    data=(report(1)+b'GW PEER wait=1 losses=1 returns=0 no_ack=1 discarded=4 esr=48 tsr=9 at_ms=500\n')
+    state,_=run(tmp_path,monkeypatch,data)
+    assert state['peer']['wait']==1 and state['state']=='CAPTURE_COMPLETE'
+    state,_=run(tmp_path/'fatal',monkeypatch,data+b'GW CAN_FAULT reason=8 esr=4 tsr=8 at_ms=600 reset=0\nGW CAN_FAULT_NETWORK_CLOSED_STOP\n')
+    assert state['state']=='DEVICE_STOP' and state['fatal_can']['esr']==4
