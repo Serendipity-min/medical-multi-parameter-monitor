@@ -1,0 +1,47 @@
+{
+  "physical-protocol": {
+    "command": [
+      "python",
+      "gateway/physical_can/build.py",
+      "--host",
+      "--irq"
+    ],
+    "exit_code": 0,
+    "hardware_accessed": false
+  },
+  "physical-rx-order": {
+    "command": [
+      "python",
+      "gateway/physical_can/build.py",
+      "--host",
+      "--irq",
+      "--rx-order"
+    ],
+    "exit_code": 0,
+    "hardware_accessed": false
+  },
+  "physical-peer-cycle": {
+    "command": [
+      "python",
+      "gateway/physical_can/build.py",
+      "--host",
+      "--irq",
+      "--peer-cycle"
+    ],
+    "exit_code": 0,
+    "hardware_accessed": false
+  },
+  "joint-functional": {
+    "command": [
+      "python",
+      "-m",
+      "pytest",
+      "cloud/backend/tests",
+      "cloud/ai/tests",
+      "gateway/physical_can/tests",
+      "-q"
+    ],
+    "exit_code": 0,
+    "hardware_accessed": false
+  }
+}

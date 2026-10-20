@@ -1273,6 +1273,8 @@ static void on_bp_frame(uint8_t cmd, const uint8_t *data, uint8_t len)
 
         s_last.valid = 1;
         s_last.valid_tick = uwTick;   /* D11：记录测量完成时刻，供 CAN 有效位时效判断 */
+        /* 新完成身份独立于数值和32位tick回绕；通信复位不得重新生成测量身份。 */
+        if(!++s_last.result_generation)++s_last.result_generation;
         s_last.sys = r.systolic; s_last.dia = r.diastolic;
         s_last.pr  = r.heart_rate; s_last.irregular = r.irregular;
         s_last.year = s_year; s_last.mon = s_month; s_last.day = s_day;

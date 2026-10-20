@@ -1,0 +1,65 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+___________ test_completion_timestamp_stays_fixed_until_next_result ___________
+
+tmp_path = WindowsPath('C:/Users/Serendipity/AppData/Local/Temp/pytest-of-Serendipity/pytest-70/test_completion_timestamp_stay0')
+
+    def test_completion_timestamp_stays_fixed_until_next_result(tmp_path):
+        source=tmp_path/'nibp.c'
+        source.write_text(r'''
+    #include "physical.h"
+    #include "mp_adapter.h"
+    #include <assert.h>
+    #include <string.h>
+    #include <stdio.h>
+    static MpStack s;static MpAdapter a;static MpRouter r;static unsigned valid,expired;
+    static void input(unsigned id,unsigned dlc,uint32_t x,uint32_t y) {
+        MpCanFrame f={0};f.ident=id;f.dlc=dlc;memcpy(f.data,&x,4);memcpy(f.data+4,&y,4);physical_receive(&f);
+    }
+    int main(void) {
+        assert(!mp_stack_init(&s,1800000000u));physical_link_ready=true;
+        mp_adapter_init(&a);mp_router_init(&r);mp_router_online(&r,true);
+        input(0x701,1,0,0);
+        for(unsigned at=0;at<98000;at++) {
+            unsigned now=s.milliseconds+1;
+            if(now%500==0)input(0x701,1,5,0);
+            if(now%1000==0) {
+                unsigned complete=now>=94000?94000:1000;
+                unsigned ok=now<=91000 || now>=94000;
+                input(0x681,8,512u|(ok?8u:0u),1);
+                input(0x481,8,s.epoch+now/1000,now-now%1000);
+                input(0x281,8,complete,1210u|(790u<<16));
+                input(0x381,8,0,1210u|(790u<<16));
+            }
+            mp_stack_tick(&s);mp_adapter_poll(&a,&s,&r);MpFrame f;
+            while(mp_router_take(&r,&f,s.milliseconds)) {
+                if(f.node==2)assert(f.stream==MP_NODE_STATUS && !f.valid);
+                if(f.stream==MP_NIBP) {
+                    if(f.valid) {
+                        uint64_t expected=1800000000000ULL+(now>=94000?94000u:1000u);
+                        if(f.timestamp!=expected)return 7;
+                        assert(f.synthetic && f.values[0]==1210 && f.values[1]==790);valid++;
+                    } else if(now>91000 && now<94000)expired++;
+                }
+                mp_router_ack(&r,&f,true);
+            }
+        }
+        assert(valid>30 && expired);mp_stack_close(&s);
+        puts("PASS fixed-completion-UTC 90-second-expiry identical-result-new-completion B-OFFLINE");
+    }
+    ''',encoding='utf-8')
+        here=ROOT/'gateway/physical_can';co=ROOT/'gateway/canopen';vendor=ROOT/'gateway/third_party/CANopenNode'
+        sources=[here/'src/stack.c',here/'src/adapter.c',co/'src/mp_can_driver.c',co/'src/mp_od.c',ROOT/'gateway/data_model/model.c',ROOT/'gateway/storage/router.c',vendor/'CANopen.c',*sorted((vendor/'301').glob('*.c')),source]
+        command=['gcc','-std=c11','-O1','-DCO_MULTIPLE_OD','-DMP_H3_TEST_SOURCE','-I'+str(here/'src'),'-I'+str(co/'src'),'-I'+str(vendor),*map(str,sources),'-o',str(tmp_path/'nibp.exe')]
+        built=subprocess.run(command,capture_output=True,text=True)
+        assert built.returncode==0,built.stderr
+        run=subprocess.run([str(tmp_path/'nibp.exe')],capture_output=True,text=True)
+>       assert run.returncode==0,run.stdout+run.stderr+' exit='+str(run.returncode)
+E       AssertionError:  exit=7
+E       assert 7 == 0
+E        +  where 7 = CompletedProcess(args=['C:\\Users\\Serendipity\\AppData\\Local\\Temp\\pytest-of-Serendipity\\pytest-70\\test_completion_timestamp_stay0\\nibp.exe'], returncode=7, stdout='', stderr='').returncode
+
+gateway\physical_can\tests\test_h3_nibp_capture.py:59: AssertionError
+=========================== short test summary info ===========================
+FAILED gateway/physical_can/tests/test_h3_nibp_capture.py::test_completion_timestamp_stays_fixed_until_next_result
+1 failed in 3.43s

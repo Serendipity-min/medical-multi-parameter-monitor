@@ -1,0 +1,13 @@
+{
+  "exit_code": 0,
+  "command": [
+    "python",
+    "-m",
+    "pytest",
+    "cloud/backend/tests",
+    "cloud/ai/tests",
+    "gateway/physical_can/tests",
+    "-q"
+  ],
+  "hardware_accessed": false
+}

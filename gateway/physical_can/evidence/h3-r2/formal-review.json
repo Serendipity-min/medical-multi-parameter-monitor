@@ -1,0 +1,37 @@
+{
+  "state": "REVIEW_PACKET_PARTIAL_REPREPARE_REQUIRED",
+  "formal_release": "FORMAL_RELEASE_NOT_AUTHORIZED",
+  "formal_rollback": "FORMAL_ROLLBACK_NOT_RUN",
+  "real_ai_calls_this_round": 0,
+  "production_mutations": false,
+  "routes": {
+    "web": "/medical-monitor/#/ai",
+    "ai": "/medical-monitor/ai/* preserved to AI",
+    "backend": "/medical-monitor/api/* strips project prefix",
+    "wss": "/medical-monitor/ws/* strips project prefix"
+  },
+  "validated": [
+    "local HTTPS/WSS + actual Backend/AI MOCK + seven pages",
+    "nginx -t in server memory; no listener/reload",
+    "formal explicit MQTT8883 role instead of isolation8884 fallback",
+    "reject old plan; damaged backup; candidate config mismatch; degraded health"
+  ],
+  "remaining_before_formal_prepare": [
+    "Freeze approved source commit, upload via E:/Server_file with SHA verification and owned staging cleanup",
+    "Create new immutable candidate runtime and validate all source/static hashes",
+    "Provide separate external POSIX0600 formal Backend readonly MQTT config; do not reuse isolated role/client_id",
+    "Verify actual Broker ACL rather than treating purpose marker as ACL proof",
+    "Full restricted Web tree, Backend/AI source, all unit/env and Nginx backup with SHA and modes; old prepare only backs four files and web pointer/index",
+    "Review prior plan state and occupied unit names; old stage cannot activate under schema2"
+  ],
+  "activation_semantics": "Repeated activate currently fails closed at original route hash after first switch; not an idempotent success. Unit file installation precedes try; bounded failure recovery needs review before approval.",
+  "rollback_semantics": "Old formal services remain running; restore original route and disable only owned candidate services. Local damaged-backup/start-failure checks are not actual HTTPS rollback evidence.",
+  "formal_url": "Owner-controlled private production reference, existing address unchanged; no newly published H3 endpoint",
+  "cloud_8884": "Owner reported all-IPv4 inbound rule still present; API unverified. Request removal of only TCP8884/all-IPv4 rule after bench window or separately scoped /32 rule; no action executed",
+  "approval_scope": [
+    "Public audience and source minimization",
+    "New production files/services/ACL only within exact prepare/activate/recovery window",
+    "Actual public HTTPS seven-page acceptance and real rollback followed by HTTPS recheck"
+  ],
+  "section8": "EXCLUDED_USER_ALREADY_SELECTED"
+}

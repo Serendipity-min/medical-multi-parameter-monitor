@@ -76,7 +76,7 @@ static void tick(void) { uwTick++; if(uwTick%8==0) { wave_available=1;wave_tick=
 int main(int argc,char **argv) {
     wire_mode=argc>1 && !strcmp(argv[1],"--wire");
     g_meas.spo2=98;g_meas.pulse_rate=72;g_meas.result_valid=1;g_meas.probe_state=1;
-    bp.valid=1;bp.sys=118;bp.dia=76;
+    bp.valid=1;bp.sys=118;bp.dia=76;bp.result_generation=1;
     assert(canopen_app_init()==0);
     if(wire_mode) {
         uint64_t relative=1800000000000ULL-441763200000ULL;
@@ -103,8 +103,18 @@ int main(int argc,char **argv) {
     assert((OD_RAM.x2130_validity_generation.data_valid_flags&0xFu)==0xFu);
     g_paused=1;tick();assert(!(OD_RAM.x2130_validity_generation.data_valid_flags&7u));g_paused=0;
     g_meas.pulse_rate=0;tick();assert(!(OD_RAM.x2130_validity_generation.data_valid_flags&4u));assert(OD_RAM.x2120_vitals.PR==0);g_meas.pulse_rate=72;
+    /* 异常结束回IDLE不能恢复上次读数，同值的新完成事件才可重新有效。 */
     bp_state=ST_MEASURING;tick();assert(!(OD_RAM.x2130_validity_generation.data_valid_flags&8u));bp_state=ST_IDLE;
-    bp.valid_tick=uwTick-90001u;tick();assert(!(OD_RAM.x2130_validity_generation.data_valid_flags&8u));bp.valid_tick=uwTick;
+    tick();assert(!(OD_RAM.x2130_validity_generation.data_valid_flags&8u));
+    bp.result_generation++;bp.valid_tick=uwTick;tick();assert(OD_RAM.x2130_validity_generation.data_valid_flags&8u);
+    assert(OD_RAM.x2111_nibp_result.completion_tick==bp.valid_tick);
+    assert(OD_RAM.x2111_nibp_result.sys_dia==(1180u|(760u<<16)));
+    bp.valid_tick=uwTick-90000u;canopen_app_produce();assert(OD_RAM.x2130_validity_generation.data_valid_flags&8u);
+    bp.valid_tick=uwTick-90001u;tick();assert(!(OD_RAM.x2130_validity_generation.data_valid_flags&8u));
+    /* 模拟tick回绕/旧时间重现也不能解除过期锁存。 */
+    bp.valid_tick=uwTick;tick();assert(!(OD_RAM.x2130_validity_generation.data_valid_flags&8u));
+    bp.result_generation++;tick();assert(OD_RAM.x2130_validity_generation.data_valid_flags&8u);
+    puts("NIBP completion identity / abort latch / expiry latch / same-value new result PASS");
     canopen_app_emcy(CO_EMC_GENERIC,CO_EM_GENERIC_ERROR,0);tick();assert(emcy_count);
     NodeClock c={0};uint32_t e,a;node_clock_set(&c,999,time_days,0xFFFFFFF0u);
     node_clock_read(&c,20,&e,&a);assert((uint32_t)(20-a)==35u); /* 999+36 进位 */

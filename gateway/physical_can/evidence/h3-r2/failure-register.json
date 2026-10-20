@@ -1,0 +1,55 @@
+{
+  "policy": "原始失败保留，后续通过不能抹除失败；未保存完整输出时明确说明",
+  "items": [
+    {
+      "name": "preexisting_audit_removed_per_owner",
+      "original_sha256": "011227e31e4e0d4358cda065adf51ef74c4b40b593a54826434ca3c0d9b3f6f1",
+      "state": "原件移至受限目录，未删除；新审计单独生成"
+    },
+    {
+      "name": "nibp_periodic_timestamp_baseline",
+      "pytest_exit_code": 1,
+      "fixture_exit_code": 7,
+      "raw": "nibp-before-fix.log",
+      "resolution": "完成时间扩展；6模式通过"
+    },
+    {
+      "name": "node_a_od_initializer_comma",
+      "compile_exit_code": 1,
+      "raw": [
+        "node-a/evidence/h3-r2-pre-extension-tests-host.log",
+        "node-a/evidence/h3-r2-node-a-after-od-host.log"
+      ],
+      "resolution": "仅补对象字典初始化逗号，保留原LF；Host/Keil通过"
+    },
+    {
+      "name": "wire_test_import_path",
+      "pytest_exit_code": 1,
+      "raw": "初次完整输出仅在工具会话，未另存文件",
+      "resolution": "显式加入Backend模块路径；后续原始通过日志node-a-gateway-backend-ai-wire.log"
+    },
+    {
+      "name": "browser_mock_badge_expectation",
+      "exit_code": 1,
+      "raw": "cloud/evidence/h3-r2/browser-attempt-01/",
+      "resolution": "MOCK标签本就正确，仅修测试断言；第二次20项通过"
+    },
+    {
+      "name": "readonly_preflight_missing_global_json",
+      "exit_code": 1,
+      "raw": "工具会话仅保存本地READONLY_PREFLIGHT_FAILED_1，远端stderr未输出",
+      "resolution": "补import json；无正式变更"
+    },
+    {
+      "name": "nginx_syntax_pipe_not_seekable",
+      "exit_code": 1,
+      "raw": "H3-R2-4-READONLY-PREFLIGHT.json",
+      "resolution": "Nginx解析需可seek配置；使用内存memfd，通过且不落地正式配置"
+    },
+    {
+      "name": "legacy_five_cap_initial_hint",
+      "state": "初审窄正则false不构成无上限证明",
+      "resolution": "补充AST确认正式旧源码range(1,6)五槽循环；未触发API"
+    }
+  ]
+}

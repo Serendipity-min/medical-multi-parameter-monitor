@@ -1,0 +1,32 @@
+{
+  "exit_code": 0,
+  "checks": [
+    "https_secure_context",
+    "node_b_offline",
+    "route_overview",
+    "route_temp",
+    "route_ecg",
+    "route_spo2",
+    "route_resp",
+    "route_nibp",
+    "route_ai",
+    "synthetic_source_visible",
+    "unmeasured_nibp_hidden",
+    "deterministic_nibp_mock_no_real_model",
+    "mobile_no_horizontal_overflow",
+    "monitor_survives_ai_auth_failure",
+    "general_explanation_is_mock",
+    "invalid_spo2_hidden",
+    "expired_ai_has_no_current_value",
+    "aborted_measurement_does_not_revive_old_value",
+    "node_b_still_offline",
+    "refresh_clears_credentials"
+  ],
+  "nibp_actual_elapsed_s": 90.25,
+  "completion_timestamp": 1792490347251,
+  "source": "LOCAL_SOFTWARE_MOCK_OVER_REAL_BACKEND_WSS_AND_AI_APP",
+  "real_model_calls": 0,
+  "physical_nibp_source": "NOT_USED",
+  "https": "LOCAL_SELF_SIGNED_CERTIFICATE_ONLY",
+  "production_published": false
+}

@@ -17,6 +17,9 @@ static NodeClock clock_anchor;
 static NodeResampler wave;
 static uint32_t boot_generation,last_tick,last_wave_tick,last_flags;
 static uint8_t running,first_tick,have_wave,wave_request;
+/* 测量中止/过期后保持无效，只有新完成代次能解除；避免旧结果因状态回IDLE或tick回绕复活。 */
+static uint32_t bp_generation;
+static uint8_t bp_blocked;
 /* 诊断计数仅 RAM 保存；UART/屏接收环原有溢出计数不被清零。 */
 volatile uint32_t node_a_can_comm_resets,node_a_can_app_reset_requests,node_a_can_error,node_a_can_wave_expired;
 
@@ -74,12 +77,21 @@ void canopen_app_produce(void) {
     /* PR 采用屏任务已做峰检/保持超时处理后的共享值，不依赖 DEBUG_PPG 诊断变量。 */
     uint8_t pr_ok=fresh && measurement.pulse_rate>0 && measurement.pulse_rate<=350;
     /* 只收紧 CAN 时效至 90s，原屏仍显示历史测量结果；不改血压测量状态机。 */
-    uint8_t bp_ok=bp.valid && state==ST_IDLE && (uint32_t)(now-bp.valid_tick)<=90000u
+    if(bp.valid && bp.result_generation && bp.result_generation!=bp_generation) {
+        bp_generation=bp.result_generation;bp_blocked=0;
+    }
+    if(state!=ST_IDLE || (bp.valid && (uint32_t)(now-bp.valid_tick)>90000u))bp_blocked=1;
+    uint8_t bp_ok=bp.valid && bp.result_generation && !bp_blocked && state==ST_IDLE && (uint32_t)(now-bp.valid_tick)<=90000u
         && bp.sys>0 && bp.sys<=400 && bp.dia>0 && bp.dia<=400;
     OD_RAM.x2120_vitals.SpO2=spo2_ok?(uint16_t)(measurement.spo2*100):0;
     OD_RAM.x2120_vitals.PR=pr_ok?(uint16_t)(measurement.pulse_rate*100):0;
     OD_RAM.x2120_vitals.NIBP_SYS=bp_ok?(uint16_t)(bp.sys*10):0;
     OD_RAM.x2120_vitals.NIBP_DIA=bp_ok?(uint16_t)(bp.dia*10):0;
+    /* 保留四个既有PDO，使用原保留0x281传递完成tick+同值身份镜像，均为1Hz。 */
+    OD_RAM.x2111_nibp_result.completion_tick=bp.valid?bp.valid_tick:0;
+    OD_RAM.x2111_nibp_result.sys_dia=(uint32_t)OD_RAM.x2120_vitals.NIBP_SYS|
+        ((uint32_t)OD_RAM.x2120_vitals.NIBP_DIA<<16);
+    flags|=1u<<9; /* 完成时间扩展版本1；不是新的有效位，也不改变synthetic身份。 */
 
     if (!fresh) { memset(&wave,0,sizeof(wave));have_wave=0;UNO_WaveClearCAN(); }
     else {

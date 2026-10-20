@@ -1,0 +1,250 @@
+{
+  "stage": "H3-R2-1_DESIGN_REVIEW",
+  "recorded_utc": "2026-10-20T10:00:38.907339+00:00",
+  "chip_expected": "STM32F407ZGT6_1MiB",
+  "flash_size_reobserved_this_round": false,
+  "sectors": [
+    {
+      "sector": 0,
+      "start": 134217728,
+      "end_exclusive": 134234112,
+      "erase_bytes": 16384,
+      "role": "APPLICATION"
+    },
+    {
+      "sector": 1,
+      "start": 134234112,
+      "end_exclusive": 134250496,
+      "erase_bytes": 16384,
+      "role": "APPLICATION"
+    },
+    {
+      "sector": 2,
+      "start": 134250496,
+      "end_exclusive": 134266880,
+      "erase_bytes": 16384,
+      "role": "APPLICATION"
+    },
+    {
+      "sector": 3,
+      "start": 134266880,
+      "end_exclusive": 134283264,
+      "erase_bytes": 16384,
+      "role": "PROPOSED_CONFIG_OWNER_GATE"
+    },
+    {
+      "sector": 4,
+      "start": 134283264,
+      "end_exclusive": 134348800,
+      "erase_bytes": 65536,
+      "role": "UNUSED_NOT_CONFIRMED_ERASED"
+    },
+    {
+      "sector": 5,
+      "start": 134348800,
+      "end_exclusive": 134479872,
+      "erase_bytes": 131072,
+      "role": "UNUSED_NOT_CONFIRMED_ERASED"
+    },
+    {
+      "sector": 6,
+      "start": 134479872,
+      "end_exclusive": 134610944,
+      "erase_bytes": 131072,
+      "role": "UNUSED_NOT_CONFIRMED_ERASED"
+    },
+    {
+      "sector": 7,
+      "start": 134610944,
+      "end_exclusive": 134742016,
+      "erase_bytes": 131072,
+      "role": "PROTECTED_UNCHANGED"
+    },
+    {
+      "sector": 8,
+      "start": 134742016,
+      "end_exclusive": 134873088,
+      "erase_bytes": 131072,
+      "role": "UNUSED_NOT_CONFIRMED_ERASED"
+    },
+    {
+      "sector": 9,
+      "start": 134873088,
+      "end_exclusive": 135004160,
+      "erase_bytes": 131072,
+      "role": "UNUSED_NOT_CONFIRMED_ERASED"
+    },
+    {
+      "sector": 10,
+      "start": 135004160,
+      "end_exclusive": 135135232,
+      "erase_bytes": 131072,
+      "role": "UNUSED_NOT_CONFIRMED_ERASED"
+    },
+    {
+      "sector": 11,
+      "start": 135135232,
+      "end_exclusive": 135266304,
+      "erase_bytes": 131072,
+      "role": "PROTECTED_UNCHANGED"
+    }
+  ],
+  "candidate_images": {
+    "isolated": {
+      "manifest": "gateway\\physical_can\\evidence\\h3-r2\\persistent-isolated\\isolated-arm-result.json",
+      "image": {
+        "sha256": "59229f1b34660f053538737fc0fd17c814fde5502a0dfe33603e8e08b72ca8a5",
+        "bytes": 43172,
+        "start": 134217728,
+        "end_exclusive": 134260900,
+        "erase_sectors": [
+          0,
+          1,
+          2
+        ],
+        "load_segments": [
+          {
+            "start": 134217728,
+            "end_exclusive": 134260812,
+            "bytes": 43084
+          },
+          {
+            "start": 134260812,
+            "end_exclusive": 134260900,
+            "bytes": 88
+          }
+        ],
+        "initial_sp": 537001984,
+        "reset_vector": 134250697,
+        "CAN1_RX0_vector": {
+          "address": 134236665,
+          "strong_handler": true
+        },
+        "protected_sectors": [
+          7,
+          11
+        ],
+        "mass_erase": false,
+        "option_bytes_write": false
+      },
+      "config": {
+        "address": 134266880,
+        "sector": 3,
+        "record_bytes": 336,
+        "erase_bytes": 16384,
+        "runtime_flash_writes": false,
+        "encrypted": false,
+        "physical_write_authorization": "REQUIRED_NOT_GRANTED",
+        "flash_configuration_written": false
+      }
+    },
+    "normal": {
+      "manifest": "gateway\\physical_can\\evidence\\h3-r2\\persistent-normal\\arm-result.json",
+      "image": {
+        "sha256": "9df43acd34732cacb8c1a90a6a15e420b96ad9675a004d65c3a088246268f977",
+        "bytes": 43184,
+        "start": 134217728,
+        "end_exclusive": 134260912,
+        "erase_sectors": [
+          0,
+          1,
+          2
+        ],
+        "load_segments": [
+          {
+            "start": 134217728,
+            "end_exclusive": 134260824,
+            "bytes": 43096
+          },
+          {
+            "start": 134260824,
+            "end_exclusive": 134260912,
+            "bytes": 88
+          }
+        ],
+        "initial_sp": 537001984,
+        "reset_vector": 134250709,
+        "CAN1_RX0_vector": {
+          "address": 134236677,
+          "strong_handler": true
+        },
+        "protected_sectors": [
+          7,
+          11
+        ],
+        "mass_erase": false,
+        "option_bytes_write": false
+      },
+      "config": {
+        "address": 134266880,
+        "sector": 3,
+        "record_bytes": 336,
+        "erase_bytes": 16384,
+        "runtime_flash_writes": false,
+        "encrypted": false,
+        "physical_write_authorization": "REQUIRED_NOT_GRANTED",
+        "flash_configuration_written": false
+      }
+    }
+  },
+  "candidate_profiles_default_enabled": false,
+  "storage_comparison": [
+    {
+      "option": "EXTERNAL_SECURE_STORAGE",
+      "state": "NO_INSTALLED_PROVEN_DEVICE_OR_DRIVER",
+      "decision": "REQUIRES_HARDWARE_IDENTIFICATION"
+    },
+    {
+      "option": "DEDICATED_SECTOR3_BENCH_CONFIG",
+      "state": "SOFTWARE_CANDIDATE_ONLY",
+      "encrypted": false,
+      "physical_readout_confidentiality": false,
+      "decision": "OWNER_ACCEPTANCE_REQUIRED_FOR_SCOPED_DEVICE_CREDENTIALS"
+    },
+    {
+      "option": "RAM_ONLY_EXISTING",
+      "state": "VERIFIED_ISOLATION_HISTORY",
+      "decision": "NOT_PERSISTENT_NOT_A_DELIVERY_SUBSTITUTE"
+    }
+  ],
+  "record": {
+    "bytes": 336,
+    "payload_bytes": 312,
+    "version": 1,
+    "header_bytes": 24,
+    "crc": "CRC32_IEEE_LAYOUT_AND_PAYLOAD_NOT_CRYPTO_AUTH",
+    "commit_word_written_last": true,
+    "ARK_key_field": false,
+    "runtime_flash_writer": false,
+    "invalid_record": "FAIL_CLOSED_NO_NETWORK"
+  },
+  "wear": {
+    "erase_on_reconnect_or_boot": false,
+    "factory_provision_only": true,
+    "datasheet_endurance_min_cycles": 10000,
+    "measured_erase_count": "UNKNOWN",
+    "reference": "ST DS8626 Rev12 Table42; temperature conditions apply"
+  },
+  "before_any_flash": [
+    "Separate owner window with accepted credential storage policy and exact firmware/config identity",
+    "Read and preserve actual C sectors0-3 (64KiB), SHA256 twice; stop if identity/readback differs",
+    "Read sector7/11 and options and compare frozen protected SHA before/after",
+    "No sector3 erase until its original backup is verified and its full erase range is approved"
+  ],
+  "failure_rollback": [
+    "Uncommitted or bad-CRC record cannot connect; do not bypass using RAM injection",
+    "Restore the window-specific C sectors0-3 backup under the same owner-approved recovery scope",
+    "Old normal firmware still reads protected sector11, which is known unprovisioned; cannot claim old firmware autonomously reconnects",
+    "Old isolation RAM profile can only be restored as an explicit bench session, not as cold-start acceptance"
+  ],
+  "cold_start_acceptance": [
+    "BOOT0=GND, BOOT1 as approved, Flash vectors/HSE intact",
+    "Remove host/USB/debug assistance and use independently approved supply",
+    "Cloud observes a new C session and A online/B offline for >=300s",
+    "Continuous physical waveform window and NIBP source acceptance are separate gates"
+  ],
+  "physical_actions_run": false,
+  "hardware_write_authorization": "NOT_GRANTED_BY_CURRENT_CONTRACT_MATRIX",
+  "secure_storage_gate": "PENDING_OWNER_REVIEW_NOT_PHYSICAL_CONFIDENTIALITY_CERTIFIED",
+  "exit_code": 0
+}

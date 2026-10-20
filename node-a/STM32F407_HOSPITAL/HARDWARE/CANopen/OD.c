@@ -124,10 +124,10 @@ OD_ATTR_PERSIST_COMM OD_PERSIST_COMM_t OD_PERSIST_COMM = {
     },
         .x1801_TPDOCommunicationParameter = {
         .highestSub_indexSupported = 0x06,
-        .COB_IDUsedByTPDO = 0x80000281,
+        .COB_IDUsedByTPDO = 0x00000281,
         .transmissionType = 0xFF,
         .inhibitTime = 0x0000,
-        .eventTimer = 0x0000,
+        .eventTimer = 0x03E8,
         .SYNCStartValue = 0x00
     },
         .x1802_TPDOCommunicationParameter = {
@@ -158,9 +158,9 @@ OD_ATTR_PERSIST_COMM OD_PERSIST_COMM_t OD_PERSIST_COMM = {
         .applicationObject8 = 0x00000000,
     },
         .x1A01_TPDOMappingParameter = {
-        .numberOfMappedApplicationObjectsInPDO = 0x00,
-        .applicationObject1 = 0x00000000,
-        .applicationObject2 = 0x00000000,
+        .numberOfMappedApplicationObjectsInPDO = 0x02,
+        .applicationObject1 = 0x21110120,
+        .applicationObject2 = 0x21110220,
         .applicationObject3 = 0x00000000,
         .applicationObject4 = 0x00000000,
         .applicationObject5 = 0x00000000,
@@ -244,6 +244,12 @@ OD_ATTR_RAM OD_RAM_t OD_RAM = {
         .ir_wave = 0x00000000,
         .sample_tick = 0x00000000
     },
+    /* NIBP完成时间元数据，沿用32位成对PDO映射。 */
+    .x2111_nibp_result = {
+        .highestSub_indexSupported = 0x02,
+        .completion_tick = 0x00000000,
+        .sys_dia = 0x00000000
+    },
 };
 
 
@@ -291,6 +297,7 @@ typedef struct {
     OD_obj_record_t o_2120_vitals[5];
     OD_obj_record_t o_2130_validity_generation[3];
     OD_obj_record_t o_2110_ppg_waveform[3];
+    OD_obj_record_t o_2111_nibp_result[3];
 } ODObjs_t;
 
 static CO_PROGMEM ODObjs_t ODObjs = {
@@ -1344,6 +1351,28 @@ static CO_PROGMEM ODObjs_t ODObjs = {
             .attribute = ODA_SDO_RW | ODA_MB | ODA_TPDO,
             .dataLength = 4
         },
+    },
+
+    /* NIBP完成时间元数据，沿用32位成对PDO映射。 */
+    .o_2111_nibp_result = {
+        {
+            .dataOrig = &OD_RAM.x2111_nibp_result.highestSub_indexSupported,
+            .subIndex = 0,
+            .attribute = ODA_SDO_R,
+            .dataLength = 1
+        },
+        {
+            .dataOrig = &OD_RAM.x2111_nibp_result.completion_tick,
+            .subIndex = 1,
+            .attribute = ODA_SDO_RW | ODA_MB | ODA_TPDO,
+            .dataLength = 4
+        },
+        {
+            .dataOrig = &OD_RAM.x2111_nibp_result.sys_dia,
+            .subIndex = 2,
+            .attribute = ODA_SDO_RW | ODA_MB | ODA_TPDO,
+            .dataLength = 4
+        },
     }
 };
 
@@ -1390,6 +1419,7 @@ static OD_ATTR_OD OD_entry_t ODList[] = {
     {0x1A04, 9, ODT_REC, &ODObjs.o_1A04_TPDOMappingParameter, NULL},
     {0x2100, 3, ODT_REC, &ODObjs.o_2100_epoch_tick, NULL},
     {0x2110, 3, ODT_REC, &ODObjs.o_2110_ppg_waveform, NULL},
+    {0x2111, 3, ODT_REC, &ODObjs.o_2111_nibp_result, NULL},
     {0x2120, 5, ODT_REC, &ODObjs.o_2120_vitals, NULL},
     {0x2130, 3, ODT_REC, &ODObjs.o_2130_validity_generation, NULL},
     {0x0000, 0x00, 0, NULL, NULL}

@@ -44,6 +44,20 @@ static uint64_t capture(MpOD *od,unsigned base,uint32_t tick,uint64_t now)
     return (uint64_t)stamp;
 }
 
+/* 0x281扩展携带完成tick及同一结果的SYS/DIA镜像，防止新值与旧时间跨PDO错配。
+ * 仅NIBP允许90秒龄期，其他波形/标量仍使用上方原5秒/2秒门禁。 */
+static uint64_t nibp_capture(MpAdapter *a,MpStack *s,MpOD *od,unsigned base,uint64_t now) {
+    if(!(a->quality[0]&(1u<<9)) || !physical_fresh(1,1,s->milliseconds))return 0;
+    uint32_t packed=mp_od_read(od,base+0x11,2);
+    uint32_t sys=mp_od_read(od,base+0x20,3),dia=mp_od_read(od,base+0x20,4);
+    if(!sys || !dia || packed!=(sys|(dia<<16)))return 0;
+    uint32_t epoch=mp_od_read(od,base,1),anchor=mp_od_read(od,base,2);
+    int32_t delta=(int32_t)(mp_od_read(od,base+0x11,1)-anchor);
+    int64_t stamp=(int64_t)epoch*1000+delta;
+    if(!epoch || delta < -92000 || delta>2000 || stamp<0 || stamp>(int64_t)now+1000 || stamp<(int64_t)now-90000)return 0;
+    return (uint64_t)stamp;
+}
+
 /* 只读取 Gateway 已收到的 RPDO 镜像，按采样率积累完整一秒批次后交给 Router。 */
 static void wave(MpAdapter *a, MpStack *s, MpRouter *r, unsigned node, unsigned channel)
 {
@@ -146,6 +160,12 @@ void mp_adapter_poll(MpAdapter *a, MpStack *s, MpRouter *r)
             MpFrame f = frame(a, s, node, streams[node - 1][j], stamp);
             unsigned bit = node == 1 ? j + 1 : (j == 0 ? 2 : j == 1 ? 3 : 4);
             f.valid = (a->quality[node - 1] & (1U << bit)) != 0;
+            if(node==1 && j==2) {
+                uint64_t completed=nibp_capture(a,s,od,base,now);
+                /* 老A固件无完成时间扩展时明确INVALID；不能退回周期时间假装最近测量。 */
+                f.valid=f.valid && completed!=0;
+                if(f.valid)f.timestamp=completed;
+            }
             f.count = j == 2 && node == 1 ? 2 : 1;
             f.values[0] = (int32_t)mp_od_read(od, base + 0x20, j + 1);
             if (f.stream == MP_TEMP)

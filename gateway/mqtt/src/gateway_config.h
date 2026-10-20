@@ -16,7 +16,13 @@ typedef struct
     char client_id[41];
 } GatewayConfig;
 
-#ifdef MP_H3_VOLATILE_CONFIG
+#if defined(MP_H3_PERSISTENT_CONFIG) && defined(MP_H3_VOLATILE_CONFIG)
+#error "persistent and volatile configuration are mutually exclusive"
+#endif
+#ifdef MP_H3_PERSISTENT_CONFIG
+/* 仅显式候选启用：sector3记录头24B，实际payload仍为原312B。 */
+#define GATEWAY_CONFIG ((const GatewayConfig *)0x0800C018UL)
+#elif defined(MP_H3_VOLATILE_CONFIG)
 /* H3隔离会话由ROM下载器核验后只注入RAM；链接器保留顶部512B，启动清零不覆盖。
    不写sector7/11，不构成正式持久配置；断电后必须重新注入，缺配置仍拒绝联网。 */
 #define GATEWAY_CONFIG ((const GatewayConfig *)0x2001FE00UL)

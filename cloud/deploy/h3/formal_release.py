@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import stat
 import subprocess
 import time
 import urllib.request
@@ -45,10 +46,59 @@ def atomic_copy(source, destination):
     os.replace(temporary, destination)
 
 
-def prepare(release):
+def formal_mqtt_config(path,release):
+    """显式正式只读角色配置；不把隔离8884/测试角色复制到正式服务。"""
+    if path is None:raise ValueError('FORMAL_MQTT_CONFIG_REQUIRED')
+    path=path.resolve()
+    if path.is_relative_to(release) or stat.S_IMODE(path.stat().st_mode)&0o077:
+        raise ValueError('PRIVATE_EXTERNAL_FORMAL_MQTT_CONFIG_REQUIRED')
+    config=json.loads(path.read_text())
+    if config.get('port')!=8883 or config.get('purpose')!='FORMAL_BACKEND_READONLY' or \
+       any(not isinstance(config.get(k),str) or not config[k] for k in ('host','username','password')) or \
+       config['username'].startswith('h3-'):
+        raise ValueError('FORMAL_MQTT_POLICY_REQUIRED')
+    return config
+
+
+def candidate_nginx(release):
+    """保持AI完整前缀、剥离监护API/WS前缀，供prepare与只读语法预检共用。"""
+    return '''location = /medical-monitor { return 301 /medical-monitor/; }
+location ^~ /medical-monitor/ai/ {
+ client_max_body_size 4k;
+ proxy_pass http://127.0.0.1:18786;
+ proxy_set_header Host $host;
+ proxy_set_header X-Forwarded-Proto $scheme;
+ proxy_connect_timeout 2s;
+ proxy_read_timeout 15s;
+ access_log off;
+}
+location ^~ /medical-monitor/ws/ {
+ proxy_pass http://127.0.0.1:18785/ws/;
+ proxy_http_version 1.1;
+ proxy_set_header Upgrade $http_upgrade;
+ proxy_set_header Connection "upgrade";
+ proxy_set_header Host $host;
+ proxy_buffering off;
+ proxy_read_timeout 60s;
+ access_log off;
+}
+location ^~ /medical-monitor/api/ {
+ proxy_pass http://127.0.0.1:18785/api/;
+ access_log off;
+}
+location ^~ /medical-monitor/ {
+ alias WEB_ROOT/;
+ index index.html;
+ access_log off;
+}
+'''.replace('WEB_ROOT',str(release / 'cloud/web/dist'))
+
+
+def prepare(release,formal_mqtt_path=None):
     release = release.resolve()
     if release.parent != Path('/opt/medical-monitor-h3/releases') or not release.name.startswith('runtime-'):
         raise ValueError('VERSIONED_RELEASE_REQUIRED')
+    mqtt_config=formal_mqtt_config(formal_mqtt_path,release)
     metadata = json.loads((release / 'H3_RUNTIME_SOURCE.json').read_text())
     # 发布身份必须由当前文件逐项证明，不能仅相信旁边的来源标签。
     for name, expected in metadata['critical_source_sha256'].items():
@@ -82,7 +132,7 @@ def prepare(release):
     backend.pop('MONITOR_WEB_DIR', None)
     # 正式候选和隔离Backend并存时不能复用MQTT client_id，否则Broker会相互踢线。
     # 外部配置只在服务器内复制，口令不进入plan；服务账户沿用STATE的访问边界。
-    mqtt_config=json.loads(Path(backend['MONITOR_MQTT_CONFIG']).read_text())
+    # 输入已经过正式端口/角色/权限门禁，不再继承STATE隔离Backend的8884配置。
     mqtt_config['client_id']='h3-formal-backend-'+stamp
     mqtt_path=STATE/('formal-backend-'+stamp+'.json')
     with mqtt_path.open('x') as output:json.dump(mqtt_config,output)
@@ -111,43 +161,15 @@ def prepare(release):
             '\nEnvironmentFile=' + str(stage / environment) + '\nExecStart=' + command +
             '\nRestart=on-failure\nRestartSec=3\nUMask=0077\n[Install]\nWantedBy=multi-user.target\n')
     # 哈希路由使用同一index；AI保留完整上游前缀，WS/API明确剥离项目前缀。
-    candidate = '''location = /medical-monitor { return 301 /medical-monitor/; }
-location ^~ /medical-monitor/ai/ {
- client_max_body_size 4k;
- proxy_pass http://127.0.0.1:18786;
- proxy_set_header Host $host;
- proxy_set_header X-Forwarded-Proto $scheme;
- proxy_connect_timeout 2s;
- proxy_read_timeout 15s;
- access_log off;
-}
-location ^~ /medical-monitor/ws/ {
- proxy_pass http://127.0.0.1:18785/ws/;
- proxy_http_version 1.1;
- proxy_set_header Upgrade $http_upgrade;
- proxy_set_header Connection "upgrade";
- proxy_set_header Host $host;
- proxy_buffering off;
- proxy_read_timeout 60s;
- access_log off;
-}
-location ^~ /medical-monitor/api/ {
- proxy_pass http://127.0.0.1:18785/api/;
- access_log off;
-}
-location ^~ /medical-monitor/ {
- alias WEB_ROOT/;
- index index.html;
- access_log off;
-}
-'''.replace('WEB_ROOT', str(release / 'cloud/web/dist'))
+    candidate = candidate_nginx(release)
     (stage / 'candidate.nginx.conf').write_text(candidate)
     syntax = stage / 'syntax.nginx.conf'
     syntax.write_text('pid ' + str(stage / 'syntax.pid') + ';\nevents {}\nhttp { include /etc/nginx/mime.types; '
                      'server { listen 127.0.0.1:18885; include ' + str(stage / 'candidate.nginx.conf') + '; } }')
     run(['nginx', '-t', '-c', str(syntax)])
     assert service_identity() == before and all(digest(p) == sha for p, sha in hashes.items())
-    plan = {'stage': str(stage), 'release': str(release), 'source': metadata,
+    plan = {'plan_schema_version':2,'stage': str(stage), 'release': str(release), 'source': metadata,
+            'formal_mqtt_policy':{'port':8883,'purpose':'FORMAL_BACKEND_READONLY'},
             'original_hashes': hashes, 'original_services': before,
             'previous_web_release': str(Path('/opt/medical-monitor/current').resolve()),
             'previous_web_index_sha256': digest('/opt/medical-monitor/current/web/dist/index.html'),
@@ -166,6 +188,8 @@ def switch(plan_path, rollback=False):
     plan = json.loads(plan_path.read_text()); stage = Path(plan['stage'])
     if plan_path.resolve() != stage / 'plan.json' or stage.parent != Path('/opt/medical-monitor-h3/formal'):
         raise ValueError('PREPARED_PLAN_PATH_REQUIRED')
+    if not rollback and (plan.get('plan_schema_version')!=2 or plan.get('formal_mqtt_policy')!={'port':8883,'purpose':'FORMAL_BACKEND_READONLY'}):
+        raise RuntimeError('R2_REPREPARE_WITH_FORMAL_MQTT_REQUIRED')
     if service_identity() != plan['original_services']:
         raise RuntimeError('FORMAL_SERVICE_IDENTITY_CHANGED')
     if digest(stage / 'candidate.nginx.conf') != plan['candidate_nginx_sha256']:
@@ -187,21 +211,30 @@ def switch(plan_path, rollback=False):
             if digest(stage/name)!=expected:raise RuntimeError('CANDIDATE_ENVIRONMENT_CHANGED')
         mqtt=plan['owned_mqtt_config']
         if digest(mqtt['path'])!=mqtt['sha256']:raise RuntimeError('CANDIDATE_MQTT_CONFIG_CHANGED')
+        config=json.loads(Path(mqtt['path']).read_text())
+        if config.get('port')!=8883 or config.get('purpose')!='FORMAL_BACKEND_READONLY':
+            raise RuntimeError('CANDIDATE_MQTT_POLICY_CHANGED')
         for name, expected in plan['source']['critical_source_sha256'].items():
             if digest(Path(plan['release'])/name)!=expected:raise RuntimeError('RELEASE_SOURCE_CHANGED')
         for unit, sha in plan['owned_unit_sha256'].items():
             source, destination = stage / unit, Path('/etc/systemd/system') / unit
             if digest(source) != sha or (destination.exists() and digest(destination) != sha):
                 raise RuntimeError('OWNED_UNIT_MISMATCH')
-            atomic_copy(source, destination)
         try:
+            # 先验证所有unit再复制；第二份复制失败也进入同一清理边界，避免部分安装漏处理。
+            for unit in plan['owned_unit_sha256']:
+                atomic_copy(stage / unit, Path('/etc/systemd/system') / unit)
             run(['systemctl', 'daemon-reload']); run(['systemctl', 'enable', '--now', *UNITS])
             for port in (18785, 18786):
                 ready = False
                 for attempt in range(30):
                     try:
                         with urllib.request.urlopen('http://127.0.0.1:' + str(port) + '/health', timeout=1) as response:
-                            ready = response.status == 200
+                            # Backend的HTTP 200/degraded不能被当成MQTT订阅就绪。
+                            data=json.load(response)
+                            ready=response.status==200 and data.get('status')=='ok'
+                            if port==18785:ready=ready and data.get('mqtt_connected') is True
+                            else:ready=ready and data.get('model_mode')=='DOUBAO' and data.get('snapshot_mode')=='MONITOR'
                     except OSError:
                         pass
                     if ready: break
@@ -228,9 +261,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('action', choices=('prepare', 'activate', 'rollback'))
     parser.add_argument('--release', type=Path); parser.add_argument('--plan', type=Path)
+    parser.add_argument('--formal-mqtt-config',type=Path)
     args = parser.parse_args()
     try:
-        result = prepare(args.release) if args.action == 'prepare' else switch(args.plan, args.action == 'rollback')
+        result = prepare(args.release,args.formal_mqtt_config) if args.action == 'prepare' else switch(args.plan, args.action == 'rollback')
         print(json.dumps(result, indent=2))
     except Exception as exc:
         print(json.dumps({'exit_code': 1, 'failure_type': type(exc).__name__, 'details_suppressed': True}))

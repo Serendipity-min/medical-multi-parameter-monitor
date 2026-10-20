@@ -1,0 +1,21 @@
+PASS https_secure_context
+PASS node_b_offline
+PASS route_overview
+PASS route_temp
+PASS route_ecg
+PASS route_spo2
+PASS route_resp
+PASS route_nibp
+PASS route_ai
+PASS synthetic_source_visible
+PASS unmeasured_nibp_hidden
+Traceback (most recent call last):
+  File "E:\medical-monitor-h3\cloud\web\tests\r2_browser.py", line 83, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "E:\medical-monitor-h3\cloud\web\tests\r2_browser.py", line 46, in main
+    check('deterministic_nibp_not_called',"document.querySelector('#ai-mode').textContent.includes('未调用模型') && document.querySelector('.ai-turn:last-child .ai-answer').textContent.includes('123')")
+  File "E:\medical-monitor-h3\cloud\web\tests\ui_browser.py", line 47, in check
+    assert js(expression), name
+           ^^^^^^^^^^^^^^
+AssertionError: deterministic_nibp_not_called

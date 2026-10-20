@@ -1,0 +1,205 @@
+{
+  "schema_version": 1,
+  "stage": "H3-R2-0",
+  "executor": "Codex",
+  "contract_executor_label": "DeepSeek (document label only)",
+  "recorded_utc": "2026-10-20T09:31:13.534127+00:00",
+  "initial_head": "74d12a27425cdba6de18a833af86aa2087ee9c8a",
+  "remote_heads": {
+    "refs/heads/A": "3fa14b00a0823d2855e9dd8bd1c6c8545abb8dc5",
+    "refs/heads/P4": "67f5f57bd82c6e326e9e78ec9540481c80105e5f",
+    "refs/heads/dev/h3-nodea-cloud-ai-integration": "74d12a27425cdba6de18a833af86aa2087ee9c8a",
+    "refs/heads/dev/p6-cloud-ai-text-tts-v1": "77dd14d1ca761a488956f7a4ebf28cb3174835e4",
+    "refs/heads/main": "50699048010c57ba10f8573461844c525b022a07"
+  },
+  "protected_refs_match": true,
+  "h3_local_remote_match": true,
+  "initial_worktree_status": "?? build/\n?? cloud/deploy/h3/r2_audit.py\n",
+  "firmware_build_inputs_changed_since_hardware": [],
+  "historical_firmware": {
+    "source_commit": "ec044cc3e1887f7fd7812d6fd60b06a49d92f5ae",
+    "image": {
+      "sha256": "c3bc10c6bb01831fb7c1f7a44dabb5fc0295fa667045a5428856bd6991250b6f",
+      "bytes": 42728,
+      "start": 134217728,
+      "end_exclusive": 134260456,
+      "erase_sectors": [
+        0,
+        1,
+        2
+      ],
+      "load_segments": [
+        {
+          "start": 134217728,
+          "end_exclusive": 134260368,
+          "bytes": 42640
+        },
+        {
+          "start": 134260368,
+          "end_exclusive": 134260456,
+          "bytes": 88
+        }
+      ],
+      "initial_sp": 537001472,
+      "reset_vector": 134250197,
+      "CAN1_RX0_vector": {
+        "address": 134236473,
+        "strong_handler": true
+      },
+      "protected_sectors": [
+        7,
+        11
+      ],
+      "mass_erase": false,
+      "option_bytes_write": false
+    },
+    "download_exit_code": 0,
+    "readback_verified": true,
+    "this_round_hardware_readback": "NOT_RUN_NO_SERIAL_OPEN"
+  },
+  "physical_state": {
+    "source": "OWNER_REPORTED_THIS_TURN",
+    "A": "OFF_JLINK_DISCONNECTED",
+    "C": "POWERED_USB_COM15",
+    "BOOT": "UNCHANGED_DOWNLOAD_CONFIGURATION",
+    "RAM_CONFIG_RETENTION": "NOT_REOBSERVED",
+    "serial_opened": false,
+    "reset_or_power_action_performed": false
+  },
+  "cloud_8884": {
+    "source": "OWNER_REPORTED_THIS_TURN",
+    "wide_ipv4_rule": "STILL_PRESENT",
+    "api_verified": false,
+    "manual_removal_target": "existing inbound TCP8884/all IPv4 rule on instance referenced by local SSH alias; do not change other ports"
+  },
+  "section8": "EXCLUDED_USER_COMPLETED_SELECTION",
+  "production_readonly": {
+    "services": {
+      "medical-monitor.service": {
+        "pid": "845095",
+        "state": "active",
+        "cwd": "/opt/medical-monitor/releases/mqtt-v07-phase2-20260920-01/backend",
+        "executable": "/usr/bin/python3.12",
+        "git_sha": "NOT_A_GIT_WORKTREE"
+      },
+      "medical-monitor-mqtt.service": {
+        "pid": "851111",
+        "state": "active",
+        "cwd": "/",
+        "executable": "/usr/bin/python3.12",
+        "git_sha": "NOT_A_GIT_WORKTREE"
+      },
+      "p6-ai.service": {
+        "pid": "394625",
+        "state": "active",
+        "cwd": "/opt/medical-monitor-p6",
+        "executable": "/usr/bin/python3.12",
+        "git_sha": "NOT_A_GIT_WORKTREE"
+      },
+      "nginx.service": {
+        "pid": "3631",
+        "state": "active",
+        "cwd": "/",
+        "executable": "/usr/sbin/nginx",
+        "git_sha": "NOT_A_GIT_WORKTREE"
+      }
+    },
+    "files": {
+      "/etc/nginx/snippets/medical-monitor.conf": {
+        "exists": true,
+        "sha256": "8e9509551d97489c6cd6a92d4d44f9d6ef06392f031db285e0b1f05d30143ca2",
+        "mode": "0o644",
+        "owner_uid": 0,
+        "group_gid": 0,
+        "bytes": 705
+      },
+      "/etc/systemd/system/p6-ai.service": {
+        "exists": true,
+        "sha256": "1006334e3ccf3523587d48c4482902ef6314c1549e0410fef11f1b934eccc8f2",
+        "mode": "0o644",
+        "owner_uid": 0,
+        "group_gid": 0,
+        "bytes": 819
+      },
+      "/etc/medical-monitor/p6-ai.env": {
+        "exists": true,
+        "sha256": "6aad50a55576026d9ec7406c4b787efecfb201339729db54b1aa7f2a0213a339",
+        "mode": "0o600",
+        "owner_uid": 0,
+        "group_gid": 0,
+        "bytes": 606
+      },
+      "/opt/medical-monitor/config/backend.env": {
+        "exists": true,
+        "sha256": "33d94a0e773efc11aa7fad055efe150ef74b8efde5467392804f4c076f4f52d5",
+        "mode": "0o600",
+        "owner_uid": 0,
+        "group_gid": 0,
+        "bytes": 279
+      }
+    },
+    "web_index": {
+      "exists": true,
+      "sha256": "92a48ceea4afb3a3c5b6f34fadd7d3b56063e725321aa2471e3a9285db7a48f0",
+      "mode": "0o644",
+      "owner_uid": 0,
+      "group_gid": 0,
+      "bytes": 414
+    },
+    "production_ai_sources": {
+      "cloud/ai/app.py": {
+        "exists": true,
+        "sha256": "4a05fc797a5cd5431400041c86b89b6b9b712e198a24403ca163fbcc6824d825",
+        "mode": "0o644",
+        "owner_uid": 0,
+        "group_gid": 0,
+        "bytes": 8503
+      },
+      "cloud/ai/providers.py": {
+        "exists": true,
+        "sha256": "40741521f34feaf3467d8d8bf7928342a36fbe2db463d99dc63b5715406140f6",
+        "mode": "0o644",
+        "owner_uid": 0,
+        "group_gid": 0,
+        "bytes": 7664
+      },
+      "cloud/ai/usage.py": {
+        "exists": false
+      }
+    },
+    "legacy_ai_five_cap_source_hint": false,
+    "formal_plan_state": "PREPARED_ONLY_NOT_PUBLISHED",
+    "formal_plan_sha256": "cb974038aa8c412e242e9ff7efc144e1cf648e46b64e00a448e8a37e209ec78f",
+    "prepared_runtimes": [
+      {
+        "directory": "runtime-2ffd1d372ace",
+        "manifest_sha256": "71900ff3930177d79d122512f0fb08e98ba483fbf08b54743a5fec52b797dcd9",
+        "source_commit": "bd0b5bd5a2169b785a9dd2bd168f83146688ce79"
+      },
+      {
+        "directory": "runtime-37808287a557",
+        "manifest_sha256": "11a1381c7519650f39714347c258c33c177372acf21674f63db6eb481ec5137b",
+        "source_commit": "41ddc066b92ccdb46b6ecd442d669a9d1db26b14"
+      },
+      {
+        "directory": "runtime-d32d9b2c1688",
+        "manifest_sha256": "d07a3ddb31db935513bbb2d51177b3264cbb09138e6aa3a5bd759a94986347f7",
+        "source_commit": "5f6490bd732af359477f99824c4599e27c4ff8b1"
+      }
+    ],
+    "isolated_services": {
+      "medical-monitor-h3-broker-diagnostic.service": "inactive",
+      "medical-monitor-h3-backend-nodebfix.service": "inactive",
+      "medical-monitor-h3-ai-isolated.service": "inactive"
+    },
+    "formal_hashes_match_previous_plan": true,
+    "web_matches_previous_plan": true,
+    "owned_host_8884_rules": 0,
+    "cloud_security_group_checked_by_api": false,
+    "mutations": false
+  },
+  "hardware_window": "NOT_AUTHORIZED_BY_CURRENT_MATRIX",
+  "formal_release": "FORMAL_RELEASE_NOT_AUTHORIZED",
+  "exit_code": 0,
+  "gate": "AUDIT_IDENTITIES_PASS_WITH_EXPLICIT_PHYSICAL_SG_GAPS"
+}

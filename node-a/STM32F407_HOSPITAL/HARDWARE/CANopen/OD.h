@@ -283,6 +283,12 @@ typedef struct {
         int32_t ir_wave;        /* PPG(IR) 波形原始采样，UNO 每帧 1 点 */
         uint32_t sample_tick;   /* 采样时刻(uwTick,ms)，与 2100:02 同域，配对 2110:01 用 */
     } x2110_ppg_waveform;
+    /* 原保留TPDO2/0x281，NIBP完成时间和同一结果的缩放SYS/DIA。 */
+    struct {
+        uint8_t highestSub_indexSupported;
+        uint32_t completion_tick;
+        uint32_t sys_dia;
+    } x2111_nibp_result;
 } OD_RAM_t;
 
 #ifndef OD_ATTR_PERSIST_COMM
@@ -384,8 +390,9 @@ extern OD_ATTR_OD OD_t *OD;
 #define OD_ENTRY_H1A04_TPDOMappingParameter &OD->list[34]
 #define OD_ENTRY_H2100_epoch_tick &OD->list[35]
 #define OD_ENTRY_H2110_ppg_waveform &OD->list[36]
-#define OD_ENTRY_H2120_vitals &OD->list[37]
-#define OD_ENTRY_H2130_validity_generation &OD->list[38]
+#define OD_ENTRY_H2111_nibp_result &OD->list[37]
+#define OD_ENTRY_H2120_vitals &OD->list[38]
+#define OD_ENTRY_H2130_validity_generation &OD->list[39]
 
 /*******************************************************************************
     OD config structure

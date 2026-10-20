@@ -5,6 +5,9 @@
 /* 复用第一阶段已验证的 ESP SSL/CA/时间校验，只在外部配置中保存凭据。 */
 #include "gateway_transport.h"
 #include "gateway_config.h"
+#ifdef MP_H3_PERSISTENT_CONFIG
+#include "persistent_config.h"
+#endif
 #include "core_mqtt.h"
 #include "mqtt_transport_adapter.h"
 #include <stdio.h>
@@ -54,6 +57,10 @@ _Static_assert(sizeof(GatewayConfig) == 312, "configuration layout changed");
 /* Flash 配置按固定长度读取；先校验魔数和字符串末尾，避免 AT 拼接越界读取。 */
 int gateway_config_valid(void)
 {
+#ifdef MP_H3_PERSISTENT_CONFIG
+    /* 冷启动只读完整提交记录；损坏/未写配置不回退sector7/11或旧RAM。 */
+    if(!h3_config_record_valid((const H3ConfigRecord *)H3_CONFIG_ADDRESS))return 0;
+#endif
     return config->magic == GATEWAY_CONFIG_MAGIC && !config->host[64] && !config->ssid[32] &&
            !config->wifi_password[64] && !config->password[64] && !config->username[32] &&
            !config->client_id[40];

@@ -1,0 +1,77 @@
+{
+  "c-persistent-isolated": {
+    "command": [
+      "python",
+      "gateway/physical_can/build.py",
+      "--irq",
+      "--isolated",
+      "--fresh-sntp",
+      "--persistent-config"
+    ],
+    "exit_code": 0,
+    "hardware_accessed": false
+  },
+  "c-persistent-normal": {
+    "command": [
+      "python",
+      "gateway/physical_can/build.py",
+      "--irq",
+      "--fresh-sntp",
+      "--persistent-config"
+    ],
+    "exit_code": 0,
+    "hardware_accessed": false
+  },
+  "node-a-host": {
+    "command": [
+      "python",
+      "node-a/tests/run_host.py",
+      "--phase",
+      "h3-r2-final"
+    ],
+    "exit_code": 0,
+    "hardware_accessed": false
+  },
+  "p5-legacy": {
+    "command": [
+      "python",
+      "gateway/mqtt/tests/run_p5_host_tests.py"
+    ],
+    "exit_code": 0,
+    "hardware_accessed": false
+  },
+  "p5-irq": {
+    "command": [
+      "python",
+      "gateway/mqtt/tests/run_p5_host_tests.py",
+      "--network-irq",
+      "--fresh-sntp"
+    ],
+    "exit_code": 0,
+    "hardware_accessed": false
+  },
+  "joint-functional": {
+    "command": [
+      "python",
+      "-m",
+      "pytest",
+      "cloud/backend/tests",
+      "cloud/ai/tests",
+      "gateway/physical_can/tests",
+      "-q"
+    ],
+    "exit_code": 0,
+    "hardware_accessed": false
+  },
+  "node-a-keil": {
+    "command": [
+      "D:/keil/UV4/UV4.exe",
+      "-r",
+      "E:\\medical-monitor-h3\\node-a\\STM32F407_HOSPITAL\\USER\\STM32F407_Template.uvprojx",
+      "-o",
+      "E:\\medical-monitor-h3\\gateway\\physical_can\\evidence\\h3-r2\\regression\\node-a-keil-build.log"
+    ],
+    "exit_code": 0,
+    "hardware_accessed": false
+  }
+}

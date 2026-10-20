@@ -67,7 +67,8 @@ typedef struct {
     uint8_t  irregular;        /* 心律不齐标记：0=齐 1=不齐 */
     uint16_t year;             /* 测量时刻年 */
     uint8_t  mon, day, hour, min;  /* 测量时刻 月/日/时/分 */
-    uint32_t valid_tick;       /* 测量成功完成时的 uwTick（D11 时效窗口用；0=未测量） */
+    uint32_t valid_tick;       /* 完成时uwTick可回绕到0；是否有结果由valid/代次判断。 */
+    uint32_t result_generation; /* 只在新结果完成时递增，同值重测也有新身份；不改变屏历史。 */
 } bp_last_t;
 
 /* 读取最近一次血压结果 / 当前状态机状态（CANopen 上报生产者用，调用方只读副本） */
