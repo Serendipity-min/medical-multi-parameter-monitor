@@ -7,6 +7,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef MP_CAN_RX_IRQ
+#include "esp_io_metrics.h"
+static EspIoMetrics io_metrics;
+static unsigned console_depth;
+void platform_io_snapshot(EspIoMetrics *out) {*out=io_metrics;}
+int platform_console_busy(void) {return console_depth!=0;}
+#endif
 #define CAPACITY 8192U
 static volatile unsigned char ring[CAPACITY];
 static volatile uint32_t head, tail, errors;
@@ -91,6 +98,10 @@ static void send_bytes(const unsigned char *data, unsigned int length)
 
 void console(const char *message)
 {
+#ifdef MP_CAN_RX_IRQ
+    /* 等TXE仍推进CAN；只让周期诊断避开正在输出的行，避免重入串口截断MQTT错误。 */
+    console_depth++;
+#endif
     while (*message)
     {
         while (!(USART1->SR & USART_SR_TXE))
@@ -99,6 +110,9 @@ void console(const char *message)
         }
         USART1->DR = (unsigned char)*message++;
     }
+#ifdef MP_CAN_RX_IRQ
+    console_depth--;
+#endif
 }
 
 int console_char(void)
@@ -178,18 +192,35 @@ int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout)
     if (length <= 0 || length > 2048)
         return -1;
     char command[40];
+#ifdef MP_CAN_RX_IRQ
+    uint32_t started=g_uptime_ms;
+    io_metrics.tx_calls++;io_metrics.tx_length=(uint32_t)length;io_metrics.tx_phase=1;
+#endif
     (void)snprintf(command, sizeof(command), "AT+CIPSEND=%d", length);
     if (!at_command(command, (uint32_t)timeout))
     {
+#ifdef MP_CAN_RX_IRQ
+        io_metrics.tx_ms=g_uptime_ms-started;
+#endif
         console("GW WRITE_PROMPT_FAIL\r\n");
         return -1;
     }
     send_bytes(data, (unsigned int)length);
+#ifdef MP_CAN_RX_IRQ
+    io_metrics.tx_phase=2;
+#endif
     if (!await_reply((uint32_t)timeout, 0, 1))
     {
+#ifdef MP_CAN_RX_IRQ
+        io_metrics.tx_ms=g_uptime_ms-started;
+#endif
         console("GW WRITE_SEND_FAIL\r\n");
         return -1;
     }
+#ifdef MP_CAN_RX_IRQ
+    /* SEND OK只证明ESP协议栈接受，不当作Broker接收或PUBACK。 */
+    io_metrics.tx_confirmed++;io_metrics.tx_ms=g_uptime_ms-started;io_metrics.tx_phase=3;
+#endif
     if (data[0] == 0x10U)
         console("GW CONNECT_PACKET_SENT\r\n");
     return length;
@@ -207,11 +238,17 @@ int esp_mqtt_recv(unsigned char *data, int length, uint32_t timeout)
         if (network_offset < network_length)
         {
             data[copied++] = network_bytes[network_offset++];
+#ifdef MP_CAN_RX_IRQ
+            io_metrics.rx_bytes++;
+#endif
             continue;
         }
         if (TimerIsExpired(&timer))
             break;
         network_offset = network_length = 0;
+#ifdef MP_CAN_RX_IRQ
+        io_metrics.rx_queries++;
+#endif
         /* 此固件在 SSL 尚无数据时读数据返回 ERROR，先查询接收长度再读取。 */
         if (!at_command("AT+CIPRECVLEN?", 1000))
         {
@@ -229,7 +266,12 @@ int esp_mqtt_recv(unsigned char *data, int length, uint32_t timeout)
 #endif
             return -1;
         }
-        if (!strtoul(available + 12, NULL, 10))
+        unsigned long available_bytes=strtoul(available + 12, NULL, 10);
+#ifdef MP_CAN_RX_IRQ
+        io_metrics.rx_hint=(uint32_t)available_bytes;
+        if(!available_bytes)io_metrics.rx_empty++;
+#endif
+        if (!available_bytes)
         {
             delay_ms(10);
             continue;
@@ -255,6 +297,9 @@ int esp_mqtt_recv(unsigned char *data, int length, uint32_t timeout)
             return -1;
         }
         memcpy(network_bytes, end + 1, size);
+#ifdef MP_CAN_RX_IRQ
+        io_metrics.rx_reads++;
+#endif
         network_length = (unsigned int)size;
         /* 只报告 CONNACK 状态码，不输出 MQTT CONNECT 内容或通用载荷。 */
         if (size == 4U && network_bytes[0] == 0x20U)

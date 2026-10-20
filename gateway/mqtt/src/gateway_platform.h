@@ -11,6 +11,10 @@ void platform_set_poll(void (*callback)(void));
 /* 主循环、AT 等待和 JSON 序列化共用入口，内部提供重入保护。 */
 void platform_poll(void);
 void console(const char *message);
+#ifdef MP_CAN_RX_IRQ
+/* 仅供低频诊断延后输出；不能借此暂停CAN接收或模型轮询。 */
+int platform_console_busy(void);
+#endif
 int console_char(void);
 /* UART当前门禁与累计错误分离；累计值供H3隔离窗口比较。 */
 uint32_t platform_uart_errors_total(void);

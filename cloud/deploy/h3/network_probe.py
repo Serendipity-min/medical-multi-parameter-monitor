@@ -21,7 +21,8 @@ def prepare():
     target = STATE / 'network-probe.json'
     if target.exists():
         raise ValueError('PROBE_ROLE_ALREADY_EXISTS')
-    backup = STATE / 'network-probe-backup'; backup.mkdir(mode=0o700)
+    # 每轮单独保留原件，避免第二轮对照覆盖此前的凭据/ACL备份。
+    backup = STATE / ('network-probe-backup-' + str(time.time_ns())); backup.mkdir(mode=0o700)
     hashes = {}
     for name in ('passwords', 'acl'):
         source = directory / name
@@ -40,12 +41,36 @@ def prepare():
     config = json.loads((STATE / 'backend.json').read_text())
     config.update(username='h3-net-probe', password=password)
     target.write_text(json.dumps(config)); target.chmod(0o600)
+    (STATE/'network-probe-ownership.json').write_text(json.dumps({
+        'backup':str(backup),'before':hashes,
+        'after':{name:hashlib.sha256((directory/name).read_bytes()).hexdigest() for name in hashes}}))
     result = subprocess.run(['systemctl', 'kill', '--signal=HUP', 'medical-monitor-h3-broker-diagnostic'], capture_output=True)
     if result.returncode:
         raise RuntimeError('ISOLATED_ROLE_RELOAD_FAILED')
     return {'action': 'ADD_SCOPED_ISOLATED_NETWORK_PROBE_ROLE', 'port': 8884,
             'topic_namespace': 'h3/net-probe/#', 'original_isolated_file_hashes': hashes,
             'production_broker_modified': False, 'exit_code': 0}
+
+
+def cleanup():
+    directory=Path('/opt/medical-monitor-h3/broker')
+    ownership=STATE/'network-probe-ownership.json'
+    data=json.loads(ownership.read_text())
+    backup=Path(data['backup'])
+    if backup.parent!=STATE or not backup.name.startswith('network-probe-backup-'):
+        raise ValueError('OWNED_BACKUP_REQUIRED')
+    # 两个文件均核对后才恢复；别人已更改隔离配置时不能覆盖，也不涉及正式Broker。
+    for name in ('passwords','acl'):
+        if hashlib.sha256((directory/name).read_bytes()).hexdigest()!=data['after'][name] or \
+           hashlib.sha256((backup/name).read_bytes()).hexdigest()!=data['before'][name]:
+            raise ValueError('PROBE_OWNERSHIP_CHANGED')
+    for name in ('passwords','acl'):
+        # 备份故意是0600；覆盖原文件内容并保留其mosquitto组/原权限。
+        shutil.copyfile(backup/name,directory/name)
+    (STATE/'network-probe.json').unlink();ownership.unlink()
+    result=subprocess.run(['systemctl','kill','--signal=HUP','medical-monitor-h3-broker-diagnostic'],capture_output=True)
+    return {'action':'RESTORE_OWNED_ISOLATED_PROBE_ROLE','restored_original_hashes':True,
+            'production_broker_modified':False,'exit_code':result.returncode}
 
 
 def observe(config, seconds=300, loopback=False):
@@ -123,12 +148,13 @@ def observe(config, seconds=300, loopback=False):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('action', choices=('prepare', 'pc', 'server'))
+    parser.add_argument('action', choices=('prepare', 'cleanup', 'pc', 'server'))
     parser.add_argument('--seconds', type=int, default=300)
     args = parser.parse_args()
     if not 30 <= args.seconds <= 600: parser.error('seconds 30..600')
     try:
         if args.action == 'prepare': result = prepare()
+        elif args.action == 'cleanup': result = cleanup()
         else:
             if args.action == 'pc':
                 remote = "import pathlib;print(pathlib.Path('/var/lib/medical-monitor-p6/h3-20261019/network-probe.json').read_text())"

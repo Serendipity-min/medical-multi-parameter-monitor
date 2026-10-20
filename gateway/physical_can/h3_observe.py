@@ -56,7 +56,7 @@ def observe(uart,seconds,private,initial=b''):
                 if kind not in {*GROUPS,'DIAG_BEGIN','DIAG_END','BOOT','WAIT_NODE_A_FIRST_HEARTBEAT','OK','FAIL',
                                 'AT_VERSION','SNTP_VALID','MQTT_CONNECTED','RECONNECT','CONFIG_REQUIRED','PEER','CAN_FAULT',
                                 'CAN_FAULT_NETWORK_CLOSED_STOP','WAIT_NODE_A_RX_FAULT_STOP',
-                                'MQTT_ERROR','MQTT_PENDING','WIFI_SIGNAL','WIFI_SIGNAL_UNAVAILABLE','WIFI_SLEEP','CLOCK','SNTP_SAMPLE',
+                                'MQTT_ERROR','MQTT_PENDING','MQTT_BUDGET','MQTT_IO','ESP_IO','WIFI_SIGNAL','WIFI_SIGNAL_UNAVAILABLE','WIFI_SLEEP','CLOCK','SNTP_SAMPLE','SNTP_REJECT',
                                 'READ_AVAILABLE_FAIL','READ_AVAILABLE_HEADER_FAIL',
                                 'READ_AT_FAIL','READ_HEADER_FAIL','READ_LENGTH_FAIL',
                                 'WRITE_PROMPT_FAIL','WRITE_SEND_FAIL'}:continue
@@ -100,6 +100,19 @@ def observe(uart,seconds,private,initial=b''):
                 if kind=='CLOCK':state['clock']=fields
                 if kind in ('WIFI_SIGNAL','WIFI_SLEEP'):state[kind.lower()]=fields
                 if kind=='MQTT_CONNECTED':state['mqtt_connected_seen']=True
+                if kind=='ESP_IO':state['esp_io']={k:int(v) for k,v in fields.items()}
+                if kind=='MQTT_ERROR':
+                    # Host到达时间用于与Broker/TCP对齐；不改设备原始耗时或累计计数。
+                    if not {'stage','status','elapsed','ack','connected'}<=fields.keys():
+                        state['host_log']['invalid_tags']+=1
+                    else:
+                        state.setdefault('mqtt_failures',[]).append({'utc':datetime.now(timezone.utc).isoformat(),
+                            'elapsed_s':round(time.monotonic()-started,3),'error':{k:int(v) for k,v in fields.items()}})
+                if kind in ('MQTT_BUDGET','MQTT_IO','MQTT_PENDING') and state.get('mqtt_failures'):
+                    state['mqtt_failures'][-1][kind.lower()]={k:int(v) for k,v in fields.items()}
+                if kind=='SNTP_REJECT':
+                    state.setdefault('sntp_rejects',[]).append({'utc':datetime.now(timezone.utc).isoformat(),
+                        **{k:int(v) for k,v in fields.items()}})
                 if kind in ('CAN_FAULT_NETWORK_CLOSED_STOP','WAIT_NODE_A_RX_FAULT_STOP'):state['state']='DEVICE_STOP'
                 q=state['latest'].get('queue',{});can=state['latest'].get('can',{})
                 if any(q.get(k,0) for k in ('fovr','sw','fault','stale')) or can.get('BOFF',0):state['state']='CAN_FAULT_STOP'

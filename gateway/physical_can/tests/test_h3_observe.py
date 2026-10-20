@@ -91,3 +91,20 @@ def test_peer_absence_keeps_capture_but_latched_fault_is_recorded(tmp_path,monke
     assert state['peer']['wait']==1 and state['state']=='CAPTURE_COMPLETE'
     state,_=run(tmp_path/'fatal',monkeypatch,data+b'GW CAN_FAULT reason=8 esr=4 tsr=8 at_ms=600 reset=0\nGW CAN_FAULT_NETWORK_CLOSED_STOP\n')
     assert state['state']=='DEVICE_STOP' and state['fatal_can']['esr']==4
+
+
+def test_failure_stage_budget_and_at_counts_keep_separate_evidence(tmp_path,monkeypatch):
+    data=(report(1)+b'GW MQTT_ERROR stage=6 status=0 elapsed=5010 ack=0 connected=1\n'
+          b'GW MQTT_BUDGET send_ms=40 wait_ms=4970 buffered=0\n'
+          b'GW MQTT_IO tx_calls=2 tx_ok=2 tx_len=190 tx_ms=40 phase=3 queries=20 empty=19 hint=0 rx_bytes=4 reads=1\n'
+          b'GW MQTT_PENDING id=2 qos=1 node=1 stream=3 seq=38 replay=1\n')
+    state,public=run(tmp_path,monkeypatch,data)
+    failure=state['mqtt_failures'][0]
+    assert failure['mqtt_budget']['send_ms']==40 and failure['mqtt_io']['phase']==3
+    assert failure['mqtt_pending']['id']==2 and failure['error']['ack']==0
+    assert 'GW MQTT_IO' in public and 'utc' in failure
+
+
+def test_interleaved_failure_is_not_a_valid_error_record(tmp_path,monkeypatch):
+    state,_=run(tmp_path,monkeypatch,report(1)+b'GW MQTT_ERROR stagGW DIAG_BEGIN seq=2 lines=4\n')
+    assert state['host_log']['invalid_tags']==1 and not state.get('mqtt_failures')

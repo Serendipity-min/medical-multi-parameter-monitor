@@ -13,6 +13,7 @@
 #ifdef MP_CAN_RX_IRQ
 #include "at_version.h"
 #include "wifi_status.h"
+#include "esp_io_metrics.h"
 #endif
 #ifdef MP_H3_FRESH_SNTP
 #include "sntp_sample.h"
@@ -240,6 +241,9 @@ int gateway_mqtt_publish(const MpFrame *frame)
     uint32_t start = g_uptime_ms;
     mqtt_adapter_begin(&network, 5000);
     MQTTStatus_t publish_status=MQTT_Publish(&client, &message, pending_id);
+#ifdef MP_CAN_RX_IRQ
+    uint32_t sent_at=g_uptime_ms;
+#endif
     int ok = publish_status == MQTTSuccess;
     if (message.qos == MQTTQoS1)
     {
@@ -252,8 +256,16 @@ int gateway_mqtt_publish(const MpFrame *frame)
 #ifdef MP_CAN_RX_IRQ
     /* 保留原5000ms/PUBACK门禁；诊断放在清在途状态之前，以区分发送与确认失败。 */
     if(!ok) {
-        char diagnostic[160];
+        char diagnostic[256];
         mqtt_diagnostic(6,publish_status,g_uptime_ms-start);
+        /* 只在失败后输出，不给正常逐包发布增加UART延迟；保留发送/确认阶段界限。 */
+        EspIoMetrics io;platform_io_snapshot(&io);
+        (void)snprintf(diagnostic,sizeof(diagnostic),"GW MQTT_BUDGET send_ms=%lu wait_ms=%lu buffered=%lu\r\n",
+            (unsigned long)(sent_at-start),(unsigned long)(g_uptime_ms-sent_at),(unsigned long)client.index);console(diagnostic);
+        (void)snprintf(diagnostic,sizeof(diagnostic),"GW MQTT_IO tx_calls=%lu tx_ok=%lu tx_len=%lu tx_ms=%lu phase=%lu queries=%lu empty=%lu hint=%lu rx_bytes=%lu reads=%lu\r\n",
+            (unsigned long)io.tx_calls,(unsigned long)io.tx_confirmed,(unsigned long)io.tx_length,
+            (unsigned long)io.tx_ms,(unsigned long)io.tx_phase,(unsigned long)io.rx_queries,
+            (unsigned long)io.rx_empty,(unsigned long)io.rx_hint,(unsigned long)io.rx_bytes,(unsigned long)io.rx_reads);console(diagnostic);
         /* QoS0本来就没有PUBACK，必须记录实际QoS才能把总预算失败归因于确认等待。 */
         (void)snprintf(diagnostic,sizeof(diagnostic),"GW MQTT_PENDING id=%u qos=%u node=%u stream=%u seq=%lu replay=%u\r\n",
             pending_id,(unsigned)message.qos,frame->node,frame->stream,(unsigned long)frame->seq,(unsigned)frame->replay);
@@ -309,7 +321,22 @@ static int fresh_sntp(void) {
     /* 无论成功或失败均关UDP，后续SSL不继承该socket；原TLS名称/CA设置不变。 */
     int closed=at_command("AT+CIPCLOSE",2000);
     esp_mqtt_reset();
-    if(!valid || !closed) {console("GW FAIL SNTP_FRESH_SAMPLE\r\n");return 0;}
+    if(!valid || !closed) {
+        /* 只解释拒绝原因，不改变原授时判定；完整包之前绝不读取未初始化字段。
+         * 1发送/2长度/3RTT/4未同步/5RATE KoD/6旧nonce/7其他/8关闭/9其他KoD。 */
+        unsigned reason=7;
+        if(sent!=48)reason=1;
+        else if(received!=48)reason=2;
+        else if(rtt>1000u)reason=3;
+        else if(memcmp(reply+24,request+40,8))reason=6;
+        else if(reply[1]==0)reason=!memcmp(reply+12,"RATE",4)?5:9;
+        else if((reply[0]>>6)==3)reason=4;
+        else if(valid && !closed)reason=8;
+        char diagnostic[96];
+        (void)snprintf(diagnostic,sizeof(diagnostic),"GW SNTP_REJECT reason=%u received=%d rtt_ms=%lu\r\n",
+            reason,received,(unsigned long)rtt);console(diagnostic);
+        console("GW FAIL SNTP_FRESH_SAMPLE\r\n");return 0;
+    }
     epoch=(uint32_t)(sample/1000u);epoch_fraction=(uint32_t)(sample%1000u);
     epoch_tick=start+rtt;
     char line[112];(void)snprintf(line,sizeof(line),"GW SNTP_SAMPLE rtt_ms=%lu uncertainty_ms=%lu epoch=%lu fraction=%lu\r\n",

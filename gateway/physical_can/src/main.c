@@ -5,6 +5,7 @@
 #include <stdio.h>
 #ifdef MP_CAN_RX_IRQ
 #include "rx_metrics.h"
+#include "esp_io_metrics.h"
 #endif
 
 /* 大对象放静态区；发布中的独立帧副本仍由循环栈帧持有。 */
@@ -19,10 +20,15 @@ static uint32_t bus_frames_base,bus_drops_base;
 static uint32_t qos1_acked,qos0_sent,publish_failed,last_seq,last_node,last_stream;
 static uint64_t last_timestamp;
 static uint32_t diagnostic_seq;
+static uint32_t io_diagnostic_at;
 #endif
 
 /* UART输出只保留固定计数与帧身份。IRQ目标在AT等待中也报告，便于发现故障。 */
 static void diagnostics(void) {
+#ifdef MP_CAN_RX_IRQ
+    /* 不推进diagnostic_at，待当前控制台输出结束后补发；CAN服务照常执行。 */
+    if(platform_console_busy())return;
+#endif
     /* 仅保留有界计数摘要；溢出和补传计数不能被解释为无损采集保证。 */
     if (g_uptime_ms - diagnostic_at >= 5000)
     {
@@ -70,6 +76,13 @@ static void diagnostics(void) {
             (unsigned long)physical_rx_metrics.peer_returns,(unsigned long)physical_rx_metrics.tx_no_ack,
             (unsigned long)physical_rx_metrics.tx_peer_discard,(unsigned long)physical_rx_metrics.peer_event_esr,
             (unsigned long)physical_rx_metrics.peer_event_tsr,(unsigned long)physical_rx_metrics.peer_event_at_ms);console(line);
+        if((uint32_t)(g_uptime_ms-io_diagnostic_at)>=60000u) {
+            /* 低频独立行核对AT查询压力，不改原四行报告或逐包发送频率。 */
+            EspIoMetrics io;platform_io_snapshot(&io);io_diagnostic_at=g_uptime_ms;
+            (void)snprintf(line,sizeof(line),"GW ESP_IO tx_ok=%lu tx_ms=%lu queries=%lu empty=%lu rx_bytes=%lu\r\n",
+                (unsigned long)io.tx_confirmed,(unsigned long)io.tx_ms,(unsigned long)io.rx_queries,
+                (unsigned long)io.rx_empty,(unsigned long)io.rx_bytes);console(line);
+        }
 #endif
     }
 }

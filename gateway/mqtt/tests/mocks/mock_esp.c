@@ -4,6 +4,11 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
+#ifdef MP_CAN_RX_IRQ
+#include "esp_io_metrics.h"
+/* 此夹具替换UART，不伪造实际AT指标；真实平台指标在板端单独核验。 */
+void platform_io_snapshot(EspIoMetrics *out) {memset(out,0,sizeof(*out));}
+#endif
 #ifdef MP_H3_FRESH_SNTP
 #include "sntp_sample.h"
 #endif
