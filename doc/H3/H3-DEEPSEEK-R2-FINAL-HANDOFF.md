@@ -2,7 +2,7 @@
 
 本轮合同：MPM-H3-002 R1.0；执行者为 Codex。沿用合同指定的唯一文件名，不代表执行者变更为 DeepSeek。用户已排除第八节 ECG 采购和选型，本轮没有执行该支线。
 
-**阶段结论：H3_PARTIAL_CONTINUE。C 的一次正常BOOT、J5独立供电/USB拔除及Flash配置保留窗口已经实测通过（连续在线310.045秒，见第10节）；负责人指定改接2.4GHz路由器，generation2配置及sector3专用更新工具已准备、联合236项回归通过，实板换网待现场窗口（第11节）。NIBP_PENDING；FORMAL_RELEASE_NOT_AUTHORIZED；FORMAL_ROLLBACK_NOT_RUN。** 不宣告整体 H3_PASS、七页正式上线或生理准确性通过。
+**阶段结论：H3_PARTIAL_CONTINUE。C 已正常BOOT、J5独立供电/USB拔除；热点generation1窗口连续在线310.045秒（第10节），随后已按授权仅更新sector3、改接2.4GHz路由器`@Tenda_B93620`，generation2独立冷启动连续在线310.033秒（第12节）。联合236项回归通过。自有隔离服务/链已清理，但路由器窗口完整INPUT表散列差异未归因，保留待审。NIBP_PENDING；FORMAL_RELEASE_NOT_AUTHORIZED；FORMAL_ROLLBACK_NOT_RUN。** 不宣告整体 H3_PASS、七页正式上线或生理准确性通过。
 
 ## 1. Git、镜像及现场身份
 
@@ -36,7 +36,8 @@
 |---|---|---|
 | R2-0 | PARTIAL：代码/正式服务及C身份读回通过 | 初审与实板窗口分开；云安全组仍未用API独立验证 |
 | R2-1 软件 | PASS / BENCH_STORAGE_POLICY_ACCEPTED | 两种ARM、记录损坏/重载/闭锁Host及受限下载事务通过；Flash物理保密性未具备 |
-| R2-1 实板 | PASS_ONE_AUTHORIZED_COLD_BOOT_WINDOW | 双备份、sector3写入读回、正常BOOT及310.045秒通过；坏配置实板/重复冷启动仍未测 |
+| R2-1 实板 | PASS_HOTSPOT_AND_ROUTER_STANDBY_WINDOWS | 两个配置代次各一次双备份、读回、独立BOOT；分别310.045/310.033秒；同配置重复启动及坏配置实板未测 |
+| 路由器窗口清理 | OWNED_SCOPE_CLEAN / INPUT_HASH_DIFFERENCE_REVIEW | 自有服务/链/文件已清，NAT恢复；完整INPUT散列不同，未覆盖未知规则 |
 | R2-2 软件 | PASS | 真实Node-A CANopen代码→Gateway→Backend→AI的合成协议字节及浏览器90秒过期通过 |
 | R2-2 新信号源 | NIBP_PENDING | 没有新的合格血压源；未采集人体或上传新生理记录 |
 | R2-3 新实板稳定/故障窗口 | NOT_AUTHORIZED / NOT_RUN | 不把历史无探头网络回归或本地MOCK当本轮有源300秒验收 |
@@ -217,7 +218,7 @@ Git对原始Windows日志的CRCRLF/编译器末尾空格检查有提示，保留
 
 坏配置启动仅Host验证，未向实板写故障配置；这是一次成功冷启动，不虚报三次。没有编程后失败，因此未实际调用C原件恢复；没有执行正式activate/rollback或网络故障注入。H3整体仍PARTIAL，后续路由器迁移单独保留配置代次和证据，不覆盖本次热点结果。
 
-## 11. 路由器迁移准备：仅sector3，尚未写板
+## 11. 路由器迁移准备记录：仅sector3，准备时尚未写板
 
 负责人指定目标`@Tenda_B93620`，复用此前本机受限目录中的私密配置；没有在聊天、命令行或仓库重新写入密码。现有C固件仍是第10节43172B隔离镜像，不重新开发联网固件。当前持久Wi-Fi仍为手机热点，电脑切换网络不会自动改变C。
 
@@ -233,3 +234,30 @@ Git对原始Windows日志的CRCRLF/编译器末尾空格检查有提示，保留
 新增23项针对性检查，覆盖只改Wi-Fi/代次、拒绝MQTT或时间字段变化、更新及恢复均无应用擦写、当前应用/备份/保护区异常时不擦除、pending/commit读回失败、失败后恢复、重新双读备份、旧授权范围拒绝、UTF-8字段限长/内嵌NUL/AT转义和离线计划不导入串口。与原33项下载工具检查合计56项通过；Backend/AI/物理Gateway联合**236 passed、4 subtests passed，原始退出码0**。新证据目录`gateway/physical_can/evidence/h3-r2/router-migration/`。本次只改Host配置工具，固件源码/资源/镜像字节均未变，不重复ARM构建。
 
 待现场执行范围已具体化：A/双屏及C先断电、A J-Link保持拔下；C仅USB/COM15下载，B0=3.3V/B1=GND，核验并备份后只更新上述sector3新配置。完成读回后断电把C B0恢复GND、B1保持GND，移除USB、J5独立供电，恢复A原供电；无探头/袖带。临时8884仅现场出口/32及本机环回，独立观察至少300秒后清理；不改云安全组、生产8883、正式页面或A固件。合同第1节和最终授权矩阵要求实际写入前向负责人提供精确范围，原单次热点窗口已结束，不能将其复用为任意配置烧录授权。本轮目标“改接路由器”已明确，不重复征询网络选择，等待该范围的现场就绪回复。
+
+## 12. 已批准的路由器配置写入及独立启动窗口
+
+负责人随后明确回复“按上述范围执行，C下载接线已就绪”，并确认电脑已连接目标路由器。此窗口只允许C sector3换网及失败时sector3恢复，未扩大为应用重刷、A新固件或生产发布授权。下载工具提交固定为`16c8776418efc279871661d36721043c056e1939`；固件仍为`b57f5464391174ca2bf45d0ed3453bd1cfe42093`冻结的43172B镜像，SHA256 `59229f1b34660f053538737fc0fd17c814fde5502a0dfe33603e8e08b72ca8a5`。
+
+| 实际检查 | 结果 |
+|---|---|
+| C身份、现有应用及generation1完整原件 | 实际核验通过；64KiB双读及磁盘回读，SHA256 `52a4c9d621375d63cd995c1a003d98473e9be3387d31cd857e702a27bee7e6f8`，不是第10节首次下载前的旧固件备份 |
+| 备份/换网原始退出码 | 均为0，保留`wifi-backup-*.json`、`wifi-update-*.json` |
+| 实际写入范围 | 仅sector3，16KiB擦除粒度；generation2记录336B、commit最后写；应用sector0–2未擦写，无RAM注入、无ROM GO |
+| 新完整64KiB读回 | SHA256 `102575dc940425d91b2db7c2a0f22ddf44c5cfab652b1b5ca0790f8924d3705b`；记录SHA与第11节冻结值一致 |
+| sector7/11及options | 前后均与第10节保护基线一致；未写入 |
+| 现场正常启动条件 | 负责人确认C由J5独立供电、USB已拔、B0接GND；B1按请求保持GND；A独立供电、J-Link拔下、无探头/袖带 |
+
+证据独立保存在`gateway/physical_can/evidence/h3-r2/router-migration/`，未覆盖热点窗口。实板只写配置，固件和资源未变，沿用第11节236项Host/Backend/AI通过回执；不把重复构建相同固件作为新增实板证据。窗口没有触发下载失败或恢复，sector3恢复仍只有Host故障模型验证，未声称已实际回滚。
+
+**路由器独立联网观测通过，原始退出码0。** A/Gateway同时ONLINE、B始终OFFLINE，连续**310.033秒**；MQTT订阅收到654条、全部QoS1，Backend accepted增加654、rejected增加0、dropped增加0，MQTT解码错误0。WSS共3682份快照（包括人工上电等待），无效值可见次数0、B上线次数0，未观察到ONLINE中断。会话`can-1792495164-65538`，首个ONLINE约北京时间2026-10-20 **19:19:35**，观测结束约 **19:24:45**。观察器启动至首次ONLINE的61.133秒包含人工操作，不能当作C启动时长。
+
+NODE-A状态63条、NODE-B离线状态63条、Gateway状态63条，SPO2/PR/NIBP各155条状态报告；没有新生理输入或PPG/QoS0波形。USB移除期间未读取C UART，因此C的PUBACK、FOVR、软件队列、Router/UART/Host丢失计数均NOT_OBSERVED，不能用654条订阅接收替代这些计数。无探头路由器稳态窗口不替代R2-2新NIBP及R2-3有源波形/故障恢复验收，也不能据此否认此前路由器偶发延迟。路由器配置、实际网络连通及无宿主启动已验证；未在本窗口实测RSSI/信道或定位旧断连根因。
+
+后端仍复用已逐字节核验的`runtime-37808287a557`（清单来源提交`41ddc066b92ccdb46b6ecd442d669a9d1db26b14`），8884临时Broker、18775环回Backend，无AI启动/真实调用/新Token消耗。654行脱敏元数据SHA256 **`12f5103284190f1281c3880e63fd1e7510bae41d96724a2d64b429a0e6753328`**，只含身份/序号/时间/状态/报文散列，不保存数值或原始波形。
+
+**自有范围清理完成，完整INPUT表一致性仍待审。** 正常停止回执退出0，自有Broker/Backend/到期定时器已停、自有INPUT链及引用为0、NAT规则散列恢复、三份自有临时配置已删除；8884/18775不再监听，正式8883仍监听，正式服务PID、配置及Web散列不变。但`input_rules_restored=false`：窗口前INPUT规则表SHA为`3c5a486467a9ea2ed4c7afeb3c8b45f1e9747cec67201f9b340a71d476f794b5`，清理后为`1fe2081c0f0cc04d56c8064144a11463bb03568c8c2b28524f755bacfeddbfd0`。只读核对确认无自有链引用；当前395行，不能由单条新增规则精确解释，两条规则枚举因超过256行上限未运行。未持有窗口前逐条原文，故不将差异擅自归因于Fail2ban或他人，也未执行整表恢复或删除未知规则。保留`isolation-stop-*.json`与全部`cleanup-audit-*.json`供后续审查；没有把脚本退出0等同完整防火墙恢复。
+
+清理归因辅助脚本首次本地`inspect.getsource`用于stdin函数失败（未执行远端）；第二次远端输出缺少全局json导入，退出1（只读检查）。修复后退出0，未进行板卡或防火墙写操作，失败状态另存`operator-wrapper-failures.json`，原失败回执保留。备份、sector3更新和联网观察均首次成功，无Flash恢复操作。
+
+最终板卡状态：C的B0/B1保持GND、USB拔除、J5独立供电；A原独立供电/J-Link拔下，无探头/袖带，配置generation2指向目标路由器，后续不依赖手机热点。电脑由负责人连接目标路由器。临时隔离Broker已关闭，C当前配置目标8884不再有服务，**不是正式常驻云端上线**；需要另经正式发布窗口切换受审配置/服务，不能为了维持演示让临时监听常驻。云安全组宽8884规则仍未改动或独立复核；生产发布、真实rollback、A新固件和新NIBP数据仍待相应范围批准。保留本机双份配置迁移原件，未上传秘密到仓库。

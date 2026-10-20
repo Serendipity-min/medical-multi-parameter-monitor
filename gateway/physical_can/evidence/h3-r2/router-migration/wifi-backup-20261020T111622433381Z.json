@@ -1,0 +1,59 @@
+{
+  "role": "C",
+  "exit_code": 0,
+  "action": "wifi-backup",
+  "flash_write_started": false,
+  "hardware_accessed": true,
+  "plan": {
+    "role": "C",
+    "port": "COM15",
+    "image_sha256": "59229f1b34660f053538737fc0fd17c814fde5502a0dfe33603e8e08b72ca8a5",
+    "image_bytes": 43172,
+    "record_sha256": "3b1a8c344dfad1d1faa82bc962811e50a467eec9adbc1cec5b2a32979c6a2c25",
+    "record_bytes": 336,
+    "application_sectors": [
+      0,
+      1,
+      2
+    ],
+    "config_sector": 3,
+    "config_erase_bytes": 16384,
+    "backup_bytes": 65536,
+    "commit_written_last": true,
+    "ram_injection": false,
+    "automatic_go": false,
+    "protected_sectors": [
+      7,
+      11
+    ],
+    "option_bytes_write": false,
+    "previous_record_sha256": "5c22cee1d7978faec50ea5431f749b36ac1ea01de52742342317e91a08a3ce18",
+    "erase_sectors": [
+      3
+    ],
+    "application_written": false,
+    "generation": 2,
+    "expected_previous_flash_sha256": "52a4c9d621375d63cd995c1a003d98473e9be3387d31cd857e702a27bee7e6f8"
+  },
+  "controlled_c_reset_requested": true,
+  "backup": {
+    "protected": {
+      "0x8060000": {
+        "sector_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "first_312B_sha256": "26e1989c6b3b3e1b905dcc17405a2767a1a3ebbb76b26ae3ac6b16bfd61c031c"
+      },
+      "0x80e0000": {
+        "sector_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "first_312B_sha256": "26e1989c6b3b3e1b905dcc17405a2767a1a3ebbb76b26ae3ac6b16bfd61c031c"
+      }
+    },
+    "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+    "exit_code": 0,
+    "double_read_match": true,
+    "bytes": 65536,
+    "sha256": "52a4c9d621375d63cd995c1a003d98473e9be3387d31cd857e702a27bee7e6f8",
+    "identity_source_sha256": "e796c22c34d7243b25353540db17c9c3835dde981ee0cacc3a33ae46032fe8e1"
+  },
+  "automatic_go": false,
+  "physical_cold_boot": "NOT_TESTED"
+}

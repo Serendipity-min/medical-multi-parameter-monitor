@@ -1,0 +1,22 @@
+{
+  "role": "C",
+  "port": "COM15",
+  "image_sha256": "59229f1b34660f053538737fc0fd17c814fde5502a0dfe33603e8e08b72ca8a5",
+  "record_sha256": "3b1a8c344dfad1d1faa82bc962811e50a467eec9adbc1cec5b2a32979c6a2c25",
+  "previous_record_sha256": "5c22cee1d7978faec50ea5431f749b36ac1ea01de52742342317e91a08a3ce18",
+  "erase_sectors": [
+    3
+  ],
+  "source_commit": "16c8776418efc279871661d36721043c056e1939",
+  "actions": [
+    "wifi-backup",
+    "wifi-update",
+    "wifi-restore"
+  ],
+  "expires_utc": "2026-10-20T15:14:59.300269+00:00",
+  "mqtt_tls_port": 8884,
+  "identity_source_sha256": "e796c22c34d7243b25353540db17c9c3835dde981ee0cacc3a33ae46032fe8e1",
+  "controlled_c_rom_reset": true,
+  "authority": "USER_APPROVED_ROUTER_SECTOR3_WINDOW",
+  "bounds": "C sector3 only; A and C application unchanged; protect7/11/options; no human input or production changes"
+}

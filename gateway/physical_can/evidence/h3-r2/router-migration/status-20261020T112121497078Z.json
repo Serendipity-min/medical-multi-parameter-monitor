@@ -1,0 +1,31 @@
+{
+  "state": "CONTINUOUS_ONLINE_OBSERVATION",
+  "started_utc": "2026-10-20T11:18:33.785177+00:00",
+  "updated_utc": "2026-10-20T11:21:19.291782+00:00",
+  "elapsed_s": 165.485,
+  "continuous_online_s": 104.352,
+  "longest_online_s": 104.352,
+  "mqtt_received": 219,
+  "mqtt_invalid": 0,
+  "wss_snapshots": 1642,
+  "node_b_online_seen": false,
+  "invalid_values_visible": 0,
+  "transitions": [
+    {
+      "elapsed_s": 0.107,
+      "gateway": "OFFLINE",
+      "a": "OFFLINE",
+      "b": "OFFLINE"
+    },
+    {
+      "elapsed_s": 61.133,
+      "gateway": "ONLINE",
+      "a": "ONLINE",
+      "b": "OFFLINE"
+    }
+  ],
+  "sessions": [
+    "can-1792495164-65538"
+  ],
+  "online_interruptions": null
+}

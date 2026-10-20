@@ -1,0 +1,27 @@
+{
+  "action": "start",
+  "exit_code": 0,
+  "broker_unit": "medical-monitor-h3-r2c-broker-20261020T111459308683Z-router",
+  "backend_unit": "medical-monitor-h3-r2c-backend-20261020T111459308683Z-router",
+  "backend_runtime": "runtime-37808287a557",
+  "backend_source_commit": "41ddc066b92ccdb46b6ecd442d669a9d1db26b14",
+  "backend_current_source_match": true,
+  "backend_health": {
+    "status": "ok",
+    "transport": "MQTT 3.1.1/TLS",
+    "mqtt_connected": true,
+    "accepted": 0,
+    "rejected": 0,
+    "dropped": 0
+  },
+  "temporary_ipv4_port": 8884,
+  "source_scope": "LOOPBACK_AND_CURRENT_SSH_PEER_32_ONLY_WITH_DEFAULT_DROP",
+  "peer_digest": "626a58fb72fb6c6e3a85597fae52c0a87b9ef6863b0e05c621d078d22bd8694d",
+  "backend_local_loopback_dnat": "EXACT_BROKER_IP_PORT8884_AND_SERVICE_UID_ONLY",
+  "TLS_hostname_validation_unchanged": true,
+  "auto_cleanup_after_seconds": 2700,
+  "formal_unchanged": true,
+  "AI_started": false,
+  "real_AI_calls": 0,
+  "cloud_security_group_modified": false
+}
