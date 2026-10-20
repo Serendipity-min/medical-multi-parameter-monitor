@@ -1,0 +1,71 @@
+{
+  "stamp": "20261020T065112Z",
+  "updated_utc": "2026-10-20T07:01:37.425856+00:00",
+  "elapsed_s": 624.781,
+  "latest": {
+    "model": {
+      "can": 1052,
+      "drop": 159,
+      "cache": 0,
+      "lost": 0,
+      "replay": 55,
+      "nodes": 0
+    },
+    "queue": {
+      "fovr": 0,
+      "sw": 0,
+      "bad": 0,
+      "high": 4,
+      "depth": 0,
+      "irq": 2499,
+      "lag_cycles": 433495,
+      "stale": 0,
+      "fault": 0,
+      "uart": 0
+    },
+    "can": {
+      "hb": 999,
+      "boot": 1,
+      "p181": 0,
+      "p381": 500,
+      "p481": 500,
+      "p681": 500,
+      "txok": 1052,
+      "txfail": 1,
+      "nmt": 1,
+      "time": 50,
+      "TEC": 8,
+      "REC": 0,
+      "LEC": 3,
+      "BOFF": 0
+    },
+    "delivery": {
+      "qos1_puback": 1081,
+      "qos0_send": 0,
+      "failed": 0,
+      "last_node": 3,
+      "last_stream": 11,
+      "last_seq": 116,
+      "last_ms_hi": 417,
+      "last_ms_lo": 1478333461
+    }
+  },
+  "peer": {
+    "wait": 1,
+    "losses": 1,
+    "returns": 0,
+    "no_ack": 1,
+    "discarded": 159,
+    "esr": 524336,
+    "tsr": 469762057,
+    "at_ms": 549770
+  },
+  "boot_markers": 1,
+  "host_log": {
+    "complete": 116,
+    "missing_reports": 0,
+    "missing_lines": 0,
+    "duplicate_lines": 0,
+    "invalid_tags": 0
+  }
+}

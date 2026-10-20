@@ -1,0 +1,32 @@
+{
+  "irq-protocol": {
+    "command": [
+      "python",
+      "gateway/physical_can/build.py",
+      "--host",
+      "--irq",
+      "--isolated"
+    ],
+    "exit_code": 0
+  },
+  "rx-order": {
+    "command": [
+      "python",
+      "gateway/physical_can/build.py",
+      "--host",
+      "--irq",
+      "--rx-order"
+    ],
+    "exit_code": 0
+  },
+  "peer-cycle": {
+    "command": [
+      "python",
+      "gateway/physical_can/build.py",
+      "--host",
+      "--irq",
+      "--peer-cycle"
+    ],
+    "exit_code": 0
+  }
+}

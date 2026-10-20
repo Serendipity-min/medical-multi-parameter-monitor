@@ -1,0 +1,33 @@
+{
+  "python-functional": {
+    "command": [
+      "python",
+      "-m",
+      "pytest",
+      "cloud/backend/tests",
+      "cloud/ai/tests",
+      "gateway/physical_can/tests/test_h3_observe.py",
+      "gateway/physical_can/tests/test_h3_download.py",
+      "gateway/physical_can/tests/test_h3_resume.py",
+      "gateway/physical_can/tests/test_h3_console_reentry.py",
+      "-q"
+    ],
+    "exit_code": 0
+  },
+  "p5-legacy": {
+    "command": [
+      "python",
+      "gateway/mqtt/tests/run_p5_host_tests.py"
+    ],
+    "exit_code": 0
+  },
+  "p5-irq": {
+    "command": [
+      "python",
+      "gateway/mqtt/tests/run_p5_host_tests.py",
+      "--network-irq",
+      "--fresh-sntp"
+    ],
+    "exit_code": 0
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "p5-irq-final": {
+    "command": [
+      "python",
+      "gateway/mqtt/tests/run_p5_host_tests.py",
+      "--network-irq",
+      "--fresh-sntp"
+    ],
+    "exit_code": 0
+  },
+  "arm-isolated-final": {
+    "command": [
+      "python",
+      "gateway/physical_can/build.py",
+      "--irq",
+      "--isolated",
+      "--fresh-sntp"
+    ],
+    "exit_code": 0
+  },
+  "arm-normal-final": {
+    "command": [
+      "python",
+      "gateway/physical_can/build.py",
+      "--irq",
+      "--fresh-sntp"
+    ],
+    "exit_code": 0
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "netsh_exit": 0,
+  "configs": [
+    {
+      "config_file": "h3-session-config-01.bin",
+      "visible": false,
+      "channels": [],
+      "supports_24ghz_observed": false
+    },
+    {
+      "config_file": "h3-session-config-02.bin",
+      "visible": true,
+      "channels": [
+        36
+      ],
+      "supports_24ghz_observed": false
+    }
+  ],
+  "identities_or_credentials_saved": false
+}

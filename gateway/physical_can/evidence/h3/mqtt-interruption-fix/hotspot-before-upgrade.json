@@ -1,0 +1,81 @@
+{
+  "stamp": "20261020T071903Z",
+  "updated_utc": "2026-10-20T07:35:30.527866+00:00",
+  "elapsed_s": 987.172,
+  "latest": {
+    "model": {
+      "can": 1986,
+      "drop": 0,
+      "cache": 0,
+      "lost": 0,
+      "replay": 11,
+      "nodes": 10
+    },
+    "queue": {
+      "fovr": 0,
+      "sw": 0,
+      "bad": 0,
+      "high": 4,
+      "depth": 0,
+      "irq": 4725,
+      "lag_cycles": 457139,
+      "stale": 0,
+      "fault": 0,
+      "uart": 0
+    },
+    "can": {
+      "hb": 1890,
+      "boot": 1,
+      "p181": 0,
+      "p381": 945,
+      "p481": 945,
+      "p681": 945,
+      "txok": 1986,
+      "txfail": 0,
+      "nmt": 1,
+      "time": 94,
+      "TEC": 0,
+      "REC": 0,
+      "LEC": 0,
+      "BOFF": 0
+    },
+    "delivery": {
+      "qos1_puback": 1956,
+      "qos0_send": 0,
+      "failed": 0,
+      "last_node": 3,
+      "last_stream": 11,
+      "last_seq": 188,
+      "last_ms_hi": 417,
+      "last_ms_lo": 1480362454
+    }
+  },
+  "peer": {
+    "wait": 0,
+    "losses": 0,
+    "returns": 0,
+    "no_ack": 0,
+    "discarded": 0,
+    "esr": 0,
+    "tsr": 0,
+    "at_ms": 0
+  },
+  "boot_markers": 1,
+  "host_log": {
+    "complete": 189,
+    "missing_reports": 1,
+    "missing_lines": 0,
+    "duplicate_lines": 0,
+    "invalid_tags": 1
+  },
+  "wifi_signal": {
+    "channel": "1",
+    "rssi": "-32"
+  },
+  "fresh_sntp_sample": {
+    "rtt_ms": "229",
+    "uncertainty_ms": "114",
+    "epoch": "1792481336",
+    "fraction": "601"
+  }
+}

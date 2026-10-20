@@ -5,10 +5,10 @@
   "wifi_awake": false,
   "fresh_sntp": true,
   "image": {
-    "sha256": "11988f79638eff25a3ce5ef01c0d240decbe9724a913927d5df155385a8b5e7f",
-    "bytes": 41476,
+    "sha256": "007f847f80eec3e5bd8312490c539b4ee6d941f827677c039c2f2ad9f61f18c8",
+    "bytes": 42332,
     "start": 134217728,
-    "end_exclusive": 134259204,
+    "end_exclusive": 134260060,
     "erase_sectors": [
       0,
       1,
@@ -17,19 +17,19 @@
     "load_segments": [
       {
         "start": 134217728,
-        "end_exclusive": 134259116,
-        "bytes": 41388
+        "end_exclusive": 134259972,
+        "bytes": 42244
       },
       {
-        "start": 134259116,
-        "end_exclusive": 134259204,
+        "start": 134259972,
+        "end_exclusive": 134260060,
         "bytes": 88
       }
     ],
     "initial_sp": 537001984,
-    "reset_vector": 134249389,
+    "reset_vector": 134249949,
     "CAN1_RX0_vector": {
-      "address": 134236325,
+      "address": 134236413,
       "strong_handler": true
     },
     "protected_sectors": [
@@ -1415,15 +1415,15 @@
     "gateway/third_party/CANopenNode/301/CO_SYNC.c": "f140a45ea032cbf360a2fb8429ed7498a37c1e9ecedcb2b5d6dc387ea21c78a9",
     "gateway/third_party/CANopenNode/301/CO_TIME.c": "bea365c4d56bcd83182018c54fa4c2bf921dd835d10f3332ef191a148ff17bdc",
     "gateway/third_party/CANopenNode/301/crc16-ccitt.c": "bc9a9278008276eefd264e6724b906230f7f8b3c32183c50443201c4ff4f25b8",
-    "gateway/physical_can/src/main.c": "551afa06c43739df347c060c1a255503f504d732e3f457aa10c9752cc4103582",
+    "gateway/physical_can/src/main.c": "409cceddf458b33a240d885dafbf858abb467f47ddbff20264fa90e9ef5d94e4",
     "gateway/physical_can/src/lifecycle.c": "f98c9a69942b171a09c7b120aaaa96651b6a5213ace7afb0d52bfa899e04188f",
     "gateway/physical_can/src/bxcan_network_irq.c": "30acec583e81a3af26aa06aaf3cd5bf232cd3ab949e68abb67f612429f2ccfc8",
     "gateway/physical_can/bench/rx_irq.c": "d9d252bbf4b234b294c26fd97391fa472a7967085bbb37f5654adf879420a613",
     "gateway/mqtt/src/gateway_assert.c": "d29eb278706acf7a4249a2104b05f22cf859c61de5d924773c785228d7523d17",
-    "gateway/mqtt/src/gateway_transport.c": "2468278511a47d1b47835727b72e24e84606dea700db48dd1ce449945ceb8ac6",
+    "gateway/mqtt/src/gateway_transport.c": "ecdc54523504ed53d1c9e09050ffaa796f3afb577047ab5f6df6769c8bf98007",
     "gateway/mqtt/src/heap.c": "20bf6b3b9c5ddc276ba4d85016ce14ae1425c18e24e5f020bea011d9168b2923",
     "gateway/mqtt/src/mqtt_transport_adapter.c": "beb93429f95cba5fe88f170010363613391df41975475abcbe1842c7692019aa",
-    "gateway/mqtt/src/platform.c": "9895b00a3d77b5fceb02447a9a3428ba7b3bf5ebc11e4bf90132d4e51f8ec26d",
+    "gateway/mqtt/src/platform.c": "71d5e4f0f91faa609cd6b1e256b6f33d9ce921365a13fb1b817f4688f5832261",
     "gateway/esp_at_probe/src/stm32f4xx_it.c": "ae30c76f83be269d9aa67731649aa48bfe4a5dff679cd537eef9faa563b90b97",
     "gateway/esp_at_probe/src/syscalls.c": "796e258d6c2e20e2d1f629c43d7d6ea17b32d3040c466055ae9a2a084caf9ead",
     "external-sdk/Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_rcc.c": "4169568c167d701fada6c2366d2537c62d194dbe9a311e513fc9ff80061dc998",
@@ -1448,8 +1448,9 @@
     "gateway/physical_can/bench/rx_irq.h": "5e07ee1c5a864c9aa97d2ce12441ac6ca4accc9b585e38d3526e77d7b320381b",
     "gateway/mqtt/src/at_version.h": "7b4bcacefb8f54a02e5d6d781e8143aab837160b363d887a76029158c5e5e048",
     "gateway/mqtt/src/core_mqtt_config.h": "88872f791c2c20950b03391aafd7618df113f6b376971ff45eaf6849ef81f4ad",
+    "gateway/mqtt/src/esp_io_metrics.h": "b9a06c33867c99449e95eba4189926c1e4535406ecbf6a4de7b57d367cdd83f9",
     "gateway/mqtt/src/gateway_config.h": "2b1bfd529d360cca0a2abdfd71df055113b1bad1a74bf4f29efc0e7ad3bfd121",
-    "gateway/mqtt/src/gateway_platform.h": "655f782b94a4e58d5781fa888f4b91c5bd3d45b774e35852cb0f17ebe8dedce8",
+    "gateway/mqtt/src/gateway_platform.h": "fd419ae3ac3bdc937356a639034875ff9bfb2435f4a6386f61534fff92cc1eeb",
     "gateway/mqtt/src/gateway_transport.h": "3a1842a217d42e6ab602fc31bc97d399d18697a3dcbd86deed26bc4826478faa",
     "gateway/mqtt/src/mqtt_transport_adapter.h": "e95954aa35f96fdd5c8ba813dacf0605d7e38c055f6658391d9be28d26ca4ade",
     "gateway/mqtt/src/sntp_sample.h": "1df0243903391cb284b400106aa6da9de217e633d91bfa4d36635489612e9993",
