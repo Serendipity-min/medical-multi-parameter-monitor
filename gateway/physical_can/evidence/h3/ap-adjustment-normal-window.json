@@ -1,0 +1,162 @@
+{
+  "action": "POST_AP_ADJUSTMENT_NORMAL_ACTIVE_WINDOW",
+  "started_baseline_utc": "2026-10-20T02:06:38.954240+00:00",
+  "finished_utc": "2026-10-20T02:11:57.952035+00:00",
+  "seconds": 319.0,
+  "start": {
+    "model": {
+      "can": 632,
+      "drop": 0,
+      "cache": 0,
+      "lost": 97,
+      "replay": 79,
+      "nodes": 10
+    },
+    "queue": {
+      "fovr": 0,
+      "sw": 0,
+      "bad": 0,
+      "high": 7,
+      "depth": 0,
+      "irq": 6883,
+      "lag_cycles": 672213,
+      "stale": 0,
+      "fault": 0,
+      "uart": 0
+    },
+    "can": {
+      "hb": 594,
+      "boot": 0,
+      "p181": 5383,
+      "p381": 298,
+      "p481": 297,
+      "p681": 311,
+      "txok": 632,
+      "txfail": 0,
+      "nmt": 1,
+      "time": 30,
+      "TEC": 0,
+      "REC": 0,
+      "LEC": 0,
+      "BOFF": 0
+    },
+    "delivery": {
+      "qos1_puback": 533,
+      "qos0_send": 38,
+      "failed": 5,
+      "last_node": 1,
+      "last_stream": 3,
+      "last_seq": 147,
+      "last_ms_hi": 417,
+      "last_ms_lo": 1460634568
+    }
+  },
+  "end": {
+    "model": {
+      "can": 1304,
+      "drop": 0,
+      "cache": 0,
+      "lost": 97,
+      "replay": 83,
+      "nodes": 10
+    },
+    "queue": {
+      "fovr": 0,
+      "sw": 0,
+      "bad": 0,
+      "high": 7,
+      "depth": 1,
+      "irq": 23771,
+      "lag_cycles": 686924,
+      "stale": 0,
+      "fault": 0,
+      "uart": 0
+    },
+    "can": {
+      "hb": 1226,
+      "boot": 0,
+      "p181": 20685,
+      "p381": 614,
+      "p481": 613,
+      "p681": 633,
+      "txok": 1304,
+      "txfail": 0,
+      "nmt": 1,
+      "time": 62,
+      "TEC": 0,
+      "REC": 0,
+      "LEC": 0,
+      "BOFF": 0
+    },
+    "delivery": {
+      "qos1_puback": 1205,
+      "qos0_send": 306,
+      "failed": 5,
+      "last_node": 1,
+      "last_stream": 0,
+      "last_seq": 601,
+      "last_ms_hi": 417,
+      "last_ms_lo": 1460955521
+    }
+  },
+  "delta": {
+    "model": {
+      "can": 672,
+      "drop": 0,
+      "cache": 0,
+      "lost": 0,
+      "replay": 4,
+      "nodes": 0
+    },
+    "queue": {
+      "fovr": 0,
+      "sw": 0,
+      "bad": 0,
+      "high": 0,
+      "depth": 1,
+      "irq": 16888,
+      "lag_cycles": 14711,
+      "stale": 0,
+      "fault": 0,
+      "uart": 0
+    },
+    "can": {
+      "hb": 632,
+      "boot": 0,
+      "p181": 15302,
+      "p381": 316,
+      "p481": 316,
+      "p681": 322,
+      "txok": 672,
+      "txfail": 0,
+      "nmt": 0,
+      "time": 32,
+      "TEC": 0,
+      "REC": 0,
+      "LEC": 0,
+      "BOFF": 0
+    },
+    "delivery": {
+      "qos1_puback": 672,
+      "qos0_send": 268,
+      "failed": 0,
+      "last_node": 0,
+      "last_stream": -3,
+      "last_seq": 454,
+      "last_ms_hi": 0,
+      "last_ms_lo": 320953
+    }
+  },
+  "host_log": {
+    "complete": 124,
+    "missing_reports": 0,
+    "missing_lines": 0,
+    "duplicate_lines": 0,
+    "invalid_tags": 0
+  },
+  "report_count": 64,
+  "no_counter_reset": true,
+  "source": "OPERATOR_APPROVED_NONPERSONAL_PHYSICAL_NODE_A",
+  "not_clinical_accuracy": true,
+  "exit_code": 0
+}

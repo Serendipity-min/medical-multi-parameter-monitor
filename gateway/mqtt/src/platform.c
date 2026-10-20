@@ -319,6 +319,12 @@ void platform_init(void)
     SCB->VTOR=0x08000000u;__DSB();__ISB();
 #endif
     init_uart();
+#ifdef MP_CAN_RX_IRQ
+    /* H3外部晶体失败时只报告并停机，禁止带着错误采集时钟继续联网。 */
+    extern int physical_clock_ready(void);
+    if(!physical_clock_ready()) {console("GW FAIL HSE_CLOCK\r\n");while(1) {}}
+    console("GW CLOCK hse=1 core_hz=8000000\r\n");
+#endif
     if (SysTick_Config(SystemCoreClock / 1000U))
         while (1)
         {

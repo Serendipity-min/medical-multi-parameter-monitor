@@ -1,0 +1,10 @@
+{
+  "command": [
+    "python",
+    "gateway/physical_can/build.py",
+    "--irq",
+    "--host",
+    "--isolated"
+  ],
+  "exit_code": 0
+}

@@ -1,0 +1,18 @@
+{
+  "exit_code": 0,
+  "unit": "medical-monitor-h3-backend-nodebfix",
+  "release": "/opt/medical-monitor-h3/releases/runtime-2ffd1d372ace",
+  "source_commit": "bd0b5bd5a2169b785a9dd2bd168f83146688ce79",
+  "bundle_sha256": "2ffd1d372acea512dc36d9b822dad747ee5de7dd15fcd0b1449d5b20e7da272d",
+  "health": {
+    "status": "ok",
+    "transport": "MQTT 3.1.1/TLS",
+    "mqtt_connected": true,
+    "accepted": 3,
+    "rejected": 0,
+    "dropped": 0
+  },
+  "formal_backend_pid_unchanged": true,
+  "previous_isolated_release": "/opt/medical-monitor-h3/releases/runtime-d32d9b2c1688/cloud/backend",
+  "original_backend_counter_history_preserved_in_evidence": true
+}

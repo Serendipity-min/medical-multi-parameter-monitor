@@ -1,0 +1,30 @@
+{
+  "legacy": {
+    "requests": 3,
+    "usage": {
+      "prompt_tokens": 3422,
+      "completion_tokens": 156,
+      "total_tokens": 3578
+    },
+    "states": {
+      "LEGACY_IMPORTED": 3
+    }
+  },
+  "h3": {
+    "requests": 6,
+    "usage": {
+      "prompt_tokens": 3112,
+      "completion_tokens": 316,
+      "total_tokens": 3428
+    },
+    "states": {
+      "VALIDATED": 6
+    }
+  },
+  "billing": "OPERATOR_REPORTED_FREE_OR_TRIAL_COST_NOT_ACCOUNT_VERIFIED",
+  "legacy_mtime_matches": {
+    "call-01.json": false,
+    "call-02.json": false,
+    "call-03.json": false
+  }
+}

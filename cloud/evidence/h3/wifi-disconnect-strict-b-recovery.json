@@ -1,0 +1,43 @@
+{
+  "action": "ISOLATED_WIFI_FAULT_STRICT_NODE_B",
+  "started_utc": "2026-10-20T02:12:12.744023+00:00",
+  "node_b_not_offline": 0,
+  "invalid_current_value": 0,
+  "valid_while_gateway_unavailable": 0,
+  "replay_used_as_current": 0,
+  "unavailable_seen": true,
+  "recovered_seen": false,
+  "raw_measurements_saved": false,
+  "transitions": [
+    {
+      "elapsed_s": 0.003,
+      "gateway": "STALE",
+      "nodes": {
+        "NODE-A": "STALE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "STALE",
+        "PPG": "STALE",
+        "PR": "STALE",
+        "SPO2": "STALE"
+      }
+    },
+    {
+      "elapsed_s": 50.218,
+      "gateway": "OFFLINE",
+      "nodes": {
+        "NODE-A": "OFFLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "validities": {
+        "NIBP": "OFFLINE",
+        "PPG": "OFFLINE",
+        "PR": "OFFLINE",
+        "SPO2": "OFFLINE"
+      }
+    }
+  ],
+  "elapsed_s": 110.006,
+  "exit_code": 1
+}

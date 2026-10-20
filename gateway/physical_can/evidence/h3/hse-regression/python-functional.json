@@ -1,0 +1,12 @@
+{
+  "command": [
+    "python",
+    "-m",
+    "pytest",
+    "cloud/ai/tests",
+    "cloud/backend/tests",
+    "gateway/physical_can/tests/test_h3_flash.py",
+    "-q"
+  ],
+  "exit_code": 4
+}

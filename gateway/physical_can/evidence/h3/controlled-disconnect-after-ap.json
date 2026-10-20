@@ -1,0 +1,64 @@
+{
+  "action": "CONTROLLED_WIFI_DISCONNECT_AFTER_POST_AP_NORMAL_WINDOW",
+  "utc": "2026-10-20T02:12:38.565913+00:00",
+  "pre": {
+    "elapsed_s": 657.922,
+    "latest": {
+      "model": {
+        "can": 1398,
+        "drop": 0,
+        "cache": 0,
+        "lost": 97,
+        "replay": 83,
+        "nodes": 10
+      },
+      "queue": {
+        "fovr": 0,
+        "sw": 0,
+        "bad": 0,
+        "high": 7,
+        "depth": 0,
+        "irq": 26111,
+        "lag_cycles": 686924,
+        "stale": 0,
+        "fault": 0,
+        "uart": 0
+      },
+      "can": {
+        "hb": 1315,
+        "boot": 0,
+        "p181": 22801,
+        "p381": 659,
+        "p481": 658,
+        "p681": 679,
+        "txok": 1398,
+        "txfail": 0,
+        "nmt": 1,
+        "time": 66,
+        "TEC": 0,
+        "REC": 0,
+        "LEC": 0,
+        "BOFF": 0
+      },
+      "delivery": {
+        "qos1_puback": 1298,
+        "qos0_send": 342,
+        "failed": 5,
+        "last_node": 1,
+        "last_stream": 0,
+        "last_seq": 663,
+        "last_ms_hi": 417,
+        "last_ms_lo": 1461000563
+      }
+    },
+    "host_log": {
+      "complete": 133,
+      "missing_reports": 0,
+      "missing_lines": 0,
+      "duplicate_lines": 0,
+      "invalid_tags": 0
+    }
+  },
+  "normal_window_evidence": "ap-adjustment-normal-window.json",
+  "no_counter_reset": true
+}

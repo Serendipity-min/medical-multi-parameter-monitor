@@ -1,0 +1,14 @@
+{
+  "command": [
+    "gcc",
+    "-std=c11",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Igateway/physical_can/src",
+    "gateway/physical_can/tests/hse_clock.c",
+    "-o",
+    "gateway/physical_can/build/h3-isolated/hse_clock.exe"
+  ],
+  "exit_code": 0
+}

@@ -41,7 +41,7 @@ def observe(uart,seconds,private,initial=b''):
                 if kind not in {*GROUPS,'DIAG_BEGIN','DIAG_END','BOOT','WAIT_NODE_A_FIRST_HEARTBEAT','OK','FAIL',
                                 'AT_VERSION','SNTP_VALID','MQTT_CONNECTED','RECONNECT','CONFIG_REQUIRED',
                                 'CAN_FAULT_NETWORK_CLOSED_STOP','WAIT_NODE_A_RX_FAULT_STOP',
-                                'MQTT_ERROR','MQTT_PENDING','WIFI_SIGNAL','WIFI_SIGNAL_UNAVAILABLE','WIFI_SLEEP',
+                                'MQTT_ERROR','MQTT_PENDING','WIFI_SIGNAL','WIFI_SIGNAL_UNAVAILABLE','WIFI_SLEEP','CLOCK',
                                 'READ_AVAILABLE_FAIL','READ_AVAILABLE_HEADER_FAIL',
                                 'READ_AT_FAIL','READ_HEADER_FAIL','READ_LENGTH_FAIL',
                                 'WRITE_PROMPT_FAIL','WRITE_SEND_FAIL'}:continue
@@ -73,6 +73,7 @@ def observe(uart,seconds,private,initial=b''):
                     report=None;seen=set()
                 if kind=='SNTP_VALID':state['sntp']=fields
                 if kind=='AT_VERSION':state['at_version']=fields.get('value')
+                if kind=='CLOCK':state['clock']=fields
                 if kind in ('WIFI_SIGNAL','WIFI_SLEEP'):state[kind.lower()]=fields
                 if kind=='MQTT_CONNECTED':state['mqtt_connected_seen']=True
                 if kind in ('CAN_FAULT_NETWORK_CLOSED_STOP','WAIT_NODE_A_RX_FAULT_STOP'):state['state']='DEVICE_STOP'

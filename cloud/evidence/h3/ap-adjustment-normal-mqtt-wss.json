@@ -1,0 +1,51 @@
+{
+  "window_start": "2026-10-20T02:06:38.954240+00:00",
+  "window_end": "2026-10-20T02:11:57.952035+00:00",
+  "mqtt_counts": {
+    "SPO2:VALID": 156,
+    "PR:VALID": 155,
+    "NIBP:INVALID": 161,
+    "PPG:VALID": 273,
+    "NODE_STATUS:VALID": 65,
+    "NODE_STATUS:OFFLINE": 65,
+    "GATEWAY_STATUS:VALID": 65,
+    "SPO2:INVALID": 5,
+    "PR:INVALID": 6
+  },
+  "valid_mqtt_age_ms": {
+    "SPO2": {
+      "min": -5424.755,
+      "max": -1435.551,
+      "max_interarrival_ms": 10011.703
+    },
+    "PR": {
+      "min": -5335.408,
+      "max": -1333.678,
+      "max_interarrival_ms": 9951.448
+    },
+    "PPG": {
+      "min": -5484.196,
+      "max": -845.847,
+      "max_interarrival_ms": 9509.242
+    },
+    "NODE_STATUS": {
+      "min": -5636.008,
+      "max": -2208.737,
+      "max_interarrival_ms": 5495.234
+    }
+  },
+  "wss_metadata_changes": {
+    "SPO2:VALID": 132,
+    "PR:VALID": 131,
+    "NIBP:INVALID": 136,
+    "PPG:VALID": 230,
+    "SPO2:INVALID": 5,
+    "PR:INVALID": 6,
+    "PPG:STALE": 7,
+    "NIBP:STALE": 16,
+    "PR:STALE": 16,
+    "SPO2:STALE": 16
+  },
+  "node_b_not_offline_changes": 0,
+  "readings_saved": false
+}

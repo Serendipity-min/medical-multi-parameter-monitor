@@ -36,9 +36,12 @@ try:
         spec=importlib.util.spec_from_file_location('base',ROOT/'gateway/esp_at_probe/build.py');base=importlib.util.module_from_spec(spec);spec.loader.exec_module(base)
         vendor=ROOT/'gateway/third_party/coreMQTT'
         includes=[HERE/'src',HERE/'bench',MQTT/'src',CO/'src',VENDOR,vendor/'source/include',vendor/'source/interface',*base.INCLUDES]
-        flags=[*base.COMMON_FLAGS,'-DCO_MULTIPLE_OD',*(['-DMP_CAN_RX_IRQ'] if args.irq else []),*(['-DMP_H3_WIFI_AWAKE'] if args.wifi_awake else []),*(['-DMP_H3_TEST_SOURCE','-DMP_MQTT_TLS_PORT=8884','-DMP_H3_VOLATILE_CONFIG'] if args.isolated else []),*['-I'+str(p) for p in includes]]
+        flags=[*base.COMMON_FLAGS,'-DCO_MULTIPLE_OD',*(['-DMP_CAN_RX_IRQ','-DHSE_VALUE=8000000'] if args.irq else []),*(['-DMP_H3_WIFI_AWAKE'] if args.wifi_awake else []),*(['-DMP_H3_TEST_SOURCE','-DMP_MQTT_TLS_PORT=8884','-DMP_H3_VOLATILE_CONFIG'] if args.isolated else []),*['-I'+str(p) for p in includes]]
         # 启动与 G 共用硬件就绪后单次 NMT 入口；Host 协议夹具无需链接物理生命周期。
         sources=[*common,HERE/'src/main.c',HERE/'src/lifecycle.c',*([HERE/'src/bxcan_network_irq.c',HERE/'bench/rx_irq.c'] if args.irq else [HERE/'src/bxcan_physical.c']),*[p for p in sorted((MQTT/'src').glob('*.c')) if p.name!='main.c'],*base.SOURCES[1:],vendor/'source/core_mqtt.c',vendor/'source/core_mqtt_serializer.c',vendor/'source/core_mqtt_state.c']
+        if args.irq:
+            # 精确替换独立候选的系统时钟文件；不改原HSI模板或第三方SDK。
+            sources=[p for p in sources if p.name!='system_stm32f4xx.c']+[HERE/'src/system_hse.c']
         objects=[]
         for i,source in enumerate(sources):
             # 仅候选项目代码启用额外告警为错误，不更改固定第三方核心的编译语义。

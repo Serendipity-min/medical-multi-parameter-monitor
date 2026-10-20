@@ -1,0 +1,73 @@
+{
+  "clock-policy": {
+    "command": [
+      "gcc",
+      "-std=c11",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Igateway/physical_can/src",
+      "gateway/physical_can/tests/hse_clock.c",
+      "-o",
+      "gateway/physical_can/build/h3-isolated/hse_clock.exe"
+    ],
+    "exit_code": 0
+  },
+  "host-protocol": {
+    "command": [
+      "python",
+      "gateway/physical_can/build.py",
+      "--irq",
+      "--host",
+      "--isolated"
+    ],
+    "exit_code": 0
+  },
+  "host-order": {
+    "command": [
+      "python",
+      "gateway/physical_can/build.py",
+      "--irq",
+      "--host",
+      "--rx-order"
+    ],
+    "exit_code": 0
+  },
+  "arm-isolated": {
+    "command": [
+      "python",
+      "gateway/physical_can/build.py",
+      "--irq",
+      "--isolated"
+    ],
+    "exit_code": 0
+  },
+  "arm-normal": {
+    "command": [
+      "python",
+      "gateway/physical_can/build.py",
+      "--irq"
+    ],
+    "exit_code": 0
+  },
+  "p5-irq": {
+    "command": [
+      "python",
+      "gateway/mqtt/tests/run_p5_host_tests.py",
+      "--network-irq"
+    ],
+    "exit_code": 0
+  },
+  "python-functional": {
+    "command": [
+      "python",
+      "-m",
+      "pytest",
+      "cloud/ai/tests",
+      "cloud/backend/tests",
+      "gateway/physical_can/tests/test_h3_flash.py",
+      "-q"
+    ],
+    "exit_code": 4
+  }
+}
