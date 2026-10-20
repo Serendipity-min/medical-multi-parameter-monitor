@@ -1,0 +1,496 @@
+GW BOOT CANOPENNODE PHYSICAL_CAN1 CANDIDATE_NOT_ACCEPTED
+GW WAIT_NODE_A_FIRST_HEARTBEAT NO_NETWORK_YET
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW OK SINGLE
+GW OK PASSIVE
+GW DIAG_BEGIN seq=1 lines=4
+GW METRICS can=12 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=1 irq=33 lag_cycles=484791 stale=0 fault=0 uart=0
+GW CANPROOF hb=12 boot=1 p181=1 p381=7 p481=7 p681=6 txok=12 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=1 lines=4
+GW DIAG_BEGIN seq=2 lines=4
+GW METRICS can=22 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=57 lag_cycles=578304 stale=0 fault=0 uart=0
+GW CANPROOF hb=21 boot=1 p181=1 p381=12 p481=12 p681=11 txok=22 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=2 lines=4
+GW DIAG_BEGIN seq=3 lines=4
+GW METRICS can=32 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=82 lag_cycles=578304 stale=0 fault=0 uart=0
+GW CANPROOF hb=31 boot=1 p181=1 p381=17 p481=17 p681=16 txok=32 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=3 lines=4
+GW FAIL TIME
+GW DIAG_BEGIN seq=4 lines=4
+GW METRICS can=42 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=107 lag_cycles=578304 stale=0 fault=0 uart=0
+GW CANPROOF hb=41 boot=1 p181=1 p381=22 p481=22 p681=21 txok=42 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=4 lines=4
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW OK SINGLE
+GW OK PASSIVE
+GW DIAG_BEGIN seq=5 lines=4
+GW METRICS can=52 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=132 lag_cycles=578304 stale=0 fault=0 uart=0
+GW CANPROOF hb=51 boot=1 p181=1 p381=27 p481=27 p681=26 txok=52 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=5 lines=4
+GW SNTP_VALID epoch=1792458382 uptime=25590
+GW OK CA_VERIFY
+GW OK CERT_NAME
+GW OK SNI
+GW DIAG_BEGIN seq=6 lines=4
+GW METRICS can=62 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=157 lag_cycles=578304 stale=0 fault=0 uart=0
+GW CANPROOF hb=61 boot=1 p181=1 p381=32 p481=32 p681=31 txok=62 txfail=0 nmt=1 time=0 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=0 qos0_send=0 failed=0 last_node=0 last_stream=0 last_seq=0 last_ms_hi=0 last_ms_lo=0
+GW DIAG_END seq=6 lines=4
+GW OK TLS
+GW MQTT_CONNECTED
+GW DIAG_BEGIN seq=7 lines=4
+GW METRICS can=73 drop=0 cache=0 lost=0 replay=0 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=2 irq=182 lag_cycles=578304 stale=0 fault=0 uart=0
+GW CANPROOF hb=71 boot=1 p181=1 p381=37 p481=37 p681=36 txok=73 txfail=0 nmt=1 time=1 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=2 qos0_send=0 failed=0 last_node=2 last_stream=9 last_seq=2 last_ms_hi=417 last_ms_lo=1457028363
+GW DIAG_END seq=7 lines=4
+GW DIAG_BEGIN seq=8 lines=4
+GW METRICS can=83 drop=0 cache=0 lost=0 replay=3 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=205 lag_cycles=635934 stale=0 fault=0 uart=0
+GW CANPROOF hb=81 boot=1 p181=1 p381=41 p481=41 p681=41 txok=83 txfail=0 nmt=1 time=1 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=15 qos0_send=0 failed=0 last_node=3 last_stream=11 last_seq=3 last_ms_hi=417 last_ms_lo=1457033363
+GW DIAG_END seq=8 lines=4
+GW DIAG_BEGIN seq=9 lines=4
+GW METRICS can=94 drop=0 cache=0 lost=0 replay=3 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=230 lag_cycles=635934 stale=0 fault=0 uart=0
+GW CANPROOF hb=91 boot=1 p181=1 p381=46 p481=46 p681=46 txok=94 txfail=0 nmt=1 time=2 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=27 qos0_send=0 failed=0 last_node=3 last_stream=11 last_seq=4 last_ms_hi=417 last_ms_lo=1457038363
+GW DIAG_END seq=9 lines=4
+GW DIAG_BEGIN seq=10 lines=4
+GW METRICS can=104 drop=0 cache=0 lost=0 replay=3 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=255 lag_cycles=635934 stale=0 fault=0 uart=0
+GW CANPROOF hb=101 boot=1 p181=1 p381=51 p481=51 p681=51 txok=104 txfail=0 nmt=1 time=2 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=36 qos0_send=0 failed=0 last_node=3 last_stream=11 last_seq=5 last_ms_hi=417 last_ms_lo=1457043363
+GW DIAG_END seq=10 lines=4
+GW DIAG_BEGIN seq=11 lines=4
+GW METRICS can=115 drop=0 cache=0 lost=0 replay=3 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=280 lag_cycles=635934 stale=0 fault=0 uart=0
+GW CANPROOF hb=111 boot=1 p181=1 p381=56 p481=56 p681=56 txok=115 txfail=0 nmt=1 time=3 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=48 qos0_send=0 failed=0 last_node=3 last_stream=11 last_seq=6 last_ms_hi=417 last_ms_lo=1457048363
+GW DIAG_END seq=11 lines=4
+GW DIAG_BEGIN seq=12 lines=4
+GW METRICS can=125 drop=0 cache=0 lost=0 replay=3 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=305 lag_cycles=635934 stale=0 fault=0 uart=0
+GW CANPROOF hb=121 boot=1 p181=1 p381=61 p481=61 p681=61 txok=125 txfail=0 nmt=1 time=3 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=57 qos0_send=0 failed=0 last_node=3 last_stream=11 last_seq=7 last_ms_hi=417 last_ms_lo=1457053363
+GW DIAG_END seq=12 lines=4
+GW DIAG_BEGIN seq=13 lines=4
+GW METRICS can=136 drop=0 cache=0 lost=0 replay=3 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=328 lag_cycles=635934 stale=0 fault=0 uart=0
+GW CANPROOF hb=130 boot=1 p181=1 p381=66 p481=66 p681=65 txok=136 txfail=0 nmt=1 time=4 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=66 qos0_send=0 failed=0 last_node=1 last_stream=3 last_seq=16 last_ms_hi=417 last_ms_lo=1457057568
+GW DIAG_END seq=13 lines=4
+GW DIAG_BEGIN seq=14 lines=4
+GW METRICS can=146 drop=0 cache=0 lost=0 replay=3 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=353 lag_cycles=635934 stale=0 fault=0 uart=0
+GW CANPROOF hb=140 boot=1 p181=1 p381=71 p481=71 p681=70 txok=146 txfail=0 nmt=1 time=4 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=78 qos0_send=0 failed=0 last_node=3 last_stream=11 last_seq=9 last_ms_hi=417 last_ms_lo=1457063363
+GW DIAG_END seq=14 lines=4
+GW DIAG_BEGIN seq=15 lines=4
+GW METRICS can=157 drop=0 cache=0 lost=0 replay=3 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=378 lag_cycles=635934 stale=0 fault=0 uart=0
+GW CANPROOF hb=150 boot=1 p181=1 p381=76 p481=76 p681=75 txok=157 txfail=0 nmt=1 time=5 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=88 qos0_send=0 failed=0 last_node=1 last_stream=9 last_seq=10 last_ms_hi=417 last_ms_lo=1457068363
+GW DIAG_END seq=15 lines=4
+GW DIAG_BEGIN seq=16 lines=4
+GW METRICS can=167 drop=0 cache=0 lost=0 replay=3 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=403 lag_cycles=635934 stale=0 fault=0 uart=0
+GW CANPROOF hb=160 boot=1 p181=1 p381=81 p481=81 p681=80 txok=167 txfail=0 nmt=1 time=5 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=97 qos0_send=0 failed=0 last_node=1 last_stream=9 last_seq=11 last_ms_hi=417 last_ms_lo=1457073363
+GW DIAG_END seq=16 lines=4
+GW DIAG_BEGIN seq=17 lines=4
+GW METRICS can=178 drop=0 cache=0 lost=0 replay=3 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=428 lag_cycles=635934 stale=0 fault=0 uart=0
+GW CANPROOF hb=170 boot=1 p181=1 p381=86 p481=86 p681=85 txok=178 txfail=0 nmt=1 time=6 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=109 qos0_send=0 failed=0 last_node=1 last_stream=1 last_seq=26 last_ms_hi=417 last_ms_lo=1457077568
+GW DIAG_END seq=17 lines=4
+GW DIAG_BEGIN seq=18 lines=4
+GW METRICS can=188 drop=0 cache=0 lost=0 replay=3 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=452 lag_cycles=635934 stale=0 fault=0 uart=0
+GW CANPROOF hb=179 boot=1 p181=1 p381=91 p481=91 p681=90 txok=188 txfail=0 nmt=1 time=6 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=113 qos0_send=0 failed=0 last_node=1 last_stream=2 last_seq=27 last_ms_hi=417 last_ms_lo=1457079568
+GW DIAG_END seq=18 lines=4
+GW DIAG_BEGIN seq=19 lines=4
+GW METRICS can=199 drop=0 cache=5 lost=0 replay=4 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=582 lag_cycles=635934 stale=0 fault=0 uart=0
+GW CANPROOF hb=189 boot=1 p181=103 p381=96 p481=96 p681=98 txok=199 txfail=0 nmt=1 time=7 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=122 qos0_send=1 failed=0 last_node=1 last_stream=9 last_seq=14 last_ms_hi=417 last_ms_lo=1457088363
+GW DIAG_END seq=19 lines=4
+GW DIAG_BEGIN seq=20 lines=4
+GW METRICS can=209 drop=0 cache=7 lost=0 replay=7 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=712 lag_cycles=635934 stale=0 fault=0 uart=0
+GW CANPROOF hb=199 boot=1 p181=205 p381=101 p481=101 p681=106 txok=209 txfail=0 nmt=1 time=7 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=136 qos0_send=2 failed=0 last_node=1 last_stream=1 last_seq=29 last_ms_hi=417 last_ms_lo=1457083568
+GW DIAG_END seq=20 lines=4
+GW DIAG_BEGIN seq=21 lines=4
+GW METRICS can=220 drop=0 cache=0 lost=0 replay=14 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=736 lag_cycles=635934 stale=0 fault=0 uart=0
+GW CANPROOF hb=208 boot=1 p181=205 p381=106 p481=106 p681=111 txok=220 txfail=0 nmt=1 time=8 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=154 qos0_send=2 failed=0 last_node=1 last_stream=2 last_seq=36 last_ms_hi=417 last_ms_lo=1457098568
+GW DIAG_END seq=21 lines=4
+GW DIAG_BEGIN seq=22 lines=4
+GW METRICS can=230 drop=0 cache=0 lost=0 replay=14 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=971 lag_cycles=635934 stale=0 fault=0 uart=0
+GW CANPROOF hb=218 boot=1 p181=412 p381=111 p481=111 p681=119 txok=230 txfail=0 nmt=1 time=8 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=161 qos0_send=5 failed=0 last_node=1 last_stream=0 last_seq=12 last_ms_hi=417 last_ms_lo=1457102706
+GW DIAG_END seq=22 lines=4
+GW DIAG_BEGIN seq=23 lines=4
+GW METRICS can=241 drop=0 cache=0 lost=0 replay=14 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=1145 lag_cycles=635934 stale=0 fault=0 uart=0
+GW CANPROOF hb=228 boot=1 p181=561 p381=116 p481=116 p681=125 txok=241 txfail=0 nmt=1 time=9 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=174 qos0_send=8 failed=0 last_node=1 last_stream=1 last_seq=41 last_ms_hi=417 last_ms_lo=1457108568
+GW DIAG_END seq=23 lines=4
+GW DIAG_BEGIN seq=24 lines=4
+GW METRICS can=251 drop=0 cache=4 lost=0 replay=14 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=1418 lag_cycles=635934 stale=0 fault=0 uart=0
+GW CANPROOF hb=238 boot=1 p181=809 p381=121 p481=121 p681=130 txok=251 txfail=0 nmt=1 time=9 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=176 qos0_send=10 failed=0 last_node=1 last_stream=0 last_seq=19 last_ms_hi=417 last_ms_lo=1457110015
+GW DIAG_END seq=24 lines=4
+GW RECONNECT
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW DIAG_BEGIN seq=25 lines=4
+GW METRICS can=262 drop=0 cache=23 lost=0 replay=14 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=1691 lag_cycles=635934 stale=0 fault=0 uart=0
+GW CANPROOF hb=248 boot=1 p181=1056 p381=126 p481=126 p681=135 txok=262 txfail=0 nmt=1 time=10 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=176 qos0_send=10 failed=1 last_node=1 last_stream=0 last_seq=19 last_ms_hi=417 last_ms_lo=1457110015
+GW DIAG_END seq=25 lines=4
+GW OK WIFI
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_VALID epoch=1792458484 uptime=128446
+GW OK CA_VERIFY
+GW OK CERT_NAME
+GW OK SNI
+GW DIAG_BEGIN seq=26 lines=4
+GW METRICS can=272 drop=0 cache=32 lost=2 replay=14 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=1 irq=1964 lag_cycles=635934 stale=0 fault=0 uart=0
+GW CANPROOF hb=258 boot=1 p181=1304 p381=131 p481=131 p681=140 txok=272 txfail=0 nmt=1 time=10 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=176 qos0_send=10 failed=1 last_node=1 last_stream=0 last_seq=19 last_ms_hi=417 last_ms_lo=1457110015
+GW DIAG_END seq=26 lines=4
+GW DIAG_BEGIN seq=27 lines=4
+GW METRICS can=283 drop=0 cache=32 lost=16 replay=14 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=2236 lag_cycles=649184 stale=0 fault=0 uart=0
+GW CANPROOF hb=268 boot=1 p181=1552 p381=136 p481=136 p681=145 txok=283 txfail=0 nmt=1 time=11 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=176 qos0_send=10 failed=1 last_node=1 last_stream=0 last_seq=19 last_ms_hi=417 last_ms_lo=1457110015
+GW DIAG_END seq=27 lines=4
+GW DIAG_BEGIN seq=28 lines=4
+GW METRICS can=293 drop=0 cache=32 lost=27 replay=14 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=2509 lag_cycles=649184 stale=0 fault=0 uart=0
+GW CANPROOF hb=278 boot=1 p181=1799 p381=141 p481=141 p681=150 txok=293 txfail=0 nmt=1 time=11 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=176 qos0_send=10 failed=1 last_node=1 last_stream=0 last_seq=19 last_ms_hi=417 last_ms_lo=1457110015
+GW DIAG_END seq=28 lines=4
+GW DIAG_BEGIN seq=29 lines=4
+GW METRICS can=304 drop=0 cache=32 lost=40 replay=14 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=2780 lag_cycles=649184 stale=0 fault=0 uart=0
+GW CANPROOF hb=288 boot=1 p181=2045 p381=146 p481=146 p681=155 txok=304 txfail=0 nmt=1 time=12 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=176 qos0_send=10 failed=1 last_node=1 last_stream=0 last_seq=19 last_ms_hi=417 last_ms_lo=1457110015
+GW DIAG_END seq=29 lines=4
+GW OK TLS
+GW MQTT_CONNECTED
+GW DIAG_BEGIN seq=30 lines=4
+GW METRICS can=314 drop=0 cache=26 lost=40 replay=20 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=3052 lag_cycles=649184 stale=0 fault=0 uart=0
+GW CANPROOF hb=298 boot=1 p181=2295 p381=150 p481=150 p681=159 txok=314 txfail=0 nmt=1 time=12 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=188 qos0_send=12 failed=1 last_node=1 last_stream=1 last_seq=51 last_ms_hi=417 last_ms_lo=1457128568
+GW DIAG_END seq=30 lines=4
+GW DIAG_BEGIN seq=31 lines=4
+GW METRICS can=325 drop=0 cache=20 lost=40 replay=26 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=1 irq=3324 lag_cycles=649184 stale=0 fault=0 uart=0
+GW CANPROOF hb=307 boot=1 p181=2543 p381=155 p481=155 p681=164 txok=325 txfail=0 nmt=1 time=13 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=204 qos0_send=15 failed=1 last_node=1 last_stream=1 last_seq=60 last_ms_hi=417 last_ms_lo=1457147568
+GW DIAG_END seq=31 lines=4
+GW DIAG_BEGIN seq=32 lines=4
+GW METRICS can=335 drop=0 cache=16 lost=40 replay=29 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=1 irq=3595 lag_cycles=649184 stale=0 fault=0 uart=0
+GW CANPROOF hb=317 boot=1 p181=2789 p381=160 p481=160 p681=169 txok=335 txfail=0 nmt=1 time=13 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=218 qos0_send=19 failed=1 last_node=1 last_stream=0 last_seq=89 last_ms_hi=417 last_ms_lo=1457152925
+GW DIAG_END seq=32 lines=4
+GW RECONNECT
+GW DIAG_BEGIN seq=33 lines=4
+GW METRICS can=346 drop=0 cache=30 lost=40 replay=29 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=1 irq=3868 lag_cycles=649184 stale=0 fault=0 uart=0
+GW CANPROOF hb=327 boot=1 p181=3037 p381=165 p481=165 p681=174 txok=346 txfail=0 nmt=1 time=14 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=218 qos0_send=19 failed=2 last_node=1 last_stream=0 last_seq=89 last_ms_hi=417 last_ms_lo=1457152925
+GW DIAG_END seq=33 lines=4
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW OK WIFI
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_VALID epoch=1792458523 uptime=167446
+GW OK CA_VERIFY
+GW OK CERT_NAME
+GW OK SNI
+GW DIAG_BEGIN seq=34 lines=4
+GW METRICS can=356 drop=0 cache=32 lost=48 replay=29 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=4139 lag_cycles=649184 stale=0 fault=0 uart=0
+GW CANPROOF hb=337 boot=1 p181=3282 p381=170 p481=170 p681=179 txok=356 txfail=0 nmt=1 time=14 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=218 qos0_send=19 failed=2 last_node=1 last_stream=0 last_seq=89 last_ms_hi=417 last_ms_lo=1457152925
+GW DIAG_END seq=34 lines=4
+GW DIAG_BEGIN seq=35 lines=4
+GW METRICS can=367 drop=0 cache=32 lost=61 replay=29 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=1 irq=4413 lag_cycles=649184 stale=0 fault=0 uart=0
+GW CANPROOF hb=347 boot=1 p181=3531 p381=175 p481=175 p681=184 txok=367 txfail=0 nmt=1 time=15 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=218 qos0_send=19 failed=2 last_node=1 last_stream=0 last_seq=89 last_ms_hi=417 last_ms_lo=1457152925
+GW DIAG_END seq=35 lines=4
+GW OK TLS
+GW MQTT_CONNECTED
+GW DIAG_BEGIN seq=36 lines=4
+GW METRICS can=377 drop=0 cache=27 lost=62 replay=33 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=1 irq=4686 lag_cycles=649184 stale=0 fault=0 uart=0
+GW CANPROOF hb=357 boot=1 p181=3779 p381=180 p481=180 p681=189 txok=377 txfail=0 nmt=1 time=15 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=231 qos0_send=22 failed=2 last_node=1 last_stream=0 last_seq=126 last_ms_hi=417 last_ms_lo=1457172884
+GW DIAG_END seq=36 lines=4
+GW DIAG_BEGIN seq=37 lines=4
+GW METRICS can=388 drop=0 cache=31 lost=62 replay=34 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=4958 lag_cycles=649184 stale=0 fault=0 uart=0
+GW CANPROOF hb=367 boot=1 p181=4026 p381=185 p481=185 p681=194 txok=388 txfail=0 nmt=1 time=16 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=238 qos0_send=24 failed=2 last_node=1 last_stream=0 last_seq=133 last_ms_hi=417 last_ms_lo=1457177644
+GW DIAG_END seq=37 lines=4
+GW DIAG_BEGIN seq=38 lines=4
+GW METRICS can=398 drop=0 cache=32 lost=65 replay=35 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=1 irq=5231 lag_cycles=649184 stale=0 fault=0 uart=0
+GW CANPROOF hb=377 boot=1 p181=4275 p381=190 p481=190 p681=199 txok=398 txfail=0 nmt=1 time=16 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=242 qos0_send=25 failed=2 last_node=1 last_stream=0 last_seq=134 last_ms_hi=417 last_ms_lo=1457178735
+GW DIAG_END seq=38 lines=4
+GW RECONNECT
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW DIAG_BEGIN seq=39 lines=4
+GW METRICS can=409 drop=0 cache=32 lost=83 replay=35 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=1 irq=5504 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=387 boot=1 p181=4522 p381=195 p481=195 p681=204 txok=409 txfail=0 nmt=1 time=17 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=242 qos0_send=25 failed=3 last_node=1 last_stream=0 last_seq=134 last_ms_hi=417 last_ms_lo=1457178735
+GW DIAG_END seq=39 lines=4
+GW OK WIFI
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_VALID epoch=1792458551 uptime=195820
+GW OK CA_VERIFY
+GW OK CERT_NAME
+GW OK SNI
+GW OK TLS
+GW MQTT_CONNECTED
+GW DIAG_BEGIN seq=40 lines=4
+GW METRICS can=419 drop=0 cache=31 lost=92 replay=35 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=5775 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=396 boot=1 p181=4770 p381=200 p481=200 p681=209 txok=419 txfail=0 nmt=1 time=17 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=245 qos0_send=25 failed=3 last_node=3 last_stream=11 last_seq=36 last_ms_hi=417 last_ms_lo=1457192634
+GW DIAG_END seq=40 lines=4
+GW DIAG_BEGIN seq=41 lines=4
+GW METRICS can=430 drop=0 cache=26 lost=92 replay=40 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=6048 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=406 boot=1 p181=5018 p381=205 p481=205 p681=214 txok=430 txfail=0 nmt=1 time=18 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=259 qos0_send=28 failed=3 last_node=3 last_stream=11 last_seq=37 last_ms_hi=417 last_ms_lo=1457197634
+GW DIAG_END seq=41 lines=4
+GW DIAG_BEGIN seq=42 lines=4
+GW METRICS can=440 drop=0 cache=32 lost=93 replay=41 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=6319 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=416 boot=1 p181=5263 p381=210 p481=210 p681=219 txok=440 txfail=0 nmt=1 time=18 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=260 qos0_send=29 failed=3 last_node=1 last_stream=0 last_seq=175 last_ms_hi=417 last_ms_lo=1457198491
+GW DIAG_END seq=42 lines=4
+GW DIAG_BEGIN seq=43 lines=4
+GW METRICS can=451 drop=0 cache=32 lost=99 replay=42 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=6590 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=426 boot=1 p181=5509 p381=215 p481=215 p681=224 txok=451 txfail=0 nmt=1 time=19 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=269 qos0_send=31 failed=3 last_node=1 last_stream=0 last_seq=185 last_ms_hi=417 last_ms_lo=1457205944
+GW DIAG_END seq=43 lines=4
+GW RECONNECT
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW DIAG_BEGIN seq=44 lines=4
+GW METRICS can=461 drop=0 cache=32 lost=115 replay=42 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=6865 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=436 boot=1 p181=5760 p381=220 p481=220 p681=229 txok=461 txfail=0 nmt=1 time=19 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=269 qos0_send=31 failed=4 last_node=1 last_stream=0 last_seq=185 last_ms_hi=417 last_ms_lo=1457205944
+GW DIAG_END seq=44 lines=4
+GW OK WIFI
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_VALID epoch=1792458576 uptime=220653
+GW OK CA_VERIFY
+GW OK CERT_NAME
+GW OK SNI
+GW OK TLS
+GW MQTT_CONNECTED
+GW DIAG_BEGIN seq=45 lines=4
+GW METRICS can=472 drop=0 cache=30 lost=125 replay=44 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=7137 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=446 boot=1 p181=6007 p381=225 p481=225 p681=234 txok=472 txfail=0 nmt=1 time=20 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=275 qos0_send=32 failed=4 last_node=1 last_stream=1 last_seq=95 last_ms_hi=417 last_ms_lo=1457218568
+GW DIAG_END seq=45 lines=4
+GW DIAG_BEGIN seq=46 lines=4
+GW METRICS can=482 drop=0 cache=21 lost=125 replay=52 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=7409 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=455 boot=1 p181=6255 p381=230 p481=230 p681=239 txok=482 txfail=0 nmt=1 time=20 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=294 qos0_send=37 failed=4 last_node=1 last_stream=2 last_seq=90 last_ms_hi=417 last_ms_lo=1457208568
+GW DIAG_END seq=46 lines=4
+GW DIAG_BEGIN seq=47 lines=4
+GW METRICS can=493 drop=0 cache=29 lost=125 replay=53 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=7682 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=465 boot=1 p181=6502 p381=235 p481=235 p681=244 txok=493 txfail=0 nmt=1 time=21 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=295 qos0_send=38 failed=4 last_node=1 last_stream=0 last_seq=207 last_ms_hi=417 last_ms_lo=1457225614
+GW DIAG_END seq=47 lines=4
+GW DIAG_BEGIN seq=48 lines=4
+GW METRICS can=503 drop=0 cache=32 lost=128 replay=53 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=7954 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=475 boot=1 p181=6750 p381=240 p481=240 p681=249 txok=503 txfail=0 nmt=1 time=21 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=298 qos0_send=39 failed=4 last_node=1 last_stream=0 last_seq=212 last_ms_hi=417 last_ms_lo=1457230708
+GW DIAG_END seq=48 lines=4
+GW DIAG_BEGIN seq=49 lines=4
+GW METRICS can=514 drop=0 cache=32 lost=138 replay=53 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=8222 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=485 boot=1 p181=6995 p381=244 p481=244 p681=253 txok=514 txfail=0 nmt=1 time=22 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=301 qos0_send=39 failed=4 last_node=2 last_stream=9 last_seq=44 last_ms_hi=417 last_ms_lo=1457232446
+GW DIAG_END seq=49 lines=4
+GW RECONNECT
+GW OK AT
+GW OK ECHO
+GW OK VOLATILE
+GW OK STA
+GW AT_VERSION value=2.3.0.0
+GW DIAG_BEGIN seq=50 lines=4
+GW METRICS can=524 drop=0 cache=32 lost=152 replay=53 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=8494 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=495 boot=1 p181=7242 p381=249 p481=249 p681=258 txok=524 txfail=0 nmt=1 time=22 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=301 qos0_send=39 failed=5 last_node=2 last_stream=9 last_seq=44 last_ms_hi=417 last_ms_lo=1457232446
+GW DIAG_END seq=50 lines=4
+GW OK WIFI
+GW OK SINGLE
+GW OK PASSIVE
+GW SNTP_VALID epoch=1792458606 uptime=251570
+GW OK CA_VERIFY
+GW OK CERT_NAME
+GW OK SNI
+GW DIAG_BEGIN seq=51 lines=4
+GW METRICS can=535 drop=0 cache=32 lost=165 replay=53 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=8767 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=505 boot=1 p181=7491 p381=254 p481=254 p681=263 txok=535 txfail=0 nmt=1 time=23 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=301 qos0_send=39 failed=5 last_node=2 last_stream=9 last_seq=44 last_ms_hi=417 last_ms_lo=1457232446
+GW DIAG_END seq=51 lines=4
+GW OK TLS
+GW DIAG_BEGIN seq=52 lines=4
+GW METRICS can=545 drop=0 cache=32 lost=175 replay=53 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=1 irq=9040 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=515 boot=1 p181=7738 p381=259 p481=259 p681=268 txok=545 txfail=0 nmt=1 time=23 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=301 qos0_send=39 failed=5 last_node=2 last_stream=9 last_seq=44 last_ms_hi=417 last_ms_lo=1457232446
+GW DIAG_END seq=52 lines=4
+GW MQTT_CONNECTED
+GW DIAG_BEGIN seq=53 lines=4
+GW METRICS can=556 drop=0 cache=26 lost=177 replay=59 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=9312 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=525 boot=1 p181=7985 p381=264 p481=264 p681=273 txok=556 txfail=0 nmt=1 time=24 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=319 qos0_send=42 failed=5 last_node=1 last_stream=3 last_seq=107 last_ms_hi=417 last_ms_lo=1457241568
+GW DIAG_END seq=53 lines=4
+GW DIAG_BEGIN seq=54 lines=4
+GW METRICS can=566 drop=0 cache=18 lost=177 replay=66 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=1 irq=9585 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=535 boot=1 p181=8233 p381=269 p481=269 p681=278 txok=566 txfail=0 nmt=1 time=24 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=335 qos0_send=47 failed=5 last_node=1 last_stream=1 last_seq=109 last_ms_hi=417 last_ms_lo=1457245568
+GW DIAG_END seq=54 lines=4
+GW DIAG_BEGIN seq=55 lines=4
+GW METRICS can=577 drop=0 cache=11 lost=177 replay=74 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=2 irq=9857 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=545 boot=1 p181=8481 p381=274 p481=274 p681=283 txok=577 txfail=0 nmt=1 time=25 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=354 qos0_send=52 failed=5 last_node=1 last_stream=2 last_seq=120 last_ms_hi=417 last_ms_lo=1457267568
+GW DIAG_END seq=55 lines=4
+GW DIAG_BEGIN seq=56 lines=4
+GW METRICS can=587 drop=0 cache=16 lost=177 replay=75 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=3 irq=10129 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=554 boot=1 p181=8728 p381=279 p481=279 p681=288 txok=587 txfail=0 nmt=1 time=25 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=359 qos0_send=53 failed=5 last_node=1 last_stream=1 last_seq=111 last_ms_hi=417 last_ms_lo=1457249568
+GW DIAG_END seq=56 lines=4
+GW DIAG_BEGIN seq=57 lines=4
+GW METRICS can=598 drop=0 cache=10 lost=177 replay=81 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=10400 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=564 boot=1 p181=8974 p381=284 p481=284 p681=293 txok=598 txfail=0 nmt=1 time=26 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=379 qos0_send=59 failed=5 last_node=1 last_stream=3 last_seq=125 last_ms_hi=417 last_ms_lo=1457277568
+GW DIAG_END seq=57 lines=4
+GW DIAG_BEGIN seq=58 lines=4
+GW METRICS can=608 drop=0 cache=2 lost=177 replay=90 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=10672 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=574 boot=1 p181=9221 p381=289 p481=289 p681=298 txok=608 txfail=0 nmt=1 time=26 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=397 qos0_send=63 failed=5 last_node=1 last_stream=3 last_seq=121 last_ms_hi=417 last_ms_lo=1457269568
+GW DIAG_END seq=58 lines=4
+GW DIAG_BEGIN seq=59 lines=4
+GW METRICS can=619 drop=0 cache=0 lost=177 replay=92 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=10945 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=584 boot=1 p181=9469 p381=294 p481=294 p681=303 txok=619 txfail=0 nmt=1 time=27 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=411 qos0_send=68 failed=5 last_node=1 last_stream=3 last_seq=130 last_ms_hi=417 last_ms_lo=1457287568
+GW DIAG_END seq=59 lines=4
+GW DIAG_BEGIN seq=60 lines=4
+GW METRICS can=629 drop=0 cache=0 lost=177 replay=92 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=1 irq=11218 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=594 boot=1 p181=9717 p381=299 p481=299 p681=308 txok=629 txfail=0 nmt=1 time=27 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=420 qos0_send=72 failed=5 last_node=1 last_stream=0 last_seq=292 last_ms_hi=417 last_ms_lo=1457293500
+GW DIAG_END seq=60 lines=4
+GW DIAG_BEGIN seq=61 lines=4
+GW METRICS can=640 drop=0 cache=0 lost=177 replay=92 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=11486 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=604 boot=1 p181=9964 p381=304 p481=304 p681=313 txok=640 txfail=0 nmt=1 time=28 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=429 qos0_send=75 failed=5 last_node=1 last_stream=0 last_seq=299 last_ms_hi=417 last_ms_lo=1457298500
+GW DIAG_END seq=61 lines=4
+GW DIAG_BEGIN seq=62 lines=4
+GW METRICS can=650 drop=0 cache=0 lost=177 replay=92 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=11758 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=613 boot=1 p181=10211 p381=309 p481=309 p681=318 txok=650 txfail=0 nmt=1 time=28 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=441 qos0_send=78 failed=5 last_node=1 last_stream=3 last_seq=137 last_ms_hi=417 last_ms_lo=1457302568
+GW DIAG_END seq=62 lines=4
+GW DIAG_BEGIN seq=63 lines=4
+GW METRICS can=661 drop=0 cache=0 lost=177 replay=92 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=0 irq=12033 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=623 boot=1 p181=10459 p381=314 p481=314 p681=323 txok=661 txfail=0 nmt=1 time=29 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=452 qos0_send=83 failed=5 last_node=1 last_stream=2 last_seq=140 last_ms_hi=417 last_ms_lo=1457308568
+GW DIAG_END seq=63 lines=4
+GW DIAG_BEGIN seq=64 lines=4
+GW METRICS can=671 drop=0 cache=0 lost=177 replay=92 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=1 irq=12306 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=633 boot=1 p181=10706 p381=319 p481=319 p681=328 txok=671 txfail=0 nmt=1 time=29 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=462 qos0_send=87 failed=5 last_node=1 last_stream=0 last_seq=323 last_ms_hi=417 last_ms_lo=1457313725
+GW DIAG_END seq=64 lines=4
+GW DIAG_BEGIN seq=65 lines=4
+GW METRICS can=682 drop=0 cache=0 lost=177 replay=92 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=1 irq=12578 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=643 boot=1 p181=10953 p381=324 p481=324 p681=333 txok=682 txfail=0 nmt=1 time=30 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=472 qos0_send=91 failed=5 last_node=1 last_stream=1 last_seq=145 last_ms_hi=417 last_ms_lo=1457318568
+GW DIAG_END seq=65 lines=4
+GW DIAG_BEGIN seq=66 lines=4
+GW METRICS can=692 drop=0 cache=0 lost=177 replay=92 nodes=10
+GW RXQ fovr=0 sw=0 bad=0 high=8 depth=1 irq=12850 lag_cycles=675765 stale=0 fault=0 uart=0
+GW CANPROOF hb=653 boot=1 p181=11200 p381=329 p481=329 p681=338 txok=692 txfail=0 nmt=1 time=30 TEC=0 REC=0 LEC=0 BOFF=0
+GW DELIVERY qos1_puback=483 qos0_send=96 failed=5 last_node=1 last_stream=0 last_seq=335 last_ms_hi=417 last_ms_lo=1457323425
+GW DIAG_END seq=66 lines=4

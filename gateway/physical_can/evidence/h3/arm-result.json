@@ -3,10 +3,10 @@
   "mode": "ARM_PHYSICAL_CAN1_CANDIDATE",
   "hardware": "NOT_RUN",
   "image": {
-    "sha256": "dba12f8f8d739d408716c81c5596839222a520d1f888d7970c182ca08f608182",
-    "bytes": 38580,
+    "sha256": "44d71af2c1a7ce66652e8fcc0d20dd6eb7a2b77bc0b55491edab2d5fc17007fb",
+    "bytes": 38844,
     "start": 134217728,
-    "end_exclusive": 134256308,
+    "end_exclusive": 134256572,
     "erase_sectors": [
       0,
       1,
@@ -15,17 +15,17 @@
     "load_segments": [
       {
         "start": 134217728,
-        "end_exclusive": 134256220,
-        "bytes": 38492
+        "end_exclusive": 134256484,
+        "bytes": 38756
       },
       {
-        "start": 134256220,
-        "end_exclusive": 134256308,
+        "start": 134256484,
+        "end_exclusive": 134256572,
         "bytes": 88
       }
     ],
     "initial_sp": 537001984,
-    "reset_vector": 134247569,
+    "reset_vector": 134247709,
     "CAN1_RX0_vector": {
       "address": 134235969,
       "strong_handler": true
@@ -1338,10 +1338,10 @@
     "gateway/physical_can/src/bxcan_network_irq.c": "d0afa87f340cedb0505a4c2818cc3969c9ed6b34169089713e2e1b8dd5409733",
     "gateway/physical_can/bench/rx_irq.c": "d9d252bbf4b234b294c26fd97391fa472a7967085bbb37f5654adf879420a613",
     "gateway/mqtt/src/gateway_assert.c": "d29eb278706acf7a4249a2104b05f22cf859c61de5d924773c785228d7523d17",
-    "gateway/mqtt/src/gateway_transport.c": "db4be34789cf1f58a8d0c809a22a4503f74420a71af70451df430c617097fc77",
+    "gateway/mqtt/src/gateway_transport.c": "5814e420fb5bf6ff57ff84c1d0597dc547bc53d184ba41a49ce489bcb26af003",
     "gateway/mqtt/src/heap.c": "20bf6b3b9c5ddc276ba4d85016ce14ae1425c18e24e5f020bea011d9168b2923",
     "gateway/mqtt/src/mqtt_transport_adapter.c": "beb93429f95cba5fe88f170010363613391df41975475abcbe1842c7692019aa",
-    "gateway/mqtt/src/platform.c": "8129be4e4ad194abd85631a588de2da10fb9a8159c652ee50fc7add363cb9600",
+    "gateway/mqtt/src/platform.c": "e67d75c18fa3f3fc785cad44aa0c8c3ae06b0e4d38c528d71799efe1f456fff9",
     "gateway/esp_at_probe/src/stm32f4xx_it.c": "ae30c76f83be269d9aa67731649aa48bfe4a5dff679cd537eef9faa563b90b97",
     "gateway/esp_at_probe/src/system_stm32f4xx.c": "6207199ed2e3aa34cb6e01a730f06ed2f0de0946c8b66bd02407379a04e9735e",
     "gateway/esp_at_probe/src/syscalls.c": "796e258d6c2e20e2d1f629c43d7d6ea17b32d3040c466055ae9a2a084caf9ead",

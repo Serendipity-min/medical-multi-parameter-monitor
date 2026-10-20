@@ -21,6 +21,16 @@ static MQTTPubAckInfo_t outgoing[1];
 static unsigned char rx_buffer[512];
 static uint16_t pending_id, next_packet_seed = 1;
 static int acknowledged, session_error, mqtt_online, partial_waiting;
+#ifdef MP_CAN_RX_IRQ
+/* 失败时只输出阶段/枚举/耗时，不输出Topic、载荷、口令或原始AT回复。 */
+static void mqtt_diagnostic(unsigned stage, MQTTStatus_t status, uint32_t elapsed)
+{
+    char line[128];
+    (void)snprintf(line,sizeof(line),"GW MQTT_ERROR stage=%u status=%d elapsed=%lu ack=%d connected=%d\r\n",
+                   stage,(int)status,(unsigned long)elapsed,acknowledged,network.connected);
+    console(line);
+}
+#endif
 static uint32_t partial_since;
 static uint32_t epoch, epoch_tick;
 #ifdef GATEWAY_MQTT_HOST_TEST
@@ -84,6 +94,9 @@ static void mqtt_event(MQTTContext_t *context, MQTTPacketInfo_t *packet,
 {
     if (context != &client || (packet->type & 0xf0U) == MQTT_PACKET_TYPE_PUBLISH)
     {
+#ifdef MP_CAN_RX_IRQ
+        mqtt_diagnostic(1,decoded->deserializationResult,0);
+#endif
         mqtt_failed();
         return;
     }
@@ -91,7 +104,12 @@ static void mqtt_event(MQTTContext_t *context, MQTTPacketInfo_t *packet,
         && pending_id && decoded->packetIdentifier == pending_id)
         acknowledged = 1;
     else
+    {
+#ifdef MP_CAN_RX_IRQ
+        mqtt_diagnostic(2,decoded->deserializationResult,packet->type);
+#endif
         mqtt_failed();
+    }
 }
 
 /* 不完整包可在多次 ProcessLoop 间继续，但总装配时间有限，不能无限续活连接。 */
@@ -106,10 +124,20 @@ static int process_once(void)
             partial_since = g_uptime_ms;
         }
         if ((uint32_t)(g_uptime_ms - partial_since) >= 5000U)
+        {
+#ifdef MP_CAN_RX_IRQ
+            mqtt_diagnostic(3,status,g_uptime_ms-partial_since);
+#endif
             mqtt_failed();
+        }
     }
     else if (status != MQTTSuccess)
+    {
+#ifdef MP_CAN_RX_IRQ
+        mqtt_diagnostic(4,status,0);
+#endif
         mqtt_failed();
+    }
     else if (!client.index)
         partial_waiting = 0;
     return !session_error && network.connected;
@@ -176,7 +204,12 @@ int gateway_mqtt_publish(const MpFrame *frame)
     char topic[120];
     int length = mp_json(frame, payload, sizeof(payload));
     if (!length || !mp_topic(frame, topic, sizeof(topic)))
+    {
+#ifdef MP_CAN_RX_IRQ
+        mqtt_diagnostic(5,MQTTBadParameter,0);
+#endif
         return 0;
+    }
     MQTTPublishInfo_t message = {0};
     message.qos = frame->rate && !frame->replay ? MQTTQoS0 : MQTTQoS1;
     /* 沿用实时波形 QoS0；标量/状态/REPLAY 使用 QoS1。只有 QoS1 成功意味着 PUBACK。 */
@@ -190,7 +223,8 @@ int gateway_mqtt_publish(const MpFrame *frame)
     next_packet_seed = client.nextPacketId;
     uint32_t start = g_uptime_ms;
     mqtt_adapter_begin(&network, 5000);
-    int ok = MQTT_Publish(&client, &message, pending_id) == MQTTSuccess;
+    MQTTStatus_t publish_status=MQTT_Publish(&client, &message, pending_id);
+    int ok = publish_status == MQTTSuccess;
     if (message.qos == MQTTQoS1)
     {
         /* Publish/SEND OK 只是发送结果；匹配 PUBACK 到达后才允许 Router 成功 ACK。 */
@@ -199,6 +233,10 @@ int gateway_mqtt_publish(const MpFrame *frame)
         ok = ok && acknowledged;
     }
     ok = ok && !session_error && network.connected && (uint32_t)(g_uptime_ms - start) < 5000U;
+#ifdef MP_CAN_RX_IRQ
+    /* 保留原5000ms/PUBACK门禁；诊断放在清在途状态之前，以区分发送与确认失败。 */
+    if(!ok)mqtt_diagnostic(6,publish_status,g_uptime_ms-start);
+#endif
     pending_id = 0;
     acknowledged = 0;
     if (!ok)

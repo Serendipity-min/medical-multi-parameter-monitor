@@ -1,0 +1,48 @@
+{
+  "action": "C_VERIFY_RAM_RESUME",
+  "flash_write_started": false,
+  "reset_sent": true,
+  "exit_code": 0,
+  "image": {
+    "sha256": "317aee869e4cb5996d630491a8f442cfedd64a2e0c128d283469399fcaea08db",
+    "bytes": 38720,
+    "start": 134217728,
+    "end_exclusive": 134256448,
+    "erase_sectors": [
+      0,
+      1,
+      2
+    ],
+    "load_segments": [
+      {
+        "start": 134217728,
+        "end_exclusive": 134256360,
+        "bytes": 38632
+      },
+      {
+        "start": 134256360,
+        "end_exclusive": 134256448,
+        "bytes": 88
+      }
+    ],
+    "initial_sp": 537001472,
+    "reset_vector": 134247629,
+    "CAN1_RX0_vector": {
+      "address": 134236029,
+      "strong_handler": true
+    },
+    "protected_sectors": [
+      7,
+      11
+    ],
+    "mass_erase": false,
+    "option_bytes_write": false
+  },
+  "C_identity_match": true,
+  "application_readback_match": true,
+  "protected_unchanged": true,
+  "options_unchanged": true,
+  "RAM_config_readback_match": true,
+  "go_sent": true,
+  "observation_exit_code": 0
+}

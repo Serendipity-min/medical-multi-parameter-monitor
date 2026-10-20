@@ -214,10 +214,21 @@ int esp_mqtt_recv(unsigned char *data, int length, uint32_t timeout)
         network_offset = network_length = 0;
         /* 此固件在 SSL 尚无数据时读数据返回 ERROR，先查询接收长度再读取。 */
         if (!at_command("AT+CIPRECVLEN?", 1000))
+        {
+#ifdef MP_CAN_RX_IRQ
+            /* 此处原来静默返回，导致无法区分AT查询失败和MQTT确认失败。 */
+            console("GW READ_AVAILABLE_FAIL\r\n");
+#endif
             return -1;
+        }
         char *available = strstr((char *)reply, "+CIPRECVLEN:");
         if (!available)
+        {
+#ifdef MP_CAN_RX_IRQ
+            console("GW READ_AVAILABLE_HEADER_FAIL\r\n");
+#endif
             return -1;
+        }
         if (!strtoul(available + 12, NULL, 10))
         {
             delay_ms(10);

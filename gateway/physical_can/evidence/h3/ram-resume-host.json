@@ -1,0 +1,10 @@
+{
+  "exit_code": 0,
+  "pytest_passed": 23,
+  "command": "python -m pytest gateway/physical_can/tests/test_h3_resume.py gateway/physical_can/tests/test_h3_download.py gateway/physical_can/tests/test_h3_observe.py -q",
+  "source_sha256": {
+    "gateway/physical_can/h3_resume_c.py": "39aea2c265a2f23b9a136e6a43c10e1e3122921c8725091cbd341196eb336e29",
+    "gateway/physical_can/h3_flash_c.py": "6b53a9af5d2fb7445d5f999373ee74f9ce5829fa79f29ead921b765d3e7739cd",
+    "gateway/physical_can/tests/test_h3_resume.py": "b628eafd9ec9c78d6543cabd22c1ae82fcdaabf5355b367f2332c87fe3b12d07"
+  }
+}

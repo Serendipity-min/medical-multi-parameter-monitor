@@ -1,0 +1,65 @@
+{
+  "status": "FAIL_NOT_RELEASE_ELIGIBLE",
+  "uart_window_seconds": 329.219,
+  "latest_counters": {
+    "model": {
+      "can": 692,
+      "drop": 0,
+      "cache": 0,
+      "lost": 177,
+      "replay": 92,
+      "nodes": 10
+    },
+    "queue": {
+      "fovr": 0,
+      "sw": 0,
+      "bad": 0,
+      "high": 8,
+      "depth": 1,
+      "irq": 12850,
+      "lag_cycles": 675765,
+      "stale": 0,
+      "fault": 0,
+      "uart": 0
+    },
+    "can": {
+      "hb": 653,
+      "boot": 1,
+      "p181": 11200,
+      "p381": 329,
+      "p481": 329,
+      "p681": 338,
+      "txok": 692,
+      "txfail": 0,
+      "nmt": 1,
+      "time": 30,
+      "TEC": 0,
+      "REC": 0,
+      "LEC": 0,
+      "BOFF": 0
+    },
+    "delivery": {
+      "qos1_puback": 483,
+      "qos0_send": 96,
+      "failed": 5,
+      "last_node": 1,
+      "last_stream": 0,
+      "last_seq": 335,
+      "last_ms_hi": 417,
+      "last_ms_lo": 1457323425
+    }
+  },
+  "host_log": {
+    "complete": 66,
+    "missing_reports": 0,
+    "missing_lines": 0,
+    "duplicate_lines": 0,
+    "invalid_tags": 0,
+    "trailing_partial_report": false
+  },
+  "reason": "MQTT_PUBLISH_RECONNECT_AND_ROUTER_CACHE_LOSS",
+  "clock_fix_backend_rejected_before": 658,
+  "clock_fix_backend_rejected_at_check": 658,
+  "raw_measurements_saved_to_git": false,
+  "clinical_accuracy": "NOT_MEASURED"
+}

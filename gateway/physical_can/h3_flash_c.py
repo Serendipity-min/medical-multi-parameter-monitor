@@ -75,10 +75,23 @@ def restore_application(boot,baseline,backup,current,progress):
             'rollback_bytes':len(backup),'rollback_sha256':sha(backup),'rollback_application_executed':False}
 
 
+def read_current_candidate(boot,receipt,destination):
+    """本地旧候选未保留时，只读原板并按既有回读回执验证，不能把未知镜像当原件。"""
+    if not destination.resolve().is_relative_to(PRIVATE.resolve()) or destination.exists():
+        raise GateError('CURRENT_READ_REQUIRES_NEW_PRIVATE_FILE')
+    size=receipt['image']['bytes']
+    if not 8<=size<=0xC000:raise GateError('CURRENT_READ_RANGE')
+    current=read_exact(boot,START,size)
+    if sha(current)!=receipt['image']['sha256']:raise GateError('CURRENT_READ_RECEIPT_MISMATCH')
+    with destination.open('xb') as output:output.write(current)
+    return current
+
+
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--commit',required=True);parser.add_argument('--preflight',type=Path,required=True)
     parser.add_argument('--config',type=Path,required=True)
     parser.add_argument('--current-receipt',type=Path);parser.add_argument('--current-image',type=Path)
+    parser.add_argument('--read-current-image',action='store_true')
     parser.add_argument('--verify-rollback-first',action='store_true')
     parser.add_argument('--observe-seconds',type=int,default=0);args=parser.parse_args()
     if not 0<=args.observe_seconds<=1800:parser.error('observe range 0..1800')
@@ -107,14 +120,17 @@ def main():
         if Path(name).name!=name:raise GateError('BACKUP_PATH')
         backup=(PRIVATE/name).read_bytes()
         if sha(backup)!=baseline['application_backup']['sha256'] or len(backup)!=0xC000:raise GateError('BACKUP_BYTES_CHANGED')
-        current_application=None
+        current_application=None;receipt=None
+        if args.read_current_image and not (args.current_receipt and args.current_image):raise GateError('CURRENT_READ_RECEIPT_REQUIRED')
         if args.current_receipt or args.current_image:
             if not args.current_receipt or not args.current_image:raise GateError('CURRENT_IMAGE_AND_RECEIPT_REQUIRED')
-            receipt=json.loads(args.current_receipt.read_text());current_application=args.current_image.read_bytes()
+            receipt=json.loads(args.current_receipt.read_text())
             # 只接受本轮已经回读验证且保护区未变的候选，原H2R恢复原件仍须保留。
             if not receipt.get('image_readback_match') or not receipt.get('protected_unchanged') or not receipt.get('options_unchanged') or receipt.get('protected_after')!=baseline['protected']:raise GateError('CURRENT_RECEIPT_NOT_VERIFIED')
-            if sha(current_application)!=receipt['image']['sha256']:raise GateError('CURRENT_CANDIDATE_BYTES_CHANGED')
-            result['previous_candidate_sha256']=sha(current_application)
+            if not args.read_current_image:
+                current_application=args.current_image.read_bytes()
+                if sha(current_application)!=receipt['image']['sha256']:raise GateError('CURRENT_CANDIDATE_BYTES_CHANGED')
+            result['previous_candidate_sha256']=receipt['image']['sha256']
         a=Path('E:/medical-monitor-node-a-handoff/h2-private/a-backup-20261019T074319128346Z')
         for name in ('flash-first.bin','flash-second.bin'):
             if sha((a/name).read_bytes())!='0fd4a4e8417b87a157fdf3e4f7c5a2a553c5aa9f69b4417fcac03c3a73d91516':raise GateError('A_ORIGINAL_BACKUP_CHANGED')
@@ -127,6 +143,10 @@ def main():
             progress('CONNECT_ROM',{});connection.connect();boot=Stm32Bootloader(connection,device_family='F4',verbosity=0)
             boot.reset_from_system_memory();boot.get();verify_f4_identity(boot,identity)
             result['C_identity_match']=True
+            if args.read_current_image:
+                # 此处只读+保存；后续program仍会重核保护区/选项字节及当前应用，才允许擦除。
+                current_application=read_current_candidate(boot,receipt,args.current_image)
+                result['current_candidate_readback_verified']=True
             if args.verify_rollback_first:
                 if current_application is None:raise GateError('ROLLBACK_REQUIRES_VERIFIED_CURRENT_CANDIDATE')
                 result.update(restore_application(boot,baseline,backup,current_application,progress))
