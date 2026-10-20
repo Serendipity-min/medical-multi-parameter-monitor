@@ -1,0 +1,40 @@
+{
+  "role": "C",
+  "exit_code": 0,
+  "action": "program",
+  "flash_write_started": true,
+  "hardware_accessed": true,
+  "plan": {
+    "role": "C",
+    "port": "COM15",
+    "image_sha256": "59229f1b34660f053538737fc0fd17c814fde5502a0dfe33603e8e08b72ca8a5",
+    "image_bytes": 43172,
+    "record_sha256": "5c22cee1d7978faec50ea5431f749b36ac1ea01de52742342317e91a08a3ce18",
+    "record_bytes": 336,
+    "application_sectors": [
+      0,
+      1,
+      2
+    ],
+    "config_sector": 3,
+    "config_erase_bytes": 16384,
+    "backup_bytes": 65536,
+    "commit_written_last": true,
+    "ram_injection": false,
+    "automatic_go": false,
+    "protected_sectors": [
+      7,
+      11
+    ],
+    "option_bytes_write": false
+  },
+  "controlled_c_reset_requested": true,
+  "stage": "COMMITTED_READBACK_VERIFIED",
+  "application_readback_match": true,
+  "config_readback_match": true,
+  "protected_unchanged": true,
+  "options_unchanged": true,
+  "flash_readback_sha256": "52a4c9d621375d63cd995c1a003d98473e9be3387d31cd857e702a27bee7e6f8",
+  "automatic_go": false,
+  "physical_cold_boot": "NOT_TESTED"
+}

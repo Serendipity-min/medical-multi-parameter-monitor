@@ -1,0 +1,18 @@
+{
+  "mqtt_target_routes": [
+    {
+      "ipv4": true,
+      "device": "eth0",
+      "route_type": "unicast",
+      "scope": null,
+      "gateway_used": true
+    }
+  ],
+  "backend_event_counts": {
+    "mqtt_connected": 0,
+    "mqtt_subscribed": 0,
+    "mqtt_connect_failed": 1,
+    "backend_stopped": 1
+  },
+  "raw_messages_saved": false
+}

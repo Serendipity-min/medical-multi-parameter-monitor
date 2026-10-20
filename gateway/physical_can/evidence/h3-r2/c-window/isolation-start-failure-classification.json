@@ -1,0 +1,33 @@
+{
+  "units": {
+    "medical-monitor-h3-r2c-broker": {
+      "records": 4,
+      "exception_types": [],
+      "chdir_failed": false,
+      "permission_denied": false,
+      "module_missing": false,
+      "connect_timeout": false,
+      "process_started": true,
+      "traceback_present": false,
+      "ready_marker": false
+    },
+    "medical-monitor-h3-r2c-backend": {
+      "records": 7,
+      "exception_types": [],
+      "chdir_failed": false,
+      "permission_denied": false,
+      "module_missing": false,
+      "connect_timeout": false,
+      "process_started": true,
+      "traceback_present": false,
+      "ready_marker": false
+    }
+  },
+  "owned_chain_absent": true,
+  "listeners": {
+    "8883": true,
+    "8884": false,
+    "18775": false
+  },
+  "formal_mutations": false
+}

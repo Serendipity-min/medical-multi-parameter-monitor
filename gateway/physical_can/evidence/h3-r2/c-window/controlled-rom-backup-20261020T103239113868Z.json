@@ -1,0 +1,38 @@
+{
+  "role": "C",
+  "action": "CONTROLLED_ROM_RESET_READ_ONLY_BACKUP",
+  "exit_code": 0,
+  "flash_write_started": false,
+  "normal_cold_boot": "NOT_TESTED",
+  "stage": "BACKUP_VERIFIED_NO_FLASH_WRITE",
+  "passive_even": {
+    "bytes": 0,
+    "known_gateway_marker": false,
+    "ack_seen": false,
+    "nack_seen": false
+  },
+  "passive_none": {
+    "bytes": 0,
+    "known_gateway_marker": false
+  },
+  "controlled_reset_sent": true,
+  "C_identity_match": true,
+  "backup": {
+    "protected": {
+      "0x8060000": {
+        "sector_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "first_312B_sha256": "26e1989c6b3b3e1b905dcc17405a2767a1a3ebbb76b26ae3ac6b16bfd61c031c"
+      },
+      "0x80e0000": {
+        "sector_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "first_312B_sha256": "26e1989c6b3b3e1b905dcc17405a2767a1a3ebbb76b26ae3ac6b16bfd61c031c"
+      }
+    },
+    "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+    "exit_code": 0,
+    "double_read_match": true,
+    "bytes": 65536,
+    "sha256": "54f724fab2e74d00c864afb32a0e1a4f8bf8fd86f51ef6ebb9da4d038c37b817",
+    "identity_source_sha256": "e796c22c34d7243b25353540db17c9c3835dde981ee0cacc3a33ae46032fe8e1"
+  }
+}

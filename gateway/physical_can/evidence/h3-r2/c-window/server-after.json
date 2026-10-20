@@ -1,0 +1,134 @@
+{
+  "recorded_utc": "2026-10-20T11:03:01.213157+00:00",
+  "identity_unchanged": true,
+  "snapshot": {
+    "services": {
+      "medical-monitor.service": {
+        "pid": "845095",
+        "state": "active",
+        "cwd": "/opt/medical-monitor/releases/mqtt-v07-phase2-20260920-01/backend",
+        "executable": "/usr/bin/python3.12",
+        "git_sha": "NOT_A_GIT_WORKTREE"
+      },
+      "medical-monitor-mqtt.service": {
+        "pid": "851111",
+        "state": "active",
+        "cwd": "/",
+        "executable": "/usr/bin/python3.12",
+        "git_sha": "NOT_A_GIT_WORKTREE"
+      },
+      "p6-ai.service": {
+        "pid": "394625",
+        "state": "active",
+        "cwd": "/opt/medical-monitor-p6",
+        "executable": "/usr/bin/python3.12",
+        "git_sha": "NOT_A_GIT_WORKTREE"
+      },
+      "nginx.service": {
+        "pid": "3631",
+        "state": "active",
+        "cwd": "/",
+        "executable": "/usr/sbin/nginx",
+        "git_sha": "NOT_A_GIT_WORKTREE"
+      }
+    },
+    "files": {
+      "/etc/nginx/snippets/medical-monitor.conf": {
+        "exists": true,
+        "sha256": "8e9509551d97489c6cd6a92d4d44f9d6ef06392f031db285e0b1f05d30143ca2",
+        "mode": "0o644",
+        "owner_uid": 0,
+        "group_gid": 0,
+        "bytes": 705
+      },
+      "/etc/systemd/system/p6-ai.service": {
+        "exists": true,
+        "sha256": "1006334e3ccf3523587d48c4482902ef6314c1549e0410fef11f1b934eccc8f2",
+        "mode": "0o644",
+        "owner_uid": 0,
+        "group_gid": 0,
+        "bytes": 819
+      },
+      "/etc/medical-monitor/p6-ai.env": {
+        "exists": true,
+        "sha256": "6aad50a55576026d9ec7406c4b787efecfb201339729db54b1aa7f2a0213a339",
+        "mode": "0o600",
+        "owner_uid": 0,
+        "group_gid": 0,
+        "bytes": 606
+      },
+      "/opt/medical-monitor/config/backend.env": {
+        "exists": true,
+        "sha256": "33d94a0e773efc11aa7fad055efe150ef74b8efde5467392804f4c076f4f52d5",
+        "mode": "0o600",
+        "owner_uid": 0,
+        "group_gid": 0,
+        "bytes": 279
+      }
+    },
+    "web_index": {
+      "exists": true,
+      "sha256": "92a48ceea4afb3a3c5b6f34fadd7d3b56063e725321aa2471e3a9285db7a48f0",
+      "mode": "0o644",
+      "owner_uid": 0,
+      "group_gid": 0,
+      "bytes": 414
+    },
+    "production_ai_sources": {
+      "cloud/ai/app.py": {
+        "exists": true,
+        "sha256": "4a05fc797a5cd5431400041c86b89b6b9b712e198a24403ca163fbcc6824d825",
+        "mode": "0o644",
+        "owner_uid": 0,
+        "group_gid": 0,
+        "bytes": 8503
+      },
+      "cloud/ai/providers.py": {
+        "exists": true,
+        "sha256": "40741521f34feaf3467d8d8bf7928342a36fbe2db463d99dc63b5715406140f6",
+        "mode": "0o644",
+        "owner_uid": 0,
+        "group_gid": 0,
+        "bytes": 7664
+      },
+      "cloud/ai/usage.py": {
+        "exists": false
+      }
+    },
+    "legacy_ai_five_cap_source_hint": false,
+    "formal_plan_state": "PREPARED_ONLY_NOT_PUBLISHED",
+    "formal_plan_sha256": "cb974038aa8c412e242e9ff7efc144e1cf648e46b64e00a448e8a37e209ec78f",
+    "prepared_runtimes": [
+      {
+        "directory": "runtime-2ffd1d372ace",
+        "manifest_sha256": "71900ff3930177d79d122512f0fb08e98ba483fbf08b54743a5fec52b797dcd9",
+        "source_commit": "bd0b5bd5a2169b785a9dd2bd168f83146688ce79"
+      },
+      {
+        "directory": "runtime-37808287a557",
+        "manifest_sha256": "11a1381c7519650f39714347c258c33c177372acf21674f63db6eb481ec5137b",
+        "source_commit": "41ddc066b92ccdb46b6ecd442d669a9d1db26b14"
+      },
+      {
+        "directory": "runtime-d32d9b2c1688",
+        "manifest_sha256": "d07a3ddb31db935513bbb2d51177b3264cbb09138e6aa3a5bd759a94986347f7",
+        "source_commit": "5f6490bd732af359477f99824c4599e27c4ff8b1"
+      }
+    ],
+    "isolated_services": {
+      "medical-monitor-h3-broker-diagnostic.service": "inactive",
+      "medical-monitor-h3-backend-nodebfix.service": "inactive",
+      "medical-monitor-h3-ai-isolated.service": "inactive"
+    },
+    "formal_hashes_match_previous_plan": true,
+    "web_matches_previous_plan": true,
+    "owned_host_8884_rules": 0,
+    "cloud_security_group_checked_by_api": false,
+    "mutations": false,
+    "listeners": {
+      "8883": true,
+      "8884": false,
+      "18775": false
+    }
+  }
+}

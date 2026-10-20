@@ -1,0 +1,31 @@
+{
+  "input_rules": [
+    {
+      "packets": 50,
+      "bytes": 4636,
+      "target": "ACCEPT"
+    },
+    {
+      "packets": 0,
+      "bytes": 0,
+      "target": "ACCEPT"
+    },
+    {
+      "packets": 16,
+      "bytes": 960,
+      "target": "DROP"
+    }
+  ],
+  "local_nat_rules": [
+    {
+      "packets": 2,
+      "bytes": 120,
+      "target": "DNAT"
+    }
+  ],
+  "broker_8884_listening": true,
+  "listener_pids": [
+    "2433526"
+  ],
+  "raw_addresses_saved": false
+}

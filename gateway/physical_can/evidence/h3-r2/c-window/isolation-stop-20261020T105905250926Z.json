@@ -1,0 +1,29 @@
+{
+  "action": "stop",
+  "exit_code": 0,
+  "owned_services_stopped": true,
+  "owned_chain_absent": true,
+  "input_rules_restored": true,
+  "nat_rules_restored": true,
+  "formal": {
+    "services": {
+      "medical-monitor.service": {
+        "pid": "845095",
+        "state": "active"
+      },
+      "medical-monitor-mqtt.service": {
+        "pid": "851111",
+        "state": "active"
+      },
+      "p6-ai.service": {
+        "pid": "394625",
+        "state": "active"
+      }
+    },
+    "services_match": true,
+    "files_match": true,
+    "web_match": true
+  },
+  "credentials_files_removed": true,
+  "cloud_security_group_modified": false
+}

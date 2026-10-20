@@ -2,7 +2,7 @@
 
 本轮合同：MPM-H3-002 R1.0；执行者为 Codex。沿用合同指定的唯一文件名，不代表执行者变更为 DeepSeek。用户已排除第八节 ECG 采购和选型，本轮没有执行该支线。
 
-**阶段结论：H3_PARTIAL_CONTINUE。软件回归通过，sector3台架存储策略已由负责人接受，实板窗口尚待授权；NIBP_PENDING；FORMAL_RELEASE_NOT_AUTHORIZED；FORMAL_ROLLBACK_NOT_RUN。** 不宣告整体 H3_PASS、七页正式上线、持久化实板通过或生理准确性通过。
+**阶段结论：H3_PARTIAL_CONTINUE。C 的一次正常BOOT、J5独立供电/USB拔除及Flash配置保留窗口已经实测通过（连续在线310.045秒，见第10节）；下一步按负责人指令准备改接2.4GHz路由器。NIBP_PENDING；FORMAL_RELEASE_NOT_AUTHORIZED；FORMAL_ROLLBACK_NOT_RUN。** 不宣告整体 H3_PASS、七页正式上线或生理准确性通过。
 
 ## 1. Git、镜像及现场身份
 
@@ -21,22 +21,22 @@
 
 | 镜像身份 | 字节数 | SHA256 | 实际状态 |
 |---|---:|---|---|
-| C 既有实机镜像，源码 `ec044cc3e1887f7fd7812d6fd60b06a49d92f5ae` | 42728 | `c3bc10c6bb01831fb7c1f7a44dabb5fc0295fa667045a5428856bd6991250b6f` | 历史回执退出0；本轮未打开串口/重新读回 |
-| C 新隔离持久配置候选 | 43172 | `59229f1b34660f053538737fc0fd17c814fde5502a0dfe33603e8e08b72ca8a5` | 仅构建；未下载 |
+| C 窗口前旧镜像，源码 `ec044cc3e1887f7fd7812d6fd60b06a49d92f5ae` | 42728 | `c3bc10c6bb01831fb7c1f7a44dabb5fc0295fa667045a5428856bd6991250b6f` | 新窗口备份时实际核对；原件保存在受限目录 |
+| C 隔离持久配置镜像 | 43172 | `59229f1b34660f053538737fc0fd17c814fde5502a0dfe33603e8e08b72ca8a5` | 第10节已实际下载、读回并独立冷启动 |
 | C 新正常端口持久配置候选 | 43184 | `9df43acd34732cacb8c1a90a6a15e420b96ad9675a004d65c3a088246268f977` | 仅构建；未下载/连接正式Broker |
 | A 新完成时间扩展候选 | 50084 | `f59b76ef865c373c6df62aa09aea958597687f6d46b17c402ceb7126ca8f60d6` | Keil/FromELF通过；未下载 |
 
 候选镜像对应本轮代码提交；精确编译文件摘要、命令、向量、装载区间见 `gateway/physical_can/evidence/h3-r2/persistent-*/` 和 `node-a-arm-image.json`。最终文档提交不改变固件源码。
 
-现场最新反馈：**A 断电、J-Link 拔下；C USB/COM15 正常供电，BOOT和CAN接线保持原状**。本轮未触发DTR/RTS、ROM复位、Flash读写、跳帽/电源/线缆操作；312B RAM配置当前存活状态未重新观察。C仍不能据此认定已具备正常独立BOOT。
+初审时反馈为A断电/J-Link拔下、C USB/COM15供电、下载BOOT接线，初审未操作板卡。第10节记录负责人随后明确批准的实板窗口；窗口结束时**C B0=GND/B1=GND、J5独立供电且USB已拔，A独立供电/J-Link拔下，CAN线不变**。不再用初审RAM会话状态代替最新实板结论。
 
 ## 2. Gate 裁定
 
 | Gate | 结果 | 边界 |
 |---|---|---|
-| R2-0 | PARTIAL：代码/正式服务身份核对通过 | 现场为负责人反馈；无当前C读回；云安全组未用API独立验证 |
+| R2-0 | PARTIAL：代码/正式服务及C身份读回通过 | 初审与实板窗口分开；云安全组仍未用API独立验证 |
 | R2-1 软件 | PASS / BENCH_STORAGE_POLICY_ACCEPTED | 两种ARM、记录损坏/重载/闭锁Host及受限下载事务通过；Flash物理保密性未具备 |
-| R2-1 实板 | NOT_AUTHORIZED / NOT_RUN | 无新增sector3原件备份、持久配置写入、独立冷启动或300秒新窗口 |
+| R2-1 实板 | PASS_ONE_AUTHORIZED_COLD_BOOT_WINDOW | 双备份、sector3写入读回、正常BOOT及310.045秒通过；坏配置实板/重复冷启动仍未测 |
 | R2-2 软件 | PASS | 真实Node-A CANopen代码→Gateway→Backend→AI的合成协议字节及浏览器90秒过期通过 |
 | R2-2 新信号源 | NIBP_PENDING | 没有新的合格血压源；未采集人体或上传新生理记录 |
 | R2-3 新实板稳定/故障窗口 | NOT_AUTHORIZED / NOT_RUN | 不把历史无探头网络回归或本地MOCK当本轮有源300秒验收 |
@@ -67,7 +67,7 @@
 
 回滚必须先备份实际C sector0–3的64KiB原件、至少两次一致SHA，再核对sector7/11/options；失败按同一授权窗口恢复原件。旧正常固件读sector11且此前为空，**不能承诺恢复旧固件后可独立联网**。旧隔离镜像+RAM恢复只代表显式台架会话。
 
-资源：C隔离候选比既有42728B镜像增加444B；正常候选43184B。隔离text43076/data88/bss123136，正常text43088/data88/bss123136，RAM静态量不变。128KiB普通SRAM扣除data+bss约余7848B供栈等使用，未做真机栈水位测量。A Keil：Code46488/RO3108/RW1560/ZI15616；BIN50084B，比此前49888B增196B。A候选占sector0–3，和C新增配置sector3是不同板卡的范围，禁止混用下载计划。
+资源：C隔离候选比既有42728B镜像增加444B；正常候选43184B。隔离text43076/data88/bss123136，正常text43088/data88/bss123136，RAM链接占用不变。bss包含链接脚本预留的堆/栈区；128KiB普通SRAM扣除data+bss另余7848B未占链接区，这不是实测栈余量，未做真机栈水位测量。配置独占sector3的16KiB擦除单元，实际记录336B。A Keil：Code46488/RO3108/RW1560/ZI15616；BIN50084B，比此前49888B增196B。A候选占sector0–3，和C配置sector3是不同板卡的范围，禁止混用下载计划。
 
 ## 4. NIBP 从完成时刻起算
 
@@ -163,7 +163,7 @@ Git对原始Windows日志的CRCRLF/编译器末尾空格检查有提示，保留
 5. TCP8884云规则准确待处理目标：仅负责人指认实例上“全部IPv4→TCP8884”规则；删除或换成现场出口/32均属公网范围调整，尚未执行。8883等原规则不在目标内。
 6. 正式发布/真实回滚另待单次窗口，先补齐上节prepare缺口、确认受众/数据范围及原件。不能仅凭本次通用合同授权执行activate。
 
-停止状态：板卡/生产环境保持接管时状态；本轮自有本地服务、浏览器会话和短期证书已清理。存储策略已经接受，现仅待具体现场窗口，不需要再拆新合同。
+上列待授权项记录初次收口时的范围；C单次窗口随后已批准并按第10节完成。其余A新镜像/NIBP源/网络故障注入/正式发布没有自动扩展授权，不需要再拆新合同。
 
 ## 9. 存储策略接受后的下载准备（仍未操作板卡）
 
@@ -176,11 +176,43 @@ Git对原始Windows日志的CRCRLF/编译器末尾空格检查有提示，保留
 - 默认`--action plan`只读文件并生成脱敏范围，不导入串口；`backup/program/restore`必须有外部负责人窗口记录、固定C/COM15、当前源码SHA、应用/配置SHA、身份源SHA、8884范围及有效期。窗口文件仅记录已经获得的许可，不能替代会话授权。
 - 仅接收明确的8884/MOCK持久配置IRQ候选，拒绝8883/旧RAM布局；执行前复核所有固件输入及外部SDK摘要、版本固定的stm32loader0.7.1，实际C身份/1MiB容量。SDK路径由外部参数给出，不复制SDK。
 - `backup`与旧C应用/配置保护回执匹配后，实际读取sector0–3共65536B两次，保护7/11/options前后不变，再在受限目录独占保存两份原件并从磁盘回读。任一步失败都不产生可用backup证明。
-- `program`重新核对完整64KiB原件；先只擦sector0–2并写应用，核对整应用区；再只擦sector3，先写头/CRC与payload、保持commit字擦除态，核对整个16KiB后最后写commit四字节。最终核对全64KiB、保护7/11及options。不写RAM、不调用GO，不自动复位或重试。
+- `program`重新核对完整64KiB原件；先只擦sector0–2并写应用，核对整应用区；再只擦sector3，先写头/CRC与payload、保持commit字擦除态，核对整个16KiB后最后写commit四字节。最终核对全64KiB、保护7/11及options。不写RAM、不调用GO、不自动重试；后续仅在已批准C窗口显式使用`--reset-c`进行ROM复位，不把它算作正常冷启动。
 - `restore`只接受该C窗口的两份一致原件、当前完整64KiB已知摘要及不变保护区/options；仅恢复sector0–3并完整读回。保护不符立即停止，不能以“回滚”为由扩大写入。恢复旧RAM固件仍不能证明独立联网。
 
 新增31项下载/封装功能检查全部通过；联合Backend/AI/物理Gateway套件**211 passed，4 subtests passed，退出0**，原始命令/日志/工具字节摘要在`persistence-tool/functional-result.json`及`functional.log`。覆盖C验证器与Python封装互认、错误镜像/IRQ/范围/旧RAM/正常端口、双读不一致、写前门禁、应用/配置读回故障停止、提交标记最后写、保护变化时禁止继续、完整原件恢复、过期/错板/错配置窗口以及无窗口不打开串口。未重复ARM构建，因为固件输入未修改；原ARM镜像和证据保留。
 
 **本次请求的单次C现场窗口**：批准上述镜像+336B配置；先备份C sector0–3并核对7/11/options，再仅写C sector0–3及读回；允许C在完全断电时将BOOT0从3.3V改接GND，BOOT1保持GND，并以原核验独立电源冷启动，去除USB/宿主辅助后观察至少300秒。当前BOOT0接3.3V仍是下载模式，尚未更改。A需恢复其原独立供电以提供心跳，J-Link仍拔下、探头/袖带不接。需启动临时8884隔离服务并在主机仅允许现场出口/32，测试后停止服务/清理本次主机规则；不改云安全组、8883生产服务或正式页面。若仅批准下载、不批准网络/电源窗口，只能报告写入读回，不能报独立冷启动联网通过。
 
-当前8884监听在收尾只读核对时不存在；未启动隔离服务、未开串口、未操作电源或跳帽。A新固件、NIBP实源、有源300秒、网络故障注入和正式发布仍按第8节各自范围待审，不包含在本次C窗口中。
+上述段落是首次提请窗口的方案。负责人随后明确批准该单次C窗口，实际执行、失败原件和清理结果如下。A新固件、NIBP实源、有源300秒、网络故障注入和正式发布仍按第8节各自范围待审，不包含在本次C窗口中。
+
+## 10. 已批准C独立冷启动窗口的实际结果
+
+负责人明确批准第9节单次C窗口，并先后配合C手动复位、USB重新插拔、热点开启/电脑连接。下载完成后，负责人确认**C由J5独立供电、USB已拔，A已上电**，按已完成请求B0=GND/B1=GND、A J-Link保持拔下、无人连接探头/袖带。无需逐项照片。正常从Flash启动的证据来自该次真正断电后的独立运行，不是此前的ROM GO、RAM注入或调试器设PC/MSP/VTOR。
+
+| 实际检查 | 结果 |
+|---|---|
+| C ROM型号/1MiB/外部身份比对 | 通过；不记录UID正文 |
+| 当前sector0–3原件双读及磁盘回读 | 65536B一致，SHA256 `54f724fab2e74d00c864afb32a0e1a4f8bf8fd86f51ef6ebb9da4d038c37b817`；两份原件仅在本机受限目录 |
+| 固件构建/下载工具身份 | 固件输入冻结于`b57f5464391174ca2bf45d0ed3453bd1cfe42093`，下载时HEAD `9ded93f58e12913b8fdef9b9ce989302399e9355`；期间只修Host下载工具，应用/配置SHA不变 |
+| 实际擦写 | C sector0–2应用；sector3配置，commit最后写；不全片擦除、不写RAM、不GO |
+| 应用/配置/完整64KiB读回 | 退出0；完整新64KiB SHA256 `52a4c9d621375d63cd995c1a003d98473e9be3387d31cd857e702a27bee7e6f8` |
+| sector7/11 | 前后均为SHA256 `b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260` |
+| 选项字节 | 前后SHA256 `52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687`，未写入 |
+| 无宿主独立冷启动及配置保留 | 单次实测通过，连续A/Gateway ONLINE **310.045秒**，Node-B全程OFFLINE |
+| MQTT订阅端/Backend | 654条、全部接收QoS1；Backend accepted增加654、rejected增加0、dropped增加0；MQTT解码错误0 |
+| WSS | 含上电前等待共6272份快照；无效值可见次数0，B上线次数0 |
+| 本轮新生理输入 | 无；SPO2/PR/NIBP各155次状态报告不是155次有效测量；PPG/QoS0波形数为0，NIBP仍PENDING |
+
+首个全ONLINE状态约为北京时间2026-10-20 18:52:57，连续观测完成约18:58:07。观察器在现场上电前已启动，前322.049秒包括人工等待及准备，**不能把它当作C启动耗时**。会话`can-1792493535-65538`在新隔离Broker/Backend（初始accepted=0）内实际产生。TLS校验、真实MQTT鉴权、CAN来源状态及Backend时间门禁通过支持独立联网结论；USB拔除期间没有C UART，因此**没有直接测量C的FOVR/软件队列/Router/Host丢失或PUBACK计数**，654条订阅接收不能代替C的PUBACK数。
+
+临时Backend使用`runtime-37808287a557`，来源清单提交`41ddc066b92ccdb46b6ecd442d669a9d1db26b14`。启动前核对完整关键清单，并逐一证明其Backend应用源码与当前分支一致；不把目录名当版本证明。观测代码通过SSH stdin在内存执行，未上传新候选或改正式路由。只启Broker/Backend，不启动AI；本窗口真实豆包调用0。
+
+临时公网仅IPv4 8884、现场单个/32与本机环回，其他来源DROP；没有放开所有IPv4。第一次Backend因通过公网地址回连本机而未就绪，失败清理成功；随后增加仅服务UID、原Broker目标IP及8884端口的临时本机DNAT，TLS仍验证原host，不影响8883，Backend恢复。电脑侧一次8884 TLS预检Timeout仍保留，不宣称已定位电脑出口差异；随后C实际连通，未为此扩大/32范围。云安全组宽8884规则依旧为负责人反馈保留，本窗口未修改云规则。
+
+停止回执退出0：本次Broker/Backend及到期定时器停止、临时INPUT/NAT链撤销、INPUT及NAT规则SHA恢复、三份自有临时配置删除。8884/18775已无监听，正式8883仍在；正式Backend/MQTT/AI/Nginx PID及原配置/Web/AI源码与窗口前一致。电脑已由负责人切回原Wi-Fi。C保持正常BOOT与Flash配置；临时Broker停止后，其测试目标不再提供云服务，**不等于正式常驻上线**。
+
+保留的失败：本地编排导入路径失败1（未操作板卡）；5次ROM握手失败退出1且`flash_write_started=false`；稳定等待修复未单独解决握手，实际采用一次受控C ROM复位后才完成备份，并为重开串口增加显式受限`--reset-c`。针对性检查从31→32→33项，最终联合**213 passed、4 subtests passed、退出0**。临时Backend首次启动失败及PC TLS Timeout也保留，未覆盖原件。
+
+全部证据在`gateway/physical_can/evidence/h3-r2/c-window/`：`hardware-assessment.json`、`program-*.json`、`controlled-rom-backup-*.json`、`cold-observer-result.json`、654行`cold-mqtt-metadata.jsonl`（SHA256 `4096582226e5b49de04f0c605e30c440152004945f9f2703c487a19e765b2235`）、`isolation-stop-*.json`及前后身份核对。公开记录不含配置正文、Flash原件、UID、真实主机或生理值。操作编排通用源码保存在`operator-tools/`供复核。
+
+坏配置启动仅Host验证，未向实板写故障配置；这是一次成功冷启动，不虚报三次。没有编程后失败，因此未实际调用C原件恢复；没有执行正式activate/rollback或网络故障注入。H3整体仍PARTIAL，后续路由器迁移单独保留配置代次和证据，不覆盖本次热点结果。

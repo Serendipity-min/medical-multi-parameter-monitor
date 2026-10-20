@@ -1,0 +1,70 @@
+{
+  "stage": "R2_C_INDEPENDENT_FLASH_BOOT_SINGLE_WINDOW",
+  "exit_code": 0,
+  "cold_boot": "PASS_ONE_INDEPENDENT_J5_BOOT_NO_HOST",
+  "configuration_persistence": "PASS_ACTUAL_FLASH_RECORD_AND_AUTHENTICATED_NETWORK_AFTER_POWER_CYCLE",
+  "firmware_build_commit": "b57f5464391174ca2bf45d0ed3453bd1cfe42093",
+  "download_tool_commit": "9ded93f58e12913b8fdef9b9ce989302399e9355",
+  "application_sha256": "59229f1b34660f053538737fc0fd17c814fde5502a0dfe33603e8e08b72ca8a5",
+  "config_sha256": "5c22cee1d7978faec50ea5431f749b36ac1ea01de52742342317e91a08a3ce18",
+  "original_64KiB_backup_sha256": "54f724fab2e74d00c864afb32a0e1a4f8bf8fd86f51ef6ebb9da4d038c37b817",
+  "programmed_64KiB_sha256": "52a4c9d621375d63cd995c1a003d98473e9be3387d31cd857e702a27bee7e6f8",
+  "program_readback_exit_code": 0,
+  "protected_sectors_unchanged": true,
+  "option_bytes_unchanged": true,
+  "continuous_online_s": 310.045,
+  "mqtt_received": 654,
+  "mqtt_qos_counts": {
+    "1": 654
+  },
+  "backend_accepted_delta": 654,
+  "backend_rejected_delta": 0,
+  "backend_dropped_delta": 0,
+  "wss_snapshots_including_wait_phase": 6272,
+  "node_b_online_seen": false,
+  "invalid_values_visible": 0,
+  "current_uart_can_fovr_sw_router_host_loss_counters": "NOT_OBSERVED_DURING_USB_DISCONNECTED_WINDOW",
+  "C_puback_counter": "NOT_MEASURED_SUBSCRIBER_QOS1_IS_SEPARATE",
+  "qos0_waveform_count": 0,
+  "physio_input": "NONE",
+  "NIBP": "PENDING",
+  "new_A_firmware": "NOT_FLASHED",
+  "actual_physical_restore": "NOT_RUN_NO_PROGRAM_FAILURE",
+  "bad_config_physical_start": "NOT_RUN_HOST_ONLY",
+  "temporary_service_and_rule_cleanup": {
+    "action": "stop",
+    "exit_code": 0,
+    "owned_services_stopped": true,
+    "owned_chain_absent": true,
+    "input_rules_restored": true,
+    "nat_rules_restored": true,
+    "formal": {
+      "services": {
+        "medical-monitor.service": {
+          "pid": "845095",
+          "state": "active"
+        },
+        "medical-monitor-mqtt.service": {
+          "pid": "851111",
+          "state": "active"
+        },
+        "p6-ai.service": {
+          "pid": "394625",
+          "state": "active"
+        }
+      },
+      "services_match": true,
+      "files_match": true,
+      "web_match": true
+    },
+    "credentials_files_removed": true,
+    "cloud_security_group_modified": false
+  },
+  "production_identity_unchanged": true,
+  "real_AI_calls": 0,
+  "cloud_security_group_changed": false,
+  "cloud_security_group_8884": "OWNER_REPORTED_WIDE_RULE_REMAINS_API_NOT_VERIFIED",
+  "owner_pc_network_restored": true,
+  "owner_next_goal": "MIGRATE_TO_PREVIOUSLY_CONFIGURED_2_4GHz_ROUTER_PREPARE_ONLY_FOR_NOW",
+  "overall_H3": "H3_PARTIAL_CONTINUE"
+}

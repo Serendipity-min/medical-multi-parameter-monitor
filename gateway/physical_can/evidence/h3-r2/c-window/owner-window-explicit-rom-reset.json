@@ -1,0 +1,26 @@
+{
+  "role": "C",
+  "port": "COM15",
+  "source_commit": "9ded93f58e12913b8fdef9b9ce989302399e9355",
+  "actions": [
+    "backup",
+    "program",
+    "restore"
+  ],
+  "expires_utc": "2026-10-20T16:27:41.879408+00:00",
+  "erase_sectors": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "mqtt_tls_port": 8884,
+  "image_sha256": "59229f1b34660f053538737fc0fd17c814fde5502a0dfe33603e8e08b72ca8a5",
+  "record_sha256": "5c22cee1d7978faec50ea5431f749b36ac1ea01de52742342317e91a08a3ce18",
+  "identity_source_sha256": "e796c22c34d7243b25353540db17c9c3835dde981ee0cacc3a33ae46032fe8e1",
+  "authority": "USER_APPROVED_SINGLE_C_WINDOW_THIS_TURN",
+  "bounds": "No human input, A firmware unchanged, protected7/11/options unchanged, no cloud SG or production changes",
+  "original_approved_source_commit": "453f6f74f8e93f0c73a6580f389245053d1d5b15",
+  "source_update_reason": "Explicit C RESET only; same approved firmware/config/sectors; read-only controlled reset actually verified identity and two backups",
+  "controlled_c_rom_reset": true
+}

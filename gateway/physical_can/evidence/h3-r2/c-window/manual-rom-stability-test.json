@@ -1,0 +1,12 @@
+{
+  "command": [
+    "python",
+    "-m",
+    "pytest",
+    "gateway/physical_can/tests/test_r2_persistent_download.py",
+    "-q"
+  ],
+  "exit_code": 0,
+  "firmware_image_changed": false,
+  "hardware_accessed": false
+}

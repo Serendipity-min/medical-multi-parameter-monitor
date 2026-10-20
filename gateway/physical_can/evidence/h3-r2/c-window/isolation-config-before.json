@@ -1,0 +1,42 @@
+{
+  "state_config_files": {
+    "gateway.json": {
+      "exists": true,
+      "port": 8884,
+      "username": "h3-gateway",
+      "client_id": "h3-isolated-gateway",
+      "sha256": "36262a7219198180c8a91f1d3336275eed296aff59ff7b0daa44a567e474b941",
+      "mode": "0o600"
+    },
+    "backend.json": {
+      "exists": true,
+      "port": 8884,
+      "username": "h3-backend",
+      "client_id": "h3-isolated-backend",
+      "sha256": "269ffd44704afb3d0d7ac0dd1316372ffc7a4753603cb35f8a3b126cc0652df4",
+      "mode": "0o600"
+    }
+  },
+  "backend_env_present": true,
+  "runtimes": [
+    {
+      "directory": "runtime-2ffd1d372ace",
+      "source_commit": "bd0b5bd5a2169b785a9dd2bd168f83146688ce79",
+      "hashes_match": true,
+      "backend_files": true
+    },
+    {
+      "directory": "runtime-37808287a557",
+      "source_commit": "41ddc066b92ccdb46b6ecd442d669a9d1db26b14",
+      "hashes_match": true,
+      "backend_files": true
+    },
+    {
+      "directory": "runtime-d32d9b2c1688",
+      "source_commit": "5f6490bd732af359477f99824c4599e27c4ff8b1",
+      "hashes_match": false,
+      "backend_files": true
+    }
+  ],
+  "mutations": false
+}
