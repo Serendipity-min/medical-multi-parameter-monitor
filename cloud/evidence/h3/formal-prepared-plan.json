@@ -1,0 +1,46 @@
+{
+  "stage": "/opt/medical-monitor-h3/formal/20261020T023147Z",
+  "release": "/opt/medical-monitor-h3/releases/runtime-2ffd1d372ace",
+  "source": {
+    "source_commit": "bd0b5bd5a2169b785a9dd2bd168f83146688ce79",
+    "bundle_sha256": "2ffd1d372acea512dc36d9b822dad747ee5de7dd15fcd0b1449d5b20e7da272d",
+    "critical_source_sha256": {
+      "cloud/backend/app/hub.py": "c3aea2d113348a155e9385ae1a0493ebb6cff33f5dab491209c42fad51af9f46",
+      "cloud/ai/app.py": "248d136927d6ac49217cda9d88710fe5cfa15deae63611b2033658900425eb4a",
+      "cloud/ai/providers.py": "edb9c5cf3525f05af113cb986ac9ef800a587ec0fe5e1faf0f5636ca5ea9156e",
+      "cloud/ai/usage.py": "a9856fc65694a1d3d64f15633818b5f9d0c8b5b715a15e033662b1b425e4269e"
+    }
+  },
+  "original_hashes": {
+    "/etc/nginx/snippets/medical-monitor.conf": "8e9509551d97489c6cd6a92d4d44f9d6ef06392f031db285e0b1f05d30143ca2",
+    "/etc/systemd/system/p6-ai.service": "1006334e3ccf3523587d48c4482902ef6314c1549e0410fef11f1b934eccc8f2",
+    "/etc/medical-monitor/p6-ai.env": "6aad50a55576026d9ec7406c4b787efecfb201339729db54b1aa7f2a0213a339",
+    "/opt/medical-monitor/config/backend.env": "33d94a0e773efc11aa7fad055efe150ef74b8efde5467392804f4c076f4f52d5"
+  },
+  "original_services": {
+    "medical-monitor.service": {
+      "pid": "845095",
+      "state": "active"
+    },
+    "medical-monitor-mqtt.service": {
+      "pid": "851111",
+      "state": "active"
+    },
+    "p6-ai.service": {
+      "pid": "394625",
+      "state": "active"
+    }
+  },
+  "previous_web_release": "/opt/medical-monitor/releases/stitch-ui-interaction-20260922-113809",
+  "previous_web_index_sha256": "92a48ceea4afb3a3c5b6f34fadd7d3b56063e725321aa2471e3a9285db7a48f0",
+  "candidate_web_index_sha256": "92e1f44f80d1eec38ef17beb0979dfc1fba8088c6a9aa833ab1de15063535acb",
+  "candidate_nginx_sha256": "e623e40342d6646d4753406b95c38c68c102aeffd968913abe3b94b463ff218b",
+  "owned_unit_sha256": {
+    "medical-monitor-h3-webbackend.service": "ba92bea7b659b244819c1422c8073de68cd6d2e3a4bb131883d8e5f4fe1d676b",
+    "medical-monitor-h3-webai.service": "05aa15d416033cab185d82e429c660181204308bf5bf9db22c996115e41b867d"
+  },
+  "state": "PREPARED_ONLY_NOT_PUBLISHED",
+  "nginx_syntax_exit_code": 0,
+  "original_services_unchanged": true,
+  "secrets_in_receipt": false
+}

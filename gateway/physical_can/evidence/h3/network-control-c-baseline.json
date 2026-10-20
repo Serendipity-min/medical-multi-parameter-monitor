@@ -1,0 +1,75 @@
+{
+  "action": "PC_SERVER_C_NETWORK_CONTROL_BASELINE",
+  "utc": "2026-10-20T03:00:53.895747+00:00",
+  "pc_operator_wifi_channel": 5,
+  "pc_same_network_verified": true,
+  "C": {
+    "stamp": "20261020T025158Z",
+    "elapsed_s": 534.907,
+    "latest": {
+      "model": {
+        "can": 1126,
+        "drop": 0,
+        "cache": 0,
+        "lost": 0,
+        "replay": 0,
+        "nodes": 10
+      },
+      "queue": {
+        "fovr": 0,
+        "sw": 0,
+        "bad": 0,
+        "high": 7,
+        "depth": 1,
+        "irq": 19334,
+        "lag_cycles": 467316,
+        "stale": 0,
+        "fault": 0,
+        "uart": 0
+      },
+      "can": {
+        "hb": 1070,
+        "boot": 0,
+        "p181": 16637,
+        "p381": 536,
+        "p481": 536,
+        "p681": 555,
+        "txok": 1126,
+        "txfail": 0,
+        "nmt": 1,
+        "time": 54,
+        "TEC": 0,
+        "REC": 0,
+        "LEC": 0,
+        "BOFF": 0
+      },
+      "delivery": {
+        "qos1_puback": 1115,
+        "qos0_send": 267,
+        "failed": 0,
+        "last_node": 2,
+        "last_stream": 9,
+        "last_seq": 108,
+        "last_ms_hi": 417,
+        "last_ms_lo": 1463888063
+      }
+    },
+    "host_log": {
+      "complete": 107,
+      "missing_reports": 0,
+      "missing_lines": 0,
+      "duplicate_lines": 0,
+      "invalid_tags": 0
+    },
+    "wifi_signal": {
+      "channel": "5",
+      "rssi": "-62"
+    },
+    "clock": {
+      "hse": "1",
+      "core_hz": "8000000"
+    }
+  },
+  "C_firmware_unchanged_from_HSE_candidate": true,
+  "no_monitored_values_in_pc_server_test": true
+}

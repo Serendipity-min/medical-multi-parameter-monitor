@@ -79,6 +79,18 @@ int main(void)
     assert(gateway_mqtt_publish(&state));
     assert((mock_packet[0] & 7U) == 3U);
     PASS("gateway_status_qos1_retained");
+#ifdef MP_H3_FRESH_SNTP
+    /* 使用真实联网入口核对坏SNTP的失败关闭；不以旧RTC或默认年份绕过。 */
+    extern int mock_ntp_fault;
+    for(int fault=1;fault<=4;fault++) {
+        mock_reset();mock_ntp_fault=fault;
+        assert(!gateway_network_open() && !mock_tls_started);
+    }
+    PASS("fresh_sntp_nonce_unsynchronized_late_missing_all_stop_tls");
+    mock_reset();mock_fail_at="AT+CIPSNTPCFG?";
+    assert(!gateway_network_open() && !mock_tls_started);
+    PASS("fresh_sntp_missing_server_configuration_stops_tls");
+#endif
 #ifdef MP_H3_WIFI_AWAKE
     /* 无线配置失败不得继续TLS；不把未生效的候选策略记成成功。 */
     mock_reset();mock_fail_at="AT+SLEEP=0";

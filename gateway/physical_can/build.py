@@ -8,9 +8,10 @@ import subprocess
 ROOT=Path(__file__).resolve().parents[2]
 HERE=Path(__file__).resolve().parent
 CO=ROOT/'gateway/canopen';VENDOR=ROOT/'gateway/third_party/CANopenNode';MQTT=ROOT/'gateway/mqtt'
-parser=argparse.ArgumentParser();parser.add_argument('--host',action='store_true');parser.add_argument('--irq',action='store_true');parser.add_argument('--isolated',action='store_true');parser.add_argument('--wifi-awake',action='store_true');parser.add_argument('--rx-order',action='store_true');parser.add_argument('--wire',type=Path);args=parser.parse_args()
+parser=argparse.ArgumentParser();parser.add_argument('--host',action='store_true');parser.add_argument('--irq',action='store_true');parser.add_argument('--isolated',action='store_true');parser.add_argument('--wifi-awake',action='store_true');parser.add_argument('--fresh-sntp',action='store_true');parser.add_argument('--rx-order',action='store_true');parser.add_argument('--wire',type=Path);args=parser.parse_args()
 if args.isolated and not args.irq:parser.error('--isolated requires --irq')
 if args.wifi_awake and not args.irq:parser.error('--wifi-awake requires --irq')
+if args.fresh_sntp and not args.irq:parser.error('--fresh-sntp requires --irq')
 build=HERE/('build/h3-isolated' if args.isolated else 'build/h3-irq' if args.irq else 'build');build.mkdir(parents=True,exist_ok=True)
 evidence=HERE/('evidence/h3' if args.irq else 'evidence');evidence.mkdir(parents=True,exist_ok=True)
 # 列表复用项目源码，不复制修改 coreMQTT、TLS、AT、PUBACK 或原模拟目标。
@@ -21,7 +22,7 @@ def run(cmd,input_data=None):
     r=subprocess.run(list(map(str,cmd)),capture_output=True,input=input_data)
     log.extend(r.stdout+r.stderr)
     if r.returncode: raise subprocess.CalledProcessError(r.returncode,cmd)
-log=bytearray();result={'feature':'H3_NETWORK_IRQ' if args.irq else 'LEGACY_POLLING','mode':'HOST' if args.host else 'ARM_PHYSICAL_CAN1_CANDIDATE','hardware':'NOT_RUN','wifi_awake':args.wifi_awake}
+log=bytearray();result={'feature':'H3_NETWORK_IRQ' if args.irq else 'LEGACY_POLLING','mode':'HOST' if args.host else 'ARM_PHYSICAL_CAN1_CANDIDATE','hardware':'NOT_RUN','wifi_awake':args.wifi_awake,'fresh_sntp':args.fresh_sntp}
 try:
     if args.host:
         sources=[*common,HERE/('tests/network_order.c' if args.rx_order else 'tests/wire.c' if args.wire else 'tests/protocol.c')]
@@ -37,6 +38,7 @@ try:
         vendor=ROOT/'gateway/third_party/coreMQTT'
         includes=[HERE/'src',HERE/'bench',MQTT/'src',CO/'src',VENDOR,vendor/'source/include',vendor/'source/interface',*base.INCLUDES]
         flags=[*base.COMMON_FLAGS,'-DCO_MULTIPLE_OD',*(['-DMP_CAN_RX_IRQ','-DHSE_VALUE=8000000'] if args.irq else []),*(['-DMP_H3_WIFI_AWAKE'] if args.wifi_awake else []),*(['-DMP_H3_TEST_SOURCE','-DMP_MQTT_TLS_PORT=8884','-DMP_H3_VOLATILE_CONFIG'] if args.isolated else []),*['-I'+str(p) for p in includes]]
+        if args.fresh_sntp:flags.append('-DMP_H3_FRESH_SNTP')
         # 启动与 G 共用硬件就绪后单次 NMT 入口；Host 协议夹具无需链接物理生命周期。
         sources=[*common,HERE/'src/main.c',HERE/'src/lifecycle.c',*([HERE/'src/bxcan_network_irq.c',HERE/'bench/rx_irq.c'] if args.irq else [HERE/'src/bxcan_physical.c']),*[p for p in sorted((MQTT/'src').glob('*.c')) if p.name!='main.c'],*base.SOURCES[1:],vendor/'source/core_mqtt.c',vendor/'source/core_mqtt_serializer.c',vendor/'source/core_mqtt_state.c']
         if args.irq:

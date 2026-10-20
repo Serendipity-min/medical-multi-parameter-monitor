@@ -1,0 +1,5902 @@
+{
+  "state": "CAPTURE_STOPPED",
+  "stamp": "20261020T024159Z",
+  "boot_wait_marker_seen": true,
+  "boot_markers": 1,
+  "latest": {
+    "model": {
+      "can": 1102,
+      "drop": 0,
+      "cache": 0,
+      "lost": 0,
+      "replay": 0,
+      "nodes": 10
+    },
+    "queue": {
+      "fovr": 0,
+      "sw": 0,
+      "bad": 0,
+      "high": 9,
+      "depth": 0,
+      "irq": 10539,
+      "lag_cycles": 466507,
+      "stale": 0,
+      "fault": 0,
+      "uart": 0
+    },
+    "can": {
+      "hb": 1100,
+      "boot": 0,
+      "p181": 7784,
+      "p381": 551,
+      "p481": 550,
+      "p681": 554,
+      "txok": 1102,
+      "txfail": 0,
+      "nmt": 1,
+      "time": 0,
+      "TEC": 0,
+      "REC": 0,
+      "LEC": 0,
+      "BOFF": 0
+    },
+    "delivery": {
+      "qos1_puback": 0,
+      "qos0_send": 0,
+      "failed": 0,
+      "last_node": 0,
+      "last_stream": 0,
+      "last_seq": 0,
+      "last_ms_hi": 0,
+      "last_ms_lo": 0
+    }
+  },
+  "host_log": {
+    "complete": 110,
+    "missing_reports": 0,
+    "missing_lines": 0,
+    "duplicate_lines": 0,
+    "invalid_tags": 0,
+    "trailing_partial_report": false
+  },
+  "reports": [
+    {
+      "seq": 1,
+      "elapsed_s": 4.781,
+      "utc": "2026-10-20T02:42:04.196712+00:00",
+      "counters": {
+        "model": {
+          "can": 12,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 0,
+          "irq": 32,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 12,
+          "boot": 0,
+          "p181": 0,
+          "p381": 7,
+          "p481": 6,
+          "p681": 7,
+          "txok": 12,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 2,
+      "elapsed_s": 9.781,
+      "utc": "2026-10-20T02:42:09.196811+00:00",
+      "counters": {
+        "model": {
+          "can": 22,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 0,
+          "irq": 57,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 22,
+          "boot": 0,
+          "p181": 0,
+          "p381": 12,
+          "p481": 11,
+          "p681": 12,
+          "txok": 22,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 3,
+      "elapsed_s": 14.781,
+      "utc": "2026-10-20T02:42:14.196620+00:00",
+      "counters": {
+        "model": {
+          "can": 32,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 0,
+          "irq": 82,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 32,
+          "boot": 0,
+          "p181": 0,
+          "p381": 17,
+          "p481": 16,
+          "p681": 17,
+          "txok": 32,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 4,
+      "elapsed_s": 19.781,
+      "utc": "2026-10-20T02:42:19.196315+00:00",
+      "counters": {
+        "model": {
+          "can": 42,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 0,
+          "irq": 107,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 42,
+          "boot": 0,
+          "p181": 0,
+          "p381": 22,
+          "p481": 21,
+          "p681": 22,
+          "txok": 42,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 5,
+      "elapsed_s": 24.781,
+      "utc": "2026-10-20T02:42:24.196370+00:00",
+      "counters": {
+        "model": {
+          "can": 52,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 0,
+          "irq": 131,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 51,
+          "boot": 0,
+          "p181": 0,
+          "p381": 27,
+          "p481": 26,
+          "p681": 27,
+          "txok": 52,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 6,
+      "elapsed_s": 29.781,
+      "utc": "2026-10-20T02:42:29.196137+00:00",
+      "counters": {
+        "model": {
+          "can": 62,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 0,
+          "irq": 155,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 60,
+          "boot": 0,
+          "p181": 0,
+          "p381": 32,
+          "p481": 31,
+          "p681": 32,
+          "txok": 62,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 7,
+      "elapsed_s": 34.781,
+      "utc": "2026-10-20T02:42:34.196859+00:00",
+      "counters": {
+        "model": {
+          "can": 72,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 0,
+          "irq": 384,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 70,
+          "boot": 0,
+          "p181": 205,
+          "p381": 37,
+          "p481": 36,
+          "p681": 37,
+          "txok": 72,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 8,
+      "elapsed_s": 39.781,
+      "utc": "2026-10-20T02:42:39.195614+00:00",
+      "counters": {
+        "model": {
+          "can": 82,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 1,
+          "irq": 660,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 80,
+          "boot": 0,
+          "p181": 455,
+          "p381": 42,
+          "p481": 41,
+          "p681": 42,
+          "txok": 82,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 9,
+      "elapsed_s": 44.781,
+      "utc": "2026-10-20T02:42:44.195407+00:00",
+      "counters": {
+        "model": {
+          "can": 92,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 1,
+          "irq": 934,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 90,
+          "boot": 0,
+          "p181": 704,
+          "p381": 47,
+          "p481": 46,
+          "p681": 47,
+          "txok": 92,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 10,
+      "elapsed_s": 49.781,
+      "utc": "2026-10-20T02:42:49.196402+00:00",
+      "counters": {
+        "model": {
+          "can": 102,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 1,
+          "irq": 1208,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 100,
+          "boot": 0,
+          "p181": 953,
+          "p381": 52,
+          "p481": 51,
+          "p681": 52,
+          "txok": 102,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 11,
+      "elapsed_s": 54.781,
+      "utc": "2026-10-20T02:42:54.194463+00:00",
+      "counters": {
+        "model": {
+          "can": 112,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 1,
+          "irq": 1483,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 110,
+          "boot": 0,
+          "p181": 1203,
+          "p381": 57,
+          "p481": 56,
+          "p681": 57,
+          "txok": 112,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 12,
+      "elapsed_s": 59.781,
+      "utc": "2026-10-20T02:42:59.194776+00:00",
+      "counters": {
+        "model": {
+          "can": 122,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 1,
+          "irq": 1758,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 120,
+          "boot": 0,
+          "p181": 1453,
+          "p381": 62,
+          "p481": 61,
+          "p681": 62,
+          "txok": 122,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 13,
+      "elapsed_s": 64.765,
+      "utc": "2026-10-20T02:43:04.193902+00:00",
+      "counters": {
+        "model": {
+          "can": 132,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 1,
+          "irq": 1929,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 130,
+          "boot": 0,
+          "p181": 1598,
+          "p381": 67,
+          "p481": 66,
+          "p681": 68,
+          "txok": 132,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 14,
+      "elapsed_s": 69.781,
+      "utc": "2026-10-20T02:43:09.194175+00:00",
+      "counters": {
+        "model": {
+          "can": 142,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 0,
+          "irq": 2203,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 140,
+          "boot": 0,
+          "p181": 1848,
+          "p381": 72,
+          "p481": 71,
+          "p681": 73,
+          "txok": 142,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 15,
+      "elapsed_s": 74.781,
+      "utc": "2026-10-20T02:43:14.193973+00:00",
+      "counters": {
+        "model": {
+          "can": 152,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 0,
+          "irq": 2478,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 150,
+          "boot": 0,
+          "p181": 2098,
+          "p381": 77,
+          "p481": 76,
+          "p681": 78,
+          "txok": 152,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 16,
+      "elapsed_s": 79.781,
+      "utc": "2026-10-20T02:43:19.193684+00:00",
+      "counters": {
+        "model": {
+          "can": 162,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 1,
+          "irq": 2754,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 160,
+          "boot": 0,
+          "p181": 2348,
+          "p381": 82,
+          "p481": 81,
+          "p681": 83,
+          "txok": 162,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 17,
+      "elapsed_s": 84.765,
+      "utc": "2026-10-20T02:43:24.193496+00:00",
+      "counters": {
+        "model": {
+          "can": 172,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 2,
+          "irq": 3029,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 170,
+          "boot": 0,
+          "p181": 2598,
+          "p381": 87,
+          "p481": 86,
+          "p681": 88,
+          "txok": 172,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 18,
+      "elapsed_s": 89.765,
+      "utc": "2026-10-20T02:43:29.192757+00:00",
+      "counters": {
+        "model": {
+          "can": 182,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 0,
+          "irq": 3303,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 180,
+          "boot": 0,
+          "p181": 2848,
+          "p381": 92,
+          "p481": 91,
+          "p681": 93,
+          "txok": 182,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 19,
+      "elapsed_s": 94.765,
+      "utc": "2026-10-20T02:43:34.192786+00:00",
+      "counters": {
+        "model": {
+          "can": 192,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 5,
+          "irq": 3579,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 190,
+          "boot": 0,
+          "p181": 3098,
+          "p381": 97,
+          "p481": 96,
+          "p681": 98,
+          "txok": 192,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 20,
+      "elapsed_s": 99.781,
+      "utc": "2026-10-20T02:43:39.193830+00:00",
+      "counters": {
+        "model": {
+          "can": 202,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 3,
+          "irq": 3851,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 200,
+          "boot": 0,
+          "p181": 3345,
+          "p381": 102,
+          "p481": 101,
+          "p681": 103,
+          "txok": 202,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 21,
+      "elapsed_s": 104.781,
+      "utc": "2026-10-20T02:43:44.193464+00:00",
+      "counters": {
+        "model": {
+          "can": 212,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 2,
+          "irq": 4125,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 210,
+          "boot": 0,
+          "p181": 3595,
+          "p381": 107,
+          "p481": 106,
+          "p681": 108,
+          "txok": 212,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 22,
+      "elapsed_s": 109.781,
+      "utc": "2026-10-20T02:43:49.193383+00:00",
+      "counters": {
+        "model": {
+          "can": 222,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 4,
+          "irq": 4400,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 220,
+          "boot": 0,
+          "p181": 3845,
+          "p381": 112,
+          "p481": 111,
+          "p681": 113,
+          "txok": 222,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 23,
+      "elapsed_s": 114.781,
+      "utc": "2026-10-20T02:43:54.193597+00:00",
+      "counters": {
+        "model": {
+          "can": 232,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 3,
+          "irq": 4676,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 230,
+          "boot": 0,
+          "p181": 4095,
+          "p381": 117,
+          "p481": 116,
+          "p681": 118,
+          "txok": 232,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 24,
+      "elapsed_s": 119.781,
+      "utc": "2026-10-20T02:43:59.193313+00:00",
+      "counters": {
+        "model": {
+          "can": 242,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 3,
+          "irq": 4951,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 240,
+          "boot": 0,
+          "p181": 4345,
+          "p381": 122,
+          "p481": 121,
+          "p681": 123,
+          "txok": 242,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 25,
+      "elapsed_s": 124.781,
+      "utc": "2026-10-20T02:44:04.192697+00:00",
+      "counters": {
+        "model": {
+          "can": 252,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 4,
+          "irq": 5225,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 250,
+          "boot": 0,
+          "p181": 4595,
+          "p381": 127,
+          "p481": 126,
+          "p681": 128,
+          "txok": 252,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 26,
+      "elapsed_s": 129.781,
+      "utc": "2026-10-20T02:44:09.192518+00:00",
+      "counters": {
+        "model": {
+          "can": 262,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 3,
+          "irq": 5501,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 260,
+          "boot": 0,
+          "p181": 4845,
+          "p381": 132,
+          "p481": 131,
+          "p681": 133,
+          "txok": 262,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 27,
+      "elapsed_s": 134.781,
+      "utc": "2026-10-20T02:44:14.192475+00:00",
+      "counters": {
+        "model": {
+          "can": 272,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 2,
+          "irq": 5775,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 270,
+          "boot": 0,
+          "p181": 5095,
+          "p381": 137,
+          "p481": 136,
+          "p681": 138,
+          "txok": 272,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 28,
+      "elapsed_s": 139.781,
+      "utc": "2026-10-20T02:44:19.192344+00:00",
+      "counters": {
+        "model": {
+          "can": 282,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 5,
+          "irq": 6050,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 280,
+          "boot": 0,
+          "p181": 5344,
+          "p381": 142,
+          "p481": 141,
+          "p681": 143,
+          "txok": 282,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 29,
+      "elapsed_s": 144.765,
+      "utc": "2026-10-20T02:44:24.191633+00:00",
+      "counters": {
+        "model": {
+          "can": 292,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 2,
+          "irq": 6324,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 290,
+          "boot": 0,
+          "p181": 5594,
+          "p381": 147,
+          "p481": 146,
+          "p681": 148,
+          "txok": 292,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 30,
+      "elapsed_s": 149.765,
+      "utc": "2026-10-20T02:44:29.191581+00:00",
+      "counters": {
+        "model": {
+          "can": 302,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 2,
+          "irq": 6599,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 300,
+          "boot": 0,
+          "p181": 5844,
+          "p381": 152,
+          "p481": 151,
+          "p681": 153,
+          "txok": 302,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 31,
+      "elapsed_s": 154.765,
+      "utc": "2026-10-20T02:44:34.191502+00:00",
+      "counters": {
+        "model": {
+          "can": 312,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 7,
+          "depth": 0,
+          "irq": 6867,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 310,
+          "boot": 0,
+          "p181": 6088,
+          "p381": 156,
+          "p481": 155,
+          "p681": 158,
+          "txok": 312,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 32,
+      "elapsed_s": 159.765,
+      "utc": "2026-10-20T02:44:39.190602+00:00",
+      "counters": {
+        "model": {
+          "can": 322,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 1,
+          "irq": 7148,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 320,
+          "boot": 0,
+          "p181": 6344,
+          "p381": 161,
+          "p481": 160,
+          "p681": 163,
+          "txok": 322,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 33,
+      "elapsed_s": 164.765,
+      "utc": "2026-10-20T02:44:44.190609+00:00",
+      "counters": {
+        "model": {
+          "can": 332,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 7422,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 330,
+          "boot": 0,
+          "p181": 6594,
+          "p381": 166,
+          "p481": 165,
+          "p681": 168,
+          "txok": 332,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 34,
+      "elapsed_s": 169.765,
+      "utc": "2026-10-20T02:44:49.190770+00:00",
+      "counters": {
+        "model": {
+          "can": 342,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 7696,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 340,
+          "boot": 0,
+          "p181": 6843,
+          "p381": 171,
+          "p481": 170,
+          "p681": 173,
+          "txok": 342,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 35,
+      "elapsed_s": 174.765,
+      "utc": "2026-10-20T02:44:54.190620+00:00",
+      "counters": {
+        "model": {
+          "can": 352,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 1,
+          "irq": 7972,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 350,
+          "boot": 0,
+          "p181": 7093,
+          "p381": 176,
+          "p481": 175,
+          "p681": 178,
+          "txok": 352,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 36,
+      "elapsed_s": 179.765,
+      "utc": "2026-10-20T02:44:59.189683+00:00",
+      "counters": {
+        "model": {
+          "can": 362,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 1,
+          "irq": 8247,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 360,
+          "boot": 0,
+          "p181": 7343,
+          "p381": 181,
+          "p481": 180,
+          "p681": 183,
+          "txok": 362,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 37,
+      "elapsed_s": 184.765,
+      "utc": "2026-10-20T02:45:04.189540+00:00",
+      "counters": {
+        "model": {
+          "can": 372,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 8519,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 370,
+          "boot": 0,
+          "p181": 7590,
+          "p381": 186,
+          "p481": 185,
+          "p681": 188,
+          "txok": 372,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 38,
+      "elapsed_s": 189.765,
+      "utc": "2026-10-20T02:45:09.189578+00:00",
+      "counters": {
+        "model": {
+          "can": 382,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 8739,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 380,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 191,
+          "p481": 190,
+          "p681": 194,
+          "txok": 382,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 39,
+      "elapsed_s": 194.765,
+      "utc": "2026-10-20T02:45:14.189504+00:00",
+      "counters": {
+        "model": {
+          "can": 392,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 8764,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 390,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 196,
+          "p481": 195,
+          "p681": 199,
+          "txok": 392,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 40,
+      "elapsed_s": 199.765,
+      "utc": "2026-10-20T02:45:19.189765+00:00",
+      "counters": {
+        "model": {
+          "can": 402,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 8789,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 400,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 201,
+          "p481": 200,
+          "p681": 204,
+          "txok": 402,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 41,
+      "elapsed_s": 204.765,
+      "utc": "2026-10-20T02:45:24.189355+00:00",
+      "counters": {
+        "model": {
+          "can": 412,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 8814,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 410,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 206,
+          "p481": 205,
+          "p681": 209,
+          "txok": 412,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 42,
+      "elapsed_s": 209.765,
+      "utc": "2026-10-20T02:45:29.188769+00:00",
+      "counters": {
+        "model": {
+          "can": 422,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 8839,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 420,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 211,
+          "p481": 210,
+          "p681": 214,
+          "txok": 422,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 43,
+      "elapsed_s": 214.765,
+      "utc": "2026-10-20T02:45:34.189079+00:00",
+      "counters": {
+        "model": {
+          "can": 432,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 8864,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 430,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 216,
+          "p481": 215,
+          "p681": 219,
+          "txok": 432,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 44,
+      "elapsed_s": 219.765,
+      "utc": "2026-10-20T02:45:39.188429+00:00",
+      "counters": {
+        "model": {
+          "can": 442,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 8889,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 440,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 221,
+          "p481": 220,
+          "p681": 224,
+          "txok": 442,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 45,
+      "elapsed_s": 224.765,
+      "utc": "2026-10-20T02:45:44.187609+00:00",
+      "counters": {
+        "model": {
+          "can": 452,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 8914,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 450,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 226,
+          "p481": 225,
+          "p681": 229,
+          "txok": 452,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 46,
+      "elapsed_s": 229.765,
+      "utc": "2026-10-20T02:45:49.188144+00:00",
+      "counters": {
+        "model": {
+          "can": 462,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 8939,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 460,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 231,
+          "p481": 230,
+          "p681": 234,
+          "txok": 462,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 47,
+      "elapsed_s": 234.765,
+      "utc": "2026-10-20T02:45:54.187824+00:00",
+      "counters": {
+        "model": {
+          "can": 472,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 8964,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 470,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 236,
+          "p481": 235,
+          "p681": 239,
+          "txok": 472,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 48,
+      "elapsed_s": 239.765,
+      "utc": "2026-10-20T02:45:59.187414+00:00",
+      "counters": {
+        "model": {
+          "can": 482,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 8989,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 480,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 241,
+          "p481": 240,
+          "p681": 244,
+          "txok": 482,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 49,
+      "elapsed_s": 244.765,
+      "utc": "2026-10-20T02:46:04.186911+00:00",
+      "counters": {
+        "model": {
+          "can": 492,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9014,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 490,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 246,
+          "p481": 245,
+          "p681": 249,
+          "txok": 492,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 50,
+      "elapsed_s": 249.765,
+      "utc": "2026-10-20T02:46:09.186748+00:00",
+      "counters": {
+        "model": {
+          "can": 502,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9039,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 500,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 251,
+          "p481": 250,
+          "p681": 254,
+          "txok": 502,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 51,
+      "elapsed_s": 254.765,
+      "utc": "2026-10-20T02:46:14.187017+00:00",
+      "counters": {
+        "model": {
+          "can": 512,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9064,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 510,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 256,
+          "p481": 255,
+          "p681": 259,
+          "txok": 512,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 52,
+      "elapsed_s": 259.765,
+      "utc": "2026-10-20T02:46:19.186587+00:00",
+      "counters": {
+        "model": {
+          "can": 522,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9089,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 520,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 261,
+          "p481": 260,
+          "p681": 264,
+          "txok": 522,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 53,
+      "elapsed_s": 264.765,
+      "utc": "2026-10-20T02:46:24.186611+00:00",
+      "counters": {
+        "model": {
+          "can": 532,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9114,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 530,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 266,
+          "p481": 265,
+          "p681": 269,
+          "txok": 532,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 54,
+      "elapsed_s": 269.765,
+      "utc": "2026-10-20T02:46:29.186495+00:00",
+      "counters": {
+        "model": {
+          "can": 542,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9139,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 540,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 271,
+          "p481": 270,
+          "p681": 274,
+          "txok": 542,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 55,
+      "elapsed_s": 274.765,
+      "utc": "2026-10-20T02:46:34.185451+00:00",
+      "counters": {
+        "model": {
+          "can": 552,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9164,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 550,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 276,
+          "p481": 275,
+          "p681": 279,
+          "txok": 552,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 56,
+      "elapsed_s": 279.765,
+      "utc": "2026-10-20T02:46:39.185999+00:00",
+      "counters": {
+        "model": {
+          "can": 562,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9189,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 560,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 281,
+          "p481": 280,
+          "p681": 284,
+          "txok": 562,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 57,
+      "elapsed_s": 284.765,
+      "utc": "2026-10-20T02:46:44.185470+00:00",
+      "counters": {
+        "model": {
+          "can": 572,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9214,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 570,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 286,
+          "p481": 285,
+          "p681": 289,
+          "txok": 572,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 58,
+      "elapsed_s": 289.765,
+      "utc": "2026-10-20T02:46:49.185216+00:00",
+      "counters": {
+        "model": {
+          "can": 582,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9239,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 580,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 291,
+          "p481": 290,
+          "p681": 294,
+          "txok": 582,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 59,
+      "elapsed_s": 294.765,
+      "utc": "2026-10-20T02:46:54.184969+00:00",
+      "counters": {
+        "model": {
+          "can": 592,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9264,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 590,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 296,
+          "p481": 295,
+          "p681": 299,
+          "txok": 592,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 60,
+      "elapsed_s": 299.765,
+      "utc": "2026-10-20T02:46:59.184416+00:00",
+      "counters": {
+        "model": {
+          "can": 602,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9289,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 600,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 301,
+          "p481": 300,
+          "p681": 304,
+          "txok": 602,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 61,
+      "elapsed_s": 304.765,
+      "utc": "2026-10-20T02:47:04.184567+00:00",
+      "counters": {
+        "model": {
+          "can": 612,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9314,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 610,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 306,
+          "p481": 305,
+          "p681": 309,
+          "txok": 612,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 62,
+      "elapsed_s": 309.765,
+      "utc": "2026-10-20T02:47:09.183641+00:00",
+      "counters": {
+        "model": {
+          "can": 622,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9339,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 620,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 311,
+          "p481": 310,
+          "p681": 314,
+          "txok": 622,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 63,
+      "elapsed_s": 314.765,
+      "utc": "2026-10-20T02:47:14.183555+00:00",
+      "counters": {
+        "model": {
+          "can": 632,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9364,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 630,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 316,
+          "p481": 315,
+          "p681": 319,
+          "txok": 632,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 64,
+      "elapsed_s": 319.765,
+      "utc": "2026-10-20T02:47:19.183895+00:00",
+      "counters": {
+        "model": {
+          "can": 642,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9389,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 640,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 321,
+          "p481": 320,
+          "p681": 324,
+          "txok": 642,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 65,
+      "elapsed_s": 324.765,
+      "utc": "2026-10-20T02:47:24.183021+00:00",
+      "counters": {
+        "model": {
+          "can": 652,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9414,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 650,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 326,
+          "p481": 325,
+          "p681": 329,
+          "txok": 652,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 66,
+      "elapsed_s": 329.765,
+      "utc": "2026-10-20T02:47:29.183238+00:00",
+      "counters": {
+        "model": {
+          "can": 662,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9439,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 660,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 331,
+          "p481": 330,
+          "p681": 334,
+          "txok": 662,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 67,
+      "elapsed_s": 334.765,
+      "utc": "2026-10-20T02:47:34.183054+00:00",
+      "counters": {
+        "model": {
+          "can": 672,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9464,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 670,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 336,
+          "p481": 335,
+          "p681": 339,
+          "txok": 672,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 68,
+      "elapsed_s": 339.765,
+      "utc": "2026-10-20T02:47:39.182882+00:00",
+      "counters": {
+        "model": {
+          "can": 682,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9489,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 680,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 341,
+          "p481": 340,
+          "p681": 344,
+          "txok": 682,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 69,
+      "elapsed_s": 344.765,
+      "utc": "2026-10-20T02:47:44.182782+00:00",
+      "counters": {
+        "model": {
+          "can": 692,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9514,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 690,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 346,
+          "p481": 345,
+          "p681": 349,
+          "txok": 692,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 70,
+      "elapsed_s": 349.765,
+      "utc": "2026-10-20T02:47:49.181632+00:00",
+      "counters": {
+        "model": {
+          "can": 702,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9539,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 700,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 351,
+          "p481": 350,
+          "p681": 354,
+          "txok": 702,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 71,
+      "elapsed_s": 354.765,
+      "utc": "2026-10-20T02:47:54.181998+00:00",
+      "counters": {
+        "model": {
+          "can": 712,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9564,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 710,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 356,
+          "p481": 355,
+          "p681": 359,
+          "txok": 712,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 72,
+      "elapsed_s": 359.765,
+      "utc": "2026-10-20T02:47:59.181591+00:00",
+      "counters": {
+        "model": {
+          "can": 722,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9589,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 720,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 361,
+          "p481": 360,
+          "p681": 364,
+          "txok": 722,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 73,
+      "elapsed_s": 364.765,
+      "utc": "2026-10-20T02:48:04.181619+00:00",
+      "counters": {
+        "model": {
+          "can": 732,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9614,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 730,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 366,
+          "p481": 365,
+          "p681": 369,
+          "txok": 732,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 74,
+      "elapsed_s": 369.765,
+      "utc": "2026-10-20T02:48:09.181579+00:00",
+      "counters": {
+        "model": {
+          "can": 742,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9639,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 740,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 371,
+          "p481": 370,
+          "p681": 374,
+          "txok": 742,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 75,
+      "elapsed_s": 374.765,
+      "utc": "2026-10-20T02:48:14.180369+00:00",
+      "counters": {
+        "model": {
+          "can": 752,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9664,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 750,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 376,
+          "p481": 375,
+          "p681": 379,
+          "txok": 752,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 76,
+      "elapsed_s": 379.765,
+      "utc": "2026-10-20T02:48:19.180250+00:00",
+      "counters": {
+        "model": {
+          "can": 762,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9689,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 760,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 381,
+          "p481": 380,
+          "p681": 384,
+          "txok": 762,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 77,
+      "elapsed_s": 384.765,
+      "utc": "2026-10-20T02:48:24.181039+00:00",
+      "counters": {
+        "model": {
+          "can": 772,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9714,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 770,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 386,
+          "p481": 385,
+          "p681": 389,
+          "txok": 772,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 78,
+      "elapsed_s": 389.765,
+      "utc": "2026-10-20T02:48:29.180610+00:00",
+      "counters": {
+        "model": {
+          "can": 782,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9739,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 780,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 391,
+          "p481": 390,
+          "p681": 394,
+          "txok": 782,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 79,
+      "elapsed_s": 394.765,
+      "utc": "2026-10-20T02:48:34.180062+00:00",
+      "counters": {
+        "model": {
+          "can": 792,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9764,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 790,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 396,
+          "p481": 395,
+          "p681": 399,
+          "txok": 792,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 80,
+      "elapsed_s": 399.765,
+      "utc": "2026-10-20T02:48:39.179564+00:00",
+      "counters": {
+        "model": {
+          "can": 802,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9789,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 800,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 401,
+          "p481": 400,
+          "p681": 404,
+          "txok": 802,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 81,
+      "elapsed_s": 404.765,
+      "utc": "2026-10-20T02:48:44.179988+00:00",
+      "counters": {
+        "model": {
+          "can": 812,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9814,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 810,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 406,
+          "p481": 405,
+          "p681": 409,
+          "txok": 812,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 82,
+      "elapsed_s": 409.765,
+      "utc": "2026-10-20T02:48:49.179728+00:00",
+      "counters": {
+        "model": {
+          "can": 822,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9839,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 820,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 411,
+          "p481": 410,
+          "p681": 414,
+          "txok": 822,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 83,
+      "elapsed_s": 414.765,
+      "utc": "2026-10-20T02:48:54.179617+00:00",
+      "counters": {
+        "model": {
+          "can": 832,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9864,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 830,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 416,
+          "p481": 415,
+          "p681": 419,
+          "txok": 832,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 84,
+      "elapsed_s": 419.765,
+      "utc": "2026-10-20T02:48:59.178652+00:00",
+      "counters": {
+        "model": {
+          "can": 842,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9889,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 840,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 421,
+          "p481": 420,
+          "p681": 424,
+          "txok": 842,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 85,
+      "elapsed_s": 424.765,
+      "utc": "2026-10-20T02:49:04.178803+00:00",
+      "counters": {
+        "model": {
+          "can": 852,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9914,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 850,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 426,
+          "p481": 425,
+          "p681": 429,
+          "txok": 852,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 86,
+      "elapsed_s": 429.765,
+      "utc": "2026-10-20T02:49:09.178426+00:00",
+      "counters": {
+        "model": {
+          "can": 862,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9939,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 860,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 431,
+          "p481": 430,
+          "p681": 434,
+          "txok": 862,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 87,
+      "elapsed_s": 434.765,
+      "utc": "2026-10-20T02:49:14.178613+00:00",
+      "counters": {
+        "model": {
+          "can": 872,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9964,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 870,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 436,
+          "p481": 435,
+          "p681": 439,
+          "txok": 872,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 88,
+      "elapsed_s": 439.765,
+      "utc": "2026-10-20T02:49:19.177675+00:00",
+      "counters": {
+        "model": {
+          "can": 882,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 9989,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 880,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 441,
+          "p481": 440,
+          "p681": 444,
+          "txok": 882,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 89,
+      "elapsed_s": 444.765,
+      "utc": "2026-10-20T02:49:24.177673+00:00",
+      "counters": {
+        "model": {
+          "can": 892,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 10014,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 890,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 446,
+          "p481": 445,
+          "p681": 449,
+          "txok": 892,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 90,
+      "elapsed_s": 449.765,
+      "utc": "2026-10-20T02:49:29.177768+00:00",
+      "counters": {
+        "model": {
+          "can": 902,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 10039,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 900,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 451,
+          "p481": 450,
+          "p681": 454,
+          "txok": 902,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 91,
+      "elapsed_s": 454.765,
+      "utc": "2026-10-20T02:49:34.177629+00:00",
+      "counters": {
+        "model": {
+          "can": 912,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 10064,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 910,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 456,
+          "p481": 455,
+          "p681": 459,
+          "txok": 912,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 92,
+      "elapsed_s": 459.765,
+      "utc": "2026-10-20T02:49:39.177533+00:00",
+      "counters": {
+        "model": {
+          "can": 922,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 10089,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 920,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 461,
+          "p481": 460,
+          "p681": 464,
+          "txok": 922,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 93,
+      "elapsed_s": 464.765,
+      "utc": "2026-10-20T02:49:44.177112+00:00",
+      "counters": {
+        "model": {
+          "can": 932,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 10114,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 930,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 466,
+          "p481": 465,
+          "p681": 469,
+          "txok": 932,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 94,
+      "elapsed_s": 469.765,
+      "utc": "2026-10-20T02:49:49.176543+00:00",
+      "counters": {
+        "model": {
+          "can": 942,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 10139,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 940,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 471,
+          "p481": 470,
+          "p681": 474,
+          "txok": 942,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 95,
+      "elapsed_s": 474.765,
+      "utc": "2026-10-20T02:49:54.176973+00:00",
+      "counters": {
+        "model": {
+          "can": 952,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 10164,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 950,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 476,
+          "p481": 475,
+          "p681": 479,
+          "txok": 952,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 96,
+      "elapsed_s": 479.765,
+      "utc": "2026-10-20T02:49:59.176400+00:00",
+      "counters": {
+        "model": {
+          "can": 962,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 10189,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 960,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 481,
+          "p481": 480,
+          "p681": 484,
+          "txok": 962,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 97,
+      "elapsed_s": 484.765,
+      "utc": "2026-10-20T02:50:04.176055+00:00",
+      "counters": {
+        "model": {
+          "can": 972,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 10214,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 970,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 486,
+          "p481": 485,
+          "p681": 489,
+          "txok": 972,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 98,
+      "elapsed_s": 489.765,
+      "utc": "2026-10-20T02:50:09.175384+00:00",
+      "counters": {
+        "model": {
+          "can": 982,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 10239,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 980,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 491,
+          "p481": 490,
+          "p681": 494,
+          "txok": 982,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 99,
+      "elapsed_s": 494.765,
+      "utc": "2026-10-20T02:50:14.175362+00:00",
+      "counters": {
+        "model": {
+          "can": 992,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 10264,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 990,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 496,
+          "p481": 495,
+          "p681": 499,
+          "txok": 992,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 100,
+      "elapsed_s": 499.765,
+      "utc": "2026-10-20T02:50:19.175683+00:00",
+      "counters": {
+        "model": {
+          "can": 1002,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 10289,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 1000,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 501,
+          "p481": 500,
+          "p681": 504,
+          "txok": 1002,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 101,
+      "elapsed_s": 504.765,
+      "utc": "2026-10-20T02:50:24.175753+00:00",
+      "counters": {
+        "model": {
+          "can": 1012,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 10314,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 1010,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 506,
+          "p481": 505,
+          "p681": 509,
+          "txok": 1012,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 102,
+      "elapsed_s": 509.765,
+      "utc": "2026-10-20T02:50:29.175694+00:00",
+      "counters": {
+        "model": {
+          "can": 1022,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 10339,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 1020,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 511,
+          "p481": 510,
+          "p681": 514,
+          "txok": 1022,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 103,
+      "elapsed_s": 514.765,
+      "utc": "2026-10-20T02:50:34.175312+00:00",
+      "counters": {
+        "model": {
+          "can": 1032,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 10364,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 1030,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 516,
+          "p481": 515,
+          "p681": 519,
+          "txok": 1032,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 104,
+      "elapsed_s": 519.765,
+      "utc": "2026-10-20T02:50:39.175072+00:00",
+      "counters": {
+        "model": {
+          "can": 1042,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 10389,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 1040,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 521,
+          "p481": 520,
+          "p681": 524,
+          "txok": 1042,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 105,
+      "elapsed_s": 524.765,
+      "utc": "2026-10-20T02:50:44.174210+00:00",
+      "counters": {
+        "model": {
+          "can": 1052,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 10414,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 1050,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 526,
+          "p481": 525,
+          "p681": 529,
+          "txok": 1052,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 106,
+      "elapsed_s": 529.765,
+      "utc": "2026-10-20T02:50:49.174126+00:00",
+      "counters": {
+        "model": {
+          "can": 1062,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 10439,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 1060,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 531,
+          "p481": 530,
+          "p681": 534,
+          "txok": 1062,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 107,
+      "elapsed_s": 534.765,
+      "utc": "2026-10-20T02:50:54.174347+00:00",
+      "counters": {
+        "model": {
+          "can": 1072,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 10464,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 1070,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 536,
+          "p481": 535,
+          "p681": 539,
+          "txok": 1072,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 108,
+      "elapsed_s": 539.765,
+      "utc": "2026-10-20T02:50:59.173830+00:00",
+      "counters": {
+        "model": {
+          "can": 1082,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 10489,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 1080,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 541,
+          "p481": 540,
+          "p681": 544,
+          "txok": 1082,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 109,
+      "elapsed_s": 544.765,
+      "utc": "2026-10-20T02:51:04.173893+00:00",
+      "counters": {
+        "model": {
+          "can": 1092,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 10514,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 1090,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 546,
+          "p481": 545,
+          "p681": 549,
+          "txok": 1092,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    },
+    {
+      "seq": 110,
+      "elapsed_s": 549.765,
+      "utc": "2026-10-20T02:51:09.173328+00:00",
+      "counters": {
+        "model": {
+          "can": 1102,
+          "drop": 0,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 9,
+          "depth": 0,
+          "irq": 10539,
+          "lag_cycles": 466507,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 1100,
+          "boot": 0,
+          "p181": 7784,
+          "p381": 551,
+          "p481": 550,
+          "p681": 554,
+          "txok": 1102,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 0,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 0,
+          "last_ms_hi": 0,
+          "last_ms_lo": 0
+        }
+      }
+    }
+  ],
+  "clock": {
+    "hse": "1",
+    "core_hz": "8000000"
+  },
+  "at_version": "2.3.0.0",
+  "elapsed_s": 549.859,
+  "updated_utc": "2026-10-20T02:51:09.275420+00:00",
+  "exit_code": 0
+}

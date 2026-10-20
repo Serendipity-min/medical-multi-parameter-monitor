@@ -1,0 +1,121 @@
+{
+  "source": "ACTUAL_ISOLATED_MQTT_WSS_OBSERVATION_NOT_CLINICAL_ACCURACY",
+  "started_utc": "2026-10-20T02:29:43.004467+00:00",
+  "target_seconds": 600,
+  "mqtt_received": 1530,
+  "mqtt_invalid": 0,
+  "mqtt_qos": {
+    "1": 1232,
+    "0": 298
+  },
+  "wss_snapshots": 5945,
+  "matched_valid_streams": {
+    "SPO2": 3355,
+    "PR": 3299,
+    "PPG": 3329
+  },
+  "value_mismatches": 0,
+  "node_b_online_seen": false,
+  "unexpected_node_a_source": 0,
+  "active_ranges": [
+    {
+      "seconds": 11.604
+    },
+    {
+      "seconds": 1.816
+    },
+    {
+      "seconds": 33.799
+    },
+    {
+      "seconds": 122.721
+    },
+    {
+      "seconds": 27.045
+    },
+    {
+      "seconds": 8.68
+    },
+    {
+      "seconds": 3.633
+    },
+    {
+      "seconds": 12.915
+    },
+    {
+      "seconds": 2.422
+    },
+    {
+      "seconds": 13.726
+    },
+    {
+      "seconds": 5.147
+    },
+    {
+      "seconds": 29.063
+    },
+    {
+      "seconds": 29.969
+    },
+    {
+      "seconds": 0.101
+    },
+    {
+      "seconds": 0.505
+    },
+    {
+      "seconds": 4.54
+    },
+    {
+      "seconds": 6.458
+    },
+    {
+      "seconds": 3.632
+    },
+    {
+      "seconds": 1.615
+    },
+    {
+      "seconds": 7.165
+    },
+    {
+      "seconds": 8.477
+    },
+    {
+      "seconds": 19.177
+    },
+    {
+      "seconds": 6.459
+    }
+  ],
+  "raw_measurements_saved": false,
+  "exit_code": 1,
+  "backend_health_before": {
+    "status": "ok",
+    "transport": "MQTT 3.1.1/TLS",
+    "mqtt_connected": true,
+    "accepted": 1883,
+    "rejected": 2209,
+    "dropped": 0
+  },
+  "mqtt_connack": 0,
+  "elapsed_s": 600.018,
+  "longest_active_s": 122.721,
+  "mqtt_stream_counts": {
+    "NODE_STATUS": 218,
+    "GATEWAY_STATUS": 115,
+    "SPO2": 280,
+    "PR": 282,
+    "NIBP": 281,
+    "PPG": 354
+  },
+  "backend_health_after": {
+    "status": "ok",
+    "transport": "MQTT 3.1.1/TLS",
+    "mqtt_connected": true,
+    "accepted": 3410,
+    "rejected": 2209,
+    "dropped": 0
+  },
+  "finished_utc": "2026-10-20T02:39:43.065500+00:00"
+}

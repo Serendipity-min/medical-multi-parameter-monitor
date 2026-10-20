@@ -1,0 +1,72 @@
+{
+  "action": "HSE_SAME_ROUTER_TRANSPORT_CLOSURE_BEFORE_FRESH_SNTP_UPDATE",
+  "utc": "2026-10-20T03:13:39.823991+00:00",
+  "not_full_E2E_pass_due_timestamp_age": true,
+  "preserved": {
+    "stamp": "20261020T025158Z",
+    "elapsed_s": 1300.375,
+    "clock": {
+      "hse": "1",
+      "core_hz": "8000000"
+    },
+    "latest": {
+      "model": {
+        "can": 2732,
+        "drop": 0,
+        "cache": 0,
+        "lost": 0,
+        "replay": 0,
+        "nodes": 10
+      },
+      "queue": {
+        "fovr": 0,
+        "sw": 0,
+        "bad": 0,
+        "high": 7,
+        "depth": 0,
+        "irq": 56702,
+        "lag_cycles": 467316,
+        "stale": 0,
+        "fault": 0,
+        "uart": 0
+      },
+      "can": {
+        "hb": 2600,
+        "boot": 0,
+        "p181": 50119,
+        "p381": 1301,
+        "p481": 1301,
+        "p681": 1381,
+        "txok": 2732,
+        "txfail": 0,
+        "nmt": 1,
+        "time": 130,
+        "TEC": 0,
+        "REC": 0,
+        "LEC": 0,
+        "BOFF": 0
+      },
+      "delivery": {
+        "qos1_puback": 2723,
+        "qos0_send": 851,
+        "failed": 0,
+        "last_node": 2,
+        "last_stream": 9,
+        "last_seq": 261,
+        "last_ms_hi": 417,
+        "last_ms_lo": 1464653063
+      }
+    },
+    "host_log": {
+      "complete": 260,
+      "missing_reports": 0,
+      "missing_lines": 0,
+      "duplicate_lines": 0,
+      "invalid_tags": 0
+    },
+    "wifi_signal": {
+      "channel": "5",
+      "rssi": "-62"
+    }
+  }
+}

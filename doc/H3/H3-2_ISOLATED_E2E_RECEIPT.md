@@ -33,3 +33,17 @@
 C原系统文件明确使用16MHz内部HSI；诊断每5000固件毫秒约间隔4945真实毫秒，长时累计漂移与上述未来时间一致。板卡原理图第4页Y2标8MHz，文件SHA256 `7737115dc272d6daff1f3bb08b7c8c23c10415c10bca57c3d72979adf53b46b2`。依据ST RM0090的HSI/HSE时钟说明，新增仅独立IRQ目标的外部8MHz晶体启动，不使用PLL，不改采样频率、TTL、5000ms发布预算或PUBACK匹配。起振/切换超时停止，不静默退回HSI继续发布可信时间。原P4/旧轮询目标系统文件保持不变。
 
 新候选40040B，SHA256 `00fb5dab92202c89c3a108eb78f3506afe2d978d728d410cceff4718a146d8a6`，text39944/data88/bss123040。两种ARM、协议Host、网络排队顺序Host、时钟失败关闭/500kbps分频Host、IRQ P5 42项均退出0；Python功能107项退出0。一次测试编排误填不存在的测试路径退出4，原日志保留，修正路径后107项通过。原始退出码见 `gateway/physical_can/evidence/h3/hse-regression/`。晶体候选尚待真机复测，正式站仍未切换。
+
+## 同路由器对照与新鲜SNTP候选（03:13 UTC补充）
+
+HSE候选已实际烧录并核验，sector7/11和选项字节未变。诊断中位间隔恢复为5.000秒，600s E2E观测的Backend拒收2209→2209，证明本轮新增未来时间拒收已消除。该窗口仍有6次发布失败、Router丢失90；6个失败报文编号均未在隔离Broker中成为完整PUBLISH，不可归因为Broker漏发PUBACK。仅TCP头元数据的180s观察保留于 `hse-tcp-header-observation.json`，无地址和载荷；关闭连接后的FIN重传不能单独证明路由器丢包。
+
+操作者先提供另一网络，实际可见信道36/5GHz，ESP8266不兼容；失败记录保留，未重刷Flash。随后指定的2.4GHz网络经受限配置比对，确认与最初网络相同，不能声称完成了换路由器对照。只读及RAM恢复回执分别保留。为做同网对照，本机通过本任务独占的手动Wi-Fi配置连接至相同SSID/信道5；凭据只在仓库外及OS保存，待对照结束恢复原配置。独立8884新增 `h3-net-probe` 角色仅允许 `h3/net-probe/#`，不进入监护模型，结束后撤销该角色。
+
+实际300s对照：PC TLS1.2 QoS1确认507/QoS0发送160、最大PUBACK1203ms；服务器回环确认630/QoS0发送298、最大31.258ms，均退出0且无重连。PC同步等待导致实际发送速率低于服务器对照，不能解释为两者严格同负载。C恢复原网络后约1300s观测的发布失败/FIFO/软件队列/Router/UART/主机丢失均0，QoS1确认2723、QoS0发送851。此时传输故障未复现，**不能据此宣称路由器故障已证明或所有间歇失败已根治**。
+
+同一C窗口仍有约2–3秒时间偏旧，标量2秒发布间隔叠加后触发既有5秒STALE边界。服务器chrony校时正常，系统对上游偏差约0.15ms、root dispersion约20ms；PC与服务器交叉核对未显示秒级差异。当前隔离程序仅确认模块RTC年份有效便接受时间，未证明本次获取了新SNTP样本。因此新增显式 `--fresh-sntp` 候选：从模块配置读取目标，以UDP实际请求/回复取得毫秒SNTP时间，核对originate、模式、LI、stratum、epoch、往返预算，再进入原SSL/MQTT流程。不改监护TTL、发送频率、PUBACK及5000ms预算。
+
+新候选40928B，SHA256 `35d91a1e8db7762af06ef39b289ee871e20ac10cd74046ac988fbf9d9c00ebe4`，仅sector0–2。SNTP策略Host、原P5 42项、fresh-SNTP P5 44项、两种fresh-SNTP ARM及Python107项通过。首次fresh P5揭示短读未累积（退出1），修复后原日志和通过记录均保留。该候选尚待硬件验证，正式发布仍暂停；正式候选Nginx仅准备并做语法检查，未切换任何原入口。
+
+参考：[ST RM0090](https://www.st.com/resource/en/reference_manual/dm00031020-stm32f405-415-stm32f407-417-stm32f427-437-and-stm32f429-439-advanced-arm-based-32-bit-mcus-stmicroelectronics.pdf)、[ESP8266规格](https://documentation.espressif.com/0a-esp8266ex_datasheet_cn.html)、[ESP-AT 2.3 TCP/IP命令](https://docs.espressif.com/projects/esp-at/en/release-v2.3.0.0_esp8266/AT_Command_Set/TCP-IP_AT_Commands.html)。

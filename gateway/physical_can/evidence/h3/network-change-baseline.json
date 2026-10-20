@@ -1,0 +1,71 @@
+{
+  "action": "OPERATOR_AUTHORIZED_WIFI_NETWORK_CHANGE_RAM_ONLY",
+  "utc": "2026-10-20T02:40:48.543104+00:00",
+  "pre_reset": {
+    "state": "CAPTURING",
+    "stamp": "20261020T022803Z",
+    "elapsed_s": 764.609,
+    "clock": {
+      "hse": "1",
+      "core_hz": "8000000"
+    },
+    "latest": {
+      "model": {
+        "can": 1598,
+        "drop": 0,
+        "cache": 0,
+        "lost": 90,
+        "replay": 139,
+        "nodes": 10
+      },
+      "queue": {
+        "fovr": 0,
+        "sw": 0,
+        "bad": 0,
+        "high": 8,
+        "depth": 0,
+        "irq": 27166,
+        "lag_cycles": 466124,
+        "stale": 0,
+        "fault": 0,
+        "uart": 0
+      },
+      "can": {
+        "hb": 1521,
+        "boot": 0,
+        "p181": 23351,
+        "p381": 761,
+        "p481": 760,
+        "p681": 773,
+        "txok": 1598,
+        "txfail": 0,
+        "nmt": 1,
+        "time": 76,
+        "TEC": 0,
+        "REC": 0,
+        "LEC": 0,
+        "BOFF": 0
+      },
+      "delivery": {
+        "qos1_puback": 1547,
+        "qos0_send": 312,
+        "failed": 6,
+        "last_node": 1,
+        "last_stream": 3,
+        "last_seq": 377,
+        "last_ms_hi": 417,
+        "last_ms_lo": 1462677568
+      }
+    },
+    "host_log": {
+      "complete": 152,
+      "missing_reports": 0,
+      "missing_lines": 0,
+      "duplicate_lines": 0,
+      "invalid_tags": 0
+    }
+  },
+  "old_evidence_retained": true,
+  "configuration_flash_written": false,
+  "new_network_name_and_password_suppressed": true
+}

@@ -1,0 +1,68 @@
+{
+  "action": "OPERATOR_NETWORK_BAND_INCOMPATIBLE",
+  "utc": "2026-10-20T02:51:09.221018+00:00",
+  "flash_written": false,
+  "source_clock": "HSE_8MHZ",
+  "new_network_joined": false,
+  "network_credentials_saved": false,
+  "evidence": "second-network-radio-compatibility.json",
+  "last": {
+    "stamp": "20261020T024159Z",
+    "elapsed_s": 549.734,
+    "latest": {
+      "model": {
+        "can": 1092,
+        "drop": 0,
+        "cache": 0,
+        "lost": 0,
+        "replay": 0,
+        "nodes": 10
+      },
+      "queue": {
+        "fovr": 0,
+        "sw": 0,
+        "bad": 0,
+        "high": 9,
+        "depth": 0,
+        "irq": 10514,
+        "lag_cycles": 466507,
+        "stale": 0,
+        "fault": 0,
+        "uart": 0
+      },
+      "can": {
+        "hb": 1090,
+        "boot": 0,
+        "p181": 7784,
+        "p381": 546,
+        "p481": 545,
+        "p681": 549,
+        "txok": 1092,
+        "txfail": 0,
+        "nmt": 1,
+        "time": 0,
+        "TEC": 0,
+        "REC": 0,
+        "LEC": 0,
+        "BOFF": 0
+      },
+      "delivery": {
+        "qos1_puback": 0,
+        "qos0_send": 0,
+        "failed": 0,
+        "last_node": 0,
+        "last_stream": 0,
+        "last_seq": 0,
+        "last_ms_hi": 0,
+        "last_ms_lo": 0
+      }
+    },
+    "host_log": {
+      "complete": 109,
+      "missing_reports": 0,
+      "missing_lines": 0,
+      "duplicate_lines": 0,
+      "invalid_tags": 0
+    }
+  }
+}

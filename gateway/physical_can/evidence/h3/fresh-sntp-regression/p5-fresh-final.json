@@ -1,0 +1,9 @@
+{
+  "command": [
+    "python",
+    "gateway/mqtt/tests/run_p5_host_tests.py",
+    "--network-irq",
+    "--fresh-sntp"
+  ],
+  "exit_code": 0
+}

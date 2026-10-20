@@ -14,6 +14,9 @@
 #include "at_version.h"
 #include "wifi_status.h"
 #endif
+#ifdef MP_H3_FRESH_SNTP
+#include "sntp_sample.h"
+#endif
 
 /* 一个串行发布者、一个在途 QoS1 记录；总 TX/RX 容量沿用 P4，不分配堆。 */
 static NetworkContext_t network;
@@ -34,6 +37,10 @@ static void mqtt_diagnostic(unsigned stage, MQTTStatus_t status, uint32_t elapse
 #endif
 static uint32_t partial_since;
 static uint32_t epoch, epoch_tick;
+#ifdef MP_H3_FRESH_SNTP
+/* 新鲜SNTP样本保留小数秒；仅独立H3候选启用，旧目标时间公式不变。 */
+static uint32_t epoch_fraction;
+#endif
 #ifdef GATEWAY_MQTT_HOST_TEST
 /* 普通 host 测试仅注入明确合成配置，生产仍使用固定 sector7 的同一结构。 */
 extern const GatewayConfig gateway_test_config;
@@ -54,12 +61,20 @@ int gateway_config_valid(void)
 /* SNTP 提供秒级基准，后续用无符号毫秒差推进，兼容一次 SysTick 计数回绕。 */
 uint32_t gateway_epoch(void)
 {
+#ifdef MP_H3_FRESH_SNTP
+    return (uint32_t)(gateway_epoch_milliseconds()/1000u);
+#else
     return epoch + (uint32_t)(g_uptime_ms - epoch_tick) / 1000;
+#endif
 }
 
 uint64_t gateway_epoch_milliseconds(void)
 {
-    return (uint64_t)epoch*1000u+(uint32_t)(g_uptime_ms-epoch_tick);
+    return (uint64_t)epoch*1000u+(uint32_t)(g_uptime_ms-epoch_tick)
+#ifdef MP_H3_FRESH_SNTP
+        +epoch_fraction
+#endif
+        ;
 }
 
 /* 日志只输出固定步骤名；command 可能含凭据，不能连同原始回复一起记录。 */
@@ -268,6 +283,41 @@ void gateway_network_close(void)
 }
 
 /* 固定顺序为 AT 配置、入网、可信时间、证书名称校验、TLS；任何失败由外层重试。 */
+#ifdef MP_H3_FRESH_SNTP
+static int fresh_sntp(void) {
+    char server[65]={0},command[112];
+    if(!at_command("AT+CIPSNTPCFG?",2000) || !sntp_first_server(at_response(),server)) {
+        console("GW FAIL SNTP_SERVER_CONFIG\r\n");return 0;
+    }
+    (void)snprintf(command,sizeof(command),"AT+CIPSTART=\"UDP\",\"%s\",123",server);
+    int opened=at_command(command,5000);
+    secure_memzero(server,sizeof(server));secure_memzero(command,sizeof(command));
+    if(!opened) {console("GW FAIL SNTP_UDP_OPEN\r\n");return 0;}
+    unsigned char request[48]={0},reply[48];request[0]=0x23;
+    /* 近似epoch只用作请求nonce；实际授时取匹配回复的服务器时间，不信旧RTC值。 */
+    sntp_put32(request+40,epoch+2208988800u);sntp_put32(request+44,g_uptime_ms^0x51a7c39du);
+    uint32_t start=g_uptime_ms;int sent=esp_mqtt_send(request,48,1000);
+    int received=0;
+    /* AT适配层可短读；只在同一个有界UDP请求内累积，不能把下一请求旧回复拼入。 */
+    while(sent==48 && received<48 && (uint32_t)(g_uptime_ms-start)<1000u) {
+        int count=esp_mqtt_recv(reply+received,48-received,1000u-(g_uptime_ms-start));
+        if(count<0 || count>48-received) {received=-1;break;}
+        received+=count;
+    }
+    uint32_t rtt=g_uptime_ms-start;uint64_t sample=0;
+    int valid=received==48 && sntp_sample(reply,48,request,rtt,config->minimum_epoch,&sample);
+    /* 无论成功或失败均关UDP，后续SSL不继承该socket；原TLS名称/CA设置不变。 */
+    int closed=at_command("AT+CIPCLOSE",2000);
+    esp_mqtt_reset();
+    if(!valid || !closed) {console("GW FAIL SNTP_FRESH_SAMPLE\r\n");return 0;}
+    epoch=(uint32_t)(sample/1000u);epoch_fraction=(uint32_t)(sample%1000u);
+    epoch_tick=start+rtt;
+    char line[112];(void)snprintf(line,sizeof(line),"GW SNTP_SAMPLE rtt_ms=%lu uncertainty_ms=%lu epoch=%lu fraction=%lu\r\n",
+        (unsigned long)rtt,(unsigned long)(rtt/2u),(unsigned long)epoch,(unsigned long)epoch_fraction);console(line);
+    return 1;
+}
+#endif
+
 int gateway_network_open(void)
 {
     char command[256];
@@ -339,6 +389,9 @@ int gateway_network_open(void)
         console("GW FAIL TIME\r\n");
         return 0;
     }
+#ifdef MP_H3_FRESH_SNTP
+    if(!fresh_sntp())return 0;
+#endif
 #ifdef MP_CAN_RX_IRQ
     (void)snprintf(command,sizeof(command),"GW SNTP_VALID epoch=%lu uptime=%lu\r\n",(unsigned long)epoch,(unsigned long)epoch_tick);console(command);
 #endif

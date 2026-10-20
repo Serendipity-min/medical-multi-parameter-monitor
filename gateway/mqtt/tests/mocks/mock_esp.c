@@ -4,6 +4,9 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
+#ifdef MP_H3_FRESH_SNTP
+#include "sntp_sample.h"
+#endif
 
 const GatewayConfig gateway_test_config = {
     GATEWAY_CONFIG_MAGIC, 1700000000U, "synthetic-wifi", "synthetic-wifi-password",
@@ -24,6 +27,10 @@ static size_t wire_length, rx_length, rx_offset, ack_length;
 static uint32_t ack_at;
 static int response_kind;
 int mock_sleep_mode;
+#ifdef MP_H3_FRESH_SNTP
+static int ntp_socket;
+int mock_ntp_fault;
+#endif
 
 void platform_poll(void) { g_uptime_ms++; }
 void mp_model_poll(void) { platform_poll(); }
@@ -34,15 +41,21 @@ const char *at_response(void) {
     if(response_kind==1)return "AT version:2.3.0.0\r\nOK\r\n";
     if(response_kind==2)return "+CWJAP:\"synthetic\",\"00:00:00:00:00:00\",6,-40,0,1,3,0,0\r\nOK\r\n";
     if(response_kind==3)return mock_sleep_mode?"+SLEEP:3\r\nOK\r\n":"+SLEEP:0\r\nOK\r\n";
+    if(response_kind==4)return "+CIPSNTPCFG:1,0,\"ntp.example.invalid\"\r\nOK\r\n";
     return "+SYSTIMESTAMP:1800000000";
 }
 int at_command(const char *command, uint32_t timeout)
 {
     (void)timeout;
     response_kind=!strcmp(command,"AT+GMR")?1:!strcmp(command,"AT+CWJAP?")?2:!strcmp(command,"AT+SLEEP?")?3:0;
+    if(!strcmp(command,"AT+CIPSNTPCFG?"))response_kind=4;
     if (mock_fail_at && !strcmp(command, mock_fail_at)) return 0;
     if(!strcmp(command,"AT+SLEEP=0"))mock_sleep_mode=0;
-    if (!strncmp(command, "AT+CIPSTART=", 12)) mock_tls_started = 1;
+    if (!strncmp(command, "AT+CIPSTART=\"SSL\"", 16)) mock_tls_started = 1;
+#ifdef MP_H3_FRESH_SNTP
+    if(!strncmp(command,"AT+CIPSTART=\"UDP\"",16)) {ntp_socket=1;return 1;}
+    if(!strcmp(command,"AT+CIPCLOSE"))ntp_socket=0;
+#endif
     /* 假配置中只允许 SSL:8883，名称命令绑定同一合成主机。 */
     if (!strncmp(command, "AT+CIPSTART=", 12))
         assert(strstr(command, "\"SSL\",\"mqtt.example.invalid\",8883"));
@@ -123,6 +136,20 @@ int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout)
 {
     assert(timeout > 0);
     platform_poll();
+#ifdef MP_H3_FRESH_SNTP
+    if(ntp_socket) {
+        /* 仅模拟UDP授时交换；后续仍由真实coreMQTT完成CONNECT/PUBLISH/PUBACK。 */
+        assert(length==48 && data[0]==0x23);
+        unsigned char reply[48]={0x24,2};memcpy(reply+24,data+40,8);
+        sntp_put32(reply+32,4008988800u);sntp_put32(reply+40,4008988800u);
+        sntp_put32(reply+36,0x80000000u);sntp_put32(reply+44,0x80000000u);
+        if(mock_ntp_fault==1)reply[24]^=1;
+        if(mock_ntp_fault==2)reply[0]|=0xc0;
+        if(mock_ntp_fault==3)g_uptime_ms+=1501;
+        if(mock_ntp_fault==4)return 48;
+        mock_queue(reply,48);return 48;
+    }
+#endif
     if (mock_send_error) return -1;
     if (mock_send_zero) return 0;
     int sent = mock_send_limit && length > mock_send_limit ? mock_send_limit : length;
@@ -173,6 +200,9 @@ void mock_reset(void)
     mock_send_error = mock_send_zero = mock_connack_code = mock_drop_ping = 0;
     mock_drop_connack = 0;
     response_kind=0;mock_sleep_mode=3;
+#ifdef MP_H3_FRESH_SNTP
+    mock_ntp_fault=0;ntp_socket=0;
+#endif
     mock_tls_started = mock_ping_count = 0;
     mock_last_id = mock_old_id = 0;
     mock_fail_at = NULL;

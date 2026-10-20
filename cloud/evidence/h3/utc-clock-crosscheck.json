@@ -1,0 +1,26 @@
+{
+  "ntp": {
+    "CanNTP": "yes",
+    "NTP": "yes",
+    "NTPSynchronized": "yes"
+  },
+  "time_services": {
+    "chronyd.service": "active",
+    "chrony.service": "active",
+    "systemd-timesyncd.service": "inactive"
+  },
+  "chrony_tracking": {
+    "System time": "0.000135249 seconds slow of NTP time",
+    "Last offset": "-0.000148285 seconds",
+    "RMS offset": "0.000221230 seconds",
+    "Frequency": "0.923 ppm slow",
+    "Skew": "0.143 ppm",
+    "Root delay": "0.003690842 seconds",
+    "Root dispersion": "0.019775826 seconds",
+    "Leap status": "Normal"
+  },
+  "addresses_and_reference_id_suppressed": true,
+  "pc_roundtrip_ms": 888.01,
+  "server_minus_pc_midpoint_ms": -90.577,
+  "exit_code": 0
+}

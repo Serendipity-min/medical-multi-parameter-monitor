@@ -1,0 +1,14 @@
+{
+  "command": [
+    "gcc",
+    "-std=c11",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Igateway/mqtt/src",
+    "gateway/physical_can/tests/sntp_sample.c",
+    "-o",
+    "gateway/physical_can/build/h3-isolated/sntp_sample.exe"
+  ],
+  "exit_code": 0
+}

@@ -1,0 +1,658 @@
+{
+  "source": "ACTUAL_ISOLATED_MQTT_WSS_OBSERVATION_NOT_CLINICAL_ACCURACY",
+  "started_utc": "2026-10-20T03:00:16.219379+00:00",
+  "target_seconds": 420,
+  "mqtt_received": 1246,
+  "mqtt_invalid": 0,
+  "mqtt_qos": {
+    "1": 885,
+    "0": 361
+  },
+  "wss_snapshots": 4162,
+  "matched_valid_streams": {
+    "SPO2": 3681,
+    "PR": 3375,
+    "PPG": 3978
+  },
+  "value_mismatches": 0,
+  "node_b_online_seen": false,
+  "unexpected_node_a_source": 0,
+  "active_ranges": [
+    {
+      "seconds": 0.547
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.614
+    },
+    {
+      "seconds": 1.614
+    },
+    {
+      "seconds": 1.211
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.614
+    },
+    {
+      "seconds": 1.615
+    },
+    {
+      "seconds": 1.211
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.614
+    },
+    {
+      "seconds": 1.312
+    },
+    {
+      "seconds": 1.717
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 0.404
+    },
+    {
+      "seconds": 0.706
+    },
+    {
+      "seconds": 1.311
+    },
+    {
+      "seconds": 1.615
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 0.0
+    },
+    {
+      "seconds": 1.412
+    },
+    {
+      "seconds": 1.312
+    },
+    {
+      "seconds": 1.513
+    },
+    {
+      "seconds": 1.514
+    },
+    {
+      "seconds": 1.513
+    },
+    {
+      "seconds": 1.614
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.312
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.614
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.211
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.312
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.718
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.717
+    },
+    {
+      "seconds": 1.312
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.614
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.312
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.211
+    },
+    {
+      "seconds": 1.614
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.614
+    },
+    {
+      "seconds": 1.211
+    },
+    {
+      "seconds": 1.614
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.109
+    },
+    {
+      "seconds": 1.615
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.717
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.211
+    },
+    {
+      "seconds": 1.614
+    },
+    {
+      "seconds": 1.615
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.312
+    },
+    {
+      "seconds": 1.615
+    },
+    {
+      "seconds": 1.615
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.312
+    },
+    {
+      "seconds": 1.614
+    },
+    {
+      "seconds": 1.614
+    },
+    {
+      "seconds": 1.717
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.413
+    },
+    {
+      "seconds": 1.816
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.312
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.311
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.816
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.718
+    },
+    {
+      "seconds": 1.312
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.614
+    },
+    {
+      "seconds": 1.614
+    },
+    {
+      "seconds": 1.312
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.816
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.312
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.717
+    },
+    {
+      "seconds": 1.311
+    },
+    {
+      "seconds": 1.717
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.816
+    },
+    {
+      "seconds": 1.312
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.312
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.311
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.312
+    },
+    {
+      "seconds": 1.714
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 0.605
+    },
+    {
+      "seconds": 1.311
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.312
+    },
+    {
+      "seconds": 1.816
+    },
+    {
+      "seconds": 1.816
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.713
+    },
+    {
+      "seconds": 1.311
+    },
+    {
+      "seconds": 1.713
+    },
+    {
+      "seconds": 1.714
+    },
+    {
+      "seconds": 1.714
+    },
+    {
+      "seconds": 1.714
+    },
+    {
+      "seconds": 1.31
+    },
+    {
+      "seconds": 1.713
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.313
+    },
+    {
+      "seconds": 0.303
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 0.908
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.312
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.312
+    },
+    {
+      "seconds": 1.617
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.312
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.614
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.312
+    },
+    {
+      "seconds": 1.716
+    },
+    {
+      "seconds": 1.614
+    },
+    {
+      "seconds": 1.615
+    },
+    {
+      "seconds": 1.717
+    },
+    {
+      "seconds": 1.312
+    },
+    {
+      "seconds": 1.717
+    },
+    {
+      "seconds": 1.615
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.715
+    },
+    {
+      "seconds": 1.312
+    },
+    {
+      "seconds": 1.009
+    }
+  ],
+  "raw_measurements_saved": false,
+  "exit_code": 1,
+  "backend_health_before": {
+    "status": "ok",
+    "transport": "MQTT 3.1.1/TLS",
+    "mqtt_connected": true,
+    "accepted": 4894,
+    "rejected": 2209,
+    "dropped": 0
+  },
+  "mqtt_connack": 0,
+  "elapsed_s": 420.024,
+  "longest_active_s": 1.816,
+  "mqtt_stream_counts": {
+    "NODE_STATUS": 170,
+    "GATEWAY_STATUS": 85,
+    "SPO2": 210,
+    "PR": 210,
+    "NIBP": 210,
+    "PPG": 361
+  },
+  "backend_health_after": {
+    "status": "ok",
+    "transport": "MQTT 3.1.1/TLS",
+    "mqtt_connected": true,
+    "accepted": 6138,
+    "rejected": 2209,
+    "dropped": 0
+  },
+  "finished_utc": "2026-10-20T03:07:16.287778+00:00"
+}
