@@ -8,14 +8,15 @@ import subprocess
 ROOT=Path(__file__).resolve().parents[2]
 HERE=Path(__file__).resolve().parent
 CO=ROOT/'gateway/canopen';VENDOR=ROOT/'gateway/third_party/CANopenNode';MQTT=ROOT/'gateway/mqtt'
-parser=argparse.ArgumentParser();parser.add_argument('--host',action='store_true');parser.add_argument('--irq',action='store_true');parser.add_argument('--isolated',action='store_true');parser.add_argument('--wifi-awake',action='store_true');parser.add_argument('--fresh-sntp',action='store_true');parser.add_argument('--rx-order',action='store_true');parser.add_argument('--peer-cycle',action='store_true');parser.add_argument('--wire',type=Path);parser.add_argument('--persistent-config',action='store_true');args=parser.parse_args()
+parser=argparse.ArgumentParser();parser.add_argument('--host',action='store_true');parser.add_argument('--irq',action='store_true');parser.add_argument('--isolated',action='store_true');parser.add_argument('--wifi-awake',action='store_true');parser.add_argument('--fresh-sntp',action='store_true');parser.add_argument('--rx-order',action='store_true');parser.add_argument('--peer-cycle',action='store_true');parser.add_argument('--wire',type=Path);parser.add_argument('--persistent-config',action='store_true');parser.add_argument('--evidence-dir',type=Path);args=parser.parse_args()
 if args.persistent_config and (not args.irq or args.host):parser.error('--persistent-config requires ARM IRQ candidate')
 if args.peer_cycle and (not args.host or not args.irq or args.rx_order or args.wire):parser.error('--peer-cycle requires --host --irq alone')
 if args.isolated and not args.irq:parser.error('--isolated requires --irq')
 if args.wifi_awake and not args.irq:parser.error('--wifi-awake requires --irq')
 if args.fresh_sntp and not args.irq:parser.error('--fresh-sntp requires --irq')
 build=HERE/(('build/h3-r2-persistent-isolated' if args.isolated else 'build/h3-r2-persistent-normal') if args.persistent_config else 'build/h3-isolated' if args.isolated else 'build/h3-irq' if args.irq else 'build');build.mkdir(parents=True,exist_ok=True)
-evidence=HERE/(('evidence/h3-r2/persistent-isolated' if args.isolated else 'evidence/h3-r2/persistent-normal') if args.persistent_config else 'evidence/h3' if args.irq else 'evidence');evidence.mkdir(parents=True,exist_ok=True)
+# 新验收显式选择证据目录，避免重跑覆盖R2原始构建回执；默认路径保留兼容。
+evidence=args.evidence_dir or HERE/(('evidence/h3-r2/persistent-isolated' if args.isolated else 'evidence/h3-r2/persistent-normal') if args.persistent_config else 'evidence/h3' if args.irq else 'evidence');evidence.mkdir(parents=True,exist_ok=True)
 # 列表复用项目源码，不复制修改 coreMQTT、TLS、AT、PUBACK 或原模拟目标。
 common=[HERE/'src/stack.c',HERE/'src/adapter.c',CO/'src/mp_can_driver.c',CO/'src/mp_od.c',ROOT/'gateway/data_model/model.c',ROOT/'gateway/storage/router.c',VENDOR/'CANopen.c',*sorted((VENDOR/'301').glob('*.c'))]
 commands=[]

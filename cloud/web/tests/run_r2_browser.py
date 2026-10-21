@@ -8,7 +8,8 @@ from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.x509.oid import NameOID
 
 ROOT=Path(__file__).resolve().parents[3]
-OUT=ROOT/'cloud/evidence/h3-r2/browser'
+# 复测写入新合同目录；P6浏览器子进程使用同一个路径，不覆盖R2截图/日志。
+OUT=ROOT/os.environ.get('P6_BROWSER_EVIDENCE','cloud/evidence/h3-r2/browser')
 
 
 def main():
@@ -25,7 +26,7 @@ def main():
     key_path.write_bytes(key.private_bytes(serialization.Encoding.PEM,serialization.PrivateFormat.PKCS8,serialization.NoEncryption()))
     cert_path.write_bytes(cert.public_bytes(serialization.Encoding.PEM))
     env={k:v for k,v in os.environ.items() if not k.startswith('ARK_')}
-    env.update(PYTHONUTF8='1',P6_BROWSER_SESSION='h3-r2-local-'+uuid.uuid4().hex[:8],P6_BROWSER_EVIDENCE='cloud/evidence/h3-r2/browser',
+    env.update(PYTHONUTF8='1',P6_BROWSER_SESSION='h3-r2-local-'+uuid.uuid4().hex[:8],P6_BROWSER_EVIDENCE=str(OUT.relative_to(ROOT)),
         MONITOR_TESTING='1',MONITOR_VIEW_TOKEN='r2-local-view-'+'x'*32,MONITOR_GATEWAY_IDS='GW-C-001',
         MONITOR_ALLOWED_ORIGINS='https://127.0.0.1:18767',P6_AI_TOKEN='r2-local-ai-'+'x'*32,
         P6_MODEL_MODE='MOCK',P6_SNAPSHOT_MODE='MONITOR',P6_MONITOR_VIEW_TOKEN='r2-local-view-'+'x'*32,

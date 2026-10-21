@@ -109,11 +109,18 @@ int main(int argc,char **argv) {
     bp.result_generation++;bp.valid_tick=uwTick;tick();assert(OD_RAM.x2130_validity_generation.data_valid_flags&8u);
     assert(OD_RAM.x2111_nibp_result.completion_tick==bp.valid_tick);
     assert(OD_RAM.x2111_nibp_result.sys_dia==(1180u|(760u<<16)));
+    bp.valid_tick=uwTick-89000u;canopen_app_produce();assert(OD_RAM.x2130_validity_generation.data_valid_flags&8u);
     bp.valid_tick=uwTick-90000u;canopen_app_produce();assert(OD_RAM.x2130_validity_generation.data_valid_flags&8u);
     bp.valid_tick=uwTick-90001u;tick();assert(!(OD_RAM.x2130_validity_generation.data_valid_flags&8u));
     /* 模拟tick回绕/旧时间重现也不能解除过期锁存。 */
     bp.valid_tick=uwTick;tick();assert(!(OD_RAM.x2130_validity_generation.data_valid_flags&8u));
     bp.result_generation++;tick();assert(OD_RAM.x2130_validity_generation.data_valid_flags&8u);
+    /* 完成tick在回绕前、当前tick在回绕后时，真实应用仍须按无符号差判龄；不调整90s门限。 */
+    uint32_t saved_tick=uwTick;
+    uwTick=0x200u;bp.valid_tick=0xFFFFFE00u;bp.result_generation++;
+    inject(0x100,6,time_data);canopen_app_produce();assert(OD_RAM.x2130_validity_generation.data_valid_flags&8u);
+    uwTick=bp.valid_tick+90001u;inject(0x100,6,time_data);canopen_app_produce();assert(!(OD_RAM.x2130_validity_generation.data_valid_flags&8u));
+    uwTick=saved_tick;bp.result_generation++;bp.valid_tick=uwTick;inject(0x100,6,time_data);canopen_app_produce();
     puts("NIBP completion identity / abort latch / expiry latch / same-value new result PASS");
     canopen_app_emcy(CO_EMC_GENERIC,CO_EM_GENERIC_ERROR,0);tick();assert(emcy_count);
     NodeClock c={0};uint32_t e,a;node_clock_set(&c,999,time_days,0xFFFFFFF0u);

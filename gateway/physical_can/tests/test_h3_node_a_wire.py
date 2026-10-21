@@ -1,5 +1,5 @@
 """真实Node-A/CANopen字节经过真实Gateway Adapter/JSON，再进入真实Hub和AI事实层。"""
-import json,subprocess,sys
+import json,subprocess,sys,os
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[3]
@@ -39,6 +39,7 @@ def test_node_a_completion_wire_reaches_backend_and_ai(tmp_path):
     expired=hub.snapshot('GW-C-001');f=next(f for f in extract(expired,'GW-C-001',int(now[0]*1000)) if f['stream']=='NIBP')
     assert f['value'] is None and f['validity']=='STALE' and expired['nodes']['NODE-B']=='OFFLINE'
     # 输出是明确合成的协议证据，不作真实采集或Broker实测通过。
-    out=ROOT/'gateway/physical_can/evidence/h3-r2'
+    # 显式新目录保留历轮协议字节证据；没有指定时兼容原测试入口。
+    out=Path(os.environ.get('H3_WIRE_EVIDENCE',ROOT/'gateway/physical_can/evidence/h3-r2'));out.mkdir(parents=True,exist_ok=True)
     (out/'synthetic-node-a-can.txt').write_bytes(trace.stdout)
     (out/'synthetic-gateway-canonical.jsonl').write_bytes(canonical.stdout)
