@@ -1,0 +1,18 @@
+{
+  "label": "paired-python",
+  "command": [
+    "C:\\Users\\Serendipity\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "-m",
+    "pytest",
+    "cloud/backend/tests",
+    "cloud/ai/tests",
+    "gateway/physical_can/tests",
+    "-q"
+  ],
+  "source_commit": "8afb1e2903f18c3a562769b9e9352db7e1db438a",
+  "started_utc": "2026-10-21T03:18:14.518962+00:00",
+  "hardware_accessed": false,
+  "real_AI_calls": 0,
+  "exit_code": 0,
+  "finished_utc": "2026-10-21T03:18:35.635730+00:00"
+}

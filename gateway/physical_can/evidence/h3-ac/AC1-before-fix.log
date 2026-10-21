@@ -1,0 +1,51 @@
+...FFF                                                                   [100%]
+================================== FAILURES ===================================
+_________ test_restart_cannot_reactivate_previous_measurement[NODE-A] _________
+
+restarted = 'NODE-A'
+
+    @pytest.mark.parametrize('restarted',['NODE-A','GATEWAY'])
+    def test_restart_cannot_reactivate_previous_measurement(restarted):
+        hub,now=setup();now[0]+=1
+        hub.ingest(frame(restarted,'NODE_STATUS' if restarted=='NODE-A' else 'GATEWAY_STATUS',now[0],session='ac-new-boot',value='ONLINE'))
+        snap=hub.snapshot(GW)
+>       assert nibp(snap)['value'] is None
+E       assert [117.0, 77.0] is None
+
+cloud\backend\tests\test_ac_nibp.py:51: AssertionError
+________ test_restart_cannot_reactivate_previous_measurement[GATEWAY] _________
+
+restarted = 'GATEWAY'
+
+    @pytest.mark.parametrize('restarted',['NODE-A','GATEWAY'])
+    def test_restart_cannot_reactivate_previous_measurement(restarted):
+        hub,now=setup();now[0]+=1
+        hub.ingest(frame(restarted,'NODE_STATUS' if restarted=='NODE-A' else 'GATEWAY_STATUS',now[0],session='ac-new-boot',value='ONLINE'))
+        snap=hub.snapshot(GW)
+>       assert nibp(snap)['value'] is None
+E       assert [117.0, 77.0] is None
+
+cloud\backend\tests\test_ac_nibp.py:51: AssertionError
+_____________ test_actual_wss_does_not_publish_previous_boot_nibp _____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000162121ED350>
+
+    def test_actual_wss_does_not_publish_previous_boot_nibp(monkeypatch):
+        token='ac-local-synthetic-readonly-'+'x'*32
+        monkeypatch.setenv('MONITOR_TESTING','1');monkeypatch.delenv('MONITOR_MQTT_CONFIG',raising=False)
+        monkeypatch.setenv('MONITOR_VIEW_TOKEN',token);monkeypatch.setenv('MONITOR_ALLOWED_ORIGINS','http://testserver')
+        app=create_app()
+        with TestClient(app) as client:
+            hub,now=setup();now[0]+=1
+            hub.ingest(frame('NODE-A','NODE_STATUS',now[0],session='ac-new-boot',value='ONLINE'));app.state.hub=hub
+            with client.websocket_connect('/ws/v1/monitor',headers={'origin':'http://testserver'}) as ws:
+                ws.send_json({'token':token,'gateway_id':GW});snap=ws.receive_json()
+>               assert nibp(snap)['value'] is None and snap['nodes']['NODE-B']=='OFFLINE'
+E               assert ([117.0, 77.0] is None)
+
+cloud\backend\tests\test_ac_nibp.py:72: AssertionError
+=========================== short test summary info ===========================
+FAILED cloud/backend/tests/test_ac_nibp.py::test_restart_cannot_reactivate_previous_measurement[NODE-A]
+FAILED cloud/backend/tests/test_ac_nibp.py::test_restart_cannot_reactivate_previous_measurement[GATEWAY]
+FAILED cloud/backend/tests/test_ac_nibp.py::test_actual_wss_does_not_publish_previous_boot_nibp
+3 failed, 3 passed in 1.77s

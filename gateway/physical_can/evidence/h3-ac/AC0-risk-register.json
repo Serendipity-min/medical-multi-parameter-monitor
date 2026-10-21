@@ -1,0 +1,68 @@
+{
+  "contract": "MPM-H3-003-AC-CLOSEOUT-R1.0",
+  "gate": "AC0_READONLY_BASELINE_PASS_WITH_EXPLICIT_RISKS",
+  "exit_code": 0,
+  "formal_release": "BLOCKED_SECURITY_REVIEW",
+  "risks": [
+    {
+      "id": "AC0-FIREWALL-HISTORY",
+      "state": "UNATTRIBUTED",
+      "blocks": [
+        "PRODUCTION"
+      ],
+      "facts": [
+        "No historical full rule text",
+        "395 current filter lines",
+        "No owned H3 filter/NAT references",
+        "Current hash differs from both historical hashes",
+        "UFW active, Fail2ban inactive; historical event query returned no evidence"
+      ],
+      "action": "Retain sanitized ordered snapshot; do not restore whole table or remove unknown rules"
+    },
+    {
+      "id": "AC0-CLOUD-SG8884",
+      "state": "NOT_OBSERVED",
+      "blocks": [
+        "PRODUCTION"
+      ],
+      "prior_owner_report": "BROAD_IPV4_8884_RETAINED",
+      "local_tccli_installed": false,
+      "local_tccli_profile_directory_present": false,
+      "action": "Require read-only control-plane snapshot and owner decision before any write"
+    },
+    {
+      "id": "AC0-PUBLIC-AUDIENCE",
+      "state": "NOT_OBSERVED",
+      "blocks": [
+        "PRODUCTION"
+      ],
+      "action": "Confirm intended audience and effective HTTPS/API access, not just static index availability"
+    },
+    {
+      "id": "AC0-OLD-AI",
+      "state": "CONFIRMED_LEGACY_FIVE_SLOT",
+      "blocks": [
+        "CLAIMING_NEW_AI_PUBLISHED"
+      ],
+      "action": "Prepare new immutable provider/usage snapshot, release only after production authorization"
+    },
+    {
+      "id": "AC0-CURRENT-FLASH",
+      "state": "HISTORICAL_RECEIPTS_ONLY",
+      "blocks": [
+        "HARDWARE_WITHOUT_NEW_WINDOW"
+      ],
+      "action": "Current A unpowered; C COM15 not opened; freshly verify actual board bytes only after explicit physical window"
+    },
+    {
+      "id": "AC0-R3-PRIVACY",
+      "state": "HISTORICAL_HUMAN_DATA_NOT_REUSED",
+      "blocks": [
+        "CURRENT_SOURCE_CLAIM"
+      ],
+      "action": "No copying raw R3 log or vitals into AC evidence; hashes/catalog only"
+    }
+  ],
+  "serial_opened": false,
+  "server_mutations": false
+}

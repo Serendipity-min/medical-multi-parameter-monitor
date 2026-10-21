@@ -1,0 +1,21 @@
+PASS https_secure_context
+PASS node_b_offline
+PASS route_overview
+PASS route_temp
+PASS route_ecg
+PASS route_spo2
+PASS route_resp
+PASS route_nibp
+PASS route_ai
+PASS synthetic_source_visible
+PASS unmeasured_nibp_hidden
+PASS deterministic_nibp_mock_no_real_model
+PASS mobile_no_horizontal_overflow
+PASS monitor_survives_ai_auth_failure
+PASS general_explanation_is_mock
+PASS invalid_spo2_hidden
+PASS expired_ai_has_no_current_value
+PASS aborted_measurement_does_not_revive_old_value
+PASS node_b_still_offline
+PASS refresh_clears_credentials
+{"exit_code": 0, "checks": 20, "nibp_actual_elapsed_s": 90.109, "real_model_calls": 0}

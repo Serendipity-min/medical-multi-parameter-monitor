@@ -1,0 +1,18 @@
+{
+  "label": "gateway-peer-cycle",
+  "command": [
+    "C:\\Users\\Serendipity\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "gateway/physical_can/build.py",
+    "--host",
+    "--irq",
+    "--peer-cycle",
+    "--evidence-dir",
+    "E:\\medical-monitor-h3-ac-closeout\\gateway\\physical_can\\evidence\\h3-ac\\regression\\gateway-peer-cycle"
+  ],
+  "source_commit": "8afb1e2903f18c3a562769b9e9352db7e1db438a",
+  "started_utc": "2026-10-21T03:17:56.122506+00:00",
+  "hardware_accessed": false,
+  "real_AI_calls": 0,
+  "exit_code": 0,
+  "finished_utc": "2026-10-21T03:17:59.445913+00:00"
+}

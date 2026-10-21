@@ -1,0 +1,60 @@
+{
+  "exit_code": 0,
+  "historical_files": [
+    {
+      "source_ref": "refs/heads/A",
+      "path": "doc/A/实测数据/A1_NodeA_CAN_20261019T192020/parse_summary.json",
+      "bytes": 7294,
+      "sha256": "209944ff63e96c843d1cb294f856cc188f4db10520599382bcf5f7e287b0f461",
+      "use": "HISTORICAL_HUMAN_SOURCE_NOT_LIVE",
+      "top_level_type": "dict",
+      "items": 15
+    },
+    {
+      "source_ref": "refs/heads/A",
+      "path": "doc/A/实测数据/A1_NodeA_CAN_20261019T192020/vitals_timeline.json",
+      "bytes": 4260,
+      "sha256": "c8845740490e647be114750a779345cc16277ea09c8e51defc9a1ad2f261904d",
+      "use": "HISTORICAL_HUMAN_SOURCE_NOT_LIVE",
+      "top_level_type": "list",
+      "items": 46
+    },
+    {
+      "source_ref": "refs/heads/A",
+      "path": "doc/A/实测数据/A2_NodeA_CAN_20261019T192617/parse_summary.json",
+      "bytes": 10021,
+      "sha256": "9f505341b66e0976572351d3a9ec7905154bdbc2f367a5feb961932243cb1c49",
+      "use": "HISTORICAL_HUMAN_SOURCE_NOT_LIVE",
+      "top_level_type": "dict",
+      "items": 15
+    },
+    {
+      "source_ref": "refs/heads/A",
+      "path": "doc/A/实测数据/A2_NodeA_CAN_20261019T192617/vitals_timeline.json",
+      "bytes": 6619,
+      "sha256": "69abbc8f40d124b05aef80df232f90a4a77c015d5a660ab0096e5035600f04d4",
+      "use": "HISTORICAL_HUMAN_SOURCE_NOT_LIVE",
+      "top_level_type": "list",
+      "items": 72
+    },
+    {
+      "source_ref": "refs/heads/A",
+      "path": "doc/A/实测数据/RAW_SOURCE_SHA256.json",
+      "bytes": 1193,
+      "sha256": "31a0b0e765fa7dbb765b66a7d803d9470e3902395dd0d1ad4c8d67f390832dcb",
+      "use": "HISTORICAL_HUMAN_SOURCE_NOT_LIVE",
+      "top_level_type": "dict",
+      "items": 2
+    },
+    {
+      "source_ref": "refs/heads/A",
+      "path": "doc/A/实测数据/README.md",
+      "bytes": 5192,
+      "sha256": "d5c1863f7a4c133e1584f27b78815329ab669eadbf0d81dcc85ec5bd7f8f9736",
+      "use": "HISTORICAL_HUMAN_SOURCE_NOT_LIVE"
+    }
+  ],
+  "new_measurement": false,
+  "raw_values_republished": false,
+  "path_note": "Requested R3 path is present only on protected A, read with git show; not copied to H3"
+}

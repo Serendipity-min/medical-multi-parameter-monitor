@@ -1,0 +1,23 @@
+{
+  "command": [
+    "C:\\Users\\Serendipity\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "gateway/physical_can/build.py",
+    "--irq",
+    "--fresh-sntp",
+    "--persistent-config",
+    "--macro-source-root",
+    "E:\\medical-monitor-h3",
+    "--evidence-dir",
+    "E:\\medical-monitor-h3-ac-closeout\\gateway\\physical_can\\evidence\\h3-ac\\reproducible-C\\isolated",
+    "--isolated"
+  ],
+  "source_commit": "030d13d765991da8f41d6ad2f4769e3c581a80fc",
+  "started_utc": "2026-10-21T03:20:50.852353+00:00",
+  "finished_utc": "2026-10-21T03:20:58.171098+00:00",
+  "exit_code": 0,
+  "actual_sha256": "59229f1b34660f053538737fc0fd17c814fde5502a0dfe33603e8e08b72ca8a5",
+  "expected_historical_sha256": "59229f1b34660f053538737fc0fd17c814fde5502a0dfe33603e8e08b72ca8a5",
+  "historical_binary_reproduced": true,
+  "hardware_accessed": false,
+  "source_changes": "BUILD_MACRO_PREFIX_ONLY_NO_FIRMWARE_SOURCE_CHANGE"
+}

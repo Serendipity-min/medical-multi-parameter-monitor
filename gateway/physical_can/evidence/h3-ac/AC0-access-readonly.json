@@ -1,0 +1,57 @@
+{
+  "recorded_utc": "2026-10-21T03:21:56.310033+00:00",
+  "HTTPS": {
+    "verified": true,
+    "TLS": "TLSv1.3",
+    "certificate_sha256": "a3c4d1284c8f59ccb434b8736f4a1862d1ff3b42e589a26f0108c2a2d854bacd",
+    "origin_reference": "EXISTING_PRIVATE_BACKEND_ALLOWED_ORIGINS",
+    "anonymous_static_HEAD_status": 200
+  },
+  "broker_TLS": {
+    "state": "NOT_OBSERVED",
+    "business_session_started": false,
+    "port": 8883,
+    "config_sha256": "9ac3a7ed84adb483d8c19e23e26eb8f422869ab3dcd94ec26a3e7ff728ddbff7",
+    "config_mode": "0o600",
+    "TLS": {
+      "verified": true,
+      "TLS": "TLSv1.3",
+      "certificate_sha256": "a3c4d1284c8f59ccb434b8736f4a1862d1ff3b42e589a26f0108c2a2d854bacd"
+    },
+    "role": "DEPLOYED_BACKEND_CONFIG_ACL_NOT_INDEPENDENTLY_PROVEN"
+  },
+  "deployed_health": {
+    "backend": {
+      "status": "ok",
+      "mqtt_connected": true,
+      "transport": "MQTT 3.1.1/TLS"
+    },
+    "ai": {
+      "status": "ok",
+      "model_mode": "DOUBAO",
+      "snapshot_mode": "MONITOR"
+    }
+  },
+  "filter_policies": [
+    {
+      "chain": "INPUT",
+      "policy": "ACCEPT"
+    },
+    {
+      "chain": "FORWARD",
+      "policy": "DROP"
+    },
+    {
+      "chain": "OUTPUT",
+      "policy": "ACCEPT"
+    }
+  ],
+  "backend_view_token_configured": true,
+  "AI_browser_token_configured": true,
+  "public_API_audience": "NOT_OBSERVED_NO_TOKEN_REQUEST_SENT",
+  "publisher_subscriber_ACL": "NOT_INDEPENDENTLY_PROVEN",
+  "server_mutations": false,
+  "real_AI_calls": 0,
+  "exit_code": 0,
+  "ssh_exit_code": 0
+}

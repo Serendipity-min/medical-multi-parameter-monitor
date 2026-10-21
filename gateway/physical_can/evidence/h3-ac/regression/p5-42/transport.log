@@ -1,0 +1,9 @@
+PASS transport_writev_exact_binary_and_erasure
+PASS transport_partial_receive
+PASS transport_no_data_is_zero
+PASS transport_receive_error_disconnects
+PASS transport_partial_send_count
+PASS transport_oversize_rejected_before_send
+PASS transport_zero_and_null_boundaries
+PASS transport_deadline_wraparound
+PASS transport_closed_is_error
