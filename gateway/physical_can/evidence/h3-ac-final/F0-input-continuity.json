@@ -1,0 +1,39 @@
+{
+  "stage": "F0",
+  "gate": "ACCEPTED_INPUTS_UNCHANGED",
+  "source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+  "device_or_runtime_sha": {
+    "A": "f59b76ef865c373c6df62aa09aea958597687f6d46b17c402ceb7126ca8f60d6",
+    "C_isolated": "59229f1b34660f053538737fc0fd17c814fde5502a0dfe33603e8e08b72ca8a5",
+    "C_formal": "9df43acd34732cacb8c1a90a6a15e420b96ad9675a004d65c3a088246268f977"
+  },
+  "source_label": "NO_ACQUISITION",
+  "window_start_utc": "2026-10-21T07:23:28.402783+00:00",
+  "window_end_utc": "2026-10-21T07:23:28.402783+00:00",
+  "command": "SHA256 accepted AC1 inputs and local tools; no rebuild claimed",
+  "exit_code": 0,
+  "observed_vs_simulated": "ACTUAL_LOCAL_FILES_NOT_BOARD",
+  "raw_evidence_sha": "e748944a9872f839979c4f4422ca8d02a3b2bc98477bbbb7290e4b18e4b52fcc",
+  "security_scope": "LOCAL_READONLY",
+  "owner_auth_id": "MPM-H3-004_SIGNED_SOFTWARE",
+  "rollback_state": "NO_MUTATION",
+  "unresolved": [
+    "CURRENT_BOARD_FLASH_NOT_READ"
+  ],
+  "input_continuity": {
+    "firmware_input_sha256": {
+      "checked": 205,
+      "mismatches": []
+    },
+    "critical_application_sha256": {
+      "checked": 39,
+      "mismatches": []
+    }
+  },
+  "tool_sha256": {
+    "D:/keil/ARM/Segger/JLink.exe": "d2fd3b911c5a0e2a7edeb92a23c49555566cdaab077f09e63cbeb722ad74f95b",
+    "D:/keil/UV4/UV4.exe": "d5e1f1cbcdd06fb27ac19a72b9f21a7286e6b8d79f58c21f43a7b9dc617874d8",
+    "D:/keil/ARM/ARMCC/bin/fromelf.exe": "65145272c817c19d9fc3c498a8ff26765e09a86ed82b307bb0cccf65767a8b51"
+  },
+  "A_download_tool_sha256": "4dd2c60b146e278bb917e45a577693e83c79256d1da6d57830e0692c85bbb27e"
+}

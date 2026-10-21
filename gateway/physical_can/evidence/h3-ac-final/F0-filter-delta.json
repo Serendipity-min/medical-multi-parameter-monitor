@@ -1,0 +1,39 @@
+{
+  "previous_sha256": "05f3c5952feb6301c951704f9d93e7788531c28696a5d407c8bea4e9a629a983",
+  "current_sha256": "e6f238e23dece4fe2763aae2c48a482f749a56f632aeac6d31aa1130d7abed1c",
+  "previous_lines": 395,
+  "current_lines": 393,
+  "removed_ordered_metadata": [
+    {
+      "order": 363,
+      "sha256": "ab0a3ac7a62a0c0ac6e1a44d3de2c8fc4e3177894f0919275eb63789a9c195d4",
+      "operation": "-A",
+      "chain": "YJ-FIREWALL-INPUT",
+      "source": {
+        "scope": "HOST",
+        "digest": "630a74de1674e35a1f9a356ef02976edeb46246ef76fb40e788c001a97b0634f"
+      },
+      "target": "REJECT",
+      "protocol": "tcp",
+      "destination_port": "22"
+    },
+    {
+      "order": 364,
+      "sha256": "6815c157adea7e83d6b40775f0182425b4309463b3671078d1c153ec5b2fa4c0",
+      "operation": "-A",
+      "chain": "YJ-FIREWALL-INPUT",
+      "source": {
+        "scope": "HOST",
+        "digest": "630a74de1674e35a1f9a356ef02976edeb46246ef76fb40e788c001a97b0634f"
+      },
+      "target": "REJECT",
+      "protocol": "udp",
+      "destination_port": "22"
+    }
+  ],
+  "added_ordered_metadata": [],
+  "attribution": "NOT_PROVEN_NO_OLD_RAW_RULE_TEXT",
+  "restore_performed": false,
+  "owned_h3_references": 0,
+  "unresolved": "OWNER_RISK_REVIEW_REQUIRED"
+}

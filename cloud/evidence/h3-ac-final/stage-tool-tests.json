@@ -1,0 +1,19 @@
+{
+  "stage": "F3",
+  "gate": "STAGE_UPLOADER_SOFTWARE_PASS",
+  "source_commit": "8b4cb86b146f845495b3ebb8070208f9294cc2f9",
+  "device_or_runtime_sha": "85f0e830991e79f8702ce01ae204c8326c66203ac6a2d2b21e55e6b7c6cd9c3f",
+  "source_label": "SYNTHETIC_LOCAL_FILES",
+  "window_start_utc": "2026-10-21T07:25:36.143904+00:00",
+  "window_end_utc": "2026-10-21T07:25:37.954092+00:00",
+  "command": "python -m pytest cloud/backend/tests/test_final_stage.py -q",
+  "exit_code": 0,
+  "observed_vs_simulated": "LOCAL_TMP_REMOTE_SCRIPT_SIMULATION_NO_SSH",
+  "raw_evidence_sha": "8031a8f9e06e7d8f5b8c6acd2c4e5ed70d62f70d65380a4335283eafda0bb853",
+  "security_scope": "NO_CLOUD_WRITE_NO_SCANNER",
+  "owner_auth_id": "MPM-H3-004_SIGNED_SOFTWARE",
+  "rollback_state": "NO_REAL_ROLLBACK",
+  "unresolved": [
+    "AUTH_AC_CLOUD_STAGE_NOT_GRANTED"
+  ]
+}

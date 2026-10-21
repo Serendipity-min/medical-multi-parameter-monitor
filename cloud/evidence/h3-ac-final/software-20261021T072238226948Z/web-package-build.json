@@ -1,0 +1,28 @@
+{
+  "stage": "F1/F3_SOFTWARE",
+  "gate": "PASS",
+  "source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+  "device_or_runtime_sha": null,
+  "source_label": "SOFTWARE_SYNTHETIC_NO_ACQUISITION",
+  "window_start_utc": "2026-10-21T07:22:45.809910+00:00",
+  "window_end_utc": "2026-10-21T07:22:47.505368+00:00",
+  "command": [
+    "npm.cmd",
+    "--prefix",
+    "cloud/web",
+    "run",
+    "build"
+  ],
+  "exit_code": 0,
+  "observed_vs_simulated": "LOCAL_SOFTWARE_ONLY",
+  "raw_evidence_sha": "7e05c8c9b23513d6aa25e1282d4f398fd880704ff541e47592d5b6e7725c7ef7",
+  "security_scope": "NO_SCAN_NO_CLOUD_WRITE_NO_BOARD_ACCESS",
+  "owner_auth_id": "MPM-H3-004_SIGNED_SOFTWARE",
+  "rollback_state": "SIMULATED_ONLY_SERVER_ROLLBACK_NOT_RUN",
+  "unresolved": [
+    "PHYSICAL_AND_CLOUD_AUTH_GATES"
+  ],
+  "null_reasons": {
+    "device_or_runtime_sha": "NO_BOARD_ACCESS; OFFLINE_IMAGE_PLAN_SHA_IN_ADJACENT_LOG"
+  }
+}

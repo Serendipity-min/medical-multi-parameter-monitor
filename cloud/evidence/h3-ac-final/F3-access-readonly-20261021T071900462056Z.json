@@ -1,0 +1,223 @@
+{
+  "service_users": {
+    "medical-monitor.service": {
+      "User": {
+        "exit_code": 0,
+        "value": "ubuntu"
+      },
+      "Group": {
+        "exit_code": 0,
+        "value": "ubuntu"
+      },
+      "ActiveState": {
+        "exit_code": 0,
+        "value": "active"
+      },
+      "NoNewPrivileges": {
+        "exit_code": 0,
+        "value": "yes"
+      },
+      "ProtectSystem": {
+        "exit_code": 0,
+        "value": "strict"
+      }
+    },
+    "medical-monitor-mqtt.service": {
+      "User": {
+        "exit_code": 0,
+        "value": "mosquitto"
+      },
+      "Group": {
+        "exit_code": 0,
+        "value": "mosquitto"
+      },
+      "ActiveState": {
+        "exit_code": 0,
+        "value": "active"
+      },
+      "NoNewPrivileges": {
+        "exit_code": 0,
+        "value": "yes"
+      },
+      "ProtectSystem": {
+        "exit_code": 0,
+        "value": "strict"
+      }
+    },
+    "p6-ai.service": {
+      "User": {
+        "exit_code": 0,
+        "value": "medical-ai"
+      },
+      "Group": {
+        "exit_code": 0,
+        "value": "medical-ai"
+      },
+      "ActiveState": {
+        "exit_code": 0,
+        "value": "active"
+      },
+      "NoNewPrivileges": {
+        "exit_code": 0,
+        "value": "yes"
+      },
+      "ProtectSystem": {
+        "exit_code": 0,
+        "value": "strict"
+      }
+    },
+    "nginx.service": {
+      "User": {
+        "exit_code": 0,
+        "value": ""
+      },
+      "Group": {
+        "exit_code": 0,
+        "value": ""
+      },
+      "ActiveState": {
+        "exit_code": 0,
+        "value": "active"
+      },
+      "NoNewPrivileges": {
+        "exit_code": 0,
+        "value": "no"
+      },
+      "ProtectSystem": {
+        "exit_code": 0,
+        "value": "no"
+      }
+    }
+  },
+  "nginx_syntax_and_dump_exit_code": 0,
+  "nginx_references": [
+    {
+      "reference_alias": "NGINX_REF_0",
+      "monitor_snippet": false,
+      "sha256": "48c6a4ec1e1fd28ccf968490f07e34a1d7f755793b2108a3ed8670b1ee2a0aa2",
+      "mode": "0o644"
+    },
+    {
+      "reference_alias": "NGINX_REF_1",
+      "monitor_snippet": false,
+      "sha256": "36c77daa2d85803e87c91ba723dd2bc6aaa6543ae4bd4a569034a7bf8bce464d",
+      "mode": "0o644"
+    },
+    {
+      "reference_alias": "NGINX_REF_2",
+      "monitor_snippet": false,
+      "sha256": "a8f9b3c5319deb1b884ebb50987224af7adffd673533a8da6624da54af923244",
+      "mode": "0o644"
+    },
+    {
+      "reference_alias": "NGINX_REF_3",
+      "monitor_snippet": false,
+      "sha256": "866c174d48c37fdc717e119005580d45b264f8bcc02549d186bb81fe83de2475",
+      "mode": "0o644"
+    },
+    {
+      "reference_alias": "NGINX_REF_4",
+      "monitor_snippet": false,
+      "sha256": "0ae1249378b6bc3050c88f714354cc6a6371d058755db085a575cd5cc8e08077",
+      "mode": "0o644"
+    },
+    {
+      "reference_alias": "NGINX_REF_5",
+      "monitor_snippet": false,
+      "sha256": "96ee7a7209cfd470f2c7b4c7a0979ba9ae5e5fcc434ac21d51b1716851264ed9",
+      "mode": "0o644"
+    },
+    {
+      "reference_alias": "NGINX_REF_6",
+      "monitor_snippet": false,
+      "sha256": "10764e6d0016ca965dcc8da66480a960567b029318ebf2c9b397b4b5659291a0",
+      "mode": "0o644"
+    },
+    {
+      "reference_alias": "NGINX_REF_7",
+      "monitor_snippet": false,
+      "sha256": "90217856e1169adfc8b7d5e59acb9d87096bbc9a5f7ac69cfa2876284a46acb1",
+      "mode": "0o644"
+    },
+    {
+      "reference_alias": "NGINX_REF_8",
+      "monitor_snippet": false,
+      "sha256": "1f182c4bf733ea19de1cb6cd660bf066b3bbaca608254afb6a0ae35d2b83aa25",
+      "mode": "0o644"
+    },
+    {
+      "reference_alias": "NGINX_REF_9",
+      "monitor_snippet": false,
+      "sha256": "0497836722caa32ec08abc0c8774b429522cec31b3582b4e8a2f31b2a02fdca8",
+      "mode": "0o644"
+    },
+    {
+      "reference_alias": "NGINX_REF_10",
+      "monitor_snippet": false,
+      "sha256": "df51d0ffa8dda1653b5665d3577975ae8f7db1378d17ab9be707fb78e8f29639",
+      "mode": "0o644"
+    },
+    {
+      "reference_alias": "NGINX_REF_11",
+      "monitor_snippet": true,
+      "sha256": "8e9509551d97489c6cd6a92d4d44f9d6ef06392f031db285e0b1f05d30143ca2",
+      "mode": "0o644"
+    }
+  ],
+  "business_broker_configs": [
+    {
+      "config_reference_alias": "BROKER_CONFIG_0",
+      "sha256": "738d54973d959acf1207746c761d42afa2b412daad1b59ac052f781aa5af078c",
+      "acl_reference_found": true,
+      "roles": [
+        {
+          "identity_sha256": "1d4335f5b71cd6d78671164a95d34aae7d9d124cf81361732a35bcaeea8be6c4",
+          "topics": [
+            {
+              "permission": "write",
+              "topic_sha256": "ac9d6298c2638691c37ded0b719dabe25fece86bed3aca09e7c8b2afb323f5db",
+              "has_hash_wildcard": true,
+              "has_plus_wildcard": false
+            }
+          ]
+        },
+        {
+          "identity_sha256": "03a3c6ee1be93e97ba7a3c2a39d2228623eb88ec66e272a411eff9f546db9388",
+          "topics": [
+            {
+              "permission": "write",
+              "topic_sha256": "d0345113801e334c2f417b6ae1cba9bd95914a0f9a1655aa45675f7f7dc4b584",
+              "has_hash_wildcard": true,
+              "has_plus_wildcard": false
+            }
+          ]
+        },
+        {
+          "identity_sha256": "808e67e6d9ed7097b33e2b758dc0286f40f37ed62c9a796605551a7930533f60",
+          "topics": [
+            {
+              "permission": "read",
+              "topic_sha256": "ac9d6298c2638691c37ded0b719dabe25fece86bed3aca09e7c8b2afb323f5db",
+              "has_hash_wildcard": true,
+              "has_plus_wildcard": false
+            },
+            {
+              "permission": "read",
+              "topic_sha256": "d0345113801e334c2f417b6ae1cba9bd95914a0f9a1655aa45675f7f7dc4b584",
+              "has_hash_wildcard": true,
+              "has_plus_wildcard": false
+            }
+          ]
+        }
+      ],
+      "acl_role_semantics": "NOT_OWNER_APPROVED_FORMAL_NEW_ROLES"
+    }
+  ],
+  "acl_coverage": "PARTIAL_CONFIG_SEARCH_NOT_EFFECTIVE_ACL_PROOF",
+  "audience": "NOT_OWNER_APPROVED",
+  "SG_control_plane": "NOT_OBSERVED_NO_CONFIGURED_API_SESSION",
+  "cloud_write": false,
+  "MQTT_business_connection": false,
+  "real_AI_calls": 0,
+  "exit_code": 0
+}

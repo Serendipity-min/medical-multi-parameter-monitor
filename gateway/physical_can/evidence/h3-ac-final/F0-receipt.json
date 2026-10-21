@@ -1,0 +1,34 @@
+{
+  "stage": "F0",
+  "gate": "READONLY_COMPLETE_FIELD_INPUT_PENDING",
+  "source_commit": "5a4cfd25753b5fe8f812d3acc6494aa898e1adb1",
+  "device_or_runtime_sha": null,
+  "source_label": "NO_ACQUISITION",
+  "window_start_utc": "2026-10-21T07:10:24.795927+00:00",
+  "window_end_utc": "2026-10-21T07:10:29.810333+00:00",
+  "command": "python -m cloud.deploy.h3.final_audit",
+  "exit_code": 0,
+  "observed_vs_simulated": "ACTUAL_READONLY_SERVER_NO_BOARD_ACCESS",
+  "raw_evidence_sha": {
+    "cloud": {
+      "exit_code": 0,
+      "sha256": "e2867b40a30b2fb958459792d4d3b5d97539097000ff1d310d2f4f1468624f13"
+    },
+    "runtime": {
+      "exit_code": 0,
+      "sha256": "c1353ec8b751db8e755dd502475d19fbae24c7370c80fa63da7cb75be743306d"
+    }
+  },
+  "security_scope": "READONLY_NO_SCANNER_NO_SERVER_WRITES",
+  "owner_auth_id": "MPM-H3-004_SIGNED_SOFTWARE",
+  "rollback_state": "NO_MUTATION",
+  "unresolved": [
+    "FIELD_STATE",
+    "QUALIFIED_NIBP_SOURCE",
+    "SG_CONTROL_PLANE",
+    "FORMAL_ACL_AUDIENCE"
+  ],
+  "null_reasons": {
+    "device_or_runtime_sha": "NO_PHYSICAL_READ_OR_NEW_RUNTIME_YET"
+  }
+}

@@ -1,4 +1,8 @@
-# MPM-H3-003-AC-CLOSEOUT 唯一阶段交接
+# H3 A→C 唯一权威交接（MPM-H3-004 R1.0）
+
+**2026-10-21 最新裁定：F0只读核验及F1/F3软件准备已推进；`H3_AC_FINAL_PARTIAL / WAITING_AUTH_AC_A_FLASH`。** AC-0/AC-1继承，不重复认领。新运行包已在本机冻结并精确复现，未上传、未部署；没有打开COM15/J-Link、真实采集、云端写入、正式发布或实际回滚。新软件/原件恢复测试不等于物理或正式验收。当前权威门禁矩阵为 `gateway/physical_can/evidence/h3-ac-final/closeout-status.json`；本合同结果及最小授权卡见第9节。
+
+下列第1–8节保留MPM-H3-003原轮事实及失败历史；其中“本轮”指该历史窗口。MPM-H3-004的新增事实从第9节开始。
 
 执行日期：2026-10-21；执行者：**Codex**。负责人明确改派Codex接管，覆盖合同中DeepSeek主执行的角色标签。本文件是本轮唯一权威总结，R2及更早报告和失败原件全部保留。
 
@@ -157,3 +161,108 @@ C路由器更新前generation1的64KiB双备份仍存在且符合`52a4c9d621375d
 5. AUTH-AC-PROD：先有正式ACL、来源/受众、INPUT/安全组风险裁定及完整恢复包，再冻结候选/配置/URL/窗口。当前新正式网址**未发布**；路径`/medical-monitor/#/ai`仅候选入口。实际正式回滚及回滚后公网复验均NOT_RUN。
 
 本轮没有重构CANopen/coreMQTT、没有改P4/main/A/B/P6、没有操作Node-B、没有PR或强推。授权边界来自新合同第3节及AC-2至AC-5入口，既有现场/云窗口均已结束，不能作为本轮操作许可。软件范围已完成；后续依赖上述门，停在阶段复核，不将缺口改写为PASS。
+
+## 9. MPM-H3-004 R1.0：F0–F6新增执行记录（2026-10-21）
+
+### 9.1 F0：接管、现状与源条件
+
+本轮完整阅读 `MPM-H3-004-AC-FINAL-DELIVERY-CODEX.md`。重新查询H3远端与本地，起点均为 `5a4cfd25753b5fe8f812d3acc6494aa898e1adb1`，工作区干净。上一轮外部租约明确关闭；按负责人“唯一工程执行者”指令归档旧租约并登记新租约。进程列表有其他Codex进程，不能由进程名称断言其编辑器状态；未发现未知工作区改动，旧H3工作区及原件未动。不使用不可用的跨对话交接工具伪造交接回执。
+
+负责人本轮回报：A/C接J5，C同时接USB/COM15，A的J-Link未连接，BOOT均接GND；并说明“A与C均未开启”。这作为现场回报原文保留，不据USB枚举推断MCU的实际供电状态。未要求改接线、开关电源或移动跳帽。CAN既有三线、500kbps及双终端约60Ω为继承静态基线，本轮没有重新测量；板间不得互接电源，Node-B仍未接入、必须OFFLINE。
+
+负责人确认模拟设备“能模拟血压并进行测量”，但型号/说明和非人体信号来源仍“不确定”。因此当前是 `OWNER_REPORTED_MEASUREMENT_CAPABLE / SOURCE_IDENTITY_UNCONFIRMED`，尚不构成合格HKB-08B+成功完成事件/PPG源证明，也不构成AUTH-AC-SOURCE或HUMAN。未要求人体佩戴或进行新测量，F2保持具名来源缺口。
+
+`F0-input-continuity.json`重新逐文件计算AC1的固件及关键Backend/AI/Web输入摘要，差异均为0；这是身份连续性检查，未重跑或认领AC1的255项/Keil/ARM/浏览器成绩。新A镜像离线计划再次核对50084B及向量/扇区，未连接设备。历史A完整备份及C generation1原件仍不当作当次当前Flash。
+
+### 9.2 F0/F3：实际服务器只读结果与风险差异
+
+实际SSH只使用本机别名，在服务器内存执行只读查询；新证据位于 `gateway/physical_can/evidence/h3-ac-final/F0-*.json`、`cloud/evidence/h3-ac-final/F3-access-*.json`。无临时目录、staging、服务、规则、凭据或云安全组写入，真实AI调用0。
+
+- 正式Backend/AI/Broker包装器/Nginx的PID分别仍为845095/394625/851111/3631，Broker实际子进程及完整源码/静态树指纹另在F0-runtime记录。8883监听，8884/18775无监听。旧AI的五槽限制仍在旧部署，不能说新账本已上线。
+- 当前**整张filter表**为393行，SHA256 `e6f238e23dece4fe2763aae2c48a482f749a56f632aeac6d31aa1130d7abed1c`；与AC0的395行比较，有2条旧规则散列消失、无新增，脱敏顺序元数据保留于 `F0-filter-delta.json`。没有旧原文，不能将差异归因UFW/Fail2ban或某位执行者；未恢复整表。
+- NAT为12行，SHA256 `96ba2354a7ee95379dbc8c4bc83f5c5d13ccc95d5367d69e3af1e6dec9ed3157`；filter/NAT自有H3引用均为0。不能因此宣称全部防火墙恢复。
+- `nginx -T`退出0，真实引用只以别名/散列公开。最初更详细的只读原件移至私有目录留存，原摘要回执保留；新脱敏回执不含其他虚拟站点文件名。
+- 只读定位了实际业务Broker配置及ACL：2个write角色、1个read角色，Topic散列和通配符性质已记录。这是现有配置观察，尚未绑定/验证本次独立正式publisher/subscriber权限，未建立新的业务MQTT连接。
+- 正式Backend/AI沿用的用户及NoNewPrivileges/ProtectSystem已记录；云安全组控制平面8884未取得实测，生产受众尚未确认。残余风险仍须负责人裁定，`BLOCKED_SECURITY_REVIEW`不解除。
+
+### 9.3 F1：新A工具与失败恢复的软件准备
+
+新增 `gateway/physical_can/bench/final_a.py`，专用于本合同50084B候选，SHA256 `f59b76ef865c373c6df62aa09aea958597687f6d46b17c402ceb7126ca8f60d6`。默认plan仅离线；program必须有绑定工具SHA、执行HEAD、有效期、A单板现场条件及候选SHA的负责人专项卡。旧49888B下载器不复用。
+
+程序在写前确认A身份、1024KiB、RDP0、选项字节；两次完整1MiB读取并磁盘复核；核对当前旧应用身份，未知即停止。只load/verify新A应用，检查64KiB以外、UID/容量/选项字节均不变。只临时冻结调试暂停期间IWDG，成功后恢复原调试寄存器；不长期关看门狗，不发送mass erase、PC/MSP/VTOR或go。原始UID/Flash/J-Link输出只进入私有新窗口目录。
+
+restore是单独批准入口：只能取该窗口新双份原件前64KiB；先核验保护区和选项，再恢复A sector0–3并全片读回。损坏/身份变化即停，不自动用旧整片备份覆盖。当前只验证了合成存储模型；新A写入、屏幕/看门狗正常冷启动及真实Boot-up/Heartbeat均NOT_RUN。
+
+### 9.4 F3：新不可变包、完整原件和受控发布准备
+
+运行包源码冻结提交为 **`5da742f4e0e078d2d40453facdad1e65ff51fdda`**，包含 `8afb1e2` Backend会话隔离修复及 `f0a63e0c6d1af9e6f5fba375b70a46f0e0cbfe7e` 新维护/恢复工具。独立上传工具提交为 `8b4cb86b146f845495b3ebb8070208f9294cc2f9`；它不改变已冻结运行包内容。包含本次文档/证据的交付HEAD以提交后远端回执为准，不预写自身SHA。
+
+| 冻结项 | 实际身份 |
+|---|---|
+| 新runtime包 | 3,878,350B；SHA256 `85f0e830991e79f8702ce01ae204c8326c66203ac6a2d2b21e55e6b7c6cd9c3f` |
+| 全payload映射SHA | `b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e` |
+| Web完整dist映射SHA | `d081b7036e521208a433a7410f1a86c9f06208260434b4257f10eeddd1a174be` |
+| 本机私有引用 | `ac-final/runtime-5da742f`及独立repeat目录；两次包SHA/字节完全一致 |
+| 候选远端目录（未创建） | `/opt/medical-monitor-h3/releases/runtime-b8fbb14b5c35` |
+| 完整内容 | 70个文件：Web dist、Backend、AI、发布工具、依赖清单、20个Linux/CPython3.12 wheel及来源manifest |
+| 原始中间包 | `bf2b184f…`留在私有目录，因服务禁止写pyc等修正被新包取代，从未上传 |
+
+依赖离线下载退出0，每个wheel进入manifest散列；Linux本机现有解释器为3.13，未安装3.12，**没有声称目标服务器venv安装或服务健康已通过**。新prepare要求独立版本venv并逐个核对锁定版本，后续安装仍需AUTH-AC-CLOUD-STAGE，不能借旧共享venv冒充新运行环境。
+
+新增完整恢复组件覆盖整个Web/Backend/AI树、持久状态、unit/env、Nginx引用、Broker配置、执行文件和release链接，保存内容、mode/uid/gid/mtime、符号链接及POSIX xattrs/ACL。创建时源变化即失败；恢复先重建校验，同文件系统逐对象交换，中途失败按反序还原并保留被换下原件。**逐对象交换不宣称跨整站的一次文件系统原子事务**；正式入口以单个Nginx片段原子替换控制。真实服务恢复/重启/HTTPS仍须正式窗口验证。
+
+正式prepare现在拒绝旧四文件计划或只有角色标签的假完整清单，按真实进程/环境/Nginx引用核对覆盖范围。activate/rollback要求完整恢复包可验证、候选服务SUBACK健康及DOUBAO/MONITOR健康；回退不再被损坏候选包封锁。旧服务保持原位，仅切换自有路由/候选服务。候选unit禁写pyc，NoNewPrivileges/ProtectSystem约束写入到既有STATE；避免重启污染不可变源码。Broker实际ACL、完整原件路径和服务端安装尚须现场审查/授权，当前不是F3_RELEASE_READY。
+
+`tools/h3_stage_runtime.py`只接受冻结包，默认plan；upload须AUTH-AC-CLOUD-STAGE绑定准确包SHA/工具SHA/目录/有效期。源包是本机生成且无服务器直接下载源；批准后仅经E:/Server_file中转，远端尺寸/SHA、tar边界和全部文件摘要验证通过才清理本次中转件。不安装依赖、不启动服务；本轮只执行plan和tmp仿真，没有上传。
+
+### 9.5 本轮新增验证及真实退出码
+
+| 验证 | 退出码 | 本轮证据和限制 |
+|---|---|---|
+| 新A/恢复包/发布事务定向pytest | 0 | `cloud/evidence/h3-ac-final/software-20261021T072238226948Z/tool-regression.log`：30 PASS，1个Windows下POSIX项SKIP |
+| Linux本地POSIX恢复 | 0 | 同目录posix-recovery：内容、额外文件、mode/uid/gid、xattr、链接共6项检查；补足对应平台覆盖，非服务器实际回滚 |
+| 新A候选离线plan | 0 | 同目录new-A-offline-plan及node-a/evidence/h3-ac-final；无J-Link调用 |
+| TS/Vite完整dist构建 | 0 | 同目录web-package-build；为新包构建，不重报旧浏览器20项成绩 |
+| 上传器定向pytest | 0 | `cloud/evidence/h3-ac-final/stage-tool-tests.log`：3 PASS；含拒绝未授权网络、包变更、越界tar，全部tmp仿真 |
+| 冻结包两次构建/解包逐文件核验 | 0 / 0 | `runtime-package.json`；SHA一致；无上传/模型调用 |
+| F0/F3 SSH只读查询、nginx配置查询 | 0 | F0-cloud/runtime、F3-access脱敏回执；非新候选健康 |
+
+新增合计33个pytest通过，另有1项Windows跳过及Linux独立6项检查。开发中每轮验证目录、旧较早中间包均保留，不以最终结果覆盖历史。尝试查询WSL pytest时发现未安装该模块，因此用stdlib独立POSIX检查；未将该查询当作通过的Linux pytest。AC1成绩单保持原归属。所有板端/实际发布退出码为null（未执行），不填0。
+
+本轮无固件运行时代码变化，A/C资源统计继承AC1；运行包新增本机磁盘占用见上述大小，不声称实板水位或新服务RSS已测。没有更改第三方代码、CANopen/coreMQTT/Router/AT/TLS架构、ABI或TTL；没有PR、强推或Security Gate。
+
+### 9.6 F0-window-request：当前只申请AUTH-AC-A-FLASH
+
+**卡号 `AUTH-AC-A-FLASH / F0-A-1`，状态REQUESTED_NOT_APPROVED。** 这是一份合同内授权卡，不是新合同。批准后一次使用；批准时间起2小时内有效，超时重核现态。执行HEAD在收到批准后登记为当时准确交付HEAD，必须包含上述冻结提交，工具/候选字节不变。
+
+| 项目 | 本卡准确范围 |
+|---|---|
+| 设备/工具 | 仅Node-A、原J-Link；工具 `final_a.py` SHA256 `4dd2c60b146e278bb917e45a577693e83c79256d1da6d57830e0692c85bbb27e`，J-Link/Keil/FromELF摘要另在F0-input-continuity |
+| 现场动作 | 批准后才由现场使A/C及屏/传感器断电、隔离CAN三线，C保持断电；仅A接原J-Link及已核验独立供电，探头/袖带不接，BOOT正常GND |
+| 新镜像 | 50084B，SHA256 `f59b76ef865c373c6df62aa09aea958597687f6d46b17c402ceb7126ca8f60d6` |
+| 写入/保护 | A应用 `[0x08000000,0x0800C3A4)`；擦除影响仅A sector0–3/64KiB，`0x08010000`之后及options不变；不操作C Flash |
+| 写前门禁 | A私有历史身份比对、容量/RDP/options、当前完整1MiB两次读/磁盘回读一致，当前49888B应用前缀必须匹配历史 `506423dc…`；未知即停，原始完整备份SHA不替代当次双读 |
+| 下载/核验 | 有界load/verify，完整读回新镜像和保护区/选项；不mass erase、RDP或options写，不强设入口、不go |
+| 冷启动 | 通过后由现场断电拔J-Link，原J5/双屏正常BOOT独立启动，报告屏幕/重启；C仍不操作。真实CAN Boot-up/HB留到下一次获准C观测，未取得前不宣称F1整体PASS |
+| 失败与恢复 | 任一步异常即停、保留原件和真实退出码，不自动恢复。若需要恢复，另明确批准绑定本窗口新备份SHA，仅恢复A sector0–3；身份/保护区改变时不得恢复 |
+| 明确不含 | C串口/读写/复位、采集/人体、云写入、8883生产、隔离故障、正式发布或回滚 |
+
+此项必须等待明确批准，依据本合同第3/5/12节。批准前不要求现场执行表内断电/改接动作。后续C只读、AUTH-AC-SOURCE、隔离云/故障和staging将以已齐备身份分别出卡；**正式C和PROD卡目前NOT_READY，不对空配置SHA/未生成完整恢复包请求批准**。
+
+### 9.7 F2–F6当前矩阵及后续准入
+
+| Gate | 当前裁定 | 不可替代的下一项 |
+|---|---|---|
+| F0 | READONLY_COMPLETE_WITH_SOURCE_SECURITY_GAPS | 新鲜现场回报已得；合格来源、SG及历史差异仍保留 |
+| F1 | SOFTWARE_PREPARED / WAITING_AUTH | 新A镜像实读/写/正常冷启动、双屏/看门狗/真实CAN证据 |
+| F2 | BLOCKED_SOURCE_AND_AUTH | 模拟源身份与AUTH-SOURCE；新C实读配对；新runtime隔离云、真NIBP完成/90秒、PPG300秒和故障恢复 |
+| F3 | LOCAL_PACKAGE_AND_RECOVERY_SOFTWARE_PREPARED | 服务端独立venv/完整原件、SG/有效ACL/受众/风险裁定；未达RELEASE_READY |
+| F4 | NOT_READY | 正式publisher/subscriber角色、正式336B配置SHA、当次C64KiB双读及保护区；不复用隔离凭据 |
+| F5 | NOT_AUTHORIZED / NOT_RUN | 精确正式发布卡、HTTPS七页/AI、真实rollback及获批再激活 |
+| F6 | H3_AC_FINAL_PARTIAL | 等待专项门，不能冻结A→C为FINAL_PASS或推进Node-B |
+
+正式权限设计为独立publisher仅write GW-C状态/节点状态/telemetry/replay/event、独立Backend仅read这些Topic，避免授予控制/downlink写权；client_id按角色/窗口隔离，TLS CA/SNI验证，具体账号/ACL文件差异必须在私有窗口核验后申请。正式C仍43184B/SHA `9df43acd…`、正式336B记录NOT_PREPARED；8883端口在编译镜像，不在sector3记录。
+
+正式网址沿用受限 `MONITOR_ALLOWED_ORIGINS` 引用，未发布新HTTPS入口；`/medical-monitor/#/ai`仍只是候选操作入口。此次没有新增正式截图、真实豆包回执或Token；不把第7节本机截图当正式成果。设备扬声器/ASR/TTS仍NOT_VERIFIED。实际rollback及再次激活均NOT_RUN，旧正式服务保持原版本。
+
+本轮阶段性软件与证据可正常提交/FF推送H3；受保护ref须在推送前后逐项核对。最终交付提交SHA和远端一致性由提交后的真实Git回执提供，报告中的软件/运行包SHA为以上真实冻结提交，不预造文档自身散列。

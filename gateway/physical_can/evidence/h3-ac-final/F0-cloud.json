@@ -1,0 +1,4842 @@
+{
+  "recorded_utc": "2026-10-21T07:10:28.282641+00:00",
+  "production": {
+    "services": {
+      "medical-monitor.service": {
+        "pid": "845095",
+        "state": "active",
+        "cwd": "/opt/medical-monitor/releases/mqtt-v07-phase2-20260920-01/backend",
+        "executable": "/usr/bin/python3.12",
+        "git_sha": "NOT_A_GIT_WORKTREE"
+      },
+      "medical-monitor-mqtt.service": {
+        "pid": "851111",
+        "state": "active",
+        "cwd": "/",
+        "executable": "/usr/bin/python3.12",
+        "git_sha": "NOT_A_GIT_WORKTREE"
+      },
+      "p6-ai.service": {
+        "pid": "394625",
+        "state": "active",
+        "cwd": "/opt/medical-monitor-p6",
+        "executable": "/usr/bin/python3.12",
+        "git_sha": "NOT_A_GIT_WORKTREE"
+      },
+      "nginx.service": {
+        "pid": "3631",
+        "state": "active",
+        "cwd": "/",
+        "executable": "/usr/sbin/nginx",
+        "git_sha": "NOT_A_GIT_WORKTREE"
+      }
+    },
+    "files": {
+      "/etc/nginx/snippets/medical-monitor.conf": {
+        "exists": true,
+        "sha256": "8e9509551d97489c6cd6a92d4d44f9d6ef06392f031db285e0b1f05d30143ca2",
+        "mode": "0o644",
+        "owner_uid": 0,
+        "group_gid": 0,
+        "bytes": 705
+      },
+      "/etc/systemd/system/p6-ai.service": {
+        "exists": true,
+        "sha256": "1006334e3ccf3523587d48c4482902ef6314c1549e0410fef11f1b934eccc8f2",
+        "mode": "0o644",
+        "owner_uid": 0,
+        "group_gid": 0,
+        "bytes": 819
+      },
+      "/etc/medical-monitor/p6-ai.env": {
+        "exists": true,
+        "sha256": "6aad50a55576026d9ec7406c4b787efecfb201339729db54b1aa7f2a0213a339",
+        "mode": "0o600",
+        "owner_uid": 0,
+        "group_gid": 0,
+        "bytes": 606
+      },
+      "/opt/medical-monitor/config/backend.env": {
+        "exists": true,
+        "sha256": "33d94a0e773efc11aa7fad055efe150ef74b8efde5467392804f4c076f4f52d5",
+        "mode": "0o600",
+        "owner_uid": 0,
+        "group_gid": 0,
+        "bytes": 279
+      }
+    },
+    "web_index": {
+      "exists": true,
+      "sha256": "92a48ceea4afb3a3c5b6f34fadd7d3b56063e725321aa2471e3a9285db7a48f0",
+      "mode": "0o644",
+      "owner_uid": 0,
+      "group_gid": 0,
+      "bytes": 414
+    },
+    "production_ai_sources": {
+      "cloud/ai/app.py": {
+        "exists": true,
+        "sha256": "4a05fc797a5cd5431400041c86b89b6b9b712e198a24403ca163fbcc6824d825",
+        "mode": "0o644",
+        "owner_uid": 0,
+        "group_gid": 0,
+        "bytes": 8503
+      },
+      "cloud/ai/providers.py": {
+        "exists": true,
+        "sha256": "40741521f34feaf3467d8d8bf7928342a36fbe2db463d99dc63b5715406140f6",
+        "mode": "0o644",
+        "owner_uid": 0,
+        "group_gid": 0,
+        "bytes": 7664
+      },
+      "cloud/ai/usage.py": {
+        "exists": false
+      }
+    },
+    "legacy_ai_five_cap_source_hint": false,
+    "formal_plan_state": "PREPARED_ONLY_NOT_PUBLISHED",
+    "formal_plan_sha256": "cb974038aa8c412e242e9ff7efc144e1cf648e46b64e00a448e8a37e209ec78f",
+    "prepared_runtimes": [
+      {
+        "directory": "runtime-2ffd1d372ace",
+        "manifest_sha256": "71900ff3930177d79d122512f0fb08e98ba483fbf08b54743a5fec52b797dcd9",
+        "source_commit": "bd0b5bd5a2169b785a9dd2bd168f83146688ce79"
+      },
+      {
+        "directory": "runtime-37808287a557",
+        "manifest_sha256": "11a1381c7519650f39714347c258c33c177372acf21674f63db6eb481ec5137b",
+        "source_commit": "41ddc066b92ccdb46b6ecd442d669a9d1db26b14"
+      },
+      {
+        "directory": "runtime-d32d9b2c1688",
+        "manifest_sha256": "d07a3ddb31db935513bbb2d51177b3264cbb09138e6aa3a5bd759a94986347f7",
+        "source_commit": "5f6490bd732af359477f99824c4599e27c4ff8b1"
+      }
+    ],
+    "isolated_services": {
+      "medical-monitor-h3-broker-diagnostic.service": "inactive",
+      "medical-monitor-h3-backend-nodebfix.service": "inactive",
+      "medical-monitor-h3-ai-isolated.service": "inactive"
+    },
+    "formal_hashes_match_previous_plan": true,
+    "web_matches_previous_plan": true,
+    "owned_host_8884_rules": 0,
+    "cloud_security_group_checked_by_api": false,
+    "mutations": false
+  },
+  "deployed_source_sha256": {
+    "backend": {
+      "app/hub.py": "f20f69bff5e29e0c4661c5a973dfd6d24c87b9384b0287d011aeace056f6a229",
+      "app/main.py": "3ca7d3b60a0f5ebb1ddaea64d8ca3557296a5953ec5ae83e1ec3ee0df4e041d6",
+      "app/mqtt_adapter.py": "42f723dfcefa1b962b617e26727eca474e7e0709736157214db267c63d6b4b66"
+    },
+    "ai": {
+      "app.py": "4a05fc797a5cd5431400041c86b89b6b9b712e198a24403ca163fbcc6824d825",
+      "facts.py": "2c1d4a0d64ff0beb9674af578ce362fc88069c3a8140c5d38b3894b8025df8a7",
+      "providers.py": "40741521f34feaf3467d8d8bf7928342a36fbe2db463d99dc63b5715406140f6",
+      "usage.py": null,
+      "snapshot.py": "5959bcbe888b8278cb21df3d228a659884f7266dc38d313ca9fbb80acbfaf516"
+    }
+  },
+  "legacy_ai_actual_range_1_6": true,
+  "nginx_structure": [
+    {
+      "file_sha256": "8e9509551d97489c6cd6a92d4d44f9d6ef06392f031db285e0b1f05d30143ca2",
+      "ssl_listener": false,
+      "ai_prefix_present": false,
+      "monitor_prefix_present": true,
+      "basic_auth_directive": false,
+      "allow_directive_count": 0,
+      "complete_public_audience": "NOT_OBSERVED_DIRECTIVES_ARE_NOT_EFFECTIVE_ACCESS_PROOF"
+    }
+  ],
+  "firewall": {
+    "filter": {
+      "query_exit_code": 0,
+      "sha256": "e6f238e23dece4fe2763aae2c48a482f749a56f632aeac6d31aa1130d7abed1c",
+      "lines": 393,
+      "ordered_rules": [
+        {
+          "order": 0,
+          "sha256": "8f5893e5bcf4f3380d712c60d3505bfbeba4060cf58175968ece0297b2af9337",
+          "operation": "-P",
+          "chain": "INPUT"
+        },
+        {
+          "order": 1,
+          "sha256": "a9ab814bf86155b5c00adeeb52f958b8607d7c3a436b1d2329a51bcd5319faa8",
+          "operation": "-P",
+          "chain": "FORWARD"
+        },
+        {
+          "order": 2,
+          "sha256": "ceb3924ae5ae6f17a5d09747d32b8a312cafc3607ffcefab260014407daa24e4",
+          "operation": "-P",
+          "chain": "OUTPUT"
+        },
+        {
+          "order": 3,
+          "sha256": "61dcc2fbf9cafb31e0ec223eab453e53f1b80a060ac1ba1ccd4d0cb3a730f29d",
+          "operation": "-N",
+          "chain": "DOCKER"
+        },
+        {
+          "order": 4,
+          "sha256": "760eebd9da5b7316d3f079fd7b2d9e8cd16ce401f410f41f8fbb42e3f929cb8a",
+          "operation": "-N",
+          "chain": "DOCKER-BRIDGE"
+        },
+        {
+          "order": 5,
+          "sha256": "12140e382da47c273c3039131e569cb215b57c4b8a8a2d4d75cd8a6493d51c9e",
+          "operation": "-N",
+          "chain": "DOCKER-CT"
+        },
+        {
+          "order": 6,
+          "sha256": "8b6c96990122f6b2ee921961f1f09120fdc3c3c3bb88163a4016187995bffaf4",
+          "operation": "-N",
+          "chain": "DOCKER-FORWARD"
+        },
+        {
+          "order": 7,
+          "sha256": "95ed691ee3976532ad705d89d06b1473b5d56e1c3831407b630fbe7a6bb3d99a",
+          "operation": "-N",
+          "chain": "DOCKER-INTERNAL"
+        },
+        {
+          "order": 8,
+          "sha256": "b16be1befd64157688d1f5f3c07a1e4c7994efa7b87e0ea6f534dea838a71b0c",
+          "operation": "-N",
+          "chain": "DOCKER-USER"
+        },
+        {
+          "order": 9,
+          "sha256": "ca5c3900d1a8db54502247b93b9207483fa1d6644f8cba6865640582c7fa6af9",
+          "operation": "-N",
+          "chain": "IN_BT"
+        },
+        {
+          "order": 10,
+          "sha256": "56b4e049f6e72fd1eba1fac60cca6d1886eb92839f41a7172bb634731a2a36fd",
+          "operation": "-N",
+          "chain": "IN_BT_Country"
+        },
+        {
+          "order": 11,
+          "sha256": "b70c9745126078dfc824f2685eeba33246459ae74181947acbea8fdc42d90741",
+          "operation": "-N",
+          "chain": "IN_BT_ip"
+        },
+        {
+          "order": 12,
+          "sha256": "0fdfbc2a4b415cde269c4daa3db85c4590f3823cf4e819b2b256dc04e8af2614",
+          "operation": "-N",
+          "chain": "IN_BT_log"
+        },
+        {
+          "order": 13,
+          "sha256": "f9aab7c2ab5165a692a64aac37f13d999edd0dfe68a2f85d200829209df6e88d",
+          "operation": "-N",
+          "chain": "IN_BT_user_ip"
+        },
+        {
+          "order": 14,
+          "sha256": "1142db45fe3449346536de49545863a28d5d1b5e515c14ff4fc1ddce16ac0897",
+          "operation": "-N",
+          "chain": "IN_BT_user_port"
+        },
+        {
+          "order": 15,
+          "sha256": "95bac52a45ae07fe85694c41a8042826c846d499fe08b7383f01b8968df45bf1",
+          "operation": "-N",
+          "chain": "OUT_BT"
+        },
+        {
+          "order": 16,
+          "sha256": "bc2c67fc83beb3322c92562b63e445a8338a46c0ce602fe91f0d8f1d5689681e",
+          "operation": "-N",
+          "chain": "OUT_BT_user_ip"
+        },
+        {
+          "order": 17,
+          "sha256": "88881152e0d9020ddd5dcf81caebb2e3298279f5bad43433ca29632406be71b2",
+          "operation": "-N",
+          "chain": "OUT_BT_user_port"
+        },
+        {
+          "order": 18,
+          "sha256": "5b68169deb3a1ffad41c4331dc8186828c4fc31042b5114dce5340891a3b4657",
+          "operation": "-N",
+          "chain": "YJ-FIREWALL-INPUT"
+        },
+        {
+          "order": 19,
+          "sha256": "af88c2768687756b6f1f121a3b823e8613ea56165d29f355f346f5cce93e292e",
+          "operation": "-N",
+          "chain": "ufw-after-forward"
+        },
+        {
+          "order": 20,
+          "sha256": "8643b6a260c7f4053102d748fdfcdd0e686a10c0120ce1dc469132d4b3a63381",
+          "operation": "-N",
+          "chain": "ufw-after-input"
+        },
+        {
+          "order": 21,
+          "sha256": "364e88003e4131711af80162ec4a19ceeb76ef2aa022ea5a07dddd76d16b080a",
+          "operation": "-N",
+          "chain": "ufw-after-logging-forward"
+        },
+        {
+          "order": 22,
+          "sha256": "7190393b249cdb453c1739b7fd40013e50f07b54d4c321a0d71ce84efe016ce3",
+          "operation": "-N",
+          "chain": "ufw-after-logging-input"
+        },
+        {
+          "order": 23,
+          "sha256": "135d8ddb7cbdf8533cdc5ce5a80e952bdc844be975b40b68078c63b92653dce5",
+          "operation": "-N",
+          "chain": "ufw-after-logging-output"
+        },
+        {
+          "order": 24,
+          "sha256": "7ac93fc4d5c7f944ec030a5e4ab4796458c3c99bc368607d422d970bd3d30442",
+          "operation": "-N",
+          "chain": "ufw-after-output"
+        },
+        {
+          "order": 25,
+          "sha256": "4bbd3acd53a71511f59f4796c230045f20517e61eace7f04a77fd313f203628e",
+          "operation": "-N",
+          "chain": "ufw-before-forward"
+        },
+        {
+          "order": 26,
+          "sha256": "510652d9da9c571281f809c6eeafa90ddd2aae33dc4c87fb142942953cc3b730",
+          "operation": "-N",
+          "chain": "ufw-before-input"
+        },
+        {
+          "order": 27,
+          "sha256": "366fc0ddb526da92a45d60eea8ce4d56c40b3b76603422267441123495a3bb1d",
+          "operation": "-N",
+          "chain": "ufw-before-logging-forward"
+        },
+        {
+          "order": 28,
+          "sha256": "a5a7ec08fbc7e1fb824944315b64eb010080fc5200fc32c0c40061e94e806b6b",
+          "operation": "-N",
+          "chain": "ufw-before-logging-input"
+        },
+        {
+          "order": 29,
+          "sha256": "78fc92962d23f52a031d2f04b41b1afe78428526e8d93e439763739e485d4e0e",
+          "operation": "-N",
+          "chain": "ufw-before-logging-output"
+        },
+        {
+          "order": 30,
+          "sha256": "43dbd99efa1ebee7a6de56d3a9f8d7ada2653d76d84288985e5537f565efd04b",
+          "operation": "-N",
+          "chain": "ufw-before-output"
+        },
+        {
+          "order": 31,
+          "sha256": "90e964ea4db939453b1c78111d30ec33940531f8e1e9e2eb72d2d4fd059943c0",
+          "operation": "-N",
+          "chain": "ufw-reject-forward"
+        },
+        {
+          "order": 32,
+          "sha256": "3aa4ed4d9f1d85baab68b14fdd8ce5372da79447a332d1b156fb7fd205e6b835",
+          "operation": "-N",
+          "chain": "ufw-reject-input"
+        },
+        {
+          "order": 33,
+          "sha256": "4273bfd2ddafe7fe510cdc7ea6bc429ca61d691f94b9b9ac01c7543a50265e3f",
+          "operation": "-N",
+          "chain": "ufw-reject-output"
+        },
+        {
+          "order": 34,
+          "sha256": "5816af8085c286488a6ece606f70a679851f82762643decd62273aa66add3d3e",
+          "operation": "-N",
+          "chain": "ufw-track-forward"
+        },
+        {
+          "order": 35,
+          "sha256": "2298c81e88fdf4da1f23c3fba2d00ddab0b8bf9b3deb79e55efdd5c66ccbf909",
+          "operation": "-N",
+          "chain": "ufw-track-input"
+        },
+        {
+          "order": 36,
+          "sha256": "d9122c3c85b29226931150ca939d12ca5497b9e46a9d6a986d8639b54e96d0c9",
+          "operation": "-N",
+          "chain": "ufw-track-output"
+        },
+        {
+          "order": 37,
+          "sha256": "454478c515f2e0a7f68f551e58271ce6d942b439d3ae77cae6c2fe5f919ce832",
+          "operation": "-A",
+          "chain": "INPUT",
+          "target": "YJ-FIREWALL-INPUT"
+        },
+        {
+          "order": 38,
+          "sha256": "c181014d7f729327e090b4b80588cd8f34a209fef013ea00ca60bc56cade0511",
+          "operation": "-A",
+          "chain": "INPUT",
+          "target": "ACCEPT",
+          "protocol": "tcp",
+          "destination_port": "1883"
+        },
+        {
+          "order": 39,
+          "sha256": "029f3b29d5c68e19fc73f906256d0255d13c191b6b2f163aedee5214fb870b12",
+          "operation": "-A",
+          "chain": "INPUT",
+          "target": "DROP",
+          "protocol": "tcp"
+        },
+        {
+          "order": 40,
+          "sha256": "2482182d97e33dd9224a4a1d5e9cc822fca8305663b858a3371dc314fdcd7354",
+          "operation": "-A",
+          "chain": "INPUT",
+          "target": "ACCEPT",
+          "protocol": "tcp",
+          "destination_port": "9999"
+        },
+        {
+          "order": 41,
+          "sha256": "fd45906d6f7c5783bfaee1ae4d7700f03f7054d0561aadda09b3354369d826ed",
+          "operation": "-A",
+          "chain": "INPUT",
+          "target": "IN_BT"
+        },
+        {
+          "order": 42,
+          "sha256": "1795a2d2e3ab6f270369afdc4b3419562ee27ae6b74a3cece81db7cec73619fa",
+          "operation": "-A",
+          "chain": "INPUT",
+          "target": "ufw-before-logging-input"
+        },
+        {
+          "order": 43,
+          "sha256": "659aae4b51481264290b1f1d43c961266a4d2409176a7285767fa93b3279556b",
+          "operation": "-A",
+          "chain": "INPUT",
+          "target": "ufw-before-input"
+        },
+        {
+          "order": 44,
+          "sha256": "180b0406c467f2e492d7d3c8aacd918daa60de50b5096a4607b1397c115a5a26",
+          "operation": "-A",
+          "chain": "INPUT",
+          "target": "ufw-after-input"
+        },
+        {
+          "order": 45,
+          "sha256": "065a0da57af3ba3bfb0767f404b4feab389baa13317eb673b3a160d28aaafb64",
+          "operation": "-A",
+          "chain": "INPUT",
+          "target": "ufw-after-logging-input"
+        },
+        {
+          "order": 46,
+          "sha256": "d9138c0966681019abf16598788ecbe2eb7b2b7415cfc4ea3675c42238792c02",
+          "operation": "-A",
+          "chain": "INPUT",
+          "target": "ufw-reject-input"
+        },
+        {
+          "order": 47,
+          "sha256": "81c42046519ea6fe7c151433646430bd5c8e13fba9c872b83d741dc777aaca4f",
+          "operation": "-A",
+          "chain": "INPUT",
+          "target": "ufw-track-input"
+        },
+        {
+          "order": 48,
+          "sha256": "33d189262f7b18b35052d1b80ea07e785e2717e3e4a5eac697a41d2ec5e631d4",
+          "operation": "-A",
+          "chain": "FORWARD",
+          "target": "DOCKER-USER"
+        },
+        {
+          "order": 49,
+          "sha256": "395d4d02e8896184f886326961d12cbbc225179047e34b8716f5437f51ba62ab",
+          "operation": "-A",
+          "chain": "FORWARD",
+          "target": "DOCKER-FORWARD"
+        },
+        {
+          "order": 50,
+          "sha256": "1041921815ce25b649ba1a13f689e50cbb0f91f4ac832eae5f2007b0572de7c0",
+          "operation": "-A",
+          "chain": "FORWARD",
+          "target": "ufw-before-logging-forward"
+        },
+        {
+          "order": 51,
+          "sha256": "87e0e3f4bf8a347855d194ac353195c9b6d185fcea4ae3191fe93cd7813095a2",
+          "operation": "-A",
+          "chain": "FORWARD",
+          "target": "ufw-before-forward"
+        },
+        {
+          "order": 52,
+          "sha256": "a53ab09f6f16c2bd427bcfa844a9c07c5e0fce294fd688f7582f244dfde1c43e",
+          "operation": "-A",
+          "chain": "FORWARD",
+          "target": "ufw-after-forward"
+        },
+        {
+          "order": 53,
+          "sha256": "2795d60b1ded756315ed64852233b73dffff588cf7728276501f9d3b8a64a316",
+          "operation": "-A",
+          "chain": "FORWARD",
+          "target": "ufw-after-logging-forward"
+        },
+        {
+          "order": 54,
+          "sha256": "21f8926453da4cfa9648b5ebe2812258c479aab88e56c7de18d9f28b189c2617",
+          "operation": "-A",
+          "chain": "FORWARD",
+          "target": "ufw-reject-forward"
+        },
+        {
+          "order": 55,
+          "sha256": "eaad903b6bb48611e178cdd520f3df3c94a8a817b851ee39e85d7cb224e88121",
+          "operation": "-A",
+          "chain": "FORWARD",
+          "target": "ufw-track-forward"
+        },
+        {
+          "order": 56,
+          "sha256": "1962cdbd3c5291130b81f859e806ba12d969123aff40e3fe3998032545e90d3a",
+          "operation": "-A",
+          "chain": "OUTPUT",
+          "target": "DROP",
+          "protocol": "tcp"
+        },
+        {
+          "order": 57,
+          "sha256": "36d34ab7201d42cff5ae231a5e7f0959f57044c73f02ee7731dc45163dae6e99",
+          "operation": "-A",
+          "chain": "OUTPUT",
+          "target": "OUT_BT"
+        },
+        {
+          "order": 58,
+          "sha256": "1a9292968e354e25b46b2a7752ba4242d4c4760b9ba80cd44415b5ea9b284923",
+          "operation": "-A",
+          "chain": "OUTPUT",
+          "target": "ufw-before-logging-output"
+        },
+        {
+          "order": 59,
+          "sha256": "491ed388c0ebbfdf4d85ca6f70d477eee11fa4dddd72a18673bb64c131c9df46",
+          "operation": "-A",
+          "chain": "OUTPUT",
+          "target": "ufw-before-output"
+        },
+        {
+          "order": 60,
+          "sha256": "bd8d7198ed4fec8f344b69cabc1ec1747b70b841c76d070a06ecc46920b1344a",
+          "operation": "-A",
+          "chain": "OUTPUT",
+          "target": "ufw-after-output"
+        },
+        {
+          "order": 61,
+          "sha256": "493929bf319aa3a5678517ed99c4353bd10233afa0aa71a9d1f7ee3478f41fa1",
+          "operation": "-A",
+          "chain": "OUTPUT",
+          "target": "ufw-after-logging-output"
+        },
+        {
+          "order": 62,
+          "sha256": "b50e455d053f4fd40f071fc397a5930a4f7fb223a5603b409a0a904accc0aaf7",
+          "operation": "-A",
+          "chain": "OUTPUT",
+          "target": "ufw-reject-output"
+        },
+        {
+          "order": 63,
+          "sha256": "d5c28f3fffc697583735cedc953d048d96249e0621a80d2e6ffd9f92e48f4d25",
+          "operation": "-A",
+          "chain": "OUTPUT",
+          "target": "ufw-track-output"
+        },
+        {
+          "order": 64,
+          "sha256": "0dfb17b95acd459b04b49d0d91e04635925886ad71ed6dc987667f88388fb2ff",
+          "operation": "-A",
+          "chain": "DOCKER",
+          "destination": {
+            "scope": "HOST",
+            "digest": "c42a51bc1bd91aa793ce488ef1f02061c118634d80e1433ff92c29a9f591e5b1"
+          },
+          "target": "ACCEPT",
+          "protocol": "tcp",
+          "destination_port": "8080"
+        },
+        {
+          "order": 65,
+          "sha256": "76af65d3a928599e356ba244abe69267743ca6841854c05c117b8a24d9f9a593",
+          "operation": "-A",
+          "chain": "DOCKER",
+          "target": "DROP"
+        },
+        {
+          "order": 66,
+          "sha256": "ce7cd1574b8b164c374825094710a2f92432724d73268a1b23e9d9dd2e2f29e2",
+          "operation": "-A",
+          "chain": "DOCKER",
+          "target": "DROP"
+        },
+        {
+          "order": 67,
+          "sha256": "0b026903eee873df6ef073e3e41d66d5d0fbd032e1d85f996d413fd7251b44fe",
+          "operation": "-A",
+          "chain": "DOCKER-BRIDGE",
+          "target": "DOCKER"
+        },
+        {
+          "order": 68,
+          "sha256": "9d87479258ea41f6f6509fe2cfeb8d2868e52b41ca56efac20b1dae9c5bb6f1b",
+          "operation": "-A",
+          "chain": "DOCKER-BRIDGE",
+          "target": "DOCKER"
+        },
+        {
+          "order": 69,
+          "sha256": "0c3e3a1530b41fc0fa0c2b6c24a57c41d937254e09c02941632a6ae0525d6779",
+          "operation": "-A",
+          "chain": "DOCKER-CT",
+          "target": "ACCEPT"
+        },
+        {
+          "order": 70,
+          "sha256": "562363b2c45dfd7cbb154fb794c06150f927d008a11c12976f17ee8ba13f3ac3",
+          "operation": "-A",
+          "chain": "DOCKER-CT",
+          "target": "ACCEPT"
+        },
+        {
+          "order": 71,
+          "sha256": "83454e347809fe8b8430e9c2469da9320ad6b78bb6ed078e10f3c877c9d82671",
+          "operation": "-A",
+          "chain": "DOCKER-FORWARD",
+          "target": "DOCKER-CT"
+        },
+        {
+          "order": 72,
+          "sha256": "ac4aeb1dfbd2a9fb9aed5d370e6663f518189b7415df141dc71eb26f8e16f594",
+          "operation": "-A",
+          "chain": "DOCKER-FORWARD",
+          "target": "DOCKER-INTERNAL"
+        },
+        {
+          "order": 73,
+          "sha256": "58dfdff3a42c6d51e32d2168c4ba12c0b6679c10481c19d1688999c2a22fb804",
+          "operation": "-A",
+          "chain": "DOCKER-FORWARD",
+          "target": "DOCKER-BRIDGE"
+        },
+        {
+          "order": 74,
+          "sha256": "bfa3b9c1f1fd68b9981e9ba9d2e7ad2bfa9bb0e8761a93ace44f89c9f0664f9f",
+          "operation": "-A",
+          "chain": "DOCKER-FORWARD",
+          "target": "ACCEPT"
+        },
+        {
+          "order": 75,
+          "sha256": "9bdea231f134946f3fded03e7a6c4841ccdfbbc300acc3dccdf6f80628be1277",
+          "operation": "-A",
+          "chain": "DOCKER-FORWARD",
+          "target": "ACCEPT"
+        },
+        {
+          "order": 76,
+          "sha256": "c22d1058ae375f88b9e4596f40c0f1d5daf80ae6cf62ccc7ae58fdc3c8e641b7",
+          "operation": "-A",
+          "chain": "DOCKER-FORWARD",
+          "target": "ACCEPT"
+        },
+        {
+          "order": 77,
+          "sha256": "5e073f5ea204681306f42c3a56c5d081254fa923dfa6c8c2e2c07d3561762b08",
+          "operation": "-A",
+          "chain": "DOCKER-INTERNAL",
+          "source": {
+            "scope": "NETWORK",
+            "digest": "8c66ecea3c9fae153ea03c3347ad13519bd6842bf6833657e87bfbda91eaf05b"
+          },
+          "target": "DROP"
+        },
+        {
+          "order": 78,
+          "sha256": "14e03f18e89a324f5aed09f3931f94d367f247b982ed3a8164f4414abeb4deb3",
+          "operation": "-A",
+          "chain": "DOCKER-INTERNAL",
+          "destination": {
+            "scope": "NETWORK",
+            "digest": "8c66ecea3c9fae153ea03c3347ad13519bd6842bf6833657e87bfbda91eaf05b"
+          },
+          "target": "DROP"
+        },
+        {
+          "order": 79,
+          "sha256": "533b83478772d427dcf4eed17f0acb75c31cc818a91aa1176c713c31d5f8bab3",
+          "operation": "-A",
+          "chain": "IN_BT",
+          "target": "IN_BT_log"
+        },
+        {
+          "order": 80,
+          "sha256": "aa1176d09e8d83b3935fbb9951c58d4c9dd4eb8df120be3c7e6dbf5ec7ea9a8b",
+          "operation": "-A",
+          "chain": "IN_BT",
+          "target": "IN_BT_user_ip"
+        },
+        {
+          "order": 81,
+          "sha256": "530b6087d0c056ac5ea49619079bdeeffe40bc750f4858ad88a3e69eed43adbd",
+          "operation": "-A",
+          "chain": "IN_BT",
+          "target": "IN_BT_ip"
+        },
+        {
+          "order": 82,
+          "sha256": "3e5666f5a5f6635882b6980b3a3ffc95165a74db2fc6358d4682bdb86ccf228b",
+          "operation": "-A",
+          "chain": "IN_BT",
+          "target": "IN_BT_user_port"
+        },
+        {
+          "order": 83,
+          "sha256": "40c4b3ee345b88c4c9f6fd795f95b30353ab01714e6a74358b742c3306bc44fd",
+          "operation": "-A",
+          "chain": "IN_BT_ip",
+          "target": "IN_BT_Country"
+        },
+        {
+          "order": 84,
+          "sha256": "8820416b1568105f1748537b8100b777dd08993dc8b15f01eee741e70a253f6a",
+          "operation": "-A",
+          "chain": "IN_BT_user_ip",
+          "target": "DROP"
+        },
+        {
+          "order": 85,
+          "sha256": "93fc41997da261633593ce73370c7cb9bd7c10c9cd4001a5f45ecc5e49d9eaef",
+          "operation": "-A",
+          "chain": "IN_BT_user_ip",
+          "target": "ACCEPT"
+        },
+        {
+          "order": 86,
+          "sha256": "1c6511bdc7144e7c7cd72681b64f373a50eced34f51b4ca3c7aa9b235dff842f",
+          "operation": "-A",
+          "chain": "OUT_BT",
+          "target": "OUT_BT_user_ip"
+        },
+        {
+          "order": 87,
+          "sha256": "351c7d89b3747ce30088ac06405291c05ea4f3ff9b88e00c6a5f590248d7dbfa",
+          "operation": "-A",
+          "chain": "OUT_BT",
+          "target": "OUT_BT_user_port"
+        },
+        {
+          "order": 88,
+          "sha256": "955a1a0a75879eeb71ff1eb6dfebd5ccf8ac2ae17ebf0b1f0fd4f9663a6c7434",
+          "operation": "-A",
+          "chain": "OUT_BT_user_ip",
+          "target": "DROP"
+        },
+        {
+          "order": 89,
+          "sha256": "22bb0e4f658b1973e19ba2eaa193ae38c3a316f2af5cc8abc50fff091e118df9",
+          "operation": "-A",
+          "chain": "OUT_BT_user_ip",
+          "target": "ACCEPT"
+        },
+        {
+          "order": 90,
+          "sha256": "1d949242866017f83fa4f18a20566af3be101c1c59e0f7a675a01a543429e9e5",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "1787d4ccad35f708285c8bb4b26c81a26648a6fc0684e43227e7a6e8b692f0cc"
+          },
+          "target": "REJECT"
+        },
+        {
+          "order": 91,
+          "sha256": "0075b8fb86f74cfc92d8401d3c232a6f433476c941ae55782da9c8e07673df7a",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "101db3c5a687a0ae877b5b5a6d1b748df628d9e1941ed089ed659fe0c24c9875"
+          },
+          "target": "REJECT"
+        },
+        {
+          "order": 92,
+          "sha256": "f39a3630bfdbafc0bd055b35ef41821d1898fc7fb63ed3b103c6327fd733714f",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "767a35fb60d2d5bb13ec27c40258740b14c7510dd2143c65d3f31677d862b3b7"
+          },
+          "target": "REJECT"
+        },
+        {
+          "order": 93,
+          "sha256": "d81f13410ced8f8b268d577ffe9c405241b4466e0cb09658c33acf3f163b8788",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "7c33521a5bd72604cd0295657a150703f5fdfe374a6b18ce024c70c2931fbe99"
+          },
+          "target": "REJECT"
+        },
+        {
+          "order": 94,
+          "sha256": "cb5a1077ac70c5274089f5f8982aa43dd8a1b880935972b546836330dfbd2cb4",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "f2ca9c1edcbfeee2f42f335c092b6256d85a5a11ec94b0e0c79f0cb980d55e58"
+          },
+          "target": "REJECT"
+        },
+        {
+          "order": 95,
+          "sha256": "6ae601ad49d08457a8332c4ed04f699b8cf8bd5169b799b3d7427b1b7c10bc17",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "f43622da30a9110b5c1128f777f0b0222af05d700ef36dc89204fd0bba775cf4"
+          },
+          "target": "REJECT"
+        },
+        {
+          "order": 96,
+          "sha256": "2bd27f453032eca2d1a4e6b06e4abdf912ef1c86cec020b331ba58658642f318",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "0e9eb84a215ce7e67433eba927f4248d2eb52742bd97e3f9dba4f70d79ccfed8"
+          },
+          "target": "REJECT"
+        },
+        {
+          "order": 97,
+          "sha256": "43dc898a6071a0ff38346f4a339c420ec6d3387c73eea2af1b91724664e8d4b9",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "2149ba5b795014f7bb2f87e13c9d1420565dd6f40c760dd49b18816e1e991cc9"
+          },
+          "target": "REJECT"
+        },
+        {
+          "order": 98,
+          "sha256": "878dc2e2acd0221772ee9396bb2b390cb1d34f1e05ac64f20cc9e92b27ac4ae9",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "7ab4b5ee69e91b65e6f10abe3bd2bf51e8adcbd29d3ad0c75f080276ad9c954d"
+          },
+          "target": "REJECT"
+        },
+        {
+          "order": 99,
+          "sha256": "fe045cb9621492da0254a50aa9bb6e6b794f538e1a6128359084045dec6826f6",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "b82653ed29e83da5347aec1b4d7908e3905d13198aaef0986d728be8734b66ad"
+          },
+          "target": "REJECT"
+        },
+        {
+          "order": 100,
+          "sha256": "ee9a6ec0d2fd194720594c032280c792bf5003739a478bf8fda037933eab96e9",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "ca93f8043bde61c1cf8c674d88c1fcee08896003b1f9195ee6fec2f17a177815"
+          },
+          "target": "REJECT"
+        },
+        {
+          "order": 101,
+          "sha256": "a4c3dfd58ad300a3833a7527728aab7aa251b0c65cba8f74ceae7dfcd36b246a",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "6796982414126e891684540874a4d7698903db2ccfd2f001b7e3d41a640c5a12"
+          },
+          "target": "REJECT"
+        },
+        {
+          "order": 102,
+          "sha256": "54765b6b48af940a07fa65ce7212f1a66a261bc1ef97ad058eda6de2b5fce3ab",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "fc8aa50f3fa95b992a361acd240b01613757238a3e4d7915a4f8e56f5ec2a588"
+          },
+          "target": "REJECT"
+        },
+        {
+          "order": 103,
+          "sha256": "d2ae7e1491031df398a55fa35de9652272803afa8df59ca00a2b40760ddd5759",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "99a723b7181662bd90ad0046a192113a0d95b921e6e5a8ea9dc6c76da6d1b049"
+          },
+          "target": "REJECT"
+        },
+        {
+          "order": 104,
+          "sha256": "c1098acf418c5f518e3462a14ee34dfdef65f09f4f20a5dc8d5d4650fb88c627",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "d5f8085352a6e3de59b65aa1aec6920efbb6fa36dc86fbc80bb3178a8d9d04b7"
+          },
+          "target": "REJECT"
+        },
+        {
+          "order": 105,
+          "sha256": "7a0084548a70890161110dd17215af14e7fd207a58beaf7ee079a1e32528233f",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "14d8e94c8b96e9908a4b9c2b083e05f8a203cfd5a23c3ca2230d6af5dec69309"
+          },
+          "target": "REJECT"
+        },
+        {
+          "order": 106,
+          "sha256": "c614182e5377ba26d7f283dfe872d355e98a573ae90f6d7eb35a2a6304a032a6",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "3883bdd6a68122f917de18d2edb89d96d520be6a8ad74046c6693a4ff62666fb"
+          },
+          "target": "REJECT"
+        },
+        {
+          "order": 107,
+          "sha256": "9a5c9c0118301b0e11b5faf7dc7c275f749321d5dfe16720ba9bf93498a65b83",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "40be194a29c5fd7a85fc1a10c183a5e788aa265bb589140cef63c8454c348d9c"
+          },
+          "target": "REJECT"
+        },
+        {
+          "order": 108,
+          "sha256": "3ef37f8534c77deba125882c4619c5f0ad002ee3705fce7a648cd4472c0bc546",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "33508445a502ad8e8a7b0723fc43433d0f50d900835b1380ff0c0eb1105c072b"
+          },
+          "target": "REJECT"
+        },
+        {
+          "order": 109,
+          "sha256": "0e34cca3767b280adaf3fe83977dd80f3189e86a44057238f8e11d4bd57052f2",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "40a746605e51b9e735dd831715f6e671561de502dc8789ab34a652bf3555b9d6"
+          },
+          "target": "REJECT"
+        },
+        {
+          "order": 110,
+          "sha256": "7027425d26a836ec8d1905824d164bd426a903b9b1e49268d74a141c5aa6123e",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "e7b197f05f5ba23befc47574e977c54fb4ad1bef3f4f522f92b676ee6981079e"
+          },
+          "target": "REJECT"
+        },
+        {
+          "order": 111,
+          "sha256": "911a60c01dbef142901075eefcba96d41ed81206fa0c7ca49abfeb2a4f159759",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "9ddb52fcaf267cb8d486dfd1c8c8da4ab22936b71597a3d28d914091afeeb3be"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 112,
+          "sha256": "c98beecbd08d2526ba5cbf11b05e34a3279e4fffcb3118fe36cbfcca92bf8777",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "9ddb52fcaf267cb8d486dfd1c8c8da4ab22936b71597a3d28d914091afeeb3be"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 113,
+          "sha256": "6c5423ab8170e3fe9ba83f06f3fb294a937d65a25efde7b214c1188c86eea5d5",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "1011a66820e390567a27a59ddff5a2e3cefffea62225e5ae7f457dc742c4158e"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 114,
+          "sha256": "fc510e3d72950b3fe0e2c534a5786036292adc94d6c9df87c03fb06d141322cb",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "1011a66820e390567a27a59ddff5a2e3cefffea62225e5ae7f457dc742c4158e"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 115,
+          "sha256": "22138f2173f14401675e3690e922b79cbf8bef368c2c2c0bcd54deb32cf0c506",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "2eb3292c421b9da195a5f291623fc9d375d638bed251f3ca8a33b7587a99f84e"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 116,
+          "sha256": "1c89e7821ae2a792bef568f797eeaf3c36ad703d8b319c173cff505df5d91162",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "2eb3292c421b9da195a5f291623fc9d375d638bed251f3ca8a33b7587a99f84e"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 117,
+          "sha256": "ed7c042138f50389d7f687c5c50848d969922a56cebb761d3f3328c795203d5b",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "48e60c351c98dfb710b198e721f3dabf5cc1c0630f5df1fd3e1deacac5a14272"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 118,
+          "sha256": "9d1cc037e76660abc2243dc22202307dfeb972673238a21848dbd16f70e23a3b",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "48e60c351c98dfb710b198e721f3dabf5cc1c0630f5df1fd3e1deacac5a14272"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 119,
+          "sha256": "82aa789b929edeede47b95804949c6278b1a349d0522cd68a4f1e1bb1504c882",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "ac58af84825339e10146174694e4c7dd2a919c7cd8b9f61ff04ebba1a6daf5f3"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 120,
+          "sha256": "49bca80cd4b59f1a41364ded2cefd288e300d0926d48b79e701352450166c570",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "ac58af84825339e10146174694e4c7dd2a919c7cd8b9f61ff04ebba1a6daf5f3"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 121,
+          "sha256": "16904648af74171895b3522df640a63748e63f8722995b1c1f6c25c34813c61b",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "5a3d1a368258e90fc60e02484df411709fc6f8675089d2909054193cb61d4ef3"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 122,
+          "sha256": "a70d123960d58e8b25a452ddf176315d6def5f84060af52c5f8356fa12897fbe",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "5a3d1a368258e90fc60e02484df411709fc6f8675089d2909054193cb61d4ef3"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 123,
+          "sha256": "c5d46209be72c2a3d3999fe76b234953a21fcb3fe95d2be4d84d96b159c14888",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "452c84b73aabe568cba5c62fcf5bdc044e01d2e028e4a53ebc7fe15bc3beca85"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 124,
+          "sha256": "9e3fc4c32c805742ca869a8e8bea15beaae14e74928858aeb7935163789fac34",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "452c84b73aabe568cba5c62fcf5bdc044e01d2e028e4a53ebc7fe15bc3beca85"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 125,
+          "sha256": "682154603141ebf9ce3b75dab77aef69afc0875fac924508ce95ff86a8a119e7",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "040f10f3e15f97965e2a059ecaf443ce5cc3bc42db3b58f8278d9159eb3886c8"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 126,
+          "sha256": "18edd368e1597cd4480283a377320841551fa6f6e6f77002dd81409918e110f0",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "040f10f3e15f97965e2a059ecaf443ce5cc3bc42db3b58f8278d9159eb3886c8"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 127,
+          "sha256": "20b5e49cfa919f416c9758418687d80b7d57a4d96749d281364cf9a1d92f3f2f",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "d5c863347f3588ec2450bb9fa2c2f6d7655229076ec844a291915084adfb30f1"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 128,
+          "sha256": "8de7bfa7b5a7a8505750f2eb815bcd5c9ea0ba2d487cedf8713226fb32a0caa0",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "d5c863347f3588ec2450bb9fa2c2f6d7655229076ec844a291915084adfb30f1"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 129,
+          "sha256": "ab9029811709c26c8792bab8edf5d248402e1e892468dbce0f95d191e0705fb7",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "230333ec26cd369857f4b0ecab897401933978abc8d18b627dfba75385b1ffaf"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 130,
+          "sha256": "6bad59a8c9807140730672b9ba04a1e18d10d964837bb21842e785ba38ec5aa9",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "230333ec26cd369857f4b0ecab897401933978abc8d18b627dfba75385b1ffaf"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 131,
+          "sha256": "867c4018906d2ccf869a8dc7a3526dfbf69c4b7aee9a1702cf5d9d36371e5873",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "d16b7a3dec55e7e6420fef1201b73aec6163c5635f08ebf90075642dfa865cbe"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 132,
+          "sha256": "a801ec85213b203ae0c02c2b51354675abdf8b3b32b8c51cafcaa90d7c92736a",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "d16b7a3dec55e7e6420fef1201b73aec6163c5635f08ebf90075642dfa865cbe"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 133,
+          "sha256": "8baf5a708364ca6b8c646b5358781eee90613bdd6d665416f8d165c8476bf53b",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "5e00be26dc5cf3b919de7f6c44d0ed3559480865dbefac228ea3c006815385ae"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 134,
+          "sha256": "a8bf745a0f44cb6dcbbc082cd764e5018fc9d870b6c38f20a8a454c3b8ef2578",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "5e00be26dc5cf3b919de7f6c44d0ed3559480865dbefac228ea3c006815385ae"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 135,
+          "sha256": "a0cc91d8be0302153b2a5a34492adad151d26bf2d19bd631bf880a82ae68aad8",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "be00688c7423b27c598630e21eb3b9619afe21aa00c9669dcda71fac07435fd5"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 136,
+          "sha256": "02e51201007e7ad474b16d50207986604326c4610d8c6674cb4091262e736310",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "be00688c7423b27c598630e21eb3b9619afe21aa00c9669dcda71fac07435fd5"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 137,
+          "sha256": "46c44715f37362aacc2738ffc527c8c5b5805f6955c09b5895e98b428d99ee33",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "ea72d7c5df0d926750179a380faf6caf9c3f11cb0340db82ccb12a8e40a504cb"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 138,
+          "sha256": "949bf9efb455e4e0faac24f6bd8081f3405bb897fa3b35edcb616cfaa25f98a5",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "ea72d7c5df0d926750179a380faf6caf9c3f11cb0340db82ccb12a8e40a504cb"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 139,
+          "sha256": "4d39cec71ade8e7d933a39fbed8ccb00f753deb0d5094a2b48b3589768bb6c1f",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "3253e3d855b7322180d61e361daec8f51dbe57f65a08c12515c34d620747363a"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 140,
+          "sha256": "de176dd1d01f3dc67612c72641fa5ff38b546ea3a66ee7ccb65097eabe5996d3",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "3253e3d855b7322180d61e361daec8f51dbe57f65a08c12515c34d620747363a"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 141,
+          "sha256": "1e12bc93efea5639d4cd62c962a38fc465ae3b1690cc09fbfe6c3b35c6c6675d",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "94dce747bbe935f890b7f4e25c3102db2f4712009098d14377b480defaf9b2cc"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 142,
+          "sha256": "59aa16a15580396b9a51d23bc319bdec680abddda98721ac89e6a5c621c9e26a",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "94dce747bbe935f890b7f4e25c3102db2f4712009098d14377b480defaf9b2cc"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 143,
+          "sha256": "8fb8133db8c8c199e5bd394fd93cf801c5cecf44480786930b392280f7e8300c",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "f130b368b3f67d384f408affe6b3799a65b920e4d7e140b98754165ebe6b4aed"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 144,
+          "sha256": "1695ebb412cab7e183e2e2c02666c90ae2c334e717fd5ebe989d602f235a0420",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "f130b368b3f67d384f408affe6b3799a65b920e4d7e140b98754165ebe6b4aed"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 145,
+          "sha256": "0dfebb7a9e09d1b978150bf70cbf63e94bb691b78ce008c98c92b1d2398d3538",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "683472d7117de1dbc85d682c467bf5d18c0510208b9764dad93095b5f7c8ceee"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 146,
+          "sha256": "23b22f4735e9e6d7af5be95594b061d216dedf55450453079bb3a55fd27c0a2f",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "683472d7117de1dbc85d682c467bf5d18c0510208b9764dad93095b5f7c8ceee"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 147,
+          "sha256": "eab38adea196c3d0fe8393f7b217ef7e7e24c5642c6f895543b571918069c8f3",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "e51b95de2614dfbfef3ee791b4ab316a5bcbc5424a421bde4ab26f900d12d562"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 148,
+          "sha256": "217b03e9c7d3bf0d4ae3ff72474ce65c10188c35d779fc944b8519587072414a",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "e51b95de2614dfbfef3ee791b4ab316a5bcbc5424a421bde4ab26f900d12d562"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 149,
+          "sha256": "095485890ce7e1ab972f8640f88a20711d27a3666e3401fbf6a24ee4d1c4990d",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "fe6c30f51d2d9a0122e649168d93773ec819f13c7b8fd40a65eb593850261c21"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 150,
+          "sha256": "1729801967465188d5ea5fa9302b8e66f29684b5976f01379eff89b3dcde8a11",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "fe6c30f51d2d9a0122e649168d93773ec819f13c7b8fd40a65eb593850261c21"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 151,
+          "sha256": "5ac87116d0d419e46c88fd0510d31d0f3f54f09b432cd6fe59ed1e5538062f28",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "73d4451516610cc16d0b8861374637f08a5729c6ea39c447d3a44a241c33f978"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 152,
+          "sha256": "db0777f0e8066b9e2c93323f40377e4a0abcbe1c5139ebf9737d1aa72bae35d5",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "73d4451516610cc16d0b8861374637f08a5729c6ea39c447d3a44a241c33f978"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 153,
+          "sha256": "3f6e9c4646c4fed5737ab17481facf4f0fed77b52fbe33aa348e9a4a8a7dd430",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "bc4a35832486ce6bbc40360bf1ede00718317df93f4e30916e19732048c6880d"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 154,
+          "sha256": "b38a9d82afbd10b52a2668041cf2172a232d952b9343a60e5296d71503b2b0dd",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "bc4a35832486ce6bbc40360bf1ede00718317df93f4e30916e19732048c6880d"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 155,
+          "sha256": "af0854f7f8fd147ddc1ad7b0da98170734ff0e1ee54ce6597bf7158b2ce7556a",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "dd7c756cbd0c0667bc2b5c572817a89f1b19cee655e017687590f977eb4033f0"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 156,
+          "sha256": "1a32418e618ba29166eaa4e610d1741f1d290cdd6d880a6e6f4cc2c3e7f143c2",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "dd7c756cbd0c0667bc2b5c572817a89f1b19cee655e017687590f977eb4033f0"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 157,
+          "sha256": "f768d4734473fa01cefe3fbb53e875c9a6c90a15664370a0e376d106422e804b",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "5296168994fe10fe6c196c4486f06e61ff050ed89d2a828187c94162a71766cd"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 158,
+          "sha256": "9835818fca35e17d4913abdab7f8d2298e3f84c8e60e176c64800b43c45ae8fb",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "5296168994fe10fe6c196c4486f06e61ff050ed89d2a828187c94162a71766cd"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 159,
+          "sha256": "9a5b4fb6d59762e1392d4e7d08807524bc14064fdc1239f4b3f386c486b8ac2e",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "399023be04b04e9f136d15980816791e952d42637d9801a4652450d2bf82b2d6"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 160,
+          "sha256": "7913cdb3aabf58c7510b07e1570e0517170a959a32cf7b717e3b03548efc65e9",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "399023be04b04e9f136d15980816791e952d42637d9801a4652450d2bf82b2d6"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 161,
+          "sha256": "07cd123b1037b2fd4d804bb32e2dbe4100dfbe45d5e35e898976d7e176067374",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "d37342da87ee8fcc365d2ba2fa9d6cb4c50ea7c5cb4bcb4cef5b7c3c938abf24"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 162,
+          "sha256": "ee4c66f405146c988d326cbff9275d880a436f95b805a0a48bd74d1a2fe00ac5",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "d37342da87ee8fcc365d2ba2fa9d6cb4c50ea7c5cb4bcb4cef5b7c3c938abf24"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 163,
+          "sha256": "060480b491cadb40b730664ce826e72917986c85bcd7f200e02d4c6253982b10",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "940c49f3c8978511923cfecb852809354d1a723d6bd595ee89b284896d6774da"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 164,
+          "sha256": "338e0f67a77d09263fda90241ca35dd4aecb0bf83ff5baf36dad64755126727d",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "940c49f3c8978511923cfecb852809354d1a723d6bd595ee89b284896d6774da"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 165,
+          "sha256": "4a8cd8b6d69c6c3852dab0f6e9a49f61aff036f29303207e07308091a220cd1b",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "55570ea5ba980523e7d9a5b8bcd30df2b216a43dbee84a58b2d782a6d24561b0"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 166,
+          "sha256": "104c583a137d376d3ea8fa62579ef2ca89966cf3b705c7303c267d46f4b456ed",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "55570ea5ba980523e7d9a5b8bcd30df2b216a43dbee84a58b2d782a6d24561b0"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 167,
+          "sha256": "8e2a16a06746c380d21fa0e2c3fbfa40670f270552e35d1679da22ad40ae57be",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "78d7a3d03101822569a8599a51dbf3bbd0504358a566ddf5a00df1d35cfaa002"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 168,
+          "sha256": "92469a51ea31f1639ad235b98cf5b697441d132f4db751e80beeb08c8fd4451b",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "78d7a3d03101822569a8599a51dbf3bbd0504358a566ddf5a00df1d35cfaa002"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 169,
+          "sha256": "cff7f0d4ca49a08b29808909267bd64eb1b79871b89fcc832131a6c12079e33c",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "cc6bbef142f833766374b1255f958b333f245c46438b5ed7ceec68d988b77480"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 170,
+          "sha256": "b01b56b6df978c5c71443d4a36b99d72b6370be770bf3ac5fe7f675200581af9",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "cc6bbef142f833766374b1255f958b333f245c46438b5ed7ceec68d988b77480"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 171,
+          "sha256": "34aa65d1d55a2cbaccb6ca5c3a68a697d265b9ca1f82dc13487a284620b511cb",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "a9d80ea5cb44e1febebb74dbc33d21965f7c79895186455f61556c0fcffbce95"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 172,
+          "sha256": "8b374744afde6c93e8f574af2c848b568f4c93e137e48aaf23c4953271539d67",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "a9d80ea5cb44e1febebb74dbc33d21965f7c79895186455f61556c0fcffbce95"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 173,
+          "sha256": "f83f2b313895bc48ae485076cfa4b8f8bda491a5f3c586786921c9263eaa3e0f",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "2300732e43e6e9295500d0e8cd1b05933fb4a840f8f45ac8eca856d98295e1f4"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 174,
+          "sha256": "95586ef1d00a7f387dbdbdd9f92934e9f26bb50de4b66b4c657ed920643603cb",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "2300732e43e6e9295500d0e8cd1b05933fb4a840f8f45ac8eca856d98295e1f4"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 175,
+          "sha256": "c92312b4d34e641bb5f7fa3c1f97597406229117b127694e9b444bcadaa6e6b6",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "c1c14c78f10605274b86a7ef5c8e13dff5136b31b2a15591c289e407640b07d3"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 176,
+          "sha256": "b7c1cd490e129e20e71a7c1963336b331b781a67406ca9d9cdbf97967794405a",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "c1c14c78f10605274b86a7ef5c8e13dff5136b31b2a15591c289e407640b07d3"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 177,
+          "sha256": "734d43348626c72014e5a2adaeac8efd3006e4c542118c215a2c0a823063e8a3",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "cb3e48298d2ff70b6870f86d813f55d9e693322e97c2c5005384f9fc055f6405"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 178,
+          "sha256": "2474344af1168e8861180bcf757d1b529435009c9f051863fea93c78a011141d",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "cb3e48298d2ff70b6870f86d813f55d9e693322e97c2c5005384f9fc055f6405"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 179,
+          "sha256": "85804cf8c6caf37f71891bb518653e36dc844b9e42f925d56d68284d96b7d921",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "c60d55371054d44577d4284eac0003946886e56a59488a3702fc9763fb41486f"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 180,
+          "sha256": "7e8fef770270356bec9a59a2352c126a5cb032a7653f16751f4d0764334ff1e8",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "c60d55371054d44577d4284eac0003946886e56a59488a3702fc9763fb41486f"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 181,
+          "sha256": "b7c42c331cfe3f6edf74eae027c154d3e9fbad8fe423e9560ed1bfab94ae590f",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "98dc6e577d8b7a8ce54ff7fd8478b8aadec000e88d71b7230c9ce5a3c0bcff69"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 182,
+          "sha256": "1d46e28186e023e1b839444b958c7b0416bbabcfccd25e25222387ee891cae9f",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "98dc6e577d8b7a8ce54ff7fd8478b8aadec000e88d71b7230c9ce5a3c0bcff69"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 183,
+          "sha256": "6c09262ca866e7c009d33f9ee91739debf8d26aca32fa3070a85748c038819f3",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "47a00dac5e03381449719362f54ff29b94386afd53f6618423b698b53394f34c"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 184,
+          "sha256": "f2dd9ffd12666a9d93135be58f0c67d8c3f6aa60f62d50a32937cbb8871f48ff",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "47a00dac5e03381449719362f54ff29b94386afd53f6618423b698b53394f34c"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 185,
+          "sha256": "d546e3fd07dba856e5cf8dcf16dbe89d5728393efee11968d1d8e42271b96770",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "6e495c456a074608d5993629a08dc924d2d1b6fb268d7cc17ee5e8dfd05d4bd8"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 186,
+          "sha256": "8628b77d9eb1a19042dfc95cd987fe49af8a60322661251002e0c8d29daa46ef",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "6e495c456a074608d5993629a08dc924d2d1b6fb268d7cc17ee5e8dfd05d4bd8"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 187,
+          "sha256": "940c3a68241a2cd487b418d6302d3dbb9ae438591ea168570cb6801a36a10167",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "61f2fd621bacad96e64e0a8a35ddf357bdac6085661ee7c7fbea043b8b59b19f"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 188,
+          "sha256": "01e93f542faff64c285ef8bd58f9fc6ff5cff8aa2047c18dac2b7e321ff3ed67",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "61f2fd621bacad96e64e0a8a35ddf357bdac6085661ee7c7fbea043b8b59b19f"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 189,
+          "sha256": "d47066f8cf96bf1763ff4ceb827febac6dcdaa39e362f4b90e39c0daf4163670",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "760b383af1f8478688ae52ce144cfd3e1256c12ce931df7d649926dacd508914"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 190,
+          "sha256": "c13bd939a3414fdb682b0eb15a6e4eadcd3b2c608b569e9f227163eaece5f9a3",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "760b383af1f8478688ae52ce144cfd3e1256c12ce931df7d649926dacd508914"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 191,
+          "sha256": "10f58f63787970b455594e1600daff3582c03663d68cd3bd45ff19b99be3c8dd",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "b5427a021755807e0c01ec518577159d479f494f2b4913bd8f80d97e6a09844e"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 192,
+          "sha256": "66826a2839813eb4783609206c984fa08781e0b0fdd8fae5b41b29792cf1a8b0",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "b5427a021755807e0c01ec518577159d479f494f2b4913bd8f80d97e6a09844e"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 193,
+          "sha256": "c8803f06435825ff30f5fe3c2b08aae448efe8de7931052d243c5035e3d1b51f",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "f38fb000117d8574cf823e601327f1cd7bb242d9fb9e600fed1dd8ca45dffa98"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 194,
+          "sha256": "cde5010167497f6414a9567b7d7f8afb0fd59c28ec10b054a496fc0b0d434f1f",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "f38fb000117d8574cf823e601327f1cd7bb242d9fb9e600fed1dd8ca45dffa98"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 195,
+          "sha256": "94f24d47bc44fb62d952b89707cc73edb8fb467129449c92d6a55ed6a5b3d125",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "e3e38144355207605d981461b9a3697149480cd397f6898738f19c3ea26f0935"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 196,
+          "sha256": "7561281d61f43620ede1e3008fa6f735c3e4f631987615b6196f5d8860a4096a",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "e3e38144355207605d981461b9a3697149480cd397f6898738f19c3ea26f0935"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 197,
+          "sha256": "41a58dc1a33e15c597b70a67ffa8e8f61e78e27a243b183b38c90132c2985757",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "cac51fb32038bfb449189c806700ad40ea3d7d4986ce32fb700793642d312612"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 198,
+          "sha256": "d3dd7e4f3145bfda9106b66d067862950e8664c922302a7bdb27864706a49a7b",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "cac51fb32038bfb449189c806700ad40ea3d7d4986ce32fb700793642d312612"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 199,
+          "sha256": "265736c23096e52bc01ac877aeacea5ebdf83640f8a0412c840168c5bd90befd",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "1938681b99131a381d2b605423ae77555408d2ee42aa805eb4b8cb697f72d655"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 200,
+          "sha256": "6ade029461911f85ea4feab08f84595ff3e22ee3660f2e8bc13b5ef88cc2be50",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "1938681b99131a381d2b605423ae77555408d2ee42aa805eb4b8cb697f72d655"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 201,
+          "sha256": "4d6f6a6f881bab168af29e811d5860b42b4faf374462ed3622d4d77d64fc17c9",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "9653d1a843e34bf6e53e1d085bc2b72fa3347b8134fd18403638442be40b1f60"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 202,
+          "sha256": "683f7cecf2f3924ea708dcf26677bd03d0a9b31999f02d180e88e591fea05ede",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "9653d1a843e34bf6e53e1d085bc2b72fa3347b8134fd18403638442be40b1f60"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 203,
+          "sha256": "4b593c25fa140349c9869af3585fda8242a7cee5423529e0240475a4cda260af",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "2a1b17bf069dd4db4886d8117434d64fbc13d2aff35dee7849df3a58150db4fb"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 204,
+          "sha256": "51235be63549413ee4628fcaffb442a232b4928ed36398c0dd31db9e47960337",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "2a1b17bf069dd4db4886d8117434d64fbc13d2aff35dee7849df3a58150db4fb"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 205,
+          "sha256": "abee11da2156e275ba826bd17a4143892d6d959b428e2f6c049c078eca0d9115",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "ecb75ded4a60981fae94cf98bebf61b6c5a65730e33787e50bbe437b127c4c0f"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 206,
+          "sha256": "9bba86c6adf99c3fc392f2169344d65a5f811ea7399539c10b9ddaa5c6c559eb",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "ecb75ded4a60981fae94cf98bebf61b6c5a65730e33787e50bbe437b127c4c0f"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 207,
+          "sha256": "65e7882f2f9a29ee385538b40c4cd85076a8f40b67a517cd9770570e123fe986",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "39b35117ef022e2e4ebc8f2cb714829fbc43d93bc946b77d81683ef48c9798d5"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 208,
+          "sha256": "711e93916aacfb80721ff6aeda0611d0e773b9a6159a2b73308b58ae19d19c2e",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "39b35117ef022e2e4ebc8f2cb714829fbc43d93bc946b77d81683ef48c9798d5"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 209,
+          "sha256": "1c9bfe5f0a202c6e02e6436fafba0389984c1d25ca9443477ab95e2567f4e039",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "ccf1b78cdf5db532a12486db9feaaa7a1e58fbca108baf96010e081f0bdfb6c4"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 210,
+          "sha256": "6b00033b432c625c9aa102335a9b0781ba2eacf85b6aec21931af50cb1fe2a9c",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "ccf1b78cdf5db532a12486db9feaaa7a1e58fbca108baf96010e081f0bdfb6c4"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 211,
+          "sha256": "e80a51c07e8eea733889d37f93b7d5c5914bf25de9df257cd120ef8a35fa2330",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "f809eef875ca2f2ec90ddc8d73024fc8186f7434b4e5c17222df152ca6bf75bd"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 212,
+          "sha256": "42221341fea4e239cfdd36127da0bd97a362af2511a2f889d26aad788d5121c7",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "f809eef875ca2f2ec90ddc8d73024fc8186f7434b4e5c17222df152ca6bf75bd"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 213,
+          "sha256": "5301230a1327b5f09a8d9184f53c8ea7d775fcd9dad904c1967313ba773d6b48",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "97f8a5aab96d50ac381a8da61d2972ad124f48e1eb786b2e676dcee3d6f60166"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 214,
+          "sha256": "11715a9dc45347a8818a6a5a7b916f0d28ff88c26bc5d3a1a941c9a02ec33a4e",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "97f8a5aab96d50ac381a8da61d2972ad124f48e1eb786b2e676dcee3d6f60166"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 215,
+          "sha256": "acc88a21fbcfdb14aa4e789a32aee11ae2f9726097e450f05450be1313c87f40",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "af42368b7d2d7649f3efd1230a14ec5d4a67c0ac6d43d464ff00a72620362766"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 216,
+          "sha256": "570011266d31962ab4163015a9a5c27eeb7012b9737a9c8e1573838dbb93abf0",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "af42368b7d2d7649f3efd1230a14ec5d4a67c0ac6d43d464ff00a72620362766"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 217,
+          "sha256": "3474438d7605f92f88a3f068d055f946a4f67f3e876fbf7ebbae4bfb5a69280e",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "7e92a7b4faedf77722919463cf3b77c121e2ae3272a5163a02782b396a73b0ad"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 218,
+          "sha256": "c72a10231694f30b3d42f99838720b6585fd17332b137d11de2744b84ac4048a",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "7e92a7b4faedf77722919463cf3b77c121e2ae3272a5163a02782b396a73b0ad"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 219,
+          "sha256": "4ea982ed2ad42ba9078a3ad53634483637e0951c54d8044ba7681537dabbfed0",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "41845b549c7a65cba9760707f33b1accc12b7a31049f0dafc1cafe19ee011b05"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 220,
+          "sha256": "58b71adac201ff464ce668b39f9575d7e7ec6f081ab39de981763d196b246c94",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "41845b549c7a65cba9760707f33b1accc12b7a31049f0dafc1cafe19ee011b05"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 221,
+          "sha256": "55f0f262a72925c569191d593d12d1f475a485cb9c089693bf8a84a732bfd72a",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "d2b22a87e7ddc63ecd5c7564b5a3469f73e5756dc4534503b1b3534fa7055694"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 222,
+          "sha256": "0b6ff11af5624ac3fbc59b7a7e7328cf0b841a666253c79ed40c4557c65a417d",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "d2b22a87e7ddc63ecd5c7564b5a3469f73e5756dc4534503b1b3534fa7055694"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 223,
+          "sha256": "ed4f957d4f2833b59b7b5a8e3379019fcc25d32e15649a93a5fb58d7d177cc7a",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "1b7a10d58f98afb27af273884317537e4c238c63e73043e95a472a11806705ba"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 224,
+          "sha256": "a982c27248ec52a801796ca06373beae5d5321a415d02084c4d65309f968a2f7",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "1b7a10d58f98afb27af273884317537e4c238c63e73043e95a472a11806705ba"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 225,
+          "sha256": "9a704c1a2ca1b328fbb822dcecac11ce0ed4b1f96cd745879be440e2bc4ee30c",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "05abfba8c948950bb1a939d53e3f3bc2751f5afed613cb77e9785adb0dc9b5e3"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 226,
+          "sha256": "a8f7b382e38dbe6a7a7d3ad215b8e6fe9cc376b2eaa4dfb62d49769b016f014e",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "05abfba8c948950bb1a939d53e3f3bc2751f5afed613cb77e9785adb0dc9b5e3"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 227,
+          "sha256": "bdd15093f6367058abdeaafbc61471eecf6673d4b24ad1cb7d41251ca6935575",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "bfc15eb0683d3b03bc688acb593eff3b629ff10127e9e99ede15c60ef0f99b39"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 228,
+          "sha256": "c50f785e1df8f10b111bc9af79a8e99ed379ddf158078444036095a2b5d18e5c",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "bfc15eb0683d3b03bc688acb593eff3b629ff10127e9e99ede15c60ef0f99b39"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 229,
+          "sha256": "d41e4448a8cd9bf357c779312658974dafbd440140bc3d61b9f8d949c97819c4",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "5ed16423dcb073c637847ed0ab50986fb5951bc739fe6fc3fd195439e1a8e62d"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 230,
+          "sha256": "d9aaed820bd50b86fcf33a9a6b6c036d509e1237481ada0597d13a276aa83763",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "5ed16423dcb073c637847ed0ab50986fb5951bc739fe6fc3fd195439e1a8e62d"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 231,
+          "sha256": "dc94202117fd5c5b1efe3c8fcfa54040da8eb3f2870e8c753db75bba62105a9f",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "d54965ac820a00be6c5c0d68acab92c8c03359334baf68782850576289c415e3"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 232,
+          "sha256": "985e97039ef7cbbbf90b18a0b10a93e78a34238258795787b53997771cd029b7",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "d54965ac820a00be6c5c0d68acab92c8c03359334baf68782850576289c415e3"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 233,
+          "sha256": "1c7cbcf04ace1452507d1e4421ce5439a5f932a85624f4560ac5eb64df08ad9e",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "92024bda157f40daf28716e733f425ae8bc187af86d84341ee53172e6542d689"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 234,
+          "sha256": "60e995f8f6ec6febf331e68c1c21e3b45d1168885ae92b780329a9b086dd03ee",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "92024bda157f40daf28716e733f425ae8bc187af86d84341ee53172e6542d689"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 235,
+          "sha256": "19ee2e9cb03c89f9ce315d02230a43111e5716ce9d73428f7d82e9e4260956f2",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "c378ac8676aced37760841a47f4ce60633819a77f498478016fac8444ccdf14f"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 236,
+          "sha256": "07cf12ae0f0a6e4d644a042f6b68be088fe09de8c8e06baf5c2d3a53c5231232",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "c378ac8676aced37760841a47f4ce60633819a77f498478016fac8444ccdf14f"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 237,
+          "sha256": "47043024dc8955c7cfae72a853167afaa7c4724561842380912476a66cb63c54",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "cfc81b232d1c84956d3b7708b39a249f4648eda6716e87080eec3ecbdb0f3149"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 238,
+          "sha256": "36f76eabb50ad178204d05bc9c3403f9cb67e3c397b2b8200ee7d0c0542dc62b",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "cfc81b232d1c84956d3b7708b39a249f4648eda6716e87080eec3ecbdb0f3149"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 239,
+          "sha256": "d8a868435c1cc4038ce9673083077f186c6b091405d9d398e7eff3feb285e1d8",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "b35a2bfd1d85408b783dd607ba199fe351a1f93c43b990b7b8947f14a52041b7"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 240,
+          "sha256": "972490913091f1982ed5b393c525aa9882a0eeb5a1da27ed05132b588f208035",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "b35a2bfd1d85408b783dd607ba199fe351a1f93c43b990b7b8947f14a52041b7"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 241,
+          "sha256": "2efbfc2aa32d262c0fe29eca3f84dc8ceb14b21e967757db5781f2f45d5412c0",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "acfde4e2c491f53d99b5cf16f84142799c8ae12b4bf912f79add38e5c5891d7e"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 242,
+          "sha256": "ea726b444ff81a342c8d60876f4efa1e7699e7a35ab16498c8071a994679f0bd",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "acfde4e2c491f53d99b5cf16f84142799c8ae12b4bf912f79add38e5c5891d7e"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 243,
+          "sha256": "f31c59f8c13d4c2c381e8f65c3e74e0c22f87da3cacc6e06ce26353d8831796b",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "3961b4213d79bb588c25f62e5280c4d062866ac19c4bd3c8d4d38b35ed346b75"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 244,
+          "sha256": "bd5921bc437898ffb61c31690d7a3264da0efa76f6c00d8875ac88a54e87abac",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "3961b4213d79bb588c25f62e5280c4d062866ac19c4bd3c8d4d38b35ed346b75"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 245,
+          "sha256": "15c70889aa3136feea1e7cf8a1c9577de22a355b67f946645f53ac322b14d391",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "18d7f9cbfa57280e3f10b3074eede348793ec5fd9659390e9cf0f24971195f7e"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 246,
+          "sha256": "d5df07a97ff07619eb08e67b6e8d2eaea1a5794d6cc1854404279ed30ce80ae8",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "18d7f9cbfa57280e3f10b3074eede348793ec5fd9659390e9cf0f24971195f7e"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 247,
+          "sha256": "22001ab2a30470dace9d27c5a671a3bff2b73104c0e298cea5803192c0fdbc15",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "b151eece6b72df9b363959b496412476171dd805c180c0b6cf9eb8ea36d477f1"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 248,
+          "sha256": "a7ef4090267d8736820d8a7629e16411a724f0b3029c4c8f726bfbaa06b2485f",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "b151eece6b72df9b363959b496412476171dd805c180c0b6cf9eb8ea36d477f1"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 249,
+          "sha256": "ab02755c8aa36b64696fc95841eea93048a66ee84a1811a400852146756ed0a7",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "9f82aaf021b60724a1e4ee3d5112882012f4a297c6dffa4193f4fc0d26c1aa99"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 250,
+          "sha256": "8646b59aa45b087536d61b26e37f7f6186fcbf6edbe0522eed3ff323394900dc",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "9f82aaf021b60724a1e4ee3d5112882012f4a297c6dffa4193f4fc0d26c1aa99"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 251,
+          "sha256": "86c545f2e6d9266159bd3b26247f84353c7c91f3e50d4399ef17eeaac7ef611f",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "c50a3849e8656b33c08eb267c3094e04558e40606c82d8f01682247455cb25c5"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 252,
+          "sha256": "8c1e7ed4116c1d2687abd1676715b83e0ec3e0fe4df6d1aff5f16cbbb956132d",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "c50a3849e8656b33c08eb267c3094e04558e40606c82d8f01682247455cb25c5"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 253,
+          "sha256": "fd120b5b8885115553b371175823abdc945370f939551a6d4ea7f0d92cd28be6",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "d66b2ae43befa60a7da0ac39580b95b5fdb18e1659607a8194ebe7b7c9be1e08"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 254,
+          "sha256": "3baa9d603ef1b16c98df36198098cb1e0c9b6bed6e496de00f032fd2d85f29c4",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "d66b2ae43befa60a7da0ac39580b95b5fdb18e1659607a8194ebe7b7c9be1e08"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 255,
+          "sha256": "d00e0f90dc9956f5921145e025269de0a15ef38116e3e5f74d499f8dce392792",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "e1810792a3c816bc210208befd08f3c8e4bb68fe7a6888dbb8104f7ec1a9cb29"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 256,
+          "sha256": "bd44df7f414508d929669b8f1a0cd5318467eacd8e6edbd9fe09fd05344a83b2",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "e1810792a3c816bc210208befd08f3c8e4bb68fe7a6888dbb8104f7ec1a9cb29"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 257,
+          "sha256": "058ef0187344e62cf94dffc3313c6abf771d272701ccb8f3ec76be1941c6abbc",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "570b8392f7cd60ea5c1b6f3c25e8963a6d69f349759d14accecc8d57d7a045df"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 258,
+          "sha256": "b6cf3f09a267dd0d9aa16af8a12be97e09c4a7d1c5c6b6909eb9c00ff96c5346",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "570b8392f7cd60ea5c1b6f3c25e8963a6d69f349759d14accecc8d57d7a045df"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 259,
+          "sha256": "c92fa960a17dd230ecba197b9a0cc4cede8b3d7d057c2f0650c71b33c05e8620",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "3a43bdbfda9d335db54195cea27004ce2aaf3af9d2f58177f3a0036f750d7db8"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 260,
+          "sha256": "5bc1b2592d247bcfefefd0f8be69f54d11168300ccdf435d85f351c50fffb8de",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "3a43bdbfda9d335db54195cea27004ce2aaf3af9d2f58177f3a0036f750d7db8"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 261,
+          "sha256": "d901f931f5d377de274fa82a64770284293a7354ae960d3525e29cc3f381abb9",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "a495c51baeb99b5b843eca8bb9c64bdd0c37cc93ed3d068a590534129efa7d46"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 262,
+          "sha256": "ba9456f9c914f4feab33eec092cb3b29c2c58fc8da7a1bfef0e99558cf75bd07",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "a495c51baeb99b5b843eca8bb9c64bdd0c37cc93ed3d068a590534129efa7d46"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 263,
+          "sha256": "8a636459b210614dd053ea213481679e21b84daa03f0489a07a88825ea6c488e",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "2b72fc782fe48c577666d73d636551567c6d508fe34ca74d599cc5046affcd8d"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 264,
+          "sha256": "5c8f6d83c548bf78edc666c824f3b31faed878b54c6e0642f5186cf5c76d2b21",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "2b72fc782fe48c577666d73d636551567c6d508fe34ca74d599cc5046affcd8d"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 265,
+          "sha256": "2ede18f0e79728df5f3b83b375a5480a59bbf90e690ac563b65b7ddc991a36b2",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "5960b38e0548fa0118696990867bb3d6ccb5e4ab725d11d7f2e81f0c397a01d0"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 266,
+          "sha256": "3a6943ff8c983b1909f868749e45365478c155063158b4a1129ba5af7842f325",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "5960b38e0548fa0118696990867bb3d6ccb5e4ab725d11d7f2e81f0c397a01d0"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 267,
+          "sha256": "d7d6aaf0adb876e77fe8811c26a9a7b0738856029a5b3576e922b99bfe7d59ff",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "8007b6f83c7de04704d45b5c987369e2ccdc47dcf9a0a640d784f06a7cfa05f9"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 268,
+          "sha256": "3f9e7ee6666dc5389bfd89f635a713c0d602c27611df19abc777699521cf5117",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "8007b6f83c7de04704d45b5c987369e2ccdc47dcf9a0a640d784f06a7cfa05f9"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 269,
+          "sha256": "a99ac806199730db423a9af81c728bf6fa7035743814be5dd829ea146b13828f",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "541176da41df8c5516f418adc3005d48d30f51d65ec1700a0f652e0cf7a7e8f6"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 270,
+          "sha256": "0fc8037423549be993bd9e525c0c4eb8ab4a04de54d552e28be58799b6ed4f4d",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "541176da41df8c5516f418adc3005d48d30f51d65ec1700a0f652e0cf7a7e8f6"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 271,
+          "sha256": "8acc75efe21785d687940e7c36745315fcfc14948dea9ef124997a1fcd2eec08",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "2abdcfe8c6803135545e45727a84dd9312a11ecd83716a8dbf8569616eee7e03"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 272,
+          "sha256": "964bdacfbcd6d76767faab7a50ec1843f80b98f54f18f4d2feafdac81ecbe932",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "2abdcfe8c6803135545e45727a84dd9312a11ecd83716a8dbf8569616eee7e03"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 273,
+          "sha256": "30f6165815f3ff1f6b3ca8e85bc8d473a97f4e4e46a7c13fd8066aa86e0bee0c",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "023e89e09c8e5af47e746fae83ecff83f64e61fd63a36c95af5d33d0e10e51e2"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 274,
+          "sha256": "72167db0a4ebd29f2336d786559b0dfd462454e8c0308ec2238be42373434378",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "023e89e09c8e5af47e746fae83ecff83f64e61fd63a36c95af5d33d0e10e51e2"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 275,
+          "sha256": "0cb3a14d3a390a66f585e29a03973559027662f102264aa83874b5688b929aea",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "01061f64be5ecd21584657448c81faebdd8043b3e996cdb63023eb76bcf444fd"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 276,
+          "sha256": "1ae348c580d5937aa62ca10414527d43a9eb13a0f52b784a5e495829cd0581d0",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "01061f64be5ecd21584657448c81faebdd8043b3e996cdb63023eb76bcf444fd"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 277,
+          "sha256": "4fc4c09c077ad1fe92eb211a242f3290275cf1d1533e702a4f95847273fa1d2b",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "f61fb75227113bd8271d1c308af4d3cbf2a3a7f1436e20d53cef843904fc1d4c"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 278,
+          "sha256": "525503c8c29ac5c4046eb95fb275e052e49096db245f345edb81955093a2a1bd",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "f61fb75227113bd8271d1c308af4d3cbf2a3a7f1436e20d53cef843904fc1d4c"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 279,
+          "sha256": "d38f6a8c25cd6417e0582ce9ab8e9f4cef08d52cb26ada0f0de301c99cea8054",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "4f9aa936f3eb491933eb7b7fbc5c3a6de248668f88f277769a19dae56502e3ae"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 280,
+          "sha256": "211dd1a38d35057c4f327e6b35120cebe3da448782bd845f927203384e885e6b",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "4f9aa936f3eb491933eb7b7fbc5c3a6de248668f88f277769a19dae56502e3ae"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 281,
+          "sha256": "7cf13520158640dafdff986ca6e937aee3791f88b434f05412aa96f99b3a87a8",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "52eca714b7785c237df031d227979900eebedc5ee15f0e7f72cdbb8741d88385"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 282,
+          "sha256": "ae55bb9bfb72347ed7c01374f56c06e1f2c2912a90cf03b267acd4b69927ba74",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "52eca714b7785c237df031d227979900eebedc5ee15f0e7f72cdbb8741d88385"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 283,
+          "sha256": "b280f84691ecdc40639a6bbf414d2deb521132a725a661198b03cc93d558a42b",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "52b22ba79ca8e93a23ed3a8155c3cd9bb67278008acfe9cb1f3fb746a4d5a800"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 284,
+          "sha256": "91970a23190080255cb43f02d7921a90ece1c199adc8537b50246b8c3c6f251d",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "52b22ba79ca8e93a23ed3a8155c3cd9bb67278008acfe9cb1f3fb746a4d5a800"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 285,
+          "sha256": "4f52480ef13bf78bc51e9558690f60219cf6fa8dbfa808b4f90b5d5b4d070e94",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "e511acec7b60f8ccd252e4beac7f24bc14ae8eba3a91e5bde0363a7d5cf1912e"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 286,
+          "sha256": "0c04fb1ddd8a4a2fe91d0f1100fa3ae86abdc7e28eb93b083c6a57562c26c3b1",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "e511acec7b60f8ccd252e4beac7f24bc14ae8eba3a91e5bde0363a7d5cf1912e"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 287,
+          "sha256": "16c8bdae9d72d35cb50d47f088e10b9e71cfe87e8e2b3a42feed38afc101ed38",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "4336037f451c55e836feea926d5f577e496cbb64183747cff1d548c79a1b8e81"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 288,
+          "sha256": "41b898cc78d3ab48e14da277ededf97ab0b6abc5f724bd4c6f95181b3e2f1d9d",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "4336037f451c55e836feea926d5f577e496cbb64183747cff1d548c79a1b8e81"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 289,
+          "sha256": "dab8c9bc9a418c7c3d79916182b1004ece9414ccb4c1b791126bf0cc27c1b751",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "a3493b00b8b1c1f188a84074e59ccce35b3ed73deb713f97c0e1af116c22f5c5"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 290,
+          "sha256": "27f873dfc511db7c52918d333e3ae0995c6b7a0596dccbd6bc37a208cb94b900",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "a3493b00b8b1c1f188a84074e59ccce35b3ed73deb713f97c0e1af116c22f5c5"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 291,
+          "sha256": "41985d6b892d6dafc79dd5e660c4e01c0949f91b9fe708b3d04e5c08b80e75de",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "5e5cc01417ba3e4d452c75ac03320b6af939e33b59c18476e28236c5993beb12"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 292,
+          "sha256": "8367e954112db82eef4f278ebea79e46cd6c325875107d02bcea907051e0e464",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "5e5cc01417ba3e4d452c75ac03320b6af939e33b59c18476e28236c5993beb12"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 293,
+          "sha256": "0a7f95db42b5f1fb3690764830e2568785f7a0efa2e4adcd9795c7e1c9b4894b",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "b41c1566e9e2e76628bd035b87871fc09c24b8af006f285ede48bbb9c53d25c3"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 294,
+          "sha256": "2647759d4ca582978b288ecf4e7a354a1f8c0f67e20a4f6ae2dacf24e4962ca1",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "b41c1566e9e2e76628bd035b87871fc09c24b8af006f285ede48bbb9c53d25c3"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 295,
+          "sha256": "35a8e09b112393941e6917aa994f6240b73f594b8b71b9cf99979677d9607115",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "e6876a5ea30a311a920e9fb06c4be21c6250b70b4bbd0fb4562f249fcc34894e"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 296,
+          "sha256": "2d1d25248318f34ee8674a32f1132f4933ea039a5990864b94263ffacf290723",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "e6876a5ea30a311a920e9fb06c4be21c6250b70b4bbd0fb4562f249fcc34894e"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 297,
+          "sha256": "bec8898f649bf16afc8844c11a805e67e5e13471934d28cfa79f2604571825bd",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "96af73a4247b3d558acdce7080b4c3dca888fcbeb5f3e8eb98dc34ea689d6dee"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 298,
+          "sha256": "736cb18a47f90888d7884ece50ac47366f11895c4713471fb2495c21fe701e9a",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "96af73a4247b3d558acdce7080b4c3dca888fcbeb5f3e8eb98dc34ea689d6dee"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 299,
+          "sha256": "24798fd99bfc7d6d52f3a5aec54896fd6771495e5009532bd8dca45c1fcde790",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "bd3559bf532813b848e42f4cae1999c3673ee5b6ec3bb46e52f6645d35ac8827"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 300,
+          "sha256": "5bdfbc2c7c4b6afc2cedd27ee29412727d0d19bdc998fdcfe029dc2d0fe0b709",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "bd3559bf532813b848e42f4cae1999c3673ee5b6ec3bb46e52f6645d35ac8827"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 301,
+          "sha256": "e7ecef162d8b2d2c9b9e5d1f4fb009e532f5cc48f4eda0b577346cf3851ec671",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "1a3e8a70f44b8d4081add79400253ca871529d6949cf3b21ec0c7bc6f8ce24cb"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 302,
+          "sha256": "09f804fed4cef1f214f3a7214b98032ea2d3b8e0abafb4a53ed208548962a0df",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "1a3e8a70f44b8d4081add79400253ca871529d6949cf3b21ec0c7bc6f8ce24cb"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 303,
+          "sha256": "bcb0cc246a7ff85ba6b1a0f1eafe3ba8f8d0f564405d5107322f858f9509c1e9",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "41a8d5e63176b06d7198cc94120ff4bc26fa3c36c1df3b3fa6b200178535b081"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 304,
+          "sha256": "72e7635d50d23d4c2f649ce0b0c7fc187eed66ca6c7bd8aa6fc0035e4d9dbacf",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "41a8d5e63176b06d7198cc94120ff4bc26fa3c36c1df3b3fa6b200178535b081"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 305,
+          "sha256": "ad6ffb86d3c722a3ee5e303c91ba8d80bb77fd59307fdddf81ca011057b56db3",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "8be583eafc5306a9cce2e333a712e56e22456ea0d1b0b8c8e39bb9cb681ca98d"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 306,
+          "sha256": "b476dac535352f3519c1fc1faf5bac2f77926e0feac38988065657f598f36b47",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "8be583eafc5306a9cce2e333a712e56e22456ea0d1b0b8c8e39bb9cb681ca98d"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 307,
+          "sha256": "62b44d5dd822c197071677b57643f77fee0320e8724e03044763498b81e74934",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "b0b1c65a13816d3f34ca0bc79ff01ffa6af0e07993f5b955d37e5c320d52f1ef"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 308,
+          "sha256": "380df54c048ca3f9d551d810e2ec52250378e888b3b63df19a7cb6e63c42966d",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "b0b1c65a13816d3f34ca0bc79ff01ffa6af0e07993f5b955d37e5c320d52f1ef"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 309,
+          "sha256": "71f3117615e218f0c501db408f4b6c6b294096fa7898111d13c96190379a0cc5",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "02aa09c29c3ea64e6724018e0593c3366f55fa4dfb9b012f3c01751febadf8ff"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 310,
+          "sha256": "4be82bef6f8575d93151db05d9ff1c4ea1f8322cc29455b71956ae467e5029fd",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "02aa09c29c3ea64e6724018e0593c3366f55fa4dfb9b012f3c01751febadf8ff"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 311,
+          "sha256": "7c4a78c7eb676f0c6618bd980da989f1bf89f9b73ba7e237f6849b547e6dcdca",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "8e747a7d51c014ad6b2727ad96715b8732c39c3a154c001fd3ef843d6f902701"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 312,
+          "sha256": "10d81daf9f70345fde24ea6cb8cc64d264fc10c9154bfa21a47932496d64c734",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "8e747a7d51c014ad6b2727ad96715b8732c39c3a154c001fd3ef843d6f902701"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 313,
+          "sha256": "90486935ae1ac169dcbaf62696784b5f3f6a5cdd4f2b359630907145686edc75",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "bc3978a2cc0cf92d805ebf02c2ea952a5874fb7983d71ad0766b6b09ef8a6d03"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 314,
+          "sha256": "c04c4536124202679a8c29a3a3c99e0d2c71783201ce3caa09c09c51923cc129",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "bc3978a2cc0cf92d805ebf02c2ea952a5874fb7983d71ad0766b6b09ef8a6d03"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 315,
+          "sha256": "65d5d1fd72af1dbc93e37f05cafdd4fb73797dae2f7ad9096621db7449a3b041",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "42d65bed5006ee572b335278651c0f8837468c87cec1db81e52d9f19014c1ea9"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 316,
+          "sha256": "7ec7200b6b1bf1c8ee168d84ad5bdacf37433aeefeb7e6794293da9bef268fbc",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "42d65bed5006ee572b335278651c0f8837468c87cec1db81e52d9f19014c1ea9"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 317,
+          "sha256": "1aa36a9ae0c31fa636e94cdc503a267f02663aa4440c9bb977e42873c68d8e6e",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "02e76ee0dc653eb6ffb1ca6299066066a7532f04a0bf13140755774b8e601b80"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 318,
+          "sha256": "82fb20847c4c114cf2c231afeee5cb4ec561a99ae98d9943cced7ed0682fc445",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "02e76ee0dc653eb6ffb1ca6299066066a7532f04a0bf13140755774b8e601b80"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 319,
+          "sha256": "d8695963d046f9b25ec1c42add8de11c62153dc11befb6d80be70d9645edc396",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "80dcbebe6da8ace17cd6f701e42cd3c0bbb66d20e3f2d7d99119902a371d1477"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 320,
+          "sha256": "072d06ac5346a54b71d543fe357d5cb6a9a5a4ea0098d81712b8e0341088bb53",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "80dcbebe6da8ace17cd6f701e42cd3c0bbb66d20e3f2d7d99119902a371d1477"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 321,
+          "sha256": "345b50f26869b353eb4fa14bdb7911caead79c64ce06a2e8f04d6c32be6f1e44",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "fc4928157b4eead11b038039ef673fcd4580bed3e036030517c0a564f5a40a64"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 322,
+          "sha256": "0e0c2e0d5e94bbc7fda480d00b2620c9b3344b44435a92e5708df298f15ea790",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "fc4928157b4eead11b038039ef673fcd4580bed3e036030517c0a564f5a40a64"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 323,
+          "sha256": "6c59eb4a5c109caa33fc1e93048c41ee7d09b31bc27190d104d81867f5b12f3d",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "4dfb9222389e7e8183082d2b104471fdf88555538a07918f67fbe175d04d1ea7"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 324,
+          "sha256": "225c28f5dfaf848461838d6c9ec8ecc383c506d3b4d5a10b0a28d9292133b4aa",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "4dfb9222389e7e8183082d2b104471fdf88555538a07918f67fbe175d04d1ea7"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 325,
+          "sha256": "58a1d7616056d06c1664e76e670c18deaa23020d5ac02248c831ae05336b03eb",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "1b58f75ba963fd4b7df323f6d1ce4a3e7302cddc49c35fb77c9ab919f2ea0540"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 326,
+          "sha256": "12370081847de4aacbb61cfdef81d433fc8943ddb3ff6df4b90de3f63341a655",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "1b58f75ba963fd4b7df323f6d1ce4a3e7302cddc49c35fb77c9ab919f2ea0540"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 327,
+          "sha256": "1fff04154bc96741c0eaa65f164857fd387ec1ace63febd89c18924410ad040a",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "4569f0fad28ca79dea1bb4ab80a4c241264c8421e79941bd790c8428562e8656"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 328,
+          "sha256": "5cc6d55b138b6c26aad6d63a88ea59d29d144e10f7e58bb1318373af579f5213",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "4569f0fad28ca79dea1bb4ab80a4c241264c8421e79941bd790c8428562e8656"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 329,
+          "sha256": "9a2265b43359cf6dcb55d01d51853f58e35bdf773c9d61c1591c0f07202e260b",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "3193d12ab2c2237d9941f5e9f8609339cc03de603278f0aca9090b4bf7d62a18"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 330,
+          "sha256": "e26a08cd96a0a97e77f57985a2b3a4d80da9a3bd1a961421526117062bfc0f32",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "3193d12ab2c2237d9941f5e9f8609339cc03de603278f0aca9090b4bf7d62a18"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 331,
+          "sha256": "1db3173fc8310da8931ca6b03ca8ae2b0758cde401c116a3565cb7950ee18dc0",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "41247ccc0d0ee08a537e4e010a1ada3aaf48d5eab2bb28c0bab694ed22337270"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 332,
+          "sha256": "fa2e817ce0ff14542c9a742a0a04d71a57bb6c47d7f3b8fd0a6ba8ca120ab046",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "41247ccc0d0ee08a537e4e010a1ada3aaf48d5eab2bb28c0bab694ed22337270"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 333,
+          "sha256": "cde20c774ed91969e16cd2d5fae30c3d1c4e1f192551ef0e197244e1484ce232",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "8d16113ec405f8e2ab3e377ef94befcb1ef0ea88e295e576d517e2b5575f4d91"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 334,
+          "sha256": "711ab7de733c895b113c962604e5f4b689d9803df9fd1591937b643ec5008621",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "8d16113ec405f8e2ab3e377ef94befcb1ef0ea88e295e576d517e2b5575f4d91"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 335,
+          "sha256": "93e2e60ffa81f2a350021a1782d1bb47f57e668f89457983552c6c785d7ba1c9",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "60e1764a3db031fc7698655462179de6a075696ecf0a0af17b1eaee539662fae"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 336,
+          "sha256": "360feedf7c8002346cffedb871c9046aa880f5101e7257343a318beb1d1ca79e",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "60e1764a3db031fc7698655462179de6a075696ecf0a0af17b1eaee539662fae"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 337,
+          "sha256": "412f38c1a0286efa07e06f37e373a87cfe09503e4ea4c40cb700a8c7564a3db8",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "e9329acdb775be515a8035eced493a26eb361ace7bfc53816ec6fb2c3d434e17"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 338,
+          "sha256": "f6c56927955c9997c11eb52c80737bca5ecea5832d03994e1eb4e2603dd912f2",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "e9329acdb775be515a8035eced493a26eb361ace7bfc53816ec6fb2c3d434e17"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 339,
+          "sha256": "de81dfd34065143d010ee79704f82c7cbb60f71aa3ce4f30a26979c143694410",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "d8a21bb5e1f8e3e5dc367a620f189b7a6ac4f81595bcd8d15af8e973c41063fe"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 340,
+          "sha256": "3d9cd7e8bb9ab693663815526aa5d4410576b6dfcc9a218cbcc464cdf96fc5f8",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "d8a21bb5e1f8e3e5dc367a620f189b7a6ac4f81595bcd8d15af8e973c41063fe"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 341,
+          "sha256": "a2285b8a3514bba376ce12500aabc507d8fe5f4075a961f7cc1ab5017de3be60",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "3151c1631ba5ee0a0d04eb0cd2d8b70dd1d0cd42d205ee21cb5aaa696c14eb2b"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 342,
+          "sha256": "3b22613976f03ce311ebf1036096a1eb3ff5aab6bbca28bfcfef75b04631ea08",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "3151c1631ba5ee0a0d04eb0cd2d8b70dd1d0cd42d205ee21cb5aaa696c14eb2b"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 343,
+          "sha256": "8f725e36a3611135cbd3f2dd19afa13bd7c9ea4d3df933024f5359961393e095",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "888af1450161c87c246dbe0511ba58d27b6392918f4bbf23d4bfac6d0aafb188"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 344,
+          "sha256": "cccaa56fc1ca454acb89404493e7bc5cc8cb1ead6654c21d933e95c591e21b66",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "888af1450161c87c246dbe0511ba58d27b6392918f4bbf23d4bfac6d0aafb188"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 345,
+          "sha256": "4077945d1331e31ed8cdf76c9951ed0aa6cf4291091b13c9f0f53d2d8f15163f",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "a98daabac7930c9849e4abca9e8454bbccec81046279160bdb862df0c52ca771"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 346,
+          "sha256": "56f6107962d28d801bdbf54dd7f01a48100607795b9d5639020097f689f20cb7",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "a98daabac7930c9849e4abca9e8454bbccec81046279160bdb862df0c52ca771"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 347,
+          "sha256": "43878566565a96268218313d2f3455bcc912e8ddd250c04340a8e5ef57ead823",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "7b6566fb90e6213fb88f35cee3470501508fff43125e5abda52b613003fb6eef"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 348,
+          "sha256": "24d7b1792e61d1370089607442e2d82b7bc6cb74afc5fdee7f986efba4581ebe",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "7b6566fb90e6213fb88f35cee3470501508fff43125e5abda52b613003fb6eef"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 349,
+          "sha256": "4b9ea733a118d52f718e4ef75ad38fefa9b4d3049afe765d47b9f08dc22030d1",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "d8f8ae2f492017ffa1bafd050136e81b4b80a1f5ba45db208ee776c681a78d28"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 350,
+          "sha256": "3045a0c9e5b993e01b9cffc1c1d3f78e9dccfd863e2432840f5e9d8752e13ff5",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "d8f8ae2f492017ffa1bafd050136e81b4b80a1f5ba45db208ee776c681a78d28"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 351,
+          "sha256": "5ba28ca0ea60c2db4dd6d9d0decb28e7b5e06ac9aa84c51e3ba8fc781f74910b",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "4b51a14fda2e16435e00c7cc268a44d327ae1d03956705770129c842b067327f"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 352,
+          "sha256": "3daae806f82615045940538f39b966c03f7e5a4fbc0b21de87e1ea3dfbf38a81",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "4b51a14fda2e16435e00c7cc268a44d327ae1d03956705770129c842b067327f"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 353,
+          "sha256": "214abfd90a8c335586fa4f3d596820fde0b8d754e9a28aeb73dbfc860623add2",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "6dd3588a991476c9cddc469c6ea134ab7eeb56dd0c6136de7770edf369b7304b"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 354,
+          "sha256": "30b45eb30f6f5aedc50e7e6253ef0e9a09815019578d495aded3e1d682b11609",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "6dd3588a991476c9cddc469c6ea134ab7eeb56dd0c6136de7770edf369b7304b"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 355,
+          "sha256": "f9f1f8cafd6871199cc671b2a72e77fcb9432a1e83667e41587ef21ba3051765",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "39da11572d19f72ea3d284128e8a5b2cdf6bc69542ab79f6ee552adbeb8836bd"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 356,
+          "sha256": "b04632f1f59a6809d7cddeaec31acb13811ab3a3419fcbe39011075508b2c52b",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "39da11572d19f72ea3d284128e8a5b2cdf6bc69542ab79f6ee552adbeb8836bd"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 357,
+          "sha256": "0df6adc594fa858830e1af5df339e48beb9f590ec6e62432c43e9f0bb0207852",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "7a7b574b723d09872e6a22c75e566181ed56314c0ee876d72eb89d9e3415e548"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 358,
+          "sha256": "f1a5b5f0016e6dfb70b6c3be0cf7d16a937ee834a86c478cdbe33dfdbf2a51e4",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "7a7b574b723d09872e6a22c75e566181ed56314c0ee876d72eb89d9e3415e548"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 359,
+          "sha256": "0a0c895a1bcdc940065e261b779509148464fe7a7bd3059e1c3a83c2ab243b34",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "af5cf7d9b8e0908459f94e099c20e62fb55f24ac8ee2c026446caa7b8e646f95"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 360,
+          "sha256": "234d549d228f198c9816bbcfb7b20edfe3ec5a1da231b326498c1eb60760ffb4",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "af5cf7d9b8e0908459f94e099c20e62fb55f24ac8ee2c026446caa7b8e646f95"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 361,
+          "sha256": "82133819fbb9144a8543e068fcc7c5ce89f18365c41c5ce42b106d21da793741",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "7778565f842912bf6faa87b5b3d4005e34ef10e6518476f6aaaf6204dc052492"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 362,
+          "sha256": "0bfe9f584fb01319732efd14ecb5e53a6c7fc0acc69a550fd31efd293bdea8be",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "7778565f842912bf6faa87b5b3d4005e34ef10e6518476f6aaaf6204dc052492"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 363,
+          "sha256": "979fbf7f6a64713a7b01aefd38c156c2a7d04f3ec06c67cc9527e39982d7e824",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "f803c2e1237e07d9e8138c50b5863183f784baa03f9ae599fe81b5d8d3d48057"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 364,
+          "sha256": "438aeea4d4c80d8dd408c93fac526e5d1339c5c74990c401e5a64be60d9f7b10",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "f803c2e1237e07d9e8138c50b5863183f784baa03f9ae599fe81b5d8d3d48057"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 365,
+          "sha256": "c90fbc1338c25b1629ba88346607d7207c808ce5de65f4812bf22babaf5ac7a5",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "7c079b49676ac2709d847a96ffafd029101f8b4e3b0d020ed7107f92094c5b46"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 366,
+          "sha256": "70c59ec8d1fc04215294c859bd90cd92c77b7a6c1e874697aff7dd4be7f151ea",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "7c079b49676ac2709d847a96ffafd029101f8b4e3b0d020ed7107f92094c5b46"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 367,
+          "sha256": "3a1f69cf2d65dac460622c59e1f2e861c39453282605e497857a2f4759222931",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "e9cfb1387b647cbeca469c2cddd370bae129c6b9f43bc810ff57b9646118e224"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 368,
+          "sha256": "8c0f7553a657ad51c1fe3ddf44366e7c8e38150200895003944ece93fa3a22b3",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "e9cfb1387b647cbeca469c2cddd370bae129c6b9f43bc810ff57b9646118e224"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 369,
+          "sha256": "7cb67766bc1c6d0838a10fba0bd81ec380d707de3368f0ad7011705952e00a3e",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "1df1037952e934b26653c15a38256c0e5d09097e9dbac8f892d86a6e76da43d2"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 370,
+          "sha256": "31f4154582408a5316e5316788512e1c784d2a7ab3d58da049164f992442aada",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "1df1037952e934b26653c15a38256c0e5d09097e9dbac8f892d86a6e76da43d2"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 371,
+          "sha256": "2bd81def135bbab783a6ee183bf0d041845466207d67b54cc0a2e531f5b054df",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "fc9944959d6aef38007d9e1f77fd73b5d53e83e7a86b31f80c47210ad0b92a3f"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 372,
+          "sha256": "ce6966e246834613b8bfb4e482e9065678eb9868cb1e291e14c5643871441c92",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "fc9944959d6aef38007d9e1f77fd73b5d53e83e7a86b31f80c47210ad0b92a3f"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 373,
+          "sha256": "eb965767cf431766cd0e13e327014d11d40ac35924a70239d15696c7621e0867",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "f6078b460a7f787f8fed83b838aee9816d645994074223ba3de93c5ef0b7654e"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 374,
+          "sha256": "9786ae83bc35c2fbd5d4a97696dde817b7df2c7bb2e1506300c4371e16b92097",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "f6078b460a7f787f8fed83b838aee9816d645994074223ba3de93c5ef0b7654e"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 375,
+          "sha256": "92f71470554e51a000d05b6897d4487ea568f5931960cbf28dbf2bb68e9a6c74",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "2a8cf5c4639d9f0eda4ba1c4ae04b91b5db717f648cf8a14cc6bed5b371237a0"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 376,
+          "sha256": "efa0b61badac121e52ed469ebd74f9e21ad34f990725b542dd7512a5dcca6b76",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "2a8cf5c4639d9f0eda4ba1c4ae04b91b5db717f648cf8a14cc6bed5b371237a0"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 377,
+          "sha256": "93d42d07e85d5b21e0598aefea32c9cf2d66eec4ee259fbc0c50c3db21586011",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "dd00b8d284ac1cd510298c1bb16980e13c48ac5053ebc931e3ed00552c6bfbb6"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 378,
+          "sha256": "d559934dbf9c9cd046c1facdfda95ad4c66e2e10e39478a2126c443bf7599089",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "dd00b8d284ac1cd510298c1bb16980e13c48ac5053ebc931e3ed00552c6bfbb6"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 379,
+          "sha256": "b4500067c3e3cdaf8bc87af4aa681b768f3457a5b1aa2474630b8b8869eb39e9",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "44848a67dd2155dd48f1ae6fa8b7cf7d471c6ab2aa1bd66f0f0663696b72cbd7"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 380,
+          "sha256": "a9e053042b9d468b86b246d13f9963388c4c453b9ab821fc4d55c329f366ed23",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "44848a67dd2155dd48f1ae6fa8b7cf7d471c6ab2aa1bd66f0f0663696b72cbd7"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 381,
+          "sha256": "538efb75c65661717f2e45f2252798a184fca59ac7c71d0e659222004de6f067",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "f2cc8f600aee3b1002247a978b325b56d71273cce33a759c58f617fcc535f30f"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 382,
+          "sha256": "a41b534a86906424866957819aef968df217b44b5d9b10863d267bfaf7358bc7",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "f2cc8f600aee3b1002247a978b325b56d71273cce33a759c58f617fcc535f30f"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 383,
+          "sha256": "d56ee2c6bb64b17e1c29535632f6097b338849db6d1d89acd9ff7b308f7c7866",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "453064c3d85ce42f1b143d757b48925843b4b8f39b3e324a47c78a72c54ad69a"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 384,
+          "sha256": "cb0dc6486e331405b6d23ff548810a7611ff9a5fb1d5a56becb5b5f232ccce06",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "453064c3d85ce42f1b143d757b48925843b4b8f39b3e324a47c78a72c54ad69a"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 385,
+          "sha256": "f49258ab5715a309fd6efbe1995052829083379028f9bb435ecdf8771e615ce6",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "6c6b91c8940fe64367001f4d42edc39cc8a26926b38c7ec04e395a8bb9ae30a9"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 386,
+          "sha256": "9d7bd5da516f6dfa765c3133a472f357c7ae834c758695a16049620f118c2725",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "6c6b91c8940fe64367001f4d42edc39cc8a26926b38c7ec04e395a8bb9ae30a9"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 387,
+          "sha256": "731bedd4398de125bce1645b5cbba865bdd36a8d39c2ba1f3d8a195e85a8a54a",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "217ddcdfb7edc2bbea0080ea386aaba4b100f39ff98297ca18a3eaea1ea254d8"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 388,
+          "sha256": "ef656455c49aa3ebe8f5c33ae4fbf215cebd60ba587bf0879b3d6b6956d55fb8",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "217ddcdfb7edc2bbea0080ea386aaba4b100f39ff98297ca18a3eaea1ea254d8"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 389,
+          "sha256": "f36f8cbfce1d60cd0165ac5586556ea0c8416fd7c19d45489bd7c2e3cc3d7e12",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "0cc659a7a56a67081c14aa97b828835a5e043894a7243523503a8258e2be5027"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 390,
+          "sha256": "f66bc88bf391a4ad2282d377d76c63f5600017940d40c20b24a02c2ab8a67569",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "0cc659a7a56a67081c14aa97b828835a5e043894a7243523503a8258e2be5027"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        },
+        {
+          "order": 391,
+          "sha256": "f62f61cc9ed994fd5bf567ae936e0329d57512e3d2a16ec13a1d869c341a65bf",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "ebae5b7ad1b9fcf0187da5094caedf05ddca0eb7e9569c6e87f75becdfcd25d8"
+          },
+          "target": "REJECT",
+          "protocol": "tcp",
+          "destination_port": "22"
+        },
+        {
+          "order": 392,
+          "sha256": "fc3a420ffa23c992bfe6b37ef6a3f7fc836bbd052fd670f02cd683e58b334ee2",
+          "operation": "-A",
+          "chain": "YJ-FIREWALL-INPUT",
+          "source": {
+            "scope": "HOST",
+            "digest": "ebae5b7ad1b9fcf0187da5094caedf05ddca0eb7e9569c6e87f75becdfcd25d8"
+          },
+          "target": "REJECT",
+          "protocol": "udp",
+          "destination_port": "22"
+        }
+      ],
+      "owned_h3_references": 0
+    },
+    "nat": {
+      "query_exit_code": 0,
+      "sha256": "96ba2354a7ee95379dbc8c4bc83f5c5d13ccc95d5367d69e3af1e6dec9ed3157",
+      "lines": 12,
+      "ordered_rules": [
+        {
+          "order": 0,
+          "sha256": "d913cb4b0a6e25a8a1c0f60121d09bf266a13baffdaeb6bd6153d34010893dae",
+          "operation": "-P",
+          "chain": "PREROUTING"
+        },
+        {
+          "order": 1,
+          "sha256": "8f5893e5bcf4f3380d712c60d3505bfbeba4060cf58175968ece0297b2af9337",
+          "operation": "-P",
+          "chain": "INPUT"
+        },
+        {
+          "order": 2,
+          "sha256": "ceb3924ae5ae6f17a5d09747d32b8a312cafc3607ffcefab260014407daa24e4",
+          "operation": "-P",
+          "chain": "OUTPUT"
+        },
+        {
+          "order": 3,
+          "sha256": "8f737a6ba44e569d9c9352e29e3730b13c3b6ed660f668147daef4dd7909df6e",
+          "operation": "-P",
+          "chain": "POSTROUTING"
+        },
+        {
+          "order": 4,
+          "sha256": "61dcc2fbf9cafb31e0ec223eab453e53f1b80a060ac1ba1ccd4d0cb3a730f29d",
+          "operation": "-N",
+          "chain": "DOCKER"
+        },
+        {
+          "order": 5,
+          "sha256": "c9ef9560c63ebca935fee6e4fa0cff8b5616045a6e2bd912dd3425bbc3d78e4c",
+          "operation": "-N",
+          "chain": "FORWARD_BT"
+        },
+        {
+          "order": 6,
+          "sha256": "8cf825a1774edc8fe506c55c4b449c9937ba25b7d46c308f4fdb8896941ee934",
+          "operation": "-A",
+          "chain": "PREROUTING",
+          "target": "FORWARD_BT"
+        },
+        {
+          "order": 7,
+          "sha256": "97dcfb23c7f94696f683e6110be906013b94a9eb36c95408889dca1cef1fd4ae",
+          "operation": "-A",
+          "chain": "PREROUTING",
+          "target": "DOCKER"
+        },
+        {
+          "order": 8,
+          "sha256": "532acd2f85e26fa91255fd61c08417e89019d63039d170f8c1b36b907cc4e7d6",
+          "operation": "-A",
+          "chain": "OUTPUT",
+          "destination": {
+            "scope": "LOOPBACK",
+            "digest": "4a7ea1593dd45d7bbe43ea11027f57e28990cb6167e6fc523de903acf8edce15"
+          },
+          "target": "DOCKER"
+        },
+        {
+          "order": 9,
+          "sha256": "3b0184f84d81677ec1b7a549bcaa181b6dc49fd791cedb685e48e21332160eb2",
+          "operation": "-A",
+          "chain": "POSTROUTING",
+          "source": {
+            "scope": "NETWORK",
+            "digest": "783712746109b3d66507177fc2ac066b768aac772e5c9d7f20b28f4c7b5ef641"
+          },
+          "target": "MASQUERADE"
+        },
+        {
+          "order": 10,
+          "sha256": "7ee82ec01c01c3035bc5fb09861b268028df7c9cf9f2cc190ceee8b2d8c3d213",
+          "operation": "-A",
+          "chain": "POSTROUTING",
+          "source": {
+            "scope": "NETWORK",
+            "digest": "3538188866fbc85b254188e1eb7d7b4849d320ab3298728d3b5430738792d53f"
+          },
+          "target": "MASQUERADE"
+        },
+        {
+          "order": 11,
+          "sha256": "bb75b7df78439d61149194a0628150ba3f8a4f870f08a625480747d56d85fe1d",
+          "operation": "-A",
+          "chain": "DOCKER",
+          "destination": {
+            "scope": "LOOPBACK",
+            "digest": "aaf075b7b4bfbd619d0570e09321a0ad62e2962bac161dc6f7ae810cf563b2e5"
+          },
+          "target": "DNAT",
+          "protocol": "tcp",
+          "destination_port": "18090"
+        }
+      ],
+      "owned_h3_references": 0
+    }
+  },
+  "firewall_managers": {
+    "fail2ban.service": {
+      "exit_code": 0,
+      "state": "inactive"
+    },
+    "ufw.service": {
+      "exit_code": 0,
+      "state": "active"
+    },
+    "firewalld.service": {
+      "exit_code": 0,
+      "state": "inactive"
+    },
+    "nftables.service": {
+      "exit_code": 0,
+      "state": "inactive"
+    }
+  },
+  "fail2ban_events_in_historical_utc_window": {},
+  "historical_rule_text_available": false,
+  "historical_difference_attribution": "UNPROVEN",
+  "listening_tcp_ports": {
+    "18765": 1,
+    "18766": 1,
+    "33060": 1,
+    "30269": 1,
+    "13080": 1,
+    "3020": 1,
+    "3040": 1,
+    "8787": 1,
+    "43739": 1,
+    "53": 2,
+    "3188": 1,
+    "3306": 1,
+    "8883": 2,
+    "8090": 1,
+    "443": 2,
+    "80": 2,
+    "18005": 1,
+    "18004": 1,
+    "18007": 1,
+    "18006": 1,
+    "18001": 1,
+    "18003": 1,
+    "18002": 1,
+    "22": 2,
+    "8443": 2,
+    "18090": 1,
+    "3088": 1,
+    "3010": 1,
+    "18080": 1
+  },
+  "cloud_security_group": {
+    "api_observed": false,
+    "state": "NOT_OBSERVED",
+    "previous_owner_report": "BROAD_TCP8884_RETAINED",
+    "production_gate": "BLOCKED_SECURITY_REVIEW"
+  },
+  "physical_flash_this_round": "NOT_OBSERVED_NO_SERIAL_OPEN",
+  "server_mutations": false,
+  "real_AI_calls": 0,
+  "actual_public_HTTPS_audience": "NOT_OBSERVED",
+  "exit_code": 0,
+  "ssh_exit_code": 0
+}

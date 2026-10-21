@@ -1,0 +1,25 @@
+{
+  "stage": "F3",
+  "gate": "BLOCKED_SECURITY_REVIEW",
+  "source_commit": "5a4cfd25753b5fe8f812d3acc6494aa898e1adb1",
+  "device_or_runtime_sha": null,
+  "source_label": "NO_ACQUISITION",
+  "window_start_utc": "2026-10-21T07:18:59.527907+00:00",
+  "window_end_utc": "2026-10-21T07:19:00.528704+00:00",
+  "command": "python -m cloud.deploy.h3.final_access_review",
+  "exit_code": 0,
+  "observed_vs_simulated": "ACTUAL_READONLY_CONFIGURATION",
+  "raw_evidence_sha": "f753729c147644b3b7904ee8e6f3b81fa79955024c41ed2850bd9982df3ee73c",
+  "security_scope": "READONLY_NOT_SECURITY_GATE",
+  "owner_auth_id": "MPM-H3-004_SIGNED_READONLY",
+  "rollback_state": "NO_MUTATION",
+  "unresolved": [
+    "SG_CONTROL_PLANE",
+    "FORMAL_PUBLISHER_SUBSCRIBER_ACL",
+    "PUBLIC_AUDIENCE",
+    "HISTORICAL_FILTER_ATTRIBUTION"
+  ],
+  "null_reasons": {
+    "device_or_runtime_sha": "DEPLOYMENT_NOT_PERFORMED"
+  }
+}

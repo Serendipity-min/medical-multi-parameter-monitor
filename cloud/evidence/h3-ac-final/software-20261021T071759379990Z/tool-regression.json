@@ -1,0 +1,29 @@
+{
+  "stage": "F1/F3_SOFTWARE",
+  "gate": "PASS",
+  "source_commit": "5a4cfd25753b5fe8f812d3acc6494aa898e1adb1",
+  "device_or_runtime_sha": null,
+  "source_label": "SOFTWARE_SYNTHETIC_NO_ACQUISITION",
+  "window_start_utc": "2026-10-21T07:17:59.456327+00:00",
+  "window_end_utc": "2026-10-21T07:18:02.588365+00:00",
+  "command": [
+    "C:\\Users\\Serendipity\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "-m",
+    "pytest",
+    "cloud/backend/tests/test_final_delivery.py",
+    "cloud/backend/tests/test_h3_formal_release.py",
+    "-q"
+  ],
+  "exit_code": 0,
+  "observed_vs_simulated": "LOCAL_SOFTWARE_ONLY",
+  "raw_evidence_sha": "e489a5e231e48c6cf5f56a358f41ecac516bb314860edd2e26ff2dce808c32ec",
+  "security_scope": "NO_SCAN_NO_CLOUD_WRITE_NO_BOARD_ACCESS",
+  "owner_auth_id": "MPM-H3-004_SIGNED_SOFTWARE",
+  "rollback_state": "SIMULATED_ONLY_SERVER_ROLLBACK_NOT_RUN",
+  "unresolved": [
+    "PHYSICAL_AND_CLOUD_AUTH_GATES"
+  ],
+  "null_reasons": {
+    "device_or_runtime_sha": "NO_BOARD_ACCESS; OFFLINE_IMAGE_PLAN_SHA_IN_ADJACENT_LOG"
+  }
+}
