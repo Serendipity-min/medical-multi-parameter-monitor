@@ -1,6 +1,6 @@
 # H3 A→C 唯一权威交接（MPM-H3-004 R1.0）
 
-**2026-10-21 最新裁定：F0只读核验及F1/F3软件准备已推进；`H3_AC_FINAL_PARTIAL / WAITING_AUTH_AC_A_FLASH`。** AC-0/AC-1继承，不重复认领。新运行包已在本机冻结并精确复现，未上传、未部署；没有打开COM15/J-Link、真实采集、云端写入、正式发布或实际回滚。新软件/原件恢复测试不等于物理或正式验收。当前权威门禁矩阵为 `gateway/physical_can/evidence/h3-ac-final/closeout-status.json`；本合同结果及最小授权卡见第9节。
+**2026-10-21 最新裁定：新A已完成真实烧录/读回，负责人回报独立冷启动正常；`H3_AC_FINAL_PARTIAL / WAITING_AUTH_AC_C_READONLY`。** 本次AUTH-AC-A-FLASH已用完，真实CAN帧、合格采集源及云端阶段仍待准入。C/COM15未访问，云端未写入，没有实际发布或回滚。当前权威门禁矩阵为 `gateway/physical_can/evidence/h3-ac-final/closeout-status.json`；最新A实板结果及下一张只读卡见第10节。第9节保留前一准备窗口事实，AC-0/AC-1仍按原成绩继承。
 
 下列第1–8节保留MPM-H3-003原轮事实及失败历史；其中“本轮”指该历史窗口。MPM-H3-004的新增事实从第9节开始。
 
@@ -266,3 +266,59 @@ restore是单独批准入口：只能取该窗口新双份原件前64KiB；先�
 正式网址沿用受限 `MONITOR_ALLOWED_ORIGINS` 引用，未发布新HTTPS入口；`/medical-monitor/#/ai`仍只是候选操作入口。此次没有新增正式截图、真实豆包回执或Token；不把第7节本机截图当正式成果。设备扬声器/ASR/TTS仍NOT_VERIFIED。实际rollback及再次激活均NOT_RUN，旧正式服务保持原版本。
 
 本轮阶段性软件与证据可正常提交/FF推送H3；受保护ref须在推送前后逐项核对。最终交付提交SHA和远端一致性由提交后的真实Git回执提供，报告中的软件/运行包SHA为以上真实冻结提交，不预造文档自身散列。
+
+## 10. AUTH-AC-A-FLASH / F0-A-1 实际执行与下一准入卡
+
+### 10.1 已批准窗口及实际下载
+
+负责人明确回复“批准 AUTH-AC-A-FLASH / F0-A-1”，绑定交付 `d87295723160cd884033104ae683ac8713301fb2`。本次登记采用保守截止 `2026-10-21 17:29:03 +08:00`（UTC09:29:03）；没有借新代码提交延长窗口。现场随后回复“A单板已就绪，C断电，CAN三线分离”。工具/镜像/J-Link摘要与批准卡一致后才连接A；C/COM15没有打开。
+
+实际执行区间：UTC `2026-10-21T07:31:38.715625+00:00` 至 `07:33:04.452238+00:00`，即北京时间15:31:38–15:33:04。`python -m gateway.physical_can.bench.final_a program` 实际退出码 **0**。完整命令、输出、UID/原件只在私有 `ac-final/A-F1-*` 窗口，目录移除继承授权，仅当前操作者、SYSTEM及Administrators可访问；Git仅留脱敏散列。
+
+| 实际核验 | 结果 |
+|---|---|
+| 芯片/身份 | STM32F407、1024KiB、A历史私有身份一致、RDP0；无UID原值入Git |
+| 当前原件双读 | 2×1,048,576B，磁盘回读一致；SHA256 `4c2730ebc9a8eab33b1e4d585db7deb47567261b6369165e47ecaf9630f35f3a` |
+| 写前49888B应用 | SHA256 `506423dc295318a8de730d0d6b5100fc4ef199c349ee3acd2fbba350bf576f88`，符合批准的旧应用身份 |
+| 新应用实际读回 | 50084B，SHA256 `f59b76ef865c373c6df62aa09aea958597687f6d46b17c402ceb7126ca8f60d6` |
+| 实际边界 | 仅A sector0–3；应用 `[0x08000000,0x0800C3A4)`；64KiB外逐字节不变 |
+| 64KiB外散列 | `8e6f77366baf8f9b9cddc873765484b539c202d890ef8291302eae35e63b37ce`，前后一致 |
+| options | SHA256 `52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687`，前后字节不变 |
+| 写后完整1MiB | SHA256 `7c0f68fbd779c61fd7184d687a858d41d154361862af3b1c2a93b32ef67e49a6` |
+| 命令审计 | 7个J-Link会话；21条savebin、1条loadbin、1条verifybin、2条调试暂停IWDG寄存器写；无erase/go/强设入口 |
+| 恢复 | 未需要、未执行；旧历史整片备份未用于覆盖 |
+
+工具完成后再次独立从私有文件核对双备份、实际镜像、应用外及身份/options，全部一致。证据：`node-a/evidence/h3-ac-final/F1-A-flash-20261021T073138715625Z.json`，含全部8份私有输出日志摘要（7个J-Link会话加CLI日志）。这是当次当前原件，不能与历史原始1MiB `0fd4a4e8…`互换。
+
+### 10.2 正常独立冷启动与未观测部分
+
+按已批准卡，请现场断A/双屏电源、拔J-Link、等约10秒后由原J5独立供电，BOOT正常GND、不按RESET、不接探头/袖带；C继续断电且CAN分离。对“两屏自行显示、时钟持续更新、约一分钟无反复重启/异常”的组合核对，负责人回复 **“正常”**。
+
+记录为 **OWNER_REPORTED_NORMAL_COLD_BOOT_SMOKE**；这是实际现场反馈，没有精确切电时间或仪器级看门狗超时故障注入，手工观察退出码为null，不伪填0。没有连接J-Link强设PC/MSP/VTOR。证据：`F1-A-cold-boot-owner.json`；真实CAN Boot-up/Heartbeat/PDO和新NIBP完成事件仍 **NOT_OBSERVED**，不能据此把整个F1/F2标PASS。
+
+本次A单板下载窗口已完成并标记CONSUMED，不再重复烧录；无真实采集、C操作、云写入或实际回滚。运行包、Backend/AI/Web、A/C固件源码和资源统计均未新增变化；新A现在已在实板，配对C仍须当次只读证明。
+
+### 10.3 已备好的C只读工具和软件证据
+
+新增 `tools/h3_c_readonly.py`，源码提交 `64bfd1274be9b3711e161812b8a34fc05ebb8ed7`，工具SHA256 `b0bada02b2e044d7c97f8879857b5f8535afc7abe6089f0f61279c0bc8a1cd70`。默认plan，无串口动作；read须下一张专项卡绑定工具/支持库/身份源摘要、实际执行HEAD、有效期及现场状态。
+
+仅调用ROM识别/读取命令，核验当前43172B隔离镜像、generation2/336B配置、两次64KiB原件及sector7/11/options。原件先独占保存以保留失败证据；任何不一致即停止，无自动重刷、RAM注入、erase/write/go或自动RESET入口。只读计划见 `gateway/physical_can/evidence/h3-ac-final/F2-C-readonly-plan.json`。
+
+3项本机合成内存检查退出 **0**（正常配对、双读不同保留原件并停止、总合同不能绕过读板专项门）；FakeBoot没有写入API。完整新日志及回执为 `cloud/evidence/h3-ac-final/C-readonly-tool-tests.*`。没有运行C实板检查，不能把这3项算为物理结果；既有33项不改归属。
+
+### 10.4 下一张卡：AUTH-AC-C-READONLY / F2-C-1
+
+**REQUESTED_NOT_APPROVED；单次窗口，批准后2小时有效。** 仅为了得到当前C配对原件，不是正式C烧录授权；不得据此进入8883或生产。当前A无需再刷、J-Link保持拔下，批准前现场不必移动任何接线。
+
+| 对象 | 请求的准确范围 |
+|---|---|
+| 现场操作 | 批准后A/双屏保持断电、J-Link拔下、CAN三线仍分离；C先断电，BOOT0改3.3V、BOOT1保持GND，仅C通过USB/COM15进入手动ROM；无人体/探头/袖带 |
+| 连接/读区 | 115200/Even，核验已冻结C身份/1024KiB/RDP0；`[0x08000000,0x08010000)`两次64KiB并私有磁盘复核；只读sector7 `[0x08060000,0x08080000)`、sector11 `[0x080E0000,0x08100000)`、16B options及ROM识别所需UID/容量映射 |
+| 必须匹配的旧应用 | 43172B，SHA256 `59229f1b34660f053538737fc0fd17c814fde5502a0dfe33603e8e08b72ca8a5`，编译期8884 |
+| 配置/完整原件 | generation2/336B SHA256 `3b1a8c344dfad1d1faa82bc962811e50a467eec9adbc1cec5b2a32979c6a2c25`；历史写后64KiB期望 `102575dc940425d91b2db7c2a0f22ddf44c5cfab652b1b5ca0790f8924d3705b`，此次实读前不称当前已确认 |
+| 保护区期望 | sector7/11各 `b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260`；options `52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687` |
+| ROM握手界限 | 最多初次同步、一次现场手按RESET后同步、一次USB断电重插后同步；各留独立失败原件，不自动无限重试；仍失败即停，不改镜像/身份门禁 |
+| 结束状态 | 关闭COM15；现场断C电并把BOOT0恢复GND，BOOT1保持GND，C保持断电，不自动GO；A/C仍不联板采集 |
+| 明确禁止 | 任何Flash/RAM/options写、擦除、C重刷、A再次写入、恢复、Wi-Fi凭据变更、云写入或实际测量；不删除错误计数/失败原件 |
+
+专项等待依据合同第3/6/12节：本轮A许可明确不含C，当前C实读必须另获批准。此卡不要求新合同；批准后只安排上述已有精确范围。之后再按实际身份/来源条件推进隔离云和真实CAN/NIBP，避免在无源条件下重复300秒计时凑进度。

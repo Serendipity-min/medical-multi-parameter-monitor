@@ -1,0 +1,34 @@
+{
+  "action": "C_ROM_READ_ONLY",
+  "port": "COM15",
+  "image_bytes": 43172,
+  "image_sha256": "59229f1b34660f053538737fc0fd17c814fde5502a0dfe33603e8e08b72ca8a5",
+  "record_bytes": 336,
+  "record_generation": 2,
+  "record_sha256": "3b1a8c344dfad1d1faa82bc962811e50a467eec9adbc1cec5b2a32979c6a2c25",
+  "expected_historical_64k_sha256": "102575dc940425d91b2db7c2a0f22ddf44c5cfab652b1b5ca0790f8924d3705b",
+  "double_read_range": [
+    "0x08000000",
+    "0x08010000"
+  ],
+  "protected_sector_sha256": {
+    "7": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+    "11": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260"
+  },
+  "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+  "flash_write": false,
+  "RAM_write": false,
+  "automatic_reset": false,
+  "automatic_go": false,
+  "support_source_sha256": {
+    "gateway/physical_can/bench/flash_c.py": "6033bd4d84eda258ce7f637b269047a74a92fc5bf327633f922afe1b00d8e525",
+    "gateway/physical_can/r2_flash_c.py": "02f3b762ee25a10f066d18c64cc832f502e6e287dd952200ee242e1ded78408e",
+    "gateway/physical_can/r2_config_record.py": "7c7e65d08cb3859955ee5253f873dedbba78a79420eb598a0acc81544de96308",
+    "gateway/physical_can/h3_flash_c.py": "76837f4e669e25116cd6636d7f123f4fa40f9f4bdb9767d2b4e8dcd8d0aa6436"
+  },
+  "tool_sha256": "b0bada02b2e044d7c97f8879857b5f8535afc7abe6089f0f61279c0bc8a1cd70",
+  "state": "REQUESTED_NOT_APPROVED",
+  "auth_id": "AUTH-AC-C-READONLY/F2-C-1",
+  "source_commit": "64bfd1274be9b3711e161812b8a34fc05ebb8ed7",
+  "physical_accessed": false
+}

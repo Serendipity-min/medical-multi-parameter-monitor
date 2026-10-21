@@ -1,21 +1,23 @@
 {
   "stage": "F6_PROGRESS",
-  "gate": "H3_AC_FINAL_PARTIAL",
-  "source_commit": "8b4cb86b146f845495b3ebb8070208f9294cc2f9",
+  "gate": "H3_AC_FINAL_PARTIAL_A_DEPLOYED_WAITING_C_READ_AUTH",
+  "source_commit": "64bfd1274be9b3711e161812b8a34fc05ebb8ed7",
   "runtime_source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
   "device_or_runtime_sha": "85f0e830991e79f8702ce01ae204c8326c66203ac6a2d2b21e55e6b7c6cd9c3f",
   "source_label": "NO_ACQUISITION_SOURCE_UNCONFIRMED",
   "window_start_utc": "2026-10-21T07:27:40.925597+00:00",
-  "window_end_utc": "2026-10-21T07:27:40.925597+00:00",
+  "window_end_utc": "2026-10-21T07:39:21.957769+00:00",
   "command": "consolidate actual receipts; no hardware or cloud writes",
   "exit_code": null,
   "observed_vs_simulated": "READONLY_REAL_SERVER_AND_LOCAL_SOFTWARE_SIMULATION",
-  "raw_evidence_sha": null,
+  "raw_evidence_sha": {
+    "A_flash_receipt": "d6967786fa4baa5e2fda69a5f9dd01e5fc7cc07f66f5a176c2b53fbb9c2d23b4",
+    "A_cold_boot_receipt": "65195a52721566e5113a278144ef032931efcc1bd90e7886bc30086550686b5c"
+  },
   "security_scope": "NO_SECURITY_GATE_NO_PROTECTED_REF_CHANGES",
-  "owner_auth_id": "MPM-H3-004_SIGNED_SOFTWARE_ONLY",
+  "owner_auth_id": "AUTH-AC-A-FLASH/F0-A-1_COMPLETED",
   "rollback_state": "REAL_ROLLBACK_NOT_RUN",
   "unresolved": [
-    "AUTH_AC_A_FLASH",
     "QUALIFIED_NONHUMAN_SOURCE",
     "C_CURRENT_FLASH_READ_AUTH",
     "CLOUD_STAGE_ISOLATION_FAULT_AUTH",
@@ -26,13 +28,12 @@
     "FORMAL_RELEASE_ROLLBACK_AUTH"
   ],
   "null_reasons": {
-    "exit_code": "NO_COMBINED_TEST_COMMAND; individual actual exit codes linked below",
-    "raw_evidence_sha": "INDEX_OF_MULTIPLE_RECEIPTS_NOT_RAW_TEST_OUTPUT"
+    "exit_code": "NO_COMBINED_TEST_COMMAND; individual actual exit codes linked below"
   },
   "gates": {
     "F0": "READONLY_COMPLETE_WITH_SOURCE_SECURITY_GAPS",
-    "F1": "SOFTWARE_PREPARED_WAITING_AUTH_AC_A_FLASH",
-    "F2": "BLOCKED_SOURCE_AND_AUTH",
+    "F1": "A_FLASH_READBACK_AND_OWNER_COLD_BOOT_PASS_REAL_CAN_PENDING",
+    "F2": "WAITING_C_READONLY_AUTH_AND_QUALIFIED_SOURCE",
     "F3": "LOCAL_PACKAGE_RECOVERY_SOFTWARE_PREPARED_NOT_RELEASE_READY",
     "F4": "FORMAL_CONFIG_NOT_PREPARED",
     "F5": "NOT_AUTHORIZED_NOT_RUN",
@@ -42,8 +43,8 @@
   "Node_B": "OFFLINE_REQUIRED",
   "new_real_model_calls": 0,
   "new_real_model_tokens": 0,
-  "actual_board_reads": 0,
-  "actual_board_writes": 0,
+  "actual_board_reads": 21,
+  "actual_board_writes": 3,
   "actual_cloud_mutations": 0,
   "delivery_commit": "READ_FROM_CONTAINING_GIT_COMMIT_AND_POST_PUSH_PRIVATE_RECEIPT",
   "canonical_report": "doc/H3/H3-AC-CLOSEOUT-FINAL-HANDOFF.md",
@@ -51,5 +52,20 @@
     "gateway/physical_can/evidence/h3-ac-final",
     "node-a/evidence/h3-ac-final",
     "cloud/evidence/h3-ac-final"
-  ]
+  ],
+  "actual_board_access_detail": "ONE_NODE_A_WINDOW_7_JLINK_SESSIONS_FULL_DOUBLE_BACKUP_1_BOUNDED_DOWNLOAD; NO_C_ACCESS",
+  "current_A_image_sha256": "f59b76ef865c373c6df62aa09aea958597687f6d46b17c402ceb7126ca8f60d6",
+  "A_window": "CONSUMED",
+  "next_gate": "AUTH-AC-C-READONLY/F2-C-1_NOT_APPROVED",
+  "actual_flash_downloads": 1,
+  "actual_debug_freeze_register_writes": 2,
+  "actual_A_JLink_command_counts": {
+    "connect": 7,
+    "h": 8,
+    "savebin": 21,
+    "q": 7,
+    "w4": 2,
+    "loadbin": 1,
+    "verifybin": 1
+  }
 }

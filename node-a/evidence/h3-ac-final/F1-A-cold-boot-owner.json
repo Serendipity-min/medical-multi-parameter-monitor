@@ -1,0 +1,29 @@
+{
+  "stage": "F1",
+  "gate": "A_INDEPENDENT_COLD_BOOT_SMOKE_OWNER_REPORTED_NORMAL_CAN_PENDING",
+  "source_commit": "d87295723160cd884033104ae683ac8713301fb2",
+  "device_or_runtime_sha": "f59b76ef865c373c6df62aa09aea958597687f6d46b17c402ceb7126ca8f60d6",
+  "source_label": "NO_SENSOR_INPUT",
+  "window_start_utc": null,
+  "window_end_utc": "2026-10-21T07:39:21.957769+00:00",
+  "command": "owner normal power-off 10s then independent J5 power; JLink disconnected; no RESET/forced entry",
+  "exit_code": null,
+  "observed_vs_simulated": "ACTUAL_BOARD_OWNER_REPORTED_NOT_DIRECT_INSTRUMENT_CAPTURE",
+  "raw_evidence_sha": "89a2ca6e45dd63656e9ff7e732289c8aa390fda3ac44dc8ccc592fcd9ee60d46",
+  "security_scope": "A_ONLY_NO_C_NO_CLOUD_NO_SENSOR",
+  "owner_auth_id": "AUTH-AC-A-FLASH/F0-A-1",
+  "rollback_state": "NOT_NEEDED_NOT_RUN",
+  "unresolved": [
+    "REAL_CAN_BOOTUP_HEARTBEAT_NOT_OBSERVED_C_OFF",
+    "SOURCE_IDENTITY",
+    "INSTRUMENTED_WATCHDOG_FAULT_TEST_NOT_RUN"
+  ],
+  "null_reasons": {
+    "window_start_utc": "OWNER_POWER_CYCLE_EXACT_TIME_NOT_INSTRUMENTED",
+    "exit_code": "MANUAL_OBSERVATION_NOT_COMMAND_EXECUTION"
+  },
+  "owner_reply": "正常",
+  "screens_clock_and_no_repeated_reset": "OWNER_REPORTED_NORMAL",
+  "JLink_forced_entry": false,
+  "physical_CAN": "NOT_OBSERVED"
+}

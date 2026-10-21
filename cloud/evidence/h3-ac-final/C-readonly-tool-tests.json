@@ -1,0 +1,22 @@
+{
+  "stage": "F2_PREPARATION",
+  "gate": "C_READONLY_TOOL_SOFTWARE_PASS",
+  "source_commit": "64bfd1274be9b3711e161812b8a34fc05ebb8ed7",
+  "device_or_runtime_sha": null,
+  "source_label": "SYNTHETIC_MEMORY_ONLY",
+  "window_start_utc": "2026-10-21T07:39:22.029358+00:00",
+  "window_end_utc": "2026-10-21T07:39:23.472102+00:00",
+  "command": "python -m pytest cloud/backend/tests/test_final_c_readonly.py -q",
+  "exit_code": 0,
+  "observed_vs_simulated": "LOCAL_FAKE_ROM_NO_WRITE_API_NO_SERIAL_OPEN",
+  "raw_evidence_sha": "4c087f5ed6c17dc2efefeac81954fecea2bd82cdad3e368d995275bb4a15af55",
+  "security_scope": "OFFLINE_ONLY",
+  "owner_auth_id": "MPM-H3-004_SIGNED_SOFTWARE",
+  "rollback_state": "NO_DEVICE_MUTATION",
+  "unresolved": [
+    "AUTH_AC_C_READONLY"
+  ],
+  "null_reasons": {
+    "device_or_runtime_sha": "NOT_A_HARDWARE_TEST"
+  }
+}
