@@ -1,0 +1,39 @@
+{
+  "stage": "F2_C_WINDOW_CLOSE",
+  "gate": "OWNER_CONFIRMED_POWERED_OFF_BOOT_NORMAL",
+  "source_commit": "aff4cd5e051f2267de3b8895336f2a1f72989868",
+  "device_or_runtime_sha": "59229f1b34660f053538737fc0fd17c814fde5502a0dfe33603e8e08b72ca8a5",
+  "source_label": "NO_SENSOR_INPUT",
+  "window_start_utc": null,
+  "window_end_utc": null,
+  "received_recorded_utc": "2026-10-21T08:10:13.370085+00:00",
+  "command": "OWNER_MANUAL_POWER_OFF_AND_DISCONNECT",
+  "exit_code": null,
+  "observed_vs_simulated": "OWNER_REPORTED_ACTUAL_FIELD_STATE",
+  "raw_evidence_sha": {
+    "private_owner_cleanup": "f6cda7a2bc398591844b9d41b8bdebc1ecd44dafa8388ae58da099d09accb156"
+  },
+  "security_scope": "NO_NEW_DEVICE_OR_CLOUD_OPERATION",
+  "owner_auth_id": "AUTH-AC-C-ISOLATED-JLINK/F2-C-2",
+  "rollback_state": "NOT_NEEDED_NOT_RUN",
+  "unresolved": [
+    "USB_ROM_HANDSHAKE_CAUSE",
+    "NEXT_JOINT_AND_CLOUD_AUTH"
+  ],
+  "owner_reply": "C已断电，USB/J-Link已拔，BOOT0接GND",
+  "field_state": {
+    "C_power": "OFF",
+    "C_USB": "DISCONNECTED",
+    "C_JLink": "DISCONNECTED",
+    "C_BOOT0": "GND",
+    "C_BOOT1": "GND_RETAINED",
+    "A_power": "OFF_RETAINED",
+    "CAN": "THREE_WIRES_SEPARATED_RETAINED",
+    "probes_cuff": "NOT_CONNECTED_RETAINED"
+  },
+  "null_reasons": {
+    "window_start_utc": "NO_INSTRUMENTED_OWNER_ACTION_TIME",
+    "window_end_utc": "NO_INSTRUMENTED_OWNER_ACTION_TIME",
+    "exit_code": "MANUAL_ACTION_NO_PROCESS"
+  }
+}

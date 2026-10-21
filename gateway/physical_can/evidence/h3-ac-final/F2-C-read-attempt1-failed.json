@@ -1,0 +1,33 @@
+{
+  "stage": "F2_C_READONLY",
+  "gate": "ATTEMPT1_FAILED_STAGE_UNRESOLVED_NO_BACKUP",
+  "source_commit": "56f92b2bb398956d042121c711805d79eeb154f9",
+  "device_or_runtime_sha": null,
+  "source_label": "NO_SENSOR_INPUT",
+  "window_start_utc": "2026-10-21T07:46:12.862977+00:00",
+  "window_end_utc": "2026-10-21T07:46:15.761309+00:00",
+  "command": "python -m tools.h3_c_readonly read [private refs]",
+  "exit_code": 1,
+  "observed_vs_simulated": "ACTUAL_COM15_READONLY_ATTEMPT",
+  "raw_evidence_sha": {
+    "attempt-1-cli.raw.log": "0fa3ddc17c7a588d2c2a79822dc02a86c4b45ba81ee6ee3c686b807ee024331f",
+    "loader-private.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "security_scope": "C_ONLY_NO_FLASH_RAM_WRITE_NO_CLOUD",
+  "owner_auth_id": "AUTH-AC-C-READONLY/F2-C-1",
+  "rollback_state": "NO_MUTATION_NO_RESTORE",
+  "unresolved": [
+    "FAILURE_CODE_NOT_CAPTURED_BY_FROZEN_TOOL",
+    "CURRENT_C_IDENTITY_AND_FLASH_NOT_YET_VERIFIED"
+  ],
+  "null_reasons": {
+    "device_or_runtime_sha": "NO_CURRENT_IMAGE_OBTAINED"
+  },
+  "failure_type": "GateError",
+  "usable_backup": false,
+  "flash_write": false,
+  "RAM_write": false,
+  "raw_log_empty": true,
+  "retries_authorized_remaining": 2,
+  "next_allowed_step": "ONE_OWNER_MANUAL_C_RESET_THEN_SYNC"
+}

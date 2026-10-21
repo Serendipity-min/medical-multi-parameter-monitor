@@ -1,0 +1,53 @@
+{
+  "stage": "F2_C_READONLY",
+  "gate": "ATTEMPT2_ROM_SYNC_FAILED_NO_BACKUP",
+  "source_commit": "56f92b2bb398956d042121c711805d79eeb154f9",
+  "device_or_runtime_sha": null,
+  "source_label": "NO_SENSOR_INPUT",
+  "window_start_utc": "2026-10-21T07:48:41.723285+00:00",
+  "window_end_utc": "2026-10-21T07:48:44.540597+00:00",
+  "command": "bound tools.h3_c_readonly.main with exception-code trace only",
+  "exit_code": 1,
+  "observed_vs_simulated": "ACTUAL_COM15_READONLY_ATTEMPT_AFTER_OWNER_RESET",
+  "raw_evidence_sha": {
+    "attempt-2-cli.raw.log": "0fa3ddc17c7a588d2c2a79822dc02a86c4b45ba81ee6ee3c686b807ee024331f",
+    "loader-private.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "attempt-2-exception-codes.json": "5f2ee50f4cd3b03811387d3e14d748142529ee85d8b32d1c796ba4a0e48da60f"
+  },
+  "security_scope": "NO_FLASH_RAM_WRITE_NO_AUTOMATIC_RESET",
+  "owner_auth_id": "AUTH-AC-C-READONLY/F2-C-1",
+  "rollback_state": "NO_MUTATION_NO_RESTORE",
+  "unresolved": [
+    "CURRENT_C_FLASH_NOT_OBTAINED",
+    "ROM_SYNC_RECOVERY"
+  ],
+  "null_reasons": {
+    "device_or_runtime_sha": "NO_CURRENT_IMAGE_READ"
+  },
+  "failure_code": "MANUAL_ROM_SYNC_NOT_CONFIRMED",
+  "exception_frames": [
+    {
+      "function": "synchronize_manual_rom",
+      "line": 27,
+      "exception_type": "GateError",
+      "code": "MANUAL_ROM_SYNC_NOT_CONFIRMED"
+    },
+    {
+      "function": "synchronize_ready_rom",
+      "line": 239,
+      "exception_type": "GateError",
+      "code": "MANUAL_ROM_SYNC_NOT_CONFIRMED"
+    },
+    {
+      "function": "main",
+      "line": 94,
+      "exception_type": "GateError",
+      "code": "MANUAL_ROM_SYNC_NOT_CONFIRMED"
+    }
+  ],
+  "tool_unmodified": true,
+  "identity_check_reached": false,
+  "usable_backup": false,
+  "next_allowed_step": "ONE_OWNER_USB_REPLUG_THEN_FINAL_SYNC",
+  "retry_remaining": 1
+}

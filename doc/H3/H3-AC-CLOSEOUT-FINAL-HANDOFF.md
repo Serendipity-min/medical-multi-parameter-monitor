@@ -1,6 +1,6 @@
 # H3 A→C 唯一权威交接（MPM-H3-004 R1.0）
 
-**2026-10-21 最新裁定：新A已完成真实烧录/读回，负责人回报独立冷启动正常；`H3_AC_FINAL_PARTIAL / WAITING_AUTH_AC_C_READONLY`。** 本次AUTH-AC-A-FLASH已用完，真实CAN帧、合格采集源及云端阶段仍待准入。C/COM15未访问，云端未写入，没有实际发布或回滚。当前权威门禁矩阵为 `gateway/physical_can/evidence/h3-ac-final/closeout-status.json`；最新A实板结果及下一张只读卡见第10节。第9节保留前一准备窗口事实，AC-0/AC-1仍按原成绩继承。
+**2026-10-21 最新裁定：新A实板读回及负责人独立冷启动反馈通过；当前C隔离应用/配置经J-Link双读核实，单次load/verify退出0，SEGGER因内容完全相同跳过物理擦写。整体仍为 `H3_AC_FINAL_PARTIAL`。** C串口三次握手失败未解决；C保护区未变，负责人已确认C断电、USB/J-Link拔下、BOOT0恢复GND；A断电、CAN三线分离。真实配对CAN/NIBP、有源300秒及云端阶段仍待准入，没有云写入、正式发布、真实豆包调用或实际回滚。当前权威矩阵为 `gateway/physical_can/evidence/h3-ac-final/closeout-status.json`；最新C证据及下一张仅上传卡见第11节。第9–10节保留前序窗口事实，AC-0/AC-1仍按原成绩继承。
 
 下列第1–8节保留MPM-H3-003原轮事实及失败历史；其中“本轮”指该历史窗口。MPM-H3-004的新增事实从第9节开始。
 
@@ -322,3 +322,63 @@ restore是单独批准入口：只能取该窗口新双份原件前64KiB；先�
 | 明确禁止 | 任何Flash/RAM/options写、擦除、C重刷、A再次写入、恢复、Wi-Fi凭据变更、云写入或实际测量；不删除错误计数/失败原件 |
 
 专项等待依据合同第3/6/12节：本轮A许可明确不含C，当前C实读必须另获批准。此卡不要求新合同；批准后只安排上述已有精确范围。之后再按实际身份/来源条件推进隔离云和真实CAN/NIBP，避免在无源条件下重复300秒计时凑进度。
+
+## 11. C实际配对核验、窗口收尾及F3上传准备（2026-10-21）
+
+### 11.1 USB只读失败与负责人追加J-Link授权
+
+第10.4节卡后来获明确批准，执行源为 `56f92b2bb398956d042121c711805d79eeb154f9`。初次、负责人手按RESET后、负责人USB重插并确认电源开关开启后，共三次进程退出码均为 **1**；没有获得Flash备份，也没有写Flash/RAM或GO。第1次冻结工具仅保存GateError，不能补称已精确定位失败阶段；第2/3次对原工具只增加异常代码/函数名观测，均记录 `MANUAL_ROM_SYNC_NOT_CONFIRMED`，身份读取尚未到达。原工具SHA未改。三份 `F2-C-read-attempt*-failed.json` 及私有原日志全部保留，旧窗口已EXHAUSTED，没有第四次串口同步。
+
+负责人随后明确授权“再烧录一次”，澄清“C隔离应用，保留配置”，并指示“jlink已连接C版，尝试烧录”。据此登记本地追踪号 **AUTH-AC-C-ISOLATED-JLINK / F2-C-2**，不是要求负责人重复审批，也不声称负责人原话包含该编号。新工具先做本机合成检查，冻结实际硬件执行源 `0f410541d1525045e780b59d73cf7c86441f8cf0`，工具SHA256 `e43dfa1eec635d25ec3816d27ff2169d8544e35032441c2fbbb7bdea0860db9d`，再执行一次C隔离应用load/verify。
+
+### 11.2 J-Link实际结果：镜像原本正确，未发生物理擦写
+
+实际执行UTC **08:02:27.106371–08:02:49.612380**（北京时间16:02:27–16:02:49），`python -m tools.h3_c_jlink program` 子进程退出码 **0**。原件、UID、配置、原始J-Link日志只在受限私有 `ac-final/C-JLINK-20261021T080212609722Z`；公开回执 `gateway/physical_can/evidence/h3-ac-final/F2-C-jlink-load-verify.json` 提供原始文件散列和准确执行提交。
+
+| 实际对象 | 核验结果 |
+|---|---|
+| C身份/供电参考 | 冻结私有C身份匹配；1024KiB、RDP0；8个J-Link会话VTref均3.3V，无UID原值入Git |
+| 当前应用 | 43172B，SHA256 `59229f1b34660f053538737fc0fd17c814fde5502a0dfe33603e8e08b72ca8a5`；起址0x08000000，末址不含0x0800A8A4，仍为隔离8884 |
+| 当前64KiB双读/写后读回 | 三份字节相同，SHA256 `102575dc940425d91b2db7c2a0f22ddf44c5cfab652b1b5ca0790f8924d3705b` |
+| sector3配置 | generation2、336B、CRC核验通过；SHA256 `3b1a8c344dfad1d1faa82bc962811e50a467eec9adbc1cec5b2a32979c6a2c25`；整个16KiB前后相同 |
+| sector7 / sector11 | 两者各SHA256 `b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260`，前后字节相同 |
+| option bytes | SHA256 `52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687`，未写且前后相同 |
+| load/verify | 1条loadbin、1条verifybin，SDK明确 `SKIPPED_IDENTICAL`，随后Verify successful；**实际C擦除/编程为0次** |
+| 命令范围 | 8个会话、24条savebin、2条临时调试IWDG冻结寄存器写，原值已恢复并读回；没有erase、GO或强设PC/MSP/VTOR，没有凭据RAM注入 |
+| 本窗口运行结果 | 没有冷启动或联网测试，也没有新A→C CAN/NIBP实测；不把读取成功算运行通过 |
+
+原v1 `result.json` 的 `flash_write_started=true` 表示已经提交loadbin，不代表实际物理擦写；保留该原件，通过派生回执准确解释，未为凑“重刷”强制擦除或第二次下载。随后提交 `aff4cd5e051f2267de3b8895336f2a1f72989868` 仅修正工具日志字段，将提交动作与SDK跳过区分；该版本仅软件验证，**未再次执行硬件**。
+
+写前启动别名向量与System ROM向量一致。其只读地址依据 [ST AN2606，STM32F40xxx/41xxx系统存储器说明](https://www.st.com/resource/en/application_note/an2606-introduction-to-system-memory-boot-mode-on-stm32-mcus-stmicroelectronics.pdf)；该观测与正确Flash证据排除了本次应用内容/下载地址错误的猜测，但不能唯一定位UART连线、ROM外设选择或USB控制状态等握手原因。**串口下载恢复仍NOT_VERIFIED**。
+
+### 11.3 现场收尾、软件退出码与剩余门禁
+
+负责人完成窗口收尾，原话 **“C已断电，USB/J-Link已拔，BOOT0接GND”**；BOOT1仍GND，A仍断电且J-Link已拔，CAN三线分离、无人连接的既有状态保留。记录为OWNER_REPORTED，手工动作时间和退出码为null，不伪造仪器日志。见 `F2-C-owner-cleanup.json`。J-Link卡已CONSUMED，不再操作板卡；串口原三次失败不删除。
+
+| 本次新增软件/只读检查 | 实际退出码 | 范围 |
+|---|---|---|
+| J-Link v1本机检查（硬件执行前） | 0 | 7项合成检查，终端观察；没有单独原始stdout文件，未补造日志 |
+| 日志字段修复后定向pytest | 0 | 8 PASS；`cloud/evidence/h3-ac-final/C-jlink-tool-tests.log`与JSON，合成内存/SDK文本，非实板结果 |
+| SSH目标目录/容量预检 | 0 | 新目标目录不存在；`stage-readonly-preflight*.json`，仅真实服务器只读查询 |
+
+没有固件运行时代码变化、ARM资源变化或CANopen/coreMQTT/AT/TLS架构修改，故未重跑与本工具字段无关的整套ARM回归；继承AC1身份，未重复认领。没有安装第三方依赖/技能、执行安全扫描、创建PR或修改保护分支。新增主机脚本与本地测试只影响受限维护及其证据语义。
+
+F1保持“新A读回/负责人冷启动正常，实际CAN待观测”；F2现已得到**当前C应用/配置配对身份**，仍缺合格非人体源身份、真实新A CAN/NIBP完成与90秒过期、有源300秒和故障恢复。负责人说模拟设备能测量，但型号/PPG非人体来源未确认，不能自行升级为合格来源。Node-B保持OFFLINE要求，没有新增实际采集或豆包调用。
+
+F3运行包仍为第9.4节冻结字节，新增工具不在运行payload内，无需重复打包。正式C配置、角色/ACL、云安全组控制平面、受众、完整服务端恢复原件仍未准出；当前正式Backend/AI/Web未变，旧AI五槽限制尚在生产。F4/F5未执行；新正式HTTPS、七页截图、豆包Token及实际回滚均无新成绩。
+
+### 11.4 下一张精确卡：AUTH-AC-CLOUD-STAGE / F3-S1（仅上传）
+
+**REQUESTED_NOT_APPROVED；批准后单次2小时有效。** 本卡是同一合同的staging写入专项门，依据合同第3/7/12节；不是正式部署、服务启停或新子合同。板卡保持上述断电状态，无须接线或采集。
+
+| 项目 | 准确范围 |
+|---|---|
+| 连接/执行身份 | 现有SSH别名 `tencent-codex`；收到批准后绑定当时实际交付HEAD，必须包含冻结上传器，先复核包/工具摘要与目标未占用 |
+| 冻结运行包 | 源 `5da742f4e0e078d2d40453facdad1e65ff51fdda`；3,878,350B，SHA256 `85f0e830991e79f8702ce01ae204c8326c66203ac6a2d2b21e55e6b7c6cd9c3f`；含Backend会话隔离修复 `8afb1e2903f18c3a562769b9e9352db7e1db438a` |
+| 上传器 | `tools/h3_stage_runtime.py`，SHA256 `5126ae060348cfed4decf3ff5ba629920e03738a05f540acc214887cb03da192`；动作 `UPLOAD_EXTRACT_VERIFY_ONLY` |
+| 唯一目标 | 新建 `/opt/medical-monitor-h3/releases/runtime-b8fbb14b5c35`；70个payload文件，映射SHA256 `b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e`；目标已存在即停，不覆盖旧目录 |
+| 中转与校验 | 源包本机生成无远程下载源；经 `E:/Server_file/h3-final-<UUID>.tar.gz` → 远端 `/tmp/`同名本次文件，核对尺寸/SHA、安全tar边界及全部文件摘要，成功后仅删除本次中转文件 |
+| 失败范围 | 立即停止，记录退出码；不切换任何生产版本，不删除/覆盖旧release；远端未完成候选和本机失败中转件保留为证据，报告精确路径供后续处置 |
+| 明确不含 | 不装venv/依赖，不写unit/env/密钥，不启停或reload服务，不改Nginx/Broker/防火墙/安全组/DNS，不运行模型、不传采集值，不建立完整正式恢复包，不执行正式发布或实际rollback |
+
+该卡通过仅代表不可变文件到达服务器，不能标F2/F3发布准出或正式上线。下一阶段的安装/隔离服务与数据范围仍须依据实际源条件另列同合同内的精确卡。包含本节的真实交付SHA以提交后Git/远端回执为准，不把工具执行源或运行包源冒充文档自身HEAD。

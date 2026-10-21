@@ -1,0 +1,22 @@
+{
+  "stage": "F2_C_JLINK_SOFTWARE",
+  "gate": "PASS",
+  "source_commit": "aff4cd5e051f2267de3b8895336f2a1f72989868",
+  "device_or_runtime_sha": null,
+  "source_label": "SYNTHETIC_MEMORY",
+  "window_start_utc": "2026-10-21T08:07:09.991488+00:00",
+  "window_end_utc": "2026-10-21T08:07:11.979861+00:00",
+  "command": "python -m pytest cloud/backend/tests/test_final_c_jlink.py -q",
+  "exit_code": 0,
+  "observed_vs_simulated": "LOCAL_FAKE_JLINK_MEMORY_AND_SYNTHETIC_SDK_OUTPUT",
+  "raw_evidence_sha": "6114144b72f60c3d41110e1c97fd1e0d32a08238efb440b44354326b883b5452",
+  "security_scope": "NO_HARDWARE_CALL_NO_SCANNER",
+  "owner_auth_id": "MPM-H3-004_SIGNED_SOFTWARE",
+  "rollback_state": "NO_REAL_RESTORE",
+  "unresolved": [
+    "JOINT_CAN_AND_NETWORK_NOT_VERIFIED"
+  ],
+  "null_reasons": {
+    "device_or_runtime_sha": "SOFTWARE_TEST_ONLY"
+  }
+}

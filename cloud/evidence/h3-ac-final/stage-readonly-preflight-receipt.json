@@ -1,0 +1,19 @@
+{
+  "stage": "F3_STAGE_PREPARATION",
+  "gate": "NEW_RELEASE_TARGET_AVAILABLE",
+  "source_commit": "aff4cd5e051f2267de3b8895336f2a1f72989868",
+  "device_or_runtime_sha": "85f0e830991e79f8702ce01ae204c8326c66203ac6a2d2b21e55e6b7c6cd9c3f",
+  "source_label": "NO_DATA",
+  "window_start_utc": "2026-10-21T08:07:10.051830+00:00",
+  "window_end_utc": "2026-10-21T08:07:10.919931+00:00",
+  "command": "SSH alias read-only target and capacity query",
+  "exit_code": 0,
+  "observed_vs_simulated": "ACTUAL_SERVER_READONLY",
+  "raw_evidence_sha": "ecabc53a6a0fe7cf6cbd0ddb58c26dc4de9f224c266c85703e05bb212a1ce1e4",
+  "security_scope": "READONLY_NO_SERVICE_OR_NETWORK_CHANGE",
+  "owner_auth_id": "MPM-H3-004_SIGNED_READONLY",
+  "rollback_state": "NO_MUTATION",
+  "unresolved": [
+    "AUTH_AC_CLOUD_STAGE_UPLOAD_ONLY"
+  ]
+}
