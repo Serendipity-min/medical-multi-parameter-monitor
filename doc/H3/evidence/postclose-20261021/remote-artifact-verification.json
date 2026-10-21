@@ -1,0 +1,49 @@
+{
+  "exit_code": 0,
+  "started_utc": "2026-10-21T11:12:00.409676+00:00",
+  "ended_utc": "2026-10-21T11:12:56.150241+00:00",
+  "remote_commit": "e4ee91c9ba7ca99ac2cc2aadb7b0bbc92e945185",
+  "separate_bare_fetch": true,
+  "depth": 1,
+  "blob_filter": "none; required blobs fetched on demand",
+  "files": [
+    {
+      "path": "artifacts/h3-ac-mock-eng-20261021/node-a-h3ac-final.bin",
+      "bytes": 50084,
+      "sha256": "f59b76ef865c373c6df62aa09aea958597687f6d46b17c402ceb7126ca8f60d6",
+      "remote_git_blob": "2b94eeee4b7bf2f610a435ccf040620035484739",
+      "matches_staged_blob": true
+    },
+    {
+      "path": "artifacts/h3-ac-mock-eng-20261021/gateway-c-h3ac-8883-mock-final.bin",
+      "bytes": 43172,
+      "sha256": "b9b25b186c3b40d62b4a1c1919e09f27b639806271a3b20ae7fc80ea4cda1efe",
+      "remote_git_blob": "89effa0ecd72ff07268ef45aad03eb8589a5e6a9",
+      "matches_staged_blob": true
+    },
+    {
+      "path": "artifacts/h3-ac-mock-eng-20261021/README.md",
+      "bytes": 2155,
+      "sha256": "4c03f374d586e8002e8be2743218459b2f1a925999fa9389a134e5a934546725",
+      "remote_git_blob": "939de45e780225d0d669b5c61373c9b7dc9874d6",
+      "matches_staged_blob": true
+    },
+    {
+      "path": "artifacts/h3-ac-mock-eng-20261021/firmware-manifest.json",
+      "bytes": 3887,
+      "sha256": "31b5b2b6a189a242f327f2a3d78b59e42486c096586f3d2ba42649c800cb615f",
+      "remote_git_blob": "5bd78107f43bd8f74797abd1ce95f176a1c5e2cd",
+      "matches_staged_blob": true
+    },
+    {
+      "path": "artifacts/h3-ac-mock-eng-20261021/SHA256SUMS.txt",
+      "bytes": 191,
+      "sha256": "377624ad3d27def1e2b024104f6d2b2630b8857faecbdbd3edc4b480f7c95767",
+      "remote_git_blob": "7797518d337709a23bbb2bed4ca31d2590edc6b5",
+      "matches_staged_blob": true
+    }
+  ],
+  "repository_private": true,
+  "PowerShell_binary_redirection_used": false,
+  "tag_created_yet": false
+}
