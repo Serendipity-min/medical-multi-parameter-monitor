@@ -1,0 +1,65 @@
+{
+  "stage": "F2_F3_CONTINUOUS",
+  "source_commit": "9f37cecdba60e0ab0915fdd470aa210ee63274f6",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_DEVICES_AND_SERVER_WITH_NONHUMAN_SIGNAL_SOURCE",
+  "security_scope": "ISOLATED_SERVICES_ONLY_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_OWNER_CONTINUOUS_AUTHORIZATION_AMENDMENT",
+  "rollback_state": "FORMAL_NOT_CHANGED_ACTUAL_ROLLBACK_NOT_RUN",
+  "unresolved": [
+    "F2_ACTIVE_300S_AND_RECOVERY_GATES",
+    "F3_RESIDUAL_RISK_DISPOSITION",
+    "F4_F5_NOT_RUN"
+  ],
+  "gate": "ACTUAL_RESULT_SEE_PROCESS_AND_CHECKS",
+  "window_start_utc": "2026-10-21T08:17:52.976835+00:00",
+  "window_end_utc": "2026-10-21T08:17:54.030711+00:00",
+  "command": "private reviewed SSH script: start-isolation",
+  "exit_code": 0,
+  "raw_evidence_sha": "b150a322e3aa6ecb49e6329b09326a8f8e96d83ea318abf2e9170ff1e5c231fc",
+  "script_sha256": "9b647f68e5e17cbc843f51513b87557300269ad375b2a03bc278f1aba5bb2656",
+  "result": {
+    "exit_code": 0,
+    "state": "NEW_RUNTIME_ISOLATED_UNITS_STARTED_HEALTH_PENDING",
+    "units": [
+      "h3-final-broker",
+      "h3-final-backend",
+      "h3-final-ai"
+    ],
+    "source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+    "payload_sha256": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+    "legacy_receipts_copied": [
+      {
+        "source_alias": "HISTORY_0",
+        "file_sha256": "a4b46c4e8bb933bcbc9e6396e67305b20e6ca1d5aea5289206f4cc8359692bd2"
+      },
+      {
+        "source_alias": "HISTORY_0",
+        "file_sha256": "8e15d79d1ef3fc2b1d3caaff381853172367abe12ddd092c0411488899583c4c"
+      },
+      {
+        "source_alias": "HISTORY_0",
+        "file_sha256": "743ddf4cabd469b1f4cb2dc170883b8e0f4f59eee13d49af55253d8832d750e0"
+      },
+      {
+        "source_alias": "HISTORY_1",
+        "file_sha256": "a4b46c4e8bb933bcbc9e6396e67305b20e6ca1d5aea5289206f4cc8359692bd2"
+      },
+      {
+        "source_alias": "HISTORY_1",
+        "file_sha256": "8e15d79d1ef3fc2b1d3caaff381853172367abe12ddd092c0411488899583c4c"
+      },
+      {
+        "source_alias": "HISTORY_1",
+        "file_sha256": "743ddf4cabd469b1f4cb2dc170883b8e0f4f59eee13d49af55253d8832d750e0"
+      }
+    ],
+    "network_scope": "CURRENT_SSH_EXIT_SINGLE_IPV4_32",
+    "network_rule_auto_expire_minutes": 30,
+    "formal_services_unchanged": true,
+    "real_AI_calls": 0,
+    "production_modified": false
+  },
+  "null_reasons": {}
+}

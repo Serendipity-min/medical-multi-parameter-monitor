@@ -1,0 +1,61 @@
+{
+  "stage": "F2_F3_CONTINUOUS",
+  "source_commit": "9f37cecdba60e0ab0915fdd470aa210ee63274f6",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_DEVICES_AND_SERVER_WITH_NONHUMAN_SIGNAL_SOURCE",
+  "security_scope": "ISOLATED_SERVICES_ONLY_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_OWNER_CONTINUOUS_AUTHORIZATION_AMENDMENT",
+  "rollback_state": "FORMAL_NOT_CHANGED_ACTUAL_ROLLBACK_NOT_RUN",
+  "unresolved": [
+    "F2_ACTIVE_300S_AND_RECOVERY_GATES",
+    "F3_RESIDUAL_RISK_DISPOSITION",
+    "F4_F5_NOT_RUN"
+  ],
+  "gate": "ACTUAL_RESULT_SEE_PROCESS_AND_CHECKS",
+  "window_start_utc": "2026-10-21T08:19:05.893498+00:00",
+  "window_end_utc": "2026-10-21T08:19:07.393057+00:00",
+  "command": "private reviewed SSH script: restart-isolated-ai",
+  "exit_code": 0,
+  "raw_evidence_sha": "88e9ed7932546f267e9a99c38b4be8ce6978aa819753c130f650aca05bc70bc5",
+  "script_sha256": "36f2492a3a57082ba08f7a1f6b619057d7a1ca740fb7792b4645111a395d8483",
+  "result": {
+    "exit_code": 0,
+    "health": {
+      "backend": {
+        "status": "ok",
+        "transport": "MQTT 3.1.1/TLS",
+        "mqtt_connected": true,
+        "accepted": 6,
+        "rejected": 0,
+        "dropped": 0
+      },
+      "ai": {
+        "status": "ok",
+        "model_mode": "DOUBAO",
+        "snapshot_mode": "MONITOR",
+        "real_model": "CONFIGURED_NOT_PROVEN",
+        "voice_mode": "DISABLED",
+        "model_id": "doubao-seed-2-0-mini-260428",
+        "budget_used": 3,
+        "usage": {
+          "requests": 3,
+          "usage": {
+            "prompt_tokens": 3422,
+            "completion_tokens": 156,
+            "total_tokens": 3578
+          },
+          "states": {},
+          "billing_state": "TOKEN_USAGE_RECORDED_COST_NOT_INFERRED",
+          "lifetime_cap": null
+        }
+      }
+    },
+    "historical_unique_calls": 3,
+    "duplicate_historical_copies_excluded": 3,
+    "original_duplicate_ledger_retained": true,
+    "new_model_calls": 0,
+    "production_modified": false
+  },
+  "null_reasons": {}
+}

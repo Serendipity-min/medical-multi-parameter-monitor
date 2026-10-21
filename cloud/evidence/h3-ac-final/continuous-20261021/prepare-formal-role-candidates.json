@@ -1,0 +1,38 @@
+{
+  "stage": "F2_F3_CONTINUOUS",
+  "source_commit": "9f37cecdba60e0ab0915fdd470aa210ee63274f6",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_DEVICES_AND_SERVER_WITH_NONHUMAN_SIGNAL_SOURCE",
+  "security_scope": "ISOLATED_SERVICES_ONLY_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_OWNER_CONTINUOUS_AUTHORIZATION_AMENDMENT",
+  "rollback_state": "FORMAL_NOT_CHANGED_ACTUAL_ROLLBACK_NOT_RUN",
+  "unresolved": [
+    "F2_ACTIVE_300S_AND_RECOVERY_GATES",
+    "F3_RESIDUAL_RISK_DISPOSITION",
+    "F4_F5_NOT_RUN"
+  ],
+  "gate": "ACTUAL_RESULT_SEE_PROCESS_AND_CHECKS",
+  "window_start_utc": "2026-10-21T08:28:00.038960+00:00",
+  "window_end_utc": "2026-10-21T08:28:00.873793+00:00",
+  "command": "private reviewed SSH script: prepare-formal-role-candidates",
+  "exit_code": 0,
+  "raw_evidence_sha": "a0a9ec09308f97027d6004422bcd4c7e4a97f73a1aeb8b0f73d6b48eb59ab517",
+  "script_sha256": "22ca36642769fd44a4cada53b20f2de32fb8eda6a81845d0d2b92c2cecc0faa8",
+  "result": {
+    "exit_code": 0,
+    "state": "PRIVATE_FORMAL_ROLE_CANDIDATES_ONLY_NOT_APPLIED",
+    "role_count": 2,
+    "ACL_sha256": "ff146b4146345d80d1e8fb7478014883aa5a342dc242e03b09b0f114b8376430",
+    "backend_candidate_sha256": "2ffa4ca24672eb5a0d3da2d9c173f96fc60724d2725bbc86bcee3ce2b647fdaf",
+    "production_broker_modified": false,
+    "active_credentials_created": false,
+    "topic_directions": {
+      "publisher": "write_only",
+      "subscriber": "read_only"
+    },
+    "control_downlink_permissions": false,
+    "Node_B_telemetry_publish_permission": false
+  },
+  "null_reasons": {}
+}

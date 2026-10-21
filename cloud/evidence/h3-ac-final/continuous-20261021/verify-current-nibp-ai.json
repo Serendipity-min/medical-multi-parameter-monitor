@@ -1,0 +1,36 @@
+{
+  "stage": "F2_F5_CONTINUOUS",
+  "source_commit": "6edd48c9e83a4609660786ebc240ef4b0ce4e025",
+  "runtime_source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_A_C_AND_SERVER_NONHUMAN_SIGNAL_NOT_CLINICAL_ACCURACY",
+  "security_scope": "OWNER_APPROVED_CONTRACT_SCOPE_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_CONTINUOUS_AUTH_AMENDMENT_AND_RESIDUAL_RISK_ACCEPTANCE",
+  "rollback_state": "SEE_TIMESTAMPED_INDIVIDUAL_RESULTS",
+  "unresolved": [
+    "SG_8884_ALL_IPV4_OWNER_ACCEPTED_NO_LISTENER",
+    "HISTORICAL_FILTER_DIFF_UNATTRIBUTED_OWNER_ACCEPTED",
+    "C_UART_NOT_OBSERVED_DURING_STANDALONE_FORMAL",
+    "SIMULATOR_MODEL_AND_CALIBRATION_UNVERIFIED"
+  ],
+  "gate": "ACTUAL_RESULT_INCLUDING_FAILURES",
+  "window_start_utc": "2026-10-21T09:13:26.942525+00:00",
+  "window_end_utc": "2026-10-21T09:13:27.647823+00:00",
+  "command": "private reviewed SSH script: verify-current-nibp-ai",
+  "exit_code": 0,
+  "raw_evidence_sha": "2cf3cffcd21711cdb5e9fac1a2d3fa4379ee03439fc808d8b191741e2b8c475c",
+  "script_sha256": "4d4d32ecfe4d073730d3cfb1ed714fcbfbac5004d1ea8eb67af8c8cfb968c244",
+  "result": {
+    "exit_code": 0,
+    "HTTP": 200,
+    "real_model": "NOT_CALLED",
+    "NIBP_fact_matches_actual_WSS_value": true,
+    "source": "MOCK",
+    "synthetic": true,
+    "completion_timestamp": 1792573969544,
+    "model_usage_unchanged": true,
+    "raw_values_or_answers_saved": false
+  },
+  "null_reasons": {}
+}

@@ -1,0 +1,58 @@
+{
+  "stage": "F2_F5_CONTINUOUS",
+  "source_commit": "6edd48c9e83a4609660786ebc240ef4b0ce4e025",
+  "runtime_source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_A_C_AND_SERVER_NONHUMAN_SIGNAL_NOT_CLINICAL_ACCURACY",
+  "security_scope": "OWNER_APPROVED_CONTRACT_SCOPE_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_CONTINUOUS_AUTH_AMENDMENT_AND_RESIDUAL_RISK_ACCEPTANCE",
+  "rollback_state": "SEE_TIMESTAMPED_INDIVIDUAL_RESULTS",
+  "unresolved": [
+    "SG_8884_ALL_IPV4_OWNER_ACCEPTED_NO_LISTENER",
+    "HISTORICAL_FILTER_DIFF_UNATTRIBUTED_OWNER_ACCEPTED",
+    "C_UART_NOT_OBSERVED_DURING_STANDALONE_FORMAL",
+    "SIMULATOR_MODEL_AND_CALIBRATION_UNVERIFIED"
+  ],
+  "gate": "ACTUAL_RESULT_INCLUDING_FAILURES",
+  "window_start_utc": "2026-10-21T09:31:59.635696+00:00",
+  "window_end_utc": "2026-10-21T09:32:01.166878+00:00",
+  "command": "private reviewed SSH script: apply-formal-roles",
+  "exit_code": 0,
+  "raw_evidence_sha": "291a7f0c2f33dba121fe87fc2b1b32d89d1b351acaea34dc2944fcdf8e98ee61",
+  "script_sha256": "20bbfd3b4aa497ce37b95e1625a39b90c0a213eefd4ac0001245dbe811b54e1b",
+  "result": {
+    "exit_code": 0,
+    "started_utc": "2026-10-21T09:31:59.908155+00:00",
+    "ended_utc": "2026-10-21T09:32:00.493519+00:00",
+    "state": "FORMAL_8883_ROLES_APPLIED_AUTH_AND_DENY_VERIFIED",
+    "cases": [
+      {
+        "role": "publisher",
+        "CONNACK": 0
+      },
+      {
+        "role": "publisher",
+        "unauthorized_publish_PUBACK": 135
+      },
+      {
+        "role": "subscriber",
+        "CONNACK": 0
+      },
+      {
+        "role": "subscriber",
+        "unauthorized_publish_PUBACK": 135
+      }
+    ],
+    "merged_ACL_sha256": "c987e3ebe5c884f214f2d334c6416804c24480de735c52b896874e6af3b09853",
+    "merged_password_file_sha256": "ecd343ceec203afd44737f460b44aa5d23157524761a702978b3e242e50622a4",
+    "existing_role_bytes_preserved": true,
+    "business_Broker_SIGHUP": true,
+    "original_service_PIDs_unchanged": true,
+    "positive_C_delivery": "PENDING_NORMAL_A_START",
+    "rollback": "NOT_NEEDED_ORIGINALS_RETAINED",
+    "web_Nginx_route_changed": false,
+    "TLS_certificate_and_SNI_verified": true
+  },
+  "null_reasons": {}
+}

@@ -1,0 +1,40 @@
+{
+  "stage": "F2_F3",
+  "gate": "OWNER_CONTINUOUS_AUTHORIZATION_AND_EXPLICIT_RESIDUAL_RISK_ACCEPTED",
+  "source_commit": "9f37cecdba60e0ab0915fdd470aa210ee63274f6",
+  "device_or_runtime_sha": null,
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "window_start_utc": null,
+  "window_end_utc": null,
+  "command": "owner messages; no executable operation",
+  "exit_code": null,
+  "null_reasons": {
+    "device_or_runtime_sha": "OWNER_SCOPE_STATEMENT_NOT_BUILD",
+    "window_start_utc": "CHAT_EVENT_HAS_NO_EXACT_TOOL_TIMESTAMP",
+    "window_end_utc": "CHAT_EVENT_HAS_NO_EXACT_TOOL_TIMESTAMP",
+    "exit_code": "HUMAN_STATEMENT_NOT_PROCESS",
+    "raw_evidence_sha": "ORIGINAL_CHAT_RETAINED_BY_CONVERSATION_PROVIDER"
+  },
+  "raw_evidence_sha": null,
+  "observed_vs_simulated": "DIRECT_OWNER_STATEMENTS",
+  "security_scope": "NO_SECURITY_GATE_PROTECTED_REFS_REMAIN_PROTECTED",
+  "owner_auth_id": "MPM-H3-004_OWNER_CONTINUOUS_AUTHORIZATION_AMENDMENT",
+  "authorization_text": "下次阶段不需要单独授权，只要是合同中的范围均可执行，一次性做完提交，合同我已经审批。",
+  "source_attestation": "无人连接，能输出信号；波形持续；第二次血压数值相同",
+  "clinical_accuracy": "NOT_ASSESSED_NO_IDENTIFIED_REFERENCE_DEVICE",
+  "risk_disposition_text": "接受残余风险及上述非人体数据受众",
+  "accepted_residual_risks": [
+    "HISTORICAL_FILTER_DIFFERENCE_UNATTRIBUTABLE_WITHOUT_OLD_ORDERED_RULES",
+    "OWNER_REPORTED_CLOUD_SG_8884_ALL_IPV4_WITH_NO_API_CONTROL_PLANE_EVIDENCE"
+  ],
+  "accepted_audience": {
+    "static_shell": "PUBLIC",
+    "monitor_WSS_AI": "AUTHORIZED_TOKEN_HOLDERS_WITH_ALLOWED_ORIGIN",
+    "data_scope": "NONHUMAN_MOCK_ONLY",
+    "temporary_8884": "HOST_GUARD_ACTUAL_C_IPV4_32_PLUS_SERVER_LOCAL_SELF_AND_STOP_AT_END"
+  },
+  "rollback_state": "FORMAL_ROLLBACK_NOT_YET_RUN",
+  "unresolved": [
+    "TECHNICAL_F2_F4_F5_GATES_ARE_NOT_WAIVED"
+  ]
+}

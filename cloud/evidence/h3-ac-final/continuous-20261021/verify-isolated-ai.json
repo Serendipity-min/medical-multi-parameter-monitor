@@ -1,0 +1,179 @@
+{
+  "stage": "F2_F3_CONTINUOUS",
+  "source_commit": "9f37cecdba60e0ab0915fdd470aa210ee63274f6",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_DEVICES_AND_SERVER_WITH_NONHUMAN_SIGNAL_SOURCE",
+  "security_scope": "ISOLATED_SERVICES_ONLY_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_OWNER_CONTINUOUS_AUTHORIZATION_AMENDMENT",
+  "rollback_state": "FORMAL_NOT_CHANGED_ACTUAL_ROLLBACK_NOT_RUN",
+  "unresolved": [
+    "F2_ACTIVE_300S_AND_RECOVERY_GATES",
+    "F3_RESIDUAL_RISK_DISPOSITION",
+    "F4_F5_NOT_RUN"
+  ],
+  "gate": "ACTUAL_RESULT_SEE_PROCESS_AND_CHECKS",
+  "window_start_utc": "2026-10-21T08:20:09.631028+00:00",
+  "window_end_utc": "2026-10-21T08:20:13.625893+00:00",
+  "command": "private reviewed SSH script: verify-isolated-ai",
+  "exit_code": 0,
+  "raw_evidence_sha": "4d28e54c270ab9514d604a06daaf618c39818822139eb39fba3984c2ccea2978",
+  "script_sha256": "dd3b56e62073f06e11af5e14c9834c1a7bae8b48e5b7fa3b97baeade0c998635",
+  "result": {
+    "exit_code": 0,
+    "cases": [
+      {
+        "case": "access_401",
+        "http": 401
+      },
+      {
+        "case": "access_405",
+        "http": 405
+      },
+      {
+        "case": "access_404",
+        "http": 404
+      },
+      {
+        "case": "current_readings",
+        "http": 200,
+        "values_or_answer_saved": false,
+        "real_model": "NOT_CALLED",
+        "answer_kind": "DETERMINISTIC",
+        "model_evidence": null,
+        "fact_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5",
+        "Node_B_values_hidden": true
+      },
+      {
+        "case": "general_health",
+        "http": 200,
+        "values_or_answer_saved": false,
+        "real_model": "REAL_REQUEST_USED",
+        "answer_kind": "VERIFIED_EXPLANATION",
+        "model_evidence": {
+          "call": "f61198b517bb445390e14111af8888b2",
+          "requested_model": "doubao-seed-2-0-mini-260428",
+          "status": "VALIDATED",
+          "billing_state": "UNKNOWN_TOKEN_USAGE_RECORDED",
+          "http_status": 200,
+          "usage": {
+            "completion_tokens": 35,
+            "prompt_tokens": 324,
+            "total_tokens": 359
+          },
+          "reported_model": "doubao-seed-2-0-mini-260428",
+          "request_id": "02179257081012791be90b70b1bfc3059428bd07e108b7e10ae91",
+          "finish_reason": "stop",
+          "latency_ms": 969
+        },
+        "fact_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5",
+        "Node_B_values_hidden": true
+      },
+      {
+        "case": "quality",
+        "http": 200,
+        "values_or_answer_saved": false,
+        "real_model": "REAL_REQUEST_USED",
+        "answer_kind": "VERIFIED_EXPLANATION",
+        "model_evidence": {
+          "call": "aa6506ddf6634745a799b02eec0e4807",
+          "requested_model": "doubao-seed-2-0-mini-260428",
+          "status": "VALIDATED",
+          "billing_state": "UNKNOWN_TOKEN_USAGE_RECORDED",
+          "http_status": 200,
+          "usage": {
+            "completion_tokens": 47,
+            "prompt_tokens": 326,
+            "total_tokens": 373
+          },
+          "reported_model": "doubao-seed-2-0-mini-260428",
+          "request_id": "0217925708110927424dba2bd6e77b99d402060a9cf8c0f302e11",
+          "finish_reason": "stop",
+          "latency_ms": 1013
+        },
+        "fact_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5",
+        "Node_B_values_hidden": true
+      },
+      {
+        "case": "project",
+        "http": 200,
+        "values_or_answer_saved": false,
+        "real_model": "REAL_REQUEST_USED",
+        "answer_kind": "VERIFIED_EXPLANATION",
+        "model_evidence": {
+          "call": "8951825adf1043089637ca27df235e21",
+          "requested_model": "doubao-seed-2-0-mini-260428",
+          "status": "VALIDATED",
+          "billing_state": "UNKNOWN_TOKEN_USAGE_RECORDED",
+          "http_status": 200,
+          "usage": {
+            "completion_tokens": 41,
+            "prompt_tokens": 325,
+            "total_tokens": 366
+          },
+          "reported_model": "doubao-seed-2-0-mini-260428",
+          "request_id": "021792570812114a77e5a4c9aa25c0e7eca6d226bba90a0c6ec34",
+          "finish_reason": "stop",
+          "latency_ms": 899
+        },
+        "fact_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5",
+        "Node_B_values_hidden": true
+      }
+    ],
+    "usage_before": {
+      "requests": 3,
+      "usage": {
+        "prompt_tokens": 3422,
+        "completion_tokens": 156,
+        "total_tokens": 3578
+      },
+      "states": {},
+      "billing_state": "TOKEN_USAGE_RECORDED_COST_NOT_INFERRED",
+      "lifetime_cap": null
+    },
+    "usage_after": {
+      "requests": 6,
+      "usage": {
+        "prompt_tokens": 4397,
+        "completion_tokens": 279,
+        "total_tokens": 4676
+      },
+      "states": {},
+      "billing_state": "TOKEN_USAGE_RECORDED_COST_NOT_INFERRED",
+      "lifetime_cap": null
+    },
+    "new_validated_model_calls": 3,
+    "health_after": {
+      "status": "ok",
+      "model_mode": "DOUBAO",
+      "snapshot_mode": "MONITOR",
+      "real_model": "REAL_MODEL_VERIFIED",
+      "voice_mode": "DISABLED",
+      "model_id": "doubao-seed-2-0-mini-260428",
+      "budget_used": 6,
+      "usage": {
+        "requests": 6,
+        "usage": {
+          "prompt_tokens": 4397,
+          "completion_tokens": 279,
+          "total_tokens": 4676
+        },
+        "states": {},
+        "billing_state": "TOKEN_USAGE_RECORDED_COST_NOT_INFERRED",
+        "lifetime_cap": null
+      }
+    },
+    "snapshot_metadata": {
+      "gateway_state": "ONLINE",
+      "nodes": {
+        "NODE-A": "OFFLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "streams": []
+    },
+    "billing": "OWNER_REPORTED_TRIAL_TOKEN_RECORDED_MONETARY_CHARGE_NOT_VERIFIED",
+    "production_modified": false,
+    "source_label": "ACTUAL_NO_SENSOR_HARDWARE_STATUS_NOT_PHYSIOLOGY"
+  },
+  "null_reasons": {}
+}

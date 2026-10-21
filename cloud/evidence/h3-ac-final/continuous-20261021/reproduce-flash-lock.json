@@ -1,0 +1,42 @@
+{
+  "stage": "F2_F5_CONTINUOUS",
+  "source_commit": "905821a3065b681a388f42edb6a0f21038c983e3",
+  "runtime_source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_A_C_AND_SERVER_NONHUMAN_SIGNAL_NOT_CLINICAL_ACCURACY",
+  "security_scope": "OWNER_APPROVED_CONTRACT_SCOPE_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_CONTINUOUS_AUTH_AMENDMENT_AND_RESIDUAL_RISK_ACCEPTANCE",
+  "rollback_state": "SEE_TIMESTAMPED_INDIVIDUAL_RESULTS",
+  "unresolved": [
+    "SG_8884_ALL_IPV4_OWNER_ACCEPTED_NO_LISTENER",
+    "HISTORICAL_FILTER_DIFF_UNATTRIBUTED_OWNER_ACCEPTED",
+    "C_UART_NOT_OBSERVED_DURING_STANDALONE_FORMAL",
+    "SIMULATOR_MODEL_AND_CALIBRATION_UNVERIFIED"
+  ],
+  "gate": "ACTUAL_PROCESS_EXIT_NOT_OVERRIDDEN",
+  "started_utc": "2026-10-21T09:23:46.766762+00:00",
+  "ended_utc": "2026-10-21T09:23:48.809308+00:00",
+  "exit_code": 1,
+  "command": [
+    "C:\\Users\\Serendipity\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "-q",
+    "cloud/backend/tests/test_formal_c_jlink.py::test_formal_commit_follows_full_pending_readback_and_protects_other_sectors"
+  ],
+  "raw_sha256": "7c45c41eea2b4398ac6efc1a6eb2cecd6bbc43563d4e0a0bfc3fa4dae2573cc6",
+  "source_sha256": {
+    "tools/h3_c_formal.py": "5e4f0464acbc6fdb8af7dd9e727963ea65138336a7ca08ff101a4ad009e720a6",
+    "tools/h3_c_jlink.py": "712616486ab41d5bc3314fac4e916f60989efcfc4f83ad8cfc263b5d9e1955a8",
+    "cloud/backend/tests/test_formal_c_jlink.py": "a824efdb5a6edf5dd96dca7cc4ce94559301bba4252c649b74248fb6d8cea665"
+  },
+  "window_start_utc": "2026-10-21T09:23:46.766762+00:00",
+  "window_end_utc": "2026-10-21T09:23:48.809308+00:00",
+  "raw_evidence_sha": null,
+  "null_reasons": {
+    "raw_evidence_sha": "NOT_CAPTURED_IN_THIS_HISTORICAL_OR_COMPONENT_RECEIPT; SEE_TIMESTAMPED_EXECUTION_INDEX_AND_CANONICAL_REPORT"
+  }
+}

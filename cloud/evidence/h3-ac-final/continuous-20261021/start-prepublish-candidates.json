@@ -1,0 +1,44 @@
+{
+  "stage": "F2_F5_CONTINUOUS",
+  "source_commit": "6edd48c9e83a4609660786ebc240ef4b0ce4e025",
+  "runtime_source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_A_C_AND_SERVER_NONHUMAN_SIGNAL_NOT_CLINICAL_ACCURACY",
+  "security_scope": "OWNER_APPROVED_CONTRACT_SCOPE_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_CONTINUOUS_AUTH_AMENDMENT_AND_RESIDUAL_RISK_ACCEPTANCE",
+  "rollback_state": "SEE_TIMESTAMPED_INDIVIDUAL_RESULTS",
+  "unresolved": [
+    "SG_8884_ALL_IPV4_OWNER_ACCEPTED_NO_LISTENER",
+    "HISTORICAL_FILTER_DIFF_UNATTRIBUTED_OWNER_ACCEPTED",
+    "C_UART_NOT_OBSERVED_DURING_STANDALONE_FORMAL",
+    "SIMULATOR_MODEL_AND_CALIBRATION_UNVERIFIED"
+  ],
+  "gate": "ACTUAL_RESULT_INCLUDING_FAILURES",
+  "window_start_utc": "2026-10-21T09:34:50.072165+00:00",
+  "window_end_utc": "2026-10-21T09:34:52.346898+00:00",
+  "command": "private reviewed SSH script: start-prepublish-candidates",
+  "exit_code": 0,
+  "raw_evidence_sha": "9846c32deef9d8b565ebb363320c641b1a35a1cc027ced169bf70049ea3c21ca",
+  "script_sha256": "f5e65c5f5c7a4a0eccb65f82fe173752e7fe9cc930e49a64d035de00ad3bc42a",
+  "result": {
+    "exit_code": 0,
+    "state": "CANDIDATES_LOOPBACK_READY_FORMAL_ROUTE_UNCHANGED",
+    "health": {
+      "backend": {
+        "status": "ok",
+        "mqtt_connected": true
+      },
+      "ai": {
+        "status": "ok",
+        "model_mode": "DOUBAO",
+        "snapshot_mode": "MONITOR"
+      }
+    },
+    "original_services_unchanged": true,
+    "nginx_route_changed": false,
+    "real_model_calls": 0,
+    "plan_reference": "active-formal-plan-reference.json"
+  },
+  "null_reasons": {}
+}

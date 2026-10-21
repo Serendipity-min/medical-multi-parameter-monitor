@@ -1,0 +1,50 @@
+{
+  "stage": "F2_F5_CONTINUOUS",
+  "source_commit": "6edd48c9e83a4609660786ebc240ef4b0ce4e025",
+  "runtime_source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_A_C_AND_SERVER_NONHUMAN_SIGNAL_NOT_CLINICAL_ACCURACY",
+  "security_scope": "OWNER_APPROVED_CONTRACT_SCOPE_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_CONTINUOUS_AUTH_AMENDMENT_AND_RESIDUAL_RISK_ACCEPTANCE",
+  "rollback_state": "SEE_TIMESTAMPED_INDIVIDUAL_RESULTS",
+  "unresolved": [
+    "SG_8884_ALL_IPV4_OWNER_ACCEPTED_NO_LISTENER",
+    "HISTORICAL_FILTER_DIFF_UNATTRIBUTED_OWNER_ACCEPTED",
+    "C_UART_NOT_OBSERVED_DURING_STANDALONE_FORMAL",
+    "SIMULATOR_MODEL_AND_CALIBRATION_UNVERIFIED"
+  ],
+  "gate": "ACTUAL_RESULT_INCLUDING_FAILURES",
+  "window_start_utc": "2026-10-21T09:40:15.096625+00:00",
+  "window_end_utc": "2026-10-21T09:40:28.020236+00:00",
+  "command": "private reviewed SSH script: verify-formal-prepublish",
+  "exit_code": 0,
+  "raw_evidence_sha": "0d8b6637ffa6b1444c17a557361cf802130126553a859f7194ff54d262b184f4",
+  "script_sha256": "10cece057d0c81b46366951b7e3d418bcc2eea8d3c6c6c92b778691507613b46",
+  "result": {
+    "exit_code": 0,
+    "counts": {
+      "snapshots": 120,
+      "fresh_ppg": 120,
+      "valid_spo2": 120,
+      "valid_pr": 120,
+      "invalid_visible": 0,
+      "B_not_offline": 0
+    },
+    "backend": {
+      "status": "ok",
+      "transport": "MQTT 3.1.1/TLS",
+      "mqtt_connected": true,
+      "accepted": 886,
+      "rejected": 0,
+      "dropped": 0
+    },
+    "session_ids": [
+      "can-1792574952-65538"
+    ],
+    "scope": "ACTUAL_C_8883_PREPUBLISH_LOOPBACK_WSS_12S_NOT_300S",
+    "raw_values_saved": false,
+    "C_UART": "NOT_OBSERVED"
+  },
+  "null_reasons": {}
+}

@@ -1,0 +1,42 @@
+{
+  "stage": "F2_F5_CONTINUOUS",
+  "source_commit": "6edd48c9e83a4609660786ebc240ef4b0ce4e025",
+  "runtime_source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_A_C_AND_SERVER_NONHUMAN_SIGNAL_NOT_CLINICAL_ACCURACY",
+  "security_scope": "OWNER_APPROVED_CONTRACT_SCOPE_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_CONTINUOUS_AUTH_AMENDMENT_AND_RESIDUAL_RISK_ACCEPTANCE",
+  "rollback_state": "SEE_TIMESTAMPED_INDIVIDUAL_RESULTS",
+  "unresolved": [
+    "SG_8884_ALL_IPV4_OWNER_ACCEPTED_NO_LISTENER",
+    "HISTORICAL_FILTER_DIFF_UNATTRIBUTED_OWNER_ACCEPTED",
+    "C_UART_NOT_OBSERVED_DURING_STANDALONE_FORMAL",
+    "SIMULATOR_MODEL_AND_CALIBRATION_UNVERIFIED"
+  ],
+  "gate": "ACTUAL_RESULT_INCLUDING_FAILURES",
+  "window_start_utc": "2026-10-21T09:28:01.226996+00:00",
+  "window_end_utc": "2026-10-21T09:28:02.731522+00:00",
+  "command": "private reviewed SSH script: cleanup-isolated-stage",
+  "exit_code": 0,
+  "raw_evidence_sha": "04b76b7c70e91d6545c9fd80e11f5795dc84131499ffa77dd3b85a6144820f74",
+  "script_sha256": "87d7aacb0df7eaa1c625a551bfc68a161de34d0735b600b530042720da236bf4",
+  "result": {
+    "exit_code": 0,
+    "service_stop_exit_codes": {
+      "h3-final-preview": 0,
+      "h3-final-ai": 0,
+      "h3-final-backend": 0,
+      "h3-final-broker": 0
+    },
+    "own_rule_references_remaining": 0,
+    "port8884_listener_remaining": false,
+    "formal_services_unchanged": true,
+    "filter_sha256": "e6f238e23dece4fe2763aae2c48a482f749a56f632aeac6d31aa1130d7abed1c",
+    "filter_lines": 393,
+    "NAT_sha256": "96ba2354a7ee95379dbc8c4bc83f5c5d13ccc95d5367d69e3af1e6dec9ed3157",
+    "cloud_SG_changed": false,
+    "runtime_backup_ledger_and_evidence_retained": true
+  },
+  "null_reasons": {}
+}

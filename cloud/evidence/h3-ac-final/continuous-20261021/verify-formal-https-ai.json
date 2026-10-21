@@ -1,0 +1,124 @@
+{
+  "stage": "F2_F5_CONTINUOUS",
+  "source_commit": "6edd48c9e83a4609660786ebc240ef4b0ce4e025",
+  "runtime_source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_A_C_AND_SERVER_NONHUMAN_SIGNAL_NOT_CLINICAL_ACCURACY",
+  "security_scope": "OWNER_APPROVED_CONTRACT_SCOPE_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_CONTINUOUS_AUTH_AMENDMENT_AND_RESIDUAL_RISK_ACCEPTANCE",
+  "rollback_state": "SEE_TIMESTAMPED_INDIVIDUAL_RESULTS",
+  "unresolved": [
+    "SG_8884_ALL_IPV4_OWNER_ACCEPTED_NO_LISTENER",
+    "HISTORICAL_FILTER_DIFF_UNATTRIBUTED_OWNER_ACCEPTED",
+    "C_UART_NOT_OBSERVED_DURING_STANDALONE_FORMAL",
+    "SIMULATOR_MODEL_AND_CALIBRATION_UNVERIFIED"
+  ],
+  "gate": "ACTUAL_RESULT_INCLUDING_FAILURES",
+  "window_start_utc": "2026-10-21T09:41:59.810544+00:00",
+  "window_end_utc": "2026-10-21T09:42:02.657748+00:00",
+  "command": "private reviewed SSH script: verify-formal-https-ai",
+  "exit_code": 0,
+  "raw_evidence_sha": "c7b71363a9175c89e09adb18912280a9b08c902e41da550c33b8ddaca9eefc0e",
+  "script_sha256": "58fc743ae72172cd33cf259021be7dc2a7ec2f4a84ba465c76aecc85edde1612",
+  "result": {
+    "exit_code": 0,
+    "formal_HTTPS": true,
+    "cases": [
+      {
+        "case": "exact_new_index",
+        "http": 200,
+        "sha256": "92e1f44f80d1eec38ef17beb0979dfc1fba8088c6a9aa833ab1de15063535acb"
+      },
+      {
+        "case": "access_401",
+        "http": 401
+      },
+      {
+        "case": "access_405",
+        "http": 405
+      },
+      {
+        "case": "access_404",
+        "http": 404
+      },
+      {
+        "case": "current_reading",
+        "http": 200,
+        "real_model": "NOT_CALLED",
+        "model_evidence": null,
+        "fact_digest": "2d4535114a1780532fbad9c2b9064b9f",
+        "Node_B_values_hidden": true,
+        "values_or_answer_saved": false
+      },
+      {
+        "case": "general_health",
+        "http": 200,
+        "real_model": "REAL_REQUEST_USED",
+        "model_evidence": {
+          "call": "d9a67e49bb5c4ffa8d275cbced8da999",
+          "requested_model": "doubao-seed-2-0-mini-260428",
+          "status": "VALIDATED",
+          "billing_state": "UNKNOWN_TOKEN_USAGE_RECORDED",
+          "http_status": 200,
+          "usage": {
+            "completion_tokens": 61,
+            "prompt_tokens": 430,
+            "total_tokens": 491
+          },
+          "reported_model": "doubao-seed-2-0-mini-260428",
+          "request_id": "0217925757200830b63b37cbca791937f2f41fb0469576d934870",
+          "finish_reason": "stop",
+          "latency_ms": 1634
+        },
+        "fact_digest": "73905a96a492cfe28139ced34bad00f1",
+        "Node_B_values_hidden": true,
+        "values_or_answer_saved": false
+      },
+      {
+        "case": "WSS_invalid_token",
+        "close_code": 1008
+      },
+      {
+        "case": "WSS_disallowed_origin",
+        "http": 403
+      }
+    ],
+    "backend_health": {
+      "status": "ok",
+      "transport": "MQTT 3.1.1/TLS",
+      "mqtt_connected": true,
+      "accepted": 1195,
+      "rejected": 0,
+      "dropped": 0
+    },
+    "usage_before": {
+      "requests": 6,
+      "usage": {
+        "prompt_tokens": 4397,
+        "completion_tokens": 279,
+        "total_tokens": 4676
+      },
+      "states": {},
+      "billing_state": "TOKEN_USAGE_RECORDED_COST_NOT_INFERRED",
+      "lifetime_cap": null
+    },
+    "usage_after": {
+      "requests": 7,
+      "usage": {
+        "prompt_tokens": 4827,
+        "completion_tokens": 340,
+        "total_tokens": 5167
+      },
+      "states": {},
+      "billing_state": "TOKEN_USAGE_RECORDED_COST_NOT_INFERRED",
+      "lifetime_cap": null
+    },
+    "model_id": "doubao-seed-2-0-mini-260428",
+    "billing": "OWNER_TRIAL_REPORTED_CHARGE_UNKNOWN",
+    "new_validated_model_calls": 1,
+    "Node_B": "OFFLINE_REQUIRED",
+    "raw_values_or_answer_saved": false
+  },
+  "null_reasons": {}
+}

@@ -1,0 +1,53 @@
+{
+  "exit_code": 0,
+  "formal_site_UI": true,
+  "failures_are": "BROWSER_ONLY_SYNTHETIC_NO_PROVIDER_OR_NETWORK_DISRUPTION",
+  "started_utc": "2026-10-21T09:50:17.132807+00:00",
+  "ended_utc": "2026-10-21T09:50:36.559984+00:00",
+  "checks": [
+    {
+      "case": "provider_failure",
+      "simulated": true,
+      "UI": "\"{\\\"status\\\":\\\"回答失败，请检查 AI 服务后重试\\\",\\\"mode\\\":\\\"本轮未取得有效模型回执\\\",\\\"monitorConnected\\\":\\\"正在连接\\\",\\\"nodeB\\\":\\\"Node-B · OFFLINE\\\"}\"\n"
+    },
+    {
+      "case": "upstream_timeout",
+      "simulated": true,
+      "UI": "\"{\\\"status\\\":\\\"回答失败，请检查 AI 服务后重试\\\",\\\"mode\\\":\\\"本轮未取得有效模型回执\\\",\\\"monitorConnected\\\":\\\"正在连接\\\",\\\"nodeB\\\":\\\"Node-B · OFFLINE\\\"}\"\n"
+    },
+    {
+      "case": "client_timeout",
+      "simulated": true,
+      "UI": "\"{\\\"status\\\":\\\"回答超时，请重试\\\",\\\"mode\\\":\\\"本轮未取得有效模型回执\\\",\\\"monitorConnected\\\":\\\"监护通道已连接\\\",\\\"nodeB\\\":\\\"Node-B · OFFLINE\\\"}\"\n"
+    }
+  ],
+  "new_model_calls": 0,
+  "production_files_modified": false,
+  "stage": null,
+  "gate": "COMPONENT_RESULT_SEE_CANONICAL_REPORT_AND_EXECUTION_INDEX",
+  "source_commit": null,
+  "device_or_runtime_sha": null,
+  "source_label": null,
+  "window_start_utc": "2026-10-21T09:50:17.132807+00:00",
+  "window_end_utc": "2026-10-21T09:50:36.559984+00:00",
+  "command": null,
+  "observed_vs_simulated": null,
+  "raw_evidence_sha": null,
+  "security_scope": null,
+  "owner_auth_id": null,
+  "rollback_state": null,
+  "unresolved": null,
+  "null_reasons": {
+    "stage": "NOT_CAPTURED_IN_THIS_HISTORICAL_OR_COMPONENT_RECEIPT; SEE_TIMESTAMPED_EXECUTION_INDEX_AND_CANONICAL_REPORT",
+    "source_commit": "NOT_CAPTURED_IN_THIS_HISTORICAL_OR_COMPONENT_RECEIPT; SEE_TIMESTAMPED_EXECUTION_INDEX_AND_CANONICAL_REPORT",
+    "device_or_runtime_sha": "NOT_CAPTURED_IN_THIS_HISTORICAL_OR_COMPONENT_RECEIPT; SEE_TIMESTAMPED_EXECUTION_INDEX_AND_CANONICAL_REPORT",
+    "source_label": "NOT_CAPTURED_IN_THIS_HISTORICAL_OR_COMPONENT_RECEIPT; SEE_TIMESTAMPED_EXECUTION_INDEX_AND_CANONICAL_REPORT",
+    "command": "NOT_CAPTURED_IN_THIS_HISTORICAL_OR_COMPONENT_RECEIPT; SEE_TIMESTAMPED_EXECUTION_INDEX_AND_CANONICAL_REPORT",
+    "observed_vs_simulated": "NOT_CAPTURED_IN_THIS_HISTORICAL_OR_COMPONENT_RECEIPT; SEE_TIMESTAMPED_EXECUTION_INDEX_AND_CANONICAL_REPORT",
+    "raw_evidence_sha": "NOT_CAPTURED_IN_THIS_HISTORICAL_OR_COMPONENT_RECEIPT; SEE_TIMESTAMPED_EXECUTION_INDEX_AND_CANONICAL_REPORT",
+    "security_scope": "NOT_CAPTURED_IN_THIS_HISTORICAL_OR_COMPONENT_RECEIPT; SEE_TIMESTAMPED_EXECUTION_INDEX_AND_CANONICAL_REPORT",
+    "owner_auth_id": "NOT_CAPTURED_IN_THIS_HISTORICAL_OR_COMPONENT_RECEIPT; SEE_TIMESTAMPED_EXECUTION_INDEX_AND_CANONICAL_REPORT",
+    "rollback_state": "NOT_CAPTURED_IN_THIS_HISTORICAL_OR_COMPONENT_RECEIPT; SEE_TIMESTAMPED_EXECUTION_INDEX_AND_CANONICAL_REPORT",
+    "unresolved": "NOT_CAPTURED_IN_THIS_HISTORICAL_OR_COMPONENT_RECEIPT; SEE_TIMESTAMPED_EXECUTION_INDEX_AND_CANONICAL_REPORT"
+  }
+}

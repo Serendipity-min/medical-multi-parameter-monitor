@@ -1,0 +1,118 @@
+{
+  "stage": "F2_F5_CONTINUOUS",
+  "source_commit": "6edd48c9e83a4609660786ebc240ef4b0ce4e025",
+  "runtime_source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_A_C_AND_SERVER_NONHUMAN_SIGNAL_NOT_CLINICAL_ACCURACY",
+  "security_scope": "OWNER_APPROVED_CONTRACT_SCOPE_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_CONTINUOUS_AUTH_AMENDMENT_AND_RESIDUAL_RISK_ACCEPTANCE",
+  "rollback_state": "SEE_TIMESTAMPED_INDIVIDUAL_RESULTS",
+  "unresolved": [
+    "SG_8884_ALL_IPV4_OWNER_ACCEPTED_NO_LISTENER",
+    "HISTORICAL_FILTER_DIFF_UNATTRIBUTED_OWNER_ACCEPTED",
+    "C_UART_NOT_OBSERVED_DURING_STANDALONE_FORMAL",
+    "SIMULATOR_MODEL_AND_CALIBRATION_UNVERIFIED"
+  ],
+  "gate": "ACTUAL_RESULT_INCLUDING_FAILURES",
+  "window_start_utc": "2026-10-21T09:50:43.025089+00:00",
+  "window_end_utc": "2026-10-21T09:50:44.064619+00:00",
+  "command": "private reviewed SSH script: verify-final-https",
+  "exit_code": 0,
+  "raw_evidence_sha": "8b36bc4653f3d914f8a9227146f36b4afb0a27a3603660219e3d7b3f751aff53",
+  "script_sha256": "9a45a841aadd0ccbe3194e4d49ca8250ee701b1adce2a57f32f17059486c7ca4",
+  "result": {
+    "exit_code": 0,
+    "formal_HTTPS": true,
+    "cases": [
+      {
+        "case": "exact_new_index",
+        "http": 200,
+        "sha256": "92e1f44f80d1eec38ef17beb0979dfc1fba8088c6a9aa833ab1de15063535acb"
+      },
+      {
+        "case": "access_401",
+        "http": 401
+      },
+      {
+        "case": "access_405",
+        "http": 405
+      },
+      {
+        "case": "access_404",
+        "http": 404
+      },
+      {
+        "case": "current_reading",
+        "http": 200,
+        "real_model": "NOT_CALLED",
+        "model_evidence": null,
+        "fact_digest": "2a427540c979021a4a433159f7680600",
+        "Node_B_values_hidden": true,
+        "values_or_answer_saved": false
+      },
+      {
+        "case": "expired_nibp",
+        "http": 200,
+        "real_model": "NOT_CALLED",
+        "model_evidence": null,
+        "fact_digest": "2a427540c979021a4a433159f7680600",
+        "Node_B_values_hidden": true,
+        "values_or_answer_saved": false
+      },
+      {
+        "case": "B_offline",
+        "http": 200,
+        "real_model": "NOT_CALLED",
+        "model_evidence": null,
+        "fact_digest": "2a427540c979021a4a433159f7680600",
+        "Node_B_values_hidden": true,
+        "values_or_answer_saved": false
+      },
+      {
+        "case": "WSS_invalid_token",
+        "close_code": 1008
+      },
+      {
+        "case": "WSS_disallowed_origin",
+        "http": 403
+      }
+    ],
+    "backend_health": {
+      "status": "ok",
+      "transport": "MQTT 3.1.1/TLS",
+      "mqtt_connected": true,
+      "accepted": 296,
+      "rejected": 0,
+      "dropped": 0
+    },
+    "usage_before": {
+      "requests": 8,
+      "usage": {
+        "prompt_tokens": 5257,
+        "completion_tokens": 401,
+        "total_tokens": 5658
+      },
+      "states": {},
+      "billing_state": "TOKEN_USAGE_RECORDED_COST_NOT_INFERRED",
+      "lifetime_cap": null
+    },
+    "usage_after": {
+      "requests": 8,
+      "usage": {
+        "prompt_tokens": 5257,
+        "completion_tokens": 401,
+        "total_tokens": 5658
+      },
+      "states": {},
+      "billing_state": "TOKEN_USAGE_RECORDED_COST_NOT_INFERRED",
+      "lifetime_cap": null
+    },
+    "model_id": "doubao-seed-2-0-mini-260428",
+    "billing": "OWNER_TRIAL_REPORTED_CHARGE_UNKNOWN",
+    "new_validated_model_calls": 0,
+    "Node_B": "OFFLINE_REQUIRED",
+    "raw_values_or_answer_saved": false
+  },
+  "null_reasons": {}
+}

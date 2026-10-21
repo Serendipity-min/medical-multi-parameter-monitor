@@ -1,0 +1,46 @@
+{
+  "stage": "F2_F5_CONTINUOUS",
+  "source_commit": "905821a3065b681a388f42edb6a0f21038c983e3",
+  "runtime_source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_A_C_AND_SERVER_NONHUMAN_SIGNAL_NOT_CLINICAL_ACCURACY",
+  "security_scope": "OWNER_APPROVED_CONTRACT_SCOPE_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_CONTINUOUS_AUTH_AMENDMENT_AND_RESIDUAL_RISK_ACCEPTANCE",
+  "rollback_state": "SEE_TIMESTAMPED_INDIVIDUAL_RESULTS",
+  "unresolved": [
+    "SG_8884_ALL_IPV4_OWNER_ACCEPTED_NO_LISTENER",
+    "HISTORICAL_FILTER_DIFF_UNATTRIBUTED_OWNER_ACCEPTED",
+    "C_UART_NOT_OBSERVED_DURING_STANDALONE_FORMAL",
+    "SIMULATOR_MODEL_AND_CALIBRATION_UNVERIFIED"
+  ],
+  "gate": "ACTUAL_PROCESS_EXIT_NOT_OVERRIDDEN",
+  "started_utc": "2026-10-21T09:24:54.164085+00:00",
+  "ended_utc": "2026-10-21T09:24:58.195870+00:00",
+  "exit_code": 0,
+  "command": [
+    "C:\\Users\\Serendipity\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "-q",
+    "cloud/backend/tests/test_formal_c_jlink.py",
+    "cloud/backend/tests/test_final_c_jlink.py",
+    "gateway/physical_can/tests/test_formal_synthetic_download.py",
+    "gateway/physical_can/tests/test_r2_persistent_download.py",
+    "gateway/physical_can/tests/test_r2_wifi_migration.py"
+  ],
+  "raw_sha256": "19b282354ec2ae4e6f307775ff3cc065166db4120a61fe15db3871077fca03fc",
+  "source_sha256": {
+    "tools/h3_c_formal.py": "33ec99d4cb1856c9daabe64eed819ba6da5ab6ba3c15a35d1a7c6f1bc7eb8a81",
+    "tools/h3_c_jlink.py": "712616486ab41d5bc3314fac4e916f60989efcfc4f83ad8cfc263b5d9e1955a8",
+    "cloud/backend/tests/test_formal_c_jlink.py": "9ab944f751c469b03b31112d24e0f9249240f6e416ce4f8a3052ec97d9bb2e5f"
+  },
+  "window_start_utc": "2026-10-21T09:24:54.164085+00:00",
+  "window_end_utc": "2026-10-21T09:24:58.195870+00:00",
+  "raw_evidence_sha": null,
+  "null_reasons": {
+    "raw_evidence_sha": "NOT_CAPTURED_IN_THIS_HISTORICAL_OR_COMPONENT_RECEIPT; SEE_TIMESTAMPED_EXECUTION_INDEX_AND_CANONICAL_REPORT"
+  }
+}

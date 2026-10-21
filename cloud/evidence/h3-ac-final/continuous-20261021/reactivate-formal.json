@@ -1,0 +1,32 @@
+{
+  "stage": "F2_F5_CONTINUOUS",
+  "source_commit": "6edd48c9e83a4609660786ebc240ef4b0ce4e025",
+  "runtime_source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_A_C_AND_SERVER_NONHUMAN_SIGNAL_NOT_CLINICAL_ACCURACY",
+  "security_scope": "OWNER_APPROVED_CONTRACT_SCOPE_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_CONTINUOUS_AUTH_AMENDMENT_AND_RESIDUAL_RISK_ACCEPTANCE",
+  "rollback_state": "SEE_TIMESTAMPED_INDIVIDUAL_RESULTS",
+  "unresolved": [
+    "SG_8884_ALL_IPV4_OWNER_ACCEPTED_NO_LISTENER",
+    "HISTORICAL_FILTER_DIFF_UNATTRIBUTED_OWNER_ACCEPTED",
+    "C_UART_NOT_OBSERVED_DURING_STANDALONE_FORMAL",
+    "SIMULATOR_MODEL_AND_CALIBRATION_UNVERIFIED"
+  ],
+  "gate": "ACTUAL_RESULT_INCLUDING_FAILURES",
+  "window_start_utc": "2026-10-21T09:48:52.447660+00:00",
+  "window_end_utc": "2026-10-21T09:48:54.485260+00:00",
+  "command": "private reviewed SSH script: reactivate-formal",
+  "exit_code": 0,
+  "raw_evidence_sha": "7614e9472a58df7152596b0ccf89dc70f3593d73ec254f3e81547819db2cbaa8",
+  "script_sha256": "1ce2c429558fac0a31cf41e35eff88d5e650c9a749d2731fb0c9b8293dc2b503",
+  "result": {
+    "state": "ACTIVATED_PENDING_HTTPS_ACCEPTANCE",
+    "stage": "/opt/medical-monitor-h3/formal/20261021T093335Z",
+    "nginx_sha256": "70ac6d03c17b1bcfc54ea87fb8b3fca949d8dabddac191dd7b8b571d58c00ca7",
+    "original_services_unchanged": true,
+    "exit_code": 0
+  },
+  "null_reasons": {}
+}

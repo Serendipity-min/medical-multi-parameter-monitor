@@ -1,0 +1,43 @@
+{
+  "stage": "F2_F5_CONTINUOUS",
+  "source_commit": "6edd48c9e83a4609660786ebc240ef4b0ce4e025",
+  "runtime_source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_A_C_AND_SERVER_NONHUMAN_SIGNAL_NOT_CLINICAL_ACCURACY",
+  "security_scope": "OWNER_APPROVED_CONTRACT_SCOPE_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_CONTINUOUS_AUTH_AMENDMENT_AND_RESIDUAL_RISK_ACCEPTANCE",
+  "rollback_state": "SEE_TIMESTAMPED_INDIVIDUAL_RESULTS",
+  "unresolved": [
+    "SG_8884_ALL_IPV4_OWNER_ACCEPTED_NO_LISTENER",
+    "HISTORICAL_FILTER_DIFF_UNATTRIBUTED_OWNER_ACCEPTED",
+    "C_UART_NOT_OBSERVED_DURING_STANDALONE_FORMAL",
+    "SIMULATOR_MODEL_AND_CALIBRATION_UNVERIFIED"
+  ],
+  "gate": "ACTUAL_RESULT_INCLUDING_FAILURES",
+  "window_start_utc": "2026-10-21T09:33:35.610459+00:00",
+  "window_end_utc": "2026-10-21T09:33:37.170988+00:00",
+  "command": "private reviewed SSH script: prepare-formal-release",
+  "exit_code": 0,
+  "raw_evidence_sha": "9f2889b4f8a059e87139a25751e27c2810f5217352610afad111613755017fee",
+  "script_sha256": "df23ce5debf726e96edf591d24163df3925502cdc88314220c6816aab2b15cb8",
+  "result": {
+    "exit_code": 0,
+    "state": "PREPARED_ONLY_NOT_PUBLISHED",
+    "plan_reference": "active-formal-plan-reference.json",
+    "plan_sha256": "270e9cd52e3f83b7bc118210418a81252d74a0a30438150d87b86f64e9beb8e6",
+    "stage": "/opt/medical-monitor-h3/formal/20261021T093335Z",
+    "payload_sha256": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+    "complete_backup_manifest_sha256": "53e1aec5021e6a0fba8b7e3c8b7df53346f9f8e2bce9c7aa0a64382c503ffed3",
+    "nginx_syntax_exit_code": 0,
+    "original_services_unchanged": true,
+    "candidate_nginx_sha256": "70ac6d03c17b1bcfc54ea87fb8b3fca949d8dabddac191dd7b8b571d58c00ca7",
+    "owned_env_sha256": {
+      "backend.env": "88d5c8b9b545889a1f102871898aba4483f0333a7b47cab9d9dfd902314fbc6a",
+      "ai.env": "dd286489bbb946ab4f7ca9d23ef19eb98e89d026172b3d18851585440d634c7f"
+    },
+    "new_real_model_calls": 0,
+    "route_switched": false
+  },
+  "null_reasons": {}
+}

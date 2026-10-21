@@ -1,0 +1,48 @@
+{
+  "stage": "F2_F5_CONTINUOUS",
+  "source_commit": "6edd48c9e83a4609660786ebc240ef4b0ce4e025",
+  "runtime_source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_A_C_AND_SERVER_NONHUMAN_SIGNAL_NOT_CLINICAL_ACCURACY",
+  "security_scope": "OWNER_APPROVED_CONTRACT_SCOPE_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_CONTINUOUS_AUTH_AMENDMENT_AND_RESIDUAL_RISK_ACCEPTANCE",
+  "rollback_state": "SEE_TIMESTAMPED_INDIVIDUAL_RESULTS",
+  "unresolved": [
+    "SG_8884_ALL_IPV4_OWNER_ACCEPTED_NO_LISTENER",
+    "HISTORICAL_FILTER_DIFF_UNATTRIBUTED_OWNER_ACCEPTED",
+    "C_UART_NOT_OBSERVED_DURING_STANDALONE_FORMAL",
+    "SIMULATOR_MODEL_AND_CALIBRATION_UNVERIFIED"
+  ],
+  "gate": "ACTUAL_RESULT_INCLUDING_FAILURES",
+  "window_start_utc": "2026-10-21T09:48:45.658335+00:00",
+  "window_end_utc": "2026-10-21T09:48:48.421625+00:00",
+  "command": "private reviewed SSH script: verify-rollback-https",
+  "exit_code": 0,
+  "raw_evidence_sha": "b24af05b4571767c7af34943c7cfca6e8df02b694cb3845f522d169af6a12d36",
+  "script_sha256": "921e0ea25db4084ba0c72e36e63088c7faff5f7ed453aa846f22fb9d0e34a657",
+  "result": {
+    "exit_code": 0,
+    "formal_HTTPS": true,
+    "expected_old_route": true,
+    "invalid_values_visible": 0,
+    "Node_B_not_offline": 0,
+    "snapshots": 20,
+    "new_units_stopped": {
+      "medical-monitor-h3-webbackend.service": true,
+      "medical-monitor-h3-webai.service": true
+    },
+    "model_calls": 0,
+    "old_index_sha256": "92a48ceea4afb3a3c5b6f34fadd7d3b56063e725321aa2471e3a9285db7a48f0",
+    "health": {
+      "status": "ok",
+      "transport": "MQTT 3.1.1/TLS",
+      "mqtt_connected": true,
+      "accepted": 55972221,
+      "rejected": 0,
+      "dropped": 0
+    },
+    "original_services_unchanged": true
+  },
+  "null_reasons": {}
+}

@@ -1,0 +1,691 @@
+{
+  "stage": "F2_F5_CONTINUOUS",
+  "source_commit": "6edd48c9e83a4609660786ebc240ef4b0ce4e025",
+  "runtime_source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_A_C_AND_SERVER_NONHUMAN_SIGNAL_NOT_CLINICAL_ACCURACY",
+  "security_scope": "OWNER_APPROVED_CONTRACT_SCOPE_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_CONTINUOUS_AUTH_AMENDMENT_AND_RESIDUAL_RISK_ACCEPTANCE",
+  "rollback_state": "SEE_TIMESTAMPED_INDIVIDUAL_RESULTS",
+  "unresolved": [
+    "SG_8884_ALL_IPV4_OWNER_ACCEPTED_NO_LISTENER",
+    "HISTORICAL_FILTER_DIFF_UNATTRIBUTED_OWNER_ACCEPTED",
+    "C_UART_NOT_OBSERVED_DURING_STANDALONE_FORMAL",
+    "SIMULATOR_MODEL_AND_CALIBRATION_UNVERIFIED"
+  ],
+  "gate": "ACTUAL_RESULT_INCLUDING_FAILURES",
+  "window_start_utc": "2026-10-21T09:04:10.007037+00:00",
+  "window_end_utc": "2026-10-21T09:04:10.690905+00:00",
+  "command": "private reviewed SSH script: collect-current-observations",
+  "exit_code": 0,
+  "raw_evidence_sha": "5903e60020bacd1809faa0ad4ba8c65ae0e5650ac3c30bda9c7491045d5bdb41",
+  "script_sha256": "66ad042e90d577be09f7f21f5361d8481a5b16e0e8f3e9f7882d17d13d1e6d8d",
+  "result": {
+    "exit_code": 0,
+    "windows": [
+      {
+        "reference": "e2e-20261021T083112Z",
+        "started_utc": "2026-10-21T08:31:12.167397+00:00",
+        "finished_utc": "2026-10-21T08:37:42.261154+00:00",
+        "target_seconds": 390,
+        "elapsed_s": 390.046,
+        "criterion": "active-ppg",
+        "exit_code": 1,
+        "mqtt_received": 886,
+        "mqtt_invalid": 0,
+        "mqtt_qos": {
+          "1": 761,
+          "0": 125
+        },
+        "wss_snapshots": 3853,
+        "matched_valid_streams": {
+          "PPG": 1655,
+          "SPO2": 1602,
+          "PR": 1575,
+          "NIBP": 871
+        },
+        "value_mismatches": 0,
+        "node_b_online_seen": false,
+        "node_b_not_offline": 0,
+        "unexpected_node_a_source": 0,
+        "longest_active_ppg_s": 118.938,
+        "active_ppg_ranges": [
+          {
+            "seconds": 52.463
+          },
+          {
+            "seconds": 118.938
+          }
+        ],
+        "invalid_values_visible": 0,
+        "backend_health_before": {
+          "status": "ok",
+          "transport": "MQTT 3.1.1/TLS",
+          "mqtt_connected": true,
+          "accepted": 880,
+          "rejected": 0,
+          "dropped": 0
+        },
+        "backend_health_after": {
+          "status": "degraded",
+          "transport": "MQTT 3.1.1/TLS",
+          "mqtt_connected": false,
+          "accepted": 1763,
+          "rejected": 0,
+          "dropped": 0
+        },
+        "mqtt_stream_counts": {
+          "NODE_STATUS": 144,
+          "GATEWAY_STATUS": 74,
+          "PPG": 126,
+          "SPO2": 181,
+          "PR": 181,
+          "NIBP": 180
+        }
+      },
+      {
+        "reference": "e2e-20261021T084725Z",
+        "started_utc": "2026-10-21T08:47:25.461406+00:00",
+        "finished_utc": "2026-10-21T08:52:55.574789+00:00",
+        "target_seconds": 330,
+        "elapsed_s": 330.068,
+        "criterion": "active-ppg",
+        "exit_code": 1,
+        "mqtt_received": 925,
+        "mqtt_invalid": 0,
+        "mqtt_qos": {
+          "1": 708,
+          "0": 217
+        },
+        "wss_snapshots": 3261,
+        "matched_valid_streams": {
+          "PR": 2535,
+          "PPG": 2780,
+          "SPO2": 2723,
+          "NIBP": 699
+        },
+        "value_mismatches": 0,
+        "node_b_online_seen": false,
+        "node_b_not_offline": 0,
+        "unexpected_node_a_source": 0,
+        "longest_active_ppg_s": 175.889,
+        "active_ppg_ranges": [
+          {
+            "seconds": 40.848
+          },
+          {
+            "seconds": 18.832
+          },
+          {
+            "seconds": 1.518
+          },
+          {
+            "seconds": 23.791
+          },
+          {
+            "seconds": 4.048
+          },
+          {
+            "seconds": 39.975
+          },
+          {
+            "seconds": 3.642
+          },
+          {
+            "seconds": 175.889
+          }
+        ],
+        "invalid_values_visible": 0,
+        "backend_health_before": {
+          "status": "ok",
+          "transport": "MQTT 3.1.1/TLS",
+          "mqtt_connected": true,
+          "accepted": 2632,
+          "rejected": 0,
+          "dropped": 0
+        },
+        "backend_health_after": {
+          "status": "ok",
+          "transport": "MQTT 3.1.1/TLS",
+          "mqtt_connected": true,
+          "accepted": 3555,
+          "rejected": 0,
+          "dropped": 0
+        },
+        "mqtt_stream_counts": {
+          "NODE_STATUS": 126,
+          "GATEWAY_STATUS": 64,
+          "PR": 160,
+          "NIBP": 159,
+          "PPG": 257,
+          "SPO2": 159
+        }
+      },
+      {
+        "reference": "e2e-20261021T085256Z",
+        "started_utc": "2026-10-21T08:52:56.191379+00:00",
+        "finished_utc": "2026-10-21T09:00:26.308630+00:00",
+        "target_seconds": 450,
+        "elapsed_s": 450.067,
+        "criterion": "active-ppg",
+        "exit_code": 0,
+        "mqtt_received": 1340,
+        "mqtt_invalid": 0,
+        "mqtt_qos": {
+          "1": 963,
+          "0": 377
+        },
+        "wss_snapshots": 4450,
+        "matched_valid_streams": {
+          "PPG": 4181,
+          "SPO2": 4175,
+          "PR": 4219
+        },
+        "value_mismatches": 0,
+        "node_b_online_seen": false,
+        "node_b_not_offline": 0,
+        "unexpected_node_a_source": 0,
+        "longest_active_ppg_s": 334.67,
+        "active_ppg_ranges": [
+          {
+            "seconds": 89.77
+          },
+          {
+            "seconds": 2.727
+          },
+          {
+            "seconds": 5.657
+          },
+          {
+            "seconds": 2.628
+          },
+          {
+            "seconds": 7.582
+          },
+          {
+            "seconds": 334.67
+          }
+        ],
+        "invalid_values_visible": 0,
+        "backend_health_before": {
+          "status": "ok",
+          "transport": "MQTT 3.1.1/TLS",
+          "mqtt_connected": true,
+          "accepted": 3558,
+          "rejected": 0,
+          "dropped": 0
+        },
+        "backend_health_after": {
+          "status": "ok",
+          "transport": "MQTT 3.1.1/TLS",
+          "mqtt_connected": true,
+          "accepted": 4895,
+          "rejected": 0,
+          "dropped": 0
+        },
+        "mqtt_stream_counts": {
+          "NODE_STATUS": 182,
+          "GATEWAY_STATUS": 91,
+          "PPG": 400,
+          "SPO2": 223,
+          "PR": 222,
+          "NIBP": 222
+        }
+      }
+    ],
+    "NIBP": [
+      {
+        "reference": "nibp-observer-result.json",
+        "started_utc": "2026-10-21T08:31:12.471889+00:00",
+        "finished_utc": "2026-10-21T08:37:42.540414+00:00",
+        "exit_code": 0,
+        "source": "OWNER_ATTESTED_NONHUMAN_FUNCTIONAL_SIMULATOR_MODEL_UNIDENTIFIED",
+        "completion_identity": {
+          "session_id": "can-1792571269-65537",
+          "completion_utc_ms": 1792571533215,
+          "first_seen_age_ms": 1417,
+          "source": "MOCK",
+          "synthetic": true
+        },
+        "complete_event_seen": true,
+        "expiry_seen": true,
+        "age_checks": {
+          "near_89s": {
+            "age_ms": 89069,
+            "validity": "VALID",
+            "value_present": true,
+            "timestamp": 1792571533215
+          },
+          "after_90s": {
+            "age_ms": 90082,
+            "validity": "STALE",
+            "value_present": false,
+            "timestamp": 1792571533215
+          }
+        },
+        "invalid_value_visible": 0,
+        "clinical_accuracy": "NOT_ASSESSED"
+      },
+      {
+        "reference": "nibp-observer2-result.json",
+        "started_utc": "2026-10-21T08:47:25.456726+00:00",
+        "finished_utc": "2026-10-21T08:52:55.652357+00:00",
+        "exit_code": 0,
+        "source": "OWNER_ATTESTED_NONHUMAN_FUNCTIONAL_SIMULATOR_MODEL_UNIDENTIFIED",
+        "completion_identity": {
+          "session_id": "can-1792571269-65537",
+          "completion_utc_ms": 1792572469510,
+          "first_seen_age_ms": 2608,
+          "source": "MOCK",
+          "synthetic": true
+        },
+        "complete_event_seen": true,
+        "expiry_seen": true,
+        "age_checks": {
+          "near_89s": {
+            "age_ms": 89069,
+            "validity": "VALID",
+            "value_present": true,
+            "timestamp": 1792572469510
+          },
+          "after_90s": {
+            "age_ms": 90081,
+            "validity": "STALE",
+            "value_present": false,
+            "timestamp": 1792572469510
+          }
+        },
+        "invalid_value_visible": 0,
+        "clinical_accuracy": "NOT_ASSESSED"
+      }
+    ],
+    "raw_files": {
+      "e2e-20261021T083112Z/result.json": "6d7d2b5144f2924c2c264bde2bc9d8b99b163d13b32aeaa2fcba4ac46eef24e7",
+      "e2e-20261021T083112Z/mqtt-metadata.jsonl": "01e35063cc76c6df79d558ec2b85ac1ef141a46a4187d31cd3ff92dba2b36f5b",
+      "e2e-20261021T083112Z/wss-metadata.jsonl": "a6fe70e93f71ca6a867273da80497474b4e00451dde2148afc0c8c0d7e69c9d0",
+      "e2e-20261021T084725Z/result.json": "36844ca494ca48ad9409345dbf5b80ad4b502042c91e577c5b35260d824be9e1",
+      "e2e-20261021T084725Z/mqtt-metadata.jsonl": "0fac9e036b7c10a617cf7c38dc05c23de85df301c2f5e3e4bcdafca25515c597",
+      "e2e-20261021T084725Z/wss-metadata.jsonl": "2eed9b0728de26edfc74b27f5c17495f91ef34f774e860baf9793c7f22dc4636",
+      "e2e-20261021T085256Z/result.json": "5d2c8dbf9e392ecfd045ed945856d0502379571ca979fafa64c8f54584f127cc",
+      "e2e-20261021T085256Z/mqtt-metadata.jsonl": "8f14f4aa7b7c4baef0a0a1ea00009926695aff4379bde3a857dce7db3e8a600c",
+      "e2e-20261021T085256Z/wss-metadata.jsonl": "b4b000735061ee79e848b2f674d88a961b624d02312d9b12459f0ae0dd10a1ce",
+      "nibp-observer-result.json": "0bd86444d205df8e6c7d0caf9619a80ddfb2982114f442fdec2686d056a0d72b",
+      "nibp-observer2-result.json": "fc2c3b1a90dcfd56bcc1c757307c24d7b2eeb5e2ec9fe70b34d1004be3316bd2",
+      "bounded-fault-injection.json": "3effae43a189266e161da229d8678c66e8925efaea4c087e7438e6c9cc244454",
+      "bounded-fault-result.json": "e96f447d4304a544b4b97341fc5c753f8a5ca708c34b8e133d741e0423a5a38c",
+      "tcp-final-result.json": "599a8698691b8059832e004183eca7303f1c555b36ed8a6b1244e71dcdbb86c7"
+    },
+    "bounded-fault-injection.json": {
+      "action": "BOUNDED_ISOLATED_TCP_LOSS",
+      "seconds": 6,
+      "port": 8884,
+      "scope": "SINGLE_EXISTING_FIELD_CONNECTION",
+      "addresses_or_source_ports_saved": false,
+      "production_ports_changed": false,
+      "rule_removed": true,
+      "exit_code": 0,
+      "started_utc": "2026-10-21T09:00:45.629591+00:00",
+      "dropped_packets": 4,
+      "dropped_bytes": 2501,
+      "elapsed_s": 6.002,
+      "finished_utc": "2026-10-21T09:00:51.646796+00:00"
+    },
+    "bounded-fault-result.json": {
+      "observation": {
+        "action": "ISOLATED_WIFI_FAULT_STRICT_NODE_B",
+        "started_utc": "2026-10-21T09:00:40.629069+00:00",
+        "node_b_not_offline": 0,
+        "invalid_current_value": 0,
+        "valid_while_gateway_unavailable": 0,
+        "replay_used_as_current": 0,
+        "unavailable_seen": true,
+        "recovered_seen": true,
+        "raw_measurements_saved": false,
+        "transitions": [
+          {
+            "elapsed_s": 0.003,
+            "gateway": "ONLINE",
+            "nodes": {
+              "NODE-A": "ONLINE",
+              "NODE-B": "OFFLINE"
+            },
+            "validities": {
+              "NIBP": "INVALID",
+              "PPG": "VALID",
+              "PR": "VALID",
+              "SPO2": "VALID"
+            }
+          },
+          {
+            "elapsed_s": 7.375,
+            "gateway": "ONLINE",
+            "nodes": {
+              "NODE-A": "ONLINE",
+              "NODE-B": "OFFLINE"
+            },
+            "validities": {
+              "NIBP": "INVALID",
+              "PPG": "VALID",
+              "PR": "STALE",
+              "SPO2": "STALE"
+            }
+          },
+          {
+            "elapsed_s": 9.397,
+            "gateway": "ONLINE",
+            "nodes": {
+              "NODE-A": "ONLINE",
+              "NODE-B": "OFFLINE"
+            },
+            "validities": {
+              "NIBP": "INVALID",
+              "PPG": "STALE",
+              "PR": "STALE",
+              "SPO2": "STALE"
+            }
+          },
+          {
+            "elapsed_s": 16.875,
+            "gateway": "OFFLINE",
+            "nodes": {
+              "NODE-A": "OFFLINE",
+              "NODE-B": "OFFLINE"
+            },
+            "validities": {
+              "NIBP": "OFFLINE",
+              "PPG": "OFFLINE",
+              "PR": "OFFLINE",
+              "SPO2": "OFFLINE"
+            }
+          },
+          {
+            "elapsed_s": 17.279,
+            "gateway": "ONLINE",
+            "nodes": {
+              "NODE-A": "ONLINE",
+              "NODE-B": "OFFLINE"
+            },
+            "validities": {
+              "NIBP": "INVALID",
+              "PPG": "STALE",
+              "PR": "STALE",
+              "SPO2": "STALE"
+            }
+          },
+          {
+            "elapsed_s": 17.785,
+            "gateway": "ONLINE",
+            "nodes": {
+              "NODE-A": "ONLINE",
+              "NODE-B": "OFFLINE"
+            },
+            "validities": {
+              "NIBP": "INVALID",
+              "PPG": "VALID",
+              "PR": "STALE",
+              "SPO2": "STALE"
+            }
+          },
+          {
+            "elapsed_s": 17.886,
+            "gateway": "ONLINE",
+            "nodes": {
+              "NODE-A": "ONLINE",
+              "NODE-B": "OFFLINE"
+            },
+            "validities": {
+              "NIBP": "INVALID",
+              "PPG": "VALID",
+              "PR": "STALE",
+              "SPO2": "VALID"
+            }
+          },
+          {
+            "elapsed_s": 17.988,
+            "gateway": "ONLINE",
+            "nodes": {
+              "NODE-A": "ONLINE",
+              "NODE-B": "OFFLINE"
+            },
+            "validities": {
+              "NIBP": "INVALID",
+              "PPG": "VALID",
+              "PR": "VALID",
+              "SPO2": "VALID"
+            }
+          },
+          {
+            "elapsed_s": 33.459,
+            "gateway": "ONLINE",
+            "nodes": {
+              "NODE-A": "ONLINE",
+              "NODE-B": "OFFLINE"
+            },
+            "validities": {
+              "NIBP": "INVALID",
+              "PPG": "VALID",
+              "PR": "STALE",
+              "SPO2": "STALE"
+            }
+          },
+          {
+            "elapsed_s": 35.379,
+            "gateway": "ONLINE",
+            "nodes": {
+              "NODE-A": "ONLINE",
+              "NODE-B": "OFFLINE"
+            },
+            "validities": {
+              "NIBP": "INVALID",
+              "PPG": "STALE",
+              "PR": "STALE",
+              "SPO2": "STALE"
+            }
+          },
+          {
+            "elapsed_s": 37.199,
+            "gateway": "OFFLINE",
+            "nodes": {
+              "NODE-A": "OFFLINE",
+              "NODE-B": "OFFLINE"
+            },
+            "validities": {
+              "NIBP": "OFFLINE",
+              "PPG": "OFFLINE",
+              "PR": "OFFLINE",
+              "SPO2": "OFFLINE"
+            }
+          },
+          {
+            "elapsed_s": 42.859,
+            "gateway": "ONLINE",
+            "nodes": {
+              "NODE-A": "ONLINE",
+              "NODE-B": "OFFLINE"
+            },
+            "validities": {
+              "NIBP": "INVALID",
+              "PPG": "STALE",
+              "PR": "STALE",
+              "SPO2": "STALE"
+            }
+          },
+          {
+            "elapsed_s": 43.163,
+            "gateway": "ONLINE",
+            "nodes": {
+              "NODE-A": "ONLINE",
+              "NODE-B": "OFFLINE"
+            },
+            "validities": {
+              "NIBP": "INVALID",
+              "PPG": "VALID",
+              "PR": "STALE",
+              "SPO2": "STALE"
+            }
+          },
+          {
+            "elapsed_s": 43.567,
+            "gateway": "ONLINE",
+            "nodes": {
+              "NODE-A": "ONLINE",
+              "NODE-B": "OFFLINE"
+            },
+            "validities": {
+              "NIBP": "INVALID",
+              "PPG": "VALID",
+              "PR": "STALE",
+              "SPO2": "VALID"
+            }
+          },
+          {
+            "elapsed_s": 43.668,
+            "gateway": "ONLINE",
+            "nodes": {
+              "NODE-A": "ONLINE",
+              "NODE-B": "OFFLINE"
+            },
+            "validities": {
+              "NIBP": "INVALID",
+              "PPG": "VALID",
+              "PR": "VALID",
+              "SPO2": "VALID"
+            }
+          },
+          {
+            "elapsed_s": 45.589,
+            "gateway": "ONLINE",
+            "nodes": {
+              "NODE-A": "ONLINE",
+              "NODE-B": "OFFLINE"
+            },
+            "validities": {
+              "NIBP": "INVALID",
+              "PPG": "VALID",
+              "PR": "VALID",
+              "SPO2": "INVALID"
+            }
+          },
+          {
+            "elapsed_s": 45.69,
+            "gateway": "ONLINE",
+            "nodes": {
+              "NODE-A": "ONLINE",
+              "NODE-B": "OFFLINE"
+            },
+            "validities": {
+              "NIBP": "INVALID",
+              "PPG": "VALID",
+              "PR": "INVALID",
+              "SPO2": "INVALID"
+            }
+          },
+          {
+            "elapsed_s": 48.722,
+            "gateway": "ONLINE",
+            "nodes": {
+              "NODE-A": "ONLINE",
+              "NODE-B": "OFFLINE"
+            },
+            "validities": {
+              "NIBP": "INVALID",
+              "PPG": "VALID",
+              "PR": "INVALID",
+              "SPO2": "VALID"
+            }
+          },
+          {
+            "elapsed_s": 48.823,
+            "gateway": "ONLINE",
+            "nodes": {
+              "NODE-A": "ONLINE",
+              "NODE-B": "OFFLINE"
+            },
+            "validities": {
+              "NIBP": "INVALID",
+              "PPG": "VALID",
+              "PR": "VALID",
+              "SPO2": "VALID"
+            }
+          }
+        ],
+        "elapsed_s": 110.092,
+        "exit_code": 0
+      },
+      "injection_process_exit": 0,
+      "exit_code": 0
+    },
+    "TCP": {
+      "elapsed_s": 450.041,
+      "finished_utc": "2026-10-21T09:00:26.221398+00:00",
+      "exit_code": 0,
+      "capture_kernel_drops": 0,
+      "addresses_saved": false,
+      "payloads_saved": false,
+      "flows": [
+        {
+          "id": 1,
+          "side": "REMOTE",
+          "up_bytes": 25945,
+          "down_bytes": 489084,
+          "repeated_segments": 0
+        },
+        {
+          "id": 2,
+          "side": "REMOTE",
+          "up_bytes": 25945,
+          "down_bytes": 489084,
+          "repeated_segments": 0
+        },
+        {
+          "id": 3,
+          "side": "REMOTE",
+          "up_bytes": 491370,
+          "down_bytes": 32670,
+          "repeated_segments": 31
+        },
+        {
+          "id": 4,
+          "side": "REMOTE",
+          "up_bytes": 25630,
+          "down_bytes": 482714,
+          "repeated_segments": 0
+        },
+        {
+          "id": 5,
+          "side": "REMOTE",
+          "up_bytes": 25630,
+          "down_bytes": 482714,
+          "repeated_segments": 0
+        }
+      ],
+      "event_count": 19357
+    },
+    "h3-final-active-observer": [
+      "ExecMainStatus=1",
+      "ActiveState=failed"
+    ],
+    "h3-final-active-observer2": [
+      "ExecMainStatus=1",
+      "ActiveState=failed"
+    ],
+    "h3-final-active-observer3": [
+      "ExecMainStatus=1",
+      "ActiveState=failed"
+    ],
+    "h3-final-active-observer4": [
+      "ExecMainStatus=0",
+      "ActiveState=inactive"
+    ],
+    "h3-final-bounded-fault": [
+      "ExecMainStatus=0",
+      "ActiveState=inactive"
+    ],
+    "h3-final-restart": [
+      "ExecMainStatus=0",
+      "ActiveState=active"
+    ]
+  },
+  "null_reasons": {}
+}

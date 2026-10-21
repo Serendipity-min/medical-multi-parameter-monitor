@@ -1,0 +1,64 @@
+{
+  "stage": "F2_F3_CONTINUOUS",
+  "source_commit": "9f37cecdba60e0ab0915fdd470aa210ee63274f6",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_DEVICES_AND_SERVER_WITH_NONHUMAN_SIGNAL_SOURCE",
+  "security_scope": "ISOLATED_SERVICES_ONLY_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_OWNER_CONTINUOUS_AUTHORIZATION_AMENDMENT",
+  "rollback_state": "FORMAL_NOT_CHANGED_ACTUAL_ROLLBACK_NOT_RUN",
+  "unresolved": [
+    "F2_ACTIVE_300S_AND_RECOVERY_GATES",
+    "F3_RESIDUAL_RISK_DISPOSITION",
+    "F4_F5_NOT_RUN"
+  ],
+  "gate": "ACTUAL_RESULT_SEE_PROCESS_AND_CHECKS",
+  "window_start_utc": "2026-10-21T08:15:26.427406+00:00",
+  "window_end_utc": "2026-10-21T08:15:31.957908+00:00",
+  "command": "private reviewed SSH script: prepare-environment",
+  "exit_code": 0,
+  "raw_evidence_sha": "c8cbe52cd779fe21bdacc263f49c15098f42494b8ca1e8502765786ae3e04ad6",
+  "script_sha256": "a7ae11025b8cd6beb8a294a6dbc6b0c6c04a4902bbbcae9149e1396d828badcb",
+  "result": {
+    "state": "VERSIONED_OFFLINE_ENVIRONMENT_VERIFIED",
+    "exit_code": 0,
+    "python_version": "3.12.3",
+    "command_exit_codes": [
+      0,
+      0,
+      0
+    ],
+    "dependency_versions": {
+      "annotated-doc": "0.0.5",
+      "typing-extensions": "4.16.0",
+      "idna": "3.20",
+      "annotated-types": "0.8.0",
+      "anyio": "4.15.1",
+      "fastapi": "0.135.1",
+      "httpcore": "1.0.9",
+      "httpx": "0.28.1",
+      "typing-inspection": "0.4.4",
+      "pydantic": "2.12.5",
+      "h11": "0.16.0",
+      "uvicorn": "0.40.0",
+      "colorama": "0.4.6",
+      "paho-mqtt": "2.1.0",
+      "starlette": "1.6.0",
+      "websockets": "16.0",
+      "pip": "24.0",
+      "pydantic-core": "2.41.5",
+      "click": "8.5.0",
+      "certifi": "2025.11.12",
+      "sniffio": "1.3.1"
+    },
+    "install_log_sha256": [
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "54e2cebbde6e59820a447e7c4a4699edba5f357a640125b21a77337beb818888",
+      "9261363b733079a641c2e4cc9bc46ffa1d8336945a87f807b6cf68847dbc9b09"
+    ],
+    "runtime_payload_sha256": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+    "production_modified": false,
+    "service_started": false
+  },
+  "null_reasons": {}
+}

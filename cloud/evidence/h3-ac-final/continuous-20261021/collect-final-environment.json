@@ -1,0 +1,186 @@
+{
+  "stage": "F2_F5_CONTINUOUS",
+  "source_commit": "6edd48c9e83a4609660786ebc240ef4b0ce4e025",
+  "runtime_source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_A_C_AND_SERVER_NONHUMAN_SIGNAL_NOT_CLINICAL_ACCURACY",
+  "security_scope": "OWNER_APPROVED_CONTRACT_SCOPE_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_CONTINUOUS_AUTH_AMENDMENT_AND_RESIDUAL_RISK_ACCEPTANCE",
+  "rollback_state": "SEE_TIMESTAMPED_INDIVIDUAL_RESULTS",
+  "unresolved": [
+    "SG_8884_ALL_IPV4_OWNER_ACCEPTED_NO_LISTENER",
+    "HISTORICAL_FILTER_DIFF_UNATTRIBUTED_OWNER_ACCEPTED",
+    "C_UART_NOT_OBSERVED_DURING_STANDALONE_FORMAL",
+    "SIMULATOR_MODEL_AND_CALIBRATION_UNVERIFIED"
+  ],
+  "gate": "ACTUAL_RESULT_INCLUDING_FAILURES",
+  "window_start_utc": "2026-10-21T10:00:23.500625+00:00",
+  "window_end_utc": "2026-10-21T10:00:24.624616+00:00",
+  "command": "private reviewed SSH script: collect-final-environment",
+  "exit_code": 0,
+  "raw_evidence_sha": "37c98eff2e8646dfb2a764771d954771b6d1887995dd7361ea84614d0855ab38",
+  "script_sha256": "4cafa8817dd6c123e0e4debd1581ccc13a9595f82331db71c7af2e96f003e1ae",
+  "result": {
+    "exit_code": 0,
+    "started_utc": "2026-10-21T10:00:23.681562+00:00",
+    "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_ONLY",
+    "production_rollback_scope": "NGINX_ROUTE_AND_NEW_APPLICATION_UNITS_NOT_FIRMWARE_OR_ROLES",
+    "complete_backups_verified": true,
+    "original_service_identities_unchanged": true,
+    "formal_nginx_sha256": "70ac6d03c17b1bcfc54ea87fb8b3fca949d8dabddac191dd7b8b571d58c00ca7",
+    "owned_application_units": {
+      "medical-monitor-h3-webbackend.service": [
+        "MainPID=2758089",
+        "ExecMainStatus=0",
+        "ActiveState=active",
+        "UnitFileState=enabled"
+      ],
+      "medical-monitor-h3-webai.service": [
+        "MainPID=2758088",
+        "ExecMainStatus=0",
+        "ActiveState=active",
+        "UnitFileState=enabled"
+      ]
+    },
+    "retained_original_AI_health": {
+      "status": "ok",
+      "model_mode": "DOUBAO",
+      "snapshot_mode": "MONITOR",
+      "voice_mode": "DISABLED"
+    },
+    "effective_role_file_sha256": {
+      "acl_file": "c987e3ebe5c884f214f2d334c6416804c24480de735c52b896874e6af3b09853",
+      "password_file": "ecd343ceec203afd44737f460b44aa5d23157524761a702978b3e242e50622a4",
+      "config": "738d54973d959acf1207746c761d42afa2b412daad1b59ac052f781aa5af078c"
+    },
+    "filter": {
+      "sha256": "e6f238e23dece4fe2763aae2c48a482f749a56f632aeac6d31aa1130d7abed1c",
+      "lines": 393
+    },
+    "nat": {
+      "sha256": "96ba2354a7ee95379dbc8c4bc83f5c5d13ccc95d5367d69e3af1e6dec9ed3157",
+      "lines": 12
+    },
+    "TCP_8884_listener_count": 0,
+    "isolated_units": {
+      "h3-final-preview": "inactive",
+      "h3-final-ai": "inactive",
+      "h3-final-backend": "inactive",
+      "h3-final-broker": "inactive"
+    },
+    "actual_new_model_calls": [
+      {
+        "id": "f61198b517bb445390e14111af8888b2",
+        "started_utc": "2026-10-21T08:20:10.065669+00:00",
+        "state": "VALIDATED",
+        "requested_model": "doubao-seed-2-0-mini-260428",
+        "reported_model": "doubao-seed-2-0-mini-260428",
+        "http_status": 200,
+        "latency_ms": 969,
+        "usage": {
+          "completion_tokens": 35,
+          "prompt_tokens": 324,
+          "total_tokens": 359
+        },
+        "request_id": "02179257081012791be90b70b1bfc3059428bd07e108b7e10ae91",
+        "finish_reason": "stop",
+        "billing_state": "UNKNOWN_TOKEN_USAGE_RECORDED"
+      },
+      {
+        "id": "aa6506ddf6634745a799b02eec0e4807",
+        "started_utc": "2026-10-21T08:20:11.043316+00:00",
+        "state": "VALIDATED",
+        "requested_model": "doubao-seed-2-0-mini-260428",
+        "reported_model": "doubao-seed-2-0-mini-260428",
+        "http_status": 200,
+        "latency_ms": 1013,
+        "usage": {
+          "completion_tokens": 47,
+          "prompt_tokens": 326,
+          "total_tokens": 373
+        },
+        "request_id": "0217925708110927424dba2bd6e77b99d402060a9cf8c0f302e11",
+        "finish_reason": "stop",
+        "billing_state": "UNKNOWN_TOKEN_USAGE_RECORDED"
+      },
+      {
+        "id": "8951825adf1043089637ca27df235e21",
+        "started_utc": "2026-10-21T08:20:12.064715+00:00",
+        "state": "VALIDATED",
+        "requested_model": "doubao-seed-2-0-mini-260428",
+        "reported_model": "doubao-seed-2-0-mini-260428",
+        "http_status": 200,
+        "latency_ms": 899,
+        "usage": {
+          "completion_tokens": 41,
+          "prompt_tokens": 325,
+          "total_tokens": 366
+        },
+        "request_id": "021792570812114a77e5a4c9aa25c0e7eca6d226bba90a0c6ec34",
+        "finish_reason": "stop",
+        "billing_state": "UNKNOWN_TOKEN_USAGE_RECORDED"
+      },
+      {
+        "id": "d9a67e49bb5c4ffa8d275cbced8da999",
+        "started_utc": "2026-10-21T09:42:00.024942+00:00",
+        "state": "VALIDATED",
+        "requested_model": "doubao-seed-2-0-mini-260428",
+        "reported_model": "doubao-seed-2-0-mini-260428",
+        "http_status": 200,
+        "latency_ms": 1634,
+        "usage": {
+          "completion_tokens": 61,
+          "prompt_tokens": 430,
+          "total_tokens": 491
+        },
+        "request_id": "0217925757200830b63b37cbca791937f2f41fb0469576d934870",
+        "finish_reason": "stop",
+        "billing_state": "UNKNOWN_TOKEN_USAGE_RECORDED"
+      },
+      {
+        "id": "72ce434f9d2e461899f4dca5b525dea3",
+        "started_utc": "2026-10-21T09:45:05.029671+00:00",
+        "state": "VALIDATED",
+        "requested_model": "doubao-seed-2-0-mini-260428",
+        "reported_model": "doubao-seed-2-0-mini-260428",
+        "http_status": 200,
+        "latency_ms": 1381,
+        "usage": {
+          "completion_tokens": 61,
+          "prompt_tokens": 430,
+          "total_tokens": 491
+        },
+        "request_id": "0217925759050858bdd423d62f122d9a8ca392648b1c570d8dac2",
+        "finish_reason": "stop",
+        "billing_state": "UNKNOWN_TOKEN_USAGE_RECORDED"
+      },
+      {
+        "id": "1285886cc6d84a729bfb3ac05c5a157c",
+        "started_utc": "2026-10-21T09:55:33.771560+00:00",
+        "state": "VALIDATED",
+        "requested_model": "doubao-seed-2-0-mini-260428",
+        "reported_model": "doubao-seed-2-0-mini-260428",
+        "http_status": 200,
+        "latency_ms": 1062,
+        "usage": {
+          "completion_tokens": 50,
+          "prompt_tokens": 430,
+          "total_tokens": 480
+        },
+        "request_id": "021792576533835534779bc6a83ab3f36a7a90c1e71ba35eb3ead",
+        "finish_reason": "stop",
+        "billing_state": "UNKNOWN_TOKEN_USAGE_RECORDED"
+      }
+    ],
+    "new_model_token_usage": {
+      "prompt_tokens": 2265,
+      "completion_tokens": 295,
+      "total_tokens": 2560
+    },
+    "billing": "OWNER_TRIAL_REPORTED_MONETARY_CHARGE_UNKNOWN",
+    "cloud_SG_8884": "OWNER_CONFIRMED_ALL_IPV4_REMAINS_RISK_ACCEPTED_NO_CONTROL_PLANE_CHANGE",
+    "ended_utc": "2026-10-21T10:00:23.913800+00:00"
+  },
+  "null_reasons": {}
+}

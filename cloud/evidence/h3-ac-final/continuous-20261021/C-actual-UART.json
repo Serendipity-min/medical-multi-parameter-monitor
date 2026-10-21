@@ -1,0 +1,765 @@
+{
+  "stage": "F2_F3_CONTINUOUS",
+  "source_commit": "9f37cecdba60e0ab0915fdd470aa210ee63274f6",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_DEVICES_AND_SERVER_WITH_NONHUMAN_SIGNAL_SOURCE",
+  "security_scope": "ISOLATED_SERVICES_ONLY_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_OWNER_CONTINUOUS_AUTHORIZATION_AMENDMENT",
+  "rollback_state": "FORMAL_NOT_CHANGED_ACTUAL_ROLLBACK_NOT_RUN",
+  "unresolved": [
+    "F2_ACTIVE_300S_AND_RECOVERY_GATES",
+    "F3_RESIDUAL_RISK_DISPOSITION",
+    "F4_F5_NOT_RUN"
+  ],
+  "gate": "RAW_UART_CONTINUITY_AND_FAILURES_PRESERVED",
+  "command": "passive COM15 capture; no bytes sent",
+  "exit_code": null,
+  "null_reasons": {
+    "exit_code": "FOUR_DISTINCT_PROCESSES_SEE_CAPTURE_EXITS_1_1_0_1"
+  },
+  "window_start_utc": "2026-10-21T08:19:31.663845+00:00",
+  "window_end_utc": "2026-10-21T09:09:12.863519+00:00",
+  "raw_evidence_sha": null,
+  "captures": [
+    {
+      "private_reference": "C-passive",
+      "execution": {
+        "started_utc": "2026-10-21T08:19:31.663845+00:00",
+        "ended_utc": "2026-10-21T08:21:20.451599+00:00",
+        "exit_code": 1,
+        "serial_commands_sent": 0,
+        "flash_write": false,
+        "source_label": "NO_SENSOR_INPUT",
+        "parser_sha256": "4cba6b8a92cc6968880ce142e199dd423242923c1eda4540a5e75f82bcc693b6"
+      },
+      "status_sha256": "9addebc01a0e6c7ce3a50e0f3bc7735e61683ca7355fd91314cde8a5e26f214a",
+      "status_state": "CAPTURING",
+      "latest": {
+        "model": {
+          "can": 0,
+          "drop": 326,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 0
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 0,
+          "depth": 0,
+          "irq": 0,
+          "lag_cycles": 0,
+          "stale": 0,
+          "fault": 0,
+          "uart": 222
+        },
+        "can": {
+          "hb": 0,
+          "boot": 0,
+          "p181": 0,
+          "p381": 0,
+          "p481": 0,
+          "p681": 0,
+          "txok": 0,
+          "txfail": 1,
+          "nmt": 0,
+          "time": 0,
+          "TEC": 8,
+          "REC": 0,
+          "LEC": 3,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 84,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 3,
+          "last_stream": 11,
+          "last_seq": 29,
+          "last_ms_hi": 417,
+          "last_ms_lo": 1569512988
+        }
+      },
+      "counter_deltas": {
+        "model": {
+          "can": 0,
+          "drop": 220,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 0
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 0,
+          "depth": 0,
+          "irq": 0,
+          "lag_cycles": 0,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 0,
+          "boot": 0,
+          "p181": 0,
+          "p381": 0,
+          "p481": 0,
+          "p681": 0,
+          "txok": 0,
+          "txfail": 0,
+          "nmt": 0,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 63,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 21,
+          "last_ms_hi": 0,
+          "last_ms_lo": 105000
+        }
+      },
+      "host_log": {
+        "complete": 22,
+        "missing_reports": 0,
+        "missing_lines": 0,
+        "duplicate_lines": 0,
+        "invalid_tags": 0
+      },
+      "mqtt_failures": [],
+      "peer": {
+        "wait": 1,
+        "losses": 1,
+        "returns": 0,
+        "no_ack": 1,
+        "discarded": 326,
+        "esr": 524336,
+        "tsr": 469762057,
+        "at_ms": 82
+      },
+      "diagnostics_are_cumulative_not_cleared": true,
+      "source_label_correction": "ORIGINAL_WRAPPER_NO_SENSOR_INPUT_IS_STALE_LABEL; ACTUAL_NONHUMAN_SIGNAL_PRESENT_DURING_C_PASSIVE_3"
+    },
+    {
+      "private_reference": "C-passive-2",
+      "execution": {
+        "started_utc": "2026-10-21T08:26:49.687956+00:00",
+        "ended_utc": "2026-10-21T08:27:00.420186+00:00",
+        "exit_code": 1,
+        "serial_commands_sent": 0,
+        "flash_write": false,
+        "source_label": "NO_SENSOR_INPUT",
+        "parser_sha256": "4cba6b8a92cc6968880ce142e199dd423242923c1eda4540a5e75f82bcc693b6"
+      },
+      "status_sha256": "a69d5ee312ae64033725ecab7ef06d24ba438a63a4994ded95ed4c9abed4711c",
+      "status_state": "CAPTURING",
+      "latest": {
+        "model": {
+          "can": 291,
+          "drop": 246,
+          "cache": 0,
+          "lost": 0,
+          "replay": 1,
+          "nodes": 0
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 6,
+          "depth": 0,
+          "irq": 836,
+          "lag_cycles": 411213,
+          "stale": 0,
+          "fault": 0,
+          "uart": 221
+        },
+        "can": {
+          "hb": 277,
+          "boot": 1,
+          "p181": 0,
+          "p381": 140,
+          "p481": 139,
+          "p681": 139,
+          "txok": 291,
+          "txfail": 3,
+          "nmt": 2,
+          "time": 13,
+          "TEC": 12,
+          "REC": 5,
+          "LEC": 3,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 334,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 3,
+          "last_stream": 11,
+          "last_seq": 44,
+          "last_ms_hi": 417,
+          "last_ms_lo": 1569849719
+        }
+      },
+      "counter_deltas": {
+        "model": {
+          "can": 0,
+          "drop": 11,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "nodes": 0
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 0,
+          "depth": 0,
+          "irq": 0,
+          "lag_cycles": 0,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 0,
+          "boot": 0,
+          "p181": 0,
+          "p381": 0,
+          "p481": 0,
+          "p681": 0,
+          "txok": 0,
+          "txfail": 0,
+          "nmt": 0,
+          "time": 0,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 3,
+          "qos0_send": 0,
+          "failed": 0,
+          "last_node": 0,
+          "last_stream": 0,
+          "last_seq": 1,
+          "last_ms_hi": 0,
+          "last_ms_lo": 5000
+        }
+      },
+      "host_log": {
+        "complete": 2,
+        "missing_reports": 0,
+        "missing_lines": 0,
+        "duplicate_lines": 0,
+        "invalid_tags": 0
+      },
+      "mqtt_failures": [],
+      "peer": {
+        "wait": 1,
+        "losses": 3,
+        "returns": 2,
+        "no_ack": 3,
+        "discarded": 246,
+        "esr": 84672560,
+        "tsr": 469762057,
+        "at_ms": 240142
+      },
+      "diagnostics_are_cumulative_not_cleared": true,
+      "source_label_correction": "ORIGINAL_WRAPPER_NO_SENSOR_INPUT_IS_STALE_LABEL; ACTUAL_NONHUMAN_SIGNAL_PRESENT_DURING_C_PASSIVE_3"
+    },
+    {
+      "private_reference": "C-passive-3",
+      "execution": {
+        "started_utc": "2026-10-21T08:31:01.734122+00:00",
+        "ended_utc": "2026-10-21T08:51:01.781502+00:00",
+        "exit_code": 0,
+        "serial_commands_sent": 0,
+        "flash_write": false,
+        "source_label": "NO_SENSOR_INPUT",
+        "parser_sha256": "4cba6b8a92cc6968880ce142e199dd423242923c1eda4540a5e75f82bcc693b6"
+      },
+      "status_sha256": "f8e821fc75670e95a225107846c42dac6b8a782061c7431b940a1dd6a6046569",
+      "status_state": "CAPTURE_COMPLETE",
+      "latest": {
+        "model": {
+          "can": 2919,
+          "drop": 0,
+          "cache": 0,
+          "lost": 146,
+          "replay": 181,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 8,
+          "depth": 1,
+          "irq": 30091,
+          "lag_cycles": 506711,
+          "stale": 0,
+          "fault": 0,
+          "uart": 221
+        },
+        "can": {
+          "hb": 2771,
+          "boot": 0,
+          "p181": 21728,
+          "p381": 1389,
+          "p481": 1389,
+          "p681": 1425,
+          "txok": 2919,
+          "txfail": 0,
+          "nmt": 1,
+          "time": 137,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 2682,
+          "qos0_send": 310,
+          "failed": 4,
+          "last_node": 1,
+          "last_stream": 0,
+          "last_seq": 680,
+          "last_ms_hi": 417,
+          "last_ms_lo": 1571295861
+        }
+      },
+      "counter_deltas": {
+        "model": {
+          "can": 2510,
+          "drop": 0,
+          "cache": 0,
+          "lost": 146,
+          "replay": 180,
+          "nodes": 0
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 0,
+          "depth": 0,
+          "irq": 26974,
+          "lag_cycles": 0,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 2380,
+          "boot": 0,
+          "p181": 19789,
+          "p381": 1193,
+          "p481": 1193,
+          "p681": 1226,
+          "txok": 2510,
+          "txfail": 0,
+          "nmt": 0,
+          "time": 120,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 2324,
+          "qos0_send": 274,
+          "failed": 4,
+          "last_node": 0,
+          "last_stream": -3,
+          "last_seq": 595,
+          "last_ms_hi": 0,
+          "last_ms_lo": 1195293
+        }
+      },
+      "host_log": {
+        "complete": 240,
+        "missing_reports": 0,
+        "missing_lines": 0,
+        "duplicate_lines": 0,
+        "invalid_tags": 0,
+        "trailing_partial_report": false
+      },
+      "mqtt_failures": [
+        {
+          "utc": "2026-10-21T08:35:56.933391+00:00",
+          "elapsed_s": 295.172,
+          "error": {
+            "stage": 6,
+            "status": 0,
+            "elapsed": 5012,
+            "ack": 0,
+            "connected": 1
+          },
+          "mqtt_budget": {
+            "send_ms": 52,
+            "wait_ms": 4960,
+            "buffered": 0
+          },
+          "mqtt_io": {
+            "tx_calls": 1135,
+            "tx_ok": 1135,
+            "tx_len": 198,
+            "tx_ms": 50,
+            "phase": 3,
+            "queries": 20846,
+            "empty": 19883,
+            "hint": 0,
+            "rx_bytes": 3896,
+            "reads": 963
+          },
+          "mqtt_pending": {
+            "id": 962,
+            "qos": 1,
+            "node": 1,
+            "stream": 3,
+            "seq": 228,
+            "replay": 0
+          }
+        },
+        {
+          "utc": "2026-10-21T08:37:20.191736+00:00",
+          "elapsed_s": 378.438,
+          "error": {
+            "stage": 6,
+            "status": 0,
+            "elapsed": 5013,
+            "ack": 0,
+            "connected": 1
+          },
+          "mqtt_budget": {
+            "send_ms": 53,
+            "wait_ms": 4960,
+            "buffered": 0
+          },
+          "mqtt_io": {
+            "tx_calls": 1310,
+            "tx_ok": 1310,
+            "tx_len": 198,
+            "tx_ms": 49,
+            "phase": 3,
+            "queries": 24560,
+            "empty": 23423,
+            "hint": 0,
+            "rx_bytes": 4634,
+            "reads": 1137
+          },
+          "mqtt_pending": {
+            "id": 1134,
+            "qos": 1,
+            "node": 1,
+            "stream": 3,
+            "seq": 270,
+            "replay": 0
+          }
+        },
+        {
+          "utc": "2026-10-21T08:44:58.556165+00:00",
+          "elapsed_s": 836.813,
+          "error": {
+            "stage": 6,
+            "status": 0,
+            "elapsed": 5011,
+            "ack": 0,
+            "connected": 1
+          },
+          "mqtt_budget": {
+            "send_ms": 52,
+            "wait_ms": 4959,
+            "buffered": 0
+          },
+          "mqtt_io": {
+            "tx_calls": 2103,
+            "tx_ok": 2103,
+            "tx_len": 196,
+            "tx_ms": 50,
+            "phase": 3,
+            "queries": 42551,
+            "empty": 40623,
+            "hint": 0,
+            "rx_bytes": 7972,
+            "reads": 1928
+          },
+          "mqtt_pending": {
+            "id": 1920,
+            "qos": 1,
+            "node": 2,
+            "stream": 9,
+            "seq": 202,
+            "replay": 0
+          }
+        },
+        {
+          "utc": "2026-10-21T08:49:01.672162+00:00",
+          "elapsed_s": 1079.922,
+          "error": {
+            "stage": 6,
+            "status": 0,
+            "elapsed": 5000,
+            "ack": 0,
+            "connected": 1
+          },
+          "mqtt_budget": {
+            "send_ms": 54,
+            "wait_ms": 4946,
+            "buffered": 0
+          },
+          "mqtt_io": {
+            "tx_calls": 2650,
+            "tx_ok": 2650,
+            "tx_len": 194,
+            "tx_ms": 51,
+            "phase": 3,
+            "queries": 53440,
+            "empty": 51022,
+            "hint": 0,
+            "rx_bytes": 9974,
+            "reads": 2418
+          },
+          "mqtt_pending": {
+            "id": 2408,
+            "qos": 1,
+            "node": 1,
+            "stream": 1,
+            "seq": 619,
+            "replay": 0
+          }
+        }
+      ],
+      "peer": {
+        "wait": 0,
+        "losses": 0,
+        "returns": 0,
+        "no_ack": 0,
+        "discarded": 0,
+        "esr": 0,
+        "tsr": 0,
+        "at_ms": 0
+      },
+      "diagnostics_are_cumulative_not_cleared": true,
+      "source_label_correction": "ORIGINAL_WRAPPER_NO_SENSOR_INPUT_IS_STALE_LABEL; ACTUAL_NONHUMAN_SIGNAL_PRESENT_DURING_C_PASSIVE_3"
+    },
+    {
+      "private_reference": "C-passive-4",
+      "execution": {
+        "started_utc": "2026-10-21T08:55:46.666761+00:00",
+        "ended_utc": "2026-10-21T09:09:12.863519+00:00",
+        "exit_code": 1,
+        "serial_commands_sent": 0,
+        "flash_write": false,
+        "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK",
+        "parser_sha256": "4cba6b8a92cc6968880ce142e199dd423242923c1eda4540a5e75f82bcc693b6"
+      },
+      "status_sha256": "5834ca16e7c24e800b06c291beb8a01a07516ce1625d4941bf6d91c814aab66e",
+      "status_state": "CAPTURING",
+      "latest": {
+        "model": {
+          "can": 5137,
+          "drop": 73,
+          "cache": 0,
+          "lost": 161,
+          "replay": 322,
+          "nodes": 10
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 8,
+          "depth": 0,
+          "irq": 77310,
+          "lag_cycles": 506711,
+          "stale": 0,
+          "fault": 0,
+          "uart": 221
+        },
+        "can": {
+          "hb": 4878,
+          "boot": 1,
+          "p181": 62593,
+          "p381": 2444,
+          "p481": 2444,
+          "p681": 2507,
+          "txok": 5137,
+          "txfail": 1,
+          "nmt": 2,
+          "time": 242,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 4947,
+          "qos0_send": 963,
+          "failed": 6,
+          "last_node": 3,
+          "last_stream": 11,
+          "last_seq": 495,
+          "last_ms_hi": 417,
+          "last_ms_lo": 1572385633
+        }
+      },
+      "counter_deltas": {
+        "model": {
+          "can": 1609,
+          "drop": 73,
+          "cache": 0,
+          "lost": 5,
+          "replay": 86,
+          "nodes": 0
+        },
+        "queue": {
+          "fovr": 0,
+          "sw": 0,
+          "bad": 0,
+          "high": 0,
+          "depth": -1,
+          "irq": 30994,
+          "lag_cycles": 0,
+          "stale": 0,
+          "fault": 0,
+          "uart": 0
+        },
+        "can": {
+          "hb": 1527,
+          "boot": 1,
+          "p181": 26379,
+          "p381": 765,
+          "p481": 765,
+          "p681": 793,
+          "txok": 1609,
+          "txfail": 1,
+          "nmt": 1,
+          "time": 76,
+          "TEC": 0,
+          "REC": 0,
+          "LEC": 0,
+          "BOFF": 0
+        },
+        "delivery": {
+          "qos1_puback": 1634,
+          "qos0_send": 433,
+          "failed": 2,
+          "last_node": 1,
+          "last_stream": 2,
+          "last_seq": 161,
+          "last_ms_hi": 0,
+          "last_ms_lo": 800102
+        }
+      },
+      "host_log": {
+        "complete": 161,
+        "missing_reports": 0,
+        "missing_lines": 0,
+        "duplicate_lines": 0,
+        "invalid_tags": 0
+      },
+      "mqtt_failures": [
+        {
+          "utc": "2026-10-21T09:00:51.804826+00:00",
+          "elapsed_s": 305.11,
+          "error": {
+            "stage": 6,
+            "status": 0,
+            "elapsed": 5014,
+            "ack": 0,
+            "connected": 1
+          },
+          "mqtt_budget": {
+            "send_ms": 52,
+            "wait_ms": 4962,
+            "buffered": 0
+          },
+          "mqtt_io": {
+            "tx_calls": 4754,
+            "tx_ok": 4754,
+            "tx_len": 194,
+            "tx_ms": 48,
+            "phase": 3,
+            "queries": 80883,
+            "empty": 76931,
+            "hint": 0,
+            "rx_bytes": 16152,
+            "reads": 3952
+          },
+          "mqtt_pending": {
+            "id": 3940,
+            "qos": 1,
+            "node": 1,
+            "stream": 1,
+            "seq": 974,
+            "replay": 0
+          }
+        },
+        {
+          "utc": "2026-10-21T09:01:17.558455+00:00",
+          "elapsed_s": 330.875,
+          "error": {
+            "stage": 6,
+            "status": 0,
+            "elapsed": 5009,
+            "ack": 0,
+            "connected": 1
+          },
+          "mqtt_budget": {
+            "send_ms": 151,
+            "wait_ms": 4858,
+            "buffered": 0
+          },
+          "mqtt_io": {
+            "tx_calls": 4821,
+            "tx_ok": 4821,
+            "tx_len": 678,
+            "tx_ms": 148,
+            "phase": 3,
+            "queries": 81607,
+            "empty": 77603,
+            "hint": 0,
+            "rx_bytes": 16402,
+            "reads": 4004
+          },
+          "mqtt_pending": {
+            "id": 3990,
+            "qos": 1,
+            "node": 1,
+            "stream": 0,
+            "seq": 1481,
+            "replay": 1
+          }
+        }
+      ],
+      "peer": {
+        "wait": 0,
+        "losses": 1,
+        "returns": 1,
+        "no_ack": 1,
+        "discarded": 73,
+        "esr": 524336,
+        "tsr": 469762057,
+        "at_ms": 2225142
+      },
+      "diagnostics_are_cumulative_not_cleared": true,
+      "source_label_correction": "ORIGINAL_WRAPPER_NO_SENSOR_INPUT_IS_STALE_LABEL; ACTUAL_NONHUMAN_SIGNAL_PRESENT_DURING_C_PASSIVE_3"
+    }
+  ]
+}

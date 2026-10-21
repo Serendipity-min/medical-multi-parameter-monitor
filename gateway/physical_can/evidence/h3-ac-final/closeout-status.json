@@ -1,106 +1,128 @@
 {
-  "stage": "F6_PROGRESS",
-  "gate": "H3_AC_FINAL_PARTIAL_A_DEPLOYED_C_CURRENT_PAIR_VERIFIED",
-  "source_commit": "aff4cd5e051f2267de3b8895336f2a1f72989868",
+  "stage": "F6_FINAL",
+  "gate": "H3_AC_FINAL_PASS",
+  "source_commit": "8ff12de002cdd8c910e5a84b438589cc125ceec7",
   "runtime_source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
-  "device_or_runtime_sha": "85f0e830991e79f8702ce01ae204c8326c66203ac6a2d2b21e55e6b7c6cd9c3f",
-  "source_label": "NO_ACQUISITION_SOURCE_UNCONFIRMED",
-  "window_start_utc": "2026-10-21T07:27:40.925597+00:00",
-  "window_end_utc": "2026-10-21T08:10:13.370085+00:00",
-  "command": "consolidate immutable actual C receipts and owner cleanup; no device operation",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_ONLY_MODEL_AND_CALIBRATION_UNVERIFIED",
+  "window_start_utc": "2026-10-21T08:14:25Z",
+  "window_end_utc": "2026-10-21T10:00:23.913800+00:00",
+  "command": "consolidate distinct actual device, Host, ARM, isolated and formal receipts; no combined test process",
   "exit_code": null,
-  "observed_vs_simulated": "ACTUAL_A_C_JLINK_AND_OWNER_REPORTS_PLUS_LOCAL_SOFTWARE_TESTS",
-  "raw_evidence_sha": {
-    "A_flash_receipt": "d6967786fa4baa5e2fda69a5f9dd01e5fc7cc07f66f5a176c2b53fbb9c2d23b4",
-    "A_cold_boot_receipt": "65195a52721566e5113a278144ef032931efcc1bd90e7886bc30086550686b5c",
-    "F2-C-jlink-load-verify.json": "b715fc0c5a91d49aa876a1a7dbf512f53277b6c39503ce2f206322ad242522c4",
-    "F2-C-owner-cleanup.json": "9501bee8e09f1eab33e02cff50e6a33d0fa4613fc1d273e7b73acdee2100b28d",
-    "F2-C-read-attempt1-failed.json": "15ad69540578796486753dac878c3df4fee93890d9254e849f2f0b305b2bdded",
-    "F2-C-read-attempt2-failed.json": "6015d4cec4d40dea8689128e62a4d30c91e42dd347c9d947d268b0fe2f2cdcb9",
-    "F2-C-read-attempt3-failed.json": "c1dd12e52dfab1223e8f614b7c7bfeb74aba160dfdd0ddee9a223f8cc9e7eec9"
-  },
-  "security_scope": "NO_SECURITY_GATE_NO_PROTECTED_REF_CHANGES",
-  "owner_auth_id": "AUTH-AC-A-FLASH/F0-A-1_CONSUMED; AUTH-AC-C-READONLY/F2-C-1_EXHAUSTED; AUTH-AC-C-ISOLATED-JLINK/F2-C-2_CONSUMED",
-  "rollback_state": "REAL_ROLLBACK_NOT_RUN",
-  "unresolved": [
-    "QUALIFIED_NONHUMAN_SOURCE",
-    "CLOUD_STAGE_ISOLATION_FAULT_AUTH",
-    "SG_CONTROL_PLANE_RISK",
-    "FORMAL_ROLES_CONFIG",
-    "PUBLIC_AUDIENCE",
-    "FULL_SERVER_BACKUP",
-    "FORMAL_RELEASE_ROLLBACK_AUTH",
-    "USB_ROM_HANDSHAKE_CAUSE",
-    "JOINT_NEW_A_CAN_NOT_OBSERVED"
-  ],
   "null_reasons": {
-    "exit_code": "NO_COMBINED_TEST_COMMAND; individual actual exit codes linked below"
+    "exit_code": "NO_SINGLE_COMBINED_COMMAND; EACH_STAGE_HAS_RAW_PROCESS_EXIT_IN_EVIDENCE",
+    "actual_board_reads": "NOT_AGGREGATED_ACROSS_DIFFERENT_SESSION_AND_COMMAND_SEMANTICS; SEE_PER_WINDOW_RECEIPTS",
+    "actual_board_writes": "NOT_AGGREGATED_ACROSS_FLASH_REGISTER_AND_SDK_ACTION_SEMANTICS; SEE_PER_WINDOW_RECEIPTS"
   },
-  "gates": {
-    "F0": "READONLY_COMPLETE_WITH_SOURCE_SECURITY_GAPS",
-    "F1": "A_FLASH_READBACK_AND_OWNER_COLD_BOOT_PASS_REAL_CAN_PENDING",
-    "F2": "C_PAIR_VERIFIED_ACTIVE_NIBP_SOURCE_AND_CLOUD_AUTH_PENDING",
-    "F3": "LOCAL_PACKAGE_RECOVERY_SOFTWARE_PREPARED_NOT_RELEASE_READY",
-    "F4": "FORMAL_CONFIG_NOT_PREPARED",
-    "F5": "NOT_AUTHORIZED_NOT_RUN",
-    "F6": "H3_AC_FINAL_PARTIAL"
+  "observed_vs_simulated": "ACTUAL_A_C_CAN_MQTT_TLS_BACKEND_HTTPS_WSS_AI_WITH_OWNER_ATTESTED_NONHUMAN_INPUT; SOFTWARE_FAULT_FIXTURES_EXPLICITLY_SYNTHETIC",
+  "raw_evidence_sha": {
+    "isolated_summary": "5903e60020bacd1809faa0ad4ba8c65ae0e5650ac3c30bda9c7491045d5bdb41",
+    "formal_summary": "5340c2a6532b70d26c6d85b12a6ce3e490a85c25b972fa2f39daf3081b621e69",
+    "environment": "37c98eff2e8646dfb2a764771d954771b6d1887995dd7361ea84614d0855ab38",
+    "C_counter_result": "629a799c640385fbae2c3acc217750dec9eb612ccfd50d041a256aa8ebb4dca0"
   },
-  "current_formal_release": "OLD_SERVICES_UNCHANGED_NEW_RELEASE_NOT_DEPLOYED",
-  "Node_B": "OFFLINE_REQUIRED",
-  "new_real_model_calls": 0,
-  "new_real_model_tokens": 0,
-  "actual_board_reads": 45,
-  "actual_board_writes": 5,
-  "actual_cloud_mutations": 0,
-  "delivery_commit": "READ_FROM_CONTAINING_GIT_COMMIT_AND_POST_PUSH_PRIVATE_RECEIPT",
-  "canonical_report": "doc/H3/H3-AC-CLOSEOUT-FINAL-HANDOFF.md",
-  "evidence_directories": [
-    "gateway/physical_can/evidence/h3-ac-final",
-    "node-a/evidence/h3-ac-final",
-    "cloud/evidence/h3-ac-final"
+  "security_scope": "OWNER_ACCEPTED_RESIDUAL_RISKS; NO_SECURITY_GATE_NO_SCANNERS_NO_HUMAN_DATA_NO_PROTECTED_REF_CHANGES",
+  "owner_auth_id": "MPM-H3-004_CONTINUOUS_AUTHORIZATION_AMENDMENT_AND_F3_EXPLICIT_RESIDUAL_RISK_AUDIENCE_ACCEPTANCE",
+  "rollback_state": "ACTUAL_OLD_ROUTE_RESTORED_AND_HTTPS_VERIFIED_THEN_EXACT_NEW_PLAN_REACTIVATED",
+  "unresolved": [
+    "HISTORICAL_FULL_FILTER_DIFF_UNATTRIBUTED_OWNER_ACCEPTED",
+    "CLOUD_SG_8884_ALL_IPV4_OWNER_ACCEPTED; HOST_NO_8884_LISTENER",
+    "SIMULATOR_MODEL_CALIBRATION_AND_CLINICAL_ACCURACY_NOT_VERIFIED",
+    "ROUTER_ESP_WAN_ROOT_CAUSE_NOT_UNIQUELY_IDENTIFIED",
+    "C_UART_NOT_OBSERVED_IN_STANDALONE_FORMAL_WINDOW; SEPARATE_DIRECT_PUBACK_COUNTERS_VERIFIED",
+    "FIXED_FULL_FLASH_PROGRAM_SEQUENCE_HOST_VERIFIED_NOT_REEXECUTED_ON_BOARD",
+    "SERIAL_ROM_HANDSHAKE_CAUSE_UNRESOLVED_JLINK_USED",
+    "REAL_SPEAKER_ASR_TTS_NOT_VERIFIED_OUT_OF_SCOPE"
   ],
-  "actual_board_access_detail": "A_7_JLINK_SESSIONS_AND_C_3_ROM_SYNC_FAILURES_PLUS_8_JLINK_SESSIONS; ALL_WINDOWS_CLOSED",
-  "current_A_image_sha256": "f59b76ef865c373c6df62aa09aea958597687f6d46b17c402ceb7126ca8f60d6",
-  "A_window": "CONSUMED",
-  "next_gate": "AUTH-AC-CLOUD-STAGE/F3-S1_REQUESTED_NOT_APPROVED",
-  "actual_flash_downloads": 2,
-  "actual_debug_freeze_register_writes": 4,
-  "actual_A_JLink_command_counts": {
-    "connect": 7,
-    "h": 8,
-    "savebin": 21,
-    "q": 7,
-    "w4": 2,
-    "loadbin": 1,
-    "verifybin": 1
+  "gates": {
+    "F0": "BASELINE_VERIFIED_WITH_EXPLICIT_SOURCE_RISK_SCOPE",
+    "F1": "A_NEW_IMAGE_READBACK_NORMAL_COLD_BOOT_AND_CAN_PASS",
+    "F2": "PHYSICAL_NIBP_90S_SAME_VALUE_RESTART_334_670S_AND_BOUNDED_FAULT_PASS",
+    "F3": "COMPLETE_IMMUTABLE_PACKAGE_RECOVERY_AND_EFFECTIVE_ACCESS_VERIFIED_OWNER_RISK_ACCEPTED",
+    "F4": "FORMAL_C_IMAGE_CONFIG_NORMAL_COLD_BOOT_TLS_AND_DIRECT_PUBACK_PASS_WITH_RECORDED_RECOVERY",
+    "F5": "FORMAL_SEVEN_PAGES_REAL_DOUBAO_359_701S_ACTIVE_OLD_ROUTE_ROLLBACK_AND_REACTIVATION_PASS",
+    "F6": "H3_AC_FINAL_PASS"
   },
-  "C_window": "CONSUMED_COMPLETED",
-  "C_serial_window": "EXHAUSTED_3_FAILURES",
-  "current_C_image_sha256": "59229f1b34660f053538737fc0fd17c814fde5502a0dfe33603e8e08b72ca8a5",
-  "current_C_config_sha256": "3b1a8c344dfad1d1faa82bc962811e50a467eec9adbc1cec5b2a32979c6a2c25",
-  "current_C_64k_sha256": "102575dc940425d91b2db7c2a0f22ddf44c5cfab652b1b5ca0790f8924d3705b",
-  "actual_flash_downloads_semantics": "LOADBIN_SUBMISSIONS_NOT_PHYSICAL_PROGRAMMING",
+  "current_formal_release": "runtime-b8fbb14b5c35; new Backend/AI enabled; original services retained",
+  "current_A_image_sha256": "f59b76ef865c373c6df62aa09aea958597687f6d46b17c402ceb7126ca8f60d6",
+  "current_C_image_sha256": "b9b25b186c3b40d62b4a1c1919e09f27b639806271a3b20ae7fc80ea4cda1efe",
+  "current_C_config_sha256": "395c6a36d7c4a636b34a72eacd1ccc2a2fc7f025df7089f3d94e1d2de14c5a3b",
+  "current_C_config_generation": 3,
+  "current_C_64k_sha256": "49d3fad5040b25b746905d5c1468bff4d5be5a4f13197286ce215e0711798fb4",
+  "Node_B": "OFFLINE_OBSERVED_REQUIRED",
+  "new_real_model_calls": 6,
+  "new_real_model_tokens": 2560,
+  "usage_ledger_requests": 9,
+  "usage_ledger_total_tokens": 6138,
+  "monetary_charge": "UNKNOWN_OWNER_TRIAL_REPORTED_NOT_ZERO_CLAIM",
+  "formal_observation": {
+    "started_utc": "2026-10-21T09:52:35.126778+00:00",
+    "finished_utc": "2026-10-21T09:58:35.285619+00:00",
+    "elapsed_s": 360.085,
+    "longest_active_ppg_s": 359.701,
+    "mqtt_received": 1079,
+    "mqtt_qos": {
+      "1": 762,
+      "0": 317
+    },
+    "wss_snapshots": 3558,
+    "matched_valid_streams": {
+      "PPG": 3478,
+      "SPO2": 3480,
+      "PR": 3433
+    },
+    "backend_health_before": {
+      "status": "ok",
+      "transport": "MQTT 3.1.1/TLS",
+      "mqtt_connected": true,
+      "accepted": 541,
+      "rejected": 0,
+      "dropped": 0
+    },
+    "backend_health_after": {
+      "status": "ok",
+      "transport": "MQTT 3.1.1/TLS",
+      "mqtt_connected": true,
+      "accepted": 1618,
+      "rejected": 0,
+      "dropped": 0
+    },
+    "active_ppg_exit_code": 0,
+    "all_three_valid_exit_code": 1
+  },
+  "formal_C_actual_counter_delta": {
+    "qos1_acked": 24,
+    "qos0_sent": 0,
+    "publish_failed": 0,
+    "physical_rx_overflow": 0,
+    "physical_bad_frame": 0,
+    "router_dropped": 0,
+    "router_replayed": 0,
+    "g_uptime_ms": 10675
+  },
+  "actual_board_reads": null,
+  "actual_board_writes": null,
   "actual_physical_flash_program_windows": {
     "A": 1,
-    "C": 0
+    "C": 1
   },
-  "actual_C_JLink_command_counts": {
-    "connect": 8,
-    "h": 9,
-    "savebin": 24,
-    "q": 8,
-    "w4": 2,
-    "loadbin": 1,
-    "verifybin": 1
-  },
+  "failed_processes_preserved": true,
   "current_field_state": {
-    "C_power": "OFF",
+    "A_power": "J5_INDEPENDENT_ON",
+    "A_JLink": "DISCONNECTED",
+    "C_power": "J5_INDEPENDENT_ON",
     "C_USB": "DISCONNECTED",
-    "C_JLink": "DISCONNECTED",
-    "C_BOOT0": "GND",
-    "C_BOOT1": "GND_RETAINED",
-    "A_power": "OFF_RETAINED",
-    "CAN": "THREE_WIRES_SEPARATED_RETAINED",
-    "probes_cuff": "NOT_CONNECTED_RETAINED"
-  }
+    "C_JLink": "DISCONNECTED_OWNER_CONFIRMED",
+    "A_BOOT0_1": "GND",
+    "C_BOOT0_1": "GND",
+    "CAN": "THREE_WIRES_CONNECTED",
+    "source": "MAY_STOP_AFTER_COMPLETED_WINDOW_NO_HUMAN_CONNECTION"
+  },
+  "private_access_config": "E:/medical-monitor-h3-private/ac-final/formal-access-config.json",
+  "canonical_report": "doc/H3/H3-AC-CLOSEOUT-FINAL-HANDOFF.md",
+  "delivery_commit": "READ_FROM_CONTAINING_GIT_COMMIT_AND_POST_PUSH_PRIVATE_RECEIPT",
+  "next_action": "STOP_AND_WAIT_OWNER_FINAL_H3_REVIEW; NO_NODE_B_WORK",
+  "formal_SG_or_DNS_changed": false,
+  "PR_created": false,
+  "Security_Gate_run": false
 }

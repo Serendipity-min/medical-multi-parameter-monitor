@@ -1,0 +1,200 @@
+{
+  "stage": "F2_F5_CONTINUOUS",
+  "source_commit": "6edd48c9e83a4609660786ebc240ef4b0ce4e025",
+  "runtime_source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_A_C_AND_SERVER_NONHUMAN_SIGNAL_NOT_CLINICAL_ACCURACY",
+  "security_scope": "OWNER_APPROVED_CONTRACT_SCOPE_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_CONTINUOUS_AUTH_AMENDMENT_AND_RESIDUAL_RISK_ACCEPTANCE",
+  "rollback_state": "SEE_TIMESTAMPED_INDIVIDUAL_RESULTS",
+  "unresolved": [
+    "SG_8884_ALL_IPV4_OWNER_ACCEPTED_NO_LISTENER",
+    "HISTORICAL_FILTER_DIFF_UNATTRIBUTED_OWNER_ACCEPTED",
+    "C_UART_NOT_OBSERVED_DURING_STANDALONE_FORMAL",
+    "SIMULATOR_MODEL_AND_CALIBRATION_UNVERIFIED"
+  ],
+  "gate": "ACTUAL_RESULT_INCLUDING_FAILURES",
+  "window_start_utc": "2026-10-21T09:46:04.028979+00:00",
+  "window_end_utc": "2026-10-21T09:46:04.761438+00:00",
+  "command": "private reviewed SSH script: collect-formal-state",
+  "exit_code": 0,
+  "raw_evidence_sha": "0f2e74777e7134be20354fe8eecb93a130a220aa442f42f32afd07c6de59deba",
+  "script_sha256": "f034e5b12d47849913395f05a8a39415b5e14ca669628cd97ea17a6202f43c53",
+  "result": {
+    "exit_code": 0,
+    "original_service_identities_unchanged": true,
+    "current_nginx_sha256": "70ac6d03c17b1bcfc54ea87fb8b3fca949d8dabddac191dd7b8b571d58c00ca7",
+    "plan_sha256": "270e9cd52e3f83b7bc118210418a81252d74a0a30438150d87b86f64e9beb8e6",
+    "formal_results": {
+      "formal-activate-result.json": {
+        "state": "ACTIVATED_PENDING_HTTPS_ACCEPTANCE",
+        "stage": "/opt/medical-monitor-h3/formal/20261021T093335Z",
+        "nginx_sha256": "70ac6d03c17b1bcfc54ea87fb8b3fca949d8dabddac191dd7b8b571d58c00ca7",
+        "original_services_unchanged": true,
+        "exit_code": 0
+      },
+      "formal-https-ai-result.json": {
+        "exit_code": 0,
+        "formal_HTTPS": true,
+        "cases": [
+          {
+            "case": "exact_new_index",
+            "http": 200,
+            "sha256": "92e1f44f80d1eec38ef17beb0979dfc1fba8088c6a9aa833ab1de15063535acb"
+          },
+          {
+            "case": "access_401",
+            "http": 401
+          },
+          {
+            "case": "access_405",
+            "http": 405
+          },
+          {
+            "case": "access_404",
+            "http": 404
+          },
+          {
+            "case": "current_reading",
+            "http": 200,
+            "real_model": "NOT_CALLED",
+            "model_evidence": null,
+            "fact_digest": "2d4535114a1780532fbad9c2b9064b9f",
+            "Node_B_values_hidden": true,
+            "values_or_answer_saved": false
+          },
+          {
+            "case": "general_health",
+            "http": 200,
+            "real_model": "REAL_REQUEST_USED",
+            "model_evidence": {
+              "call": "d9a67e49bb5c4ffa8d275cbced8da999",
+              "requested_model": "doubao-seed-2-0-mini-260428",
+              "status": "VALIDATED",
+              "billing_state": "UNKNOWN_TOKEN_USAGE_RECORDED",
+              "http_status": 200,
+              "usage": {
+                "completion_tokens": 61,
+                "prompt_tokens": 430,
+                "total_tokens": 491
+              },
+              "reported_model": "doubao-seed-2-0-mini-260428",
+              "request_id": "0217925757200830b63b37cbca791937f2f41fb0469576d934870",
+              "finish_reason": "stop",
+              "latency_ms": 1634
+            },
+            "fact_digest": "73905a96a492cfe28139ced34bad00f1",
+            "Node_B_values_hidden": true,
+            "values_or_answer_saved": false
+          },
+          {
+            "case": "WSS_invalid_token",
+            "close_code": 1008
+          },
+          {
+            "case": "WSS_disallowed_origin",
+            "http": 403
+          }
+        ],
+        "backend_health": {
+          "status": "ok",
+          "transport": "MQTT 3.1.1/TLS",
+          "mqtt_connected": true,
+          "accepted": 1195,
+          "rejected": 0,
+          "dropped": 0
+        },
+        "usage_before": {
+          "requests": 6,
+          "usage": {
+            "prompt_tokens": 4397,
+            "completion_tokens": 279,
+            "total_tokens": 4676
+          },
+          "states": {},
+          "billing_state": "TOKEN_USAGE_RECORDED_COST_NOT_INFERRED",
+          "lifetime_cap": null
+        },
+        "usage_after": {
+          "requests": 7,
+          "usage": {
+            "prompt_tokens": 4827,
+            "completion_tokens": 340,
+            "total_tokens": 5167
+          },
+          "states": {},
+          "billing_state": "TOKEN_USAGE_RECORDED_COST_NOT_INFERRED",
+          "lifetime_cap": null
+        },
+        "model_id": "doubao-seed-2-0-mini-260428",
+        "billing": "OWNER_TRIAL_REPORTED_CHARGE_UNKNOWN",
+        "new_validated_model_calls": 1,
+        "Node_B": "OFFLINE_REQUIRED",
+        "raw_values_or_answer_saved": false
+      }
+    },
+    "units": {
+      "h3-final-formal-observer-20261021": [
+        "MainPID=2754974",
+        "ExecMainStatus=0",
+        "ActiveState=active",
+        "UnitFileState=transient"
+      ],
+      "h3-final-formal-nibp": [
+        "MainPID=2755643",
+        "ExecMainStatus=0",
+        "ActiveState=active",
+        "UnitFileState=transient"
+      ],
+      "medical-monitor-h3-webbackend.service": [
+        "MainPID=2753032",
+        "ExecMainStatus=0",
+        "ActiveState=active",
+        "UnitFileState=enabled"
+      ],
+      "medical-monitor-h3-webai.service": [
+        "MainPID=2753031",
+        "ExecMainStatus=0",
+        "ActiveState=active",
+        "UnitFileState=enabled"
+      ]
+    },
+    "raw_files": {
+      "formal-activate-result.json": "64a97933d5e0ef244ee0881dbd839f4631779392c6409cc8245d2c13b7be4ad3",
+      "formal-https-ai-result.json": "fc6ff32b68620874577f1cedc52c9a0694f97730ee7102879d2a3ae754d8d0cd",
+      "e2e-20261021T094125Z/wss-metadata.jsonl": "da5dec5c6181738a7ce48b35995964ad7850f3567a5040ca336235e92e2a1001",
+      "e2e-20261021T094125Z/status.json": "1d807b3ecdbb09d9691efbf7272e3f0320110e75f668b5e9e029761bbd4b80ab",
+      "e2e-20261021T094125Z/mqtt-metadata.jsonl": "4ce3a12672aeda0b26b3066142021246642483a7cf00efb29bc111088c5b9238"
+    },
+    "backend_health": {
+      "status": "ok",
+      "transport": "MQTT 3.1.1/TLS",
+      "mqtt_connected": true,
+      "accepted": 1891,
+      "rejected": 0,
+      "dropped": 0
+    },
+    "ai_health": {
+      "status": "ok",
+      "model_mode": "DOUBAO",
+      "snapshot_mode": "MONITOR",
+      "real_model": "REAL_MODEL_VERIFIED",
+      "voice_mode": "DISABLED",
+      "model_id": "doubao-seed-2-0-mini-260428",
+      "budget_used": 8,
+      "usage": {
+        "requests": 8,
+        "usage": {
+          "prompt_tokens": 5257,
+          "completion_tokens": 401,
+          "total_tokens": 5658
+        },
+        "states": {},
+        "billing_state": "TOKEN_USAGE_RECORDED_COST_NOT_INFERRED",
+        "lifetime_cap": null
+      }
+    }
+  },
+  "null_reasons": {}
+}

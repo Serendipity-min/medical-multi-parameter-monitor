@@ -1,0 +1,59 @@
+{
+  "stage": "F2_F3_CONTINUOUS",
+  "source_commit": "9f37cecdba60e0ab0915fdd470aa210ee63274f6",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_DEVICES_AND_SERVER_WITH_NONHUMAN_SIGNAL_SOURCE",
+  "security_scope": "ISOLATED_SERVICES_ONLY_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_OWNER_CONTINUOUS_AUTHORIZATION_AMENDMENT",
+  "rollback_state": "FORMAL_NOT_CHANGED_ACTUAL_ROLLBACK_NOT_RUN",
+  "unresolved": [
+    "F2_ACTIVE_300S_AND_RECOVERY_GATES",
+    "F3_RESIDUAL_RISK_DISPOSITION",
+    "F4_F5_NOT_RUN"
+  ],
+  "gate": "ACTUAL_RESULT_SEE_PROCESS_AND_CHECKS",
+  "window_start_utc": "2026-10-21T08:54:32.390366+00:00",
+  "window_end_utc": "2026-10-21T08:54:33.563981+00:00",
+  "command": "private reviewed SSH script: review-effective-access",
+  "exit_code": 0,
+  "raw_evidence_sha": "891d44e67f42e990c75beb56355b990951b974d8374f191981acca0f88764661",
+  "script_sha256": "281b3a9602d49b8323c25528da472ad14484db34fc52afc6778b815cb229dfa6",
+  "result": {
+    "formal_invalid_token": {
+      "closed_code": 1008,
+      "data_frame_received": false
+    },
+    "formal_forbidden_origin": {
+      "HTTP": 403,
+      "data_frame_received": false
+    },
+    "candidate_invalid_token": {
+      "closed_code": 1008,
+      "data_frame_received": false
+    },
+    "candidate_forbidden_origin": {
+      "HTTP": 403,
+      "data_frame_received": false
+    },
+    "filter": {
+      "exit_code": 0,
+      "sha256": "647037a492b5ef14f455090fe5d707d0913c5eda30697b0348e153326c266c35",
+      "lines": 399
+    },
+    "NAT": {
+      "exit_code": 0,
+      "sha256": "96ba2354a7ee95379dbc8c4bc83f5c5d13ccc95d5367d69e3af1e6dec9ed3157",
+      "lines": 12
+    },
+    "guard_rule_count": 4,
+    "SG": "OWNER_REPORTED_ALL_IPV4_NO_CONTROL_PLANE_SESSION",
+    "nginx_syntax_exit_code": 0,
+    "anonymous_static_audience": "PUBLIC_STATIC_SHELL_ONLY",
+    "monitor_audience": "BEARER_TOKEN_HOLDERS_WITH_ALLOWED_ORIGIN",
+    "new_formal_roles": "LOOPBACK_ACL_VERIFIED_NOT_APPLIED",
+    "historical_filter_difference": "UNATTRIBUTABLE_NO_OLD_ORDERED_RULES",
+    "exit_code": 0
+  },
+  "null_reasons": {}
+}

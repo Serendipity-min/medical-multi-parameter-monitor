@@ -1,0 +1,32 @@
+{
+  "stage": "F2_F3_CONTINUOUS",
+  "source_commit": "9f37cecdba60e0ab0915fdd470aa210ee63274f6",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_DEVICES_AND_SERVER_WITH_NONHUMAN_SIGNAL_SOURCE",
+  "security_scope": "ISOLATED_SERVICES_ONLY_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_OWNER_CONTINUOUS_AUTHORIZATION_AMENDMENT",
+  "rollback_state": "FORMAL_NOT_CHANGED_ACTUAL_ROLLBACK_NOT_RUN",
+  "unresolved": [
+    "F2_ACTIVE_300S_AND_RECOVERY_GATES",
+    "F3_RESIDUAL_RISK_DISPOSITION",
+    "F4_F5_NOT_RUN"
+  ],
+  "gate": "ACTUAL_RESULT_SEE_PROCESS_AND_CHECKS",
+  "window_start_utc": "2026-10-21T08:21:22.501431+00:00",
+  "window_end_utc": "2026-10-21T08:21:23.539578+00:00",
+  "command": "private reviewed SSH script: start-web-preview",
+  "exit_code": 0,
+  "raw_evidence_sha": "894c7028973665750520d22e8e33298c64b59a4f8de37120cf115020165bf83b",
+  "script_sha256": "8ea9cd34419c5d065b80697ea1bf06701da1f25c93dc96cb319211c62dbc4d07",
+  "result": {
+    "exit_code": 0,
+    "nginx_syntax_exit_code": 0,
+    "loopback_port": 18767,
+    "formal_nginx_reloaded": false,
+    "formal_services_unchanged": true,
+    "AI_full_prefix": "/medical-monitor/ai/",
+    "web_pages": 7
+  },
+  "null_reasons": {}
+}

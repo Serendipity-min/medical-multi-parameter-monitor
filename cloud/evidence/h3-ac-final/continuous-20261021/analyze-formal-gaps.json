@@ -1,0 +1,111 @@
+{
+  "stage": "F2_F5_CONTINUOUS",
+  "source_commit": "6edd48c9e83a4609660786ebc240ef4b0ce4e025",
+  "runtime_source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_A_C_AND_SERVER_NONHUMAN_SIGNAL_NOT_CLINICAL_ACCURACY",
+  "security_scope": "OWNER_APPROVED_CONTRACT_SCOPE_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_CONTINUOUS_AUTH_AMENDMENT_AND_RESIDUAL_RISK_ACCEPTANCE",
+  "rollback_state": "SEE_TIMESTAMPED_INDIVIDUAL_RESULTS",
+  "unresolved": [
+    "SG_8884_ALL_IPV4_OWNER_ACCEPTED_NO_LISTENER",
+    "HISTORICAL_FILTER_DIFF_UNATTRIBUTED_OWNER_ACCEPTED",
+    "C_UART_NOT_OBSERVED_DURING_STANDALONE_FORMAL",
+    "SIMULATOR_MODEL_AND_CALIBRATION_UNVERIFIED"
+  ],
+  "gate": "ACTUAL_RESULT_INCLUDING_FAILURES",
+  "window_start_utc": "2026-10-21T09:46:39.219987+00:00",
+  "window_end_utc": "2026-10-21T09:46:40.066917+00:00",
+  "command": "private reviewed SSH script: analyze-formal-gaps",
+  "exit_code": 0,
+  "raw_evidence_sha": "a6e737dc3e0a89e4689b73a508f7f90050c666bf77ccc335ce121b23b511a821",
+  "script_sha256": "f57852cc3f757937d4b60628f12759b1b0fc9b19938d2190bf2c2de1529d1e5c",
+  "result": {
+    "exit_code": 0,
+    "windows": {
+      "e2e-20261021T094125Z": {
+        "PPG_state_transitions": [
+          {
+            "server_time": 1792575685576,
+            "validity": "VALID",
+            "age_ms": 470,
+            "seq": 417,
+            "source": "MOCK"
+          },
+          {
+            "server_time": 1792575878391,
+            "validity": "STALE",
+            "age_ms": 5080,
+            "seq": 650,
+            "source": "MOCK"
+          },
+          {
+            "server_time": 1792575881628,
+            "validity": "VALID",
+            "age_ms": 238,
+            "seq": 653,
+            "source": "MOCK"
+          },
+          {
+            "server_time": 1792575895170,
+            "validity": "STALE",
+            "age_ms": 5044,
+            "seq": 664,
+            "source": "MOCK"
+          },
+          {
+            "server_time": 1792575898306,
+            "validity": "VALID",
+            "age_ms": 184,
+            "seq": 670,
+            "source": "MOCK"
+          },
+          {
+            "server_time": 1792575903157,
+            "validity": "STALE",
+            "age_ms": 5035,
+            "seq": 670,
+            "source": "MOCK"
+          },
+          {
+            "server_time": 1792575919025,
+            "validity": "VALID",
+            "age_ms": 246,
+            "seq": 673,
+            "source": "MOCK"
+          },
+          {
+            "server_time": 1792575937038,
+            "validity": "STALE",
+            "age_ms": 5032,
+            "seq": 688,
+            "source": "MOCK"
+          },
+          {
+            "server_time": 1792575937139,
+            "validity": "VALID",
+            "age_ms": 273,
+            "seq": 704,
+            "source": "MOCK"
+          }
+        ],
+        "mqtt_PPG_count": 234,
+        "mqtt_PPG_max_gap_s": 20.622192,
+        "mqtt_PPG_gaps_over_5s": [
+          8.121,
+          8.016,
+          20.622
+        ],
+        "last_PPG_source_timestamps": [
+          1792575994101,
+          1792575995101,
+          1792575996101,
+          1792575998781
+        ]
+      }
+    },
+    "values_or_waveforms_saved": false
+  },
+  "null_reasons": {}
+}

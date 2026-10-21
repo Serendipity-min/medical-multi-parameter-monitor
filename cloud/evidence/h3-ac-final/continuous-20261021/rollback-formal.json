@@ -1,0 +1,32 @@
+{
+  "stage": "F2_F5_CONTINUOUS",
+  "source_commit": "6edd48c9e83a4609660786ebc240ef4b0ce4e025",
+  "runtime_source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_A_C_AND_SERVER_NONHUMAN_SIGNAL_NOT_CLINICAL_ACCURACY",
+  "security_scope": "OWNER_APPROVED_CONTRACT_SCOPE_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_CONTINUOUS_AUTH_AMENDMENT_AND_RESIDUAL_RISK_ACCEPTANCE",
+  "rollback_state": "SEE_TIMESTAMPED_INDIVIDUAL_RESULTS",
+  "unresolved": [
+    "SG_8884_ALL_IPV4_OWNER_ACCEPTED_NO_LISTENER",
+    "HISTORICAL_FILTER_DIFF_UNATTRIBUTED_OWNER_ACCEPTED",
+    "C_UART_NOT_OBSERVED_DURING_STANDALONE_FORMAL",
+    "SIMULATOR_MODEL_AND_CALIBRATION_UNVERIFIED"
+  ],
+  "gate": "ACTUAL_RESULT_INCLUDING_FAILURES",
+  "window_start_utc": "2026-10-21T09:48:39.185101+00:00",
+  "window_end_utc": "2026-10-21T09:48:40.473110+00:00",
+  "command": "private reviewed SSH script: rollback-formal",
+  "exit_code": 0,
+  "raw_evidence_sha": "a25c813b5686b2ab1cd645b3aaa0612423c9bcdf751701882bb57ef06a025a4c",
+  "script_sha256": "0b6b38096564edd3cf77b3bad07a6223cf5c6d6c0deea3e267f1fb7a56ec8252",
+  "result": {
+    "state": "ROLLED_BACK_ORIGINAL_ROUTE",
+    "stage": "/opt/medical-monitor-h3/formal/20261021T093335Z",
+    "nginx_sha256": "8e9509551d97489c6cd6a92d4d44f9d6ef06392f031db285e0b1f05d30143ca2",
+    "original_services_unchanged": true,
+    "exit_code": 0
+  },
+  "null_reasons": {}
+}

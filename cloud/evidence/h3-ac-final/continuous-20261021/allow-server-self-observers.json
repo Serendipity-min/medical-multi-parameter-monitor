@@ -1,0 +1,39 @@
+{
+  "stage": "F2_F3_CONTINUOUS",
+  "source_commit": "9f37cecdba60e0ab0915fdd470aa210ee63274f6",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_DEVICES_AND_SERVER_WITH_NONHUMAN_SIGNAL_SOURCE",
+  "security_scope": "ISOLATED_SERVICES_ONLY_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_OWNER_CONTINUOUS_AUTHORIZATION_AMENDMENT",
+  "rollback_state": "FORMAL_NOT_CHANGED_ACTUAL_ROLLBACK_NOT_RUN",
+  "unresolved": [
+    "F2_ACTIVE_300S_AND_RECOVERY_GATES",
+    "F3_RESIDUAL_RISK_DISPOSITION",
+    "F4_F5_NOT_RUN"
+  ],
+  "gate": "ACTUAL_RESULT_SEE_PROCESS_AND_CHECKS",
+  "window_start_utc": "2026-10-21T08:41:13.832339+00:00",
+  "window_end_utc": "2026-10-21T08:41:16.478278+00:00",
+  "command": "private reviewed SSH script: allow-server-self-observers",
+  "exit_code": 0,
+  "raw_evidence_sha": "42e3305f78b4e023f87c7b257e12fcdf6161d8d8a9bbf341f01a85153f9ef966",
+  "script_sha256": "e5a3873ca3b9b35225fb676957ac61c579cea5596b814d1132eaa5da13f286a0",
+  "result": {
+    "exit_code": 0,
+    "backend_health": {
+      "status": "ok",
+      "transport": "MQTT 3.1.1/TLS",
+      "mqtt_connected": true,
+      "accepted": 1858,
+      "rejected": 0,
+      "dropped": 0
+    },
+    "rule_count": 4,
+    "server_self_address_count": 1,
+    "source_scope": "ACTUAL_C_32_SERVER_LOCAL_AND_SELF_PUBLIC_32_ONLY",
+    "all_other_public_sources": "DROP",
+    "production_changed": false
+  },
+  "null_reasons": {}
+}

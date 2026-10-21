@@ -1,12 +1,12 @@
 # H3 A→C 唯一权威交接（MPM-H3-004 R1.0）
 
-**2026-10-21 最新裁定：新A实板读回及负责人独立冷启动反馈通过；当前C隔离应用/配置经J-Link双读核实，单次load/verify退出0，SEGGER因内容完全相同跳过物理擦写。整体仍为 `H3_AC_FINAL_PARTIAL`。** C串口三次握手失败未解决；C保护区未变，负责人已确认C断电、USB/J-Link拔下、BOOT0恢复GND；A断电、CAN三线分离。真实配对CAN/NIBP、有源300秒及云端阶段仍待准入，没有云写入、正式发布、真实豆包调用或实际回滚。当前权威矩阵为 `gateway/physical_can/evidence/h3-ac-final/closeout-status.json`；最新C证据及下一张仅上传卡见第11节。第9–10节保留前序窗口事实，AC-0/AC-1仍按原成绩继承。
+**2026-10-21 最终裁定：`H3_AC_FINAL_PASS`（负责人确认的非人体MOCK工程链路范围，保留已接受风险）。新A→正式C8883→新版Backend→正式七页/豆包实际闭环；最终新鲜PPG连续359.701秒、NIBP完成/90秒及AI事实核对通过；原路由真实回滚、旧HTTPS/WSS复验与同一候选再次激活均已执行。全部烧录/规则/源中断/观测工具失败保留，未伪造生理准确度。A/C当前J5独立运行，USB/J-Link拔下、BOOT0/1=GND、CAN保持连接，采集可停止。最终矩阵见 `gateway/physical_can/evidence/h3-ac-final/closeout-status.json`；当前权威结果和访问方式见第16–17节。
 
 下列第1–8节保留MPM-H3-003原轮事实及失败历史；其中“本轮”指该历史窗口。MPM-H3-004的新增事实从第9节开始。
 
 执行日期：2026-10-21；执行者：**Codex**。负责人明确改派Codex接管，覆盖合同中DeepSeek主执行的角色标签。本文件是本轮唯一权威总结，R2及更早报告和失败原件全部保留。
 
-**AC-0只读基线通过并保留残余风险；AC-1成对软件验证通过。整体仍为H3_AC_CLOSEOUT_PARTIAL。** 没有执行AC-2/AC-3真机采集、云端临时服务、正式发布或真实回滚。正式门保持`BLOCKED_SECURITY_REVIEW`，不能将本轮软件通过写成正式交付。
+**历史MPM-H3-003结论（已由第16节更新）：AC-0只读基线通过并保留残余风险；AC-1成对软件验证通过，当时整体为H3_AC_CLOSEOUT_PARTIAL。** 没有执行AC-2/AC-3真机采集、云端临时服务、正式发布或真实回滚。正式门保持`BLOCKED_SECURITY_REVIEW`，不能将本轮软件通过写成正式交付。
 
 ## 1. 执行人、worktree与Git身份
 
@@ -382,3 +382,117 @@ F3运行包仍为第9.4节冻结字节，新增工具不在运行payload内，�
 | 明确不含 | 不装venv/依赖，不写unit/env/密钥，不启停或reload服务，不改Nginx/Broker/防火墙/安全组/DNS，不运行模型、不传采集值，不建立完整正式恢复包，不执行正式发布或实际rollback |
 
 该卡通过仅代表不可变文件到达服务器，不能标F2/F3发布准出或正式上线。下一阶段的安装/隔离服务与数据范围仍须依据实际源条件另列同合同内的精确卡。包含本节的真实交付SHA以提交后Git/远端回执为准，不把工具执行源或运行包源冒充文档自身HEAD。
+
+
+## 12. MPM-H3-004 连续执行授权与正式发布精确计划（2026-10-21）
+
+负责人明确指示“只要是合同中的范围均可执行，一次性做完提交”，覆盖后续阶段重复审批；另明确接受历史filter差异无法归因、云安全组8884全部IPv4两项风险，受众限非人体MOCK。没有运行正式Security Gate，没有人体数据授权或采集，没有修改保护分支。
+
+本次正式路由计划绑定 `6edd48c9e83a4609660786ebc240ef4b0ce4e025`，运行包源 `5da742f4e0e078d2d40453facdad1e65ff51fdda`，包含Backend修复 `8afb1e2903f18c3a562769b9e9352db7e1db438a`。runtime payload SHA `b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e`。正式计划 `/opt/medical-monitor-h3/formal/20261021T093335Z/plan.json` SHA `270e9cd52e3f83b7bc118210418a81252d74a0a30438150d87b86f64e9beb8e6`；完整恢复清单SHA `53e1aec5021e6a0fba8b7e3c8b7df53346f9f8e2bce9c7aa0a64382c503ffed3`。更早、正式角色变更前的完整备份SHA `61f656e835a3689e89f0617d766b5529f7b9a8d9543050fcd83f824fd14145dc` 独立保留。
+
+操作仅启用已冻结18785 Backend/18786 AI两个服务，并把 `/etc/nginx/snippets/medical-monitor.conf` 原子替换为候选SHA `70ac6d03c17b1bcfc54ea87fb8b3fca949d8dabddac191dd7b8b571d58c00ca7`，nginx语法校验后reload；原Backend/AI/MQTT服务保留运行。实际HTTPS/WSS/七页与AI验收后，用同一冻结计划真实恢复原片段并停用新两个单元，验证旧入口，再次启用相同候选并复验。任何无效值可见、读数不匹配、B非OFFLINE、鉴权绕过、TLS错误或不可恢复故障立即停止并按身份门恢复旧路由；不全表恢复防火墙、不删除未知文件、不重写备份、不清空账本。正式站点主机和令牌只经外部受限配置引用，不入库。
+
+正式C镜像43172B SHA `b9b25b186c3b40d62b4a1c1919e09f27b639806271a3b20ae7fc80ea4cda1efe`（8883，保留MOCK/synthetic），generation3配置336B SHA `395c6a36d7c4a636b34a72eacd1ccc2a2fc7f025df7089f3d94e1d2de14c5a3b`，完整64KiB SHA `49d3fad5040b25b746905d5c1468bff4d5be5a4f13197286ce215e0711798fb4`。09:29独立冷启动后只读证实VTOR应用、CPU运行、FLASH_CR=0x80000000/SR=0及sector7/11/options未变。原正式LIVE候选9df43…没有用于非人体源。
+
+正式发布前12秒实测：120个WSS快照PPG/SpO2/PR有效，B始终OFFLINE，无无效值显示；新Backend accepted=886、rejected/dropped=0。这是短窗准入，不冒充正式300秒。C独立供电USB拔下，C_UART_NOT_OBSERVED，不能用Broker计数冒充C实际PUBACK。
+
+
+## 13. 连续窗口实板与隔离逐层验收（08:14 UTC以后）
+
+来源为负责人确认无人连接、可产生血氧/脉搏及HKB-08B+成功事件的非人体装置；型号、校准和标称输出未核实，始终 `MOCK/synthetic=true`，只验工程传输和时效，不评价生理测量精度。原始帧/Flash/UID/气路数值保存在受限目录，Git只有身份/散列和获准MOCK页面图片。
+
+A新50084B镜像 `f59b76ef865c373c6df62aa09aea958597687f6d46b17c402ceb7126ca8f60d6` 的本轮身份实读一致。初始曾实读System ROM状态，负责人随后正常断电核对BOOT并反馈CAN接反、修正后实际捕获Boot-up/心跳/PDO；不把初始不通信唯一归因为ROM或接线之一。没有把SetPC/MSP/VTOR强行进入应用作为启动验收。A双屏和独立启动均由现场确认正常。
+
+| 真实窗口/任务 | 实际结果与退出码 |
+|---|---|
+| 隔离08:31:12–08:37:42，390s | exit **1**；最长118.938s，有源中断及网络/临时规则故障，886条MQTT；原件保留 |
+| 隔离08:47:25–08:52:55，330s | exit **1**；最长175.889s，925条MQTT；未凑成300秒 |
+| 隔离08:52:56–09:00:26，450.117s | exit **0**；新鲜PPG连续 **334.670s**；MQTT1340（QoS1=963、QoS0=377），WSS4450，匹配PPG4181/SpO2 4175/PR4219；Backend accepted3558→4895，rejected/dropped=0 |
+| 隔离限定故障09:00:45.630–09:00:51.647 | exit **0**；实际单连接6.002s丢4包/2501B，准确规则已撤；OFFLINE→ONLINE和新有效PPG恢复，另一次自然中断也如实记录 |
+| A正常断电及恢复 | C保持运行，现场A J-Link拔下，实际OFFLINE、Boot-up、新NIBP会话65539；旧有效结果不复活。补充20.029s/200快照只读核验exit **0** |
+| C接收缓存09:12:58.723–09:13:03.076 | exit **0**；实际五类RPDO过滤器181/281/381/481/681均8B/启用/receiveError=0；这是接收缓存快照，不冒充外部CAN分析仪抓包 |
+
+所有成功有源窗口读数不匹配、无效值可见、B非OFFLINE均0；没有降低发送频率、延长5秒时效或清零故障。串口独立进程退出分别 **1、1、0、1**，首两次及第四次GetOverlappedResult/AccessDenied原件保留。第三次完整1200秒240组诊断无主机组序缺口：FOVR/SW/bad/fault/stale=0，TEC/REC/BOFF=0，接收高水位8；PUBACK358→2682、QoS0 36→310、失败0→4、Router lost0→146、replay1→181。故障窗口损失不伪装为零。第四次末尾有A断电时txfail/no_ack等累计变化；不能把其旧CAPTURING状态当正常进程结束。
+
+临时规则曾错误把SSH出口当作C出口，且首次漏放服务器自身访问；08:37–08:41影响链路，已向负责人说明，按实际C出口及服务器自身修正，全部失败保留。450秒TCP元数据观测19357事件、内核丢0，有重复区间/间歇；无法唯一定位路由器、ESP、WAN或固件，不宣称原网络问题全部根治。
+
+NIBP第一次完成UTCms1792571533215：89.069s仍VALID，90.082s STALE/隐藏；第二次1792572469510：89.069s VALID，90.081s STALE/隐藏。负责人确认两次SYS/DIA同值，新完成事件仍正确恢复有效。第三次用于A断电/新会话旧值失效。原重启观察器要求所有旧流元数据消失过严，未完成PASS；停止进程实际退出0只代表被正常停止，后续更正只检查新NIBP会话及旧值隐藏，另存200快照证据，不覆盖旧状态。
+
+第四次完成实际 `0x281 tick=442196`、SYS/DIA镜像匹配 `0x381`，`0x681 bit9/bit3=true`；实际 `0x481` TIME锚算得1792573969544，与同窗WSS完成UTC毫秒完全相等。AI确定性NIBP事实与该实际WSS内存值相同、MOCK，`NOT_CALLED`、用量不增。A内部result_generation没有单独传到C，报告不伪称C读取了它。
+
+隔离清理09:28:01–09:28:02 exit0：本次preview/AI/Backend/Broker停用，自有INPUT链引用0、8884无监听；全filter393行SHA `e6f238e23dece4fe2763aae2c48a482f749a56f632aeac6d31aa1130d7abed1c`，NAT SHA `96ba2354a7ee95379dbc8c4bc83f5c5d13ccc95d5367d69e3af1e6dec9ed3157`。这与本连续窗口准入表一致，不等于历史395行表已还原。云安全组8884全部IPv4仍在，负责人已明确接受，未修改控制平面。
+
+## 14. 正式C写入、失败、修复与正常冷启动
+
+C写前sector0–3完整64KiB双读一致 `102575dc940425d91b2db7c2a0f22ddf44c5cfab652b1b5ca0790f8924d3705b`，含旧59229…应用和generation2配置。原件、工具身份、UID与供电核对通过。负责人明确允许CAN保持连接、A断电、J-Link连接C；本次不声称三线分离。
+
+09:21:36–09:21:59正式编程进程 **exit1**：限定sector0–3写pending 64KiB并完整读回、再写最后commit字成功，但FLASH_CR单次写LOCK与清PG的恢复方式未得到预期状态，实际 `0x80000201`，立即停止，没有继续GO、重刷、清错误或自动恢复。09:23只读证明完整新64KiB及应用/配置SHA已正确，sector7/11/options不变。离线按实际LOCK行为复现 **exit1**，修复为先恢复未锁定低位再单独LOCK，**88项Host通过exit0**。09:25仅KEYR/CR受限修正尝试 **exit1**（unlock未生效），没有重复Flash编程。该修复后的完整编程序列仅Host验证，未假称再跑过完整实板写入成功。
+
+随后现场正常断电，USB/J-Link拔下，BOOT0/1=GND、J5独立供电；09:29:33–09:29:42再接J-Link只读：**exit0**，CPU未halt/lockup、VTOR=0x08000000、FLASH_SR=0、FLASH_CR=0x80000000、配置generation3、新64KiB SHA49d3…及7/11/options全部核对。09:30单次debug-freeze写回本窗口实际原值0x1800/readback通过，未复位或烧录。后续J-Link拔下的独立联网窗口再验证正常运行。失败1→Host修复0→寄存器尝试1→正常冷启动实读0各有独立原件，未覆盖失败。
+
+保护区sector7/11各SHA `b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260`，options SHA `52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687`。没有全片擦除、RDP或options修改。新C与原隔离C BIN只有端口常量的一字节差别，均43172B；text43076/data88/bss123136不变。A本轮未新增运行代码；相对旧49888B版本的新完成时间镜像为50084B（+196B）。
+
+修改范围：`gateway/physical_can/build.py`加入正式8883+synthetic显式模式及fresh-SNTP门，`r2_flash_c.py`增加对应准确下载profile；`tools/h3_c_jlink.py`仅抽出可复用命令白名单校验，`tools/h3_c_formal.py`限定正式pending/commit/失败停止；相关Host测试及AI失败/超时测试。没有重构CANopen/coreMQTT、改A/C应用时效/路由架构或修改P4/ESP既有核心行为。早期41828B无fresh-SNTP构建仅Smoke，后来已明确禁止用于正式下载；从未烧入该镜像。新增63项、83项旧Host结果按原进程身份保留；实际CR失败后新增88项0才证明修复逻辑，不能用较早83项替代实板发现。
+
+## 15. 正式角色、七页、AI、实际回滚（持续更新）
+
+独立正式publisher写指定GW/A/B状态、A telemetry/replay/event；Backend subscriber仅读相同范围，不授control下行或B telemetry写权限。合并ACL保留旧字节前缀，不覆盖旧角色。loopback TLS实测用实际投递验证“publisher不能读、subscriber不能写”，不是用SUBACK单独推断ACL；首次错误SUBACK断言exit1保留，更正实测exit0。09:31正式8883 SIGHUP既有mosquitto子进程后，新角色CONNACK=0、越权写135拒绝。TLS链/SNI验证开启。
+
+当前合并ACL SHA `c987e3ebe5c884f214f2d334c6416804c24480de735c52b896874e6af3b09853`，password文件只记录SHA `ecd343ceec203afd44737f460b44aa5d23157524761a702978b3e242e50622a4`；明文仅外部受限凭据。原Broker配置/旧角色、主服务PID851111及子851112保留。新runtime在独立Python3.12环境离线安装20个冻结wheel，pip check退出0；旧依赖未升级。Web dist SHA `d081b7036e521208a433a7410f1a86c9f06208260434b4257f10eeddd1a174be`，正式新index SHA `92e1f44f80d1eec38ef17beb0979dfc1fba8088c6a9aa833ab1de15063535acb`。
+
+09:41:18 activate退出0；正式HTTPS index精确匹配，新Backend真实8883订阅，AI DOUBAO/MONITOR。401/404/405、WSS错误令牌1008、非法Origin403实际验证；当前读数NOT_CALLED，一般健康问题真实豆包HTTP200。
+
+09:48:39–09:48:40 **实际rollback退出0**：恢复原Nginx SHA `8e9509551d97489c6cd6a92d4d44f9d6ef06392f031db285e0b1f05d30143ca2`，停用新两服务。09:48:45–09:48:48 **旧版实际HTTPS/WSS复验退出0**：原index SHA `92a48ceea4afb3a3c5b6f34fadd7d3b56063e725321aa2471e3a9285db7a48f0`，旧Backend健康，20个鉴权快照、B离线、无效值隐藏、旧服务PID未变。09:48:52–09:48:54 **同计划再激活退出0**，重复核心HTTPS/WSS/权限及七页桌面/手机检查。回滚针对应用路由与新单元，未回刷C或撤销新正式角色，未把全服务器/防火墙/数据库都恢复；原Backend/AI/MQTT始终运行，旧版本保留可回退。
+
+正式NIBP完成UTCms1792575966019：89.071s VALID、90.084s STALE/隐藏，时间戳未刷新；AI有效事实与实际WSS一致，过期后隐藏，均NOT_CALLED，进程退出0。正式第一420秒窗因源中断最长192.714s、exit1，MQTT1196/WSS4153、Backend拒收/丢弃/数值不匹配均0，负责人明确承认中途取下探头；后续重复取下也单独保留，不把中断归为确定传感器或网络故障。最终独立起点长窗另存，不拼接中断区间。
+
+截图目录：`cloud/evidence/h3-ac-final/formal-https/`（初次正式14张+完成AI2张）、`formal-https-final/`（再激活14张）。七路为overview/temp/ecg/spo2/resp/nibp/ai，1440×900与390×844均7页导航、无页面横向溢出、B离线；初张AI截图还在等待，随后完成回答截图另存，不能用等待截图证明成功。实际完成标签“本轮使用豆包”，模型doubao-seed-2-0-mini-260428；设备播报默认关闭、真实扬声器/ASR/TTS NOT_VERIFIED。浏览器初次daemon继承stdout管道等待已结束，改临时文件捕获后成功，未升级浏览器或终止用户其他窗口。
+
+模型故障/超时：正式UI浏览器内明确合成503、504和15秒Abort，验证失败/超时后不继承上一轮真实模型标签；服务器文件、真实模型和监护网络未被故障注入。Host另有合成TimeoutError/ReadTimeout与HTTP401/403/429/500共7项通过。没有声称实际豆包本轮发生了鉴权失败或超时；正常真实调用HTTP200、错误码无。持久账本取消五次累计上限、保留4并发/每分钟12次/超时/熔断；历史原件不删除，重复历史导入先按内容散列去重为3条独立原记录。金额未知，负责人反馈免费/体验额度，不报零费用。
+
+正式入口和两个独立访问令牌配置在仓库外受限文件 `E:/medical-monitor-h3-private/ac-final/formal-access-config.json`（不含ARK Key）。打开其中formal_monitor_url；连接设置填写GW-C-001和monitor_view_token；第七页 `#/ai` 的独立AI令牌使用independent_ai_token。实际网址由formal_ai_url给出。遵守连接信息硬规则，Git/脚本/日志不写真实主机或口令。原始证据目录 `E:/medical-monitor-h3-private/ac-final/CONTINUOUS-20261021T081425Z`，云端完整恢复包及观测目录留存，负责人可按私有引用复核。
+
+
+## 16. 最终工程裁定、独立供电与正式有源验收
+
+**最终 `H3_AC_FINAL_PASS`，限定本轮负责人确认的非人体MOCK工程集成、真实豆包文字解释及正式受限访问范围；等待负责人最终H3复核，不开始Node-B。**
+
+| Gate | 最终事实 |
+|---|---|
+| F0 | 远端/独立工作区/单写入者核对；AC-0/1按原成果继承，风险及源条件逐项注明 |
+| F1 | 新A50084B读回、正常独立冷启动、双屏反馈、实际Boot-up与CAN通过 |
+| F2 | 真完成NIBP/90秒/同值新事件/新会话不复活，0x281/0x681实板缓存及TIME锚，334.670s隔离有源与6秒限定故障恢复通过 |
+| F3 | 新版完整冻结包、有效TLS/ACL/令牌/Origin、两份完整恢复清单逐项验证；负责人接受两项残余风险和非人体受众 |
+| F4 | 正式C应用/配置/保护区、正常独立冷启动、实际8883到Backend及C实际PUBACK计数通过；编程CR失败和恢复路径完整保留 |
+| F5 | 正式七页与真实豆包、359.701s新鲜PPG、正式NIBP90秒及AI匹配、真实旧版回滚/HTTPS与WSS复验、同候选再次激活通过 |
+| F6 | 本报告/最终矩阵/脱敏回执与截图归档，只正常推送既有H3开发远端；无PR/强推/合并/正式Security Gate |
+
+最终长窗 **2026-10-21 09:52:35.126778–09:58:35.285619 UTC**，实际进程exit **0**，360.085s，PPG新鲜连续 **359.701s**。MQTT **1079**（订阅实际QoS1=762、QoS0=317），WSS **3558**；有效且会话/序号/完成时间一致的PPG匹配3478次、SpO2 3480次、PR3433次。Backend accepted541→1618，rejected/dropped=0；坏MQTT、读数不匹配、无效值可见、B非OFFLINE、错误源标签均0。三流同时有效最长203.832s，附属`all_three_valid_exit_code=1`原样保留；合同实际准出是`active_ppg_exit_code=0`，没有把源质量INVALID强改VALID。此前两段源被取下的正式窗口均保留各自exit1，不把其区间拼接入359.701秒。
+
+该窗口 C 为J5独立供电、USB/J-Link均拔下，**C_UART_NOT_OBSERVED**。762是观察订阅收到的QoS1消息，不冒充C已接收PUBACK=762。为补足正式C回执层级，长窗结束后负责人临时接回J-Link，**09:59:14.872109–09:59:27.855049 UTC**做单独只读短窗，**exit0**，先UID/准确正式镜像SHA匹配，CPU未halt/lockup、VTOR应用，再读两组对齐32位累计计数（不是全组原子快照）：
+
+- C实际QoS1 PUBACK **3133→3157（+24）**，uptime1804556→1815231ms；QoS0累计1059，采集已经允许停止，短窗增量0；发布失败累计0。
+- 心跳2856→2878（+22）、实际CAN TXOK3007→3030（+23），NMT START ACK累计1、TIME143→144；181累计60984，381/481各1430→1440、681 1488→1499。
+- FOVR/SW/bad/stale/fault/Router dropped均累计0，接收高水位9、ESR=0（TEC/REC/Bus-off=0）。Router replay累计14未归零。
+- 累计tx_failed=1、tx_no_ack=1、peer_losses/returns各1、tx_peer_discard=782均保留，短窗无新增；不能宣称从开机以来所有丢弃为0。
+- 三次J-Link连接仅connect/savebin/q，显式halt/reset/寄存器或Flash写命令0；SDK连接行为不作绝对无副作用保证。ARM目标ABI对象SHA `93a39e588a00becbeeacf7f8c9c83446673c508fabf352e14c2e43955cb6b1b4`，正式ELF SHA `2263a70a3abe2fcfdfaed6385c2615d7817a22d8c1b552b611c153043f266d03`。布局探索首次缺头文件失败两次保留，补齐原storage头搜索路径后离线编译通过，没有链接或修改固件。
+
+负责人已最终回报 **“J-Link已拔，保持独立运行”**。此后没有再操作设备；A/C由原J5供电，BOOT0/1均GND、CAN三线保持、USB/J-Link拔下，无人体连接，模拟输入可停止。C使用已选择的2.4GHz路由器持久配置，**不依赖电脑或手机热点**；仍需要该路由器有网络，离线时系统应显示失效/离线，不能保证断网仍实时上云。
+
+最终运行：`medical-monitor-h3-webbackend.service` PID **2758089**、`medical-monitor-h3-webai.service` PID **2758088**，均active/enabled、ExecMainStatus=0；新Backend端口18785、新AI18786仅回环，Nginx正式前缀路由到它们。原Backend845095、MQTT851111/子851112、AI394625及Nginx主进程保留；旧AI10:00只读健康为ok/DOUBAO/MONITOR。两份完整恢复包最后再验证通过，旧包/旧配置/旧单位/原角色均保留。实际rollback范围仅Nginx路由和新应用单元；未宣称C固件、正式角色、数据状态或整机全量恢复。
+
+本连续轮真实豆包 **6次，2265 prompt +295 completion =2560 Token**，全部HTTP200/VALIDATED，真实request_id/模型名/耗时/用量见 `collect-final-environment.json`。包含历史去重3条的账本总计 **9次/6138 Token**，不归零；累计上限null，未再依赖旧五槽。再次激活后09:55:33真实调用480 Token、request_id `021792576533835534779bc6a83ab3f36a7a90c1e71ba35eb3ead`，当前进程健康REAL_MODEL_VERIFIED；确定性当前读数/过期血压/B离线核对NOT_CALLED且不增加用量。负责人反馈免费/体验，实际货币费用 **UNKNOWN**，不推断为零。
+
+最后只读环境核验10:00:23–10:00:24 exit0：候选Nginx精确匹配、原服务身份未变、合并ACL/密码文件SHA一致，完整恢复包可验证，隔离四服务inactive、8884监听0，filter393行/NAT12行SHA与第13节一致。本机旧预览隧道18767无监听；仅本任务两个浏览器会话收尾。正式浏览器close返回1的原件保留，经本任务pid文件及创建时间核对后仅关闭其Chrome子进程和daemon；另一个本任务会话正常close0，没有关闭用户其他窗口。
+
+## 17. 证据导航、Git交付与后续边界
+
+- 实际逐进程退出码/原始散列索引：[execution-index.json](../../cloud/evidence/h3-ac-final/continuous-20261021/execution-index.json)。索引并不声称全部进程成功；launcher退出0与worker实际退出1分别记录。
+- 隔离长窗/NIBP/TCP：[collect-current-observations.json](../../cloud/evidence/h3-ac-final/continuous-20261021/collect-current-observations.json)；重启更正：[verify-restart-recovery.json](../../cloud/evidence/h3-ac-final/continuous-20261021/verify-restart-recovery.json)；0x281实际缓存：[C-actual-RPDO-completion.json](../../cloud/evidence/h3-ac-final/continuous-20261021/C-actual-RPDO-completion.json)。
+- C原编程失败、受限寄存器失败、正常冷启动实读分别为 `formal-C-program.json` / `formal-C-control.json` / `formal-C-cold-read.json`；修复复现失败与88项通过分别为 `reproduce-flash-lock.json` / `fixed-flash-lock.json`，原始错误不覆盖。
+- 正式最终窗、NIBP、旧路由实际回滚/再激活、模型回执：[collect-final-state.json](../../cloud/evidence/h3-ac-final/continuous-20261021/collect-final-state.json)；正式C直接计数：[C-formal-actual-counters.json](../../cloud/evidence/h3-ac-final/continuous-20261021/C-formal-actual-counters.json)；环境/6次模型清单：[collect-final-environment.json](../../cloud/evidence/h3-ac-final/continuous-20261021/collect-final-environment.json)。
+- 正式再激活七页截图索引：[browser-final-result.json](../../cloud/evidence/h3-ac-final/continuous-20261021/browser-final-result.json)，[桌面总览](../../cloud/evidence/h3-ac-final/formal-https-final/desktop-overview.png)、[手机血氧](../../cloud/evidence/h3-ac-final/formal-https-final/mobile-spo2.png)、[正式AI真实回答](../../cloud/evidence/h3-ac-final/formal-https/desktop-ai-completed.png)。本地隔离预览截图保留，未混称为正式HTTPS。
+- 新增运行代码实际冻结为 `6edd48c9e83a4609660786ebc240ef4b0ce4e025`；仅追加AI回归后的代码/测试HEAD为 **`8ff12de002cdd8c910e5a84b438589cc125ceec7`**。服务器运行包仍精确来自 `5da742f4e0e078d2d40453facdad1e65ff51fdda`，不把新的证据/Flash工具提交伪称已部署的服务器源码。
+- 包含本报告/最终矩阵/截图的交付提交由正常commit后实际取得，最终回复给出；完整SHA/远端一致性在外部 `E:/medical-monitor-h3-private/ac-final/post-push-receipt.json` 中记录，不预写不存在的自身SHA。本文件可用 `git log -1 --format=%H -- doc/H3/H3-AC-CLOSEOUT-FINAL-HANDOFF.md` 查询其实际提交。只推既有H3开发远端，工作树清洁及保护ref对照以该回执为准。
+
+当前不再需要合同内重复分阶段审批；停止等待负责人**最终H3验收**。残余事项：历史整filter差异仍不能归因、云安全组8884仍全IPv4且无控制平面API核验（均已接受）；源型号/校准/临床精度未验证；UART ROM握手原因未解决（改用J-Link）；新完整编程工具修复仅Host验证；网络分段根因未唯一定位。真实人体、临床使用、扬声器/ASR/TTS、Node-B和新的云安全组/架构扩展另行定义范围，不在本次PASS中。没有新功能授权请求，也没有虚报Node-B在线。

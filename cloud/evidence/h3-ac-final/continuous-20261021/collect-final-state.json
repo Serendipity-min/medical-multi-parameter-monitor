@@ -1,0 +1,780 @@
+{
+  "stage": "F2_F5_CONTINUOUS",
+  "source_commit": "6edd48c9e83a4609660786ebc240ef4b0ce4e025",
+  "runtime_source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_A_C_AND_SERVER_NONHUMAN_SIGNAL_NOT_CLINICAL_ACCURACY",
+  "security_scope": "OWNER_APPROVED_CONTRACT_SCOPE_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_CONTINUOUS_AUTH_AMENDMENT_AND_RESIDUAL_RISK_ACCEPTANCE",
+  "rollback_state": "SEE_TIMESTAMPED_INDIVIDUAL_RESULTS",
+  "unresolved": [
+    "SG_8884_ALL_IPV4_OWNER_ACCEPTED_NO_LISTENER",
+    "HISTORICAL_FILTER_DIFF_UNATTRIBUTED_OWNER_ACCEPTED",
+    "C_UART_NOT_OBSERVED_DURING_STANDALONE_FORMAL",
+    "SIMULATOR_MODEL_AND_CALIBRATION_UNVERIFIED"
+  ],
+  "gate": "ACTUAL_RESULT_INCLUDING_FAILURES",
+  "window_start_utc": "2026-10-21T09:59:25.230589+00:00",
+  "window_end_utc": "2026-10-21T09:59:25.976274+00:00",
+  "command": "private reviewed SSH script: collect-final-state",
+  "exit_code": 0,
+  "raw_evidence_sha": "5340c2a6532b70d26c6d85b12a6ce3e490a85c25b972fa2f39daf3081b621e69",
+  "script_sha256": "029f1d71dca5106eec1c4ea7336eaa36a025851b17c1c999da8c724845a2bb19",
+  "result": {
+    "exit_code": 0,
+    "original_service_identities_unchanged": true,
+    "current_nginx_sha256": "70ac6d03c17b1bcfc54ea87fb8b3fca949d8dabddac191dd7b8b571d58c00ca7",
+    "plan_sha256": "270e9cd52e3f83b7bc118210418a81252d74a0a30438150d87b86f64e9beb8e6",
+    "formal_results": {
+      "formal-activate-result.json": {
+        "state": "ACTIVATED_PENDING_HTTPS_ACCEPTANCE",
+        "stage": "/opt/medical-monitor-h3/formal/20261021T093335Z",
+        "nginx_sha256": "70ac6d03c17b1bcfc54ea87fb8b3fca949d8dabddac191dd7b8b571d58c00ca7",
+        "original_services_unchanged": true,
+        "exit_code": 0
+      },
+      "formal-https-ai-result.json": {
+        "exit_code": 0,
+        "formal_HTTPS": true,
+        "cases": [
+          {
+            "case": "exact_new_index",
+            "http": 200,
+            "sha256": "92e1f44f80d1eec38ef17beb0979dfc1fba8088c6a9aa833ab1de15063535acb"
+          },
+          {
+            "case": "access_401",
+            "http": 401
+          },
+          {
+            "case": "access_405",
+            "http": 405
+          },
+          {
+            "case": "access_404",
+            "http": 404
+          },
+          {
+            "case": "current_reading",
+            "http": 200,
+            "real_model": "NOT_CALLED",
+            "model_evidence": null,
+            "fact_digest": "2d4535114a1780532fbad9c2b9064b9f",
+            "Node_B_values_hidden": true,
+            "values_or_answer_saved": false
+          },
+          {
+            "case": "general_health",
+            "http": 200,
+            "real_model": "REAL_REQUEST_USED",
+            "model_evidence": {
+              "call": "d9a67e49bb5c4ffa8d275cbced8da999",
+              "requested_model": "doubao-seed-2-0-mini-260428",
+              "status": "VALIDATED",
+              "billing_state": "UNKNOWN_TOKEN_USAGE_RECORDED",
+              "http_status": 200,
+              "usage": {
+                "completion_tokens": 61,
+                "prompt_tokens": 430,
+                "total_tokens": 491
+              },
+              "reported_model": "doubao-seed-2-0-mini-260428",
+              "request_id": "0217925757200830b63b37cbca791937f2f41fb0469576d934870",
+              "finish_reason": "stop",
+              "latency_ms": 1634
+            },
+            "fact_digest": "73905a96a492cfe28139ced34bad00f1",
+            "Node_B_values_hidden": true,
+            "values_or_answer_saved": false
+          },
+          {
+            "case": "WSS_invalid_token",
+            "close_code": 1008
+          },
+          {
+            "case": "WSS_disallowed_origin",
+            "http": 403
+          }
+        ],
+        "backend_health": {
+          "status": "ok",
+          "transport": "MQTT 3.1.1/TLS",
+          "mqtt_connected": true,
+          "accepted": 1195,
+          "rejected": 0,
+          "dropped": 0
+        },
+        "usage_before": {
+          "requests": 6,
+          "usage": {
+            "prompt_tokens": 4397,
+            "completion_tokens": 279,
+            "total_tokens": 4676
+          },
+          "states": {},
+          "billing_state": "TOKEN_USAGE_RECORDED_COST_NOT_INFERRED",
+          "lifetime_cap": null
+        },
+        "usage_after": {
+          "requests": 7,
+          "usage": {
+            "prompt_tokens": 4827,
+            "completion_tokens": 340,
+            "total_tokens": 5167
+          },
+          "states": {},
+          "billing_state": "TOKEN_USAGE_RECORDED_COST_NOT_INFERRED",
+          "lifetime_cap": null
+        },
+        "model_id": "doubao-seed-2-0-mini-260428",
+        "billing": "OWNER_TRIAL_REPORTED_CHARGE_UNKNOWN",
+        "new_validated_model_calls": 1,
+        "Node_B": "OFFLINE_REQUIRED",
+        "raw_values_or_answer_saved": false
+      },
+      "formal-rollback-result.json": {
+        "state": "ROLLED_BACK_ORIGINAL_ROUTE",
+        "stage": "/opt/medical-monitor-h3/formal/20261021T093335Z",
+        "nginx_sha256": "8e9509551d97489c6cd6a92d4d44f9d6ef06392f031db285e0b1f05d30143ca2",
+        "original_services_unchanged": true,
+        "exit_code": 0
+      },
+      "formal-rollback-https-result.json": {
+        "exit_code": 0,
+        "formal_HTTPS": true,
+        "expected_old_route": true,
+        "invalid_values_visible": 0,
+        "Node_B_not_offline": 0,
+        "snapshots": 20,
+        "new_units_stopped": {
+          "medical-monitor-h3-webbackend.service": true,
+          "medical-monitor-h3-webai.service": true
+        },
+        "model_calls": 0,
+        "old_index_sha256": "92a48ceea4afb3a3c5b6f34fadd7d3b56063e725321aa2471e3a9285db7a48f0",
+        "health": {
+          "status": "ok",
+          "transport": "MQTT 3.1.1/TLS",
+          "mqtt_connected": true,
+          "accepted": 55972221,
+          "rejected": 0,
+          "dropped": 0
+        },
+        "original_services_unchanged": true
+      },
+      "formal-reactivate-result.json": {
+        "state": "ACTIVATED_PENDING_HTTPS_ACCEPTANCE",
+        "stage": "/opt/medical-monitor-h3/formal/20261021T093335Z",
+        "nginx_sha256": "70ac6d03c17b1bcfc54ea87fb8b3fca949d8dabddac191dd7b8b571d58c00ca7",
+        "original_services_unchanged": true,
+        "exit_code": 0
+      },
+      "formal-final-https-result.json": {
+        "exit_code": 0,
+        "formal_HTTPS": true,
+        "cases": [
+          {
+            "case": "exact_new_index",
+            "http": 200,
+            "sha256": "92e1f44f80d1eec38ef17beb0979dfc1fba8088c6a9aa833ab1de15063535acb"
+          },
+          {
+            "case": "access_401",
+            "http": 401
+          },
+          {
+            "case": "access_405",
+            "http": 405
+          },
+          {
+            "case": "access_404",
+            "http": 404
+          },
+          {
+            "case": "current_reading",
+            "http": 200,
+            "real_model": "NOT_CALLED",
+            "model_evidence": null,
+            "fact_digest": "2a427540c979021a4a433159f7680600",
+            "Node_B_values_hidden": true,
+            "values_or_answer_saved": false
+          },
+          {
+            "case": "expired_nibp",
+            "http": 200,
+            "real_model": "NOT_CALLED",
+            "model_evidence": null,
+            "fact_digest": "2a427540c979021a4a433159f7680600",
+            "Node_B_values_hidden": true,
+            "values_or_answer_saved": false
+          },
+          {
+            "case": "B_offline",
+            "http": 200,
+            "real_model": "NOT_CALLED",
+            "model_evidence": null,
+            "fact_digest": "2a427540c979021a4a433159f7680600",
+            "Node_B_values_hidden": true,
+            "values_or_answer_saved": false
+          },
+          {
+            "case": "WSS_invalid_token",
+            "close_code": 1008
+          },
+          {
+            "case": "WSS_disallowed_origin",
+            "http": 403
+          }
+        ],
+        "backend_health": {
+          "status": "ok",
+          "transport": "MQTT 3.1.1/TLS",
+          "mqtt_connected": true,
+          "accepted": 296,
+          "rejected": 0,
+          "dropped": 0
+        },
+        "usage_before": {
+          "requests": 8,
+          "usage": {
+            "prompt_tokens": 5257,
+            "completion_tokens": 401,
+            "total_tokens": 5658
+          },
+          "states": {},
+          "billing_state": "TOKEN_USAGE_RECORDED_COST_NOT_INFERRED",
+          "lifetime_cap": null
+        },
+        "usage_after": {
+          "requests": 8,
+          "usage": {
+            "prompt_tokens": 5257,
+            "completion_tokens": 401,
+            "total_tokens": 5658
+          },
+          "states": {},
+          "billing_state": "TOKEN_USAGE_RECORDED_COST_NOT_INFERRED",
+          "lifetime_cap": null
+        },
+        "model_id": "doubao-seed-2-0-mini-260428",
+        "billing": "OWNER_TRIAL_REPORTED_CHARGE_UNKNOWN",
+        "new_validated_model_calls": 0,
+        "Node_B": "OFFLINE_REQUIRED",
+        "raw_values_or_answer_saved": false
+      },
+      "formal-final-real-model-result.json": {
+        "exit_code": 0,
+        "formal_HTTPS": true,
+        "cases": [
+          {
+            "case": "exact_new_index",
+            "http": 200,
+            "sha256": "92e1f44f80d1eec38ef17beb0979dfc1fba8088c6a9aa833ab1de15063535acb"
+          },
+          {
+            "case": "access_401",
+            "http": 401
+          },
+          {
+            "case": "access_405",
+            "http": 405
+          },
+          {
+            "case": "access_404",
+            "http": 404
+          },
+          {
+            "case": "current_reading",
+            "http": 200,
+            "real_model": "NOT_CALLED",
+            "model_evidence": null,
+            "fact_digest": "e599659da818305f6077606a0abd843c",
+            "Node_B_values_hidden": true,
+            "values_or_answer_saved": false
+          },
+          {
+            "case": "general_health",
+            "http": 200,
+            "real_model": "REAL_REQUEST_USED",
+            "model_evidence": {
+              "call": "1285886cc6d84a729bfb3ac05c5a157c",
+              "requested_model": "doubao-seed-2-0-mini-260428",
+              "status": "VALIDATED",
+              "billing_state": "UNKNOWN_TOKEN_USAGE_RECORDED",
+              "http_status": 200,
+              "usage": {
+                "completion_tokens": 50,
+                "prompt_tokens": 430,
+                "total_tokens": 480
+              },
+              "reported_model": "doubao-seed-2-0-mini-260428",
+              "request_id": "021792576533835534779bc6a83ab3f36a7a90c1e71ba35eb3ead",
+              "finish_reason": "stop",
+              "latency_ms": 1062
+            },
+            "fact_digest": "e599659da818305f6077606a0abd843c",
+            "Node_B_values_hidden": true,
+            "values_or_answer_saved": false
+          },
+          {
+            "case": "WSS_invalid_token",
+            "close_code": 1008
+          },
+          {
+            "case": "WSS_disallowed_origin",
+            "http": 403
+          }
+        ],
+        "backend_health": {
+          "status": "ok",
+          "transport": "MQTT 3.1.1/TLS",
+          "mqtt_connected": true,
+          "accepted": 1074,
+          "rejected": 0,
+          "dropped": 0
+        },
+        "usage_before": {
+          "requests": 8,
+          "usage": {
+            "prompt_tokens": 5257,
+            "completion_tokens": 401,
+            "total_tokens": 5658
+          },
+          "states": {},
+          "billing_state": "TOKEN_USAGE_RECORDED_COST_NOT_INFERRED",
+          "lifetime_cap": null
+        },
+        "usage_after": {
+          "requests": 9,
+          "usage": {
+            "prompt_tokens": 5687,
+            "completion_tokens": 451,
+            "total_tokens": 6138
+          },
+          "states": {},
+          "billing_state": "TOKEN_USAGE_RECORDED_COST_NOT_INFERRED",
+          "lifetime_cap": null
+        },
+        "model_id": "doubao-seed-2-0-mini-260428",
+        "billing": "OWNER_TRIAL_REPORTED_CHARGE_UNKNOWN",
+        "new_validated_model_calls": 1,
+        "Node_B": "OFFLINE_REQUIRED",
+        "raw_values_or_answer_saved": false
+      },
+      "formal-observer-result.json": {
+        "source": "ACTUAL_FORMAL_8883_HTTPS_WSS_NOT_CLINICAL_ACCURACY",
+        "started_utc": "2026-10-21T09:41:25.148005+00:00",
+        "target_seconds": 420,
+        "mqtt_received": 1196,
+        "mqtt_invalid": 0,
+        "mqtt_qos": {
+          "1": 884,
+          "0": 312
+        },
+        "wss_snapshots": 4153,
+        "matched_valid_streams": {
+          "PPG": 3819,
+          "SPO2": 3755,
+          "PR": 3688,
+          "NIBP": 871
+        },
+        "value_mismatches": 0,
+        "node_b_online_seen": false,
+        "unexpected_node_a_source": 0,
+        "active_ranges": [
+          {
+            "seconds": 188.667
+          },
+          {
+            "seconds": 5.752
+          },
+          {
+            "seconds": 7.791
+          },
+          {
+            "seconds": 5.971
+          },
+          {
+            "seconds": 67.276
+          },
+          {
+            "seconds": 60.176
+          },
+          {
+            "seconds": 35.663
+          }
+        ],
+        "raw_measurements_saved": false,
+        "exit_code": 1,
+        "criterion": "active-ppg",
+        "longest_active_ppg_s": 192.714,
+        "invalid_values_visible": 0,
+        "node_b_not_offline": 0,
+        "validity_observations": {
+          "NIBP:INVALID": 3254,
+          "PPG:VALID": 3885,
+          "PR:VALID": 3733,
+          "SPO2:VALID": 3790,
+          "SPO2:INVALID": 363,
+          "PR:INVALID": 420,
+          "PPG:STALE": 221,
+          "NIBP:VALID": 878,
+          "PPG:INVALID": 47,
+          "NIBP:STALE": 21
+        },
+        "active_ppg_ranges": [
+          {
+            "seconds": 192.714
+          },
+          {
+            "seconds": 13.441
+          },
+          {
+            "seconds": 4.75
+          },
+          {
+            "seconds": 17.911
+          },
+          {
+            "seconds": 67.276
+          },
+          {
+            "seconds": 60.176
+          },
+          {
+            "seconds": 35.663
+          }
+        ],
+        "backend_health_before": {
+          "status": "ok",
+          "transport": "MQTT 3.1.1/TLS",
+          "mqtt_connected": true,
+          "accepted": 1095,
+          "rejected": 0,
+          "dropped": 0
+        },
+        "mqtt_connack": 0,
+        "elapsed_s": 420.041,
+        "longest_active_s": 188.667,
+        "mqtt_stream_counts": {
+          "GATEWAY_STATUS": 85,
+          "NODE_STATUS": 170,
+          "PPG": 313,
+          "SPO2": 210,
+          "PR": 209,
+          "NIBP": 209
+        },
+        "backend_health_after": {
+          "status": "ok",
+          "transport": "MQTT 3.1.1/TLS",
+          "mqtt_connected": true,
+          "accepted": 2289,
+          "rejected": 0,
+          "dropped": 0
+        },
+        "all_three_valid_exit_code": 1,
+        "active_ppg_exit_code": 1,
+        "finished_utc": "2026-10-21T09:48:25.264780+00:00",
+        "adapted_observer_sha256": "e3a43280c132830e631b0614d6d6e986c5c63523ecf0a490408b9dc8268ff266",
+        "C_UART": "NOT_OBSERVED"
+      },
+      "formal-nibp-result.json": {
+        "started_utc": "2026-10-21T09:43:23.296822+00:00",
+        "exit_code": 0,
+        "scope": "ACTUAL_FORMAL_HTTPS_NONHUMAN_NIBP",
+        "age_checks": {
+          "near_89s": {
+            "age_ms": 89071,
+            "validity": "VALID",
+            "value_present": true,
+            "timestamp": 1792575966019
+          },
+          "after_90s": {
+            "age_ms": 90084,
+            "validity": "STALE",
+            "value_present": false,
+            "timestamp": 1792575966019
+          }
+        },
+        "invalid_values_visible": 0,
+        "Node_B_not_offline": 0,
+        "raw_values_saved": false,
+        "AI_valid_match": true,
+        "AI_expired_hidden": true,
+        "timestamp_refreshed_without_new_completion": 0,
+        "elapsed_s": 252.707,
+        "completion": {
+          "session_id": "can-1792574952-65538",
+          "timestamp": 1792575966019,
+          "source": "MOCK",
+          "synthetic": true
+        },
+        "finished_utc": "2026-10-21T09:47:36.137444+00:00"
+      },
+      "formal-final-observer-result.json": {
+        "source": "ACTUAL_FORMAL_8883_HTTPS_WSS_NOT_CLINICAL_ACCURACY",
+        "started_utc": "2026-10-21T09:49:07.215922+00:00",
+        "target_seconds": 420,
+        "mqtt_received": 1136,
+        "mqtt_invalid": 0,
+        "mqtt_qos": {
+          "1": 888,
+          "0": 248
+        },
+        "wss_snapshots": 4155,
+        "matched_valid_streams": {
+          "PPG": 2846,
+          "SPO2": 2776,
+          "PR": 2709
+        },
+        "value_mismatches": 0,
+        "node_b_online_seen": false,
+        "unexpected_node_a_source": 0,
+        "active_ranges": [
+          {
+            "seconds": 56.63
+          },
+          {
+            "seconds": 1.815
+          },
+          {
+            "seconds": 135.778
+          },
+          {
+            "seconds": 82.871
+          }
+        ],
+        "raw_measurements_saved": false,
+        "exit_code": 1,
+        "criterion": "active-ppg",
+        "longest_active_ppg_s": 230.477,
+        "invalid_values_visible": 0,
+        "node_b_not_offline": 0,
+        "validity_observations": {
+          "NIBP:INVALID": 4155,
+          "PPG:VALID": 2916,
+          "PR:VALID": 2749,
+          "SPO2:VALID": 2807,
+          "SPO2:INVALID": 1348,
+          "PR:INVALID": 1406,
+          "PPG:STALE": 1239
+        },
+        "active_ppg_ranges": [
+          {
+            "seconds": 64.095
+          },
+          {
+            "seconds": 230.477
+          }
+        ],
+        "backend_health_before": {
+          "status": "ok",
+          "transport": "MQTT 3.1.1/TLS",
+          "mqtt_connected": true,
+          "accepted": 45,
+          "rejected": 0,
+          "dropped": 0
+        },
+        "mqtt_connack": 0,
+        "elapsed_s": 420.043,
+        "longest_active_s": 135.778,
+        "mqtt_stream_counts": {
+          "GATEWAY_STATUS": 85,
+          "NODE_STATUS": 170,
+          "PPG": 251,
+          "SPO2": 210,
+          "PR": 210,
+          "NIBP": 210
+        },
+        "backend_health_after": {
+          "status": "ok",
+          "transport": "MQTT 3.1.1/TLS",
+          "mqtt_connected": true,
+          "accepted": 1178,
+          "rejected": 0,
+          "dropped": 0
+        },
+        "all_three_valid_exit_code": 1,
+        "active_ppg_exit_code": 1,
+        "finished_utc": "2026-10-21T09:56:07.329429+00:00",
+        "adapted_observer_sha256": "e3a43280c132830e631b0614d6d6e986c5c63523ecf0a490408b9dc8268ff266",
+        "C_UART": "NOT_OBSERVED"
+      },
+      "formal-source-confirmed-result.json": {
+        "source": "ACTUAL_FORMAL_8883_HTTPS_WSS_NOT_CLINICAL_ACCURACY",
+        "started_utc": "2026-10-21T09:52:35.126778+00:00",
+        "target_seconds": 360,
+        "mqtt_received": 1079,
+        "mqtt_invalid": 0,
+        "mqtt_qos": {
+          "1": 762,
+          "0": 317
+        },
+        "wss_snapshots": 3558,
+        "matched_valid_streams": {
+          "PPG": 3478,
+          "SPO2": 3480,
+          "PR": 3433
+        },
+        "value_mismatches": 0,
+        "node_b_online_seen": false,
+        "unexpected_node_a_source": 0,
+        "active_ranges": [
+          {
+            "seconds": 124.626
+          },
+          {
+            "seconds": 203.832
+          },
+          {
+            "seconds": 22.642
+          }
+        ],
+        "raw_measurements_saved": false,
+        "exit_code": 0,
+        "criterion": "active-ppg",
+        "longest_active_ppg_s": 359.701,
+        "invalid_values_visible": 0,
+        "node_b_not_offline": 0,
+        "validity_observations": {
+          "NIBP:INVALID": 3558,
+          "PPG:VALID": 3558,
+          "PR:VALID": 3478,
+          "SPO2:VALID": 3518,
+          "SPO2:INVALID": 40,
+          "PR:INVALID": 80
+        },
+        "active_ppg_ranges": [
+          {
+            "seconds": 359.701
+          }
+        ],
+        "backend_health_before": {
+          "status": "ok",
+          "transport": "MQTT 3.1.1/TLS",
+          "mqtt_connected": true,
+          "accepted": 541,
+          "rejected": 0,
+          "dropped": 0
+        },
+        "mqtt_connack": 0,
+        "elapsed_s": 360.085,
+        "longest_active_s": 203.832,
+        "mqtt_stream_counts": {
+          "GATEWAY_STATUS": 73,
+          "NODE_STATUS": 146,
+          "PPG": 320,
+          "SPO2": 180,
+          "PR": 180,
+          "NIBP": 180
+        },
+        "backend_health_after": {
+          "status": "ok",
+          "transport": "MQTT 3.1.1/TLS",
+          "mqtt_connected": true,
+          "accepted": 1618,
+          "rejected": 0,
+          "dropped": 0
+        },
+        "all_three_valid_exit_code": 1,
+        "active_ppg_exit_code": 0,
+        "finished_utc": "2026-10-21T09:58:35.285619+00:00",
+        "adapted_observer_sha256": "e3a43280c132830e631b0614d6d6e986c5c63523ecf0a490408b9dc8268ff266",
+        "C_UART": "NOT_OBSERVED"
+      }
+    },
+    "units": {
+      "h3-final-formal-observer-20261021": [
+        "MainPID=0",
+        "ExecMainStatus=1",
+        "ActiveState=failed",
+        "UnitFileState=transient"
+      ],
+      "h3-final-formal-nibp": [
+        "MainPID=0",
+        "ExecMainStatus=0",
+        "ActiveState=inactive",
+        "UnitFileState="
+      ],
+      "h3-final-formal-observer-final": [
+        "MainPID=0",
+        "ExecMainStatus=1",
+        "ActiveState=failed",
+        "UnitFileState=transient"
+      ],
+      "h3-final-formal-source-confirmed": [
+        "MainPID=0",
+        "ExecMainStatus=0",
+        "ActiveState=inactive",
+        "UnitFileState="
+      ],
+      "medical-monitor-h3-webbackend.service": [
+        "MainPID=2758089",
+        "ExecMainStatus=0",
+        "ActiveState=active",
+        "UnitFileState=enabled"
+      ],
+      "medical-monitor-h3-webai.service": [
+        "MainPID=2758088",
+        "ExecMainStatus=0",
+        "ActiveState=active",
+        "UnitFileState=enabled"
+      ]
+    },
+    "raw_files": {
+      "formal-activate-result.json": "64a97933d5e0ef244ee0881dbd839f4631779392c6409cc8245d2c13b7be4ad3",
+      "formal-https-ai-result.json": "fc6ff32b68620874577f1cedc52c9a0694f97730ee7102879d2a3ae754d8d0cd",
+      "formal-rollback-result.json": "ae9db2373e7ebff7168d1244ba2bb103b5b035693c49bb6e105ad67a5406d5c7",
+      "formal-rollback-https-result.json": "ef44f38ff73e782226a60314b425f8b0058c311864480ded893dfc159e84c6c7",
+      "formal-reactivate-result.json": "64a97933d5e0ef244ee0881dbd839f4631779392c6409cc8245d2c13b7be4ad3",
+      "formal-final-https-result.json": "9c13681b79c0beeb299e70b41034b0ff0d1bc74ea4cec1696249b71094c2d25b",
+      "formal-final-real-model-result.json": "d37c3ba900d460b2cc6ec3af3b856d155b083a23d470b234eca2d2db26358c14",
+      "formal-observer-result.json": "c57b8b1044a2e02b13ca5096b8d5dc388a2bc68e0c7cf28d9a8d11493aba9057",
+      "formal-nibp-result.json": "f92f98d78a2a78e6a3d47a8603298cbfb4d15c6664e57789f0f18248ac9989cc",
+      "formal-final-observer-result.json": "0bd07a5d1bc515a4f44be0efb30ded2369fa300d2999fc97c78d05d131ef2108",
+      "formal-source-confirmed-result.json": "a274ff03a5537aa9a22c5001b18e96f5ec3b3d978bbaa27705a6f5d3ce8f3c93",
+      "e2e-20261021T095235Z/result.json": "95f628649ef031068c221b5f339a813e041fafdce1c33e167fda6cadc3307e53",
+      "e2e-20261021T095235Z/wss-metadata.jsonl": "f9da9c45fcacca2ac8b17a8af6f26e370c1a4bd8fbc43e3502b77b908f825472",
+      "e2e-20261021T095235Z/status.json": "95f628649ef031068c221b5f339a813e041fafdce1c33e167fda6cadc3307e53",
+      "e2e-20261021T095235Z/mqtt-metadata.jsonl": "3135bb47b0e172d693f55c224c451c8c88d9d157035d1aecda0a532101bf8d4c",
+      "e2e-20261021T094125Z/result.json": "32b916e418bcfbfdbe50f3c598302eede8065fb572f9f42f64dafc659181aa6b",
+      "e2e-20261021T094125Z/wss-metadata.jsonl": "18832b219bf427a183429528ad3386a22389641980e503fd18478ed2e80b16fc",
+      "e2e-20261021T094125Z/status.json": "32b916e418bcfbfdbe50f3c598302eede8065fb572f9f42f64dafc659181aa6b",
+      "e2e-20261021T094125Z/mqtt-metadata.jsonl": "056354f469d88f2fc67800d60bdfface514a6c75c21e9295b87345414cf9e62a",
+      "e2e-20261021T094907Z/result.json": "f327d6251671935c312c755213062ad49bc498e0172165be12627c39afeeb166",
+      "e2e-20261021T094907Z/wss-metadata.jsonl": "a89e9d5b3e9d0ff7009fd8c6db21e55cf4fcd00f8157292bbb586264efed5177",
+      "e2e-20261021T094907Z/status.json": "f327d6251671935c312c755213062ad49bc498e0172165be12627c39afeeb166",
+      "e2e-20261021T094907Z/mqtt-metadata.jsonl": "86737ab4c78eca2345a6230326b8ab6d33c2c8e633b53cafd23eb7fc916d351d"
+    },
+    "backend_health": {
+      "status": "ok",
+      "transport": "MQTT 3.1.1/TLS",
+      "mqtt_connected": true,
+      "accepted": 1738,
+      "rejected": 0,
+      "dropped": 0
+    },
+    "ai_health": {
+      "status": "ok",
+      "model_mode": "DOUBAO",
+      "snapshot_mode": "MONITOR",
+      "real_model": "REAL_MODEL_VERIFIED",
+      "voice_mode": "DISABLED",
+      "model_id": "doubao-seed-2-0-mini-260428",
+      "budget_used": 9,
+      "usage": {
+        "requests": 9,
+        "usage": {
+          "prompt_tokens": 5687,
+          "completion_tokens": 451,
+          "total_tokens": 6138
+        },
+        "states": {},
+        "billing_state": "TOKEN_USAGE_RECORDED_COST_NOT_INFERRED",
+        "lifetime_cap": null
+      }
+    }
+  },
+  "null_reasons": {}
+}

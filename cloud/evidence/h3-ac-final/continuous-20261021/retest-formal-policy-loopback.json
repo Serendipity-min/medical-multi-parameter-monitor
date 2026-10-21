@@ -1,0 +1,75 @@
+{
+  "stage": "F2_F3_CONTINUOUS",
+  "source_commit": "9f37cecdba60e0ab0915fdd470aa210ee63274f6",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_DEVICES_AND_SERVER_WITH_NONHUMAN_SIGNAL_SOURCE",
+  "security_scope": "ISOLATED_SERVICES_ONLY_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_OWNER_CONTINUOUS_AUTHORIZATION_AMENDMENT",
+  "rollback_state": "FORMAL_NOT_CHANGED_ACTUAL_ROLLBACK_NOT_RUN",
+  "unresolved": [
+    "F2_ACTIVE_300S_AND_RECOVERY_GATES",
+    "F3_RESIDUAL_RISK_DISPOSITION",
+    "F4_F5_NOT_RUN"
+  ],
+  "gate": "ACTUAL_RESULT_SEE_PROCESS_AND_CHECKS",
+  "window_start_utc": "2026-10-21T08:33:17.166562+00:00",
+  "window_end_utc": "2026-10-21T08:33:18.638365+00:00",
+  "command": "private reviewed SSH script: retest-formal-policy-loopback",
+  "exit_code": 0,
+  "raw_evidence_sha": "1ad662b3f3d6bde4df551f239fe1d9ccb02afd8891fe8efc6a47fe02d5a229cf",
+  "script_sha256": "129dfc22bb8fbc843b2b96f7193a3bdf9d49125e6aa525e54ff81acbed1af9a0",
+  "result": {
+    "exit_code": 0,
+    "state": "CANDIDATE_POLICY_LOOPBACK_TLS_PASS",
+    "cases": [
+      {
+        "role": "publisher",
+        "case": "status_subscription_ack_observation",
+        "SUBACK_reason": 1,
+        "read_permission_determined_by_delivery_test": true
+      },
+      {
+        "role": "subscriber",
+        "case": "status_subscription_ack_observation",
+        "SUBACK_reason": 1,
+        "read_permission_determined_by_delivery_test": true
+      },
+      {
+        "role": "publisher",
+        "case": "gateway_status_allowed",
+        "MQTT5_PUBACK_reason": 0,
+        "expected_permission": "ALLOW"
+      },
+      {
+        "case": "actual_delivery_boundary",
+        "subscriber_received": true,
+        "publisher_received": false
+      },
+      {
+        "role": "subscriber",
+        "case": "subscriber_publish_denied",
+        "MQTT5_PUBACK_reason": 135,
+        "expected_permission": "DENY"
+      },
+      {
+        "role": "publisher",
+        "case": "control_denied",
+        "MQTT5_PUBACK_reason": 135,
+        "expected_permission": "DENY"
+      },
+      {
+        "role": "publisher",
+        "case": "Node_B_telemetry_denied",
+        "MQTT5_PUBACK_reason": 135,
+        "expected_permission": "DENY"
+      }
+    ],
+    "TLS_SNI_and_certificate_verified": true,
+    "production_8883_modified": false,
+    "test_port": 18884,
+    "test_broker_stop_exit_code": 0,
+    "no_measurement_payloads": true
+  },
+  "null_reasons": {}
+}

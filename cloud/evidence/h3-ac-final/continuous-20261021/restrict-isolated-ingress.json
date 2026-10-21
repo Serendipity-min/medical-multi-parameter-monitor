@@ -1,0 +1,34 @@
+{
+  "stage": "F2_F3_CONTINUOUS",
+  "source_commit": "9f37cecdba60e0ab0915fdd470aa210ee63274f6",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_DEVICES_AND_SERVER_WITH_NONHUMAN_SIGNAL_SOURCE",
+  "security_scope": "ISOLATED_SERVICES_ONLY_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_OWNER_CONTINUOUS_AUTHORIZATION_AMENDMENT",
+  "rollback_state": "FORMAL_NOT_CHANGED_ACTUAL_ROLLBACK_NOT_RUN",
+  "unresolved": [
+    "F2_ACTIVE_300S_AND_RECOVERY_GATES",
+    "F3_RESIDUAL_RISK_DISPOSITION",
+    "F4_F5_NOT_RUN"
+  ],
+  "gate": "ACTUAL_RESULT_SEE_PROCESS_AND_CHECKS",
+  "window_start_utc": "2026-10-21T08:37:14.381404+00:00",
+  "window_end_utc": "2026-10-21T08:37:15.181494+00:00",
+  "command": "private reviewed SSH script: restrict-isolated-ingress",
+  "exit_code": 0,
+  "raw_evidence_sha": "0867959814847897e798b7d85a956505434814ac2704103417a731610632fbcf",
+  "script_sha256": "86386231e2591a33d173180c6256743219f6ed4ab11e7751826a8f256ede4341",
+  "result": {
+    "exit_code": 0,
+    "state": "EXPLICIT_8884_SINGLE_EXIT_ALLOW_OTHER_SOURCES_DROP",
+    "chain": "H3FINAL8884",
+    "rule_count": 2,
+    "source_scope": "CURRENT_FIELD_IPV4_32",
+    "cloud_SG": "OWNER_REPORTED_ALL_IPV4_UNCHANGED",
+    "production_8883_443_changed": false,
+    "automatic_cleanup_minutes": 25,
+    "cleanup_script_sha256": "3006c70afec18ae5f07ac4dce76bc8a43df90072c9fcf7af15bd02486eb787a9"
+  },
+  "null_reasons": {}
+}

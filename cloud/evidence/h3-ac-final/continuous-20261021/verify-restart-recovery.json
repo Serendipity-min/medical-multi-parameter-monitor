@@ -1,0 +1,70 @@
+{
+  "stage": "F2_F5_CONTINUOUS",
+  "source_commit": "6edd48c9e83a4609660786ebc240ef4b0ce4e025",
+  "runtime_source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_A_C_AND_SERVER_NONHUMAN_SIGNAL_NOT_CLINICAL_ACCURACY",
+  "security_scope": "OWNER_APPROVED_CONTRACT_SCOPE_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_CONTINUOUS_AUTH_AMENDMENT_AND_RESIDUAL_RISK_ACCEPTANCE",
+  "rollback_state": "SEE_TIMESTAMPED_INDIVIDUAL_RESULTS",
+  "unresolved": [
+    "SG_8884_ALL_IPV4_OWNER_ACCEPTED_NO_LISTENER",
+    "HISTORICAL_FILTER_DIFF_UNATTRIBUTED_OWNER_ACCEPTED",
+    "C_UART_NOT_OBSERVED_DURING_STANDALONE_FORMAL",
+    "SIMULATOR_MODEL_AND_CALIBRATION_UNVERIFIED"
+  ],
+  "gate": "ACTUAL_RESULT_INCLUDING_FAILURES",
+  "window_start_utc": "2026-10-21T09:07:34.256775+00:00",
+  "window_end_utc": "2026-10-21T09:07:55.220345+00:00",
+  "command": "private reviewed SSH script: verify-restart-recovery",
+  "exit_code": 0,
+  "raw_evidence_sha": "e36383ffa17fef4f00cbd18f605e4aa36cf114161da008ab3aee436f1af4b0a0",
+  "script_sha256": "0c88bd6e25762cb522f3c2630988f92f892a2a0d70eee8bff635726844c804c0",
+  "result": {
+    "started_utc": "2026-10-21T09:07:34.528615+00:00",
+    "prior_observer_status_sha256": "f10135e765b0d5475b42ce3a834cfc3ff3665623f4af793a2dec2d8a2ad036f0",
+    "prior_actual_offline_and_valid_completion": {
+      "started_utc": "2026-10-21T09:02:59.001663+00:00",
+      "phase": "WAIT_A_ON",
+      "exit_code": 1,
+      "node_b_not_offline": 0,
+      "invalid_values_visible": 0,
+      "old_valid_result_revived": 0,
+      "gateway_unavailable_after_baseline": 0,
+      "old_completion": {
+        "session_id": "can-1792571269-65537",
+        "timestamp": 1792573447975,
+        "source": "MOCK",
+        "synthetic": true
+      },
+      "new_session": null,
+      "node_A_offline_seen": true,
+      "raw_values_saved": false,
+      "elapsed_s": 275.452
+    },
+    "predicate_correction": "STALE_HIDDEN_PPG_MAY_RETAIN_OLD_METADATA; REQUIRE_NEW_CURRENT_NIBP_SESSION_AND_NO_OLD_VALID_VALUES",
+    "old_valid_values": 0,
+    "invalid_values_visible": 0,
+    "gateway_unavailable": 0,
+    "node_b_not_offline": 0,
+    "snapshots": 200,
+    "exit_code": 0,
+    "current_NIBP": {
+      "session_id": "can-1792571269-65539",
+      "timestamp": 1792573667000,
+      "validity": "INVALID",
+      "source": "MOCK",
+      "synthetic": true
+    },
+    "NIBP_value_hidden": true,
+    "finished_utc": "2026-10-21T09:07:54.557991+00:00",
+    "elapsed_s": 20.029,
+    "prior_observer_process_status": [
+      "ExecMainCode=0",
+      "ExecMainStatus=0",
+      "ActiveState=inactive"
+    ]
+  },
+  "null_reasons": {}
+}

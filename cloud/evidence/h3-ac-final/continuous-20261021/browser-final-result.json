@@ -1,0 +1,134 @@
+{
+  "exit_code": 0,
+  "started_utc": "2026-10-21T09:51:41.996944+00:00",
+  "ended_utc": "2026-10-21T09:52:00.587266+00:00",
+  "source_commit": "9f37cecdba60e0ab0915fdd470aa210ee63274f6",
+  "runtime_payload_sha256": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "ACTUAL_FORMAL_HTTPS_NONHUMAN_MOCK",
+  "formal_HTTPS": true,
+  "screenshots": [
+    {
+      "mode": "desktop",
+      "route": "overview",
+      "image": "cloud/evidence/h3-ac-final/formal-https-final/desktop-overview.png",
+      "image_sha256": "d99347b7812dbb7fa7f9f99ca56fdfd9b49e56c793423e38c1280612bd2dfdc4",
+      "UI_observation": "\"{\\\"hash\\\":\\\"#/overview\\\",\\\"nav\\\":7,\\\"width\\\":1440,\\\"scrollWidth\\\":1440,\\\"nodeB\\\":\\\"Node-B · OFFLINE\\\",\\\"connected\\\":\\\"监护通道已连接\\\",\\\"aiMode\\\":null}\""
+    },
+    {
+      "mode": "desktop",
+      "route": "temp",
+      "image": "cloud/evidence/h3-ac-final/formal-https-final/desktop-temp.png",
+      "image_sha256": "b587522ed4d575e0b83e3814d8f1c76374b66908baeec580f11777127e53cc5c",
+      "UI_observation": "\"{\\\"hash\\\":\\\"#/temp\\\",\\\"nav\\\":7,\\\"width\\\":1440,\\\"scrollWidth\\\":1440,\\\"nodeB\\\":\\\"Node-B · OFFLINE\\\",\\\"connected\\\":\\\"监护通道已连接\\\",\\\"aiMode\\\":null}\""
+    },
+    {
+      "mode": "desktop",
+      "route": "ecg",
+      "image": "cloud/evidence/h3-ac-final/formal-https-final/desktop-ecg.png",
+      "image_sha256": "f3016977e4f7da92064d583c242a9b390c8633564ff2871d01eeaa904acd151a",
+      "UI_observation": "\"{\\\"hash\\\":\\\"#/ecg\\\",\\\"nav\\\":7,\\\"width\\\":1440,\\\"scrollWidth\\\":1440,\\\"nodeB\\\":\\\"Node-B · OFFLINE\\\",\\\"connected\\\":\\\"监护通道已连接\\\",\\\"aiMode\\\":null}\""
+    },
+    {
+      "mode": "desktop",
+      "route": "spo2",
+      "image": "cloud/evidence/h3-ac-final/formal-https-final/desktop-spo2.png",
+      "image_sha256": "47d71b3d4cb2a7eb1a0cbac0244c3b4a2da9de92d8675ffca1ec3f3d6f61c029",
+      "UI_observation": "\"{\\\"hash\\\":\\\"#/spo2\\\",\\\"nav\\\":7,\\\"width\\\":1440,\\\"scrollWidth\\\":1440,\\\"nodeB\\\":\\\"Node-B · OFFLINE\\\",\\\"connected\\\":\\\"监护通道已连接\\\",\\\"aiMode\\\":null}\""
+    },
+    {
+      "mode": "desktop",
+      "route": "resp",
+      "image": "cloud/evidence/h3-ac-final/formal-https-final/desktop-resp.png",
+      "image_sha256": "ae313b1addd5f693f47fb8b37d5521a13c8f68b890059b42dac7243cc3c87b69",
+      "UI_observation": "\"{\\\"hash\\\":\\\"#/resp\\\",\\\"nav\\\":7,\\\"width\\\":1440,\\\"scrollWidth\\\":1440,\\\"nodeB\\\":\\\"Node-B · OFFLINE\\\",\\\"connected\\\":\\\"监护通道已连接\\\",\\\"aiMode\\\":null}\""
+    },
+    {
+      "mode": "desktop",
+      "route": "nibp",
+      "image": "cloud/evidence/h3-ac-final/formal-https-final/desktop-nibp.png",
+      "image_sha256": "e1e967a50ce39be5184afee9d1fb6e8ef8aab73b021a42456c931a43debbc9f2",
+      "UI_observation": "\"{\\\"hash\\\":\\\"#/nibp\\\",\\\"nav\\\":7,\\\"width\\\":1440,\\\"scrollWidth\\\":1440,\\\"nodeB\\\":\\\"Node-B · OFFLINE\\\",\\\"connected\\\":\\\"监护通道已连接\\\",\\\"aiMode\\\":null}\""
+    },
+    {
+      "mode": "desktop",
+      "route": "ai",
+      "image": "cloud/evidence/h3-ac-final/formal-https-final/desktop-ai.png",
+      "image_sha256": "cc5dad92d712dc4b26afc0b8df26d3dac02477cacfe218a5e42c3ed605d20274",
+      "UI_observation": "\"{\\\"hash\\\":\\\"#/ai\\\",\\\"nav\\\":7,\\\"width\\\":1440,\\\"scrollWidth\\\":1440,\\\"nodeB\\\":\\\"Node-B · OFFLINE\\\",\\\"connected\\\":\\\"监护通道已连接\\\",\\\"aiMode\\\":\\\"监护事实核对 · 本轮未调用模型\\\"}\""
+    },
+    {
+      "mode": "mobile",
+      "route": "overview",
+      "image": "cloud/evidence/h3-ac-final/formal-https-final/mobile-overview.png",
+      "image_sha256": "a16b99312ecca469eb4c7af10475f4cccfee56ee2284c972a19013c69d98c940",
+      "UI_observation": "\"{\\\"hash\\\":\\\"#/overview\\\",\\\"nav\\\":7,\\\"width\\\":390,\\\"scrollWidth\\\":390,\\\"nodeB\\\":\\\"Node-B · OFFLINE\\\",\\\"connected\\\":\\\"监护通道已连接\\\",\\\"aiMode\\\":null}\""
+    },
+    {
+      "mode": "mobile",
+      "route": "temp",
+      "image": "cloud/evidence/h3-ac-final/formal-https-final/mobile-temp.png",
+      "image_sha256": "c9b639b47e7d328cbd79d680735644ad533d59d984d9e2e8f54f7ef8ef23b4f9",
+      "UI_observation": "\"{\\\"hash\\\":\\\"#/temp\\\",\\\"nav\\\":7,\\\"width\\\":390,\\\"scrollWidth\\\":390,\\\"nodeB\\\":\\\"Node-B · OFFLINE\\\",\\\"connected\\\":\\\"监护通道已连接\\\",\\\"aiMode\\\":null}\""
+    },
+    {
+      "mode": "mobile",
+      "route": "ecg",
+      "image": "cloud/evidence/h3-ac-final/formal-https-final/mobile-ecg.png",
+      "image_sha256": "f774e0d590ce6c5228421f5a22cbcb8337f97988a7d7cc91c5e72131d860f2cd",
+      "UI_observation": "\"{\\\"hash\\\":\\\"#/ecg\\\",\\\"nav\\\":7,\\\"width\\\":390,\\\"scrollWidth\\\":390,\\\"nodeB\\\":\\\"Node-B · OFFLINE\\\",\\\"connected\\\":\\\"监护通道已连接\\\",\\\"aiMode\\\":null}\""
+    },
+    {
+      "mode": "mobile",
+      "route": "spo2",
+      "image": "cloud/evidence/h3-ac-final/formal-https-final/mobile-spo2.png",
+      "image_sha256": "85e1bf7f4cb02ac73f9bb6050e05d0a524742ab268d7549767622fcae7944dc8",
+      "UI_observation": "\"{\\\"hash\\\":\\\"#/spo2\\\",\\\"nav\\\":7,\\\"width\\\":390,\\\"scrollWidth\\\":390,\\\"nodeB\\\":\\\"Node-B · OFFLINE\\\",\\\"connected\\\":\\\"监护通道已连接\\\",\\\"aiMode\\\":null}\""
+    },
+    {
+      "mode": "mobile",
+      "route": "resp",
+      "image": "cloud/evidence/h3-ac-final/formal-https-final/mobile-resp.png",
+      "image_sha256": "be53f0587ff782da12337433b069fe4b33f98d35f901454ba705e903a62cb1ff",
+      "UI_observation": "\"{\\\"hash\\\":\\\"#/resp\\\",\\\"nav\\\":7,\\\"width\\\":390,\\\"scrollWidth\\\":390,\\\"nodeB\\\":\\\"Node-B · OFFLINE\\\",\\\"connected\\\":\\\"监护通道已连接\\\",\\\"aiMode\\\":null}\""
+    },
+    {
+      "mode": "mobile",
+      "route": "nibp",
+      "image": "cloud/evidence/h3-ac-final/formal-https-final/mobile-nibp.png",
+      "image_sha256": "33ef3ee507882c88ef6891202c7508d534389095ba730cef37a89953250d9d58",
+      "UI_observation": "\"{\\\"hash\\\":\\\"#/nibp\\\",\\\"nav\\\":7,\\\"width\\\":390,\\\"scrollWidth\\\":390,\\\"nodeB\\\":\\\"Node-B · OFFLINE\\\",\\\"connected\\\":\\\"监护通道已连接\\\",\\\"aiMode\\\":null}\""
+    },
+    {
+      "mode": "mobile",
+      "route": "ai",
+      "image": "cloud/evidence/h3-ac-final/formal-https-final/mobile-ai.png",
+      "image_sha256": "35184347de8ba603bd776ee88a79b987703e7708b3e142889e840b6a46c95bc1",
+      "UI_observation": "\"{\\\"hash\\\":\\\"#/ai\\\",\\\"nav\\\":7,\\\"width\\\":390,\\\"scrollWidth\\\":390,\\\"nodeB\\\":\\\"Node-B · OFFLINE\\\",\\\"connected\\\":\\\"监护通道已连接\\\",\\\"aiMode\\\":\\\"监护事实核对 · 本轮未调用模型\\\"}\""
+    }
+  ],
+  "new_model_calls": 0,
+  "token_saved": false,
+  "stage": null,
+  "gate": "COMPONENT_RESULT_SEE_CANONICAL_REPORT_AND_EXECUTION_INDEX",
+  "device_or_runtime_sha": null,
+  "window_start_utc": "2026-10-21T09:51:41.996944+00:00",
+  "window_end_utc": "2026-10-21T09:52:00.587266+00:00",
+  "command": null,
+  "observed_vs_simulated": null,
+  "raw_evidence_sha": null,
+  "security_scope": null,
+  "owner_auth_id": null,
+  "rollback_state": null,
+  "unresolved": null,
+  "null_reasons": {
+    "stage": "NOT_CAPTURED_IN_THIS_HISTORICAL_OR_COMPONENT_RECEIPT; SEE_TIMESTAMPED_EXECUTION_INDEX_AND_CANONICAL_REPORT",
+    "device_or_runtime_sha": "NOT_CAPTURED_IN_THIS_HISTORICAL_OR_COMPONENT_RECEIPT; SEE_TIMESTAMPED_EXECUTION_INDEX_AND_CANONICAL_REPORT",
+    "command": "NOT_CAPTURED_IN_THIS_HISTORICAL_OR_COMPONENT_RECEIPT; SEE_TIMESTAMPED_EXECUTION_INDEX_AND_CANONICAL_REPORT",
+    "observed_vs_simulated": "NOT_CAPTURED_IN_THIS_HISTORICAL_OR_COMPONENT_RECEIPT; SEE_TIMESTAMPED_EXECUTION_INDEX_AND_CANONICAL_REPORT",
+    "raw_evidence_sha": "NOT_CAPTURED_IN_THIS_HISTORICAL_OR_COMPONENT_RECEIPT; SEE_TIMESTAMPED_EXECUTION_INDEX_AND_CANONICAL_REPORT",
+    "security_scope": "NOT_CAPTURED_IN_THIS_HISTORICAL_OR_COMPONENT_RECEIPT; SEE_TIMESTAMPED_EXECUTION_INDEX_AND_CANONICAL_REPORT",
+    "owner_auth_id": "NOT_CAPTURED_IN_THIS_HISTORICAL_OR_COMPONENT_RECEIPT; SEE_TIMESTAMPED_EXECUTION_INDEX_AND_CANONICAL_REPORT",
+    "rollback_state": "NOT_CAPTURED_IN_THIS_HISTORICAL_OR_COMPONENT_RECEIPT; SEE_TIMESTAMPED_EXECUTION_INDEX_AND_CANONICAL_REPORT",
+    "unresolved": "NOT_CAPTURED_IN_THIS_HISTORICAL_OR_COMPONENT_RECEIPT; SEE_TIMESTAMPED_EXECUTION_INDEX_AND_CANONICAL_REPORT"
+  }
+}

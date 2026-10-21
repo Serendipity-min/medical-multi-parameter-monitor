@@ -1,0 +1,32 @@
+{
+  "stage": "F2_F3_CONTINUOUS",
+  "source_commit": "9f37cecdba60e0ab0915fdd470aa210ee63274f6",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_DEVICES_AND_SERVER_WITH_NONHUMAN_SIGNAL_SOURCE",
+  "security_scope": "ISOLATED_SERVICES_ONLY_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_OWNER_CONTINUOUS_AUTHORIZATION_AMENDMENT",
+  "rollback_state": "FORMAL_NOT_CHANGED_ACTUAL_ROLLBACK_NOT_RUN",
+  "unresolved": [
+    "F2_ACTIVE_300S_AND_RECOVERY_GATES",
+    "F3_RESIDUAL_RISK_DISPOSITION",
+    "F4_F5_NOT_RUN"
+  ],
+  "gate": "ACTUAL_RESULT_SEE_PROCESS_AND_CHECKS",
+  "window_start_utc": "2026-10-21T08:38:48.308170+00:00",
+  "window_end_utc": "2026-10-21T08:38:51.266159+00:00",
+  "command": "private reviewed SSH script: recover-ingress-guard",
+  "exit_code": 0,
+  "raw_evidence_sha": "3934ee5caafbf23b27ad4f95d9f02af1b88d1f491dc7ad1cbb120321959bf384",
+  "script_sha256": "af4bc05fd226a096e7ec99cc92b4c9d3b4d6c25b51739fb8c49dc48a1f39b7b0",
+  "result": {
+    "exit_code": 0,
+    "guard_removed": true,
+    "cloud_SG_changed": false,
+    "production_changed": false,
+    "external_8884_peer_count": 1,
+    "actual_peer_reference_saved": true,
+    "prior_failed_network_window_retained": true
+  },
+  "null_reasons": {}
+}

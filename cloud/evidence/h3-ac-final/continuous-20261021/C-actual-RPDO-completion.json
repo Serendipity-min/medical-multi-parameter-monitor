@@ -1,0 +1,82 @@
+{
+  "stage": "F2_F5_CONTINUOUS",
+  "source_commit": "6edd48c9e83a4609660786ebc240ef4b0ce4e025",
+  "runtime_source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "OWNER_ATTESTED_NONHUMAN_MOCK_MODEL_UNIDENTIFIED",
+  "observed_vs_simulated": "ACTUAL_A_C_AND_SERVER_NONHUMAN_SIGNAL_NOT_CLINICAL_ACCURACY",
+  "security_scope": "OWNER_APPROVED_CONTRACT_SCOPE_NO_SECURITY_GATE_NO_PROTECTED_REFS",
+  "owner_auth_id": "MPM-H3-004_CONTINUOUS_AUTH_AMENDMENT_AND_RESIDUAL_RISK_ACCEPTANCE",
+  "rollback_state": "SEE_TIMESTAMPED_INDIVIDUAL_RESULTS",
+  "unresolved": [
+    "SG_8884_ALL_IPV4_OWNER_ACCEPTED_NO_LISTENER",
+    "HISTORICAL_FILTER_DIFF_UNATTRIBUTED_OWNER_ACCEPTED",
+    "C_UART_NOT_OBSERVED_DURING_STANDALONE_FORMAL",
+    "SIMULATOR_MODEL_AND_CALIBRATION_UNVERIFIED"
+  ],
+  "gate": "ACTUAL_RECEIVE_BUFFER_NOT_BUS_ANALYZER",
+  "raw_evidence_sha": "252401a30efff1dc39ad3eea1e1375e349f827a33589c1c7635933524e443cb5",
+  "result": {
+    "exit_code": 0,
+    "started_utc": "2026-10-21T09:12:58.723131+00:00",
+    "ended_utc": "2026-10-21T09:13:03.076023+00:00",
+    "C_image_sha256": "59229f1b34660f053538737fc0fd17c814fde5502a0dfe33603e8e08b72ca8a5",
+    "device_identity_match": true,
+    "cpu_halt_reset_register_or_flash_write": false,
+    "JLink_connections": 5,
+    "VTOR": 134217728,
+    "frames": [
+      {
+        "id": "0x181",
+        "mapped_length": 8,
+        "enabled": true,
+        "receive_error": 0,
+        "cached_payload_sha256": "8770fd113f1092fa978ac59ca29fe012ee1b153a5c39310be447afa4678eab1f"
+      },
+      {
+        "id": "0x281",
+        "mapped_length": 8,
+        "enabled": true,
+        "receive_error": 0,
+        "cached_payload_sha256": "7786117338c96f02679a81aa1882f7585858417ac287764c37cf6e7a9d4852bc"
+      },
+      {
+        "id": "0x381",
+        "mapped_length": 8,
+        "enabled": true,
+        "receive_error": 0,
+        "cached_payload_sha256": "79011297be423d71e3a6a0587bec4961cc8ffea76f29c5e6430ac6d5995f9c7a"
+      },
+      {
+        "id": "0x481",
+        "mapped_length": 8,
+        "enabled": true,
+        "receive_error": 0,
+        "cached_payload_sha256": "3fd0a1554dc5274cf7ceb3defbc5e31607dc7c407740f0b3450a3ed34aa56007"
+      },
+      {
+        "id": "0x681",
+        "mapped_length": 8,
+        "enabled": true,
+        "receive_error": 0,
+        "cached_payload_sha256": "c7aa34b136898f378188058dde79b334e011a9910fb6a15c2ad0c90b795f7ad5"
+      }
+    ],
+    "NIBP_completion_tick": 442196,
+    "NIBP_completion_utc_ms_from_281_and_481": 1792573969544,
+    "NIBP_mirror_matches_381": true,
+    "quality_bit9_extension": true,
+    "quality_bit3_NIBP_valid": true,
+    "Node_A_boot_generation": 1,
+    "data_kind": "ACTUAL_CANOPEN_RECEIVE_BUFFER_SNAPSHOT_NOT_EXTERNAL_BUS_ANALYZER",
+    "raw_values_exported": false
+  },
+  "window_start_utc": "2026-10-21T09:12:58.723131+00:00",
+  "window_end_utc": "2026-10-21T09:13:03.076023+00:00",
+  "command": null,
+  "exit_code": null,
+  "null_reasons": {
+    "command": "NOT_CAPTURED_IN_THIS_HISTORICAL_OR_COMPONENT_RECEIPT; SEE_TIMESTAMPED_EXECUTION_INDEX_AND_CANONICAL_REPORT",
+    "exit_code": "NOT_CAPTURED_IN_THIS_HISTORICAL_OR_COMPONENT_RECEIPT; SEE_TIMESTAMPED_EXECUTION_INDEX_AND_CANONICAL_REPORT"
+  }
+}
