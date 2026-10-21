@@ -1,0 +1,108 @@
+{
+  "schema": 1,
+  "classification": "NON-HUMAN MOCK ONLY / NOT CLINICALLY CALIBRATED",
+  "H3_accepted_baseline": "1878994f57a4c07263b4898d223ba810aa88210a",
+  "repository_visibility_required": "PRIVATE",
+  "tag_name": "h3-ac-mock-eng-20261021-r1",
+  "archive_commit": "READ_CONTAINING_COMMIT_AND_REMOTE_VERIFICATION_RECEIPT; NOT_A_NEW_DEVICE_BUILD",
+  "files": [
+    {
+      "path": "node-a-h3ac-final.bin",
+      "target_role": "NODE-A",
+      "MCU": "STM32F407ZGT6",
+      "bytes": 50084,
+      "sha256": "f59b76ef865c373c6df62aa09aea958597687f6d46b17c402ceb7126ca8f60d6",
+      "start_address": "0x08000000",
+      "end_exclusive": "0x800c3a4",
+      "erase_sectors_on_this_device_only": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "application_only": true,
+      "compiler": "Keil ARMCC 5.06 update 7 build 960 + FromELF",
+      "ABI": {
+        "architecture": "ARM Cortex-M4 Thumb ELF32/EABI5 little-endian",
+        "initial_SP": "0x20004318",
+        "reset_vector": "0x80001a1",
+        "C_float_ABI": "NOT_ASSERTED_FROM_ELF_FLAGS"
+      },
+      "source_ref": "NODE_A_ACCEPTED_PRIVATE_APPLICATION_READBACK",
+      "source_baseline": "1878994f57a4c07263b4898d223ba810aa88210a",
+      "git_ignore_or_private": "APPROVED_APPLICATION_BINARY_IN_PRIVATE_GIT_EXACT_PATH_FORCE_ADD_ONLY",
+      "new_compilation_or_flash": false,
+      "accepted_deployment": "PRIOR_H3_004_ACTUAL_READBACK_NORMAL_COLD_BOOT_AND_ENGINEERING_ACCEPTANCE"
+    },
+    {
+      "path": "gateway-c-h3ac-8883-mock-final.bin",
+      "target_role": "GATEWAY-C",
+      "MCU": "STM32F407ZGT6",
+      "bytes": 43172,
+      "sha256": "b9b25b186c3b40d62b4a1c1919e09f27b639806271a3b20ae7fc80ea4cda1efe",
+      "start_address": "0x08000000",
+      "end_exclusive": "0x800a8a4",
+      "erase_sectors_on_this_device_only": [
+        0,
+        1,
+        2
+      ],
+      "application_only": true,
+      "compiler": "Arm GNU Toolchain arm-none-eabi 14.2 rel1",
+      "ABI": {
+        "architecture": "ARM Cortex-M4 Thumb ELF32/EABI5 little-endian",
+        "initial_SP": "0x20020000",
+        "reset_vector": "0x80080c9",
+        "C_float_ABI": "hard-float"
+      },
+      "source_ref": "GATEWAY_C_FORMAL_COUNTER_WINDOW_APPLICATION_READBACK",
+      "source_baseline": "1878994f57a4c07263b4898d223ba810aa88210a",
+      "git_ignore_or_private": "APPROVED_APPLICATION_BINARY_IN_PRIVATE_GIT_EXACT_PATH_FORCE_ADD_ONLY",
+      "new_compilation_or_flash": false,
+      "accepted_deployment": "PRIOR_H3_004_ACTUAL_READBACK_NORMAL_COLD_BOOT_AND_ENGINEERING_ACCEPTANCE"
+    }
+  ],
+  "Gateway_C": {
+    "compiled_MQTT_port": 8883,
+    "source": "MOCK",
+    "synthetic": true,
+    "config_generation": 3,
+    "sector3_config_included": false,
+    "credentials_included": false,
+    "sector7_11_options_included": false
+  },
+  "paired_protocol": {
+    "Node_A_ID": 1,
+    "Node_B_ID_reserved": 2,
+    "Node_B": "OFFLINE",
+    "CAN_bitrate": 500000,
+    "NIBP_completion_CAN_ID": "0x281",
+    "NIBP_SYS_DIA_mirror_CAN_ID": "0x381",
+    "quality_extension_CAN_ID": "0x681",
+    "quality_extension_bit": 9,
+    "NIBP_valid_bit": 3,
+    "TIME_anchor_CAN_ID": "0x481",
+    "NIBP_expire_after_ms": 90000,
+    "old_boot_session_values_must_not_revive": true
+  },
+  "accepted_observation": {
+    "fresh_PPG_continuous_s": 359.701,
+    "PPG_SPO2_PR_simultaneous_s": 203.832,
+    "clinical_accuracy": "NOT_ASSESSED"
+  },
+  "runtime": {
+    "source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+    "payload_sha256": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e"
+  },
+  "private_material_excluded": [
+    "FULL_FLASH",
+    "CONFIG_SECTOR3",
+    "ENV",
+    "UID",
+    "CREDENTIALS",
+    "TOKENS",
+    "CLOUD_RECOVERY_PACKAGES"
+  ],
+  "future_flashing_authorized": false,
+  "P4_B_merged": false
+}

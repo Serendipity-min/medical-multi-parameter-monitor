@@ -1,0 +1,183 @@
+{
+  "contract": "MPM-H3-005",
+  "stage": "PC1",
+  "gate": "PC1_ARCHIVE_INTEGRITY_PASS_OWNER_OFFLINE_KEY_CUSTODY_PENDING",
+  "local": {
+    "exit_code": 0,
+    "started_utc": "2026-10-21T11:02:12.630035+00:00",
+    "ended_utc": "2026-10-21T11:02:16.949705+00:00",
+    "archive": {
+      "file": "local-originals.tar.gpg",
+      "bytes": 47688308,
+      "sha256": "81d17f1570547dde97a6e7e7063469d50a7d11feb3d1c50512a4cdf87a51f185"
+    },
+    "known_private_originals_verified": {
+      "node-a-final": {
+        "bytes": 50084,
+        "sha256": "f59b76ef865c373c6df62aa09aea958597687f6d46b17c402ceb7126ca8f60d6"
+      },
+      "gateway-c-final": {
+        "bytes": 43172,
+        "sha256": "b9b25b186c3b40d62b4a1c1919e09f27b639806271a3b20ae7fc80ea4cda1efe"
+      },
+      "A-flash-after": {
+        "bytes": 1048576,
+        "sha256": "7c0f68fbd779c61fd7184d687a858d41d154361862af3b1c2a93b32ef67e49a6"
+      },
+      "A-flash-before": {
+        "bytes": 1048576,
+        "sha256": "4c2730ebc9a8eab33b1e4d585db7deb47567261b6369165e47ecaf9630f35f3a"
+      },
+      "C-formal-64k": {
+        "bytes": 65536,
+        "sha256": "49d3fad5040b25b746905d5c1468bff4d5be5a4f13197286ce215e0711798fb4"
+      },
+      "C-generation3": {
+        "bytes": 336,
+        "sha256": "395c6a36d7c4a636b34a72eacd1ccc2a2fc7f025df7089f3d94e1d2de14c5a3b"
+      }
+    },
+    "second_backup": {
+      "decryption_exit": 0,
+      "authenticated_decryption": true,
+      "regular_files_verified": 1030,
+      "links_preserved": 0,
+      "recovery_manifests_verified": [],
+      "plaintext_extracted_to_disk": false
+    },
+    "primary_disk": 1,
+    "secondary_disk": 0,
+    "application_copies_both_verified": true,
+    "original_files_unchanged": true,
+    "key_delivered_as_external_private_file": true,
+    "owner_offline_key_custody": "OWNER_ACTION_PENDING_NOT_ASSERTED",
+    "new_board_or_server_operations": 0
+  },
+  "cloud": {
+    "exit_code": 0,
+    "started_utc": "2026-10-21T11:03:02.461740+00:00",
+    "ended_utc": "2026-10-21T11:04:41.772112+00:00",
+    "SSH_tar_exit": 0,
+    "GPG_encrypt_exit": 0,
+    "archive": {
+      "file": "cloud-recovery.tar.gpg",
+      "bytes": 55125815,
+      "sha256": "8d7b34b1dbb09aa81301d27c80aa3b832623b67ef01321d2cecaec96abfab52d"
+    },
+    "second_backup": {
+      "decryption_exit": 0,
+      "authenticated_decryption": true,
+      "regular_files_verified": 556,
+      "links_preserved": 0,
+      "recovery_manifests_verified": [
+        "53e1aec5021e6a0fba8b7e3c8b7df53346f9f8e2bce9c7aa0a64382c503ffed3",
+        "61f656e835a3689e89f0617d766b5529f7b9a8d9543050fcd83f824fd14145dc"
+      ],
+      "plaintext_extracted_to_disk": false
+    },
+    "frozen_formal_plan_and_env_verified": true,
+    "GNU_tar_permissions_owner_symlinks_ACLs_xattrs_preserved": true,
+    "original_server_archives_retained": true,
+    "server_configuration_writes": 0,
+    "plaintext_recovery_packages_saved_locally": false,
+    "remote_archive_file_created": false,
+    "transfer_under_1GiB": true,
+    "stderr_sha256": {
+      "SSH_tar": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "GPG": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "primary_disk": 1,
+    "secondary_disk": 0
+  },
+  "link_artifacts": {
+    "exit_code": 0,
+    "archive": {
+      "file": "link-and-build-evidence.tar.gpg",
+      "bytes": 2120689,
+      "sha256": "307771d674552bd80e9e2c3ab194e1dbb3e6e2cbac0d63aa732e9327a839c799"
+    },
+    "second_backup": {
+      "decryption_exit": 0,
+      "authenticated_decryption": true,
+      "regular_files_verified": 101,
+      "links_preserved": 0,
+      "recovery_manifests_verified": [],
+      "plaintext_extracted_to_disk": false
+    },
+    "new_compilation": false,
+    "BIN_regenerated": false,
+    "AXF_MAP_ELF_and_build_receipts_preserved": true
+  },
+  "application_content_review": {
+    "exit_code": 0,
+    "scope": "TWO_AUTHORIZED_APPLICATION_BIN_ONLY_NOT_REPOSITORY_SECURITY_GATE",
+    "checks": {
+      "node-a-final": {
+        "known_external_sensitive_value_hits": 0,
+        "private_key_or_provider_key_markers": 0,
+        "source_sha256": "f59b76ef865c373c6df62aa09aea958597687f6d46b17c402ceb7126ca8f60d6",
+        "bytes": 50084,
+        "source_ref": "node-a-final-verified-original"
+      },
+      "gateway-c-final": {
+        "known_external_sensitive_value_hits": 0,
+        "private_key_or_provider_key_markers": 0,
+        "source_sha256": "b9b25b186c3b40d62b4a1c1919e09f27b639806271a3b20ae7fc80ea4cda1efe",
+        "bytes": 43172,
+        "source_ref": "gateway-c-final-verified-original"
+      }
+    },
+    "sensitive_values_persisted_or_logged": false
+  },
+  "encryption_preflight": {
+    "exit_code": 0,
+    "synthetic_encrypt_decrypt_roundtrip": true,
+    "algorithm": "OpenPGP_AES256_MDC_S2K3",
+    "GPG_version": "2.4.8",
+    "MSYS_argument_paths": true,
+    "prior_attempts": [
+      {
+        "wrapper_exit": 1,
+        "GPG_exit": null,
+        "reason": "INITIAL_BACKSLASH_PATH_FAILURE_STDERR_NOT_PERSISTED"
+      },
+      {
+        "GPG_exit": 2,
+        "stderr_sha256": "ef3f68f2c5faec44cec6ccdfbb84cdfcb1ca95dbb23c2e3bac6e37d789890a0a",
+        "reason": "MSYS_DOES_NOT_ACCEPT_BACKSLASH_WINDOWS_PATH"
+      }
+    ],
+    "key_in_archive_or_Git": false
+  },
+  "image_ABI": {
+    "exit_code": 0,
+    "images": [
+      {
+        "role": "A",
+        "exit_code": 0,
+        "ELF_header": [
+          "Class:                             ELF32",
+          "Data:                              2's complement, little endian",
+          "Machine:                           ARM",
+          "Entry point address:               0x8000189",
+          "Flags:                             0x5000002, Version5 EABI, <unknown>"
+        ]
+      },
+      {
+        "role": "C",
+        "exit_code": 0,
+        "ELF_header": [
+          "Class:                             ELF32",
+          "Data:                              2's complement, little endian",
+          "Machine:                           ARM",
+          "Entry point address:               0x80080c9",
+          "Flags:                             0x5000400, Version5 EABI, hard-float ABI"
+        ]
+      }
+    ],
+    "prior_attempt": "WRONG_LOCAL_AXF_PATH_READ_FAILED_NO_BUILD_OR_BIN_CHANGE"
+  },
+  "locations": "PRIVATE_PRIMARY_DISK1_E / PRIVATE_SECONDARY_DISK0_D; OWNER_KEY_EXTERNAL_SEPARATE_LOCATION",
+  "complete_Flash_or_credentials_in_Git": false,
+  "source_paths_in_Git": false
+}

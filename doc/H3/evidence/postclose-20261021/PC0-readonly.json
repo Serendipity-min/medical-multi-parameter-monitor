@@ -1,0 +1,285 @@
+{
+  "contract": "MPM-H3-005",
+  "stage": "PC0",
+  "gate": "PC0_PARTIAL_OWNER_EVIDENCE",
+  "source_commit": "1878994f57a4c07263b4898d223ba810aa88210a",
+  "window": {
+    "started_utc": "2026-10-21T10:54:43.343258+00:00",
+    "hard_deadline_utc": "2026-10-21T10:58:43.343258+00:00",
+    "target_ports": [
+      8883,
+      8884
+    ],
+    "per_port_attempts": 1,
+    "real_model_calls": 0,
+    "server_writes_authorized": false
+  },
+  "result": {
+    "gate": "PC0_PARTIAL_OWNER_EVIDENCE",
+    "completed_utc": "2026-10-21T10:57:48.732108+00:00",
+    "reason": "OWNER_SCREENSHOT_SUPPORTS_RULE_REMOVAL; NO_CONTROL_PLANE_INSTANCE_ALL_GROUPS_PROOF; EXTERNAL_TCP_8884_ACCEPTED_WITH_ACTIVE_TUN_AND_HOST_NO_LISTENER_INCONCLUSIVE",
+    "host_service_health": "PASS",
+    "external_8883_TLS": "PASS",
+    "external_8884_connect_returned": true,
+    "external_8884_service_exposure": "NOT_CONFIRMED_OR_EXCLUDED",
+    "server_writes": 0,
+    "additional_TCP_attempts": 0,
+    "next_step": "OFFLINE_ARCHIVE_ALLOWED; OUT_OF_PROXY_OR_CONTROL_PLANE_CHECK_REQUIRES_OWNER_FOLLOWUP; NO_REPEATED_NETWORK_WINDOW"
+  },
+  "server_execution": {
+    "started_utc": "2026-10-21T10:56:31.460313+00:00",
+    "ended_utc": "2026-10-21T10:56:34.263105+00:00",
+    "exit_code": 0,
+    "script_sha256": "0167b47ddbc3ec6d826ae799a7dea637b23360f1eaefda6079d466727a9364d1",
+    "raw_sha256": "e7791f6dca7993bbc72f8ffc33eadecbb77336385cb7c4a91eb28b39b01e5c01"
+  },
+  "server_result": {
+    "exit_code": 0,
+    "started_utc": "2026-10-21T10:56:31.882308+00:00",
+    "ended_utc": "2026-10-21T10:56:33.619534+00:00",
+    "ports": {
+      "8883": 2,
+      "8884": 0
+    },
+    "isolated_units": {
+      "h3-final-preview": "inactive",
+      "h3-final-ai": "inactive",
+      "h3-final-backend": "inactive",
+      "h3-final-broker": "inactive"
+    },
+    "filter": {
+      "sha256": "e6f238e23dece4fe2763aae2c48a482f749a56f632aeac6d31aa1130d7abed1c",
+      "lines": 393,
+      "owned_h3_refs": 0
+    },
+    "nat": {
+      "sha256": "96ba2354a7ee95379dbc8c4bc83f5c5d13ccc95d5367d69e3af1e6dec9ed3157",
+      "lines": 12,
+      "owned_h3_refs": 0
+    },
+    "services_before": {
+      "medical-monitor.service": [
+        "MainPID=845095",
+        "ExecMainStatus=0",
+        "ActiveState=active"
+      ],
+      "medical-monitor-mqtt.service": [
+        "MainPID=851111",
+        "ExecMainStatus=0",
+        "ActiveState=active"
+      ],
+      "p6-ai.service": [
+        "MainPID=394625",
+        "ExecMainStatus=0",
+        "ActiveState=active"
+      ],
+      "medical-monitor-h3-webbackend.service": [
+        "MainPID=2758089",
+        "ExecMainStatus=0",
+        "ActiveState=active"
+      ],
+      "medical-monitor-h3-webai.service": [
+        "MainPID=2758088",
+        "ExecMainStatus=0",
+        "ActiveState=active"
+      ],
+      "nginx.service": [
+        "MainPID=3631",
+        "ExecMainStatus=0",
+        "ActiveState=active"
+      ]
+    },
+    "services_after": {
+      "medical-monitor.service": [
+        "MainPID=845095",
+        "ExecMainStatus=0",
+        "ActiveState=active"
+      ],
+      "medical-monitor-mqtt.service": [
+        "MainPID=851111",
+        "ExecMainStatus=0",
+        "ActiveState=active"
+      ],
+      "p6-ai.service": [
+        "MainPID=394625",
+        "ExecMainStatus=0",
+        "ActiveState=active"
+      ],
+      "medical-monitor-h3-webbackend.service": [
+        "MainPID=2758089",
+        "ExecMainStatus=0",
+        "ActiveState=active"
+      ],
+      "medical-monitor-h3-webai.service": [
+        "MainPID=2758088",
+        "ExecMainStatus=0",
+        "ActiveState=active"
+      ],
+      "nginx.service": [
+        "MainPID=3631",
+        "ExecMainStatus=0",
+        "ActiveState=active"
+      ]
+    },
+    "configuration_sha256": {
+      "nginx": "70ac6d03c17b1bcfc54ea87fb8b3fca949d8dabddac191dd7b8b571d58c00ca7",
+      "backend_env": "88d5c8b9b545889a1f102871898aba4483f0333a7b47cab9d9dfd902314fbc6a",
+      "ai_env": "dd286489bbb946ab4f7ca9d23ef19eb98e89d026172b3d18851585440d634c7f"
+    },
+    "server_configuration_mutations": 0,
+    "complete_backups_verified": true,
+    "runtime_verified": true,
+    "HTTPS_index_sha256": "92e1f44f80d1eec38ef17beb0979dfc1fba8088c6a9aa833ab1de15063535acb",
+    "Backend_health": {
+      "status": "ok",
+      "transport": "MQTT 3.1.1/TLS",
+      "mqtt_connected": true,
+      "accepted": 9092,
+      "rejected": 0,
+      "dropped": 0
+    },
+    "AI_health": {
+      "status": "ok",
+      "model_mode": "DOUBAO",
+      "snapshot_mode": "MONITOR",
+      "real_model": "REAL_MODEL_VERIFIED",
+      "voice_mode": "DISABLED",
+      "usage": {
+        "requests": 9,
+        "usage": {
+          "prompt_tokens": 5687,
+          "completion_tokens": 451,
+          "total_tokens": 6138
+        },
+        "states": {},
+        "billing_state": "TOKEN_USAGE_RECORDED_COST_NOT_INFERRED",
+        "lifetime_cap": null
+      }
+    },
+    "AI_unauthorized_HTTP": 401,
+    "WSS_invalid_token_close": 1008,
+    "WSS_snapshots": 10,
+    "current_state": {
+      "gateway": "ONLINE",
+      "nodes": {
+        "NODE-A": "ONLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "streams": [
+        {
+          "stream": "NIBP",
+          "validity": "INVALID",
+          "source": "MOCK",
+          "synthetic": true,
+          "value_present": false,
+          "samples_present": false
+        },
+        {
+          "stream": "PPG",
+          "validity": "STALE",
+          "source": "MOCK",
+          "synthetic": true,
+          "value_present": false,
+          "samples_present": false
+        },
+        {
+          "stream": "PR",
+          "validity": "INVALID",
+          "source": "MOCK",
+          "synthetic": true,
+          "value_present": false,
+          "samples_present": false
+        },
+        {
+          "stream": "SPO2",
+          "validity": "INVALID",
+          "source": "MOCK",
+          "synthetic": true,
+          "value_present": false,
+          "samples_present": false
+        }
+      ]
+    },
+    "real_model_requests": 0,
+    "archive_inventory": {
+      "regular_files": 537,
+      "total_bytes": 54027077,
+      "under_1GiB": true
+    },
+    "recovery_manifest_sha256": [
+      "53e1aec5021e6a0fba8b7e3c8b7df53346f9f8e2bce9c7aa0a64382c503ffed3",
+      "61f656e835a3689e89f0617d766b5529f7b9a8d9543050fcd83f824fd14145dc"
+    ],
+    "control_plane": "OWNER_SCREENSHOT_NOT_API_VERIFIED"
+  },
+  "external_probe": {
+    "exit_code": 1,
+    "attempts": [
+      {
+        "port": 8884,
+        "connected": true,
+        "TLS_verified": null,
+        "started_utc": "2026-10-21T10:56:34.266722+00:00",
+        "elapsed_seconds": 0.047
+      },
+      {
+        "port": 8883,
+        "connected": true,
+        "TLS_verified": true,
+        "TLS_version": "TLSv1.3",
+        "leaf_sha256": "a3c4d1284c8f59ccb434b8736f4a1862d1ff3b42e589a26f0108c2a2d854bacd",
+        "started_utc": "2026-10-21T10:56:34.309074+00:00",
+        "elapsed_seconds": 2.985
+      }
+    ],
+    "same_authorized_target": true,
+    "only_two_specified_ports": true,
+    "ended_utc": "2026-10-21T10:56:37.291581+00:00",
+    "external_failure_does_not_prove_SG": true
+  },
+  "local_context": {
+    "checked_utc": "2026-10-21T10:57:12.408521+00:00",
+    "DNS_address_count": 1,
+    "DNS_all_benchmark_fake_IP": false,
+    "DNS_any_global": true,
+    "actual_addresses_logged": false,
+    "additional_TCP_attempts": 0,
+    "selected_route": "Mihomo TUN"
+  },
+  "owner_evidence": {
+    "evidence_level": "OWNER_SCREENSHOT_NOT_API_VERIFIED",
+    "owner_statement": "Target 8884 allow rule deleted",
+    "screenshot_sha256": "50125e4f176c9de8c0b8f8648013926e70f76849b4d3755e17067b9f877da126",
+    "visible_TCP_ports": [
+      8883,
+      8443,
+      1883,
+      9999,
+      443,
+      3010,
+      8080,
+      80,
+      22
+    ],
+    "visible_8884_rule": false,
+    "all_associated_groups_verified": false,
+    "instance_identity_visible": false,
+    "rule_ids_observed": false,
+    "IPv6_and_equivalent_wide_rules_all_verified": false,
+    "page_type": "INSTANCE_FIREWALL_STYLE_SCREENSHOT; TARGET_ASSOCIATION_NOT_INDEPENDENTLY_PROVEN",
+    "raw_screenshot_private_encrypted_archive_only": true
+  },
+  "browser_discovery": {
+    "exit_code": 0,
+    "existing_browser_only": true,
+    "available_tabs_count": 5,
+    "tencent_console_tabs": [],
+    "raw_output_sha256": "dd24063719c84d3ef84901ff632f474624f498670d29a370345183bf1dfad535",
+    "raw_output_saved": false,
+    "no_cookies_or_urls_logged": true
+  },
+  "server_or_SG_writes": 0,
+  "additional_load_test_seconds": 0,
+  "real_model_calls": 0,
+  "Security_Gate_run": false
+}
