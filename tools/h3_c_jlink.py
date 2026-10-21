@@ -56,10 +56,13 @@ def authorize(card,image,identity):
 
 class Bridge:
     def __init__(self,private):self.private=private;self.index=0;self.voltages=[];self.download_observation='NO_LOAD_REQUEST'
-    def execute(self,commands,write=False):
+    def validate_commands(self,commands,write=False):
+        # 子类只能显式扩展维护事务；旧隔离入口维持原命令白名单。
         allowed=('savebin ','loadbin ','verifybin ','w4 0xE0042008 ') if write else ('savebin ',)
         if not all(s in ('connect','h','q') or s.startswith(allowed) for s in commands):
             raise ValueError('COMMAND_OUTSIDE_C_SCOPE')
+    def execute(self,commands,write=False):
+        self.validate_commands(commands,write)
         self.index+=1;text='\n'.join(commands)+'\n';stem=self.private/('jlink-'+str(self.index))
         with stem.with_suffix('.commands').open('x') as f:f.write(text)
         r=subprocess.run([str(JLINK),'-device','STM32F407ZG','-if','SWD','-speed','1000'],
