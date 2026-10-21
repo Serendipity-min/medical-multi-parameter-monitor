@@ -8,7 +8,7 @@ import subprocess
 ROOT=Path(__file__).resolve().parents[2]
 HERE=Path(__file__).resolve().parent
 CO=ROOT/'gateway/canopen';VENDOR=ROOT/'gateway/third_party/CANopenNode';MQTT=ROOT/'gateway/mqtt'
-parser=argparse.ArgumentParser();parser.add_argument('--host',action='store_true');parser.add_argument('--irq',action='store_true');parser.add_argument('--isolated',action='store_true');parser.add_argument('--wifi-awake',action='store_true');parser.add_argument('--fresh-sntp',action='store_true');parser.add_argument('--rx-order',action='store_true');parser.add_argument('--peer-cycle',action='store_true');parser.add_argument('--wire',type=Path);parser.add_argument('--persistent-config',action='store_true');parser.add_argument('--evidence-dir',type=Path);args=parser.parse_args()
+parser=argparse.ArgumentParser();parser.add_argument('--host',action='store_true');parser.add_argument('--irq',action='store_true');parser.add_argument('--isolated',action='store_true');parser.add_argument('--wifi-awake',action='store_true');parser.add_argument('--fresh-sntp',action='store_true');parser.add_argument('--rx-order',action='store_true');parser.add_argument('--peer-cycle',action='store_true');parser.add_argument('--wire',type=Path);parser.add_argument('--persistent-config',action='store_true');parser.add_argument('--evidence-dir',type=Path);parser.add_argument('--macro-source-root');args=parser.parse_args()
 if args.persistent_config and (not args.irq or args.host):parser.error('--persistent-config requires ARM IRQ candidate')
 if args.peer_cycle and (not args.host or not args.irq or args.rx_order or args.wire):parser.error('--peer-cycle requires --host --irq alone')
 if args.isolated and not args.irq:parser.error('--isolated requires --irq')
@@ -45,6 +45,11 @@ try:
         vendor=ROOT/'gateway/third_party/coreMQTT'
         includes=[HERE/'src',HERE/'bench',MQTT/'src',CO/'src',VENDOR,vendor/'source/include',vendor/'source/interface',*base.INCLUDES]
         flags=[*base.COMMON_FLAGS,'-DCO_MULTIPLE_OD',*(['-DMP_CAN_RX_IRQ','-DHSE_VALUE=8000000'] if args.irq else []),*(['-DMP_H3_WIFI_AWAKE'] if args.wifi_awake else []),*(['-DMP_H3_TEST_SOURCE','-DMP_MQTT_TLS_PORT=8884',*(['-DMP_H3_VOLATILE_CONFIG'] if not args.persistent_config else [])] if args.isolated else []),*(['-DMP_H3_PERSISTENT_CONFIG'] if args.persistent_config else []),*['-I'+str(p) for p in includes]]
+        if args.macro_source_root:
+            # coreMQTT断言会把__FILE__写入镜像；显式虚拟前缀只稳定诊断文件名，不访问旧目录。
+            # 默认构建不变；复现历史镜像必须把前缀与完整编译命令一起记入本次回执。
+            flags.append('-fmacro-prefix-map='+str(ROOT)+'='+args.macro_source_root)
+            result['macro_source_root']=args.macro_source_root
         if args.fresh_sntp:flags.append('-DMP_H3_FRESH_SNTP')
         # 启动与 G 共用硬件就绪后单次 NMT 入口；Host 协议夹具无需链接物理生命周期。
         sources=[*common,HERE/'src/main.c',HERE/'src/lifecycle.c',*([HERE/'src/bxcan_network_irq.c',HERE/'bench/rx_irq.c'] if args.irq else [HERE/'src/bxcan_physical.c']),*[p for p in sorted((MQTT/'src').glob('*.c')) if p.name!='main.c'],*base.SOURCES[1:],vendor/'source/core_mqtt.c',vendor/'source/core_mqtt_serializer.c',vendor/'source/core_mqtt_state.c']
