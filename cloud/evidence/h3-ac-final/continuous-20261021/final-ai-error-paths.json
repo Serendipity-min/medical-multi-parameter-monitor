@@ -1,0 +1,39 @@
+{
+  "started_utc": "2026-10-21T09:49:41.589251+00:00",
+  "ended_utc": "2026-10-21T09:49:44.215047+00:00",
+  "exit_code": 0,
+  "command": [
+    "C:\\Users\\Serendipity\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "-q",
+    "cloud/ai/tests/test_ai.py",
+    "-k",
+    "provider_timeout or provider_http_failure or provider_failure_preserves"
+  ],
+  "source_commit": "6edd48c9e83a4609660786ebc240ef4b0ce4e025",
+  "raw_sha256": "423e1a0f67838768566cb90e43fda09cdb9008b47e1fdc6943f4bc82d5795f18",
+  "source_sha256": {
+    "tools/h3_c_formal.py": "33ec99d4cb1856c9daabe64eed819ba6da5ab6ba3c15a35d1a7c6f1bc7eb8a81",
+    "tools/h3_c_jlink.py": "712616486ab41d5bc3314fac4e916f60989efcfc4f83ad8cfc263b5d9e1955a8",
+    "cloud/backend/tests/test_formal_c_jlink.py": "9ab944f751c469b03b31112d24e0f9249240f6e416ce4f8a3052ec97d9bb2e5f"
+  },
+  "stage": "F5",
+  "gate": "SYNTHETIC_PROVIDER_FAILURE_TIMEOUT_REGRESSION_PASS",
+  "device_or_runtime_sha": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+  "source_label": "EXPLICIT_SYNTHETIC_PROVIDER_EXCEPTIONS_NO_REAL_API",
+  "window_start_utc": "2026-10-21T09:49:41.589251+00:00",
+  "window_end_utc": "2026-10-21T09:49:44.215047+00:00",
+  "observed_vs_simulated": "HOST_FUNCTIONAL_TEST_ACTUAL_PROCESS_SYNTHETIC_FAULTS",
+  "raw_evidence_sha": "423e1a0f67838768566cb90e43fda09cdb9008b47e1fdc6943f4bc82d5795f18",
+  "security_scope": "FUNCTIONAL_REGRESSION_NO_SECURITY_GATE",
+  "owner_auth_id": "MPM-H3-004_CONTINUOUS_AUTHORIZATION",
+  "rollback_state": "NOT_APPLICABLE_TO_TEST_ONLY_CHANGE",
+  "unresolved": [],
+  "tests_passed": 7,
+  "test_file_sha256": "3c6b150e08e5d2b997017dbe515204ed44a0ddfa17fd8bdb2e914a5d56600212",
+  "test_file_hash_capture": "AFTER_TEST_WITH_NO_INTERVENING_TEST_FILE_EDITS",
+  "real_model_calls": 0
+}

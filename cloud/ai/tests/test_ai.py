@@ -4,6 +4,7 @@ import copy
 import json
 import time
 import uuid
+import httpx
 import pytest
 from fastapi.testclient import TestClient
 from cloud.ai.app import Settings, create_app
@@ -95,6 +96,34 @@ def test_provider_failure_preserves_monitor_and_fixed_error():
     result = post(c, data)
     assert result.status_code == 503 and 'secret' not in result.text
     assert c.get('/health').status_code == 200
+
+
+@pytest.mark.parametrize('failure', [TimeoutError, httpx.ReadTimeout])
+def test_provider_timeout_returns_504_without_affecting_monitor(failure):
+    # 使用明确合成异常验证正式同一处理路径，不中断生产模型或消耗真实额度。
+    class TimedOut:
+        async def explain(self, *_): raise failure('synthetic-private-upstream-detail')
+    c = client(provider=TimedOut()); data = body(); data['question'] = '解释项目'
+    result = post(c, data)
+    assert result.status_code == 504 and result.json()['detail'] == 'AI_TIMEOUT'
+    assert 'upstream-detail' not in result.text and c.get('/health').status_code == 200
+
+
+@pytest.mark.parametrize('status,code', [
+    (401, 'MODEL_AUTH_ERROR'), (403, 'MODEL_AUTH_ERROR'),
+    (429, 'MODEL_QUOTA_OR_RATE'), (500, 'MODEL_UPSTREAM_ERROR'),
+])
+def test_provider_http_failure_has_bounded_error_and_keeps_monitor(status, code):
+    # 验证鉴权、额度和上游故障的分类；真实响应正文和连接信息不得回显到UI。
+    class FailedHTTP:
+        async def explain(self, *_):
+            request = httpx.Request('POST', 'https://provider.example.invalid/text')
+            response = httpx.Response(status, request=request, text='synthetic-private-upstream-detail')
+            raise httpx.HTTPStatusError('synthetic-private-upstream-detail', request=request, response=response)
+    c = client(provider=FailedHTTP()); data = body(); data['question'] = '解释项目'
+    result = post(c, data)
+    assert result.status_code == 503 and result.json()['detail'] == code
+    assert 'upstream-detail' not in result.text and c.get('/health').status_code == 200
 
 
 def test_session_gateway_switch_has_no_old_context():
