@@ -19,7 +19,9 @@ class FakeBridge:
                 if address==0xE0042008:self.freeze=struct.pack('<I',value)
                 elif address==tool.KEYR:
                     if value==0xcdef89ab:self.cr&=~(1<<31)
-                elif address==tool.CR:self.cr=value
+                elif address==tool.CR:
+                    # 实板回执显示：单次同时LOCK与清PG保留了旧低位，模型覆盖该实际失败路径。
+                    if not self.cr&(1<<31):self.cr=(self.cr|(1<<31)) if value&(1<<31) else value
                 elif address==tool.COMMIT:
                     assert self.cr&1 and (self.cr&0x300)==0x200 and not self.cr&(1<<31)
                     assert self.flash[0xC014:0xC018]==b'\xff'*4
@@ -81,3 +83,26 @@ def test_formal_commit_mmio_does_not_expand_old_isolated_bridge_whitelist(tmp_pa
 @pytest.mark.parametrize('sr,cr',[(0x80,0),(1<<16,0),(0,1),(0,2),(0,4),(0,1<<16)])
 def test_busy_error_or_erase_mode_cannot_enter_commit(sr,cr):
     with pytest.raises(ValueError):tool.checked_idle(sr,cr)
+
+
+def test_postfailure_control_correction_never_reprograms_flash(state):
+    m,image,record,p,b,identity=state
+    b.flash=image.ljust(49152,b'\xff')+record.ljust(16384,b'\xff');before=b.flash
+    b.cr=0x80000201;b.freeze=struct.pack('<I',0x1000)
+    result=tool.Window(p,b,identity).restore_control_only(before,0x80000000,0)
+    assert result['exit_code']==0 and b.cr==0x80000000 and b.freeze==b'\0'*4
+    assert b.flash==before and b.loads==0 and b.commits==0
+
+
+@pytest.mark.parametrize('fault',['flash','status','control','debug'])
+def test_control_recovery_checks_current_state_before_unlocking(state,fault):
+    m,image,record,p,b,identity=state
+    expected=image.ljust(49152,b'\xff')+record.ljust(16384,b'\xff');b.flash=expected
+    b.cr=0x80000201;b.freeze=struct.pack('<I',0x1000)
+    if fault=='flash':b.flash=b'!'+b.flash[1:]
+    if fault=='status':b.sr=0x80
+    if fault=='control':b.cr=0x80000203
+    if fault=='debug':b.freeze=b'\0'*4
+    original_cr=b.cr
+    with pytest.raises(ValueError):tool.Window(p,b,identity).restore_control_only(expected,0x80000000,0)
+    assert b.cr==original_cr and not b.loads and not b.commits
