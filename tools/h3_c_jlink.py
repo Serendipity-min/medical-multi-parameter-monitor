@@ -55,7 +55,7 @@ def authorize(card,image,identity):
 
 
 class Bridge:
-    def __init__(self,private):self.private=private;self.index=0;self.voltages=[]
+    def __init__(self,private):self.private=private;self.index=0;self.voltages=[];self.download_observation='NO_LOAD_REQUEST'
     def execute(self,commands,write=False):
         allowed=('savebin ','loadbin ','verifybin ','w4 0xE0042008 ') if write else ('savebin ',)
         if not all(s in ('connect','h','q') or s.startswith(allowed) for s in commands):
@@ -66,6 +66,10 @@ class Bridge:
             input=text.encode('ascii'),capture_output=True,timeout=90,
             creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0))
         raw=r.stdout+r.stderr;stem.with_suffix('.raw.log').write_bytes(raw)
+        if any(s.startswith('loadbin ') for s in commands):
+            # loadbin提交不等于物理擦写；SEGGER对相同内容会跳过，必须如实区分。
+            self.download_observation=('SKIPPED_IDENTICAL' if b'flash download skipped. flash contents already match' in raw.lower()
+                else 'NOT_DETERMINED_FROM_SDK_LOG')
         match=re.search(rb'VTref\s*=\s*([0-9.]+)V',raw)
         if r.returncode:raise RuntimeError('JLINK_PROCESS_NONZERO')
         if not match or not 3.0<=float(match[1])<=3.6:raise RuntimeError('C_VTREF_NOT_VERIFIED_STOP')
@@ -137,8 +141,11 @@ class Window:
         restored=self.read('debug-restored',[('freeze',0xE0042008,4)],
             [f'w4 0xE0042008 {hex(int.from_bytes(identity["freeze"],"little"))}'])['freeze']
         if restored!=identity['freeze']:raise RuntimeError('C_DEBUG_REGISTER_RESTORE_FAILED')
-        return {**proof,'exit_code':0,'gate':'C_ISOLATED_APP_REFLASH_VERIFIED' if write else 'C_CURRENT_PAIR_READONLY_VERIFIED',
-            'flash_write_started':write,'actual_64k_sha256':sha(after),'config_sector3_unchanged':True,
+        observation=getattr(self.bridge,'download_observation','NOT_DETERMINED_FROM_TEST_BRIDGE')
+        return {**proof,'exit_code':0,'gate':'C_ISOLATED_IMAGE_LOAD_VERIFY_MATCH' if write else 'C_CURRENT_PAIR_READONLY_VERIFIED',
+            'flash_write_started':write,'loadbin_submitted':write,'SDK_download_observation':observation,
+            'actual_flash_erase_or_program':False if observation=='SKIPPED_IDENTICAL' or not write else None,
+            'actual_64k_sha256':sha(after),'config_sector3_unchanged':True,
             'sector7_11_options_unchanged':True,'target_execution':'HALT_REQUESTED_NO_GO',
             'debug_register_restored_verified':True,
             'cold_boot':'NOT_OBSERVED','application_network_test':'NOT_RUN'}

@@ -72,3 +72,12 @@ def test_c_readonly_action_has_no_load(fixture):
 def test_uart_permission_does_not_authorize_jlink_window(tmp_path):
     with pytest.raises(ValueError,match='EXPLICIT_C_JLINK_WINDOW'):
         tool.authorize({'auth_id':'AUTH-AC-C-READONLY'},tmp_path/'unused',tmp_path/'unused-identity')
+
+
+def test_sdk_identical_skip_is_reported_without_claiming_physical_programming(tmp_path,monkeypatch):
+    from types import SimpleNamespace
+    monkeypatch.setattr(tool.subprocess,'run',lambda *a,**k:SimpleNamespace(returncode=0,
+        stdout=b'VTref = 3.300V\nJ-Link: Flash download: Flash download skipped. Flash contents already match\n',stderr=b''))
+    bridge=tool.Bridge(tmp_path)
+    bridge.execute(['connect','h','loadbin synthetic.bin, 0x08000000','q'],write=True)
+    assert bridge.download_observation=='SKIPPED_IDENTICAL' and bridge.voltages==[3.3]
