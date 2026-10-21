@@ -8,15 +8,19 @@ import subprocess
 ROOT=Path(__file__).resolve().parents[2]
 HERE=Path(__file__).resolve().parent
 CO=ROOT/'gateway/canopen';VENDOR=ROOT/'gateway/third_party/CANopenNode';MQTT=ROOT/'gateway/mqtt'
-parser=argparse.ArgumentParser();parser.add_argument('--host',action='store_true');parser.add_argument('--irq',action='store_true');parser.add_argument('--isolated',action='store_true');parser.add_argument('--wifi-awake',action='store_true');parser.add_argument('--fresh-sntp',action='store_true');parser.add_argument('--rx-order',action='store_true');parser.add_argument('--peer-cycle',action='store_true');parser.add_argument('--wire',type=Path);parser.add_argument('--persistent-config',action='store_true');parser.add_argument('--evidence-dir',type=Path);parser.add_argument('--macro-source-root');args=parser.parse_args()
+parser=argparse.ArgumentParser();parser.add_argument('--host',action='store_true');parser.add_argument('--irq',action='store_true');parser.add_argument('--isolated',action='store_true');parser.add_argument('--synthetic-source',action='store_true');parser.add_argument('--wifi-awake',action='store_true');parser.add_argument('--fresh-sntp',action='store_true');parser.add_argument('--rx-order',action='store_true');parser.add_argument('--peer-cycle',action='store_true');parser.add_argument('--wire',type=Path);parser.add_argument('--persistent-config',action='store_true');parser.add_argument('--evidence-dir',type=Path);parser.add_argument('--macro-source-root');args=parser.parse_args()
 if args.persistent_config and (not args.irq or args.host):parser.error('--persistent-config requires ARM IRQ candidate')
 if args.peer_cycle and (not args.host or not args.irq or args.rx_order or args.wire):parser.error('--peer-cycle requires --host --irq alone')
 if args.isolated and not args.irq:parser.error('--isolated requires --irq')
 if args.wifi_awake and not args.irq:parser.error('--wifi-awake requires --irq')
 if args.fresh_sntp and not args.irq:parser.error('--fresh-sntp requires --irq')
-build=HERE/(('build/h3-r2-persistent-isolated' if args.isolated else 'build/h3-r2-persistent-normal') if args.persistent_config else 'build/h3-isolated' if args.isolated else 'build/h3-irq' if args.irq else 'build');build.mkdir(parents=True,exist_ok=True)
+if args.synthetic_source and (not args.irq or args.isolated):parser.error('--synthetic-source requires non-isolated --irq')
+# 新正式台架模式必须沿用已验证的毫秒SNTP；Host协议夹具不启动网络，可单独验证来源位。
+if args.synthetic_source and not args.host and not args.fresh_sntp:parser.error('--synthetic-source ARM requires --fresh-sntp')
+# 来源标签与传输端口独立：正式8883也可接非人体源；专用输出目录保留原两种冻结镜像。
+build=HERE/('build/h3-ac-formal-synthetic' if args.synthetic_source else (('build/h3-r2-persistent-isolated' if args.isolated else 'build/h3-r2-persistent-normal') if args.persistent_config else 'build/h3-isolated' if args.isolated else 'build/h3-irq' if args.irq else 'build'));build.mkdir(parents=True,exist_ok=True)
 # 新验收显式选择证据目录，避免重跑覆盖R2原始构建回执；默认路径保留兼容。
-evidence=args.evidence_dir or HERE/(('evidence/h3-r2/persistent-isolated' if args.isolated else 'evidence/h3-r2/persistent-normal') if args.persistent_config else 'evidence/h3' if args.irq else 'evidence');evidence.mkdir(parents=True,exist_ok=True)
+evidence=args.evidence_dir or HERE/('evidence/h3-ac-final/formal-synthetic' if args.synthetic_source else (('evidence/h3-r2/persistent-isolated' if args.isolated else 'evidence/h3-r2/persistent-normal') if args.persistent_config else 'evidence/h3' if args.irq else 'evidence'));evidence.mkdir(parents=True,exist_ok=True)
 # 列表复用项目源码，不复制修改 coreMQTT、TLS、AT、PUBACK 或原模拟目标。
 common=[HERE/'src/stack.c',HERE/'src/adapter.c',CO/'src/mp_can_driver.c',CO/'src/mp_od.c',ROOT/'gateway/data_model/model.c',ROOT/'gateway/storage/router.c',VENDOR/'CANopen.c',*sorted((VENDOR/'301').glob('*.c'))]
 commands=[]
@@ -26,13 +30,14 @@ def run(cmd,input_data=None):
     log.extend(r.stdout+r.stderr)
     if r.returncode: raise subprocess.CalledProcessError(r.returncode,cmd)
 log=bytearray();result={'feature':'H3_NETWORK_IRQ' if args.irq else 'LEGACY_POLLING','mode':'HOST' if args.host else 'ARM_PHYSICAL_CAN1_CANDIDATE','hardware':'NOT_RUN','wifi_awake':args.wifi_awake,'fresh_sntp':args.fresh_sntp}
+result.update(synthetic_source=args.isolated or args.synthetic_source,compiled_MQTT_port=8884 if args.isolated else 8883)
 try:
     if args.host:
         sources=[*common,HERE/('tests/peer_power_cycle.c' if args.peer_cycle else 'tests/network_order.c' if args.rx_order else 'tests/wire.c' if args.wire else 'tests/protocol.c')]
         if args.rx_order: sources.append(HERE/'bench/rx_irq.c')
         # 重启回归直接编译生产驱动，仅用Host头文件替换寄存器/时钟边界。
         if args.peer_cycle:sources += [HERE/'src/bxcan_network_irq.c',HERE/'bench/rx_irq.c']
-        run(['gcc','-std=c11','-O1','-g','-DCO_MULTIPLE_OD',*(['-DMP_CAN_RX_IRQ'] if args.irq else []),*(['-DMP_H3_TEST_SOURCE','-DMP_MQTT_TLS_PORT=8884'] if args.isolated else []),'-Wall','-Wextra','-Wno-unused-parameter',*(['-I'+str(HERE/'tests/hw')] if args.peer_cycle else []),'-I'+str(HERE/'src'),'-I'+str(HERE/'bench'),'-I'+str(MQTT/'src'),'-I'+str(CO/'src'),'-I'+str(VENDOR),*sources,'-o',build/'physical_host.exe'])
+        run(['gcc','-std=c11','-O1','-g','-DCO_MULTIPLE_OD',*(['-DMP_CAN_RX_IRQ'] if args.irq else []),*(['-DMP_H3_TEST_SOURCE','-DMP_MQTT_TLS_PORT=8884'] if args.isolated else []),*(['-DMP_H3_TEST_SOURCE'] if args.synthetic_source else []),'-Wall','-Wextra','-Wno-unused-parameter',*(['-I'+str(HERE/'tests/hw')] if args.peer_cycle else []),'-I'+str(HERE/'src'),'-I'+str(HERE/'bench'),'-I'+str(MQTT/'src'),'-I'+str(CO/'src'),'-I'+str(VENDOR),*sources,'-o',build/'physical_host.exe'])
         start=len(log)
         run([build/'physical_host.exe'],args.wire.read_bytes() if args.wire else None)
         if args.peer_cycle:
@@ -45,6 +50,7 @@ try:
         vendor=ROOT/'gateway/third_party/coreMQTT'
         includes=[HERE/'src',HERE/'bench',MQTT/'src',CO/'src',VENDOR,vendor/'source/include',vendor/'source/interface',*base.INCLUDES]
         flags=[*base.COMMON_FLAGS,'-DCO_MULTIPLE_OD',*(['-DMP_CAN_RX_IRQ','-DHSE_VALUE=8000000'] if args.irq else []),*(['-DMP_H3_WIFI_AWAKE'] if args.wifi_awake else []),*(['-DMP_H3_TEST_SOURCE','-DMP_MQTT_TLS_PORT=8884',*(['-DMP_H3_VOLATILE_CONFIG'] if not args.persistent_config else [])] if args.isolated else []),*(['-DMP_H3_PERSISTENT_CONFIG'] if args.persistent_config else []),*['-I'+str(p) for p in includes]]
+        if args.synthetic_source:flags.append('-DMP_H3_TEST_SOURCE')
         if args.macro_source_root:
             # coreMQTT断言会把__FILE__写入镜像；显式虚拟前缀只稳定诊断文件名，不访问旧目录。
             # 默认构建不变；复现历史镜像必须把前缀与完整编译命令一起记入本次回执。
@@ -84,7 +90,7 @@ except ValueError as e:
     # 下载计划门禁失败同样保留非零构建证据，不能被finally中的缺失退出码掩盖。
     result.update(exit_code=1,validation_error=str(e))
 finally:
-    name=('peer-cycle-' if args.peer_cycle else 'rx-order-' if args.rx_order else '')+('isolated-' if args.isolated else '')+('wire' if args.wire else 'host' if args.host else 'arm')
+    name=('peer-cycle-' if args.peer_cycle else 'rx-order-' if args.rx_order else '')+('formal-synthetic-' if args.synthetic_source else 'isolated-' if args.isolated else '')+('wire' if args.wire else 'host' if args.host else 'arm')
     (evidence/(name+'.log')).write_bytes(log)
     result['commands']=commands
     # SDK 在仓库外，单独命名并保存字节摘要，不能因 relative_to 异常掩盖真实构建退出码。

@@ -1,0 +1,21 @@
+{
+  "exit_code": 0,
+  "cases": [
+    {
+      "case": "missing_fresh_sntp",
+      "actual_exit_code": 2,
+      "expected_exit_code": 2,
+      "raw_sha256": "717b97d8e892169011a0cb0d6df7d69b0c96a8b2839bc30e017ad0723c9d22ba"
+    },
+    {
+      "case": "ambiguous_source_port",
+      "actual_exit_code": 2,
+      "expected_exit_code": 2,
+      "raw_sha256": "b997eef1ff16ef4a5507cc19d99ce5f27e891d6017dabebe70d81144aad215e6"
+    }
+  ],
+  "old_frozen_images_unchanged": true,
+  "source_base_commit": "9f37cecdba60e0ab0915fdd470aa210ee63274f6",
+  "uncommitted_build_script_sha256": "7b6383a878796d5b8df63c2e04ef269a714cfa3076a177c4af5023cdec8e5f59",
+  "physical_flash_write": false
+}

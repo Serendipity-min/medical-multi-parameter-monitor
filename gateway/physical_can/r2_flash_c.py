@@ -1,4 +1,4 @@
-"""C sector0..3受限台架工具；默认离线，执行必须另有负责人窗口，不自动GO或复位。"""
+"""C sector0..3受限台架工具；默认隔离/离线，正式MOCK需显式配置，不自动GO或复位。"""
 import argparse
 from contextlib import redirect_stdout,redirect_stderr
 from datetime import datetime,timezone
@@ -22,13 +22,21 @@ SPAN=0x10000
 def sha(data):return hashlib.sha256(data).hexdigest()
 
 
-def offline_plan(manifest,image,record):
+def offline_plan(manifest,image,record,profile='isolated'):
     validate(record)
     if manifest.get('exit_code')!=0 or manifest.get('feature')!='H3_NETWORK_IRQ' or not manifest.get('fresh_sntp'):
         raise GateError('VERIFIED_FRESH_SNTP_IRQ_REQUIRED')
-    # 本工具只负责8884/MOCK隔离候选；正常8883固件不能借本窗口进入生产链路。
-    if not any('-DMP_MQTT_TLS_PORT=8884' in c and '-DMP_H3_TEST_SOURCE' in c and '-DMP_H3_PERSISTENT_CONFIG' in c for c in manifest.get('commands',[])):
-        raise GateError('ISOLATED_8884_PROFILE_REQUIRED')
+    # 端口与来源必须显式配对；旧入口仍只接受8884，正式台架入口不接受LIVE或隐含端口覆盖。
+    if profile=='isolated':
+        if not any('-DMP_MQTT_TLS_PORT=8884' in c and '-DMP_H3_TEST_SOURCE' in c and '-DMP_H3_PERSISTENT_CONFIG' in c for c in manifest.get('commands',[])):
+            raise GateError('ISOLATED_8884_PROFILE_REQUIRED')
+    elif profile=='formal-synthetic':
+        flags=[f for c in manifest.get('commands',[]) for f in c]
+        if (manifest.get('compiled_MQTT_port')!=8883 or manifest.get('synthetic_source') is not True
+            or '-DMP_H3_TEST_SOURCE' not in flags or '-DMP_H3_PERSISTENT_CONFIG' not in flags
+            or any(f.startswith('-DMP_MQTT_TLS_PORT=') and f!='-DMP_MQTT_TLS_PORT=8883' for f in flags)):
+            raise GateError('FORMAL_8883_SYNTHETIC_PROFILE_REQUIRED')
+    else:raise GateError('UNKNOWN_DOWNLOAD_PROFILE')
     p=manifest.get('persistent_config',{})
     if (p.get('address'),p.get('sector'),p.get('record_bytes'),p.get('erase_bytes'),p.get('runtime_flash_writes'))!=(CONFIG,3,336,0x4000,False):
         raise GateError('PERSISTENT_PROFILE_REQUIRED')
@@ -51,7 +59,8 @@ def offline_plan(manifest,image,record):
             'record_sha256':sha(record),'record_bytes':336,'application_sectors':[0,1,2],
             'config_sector':3,'config_erase_bytes':0x4000,'backup_bytes':SPAN,
             'commit_written_last':True,'ram_injection':False,'automatic_go':False,
-            'protected_sectors':[7,11],'option_bytes_write':False}
+            'protected_sectors':[7,11],'option_bytes_write':False,
+            'mqtt_tls_port':8883 if profile=='formal-synthetic' else 8884,'profile':profile}
 
 
 def protection(boot,baseline):
@@ -157,8 +166,8 @@ def restore_wifi(boot,baseline,backup,current_sha,progress):
     return {**result,'restore_readback_match':True,'restored_sha256':sha(backup)}
 
 
-def program(boot,manifest,image,record,baseline,backup,progress):
-    offline_plan(manifest,image,record);checked_backup(baseline,backup)
+def program(boot,manifest,image,record,baseline,backup,progress,profile='isolated'):
+    offline_plan(manifest,image,record,profile);checked_backup(baseline,backup)
     if not boot.extended_erase:raise GateError('EXTENDED_ERASE_REQUIRED')
     protection(boot,baseline)
     if read_exact(boot,START,SPAN)!=backup:raise GateError('CURRENT_64K_CHANGED')
@@ -207,7 +216,7 @@ def check_window(window,action,plan,commit,identity_sha):
         raise GateError('OWNER_WINDOW_IMAGE_CONFIG_SCOPE')
     if wifi_action and window.get('previous_record_sha256')!=plan.get('previous_record_sha256'):
         raise GateError('OWNER_WINDOW_PREVIOUS_CONFIG_SCOPE')
-    if window.get('identity_source_sha256')!=identity_sha or window.get('mqtt_tls_port')!=8884:
+    if window.get('identity_source_sha256')!=identity_sha or window.get('mqtt_tls_port')!=plan.get('mqtt_tls_port',8884):
         raise GateError('OWNER_WINDOW_IDENTITY_NETWORK_SCOPE')
 
 
@@ -242,6 +251,7 @@ def synchronize_ready_rom(uart,boot,reset_connection=None):
 
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--action',choices=('plan','backup','program','restore','wifi-plan','wifi-backup','wifi-update','wifi-restore'),default='plan')
+    parser.add_argument('--profile',choices=('isolated','formal-synthetic'),default='isolated')
     for flag in ('manifest','image','record'):parser.add_argument('--'+flag,type=Path,required=True)
     for flag in ('owner-window','private-dir','identity-source','previous-receipt','baseline','sdk-root','previous-record','previous-baseline'):
         parser.add_argument('--'+flag,type=Path)
@@ -254,10 +264,12 @@ def main():
         if args.record.resolve().is_relative_to(ROOT):raise GateError('EXTERNAL_RECORD_REQUIRED')
         manifest=json.loads(args.manifest.read_text());image=args.image.read_bytes();record=args.record.read_bytes()
         wifi_action=args.action.startswith('wifi-')
+        # 已有换网事务继续限定原隔离配置，正式身份切换不能伪装成仅Wi-Fi字段更新。
+        if wifi_action and args.profile!='isolated':raise GateError('WIFI_ISOLATED_PROFILE_REQUIRED')
         if wifi_action:
             if not args.previous_record or args.previous_record.resolve().is_relative_to(ROOT):raise GateError('EXTERNAL_PREVIOUS_RECORD_REQUIRED')
             old_record=args.previous_record.read_bytes();plan=wifi_plan(manifest,image,old_record,record)
-        else:plan=offline_plan(manifest,image,record)
+        else:plan=offline_plan(manifest,image,record,args.profile)
         result['plan']=plan
         if args.action in ('plan','wifi-plan'):
             result.update(exit_code=0,physical_actions_authorized=False);print(json.dumps(result));return 0
@@ -306,7 +318,7 @@ def main():
                        else capture_backup(boot,previous,args.private_dir,sha(args.identity_source.read_bytes())))
                 with (args.private_dir/'baseline.json').open('x') as f:json.dump(value,f,indent=2)
                 result['backup']={k:v for k,v in value.items() if k!='private_files'}
-            elif args.action=='program':result.update(program(boot,manifest,image,record,baseline,backup,progress))
+            elif args.action=='program':result.update(program(boot,manifest,image,record,baseline,backup,progress,args.profile))
             elif args.action=='wifi-update':result.update(update_wifi(boot,manifest,image,old_record,record,baseline,backup,progress))
             elif args.action=='wifi-restore':result.update(restore_wifi(boot,baseline,backup,args.expected_current_sha256,progress))
             else:result.update(restore(boot,baseline,backup,args.expected_current_sha256,progress))

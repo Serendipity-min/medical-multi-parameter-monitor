@@ -1,0 +1,6 @@
+usage: build.py [-h] [--host] [--irq] [--isolated] [--synthetic-source]
+                [--wifi-awake] [--fresh-sntp] [--rx-order] [--peer-cycle]
+                [--wire WIRE] [--persistent-config]
+                [--evidence-dir EVIDENCE_DIR]
+                [--macro-source-root MACRO_SOURCE_ROOT]
+build.py: error: --synthetic-source ARM requires --fresh-sntp

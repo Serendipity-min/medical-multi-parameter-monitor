@@ -1,0 +1,24 @@
+{
+  "stage": "F4_PREPARATION",
+  "gate": "FORMAL_SYNTHETIC_DOWNLOAD_HOST_PASS",
+  "source_commit": "9f37cecdba60e0ab0915fdd470aa210ee63274f6",
+  "source_dirty_at_test": true,
+  "command": "python -X utf8 -m pytest -q gateway/physical_can/tests/test_formal_synthetic_download.py gateway/physical_can/tests/test_r2_persistent_download.py gateway/physical_can/tests/test_r2_wifi_migration.py",
+  "exit_code": 0,
+  "passed": 63,
+  "window_start_utc": null,
+  "recorded_utc": "2026-10-21T09:01:55.205421+00:00",
+  "timestamp_note": "Exact test start was not separately captured; this is transcript-preserved stdout, not a second test run.",
+  "device_operations": false,
+  "source_sha256": {
+    "gateway/physical_can/r2_flash_c.py": "7b2eba05c8a23faf4cc94b4423e50dae4ceb147496c388777339ee84fdb52e3d",
+    "gateway/physical_can/tests/test_formal_synthetic_download.py": "2d123a6b2ea51b567133aef2dd2a8934f4e62f6f5160f7411fc2e077ba919d91"
+  },
+  "transcript_sha256": "73aecd18b9ab734cb5ef973009acab1ce07a9a518ff9e7073616ff48002a297f",
+  "raw_evidence_sha": null,
+  "null_reasons": {
+    "raw_evidence_sha": "RAW_PROCESS_STREAM_NOT_PERSISTED; NORMALIZED_TOOL_TRANSCRIPT_LINKED_SEPARATELY",
+    "window_start_utc": "EXACT_PROCESS_START_NOT_CAPTURED"
+  },
+  "tool_output_reference": "exec_command chunk_id 2fafb7; exit_code 0"
+}
