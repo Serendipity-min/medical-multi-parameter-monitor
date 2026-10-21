@@ -21,10 +21,13 @@ def prepared(tmp_path,monkeypatch):
     monkeypatch.setattr(release,'Path',mapped);monkeypatch.setattr(release,'SNIPPET',snippet)
     identity={'original':{'pid':'123','state':'active'}}
     monkeypatch.setattr(release,'service_identity',lambda:identity)
+    # 本组专测路由/服务事务；完整对象校验及包篡改另在test_final_delivery中用真实目录验证。
+    monkeypatch.setattr(release.recovery_bundle,'verify',lambda *a,**k:None)
+    monkeypatch.setattr(release.runtime_package,'verify',lambda *a,**k:None)
     for unit in release.UNITS:(stage/unit).write_text('synthetic unit')
     for name in ('backend.env','ai.env'):(stage/name).write_text('SYNTHETIC=true')
     (stage/'mqtt.json').write_text('{"client_id":"synthetic-formal","port":8883,"purpose":"FORMAL_BACKEND_READONLY"}')
-    plan={'plan_schema_version':2,'formal_mqtt_policy':{'port':8883,'purpose':'FORMAL_BACKEND_READONLY'},'stage':str(stage),'release':str(payload),'original_services':identity,
+    plan={'plan_schema_version':2,'complete_backup':{'path':str(stage/'complete-backup'),'manifest_sha256':'synthetic','state':'VERIFIED_COMPLETE'},'formal_mqtt_policy':{'port':8883,'purpose':'FORMAL_BACKEND_READONLY'},'stage':str(stage),'release':str(payload),'original_services':identity,
           'original_hashes':{str(snippet):release.digest(snippet)},
           'candidate_nginx_sha256':release.digest(stage/'candidate.nginx.conf'),
           'owned_unit_sha256':{u:release.digest(stage/u) for u in release.UNITS},
@@ -110,4 +113,50 @@ def test_partial_unit_copy_failure_enters_cleanup(prepared,monkeypatch):
     monkeypatch.setattr(release,'atomic_copy',failing)
     with pytest.raises(OSError,match='synthetic copy failure'):release.switch(target)
     assert ['systemctl','disable','--now',*release.UNITS] in commands
+    assert snippet.read_text()=='original route'
+
+
+def test_complete_backup_is_mandatory_even_with_old_schema2(prepared):
+    target,stage,snippet,commands=prepared
+    data=json.loads(target.read_text());data.pop('complete_backup');target.write_text(json.dumps(data))
+    with pytest.raises(RuntimeError,match='COMPLETE_RECOVERY'):release.switch(target)
+    assert snippet.read_text()=='original route' and commands==[]
+
+
+def test_activate_rollback_reactivate_with_unchanged_old_services(prepared,monkeypatch):
+    from io import StringIO
+    class Response(StringIO):status=200
+    monkeypatch.setattr(release.urllib.request,'urlopen',lambda *a,**k:Response(
+        '{"status":"ok","mqtt_connected":true,"model_mode":"DOUBAO","snapshot_mode":"MONITOR"}'))
+    target,stage,snippet,commands=prepared
+    assert release.switch(target)['state']=='ACTIVATED_PENDING_HTTPS_ACCEPTANCE'
+    assert snippet.read_text()=='candidate route'
+    assert release.switch(target,True)['state']=='ROLLED_BACK_ORIGINAL_ROUTE'
+    assert snippet.read_text()=='original route'
+    assert release.switch(target)['state']=='ACTIVATED_PENDING_HTTPS_ACCEPTANCE'
+
+
+def test_nginx_reload_failure_restores_original_route(prepared,monkeypatch):
+    from io import StringIO
+    class Response(StringIO):status=200
+    monkeypatch.setattr(release.urllib.request,'urlopen',lambda *a,**k:Response(
+        '{"status":"ok","mqtt_connected":true,"model_mode":"DOUBAO","snapshot_mode":"MONITOR"}'))
+    target,stage,snippet,commands=prepared
+    def run(args):
+        commands.append(args)
+        if args==['systemctl','reload','nginx'] and snippet.read_text()=='candidate route':
+            raise RuntimeError('synthetic nginx reload failure')
+        return ''
+    monkeypatch.setattr(release,'run',run)
+    with pytest.raises(RuntimeError,match='synthetic nginx'):release.switch(target)
+    assert snippet.read_text()=='original route'
+
+
+def test_candidate_damage_does_not_block_original_route_rollback(prepared,monkeypatch):
+    target,stage,snippet,commands=prepared
+    snippet.write_text('candidate route')
+    (stage/'candidate.nginx.conf').write_text('damaged staged route')
+    def damaged(*a,**k):raise RuntimeError('candidate tree damaged')
+    monkeypatch.setattr(release.runtime_package,'verify',damaged)
+    assert release.switch(target,True)['state']=='ROLLED_BACK_ORIGINAL_ROUTE'
     assert snippet.read_text()=='original route'
