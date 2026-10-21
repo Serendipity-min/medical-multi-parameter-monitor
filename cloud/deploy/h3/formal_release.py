@@ -214,6 +214,9 @@ def prepare(release,formal_mqtt_path=None,recovery_spec=None,python_path=None):
         (stage / unit).write_text('[Unit]\nDescription=H3 validated monitor candidate\nAfter=network.target\n'
             '[Service]\nUser=medical-ai\nGroup=medical-ai\nWorkingDirectory=' + str(working) +
             '\nEnvironmentFile=' + str(stage / environment) + '\nExecStart=' + command +
+            # 不可变源码树禁止生成pyc；沿用现网最小写入边界，仅账本/诊断STATE可写。
+            '\nEnvironment=PYTHONDONTWRITEBYTECODE=1\nNoNewPrivileges=yes\nProtectSystem=strict\n'
+            'ProtectHome=yes\nPrivateTmp=yes\nReadWritePaths=' + str(STATE) +
             '\nRestart=on-failure\nRestartSec=3\nUMask=0077\n[Install]\nWantedBy=multi-user.target\n')
     # 哈希路由使用同一index；AI保留完整上游前缀，WS/API明确剥离项目前缀。
     candidate = candidate_nginx(release)
