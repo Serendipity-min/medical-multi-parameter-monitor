@@ -2,11 +2,11 @@
 
 ## R3当前裁定（覆盖下方历史阶段状态）
 
-2026-10-22 Asia/Shanghai：**BIO_V2_INSTALLED_CAPTURE_OPEN_COMPLETED_ECG_OPERATOR_PENDING**。独立工作区与唯一写分支不变；合同固件源码/阈值不变。已完成当次身份/独立双备份、合同候选安装及整片校验；5秒实际观察约249.95SPS且错误0。专用BIO_V2采集入口已完成10秒未接源实板核验。已展示ECG-PILOT接源卡，等待负责人完成物理操作并回报实际状态；尚无连接SKX的已知ECG数据，HR/RR均未验收。
+2026-10-22 Asia/Shanghai：**ECG60_TWO_WINDOWS_PASS_WAITING_SOURCE90**。独立工作区与唯一写分支不变；合同固件源码/阈值不变。已完成身份/双备份、候选安装/整片校验、249.95SPS链路及未接源原码核验。负责人已按卡接好电池普通60；短窗2598帧/无近轨与缺口/实板HR60有效，随后两窗正式评价均通过。90/120尚待实际源菜单确认后执行，不提前签B2或B3全PASS。
 
 负责人已明确授权“连接模拟源、采集、排查”，并说明被其他测试覆盖后“重新烧录下载即可”。每个硬件窗口调用前展示精确卡，依据已有继续执行授权实施必要步骤；不将初始软件准备权限本身冒称硬件许可。J-Link当前接B的JTAG且仅调试；负责人已确认正常，不再重复索要型号/排线。
 
-当前供电为J5/YL-1210 12V1A中心正极，开关已开，B0/B1均GND。模块ADS1292_V2.0、灯亮、J1空置、J2接开发板5V共GND；START→PG15/DRDY→PA3负责人确认。负责人只见J1/J2，不根据图中J3假定实物CLKSEL。CAN/模拟器/人体均未接，输入OPEN_UNKNOWN。SKX可电池断USB、可选普通60BPM，不等于已接源。
+当前供电为J5/YL-1210 12V1A中心正极，开关已开，B0/B1均GND。模块ADS1292_V2.0、灯亮、J1空置、J2接开发板5V共GND；START→PG15/DRDY→PA3负责人确认。负责人只见J1/J2，不根据图中J3假定实物CLKSEL。ECG-PILOT前CAN/模拟器/人体均未接；之后负责人明确确认电池普通60、USB断开、R红RA/L黄LA/F绿RL/N、LL/F空置，B上电并接回J-Link，CAN/人体仍断开。此后的源类别为ENGINEERING_NONHUMAN/ORDINARY_ECG，不冒用旧OPEN_UNKNOWN状态。
 
 | 窗口 | R3实际结果 |
 |---|---|
@@ -18,6 +18,8 @@
 | START-PULSE R1/R2 | R1写前停止；R2条件go后已129IRQ/129帧，按卡跳过脉冲；两轮GPIO写均0，不宣称脉冲修复 |
 | PRECHECK-001 R2 | 约4.985秒captured260→1506，249.94985SPS；BIO计数推进，init/spi/bad_status/overflow0；未知输入不评准确率 |
 | CAPTURE-OPEN-001 R1 | 10.016秒/126个真实槽块；稳定原码2609帧，连续序号内缺口0、重复冲突0、起始pending8保留；h1/go2、尾段暂停/恢复均确认、起止Flash/options不变。CH2近轨0、观察HR无效；CH1开路近轨100%，不代替已知ECG或RESP验收 |
+| ECG-PILOT-001 R1 | 负责人确认接好普通60后采10.032秒，稳定2598帧/缺口0/近轨0；后段实板HR60有效，源冻结C回放末60。pending26保留，不以该短窗签正式PASS |
+| ECG-MATRIX-001 R1 | 每窗92秒，首个实板诊断后30秒预热+完整60秒评价+2秒裕量；60两窗已通过，稳态原码14994/14995帧、实板观察76/75条全部有效HR60，回放全部60，主机约249.93/249.91SPS；90/120待实际菜单确认 |
 
 多次发现下一会话已暂停，尚未区分连接/关闭等调试行为，不归因算法。已依SEGGER说明添加SetSkipDebugDeInit=1保留固件使用的DWT；仅证明策略解析/调用成功，不声称已消除全部会话间暂停。回执RUNNING指Close前实际观察，不是Close后独立观测。
 
@@ -25,11 +27,11 @@
 
 工具为官方签名9.86a纯归档提取的JLink_x64.dll，SHA632d0d78e72b8a55c65945a0c393a9f081082c725fff4ba3081b0a565fd58cff；未运行安装器、改驱动或升级探针。MSI管理提取曾被自动审批拒绝，改用纯归档提取，没有换壳重试被拒安装操作。旧5.12/7.22b策略不足未在板上试错。连接保护、单探针/VTref、每调用及全会话独立监督均留证。
 
-原offline profile仍保留未授权、UID为空语义；新实际绑定受限capture-profile-r3-02.json SHA `9d17280c4d918f50a3b3d0ce344bff98bf0072fdd20f5db6bd9547fcb305a6ab`。专用入口capture_b.py固定diag20001AE4/120、slots20001F30/3072、stats2000018C/48、启动RREG缓存200001BC/12，尾段仅从同一128KiB RAM取head/最后127已发布槽；3:2冲突不投票、不补点/跨复位拼接。实板无逐拍事件流，filtered/峰事件仍需另行精确C回放并标REPLAY。
+原offline profile仍保留未授权、UID为空语义；02用于两个10秒窗口，SHA9d17280c…及当时源码副本保留；正式92秒改用03，SHA `4e298cf97e55ea8c7d01aa9509b54ef682256fcad6c9ba30cca835ec1cde1a7f`，只是时长/工具绑定更新，不改固件。专用入口固定diag20001AE4/120、slots20001F30/3072、stats2000018C/48、启动RREG缓存200001BC/12，确认暂停后同一128KiB RAM取head/末127已发布槽；3:2冲突不投票、不补点/跨启动拼接。analyze_capture_b.py已用冻结C源输出明确标REPLAY的filtered/候选/接受事件，回放初态在首个保留帧重置，不冒称完整板内历史或逐位相同ARM执行。
 
 新增20项工具/采集集成unittest通过，全部脱机；既有ARM0错误0警告/31项ABI/9项profile/27项旧采集工具证据保留。初次解码28I+4f误设由测试在硬件前发现，按120B ABI修为26I+4f；首轮Windows心跳unlink共享冲突在Open前停止，改只追加事件流并有并发负例。相关失败不抹除。
 
-算法固定自研BIO_V2，CH2 ECG→HR、CH1阻抗RESP→RR；不换心电衍生呼吸旧目录。F绿→RLD、R红→ERA、L黄→ELA为设计映射，不是实测通断/电气认证；不把F接模拟器LL/F，不桥LL/RL。下一步按已展示ECG-PILOT卡，由负责人断电接源/电池普通60确认后才开始短窗；该卡明确有界非人体工程试接及未知电气边界，不预签完整兼容PASS。合格输入后60/90/120各30秒预热+60秒稳态×2。无同步逐拍参考不报漏检/敏感性，无I导联1mV保证不做幅值标定。RESP仍BLOCKED_ELECTRODE_PAIR_AND_REFERENCE。
+算法固定自研BIO_V2，CH2 ECG→HR、CH1阻抗RESP→RR；不换心电衍生呼吸旧目录。F绿→RLD、R红→ERA、L黄→ELA为设计映射，本次RL/N工程试接已有真实ECG输入，不外推所有负载兼容，也不伪造通断测量。当前按MATRIX卡做60/90/120各30秒预热+60秒稳态×2，三档六窗/负例/完整性均受审才签B2工程速率PASS。无同步逐拍参考不报漏检/敏感性，无I导联1mV保证不做幅值标定。CH1接源后不再顶轨，但RESP仍BLOCKED_ELECTRODE_PAIR_AND_REFERENCE，不拿普通ECG附带呼吸显示作动态阻抗真值。
 
 历史8412帧未知输入不算准确率，37169帧仍NOT_RUN_EXACT_SHA_NOT_FOUND。H3/P4/main/B/B2/P6/A、正式云及CAN参数不变，无三板连接/PR/合并/tag/强推/扫描。当前机器证据为 `../evidence/B-ALG-002/field-r3/field-summary.json`、测试/SHA清单；最终提交、远端逐字节取回和保护refs比较写仓库外DELIVERY-RECEIPT。
 

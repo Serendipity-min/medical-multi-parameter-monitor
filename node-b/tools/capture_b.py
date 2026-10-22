@@ -47,7 +47,7 @@ def prepare(path):
              'offline_profile_sha256':sha(offline),'layout':json.loads(offline.read_text('utf-8'))['layout'],
              'tools_sha256':bindings(),'identity_reference':str(reference),'identity_reference_sha256':sha(reference),
              'flash_sha256':EXPECTED_FLASH,'options_sha256':sha(PRIVATE/'readback-r3-02/options-read-1.bin'),
-             'poll_interval_s':.05,'duration_choices_s':[10,90],'live_diag':'NONATOMIC_OBSERVATION',
+             'poll_interval_s':.05,'duration_choices_s':[10,92],'live_diag':'NONATOMIC_OBSERVATION',
              'end_snapshot':'CONFIRMED_HALTED_SINGLE_128K_RAM','peak_events':'OFFLINE_REPLAY_ONLY'}
     validate(profile);write_json(path,profile)
     return profile
@@ -55,7 +55,7 @@ def prepare(path):
 
 class CaptureLink(PathLink):
     def gate(self):
-        # 90秒窗口加两次整片读和尾段，独立总上限240秒；其他入口仍为180秒。
+        # 92秒含30秒预热、60秒评价及2秒尾裕量，另加整片读；其他入口仍为180秒。
         require(not (self.out/'STOP').exists(),'OWNER_STOP')
         require(time.monotonic()-self.started<=240,'SESSION_TIMEOUT')
         require(not self.error,'SDK_ERROR_SEE_PRIVATE_LOG')
@@ -160,7 +160,7 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--prepare',action='store_true');p.add_argument('--profile',type=Path,required=True)
     for n in ('dll','card','out','source_record'):p.add_argument('--'+n.replace('_','-'),type=Path)
-    p.add_argument('--card-sha256');p.add_argument('--seconds',type=int,choices=(10,90),default=10)
+    p.add_argument('--card-sha256');p.add_argument('--seconds',type=int,choices=(10,92),default=10)
     args=p.parse_args()
     require(args.profile.resolve().is_relative_to(PRIVATE.resolve()),'PRIVATE_PROFILE_REQUIRED')
     if args.prepare:

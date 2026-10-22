@@ -19,7 +19,7 @@ def main():
     parser.add_argument('--reference',type=Path)
     parser.add_argument('--profile',type=Path)
     parser.add_argument('--source-record',type=Path)
-    parser.add_argument('--seconds',type=int,choices=(10,90),default=10)
+    parser.add_argument('--seconds',type=int,choices=(10,92),default=10)
     args = parser.parse_args()
     require(args.out.resolve().is_relative_to(PRIVATE.resolve()), 'OUTPUT_NOT_RESTRICTED')
     require(not args.out.exists(), 'OUTPUT_ALREADY_EXISTS')

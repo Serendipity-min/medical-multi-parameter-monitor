@@ -1,0 +1,67 @@
+{
+  "stage": "ECG60_PILOT_INPUT_CHECK_ONLY",
+  "reference": "OWNER_CONFIRMED_ORDINARY_ECG_60_BATTERY_USB_DISCONNECTED",
+  "capture": {
+    "status": "CAPTURE_FILES_SAVED",
+    "card_sha256": "f4df4dfd9df03879aed5b297862b540772d85dfcf25e55052f1aa4af1f54f587",
+    "tool_sha256": "30ca216758bd5be1596088dcc686b387a24e58616db3bbdf951f8c4a837c8854",
+    "profile_sha256": "9d17280c4d918f50a3b3d0ce344bff98bf0072fdd20f5db6bd9547fcb305a6ab",
+    "source_record_sha256": "0a93909ef9796ab66689738bdb8ed5ec46d1ef7c606c2e139c8dcace4fd76105",
+    "window_elapsed_s": 10.03200000000652,
+    "chunks": 126,
+    "halt_requests": 1,
+    "go_requests": 2,
+    "reset_requests": 0,
+    "tail_halt_confirmed": true,
+    "resume_confirmed": true,
+    "target_end_state": "RUNNING_BEFORE_CLOSE",
+    "export": {
+      "stable_frames": 2598,
+      "first_sequence": 4192,
+      "last_sequence": 6789,
+      "source_missing_within_span": 0,
+      "pending": 26,
+      "multi_repeat_conflicts": 0,
+      "paused_conflicts": 0,
+      "boot_count": 1,
+      "ch2_near_rail_fraction": 0.0,
+      "ch1_near_rail_fraction": 0.0,
+      "input_accuracy": "NOT_EVALUATED",
+      "peak_events": "NOT_LIVE_PER_BEAT_OFFLINE_REPLAY_REQUIRED"
+    }
+  },
+  "ecg_ch2_descriptive": {
+    "min_codes": 1217,
+    "max_codes": 9888,
+    "median_codes": 8753.0,
+    "peak_to_peak_codes": 8671,
+    "near_rail_fraction": 0.0,
+    "rms_after_mean_removal_codes": 1010.4712367189811,
+    "power_fraction_24_26hz": 0.020962445438595993,
+    "power_fraction_49_51hz": 0.023701128396714274
+  },
+  "raw_csv_sha256": "81d11dcc771cc38046fc28915d245a1df6e5e83e05e7279fd274c789cdd23828",
+  "live_last_observation": {
+    "sequence": 6687,
+    "device_ms": 36392,
+    "hr": 60,
+    "valid": 1,
+    "reason": 0
+  },
+  "host_replay": {
+    "bio_source_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+    "host_dll_sha256": "ae450e341c85e1aeecff429059f25b8a691943ac7fc4270ebaf917d6f88d2e48",
+    "replay_valid_hr_frames": 414,
+    "replay_peak_event_records": 21,
+    "limitations": [
+      "Replay starts with reset state at first retained frame; not the full live filter history",
+      "Exact frozen C source on Host; not a claim of bit-identical ARM execution",
+      "Peak events derived from Host replay; no synchronized external per-beat truth",
+      "Spectra use nominal 250SPS and mean removal; amplitudes remain uncalibrated ADC codes"
+    ]
+  },
+  "host_replay_final_hr": 60,
+  "host_replay_final_valid": 1,
+  "accuracy": "NOT_ASSESSED_PILOT_NO_60S_STEADY_WINDOW",
+  "rr_acceptance": "NOT_EVALUATED_DYNAMIC_IMPEDANCE_UNPROVEN"
+}

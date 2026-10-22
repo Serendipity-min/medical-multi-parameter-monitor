@@ -2,7 +2,7 @@
   "schema": "B_ALG_002_FIELD_R3_SUMMARY_1",
   "date": "2026-10-22",
   "source": "ENGINEERING_NONHUMAN",
-  "state": "BIO_V2_INSTALLED_CAPTURE_OPEN_COMPLETED_ECG_OPERATOR_PENDING",
+  "state": "ECG60_TWO_WINDOWS_PASS_WAITING_SOURCE90",
   "firmware_source_unchanged": true,
   "candidate_bin_sha256": "438a8120f6df06ce219cdc30c0e5b697ac0e993f98d5a80521b10361536ae3ae",
   "original_flash_sha256": "69d9efb0ce0a9228138ea3cc21adbb09c09a15a8b6dbf0d9a1d1ff861a32fc2a",
@@ -17,7 +17,7 @@
     "j5_switch": "ON_CONFIRMED",
     "jlink": "B_JTAG_DEBUG_ONLY",
     "can": "DISCONNECTED",
-    "simulator": "DISCONNECTED",
+    "simulator": "CONNECTED_OWNER_CONFIRMED_ORDINARY_ECG60_BATTERY_NO_USB",
     "human": "DISCONNECTED",
     "start": "PG15_CONFIRMED",
     "drdy": "PA3_CONFIRMED",
@@ -25,7 +25,8 @@
     "module_J3": "NOT_VISIBLE_OWNER_REPORT_ONLY_J1_J2",
     "module_model": "ADS1292_V2.0",
     "module_power": "J2_BOARD_5V_COMMON_GND_LED_ON",
-    "module_J1": "EMPTY"
+    "module_J1": "EMPTY",
+    "leads": "R_RED_RA_L_YELLOW_LA_F_GREEN_RL_LL_UNUSED"
   },
   "last_path_observation": {
     "host_monotonic": 393759.781,
@@ -290,7 +291,7 @@
       }
     }
   ],
-  "hr_accuracy": "NOT_RUN_NO_QUALIFIED_FRAMES_OR_CONNECTED_SOURCE",
+  "hr_accuracy": "TWO_60BPM_ENGINEERING_RATE_WINDOWS_PASS_FULL_MATRIX_INCOMPLETE",
   "resp_rr": "BLOCKED_ELECTRODE_PAIR_AND_REFERENCE",
   "limitations": [
     "RUNNING_CONFIRMED refers to state observed before SDK close; inter-session pauses recorded separately",
@@ -298,11 +299,11 @@
     "Live RAM reads uncoordinated; initialization RREG cache is not fresh SPI read",
     "Open input CH1 near rail is not RESP algorithm acceptance/failure",
     "8 initial pending observations retained; continuous selected sequence range has zero internal holes",
-    "Known ECG source not yet physically connected/confirmed; waiting for owner readiness under ECG-PILOT card"
+    "60 BPM two windows passed, 90/120 BPM not yet run; no full B2 PASS yet"
   ],
   "tool_tests": {
     "status": "PASS",
-    "unittest_count": 20,
+    "unittest_count": 21,
     "synthetic_only": true,
     "initial_failure": "precheck decoder incorrectly assumed 28I+4f; corrected against ABI to 26I+4f before hardware use; four failure traces retained in chat tool output"
   },
@@ -326,6 +327,6 @@
     "input_accuracy": "NOT_EVALUATED",
     "peak_events": "NOT_LIVE_PER_BEAT_OFFLINE_REPLAY_REQUIRED"
   },
-  "collector_status": "BIO_V2_CAPTURE_IMPLEMENTED_AND_OPEN_INPUT_HARDWARE_FILES_SAVED",
-  "capture_profile_sha256": "9d17280c4d918f50a3b3d0ce344bff98bf0072fdd20f5db6bd9547fcb305a6ab"
+  "collector_status": "BIO_V2_CAPTURE_IMPLEMENTED_OPEN_AND_KNOWN_ECG_REAL_DATA",
+  "capture_profile_sha256": "4e298cf97e55ea8c7d01aa9509b54ef682256fcad6c9ba30cca835ec1cde1a7f"
 }
