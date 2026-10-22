@@ -61,6 +61,10 @@ def create_app(settings=None, reader=None, provider=None, publisher=None):
     def authenticate(request):
         if not hmac.compare_digest(request.headers.get('authorization', ''), 'Bearer ' + settings.token):
             raise HTTPException(401, 'AI_AUTH_REQUIRED')
+        if isinstance(publisher, FormalVoicePublisher) and request.headers.get('origin', '') not in {
+                origin for origin in os.environ.get('P6_ALLOWED_ORIGINS', '').split(',') if origin}:
+            # CORS并不阻止服务器处理携带令牌的请求；正式语音窗口在业务入口额外核验Origin。
+            raise HTTPException(403, 'VOICE_ORIGIN_REQUIRED')
 
     @app.get('/health')
     @app.get('/medical-monitor/ai/health')

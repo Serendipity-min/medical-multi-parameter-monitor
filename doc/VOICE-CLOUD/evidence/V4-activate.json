@@ -1,0 +1,28 @@
+{
+  "exit_code": 0,
+  "action": "ACTIVE_DEFAULT_VOICE_OFF",
+  "after_sha256": {
+    "/opt/medical-monitor/broker/acl": "c79ed88f677bed97529fde38abd863950d6aba8dcf667b1806821800f5081dbc",
+    "/opt/medical-monitor/broker/passwords": "27b1a3caa06d4e6e487d2911ec5b86d3fa3ea14f88fd58998f1708379c2bbf12",
+    "/etc/nginx/snippets/medical-monitor.conf": "4c4de4b2ee963a8790c691ab5963385c1f6b879e58100f6d0ba02763ff29760b"
+  },
+  "services": {
+    "medical-monitor-h3-webai.service": {
+      "MainPID": "2758088",
+      "ActiveState": "active"
+    },
+    "medical-monitor-h3-webbackend.service": {
+      "MainPID": "2758089",
+      "ActiveState": "active"
+    },
+    "medical-monitor-mqtt.service": {
+      "MainPID": "851111",
+      "ActiveState": "active"
+    },
+    "nginx.service": {
+      "MainPID": "3631",
+      "ActiveState": "active"
+    }
+  },
+  "port": 18796
+}

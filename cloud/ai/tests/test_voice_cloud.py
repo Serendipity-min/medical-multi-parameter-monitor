@@ -74,3 +74,16 @@ def test_formal_overlong_sentence_has_no_broker_side_effect():
     data=body();data.update(question='一般建议',voice=True)
     r=post(client(provider=Model(),publisher=Pub()),data).json()
     assert r['voice_status']=='VOICE_SHORT_LIMIT'
+
+
+def test_formal_origin_requires_allowlist_after_auth(tmp_path,monkeypatch):
+    from cloud.ai.tests.test_ai import TOKEN
+    ca=tmp_path/'ca.pem';ca.write_text('synthetic-no-network')
+    publisher=FormalVoicePublisher('mqtt.example.invalid',str(ca),'synthetic','synthetic',int(time.time()*1000)+60000)
+    monkeypatch.setenv('P6_ALLOWED_ORIGINS','https://monitor.example.invalid')
+    c=client(publisher=publisher)
+    for origin in ('https://unapproved.example.invalid',''):
+        response=c.post('/api/v1/text',json={},headers={'Authorization':'Bearer '+TOKEN,'Origin':origin})
+        assert response.status_code==403
+    assert c.post('/api/v1/text',json={},headers={'Origin':'https://monitor.example.invalid'}).status_code==401
+    assert c.post('/api/v1/text',json={},headers={'Authorization':'Bearer '+TOKEN,'Origin':'https://monitor.example.invalid'}).status_code==422

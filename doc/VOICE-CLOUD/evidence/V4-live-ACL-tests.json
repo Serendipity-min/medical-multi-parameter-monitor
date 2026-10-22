@@ -1,0 +1,34 @@
+{
+  "exit_code": 0,
+  "port": 8883,
+  "TLS_chain_SNI_verified": true,
+  "tests": [
+    {
+      "name": "publisher_exact_write_C_exact_read_publisher_read_denied",
+      "pass": true,
+      "puback_reason": 0,
+      "C_role_probe_received": true,
+      "device_audible": "NOT_ASSERTED"
+    },
+    {
+      "name": "C_voice_write_denied",
+      "pass": true,
+      "MQTT5_puback_reason": 135
+    },
+    {
+      "name": "publisher_control_denied",
+      "pass": true,
+      "MQTT5_puback_reason": 135
+    },
+    {
+      "name": "publisher_other_gateway_denied",
+      "pass": true,
+      "MQTT5_puback_reason": 135
+    },
+    {
+      "name": "publisher_B_telemetry_denied",
+      "pass": true,
+      "MQTT5_puback_reason": 135
+    }
+  ]
+}
