@@ -1,0 +1,37 @@
+{
+  "schema": "RESP_003_ELECTRICAL_REVIEW_1",
+  "date": "2026-10-22",
+  "stage": "ELECTRICAL_A",
+  "status": "A_REPORTED_DC_VALUES_BELOW_STOP_LIMIT_SECOND_GROUP_PENDING",
+  "measurement_location": "SKX_RA_LA_RL_TERMINALS_WITH_EXISTING_THREE_IN_ONE_LEAD_UNCHANGED",
+  "actual_range": "DC_200mV",
+  "reported_values_mV": {
+    "RA_minus_RL": 2.3,
+    "LA_minus_RL": 0.7,
+    "RA_minus_LA": 1.7
+  },
+  "reported_values_V": {
+    "RA_minus_RL": 0.0023,
+    "LA_minus_RL": 0.0007,
+    "RA_minus_LA": 0.0017
+  },
+  "reported_values_per_pair": 1,
+  "repeated_time_series": "NOT_PROVIDED",
+  "sign_note": "Values reported without minus signs; no invented sign/time-series or triplicate measurements",
+  "DC_20V_owner_literal": "没数据",
+  "DC_20V_numeric_value_V": null,
+  "prior_R1_range": "DC_20V",
+  "R1_range_changed_by_owner_recorded": true,
+  "closure_residual_mV_using_reported_signs": -0.1,
+  "stop_threshold_abs_V": 0.2,
+  "all_reported_abs_values_below_threshold": true,
+  "current_or_impedance_calibration": "NOT_EVALUATED",
+  "RLD_32khz_compatibility": "NOT_PROVEN_BY_DC_VALUES",
+  "owner_original_record_sha256": "eb002ed23baa4eb731384ce3f507ae6ab84ceb742310e0bca2d15d093af4a600",
+  "electrical_R1_card_sha256": "3f41bce18afeaaee767aff76f256fc8600ebeaa7eaca2432881a523374be341a",
+  "electrical_R2_card_sha256": "c3d0851dfdcff8d59b2b87c3faadd3d8aa2392635917a288085deb495b26578b",
+  "next": "Second group under independent respiration 15/1.5R; follow R2 coarse DC20V then conditional DC200mV",
+  "B_group": "NOT_RUN",
+  "E1": "NOT_RUN",
+  "SDK_hardware_actions_this_turn": 0
+}

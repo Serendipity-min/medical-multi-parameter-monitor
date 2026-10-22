@@ -1,0 +1,130 @@
+{
+  "stage": "E1",
+  "status": "E1_ABORTED_DIAGNOSTIC_ABI_MISMATCH",
+  "capture_status": "RESP_CAPTURE_STOP",
+  "capture_error": "RuntimeError: RESP_DIAG_ABI",
+  "worker_exit_code": 1,
+  "supervisor_exit_code": 1,
+  "analysis_status": "RESP_ANALYSIS_FAILED",
+  "analysis_error": "RuntimeError: RESP_UNCONFIRMED_CAPTURE_END",
+  "analysis_exit_code": 1,
+  "session_elapsed_s": 26.73399999999674,
+  "completed_10s_window": false,
+  "slot_blocks_saved": 1,
+  "slot_bytes_saved": 3072,
+  "valid_diagnostic_groups": 0,
+  "raw_diagnostic_bytes_saved": 120,
+  "expected_tag": "0x324f4942",
+  "observed_tag": "0xc4bfa8bf",
+  "expected_abi": 2,
+  "observed_abi": 1085970804,
+  "register_cache_bytes_saved": 12,
+  "register_cache_matches_frozen_init": false,
+  "sdk_calls": 37,
+  "halt_requests": 0,
+  "go_requests": 0,
+  "reset_requests": 0,
+  "flash_write_requests": 0,
+  "tail_halt_confirmed": false,
+  "resume_confirmed": false,
+  "target_end_state": "UNKNOWN_NO_POST_CLOSE_OBSERVATION",
+  "start_identity_check": "PASSED_BEFORE_FIRST_SLOT",
+  "start_full_flash_check": "PASSED_BEFORE_FIRST_SLOT",
+  "start_options_check": "PASSED_BEFORE_FIRST_SLOT",
+  "end_identity_flash_options_checks": "NOT_REACHED",
+  "full_flash_expected_sha256": "f713277a50a5ec8d8a93317f412d5ab1b754e5d619918e57e9efe9dceef24cbb",
+  "source_type": "RESP_EXPLORATORY",
+  "nominal_menu_rpm": 15,
+  "menu_literals": {
+    "mode_literal": "呼吸波形",
+    "rate_literal": "15bpm",
+    "amplitude_literal": "1.5R",
+    "apnea_literal": "未找到（未更改）"
+  },
+  "Z0_ohm": null,
+  "delta_Zpp_ohm": null,
+  "dynamic_pair": "UNVERIFIED",
+  "RR_evaluation": "NOT_EVALUATED_INVALID_DIAGNOSTIC_ABI_AND_UNCONFIRMED_END",
+  "E1_INPUT_SEEN": false,
+  "E2": "NOT_RUN",
+  "E3": "NOT_RUN",
+  "retry_count": 0,
+  "card_sha256": "96e78461211aeb36cc00a977719ff13273eff909ff40f67638b9283ce3fb3a8f",
+  "profile_sha256": "36bd57065035e91b461b24110e55de9ef929b73d2e5bee5e656ee4931d05616d",
+  "source_record_sha256": "f284fbaab787cc9b336e881add8bf2bd6f17a7287e0d6446ed1364a412022527",
+  "safety_record_sha256": "f1a58e00850a88e64b4d8d1d2716fddd14e3e2fc871c3c3d704a6829262b3065",
+  "execution_manifest_sha256": "9a95b253cac5e04c78a353999b80ebd874fba6447e856f3193b8d985cc00ff68",
+  "tools_sha256": {
+    "node-b/tools/capture_resp_b.py": "6989a819a5f26c91074bf2cfdd769313fa543aa85e58c01d5198bd0670e309ae",
+    "node-b/tools/resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+    "node-b/tools/analyze_resp_b.py": "225e5ef46b8f450c3b4372d3fc102491c8f2e64ee8a5f9fd87a12074018e3360",
+    "node-b/tools/supervise_resp_b.py": "5019350e361f6ab999dc0fe9a09808b304228235d8c11b3abcf4e5e86f6f8a4d",
+    "node-b/tools/capture_b.py": "7c45589bff1099e20354b8dbe7db9bb2e32095bf67a904b9358cf4f4996800fa",
+    "node-b/tools/readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+    "node-b/tools/precheck_b.py": "3c490ecc99154aa857b0f2f9767951b5e6587844269983670a6ea53684ce4a81",
+    "node-b/tools/adc_path_b.py": "a80c1ed4ccddb8f0f569c3753c2659b78e01bb3c6b4f0b49bcaf3aa27a152d12",
+    "node-b/tools/boot_check_b.py": "0c854ade1cc99807badbdbc8a9f0a5eb7dd24d6447f617356fcd2bcd42f100c0",
+    "node-b/tools/fault_snapshot_b.py": "96d0976b2dd18d5c9a982c4d8b8afe9f2822f0120bbe06ef4c48cb4461bc49a3",
+    "node-b/tools/field_profile.py": "2cc386655e425d7f1ee57a8de956026cadd1057a27b2429ffa0f75a4bb1d9857",
+    "node-b/acquisition/工具/stable_slot_export.py": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2"
+  },
+  "original_files": {
+    "0000-diag.bin": {
+      "bytes": 120,
+      "sha256": "e055ffb38789330c5b12d9353bae8227708f0748c25588c226047bec4e55073c"
+    },
+    "0000-rreg-cache.bin": {
+      "bytes": 12,
+      "sha256": "becdae9831207614cebf6d5305874e47c670dd2f82bc5c15eca123558f5e3730"
+    },
+    "0000-stats.bin": {
+      "bytes": 48,
+      "sha256": "c1da35402cd8e87f58228fb14f7a1e144bfd53456ce576bb27ee5542e40e7f96"
+    },
+    "chunks-private.jsonl": {
+      "bytes": 174,
+      "sha256": "316c58f87a6eaf45f94f0ed3df2095d8e8e1f5357b140cf0d3f90acb42d8596c"
+    },
+    "diagnostics-private.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "heartbeat-events.jsonl": {
+      "bytes": 5422,
+      "sha256": "2c4240db5ed85df4bd62dba96335553053e05813cd06485a371cccaa1d2e02d0"
+    },
+    "identity-before-private.json": {
+      "bytes": 156,
+      "sha256": "6807dc3c928c11b5ba3d2185286f2a7e18bc526485d7ac84edace59728dc0323"
+    },
+    "io-private.jsonl": {
+      "bytes": 2127,
+      "sha256": "8cf1971d01d6749a3902e34a62d294c279ad4b39ddd0b0e245b4382df6498ea5"
+    },
+    "probe-status-private.json": {
+      "bytes": 25,
+      "sha256": "fecdafeae802ada818477c71d4f7213c1c9e717ac6355a4540ea1095cb513491"
+    },
+    "receipt-private.json": {
+      "bytes": 1963,
+      "sha256": "583db7ee803c4ecca05a55ce066b66a7d7079bdeaeedea0467469bda2020f909"
+    },
+    "running-slots-private.bin": {
+      "bytes": 3072,
+      "sha256": "946c997655fe086d7e7d3e39db45625a5b910dcf15168b16eadfc2dffe0b892e"
+    },
+    "sdk-private.log": {
+      "bytes": 1025,
+      "sha256": "dcd824e333ded95108338d1b50c9f642a2e3f5f61f1a6c2925846c655f5c257d"
+    },
+    "supervisor-receipt-private.json": {
+      "bytes": 182,
+      "sha256": "8f9dd7d8cc3938479d49a2b449b2419e23a20e2d644a95a4ff60970406fe4565"
+    }
+  },
+  "limitations": [
+    "Flash presence does not establish current execution PC or successful BioV2_Init",
+    "No valid frames/diagnostic reasons/RR can be inferred from rejected RAM bytes",
+    "No conclusion that SKX does not support respiration or algorithm is faulty"
+  ]
+}

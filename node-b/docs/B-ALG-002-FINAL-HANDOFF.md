@@ -1,5 +1,7 @@
 # MPM-B-ALG-002 唯一阶段交接
 
+RESP-003最新执行：R3卡唯一会话在首组诊断触发RESP_DIAG_ABI，worker/监督均exit1，未完成10秒；halt/go/reset/写Flash均0，未重试。E1未签通过，E2/E3未执行。下方E0等待描述为历史快照；当前以[RESP报告](RESP-EXPLORATORY-REPORT.md)及[失败回执](../evidence/B-RESP-003/e1-failure-receipt-01.json)为准，R3一次权限已消耗。
+
 RESP-003最新：负责人已明确允许厂家ΔΩ/动态端子未知条件下的有限非人体探索。E0独立源/profile/采集/120B解析/RR离线计算和13项测试已完成；E1准确R2卡已备，当前仅HOLD_FOR_SAFE_FIELD_GATE_AND_ACTUAL_MENU，未读板/改线/采集。[本轮报告](RESP-EXPLORATORY-REPORT.md)与[R2卡](AUTH-B-RESP-PILOT-001-R2.md)覆盖以下旧R1的探索准入判断，旧ECG结果和正文保留。
 
 ## R3当前裁定（覆盖下方历史阶段状态）

@@ -72,8 +72,10 @@ def validate_source(source, stage, ready=False):
         require(source.get('operator_ready') is True and source.get('menu_confirmed') is True, 'RESP_SOURCE_NOT_READY')
         require(isinstance(source.get('owner_confirmation'), str) and source['owner_confirmation'].strip(), 'RESP_OWNER_CONFIRMATION')
         require(source.get('safety_confirmed') is True, 'RESP_SAFETY_NOT_CONFIRMED')
+        # 本机呼吸页面实际沿用bpm字样；只在已确认的独立呼吸模式解释为呼吸次数/分。
+        # 保留原菜单文字，不能为迎合旧解析器将15bpm伪写成15rbpm或改成ECG来源。
         require(menu['mode_literal'].strip() == '呼吸波形'
-                and re.fullmatch(r'\s*15\s*(rbpm|rpm|次/分)\s*', menu['rate_literal'], re.I), 'RESP_ACTUAL_MENU_NOT_CONFIRMED')
+                and re.fullmatch(r'\s*15\s*(rbpm|rpm|bpm|次/分)\s*', menu['rate_literal'], re.I), 'RESP_ACTUAL_MENU_NOT_CONFIRMED')
         record = Path(source.get('safety_record', ''))
         require(record.is_file() and sha(record) == source.get('safety_record_sha256'), 'RESP_SAFETY_RECORD_BINDING')
         evidence = json.loads(record.read_text('utf-8'))

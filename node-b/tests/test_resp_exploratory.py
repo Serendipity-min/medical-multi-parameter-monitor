@@ -38,6 +38,26 @@ def rows(rate=15, seconds=60):
 
 
 class SourceCases(unittest.TestCase):
+    def test_actual_resp_bpm_literal_keeps_mode_and_unknown_Z_gates(self):
+        # 实际菜单沿用bpm也必须通过独立呼吸模式门；合成安全记录不能当作现场证据。
+        with tempfile.TemporaryDirectory() as name:
+            record = Path(name) / 'safety.json'
+            record.write_text(json.dumps({'stage': 'E1', 'status': 'CONFIRMED_FOR_BOUNDED_E1',
+                'same_ECG_setup': True, 'battery_no_USB': True, 'no_grounded_instrument': True,
+                'no_shorts_or_abnormalities': True, 'CAN_A_C_human_disconnected': True,
+                'voltage_current_safety_basis': 'SYNTHETIC_TEST_ONLY_NOT_FIELD_EVIDENCE',
+                'resp_mode_compatibility_limit_acknowledged': True}), encoding='utf-8')
+            s = source();s['menu']['rate_literal'] = '15bpm';s['menu']['apnea_literal'] = '未找到'
+            s.update(operator_ready=True, menu_confirmed=True, owner_confirmation='SYNTHETIC_TEST_ONLY',
+                     safety_confirmed=True, safety_record=str(record), safety_record_sha256=capture.sha(record))
+            self.assertEqual(validate_source(s, 'E1', ready=True), 'RESP_SOURCE_READY')
+            self.assertEqual(s['menu']['rate_literal'], '15bpm')
+            self.assertIsNone(s['delta_Zpp_ohm'])
+            for mode in ('心电波形', 'ORDINARY_ECG'):
+                s['menu']['mode_literal'] = mode
+                with self.assertRaisesRegex(RuntimeError, 'ACTUAL_MENU'):
+                    validate_source(s, 'E1', ready=True)
+
     def test_unknown_impedance_allowed_only_for_exploration(self):
         s = source()
         self.assertEqual(validate_source(s, 'E1'), 'RESP_SOURCE_OFFLINE_ONLY')
