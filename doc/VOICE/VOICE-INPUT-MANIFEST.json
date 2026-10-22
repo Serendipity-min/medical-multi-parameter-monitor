@@ -1,0 +1,102 @@
+{
+  "recorded_utc": "2026-10-22T03:12:09.860286+00:00",
+  "source_base": "a5cdd5b0b1ad48108fd631136e9de69e30582f2d",
+  "branch": "codex/gateway-c-tw-tts-v1-20261022",
+  "remote_refs": {
+    "refs/heads/A": "3fa14b00a0823d2855e9dd8bd1c6c8545abb8dc5",
+    "refs/heads/B": "f8c99433561b2e110c04ba9fb33c30235910a3e9",
+    "refs/heads/P4": "67f5f57bd82c6e326e9e78ec9540481c80105e5f",
+    "refs/heads/dev/h3-nodea-cloud-ai-integration": "a5cdd5b0b1ad48108fd631136e9de69e30582f2d",
+    "refs/heads/dev/p6-cloud-ai-text-tts-v1": "77dd14d1ca761a488956f7a4ebf28cb3174835e4",
+    "refs/heads/main": "50699048010c57ba10f8573461844c525b022a07",
+    "refs/tags/h3-ac-mock-eng-20261021-r1": "8a9265146a293f8a020df39863943e9de4adce68",
+    "refs/tags/h3-ac-mock-eng-20261021-r1^{}": "a5cdd5b0b1ad48108fd631136e9de69e30582f2d"
+  },
+  "protected_source_diff": "NONE",
+  "hardware": "NOT_ACCESSED",
+  "cloud": "NOT_ACCESSED",
+  "owner_hardware_report": "TW-TTS unwired; C off; no USB; proposed J-Link; PA2/PA3 external unused; speaker 8ohm1W short trial requested",
+  "sources": {
+    "gateway/voice/BENCH_FLASH.ld": "2c98c515c21a241794a74aaca6c9c2ce82d03c9897cc0588d31db76f478782fc",
+    "gateway/voice/bench_main.c": "11a895c49d3bdbfb707b33559730edc2b4718f4ee8f99b828796a90476f7d83f",
+    "gateway/voice/bench_manifest.py": "51e4a222de168e58e6da2c2811aa1f4e0355616eb35aefeacc3361ad321fe304",
+    "gateway/voice/bench_window.py": "4a4706a1cd73d3971de3106c84e340ceb7069747afd870b2a268b9e0a51fba76",
+    "gateway/voice/build.py": "60b72977694759d68e9d23b3aa635b5050e66f095acb418bef9d2ed3517519ca",
+    "gateway/voice/regression.py": "4087031156a9895f7a36d79fe0c3e5c1a24907b2af94b62b3fe6d8794fb56766",
+    "gateway/voice/tests/test_bench_window.py": "1028fd34e48b89fbc0664b3aa0c10224a4a16a871753b9feaabcef5b8fea6a92",
+    "gateway/voice/tests/test_voice.c": "61ae276894251c45fc82c6932373cf9a30798fec0c4e47ace3988a3348536a9e",
+    "gateway/voice/tts_frame.c": "81e76cc50aedad7de1d558f970255e4b5e32635fbb8994cf8b50537c62c8fde9",
+    "gateway/voice/tts_frame.h": "1822b223297f9e98d9f50f425adcd87755a83caa6f2101ec12c4bd92557324dd",
+    "gateway/voice/tts_queue.c": "4e986f38968a861c9006beeb4be74e872231dd3ed264b824f3a78bdcc1569651",
+    "gateway/voice/tts_queue.h": "51368f0c5082805dc34e86340ecd4b99fd554cb0b4930897ef6fe109266aa19d",
+    "gateway/voice/tts_uart_port.c": "e889d18f909164cc7526e07b213f7dba52c1970be1b06f8a374bba41cabe29d5",
+    "gateway/voice/tts_uart_port.h": "02371c9e3f55f01040ea32de57353070940fd6adced3522d025150a4edce57a2",
+    "gateway/voice/.gitignore": "8d7ec2693679d47d90e98c3a0784b1f84a73fb513fd4a8b51af456c89ca77111"
+  },
+  "external_documents": {
+    "contract": {
+      "filename": "MPM-C-VOICE-001-TW-TTS-Codex-Execution-Contract.md",
+      "bytes": 28467,
+      "sha256": "a7a7969a9b5daf191a15c7362e9a30b0b4e7da6320178d541260e8141123e017"
+    },
+    "board_schematic": {
+      "filename": "STM32F407_原理图.pdf",
+      "bytes": 226861,
+      "sha256": "7737115dc272d6daff1f3bb08b7c8c23c10415c10bca57c3d72979adf53b46b2"
+    },
+    "mcu_datasheet": {
+      "filename": "STM32F407-数据手册.pdf",
+      "bytes": 2239662,
+      "sha256": "c1b81d52821418979aa3b84038f25231597f14cf850104aaf63b450affe0dcf4"
+    }
+  },
+  "artifacts": {
+    "gateway/voice/build/offline-bench/c_voice_offline_bench.bin": {
+      "bytes": 3756,
+      "sha256": "311032f64c7f6674f14410414504c99a3d4ae35dd0e7be0703a97715fca8ad30"
+    },
+    "gateway/voice/build/offline-bench/c_voice_offline_bench.elf": {
+      "bytes": 16880,
+      "sha256": "ed8d81161ea78ea5001ee619739f0daf343fcdc7f72293b3937fe36128c00f32"
+    },
+    "gateway/voice/build/offline-bench/c_voice_offline_bench.map": {
+      "bytes": 95720,
+      "sha256": "69c300d589f3dc63ca07832c45c86234b0b3a07cc0157b239a8a74ebfaeab84e"
+    },
+    "gateway/physical_can/build/h3-ac-formal-synthetic/gateway_physical_can.bin": {
+      "bytes": 43172,
+      "sha256": "b9b25b186c3b40d62b4a1c1919e09f27b639806271a3b20ae7fc80ea4cda1efe"
+    },
+    "gateway/physical_can/build/h3-ac-formal-synthetic/gateway_physical_can.elf": {
+      "bytes": 79496,
+      "sha256": "2263a70a3abe2fcfdfaed6385c2615d7817a22d8c1b552b611c153043f266d03"
+    },
+    "gateway/physical_can/build/h3-ac-formal-synthetic/gateway_physical_can.map": {
+      "bytes": 227244,
+      "sha256": "ac7e07f6da522380e0f1afad0444501d7ec464b6e9df46298ba515c1a2d13d6a"
+    },
+    "gateway/physical_can/build/h3-r2-persistent-isolated/gateway_physical_can.bin": {
+      "bytes": 43172,
+      "sha256": "59229f1b34660f053538737fc0fd17c814fde5502a0dfe33603e8e08b72ca8a5"
+    },
+    "gateway/physical_can/build/h3-r2-persistent-isolated/gateway_physical_can.elf": {
+      "bytes": 79496,
+      "sha256": "ce5e06d2ff61511f910e926a766b38344a5745e94a186ccd1b0f951451523e8c"
+    },
+    "gateway/physical_can/build/h3-r2-persistent-isolated/gateway_physical_can.map": {
+      "bytes": 229563,
+      "sha256": "0d7f1b3f59273e04ff892c3c2e31e7332de13f90ebe6b916b8e22dc1fffaca02"
+    }
+  },
+  "current_historical_C_config": {
+    "bytes": 336,
+    "generation": 3,
+    "sha256": "395c6a36d7c4a636b34a72eacd1ccc2a2fc7f025df7089f3d94e1d2de14c5a3b",
+    "fresh_board_read": "NOT_RUN"
+  },
+  "new_hardware_backups": "NONE_NOT_READ",
+  "archive_byte_policy": {
+    "evidence": "-text; raw logs -diff",
+    "local_build": "gateway/voice/.gitignore excludes build/; no application uploaded"
+  }
+}

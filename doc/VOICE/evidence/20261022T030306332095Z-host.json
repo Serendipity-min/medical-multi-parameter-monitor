@@ -1,0 +1,40 @@
+{
+  "started_utc": "2026-10-22T03:03:06.333101+00:00",
+  "cwd": "/mnt/e/medical-monitor-c-voice",
+  "hardware": "NOT_RUN",
+  "network": "NOT_LINKED",
+  "commands": [
+    [
+      "gcc",
+      "-std=c11",
+      "-O2",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I/mnt/e/medical-monitor-c-voice/gateway/voice",
+      "/mnt/e/medical-monitor-c-voice/gateway/voice/tts_frame.c",
+      "/mnt/e/medical-monitor-c-voice/gateway/voice/tts_queue.c",
+      "/mnt/e/medical-monitor-c-voice/gateway/voice/tests/test_voice.c",
+      "-o",
+      "/mnt/e/medical-monitor-c-voice/gateway/voice/build/host/voice-host"
+    ],
+    [
+      "/mnt/e/medical-monitor-c-voice/gateway/voice/build/host/voice-host"
+    ]
+  ],
+  "feature": "PURE_C_HOST",
+  "exit_code": 0,
+  "host_result": "VOICE_HOST_PASS checks=3103 sizeof_queue=344 hardware=NOT_RUN",
+  "input_sha256": {
+    "gateway/voice/bench_main.c": "11a895c49d3bdbfb707b33559730edc2b4718f4ee8f99b828796a90476f7d83f",
+    "gateway/voice/tts_frame.c": "81e76cc50aedad7de1d558f970255e4b5e32635fbb8994cf8b50537c62c8fde9",
+    "gateway/voice/tts_frame.h": "1822b223297f9e98d9f50f425adcd87755a83caa6f2101ec12c4bd92557324dd",
+    "gateway/voice/tts_queue.c": "4e986f38968a861c9006beeb4be74e872231dd3ed264b824f3a78bdcc1569651",
+    "gateway/voice/tts_queue.h": "51368f0c5082805dc34e86340ecd4b99fd554cb0b4930897ef6fe109266aa19d",
+    "gateway/voice/tts_uart_port.c": "e889d18f909164cc7526e07b213f7dba52c1970be1b06f8a374bba41cabe29d5",
+    "gateway/voice/tts_uart_port.h": "02371c9e3f55f01040ea32de57353070940fd6adced3522d025150a4edce57a2",
+    "gateway/voice/build.py": "7b295e45967b1cfe8e6b4a6f2e09f6d8c84657dac3f5cbae9c6e015121a242eb",
+    "gateway/voice/tests/test_voice.c": "61ae276894251c45fc82c6932373cf9a30798fec0c4e47ace3988a3348536a9e"
+  },
+  "ended_utc": "2026-10-22T03:03:06.986293+00:00"
+}

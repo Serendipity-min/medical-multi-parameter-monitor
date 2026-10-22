@@ -1,0 +1,22 @@
+{
+  "command": [
+    "C:\\Users\\Serendipity\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "gateway/physical_can/build.py",
+    "--irq",
+    "--isolated",
+    "--fresh-sntp",
+    "--persistent-config",
+    "--macro-source-root",
+    "E:\\medical-monitor-h3",
+    "--evidence-dir",
+    "doc/VOICE/evidence/old-arm-isolated"
+  ],
+  "cwd": "E:\\medical-monitor-c-voice",
+  "started_utc": "2026-10-22T03:05:41.913337+00:00",
+  "hardware": "NOT_RUN",
+  "production": "NOT_ACCESSED",
+  "security_gate": "NOT_RUN",
+  "exit_code": 0,
+  "ended_utc": "2026-10-22T03:05:48.711288+00:00",
+  "log_sha256": "23c254918f4b20e54774393193b526bf6557ce7d595e6b378af2f8caa8af71df"
+}

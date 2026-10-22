@@ -1,2 +1,7 @@
 # 固定供应商文件字节换行，保证 Windows 与 CI 的 SHA-256 完整性核验一致。
 gateway/third_party/paho-embedded-c/** text eol=lf
+
+# VOICE原始回执保持原始字节；日志不按源码进行空白规范化。
+doc/VOICE/evidence/** -text
+doc/VOICE/evidence/**/*.log -diff
+doc/VOICE/evidence/*.log -diff

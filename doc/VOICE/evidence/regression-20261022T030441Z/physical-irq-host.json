@@ -1,0 +1,25 @@
+{
+  "command": [
+    "wsl",
+    "-d",
+    "HERA-C3",
+    "--cd",
+    "/mnt/e/medical-monitor-c-voice",
+    "--",
+    "python3",
+    "gateway/physical_can/build.py",
+    "--host",
+    "--irq",
+    "--rx-order",
+    "--evidence-dir",
+    "doc/VOICE/evidence/physical-irq-host"
+  ],
+  "cwd": "E:\\medical-monitor-c-voice",
+  "started_utc": "2026-10-22T03:05:29.611073+00:00",
+  "hardware": "NOT_RUN",
+  "production": "NOT_ACCESSED",
+  "security_gate": "NOT_RUN",
+  "exit_code": 0,
+  "ended_utc": "2026-10-22T03:05:34.811128+00:00",
+  "log_sha256": "a916a5c66bff62b078a7de5defcc7f6d5bb355c3158d5b6fadb497c3f52d9e87"
+}

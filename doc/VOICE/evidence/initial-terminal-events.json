@@ -1,0 +1,17 @@
+{
+  "events": [
+    {
+      "command": "wsl -d HERA-C3 --cd /mnt/e/medical-monitor-c-voice -- python3 gateway/mqtt/tests/run_p5_host_tests.py --with-can-capture",
+      "exit_code": 1,
+      "cause": "Windows worktree .git path not understood by Linux Git",
+      "raw_file": "NOT_CAPTURED_TERMINAL_TRANSCRIPT_ONLY"
+    },
+    {
+      "command": "wsl -d HERA-C3 --cd /mnt/e/medical-monitor-c-voice -- python3 gateway/mqtt/tests/run_p5_host_tests.py --network-irq --wifi-awake --fresh-sntp",
+      "exit_code": 1,
+      "cause": "same Windows worktree Git path issue",
+      "raw_file": "NOT_CAPTURED_TERMINAL_TRANSCRIPT_ONLY"
+    }
+  ],
+  "raw_evidence_limitation": "Original terminal tool receipts are preserved in conversation; this is a retrospective event index, not fabricated raw command output."
+}
