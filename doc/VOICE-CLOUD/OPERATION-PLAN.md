@@ -42,3 +42,5 @@ Broker仅HUP重载ACL/password，先后核对原连接、8883 TLS、错误主题
 阶段结束实际回退本轮AI路由/Web/ACL/password至双份备份并复核SHA；停新候选服务，删除精确临时规则/角色。
 回退C仅上述0–2；分别验证HTTPS/WSS/8883，不能称全设备/云安全组回退。
 不创建新tag；只有整项工程PASS且负责人核准才可冻结新tag。
+
+云窗口细化：候选AI端口127.0.0.1:18796；原AI18786和Backend18785不停。两个既有宽C通配角色只对voice/reply新增精确deny，避免旧Backend收语音及旧publisher越权。准备双份原件后安装110分钟自动回退定时器，再变更ACL/password并HUP，候选健康通过才切medical-monitor snippet。A已移除，PPG300s与A/C新实板非回归标BLOCKED_SOURCE，本轮只争取一条可闻。

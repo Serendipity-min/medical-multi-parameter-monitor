@@ -88,7 +88,9 @@ class Provider:
         # 模型只接收已归属/有效性核验的标量事实，不发送波形、身份或服务器凭据。
         voice_reservation = None
         try:
-            user_content = json.dumps({'question': question, 'facts': [{k: f[k] for k in ('stream','node_id','validity','source','synthetic') if k in f} for f in facts]}, ensure_ascii=False)
+            # 短句试验只发送A的两项最小来源事实，既不附带数值，也不把B当作已接入。
+            model_facts = [f for f in facts if f.get('stream') in ('SPO2','NIBP')][:2] if self.voice_budget else facts
+            user_content = json.dumps({'question': question, 'facts': [{k: f[k] for k in ('stream','node_id','validity','source','synthetic') if k in f} for f in model_facts]}, ensure_ascii=False)
             if self.voice_budget:
                 voice_reservation = self.voice_budget.reserve(len((prompt+user_content).encode('utf-8')))
             async with httpx.AsyncClient(timeout=8, trust_env=False) as client:

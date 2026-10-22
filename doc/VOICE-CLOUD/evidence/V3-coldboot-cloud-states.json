@@ -1,0 +1,111 @@
+{
+  "exit_code": 0,
+  "snapshots": [
+    {
+      "server_time": 1792651420849,
+      "gateway": "ONLINE",
+      "broker": true,
+      "nodes": {
+        "NODE-A": "OFFLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "stream_states": [
+        {
+          "stream": "NIBP",
+          "validity": "OFFLINE",
+          "source": "MOCK",
+          "synthetic": true
+        },
+        {
+          "stream": "PPG",
+          "validity": "OFFLINE",
+          "source": "MOCK",
+          "synthetic": true
+        },
+        {
+          "stream": "PR",
+          "validity": "OFFLINE",
+          "source": "MOCK",
+          "synthetic": true
+        },
+        {
+          "stream": "SPO2",
+          "validity": "OFFLINE",
+          "source": "MOCK",
+          "synthetic": true
+        }
+      ]
+    },
+    {
+      "server_time": 1792651420865,
+      "gateway": "ONLINE",
+      "broker": true,
+      "nodes": {
+        "NODE-A": "OFFLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "stream_states": [
+        {
+          "stream": "NIBP",
+          "validity": "OFFLINE",
+          "source": "MOCK",
+          "synthetic": true
+        },
+        {
+          "stream": "PPG",
+          "validity": "OFFLINE",
+          "source": "MOCK",
+          "synthetic": true
+        },
+        {
+          "stream": "PR",
+          "validity": "OFFLINE",
+          "source": "MOCK",
+          "synthetic": true
+        },
+        {
+          "stream": "SPO2",
+          "validity": "OFFLINE",
+          "source": "MOCK",
+          "synthetic": true
+        }
+      ]
+    },
+    {
+      "server_time": 1792651420966,
+      "gateway": "ONLINE",
+      "broker": true,
+      "nodes": {
+        "NODE-A": "OFFLINE",
+        "NODE-B": "OFFLINE"
+      },
+      "stream_states": [
+        {
+          "stream": "NIBP",
+          "validity": "OFFLINE",
+          "source": "MOCK",
+          "synthetic": true
+        },
+        {
+          "stream": "PPG",
+          "validity": "OFFLINE",
+          "source": "MOCK",
+          "synthetic": true
+        },
+        {
+          "stream": "PR",
+          "validity": "OFFLINE",
+          "source": "MOCK",
+          "synthetic": true
+        },
+        {
+          "stream": "SPO2",
+          "validity": "OFFLINE",
+          "source": "MOCK",
+          "synthetic": true
+        }
+      ]
+    }
+  ],
+  "raw_values_retained": false
+}
