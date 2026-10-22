@@ -48,6 +48,7 @@ class Provider:
         self.key, self.model = '', ''
         self.last_call = None
         self.budget_dir = None
+        self.voice_budget = None
         if mode == 'DOUBAO':
             # 真实调用必须在服务器进程中显式配置账户/预算门禁，默认不读取或输出密钥。
             self.key = os.environ.get('ARK_API_KEY', '')
@@ -59,6 +60,9 @@ class Provider:
                 raise ValueError('REAL_MODEL_BUDGET_CONFIG')
             self.budget_dir = Path(budget)
             self.ledger = UsageLedger(self.budget_dir)
+            if os.environ.get('CVOICE_MODEL_BUDGET_FILE'):
+                from .voice_budget import VoiceBudget
+                self.voice_budget = VoiceBudget(os.environ['CVOICE_MODEL_BUDGET_FILE'], int(os.environ['CVOICE_UNTIL_MS']))
 
     def reserve_call(self):
         # SQLite事务跨进程保留审计与限流，不再用五个独占槽限制总调用数。
@@ -82,14 +86,18 @@ class Provider:
                   '也不要判断当前读数正常、异常、偏高或偏低。可建议休息、复测、在明显不适时寻求医生评估。'
                   '回答需针对问题，最多三句，不含换行、链接、标签或控制字符。')
         # 模型只接收已归属/有效性核验的标量事实，不发送波形、身份或服务器凭据。
+        voice_reservation = None
         try:
+            user_content = json.dumps({'question': question, 'facts': [{k: f[k] for k in ('stream','node_id','validity','source','synthetic') if k in f} for f in facts]}, ensure_ascii=False)
+            if self.voice_budget:
+                voice_reservation = self.voice_budget.reserve(len((prompt+user_content).encode('utf-8')))
             async with httpx.AsyncClient(timeout=8, trust_env=False) as client:
                 async with client.stream('POST', 'https://ark.cn-beijing.volces.com/api/v3/chat/completions',
                                          headers={'Authorization': f'Bearer {self.key}'},
-                                         json={'model': self.model, 'stream': False, 'max_tokens': 256,
+                                         json={'model': self.model, 'stream': False, 'max_tokens': 128 if self.voice_budget else 256,
                                                'thinking': {'type': 'disabled'}, 'response_format': {'type': 'json_object'},
                                                'messages': [{'role': 'system', 'content': prompt},
-                                                            {'role': 'user', 'content': json.dumps({'question': question, 'facts': [{k: f[k] for k in ('stream','node_id','validity','source','synthetic') if k in f} for f in facts]}, ensure_ascii=False)}]}) as response:
+                                                            {'role': 'user', 'content': user_content}]}) as response:
                     evidence['http_status'] = response.status_code
                     if response.status_code in (401,403): evidence['status'] = 'AUTH_ERROR'
                     elif response.status_code == 429: evidence['status'] = 'QUOTA_ERROR'
@@ -128,6 +136,8 @@ class Provider:
             evidence.setdefault('error_code', 'UPSTREAM_HTTP_' + str(exc.response.status_code))
             raise
         finally:
+            if voice_reservation:
+                self.voice_budget.finish(voice_reservation, evidence)
             evidence['latency_ms'] = round((time.monotonic() - started) * 1000)
             self.last_call = dict(evidence)
             self.ledger.finish(number, evidence)

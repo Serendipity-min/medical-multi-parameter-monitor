@@ -1,0 +1,27 @@
+[
+  {
+    "name": "voice-host-final",
+    "exit_code": 0,
+    "command": [
+      "python",
+      "gateway/voice/validate.py"
+    ]
+  },
+  {
+    "name": "arm-voice-final",
+    "exit_code": 0,
+    "command": [
+      "python",
+      "gateway/physical_can/build.py",
+      "--irq",
+      "--synthetic-source",
+      "--fresh-sntp",
+      "--persistent-config",
+      "--cloud-voice",
+      "--macro-source-root",
+      "E:\\medical-monitor-h3",
+      "--evidence-dir",
+      "doc/VOICE-CLOUD/evidence/arm-voice-final"
+    ]
+  }
+]

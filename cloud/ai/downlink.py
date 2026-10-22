@@ -14,7 +14,8 @@ def short_text(text: str) -> str:
     # 禁止 TW-TTS 内嵌控制标签及控制字符，截断只落在完整字符边界。
     if any(ord(c) < 32 or 0x7f <= ord(c) <= 0x9f or c in '[]'
            or 0x200b <= ord(c) <= 0x200f or 0x2028 <= ord(c) <= 0x202e
-           or 0x2060 <= ord(c) <= 0x206f or ord(c) == 0xfeff or ord(c) >= 0xfffe for c in text):
+           or 0x2060 <= ord(c) <= 0x206f or ord(c) == 0xfeff
+           or 0xfdd0 <= ord(c) <= 0xfdef or ord(c) >= 0xfffe for c in text):
         raise ValueError('VOICE_TEXT')
     raw = text.encode('utf-8', errors='strict')
     return raw[:MAX_TEXT].decode('utf-8', errors='ignore')
@@ -101,6 +102,60 @@ class IsolatedPublisher:
             info.wait_for_publish(timeout=2)
             if info.rc or not info.is_published():
                 raise RuntimeError('ISOLATED_MQTT_PUBACK')
+        finally:
+            client.disconnect()
+            client.loop_stop()
+
+
+class FormalVoicePublisher(IsolatedPublisher):
+    """独立限权身份，只发固定C语音主题；业务目标/口令仅从外部运行配置注入。"""
+    mode = 'FORMAL_TLS_8883'
+    short_only = True
+
+    def __init__(self, host: str, ca: str, username: str, password: str, until_ms: int):
+        from pathlib import Path
+        if not host or any(c.isspace() or c in '/\\\x00' for c in host) or not Path(ca).is_file():
+            raise ValueError('VOICE_TLS_CONFIG')
+        super().__init__(8883, username, password)
+        self.host, self.ca, self.until_ms = host, ca, until_ms
+
+    async def publish(self, gateway: str, payload: bytes) -> str:
+        # 默认没有窗口；即使旧进程未及时停下，也不能无限期向实板发声。
+        now = int(time.time() * 1000)
+        if gateway != 'GW-C-001' or not now < self.until_ms <= now + 7200000:
+            return 'DISABLED'
+        message = decode(payload, now)
+        if len(message['text'].encode()) > 60:
+            return 'VOICE_SHORT_LIMIT'
+        return await super().publish(gateway, payload)
+
+    def _send(self, topic: str, payload: bytes):
+        import ssl
+        import paho.mqtt.client as mqtt
+        if topic != 'mpm/v1/GW-C-001/voice/reply':
+            raise ValueError('VOICE_AUTHORITY')
+        connected = threading.Event()
+        accepted = []
+        client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, protocol=mqtt.MQTTv311)
+        client.connect_timeout = 2
+        client.max_inflight_messages_set(1)
+        client.max_queued_messages_set(1)
+        client.username_pw_set(self.username, self.password)
+        # 使用系统TLS实现校验证书链和主机名/SNI，绝不tls_insecure_set或降级明文。
+        client.tls_set(ca_certs=self.ca, cert_reqs=ssl.CERT_REQUIRED, tls_version=ssl.PROTOCOL_TLS_CLIENT)
+        def on_connect(_client, _userdata, _flags, reason, _properties):
+            accepted.append(not reason.is_failure)
+            connected.set()
+        client.on_connect = on_connect
+        try:
+            client.connect(self.host, 8883, keepalive=15)
+            client.loop_start()
+            if not connected.wait(2) or not accepted or not accepted[0]:
+                raise RuntimeError('VOICE_TLS_CONNECT')
+            info = client.publish(topic, payload, qos=1, retain=False)
+            info.wait_for_publish(timeout=2)
+            if info.rc or not info.is_published():
+                raise RuntimeError('VOICE_TLS_PUBACK')
         finally:
             client.disconnect()
             client.loop_stop()

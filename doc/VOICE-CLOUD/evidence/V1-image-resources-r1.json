@@ -1,0 +1,178 @@
+{
+  "utc": "2026-10-22T06:36:11.518339+00:00",
+  "baseline_image": {
+    "sha256": "b9b25b186c3b40d62b4a1c1919e09f27b639806271a3b20ae7fc80ea4cda1efe",
+    "bytes": 43172,
+    "start": 134217728,
+    "end_exclusive": 134260900,
+    "erase_sectors": [
+      0,
+      1,
+      2
+    ],
+    "load_segments": [
+      {
+        "start": 134217728,
+        "end_exclusive": 134260812,
+        "bytes": 43084
+      },
+      {
+        "start": 134260812,
+        "end_exclusive": 134260900,
+        "bytes": 88
+      }
+    ],
+    "initial_sp": 537001984,
+    "reset_vector": 134250697,
+    "CAN1_RX0_vector": {
+      "address": 134236665,
+      "strong_handler": true
+    },
+    "protected_sectors": [
+      7,
+      11
+    ],
+    "mass_erase": false,
+    "option_bytes_write": false
+  },
+  "voice_image": {
+    "sha256": "641019c652bf9c9d2efdff3151e65ac6bdd234fe5daf5e14a6ede4d1aafeae66",
+    "bytes": 47272,
+    "start": 134217728,
+    "end_exclusive": 134265000,
+    "erase_sectors": [
+      0,
+      1,
+      2
+    ],
+    "load_segments": [
+      {
+        "start": 134217728,
+        "end_exclusive": 134264908,
+        "bytes": 47180
+      },
+      {
+        "start": 134264908,
+        "end_exclusive": 134265000,
+        "bytes": 92
+      }
+    ],
+    "initial_sp": 537001984,
+    "reset_vector": 134254665,
+    "CAN1_RX0_vector": {
+      "address": 134236669,
+      "strong_handler": true
+    },
+    "protected_sectors": [
+      7,
+      11
+    ],
+    "mass_erase": false,
+    "option_bytes_write": false
+  },
+  "symbols": {
+    "CAN1_RX0_IRQHandler": {
+      "address": 134236668,
+      "bytes": 4,
+      "kind": "T"
+    },
+    "cloud_voice_init": {
+      "address": 134253796,
+      "bytes": 80,
+      "kind": "T"
+    },
+    "cloud_voice_metrics": {
+      "address": 536961600,
+      "bytes": 116,
+      "kind": "B"
+    },
+    "cloud_voice_poll": {
+      "address": 134254184,
+      "bytes": 480,
+      "kind": "T"
+    },
+    "cloud_voice_queue": {
+      "address": 536961288,
+      "bytes": 312,
+      "kind": "B"
+    },
+    "cloud_voice_receive": {
+      "address": 134253976,
+      "bytes": 208,
+      "kind": "T"
+    },
+    "cloud_voice_session": {
+      "address": 134253876,
+      "bytes": 100,
+      "kind": "T"
+    },
+    "guard": {
+      "address": 536961120,
+      "bytes": 168,
+      "kind": "b"
+    },
+    "incoming": {
+      "address": 536948414,
+      "bytes": 4,
+      "kind": "b"
+    },
+    "USART2_IRQHandler": {
+      "address": 134253468,
+      "bytes": 96,
+      "kind": "T"
+    },
+    "USART3_IRQHandler": {
+      "address": 134243588,
+      "bytes": 120,
+      "kind": "T"
+    }
+  },
+  "artifacts": {
+    ".elf": {
+      "bytes": 86304,
+      "sha256": "40c03af99cc37f349b0bcda5968848f70e370743abe5de6371e9aa85df6f751d"
+    },
+    ".map": {
+      "bytes": 236499,
+      "sha256": "72a6c6561fbbf61a0dd86d5530a5c9df98324317cfc3d05a9c3097077819968c"
+    },
+    ".bin": {
+      "bytes": 47272,
+      "sha256": "641019c652bf9c9d2efdff3151e65ac6bdd234fe5daf5e14a6ede4d1aafeae66"
+    }
+  },
+  "uart_irq_priority": 15,
+  "CAN_irq_priority": 1,
+  "ESP_irq_priority": 0,
+  "single_slot": true,
+  "max_received_payload": 294,
+  "max_text_protocol": 240,
+  "max_text_physical_trial": 60,
+  "stack_usage": {
+    "mqtt_event": [
+      "24",
+      "static"
+    ],
+    "gateway_mqtt_open": [
+      "656",
+      "static"
+    ],
+    "gateway_mqtt_publish": [
+      "528",
+      "static"
+    ],
+    "voice_check": [
+      "312",
+      "static"
+    ],
+    "cloud_voice_receive": [
+      "96",
+      "static"
+    ],
+    "cloud_voice_poll": [
+      "24",
+      "static"
+    ]
+  },
+  "runtime_stack_margin": "NOT_MEASURED"
+}

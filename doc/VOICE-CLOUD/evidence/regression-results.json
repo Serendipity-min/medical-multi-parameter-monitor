@@ -1,0 +1,51 @@
+[
+  {
+    "name": "baseline-arm",
+    "exit_code": 0,
+    "command": [
+      "python",
+      "gateway/physical_can/build.py",
+      "--irq",
+      "--synthetic-source",
+      "--fresh-sntp",
+      "--persistent-config",
+      "--macro-source-root",
+      "E:\\medical-monitor-h3",
+      "--evidence-dir",
+      "doc/VOICE-CLOUD/evidence/arm-baseline"
+    ]
+  },
+  {
+    "name": "p5",
+    "exit_code": 0,
+    "command": [
+      "python",
+      "gateway/mqtt/tests/run_p5_host_tests.py",
+      "--with-can-capture"
+    ]
+  },
+  {
+    "name": "p5-irq",
+    "exit_code": 0,
+    "command": [
+      "python",
+      "gateway/mqtt/tests/run_p5_host_tests.py",
+      "--network-irq",
+      "--wifi-awake",
+      "--fresh-sntp"
+    ]
+  },
+  {
+    "name": "python",
+    "exit_code": 1,
+    "command": [
+      "python",
+      "-m",
+      "pytest",
+      "cloud/backend/tests",
+      "cloud/ai/tests",
+      "gateway/physical_can/tests",
+      "-q"
+    ]
+  }
+]

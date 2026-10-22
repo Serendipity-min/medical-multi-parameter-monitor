@@ -1,0 +1,80 @@
+.....F........................s......................................... [ 22%]
+........................................................................ [ 45%]
+..............F..................................................... [ 66%]
+........................................................................ [ 89%]
+...................................                                      [100%]
+================================== FAILURES ===================================
+_____________ test_actual_wss_does_not_publish_previous_boot_nibp _____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002BF8D7163D0>
+
+    def test_actual_wss_does_not_publish_previous_boot_nibp(monkeypatch):
+        token='ac-local-synthetic-readonly-'+'x'*32
+        monkeypatch.setenv('MONITOR_TESTING','1');monkeypatch.delenv('MONITOR_MQTT_CONFIG',raising=False)
+        monkeypatch.setenv('MONITOR_VIEW_TOKEN',token);monkeypatch.setenv('MONITOR_ALLOWED_ORIGINS','http://testserver')
+        app=create_app()
+        with TestClient(app) as client:
+            hub,now=setup();now[0]+=1
+            hub.ingest(frame('NODE-A','NODE_STATUS',now[0],session='ac-new-boot',value='ONLINE'));app.state.hub=hub
+>           with client.websocket_connect('/ws/v1/monitor',headers={'origin':'http://testserver'}) as ws:
+
+cloud\backend\tests\test_ac_nibp.py:70: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\site-packages\starlette\testclient.py:123: in __exit__
+    return self.exit_stack.__exit__(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\contextlib.py:601: in __exit__
+    raise exc_details[1]
+C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\contextlib.py:586: in __exit__
+    if cb(*exc_details):
+       ^^^^^^^^^^^^^^^^
+C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\contextlib.py:469: in _exit_wrapper
+    callback(*args, **kwds)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = None, timeout = None
+
+    def result(self, timeout=None):
+        """Return the result of the call that the future represents.
+    
+        Args:
+            timeout: The number of seconds to wait for the result if the future
+                isn't done. If None, then there is no limit on the wait time.
+    
+        Returns:
+            The result of the call that the future represents.
+    
+        Raises:
+            CancelledError: If the future was cancelled.
+            TimeoutError: If the future didn't finish executing before the given
+                timeout.
+            Exception: If the call raised then that exception will be raised.
+        """
+        try:
+            with self._condition:
+                if self._state in [CANCELLED, CANCELLED_AND_NOTIFIED]:
+                    raise CancelledError()
+                elif self._state == FINISHED:
+                    return self.__get_result()
+    
+                self._condition.wait(timeout)
+    
+                if self._state in [CANCELLED, CANCELLED_AND_NOTIFIED]:
+>                   raise CancelledError()
+E                   concurrent.futures._base.CancelledError
+
+C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\concurrent\futures\_base.py:454: CancelledError
+_________ test_voice_control_and_invalid_unicode_rejected[\U0001f600] _________
+
+bad = '\U0001f600'
+
+    @pytest.mark.parametrize('bad', ['[v9]\u6076\u610f\u6807\u7b7e', '\u63a7\u5236\\x00\u5b57\u7b26', '\\ud800', '\\u202e\u4f2a\u9020\u65b9\u5411', '\\u0085\u63a7\u5236', '\U0001f600'])
+    def test_voice_control_and_invalid_unicode_rejected(bad):
+>       with pytest.raises(ValueError): encode('1' * 32, '2' * 32, bad, 100000)
+E       Failed: DID NOT RAISE ValueError
+
+cloud\ai\tests\test_ai.py:239: Failed
+=========================== short test summary info ===========================
+FAILED cloud/backend/tests/test_ac_nibp.py::test_actual_wss_does_not_publish_previous_boot_nibp
+FAILED cloud/ai/tests/test_ai.py::test_voice_control_and_invalid_unicode_rejected[\U0001f600]
+2 failed, 316 passed, 1 skipped, 4 subtests passed in 24.78s

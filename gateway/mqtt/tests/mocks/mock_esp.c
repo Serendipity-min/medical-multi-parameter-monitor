@@ -4,6 +4,10 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
+#ifdef MP_CLOUD_VOICE
+#include "cloud_voice.h"
+int mock_suback_mode, mock_subscribe_count, mock_in_pubacks;
+#endif
 #ifdef MP_CAN_RX_IRQ
 #include "esp_io_metrics.h"
 /* 此夹具替换UART，不伪造实际AT指标；真实平台指标在板端单独核验。 */
@@ -38,7 +42,12 @@ int mock_ntp_fault;
 unsigned mock_ntp_server_mask;
 #endif
 
-void platform_poll(void) { g_uptime_ms++; }
+void platform_poll(void) { g_uptime_ms++;
+#ifdef MP_CLOUD_VOICE
+    /* 语音测试仍编译真实主循环状态机；只替换时钟、GPIO和UART物理边界。 */
+    cloud_voice_poll();
+#endif
+}
 void mp_model_poll(void) { platform_poll(); }
 void console(const char *text) { (void)text; }
 void delay_ms(uint32_t ms) { g_uptime_ms += ms; }
@@ -104,6 +113,20 @@ static void sent_packet(void)
     memcpy(mock_packet, wire, wire_length);
     mock_packet_length = wire_length;
     unsigned type = wire[0] & 0xf0U;
+#ifdef MP_CLOUD_VOICE
+    if(type==0x80) {
+        size_t remaining,start=header_size(wire,&remaining);
+        mock_subscribe_count++;
+        assert(remaining==2+2+sizeof(VOICE_TOPIC)-1+1);
+        assert(!memcmp(wire+start+4,VOICE_TOPIC,sizeof(VOICE_TOPIC)-1));
+        unsigned char suback[]={0x90,3,wire[start],wire[start+1],1};
+        if(mock_suback_mode==1)suback[4]=0x80;
+        if(mock_suback_mode==2)suback[3]^=1;
+        if(mock_suback_mode==3)suback[4]=0;
+        if(mock_suback_mode!=4)mock_queue(suback,sizeof(suback));
+    }
+    if(type==0x40)mock_in_pubacks++;
+#endif
     if (type == 0x10)
     {
         unsigned char connack[] = {0x20, 2, 0, (unsigned char)mock_connack_code};

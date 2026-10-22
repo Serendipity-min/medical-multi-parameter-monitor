@@ -1,0 +1,106 @@
+{
+  "utc": "2026-10-22T06:30:38.432223+00:00",
+  "services": {
+    "medical-monitor-certificate.service": {
+      "MainPID": "0",
+      "WorkingDirectory": "",
+      "ActiveState": "inactive"
+    },
+    "medical-monitor-h3-webai.service": {
+      "MainPID": "2758088",
+      "EnvironmentFiles": "/opt/medical-monitor-h3/formal/20261021T093335Z/ai.env (ignore_errors=no)",
+      "WorkingDirectory": "/opt/medical-monitor-h3/releases/runtime-b8fbb14b5c35",
+      "ActiveState": "active"
+    },
+    "medical-monitor-h3-webbackend.service": {
+      "MainPID": "2758089",
+      "EnvironmentFiles": "/opt/medical-monitor-h3/formal/20261021T093335Z/backend.env (ignore_errors=no)",
+      "WorkingDirectory": "/opt/medical-monitor-h3/releases/runtime-b8fbb14b5c35/cloud/backend",
+      "ActiveState": "active"
+    },
+    "medical-monitor-mock.service": {
+      "MainPID": "1522909",
+      "WorkingDirectory": "/opt/medical-monitor/current",
+      "ActiveState": "active"
+    },
+    "medical-monitor-mqtt.service": {
+      "MainPID": "851111",
+      "WorkingDirectory": "",
+      "ActiveState": "active"
+    },
+    "medical-monitor.service": {
+      "MainPID": "845095",
+      "EnvironmentFiles": "/opt/medical-monitor/config/backend.env (ignore_errors=no)",
+      "WorkingDirectory": "/opt/medical-monitor/current/backend",
+      "ActiveState": "active"
+    },
+    "nginx.service": {
+      "MainPID": "3631",
+      "WorkingDirectory": "",
+      "ActiveState": "active"
+    }
+  },
+  "files": {
+    "/etc/mosquitto/mosquitto.conf": {
+      "bytes": 355,
+      "sha256": "bb4e12f161133cbae868a20dd196b5fb544d947b088308d340d7565c93511258"
+    },
+    "/etc/mosquitto/conf.d/default.conf": {
+      "bytes": 35,
+      "sha256": "95839fc70f4f0e3839c3282c9b19edb04fa2dce25fab201c2c51f9994fcc49e7"
+    },
+    "/etc/mosquitto/aclfile.example": {
+      "bytes": 230,
+      "sha256": "dea34f98b5b2d1eb72c566c691b7e70ab1683df5ae37230613cb6d1af52ecbed"
+    },
+    "/etc/medical-monitor/p6-ai.env": {
+      "bytes": 606,
+      "sha256": "6aad50a55576026d9ec7406c4b787efecfb201339729db54b1aa7f2a0213a339"
+    },
+    "/etc/nginx/sites-enabled/demo-api.student-affairs": {
+      "bytes": 528,
+      "sha256": "90217856e1169adfc8b7d5e59acb9d87096bbc9a5f7ac69cfa2876284a46acb1"
+    },
+    "/etc/nginx/sites-enabled/default": {
+      "bytes": 4797,
+      "sha256": "96ee7a7209cfd470f2c7b4c7a0979ba9ae5e5fcc434ac21d51b1716851264ed9"
+    },
+    "/etc/nginx/sites-enabled/demo-api.student-affairs-https": {
+      "bytes": 1660,
+      "sha256": "1f182c4bf733ea19de1cb6cd660bf066b3bbaca608254afb6a0ae35d2b83aa25"
+    },
+    "/etc/nginx/sites-enabled/xindao": {
+      "bytes": 4752,
+      "sha256": "df51d0ffa8dda1653b5665d3577975ae8f7db1378d17ab9be707fb78e8f29639"
+    },
+    "/etc/nginx/sites-enabled/student-affairs-contest-demo": {
+      "bytes": 1879,
+      "sha256": "0497836722caa32ec08abc0c8774b429522cec31b3582b4e8a2f31b2a02fdca8"
+    },
+    "/etc/nginx/sites-enabled/chaoxi-tongtu.conf": {
+      "bytes": 1570,
+      "sha256": "0ae1249378b6bc3050c88f714354cc6a6371d058755db085a575cd5cc8e08077"
+    },
+    "/opt/medical-monitor-h3/releases/runtime-d32d9b2c1688/H3_RUNTIME_SOURCE.json": {
+      "bytes": 139,
+      "sha256": "d07a3ddb31db935513bbb2d51177b3264cbb09138e6aa3a5bd759a94986347f7"
+    },
+    "/opt/medical-monitor-h3/releases/runtime-37808287a557/H3_RUNTIME_SOURCE.json": {
+      "bytes": 567,
+      "sha256": "11a1381c7519650f39714347c258c33c177372acf21674f63db6eb481ec5137b"
+    },
+    "/opt/medical-monitor-h3/releases/runtime-2ffd1d372ace/H3_RUNTIME_SOURCE.json": {
+      "bytes": 567,
+      "sha256": "71900ff3930177d79d122512f0fb08e98ba483fbf08b54743a5fec52b797dcd9"
+    },
+    "/opt/medical-monitor-h3/releases/runtime-b8fbb14b5c35/H3_RUNTIME_SOURCE.json": {
+      "bytes": 8360,
+      "sha256": "181b3df394f39938189f17f90cf81e14d4f56972688f58a6c4e72f6f264c8727"
+    }
+  },
+  "listening": {
+    "8883": true,
+    "8884": false
+  },
+  "read_only": true
+}

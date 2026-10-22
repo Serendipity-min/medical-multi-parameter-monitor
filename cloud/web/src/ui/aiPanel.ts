@@ -111,6 +111,9 @@ export class AiPanel {
     }
     const controller = new AbortController(); this.pending = controller;
     const gateway = this.gateway, session = this.session;
+    // 许可只属于本次手动提交；失败、取消和后续提问都不会沿用勾选。
+    const voice = this.element<HTMLInputElement>('ai-voice').checked;
+    this.element<HTMLInputElement>('ai-voice').checked = false;
     const send = this.element<HTMLButtonElement>('ai-send'), cancel = this.element<HTMLButtonElement>('ai-cancel');
     send.disabled = true; cancel.disabled = false; this.status('正在回答…');
     // 请求开始即撤下上一轮模型标签；无回执时不能继承“本轮使用豆包”。
@@ -129,7 +132,7 @@ export class AiPanel {
       const response = await fetch('/medical-monitor/ai/api/v1/text', {
         method: 'POST', signal: controller.signal,
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ session_id: session, gateway_id: gateway, question, voice: this.element<HTMLInputElement>('ai-voice').checked }),
+        body: JSON.stringify({ session_id: session, gateway_id: gateway, question, voice }),
       });
       if (!response.ok) throw new Error(String(response.status));
       const data: unknown = await response.json();

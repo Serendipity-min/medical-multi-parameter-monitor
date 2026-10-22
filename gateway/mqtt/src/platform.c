@@ -7,6 +7,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef MP_CLOUD_VOICE
+#include "cloud_voice.h"
+#endif
 #ifdef MP_CAN_RX_IRQ
 #include "esp_io_metrics.h"
 static EspIoMetrics io_metrics;
@@ -42,6 +45,10 @@ void mp_model_poll(void)
 
 void platform_poll(void)
 {
+#ifdef MP_CLOUD_VOICE
+    /* 即使CAN服务正输出诊断，USART2仍单步推进；内部有独立防重入。 */
+    cloud_voice_poll();
+#endif
     /* 回调只跑 CAN/采集/入队，不调用网络，重入保护覆盖控制台诊断。 */
     if (poll_callback && !polling)
     {

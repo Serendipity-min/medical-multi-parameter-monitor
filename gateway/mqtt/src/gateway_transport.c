@@ -13,6 +13,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef MP_CLOUD_VOICE
+#include "cloud_voice.h"
+/* 入站QoS1由官方状态机回PUBACK；与原单在途outgoing记录完全分开。 */
+static MQTTPubAckInfo_t incoming[1];
+static uint16_t subscribe_id;
+static int subscribe_result;
+#endif
 #ifdef MP_CAN_RX_IRQ
 #include "at_version.h"
 #include "wifi_status.h"
@@ -105,6 +112,10 @@ static inline void secure_memzero(void *ptr, size_t len)
 
 static void mqtt_failed(void)
 {
+#ifdef MP_CLOUD_VOICE
+    cloud_voice_session(false);
+    subscribe_id=0;
+#endif
     mqtt_online = 0;
     session_error = 1;
     acknowledged = 0;
@@ -116,7 +127,11 @@ static void mqtt_failed(void)
 static void mqtt_event(MQTTContext_t *context, MQTTPacketInfo_t *packet,
                        MQTTDeserializedInfo_t *decoded)
 {
-    if (context != &client || (packet->type & 0xf0U) == MQTT_PACKET_TYPE_PUBLISH)
+    if (context != &client
+#ifndef MP_CLOUD_VOICE
+        || (packet->type & 0xf0U) == MQTT_PACKET_TYPE_PUBLISH
+#endif
+        )
     {
 #ifdef MP_CAN_RX_IRQ
         mqtt_diagnostic(1,decoded->deserializationResult,0);
@@ -124,6 +139,25 @@ static void mqtt_event(MQTTContext_t *context, MQTTPacketInfo_t *packet,
         mqtt_failed();
         return;
     }
+#ifdef MP_CLOUD_VOICE
+    if((packet->type & 0xf0u)==MQTT_PACKET_TYPE_PUBLISH) {
+        /* payload借用RX缓冲，仅在此回调内校验并复制到TTS单槽；不保留指针、不发网络。 */
+        MQTTPublishInfo_t *p=decoded->pPublishInfo;
+        if(decoded->deserializationResult==MQTTSuccess && p)
+            cloud_voice_receive(p->pTopicName,p->topicNameLength,(unsigned)p->qos,p->retain,p->pPayload,p->payloadLength);
+        return; /* 错Topic/retain/载荷只累计语音拒绝，不乱断监护连接。 */
+    }
+    if(packet->type==MQTT_PACKET_TYPE_SUBACK) {
+        uint8_t *codes=NULL;size_t count=0;
+        if(subscribe_id && decoded->packetIdentifier==subscribe_id) {
+            subscribe_result=decoded->deserializationResult==MQTTSuccess &&
+                MQTT_GetSubAckStatusCodes(packet,&codes,&count)==MQTTSuccess && count==1 && codes[0]==1 ? 1 : -1;
+            cloud_voice_session(subscribe_result==1);
+            if(subscribe_result==1)cloud_voice_metrics.suback++;else cloud_voice_metrics.subfail++;
+        }
+        return;
+    }
+#endif
     if (packet->type == MQTT_PACKET_TYPE_PUBACK && decoded->deserializationResult == MQTTSuccess
         && pending_id && decoded->packetIdentifier == pending_id)
         acknowledged = 1;
@@ -185,7 +219,13 @@ int gateway_mqtt_open(const MpFrame *will_frame)
     MQTTFixedBuffer_t buffer = {rx_buffer, sizeof(rx_buffer)};
     MQTTStatus_t status = MQTT_Init(&client, &transport, mqtt_adapter_time, mqtt_event, &buffer);
     if (status == MQTTSuccess)
-        status = MQTT_InitStatefulQoS(&client, outgoing, 1, NULL, 0);
+        status = MQTT_InitStatefulQoS(&client, outgoing, 1,
+#ifdef MP_CLOUD_VOICE
+            incoming, 1
+#else
+            NULL, 0
+#endif
+            );
     client.nextPacketId = next_packet_seed;
     MQTTConnectInfo_t options = {0};
     options.keepAliveSeconds = 15;
@@ -214,6 +254,27 @@ int gateway_mqtt_open(const MpFrame *will_frame)
         mqtt_online = 1;
     else
         mqtt_failed();
+#ifdef MP_CLOUD_VOICE
+    if(ok) {
+        /* 订阅有独立5秒预算；拒绝或缺失SUBACK仅禁语音，网络错误仍走原错误路径。 */
+        memset(incoming,0,sizeof(incoming));subscribe_result=0;
+        subscribe_id=MQTT_GetPacketId(&client);next_packet_seed=client.nextPacketId;
+        MQTTSubscribeInfo_t sub={.qos=MQTTQoS1,.pTopicFilter=VOICE_TOPIC,.topicFilterLength=sizeof(VOICE_TOPIC)-1};
+        start=g_uptime_ms;mqtt_adapter_begin(&network,5000);
+        status=MQTT_Subscribe(&client,&sub,1,subscribe_id);
+        if(status==MQTTSuccess) {
+            while(!subscribe_result && !session_error && (uint32_t)(g_uptime_ms-start)<5000u)
+                if(!process_once())break;
+        }
+        if(subscribe_result!=1) {
+            cloud_voice_session(false);
+            if(subscribe_result==0)cloud_voice_metrics.subfail++;
+        }
+        subscribe_id=0;
+        ok=!session_error && network.connected;
+        console(subscribe_result==1?"GW VOICE_SUBACK_QOS1 DEFAULT_OFF\r\n":"GW VOICE_DISABLED_SUBSCRIPTION\r\n");
+    }
+#endif
     secure_memzero(will, sizeof(will));
     console(ok ? "GW MQTT_CONNECTED\r\n" : "GW FAIL MQTT_CONNECT\r\n");
     return ok;

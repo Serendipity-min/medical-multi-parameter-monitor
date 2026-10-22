@@ -1,0 +1,35 @@
+[
+  {
+    "name": "voice-host-r3",
+    "exit_code": 0,
+    "command": [
+      "python",
+      "gateway/voice/validate.py"
+    ]
+  },
+  {
+    "name": "arm-voice-r3",
+    "exit_code": 0,
+    "command": [
+      "python",
+      "gateway/physical_can/build.py",
+      "--irq",
+      "--synthetic-source",
+      "--fresh-sntp",
+      "--persistent-config",
+      "--cloud-voice",
+      "--macro-source-root",
+      "E:\\medical-monitor-h3",
+      "--evidence-dir",
+      "doc/VOICE-CLOUD/evidence/arm-voice-r3"
+    ]
+  },
+  {
+    "name": "web-test-r2",
+    "exit_code": 0,
+    "command": [
+      "npm.cmd",
+      "test"
+    ]
+  }
+]

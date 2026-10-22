@@ -13,7 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
-from .downlink import IsolatedPublisher, encode, short_text
+from .downlink import IsolatedPublisher, FormalVoicePublisher, encode, short_text
 from .facts import extract, digest, answer_facts, KEYWORDS
 from .providers import Provider
 from .usage import UsageBlocked
@@ -53,6 +53,10 @@ def create_app(settings=None, reader=None, provider=None, publisher=None):
     active = set()
     if publisher is None and os.environ.get('P6_MQTT_MODE') == 'ISOLATED':
         publisher = IsolatedPublisher(int(os.environ['P6_MQTT_PORT']), os.environ['P6_MQTT_USERNAME'], os.environ['P6_MQTT_PASSWORD'])
+    if publisher is None and os.environ.get('P6_MQTT_MODE') == 'FORMAL_VOICE_WINDOW':
+        # 与原H3默认配置隔离，缺失字段即启动失败；不从仓库加载目标或凭据。
+        publisher = FormalVoicePublisher(os.environ['CVOICE_MQTT_HOST'], os.environ['CVOICE_CA_FILE'],
+            os.environ['CVOICE_USERNAME'], os.environ['CVOICE_PASSWORD'], int(os.environ['CVOICE_UNTIL_MS']))
 
     def authenticate(request):
         if not hmac.compare_digest(request.headers.get('authorization', ''), 'Bearer ' + settings.token):
@@ -63,7 +67,7 @@ def create_app(settings=None, reader=None, provider=None, publisher=None):
     async def health():
         return {'status': 'ok', 'model_mode': settings.mode, 'snapshot_mode': settings.snapshot_mode,
                 'real_model': 'REAL_MODEL_BLOCKED' if settings.mode == 'MOCK' else 'REAL_MODEL_VERIFIED' if (getattr(provider, 'last_call', None) or {}).get('status') == 'VALIDATED' else 'CONFIGURED_NOT_PROVEN',
-                'voice_mode': 'ISOLATED' if publisher else 'DISABLED',
+                'voice_mode': getattr(publisher, 'mode', 'ISOLATED') if publisher else 'DISABLED',
                 'model_id': getattr(provider, 'model', None), 'budget_used': getattr(provider, 'budget_used', 0),
                 'usage': provider.ledger.summary() if getattr(provider, 'budget_dir', None) else None}
 
@@ -116,6 +120,11 @@ def create_app(settings=None, reader=None, provider=None, publisher=None):
                 answer = answer_facts(facts, question.question) + ('\n' + explanation if explanation else '')
                 turn_id, fact_digest = uuid.uuid4().hex, digest(facts)
                 voice_text = short_text(answer.split('\n')[0])
+                if question.voice and getattr(publisher, 'short_only', False):
+                    # 正式试音必须来自本轮已审核模型回答；仅取完整短句，禁止切断半句或替换为示例。
+                    import re
+                    sentence = re.split(r'(?<=[。！？])', str(explanation), maxsplit=1)[0]
+                    voice_text = short_text(sentence) if sentence and len(sentence.encode('utf-8')) <= 60 else ''
                 voice_status = 'PAUSED'
                 # 浏览器取消/关闭后禁止继续下发；已经交给 Broker 的消息无法本地撤回。
                 if await request.is_disconnected():
@@ -123,6 +132,8 @@ def create_app(settings=None, reader=None, provider=None, publisher=None):
                 if question.voice:
                     if publisher is None:
                         voice_status = 'DISABLED'
+                    elif not voice_text:
+                        voice_status = 'VOICE_SHORT_LIMIT'
                     else:
                         try:
                             voice_status = await publisher.publish(question.gateway_id, encode(turn_id, fact_digest, voice_text, int(time.time() * 1000)))

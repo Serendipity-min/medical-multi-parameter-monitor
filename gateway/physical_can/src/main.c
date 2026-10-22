@@ -3,6 +3,9 @@
 #include "mp_adapter.h"
 #include "physical.h"
 #include <stdio.h>
+#ifdef MP_CLOUD_VOICE
+#include "cloud_voice.h"
+#endif
 #ifdef MP_CAN_RX_IRQ
 #include "rx_metrics.h"
 #include "esp_io_metrics.h"
@@ -133,6 +136,10 @@ static void stop_on_can_fault(void) {
 int main(void)
 {
     platform_init();
+#ifdef MP_CLOUD_VOICE
+    /* 默认禁用；正常订阅后还需本地按键，开机/重连不会自动播放。 */
+    cloud_voice_init();
+#endif
     console("GW BOOT CANOPENNODE PHYSICAL_CAN1 CANDIDATE_NOT_ACCEPTED\r\n");
     if (!gateway_config_valid())
     {

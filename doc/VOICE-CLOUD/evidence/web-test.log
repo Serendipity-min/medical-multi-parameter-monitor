@@ -1,0 +1,50 @@
+
+> medical-monitor-phase1@0.1.0 test
+> node tests/run.mjs
+
+✔ 确定性回答不被 REAL 模式误标为豆包调用 (0.5319ms)
+✔ 记录回放优先标记历史，不能冒充本轮调用 (0.1686ms)
+✔ 回执严格匹配网关和会话，拒绝畸形事实 (0.2351ms)
+✖ 五种播报语义完整，Broker 回执明确设备播放未验证 (0.5353ms)
+✔ 令牌拒绝停止重试并清空内存凭据 (12.3486ms)
+✔ 数据格式不兼容不误报令牌错误 (0.1601ms)
+✔ 历史从空开始，重复快照、同序列和倒退时间不生成伪历史 (0.333ms)
+✔ 设备新会话与断连分段，切换网关清空 (0.2051ms)
+✔ 无效记录无数值，REPLAY 不进入实时历史 (0.1271ms)
+✔ 保留数量上限与 60 分钟时限同时生效 (84.971ms)
+✔ 非有限标量和不完整血压不显示为有效数字 (14.1767ms)
+✔ RR 标量无效不误判 RESP 波形质量 (0.3505ms)
+✔ 冻结只冻结显示，继续接收历史；新无效状态优先清空 (1.0116ms)
+✔ 断连清除当前值并保留分段历史；显式切换网关清空 (0.4188ms)
+✔ CSV 来自真实会话条目并转义文本单元格 (0.4239ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 14
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 283.4831
+
+✖ failing tests:
+
+test at C:\Users\SEREND~1\AppData\Local\Temp\monitor-state-G4ZuK3\ai.test.cjs:92:30
+✖ 五种播报语义完整，Broker 回执明确设备播放未验证 (0.5353ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  6 !== 5
+  
+      at TestContext.<anonymous> (C:\Users\SEREND~1\AppData\Local\Temp\monitor-state-G4ZuK3\ai.test.cjs:93:25)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1106:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:788:18)
+      at Test.postRun (node:internal/test_runner/test:1235:19)
+      at Test.run (node:internal/test_runner/test:1163:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:788:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 6,
+    expected: 5,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

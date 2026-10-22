@@ -8,7 +8,8 @@ import subprocess
 ROOT=Path(__file__).resolve().parents[2]
 HERE=Path(__file__).resolve().parent
 CO=ROOT/'gateway/canopen';VENDOR=ROOT/'gateway/third_party/CANopenNode';MQTT=ROOT/'gateway/mqtt'
-parser=argparse.ArgumentParser();parser.add_argument('--host',action='store_true');parser.add_argument('--irq',action='store_true');parser.add_argument('--isolated',action='store_true');parser.add_argument('--synthetic-source',action='store_true');parser.add_argument('--wifi-awake',action='store_true');parser.add_argument('--fresh-sntp',action='store_true');parser.add_argument('--rx-order',action='store_true');parser.add_argument('--peer-cycle',action='store_true');parser.add_argument('--wire',type=Path);parser.add_argument('--persistent-config',action='store_true');parser.add_argument('--evidence-dir',type=Path);parser.add_argument('--macro-source-root');args=parser.parse_args()
+parser=argparse.ArgumentParser();parser.add_argument('--host',action='store_true');parser.add_argument('--irq',action='store_true');parser.add_argument('--isolated',action='store_true');parser.add_argument('--synthetic-source',action='store_true');parser.add_argument('--wifi-awake',action='store_true');parser.add_argument('--fresh-sntp',action='store_true');parser.add_argument('--rx-order',action='store_true');parser.add_argument('--peer-cycle',action='store_true');parser.add_argument('--wire',type=Path);parser.add_argument('--persistent-config',action='store_true');parser.add_argument('--evidence-dir',type=Path);parser.add_argument('--macro-source-root');parser.add_argument('--cloud-voice',action='store_true');args=parser.parse_args()
+if args.cloud_voice and (args.host or not args.persistent_config or not args.fresh_sntp or not args.synthetic_source):parser.error('--cloud-voice requires ARM --irq --synthetic-source --fresh-sntp --persistent-config')
 if args.persistent_config and (not args.irq or args.host):parser.error('--persistent-config requires ARM IRQ candidate')
 if args.peer_cycle and (not args.host or not args.irq or args.rx_order or args.wire):parser.error('--peer-cycle requires --host --irq alone')
 if args.isolated and not args.irq:parser.error('--isolated requires --irq')
@@ -18,7 +19,7 @@ if args.synthetic_source and (not args.irq or args.isolated):parser.error('--syn
 # 新正式台架模式必须沿用已验证的毫秒SNTP；Host协议夹具不启动网络，可单独验证来源位。
 if args.synthetic_source and not args.host and not args.fresh_sntp:parser.error('--synthetic-source ARM requires --fresh-sntp')
 # 来源标签与传输端口独立：正式8883也可接非人体源；专用输出目录保留原两种冻结镜像。
-build=HERE/('build/h3-ac-formal-synthetic' if args.synthetic_source else (('build/h3-r2-persistent-isolated' if args.isolated else 'build/h3-r2-persistent-normal') if args.persistent_config else 'build/h3-isolated' if args.isolated else 'build/h3-irq' if args.irq else 'build'));build.mkdir(parents=True,exist_ok=True)
+build=HERE/('build/h3-ac-formal-synthetic' if args.synthetic_source else (('build/h3-r2-persistent-isolated' if args.isolated else 'build/h3-r2-persistent-normal') if args.persistent_config else 'build/h3-isolated' if args.isolated else 'build/h3-irq' if args.irq else 'build'));build=HERE/'build/cloud-voice' if args.cloud_voice else build;build.mkdir(parents=True,exist_ok=True)
 # 新验收显式选择证据目录，避免重跑覆盖R2原始构建回执；默认路径保留兼容。
 evidence=args.evidence_dir or HERE/('evidence/h3-ac-final/formal-synthetic' if args.synthetic_source else (('evidence/h3-r2/persistent-isolated' if args.isolated else 'evidence/h3-r2/persistent-normal') if args.persistent_config else 'evidence/h3' if args.irq else 'evidence'));evidence.mkdir(parents=True,exist_ok=True)
 # 列表复用项目源码，不复制修改 coreMQTT、TLS、AT、PUBACK 或原模拟目标。
@@ -51,6 +52,8 @@ try:
         includes=[HERE/'src',HERE/'bench',MQTT/'src',CO/'src',VENDOR,vendor/'source/include',vendor/'source/interface',*base.INCLUDES]
         flags=[*base.COMMON_FLAGS,'-DCO_MULTIPLE_OD',*(['-DMP_CAN_RX_IRQ','-DHSE_VALUE=8000000'] if args.irq else []),*(['-DMP_H3_WIFI_AWAKE'] if args.wifi_awake else []),*(['-DMP_H3_TEST_SOURCE','-DMP_MQTT_TLS_PORT=8884',*(['-DMP_H3_VOLATILE_CONFIG'] if not args.persistent_config else [])] if args.isolated else []),*(['-DMP_H3_PERSISTENT_CONFIG'] if args.persistent_config else []),*['-I'+str(p) for p in includes]]
         if args.synthetic_source:flags.append('-DMP_H3_TEST_SOURCE')
+        # 只有显式语音候选才链接串口/协议；默认H3代码段与镜像保持可复现。
+        if args.cloud_voice:flags += ['-DMP_CLOUD_VOICE','-fstack-usage','-I'+str(ROOT/'gateway/voice')]
         if args.macro_source_root:
             # coreMQTT断言会把__FILE__写入镜像；显式虚拟前缀只稳定诊断文件名，不访问旧目录。
             # 默认构建不变；复现历史镜像必须把前缀与完整编译命令一起记入本次回执。
@@ -62,6 +65,7 @@ try:
         if args.irq:
             # 精确替换独立候选的系统时钟文件；不改原HSI模板或第三方SDK。
             sources=[p for p in sources if p.name!='system_stm32f4xx.c']+[HERE/'src/system_hse.c']
+        if args.cloud_voice:sources += [ROOT/'gateway/voice'/n for n in ('tts_frame.c','tts_queue.c','p6v1.c','tts_uart_port.c','cloud_voice.c')]
         objects=[]
         for i,source in enumerate(sources):
             # 仅候选项目代码启用额外告警为错误，不更改固定第三方核心的编译语义。
@@ -94,6 +98,7 @@ finally:
     (evidence/(name+'.log')).write_bytes(log)
     result['commands']=commands
     # SDK 在仓库外，单独命名并保存字节摘要，不能因 relative_to 异常掩盖真实构建退出码。
+    result['cloud_voice']=args.cloud_voice
     result['source_sha256']={(p.relative_to(ROOT).as_posix() if p.is_relative_to(ROOT) else 'external-sdk/'+p.relative_to(base.LIBRARY).as_posix()):hashlib.sha256(p.read_bytes()).hexdigest() for p in sources}
     if args.irq:
         # 下载前复核头文件/启动向量/链接脚本，不能只校验C文件而漏掉内存布局变化。
@@ -101,6 +106,7 @@ finally:
                 *sorted((HERE/'src').glob('*.h')),*sorted((HERE/'bench').glob('*.h')),
                 *sorted((MQTT/'src').glob('*.h'))]
         if not args.host:inputs.append(base.STARTUP)
+        if args.cloud_voice:inputs += sorted((ROOT/'gateway/voice').glob('*.h'))
         result['build_input_sha256']={(p.relative_to(ROOT).as_posix() if p.is_relative_to(ROOT) else 'external-sdk/'+p.relative_to(base.LIBRARY).as_posix()):hashlib.sha256(p.read_bytes()).hexdigest() for p in inputs}
     (evidence/(name+'-result.json')).write_text(json.dumps(result,indent=2),encoding='utf-8')
     print(name,'exit',result['exit_code']);print(log.decode('utf-8',errors='replace')[-3500:])

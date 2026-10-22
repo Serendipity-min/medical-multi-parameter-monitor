@@ -1,0 +1,80 @@
+{
+  "files": {
+    "/opt/medical-monitor/broker/mosquitto.conf": {
+      "sha256": "738d54973d959acf1207746c761d42afa2b412daad1b59ac052f781aa5af078c",
+      "bytes": 756
+    },
+    "/opt/medical-monitor/broker/acl": {
+      "sha256": "c987e3ebe5c884f214f2d334c6416804c24480de735c52b896874e6af3b09853",
+      "bytes": 847
+    },
+    "/opt/medical-monitor/broker/passwords": {
+      "sha256": "ecd343ceec203afd44737f460b44aa5d23157524761a702978b3e242e50622a4",
+      "bytes": 664
+    },
+    "/etc/nginx/snippets/medical-monitor.conf": {
+      "sha256": "70ac6d03c17b1bcfc54ea87fb8b3fca949d8dabddac191dd7b8b571d58c00ca7",
+      "bytes": 826
+    },
+    "/opt/medical-monitor-h3/formal/20261021T093335Z/ai.env": {
+      "sha256": "dd286489bbb946ab4f7ca9d23ef19eb98e89d026172b3d18851585440d634c7f",
+      "bytes": 633
+    },
+    "/opt/medical-monitor-h3/formal/20261021T093335Z/backend.env": {
+      "sha256": "88d5c8b9b545889a1f102871898aba4483f0333a7b47cab9d9dfd902314fbc6a",
+      "bytes": 268
+    }
+  },
+  "broker_roles": [
+    {
+      "role_sha256": "1d4335f5b71cd6d78671164a95d34aae7d9d124cf81361732a35bcaeea8be6c4",
+      "rules": [
+        "write mpm/v1/GW-DEV-001/#"
+      ]
+    },
+    {
+      "role_sha256": "03a3c6ee1be93e97ba7a3c2a39d2228623eb88ec66e272a411eff9f546db9388",
+      "rules": [
+        "write mpm/v1/GW-C-001/#"
+      ]
+    },
+    {
+      "role_sha256": "808e67e6d9ed7097b33e2b758dc0286f40f37ed62c9a796605551a7930533f60",
+      "rules": [
+        "read mpm/v1/GW-DEV-001/#",
+        "read mpm/v1/GW-C-001/#"
+      ]
+    },
+    {
+      "role_sha256": "da41e39d22c00a4b0c6021bff4699187d39ee6c5b090be9b994587d3b44974d6",
+      "rules": [
+        "write mpm/v1/GW-C-001/status",
+        "write mpm/v1/GW-C-001/NODE-A/status",
+        "write mpm/v1/GW-C-001/NODE-B/status",
+        "write mpm/v1/GW-C-001/NODE-A/telemetry/+",
+        "write mpm/v1/GW-C-001/NODE-A/replay/+",
+        "write mpm/v1/GW-C-001/NODE-A/event"
+      ]
+    },
+    {
+      "role_sha256": "cfdc328d99cfd102887101535a6a4df6e1eefeca28c81c2aac1e6117c6ca9e99",
+      "rules": [
+        "read mpm/v1/GW-C-001/status",
+        "read mpm/v1/GW-C-001/NODE-A/status",
+        "read mpm/v1/GW-C-001/NODE-B/status",
+        "read mpm/v1/GW-C-001/NODE-A/telemetry/+",
+        "read mpm/v1/GW-C-001/NODE-A/replay/+",
+        "read mpm/v1/GW-C-001/NODE-A/event"
+      ]
+    }
+  ],
+  "tls": {
+    "port": 8883,
+    "verified": true,
+    "cert_sha256": "a3c4d1284c8f59ccb434b8736f4a1862d1ff3b42e589a26f0108c2a2d854bacd"
+  },
+  "ai_model": "doubao-seed-2-0-mini-260428",
+  "ai_mode": "DOUBAO",
+  "account_approved": true,
+  "budget_approved": true
+}

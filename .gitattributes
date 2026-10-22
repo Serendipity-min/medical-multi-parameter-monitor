@@ -11,3 +11,6 @@ artifacts/h3-ac-mock-eng-20261021/** -text -filter
 doc/H3/evidence/postclose-20261021/** -text
 artifacts/h3-ac-mock-eng-20261021/node-a-h3ac-final.bin binary -filter
 artifacts/h3-ac-mock-eng-20261021/gateway-c-h3ac-8883-mock-final.bin binary -filter
+doc/VOICE-CLOUD/evidence/** -text
+doc/VOICE-CLOUD/evidence/**/*.log -diff
+doc/VOICE-CLOUD/evidence/*.log -diff

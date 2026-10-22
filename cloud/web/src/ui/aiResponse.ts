@@ -12,6 +12,7 @@ export const voiceLabels: Record<string, string> = {
   PAUSED: '设备播报已暂停', DISABLED: '设备播报服务未启用',
   BROKER_PUBACK_ONLY: 'Broker 已接收下发 · 设备播放未验证',
   RATE_LIMITED: '播报频率受限', DOWNLINK_FAILED: '播报下发失败',
+  VOICE_SHORT_LIMIT: '试音仅允许完整短句，本轮未下发',
 };
 export function modelLabel(data: AiResponse): string {
   if (data.facts.some((fact) => fact.source === 'REPLAY')) return '历史回答回放 · 本轮未调用模型';
