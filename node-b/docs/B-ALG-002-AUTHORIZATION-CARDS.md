@@ -2,6 +2,8 @@
 
 > R3最新：负责人逐档确认普通60/90/120、电池及断USB和原接线状态，按ECG-MATRIX卡完成全部六窗并分析，六窗均通过本次组合工程速率判据。本轮无固件/阈值/工具变化，无重新烧录或复位。卡内六次会话已用完；RESP仍待动态阻抗电极对/ΔΩ定义及独立精确授权卡，未执行。结果见[六窗实板结果](B-ALG-002-ECG-MATRIX-RESULTS.md)和[唯一交接](B-ALG-002-FINAL-HANDOFF.md)。以下R1/R2草案均为历史状态，不重复索要已确认J-Link资料。
 
+RESP最新准备：[AUTH-B-RESP-PILOT-001 R1](AUTH-B-RESP-PILOT-001-R1.md)为精确10秒输入检查草案，当前DRAFT_NOT_APPROVABLE_SOURCE_AND_TOOL_GATES；[一次性缺项](B-ALG-002-RESP-INFORMATION-CHECKLIST-R1.md)列明补证和工具冻结条件。未执行、未申请批准，不提供可直接运行的RESP命令。
+
 2026-10-22，Asia/Shanghai。依据合同第1.3、2、5节：真实接线、供电、SWD/串口读取、烧录和采集前须单独书面批准。原合同批准仅覆盖B2-0软件准备；负责人确认“源已到手”不是现场操作许可。缺字段不得用“同上/默认/按需”替代。
 
 ## R2更新：首次身份/备份改用独立精确卡

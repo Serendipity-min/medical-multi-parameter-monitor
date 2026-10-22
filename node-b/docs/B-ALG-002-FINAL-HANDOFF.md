@@ -4,6 +4,8 @@
 
 2026-10-22 Asia/Shanghai：**B2_ECG_HR_ENGINEERING_RATE_PASS_FOR_TESTED_SETUP**。独立工作区与唯一写分支不变；合同固件源码/阈值不变。身份/双备份、候选安装/整片校验、链路及未接源负例已完成。负责人逐档确认普通60/90/120；六个正式窗口全部满足冻结工程速率判据。当前完成6/6，结论仅限本次组合的名义速率一致性，不代表医学准确度、幅值标定或B3通过。详见[BIO_V2六窗实板结果](B-ALG-002-ECG-MATRIX-RESULTS.md)。
 
+本轮RESP准备已完成只读资料审阅：[RESP核验R1](B-ALG-002-RESP-READINESS-R1.md)确认模块需要RA–LA；SKX说明书未指定动态阻抗端子对或R/ΔΩ定义。已交付[一次性缺项清单](B-ALG-002-RESP-INFORMATION-CHECKLIST-R1.md)、[单次10秒精确卡草案](AUTH-B-RESP-PILOT-001-R1.md)和禁用离线计划。状态DRAFT_NOT_APPROVABLE_SOURCE_AND_TOOL_GATES；已有ECG工具尚不支持RESP源门禁/正式RR评价。本轮未连接或读取硬件、未改线/切源菜单、未采集/烧录，当前源仍为上轮负责人确认的普通ECG120。此准备不签B3，也不申请现在批准带未知项的卡。
+
 负责人已明确授权“连接模拟源、采集、排查”，并说明被其他测试覆盖后“重新烧录下载即可”。每个硬件窗口调用前展示精确卡，依据已有继续执行授权实施必要步骤；不将初始软件准备权限本身冒称硬件许可。J-Link当前接B的JTAG且仅调试；负责人已确认正常，不再重复索要型号/排线。
 
 当前供电为J5/YL-1210 12V1A中心正极，开关已开，B0/B1均GND。模块ADS1292_V2.0、灯亮、J1空置、J2接开发板5V共GND；START→PG15/DRDY→PA3负责人确认。负责人只见J1/J2，不根据图中J3假定实物CLKSEL。ECG-PILOT前CAN/模拟器/人体均未接；之后负责人确认电池普通60、USB断开、R红RA/L黄LA/F绿RL/N、LL/F空置，B供电并接回J-Link，CAN/人体仍断开；本轮负责人确认源菜单切至普通120、电池供电且USB断开，接线保持。当前源类别为ENGINEERING_NONHUMAN/ORDINARY_ECG120，不冒用旧OPEN_UNKNOWN或其他档位状态。

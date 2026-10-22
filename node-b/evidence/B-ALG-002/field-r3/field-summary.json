@@ -462,5 +462,16 @@
     "ecg90": "2_OF_2_PASS",
     "ecg120": "2_OF_2_PASS",
     "resp_rr": "BLOCKED_ELECTRODE_PAIR_AND_REFERENCE"
+  },
+  "resp_preparation": {
+    "status": "DOCUMENT_REVIEW_AND_EXACT_PILOT_DRAFT_COMPLETE_NOT_EXECUTABLE",
+    "readiness_record": "resp-readiness-r1.json",
+    "source_pair": "NOT_SPECIFIED_IN_MANUAL",
+    "R_delta_ohm_definition": "NOT_SPECIFIED_IN_MANUAL",
+    "required_module_pair": "ERA_ELA_RA_LA",
+    "source_compatibility_32khz_RLD": "NOT_PROVEN",
+    "tools": "RESP_SOURCE_GATE_AND_RR_EVALUATOR_NOT_IMPLEMENTED",
+    "hardware_actions_this_turn": 0,
+    "approval_requested": false
   }
 }

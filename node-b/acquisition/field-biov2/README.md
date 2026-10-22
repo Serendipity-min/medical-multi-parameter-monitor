@@ -1,5 +1,7 @@
 # BIO_V2 B2-0 采集准备
 
+RESP准备新增`resp-plan.offline.json`，使用独立schema、enabled=false、hardware_actions=[]、execution_entry_point=null，不能交给ECG采集器。动态阻抗电极对/单位及32kHz兼容未明确，RESP源记录门禁和RR评价工具尚未完成；只供[精确卡草案](../../docs/AUTH-B-RESP-PILOT-001-R1.md)审阅，本轮没有硬件操作。
+
 profile.offline.json 是本轮真实BIN/ELF/符号及ARM offsetof绑定的**离线计划**，没有硬件读取后端，不能交给既有acq.py/capture_v2.py执行。设备绑定全部null；实际UID、全Flash和options只能在受限目录内建立，并另行审查真实采集器。
 
 离线生成（输出文件独占创建，存在时必须使用新的名称保留历史）：
