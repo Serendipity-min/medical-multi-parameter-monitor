@@ -1,0 +1,20 @@
+{
+  "default_full_exit": 2,
+  "crlf_aware_full_exit": 2,
+  "crlf_aware_authored_exit": 0,
+  "reason": "Existing shared Git attributes unset text for node-b; explicit CRLF-aware check preserves exact bytes. No attributes or original records changed.",
+  "preserved_originals_excluded_from_authored_check": [
+    "arm-build.log",
+    "abi-layout.s",
+    "contracts/MPM-B-ALG-002-R1.0.md"
+  ],
+  "remaining_issues": [
+    "original supplied contract line 3 trailing whitespace",
+    "original compiler build.log line 33 trailing whitespace"
+  ],
+  "preparation_failures": [
+    "Initial format helper used platform GBK for UTF-8 git output and failed; corrected to byte capture.",
+    "Default check flags preserved CRLF; CRLF-aware check additionally classifies original contract and compiler whitespace."
+  ],
+  "original_diagnostics_saved_restricted": true
+}

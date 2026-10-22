@@ -1,0 +1,81 @@
+{
+  "recorded_utc": "2026-10-22T07:49:48.524141+00:00",
+  "base": "c0617b9fc0ee1f1c6b2f3c4ece90b36db7a78740",
+  "hardware_access": false,
+  "contract_sha256": "dfac42bbee6cf72d5ff9bc270a20b6db87ed7a413ecad3831b1b49ab0dcee71d",
+  "python": "Python 3.11.9",
+  "commands": [
+    {
+      "argv": [
+        "python",
+        "node-b/tools/build_arm.py",
+        "--keil-root",
+        "D:/keil",
+        "--dsp-lib",
+        "E:/medical-monitor-node-b-bio-v2/node-b/build/arm-20261022T072114588344Z/firmware/CORE/arm_cortexM4lf_math.lib"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "python",
+        "node-b/tools/audit_biov2_identity.py",
+        "--arm-build",
+        "node-b/build/arm-20261022T074340122429Z"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "node-b/tests",
+        "-p",
+        "test_field_profile.py",
+        "-v"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "node-b/acquisition/工具/tests",
+        "-p",
+        "test_acq.py",
+        "-v"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "python",
+        "node-b/tools/verify_bundle.py"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "test_environment": {
+    "B_FIELD_ARM": "node-b/build/arm-20261022T074340122429Z",
+    "B_FIELD_ABI": "node-b/build/abi-audit-20261022T074406334988Z/receipt.json"
+  },
+  "profile_sha256": "d402780dc16781cfc9f8e3de4211b3d7514c5de73f3bcc2007ca4c1f782413a5",
+  "actual_backup": "NOT_RUN_NOT_AUTHORIZED",
+  "tests": {
+    "field_unittest": 9,
+    "existing_acquisition_unittest": 27,
+    "archive_identity_files": 266
+  },
+  "initial_field_tests": {
+    "count": 7,
+    "status": "PASS",
+    "log": "field-profile-tests.log",
+    "note": "追加真实候选篡改副本与混合跨复位槽块测试后为9项；首轮日志保留"
+  }
+}

@@ -1,0 +1,32 @@
+test_bad_identity_not_used_in_waveform_comparison (test_acq.Cases.test_bad_identity_not_used_in_waveform_comparison) ... ok
+test_capture_requires_nonhuman_and_explicit_confirmation (test_acq.Cases.test_capture_requires_nonhuman_and_explicit_confirmation) ... ok
+test_empty_and_nonzero_invalid_separated (test_acq.Cases.test_empty_and_nonzero_invalid_separated) ... ok
+test_failed_resume_not_reported_as_running (test_acq.Cases.test_failed_resume_not_reported_as_running) ... ok
+test_full_capture_mock_no_flash_writes (test_acq.Cases.test_full_capture_mock_no_flash_writes) ... ok
+test_identity_mismatch_stops_before_reset (test_acq.Cases.test_identity_mismatch_stops_before_reset) ... ok
+test_import_signed_samples_states_and_hashes (test_acq.Cases.test_import_signed_samples_states_and_hashes) ... ok
+test_init_no_overwrite_and_no_hardware (test_acq.Cases.test_init_no_overwrite_and_no_hardware) ... ok
+test_manifest_traversal_and_self_reference_rejected (test_acq.Cases.test_manifest_traversal_and_self_reference_rejected) ... ok
+test_missing_final_keeps_pending (test_acq.Cases.test_missing_final_keeps_pending) ... ok
+test_offline_precheck_synthetic_bound_artifacts (test_acq.Cases.test_offline_precheck_synthetic_bound_artifacts) ... ok
+test_old_tool_identity_not_accepted (test_acq.Cases.test_old_tool_identity_not_accepted) ... ok
+test_partial_block_rejected (test_acq.Cases.test_partial_block_rejected) ... ok
+test_paused_does_not_override_repeated_conflict (test_acq.Cases.test_paused_does_not_override_repeated_conflict) ... ok
+test_persistent_client_ack_error_and_timeout (test_acq.Cases.test_persistent_client_ack_error_and_timeout) ... ok
+test_raw_drift_refuses_reanalysis (test_acq.Cases.test_raw_drift_refuses_reanalysis) ... ok
+test_reanalysis_preserves_all_previous_artifacts (test_acq.Cases.test_reanalysis_preserves_all_previous_artifacts) ... ok
+test_reset_ambiguity_not_merged (test_acq.Cases.test_reset_ambiguity_not_merged) ... ok
+test_sequence_gap_preserved (test_acq.Cases.test_sequence_gap_preserved) ... ok
+test_setpoint_preserved_without_fake_accuracy_or_sync (test_acq.Cases.test_setpoint_preserved_without_fake_accuracy_or_sync) ... ok
+test_single_conflict_with_repeated_version_is_retained (test_acq.Cases.test_single_conflict_with_repeated_version_is_retained) ... ok
+test_source_flags_kept_without_zeroing (test_acq.Cases.test_source_flags_kept_without_zeroing) ... ok
+test_strict_repeated_conflict_even_unequal_votes (test_acq.Cases.test_strict_repeated_conflict_even_unequal_votes) ... ok
+test_tail_excludes_active_write_slot (test_acq.Cases.test_tail_excludes_active_write_slot) ... ok
+test_time_ambiguity_creates_new_segment_without_filling_gap (test_acq.Cases.test_time_ambiguity_creates_new_segment_without_filling_gap) ... ok
+test_timeout_preserves_receipt_and_no_automatic_recovery (test_acq.Cases.test_timeout_preserves_receipt_and_no_automatic_recovery) ... ok
+test_wrap_is_not_false_time_reversal (test_acq.Cases.test_wrap_is_not_false_time_reversal) ... ok
+
+----------------------------------------------------------------------
+Ran 27 tests in 4.487s
+
+OK

@@ -1,0 +1,201 @@
+{
+  "schema": "BIO_V2_FIELD_OFFLINE_PLAN_1",
+  "record_status": "OFFLINE_PREPARED_NOT_AUTHORIZED",
+  "data_source": "ENGINEERING_NONHUMAN",
+  "firmware_binding": {
+    "BIO_V2.axf": {
+      "bytes": 576180,
+      "sha256": "cba20bfb543de57e6c3957d1be3fbd519b9f81ba740749eb763d464ec7ed8bee"
+    },
+    "BIO_V2.bin": {
+      "bytes": 25284,
+      "sha256": "438a8120f6df06ce219cdc30c0e5b697ac0e993f98d5a80521b10361536ae3ae"
+    },
+    "symbols.txt": {
+      "bytes": 91766,
+      "sha256": "a556fa4a8d5edb8295be44059251357d288b39bb845b318ff3fc024fde7d2897"
+    }
+  },
+  "bio_source_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+  "tools_sha256": {
+    "node-b/tools/field_profile.py": "2cc386655e425d7f1ee57a8de956026cadd1057a27b2429ffa0f75a4bb1d9857",
+    "node-b/acquisition/工具/stable_slot_export.py": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2"
+  },
+  "device_binding": {
+    "uid": null,
+    "flash_sha256": null,
+    "capacity_bytes": null,
+    "options_sha256": null
+  },
+  "hardware_actions": [],
+  "layout": {
+    "diag": {
+      "address": "0x20001ae4",
+      "bytes": 120,
+      "tag": "0x324f4942",
+      "abi_version": 2,
+      "fields": [
+        {
+          "name": "tag",
+          "offset": 0
+        },
+        {
+          "name": "abi_version",
+          "offset": 4
+        },
+        {
+          "name": "samples",
+          "offset": 8
+        },
+        {
+          "name": "last_sequence",
+          "offset": 12
+        },
+        {
+          "name": "last_sample_ms",
+          "offset": 16
+        },
+        {
+          "name": "segment",
+          "offset": 20
+        },
+        {
+          "name": "discontinuities",
+          "offset": 24
+        },
+        {
+          "name": "clipped_samples",
+          "offset": 28
+        },
+        {
+          "name": "ecg_raw",
+          "offset": 32
+        },
+        {
+          "name": "resp_raw",
+          "offset": 36
+        },
+        {
+          "name": "ecg_filtered",
+          "offset": 40
+        },
+        {
+          "name": "resp_filtered",
+          "offset": 44
+        },
+        {
+          "name": "hr",
+          "offset": 48
+        },
+        {
+          "name": "rpm",
+          "offset": 52
+        },
+        {
+          "name": "hr_valid",
+          "offset": 56
+        },
+        {
+          "name": "rpm_valid",
+          "offset": 60
+        },
+        {
+          "name": "hr_reason",
+          "offset": 64
+        },
+        {
+          "name": "rpm_reason",
+          "offset": 68
+        },
+        {
+          "name": "hr_candidates",
+          "offset": 72
+        },
+        {
+          "name": "hr_accepted",
+          "offset": 76
+        },
+        {
+          "name": "resp_candidates",
+          "offset": 80
+        },
+        {
+          "name": "resp_accepted",
+          "offset": 84
+        },
+        {
+          "name": "hr_last_cycle_ms",
+          "offset": 88
+        },
+        {
+          "name": "resp_last_cycle_ms",
+          "offset": 92
+        },
+        {
+          "name": "hr_fresh_intervals",
+          "offset": 96
+        },
+        {
+          "name": "resp_fresh_intervals",
+          "offset": 100
+        },
+        {
+          "name": "ecg_rms_codes",
+          "offset": 104
+        },
+        {
+          "name": "resp_rms_codes",
+          "offset": 108
+        },
+        {
+          "name": "ecg_mains_fraction",
+          "offset": 112
+        },
+        {
+          "name": "resp_mains_fraction",
+          "offset": 116
+        }
+      ]
+    },
+    "slots": {
+      "address": "0x20001f30",
+      "bytes": 3072,
+      "record_bytes": 24
+    },
+    "adc_stats": {
+      "address": "0x2000018c",
+      "bytes": 48
+    },
+    "register_readback": {
+      "address": "0x200001bc",
+      "bytes": 12
+    },
+    "head": {
+      "address": "0x20000140",
+      "bytes": 4
+    },
+    "tail": {
+      "address": "0x20000144",
+      "bytes": 4
+    }
+  },
+  "collector_status": "NOT_IMPLEMENTED_FOR_BIO_V2_DO_NOT_USE_LEGACY_CAPTURE",
+  "diag_coherence": "LIVE_UNCOORDINATED_OBSERVATIONAL_ONLY",
+  "peak_events": "OFFLINE_REPLAY_REQUIRED_NO_PER_BEAT_EVENT_LOG_IN_FIRMWARE",
+  "state_regions_plan": [
+    {
+      "address": "0x20000000",
+      "bytes": 2048
+    },
+    {
+      "address": "0x20001ae4",
+      "bytes": 120
+    }
+  ],
+  "tail_plan": {
+    "address": "0x20000000",
+    "bytes": 131072,
+    "requires_confirmed_halt": true,
+    "published_slots": 127
+  }
+}
