@@ -2,7 +2,13 @@
 
 2026-10-22，Asia/Shanghai。依据合同第1.3、2、5节：真实接线、供电、SWD/串口读取、烧录和采集前须单独书面批准。原合同批准仅覆盖B2-0软件准备；负责人确认“源已到手”不是现场操作许可。缺字段不得用“同上/默认/按需”替代。
 
-## AUTH-B-ECG-00：当次身份/完整备份窗口提案
+## R2更新：首次身份/备份改用独立精确卡
+
+负责人已补充：照片中STM32F407ZGT6为B，当前未通电，模块已连、未接人体；只有Codex操作，无其他调试/自动下载程序。F绿、R红、L黄且模块/线缆同款，设计级F→RLD可确认，未做实测通断。
+
+首次身份/备份统一改用 [AUTH-B-READBACK-001 R1](AUTH-B-READBACK-001-R1.md)，缺项见 [现场信息清单](B-ALG-002-FIELD-INFORMATION-CHECKLIST.md)。下面ECG-00保留为历史提案，标记SUPERSEDED_FOR_FIRST_READBACK，不能再据此执行。ECG-01/RESP-01是后续独立许可，仍未批准。
+
+## AUTH-B-ECG-00：历史身份/完整备份窗口提案（已替代）
 
 目的仅为填补ECG-01要求的今日UID/容量/options/Flash身份；需负责人同意分窗及逐项冻结后才能签发。当前 `DRAFT_INCOMPLETE_NOT_APPROVABLE`，不申请空白许可。
 

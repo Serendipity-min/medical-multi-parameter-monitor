@@ -60,3 +60,13 @@ profile.offline.json SHA256 `d402780dc16781cfc9f8e3de4211b3d7514c5de73f3bcc2007c
 - 机器证据 `../evidence/B-ALG-002/`，受限目录 `E:/medical-monitor-node-b-field-private`。
 
 本阶段停止于B2-0软件准备和具名现场阻塞，下一步优先ECG→HR，之后动态阻抗RESP→RR；不以任何脱机PASS替代实板结论。
+
+## R2现场照片与首次只读卡补充
+
+负责人补充同款模块/导联确认及两张现场照片：F绿、R红、L黄；照片中的STM32F407ZGT6为B，当前未通电，模块已连且无人接入；无其他调试程序或自动下载，只有Codex执行。BOOT名称/J5和J-Link供电功能、KTAG实际接口仍须据丝印/照片核定，不静默更正负责人口述。原R1观察保留，现状以R2为准。
+
+资料级设计映射更新为F→模块RLD、R→ERA、L→ELA；未做通断或兼容性实测。[R2接线复核](B-ALG-002-CONNECTOR-REVIEW-R2.md)说明推理依据及颜色差异。
+
+新增 [精确身份/备份卡](AUTH-B-READBACK-001-R1.md)，明确F407身份/options地址、1MiB独立双读、条件halt/go次数、单路供电和超时/停止，替代ECG-00泛化提案。[一次性现场清单](B-ALG-002-FIELD-INFORMATION-CHECKLIST.md)将纯备份必需资料与后续ECG/RESP资料分开。
+
+旧J-Link V5.12的失败自动复位重试和close自动恢复尚无受控证据，列为Codex软件准备门；没有为核实工具而启动已接B的探针。状态仍PREPARED_PENDING_FIELD_AND_TOOL_GATES，不向负责人申请带未知项的执行批准。本轮仅改文档/证据，未改代码、未读写或供电任何硬件，也未产生当前Flash备份。

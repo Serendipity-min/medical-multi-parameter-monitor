@@ -1,0 +1,27 @@
+{
+  "scope": "DOCUMENT_PREPARATION_ONLY_NO_HARDWARE",
+  "base": "4920fd0e94df08c70c87cd479adfeec734656a47",
+  "status": "PREPARED_PENDING_FIELD_AND_TOOL_GATES",
+  "card_sha256": "f006a0829bdd39c8a2c6c1652438fb71ebb8cd5dbf576cd2a37c29a0bc9b7d10",
+  "documents": [
+    {
+      "path": "node-b/docs/AUTH-B-READBACK-001-R1.md",
+      "bytes": 11305,
+      "sha256": "f006a0829bdd39c8a2c6c1652438fb71ebb8cd5dbf576cd2a37c29a0bc9b7d10"
+    },
+    {
+      "path": "node-b/docs/B-ALG-002-FIELD-INFORMATION-CHECKLIST.md",
+      "bytes": 4255,
+      "sha256": "2ed8029da7085500d65171b7c096d1d22c45c556ce1a8a0e0753e0a1a6a222bb"
+    },
+    {
+      "path": "node-b/docs/B-ALG-002-CONNECTOR-REVIEW-R2.md",
+      "bytes": 3132,
+      "sha256": "0ddd6fe98bdf848bf2ccd30b4b832340a4000558a7b7f799c5116cec1364d8ce"
+    }
+  ],
+  "hardware_actions": [],
+  "firmware_changes": false,
+  "tests": "NOT_RERUN_DOCUMENT_ONLY; verify scoped diff, local links, JSON and evidence identity",
+  "created_utc": "2026-10-22T08:16:16.933970+00:00"
+}
