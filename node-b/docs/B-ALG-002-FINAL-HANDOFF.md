@@ -1,5 +1,9 @@
 # MPM-B-ALG-002 唯一阶段交接
 
+最新追加：一次复位卡获明确同意，但入口已变为运行态/VTOR08000000，按原卡STOP；实际reset/halt/go均0，未采集、未重试。[新零复位10秒卡](AUTH-B-RESP-PILOT-002-R1.md)及测试已备，单独等待新窗口确认；详见[运行状态审查追加记录](RESP-RUNTIME-STATE-REVIEW-R1.md)。
+
+最新启动只读核验：两次连接均实际PC=1FFF32F0、VTOR=1FFF0000、CPU暂停，Flash/options匹配。当前停在系统ROM，尚未证明最初进入原因；未发reset/go/halt，未继续采集。详见[启动与J-Link流程核验](RESP-RUNTIME-STATE-REVIEW-R1.md)。[一次复位及有条件10秒新卡](AUTH-B-RUNTIME-RECOVERY-RESP-001-R1.md)已备，等待新增复位权限；以下E1失败/E0描述保留为历史。
+
 RESP-003最新执行：R3卡唯一会话在首组诊断触发RESP_DIAG_ABI，worker/监督均exit1，未完成10秒；halt/go/reset/写Flash均0，未重试。E1未签通过，E2/E3未执行。下方E0等待描述为历史快照；当前以[RESP报告](RESP-EXPLORATORY-REPORT.md)及[失败回执](../evidence/B-RESP-003/e1-failure-receipt-01.json)为准，R3一次权限已消耗。
 
 RESP-003最新：负责人已明确允许厂家ΔΩ/动态端子未知条件下的有限非人体探索。E0独立源/profile/采集/120B解析/RR离线计算和13项测试已完成；E1准确R2卡已备，当前仅HOLD_FOR_SAFE_FIELD_GATE_AND_ACTUAL_MENU，未读板/改线/采集。[本轮报告](RESP-EXPLORATORY-REPORT.md)与[R2卡](AUTH-B-RESP-PILOT-001-R2.md)覆盖以下旧R1的探索准入判断，旧ECG结果和正文保留。

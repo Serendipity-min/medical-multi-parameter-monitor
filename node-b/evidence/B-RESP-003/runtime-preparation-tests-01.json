@@ -1,0 +1,19 @@
+{
+  "runtime_tests": 7,
+  "runtime_test_exit_code": 0,
+  "recovery_tests": 5,
+  "recovery_test_exit_code": 0,
+  "runtime_disabled_manifest_negative": {
+    "worker_exit_code": 1,
+    "supervisor_exit_code": 1,
+    "SDK_opened": false
+  },
+  "recovery_unapproved_reset_negative": {
+    "worker_exit_code": 1,
+    "supervisor_exit_code": 1,
+    "SDK_opened": false
+  },
+  "runtime_test_source_sha256": "650f1ef81a84aa44478fa67d125f39a8f678d2957801668e8bd97c1ad4836bd3",
+  "recovery_test_source_sha256": "89527d4c86121a6860ce358104529c900f896a2aea99662413c776b55c16b13a",
+  "tests_are_not_hardware_acceptance": true
+}

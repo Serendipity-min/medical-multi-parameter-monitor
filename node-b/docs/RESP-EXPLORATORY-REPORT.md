@@ -1,5 +1,9 @@
 # MPM-B-RESP-003探索性验证报告
 
+最新追加：一次复位卡获明确同意，但入口已变为运行态/VTOR08000000，按原卡STOP；实际reset/halt/go均0，未采集、未重试。[新零复位10秒卡](AUTH-B-RESP-PILOT-002-R1.md)及测试已备，单独等待新窗口确认；详见[运行状态审查追加记录](RESP-RUNTIME-STATE-REVIEW-R1.md)。
+
+最新启动只读核验：两次连接均实际PC=1FFF32F0、VTOR=1FFF0000、CPU暂停，Flash/options匹配。当前停在系统ROM，尚未证明最初进入原因；未发reset/go/halt，未继续采集。详见[启动与J-Link流程核验](RESP-RUNTIME-STATE-REVIEW-R1.md)。[一次复位及有条件10秒新卡](AUTH-B-RUNTIME-RECOVERY-RESP-001-R1.md)已备，等待新增复位权限；以下E1失败/E0描述保留为历史。
+
 2026-10-22 Asia/Shanghai。唯一实施分支 `codex/node-b-bio-v2-field-20261022`，合同起点 `2d34b848d5946d38b6f942fa61c4fc7c05138a40`。依据[RESP-003合同](contracts/MPM-B-RESP-003-R1.0.md)，未知ΔΩ/动态端子定义允许探索，欧姆值仍为null。本报告覆盖此前E0进度描述；E0报告、13项测试和回执原字节可在提交 `bff831e32004264b2ca79780e06b9fe941caad5f` 审阅，旧哈希仅绑定该历史快照。
 
 ## 当前结论
