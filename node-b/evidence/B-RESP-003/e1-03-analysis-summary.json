@@ -1,0 +1,173 @@
+{
+  "stage": "E1",
+  "status": "RESP_PATH_NOT_OBSERVED",
+  "analysis_exit_code": 3,
+  "source_type": "RESP_EXPLORATORY",
+  "nominal_menu_rpm": 15,
+  "menu_literals": {
+    "mode_literal": "呼吸波形",
+    "rate_literal": "15bpm",
+    "amplitude_literal": "1.5R",
+    "apnea_literal": "未找到（负责人原话）"
+  },
+  "dynamic_pair": "UNVERIFIED",
+  "Z0_ohm": null,
+  "delta_Zpp_ohm": null,
+  "impedance_calibration": "NOT_CALIBRATED",
+  "source_record_sha256": "1a14ca86ebf3c8d1f2169639a53d2e8ba4f1d2dc64d14a296eb5cd3ccac83550",
+  "profile_sha256": "36bd57065035e91b461b24110e55de9ef929b73d2e5bee5e656ee4931d05616d",
+  "capture_receipt_sha256": "f4cbf900bb6d4ec8ef85fd98474a11f6087cf2a70e25ee820414acb06dc1dc1a",
+  "raw_csv_sha256": "08ca491b44689d3570e1014276de9b977dcd707b78d350069c648baeff43b892",
+  "bio_source_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+  "retained_frames": 2593,
+  "analysis_frames": 2482,
+  "pre_anchor_frames_preserved": 111,
+  "failures": [],
+  "adc_error_max": {
+    "init_errors": 0,
+    "spi_errors": 0,
+    "bad_status": 0,
+    "queue_overflow": 0
+  },
+  "observed_host_sps": 249.9081220136966,
+  "independent_raw_estimate": {
+    "origin": "OFFLINE_RAW_CH1_ESTIMATE_NOT_BIO_NOT_REFERENCE",
+    "failures": [],
+    "impedance_calibration": "NOT_CALIBRATED",
+    "Z0_ohm": null,
+    "delta_Zpp_ohm": null,
+    "time_domain_rpm": 21.420921099607284,
+    "spectral_rpm": 9.4,
+    "autocorrelation_rpm": 10.341261633919338,
+    "periods_ms": [
+      2801.0,
+      3501.0,
+      2201.0
+    ],
+    "peak_device_offsets_ms": [
+      748.0,
+      3549.0,
+      7050.0,
+      9251.0
+    ],
+    "raw_peak_to_peak_codes": 281,
+    "duration_ms": 9927.0,
+    "period_relative_max_deviation": 0.24991074616208497,
+    "finite_window_resolution_rpm": 6.183654539833041,
+    "autocorrelation_coefficient": 0.6081139144217955,
+    "status": "CH1_VARIATION_PERIOD_UNRESOLVED",
+    "short_window_limit": "Few cycles and finite-window resolution; no calibrated frequency or L2 rate tracking proof"
+  },
+  "replay_resp_event_records": 0,
+  "RR_acceptance": "NOT_EVALUATED_10S_WARMUP_AND_FRESH_INTERVAL_LIMIT",
+  "E2": "NOT_RUN_SEPARATE_CARD_REQUIRED",
+  "E3": "NOT_RUN_SEPARATE_CARD_REQUIRED",
+  "limitations": [
+    "L1 raw periodicity is not proof of absolute impedance or physical electrode-pair calibration",
+    "No L2 menu rate tracking proof from one rate/window",
+    "Live RAM diagnostic observations are nonatomic; RREG cache is not fresh SPI read",
+    "Host replay reset at first retained frame; not complete board history or bit-identical ARM",
+    "No clinical accuracy; nominal source menu is not an independently calibrated reference"
+  ],
+  "capture_status": "RESP_CAPTURE_FILES_SAVED",
+  "worker_exit_code": 0,
+  "supervisor_exit_code": 0,
+  "session_elapsed_s": 93.07800000003772,
+  "window_elapsed_s": 10.01500000001397,
+  "chunks": 126,
+  "export": {
+    "stable_frames": 2593,
+    "first_sequence": 84448,
+    "last_sequence": 87040,
+    "source_missing_within_span": 0,
+    "pending": 26,
+    "multi_repeat_conflicts": 0,
+    "paused_conflicts": 0,
+    "boot_count": 1,
+    "ch2_near_rail_fraction": 0.0,
+    "ch1_near_rail_fraction": 0.0,
+    "input_accuracy": "NOT_EVALUATED",
+    "peak_events": "NOT_LIVE_PER_BEAT_OFFLINE_REPLAY_REQUIRED"
+  },
+  "halt_requests": 1,
+  "go_requests": 1,
+  "reset_requests": 0,
+  "flash_write_requests": 0,
+  "sdk_calls": 396,
+  "tail_halt_confirmed": true,
+  "resume_confirmed": true,
+  "target_end_state": "RUNNING_BEFORE_CLOSE",
+  "post_Close_target_state": "NOT_INDEPENDENTLY_OBSERVED",
+  "diagnostic_group_count": 13,
+  "first_live": {
+    "samples": 84559,
+    "rpm": 0,
+    "rpm_valid": 0,
+    "rpm_reason": 130,
+    "rpm_reason_names": [
+      "NO_CYCLES",
+      "BROADBAND_NOISE"
+    ],
+    "resp_candidates": 7,
+    "resp_accepted": 1,
+    "resp_last_cycle_ms": 0,
+    "resp_fresh_intervals": 0,
+    "resp_rms_codes": 6.810849189758301,
+    "resp_mains_fraction": 0.13077691197395325,
+    "hr": 120,
+    "hr_valid": 1,
+    "hr_reason_names": [
+      "VALID"
+    ]
+  },
+  "last_live": {
+    "samples": 86939,
+    "rpm": 0,
+    "rpm_valid": 0,
+    "rpm_reason": 130,
+    "rpm_reason_names": [
+      "NO_CYCLES",
+      "BROADBAND_NOISE"
+    ],
+    "resp_candidates": 7,
+    "resp_accepted": 1,
+    "resp_last_cycle_ms": 0,
+    "resp_fresh_intervals": 0,
+    "resp_rms_codes": 6.682407379150391,
+    "resp_mains_fraction": 0.15229424834251404,
+    "hr": 120,
+    "hr_valid": 1,
+    "hr_reason_names": [
+      "VALID"
+    ]
+  },
+  "card_sha256": "b7080b54f357f72c2bcf557e125f2f26d7a3c21c2290ced8546944a110d53e36",
+  "tools_sha256": {
+    "node-b/tools/capture_resp_b.py": "6989a819a5f26c91074bf2cfdd769313fa543aa85e58c01d5198bd0670e309ae",
+    "node-b/tools/resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+    "node-b/tools/analyze_resp_b.py": "225e5ef46b8f450c3b4372d3fc102491c8f2e64ee8a5f9fd87a12074018e3360",
+    "node-b/tools/supervise_resp_b.py": "5019350e361f6ab999dc0fe9a09808b304228235d8c11b3abcf4e5e86f6f8a4d",
+    "node-b/tools/capture_b.py": "7c45589bff1099e20354b8dbe7db9bb2e32095bf67a904b9358cf4f4996800fa",
+    "node-b/tools/readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+    "node-b/tools/precheck_b.py": "3c490ecc99154aa857b0f2f9767951b5e6587844269983670a6ea53684ce4a81",
+    "node-b/tools/adc_path_b.py": "a80c1ed4ccddb8f0f569c3753c2659b78e01bb3c6b4f0b49bcaf3aa27a152d12",
+    "node-b/tools/boot_check_b.py": "0c854ade1cc99807badbdbc8a9f0a5eb7dd24d6447f617356fcd2bcd42f100c0",
+    "node-b/tools/fault_snapshot_b.py": "96d0976b2dd18d5c9a982c4d8b8afe9f2822f0120bbe06ef4c48cb4461bc49a3",
+    "node-b/tools/field_profile.py": "2cc386655e425d7f1ee57a8de956026cadd1057a27b2429ffa0f75a4bb1d9857",
+    "node-b/acquisition/工具/stable_slot_export.py": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2",
+    "node-b/tools/runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+    "node-b/tools/supervise_runtime_state_b.py": "98587c514f8987e76851b87465259a0b3242cb4b222c2289c1b6de5b0f580b22",
+    "node-b/tools/recover_resp_runtime_b.py": "0020bfc6f54bcddfbbaa8576801cab0e53f898a362249415082f95a51ea3b31b",
+    "node-b/tools/supervise_resp_recovery_b.py": "5f28aa9d627621d46f0df497eb460ac83b4ddb7c0cbcd21c2d35fdf9ebf5f4a9",
+    "node-b/tools/capture_resp_checked_b.py": "48b3f4bafc411f66adc4a92fa3d5522c47f96db286ce62de9201b6477bc1525c",
+    "node-b/tools/supervise_resp_checked_b.py": "7f6602ba50820e04b172623ccf66d09edd37d5cbf9373204427e649cf6b71087"
+  },
+  "approved_manifest_sha256": "6c93d60253030034839ff5feb3b019e387ffe519f98a7ebba4cce672b168b6ae",
+  "approval_sha256": "819ba87c957d5731b26880f4820a1ed391e31a1e1697be91437814db7c6ea99f",
+  "prior_stops_preserved": [
+    "e1-01 RESP_DIAG_ABI",
+    "runtime-state-01 halted ROM",
+    "e1-02 changed-entry stop before reset"
+  ],
+  "no_automatic_later_windows": true
+}
