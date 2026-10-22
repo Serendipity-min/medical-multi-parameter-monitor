@@ -1,0 +1,187 @@
+{
+  "schema": "RESP_003_OFFLINE_PREPARATION_1",
+  "enabled": false,
+  "hardware_actions": [],
+  "source_type": "RESP_EXPLORATORY",
+  "stage": "E1",
+  "seconds": 10,
+  "execution_allowed": false,
+  "private_profile_sha256": "3ff2e6b95ade0a1f35db97ce608a04fe7b2c303f460a0748f66a48362ce98857",
+  "identity_reference_sha256": "6807dc3c928c11b5ba3d2185286f2a7e18bc526485d7ac84edace59728dc0323",
+  "firmware_full_flash_sha256": "f713277a50a5ec8d8a93317f412d5ab1b754e5d619918e57e9efe9dceef24cbb",
+  "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+  "layout": {
+    "diag": {
+      "address": "0x20001ae4",
+      "bytes": 120,
+      "tag": "0x324f4942",
+      "abi_version": 2,
+      "fields": [
+        {
+          "name": "tag",
+          "offset": 0
+        },
+        {
+          "name": "abi_version",
+          "offset": 4
+        },
+        {
+          "name": "samples",
+          "offset": 8
+        },
+        {
+          "name": "last_sequence",
+          "offset": 12
+        },
+        {
+          "name": "last_sample_ms",
+          "offset": 16
+        },
+        {
+          "name": "segment",
+          "offset": 20
+        },
+        {
+          "name": "discontinuities",
+          "offset": 24
+        },
+        {
+          "name": "clipped_samples",
+          "offset": 28
+        },
+        {
+          "name": "ecg_raw",
+          "offset": 32
+        },
+        {
+          "name": "resp_raw",
+          "offset": 36
+        },
+        {
+          "name": "ecg_filtered",
+          "offset": 40
+        },
+        {
+          "name": "resp_filtered",
+          "offset": 44
+        },
+        {
+          "name": "hr",
+          "offset": 48
+        },
+        {
+          "name": "rpm",
+          "offset": 52
+        },
+        {
+          "name": "hr_valid",
+          "offset": 56
+        },
+        {
+          "name": "rpm_valid",
+          "offset": 60
+        },
+        {
+          "name": "hr_reason",
+          "offset": 64
+        },
+        {
+          "name": "rpm_reason",
+          "offset": 68
+        },
+        {
+          "name": "hr_candidates",
+          "offset": 72
+        },
+        {
+          "name": "hr_accepted",
+          "offset": 76
+        },
+        {
+          "name": "resp_candidates",
+          "offset": 80
+        },
+        {
+          "name": "resp_accepted",
+          "offset": 84
+        },
+        {
+          "name": "hr_last_cycle_ms",
+          "offset": 88
+        },
+        {
+          "name": "resp_last_cycle_ms",
+          "offset": 92
+        },
+        {
+          "name": "hr_fresh_intervals",
+          "offset": 96
+        },
+        {
+          "name": "resp_fresh_intervals",
+          "offset": 100
+        },
+        {
+          "name": "ecg_rms_codes",
+          "offset": 104
+        },
+        {
+          "name": "resp_rms_codes",
+          "offset": 108
+        },
+        {
+          "name": "ecg_mains_fraction",
+          "offset": 112
+        },
+        {
+          "name": "resp_mains_fraction",
+          "offset": 116
+        }
+      ]
+    },
+    "slots": {
+      "address": "0x20001f30",
+      "bytes": 3072,
+      "record_bytes": 24
+    },
+    "adc_stats": {
+      "address": "0x2000018c",
+      "bytes": 48
+    },
+    "register_readback": {
+      "address": "0x200001bc",
+      "bytes": 12
+    },
+    "head": {
+      "address": "0x20000140",
+      "bytes": 4
+    },
+    "tail": {
+      "address": "0x20000144",
+      "bytes": 4
+    }
+  },
+  "tools_sha256": {
+    "node-b/tools/capture_resp_b.py": "6989a819a5f26c91074bf2cfdd769313fa543aa85e58c01d5198bd0670e309ae",
+    "node-b/tools/resp_exploratory.py": "b8df4406ed1e287863764619d9e356dcdca60a9fe5762fcad99084f2ed15d8d3",
+    "node-b/tools/analyze_resp_b.py": "225e5ef46b8f450c3b4372d3fc102491c8f2e64ee8a5f9fd87a12074018e3360",
+    "node-b/tools/supervise_resp_b.py": "5019350e361f6ab999dc0fe9a09808b304228235d8c11b3abcf4e5e86f6f8a4d",
+    "node-b/tools/capture_b.py": "7c45589bff1099e20354b8dbe7db9bb2e32095bf67a904b9358cf4f4996800fa",
+    "node-b/tools/readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+    "node-b/tools/precheck_b.py": "3c490ecc99154aa857b0f2f9767951b5e6587844269983670a6ea53684ce4a81",
+    "node-b/tools/adc_path_b.py": "a80c1ed4ccddb8f0f569c3753c2659b78e01bb3c6b4f0b49bcaf3aa27a152d12",
+    "node-b/tools/boot_check_b.py": "0c854ade1cc99807badbdbc8a9f0a5eb7dd24d6447f617356fcd2bcd42f100c0",
+    "node-b/tools/fault_snapshot_b.py": "96d0976b2dd18d5c9a982c4d8b8afe9f2822f0120bbe06ef4c48cb4461bc49a3",
+    "node-b/tools/field_profile.py": "2cc386655e425d7f1ee57a8de956026cadd1057a27b2429ffa0f75a4bb1d9857",
+    "node-b/acquisition/工具/stable_slot_export.py": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2"
+  },
+  "sdk_call_limit_managed": 4000,
+  "SDK_Close_direct_max": 1,
+  "slot_block_limit": 201,
+  "source_template_sha256": "6d8a7d79229d059f8048442668db4b49b1c505b45218319e8ad70568289827e5",
+  "electrical_gate": "HOLD_FOR_SAFE_FIELD_GATE",
+  "source_menu_gate": "NOT_CONFIRMED_INDEPENDENT_RESP_15",
+  "unknown_Z_does_not_block_exploration": true,
+  "absolute_Z_calibration": "NOT_CALIBRATED",
+  "E2_E3": "NOT_ENABLED_SEPARATE_STAGE_CARD_REQUIRED"
+}

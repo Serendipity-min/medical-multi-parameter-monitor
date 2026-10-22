@@ -1,5 +1,7 @@
 # MPM-B-ALG-002 唯一阶段交接
 
+RESP-003最新：负责人已明确允许厂家ΔΩ/动态端子未知条件下的有限非人体探索。E0独立源/profile/采集/120B解析/RR离线计算和13项测试已完成；E1准确R2卡已备，当前仅HOLD_FOR_SAFE_FIELD_GATE_AND_ACTUAL_MENU，未读板/改线/采集。[本轮报告](RESP-EXPLORATORY-REPORT.md)与[R2卡](AUTH-B-RESP-PILOT-001-R2.md)覆盖以下旧R1的探索准入判断，旧ECG结果和正文保留。
+
 ## R3当前裁定（覆盖下方历史阶段状态）
 
 2026-10-22 Asia/Shanghai：**B2_ECG_HR_ENGINEERING_RATE_PASS_FOR_TESTED_SETUP**。独立工作区与唯一写分支不变；合同固件源码/阈值不变。身份/双备份、候选安装/整片校验、链路及未接源负例已完成。负责人逐档确认普通60/90/120；六个正式窗口全部满足冻结工程速率判据。当前完成6/6，结论仅限本次组合的名义速率一致性，不代表医学准确度、幅值标定或B3通过。详见[BIO_V2六窗实板结果](B-ALG-002-ECG-MATRIX-RESULTS.md)。

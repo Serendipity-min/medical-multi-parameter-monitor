@@ -1,5 +1,7 @@
 # Node-B 精确现场授权卡索引及历史草案
 
+RESP-003当前卡为[AUTH-B-RESP-PILOT-001 R2](AUTH-B-RESP-PILOT-001-R2.md)：厂家ΔΩ未知不再否决探索，E0已通过；电气判断及实际独立呼吸15菜单未确认，当前不执行。下方ALG-002 R1准备与旧卡是保留的历史状态，不复用其执行权限。
+
 > R3最新：负责人逐档确认普通60/90/120、电池及断USB和原接线状态，按ECG-MATRIX卡完成全部六窗并分析，六窗均通过本次组合工程速率判据。本轮无固件/阈值/工具变化，无重新烧录或复位。卡内六次会话已用完；RESP仍待动态阻抗电极对/ΔΩ定义及独立精确授权卡，未执行。结果见[六窗实板结果](B-ALG-002-ECG-MATRIX-RESULTS.md)和[唯一交接](B-ALG-002-FINAL-HANDOFF.md)。以下R1/R2草案均为历史状态，不重复索要已确认J-Link资料。
 
 RESP最新准备：[AUTH-B-RESP-PILOT-001 R1](AUTH-B-RESP-PILOT-001-R1.md)为精确10秒输入检查草案，当前DRAFT_NOT_APPROVABLE_SOURCE_AND_TOOL_GATES；[一次性缺项](B-ALG-002-RESP-INFORMATION-CHECKLIST-R1.md)列明补证和工具冻结条件。未执行、未申请批准，不提供可直接运行的RESP命令。

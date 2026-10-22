@@ -1,0 +1,39 @@
+{
+  "schema": "RESP_EXPLORATORY_SOURCE_1",
+  "source_type": "RESP_EXPLORATORY",
+  "stage": "E1",
+  "record_status": "PROPOSED_NOT_ACTUAL_MENU_CONFIRMATION",
+  "data_source": "ENGINEERING_NONHUMAN",
+  "acceptance_class": "EXPLORATORY_NOMINAL_RATE_ONLY",
+  "mode": "INDEPENDENT_RESPIRATION",
+  "Z0_ohm": null,
+  "delta_Zpp_ohm": null,
+  "dynamic_pair": "UNVERIFIED",
+  "impedance_calibration": "NOT_CALIBRATED",
+  "amplitude_literal": "1.5R",
+  "nominal_rpm": 15,
+  "menu_rate_rpm": 15,
+  "menu": {
+    "mode_literal": "呼吸波形（提案，未确认当前菜单）",
+    "rate_literal": "15rbpm（提案，未确认当前显示）",
+    "amplitude_literal": "1.5R",
+    "apnea_literal": "未提供当前显示；不得将0秒自动解释为禁用"
+  },
+  "menu_confirmed": false,
+  "operator_ready": false,
+  "safety_confirmed": false,
+  "leads": {
+    "R_red": "RA",
+    "L_yellow": "LA",
+    "F_green": "RL"
+  },
+  "battery_only": true,
+  "usb_disconnected": true,
+  "CAN_A_C_human_disconnected": true,
+  "connection_state_basis": "UNCHANGED_ECG_SETUP_OWNER_REPORT; prior disconnections retained; reconfirm before E1",
+  "owner_confirmation": "接线方式不变，也没有添加新的模块；电池供电，无异常。尚未回复独立呼吸15菜单或电位/限流依据。",
+  "safety_record": null,
+  "safety_record_sha256": null,
+  "factory_report_evidence_sha256": "c5f1ff3d1ea514b1780c6c424c7a426baf9882eb1da252f041fbbb24483a70c8",
+  "factory_report_limits": "Visible factory respiration entries 15/30/45/60; not calibration of delta-ohm or 32kHz/RLD safety"
+}
