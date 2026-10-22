@@ -1,0 +1,23 @@
+{
+  "schema": "RESP_VALIDITY_PUBLIC_SUMMARY_1_NOT_RUNTIME",
+  "source_type": "RESP_EXPLORATORY",
+  "source_record_sha256": "651b10156788927556daac69a02b88354eeea50ec862b937ca2861b71890ad5a",
+  "mode": "INDEPENDENT_RESPIRATION",
+  "menu": {
+    "mode_literal": "呼吸波形",
+    "ecg_rate_literal": "60BPM",
+    "respiration_rate_literal": "15bpm",
+    "amplitude_literal": "1.5R",
+    "apnea_literal": "0s",
+    "waveform_period_literal": "20bpm"
+  },
+  "nominal_rpm": 15,
+  "reference_rpm": null,
+  "Z0_ohm": null,
+  "delta_Zpp_ohm": null,
+  "dynamic_pair": "UNVERIFIED",
+  "impedance_calibration": "NOT_CALIBRATED",
+  "waveform_period_semantics": "SEPARATE_MENU_ITEM_UNVERIFIED_NOT_USED_AS_RR_REFERENCE",
+  "apnea_semantics": "ZERO_DISPLAY_RECORDED_SEMANTICS_UNVERIFIED",
+  "safety_record_sha256": "fded6c707c6bc67d8ed22199f0888ef3a438fe2a9a774d4cb02bfab802b3a933"
+}
