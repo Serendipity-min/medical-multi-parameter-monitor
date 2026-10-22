@@ -1,0 +1,119 @@
+{
+  "contract": "MPM-C-VOICE-001",
+  "executed_source_commit": "deaba320ab2a47efb8e1593e4d58172817e6c522",
+  "hardware_window": "AUTH-VOICE-C-OFFLINE-BENCH-1",
+  "hardware_window_closed": true,
+  "owner_heard_exact_phrase": true,
+  "owner_reported_distortion": false,
+  "speaker": "8ohm1W, owner-requested short v1 test only",
+  "UART": "USART2 PA2_TX_to_R T_to_PA3_RX; AF7; configured9600_8N1",
+  "module_T_idle_voltage_owner_V": 3.33,
+  "JLink_VTref_V": 3.3,
+  "module_supply_numeric_voltage": "NOT_PROVIDED; owner reported normal J5 supply",
+  "module_peak_current_ripple_speaker_power_temperature": "NOT_MEASURED",
+  "first_attempt": {
+    "read_exit_code": 0,
+    "VTOR": "0x1fff0000",
+    "application_state_valid": false,
+    "UART2_config": [
+      "0x0",
+      "0x0",
+      "0x0",
+      "0x0"
+    ],
+    "RAM_counters": "INVALID_NOT_USED",
+    "symptom": "NO_SOUND"
+  },
+  "success_read": {
+    "exit_code": 0,
+    "captured_utc": "2026-10-22T03:35:25.706011+00:00",
+    "image_match": true,
+    "issued_halt_reset_or_write_commands": false,
+    "application_state_valid": true,
+    "queue": {
+      "state": 0,
+      "length": 4,
+      "position": 4,
+      "at": 14980,
+      "last_submit": 4035,
+      "last_id": 1,
+      "tx_done_count": 2,
+      "ack_count": 2,
+      "done_count": 1,
+      "errors": 1,
+      "enabled": 0,
+      "power_good": 1,
+      "protocol_confirmed": 1,
+      "submitted": 1,
+      "tx_done": 1,
+      "admin_command": 0,
+      "stopping": 0,
+      "stop_sent": 1,
+      "stop_ack": 1,
+      "stop_idle": 0,
+      "stop_failed": 1
+    },
+    "stats": {
+      "triggers": 1,
+      "overflow": 0,
+      "uart_errors": 0,
+      "last_status": 65,
+      "rx_bytes": 5,
+      "stage": 90
+    },
+    "ticks": 76669,
+    "uart2_BRR_CR1_CR2_CR3": [
+      "0x341",
+      "0x202c",
+      "0x0",
+      "0x0"
+    ],
+    "VTOR": "0x0",
+    "boot_alias_matches_bench_vectors": true,
+    "owner_audio": "FULL_FIXED_PHRASE_CLEAR_NO_DISTORTION_NO_OTHER_ABNORMALITY_REPORTED",
+    "owner_extra_button_press": "YES_AFTER_SUCCESS_EXPECTED_STOP_ONLY_NO_REPEAT"
+  },
+  "flash": {
+    "program_exit_code": 0,
+    "image_bytes": 3756,
+    "image_sha256": "311032f64c7f6674f14410414504c99a3d4ae35dd0e7be0703a97715fca8ad30",
+    "written_bytes": 16384,
+    "write_block_sha256": "0734d09ad8f7197d9afd940e4334a728db02ae40d6860ae68ad46faf9e577981",
+    "erase_sectors": [
+      0
+    ],
+    "before_64k_sha256": "49d3fad5040b25b746905d5c1468bff4d5be5a4f13197286ce215e0711798fb4",
+    "bench_64k_sha256": "9391a2901821ad8a0d760dffcf6efeee159017bbcaf9a5f538ee6705eb30bdfd",
+    "original_sector0_sha256": "77fd6e0fe4e5f2c287b42456630e198883a694b4a1886bbd4c7f085d99417516",
+    "protected_unchanged": true
+  },
+  "restore": {
+    "exit_code": 0,
+    "action": "ORIGINAL_SECTOR0_RESTORED",
+    "actual_64k_sha256": "49d3fad5040b25b746905d5c1468bff4d5be5a4f13197286ce215e0711798fb4",
+    "config_unchanged": true,
+    "protected_unchanged": true,
+    "target_execution": "HALTED_NO_GO"
+  },
+  "pretarget_authorization_encoding_failure": {
+    "exit_code": 1,
+    "flash_RAM_write": false,
+    "workaround": "ASCII-escaped equivalent approved card, unchanged source/image; only one physical program attempt"
+  },
+  "archive": {
+    "exit_code": 0,
+    "bytes": 2192402,
+    "sha256": "c256a21685dac36a24dd6cd5df778658b480fd59c147f59b7906612530f8cf96",
+    "decrypt_second_copy_verified": true,
+    "verified_files": 160,
+    "complete_window_including_restore": true,
+    "key_file_external_to_archives": true,
+    "key_value_never_logged": true
+  },
+  "final_owner_field_state": "C_OFF_JLINK_REMOVED_TTS_GVRT_DISCONNECTED_BOOT_GND_USB_ESP_DISCONNECTED",
+  "stop_validation": "ACK_RECEIVED_NO_FOLLOWUP_IDLE; strict stop timeout preserved, not STOP_PASS",
+  "production_cloud_AI_calls": 0,
+  "CAN_MQTT_network_regression": "NOT_RUN_OFFLINE_ONLY",
+  "scope_result": "USER_SINGLE_PLAYBACK_CONFIRMED; FULL_CONTRACT_PARTIAL",
+  "recorded_utc": "2026-10-22T03:40:18.568624+00:00"
+}

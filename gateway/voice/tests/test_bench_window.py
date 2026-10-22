@@ -1,5 +1,7 @@
 """应用扇区范围/错误角色/回退原件的合成测试；绝不启动J-Link。"""
 from pathlib import Path
+import json
+import sys
 import pytest
 from gateway.voice import bench_window as tool
 
@@ -83,3 +85,16 @@ def test_changed_restore_original_is_rejected(setup):
     restore=root/'restore'; restore.mkdir()
     with pytest.raises(RuntimeError,match='ORIGINAL_CHANGED'): tool.Window(restore,bridge,identity).restore(private)
     assert bridge.loads==1
+
+
+@pytest.mark.parametrize('approved',[True,False])
+def test_chinese_utf8_card_reaches_authorization_gate_without_target_access(setup,monkeypatch,approved):
+    root,_,image,_,bridge,_=setup
+    card=root/'中文授权.json'
+    card.write_text(json.dumps({'expires_utc':'2099-01-01T00:00:00+00:00',
+        'auth_id':'WRONG_SCOPE','approved_by_owner':approved,'现场说明':'供电正常，尚未批准连接'},
+        ensure_ascii=False),encoding='utf-8')
+    monkeypatch.setattr(sys,'argv',['bench_window','program','--image',str(image),'--auth',str(card)])
+    # 应当到达明确权限拒绝，不能因默认GBK误读，也不能调用Bridge或目标板。
+    with pytest.raises(ValueError,match='EXPLICIT_HARDWARE_APPROVAL'):tool.main()
+    assert bridge.loads==0

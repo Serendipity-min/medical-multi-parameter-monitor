@@ -1,0 +1,29 @@
+{
+  "executed_source_commit": "deaba320ab2a47efb8e1593e4d58172817e6c522",
+  "original_input_manifest_sha256": "a3e65d5d676acd0a84b2a819ef2882e5e767d4b9d697bfb4bb27593ad59ed8b2",
+  "final_sources_sha256": {
+    "gateway/voice/BENCH_FLASH.ld": "2c98c515c21a241794a74aaca6c9c2ce82d03c9897cc0588d31db76f478782fc",
+    "gateway/voice/bench_main.c": "11a895c49d3bdbfb707b33559730edc2b4718f4ee8f99b828796a90476f7d83f",
+    "gateway/voice/bench_manifest.py": "51e4a222de168e58e6da2c2811aa1f4e0355616eb35aefeacc3361ad321fe304",
+    "gateway/voice/bench_window.py": "4c0f03b8bdb2929d3acce77b37c556469bd14c1eebf4a63289eb5c6ae4741f10",
+    "gateway/voice/build.py": "60b72977694759d68e9d23b3aa635b5050e66f095acb418bef9d2ed3517519ca",
+    "gateway/voice/regression.py": "4087031156a9895f7a36d79fe0c3e5c1a24907b2af94b62b3fe6d8794fb56766",
+    "gateway/voice/tts_frame.c": "81e76cc50aedad7de1d558f970255e4b5e32635fbb8994cf8b50537c62c8fde9",
+    "gateway/voice/tts_frame.h": "1822b223297f9e98d9f50f425adcd87755a83caa6f2101ec12c4bd92557324dd",
+    "gateway/voice/tts_queue.c": "4e986f38968a861c9006beeb4be74e872231dd3ed264b824f3a78bdcc1569651",
+    "gateway/voice/tts_queue.h": "51368f0c5082805dc34e86340ecd4b99fd554cb0b4930897ef6fe109266aa19d",
+    "gateway/voice/tts_uart_port.c": "e889d18f909164cc7526e07b213f7dba52c1970be1b06f8a374bba41cabe29d5",
+    "gateway/voice/tts_uart_port.h": "02371c9e3f55f01040ea32de57353070940fd6adced3522d025150a4edce57a2",
+    "gateway/voice/tests/test_bench_window.py": "55776c9baf21312cd1e021882c1b0c63f13fe00fca7b7585e5f2b49977fb424e",
+    "gateway/voice/tests/test_voice.c": "61ae276894251c45fc82c6932373cf9a30798fec0c4e47ace3988a3348536a9e"
+  },
+  "post_hardware_source_changes": "UTF8 maintenance JSON reads and two negative Host cases only; firmware C and BIN unchanged",
+  "firmware_candidate_sha256": "311032f64c7f6674f14410414504c99a3d4ae35dd0e7be0703a97715fca8ad30",
+  "restored_full64k_sha256": "49d3fad5040b25b746905d5c1468bff4d5be5a4f13197286ce215e0711798fb4",
+  "remote_refs_unchanged": true,
+  "protected_source_diff": "NONE",
+  "pushed": false,
+  "tag_created": false,
+  "Security_Gate_run": false,
+  "created_utc": "2026-10-22T03:40:20.977059+00:00"
+}

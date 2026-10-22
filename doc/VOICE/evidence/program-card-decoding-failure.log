@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "E:\medical-monitor-c-voice\gateway\voice\bench_window.py", line 155, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "E:\medical-monitor-c-voice\gateway\voice\bench_window.py", line 123, in main
+    card = json.loads(a.auth.read_text())
+                      ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1059, in read_text
+    return f.read()
+           ^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x80 in position 362: illegal multibyte sequence

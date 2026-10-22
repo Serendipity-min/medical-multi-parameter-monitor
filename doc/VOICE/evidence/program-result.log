@@ -1,0 +1,52 @@
+{
+  "exit_code": 0,
+  "action": "VOICE_BENCH_LOAD_VERIFIED",
+  "scope": {
+    "role": "C",
+    "image_bytes": 3756,
+    "image_sha256": "311032f64c7f6674f14410414504c99a3d4ae35dd0e7be0703a97715fca8ad30",
+    "write_block_bytes": 16384,
+    "write_block_sha256": "0734d09ad8f7197d9afd940e4334a728db02ae40d6860ae68ad46faf9e577981",
+    "write_start": 134217728,
+    "write_end_exclusive": 134234112,
+    "erase_sectors": [
+      0
+    ],
+    "preserve_sectors": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "options_write": false,
+    "mass_erase": false,
+    "network": "NOT_LINKED",
+    "default_audio": "DISABLED",
+    "trigger": "WK_UP_PA0_SINGLE_PRESS",
+    "backup_bytes_each": 65536,
+    "backup_reads": 2,
+    "current_image_sha256": "b9b25b186c3b40d62b4a1c1919e09f27b639806271a3b20ae7fc80ea4cda1efe",
+    "current_64k_sha256": "49d3fad5040b25b746905d5c1468bff4d5be5a4f13197286ce215e0711798fb4",
+    "config_generation": 3,
+    "config_record_sha256": "395c6a36d7c4a636b34a72eacd1ccc2a2fc7f025df7089f3d94e1d2de14c5a3b",
+    "automatic_retry": false,
+    "automatic_restore": false,
+    "automatic_go": false,
+    "temporary_debug_IWDG_freeze": "BIT12_RESTORE_VERIFIED",
+    "jlink_sha256": "d2fd3b911c5a0e2a7edeb92a23c49555566cdaab077f09e63cbeb722ad74f95b"
+  },
+  "before_64k_sha256": "49d3fad5040b25b746905d5c1468bff4d5be5a4f13197286ce215e0711798fb4",
+  "after_64k_sha256": "9391a2901821ad8a0d760dffcf6efeee159017bbcaf9a5f538ee6705eb30bdfd",
+  "original_sector0_sha256": "77fd6e0fe4e5f2c287b42456630e198883a694b4a1886bbd4c7f085d99417516",
+  "protected_unchanged": true,
+  "target_execution": "HALTED_NO_GO",
+  "audio_heard": "NOT_OBSERVED",
+  "identity_match": true
+}

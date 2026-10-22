@@ -22,7 +22,7 @@ def sha(b):
 def plan(image):
     data = image.read_bytes()
     manifest_path = sorted((ROOT/'doc/VOICE/evidence').glob('*offline-bench.json'))[-1]
-    manifest = json.loads(manifest_path.read_text())
+    manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
     if manifest['exit_code'] or manifest['image']['sha256'] != sha(data) or manifest['image']['erase_sectors'] != [0]:
         raise ValueError('VOICE_IMAGE_MANIFEST_MISMATCH')
     if not 0 < len(data) <= 16384:
@@ -90,7 +90,7 @@ class Window(base.Window):
         return proof
 
     def restore(self, prior):
-        proof = json.loads((prior/'program-proof.json').read_text())
+        proof = json.loads((prior/'program-proof.json').read_text(encoding='utf-8'))
         identity = self.identity_read('restore-identity-before'); protected = self.protection('restore-protected-before')
         controller = self.controller('restore-controller-before')
         now = self.read('restore-first', [('flash64k',0x08000000,65536)])['flash64k']
@@ -120,7 +120,8 @@ def main():
     p.add_argument('--private-dir', type=Path); p.add_argument('--prior-dir', type=Path)
     a = p.parse_args(); scope = plan(a.image)
     if a.action == 'plan': print(json.dumps(scope, indent=2)); return 0
-    card = json.loads(a.auth.read_text())
+    # 授权卡可能含中文现场说明；Windows默认GBK不得改变UTF-8 JSON的解释。
+    card = json.loads(a.auth.read_text(encoding='utf-8'))
     expiry = datetime.fromisoformat(card['expires_utc'])
     if expiry.tzinfo is None or datetime.now(timezone.utc) >= expiry: raise ValueError('VOICE_WINDOW_EXPIRED')
     if card.get('auth_id') != 'AUTH-VOICE-C-OFFLINE-BENCH-1' or card.get('approved_by_owner') is not True:
