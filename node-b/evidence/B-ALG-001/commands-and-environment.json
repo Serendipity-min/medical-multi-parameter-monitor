@@ -1,0 +1,41 @@
+{
+  "utc": "2026-10-22T07:25:54.205142+00:00",
+  "python": "3.11.9",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "commands": [
+    {
+      "command": "python node-b/tools/run_host.py",
+      "exit_code": 0,
+      "scope": "ORDINARY_HOST_ONLY"
+    },
+    {
+      "command": "python node-b/tools/build_arm.py --keil-root D:/keil --dsp-lib <external exact-SHA library>",
+      "exit_code": 0,
+      "scope": "BUILD_ONLY"
+    },
+    {
+      "command": "python node-b/tests/run_pretest.py --replay-manifest <private external manifest>",
+      "exit_code": 0,
+      "scope": "SYNTHETIC_AND_FROZEN_HISTORY"
+    },
+    {
+      "command": "python node-b/tools/audit_biov2_identity.py --arm-build node-b/build/arm-20261022T072114588344Z",
+      "exit_code": 0,
+      "scope": "OFFLINE_LAYOUT_AND_LEGACY_REJECTION"
+    },
+    {
+      "command": "python node-b/tools/verify_bundle.py",
+      "exit_code": 0,
+      "checked": 266,
+      "failed": 0
+    }
+  ],
+  "physical_access": false,
+  "security_gate": "NOT_RUN_NOT_AUTHORIZED",
+  "voice_lease_released": true,
+  "voice_final_sha": "ba61ae2c97204f240d8fa6f316eb700aff70d29e",
+  "host_run_utc_start": "2026-10-22T07:20:57.787334Z",
+  "arm_run_utc_start": "2026-10-22T07:21:14.588344Z",
+  "supplement_utc_start": "2026-10-22T07:23:43.289671Z",
+  "abi_verified_utc_start": "2026-10-22T07:24:58.508198Z"
+}

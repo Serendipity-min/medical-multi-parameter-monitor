@@ -1,0 +1,24 @@
+test_F4_signature_aligned_block (__main__.RomTests.test_F4_signature_aligned_block) ... ok
+test_backup_preserves_full_bytes (__main__.RomTests.test_backup_preserves_full_bytes) ... ok
+test_backup_tamper_before_erase (__main__.RomTests.test_backup_tamper_before_erase) ... ok
+test_capacity_rejected_without_erase (__main__.RomTests.test_capacity_rejected_without_erase) ... ok
+test_chip_rejected_without_erase (__main__.RomTests.test_chip_rejected_without_erase) ... ok
+test_double_read_mismatch_no_erase (__main__.RomTests.test_double_read_mismatch_no_erase) ... ok
+test_flash_drift_before_erase (__main__.RomTests.test_flash_drift_before_erase) ... ok
+test_identity_change_before_erase (__main__.RomTests.test_identity_change_before_erase) ... ok
+test_invalid_identity_rejected (__main__.RomTests.test_invalid_identity_rejected) ... ok
+test_manual_mode_sets_safe_lines_before_open (__main__.RomTests.test_manual_mode_sets_safe_lines_before_open) ... ok
+test_missing_write_capability_stops (__main__.RomTests.test_missing_write_capability_stops) ... ok
+test_read_protection_no_erase_or_unlock (__main__.RomTests.test_read_protection_no_erase_or_unlock) ... ok
+test_real_ROM_capability_query (__main__.RomTests.test_real_ROM_capability_query) ... ok
+test_restore_full_original (__main__.RomTests.test_restore_full_original) ... ok
+test_sector0_only_full_verify (__main__.RomTests.test_sector0_only_full_verify) ... ok
+test_short_GET_stops (__main__.RomTests.test_short_GET_stops) ... ok
+test_short_read_is_not_backup (__main__.RomTests.test_short_read_is_not_backup) ... ok
+test_short_signature_block_rejected (__main__.RomTests.test_short_signature_block_rejected) ... ok
+test_write_failure_is_not_PASS (__main__.RomTests.test_write_failure_is_not_PASS) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.357s
+
+OK
