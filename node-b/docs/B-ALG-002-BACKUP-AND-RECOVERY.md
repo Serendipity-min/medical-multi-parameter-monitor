@@ -1,4 +1,6 @@
-# B2-0 当前板备份与恢复计划（未执行）
+# B2-0 当前板备份与恢复记录及原计划
+
+> R3已执行：当次原Flash独立双读1MiB一致，SHA69d9efb0ce0a9228138ea3cc21adbb09c09a15a8b6dbf0d9a1d1ff861a32fc2a；16B options双读一致，身份及独立恢复副本受限封存。按负责人恢复指令及INSTALL卡，仅sector0/1写合同候选并保留7484B尾部，整片预期SHAf713277a50a5ec8d8a93317f412d5ab1b754e5d619918e57e9efe9dceef24cbb实际校验通过，其他扇区/options不变。尚未回滚、不自动回灌。当前以 [唯一交接](B-ALG-002-FINAL-HANDOFF.md)为准；以下“未执行/未获许可”为原计划历史语义。
 
 所有动作待精确现场卡批准；没有本轮全Flash备份。受限存储 `E:/medical-monitor-node-b-field-private`，ACL仅当前用户、Administrators及SYSTEM；真实UID、原码、完整Flash、可恢复镜像、原始调试日志均只放此处，不进Git。既有B1私有目录只核清单/租约，不搬移历史原件。
 

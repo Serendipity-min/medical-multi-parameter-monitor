@@ -1,5 +1,40 @@
 # MPM-B-ALG-002 唯一阶段交接
 
+## R3当前裁定（覆盖下方历史阶段状态）
+
+2026-10-22 Asia/Shanghai：**BIO_V2_INSTALLED_CAPTURE_OPEN_COMPLETED_ECG_OPERATOR_PENDING**。独立工作区与唯一写分支不变；合同固件源码/阈值不变。已完成当次身份/独立双备份、合同候选安装及整片校验；5秒实际观察约249.95SPS且错误0。专用BIO_V2采集入口已完成10秒未接源实板核验。已展示ECG-PILOT接源卡，等待负责人完成物理操作并回报实际状态；尚无连接SKX的已知ECG数据，HR/RR均未验收。
+
+负责人已明确授权“连接模拟源、采集、排查”，并说明被其他测试覆盖后“重新烧录下载即可”。每个硬件窗口调用前展示精确卡，依据已有继续执行授权实施必要步骤；不将初始软件准备权限本身冒称硬件许可。J-Link当前接B的JTAG且仅调试；负责人已确认正常，不再重复索要型号/排线。
+
+当前供电为J5/YL-1210 12V1A中心正极，开关已开，B0/B1均GND。模块ADS1292_V2.0、灯亮、J1空置、J2接开发板5V共GND；START→PG15/DRDY→PA3负责人确认。负责人只见J1/J2，不根据图中J3假定实物CLKSEL。CAN/模拟器/人体均未接，输入OPEN_UNKNOWN。SKX可电池断USB、可选普通60BPM，不等于已接源。
+
+| 窗口 | R3实际结果 |
+|---|---|
+| READBACK-001 R2 | VTref3300mV、DEV_ID413、M4、1024KiB、RDP0；Flash1MiB/options16B分别独立双读一致，恢复副本封存；显式h1/go1/reset0/写0 |
+| INSTALL-001 R1 | 仅sector0/1共32768B恢复合同BIN，尾部7484B保留；整片逐字节预期一致，其他扇区/options未变；h1/reset1/go1 |
+| PRECHECK R1 / FAULT / REPROBE | NOT_RUNNING及ROM暂停PC1FFF32EC、VTOR1FFF0000、CFSR/HFSR0，原快照保留 |
+| BOOT-001 R1 | 一次正常器件复位，实际PC080001A0/MSP20002F30符合Flash向量才go；BIO_V2初始化，但当时5秒IRQ/帧0，记录FAIL不改算法 |
+| ADC-PATH R1/R2 | 会话间暂停独立保存；无fault的Flash应用条件go1；MCU PG15高、PA3/EXTI3正确、ADC ready1，但仍曾0帧 |
+| START-PULSE R1/R2 | R1写前停止；R2条件go后已129IRQ/129帧，按卡跳过脉冲；两轮GPIO写均0，不宣称脉冲修复 |
+| PRECHECK-001 R2 | 约4.985秒captured260→1506，249.94985SPS；BIO计数推进，init/spi/bad_status/overflow0；未知输入不评准确率 |
+| CAPTURE-OPEN-001 R1 | 10.016秒/126个真实槽块；稳定原码2609帧，连续序号内缺口0、重复冲突0、起始pending8保留；h1/go2、尾段暂停/恢复均确认、起止Flash/options不变。CH2近轨0、观察HR无效；CH1开路近轨100%，不代替已知ECG或RESP验收 |
+
+多次发现下一会话已暂停，尚未区分连接/关闭等调试行为，不归因算法。已依SEGGER说明添加SetSkipDebugDeInit=1保留固件使用的DWT；仅证明策略解析/调用成功，不声称已消除全部会话间暂停。回执RUNNING指Close前实际观察，不是Close后独立观测。
+
+固定BIN SHA `438a8120f6df06ce219cdc30c0e5b697ac0e993f98d5a80521b10361536ae3ae`；当次原完整Flash双读SHA `69d9efb0ce0a9228138ea3cc21adbb09c09a15a8b6dbf0d9a1d1ff861a32fc2a`；安装后完整Flash SHA `f713277a50a5ec8d8a93317f412d5ab1b754e5d619918e57e9efe9dceef24cbb`。BIN外字节保留，不拿BIN hash冒充整片hash。UID/序号/Flash/options/回滚镜像/RAM/原码/现场图片/DLL日志只存ACL受限 `E:/medical-monitor-node-b-field-private/field-r3`，失败只增不删。
+
+工具为官方签名9.86a纯归档提取的JLink_x64.dll，SHA632d0d78e72b8a55c65945a0c393a9f081082c725fff4ba3081b0a565fd58cff；未运行安装器、改驱动或升级探针。MSI管理提取曾被自动审批拒绝，改用纯归档提取，没有换壳重试被拒安装操作。旧5.12/7.22b策略不足未在板上试错。连接保护、单探针/VTref、每调用及全会话独立监督均留证。
+
+原offline profile仍保留未授权、UID为空语义；新实际绑定受限capture-profile-r3-02.json SHA `9d17280c4d918f50a3b3d0ce344bff98bf0072fdd20f5db6bd9547fcb305a6ab`。专用入口capture_b.py固定diag20001AE4/120、slots20001F30/3072、stats2000018C/48、启动RREG缓存200001BC/12，尾段仅从同一128KiB RAM取head/最后127已发布槽；3:2冲突不投票、不补点/跨复位拼接。实板无逐拍事件流，filtered/峰事件仍需另行精确C回放并标REPLAY。
+
+新增20项工具/采集集成unittest通过，全部脱机；既有ARM0错误0警告/31项ABI/9项profile/27项旧采集工具证据保留。初次解码28I+4f误设由测试在硬件前发现，按120B ABI修为26I+4f；首轮Windows心跳unlink共享冲突在Open前停止，改只追加事件流并有并发负例。相关失败不抹除。
+
+算法固定自研BIO_V2，CH2 ECG→HR、CH1阻抗RESP→RR；不换心电衍生呼吸旧目录。F绿→RLD、R红→ERA、L黄→ELA为设计映射，不是实测通断/电气认证；不把F接模拟器LL/F，不桥LL/RL。下一步按已展示ECG-PILOT卡，由负责人断电接源/电池普通60确认后才开始短窗；该卡明确有界非人体工程试接及未知电气边界，不预签完整兼容PASS。合格输入后60/90/120各30秒预热+60秒稳态×2。无同步逐拍参考不报漏检/敏感性，无I导联1mV保证不做幅值标定。RESP仍BLOCKED_ELECTRODE_PAIR_AND_REFERENCE。
+
+历史8412帧未知输入不算准确率，37169帧仍NOT_RUN_EXACT_SHA_NOT_FOUND。H3/P4/main/B/B2/P6/A、正式云及CAN参数不变，无三板连接/PR/合并/tag/强推/扫描。当前机器证据为 `../evidence/B-ALG-002/field-r3/field-summary.json`、测试/SHA清单；最终提交、远端逐字节取回和保护refs比较写仓库外DELIVERY-RECEIPT。
+
+## 以下为R1/R2历史阶段记录（当时结论，不作为当前许可或缺项）
+
 2026-10-22，Asia/Shanghai。裁定：**B2_0_SOFTWARE_PREPARED_FIELD_BLOCKED**。
 
 本轮完成独立工作区、Git/GitHub及候选身份复核、图纸/说明书/厂商演示审阅、离线profile与负例、备份恢复计划及精确授权卡草案。实物映射、RLD兼容、今日板上身份/完整备份、真实采集后端尚未完成；不签发B2-0实物全PASS，也不签发ECG/HR或RESP/RR PASS。

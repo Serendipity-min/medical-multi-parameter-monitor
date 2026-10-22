@@ -28,3 +28,8 @@ python node-b/tools/field_profile.py --arm-build <本轮ARM目录> --abi-receipt
 建议读区：活动slots 3072B，前2KB状态，独立120B g_bio_v2（旧工具漏读）；最终确认halt后保存128KiB SRAM，head及最后127个已发布槽来自同一快照。周期、时长、reset/halt/go次数必须在真实采集器可审查后绑定现场卡。停止未确认、跨代或冲突，保留pending/INCOMPLETE，不补点。
 
 冻结诊断120B不是逐帧事件日志；最终是否需要新诊断插桩由ECG采集设计审查决定。本轮不改固件、不声称采集器已就绪。原软件回归不能替代ECG/RESP实物验收。
+# R3补充：真实采集入口
+
+原offline profile及旧工具缺口描述作为准备阶段记录保留。现新增 `node-b/tools/capture_b.py`，以独立受限capture-profile-r3-02.json绑定当次UID/options/整片Flash、真实BIN/ELF/符号、ABI和工具SHA。运行槽原块、非原子诊断及确认暂停的单份128KiB尾段分别保留；不使用旧acq_swd入口。真实结果以唯一交接和field-r3回执为准。
+
+适配器保存原码与实板末帧诊断，不生成不存在的实板逐拍峰事件。filtered/逐峰序列须另作精确C回放并标REPLAY。未接源10秒核验不能代替已知ECG正式窗口，不能据未知输入算准确率。

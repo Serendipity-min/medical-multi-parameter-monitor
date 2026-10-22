@@ -1,0 +1,20 @@
+test_no_resume_for_rom_fault_or_lockup (test_adc_path_b.Cases.test_no_resume_for_rom_fault_or_lockup) ... ok
+test_flash_drift_no_reset (test_boot_check_b.Cases.test_flash_drift_no_reset) ... ok
+test_rom_entry_stops_without_go (test_boot_check_b.Cases.test_rom_entry_stops_without_go) ... ok
+test_scope_and_failure_gates (test_install_b.Cases.test_scope_and_failure_gates) ... ok
+test_good_and_masked_gpio (test_precheck_b.Cases.test_good_and_masked_gpio) ... ok
+test_init_failure_no_sampling (test_precheck_b.Cases.test_init_failure_no_sampling) ... ok
+test_register_mismatch (test_precheck_b.Cases.test_register_mismatch) ... ok
+test_wrong_abi_and_range (test_precheck_b.Cases.test_wrong_abi_and_range) ... ok
+test_capacity_mismatch_no_halt_or_flash (test_readback_b.Cases.test_capacity_mismatch_no_halt_or_flash) ... ok
+test_double_read_mismatch_no_go (test_readback_b.Cases.test_double_read_mismatch_no_go) ... ok
+test_heartbeat_append_survives_concurrent_reader (test_readback_b.Cases.test_heartbeat_append_survives_concurrent_reader) ... ok
+test_initial_halt_preserved (test_readback_b.Cases.test_initial_halt_preserved) ... ok
+test_reset_no_flash_or_go (test_readback_b.Cases.test_reset_no_flash_or_go) ... ok
+test_success_independent_double_read_and_resume (test_readback_b.Cases.test_success_independent_double_read_and_resume) ... ok
+test_wrong_protection_and_busy_rejected (test_readback_b.Cases.test_wrong_protection_and_busy_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.464s
+
+OK
