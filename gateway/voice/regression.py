@@ -11,6 +11,11 @@ OUT = ROOT/'doc/VOICE/evidence'/datetime.now(timezone.utc).strftime('regression-
 
 
 def main():
+    # 这里保留的是硬件实测时的H3整套回放入口；P6不引入该历史工程，不能虚报跳过为通过。
+    if not (ROOT/'gateway/physical_can/build.py').exists():
+        print('H3 regression sources not present on P6; use gateway/voice/build.py --host, '
+              'gateway/voice/build.py and pytest gateway/voice/tests. Historical H3 results are retained in doc/VOICE/evidence/.')
+        return 2
     OUT.mkdir(parents=True)
     suites = [
         ('paired-python', [sys.executable, '-m', 'pytest', 'cloud/backend/tests', 'cloud/ai/tests', 'gateway/physical_can/tests', '-q']),

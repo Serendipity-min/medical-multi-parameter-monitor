@@ -45,7 +45,7 @@ def main():
         else:
             spec = importlib.util.spec_from_file_location('base', ROOT/'gateway/esp_at_probe/build.py')
             base = importlib.util.module_from_spec(spec); spec.loader.exec_module(base)
-            sources += [HERE/'tts_uart_port.c', HERE/'bench_main.c', ROOT/'gateway/physical_can/src/system_hse.c',
+            sources += [HERE/'tts_uart_port.c', HERE/'bench_main.c', HERE/'bench_clock/system_hse.c',
                         *[p for p in base.SOURCES if p.name.startswith('stm32f4xx_') and p.name != 'stm32f4xx_it.c'], base.STARTUP]
             flags = [*base.COMMON_FLAGS, '-Wextra', '-Werror', '-DHSE_VALUE=8000000', '-DMP_TTS_BENCH',
                      '-I'+str(HERE), *['-I'+str(p) for p in base.INCLUDES]]
@@ -70,7 +70,8 @@ def main():
         record['error'] = str(exc)
     finally:
         # 每轮独立时间戳保存原始失败，后续成功不会覆盖它。
-        inputs = [*HERE.glob('*.[ch]'), Path(__file__), HERE/'bench_manifest.py', HERE/'tests/test_voice.c', *sources]
+        inputs = [*HERE.glob('*.[ch]'), Path(__file__), HERE/'bench_manifest.py', HERE/'tests/test_voice.c',
+                  *sorted((HERE/'bench_clock').glob('*.h')), *sources]
         record['input_sha256'] = {(p.relative_to(ROOT).as_posix() if p.is_relative_to(ROOT) else 'external-sdk/'+p.name):
                                  hashlib.sha256(p.read_bytes()).hexdigest() for p in inputs if p.is_file()}
         if not args.host: record['input_sha256'][linker.relative_to(ROOT).as_posix()] = hashlib.sha256(linker.read_bytes()).hexdigest()

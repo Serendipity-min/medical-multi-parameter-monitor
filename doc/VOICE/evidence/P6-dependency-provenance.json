@@ -1,0 +1,13 @@
+{
+  "source_commit": "d76c8bd80a314b1eea6551f7266ce89f5bbcf0a9",
+  "hardware_executed_source": "deaba320ab2a47efb8e1593e4d58172817e6c522",
+  "reason": "P6 lacks H3 physical_can and maintenance modules; copy only required local helpers, preserve P6 implementation",
+  "original_functions_preserved": true,
+  "H3_history_merged": false,
+  "support_files": {
+    "gateway/voice/jlink_support.py": "901e5ac340e55f4cb8aa4976d11e29e5bcc5d928068933fc4dd5ea620127ab0c",
+    "gateway/voice/record_validation.py": "40c762ce141e77264b2debec04576aca6e3a8e3f50cb8439ef8f9e897f6389c4",
+    "gateway/voice/bench_clock/system_hse.c": "a43767047785027156cad528fb849e882738b62e02fee9f81d9d9627e84eee98",
+    "gateway/voice/bench_clock/hse_clock.h": "8598c49f8b2b0d61bf8d8156d2d728b4424114b7a80f8d86ec01b0439acdc097"
+  }
+}

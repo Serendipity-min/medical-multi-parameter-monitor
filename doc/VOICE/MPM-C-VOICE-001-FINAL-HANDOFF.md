@@ -66,7 +66,19 @@ STOP这项不能写成“停止成功”或“播放中静音通过”。当前�
 
 恢复引用/密钥外部路径通过本地 `E:/medical-monitor-c-voice-private/VOICE-ARCHIVE-RECEIPT.json` 及既有H3私有交付回执关联；密钥本体不读取、不打印、不放Git或密文包内。负责人离线密钥保管仍由原交付要求约束，不因本轮成功自动宣称已异地保管。原始窗口、备份、UID与配置均仅在外部受限目录/加密包，Git只存脱敏结果。
 
-无CAN/ESP/MQTT并发或300秒窗口、无10次长短句/断线声学验证；离线候选根本未链接这些路径，不能以它们的零计数证明生产功能不退化。H3原标签、A/B/P4/main/P6/H3分支和报告未修改，无PR、强推、Security Gate或真实豆包调用。
+无CAN/ESP/MQTT并发或300秒窗口、无10次长短句/断线声学验证；离线候选根本未链接这些路径，不能以它们的零计数证明生产功能不退化。除负责人最新明确授权的P6分支更新外，H3原标签、A/B/P4/main/H3分支和报告未修改，无PR、强推、Security Gate或真实豆包调用。
+
+## 后续授权：发布到P6分支
+
+负责人在试音收尾后明确要求推送至 `dev/p6-cloud-ai-text-tts-v1`。P6原HEAD为 `77dd14d1ca761a488956f7a4ebf28cb3174835e4`，与H3存在分叉；在独立工作区 `E:/medical-monitor-p6-voice-publish` 从该P6提交移入本轮两份语音提交，保留P6既有内容。没有合入H3的其余历史。
+
+P6未包含H3维护/物理CAN目录，因此仅在VOICE目录补入本地离线依赖：原H3的时钟C/头文件字节相同，J-Link白名单及身份/保护读取方法与配置验证函数AST相同；不移入原H3烧录CLI、联网入口或配置写入工具。历史 `VOICE-INPUT-MANIFEST.json`、`VOICE-CLOSEOUT-MANIFEST.json` 仍描述原H3执行身份，不冒充P6当前源码清单；当前清单为 `evidence/P6-publication-manifest.json`。
+
+P6实际验证：Backend/AI/维护工具共83项通过，语音Host3103断言通过，ARM构建退出0，3756B BIN与实测SHA `311032f64c7f6674f14410414504c99a3d4ae35dd0e7be0703a97715fca8ad30` 完全一致。ELF/MAP因构建路径变化独立保存，未拿原ELF SHA冒充P6新ELF。没有再次访问板卡/串口/云端。
+
+P6离线复现命令：`python gateway/voice/build.py`；WSL内本工作区运行 `python3 gateway/voice/build.py --host`；普通Python运行 `python -m pytest cloud/backend/tests cloud/ai/tests gateway/voice/tests/test_bench_window.py -q`。依赖既有ARM工具链、STM32 SDK及维护环境中的stm32loader，不安装新依赖。`gateway/voice/regression.py`是原H3整套历史回放入口，在缺H3工程的P6明确退出2并给出适用命令，不把缺失的H3用例标为通过。
+
+本提交准备正常快进更新P6；真实推送、远端回读及最终SHA以发布后的私有回执和最终回复为准，不预写尚未生成的提交ID。当前变更范围仅 `gateway/voice/`、`doc/VOICE/` 和限定的 `.gitattributes` 回执字节策略；P6既有云服务和前端源码未改变。
 
 ## 可审查材料与下一步
 
@@ -78,4 +90,4 @@ STOP这项不能写成“停止成功”或“播放中静音通过”。当前�
 - [不可变输入清单](VOICE-INPUT-MANIFEST.json)与[evidence](evidence/)
 - [实际硬件分层结果](evidence/HARDWARE-20261022.json)及[收尾源码身份](VOICE-CLOSEOUT-MANIFEST.json)
 
-实际最终Git提交SHA在提交后由外部受限交付回执与最终回复给出，本文不预写自身SHA。没有推送新语音分支、没有创建PR/新tag；所有保护refs保持基线。本次硬件卡已完成并关闭，后续不复用它继续烧录/试播。只需确认可以播放的本轮目标已满足，停止等待负责人审核。
+实际最终Git提交SHA在提交后由外部受限交付回执与最终回复给出，本文不预写自身SHA。按最新授权更新P6，不创建PR/新tag；其余保护refs保持基线。本次硬件卡已完成并关闭，后续不复用它继续烧录/试播。只需确认可以播放的本轮目标已满足，完成P6发布核验后停止。

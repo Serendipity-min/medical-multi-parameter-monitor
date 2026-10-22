@@ -1,0 +1,42 @@
+{
+  "started_utc": "2026-10-22T03:48:00.315080+00:00",
+  "cwd": "/mnt/e/medical-monitor-p6-voice-publish",
+  "hardware": "NOT_RUN",
+  "network": "NOT_LINKED",
+  "commands": [
+    [
+      "gcc",
+      "-std=c11",
+      "-O2",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I/mnt/e/medical-monitor-p6-voice-publish/gateway/voice",
+      "/mnt/e/medical-monitor-p6-voice-publish/gateway/voice/tts_frame.c",
+      "/mnt/e/medical-monitor-p6-voice-publish/gateway/voice/tts_queue.c",
+      "/mnt/e/medical-monitor-p6-voice-publish/gateway/voice/tests/test_voice.c",
+      "-o",
+      "/mnt/e/medical-monitor-p6-voice-publish/gateway/voice/build/host/voice-host"
+    ],
+    [
+      "/mnt/e/medical-monitor-p6-voice-publish/gateway/voice/build/host/voice-host"
+    ]
+  ],
+  "feature": "PURE_C_HOST",
+  "exit_code": 0,
+  "host_result": "VOICE_HOST_PASS checks=3103 sizeof_queue=344 hardware=NOT_RUN",
+  "input_sha256": {
+    "gateway/voice/bench_main.c": "7567711a06ebb7acde5efe46afe84aebd3cdf12a42102e59301dfe89a9e82697",
+    "gateway/voice/tts_frame.c": "2a3a434dd1b857657e0531b9f0ef2450c6506ff539e07f51da1b8899b3e6a679",
+    "gateway/voice/tts_frame.h": "7b017f57d430285055a1d29b635e39f7b7eed07f5621281bc021a69a52081f44",
+    "gateway/voice/tts_queue.c": "c0fbd325ad1f3fdf5a863890acdea614d86cd7c08307a0a55b7997e0dffef3b8",
+    "gateway/voice/tts_queue.h": "4bb0b110bda5401d06eddc9c1f2a1f095e7a12ca2236b8e4a13621cc3a4b5efd",
+    "gateway/voice/tts_uart_port.c": "79194029fd1cbab395a4daeb7f735249920bb185029231addee869249c753a81",
+    "gateway/voice/tts_uart_port.h": "e0868391fcb7090023c33b03b54585f00e55146dd38458eda65c00f9a686696c",
+    "gateway/voice/build.py": "3f4ac0e173abe8eb61a95b4bc87abd4bc606a8b2a1ef8537d53bf3ac1b9fad4f",
+    "gateway/voice/bench_manifest.py": "0262ef9478f03ed0ae4a168fd9e72101ba1121d10bf0009e543a3e1f9fa8714e",
+    "gateway/voice/tests/test_voice.c": "52ec73937271b7ea4e38a5c89daae975f8e3a3da4bbf366ff4e307245476e4a4",
+    "gateway/voice/bench_clock/hse_clock.h": "8598c49f8b2b0d61bf8d8156d2d728b4424114b7a80f8d86ec01b0439acdc097"
+  },
+  "ended_utc": "2026-10-22T03:48:00.941465+00:00"
+}

@@ -6,8 +6,9 @@ import json
 from pathlib import Path
 import subprocess
 
-from tools import h3_c_jlink as base
-from gateway.physical_can.r2_config_record import validate
+# P6交付只依赖本目录的已验维护薄层，不要求合入整个H3物理联网项目。
+from gateway.voice import jlink_support as base
+from gateway.voice.record_validation import validate
 
 ROOT = Path(__file__).resolve().parents[2]
 CURRENT_IMAGE = 'b9b25b186c3b40d62b4a1c1919e09f27b639806271a3b20ae7fc80ea4cda1efe'
