@@ -2,7 +2,7 @@
   "schema": "B_ALG_002_FIELD_R3_SUMMARY_1",
   "date": "2026-10-22",
   "source": "ENGINEERING_NONHUMAN",
-  "state": "ECG60_AND_ECG90_FOUR_WINDOWS_PASS_120_NOT_RUN",
+  "state": "B2_ECG_HR_ENGINEERING_RATE_PASS_FOR_TESTED_SETUP",
   "firmware_source_unchanged": true,
   "candidate_bin_sha256": "438a8120f6df06ce219cdc30c0e5b697ac0e993f98d5a80521b10361536ae3ae",
   "original_flash_sha256": "69d9efb0ce0a9228138ea3cc21adbb09c09a15a8b6dbf0d9a1d1ff861a32fc2a",
@@ -17,7 +17,7 @@
     "j5_switch": "ON_CONFIRMED",
     "jlink": "B_JTAG_DEBUG_ONLY",
     "can": "DISCONNECTED",
-    "simulator": "CONNECTED_OWNER_CONFIRMED_ORDINARY_ECG90_BATTERY_NO_USB",
+    "simulator": "CONNECTED_OWNER_CONFIRMED_ORDINARY_ECG120_BATTERY_NO_USB",
     "human": "DISCONNECTED",
     "start": "PG15_CONFIRMED",
     "drdy": "PA3_CONFIRMED",
@@ -353,9 +353,73 @@
         "input_accuracy": "NOT_EVALUATED",
         "peak_events": "NOT_LIVE_PER_BEAT_OFFLINE_REPLAY_REQUIRED"
       }
+    },
+    {
+      "session": "matrix-ecg120-r3-01",
+      "private_receipt_sha256": "c916c93ba569d102c6e1de6df4389e15120e6de94f5296dfbc1db211e4b1ff1d",
+      "status": "CAPTURE_FILES_SAVED",
+      "card_sha256": "09ac5988df14d1e64f4b253f7bf413497eed69f6c4923be1ab52401ded606584",
+      "tool_sha256": "7c45589bff1099e20354b8dbe7db9bb2e32095bf67a904b9358cf4f4996800fa",
+      "profile_sha256": "4e298cf97e55ea8c7d01aa9509b54ef682256fcad6c9ba30cca835ec1cde1a7f",
+      "source_record_sha256": "a03b54f12ef9487d1eebac9936cce9fa3a5c65f891a528bfd6e67ad2f53badbe",
+      "window_elapsed_s": 92.04699999996228,
+      "chunks": 1157,
+      "halt_requests": 1,
+      "go_requests": 2,
+      "reset_requests": 0,
+      "flash_write_requests": 0,
+      "tail_halt_confirmed": true,
+      "resume_confirmed": true,
+      "target_end_state": "RUNNING_BEFORE_CLOSE",
+      "export": {
+        "stable_frames": 23105,
+        "first_sequence": 99390,
+        "last_sequence": 122494,
+        "source_missing_within_span": 0,
+        "pending": 26,
+        "multi_repeat_conflicts": 0,
+        "paused_conflicts": 0,
+        "boot_count": 1,
+        "ch2_near_rail_fraction": 0.0,
+        "ch1_near_rail_fraction": 0.0,
+        "input_accuracy": "NOT_EVALUATED",
+        "peak_events": "NOT_LIVE_PER_BEAT_OFFLINE_REPLAY_REQUIRED"
+      }
+    },
+    {
+      "session": "matrix-ecg120-r3-02",
+      "private_receipt_sha256": "a8e30a3f065466f6e0290e424394872cc792b9d99f265214b6de893a5fe15ac9",
+      "status": "CAPTURE_FILES_SAVED",
+      "card_sha256": "09ac5988df14d1e64f4b253f7bf413497eed69f6c4923be1ab52401ded606584",
+      "tool_sha256": "7c45589bff1099e20354b8dbe7db9bb2e32095bf67a904b9358cf4f4996800fa",
+      "profile_sha256": "4e298cf97e55ea8c7d01aa9509b54ef682256fcad6c9ba30cca835ec1cde1a7f",
+      "source_record_sha256": "a03b54f12ef9487d1eebac9936cce9fa3a5c65f891a528bfd6e67ad2f53badbe",
+      "window_elapsed_s": 92.04700000002049,
+      "chunks": 1157,
+      "halt_requests": 1,
+      "go_requests": 2,
+      "reset_requests": 0,
+      "flash_write_requests": 0,
+      "tail_halt_confirmed": true,
+      "resume_confirmed": true,
+      "target_end_state": "RUNNING_BEFORE_CLOSE",
+      "export": {
+        "stable_frames": 23108,
+        "first_sequence": 122531,
+        "last_sequence": 145638,
+        "source_missing_within_span": 0,
+        "pending": 26,
+        "multi_repeat_conflicts": 0,
+        "paused_conflicts": 0,
+        "boot_count": 1,
+        "ch2_near_rail_fraction": 0.0,
+        "ch1_near_rail_fraction": 0.0,
+        "input_accuracy": "NOT_EVALUATED",
+        "peak_events": "NOT_LIVE_PER_BEAT_OFFLINE_REPLAY_REQUIRED"
+      }
     }
   ],
-  "hr_accuracy": "FOUR_ENGINEERING_RATE_WINDOWS_PASS_FULL_MATRIX_INCOMPLETE",
+  "hr_accuracy": "SIX_ENGINEERING_NOMINAL_RATE_WINDOWS_PASS_NO_CLINICAL_ACCURACY_CLAIM",
   "resp_rr": "BLOCKED_ELECTRODE_PAIR_AND_REFERENCE",
   "limitations": [
     "RUNNING_CONFIRMED refers to state observed before SDK close; inter-session pauses recorded separately",
@@ -363,7 +427,7 @@
     "Live RAM reads uncoordinated; initialization RREG cache is not fresh SPI read",
     "Open input CH1 near rail is not RESP algorithm acceptance/failure",
     "8 initial pending observations retained; continuous selected sequence range has zero internal holes",
-    "60/90 BPM each two formal windows passed; 120 BPM not run; no full B2 acceptance yet"
+    "60/90/120 BPM each two formal windows passed for this setup; no per-beat truth, amplitude calibration or RESP acceptance"
   ],
   "tool_tests": {
     "status": "PASS",
@@ -396,7 +460,7 @@
   "matrix_progress": {
     "ecg60": "2_OF_2_PASS",
     "ecg90": "2_OF_2_PASS",
-    "ecg120": "NOT_RUN",
+    "ecg120": "2_OF_2_PASS",
     "resp_rr": "BLOCKED_ELECTRODE_PAIR_AND_REFERENCE"
   }
 }
