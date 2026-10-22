@@ -1,5 +1,7 @@
 # Node-B 精确现场授权卡索引及历史草案
 
+最新待批：[AUTH-B-RESP-PATH-MEASURE-001 R1](AUTH-B-RESP-PATH-MEASURE-001-R1.md)。仅一次≤10分钟手工会话：冷隔离、完全脱离设备的线缆TRS九格电阻映射、SKX源端六对直流粗/细筛；SDK调用0、采集0，不含RA–LL新接法或恢复上电。源端动态阻抗仍未证明；厂家照片差异及原因130解释见[路径复核](RESP-SOURCE-PATH-REVIEW-R1.md)。本轮仅准备，未执行。
+
 最新：按负责人固定ECG60/呼吸15/1.5R/窒息0、波形周期20不变，完成一次45秒。采集/监督0、分析3；实际ECG60互证，但30秒评价中38次RR观察全部无效，RESP_PATH_NOT_OBSERVED。CPU问题暂列待查，未发reset/烧录命令。详见[45秒有效性实板结果](RESP-VALIDITY45-001-RESULTS-R1.md)。下方描述按历史阶段保留。
 
 当前最终状态：新零复位卡获批并完成一次10秒；采集/监督0、分析3，RESP_PATH_NOT_OBSERVED，CH1有小幅变化但周期未解出。halt1/go1、未发reset或烧录命令。详见[本次实板结果](RESP-E1-03-RESULTS.md)。E2/E3未执行；本轮各卡已消耗，下方等待/准备文字为各阶段历史，不再作为当前状态。
