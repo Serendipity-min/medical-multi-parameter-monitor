@@ -1,0 +1,141 @@
+{
+  "exit_code": 0,
+  "http": [
+    {
+      "path": "/medical-monitor/",
+      "http": 200
+    },
+    {
+      "path": "/medical-monitor/api/health",
+      "http": 200
+    },
+    {
+      "path": "/medical-monitor/ai/health",
+      "http": 200
+    }
+  ],
+  "original_ai_voice_mode": "DISABLED",
+  "TLS8883": {
+    "verified": true,
+    "cert_sha256": "a3c4d1284c8f59ccb434b8736f4a1862d1ff3b42e589a26f0108c2a2d854bacd"
+  },
+  "listeners": {
+    "8883": true,
+    "8884": false,
+    "18796": false
+  },
+  "WSS": [
+    {
+      "time": 1792652606741,
+      "gateway": "ONLINE",
+      "broker": true,
+      "nodes": {
+        "NODE-A": "OFFLINE",
+        "NODE-B": "OFFLINE"
+      }
+    },
+    {
+      "time": 1792652606782,
+      "gateway": "ONLINE",
+      "broker": true,
+      "nodes": {
+        "NODE-A": "OFFLINE",
+        "NODE-B": "OFFLINE"
+      }
+    },
+    {
+      "time": 1792652606883,
+      "gateway": "ONLINE",
+      "broker": true,
+      "nodes": {
+        "NODE-A": "OFFLINE",
+        "NODE-B": "OFFLINE"
+      }
+    }
+  ],
+  "runtime_verified": {
+    "backend_session_fix_commit": "8afb1e2903f18c3a562769b9e9352db7e1db438a",
+    "backend_session_fix_present": true,
+    "critical_source_sha256": {
+      "cloud/ai/__init__.py": "3ba4579a738440820c52402d10e651633d70f5c3c4d6e859ad2404cf102f189f",
+      "cloud/ai/app.py": "248d136927d6ac49217cda9d88710fe5cfa15deae63611b2033658900425eb4a",
+      "cloud/ai/downlink.py": "131d318101473ad973bcb8ed60943a2a1744509c7f6b58ebb8410da4099e60b7",
+      "cloud/ai/facts.py": "86f0d7adc24aac8006d51684e7060d01ca9e7f32d2f7d8e96a2a0126d48b004c",
+      "cloud/ai/providers.py": "edb9c5cf3525f05af113cb986ac9ef800a587ec0fe5e1faf0f5636ca5ea9156e",
+      "cloud/ai/requirements.txt": "e6fb290ea3f7a40b01e9b0826115823c6c8240b814966ad25a92572c0a765844",
+      "cloud/ai/snapshot.py": "64dc57142113da0e78b6f3b0025585146c179a427a6a0910c788224fdc2e7b27",
+      "cloud/ai/usage.py": "a9856fc65694a1d3d64f15633818b5f9d0c8b5b715a15e033662b1b425e4269e",
+      "cloud/backend/app/__init__.py": "44b7a1dd200886674507e014193cd2823f56a89d0dc88ad37535ce43f9596882",
+      "cloud/backend/app/adapters.py": "b4b9993d234741edffa420b81f49478fb32dbab7d8ae156e53cae793083afcde",
+      "cloud/backend/app/diagnostics.py": "5789b398732231f6c228b033da7023eb8e1909d5bbc92ed4e61b5c2a9644a461",
+      "cloud/backend/app/hub.py": "b48047b0c7390601e8a3230cf87733dc28121cecf9901073c6d8ee436b9b877e",
+      "cloud/backend/app/main.py": "3796a4ee4b3db9e96b02e8d3da783104d3bfaa8590779788de27a2beb4b51c37",
+      "cloud/backend/app/models.py": "827e89fd552b99a06d7634cbe07caff4588fc8902d054a264abec1171843c52c",
+      "cloud/backend/app/mqtt_adapter.py": "9c213fd3fc6cc2070d5eb087b544e67cd1e3da385a1aca8c55540ad0eba3e17f",
+      "cloud/backend/requirements.lock": "9953c1d6d23adf1008f13b49aa47788dce846c6cd13f43cb8f395e5d68275a69",
+      "cloud/backend/requirements.txt": "b2ca09314707ed38ddf0ffa7509edb30b029a8fd3d940957e91c4fe9653d5f3a",
+      "cloud/deploy/h3/ac_access_readonly.py": "648bcfb9b500d958856aacf703326beb798d6ed01c02f7b2b50fbcbb73cd8dc5",
+      "cloud/deploy/h3/ac_readonly.py": "96757c7f6f37ffd1e1f659d53ad3e39f201c13f88390d25938c9c4b3d27c4b5f",
+      "cloud/deploy/h3/ac_runtime_readonly.py": "25378f97a74e6318e238089bb215c9bdc72a38c41751ea920c22ad61fba5c73b",
+      "cloud/deploy/h3/ac_validate.py": "6e11a8f73a04e0c714a60cf4363a932fc3c1ecd507cba409a77580e77cf44333",
+      "cloud/deploy/h3/broker_probe.py": "e915e661885fe09d9b4aa08bc261464fc4fccfaf49b950eab0b8069ed3bfccac",
+      "cloud/deploy/h3/e2e_observer.py": "f5262f20888727e6d0f0da067c6d581ae9c04f642ec9145bc962501bfd015632",
+      "cloud/deploy/h3/fault_observer.py": "d5aec496213fd4efbb0aef42d82f90a92afef8b8671848629bdb1d890ec1f744",
+      "cloud/deploy/h3/fetch_evidence.py": "ceb6a5b793bf231b9c8f0b5279f7f08e8b967a66fb406f7da36cb35004cf4323",
+      "cloud/deploy/h3/final_access_review.py": "fa75794e68fd0df2623cc2dbb57c2619271c86f8a7683962af7b246aa7252b76",
+      "cloud/deploy/h3/final_audit.py": "57d9d9ca91e257ddb1192a8133b6929308da2299bfe8eccf2d79ccd258f8d653",
+      "cloud/deploy/h3/final_posix_check.py": "c33666e2d71ab3b7edb917d499f68fd5a4b9fca1bfa4d5c4d4e0d5f60c9974b0",
+      "cloud/deploy/h3/final_validate.py": "5fe08ea616ebfb71ce8b5d991e02defea7eeb3133d32dbbb45422f179a1dc703",
+      "cloud/deploy/h3/formal_release.py": "59416e36317f9c17c31f323c7771deebab0610e092bf1cab643f430f4eb71601",
+      "cloud/deploy/h3/isolated_broker.py": "afe294cb6c2f3bd90726bbe1beaaed59dc46c356ce0a64ea922a44561a17c8ee",
+      "cloud/deploy/h3/isolated_server.py": "ed8cbbd5297dbcfe4c90d04bf55c0ed759a148530d3dc9a3726a15abca09ce3b",
+      "cloud/deploy/h3/isolation_access.py": "4a0f31174afccbc36cc521f3d653db86100c4265be98ef482d461fa202d45bba",
+      "cloud/deploy/h3/link_state_observer.py": "160d169b38df854097725a066047b75d87e839d5877c91dc0fd5da8fd9c862ea",
+      "cloud/deploy/h3/network_probe.py": "dd9005406765bcf75b279dc54d2c28dd7693eb898e724896652972f741d8de95",
+      "cloud/deploy/h3/peer_restart_observer.py": "f0d598931947a87076a7c22b7f3a4da0ad32216bf6fca2d73225f8115378c6a7",
+      "cloud/deploy/h3/r2_audit.py": "6a1bae0af4cba96fe582e9fa39a8047b5703ae5290b2073064a150782be91fe0",
+      "cloud/deploy/h3/r2_preflight.py": "ac3564343f013e38aec19935de7269635103d8fba8cd180d88dcbcebd91530b5",
+      "cloud/deploy/h3/recovery_bundle.py": "b8aa9e94c3995091a23866e4d78d368e4e0f58d803aa2964f7b9076d9fb7894a",
+      "cloud/deploy/h3/runtime-requirements.lock": "aacea077bc994d0aa99d5add0c2da3aeb3ddecbe4dbc6394800dddf45eeefbe2",
+      "cloud/deploy/h3/runtime_package.py": "c75c977fc788e9898b40c7a0e98ff14c9ec4917a960e85ecb5b15785bfb65ee7",
+      "cloud/deploy/h3/scoped_tcp_fault.py": "2fd7b62e6ec3ff491fc4e08dfa8ee43e54d92f05a6fefd138aed06eb8fd0bd6c",
+      "cloud/deploy/h3/tcp_metadata.py": "a48b7e0816ec69e51af73a5fc40e1b94ecd780c4f27ff101275fb77eef51353f",
+      "cloud/deploy/h3/upload_runtime.py": "8c52c653f1e04efc516481300e6561522b84d0d5066daba55db54dc57f868f18",
+      "cloud/web/dist/assets/index-Bv_xNk5C.js": "30982c9dda7e7f80ac919477699a29acdf232665d53095b092645e5751d5d351",
+      "cloud/web/dist/assets/index-DlwcF99u.css": "b55e3faca578225f6bed7dfad57a2a930564eb5011019ad44d25cc6977583d47",
+      "cloud/web/dist/index.html": "92e1f44f80d1eec38ef17beb0979dfc1fba8088c6a9aa833ab1de15063535acb",
+      "cloud/web/package-lock.json": "e50e3895ba5940e06229bc059ab72b22bea2fdbe26946689b0648f8149d2dd1d",
+      "cloud/web/package.json": "191a6d6566d67219e26e61b0e6bbc89d95dcfb3ad559a56f9edf991e537413d0",
+      "wheels/annotated_doc-0.0.5-py3-none-any.whl": "117bac03a25ede5df5440e855b32d556049ca169ead221505badf432fed4b101",
+      "wheels/annotated_types-0.8.0-py3-none-any.whl": "f072f4d804ea359e4eaf198b1af7a8b0943881a87f31bb764f8bf219bb9419e0",
+      "wheels/anyio-4.15.1-py3-none-any.whl": "6152fdbbf9a77fdec97731721bebf7c4c44f7c29b424b0065826173efc7ed101",
+      "wheels/certifi-2025.11.12-py3-none-any.whl": "97de8790030bbd5c2d96b7ec782fc2f7820ef8dba6db909ccf95449f2d062d4b",
+      "wheels/click-8.5.0-py3-none-any.whl": "255bc9599cf7748b4b1a446ccc735421bd08a2ae529a8b88597d3de5664ee360",
+      "wheels/colorama-0.4.6-py2.py3-none-any.whl": "4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6",
+      "wheels/fastapi-0.135.1-py3-none-any.whl": "46e2fc5745924b7c840f71ddd277382af29ce1cdb7d5eab5bf697e3fb9999c9e",
+      "wheels/h11-0.16.0-py3-none-any.whl": "63cf8bbe7522de3bf65932fda1d9c2772064ffb3dae62d55932da54b31cb6c86",
+      "wheels/httpcore-1.0.9-py3-none-any.whl": "2d400746a40668fc9dec9810239072b40b4484b640a8c38fd654a024c7a1bf55",
+      "wheels/httpx-0.28.1-py3-none-any.whl": "d909fcccc110f8c7faf814ca82a9a4d816bc5a6dbfea25d6591d6985b8ba59ad",
+      "wheels/idna-3.20-py3-none-any.whl": "ab7ae7122974553370f0bdb919e1a960b2cd1bc1ef0276416d896db81c14582c",
+      "wheels/paho_mqtt-2.1.0-py3-none-any.whl": "6db9ba9b34ed5bc6b6e3812718c7e06e2fd7444540df2455d2c51bd58808feee",
+      "wheels/pydantic-2.12.5-py3-none-any.whl": "e561593fccf61e8a20fc46dfc2dfe075b8be7d0188df33f221ad1f0139180f9d",
+      "wheels/pydantic_core-2.41.5-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "eceb81a8d74f9267ef4081e246ffd6d129da5d87e37a77c9bde550cb04870c1c",
+      "wheels/sniffio-1.3.1-py3-none-any.whl": "2f6da418d1f1e0fddd844478f41680e794e6051915791a034ff65e5f100525a2",
+      "wheels/starlette-1.6.0-py3-none-any.whl": "a86dd39d14bb45f85a3d18525215a9ef0cfd1f192ac793220e72598c90335f0c",
+      "wheels/typing_extensions-4.16.0-py3-none-any.whl": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8",
+      "wheels/typing_inspection-0.4.4-py3-none-any.whl": "65b8397ba37ccbce054456aaccddfc91e6e3083c92824df348d96ca832f3f147",
+      "wheels/uvicorn-0.40.0-py3-none-any.whl": "c6c8f55bc8bf13eb6fa9ff87ad62308bbbc33d0b67f84293151efe87e0d5f2ee",
+      "wheels/websockets-16.0-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl": "9b5aca38b67492ef518a8ab76851862488a478602229112c4b0d58d63a7a4d5c"
+    },
+    "payload_sha256": "b8fbb14b5c356090f8a35f211b9bc1f070be251b58436db7f1445283013ac87e",
+    "persistent_usage_ledger": true,
+    "python_target": "CPython3.12_Linux_x86_64",
+    "runtime_install": "create sibling environments/runtime-ID with python3.12; install --no-index --find-links RELEASE/wheels -r RELEASE/cloud/deploy/h3/runtime-requirements.lock",
+    "schema": 2,
+    "server_dependency_install": "NOT_EXECUTED_AUTH_CLOUD_STAGE_REQUIRED",
+    "source_commit": "5da742f4e0e078d2d40453facdad1e65ff51fdda",
+    "web_dist_sha256": "d081b7036e521208a433a7410f1a86c9f06208260434b4257f10eeddd1a174be"
+  },
+  "security_group_changed": false,
+  "physical_hardware_commands": 0
+}

@@ -1,0 +1,10 @@
+VOICE_HOST_PASS checks=3103 sizeof_queue=344 hardware=NOT_RUN
+P6V1 negative checks=87 PASS; digest=fact_binding_not_authentication
+PASS denied_wrong_id_downgraded_missing_suback_monitoring_survives
+PASS default_off_still_official_inbound_puback
+PASS retained_wrong_qos_wrong_topic_rejected_without_network_reset
+PASS mixed_outbound_ack_inbound_qos1_partial_reads_real_decoder_fake_uart_done
+PASS duplicate_reconnect_never_rearms_or_replays
+PASS outbound_5000ms_timeout_unchanged_with_voice
+HOST_C_RECEIVED accepted=1 inbound_puback=5 uart_done=1 audible=NOT_TESTED
+VOICE Host exit 0

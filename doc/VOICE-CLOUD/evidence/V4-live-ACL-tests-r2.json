@@ -1,0 +1,30 @@
+{
+  "exit_code": 0,
+  "TLS_verified": true,
+  "tests": [
+    {
+      "name": "exact_write_C_read_pub_read_denied",
+      "pass": true
+    },
+    {
+      "name": "C_voice_write_denied",
+      "pass": true,
+      "reason": 135
+    },
+    {
+      "name": "control_write_denied",
+      "pass": true,
+      "reason": 135
+    },
+    {
+      "name": "other_gateway_write_denied",
+      "pass": true,
+      "reason": 135
+    },
+    {
+      "name": "B_telemetry_write_denied",
+      "pass": true,
+      "reason": 135
+    }
+  ]
+}

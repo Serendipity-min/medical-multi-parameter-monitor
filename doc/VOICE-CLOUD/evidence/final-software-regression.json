@@ -1,0 +1,32 @@
+[
+  {
+    "name": "final-python",
+    "exit_code": 0,
+    "command": [
+      "python",
+      "-m",
+      "pytest",
+      "cloud/backend/tests",
+      "cloud/ai/tests",
+      "gateway/physical_can/tests",
+      "gateway/voice/tests/test_cloud_window.py",
+      "-q"
+    ]
+  },
+  {
+    "name": "final-default-ARM",
+    "exit_code": 0,
+    "command": [
+      "python",
+      "gateway/physical_can/build.py",
+      "--irq",
+      "--synthetic-source",
+      "--fresh-sntp",
+      "--persistent-config",
+      "--macro-source-root",
+      "E:\\medical-monitor-h3",
+      "--evidence-dir",
+      "doc/VOICE-CLOUD/evidence/arm-baseline-final"
+    ]
+  }
+]

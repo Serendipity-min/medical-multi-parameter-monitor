@@ -19,6 +19,10 @@ int main(void){VoiceGuard g;VoiceMessage m;uint8_t p[VOICE_WIRE_MAX];
     prepare(&g,p);p[0]='X';CHECK(test(&g,p,57,102000,2000,&m)==VOICE_SIZE);
     prepare(&g,p);put64(p+12,117001);CHECK(test(&g,p,57,102000,2000,&m)==VOICE_TIME);
     prepare(&g,p);CHECK(test(&g,p,57,117000,2000,&m)==VOICE_TIME);
+    prepare(&g,p);CHECK(test(&g,p,57,116001,2000,&m)==VOICE_TIME);
+    prepare(&g,p);CHECK(test(&g,p,57,116000,2000,&m)==VOICE_OK);
+    /* digest只绑定事实，不是签名；改动它仍是合法编码，可信发布身份由TLS/ACL约束。 */
+    prepare(&g,p);p[36]^=0x80;CHECK(test(&g,p,57,102000,2000,&m)==VOICE_OK);
     prepare(&g,p);CHECK(test(&g,p,57,101999,2000,&m)==VOICE_TIME);
     prepare(&g,p);put64(p+12,UINT64_MAX);CHECK(test(&g,p,57,102000,2000,&m)==VOICE_TIME);
     const uint8_t bad[][4]={{0xc0,0xaf,0},{0xed,0xa0,0x80},{0xf4,0x90,0x80,0x80},{0xe2,0x80,0x8b},{0xef,0xbb,0xbf},{0xef,0xb7,0x90},{0xef,0xbf,0xbe},{'[','v',']'},{'a',0,'b'}};

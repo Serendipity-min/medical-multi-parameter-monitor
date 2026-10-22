@@ -1,0 +1,30 @@
+{
+  "turn_id": "ebd5c1d0d7cb4e5ebf35f388ba1c74e4",
+  "session_id": "aaa88bfa1110468084c88dd8825d8df3",
+  "gateway_id": "GW-C-001",
+  "model_mode": "DOUBAO",
+  "real_model": "REAL_REQUEST_USED",
+  "fact_digest": "d68cb511a588b00a18de22f0bb8cb08c",
+  "model_input_fact_digest": "d68cb511a588b00a18de22f0bb8cb08c",
+  "voice_text": "身体不适请及时休息，必要时就医评估",
+  "voice_status": "BROKER_PUBACK_ONLY",
+  "model_evidence": {
+    "call": "88c196fe93c04301b95bfc085b523e46",
+    "requested_model": "doubao-seed-2-0-mini-260428",
+    "status": "VALIDATED",
+    "billing_state": "UNKNOWN_TOKEN_USAGE_RECORDED",
+    "http_status": 200,
+    "usage": {
+      "completion_tokens": 19,
+      "prompt_tokens": 412,
+      "total_tokens": 431
+    },
+    "reported_model": "doubao-seed-2-0-mini-260428",
+    "request_id": "021792652337815593075d5bfc3e0cbf107ff469a4d1c9148860a",
+    "finish_reason": "stop",
+    "latency_ms": 857
+  },
+  "http": 200,
+  "browser_at": 1792652339530,
+  "checkbox_after": false
+}

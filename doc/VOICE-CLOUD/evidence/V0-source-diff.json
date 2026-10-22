@@ -1,33 +1,68 @@
 {
   "gateway/physical_can/src/adapter.c": {
-    "p6_absent": true
+    "h3_exists": true,
+    "h3_sha256": "adf10fd9618b9cbaffb565de7d9e5cfb07f207c624c8a95946370ca036e6957e",
+    "p6_exists": false,
+    "equal": false
   },
   "gateway/physical_can/src/stack.c": {
-    "p6_absent": true
+    "h3_exists": true,
+    "h3_sha256": "bdc177b3c82a1270f4f16c355ef3c1438ec9c4feeff8114a43ec8ed45f438d83",
+    "p6_exists": false,
+    "equal": false
   },
   "gateway/physical_can/src/bxcan_network_irq.c": {
-    "p6_absent": true
+    "h3_exists": true,
+    "h3_sha256": "d4ae09dd6a77fbe8d95baf02cbf3f6ac9e58110dec1af4a48ca073e92337c107",
+    "p6_exists": false,
+    "equal": false
   },
   "gateway/storage/router.c": {
+    "h3_exists": true,
     "h3_sha256": "033d3401c4b21c09e2344335bd2c043c7ffb6959f337e4a2d4f114a71625b763",
+    "p6_exists": true,
     "p6_sha256": "033d3401c4b21c09e2344335bd2c043c7ffb6959f337e4a2d4f114a71625b763",
     "equal": true
   },
-  "cloud/backend/app/store.py": {
-    "p6_absent": true
+  "cloud/backend/app/hub.py": {
+    "h3_exists": true,
+    "h3_sha256": "5b17215626721ae524b9508ec3a40bb7d369f2b71f61f6cfb53bfbcb9b1b4ba1",
+    "p6_exists": true,
+    "p6_sha256": "15872705068d0c85df9333be405993dc5e46e465b7cf81b4579f2d98d2ed32e2",
+    "equal": false
+  },
+  "cloud/backend/app/models.py": {
+    "h3_exists": true,
+    "h3_sha256": "1930b5255d5f7e6ae02ea062010ba013caaf0670b22f779cc7bd18a7b047c9f8",
+    "p6_exists": true,
+    "p6_sha256": "1930b5255d5f7e6ae02ea062010ba013caaf0670b22f779cc7bd18a7b047c9f8",
+    "equal": true
+  },
+  "cloud/backend/app/mqtt_adapter.py": {
+    "h3_exists": true,
+    "h3_sha256": "fd99fed9b2797baabbfd9cd90aa9581b1146fe8fc8a550bc545e0127aff99676",
+    "p6_exists": true,
+    "p6_sha256": "fd99fed9b2797baabbfd9cd90aa9581b1146fe8fc8a550bc545e0127aff99676",
+    "equal": true
   },
   "cloud/ai/app.py": {
+    "h3_exists": true,
     "h3_sha256": "123f7330eb7fd6c648186639f69bc3967317cbdbb6596bc816b4c994302e69f8",
+    "p6_exists": true,
     "p6_sha256": "4a05fc797a5cd5431400041c86b89b6b9b712e198a24403ca163fbcc6824d825",
     "equal": false
   },
   "cloud/ai/downlink.py": {
+    "h3_exists": true,
     "h3_sha256": "db6a5da8d40fc9b953b3cc6085887e6c7ddae16721af76a7d81dcdd0942664c3",
+    "p6_exists": true,
     "p6_sha256": "db6a5da8d40fc9b953b3cc6085887e6c7ddae16721af76a7d81dcdd0942664c3",
     "equal": true
   },
   "gateway/mqtt/src/gateway_transport.c": {
+    "h3_exists": true,
     "h3_sha256": "f8887c7c7e8f224d24427a87353239febe63d47531cdb4bf61d5ceb36cd669bf",
+    "p6_exists": true,
     "p6_sha256": "5335312ec688ada5c514fdca729d087ae573ee90696df9dfcf756a7fdc7f0bc7",
     "equal": false
   }

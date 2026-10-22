@@ -1,0 +1,37 @@
+{
+  "exit_code": 0,
+  "tests": [
+    {
+      "path": "/medical-monitor/",
+      "http": 200
+    },
+    {
+      "path": "/medical-monitor/api/health",
+      "http": 200
+    },
+    {
+      "path": "/medical-monitor/ai/health",
+      "http": 200
+    },
+    {
+      "name": "no_auth",
+      "http": 401
+    },
+    {
+      "name": "bad_origin_with_auth",
+      "http": 403
+    },
+    {
+      "name": "allowed_origin_empty_body",
+      "http": 422
+    }
+  ],
+  "health": {
+    "status": "ok",
+    "model_mode": "DOUBAO",
+    "snapshot_mode": "MONITOR",
+    "voice_mode": "FORMAL_TLS_8883",
+    "model_id": "doubao-seed-2-0-mini-260428",
+    "budget_used": 9
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "gateway/physical_can/src/adapter.c": {
+    "p6_absent": true
+  },
+  "gateway/physical_can/src/stack.c": {
+    "p6_absent": true
+  },
+  "gateway/physical_can/src/bxcan_network_irq.c": {
+    "p6_absent": true
+  },
+  "gateway/storage/router.c": {
+    "h3_sha256": "033d3401c4b21c09e2344335bd2c043c7ffb6959f337e4a2d4f114a71625b763",
+    "p6_sha256": "033d3401c4b21c09e2344335bd2c043c7ffb6959f337e4a2d4f114a71625b763",
+    "equal": true
+  },
+  "cloud/backend/app/store.py": {
+    "p6_absent": true
+  },
+  "cloud/ai/app.py": {
+    "h3_sha256": "123f7330eb7fd6c648186639f69bc3967317cbdbb6596bc816b4c994302e69f8",
+    "p6_sha256": "4a05fc797a5cd5431400041c86b89b6b9b712e198a24403ca163fbcc6824d825",
+    "equal": false
+  },
+  "cloud/ai/downlink.py": {
+    "h3_sha256": "db6a5da8d40fc9b953b3cc6085887e6c7ddae16721af76a7d81dcdd0942664c3",
+    "p6_sha256": "db6a5da8d40fc9b953b3cc6085887e6c7ddae16721af76a7d81dcdd0942664c3",
+    "equal": true
+  },
+  "gateway/mqtt/src/gateway_transport.c": {
+    "h3_sha256": "f8887c7c7e8f224d24427a87353239febe63d47531cdb4bf61d5ceb36cd669bf",
+    "p6_sha256": "5335312ec688ada5c514fdca729d087ae573ee90696df9dfcf756a7fdc7f0bc7",
+    "equal": false
+  }
+}
