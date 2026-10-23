@@ -45,7 +45,9 @@ int main(void)
     /* 分片接收必须只在完整报告形成后触发一次界面恢复。 */
     queue_reset();push(report,3);assert(queue_find_cmd(buf,sizeof(buf))==0);
     push(report+3,3);n=queue_find_cmd(buf,sizeof(buf));assert(n==6);
+    timer_tick_count=123;
     ProcessMessage((PCTRL_MSG)buf,n);assert(resets==1);
+    assert(g_hmi_reset_report_count==1 && g_hmi_last_reset_report_ms==1230);
     ProcessMessage(0,6);ProcessMessage((PCTRL_MSG)buf,5);assert(resets==1);
     buf[3]=0;ProcessMessage((PCTRL_MSG)buf,6);assert(resets==1);
     /* 主机发给屏的复位命令不能混同为屏上报，坏帧也不能触发重建。 */
@@ -58,6 +60,7 @@ int main(void)
     n=queue_find_cmd(buf,sizeof(buf));ProcessMessage((PCTRL_MSG)buf,n);
     n=queue_find_cmd(buf,sizeof(buf));ProcessMessage((PCTRL_MSG)buf,n);
     assert(resets==3);
+    assert(g_hmi_reset_report_count==3);
     return 0;
 }
 '''

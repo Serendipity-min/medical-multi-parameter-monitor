@@ -9,6 +9,10 @@
 #include "hr_page.h"
 #include "ulitity.h"
 
+// 仅供调试器只读观察：记录真实完整07报告，不参与算法或界面状态判定。
+volatile uint32 g_hmi_reset_report_count = 0;
+volatile uint32 g_hmi_last_reset_report_ms = 0;
+
 /*!
 *  \brief  指令分发：按 cmd_type 拆帧，转成各 Notify 回调
 */
@@ -27,6 +31,8 @@ void ProcessMessage(PCTRL_MSG msg, uint16 size)
         if ((size == 6) && (raw[0] == 0xEE) && (raw[2] == 0xFF) &&
             (raw[3] == 0xFC) && (raw[4] == 0xFF) && (raw[5] == 0xFF))
         {
+            g_hmi_last_reset_report_ms = timer_tick_count * 10;
+            ++g_hmi_reset_report_count;
             HrPage_OnScreenReset();
         }
         return;                         // 畸形07帧也不得进入复位或控件分发路径。

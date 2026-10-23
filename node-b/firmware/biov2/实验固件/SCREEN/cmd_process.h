@@ -15,6 +15,9 @@
 #define NOTIFY_TOUCH_PRESS         0X01  //触摸屏按下通知
 #define NOTIFY_TOUCH_RELEASE       0X03  //触摸屏松开通知
 #define NOTIFY_SCREEN_RESET        0X07  //屏上电/重启报告，不是MCU复位命令
+
+extern volatile uint32 g_hmi_reset_report_count;
+extern volatile uint32 g_hmi_last_reset_report_ms;
 #define NOTIFY_WRITE_FLASH_OK      0X0C  //写FLASH成功
 #define NOTIFY_WRITE_FLASH_FAILD   0X0D  //写FLASH失败
 #define NOTIFY_READ_FLASH_OK       0X0B  //读FLASH成功
