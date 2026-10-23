@@ -1,6 +1,6 @@
 # Node-B 当前阶段唯一交接报告｜B4-0.1
 
-2026-10-23，MPM-B-PREC-001状态冻结及MPM-B4-001软件集成准备。**软件构建与离线验证通过；真实B+C CAN准入BLOCKED。** 本报告是唯一阶段交接入口，不把软件测试写成实物验收，不自动进入联动。
+2026-10-23，MPM-B-PREC-001状态冻结及MPM-B4-001软件集成准备；随后按负责人追加授权完成一次独立冷启动及前后只读核验。**软件构建与离线验证通过；当前25488B修正版一次独立冷启动通过；真实B+C CAN准入仍BLOCKED。** 本报告是唯一阶段交接入口，不把软件测试写成实物验收，不自动进入联动。
 
 实验分支 `codex/node-b4-dualbus-software-20261023`，独立工作区 `E:/medical-monitor-node-b4-software`。开工时远端B基线已核验为 `codex/node-b-precan-closeout-20261023@9988d37cd5470d6857bb535aab1d821cf2581302`；H3参考固定为 `a5cdd5b0b1ad48108fd631136e9de69e30582f2d`。仅此新分支提交推送；B/B2/H3/P4/main/P6/语音/历史实测分支与标签不修改，无PR、合并或Security Gate。
 
@@ -10,16 +10,18 @@
 |---|---|---|
 | 屏重启引发MCU复位修复 | **SCREEN_RESET_MCU_RESET_FIX_PASS** | 最新25488B实板修正版，屏白色供电/串口插头重启后恢复波形；221次观察中MCU运行时间和BIO计数持续推进，屏07上电报告只恢复UI，不再调用MCU复位 |
 | 历史CPU进入ROM根因 | **CPU_ROM_ROOT_CAUSE_UNRESOLVED** | PC=0x1FFF32F0、VTOR=0x1FFF0000是真实历史观察，Flash完整；ROM中等待USART3接收得到支持，进入机制没有确定，不能写成算法丢失或已修复 |
-| 独立冷启动 | **INDEPENDENT_COLD_BOOT_NOT_VALIDATED** | 虽曾报告关开开关后屏恢复，但相邻取证的主机时间增加213.547秒、MCU运行时间增加213.533秒；不能证明MCU断电/复位。全部供电与反供电路径仍待核验 |
+| 独立冷启动 | **INDEPENDENT_COLD_BOOT_SINGLE_TRIAL_PASS** | 本次拔下B端JTAG及J5，负责人确认板/模块/两屏全部熄灭、等待10秒，再仅接J5；JTAG断开时波形恢复并持续刷新。接回后MCU运行时间由4871002ms降为34023ms，BIO计数由1216965降为8164并继续推进；Flash运行、无Fault。仅当前25488B的一次功能验证，不代表重复启动可靠性或B4新候选验收 |
 
-J-Link退出时遗留Flash HALT导致画面冻结，与历史进入ROM是两个问题；退出续跑已修正并观察恢复。BOOT0约1.0mV、BOOT1约0.9mV只是200mV直流档的静态读数，不代表复位锁存。NRST未测。无新证据支持将ROM归因于BOOT跳帽、电源、USB或屏复位中的任何单一因素。本轮不再操作或排查实板CPU。
+J-Link退出时遗留Flash HALT导致画面冻结，与历史进入ROM是两个问题；退出续跑已修正并观察恢复。BOOT0约1.0mV、BOOT1约0.9mV只是200mV直流档的静态读数，不代表复位锁存。NRST未测。无新证据支持将ROM归因于BOOT跳帽、电源、USB或屏复位中的任何单一因素。负责人决定ROM根因保留未解决，待再次出现时排查；本次冷启动不关闭该问题。
+
+[本次冷启动前后回执摘要](../evidence/B4-001/independent-coldboot-20261023.json)保留真实退出码、工具SHA、加密原件逐文件SHA及负责人观察。后核验运行时间34023→37174ms、BIO计数8164→8951；VTOR=0x08000000，运行PC采样均在Flash，CFSR/HFSR=0，ADC初始化/SPI/队列溢出/长间隔错误均0。RCC_CSR由0x1e000000变为0x0e000000，含BOR/PAD/POR、软件复位标志清除，佐证重新启动；不是BOOT锁存或电源波形测量。两次软件会话各连接/关闭一次，显式reset/halt/go及Flash写入均0，正常关闭续跑。负责人未给出独立观察的精确秒数，回读在启动34–37秒，不能宣称已测满原拟45秒。启动快照HR/RR均暂未有效，不作为双通道评价。先前开关对照未重启的反证保留在原冻结回执，不覆盖。
 
 ## 当前部署与恢复原件
 
 当前已验收修正版源码基线是 `9988d37`，**部署冻结对象是25488B，BIN SHA256 `b8e74577dae7a5a1f6caa27687193f5128f89bd70781f06a1d80b0c74d409b44`**。旧25284B仅留作历史证据，永久退出新硬件部署候选身份。
 
 - 最新修正版完整Flash：1048576B，SHA256 `d2ea7cbf7081b20f82a4a6ca6dde4918b9c4d4b194a3c6c358c2d74012993316`，前25488B与修正版BIN逐字节相同。
-- options原件：16B，SHA256 `52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687`。本轮未读写设备或选项字节。
+- options原件：16B，SHA256 `52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687`。软件阶段未访问设备；追加冷启动前后只读核验已确认当前BIN及options一致，没有写入。
 - BIO_V2源 SHA256 `3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7`；全部冻结固件文件逐个核验，算法和阈值不变。
 - 历史f713…整片、失败原件、旧工具SHA、ECG/RR实测数据和历史标签全部保留。
 
@@ -72,10 +74,10 @@ C完整网络软件目标复用冻结H3的MQTT/AT C源，在独立构建目录�
 - 原B普通回归7组全部退出0，算法27/27、通道隔离28/28；屏复位Host2项通过。旧CANopen协议12项、流水线11项、重启/分配回收17项通过。
 - I²S2冲突及混用模型ABI均以真实编译退出1拒绝，这是预期负例；其它正式软件阶段退出0。原始失败轮次保留，不能只展示最后成功。
 
-[最终Host回执](../evidence/B4-001/final-host.json)、[原B回归](../evidence/B4-001/final-baseline_regression.json)、[分级归档/失败历史/真实退出码](../evidence/B4-001/stage-results.json)提供复核入口。新源码/工具/报告逐文件SHA见[源码索引](../evidence/B4-001/source-index.json)；最终Git提交和远端取回校验见[交付回执](../evidence/B4-001/git-delivery.json)。
+[最终Host回执](../evidence/B4-001/final-host.json)、[原B回归](../evidence/B4-001/final-baseline_regression.json)、[分级归档/失败历史/真实退出码](../evidence/B4-001/stage-results.json)提供复核入口。软件阶段新源码/工具/报告的冻结快照SHA见[源码索引](../evidence/B4-001/source-index.json)，此索引不覆盖随后冷启动报告更新；软件阶段Git交付见[交付回执](../evidence/B4-001/git-delivery.json)，追加冷启动提交另行推送及远端取回校验。
 
 ## 准入与停止点
 
 [单独准入审查及禁用现场卡草稿](B4-HARDWARE-ADMISSION-REVIEW.md)已提交，覆盖真实独立冷启动、CPU残余风险、当前双通道有效性、CAN电气、B/C恢复和有限现场窗口。缺少实物针号/源能力/恢复边界时，不能伪造一张可执行授权卡；草稿enabled=false，授权ID为空，动作数0。
 
-本轮没有接B+C CAN、没有烧录B/C、没有新硬件读取/复位/采集、没有改变电极/供电/源模式，没有修改正式腾讯云或执行Security Gate。**软件准备完成，实物准入保持BLOCKED，停止并等待PI审核新的现场合同。**
+软件阶段没有硬件动作；随后追加授权仅完成上述一次B独立断电启动及前后只读核验。没有接B+C CAN、没有烧录B/C，没有改变电极/源模式，没有修改算法阈值、正式腾讯云或执行Security Gate。**软件准备完成，当前修正版单次独立冷启动通过；实物CAN准入仍BLOCKED，停止并等待PI审核新的现场合同。**

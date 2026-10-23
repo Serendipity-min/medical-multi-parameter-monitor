@@ -1,0 +1,383 @@
+{
+  "date_local": "2026-10-23",
+  "timezone": "Asia/Shanghai",
+  "status": "INDEPENDENT_COLD_BOOT_SINGLE_TRIAL_PASS",
+  "trials": 1,
+  "deployed_firmware_bytes": 25488,
+  "deployed_BIN_sha256": "b8e74577dae7a5a1f6caa27687193f5128f89bd70781f06a1d80b0c74d409b44",
+  "firmware_hash_and_options_checked_by_tool": true,
+  "B4_software_candidate_tested": false,
+  "owner_observation": {
+    "B_end_JTAG_disconnected_during_boot": true,
+    "J5_physically_unplugged": true,
+    "board_module_and_screens_all_dark": true,
+    "wait_after_all_dark_s": 10,
+    "J5_reconnected_with_JTAG_absent": true,
+    "waveforms_recovered_and_continued": true,
+    "abnormalities_reported": false,
+    "JTAG_reconnected_after_observation": true,
+    "independent_observation_duration_s": null,
+    "duration_note": "Owner confirmed sustained refresh; post-connect MCU uptime 34-37 seconds. Do not claim the proposed 45-second independent observation was measured."
+  },
+  "before_last": {
+    "application_ms": 4871002,
+    "BIO_samples": 1216965,
+    "VTOR": "0x8000000",
+    "DWT_PCSR_running_sample": "0x8005bc2",
+    "DHCSR": "0x1010001",
+    "CFSR": "0x0",
+    "HFSR": "0x0",
+    "RCC_CSR": "0x1e000000",
+    "screen_reports": 2,
+    "last_screen_report_ms": 248990,
+    "adc_errors": {
+      "bad_status": 0,
+      "spi_errors": 0,
+      "queue_overflow": 0,
+      "init_errors": 0,
+      "long_gap_count": 0
+    },
+    "HR_valid": false,
+    "RR_valid": true
+  },
+  "after_first": {
+    "application_ms": 34023,
+    "BIO_samples": 8164,
+    "VTOR": "0x8000000",
+    "DWT_PCSR_running_sample": "0x80016cc",
+    "DHCSR": "0x1010001",
+    "CFSR": "0x0",
+    "HFSR": "0x0",
+    "RCC_CSR": "0xe000000",
+    "screen_reports": 1,
+    "last_screen_report_ms": 1390,
+    "adc_errors": {
+      "bad_status": 0,
+      "spi_errors": 0,
+      "queue_overflow": 0,
+      "init_errors": 0,
+      "long_gap_count": 0
+    },
+    "HR_valid": false,
+    "RR_valid": false
+  },
+  "after_last": {
+    "application_ms": 37174,
+    "BIO_samples": 8951,
+    "VTOR": "0x8000000",
+    "DWT_PCSR_running_sample": "0x800333c",
+    "DHCSR": "0x1010001",
+    "CFSR": "0x0",
+    "HFSR": "0x0",
+    "RCC_CSR": "0xe000000",
+    "screen_reports": 1,
+    "last_screen_report_ms": 1390,
+    "adc_errors": {
+      "bad_status": 0,
+      "spi_errors": 0,
+      "queue_overflow": 0,
+      "init_errors": 0,
+      "long_gap_count": 0
+    },
+    "HR_valid": false,
+    "RR_valid": false
+  },
+  "host_elapsed_between_reads_s": 101.797,
+  "RCC_CSR_interpretation": {
+    "before": "0x1e000000: BORRSTF/PADRSTF/PORRSTF/SFTRSTF sticky flags",
+    "after": "0x0e000000: BORRSTF/PADRSTF/PORRSTF, SFTRSTF clear",
+    "limit": "Sticky reset flags corroborate restart; no claim of voltage waveform or BOOT latch measurement."
+  },
+  "execution": {
+    "readonly_sessions": 2,
+    "before_process_exit_code": 0,
+    "after_process_exit_code": 0,
+    "reset_requests": 0,
+    "halt_requests": 0,
+    "explicit_go_requests": 0,
+    "flash_writes": 0,
+    "connects_per_session": 1,
+    "close_resume_enabled": true,
+    "tool_sha256": "1e24dc4c608f2611640d4c6cfcf4c67a4cd8711180ab266c0d1082aebb000c62"
+  },
+  "ROM_status": "CPU_ROM_ROOT_CAUSE_UNRESOLVED",
+  "ROM_disposition": "Deferred by owner until recurrence; this one successful boot does not resolve intermittent ROM entry.",
+  "scope_limits": [
+    "No long-term reliability or repeated cold-boot qualification",
+    "Post-connect DWT_PCSR is a running PC sample, not a halted R15",
+    "HR/RR snapshots are startup observations, not simultaneous validity acceptance",
+    "No CAN hardware operation or new firmware deployment",
+    "BIO_V2 thresholds unchanged"
+  ],
+  "private_raw_archive": "E:\\medical-monitor-node-b-precan-private\\20261023\\last-round",
+  "retained_files": {
+    "coldboot-before-20261023-01\\0000-cache.bin": {
+      "bytes": 12,
+      "sha256": "2b7f282ef551aeb430afb7ce3fc0a742b7fa1bc4e38214837d706c40f01fbd7c"
+    },
+    "coldboot-before-20261023-01\\0000-diag.bin": {
+      "bytes": 120,
+      "sha256": "7188a37fe74bfb303f83200129cbbe67b3faa3ab121becee79f375de6120b235"
+    },
+    "coldboot-before-20261023-01\\0000-stats.bin": {
+      "bytes": 48,
+      "sha256": "e4091f03b813744b65152fef7b551c364837c0e7dc960554edca034a9d3329a0"
+    },
+    "coldboot-before-20261023-01\\0001-cache.bin": {
+      "bytes": 12,
+      "sha256": "2b7f282ef551aeb430afb7ce3fc0a742b7fa1bc4e38214837d706c40f01fbd7c"
+    },
+    "coldboot-before-20261023-01\\0001-diag.bin": {
+      "bytes": 120,
+      "sha256": "52679b4d95387fff8c6ecb56fe9ede46e4fbbd3baaaaa0ada435a855019e9178"
+    },
+    "coldboot-before-20261023-01\\0001-stats.bin": {
+      "bytes": 48,
+      "sha256": "36f8400ca801b7b2f67a857786dc86777606cae7f519ab6b3668577109d7510e"
+    },
+    "coldboot-before-20261023-01\\0002-cache.bin": {
+      "bytes": 12,
+      "sha256": "2b7f282ef551aeb430afb7ce3fc0a742b7fa1bc4e38214837d706c40f01fbd7c"
+    },
+    "coldboot-before-20261023-01\\0002-diag.bin": {
+      "bytes": 120,
+      "sha256": "9e908f6477a241f6d24c4559599b7575c5a5f684f97357c1afb9552fab4282f3"
+    },
+    "coldboot-before-20261023-01\\0002-stats.bin": {
+      "bytes": 48,
+      "sha256": "ab85295e829641ddfcddde5b63828cd6ee54b988b5bf0a7200607e80d787c094"
+    },
+    "coldboot-before-20261023-01\\0003-cache.bin": {
+      "bytes": 12,
+      "sha256": "2b7f282ef551aeb430afb7ce3fc0a742b7fa1bc4e38214837d706c40f01fbd7c"
+    },
+    "coldboot-before-20261023-01\\0003-diag.bin": {
+      "bytes": 120,
+      "sha256": "8c59f63a320a3cdd6b9e34a49b770cab970bd0498cdcc4a88b6375b7d415f0bb"
+    },
+    "coldboot-before-20261023-01\\0003-stats.bin": {
+      "bytes": 48,
+      "sha256": "4177630b03e5c64902f989e727e477517cfeabc99686dfae88a736ba55eb16b1"
+    },
+    "coldboot-before-20261023-01\\0004-cache.bin": {
+      "bytes": 12,
+      "sha256": "2b7f282ef551aeb430afb7ce3fc0a742b7fa1bc4e38214837d706c40f01fbd7c"
+    },
+    "coldboot-before-20261023-01\\0004-diag.bin": {
+      "bytes": 120,
+      "sha256": "de196c8a50d96d1d436b3ee44c6bebafa095fa6e2d692153dedd6b50cadafded"
+    },
+    "coldboot-before-20261023-01\\0004-stats.bin": {
+      "bytes": 48,
+      "sha256": "e2eeb38cf1bd1a17903828912798ad9dc51d567c447df16164c7da2f004e3361"
+    },
+    "coldboot-before-20261023-01\\0005-cache.bin": {
+      "bytes": 12,
+      "sha256": "2b7f282ef551aeb430afb7ce3fc0a742b7fa1bc4e38214837d706c40f01fbd7c"
+    },
+    "coldboot-before-20261023-01\\0005-diag.bin": {
+      "bytes": 120,
+      "sha256": "a50de759072479dc8d61b4052761d8115c2e437c959a7cd837f561696b483e41"
+    },
+    "coldboot-before-20261023-01\\0005-stats.bin": {
+      "bytes": 48,
+      "sha256": "7c7d0c0a1ca83c585504419edd2a9f464242be77352def85e02be9abce87a2cc"
+    },
+    "coldboot-before-20261023-01\\0006-cache.bin": {
+      "bytes": 12,
+      "sha256": "2b7f282ef551aeb430afb7ce3fc0a742b7fa1bc4e38214837d706c40f01fbd7c"
+    },
+    "coldboot-before-20261023-01\\0006-diag.bin": {
+      "bytes": 120,
+      "sha256": "8b2acb1d7f361a6537d734d908a1260552a3957293a54119f757ed257b91bf5b"
+    },
+    "coldboot-before-20261023-01\\0006-stats.bin": {
+      "bytes": 48,
+      "sha256": "f50dc2afe0fd0df9b900f87c58d8da652f924f1e7e6ce2bcaea1d489b40e0faf"
+    },
+    "coldboot-before-20261023-01\\heartbeat-events.jsonl": {
+      "bytes": 18113,
+      "sha256": "328ca7227be6ce76e3eaa3ae701ed12fe9d44e2d5c273f05f8e06f17dfa883b6"
+    },
+    "coldboot-before-20261023-01\\identity-private.json": {
+      "bytes": 156,
+      "sha256": "6807dc3c928c11b5ba3d2185286f2a7e18bc526485d7ac84edace59728dc0323"
+    },
+    "coldboot-before-20261023-01\\io-private.jsonl": {
+      "bytes": 6622,
+      "sha256": "28ad102aea4e72c04fc56ea788a3d8f4148c61a9446fe054d47b51d3c4d62d08"
+    },
+    "coldboot-before-20261023-01\\probe-status-private.json": {
+      "bytes": 25,
+      "sha256": "fecdafeae802ada818477c71d4f7213c1c9e717ac6355a4540ea1095cb513491"
+    },
+    "coldboot-before-20261023-01\\READY.json": {
+      "bytes": 56,
+      "sha256": "6da0471f57d643f36e4c9f9491bfc4eebb59e533eb5363438feaeba8e3d85537"
+    },
+    "coldboot-before-20261023-01\\receipt-private.json": {
+      "bytes": 4120,
+      "sha256": "ae1d99cd33906153439216fb2679ed3424d0dc3e4bc95a55d52b1d553393337d"
+    },
+    "coldboot-before-20261023-01\\samples-private.jsonl": {
+      "bytes": 9297,
+      "sha256": "6a9e7334c94c7ef2cf732e58a1e48d84927453775f35e0b0a114a4944028ba6b"
+    },
+    "coldboot-before-20261023-01\\sdk-private.log": {
+      "bytes": 1025,
+      "sha256": "ed3eaf775ba9ee9fe417434af328c0bda805247352b13dd3102b2acad9c7508c"
+    },
+    "coldboot-before-20261023-01\\supervisor-private.json": {
+      "bytes": 79,
+      "sha256": "fc8791ed370b72513c6927b905a37d59af9185c87be978a15925efdec733ce36"
+    },
+    "coldboot-before-20261023-01-worker.log": {
+      "bytes": 96,
+      "sha256": "7bb302911f6c83bc27e60a3418ea1e4a00d71fa38bf128169e308d0854e502af"
+    },
+    "coldboot-after-20261023-01\\0000-cache.bin": {
+      "bytes": 12,
+      "sha256": "2b7f282ef551aeb430afb7ce3fc0a742b7fa1bc4e38214837d706c40f01fbd7c"
+    },
+    "coldboot-after-20261023-01\\0000-diag.bin": {
+      "bytes": 120,
+      "sha256": "2fbd7e45c51efcdf24f92339e199f1fa0fc6df77debafd2158ff48e1d086cb4f"
+    },
+    "coldboot-after-20261023-01\\0000-stats.bin": {
+      "bytes": 48,
+      "sha256": "3924fbc6cb2854aa4479c85b4a3271bc78a3fb0e2673dbdb00cb42107600c923"
+    },
+    "coldboot-after-20261023-01\\0001-cache.bin": {
+      "bytes": 12,
+      "sha256": "2b7f282ef551aeb430afb7ce3fc0a742b7fa1bc4e38214837d706c40f01fbd7c"
+    },
+    "coldboot-after-20261023-01\\0001-diag.bin": {
+      "bytes": 120,
+      "sha256": "90859f1e0ed28d39f75011f8d8fc0fcb858811b9ae8f63e92476e07d19751360"
+    },
+    "coldboot-after-20261023-01\\0001-stats.bin": {
+      "bytes": 48,
+      "sha256": "951fc680d9abc96f45afc61f5a23398df32ad9845d7bac59d01b7e33d855bb21"
+    },
+    "coldboot-after-20261023-01\\0002-cache.bin": {
+      "bytes": 12,
+      "sha256": "2b7f282ef551aeb430afb7ce3fc0a742b7fa1bc4e38214837d706c40f01fbd7c"
+    },
+    "coldboot-after-20261023-01\\0002-diag.bin": {
+      "bytes": 120,
+      "sha256": "7b1c91c947caa27419809df62244bfe2e0ca696df3f0d2f8629a912ae312f49c"
+    },
+    "coldboot-after-20261023-01\\0002-stats.bin": {
+      "bytes": 48,
+      "sha256": "58e1f9e71b67e08e6a7923c8530cfa8af262b7edd278b70e3a162b4b8cb90362"
+    },
+    "coldboot-after-20261023-01\\0003-cache.bin": {
+      "bytes": 12,
+      "sha256": "2b7f282ef551aeb430afb7ce3fc0a742b7fa1bc4e38214837d706c40f01fbd7c"
+    },
+    "coldboot-after-20261023-01\\0003-diag.bin": {
+      "bytes": 120,
+      "sha256": "fb837baf065d7aee131c93334be242a225183f21f907822586bd845adbce36e7"
+    },
+    "coldboot-after-20261023-01\\0003-stats.bin": {
+      "bytes": 48,
+      "sha256": "0e4923b52548b16bbb849326ea2f003452119384cd4655340dae408498651af3"
+    },
+    "coldboot-after-20261023-01\\0004-cache.bin": {
+      "bytes": 12,
+      "sha256": "2b7f282ef551aeb430afb7ce3fc0a742b7fa1bc4e38214837d706c40f01fbd7c"
+    },
+    "coldboot-after-20261023-01\\0004-diag.bin": {
+      "bytes": 120,
+      "sha256": "518618632a74d43f73ed2beec329d72ef8dfb6223e94904006c6e0c7cd096070"
+    },
+    "coldboot-after-20261023-01\\0004-stats.bin": {
+      "bytes": 48,
+      "sha256": "829e14cc5d9983c85c146658c461bb05e18e5675af5cc803131580222d23e938"
+    },
+    "coldboot-after-20261023-01\\0005-cache.bin": {
+      "bytes": 12,
+      "sha256": "2b7f282ef551aeb430afb7ce3fc0a742b7fa1bc4e38214837d706c40f01fbd7c"
+    },
+    "coldboot-after-20261023-01\\0005-diag.bin": {
+      "bytes": 120,
+      "sha256": "8e319a3a37b8d9ecf8fc784b837fc8e730ceabbe76dbdeafcf45190497beafa1"
+    },
+    "coldboot-after-20261023-01\\0005-stats.bin": {
+      "bytes": 48,
+      "sha256": "bce45e4bb54f24bfc8357d475a2c7ab8a0c581526eb2286ae2691a17a5c467b3"
+    },
+    "coldboot-after-20261023-01\\0006-cache.bin": {
+      "bytes": 12,
+      "sha256": "2b7f282ef551aeb430afb7ce3fc0a742b7fa1bc4e38214837d706c40f01fbd7c"
+    },
+    "coldboot-after-20261023-01\\0006-diag.bin": {
+      "bytes": 120,
+      "sha256": "b2aa9f32cf024ebf603c21d175df30f952c37d9aed2cd7b3b832d292e001b368"
+    },
+    "coldboot-after-20261023-01\\0006-stats.bin": {
+      "bytes": 48,
+      "sha256": "b7190ced2c87dc1b0a61a960a682ef775a8ef5d7374978579a95df16bf0c1b6e"
+    },
+    "coldboot-after-20261023-01\\heartbeat-events.jsonl": {
+      "bytes": 18122,
+      "sha256": "ecb2e87b5b5737bd3d1fd6802795d33dba82f1b19eaf3884d294514424cbde93"
+    },
+    "coldboot-after-20261023-01\\identity-private.json": {
+      "bytes": 156,
+      "sha256": "6807dc3c928c11b5ba3d2185286f2a7e18bc526485d7ac84edace59728dc0323"
+    },
+    "coldboot-after-20261023-01\\io-private.jsonl": {
+      "bytes": 6622,
+      "sha256": "28ad102aea4e72c04fc56ea788a3d8f4148c61a9446fe054d47b51d3c4d62d08"
+    },
+    "coldboot-after-20261023-01\\probe-status-private.json": {
+      "bytes": 25,
+      "sha256": "fecdafeae802ada818477c71d4f7213c1c9e717ac6355a4540ea1095cb513491"
+    },
+    "coldboot-after-20261023-01\\READY.json": {
+      "bytes": 56,
+      "sha256": "8585e813107b5ab34009685009469763292ef4df1c268b6a5c2e141c67d67b91"
+    },
+    "coldboot-after-20261023-01\\receipt-private.json": {
+      "bytes": 4023,
+      "sha256": "71e2a47dd5aa2443b703d83f9aa68d591d14bef611253a23e81778ed67dc8c67"
+    },
+    "coldboot-after-20261023-01\\samples-private.jsonl": {
+      "bytes": 9046,
+      "sha256": "1fbe5bede2b0431a4cad42c2fa28e4f9db5fd319af7615270bb98b3127c1d329"
+    },
+    "coldboot-after-20261023-01\\sdk-private.log": {
+      "bytes": 1025,
+      "sha256": "763a5283a063725a72d896a8c4a498fcfd468dafec6aaf25025134966cac2376"
+    },
+    "coldboot-after-20261023-01\\supervisor-private.json": {
+      "bytes": 80,
+      "sha256": "d261c5fb6df0bca2f71d15a724e3f11faf567ad1e5b20d155b57fda0545c3a21"
+    },
+    "coldboot-after-20261023-01\\executed-tools\\live_state_b.py": {
+      "bytes": 10282,
+      "sha256": "bdf04c16f74e93028a55a7db244f0a2b6f683dfb987e61d41470f2bf3debde6c"
+    },
+    "coldboot-after-20261023-01\\executed-tools\\precan_last_round_b.py": {
+      "bytes": 15373,
+      "sha256": "1e24dc4c608f2611640d4c6cfcf4c67a4cd8711180ab266c0d1082aebb000c62"
+    },
+    "coldboot-after-20261023-01\\executed-tools\\readback_b.py": {
+      "bytes": 12641,
+      "sha256": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116"
+    },
+    "coldboot-after-20261023-01\\executed-tools\\resp_exploratory.py": {
+      "bytes": 10536,
+      "sha256": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77"
+    },
+    "coldboot-after-20261023-01\\executed-tools\\runtime_state_b.py": {
+      "bytes": 15085,
+      "sha256": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46"
+    },
+    "coldboot-after-20261023-01-worker.log": {
+      "bytes": 96,
+      "sha256": "7bb302911f6c83bc27e60a3418ea1e4a00d71fa38bf128169e308d0854e502af"
+    }
+  }
+}
