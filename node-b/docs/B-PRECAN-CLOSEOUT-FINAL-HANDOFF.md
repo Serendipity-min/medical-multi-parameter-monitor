@@ -1,6 +1,36 @@
 # Node-B 当前阶段唯一交接报告｜B4-0.3
 
-2026-10-23，MPM-B-PREC-001状态冻结及MPM-B4-001软件集成准备；随后按负责人追加授权完成一次独立冷启动及前后只读核验。**软件构建与离线验证通过；当前25488B修正版一次独立冷启动通过；真实B+C CAN准入仍BLOCKED。** 本报告是唯一阶段交接入口，不把软件测试写成实物验收，不自动进入联动。
+2026-10-23，MPM-B-PREC-001状态冻结及MPM-B4-001软件/隔离实板准备。**最新状态：B39948B候选已安装→恢复原件→重新安装，均整片核验通过；C曾观察ROM/HALT；完整原件未变，随后按追加授权一次正常复位＋有条件Go，原H3已恢复Flash运行。C根因仍UNRESOLVED，未烧录C候选、未开始180秒CAN窗口，联动准入仍BLOCKED。** 下列历史软件/冷启动章节保留原时点，当前状态以本节和“本轮G4实际结果”为准，不把软件测试写成实物验收。
+
+## 本轮G4实际结果（最新）
+
+| 项目 | 实际结论 | 边界 |
+|---|---|---|
+| B候选安装与恢复 | **B_INSTALL_RESTORE_REINSTALL_FULL_VERIFY_PASS** | B候选39948B/SHA676eb7…，sector0/1/2；三次操作均完整1MiB、options、扇区外原尾部核验及Flash启动通过。恢复时整片SHA为原d2ea7c…，再安装后a1abed…；不是CAN或生理验收 |
+| B采样短窗 | **B_ADC_SHORT_WINDOW_OBSERVED_PASS** | SKX开机后约249.933 SPS，935点推进，新增削顶0、ADC错误不增长；仅短窗，不能替代完整CAN共同评价 |
+| C启动核验 | **C_ORIGINAL_FLASH_BOOT_AFTER_ONE_NORMAL_RESET_PASS** | 当前已恢复原H3，末次4组PCSR在Flash、VTOR=0x08000000、CFSR/HFSR=0。下列为此前异常原件： 同一C身份/保护寄存器与备份包相符；首次PCSR三个样本均在ROM，VTOR=0x1FFF0000；负责人要求复核一次后PCSR=0x1FFF36C8/36B2/369E，VTOR仍相同。复核DHCSR=0x01010001、CFSR/HFSR=0、MEMRMP=0、RCC_CSR=0x0E000000。未读取复位瞬间BOOT锁存，不确定进入机制 |
+| C候选/恢复 | **NOT_EXECUTED_ROM_ENTRY_BLOCKED** | 当前备选为23744B/SHA73d113…，仅软件冻结；首次及复核各44次SDK调用、reset/halt/go/write均0且未开始下载。随后按负责人排查要求保留原暂停态，仅只读核心/1MiB Flash/options/ROM，223次SDK调用、状态控制/写入0，整片1c7ea8…和options均与原件完全相同；C恢复演练未执行 |
+| CAN真实收发/恢复 | **NOT_TESTED** | 物理接线与60.8Ω为负责人已报告事实；没有C候选、NMT/TIME或完整实测窗，不能签发收发PASS。未进行故障注入 |
+| 同窗HR/RR | **NOT_VALIDATED** | SKX曾关机，B曾观察CH1正满量程、CLIPPED及HR/RR无效；之后负责人开机并报告默认普通ECG60，短窗削顶停止。未冻结当前幅度真值，也未取得共同稳态窗，不归因于算法阈值 |
+| 历史ROM根因 | **CPU_ROM_ROOT_CAUSE_UNRESOLVED** | B历史ROM与本轮C当前ROM分别记录；本轮B工具退出造成的Flash HALT另列，不把它当作历史ROM已归因 |
+
+本轮B运行监测器有一次新增退出路径缺陷：信号质量判断在启用健康Flash退出续跑之前失败，后一次读取实际观察HALT。已如实停止并保留失败原件；负责人单独批准有条件一次Go，执行前完整Flash/options/身份及实际暂停PC=0x08003AD0、MSP=0x20004C08均通过，实际Go1、reset/halt/download0，恢复后ADC推进。修正为健康CPU先锁定退出续跑，再解析RAM/质量；故障CPU仍停止。初始化错误拒绝入场，ADC累计错误保留原值，评价窗检查新增错误，不清零；此前bad_status=1不冒充本窗新增错误。14项运行判据及7项一次Go测试包含相关负例。
+
+现场最新事实：B CAN1↔C CAN2，B P6 CAN_RX/PA11及CAN_TX/PA12，C P4分别CAN2_RX/PB12及CAN2_TX/PB13；B/C独立GND已连、断电测H–L为60.8Ω、A段断开、ESP已隔离、无外接INMP441/TTS。B为J5供电，C为USB_UART供电；没有虚记成C J5。板图第3页可追溯USB到板5V及收发器供电设计，但未新增实测电源电压。最后J-Link在C；C最后4组读取在原H3 Flash运行，正常关闭启用续跑；不追加复位/Go或重新刷写。
+
+C新23744B候选SHA256 `73d1138f248188593f1be16e628b171a539e00867f324bcef36cdbe34310c0b6`。新增USART1/CH340 230400/8N1原始CAN及实际网关模型记录，32B固定帧带CRC/递增序号；256槽有界队列，满时显式丢弃计数。唯一接收命令B4START，每启动最多一次；等待最多5分钟，启动后180秒停协议窗口，不自动复位/重新武装。主机仅在C安装整片回执及B本轮新鲜READY均通过后发一次固定START；端口打开前DTR/RTS已禁用，不操作USB下载。500秒主机事务上限与180秒CAN窗区分记录；尚未在C执行该固件/串口采集。
+
+121项B4/C Python测试（95项B4、18项C只读、8项C启动）、13阶段B4 Host回归、4阶段台架Host回归及C ARM构建通过；预期编译/参数负例分别保留真实退出1/2。C取证编码器在固定230400带宽模型下3260帧、CRC错误0、丢弃0；满环负例257帧且显式序号缺口1。180秒合成输入穿过真实CANopen/网关/Router及取证编码器，58315条记录、585次模型值/末点时间校验通过，评价窗ECG22500/RESP4500。均为离线结果，不能代替实板。新增取证后非取证网络目标曾因可选变量未使用退出1，修正同一控制器指针使用后，台架/网络ARM均通过；台架BIN SHA保持73d113…，网络链接回归38644B/SHA3e689a…只作软件产物，禁止用作本台架候选。新C原件恢复包sector0/1，清单SHA e32fdf3e…；旧21700B及所有失败轮次保留。BIO源/阈值、ADS寄存器和B已冻结BIN均未为此改变。
+
+**负责人要求的C ROM归因排查：** 追加只读取证中真实暂停PC=0x1FFF36C0、MSP=0x20001D50。C系统ROM SHA ca1ae7…与此前B实际ROM逐字节相同；对照相同ROM反汇编，这是GPIO输入/下载接口检测循环，USART1/3的CR1及BRR均0，不是当前应用算法或Fault处理。实际Flash完整且与原件相同，不支持“固件被擦坏/本轮C候选导致”解释。H3参考目标C/H源码中未发现主动ROM跳转或SYSRESETREQ调用路径，仅有VTOR设回Flash；不能因此排除所有间接软件或硬件机制。
+
+负责人确认C BOOT0/B1跳帽均接地，但曾插拔USB并见Windows识别警告。主机一度无COM15，随后负责人说明USB尚未接回；接回后CH340/COM15正常枚举，所以不把端口缺失当作硬件损坏或ROM根因。接回后只读仍为ROM向量及HALT，没有自动Go/复位。静态BOOT1输入为0，不是复位瞬间锁存；SYSCFG时钟在本轮快照未开启，MEMRMP读数0不能据以证明实际启动映射。
+
+板图第2/3页显示BOOT0跳帽经R55=10kΩ接实际BOOT0，CH340自动下载电路Q3经R44=1kΩ也驱动该点，DTR/RTS同时参与RESET/BOOT路径。故跳帽接地不绝对排除USB电路驱动BOOT0；“USB/启动锁存”是待检验的主要假设，实际BOOT0后经负责人测得0V，排除当前持续被拉高，但未捕获复位边沿，不签根因PASS。[ST AN2606第34节](https://www.st.com/resource/en/application_note/an2606-stm32-microcontroller-system-memory-boot-mode-stmicroelectronics.pdf)支持F407系统ROM的启动条件与接口检测流程，不证明本台架的实际触发瞬间。已修正外部ai_serial_console的串口构造顺序为打开前固定DTR/RTS，纯替身验证通过、旧文件EFS留存；没有重载现有MCP进程或操作真实串口，这不是C实板修复验收。窗口中显式reset=0也不能当作硬件绝无复位的证明。
+
+**C一次正常复位的实际回执：** 负责人单独允许一次正常器件复位、仅原向量匹配后Go≤1、零烧录。第一次连接44次SDK调用发现初态已变Flash，实际reset/go仍0，保留初态变化并未用其宣称捕获原因。按同一总动作预算核验当前原件并完成一次正常Reset、一次Go，第二次250次SDK调用。复位后真实PC=0x080080C8、MSP=0x20020000与原Flash向量一致，4组后采样均Flash、Fault0，RCC_CSR=0x1E000000。SDK正常复位出现软件复位标志，不宣称实测了NRST脉冲或BOOT锁存。原固件完整SHA1c7ea8…在动作前重新核验，Flash/options/PC-MSP-VTOR强制写均0，未安装C候选。结论只为当前原固件可恢复启动；USB/调试器/BOOT瞬态触发未捕获，CPU_ROM_ROOT_CAUSE_UNRESOLVED不变。源码更新同时确保健康Flash初态在后续解析失败时也启用退出续跑，计划复位前取消旧健康标记，失败不得隐式Go；相关8项负例/预算测试通过。
+
+实际动作、负例、工具/源码及原件索引见[本轮G4证据](../evidence/B4-G4-001/stage-results.json)及[安装/恢复/复核回执](../evidence/B4-G4-001/B-install-recovery-runtime.json)。含UID/配置/Flash/BIN/原生SDK日志的文件仅受限EFS，不提交GitHub；所有下文“未烧录/旧候选”描述仅保留对应历史阶段。B当前部署见[唯一部署索引](../deployment/current.json)。下一步需PI裁定C残余启动风险及是否继续候选安装/恢复和隔离CAN窗口；本次仅完成原固件启动验证，不自动联动。故障恢复和同窗有效性仍需后续补证，不改阈值、不进入正式云环境。
 
 实验分支 `codex/node-b4-dualbus-software-20261023`，独立工作区 `E:/medical-monitor-node-b4-software`。开工时远端B基线已核验为 `codex/node-b-precan-closeout-20261023@9988d37cd5470d6857bb535aab1d821cf2581302`；H3参考固定为 `a5cdd5b0b1ad48108fd631136e9de69e30582f2d`。仅此新分支提交推送；B/B2/H3/P4/main/P6/语音/历史实测分支与标签不修改，无PR、合并或Security Gate。
 
@@ -16,16 +46,16 @@ J-Link退出时遗留Flash HALT导致画面冻结，与历史进入ROM是两个�
 
 [本次冷启动前后回执摘要](../evidence/B4-001/independent-coldboot-20261023.json)保留真实退出码、工具SHA、加密原件逐文件SHA及负责人观察。后核验运行时间34023→37174ms、BIO计数8164→8951；VTOR=0x08000000，运行PC采样均在Flash，CFSR/HFSR=0，ADC初始化/SPI/队列溢出/长间隔错误均0。RCC_CSR由0x1e000000变为0x0e000000，含BOR/PAD/POR、软件复位标志清除，佐证重新启动；不是BOOT锁存或电源波形测量。两次软件会话各连接/关闭一次，显式reset/halt/go及Flash写入均0，正常关闭续跑。负责人未给出独立观察的精确秒数，回读在启动34–37秒，不能宣称已测满原拟45秒。启动快照HR/RR均暂未有效，不作为双通道评价。先前开关对照未重启的反证保留在原冻结回执，不覆盖。
 
-## 当前部署与恢复原件
+## 原独立验收恢复点（25488B，当前B4部署另见顶部）
 
-当前已验收修正版源码基线是 `9988d37`，**部署冻结对象是25488B，BIN SHA256 `b8e74577dae7a5a1f6caa27687193f5128f89bd70781f06a1d80b0c74d409b44`**。旧25284B仅留作历史证据，永久退出新硬件部署候选身份。
+CAN安装前已独立验收的修正版源码基线是 `9988d37`，**恢复冻结对象是25488B，BIN SHA256 `b8e74577dae7a5a1f6caa27687193f5128f89bd70781f06a1d80b0c74d409b44`**。旧25284B仅留作历史证据，永久退出新硬件部署候选身份。
 
 - 最新修正版完整Flash：1048576B，SHA256 `d2ea7cbf7081b20f82a4a6ca6dde4918b9c4d4b194a3c6c358c2d74012993316`，前25488B与修正版BIN逐字节相同。
 - options原件：16B，SHA256 `52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687`。软件阶段未访问设备；追加冷启动前后只读核验已确认当前BIN及options一致，没有写入。
 - BIO_V2源 SHA256 `3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7`；全部冻结固件文件逐个核验，算法和阈值不变。
 - 历史f713…整片、失败原件、旧工具SHA、ECG/RR实测数据和历史标签全部保留。
 
-[部署入口](../deployment/current.json)区分当前25488B、整片恢复与B4仅软件候选；`hardware_deployment_authorized=false`。[冻结清单](../evidence/B4-001/deployment-freeze.json)包含完整源码文件SHA、AXF/符号/实板回执SHA。L1 BIN/AXF、L2完整Flash/options及本轮软件BIN/ELF/原始构建失败均在受限ACL、NTFS EFS加密目录；本轮又建立并逐字节校验了恢复副本。具体归档位置、加密核验和ZIP SHA见[阶段结果](../evidence/B4-001/stage-results.json)。Git不提交固件、设备身份、私有原码或私有配置。
+[部署入口](../deployment/current.json)现区分当前39948B隔离B4部署、25488B原恢复点及未安装C候选；原软件阶段的`hardware_deployment_authorized=false`只属于以下历史冻结清单。[冻结清单](../evidence/B4-001/deployment-freeze.json)包含完整源码文件SHA、AXF/符号/实板回执SHA。L1 BIN/AXF、L2完整Flash/options及本轮软件BIN/ELF/原始构建失败均在受限ACL、NTFS EFS加密目录；本轮又建立并逐字节校验了恢复副本。具体归档位置、加密核验和ZIP SHA见[阶段结果](../evidence/B4-001/stage-results.json)。Git不提交固件、设备身份、私有原码或私有配置。
 
 ## 既有工程结论与本轮离线发现
 

@@ -36,7 +36,9 @@ def main():
     if args.bench:
         # 白名单独立入口；不导入H3传输源/配置头，也不构建网络或麦克风驱动。
         sources = [p for p in sources if p.name != 'arm_link.c']
-        sources += [HERE / 'bench_main.c', HERE / 'b4_bench.c']
+        sources += [HERE / 'bench_main.c', HERE / 'b4_bench.c', HERE / 'b4_capture.c', HERE / 'b4_capture_uart.c',
+                    base.LIBRARY / 'Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_usart.c']
+        flags += ['-DB4_CAPTURE_SERIAL=1']
     if args.network_link:
         # 按提交逐字节取出源码到构建目录，不修改H3工作区、云端或私有配置。
         ref = 'a5cdd5b0b1ad48108fd631136e9de69e30582f2d'
@@ -89,7 +91,7 @@ def main():
             symbols = run([nm, elf])
             (out / 'symbols.txt').write_bytes(symbols)
             forbidden = ('gateway_network_open', 'gateway_mqtt_open', 'gateway_config_valid',
-                         'h3_config_record_valid', 'USART_Init', 'FLASH_EraseSector', 'FLASH_ProgramWord')
+                         'h3_config_record_valid', 'FLASH_EraseSector', 'FLASH_ProgramWord')
             if any(name.encode() in symbols for name in forbidden):
                 raise RuntimeError('台架ELF包含禁止的网络/配置/写入符号')
             if 'gateway/mqtt/src' in '\n'.join(str(p.relative_to(ROOT)) for p in sources if p.is_relative_to(ROOT)):

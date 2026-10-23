@@ -1,0 +1,275 @@
+{
+  "B-install-01": {
+    "status": "B4_INSTALL_FULL_VERIFY_AND_FLASH_BOOT_PASS",
+    "exit_code": 0,
+    "phase": "install",
+    "board": "B",
+    "sectors": [
+      0,
+      1,
+      2
+    ],
+    "full_flash_sha256": "a1abed50a4c4dbab142a2319d61c047bc43b6816dd62754a080e3f7e12415091",
+    "options_unchanged": true,
+    "outside_affected_sectors_unchanged": true,
+    "reset_requests": 1,
+    "CAN_or_physiology_acceptance": false,
+    "sdk_calls": 257,
+    "actions": {
+      "JLINKARM_Halt": 1,
+      "JLINKARM_BeginDownload": 1,
+      "JLINKARM_WriteMem": 1,
+      "JLINKARM_EndDownload": 1,
+      "JLINKARM_Reset": 1,
+      "JLINKARM_Go": 1
+    },
+    "download_started": true,
+    "close_resume": true,
+    "private_receipt_sha256": "f93b355da172474a2d51a638ab925a17780e4727a0f1daba037798167d22571c"
+  },
+  "B-restore-01": {
+    "status": "B4_RESTORE_FULL_VERIFY_AND_FLASH_BOOT_PASS",
+    "exit_code": 0,
+    "phase": "restore",
+    "board": "B",
+    "sectors": [
+      0,
+      1,
+      2
+    ],
+    "full_flash_sha256": "d2ea7cbf7081b20f82a4a6ca6dde4918b9c4d4b194a3c6c358c2d74012993316",
+    "options_unchanged": true,
+    "outside_affected_sectors_unchanged": true,
+    "reset_requests": 1,
+    "CAN_or_physiology_acceptance": false,
+    "sdk_calls": 257,
+    "actions": {
+      "JLINKARM_Halt": 1,
+      "JLINKARM_BeginDownload": 1,
+      "JLINKARM_WriteMem": 1,
+      "JLINKARM_EndDownload": 1,
+      "JLINKARM_Reset": 1,
+      "JLINKARM_Go": 1
+    },
+    "download_started": true,
+    "close_resume": true,
+    "private_receipt_sha256": "64e02cc30f7061dede1809ad59f26ca03ad439134645e235271b97119280ffb8"
+  },
+  "B-install-02": {
+    "status": "B4_INSTALL_FULL_VERIFY_AND_FLASH_BOOT_PASS",
+    "exit_code": 0,
+    "phase": "install",
+    "board": "B",
+    "sectors": [
+      0,
+      1,
+      2
+    ],
+    "full_flash_sha256": "a1abed50a4c4dbab142a2319d61c047bc43b6816dd62754a080e3f7e12415091",
+    "options_unchanged": true,
+    "outside_affected_sectors_unchanged": true,
+    "reset_requests": 1,
+    "CAN_or_physiology_acceptance": false,
+    "sdk_calls": 257,
+    "actions": {
+      "JLINKARM_Halt": 1,
+      "JLINKARM_BeginDownload": 1,
+      "JLINKARM_WriteMem": 1,
+      "JLINKARM_EndDownload": 1,
+      "JLINKARM_Reset": 1,
+      "JLINKARM_Go": 1
+    },
+    "download_started": true,
+    "close_resume": true,
+    "private_receipt_sha256": "f93b355da172474a2d51a638ab925a17780e4727a0f1daba037798167d22571c"
+  },
+  "B-runtime-03s": {
+    "status": "STOP",
+    "exit_code": 1,
+    "sdk_calls": 67,
+    "close_resume": false,
+    "failure_reason": "B4_RUNTIME_NEW_CLIPPED_SAMPLES",
+    "private_receipt_sha256": "39c539ddb6bd8a235d4ecf127c571e50bce5ed4fdfaf91b8cb9627a759c01359"
+  },
+  "B-runtime-corrected-03s": {
+    "status": "STOP",
+    "exit_code": 1,
+    "sdk_calls": 45,
+    "close_resume": false,
+    "failure_reason": "C_RO_HALTED_LOCKUP_OR_NEW_RESET",
+    "private_receipt_sha256": "7e791c0a484099a9336b7581dfc933445727a101b2c81aa1d7f3832ee231ff1c"
+  },
+  "B-one-go-01": {
+    "status": "B4_B_ONE_GO_FLASH_AND_ADC_ADVANCE_PASS",
+    "exit_code": 0,
+    "sdk_calls": 201,
+    "close_resume": true,
+    "go_attempts": 1,
+    "explicit_go": 1,
+    "reset_halt_download_writes": 0,
+    "historical_ROM_root_cause": "UNRESOLVED",
+    "private_receipt_sha256": "eccfeec221995d28287ef0de89512c03c2d89baf6009998f7f09e406ac1b9e67"
+  },
+  "B-runtime-post-go-03s": {
+    "status": "STOP",
+    "exit_code": 1,
+    "sdk_calls": 51,
+    "close_resume": true,
+    "failure_reason": "B4_RUNTIME_ADC_ERRORS",
+    "private_receipt_sha256": "fb0f9cdbf0b75e4c0d0149456229c46397916f61949bd4d761a948a07981fd23"
+  },
+  "B-runtime-source-on-03s": {
+    "status": "B4_B_ADC_RUNTIME_OBSERVED_PASS",
+    "exit_code": 0,
+    "sdk_calls": 171,
+    "close_resume": true,
+    "device_sps": 249.93317294840952,
+    "samples_advanced": 935,
+    "clipped_samples_advanced": 0,
+    "explicit_target_reset_halt_go_writes": 0,
+    "private_receipt_sha256": "0ddb5deca0a6cfbe662456bc51259db7cafe28baea63423c31366ea68d16f038"
+  },
+  "C-install-01": {
+    "status": "STOP",
+    "exit_code": 1,
+    "sdk_calls": 44,
+    "actions": {},
+    "download_started": false,
+    "close_resume": false,
+    "failure_reason": "C_RO_ROM_STOP",
+    "entry": {
+      "DHCSR": "0x1010001",
+      "VTOR": "0x1fff0000",
+      "pc_samples": [
+        "0x1fff36bc",
+        "0x1fff369a",
+        "0x1fff36b2"
+      ],
+      "CFSR": "0x0",
+      "HFSR": "0x0",
+      "RCC_CSR": "0xe000000",
+      "SYSCFG_MEMRMP": "0x0"
+    },
+    "private_receipt_sha256": "555dddbe2e847614df48770c46514493a600b76df92a8cb66b244cd9ddc4e367"
+  },
+  "C-state-recheck-01": {
+    "status": "STOP",
+    "exit_code": 1,
+    "sdk_calls": 44,
+    "close_resume": false,
+    "explicit_reset_halt_go_writes": 0,
+    "failure_reason": "C_RO_ROM_STOP",
+    "entry": {
+      "DHCSR": "0x1010001",
+      "VTOR": "0x1fff0000",
+      "pc_samples": [
+        "0x1fff36c8",
+        "0x1fff36b2",
+        "0x1fff369e"
+      ],
+      "CFSR": "0x0",
+      "HFSR": "0x0",
+      "RCC_CSR": "0xe000000",
+      "SYSCFG_MEMRMP": "0x0"
+    },
+    "private_receipt_sha256": "89d83f4dee948057081fcd8d2e7a68b9b6f74fd1d93ae09868f99d76d94d70ca"
+  },
+  "C-ROM-diagnostic-01": {
+    "status": "STOP",
+    "exit_code": 1,
+    "sdk_calls": 44,
+    "close_resume": false,
+    "explicit_reset_halt_go_writes": 0,
+    "root_cause": "UNRESOLVED",
+    "failure_reason": "C_DIAG_HALT_LOCKUP_OR_NEW_RESET",
+    "entry": {
+      "DHCSR": "0x30003",
+      "VTOR": "0x1fff0000",
+      "pc_samples": [
+        "0xffffffff",
+        "0xffffffff",
+        "0xffffffff"
+      ],
+      "CFSR": "0x0",
+      "HFSR": "0x0",
+      "RCC_CSR": "0xe000000",
+      "SYSCFG_MEMRMP": "0x0"
+    },
+    "private_receipt_sha256": "60538cce2023098f0444218a3e7bb2a94b03eb6be20aeee733b53ce7c2704230"
+  },
+  "C-ROM-preserved-read-01": {
+    "status": "C_PRESERVED_ROM_READONLY_EVIDENCE_CAPTURED",
+    "exit_code": 0,
+    "full_sha256": "1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390",
+    "full_equals_original": true,
+    "options_equal_original": true,
+    "ROM_sha256": "ca1ae7213d01ce43f1f30d4e2751e2aec68cef16f7be62f856210104f583fc02",
+    "BOOT_latch_captured": false,
+    "sdk_calls": 223,
+    "close_resume": false,
+    "explicit_reset_halt_go_writes": 0,
+    "root_cause": "UNRESOLVED",
+    "entry": {
+      "DHCSR": "0x30003",
+      "VTOR": "0x1fff0000",
+      "pc_samples": [
+        "0xffffffff",
+        "0xffffffff",
+        "0xffffffff"
+      ],
+      "CFSR": "0x0",
+      "HFSR": "0x0",
+      "RCC_CSR": "0xe000000",
+      "SYSCFG_MEMRMP": "0x0"
+    },
+    "private_receipt_sha256": "ee13c972493dc53a38eb825e565d62758da79fafc0ca556af96035e50c6b56c3"
+  },
+  "C-USB-return-state-01": {
+    "status": "STOP",
+    "exit_code": 1,
+    "sdk_calls": 44,
+    "close_resume": false,
+    "explicit_reset_halt_go_writes": 0,
+    "failure_reason": "C_RO_HALTED_LOCKUP_OR_NEW_RESET",
+    "entry": {
+      "DHCSR": "0x30003",
+      "VTOR": "0x1fff0000",
+      "pc_samples": [
+        "0xffffffff",
+        "0xffffffff",
+        "0xffffffff"
+      ],
+      "CFSR": "0x0",
+      "HFSR": "0x0",
+      "RCC_CSR": "0xe000000",
+      "SYSCFG_MEMRMP": "0x0"
+    },
+    "private_receipt_sha256": "89d83f4dee948057081fcd8d2e7a68b9b6f74fd1d93ae09868f99d76d94d70ca"
+  },
+  "C-one-normal-reset-01": {
+    "status": "STOP",
+    "exit_code": 1,
+    "root_cause": "UNRESOLVED",
+    "actions": {},
+    "sdk_calls": 44,
+    "close_resume": false,
+    "failure_reason": "C_BOOT_INITIAL_STATE_CHANGED_NO_RESET",
+    "private_receipt_sha256": "83fc57fca1c85884f8e85e4b1bd45ba322613495ea0205bb3fca6a248aec1f4b"
+  },
+  "C-one-normal-reset-02": {
+    "status": "C_ORIGINAL_FLASH_BOOT_AFTER_ONE_NORMAL_RESET_PASS",
+    "exit_code": 0,
+    "root_cause": "UNRESOLVED",
+    "original_full_sha256": "1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390",
+    "ROM_root_cause_closed": false,
+    "flash_options_or_core_register_writes": 0,
+    "C_candidate_installed": false,
+    "actions": {
+      "JLINKARM_Reset": 1,
+      "JLINKARM_Go": 1
+    },
+    "sdk_calls": 250,
+    "close_resume": true,
+    "private_receipt_sha256": "8bc6efcbd23d57dc794e0e0a47fb50aff6285451a7a210a1e56c76e8ba5569a3"
+  }
+}

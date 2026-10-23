@@ -1,6 +1,24 @@
-/* 台架服务只依赖CAN/数据模型，故意不包含网络、持久配置、串口或Flash驱动。 */
+/* 台架服务只依赖CAN/数据模型；取证旁路可选，不包含网络、持久配置或Flash驱动。 */
 #include "b4_bench.h"
 #include <string.h>
+#if defined(B4_CAPTURE_SERIAL)
+#include "b4_capture.h"
+static void record_model(const MpFrame *f,uint32_t tick) {
+    uint32_t hash=2166136261u;
+    for (unsigned i=0;i<f->count;i++) {
+        uint32_t v=(uint32_t)f->values[i];
+        for (unsigned j=0;j<4;j++) { hash^=(v>>(8*j))&255u; hash*=16777619u; }
+    }
+    uint32_t last=f->count?(uint32_t)f->values[f->count-1]:0;
+    uint8_t data[8];
+    for (unsigned i=0;i<4;i++) { data[i]=(uint8_t)(last>>(8*i)); data[i+4]=(uint8_t)(hash>>(8*i)); }
+    uint32_t flags=f->node | ((uint32_t)f->valid<<8) | ((uint32_t)f->synthetic<<9)
+                   | ((uint32_t)f->replay<<10) | ((uint32_t)f->count<<16);
+    b4_capture_emit(B4_CAP_MODEL,1,f->stream,8,data,tick,flags);
+    for (unsigned i=0;i<8;i++) data[i]=(uint8_t)(f->timestamp>>(8*i));
+    b4_capture_emit(B4_CAP_MODEL_TIME,1,f->stream,8,data,tick,f->seq);
+}
+#endif
 
 int b4_bench_init(B4Bench *b, uint32_t tick) {
     memset(b, 0, sizeof(*b));
@@ -45,6 +63,9 @@ void b4_bench_step(B4Bench *b, uint32_t tick) {
         b->diag.last_node = f.node; b->diag.last_stream = f.stream;
         b->diag.last_valid = f.valid; b->diag.last_count = f.count;
         b->diag.last_test_timestamp = f.timestamp;
+#if defined(B4_CAPTURE_SERIAL)
+        record_model(&f,tick);
+#endif
         mp_router_ack(&b->gateway.router, &f, true); /* 已收至本地RAM，绝不代表MQTT ACK。 */
     }
 }

@@ -1,0 +1,36 @@
+{
+  "owner_report": {
+    "SKX_was_off_then_on": "ordinary ECG60, other defaults not frozen",
+    "C_BOOT0_BOOT1_jumpers": "both grounded",
+    "C_USB": "unplugged/replugged, Windows warning reported; absent COM15 later explained by USB not reconnected; now COM15 restored",
+    "C_BOOT0_actual_static_V": 0
+  },
+  "causal_limits": [
+    "Current BOOT1 GPIO low is not reset-time latch evidence",
+    "No reset/halt/go/write APIs in C calls; physical USB changes outside synchronized monitor",
+    "C original image/options identical; code erase not supported",
+    "SDK attach/close implicit effects not ruled out",
+    "Actual BOOT0 now0V excludes continuous-high now, not a historical reset-edge transient",
+    "C recovered Flash/options raw read matches whole original exactly; ROM/HALT current state retained"
+  ],
+  "C_pause_PC": "0x1fff36c0",
+  "ROM_function": "input interface detection/polling before USART1/3 activation",
+  "C_ROM_equal_previous_B_ROM": true,
+  "H3_source_reset_scan_scope": "functional audit of application entry/transport/physical-CAN C/H at a5cdd5b0; no security scan",
+  "H3_ROM_jump_or_SYSRESETREQ_path_found": false,
+  "MCP_fix": "offline only; before-open DTR/RTS; existing MCP processes not restarted, real-port operations0",
+  "C_one_normal_reset_probe": "PASS_CURRENT_ORIGINAL_FLASH_BOOT_ONLY_ROOT_CAUSE_UNRESOLVED",
+  "latest_C_state": "Original H3 running Flash, close-resume enabled",
+  "C_reset_transition": {
+    "initial_ROM_and_HALTs_preserved": true,
+    "before_first_reset_tool": "Already running original Flash; reset/go0; trigger not observed",
+    "actual_Reset": 1,
+    "actual_Go": 1,
+    "post_reset_PC": "0x080080C8",
+    "post_reset_MSP": "0x20020000",
+    "after_Go_observations": 4,
+    "VTOR": "0x08000000",
+    "faults": 0,
+    "RCC_CSR": "0x1E000000"
+  }
+}

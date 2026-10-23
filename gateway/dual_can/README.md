@@ -1,5 +1,13 @@
 # MPM-B4-001 软件目标 B4-0.1
 
+> G4最新：B候选已按追加授权安装/恢复/重装；C因ROM启动状态停止，未安装。以下原“仅软件/未接线”说明对应历史阶段。新取证台架候选23744B SHA73d1138f248188593f1be16e628b171a539e00867f324bcef36cdbe34310c0b6，不能与旧21700B混用恢复清单；实物结论只看唯一交接报告。
+
+新增取证模式使用C USART1 PA9/PA10→CH340、230400/8N1：32B包带CRC16及全记录序号，保存RX、入邮箱、真实TXOK/失败、ESR/溢出、BOOT/START/STOP及实际MpFrame值哈希/末点时间。256槽静态队列，不在ISR格式化、不忙等UART；覆盖/丢弃均计数。START仅完整固定行`B4START\n`、每启动一次，等待上限5分钟，之后协议窗固定180秒；停协议不等于关闭硬件ACK。Router ACK只表示本机消费者，绝非MQTT。
+
+主机`b4_serial_capture.py`默认关闭，先禁用DTR/RTS再打开COM15；C安装整片回执与B新鲜READY同时通过才发唯一START，不发下载同步、不复位。主机总事务500秒/CAN窗180秒分别限制；C记录与B150秒只读诊断共同覆盖45秒预热+90秒评价。诊断中留存历史累计错误，但ADC/CAN错误的窗内新增会失败；CLIPPED/生理INVALID单独裁定，不能通过清零或调阈值制造同步PASS。
+
+离线复现：`python -X utf8 -m unittest discover -s node-b/tests -p "test_b4_*.py" -v`、`python gateway/dual_can/build_arm.py --bench`及既有Host入口。`tests/capture.c`覆盖固定字节预算与满环缺序号；`tests/capture_integration.c`通过真实CANopen/网关/Router输出180秒合成记录，供纯文件解码器校验值/时间；这些均不是实板验收。
+
 独立分支 `codex/node-b4-dualbus-software-20261023`；B 基线 `9988d37cd5470d6857bb535aab1d821cf2581302`，H3 参考 `a5cdd5b0b1ad48108fd631136e9de69e30582f2d`。仅软件验证，所有 BIN 均不具备本轮烧录资格。
 
 | 独立总线 | 两端控制器 | 业务 Node-ID | 位率与终端 |
