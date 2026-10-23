@@ -65,3 +65,25 @@ python gateway/canopen/tools/check_canonical.py
 Keil ARMCC5、MinGW和ARM GCC/STM32 SPL来自既有本机安装；外部DSP按固定SHA核验。C完整网络目标只从冻结H3提交提取源码到构建目录，不包含任何真实凭据，不执行固件或建立连接。旧参考模型头按本目标100点ABI替换，并单列实际头文件SHA；冻结传输C源未修改。此目标没有声称已复现实板H3镜像或已验证配置区恢复，C烧录须先取得其备份与分区审查。
 
 全部实际结果、部署冻结和残余风险仅汇总于 [唯一阶段交接报告](../../node-b/docs/B-PRECAN-CLOSEOUT-FINAL-HANDOFF.md)。本目录不是现场操作授权。
+
+
+## B4-0.2 隔离C台架及恢复工具（软件准备完成，未部署）
+
+`python gateway/dual_can/build_arm.py --bench` 构建独立 `B4_GATEWAY_BENCH`：不链接ESP、MQTT、持久配置读取、Flash写入、INMP441或语音驱动；实际ELF符号及源白名单再次核验。`--bench`与`--network-link`互斥，后者仍只是旧完整网络链接回归，不能用于此次隔离台架。
+
+本地TIME以固定2020-01-01测试纪元加MCU单调时基生成，每10秒刷新；它**不是校准UTC**，不读取屏幕RTC，不上云。CANopen TIME帧本身不能表达这个来源，隔离边界靠本固件完全没有网络入口以及明确的RAM诊断 `test_time_only=1` 保证，不能把本台架记录导入正式LIVE数据。首次台架仅B段发NMT到Node2；A段协议发送关闭，CAN1共享时钟保留，底层仍初始化双CAN而未启用音频。外部ESP模块自身是否自动联网仍属于未来实物隔离核对，程序不初始化它不等于证明其供电后无线状态。
+
+软件窗口180秒，结束关闭两段协议发送和TIME资格，不复位。`g_b4_bench`保存启动/停窗状态及16条有界聚合记录，覆盖计数明确；它不是连续原始帧采集器，RAM快照也不能冒充原子同步采样。未来实测仍需独立采集B原码/诊断和CAN回执。内部Router的online/ack仅代表本地RAM消费者，绝非WiFi在线或MQTT ACK。
+
+台架链接脚本把应用限制在Flash前48KiB（sector0/1/2），不能覆盖0x0800C000后的配置区。当前构建21700B，仅软件候选；这不证明C现有配置位置或实际板状态。恢复工具依据真实候选长度选择扇区，不能因为链接允许48KiB就固定擦满48KiB。
+
+`python node-b/tools/run_b4_bench.py` 运行纯Host台架协议及合成NOR回归。B4恢复工具入口为 `python node-b/tools/b4_recovery.py --help`：
+
+- `prepare`核对两份完整1MiB Flash、两份16B options、前后身份与RDP/WRP；核对候选SHA、栈/Flash入口和48KiB上限，生成受影响扇区安装包、原始扇区回退包及期望完整镜像。
+- 新BIN末尾到擦除扇区末尾使用现场原件填充；sector3和之后逐字节保留。`verify --phase installed/restored`分别与期望完整镜像/备份整片比对，同时核对options、身份和包清单SHA；头部相同但配置区损坏仍失败。
+- 实际整片、身份、配置及包只允许既有受限EFS目录；输出独占创建、失败不覆盖。合成模式只允许build目录、显式假UID及镜像标记，绝不把真实原件当合成夹具公开。
+- **该工具只有文件输入输出，没有SDK连接/读取/下载入口。** 一致的双文件不自动证明独立实板双读；后续读回器、实际布局审查、有限现场操作与恢复演练仍需单独授权和补证。现在不生成真实C恢复包，不伪造其备份存在。
+
+B恢复目标始终是已验收25488B修正版及对应完整Flash；旧25284B只作历史。B CAN候选39948B跨32KiB，不能调用旧固定32KiB last-round下载工具；新工具的离线NOR模型验证了sector0/1/2和部分编程失败后的原件回退。
+
+资源资料详见[本轮来源及核对](../../node-b/evidence/B4-001/bench-r1/resource-audit.json)，构建/负例/加密归档见[台架阶段结果](../../node-b/evidence/B4-001/bench-r1/stage-results.json)。不修改H3、P4、P5/P6或语音分支，不改变BIO阈值。

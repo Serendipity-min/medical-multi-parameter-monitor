@@ -13,7 +13,9 @@ HERE = Path(__file__).resolve().parent
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--network-link', action='store_true', help='仅链接完整H3 MQTT传输，不运行固件/网络')
+    targets = parser.add_mutually_exclusive_group()
+    targets.add_argument('--network-link', action='store_true', help='仅链接完整H3 MQTT传输，不运行固件/网络')
+    targets.add_argument('--bench', action='store_true', help='独立禁联网台架及本地测试TIME，仅构建不部署')
     args = parser.parse_args()
     spec = importlib.util.spec_from_file_location('b4_sdk', ROOT / 'gateway/esp_at_probe/build.py')
     base = importlib.util.module_from_spec(spec); spec.loader.exec_module(base)
@@ -31,6 +33,10 @@ def main():
              '-I' + str(ROOT / 'gateway/canopen/src'), '-I' + str(vendor),
              *['-I' + str(p) for p in base.INCLUDES]]
     reference_sha = {}
+    if args.bench:
+        # 白名单独立入口；不导入H3传输源/配置头，也不构建网络或麦克风驱动。
+        sources = [p for p in sources if p.name != 'arm_link.c']
+        sources += [HERE / 'bench_main.c', HERE / 'b4_bench.c']
     if args.network_link:
         # 按提交逐字节取出源码到构建目录，不修改H3工作区、云端或私有配置。
         ref = 'a5cdd5b0b1ad48108fd631136e9de69e30582f2d'
@@ -60,6 +66,7 @@ def main():
         p = subprocess.run(list(map(str, command)), capture_output=True, timeout=120)
         log.extend(p.stdout + p.stderr); commands.append({'argv': list(map(str, command)), 'exit_code': p.returncode})
         if p.returncode: raise RuntimeError('构建失败，真实退出=' + str(p.returncode))
+        return p.stdout
 
     status = 'FAIL'
     try:
@@ -69,12 +76,26 @@ def main():
             warnings = ['-Wextra', '-Werror'] if source.is_relative_to(HERE) else []
             run([base.GCC, *flags, *warnings, '-c', source, '-o', obj]); objects.append(obj)
         obj = out / 'startup.o'; run([base.GCC, *flags, '-c', base.STARTUP, '-o', obj]); objects.append(obj)
-        target = 'B4_GATEWAY_NETWORK_SOFTWARE' if args.network_link else 'B4_GATEWAY_LINK_ONLY'
+        target = 'B4_GATEWAY_BENCH' if args.bench else ('B4_GATEWAY_NETWORK_SOFTWARE' if args.network_link else 'B4_GATEWAY_LINK_ONLY')
         elf = out / (target + '.elf')
-        run([base.GCC, *flags, '-T', ROOT / 'gateway/mqtt/STM32F407ZGT6_FLASH.ld',
+        linker = HERE / 'bench_flash.ld' if args.bench else ROOT / 'gateway/mqtt/STM32F407ZGT6_FLASH.ld'
+        run([base.GCC, *flags, '-T', linker,
              '-Wl,--gc-sections', '-Wl,-Map=' + str(out / 'gateway.map'), '--specs=nano.specs', '--specs=nosys.specs',
              *objects, '-lm', '-o', elf])
         run([base.SIZE, elf]); run([base.OBJCOPY, '-O', 'binary', elf, out / (target + '.bin')])
+        if args.bench:
+            # 检查实际ELF符号，防止仅靠入口宏声称禁联网；nm不访问调试器或设备。
+            nm = base.GCC.with_name('arm-none-eabi-nm' + base.GCC.suffix)
+            symbols = run([nm, elf])
+            (out / 'symbols.txt').write_bytes(symbols)
+            forbidden = ('gateway_network_open', 'gateway_mqtt_open', 'gateway_config_valid',
+                         'h3_config_record_valid', 'USART_Init', 'FLASH_EraseSector', 'FLASH_ProgramWord')
+            if any(name.encode() in symbols for name in forbidden):
+                raise RuntimeError('台架ELF包含禁止的网络/配置/写入符号')
+            if 'gateway/mqtt/src' in '\n'.join(str(p.relative_to(ROOT)) for p in sources if p.is_relative_to(ROOT)):
+                # heap.c是既有纯内存分配封装，不含网络/配置；其余传输源不允许混入。
+                if any('gateway/mqtt/src' in p.as_posix() and p.name != 'heap.c' for p in sources):
+                    raise RuntimeError('台架源白名单失败')
         status = 'PASS'
     except RuntimeError as error:
         log.extend(str(error).encode())
@@ -84,13 +105,17 @@ def main():
                ROOT / 'gateway/data_model/model.h', ROOT / 'gateway/storage/router.h']
     if args.network_link:
         headers += list((out / 'reference-h3').rglob('*.h'))
-    report = {'version': 'B4-0.1', 'status': status,
-              'scope': 'C_DUAL_CAN_ARM_NETWORK_SOFTWARE_BUILD_NOT_DEPLOYED' if args.network_link else 'C_DUAL_CAN_ARM_LINK_ONLY',
+    report = {'version': 'B4-0.2', 'status': status,
+              'scope': 'C_ISOLATED_BENCH_LOCAL_TEST_TIME_NOT_DEPLOYED' if args.bench else ('C_DUAL_CAN_ARM_NETWORK_SOFTWARE_BUILD_NOT_DEPLOYED' if args.network_link else 'C_DUAL_CAN_ARM_LINK_ONLY'),
+              'bench_time': 'LOCAL_TEST_EPOCH_NOT_UTC' if args.bench else None,
+              'bench_window_limit_ms': 180000 if args.bench else None,
+              'bench_forbidden_symbols_absent': bool(args.bench and status == 'PASS'),
+              'linker_sha256': hashlib.sha256((HERE / 'bench_flash.ld' if args.bench else ROOT / 'gateway/mqtt/STM32F407ZGT6_FLASH.ld').read_bytes()).hexdigest(),
               'hardware_eligible': False, 'network_transport': 'H3_FROZEN_SOURCE_LINKED_NOT_EXECUTED' if args.network_link else 'NOT_LINKED_NOT_DEPLOYED',
               'h3_reference_commit': 'a5cdd5b0b1ad48108fd631136e9de69e30582f2d', 'h3_reference_sha256': reference_sha, 'commands': commands,
               'log_sha256': hashlib.sha256(log).hexdigest(),
               'header_sha256': {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in headers},
-              'artifact_sha256': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in out.glob('*.bin')},
+              'artifact_sha256': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in out.glob('*') if p.suffix in ('.bin', '.elf')},
               'source_sha256': {(str(p.relative_to(ROOT)) if p.is_relative_to(ROOT) else 'external-sdk/' + p.name):
                                 hashlib.sha256(p.read_bytes()).hexdigest() for p in sources}}
     (out / 'receipt.json').write_text(json.dumps(report, indent=2) + '\n')

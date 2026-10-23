@@ -1,0 +1,92 @@
+{
+  "baseline_commit": "244ee53e987f983b073738a61cf9723cc04ea21a",
+  "scope": "B4_BENCH_R1_SOFTWARE_DOCUMENTS_AND_PUBLIC_EVIDENCE",
+  "hardware_operations": 0,
+  "raw_log_line_endings": "Preserved; public JSON summaries use LF; original receipts remain in encrypted archive",
+  "files": {
+    "gateway/dual_can/README.md": {
+      "bytes": 9855,
+      "git_blob_sha256": "9f3318da5449ad419748cba73195f55a2173d97f16f5e8bf3ec6bdf382ef9155"
+    },
+    "gateway/dual_can/b4_bench.c": {
+      "bytes": 2536,
+      "git_blob_sha256": "9b38f1f172be4c7fd0eb8ef6fadcc023ec7352804c0b9d73338825a9a04ec575"
+    },
+    "gateway/dual_can/b4_bench.h": {
+      "bytes": 717,
+      "git_blob_sha256": "30dff20fc48bfaa40ac8424f0bbebf41812ae6bd5fb3c60b6635b62fd700b1f4"
+    },
+    "gateway/dual_can/bench_flash.ld": {
+      "bytes": 1305,
+      "git_blob_sha256": "29f6c39cecd7baeb474c02dc4d3049cc5e0289bfec9f25098a74e4efcdcacaff"
+    },
+    "gateway/dual_can/bench_main.c": {
+      "bytes": 1192,
+      "git_blob_sha256": "4ef7149df5db8af6e72b5ac1ef7d2fc6e5ca13ac7e56cd29ed1e4ea0bdb5a9ed"
+    },
+    "gateway/dual_can/build_arm.py": {
+      "bytes": 8799,
+      "git_blob_sha256": "92b48871d8a2a3f9e64cccc2b84e484535c28ca867cb758dad346383f81d1f7e"
+    },
+    "gateway/dual_can/tests/bench.c": {
+      "bytes": 3021,
+      "git_blob_sha256": "6e7ca0b0f66d9a22c67b0af3b743b4f9400b189c342084484714f812848a0572"
+    },
+    "node-b/docs/B-PRECAN-CLOSEOUT-FINAL-HANDOFF.md": {
+      "bytes": 14502,
+      "git_blob_sha256": "77d3b851a291ae96b7819aee3ca033c7d3fac156958dfe19f923ad8c3bea3eb2"
+    },
+    "node-b/docs/B4-HARDWARE-ADMISSION-REVIEW.md": {
+      "bytes": 10431,
+      "git_blob_sha256": "fb98c5b597984decfeff6f372c5e07aa57412b8f8b40836c0cbe6c807ebbd08a"
+    },
+    "node-b/evidence/B4-001/bench-r1/bench-arm.json": {
+      "bytes": 61369,
+      "git_blob_sha256": "98c98674fe67f67fdd11d07031b00cf77ee28505a14eee1b53a8708ad49515e7"
+    },
+    "node-b/evidence/B4-001/bench-r1/bench-host-bench-network-mutually-exclusive.log": {
+      "bytes": 134,
+      "git_blob_sha256": "e937cb739fde60d7b1b74b75dbc8d9567bc98eb4f0d0245dcf7afd60d04174d7"
+    },
+    "node-b/evidence/B4-001/bench-r1/bench-host-bench-protocol.log": {
+      "bytes": 92,
+      "git_blob_sha256": "7d7eaf99b0aabda1d071e29d2df30bb384df6922740d1bd0982e48e353ab3638"
+    },
+    "node-b/evidence/B4-001/bench-r1/bench-host-compile-bench-host.log": {
+      "bytes": 0,
+      "git_blob_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "node-b/evidence/B4-001/bench-r1/bench-host-recovery-nor-and-negative-cases.log": {
+      "bytes": 1599,
+      "git_blob_sha256": "c7cab4408cc14061aa7c2468f35fe58bf0d33a6ee56f18dff2f30ba39c327d8e"
+    },
+    "node-b/evidence/B4-001/bench-r1/bench-host.json": {
+      "bytes": 6838,
+      "git_blob_sha256": "ca34f77a824beb0a14a06149c7c0ec3262cd83007f25862f80bdf74c2ff2f780"
+    },
+    "node-b/evidence/B4-001/bench-r1/network-link-regression.json": {
+      "bytes": 106012,
+      "git_blob_sha256": "e346010f8f6eae8d276e37121571571323aead726cfc0c6813bf86baf9bc3181"
+    },
+    "node-b/evidence/B4-001/bench-r1/resource-audit.json": {
+      "bytes": 2343,
+      "git_blob_sha256": "17c32c48ec94a1e75dddae003215b19c38578df623e57f3ee54a23174e1c8bcd"
+    },
+    "node-b/evidence/B4-001/bench-r1/stage-results.json": {
+      "bytes": 14009,
+      "git_blob_sha256": "dbb4629864fd7eebf7ebe290f3344802762e3bf7d3138f957100683f20b30891"
+    },
+    "node-b/tests/test_b4_recovery.py": {
+      "bytes": 9111,
+      "git_blob_sha256": "71831197571bb6cb7e5152157de1155493cdce9cd4a7d67b01f877c7591f22f0"
+    },
+    "node-b/tools/b4_recovery.py": {
+      "bytes": 10594,
+      "git_blob_sha256": "fa93222b833f2f010d068b0cac97c73db7430c7eb68316d84441d60539c76213"
+    },
+    "node-b/tools/run_b4_bench.py": {
+      "bytes": 3004,
+      "git_blob_sha256": "9d1da2d61646bf65d152617358bc46975070d43f0803a32a816771ba02d60c76"
+    }
+  }
+}

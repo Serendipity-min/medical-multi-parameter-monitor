@@ -1,0 +1,50 @@
+/* 台架服务只依赖CAN/数据模型，故意不包含网络、持久配置、串口或Flash驱动。 */
+#include "b4_bench.h"
+#include <string.h>
+
+int b4_bench_init(B4Bench *b, uint32_t tick) {
+    memset(b, 0, sizeof(*b));
+    if (b4_gateway_init(&b->gateway)) return -1;
+    b->last_tick = tick; b->gateway.now = tick;
+    b->diag.magic = 0x42344231u; b->diag.test_time_only = 1;
+    /* 首次联动仅B段。共享CAN1时钟仍保留，但A段协议发送被关闭，不广播NMT。 */
+    b4_gateway_link(&b->gateway, 0, false);
+    mp_router_online(&b->gateway.router, true); /* 此online仅启用本地消费者，不表示网络在线。 */
+    b4_gateway_sync(&b->gateway, B4_BENCH_EPOCH, tick);
+    if (b4_gateway_nmt(&b->gateway, 2, CO_NMT_ENTER_OPERATIONAL)) {
+        b4_gateway_close(&b->gateway); return -1;
+    }
+    return 0;
+}
+void b4_bench_step(B4Bench *b, uint32_t tick) {
+    if (b->diag.stopped) return;
+    /* 无符号差值跨过一次32位tick回绕；超过窗口上限不续期，也不自动复位设备。 */
+    uint32_t delta = tick - b->last_tick; b->last_tick = tick;
+    if (delta >= B4_BENCH_LIMIT_MS - b->diag.elapsed_ms) {
+        b->diag.elapsed_ms = B4_BENCH_LIMIT_MS; b->diag.stopped = 1;
+        b->gateway.utc_valid = false;
+        b4_gateway_link(&b->gateway, 0, false); b4_gateway_link(&b->gateway, 1, false);
+        return;
+    }
+    b->diag.elapsed_ms += delta;
+    if (b->diag.elapsed_ms - b->sync_at >= 10000u) {
+        /* 周期刷新的是本地测试时基，非SNTP/屏幕RTC；不向固件注入真实凭据。 */
+        b4_gateway_sync_ms(&b->gateway, (uint64_t)B4_BENCH_EPOCH * 1000 + b->diag.elapsed_ms,
+                           tick);
+        b->sync_at = b->diag.elapsed_ms;
+    }
+    b4_gateway_tick(&b->gateway, tick);
+    /* 每步最多取8条，环满保留新记录并显式累计覆盖；不是完整原始帧采集器。 */
+    for (unsigned budget = 0; budget < 8; budget++) {
+        MpFrame f;
+        if (!mp_router_take(&b->gateway.router, &f, b->diag.elapsed_ms)) break;
+        unsigned slot = b->diag.records % B4_BENCH_RING;
+        b->records[slot] = f;
+        if (b->diag.records >= B4_BENCH_RING) b->diag.overwritten++;
+        b->diag.records++;
+        b->diag.last_node = f.node; b->diag.last_stream = f.stream;
+        b->diag.last_valid = f.valid; b->diag.last_count = f.count;
+        b->diag.last_test_timestamp = f.timestamp;
+        mp_router_ack(&b->gateway.router, &f, true); /* 已收至本地RAM，绝不代表MQTT ACK。 */
+    }
+}
