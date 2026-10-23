@@ -109,3 +109,16 @@ Host台架测试、本地TIME/回绕/有界RAM/停窗、ARM禁联网构建全部
 [B+C准入审查R3](B4-HARDWARE-ADMISSION-REVIEW.md)已按负责人要求一次列清同源双通道有效性、实际CAN2/收发器/跳帽/接地与I²S2冲突，以及B/C候选和恢复边界。本地TIME禁联网目标与离线安装/回退工具已完成软件准备；B4跨旧32KiB范围已覆盖合成验证，但仍缺C实板备份、实际布局及受审读回/执行入口。仅资料准备，disabled=true，无现场动作；ROM按负责人决定待复现处理，未冒称根因关闭。
 
 软件阶段没有硬件动作；随后追加授权仅完成上述一次B独立断电启动及前后只读核验。没有接B+C CAN、没有烧录B/C，没有改变电极/源模式，没有修改算法阈值、正式腾讯云或执行Security Gate。**本轮软件修复与两张必要现场卡准备完成，当前修正版单次独立冷启动通过；G4实物CAN准入仍BLOCKED，等待PI先审核C只读/B补证卡。**
+
+
+## C COM15读取及同型板CAN2复核（2026-10-23追加）
+
+负责人确认A/B/C均同型开发板；C现接COM15，ESP8266仍在板上，INMP441/TTS及所有CAN均未连接，J-Link仍在B。操作系统识别COM15为USB-SERIAL CH340（VID1A86/PID7523）；这只证明串口桥存在，不能替代STM32 UID/型号或固件身份。一次info请求未返回MCP预期JSON，ok=false。随后按负责人提供的E:/stm32/ai_serial_console检查本机实现，发现该目录就是当前MCP来源，协议要求ai-console专用JSON固件；info中的chip字段还是编译期字符串，不是UID/芯片寄存器读回。没有刷入该控制台固件。
+
+追加一次115200/8N1、5秒被动接收成功（实际5.047秒、退出0、526B、SHA256 `08de6ea9baacb2da66fb1511ba194cc4a1acc058347ad974cdd8bf4a0646a646`），发送字节0。收到7行文本而非JSON；完整原件存受限EFS，不公开未知业务文本。与冻结H3源码格式完全匹配的GW METRICS报告can=0、drop=186、cache=0、lost/replay=0、A/B均离线；GW CANPROOF报告hb/boot/p181/p381/p481/p681/nmt/time/txok均0、txfail=1、TEC=8、REC=0、LEC=3、BOFF=0。LEC=3按SPL定义为ACK错误，与未接CAN对端相容；日志值不等于新读CAN2寄存器，也不能反推缺线之外的唯一故障原因。C正在输出网关应用日志，但精确固件SHA/UID/Flash/启动PC未获得，C完整备份仍未完成。第一次MCP没有暴露原生进程退出码，记null；被动读取退出0只代表接收事务完成。
+
+同时确认一个影响运行状态的工具边界：MCP用Serial(port=...)先打开端口，再设置DTR/RTS=False；不能仅由info命令名或readOnlyHint推断端口打开没有控制线跳变。flash.py --probe也会使用DTR/RTS控制复位及BOOT0，因此没有执行。追加被动客户端在port=None时先配置DTR/RTS=False再打开，不发下载同步字节、不清输入缓冲。没有NRST/BOOT瞬态或复位标志证据，不能据此认定本次实际复位，也不能把该潜在机制宣布为历史ROM根因；CPU_ROM_ROOT_CAUSE_UNRESOLVED保留。不修改外部控制台工具，不运行其烧录或扫描入口。
+
+再次查看本地原理图第4/5/6页，并核对冻结双CAN驱动：B CAN1 PA11/PA12，经P6 CAN路径及U3；C CAN2 PB12/PB13 AF9，经P4的1–2（RX）及3–4（TX）与U2。参考U2/U3均TJA1050、5V供电，外部CAN座针2=H、针1=L、各自120Ω终端。CAN1与CAN2是各MCU内部控制器编号，不要求两端编号相同；两端同为500kbps即可按既有方案B CAN1↔C CAN2通信。C软件保持CAN1共享时钟、CAN2 filter start14及独立中断/队列，PB12/PB13不启用I²S2；无外接麦克风/TTS减少外部争用，但不能推断板载WM8978已物理隔离。COM15为CH340/USART1路径，与PA11/PA12的USB_SLAVE资源不同。
+
+裁定为CAN2_DOCUMENT_AND_SOFTWARE_FEASIBLE_PHYSICAL_ADMISSION_PENDING，不签真实CAN收发PASS。C P4最近事实为空，尚未连通MCU与收发器；实际端子/供电/终端、参考地及P6路径仍需现场核对。ESP在板不等于已联网，也不等于已隔离；其现有网络状态未测，未发AT、改凭据或执行云端命令。C当次Flash/options备份、恢复及共同稳态有效性门禁继续保留。读取UID/启动状态/完整Flash应转用接C的J-Link；本轮不要求负责人现在转接，不复位、不改BOOT、不接CAN、不烧录、不改算法。详见[实际读取回执与CAN2复核](../evidence/B4-003/c-com15-can2-site-review.json)。

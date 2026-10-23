@@ -1,0 +1,157 @@
+{
+  "scope": "C_COM15_INFO_ATTEMPT_AND_DOCUMENT_SOURCE_CAN2_FEASIBILITY_NOT_CAN_HARDWARE_ACCEPTANCE",
+  "utc": "2026-10-23T11:23:11.708660+00:00",
+  "owner_facts": {
+    "ABC_same_board_type": true,
+    "C_connected_COM15": true,
+    "ESP8266_present": true,
+    "INMP441_connected": false,
+    "TTS_connected": false,
+    "CAN_connected": false,
+    "C_P4_last_report": "OPEN_NO_JUMPERS",
+    "JLink_route": "B_OWNER_RECONFIRMED_NOT_MOVED"
+  },
+  "host_port_metadata": {
+    "port": "COM15",
+    "description": "USB-SERIAL CH340 (COM15)",
+    "VID": "1A86",
+    "PID": "7523",
+    "meaning": "USB_UART_BRIDGE_IDENTITY_ONLY_NOT_STM32_IDENTITY"
+  },
+  "device_attempt": {
+    "tool": "stm32_console_info",
+    "command": "info",
+    "attempts": 1,
+    "ok": false,
+    "response": null,
+    "error": "开发板返回的不是预期 JSON；请确认运行 ai-console-0.1.0 固件",
+    "native_process_exit_code": null,
+    "native_process_exit_code_note": "MCP未提供，不编造0或1",
+    "status": "C_IDENTITY_NOT_OBTAINED",
+    "other_serial_commands": 0,
+    "no_assumption": "不能由非JSON回执推定MCU型号、固件、GPIO、ROM或Flash状态"
+  },
+  "source_verification": {
+    "board_pdf": "E:/stm32/stm32文件/STM32F407_原理图.pdf",
+    "board_pdf_sha256": "7737115dc272d6daff1f3bb08b7c8c23c10415c10bca57c3d72979adf53b46b2",
+    "pages": [
+      4,
+      5,
+      6
+    ],
+    "page5_visually_reviewed": true,
+    "C_CAN2": "PB12 RX/PB13 TX AF9; P4 1-2 RX/3-4 TX; U2 TJA1050 5V; CAN2 external2 H/1 L; R1 120R",
+    "B_CAN1": "PA11 RX/PA12 TX AF9; P6 CAN1 selection; U3 TJA1050 5V; CAN1 external2 H/1 L; R7 120R",
+    "controller_numbers_need_not_match": true,
+    "target": "B CAN1 <-> C CAN2, 500kbps; A segment disconnected",
+    "C_shared_resources": "Both CAN1/CAN2 clocks enabled, CAN2 filter start14, separate queues/ISR, no I2S2 PB12/PB13",
+    "ESP": "Presence confirmed; existing wireless/network state NOT_VERIFIED; no AT or network command issued",
+    "electrical_acceptance": "NOT_TESTED",
+    "actual_CAN_transfer": "NOT_TESTED"
+  },
+  "unchanged": {
+    "BIO_thresholds": true,
+    "firmware": true,
+    "CAN_wiring": true,
+    "jumpers": true,
+    "BOOT": true
+  },
+  "actions": {
+    "explicit_reset": 0,
+    "halt_go": 0,
+    "flash_options_write": 0,
+    "CAN_transmit": 0,
+    "ESP_commands": 0,
+    "cloud_operations": 0,
+    "security_gate": 0,
+    "serial_control_line_or_target_implicit_effects": "First MCP opens before lowering DTR/RTS; second passive client sets both false before open. No sampled NRST/BOOT/PC evidence; actual reset absence or occurrence NOT_PROVEN."
+  },
+  "gate": "CAN2_DOCUMENT_AND_SOFTWARE_FEASIBLE_PHYSICAL_ADMISSION_PENDING",
+  "prior_software_evidence": "node-b/evidence/B4-003/B4-host.json; B-arm.json; no new runtime CAN test performed",
+  "local_tool_review": {
+    "directory": "E:/stm32/ai_serial_console",
+    "same_implementation_as_MCP": true,
+    "runtime": "USART1 PA9/PA10 115200 8N1 ASCII-line request/JSON-line reply; requires ai-console firmware",
+    "info_chip_string_is_compile_time_literal_not_UID_read": true,
+    "MCP_open_order": "Serial(port=COM15) first, then dtr=False/rts=False; potential opening transition is not proof of actual reset",
+    "flash_probe": "NOT_EXECUTED; uses reset/BOOT0 DTR/RTS downloader, not runtime-state-preserving read",
+    "external_tools_modified": false,
+    "files_sha256": {
+      "README.md": "76a8f42a654f5b51d3f1a657da6579be94281f4b6b6b0d7f29a075d183c40e1b",
+      "mcp/stm32_console_mcp.py": "6035a0c47362ce73936e2e53761f49490c9de28a12874983ec4a15cbda23f2a4",
+      "tools/flash.py": "e796c22c34d7243b25353540db17c9c3835dde981ee0cacc3a33ae46032fe8e1",
+      "src/main.c": "a6f5a37220c9189f85d4a9b77b543d00969f3b447829facd6969c6f423bed715"
+    }
+  },
+  "passive_capture": {
+    "utc": "2026-10-23T11:24:18.069158+00:00",
+    "port": "COM15",
+    "baud": 115200,
+    "passive_only": true,
+    "command_bytes_sent": 0,
+    "data_bytes": 526,
+    "sha256": "08de6ea9baacb2da66fb1511ba194cc4a1acc058347ad974cdd8bf4a0646a646",
+    "opened": true,
+    "elapsed_seconds": 5.047,
+    "error_type": null,
+    "dtr_rts_configured_before_open": [
+      false,
+      false
+    ],
+    "electrical_reset_glitch_excluded": false,
+    "device_identity_obtained": false,
+    "native_process_exit_code": 0,
+    "raw_archive_encrypted": true
+  },
+  "passive_protocol": {
+    "data_bytes": 526,
+    "ascii_printable_bytes": 512,
+    "newline_count": 7,
+    "zero_bytes": 0,
+    "screen_frame_start_EE": 0,
+    "screen_tail_FFFCFFFF": 0,
+    "json_objects_whitelisted": [],
+    "known_text_markers_present": []
+  },
+  "gateway_telemetry": {
+    "matched_frozen_H3_text_formats": [
+      {
+        "tag": "GW METRICS",
+        "fields": {
+          "can": 0,
+          "drop": 186,
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "node_a_online": 0,
+          "node_b_online": 0
+        }
+      },
+      {
+        "tag": "GW CANPROOF",
+        "fields": {
+          "hb": 0,
+          "boot": 0,
+          "p181": 0,
+          "p381": 0,
+          "p481": 0,
+          "p681": 0,
+          "txok": 0,
+          "txfail": 1,
+          "nmt": 0,
+          "time": 0,
+          "TEC": 8,
+          "REC": 0,
+          "LEC": 3,
+          "BOFF": 0
+        }
+      }
+    ],
+    "firmware_exact_identity_proven": false,
+    "note": "Only numeric formats compared with frozen H3 source; not flash SHA/UID verification, not CAN2 register readback, not network isolation proof.",
+    "reference": "a5cdd5b0b1ad48108fd631136e9de69e30582f2d:gateway/physical_can/src/main.c lines43,58-65",
+    "interpretation": "LEC=3 reports ACK error per SPL CAN_ErrorCode_ACKErr 0x30 shifted4. Consistent with no peer connected, not proof of CAN2 operation or exact firmware identity. C reports application logs, not ROM/Flash PC samples."
+  },
+  "result": "COM15_PASSIVE_GATEWAY_TELEMETRY_READ_SUCCESS_C_UID_FLASH_IDENTITY_PENDING",
+  "serial_session_count": 2
+}
