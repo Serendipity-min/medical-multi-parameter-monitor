@@ -1,5 +1,7 @@
 # Node-B 精确现场授权卡索引及历史草案
 
+2026-10-23修订：[AUTH-B-RESP-PATH-MEASURE-001 R2](AUTH-B-RESP-PATH-MEASURE-001-R2.md)按新手册和负责人新要求替代R1后续指引，取消全部电阻测量；A段仅呼吸率20等参数确认和三对源端直流核对，B段为待读数审阅且明确开始后的RA–LL冷接方案。本卡采集/SDK调用0；旧R1虽已获同意，但未收到执行结果，不冒填已完成。下方R1待批状态是旧快照。
+
 最新待批：[AUTH-B-RESP-PATH-MEASURE-001 R1](AUTH-B-RESP-PATH-MEASURE-001-R1.md)。仅一次≤10分钟手工会话：冷隔离、完全脱离设备的线缆TRS九格电阻映射、SKX源端六对直流粗/细筛；SDK调用0、采集0，不含RA–LL新接法或恢复上电。源端动态阻抗仍未证明；厂家照片差异及原因130解释见[路径复核](RESP-SOURCE-PATH-REVIEW-R1.md)。本轮仅准备，未执行。
 
 最新：按负责人固定ECG60/呼吸15/1.5R/窒息0、波形周期20不变，完成一次45秒。采集/监督0、分析3；实际ECG60互证，但30秒评价中38次RR观察全部无效，RESP_PATH_NOT_OBSERVED。CPU问题暂列待查，未发reset/烧录命令。详见[45秒有效性实板结果](RESP-VALIDITY45-001-RESULTS-R1.md)。下方描述按历史阶段保留。
