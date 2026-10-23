@@ -1,5 +1,7 @@
 # MPM-B-ALG-002 唯一阶段交接
 
+最新阶段：[20→30工程周期跟踪](RESP-TRACK20-30-001-RESULTS-R1.md)已建立E2_RATE_TRACKING_SEEN，波形周期20等控制不变，CH1周期3000→2000ms、对照exit0。新30窗采集/监督0、11344帧完整，冻结RR评价32/38有效/分析3不改，HR本窗无效，不签正式矩阵或同步通过。未改阈值，CPU问题继续保留待查；旧20及历史原件保持，未追加第二窗。
+
 最新完成：[RA–LL呼吸20恢复后45秒](RESP-RA-LL20-RECOVERY-001-RESULTS-R1.md)取得可信CH1约3秒周期，三种估计均20；后段33次保存RR20有效，冻结评价27/38有效，因此分析3不改为0。采集/监督0、11339帧完整，reset1/halt1/go2/Flash写0；CH2本窗HR无效，不覆盖旧ECG六窗或宣称同步通过。E2/E3未执行。负责人要求[CPU运行状态问题](B-CPU-ROM-FLASH-DEFERRED-R1.md)保留后查；固件全片前/末一致，不能称算法消失。
 
 最新实板：RA–LL/呼吸20的一次零复位尝试在窗口前停止，Flash/options一致，VTOR与五次PCSR证实当次在运行系统ROM；worker/监督1、原码0、RR未计算、halt/go/reset/写0，原件保留。见[停止报告](RESP-RA-LL20-001-RESULTS-R1.md)。[一次正常复位后有条件45秒新卡](AUTH-B-RESP-RA-LL20-RECOVERY-001-R1.md)和6项离线测试已准备，尚未获新增复位许可且清单禁用，未执行；CPU进入原因仍待查。

@@ -1,5 +1,7 @@
 # Node-B 精确现场授权卡索引及历史草案
 
+最新已消耗：[固定波形周期20的30bpm单窗及20→30对照卡](AUTH-B-RESP-TRACK20-30-001-R1.md)。新窗一次45秒、reset1/halt1/go2/Flash写0，采集/监督0，单窗分析3保留；原码周期比2/3建立E2、独立对照0。只使用旧20原件作基线，不重采、不追加窗口；[结果](RESP-TRACK20-30-001-RESULTS-R1.md)及原件哈希已留存。CPU机制仍待查，E3无权限。
+
 最新已执行并消耗：[RA–LL20一次复位及45秒卡](AUTH-B-RESP-RA-LL20-RECOVERY-001-R1.md)获负责人明确同意，reset1/halt1/go2/Flash写0，采集/监督0；CH1相干20周期建立，冻结评价27/38有效、分析3，详见[结果](RESP-RA-LL20-RECOVERY-001-RESULTS-R1.md)。不追加连接或采集，不沿用本卡做速率跟踪。下方“待批/禁用”为历史准备快照；CPU机制按负责人要求[保留待查](B-CPU-ROM-FLASH-DEFERRED-R1.md)。
 
 最新：负责人完成R2并请求采集，[RA–LL20零复位卡](AUTH-B-RESP-RA-LL20-001-R1.md)已执行且消耗，窗口前ROM运行/ABI失败停止，未产生原码或RR。[一次正常复位及有条件45秒新卡](AUTH-B-RESP-RA-LL20-RECOVERY-001-R1.md)已冻结工具/源/profile并通过6项离线测试，待新增明确复位许可；manifest enabled=false、owner_reset_authorized=false，未执行。下方R2准备/R1待批均为历史阶段。

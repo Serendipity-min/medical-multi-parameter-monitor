@@ -1,0 +1,29 @@
+{
+  "status": "E2_RATE_TRACKING_SEEN",
+  "comparison_exit_code": 0,
+  "CH1_median_period_ms_20_then30": [
+    3000.0,
+    2000.0
+  ],
+  "period_ratio_30_over20": 0.6666666666666666,
+  "expected_period_ratio": 0.6666666666666666,
+  "relative_ratio_tolerance": 0.1,
+  "raw_nominal_match_within_1rpm": true,
+  "fixed_waveform_period_literal": "20bpm",
+  "only_respiration_rate_menu_changed": true,
+  "baseline_window_validity_analysis_exit": 3,
+  "current_window_validity_analysis_exit": 3,
+  "both_windows_full_RR_validity_pass": false,
+  "RR_startup_invalid_observations_retained": true,
+  "scope": "TWO_NOMINAL_SETTINGS_NONHUMAN_ENGINEERING_PERIOD_TRACKING_ONLY",
+  "reference_rpm": null,
+  "Z0_ohm": null,
+  "delta_Zpp_ohm": null,
+  "source_accuracy": "NOT_CALIBRATED",
+  "E3": "NOT_RUN",
+  "CPU_issue": "DEFERRED_BY_OWNER",
+  "baseline_summary_sha256": "954a06da964f538e99f851ceff878974955882783f6ba84ea97537e6e4171406",
+  "current_summary_sha256": "41dade3f99dd8f73960459899d2faaf948ee6a62fec3511cb962967d7802cd70",
+  "baseline_source_sha256": "4c01a79ace48ce1aa5e90932238994f2f268ff184a5bfe0402122b9036704f8f",
+  "current_source_sha256": "9f8b4359beef3625e8e3466ee87dcda494d5949afa672e4713fcce56b230a304"
+}
