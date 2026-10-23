@@ -1,0 +1,40 @@
+{
+  "source": "OWNER_NEW_REPORT_AFTER_M0",
+  "two_independent_screens": true,
+  "P3_reported": [
+    "COM1_T-PD2",
+    "COM1_R-PD6"
+  ],
+  "P5_reported": [
+    "COM2_T-PB11_RX",
+    "COM2_R-PB10_TX"
+  ],
+  "PD2_or_PD5": "PENDING_VISUAL_CONFIRMATION",
+  "screen_level": "UNKNOWN",
+  "screen_exact_models": "UNKNOWN",
+  "JTAG_currently_connected_to_B_and_PC": true,
+  "JTAG_reconnect_time": "UNKNOWN",
+  "new_SDK_sessions_after_S0": 0,
+  "root_cause": "CPU_ROOT_CAUSE_UNRESOLVED",
+  "owner_record_sha256": "c6c4c73f454cbe9f65cb23f1990948b27a255c64e4b170b5e18a84503320ab58",
+  "manufacturer_protocol_manual": {
+    "document": "2. 大彩串口屏指令集V5.1 .pdf",
+    "sha256": "a897c82bbbfc80e947865392e86693b845476bfa4037803b0e5fdfe60de8a819",
+    "pages": 93,
+    "matches": [
+      {
+        "page": 17,
+        "terms": [
+          "115200"
+        ]
+      },
+      {
+        "page": 41,
+        "terms": [
+          "115200"
+        ]
+      }
+    ],
+    "packet_hardware_model_datasheet_found": false
+  }
+}

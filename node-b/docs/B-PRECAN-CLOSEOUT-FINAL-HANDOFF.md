@@ -8,7 +8,7 @@
 
 | 专项 | 门禁 | 当前证据与缺口 |
 |---|---|---|
-| P0 CPU根因 | **BLOCKED — CPU_ROOT_CAUSE_UNRESOLVED** | 离线审计及S0再次确认ROM运行/Flash完整；D0/M0均无可辨认应用输出，后补屏幕接线与候选USART1路由不匹配，观察通道尚未验证。缺进入ROM的可证实机制、纠正措施及独立启动/调试验证，未签PASS。 |
+| P0 CPU根因 | **BLOCKED — CPU_ROOT_CAUSE_UNRESOLVED** | 离线审计及S0再次确认ROM运行/Flash完整；D0/M0均无可辨认应用输出。实物屏跨线至PD2/PD6及PB10/PB11，未到候选USART1 PA9/PA10；PD2是否为PD5及接口电平仍待核实。缺进入ROM的可证实机制、纠正措施及独立启动/调试验证，未签PASS。 |
 | P1 ECG/RESP同步 | **BLOCKED — BLOCKED_BY_P0** | 依任务顺序尚未启动E3 CH2专项分析及新同步采集；没有同窗双路有效性结果，不签B_ECG_RESP_SIMULTANEOUS_ENGINEERING_PASS。也未证明源不支持同步，不能提前签SOURCE_SIMULTANEOUS_CAPABILITY_BLOCKED。 |
 | P2 阻抗幅度 | **BLOCKED — IMPEDANCE_AMPLITUDE_NOT_CALIBRATED_INSTRUMENT_REQUIRED** | 当前仅电池万用表DLX-YQ2915，不具备32kHz动态阻抗标定能力。按负责人“不能做就跳过”跳过实测，Ω真值均null，不要求本轮采购。 |
 
@@ -18,9 +18,11 @@
 
 S0经单独授权仅执行一次：VTOR三次1FFF0000，15个PCSR样本均ROM；Flash/options SHA与冻结候选一致；BIO ABI无效。显式reset/halt/go/写数据0，Open/Connect/Close各1，不重试。worker/监督器/调用方真实退出3/1/1，约40.672秒；完整结果见[S0/D0报告](PREC-P0-S0-D0-RESULT-R1.md)。首次读值是连接后，Close后状态未知，不能宣称设备全程没有硬件复位。
 
-D0负责人回报无波形、电源灯无变化、无其他异常，后续明确JTAG已拔下。M0只授权一次实体复位及无调试器观察，负责人报告仍无反应，没有分别给出5/15/45秒值。随后补充两路屏幕接线：图纸RS2/P3对应USART2，J4/P5第二路对应USART3；冻结候选源码和AXF均为USART1 PA9/PA10。P3是否接入ADS1292使用的PA2/PA3、屏接口电平尚待查看，暂停新增动作。此前屏幕观察通道未验证的证据不足已补正，详见[复核](PREC-P0-HMI-PATH-AUDIT-R1.md)。不据静态画面伪造无调试器PC/VTOR或判断CPU仍在ROM。后续按[单变量计划](PREC-P0-FIELD-CONTROL-PLAN-R1.md)逐卡，不无限重试，不强设PC/MSP/VTOR、不重刷。
+D0负责人回报无波形、电源灯无变化、无其他异常，后续明确JTAG已拔下。M0只授权一次实体复位及无调试器观察，负责人报告仍无反应，没有分别给出5/15/45秒值。图纸默认RS2/P3路径对应USART2，J4/P5第二路对应USART3；冻结候选源码和AXF均为USART1 PA9/PA10。实际跨线按下段新事实记录，不据默认连接推断冲突。此前屏幕观察通道未验证的证据不足已补正，详见[复核](PREC-P0-HMI-PATH-AUDIT-R1.md)。不据静态画面伪造无调试器PC/VTOR或判断CPU仍在ROM。后续按[单变量计划](PREC-P0-FIELD-CONTROL-PLAN-R1.md)逐卡，不无限重试，不强设PC/MSP/VTOR、不重刷。
 
-P0下一步：先核实屏型号/电平、P3/P5实际跳帽和JTAG断开状态，解决独立观察通道及潜在引脚冲突的证据缺口；任何改线先电气审查另卡。如需连接取寄存器对照，先提交另卡，明确介入前后证据来源。冷启动须先解决源/模块潜在反供电的安全初态。即使复位恢复，也保持根因未关闭，直到机制、对应纠正措施及预冻结独立验证全部成立。
+后续现场补充：两块独立屏，P5 PB11_RX↔COM2_T、PB10_TX↔COM2_R；P3 COM1_T↔PD2、COM1_R↔PD6。据实物跨线撤回P3按默认跳帽连接PA3的假设，不能宣称实际存在该冲突。已请求只查看PD2是否为PD5，屏接口电平仍未知。厂家开发包指令集V5.1确认115200编码，但不能替代实物电气规格。J-Link现已接回，接回时刻未知；当前不再称为持续断开状态，没有自行新增SDK调用。
+
+P0下一步：先核实PD2/PD5、屏型号/电平，改接USART1前还需检查P7/CH340对PA9/PA10的占用；解决独立观察通道，任何改线先电气审查另卡。如需连接取寄存器对照，先提交另卡，明确介入前后证据来源。冷启动须先解决源/模块潜在反供电的安全初态。即使复位恢复，也保持根因未关闭，直到机制、对应纠正措施及预冻结独立验证全部成立。
 
 ## P1 后续补证方案
 

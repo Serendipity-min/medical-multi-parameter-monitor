@@ -127,6 +127,24 @@
       "efs_encrypted": true
     },
     {
+      "file": "HMI-command-v51-page17.txt",
+      "bytes": 2796,
+      "sha256": "f2de92e3c8ef31932feb7f32187e37cbd5c708aadf29fcbfaf6bc1750ef7db98",
+      "efs_encrypted": true
+    },
+    {
+      "file": "HMI-command-v51-page41.txt",
+      "bytes": 1795,
+      "sha256": "a02e1b602b0752394d3ea8d7be2d3d65d99d513c22e31516e4048b4197edfb07",
+      "efs_encrypted": true
+    },
+    {
+      "file": "HMI-command-v51-review.json",
+      "bytes": 387,
+      "sha256": "02a43f494f383839593f04c7a6d3eb6a3e32af2f66e68a96a5fe8339bf1327ae",
+      "efs_encrypted": true
+    },
+    {
       "file": "offline-checks/disabled-invoker-receipt.json",
       "bytes": 757,
       "sha256": "b1bf2eb436d3cadf89fe1079d8cae4cce0a2964714e76848c0746558d9158487",
@@ -163,6 +181,12 @@
       "efs_encrypted": true
     },
     {
+      "file": "owner-current-state-after-M0.json",
+      "bytes": 499,
+      "sha256": "2cbf4ef2233a33c7231d9e4aa07d8df2b01c62c6d9d172a867b20f934599fc5c",
+      "efs_encrypted": true
+    },
+    {
       "file": "owner-current-state.json",
       "bytes": 383,
       "sha256": "66e1ce6fb4ecf802160a2b951bab25c1ead46abd3967966005e2e954162a7b17",
@@ -190,6 +214,12 @@
       "file": "owner-d0-observation.txt",
       "bytes": 153,
       "sha256": "67617dae6feac2c19b5347ae81d55087f66a68206dc430320685cd1b189df675",
+      "efs_encrypted": true
+    },
+    {
+      "file": "owner-HMI-crosswire-and-JTAG-reconnected.txt",
+      "bytes": 277,
+      "sha256": "c6c4c73f454cbe9f65cb23f1990948b27a255c64e4b170b5e18a84503320ab58",
       "efs_encrypted": true
     },
     {
@@ -235,9 +265,21 @@
       "efs_encrypted": true
     },
     {
+      "file": "remote-heads-after-payload.txt",
+      "bytes": 1084,
+      "sha256": "d8d1aecf4181fd959c01a8817695502e3e012c7753f3be7dabbc34e0d9836e8c",
+      "efs_encrypted": true
+    },
+    {
       "file": "remote-heads-before.txt",
       "bytes": 979,
       "sha256": "77de4076129d04bb409febd03b71595c6425af978df1930eb9e1fd1970f0976a",
+      "efs_encrypted": true
+    },
+    {
+      "file": "remote-payload-verification.json",
+      "bytes": 4660,
+      "sha256": "ccd7124faf9c72385e1cc4b3963004357941c117026f652fcb3be3c6d973790c",
       "efs_encrypted": true
     },
     {
@@ -480,5 +522,6 @@
       "sha256": "77ccd1391cddec87bc26fd953efb146a2f6a3155fe1675a9fa6721d127d33503",
       "efs_encrypted": true
     }
-  ]
+  ],
+  "index_scope": "Experiment/owner/verification records at this snapshot; excludes remote-verify.git transport cache"
 }
