@@ -17,11 +17,13 @@
     "CH2_gain": 4,
     "nominal_Vref_V": 2.42,
     "absolute_voltage_calibrated": false,
-    "hardware_eligible": "INSTALLED_ISOLATED_BENCH_ONLY",
+    "hardware_eligible": false,
     "TI_LSB_denominator": 8388607,
     "BIO_UI_denominator": 8388608,
     "conversion_numerator": 126877696,
-    "conversion_denominator": 209715175
+    "conversion_denominator": 209715175,
+    "hardware_eligibility_scope": "FORMAL_CAN_NOT_APPROVED",
+    "installation_status": "INSTALLED_OWNER_AUTHORIZED_ISOLATED_BENCH_ONLY"
   },
   "hardware_deployment_authorized": true,
   "requires_pi_admission": true,
