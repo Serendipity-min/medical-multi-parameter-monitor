@@ -1,0 +1,31 @@
+{
+  "attachments": [
+    {
+      "file": "639e1c764cff2ba24c652461915272a5.png",
+      "sha256": "5c7f8e740c6cd5b22933a389f092c56fd4d12c9e8ba62dae7e936964c38c2448",
+      "bytes": 7190,
+      "raw_public": false
+    },
+    {
+      "file": "bf4a06fddebf7341076d7fb8ad9aba42.png",
+      "sha256": "fb0f150263814186ec66e26ed7c381521925124b200cab127ba2057d3ecf63a0",
+      "bytes": 81252,
+      "raw_public": false
+    }
+  ],
+  "board_schematic_sha256": "7737115dc272d6daff1f3bb08b7c8c23c10415c10bca57c3d72979adf53b46b2",
+  "board_pages": [
+    4,
+    5
+  ],
+  "frozen_source_sha256": {
+    "node-b/firmware/biov2/实验固件/SCREEN/hmi_user_uart.c": "5e8ddf6fde70675bacc84fbbc513a01c2000725a2eb7945c463af436b43c027a",
+    "node-b/firmware/biov2/实验固件/SCREEN/hmi_user_uart.h": "aaf15d2cdee3815cac454417a7b7a74e8a4f122e27e37c27472cff4c0efdef93",
+    "node-b/firmware/biov2/实验固件/USER/main.c": "b8bffcefd8520b20ec81a6e0805a9cfd629ce636ba73b390675e1f6e5911a3e6"
+  },
+  "candidate_disassembly_sha256": "b7ca0a4af907f59fecd3cacd5033ca52a3bf0e4b5d1b0adae2e911f16d1b15f7",
+  "candidate_UART_entry": "0x08004B00",
+  "candidate_UART": "USART1_PA9_PA10_115200_8N1",
+  "P3_P5_actual_jumpers": "UNKNOWN",
+  "screen_electrical_level": "UNKNOWN"
+}

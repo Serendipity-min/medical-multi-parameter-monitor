@@ -1,0 +1,22 @@
+{
+  "status": "READY_NOT_AUTHORIZED_NOT_EXECUTED",
+  "card_sha256": "ef768e4da8e964f58fba00291f838dde523c174457be7ed7435654924e9db969",
+  "manifest_prepared_sha256": "8c2f827aa3e3c600535dba2cf37ddac1de10a02fb4b533095d3d4129b4bf4ad0",
+  "tools_sha256": {
+    "node-b/tools/runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+    "node-b/tools/supervise_runtime_state_b.py": "98587c514f8987e76851b87465259a0b3242cb4b222c2289c1b6de5b0f580b22",
+    "node-b/tools/readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+    "node-b/tools/resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+    "node-b/tools/precan_cpu_state_b.py": "5f31200849906799ed15b71223cdd0a87015f449d4e785bb3b5e0f74aae6d5b0",
+    "node-b/tools/supervise_precan_cpu_state_b.py": "fc4282e68b560e780a3d6b996884f5d0cf0c286b0cb03c6b0f0447b578054164",
+    "node-b/tests/test_precan_cpu_state_b.py": "592b361217698c9394e5ec1490cd9cc2bc6f3d52369e99fcad69eaa4337eb8c3"
+  },
+  "offline_tests": 8,
+  "offline_test_exit_code": 0,
+  "disabled_invoker_exit": 1,
+  "disabled_worker_exit": 1,
+  "disabled_supervisor_exit": 1,
+  "sdk_loaded_in_negative": false,
+  "hardware_actions": 0,
+  "root_cause": "CPU_ROOT_CAUSE_UNRESOLVED"
+}
