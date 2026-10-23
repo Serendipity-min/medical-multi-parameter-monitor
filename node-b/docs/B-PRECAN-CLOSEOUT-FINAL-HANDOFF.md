@@ -42,6 +42,6 @@ ECG60/90/120各两轮、RESP12/18/24各两轮的既有通过保持原验收范�
 
 私有原件目录`E:/medical-monitor-node-b-precan-private/20261023`采用受限ACL及NTFS EFS加密。L1候选BIN、L2历史安装前整片、L2已安装候选整片/options分级保存，明确区分69d9…历史安装前备份与f713…已安装候选；S0新读Flash/RAM/UID/SDK原件同样受限加密。Git仅提交派生摘要、卡、工具、测试及SHA索引，不提交私有原码/设备身份/整片固件。
 
-本轮提交推送及远端取回校验尚待完成；仅允许本实验分支正常提交推送，无PR、合并、删分支、改标签或Security Gate。远端提交与校验完成后补入本节，未完成前不宣称已交付远端。
+主体提交`a858a69a2ca3010e7c0cf948fcd2acfd9e07d798`已通过SSH正常推送到本实验分支，并从GitHub以HTTPS取回到独立裸仓库，22个新增文件与本地逐字节相同，开工时14个既有远端分支HEAD均未改变，固件差异为0。回执见[交付校验](../evidence/B-PREC-001/git-payload-delivery.json)。本页校验附记及该回执随后仅在同一分支提交，最终HEAD以远端和私有复核回执为准；不据主体提交校验冒称尚未取回的新增提交已核验。无PR、合并、删分支、改标签或Security Gate。
 
 MPM-B4-001仍暂停。[CAN后续备忘](PREC-CAN-FUTURE-DESIGN-MEMO.md)仅记录两段独立总线方案，本轮不实施。未完成项如实交接，不自动进入CAN，等待PI新合同。
