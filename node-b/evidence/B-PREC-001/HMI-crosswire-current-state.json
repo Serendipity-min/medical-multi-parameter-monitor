@@ -9,7 +9,7 @@
     "COM2_T-PB11_RX",
     "COM2_R-PB10_TX"
   ],
-  "PD2_or_PD5": "PENDING_VISUAL_CONFIRMATION",
+  "PD2_or_PD5": "PD2_OWNER_CONFIRMED",
   "screen_level": "UNKNOWN",
   "screen_exact_models": "UNKNOWN",
   "JTAG_currently_connected_to_B_and_PC": true,
@@ -36,5 +36,18 @@
       }
     ],
     "packet_hardware_model_datasheet_found": false
-  }
+  },
+  "PD2_confirmation_sha256": "ff81816a394f0da95c581823932f203d1a1cad95dbafdd853259114af18192c4",
+  "photo_model": "DC80480DN050_1111_0C",
+  "photo_screen_assignment": "NOT_YET_EXPLICITLY_CONFIRMED",
+  "photo_sha256": "e54d19a3ae4557c5bf9b8dd513e3767a3ec705e9c875f414ed0c56c19913174b",
+  "photo_private_original": true,
+  "screen_J5_legend": {
+    "OFF": "RS232",
+    "ON": "TTL"
+  },
+  "screen_J5_actual_continuity": "NOT_MEASURED_NO_MODIFICATION",
+  "official_level_reference": "https://doc.gz-dc.com/FAQ/VisualTFT/02_online.html",
+  "P7_actual_state": "UNKNOWN",
+  "COM1_T_R_to_T1IN_R1OUT_mapping": "UNKNOWN"
 }
