@@ -1,5 +1,7 @@
 # MPM-B-ALG-002 唯一阶段交接
 
+最新实板：RA–LL/呼吸20的一次零复位尝试在窗口前停止，Flash/options一致，VTOR与五次PCSR证实当次在运行系统ROM；worker/监督1、原码0、RR未计算、halt/go/reset/写0，原件保留。见[停止报告](RESP-RA-LL20-001-RESULTS-R1.md)。[一次正常复位后有条件45秒新卡](AUTH-B-RESP-RA-LL20-RECOVERY-001-R1.md)和6项离线测试已准备，尚未获新增复位许可且清单禁用，未执行；CPU进入原因仍待查。
+
 2026-10-23：[新V2.2手册](RESP-MANUAL-V22-REVIEW-R1.md)明确呼吸用RA–LL，当前优先排查原RA–LA路径与源设置；取消导联线电阻测量。[修订R2卡](AUTH-B-RESP-PATH-MEASURE-001-R2.md)采用呼吸率20，保留必要三对直流核对，新拓扑待读数审阅后冷接。无新读板/采集/阈值改动；CPU仍待查，旧原件保留。
 
 最新准备：完成[源端电极路径与原因130复核](RESP-SOURCE-PATH-REVIEW-R1.md)，指出厂家照片与当前接法不同，实际线缆颜色到ERA/ELA/RLD尚需实测，不能据照片或色标当成已证实。新[手工测量卡](AUTH-B-RESP-PATH-MEASURE-001-R1.md)仅准备，待明确同意；本轮无读板、改线或采集。CPU继续待查，固件/阈值与历史证据不改。

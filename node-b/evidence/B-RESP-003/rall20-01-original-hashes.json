@@ -1,0 +1,107 @@
+{
+  "status": "FAILED_PRE_WINDOW_ALL_ORIGINALS_RETAINED",
+  "files": [
+    {
+      "relative_private_path": "heartbeat-events.jsonl",
+      "bytes": 6828,
+      "sha256": "3f2b60ecc1b42c2f3c0b22eff8f9dd4cab648c9d4e8a51a80abbca807dc1beea"
+    },
+    {
+      "relative_private_path": "io-private.jsonl",
+      "bytes": 3362,
+      "sha256": "ca5daf39bfe9410297fc7f3d4fe23ad14862bb7b2d7aaa244edd35fd1f885091"
+    },
+    {
+      "relative_private_path": "precheck/0000-diag.bin",
+      "bytes": 120,
+      "sha256": "b389fac043573d279ce9855f0ac02782b6fb4af6e13021f3c5c2f751dd98288c"
+    },
+    {
+      "relative_private_path": "precheck/0000-rreg-cache.bin",
+      "bytes": 12,
+      "sha256": "becdae9831207614cebf6d5305874e47c670dd2f82bc5c15eca123558f5e3730"
+    },
+    {
+      "relative_private_path": "precheck/0000-stats.bin",
+      "bytes": 48,
+      "sha256": "c1da35402cd8e87f58228fb14f7a1e144bfd53456ce576bb27ee5542e40e7f96"
+    },
+    {
+      "relative_private_path": "precheck/identity-private.json",
+      "bytes": 156,
+      "sha256": "6807dc3c928c11b5ba3d2185286f2a7e18bc526485d7ac84edace59728dc0323"
+    },
+    {
+      "relative_private_path": "precheck/image-hashes.json",
+      "bytes": 177,
+      "sha256": "ea4fcdbdb247d006bb8da5ff93de2f82c83e83373e75364596790e359533f5bf"
+    },
+    {
+      "relative_private_path": "precheck/initial-state-private.json",
+      "bytes": 45,
+      "sha256": "5a8262b27cd8b49e23c68b3a2981846529f4741ab05f8fd0e0cdac0b0e113793"
+    },
+    {
+      "relative_private_path": "probe-status-private.json",
+      "bytes": 25,
+      "sha256": "fecdafeae802ada818477c71d4f7213c1c9e717ac6355a4540ea1095cb513491"
+    },
+    {
+      "relative_private_path": "receipt-private.json",
+      "bytes": 2795,
+      "sha256": "d05ec9569e6c3ce778bd5b0fe72582ea1912cf4fc6179a45960342d47cad7a11"
+    },
+    {
+      "relative_private_path": "sdk-private.log",
+      "bytes": 1025,
+      "sha256": "f62bcfbb2dc9a12e97a9f7860dff601070450a2b3c7dbfe3bd32ae599c7215f6"
+    },
+    {
+      "relative_private_path": "supervisor-receipt-private.json",
+      "bytes": 163,
+      "sha256": "d16b1ad8cd662fe5b67f686c9e36bc8509a51e582f5c0981e0e1dc6fc8bc3e6e"
+    }
+  ],
+  "side_files": [
+    {
+      "relative_private_path": "rall20-01-owner-request-private.txt",
+      "bytes": 277,
+      "sha256": "1bad0b3b559caefe33b31d2ab0cbf7bd4e60feb3c71e3a8103e17cb6ac0ef14b"
+    },
+    {
+      "relative_private_path": "rall20-01-safety-private.json",
+      "bytes": 1553,
+      "sha256": "28b6dfa17614c3af313e5dced4a8f72a72127879953ce5c25ec7dc7d4d5acabf"
+    },
+    {
+      "relative_private_path": "source-record-rall20-01.json",
+      "bytes": 1732,
+      "sha256": "e7e9c9317e7fd4d0b8c2855ac741caabd324678fadba676b4ed1b5ae8c6369db"
+    },
+    {
+      "relative_private_path": "capture-resp-rall20-01.json",
+      "bytes": 2959,
+      "sha256": "39b1c9efe4fcb27618ddc7707604b1bc44a739810528a1c85a57673c0126972c"
+    },
+    {
+      "relative_private_path": "rall20-01-manifest-private.json",
+      "bytes": 4112,
+      "sha256": "fb339d89d9a345ffcca9f47844be29d8c7549dc02fa51f63a5320c1797f4ae6f"
+    },
+    {
+      "relative_private_path": "rall20-01-supervisor.stdout.log",
+      "bytes": 152,
+      "sha256": "6b408ca332f9e84da96346c0ad1d299742755937917b99b8aa815dde1da838df"
+    },
+    {
+      "relative_private_path": "rall20-01-supervisor.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_private_path": "rall20-01-invocation-receipt-private.json",
+      "bytes": 221,
+      "sha256": "596ab6eaac26b9d95360816158e64ac028ab6d72cab7902754b7ec57df88b0a2"
+    }
+  ]
+}

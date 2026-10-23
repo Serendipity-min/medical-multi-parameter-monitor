@@ -1,0 +1,55 @@
+{
+  "status": "PRE_WINDOW_STOP_RUNNING_SYSTEM_ROM",
+  "date_local": "2026-10-23",
+  "source_type": "RESP_EXPLORATORY",
+  "nominal_rpm": 20,
+  "dynamic_pair": "MANUFACTURER_MANUAL_RA_LL",
+  "reference_rpm": null,
+  "Z0_ohm": null,
+  "delta_Zpp_ohm": null,
+  "physical_leads": {
+    "R_red": "RA",
+    "L_yellow": "LL",
+    "F_green": "RL"
+  },
+  "worker_exit_code": 1,
+  "supervisor_exit_code": 1,
+  "session_elapsed_s": 26.844000000040978,
+  "raw_slot_window_started": false,
+  "stable_frames": 0,
+  "RR_computed": false,
+  "analysis_exit_code": null,
+  "analysis_status": "NOT_RUN_NO_CAPTURE_FRAMES",
+  "captured_error": "RuntimeError: RESP_DIAG_ABI",
+  "sdk_calls": 47,
+  "explicit_halt": 0,
+  "go": 0,
+  "reset": 0,
+  "flash_write": 0,
+  "VTOR_hex": "0x1fff0000",
+  "PCSR_samples_hex": [
+    "0x1fff32ea",
+    "0x1fff32ee",
+    "0x1fff32f2",
+    "0x1fff32ea",
+    "0x1fff3300"
+  ],
+  "CFSR": 0,
+  "HFSR": 0,
+  "initial_state": "RUNNING_NOT_HALTED",
+  "Flash_options_identity_matches": true,
+  "target_end_state": "UNKNOWN_AFTER_CLOSE_NO_RECONNECT",
+  "source_profile_card_sha256": {
+    "source_record_sha256": "e7e9c9317e7fd4d0b8c2855ac741caabd324678fadba676b4ed1b5ae8c6369db",
+    "profile_sha256": "39b1c9efe4fcb27618ddc7707604b1bc44a739810528a1c85a57673c0126972c",
+    "card_sha256": "efd6ae2d665bca58910a8dd6e511c68e9f61e4fcbc017d96e1ecd4297f991b56"
+  },
+  "limitation": "No new CH1 or RR conclusion; ROM mapping/execution cause deferred. Diagnostic error is a precondition failure, not a respiration result.",
+  "reported_DC_range": "UNKNOWN",
+  "safety_report_interpretation_mV": [
+    2.5,
+    16,
+    -13.5
+  ],
+  "owner_wiring_power_transition": "OWNER_REPORTED_BEFORE_INTERMEDIATE_REVIEW"
+}
