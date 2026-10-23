@@ -99,6 +99,29 @@ class ReadonlyTests(unittest.TestCase):
             window.validate_authorization(a)
             a['field_state'] = 'PROBE_STILL_ON_B'
             with self.assertRaisesRegex(ValueError, 'FIELD_NOT_READY'): window.validate_authorization(a)
+    def current_authorization(self):
+        # 只描述当前已授权事实，不构造串口或SDK，也不能冒用全隔离旧卡。
+        return {'enabled': True, 'owner_approved': True, 'scope': window.SCOPE,
+                'tools_sha256': window.bindings(), 'DLL_sha256': window.raw.DLL_SHA,
+                'expires_unix': window.time.time() + 60, 'B_reference_sha256': 'fake',
+                'field_state': window.CURRENT_STATE, 'authorization_basis': 'OWNER_CURRENT_STATE_BACKUP_ONLY',
+                'owner_request_sha256': window.OWNER_REQUEST_SHA, 'network_isolation_claimed': False,
+                'bench_admission': False, 'site_facts': {'JLink': 'C', 'ESP8266': 'PRESENT_NETWORK_UNVERIFIED',
+                'USB_UART': 'LAST_SEEN_COM15_NO_NEW_COMMANDS', 'CAN': 'DISCONNECTED',
+                'INMP441': 'DISCONNECTED', 'TTS': 'DISCONNECTED', 'power_action': 'NONE'}}
+    def test_current_state_explicit_backup_authorization(self):
+        with patch.object(window.raw, 'sha', return_value='fake'):
+            window.validate_authorization(self.current_authorization())
+    def test_current_state_cannot_claim_bench_or_isolation(self):
+        for key in ('network_isolation_claimed', 'bench_admission'):
+            a = self.current_authorization(); a[key] = True
+            with patch.object(window.raw, 'sha', return_value='fake'):
+                with self.assertRaisesRegex(ValueError, 'NOT_BENCH_AUTHORIZATION'): window.validate_authorization(a)
+    def test_current_state_needs_exact_owner_and_site(self):
+        for key in ('owner_request_sha256', 'authorization_basis', 'site_facts'):
+            a = self.current_authorization(); a.pop(key)
+            with patch.object(window.raw, 'sha', return_value='fake'):
+                with self.assertRaises(ValueError): window.validate_authorization(a)
     def test_sdk_function_deny(self):
         # 不调用构造器；即使未加载任何DLL，禁止操作也应在白名单层立即拒绝。
         obj = object.__new__(window.CReadLink); obj.sdk_calls = 0

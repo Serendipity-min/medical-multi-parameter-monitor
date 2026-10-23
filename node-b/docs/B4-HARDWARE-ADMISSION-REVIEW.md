@@ -61,7 +61,7 @@
 
 ## B4-0.3 G4准入状态与卡的提交边界
 
-**当前G4可执行=false，不请求整包接线/烧录授权。** 增益换算软件门已关闭；C今天的实板备份、针脚/电源核验、真实恢复准入仍未完成。已准备独立[C只读卡](AUTH-C-B4-03-READONLY-001-R1.md)和[B同窗补证卡](AUTH-B-B4-03-SYNC-001-R1.md)，各需PI单独批准；[引脚/电源检查表](B4-03-PIN-POWER-CHECKLIST.md)记录负责人本轮已报事实，C P4两组空置，不能假称CAN2已接通。USB下载偏好已记录，不构成本轮烧录许可，C只读选择不复位J-Link。
+**当前G4可执行=false，不请求整包接线/烧录授权。** 增益换算软件门已关闭；C今天的实板双读备份已通过（见文末追加）；针脚/电源核验、真实恢复准入仍未完成。已准备独立[C只读卡](AUTH-C-B4-03-READONLY-001-R1.md)和[B同窗补证卡](AUTH-B-B4-03-SYNC-001-R1.md)，各需PI单独批准；[引脚/电源检查表](B4-03-PIN-POWER-CHECKLIST.md)记录负责人本轮已报事实，C P4两组空置，不能假称CAN2已接通。USB下载偏好已记录，不构成本轮烧录许可，C只读选择不复位J-Link。
 
 G4以下清单仍是**DISABLED_DRAFT_NOT_AN_AUTHORIZATION**，不是可执行现场卡：
 
@@ -69,7 +69,7 @@ G4以下清单仍是**DISABLED_DRAFT_NOT_AN_AUTHORIZATION**，不是可执行现
 |---|---|---|
 | G1单位/软件 | CH2增益4、名义2.42V、µV PDO→mV JSON；正负/边界/量化/序列；B4 Host/ARM及2048B缓冲 | 软件PASS，新B39948B；不宣称电压校准 |
 | G2线路/电源 | 真实P4 1–2/3–4、CAN2外部H/L、B CAN1/P6、参考地/供电/终端核验；B CAN1↔C CAN2，A段保持断开 | C P4空置/无麦克风TTS/全CAN断开已报，其余电气待批 |
-| G3C当次原件 | 唯一C身份、2×1MiB＋2×options、sector3/7/11、实际保护状态；H3来源身份、整片恢复包、工具/擦写范围及回退审批 | 独立只读卡及15项替身测试已备，实板未读 |
+| G3C当次原件 | 唯一C身份、2×1MiB＋2×options、sector3/7/11、实际保护状态；H3来源身份、整片恢复包、工具/擦写范围及回退审批 | 本次18项替身测试及唯一实板双读通过，H3来源匹配，C离线恢复包sector0/1已生成；实板恢复仍未演练 |
 | G4候选安装 | B39948B SHA676eb7…需sector0/1/2；C21700B SHA4b4286…仅sector0/1。新BIN之后原尾部保留，options/sector3/7/11不写；USB或SWD下载另审 | 仅离线安装/回退包工具，真实SDK/USB下载执行入口未审，不烧录 |
 | G5隔离运行 | 无正式MQTT/云端写入；C固定测试TIME（非UTC）及180秒硬停；NMT只到Node2，HB Node2 0x702、PDO0x182/282/382/482/682，SDO0x602/582 | 软件模拟PASS，实际CAN ACK/状态未测；NMT响应看HB/PDO，不虚构协议ACK |
 | G6传输与采集 | 250SPS原码序号连续、队列/错误；比较B发出的值/时间/质量与C接收重建，保存真实原始CAN及诊断 | 不能以两块屏变化或MOCK回放替代；现单J-Link，连续两板取证路径/采集工具须先冻结。C现16条聚合RAM环不是完整CAN记录，需受审串口/第二读取路径或足够的受控采集方案，未补齐不发可执行卡 |
@@ -78,3 +78,10 @@ G4以下清单仍是**DISABLED_DRAFT_NOT_AN_AUTHORIZATION**，不是可执行现
 | G9双通道 | 同窗HR/RR有效率、速率范围、原码/滤波/原因码/周期证据 | 独立补证卡已备，未实测；与CAN传输各自裁定，不能互相PASS |
 
 所有候选仍hardware_eligible=false。CPU_ROM_ROOT_CAUSE_UNRESOLVED保留待复现；一旦ROM/HALT/意外复位立即STOP，不无限重试或用刷机消除现场。G1–G3及对应现场条件未通过，不签可执行G4卡；将来窗口须重新填唯一现场候选SHA、原件SHA、允许的物理/调试动作、采集通道、故障注入与恢复上限。每个剩余缺口如实保留，不自动进入CAN。
+
+
+## C最新现场补证（2026-10-23）
+
+本次负责人明确授权、J-Link已在C，唯一79次SDK调用/显式reset-halt-go-write=0完成F407/1024KiB/不同于B的UID核验、2×完整Flash及2×options，双份一致，读取时Flash运行、Fault清零、RDP0。H3应用43172B和sector3的336B记录来源匹配，sector3/7/11哈希已单存；所有原件EFS。完整Flash SHA `1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390`。G3的身份/双备份子项PASS，恢复准入子项仍PENDING。C21700B候选的真实离线安装/回退包已形成，范围sector0/1，文件重建/载入核验通过；没有执行任何Flash写入或恢复演练。
+
+本次是保持已有USB/ESP/供电状态的仅备份授权，不伪填旧隔离卡条件；工具新增严格的本次授权/现场事实分支，原地址白名单、双读/180秒上限与异常停止条件不变，授权消费一次。C网络隔离、P4/P6/参考地/终端、候选安装/回退执行入口及两板连续采集仍未就绪；G4保持DISABLED。C现在是原H3、B仍原25488B，不能仅接H/L就声称双CAN运行已验证。精确接法见更新的[检查表](B4-03-PIN-POWER-CHECKLIST.md)，本次[实际回执](../evidence/B4-003/C-current-readback/receipt.json)不签CAN传输或HR/RR同步PASS。CPU_ROM_ROOT_CAUSE_UNRESOLVED保留。

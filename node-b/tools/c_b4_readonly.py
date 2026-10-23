@@ -17,6 +17,8 @@ ROOT = Path(__file__).resolve().parents[2]
 DLL = Path('E:/medical-monitor-node-b-field-private/field-r3/jlink-986a-portable/JLink_x64.dll')
 B_REFERENCE = Path('E:/medical-monitor-node-b-field-private/field-r3/readback-r3-02/identity-before-private.json')
 SCOPE = 'C_B4_03_ONE_ATTACH_TWO_FULL_READS_NO_RESET_HALT_GO_WRITE'
+CURRENT_STATE = 'C_EXISTING_POWER_USB_UART_UNCHANGED_JTAG_C_CAN_OFF_ESP_PRESENT_NETWORK_UNVERIFIED'
+OWNER_REQUEST_SHA = '95cbc5507940b39ae790c4d89d9fdc995393a30f8956b31e09caaa833635437c'
 SYSTEM = {k: runtime.SYSTEM[k] for k in ('DHCSR', 'VTOR', 'CFSR', 'HFSR', 'RCC_CSR', 'DWT_PCSR',
                                         'RCC_APB2ENR', 'SYSCFG_MEMRMP')}
 SYSTEM.update(FLASH_CR=0x40023c10, FLASH_SR=0x40023c0c)
@@ -146,9 +148,23 @@ def validate_authorization(a):
     require(a.get('enabled') is True and a.get('owner_approved') is True and a.get('scope') == SCOPE,
             'C_RO_OWNER_AUTHORIZATION_REQUIRED')
     require(a.get('tools_sha256') == bindings() and a.get('DLL_sha256') == raw.DLL_SHA, 'C_RO_TOOL_DRIFT')
-    require(a.get('card_sha256') == raw.sha(ROOT / 'node-b/docs/AUTH-C-B4-03-READONLY-001-R1.md'), 'C_RO_CARD_DRIFT')
     require(isinstance(a.get('expires_unix'), (int, float)) and time.time() < a['expires_unix'], 'C_RO_EXPIRED')
-    require(a.get('field_state') == 'C_J5_ONLY_USB_OFF_JTAG_C_CAN_OFF_NO_MIC_TTS_ESP_ISOLATED', 'C_RO_FIELD_NOT_READY')
+    if a.get('field_state') == CURRENT_STATE:
+        # 负责人新授权按现状仅备份，不能虚填旧卡的USB断开/ESP隔离事实。
+        # 此入口不切电源或控制线，也不授予任何CAN/烧录资格；底层读范围和停止条件不变。
+        require(a.get('authorization_basis') == 'OWNER_CURRENT_STATE_BACKUP_ONLY'
+                and a.get('owner_request_sha256') == OWNER_REQUEST_SHA, 'C_RO_CURRENT_OWNER_SCOPE')
+        require(a.get('site_facts') == {'JLink': 'C', 'ESP8266': 'PRESENT_NETWORK_UNVERIFIED',
+                'USB_UART': 'LAST_SEEN_COM15_NO_NEW_COMMANDS', 'CAN': 'DISCONNECTED',
+                'INMP441': 'DISCONNECTED', 'TTS': 'DISCONNECTED', 'power_action': 'NONE'},
+                'C_RO_CURRENT_SITE_FACTS')
+        require(a.get('network_isolation_claimed') is False
+                and a.get('bench_admission') is False, 'C_RO_NOT_BENCH_AUTHORIZATION')
+    else:
+        require(a.get('field_state') == 'C_J5_ONLY_USB_OFF_JTAG_C_CAN_OFF_NO_MIC_TTS_ESP_ISOLATED',
+                'C_RO_FIELD_NOT_READY')
+        require(a.get('card_sha256') == raw.sha(ROOT / 'node-b/docs/AUTH-C-B4-03-READONLY-001-R1.md'),
+                'C_RO_CARD_DRIFT')
     require(a.get('B_reference_sha256') == raw.sha(B_REFERENCE), 'C_RO_B_EXCLUSION_REFERENCE_DRIFT')
 
 
@@ -158,6 +174,8 @@ def worker(args, authorization):
     try:
         link = CReadLink(out)
         result = capture(link, out, json.loads(B_REFERENCE.read_text('utf-8'))['uid_hex'])
+        result.update(authorization_field_state=authorization['field_state'],
+                      network_isolation_validated=False, CAN_bench_authorized=False)
     except BaseException as e:
         # 完整原生日志留EFS；公开仅错误类型，不能让SDK异常字符串泄漏身份或配置。
         result.update(status='STOP', exit_code=1, error_type=type(e).__name__)

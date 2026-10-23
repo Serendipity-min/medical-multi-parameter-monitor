@@ -122,3 +122,18 @@ Host台架测试、本地TIME/回绕/有界RAM/停窗、ARM禁联网构建全部
 再次查看本地原理图第4/5/6页，并核对冻结双CAN驱动：B CAN1 PA11/PA12，经P6 CAN路径及U3；C CAN2 PB12/PB13 AF9，经P4的1–2（RX）及3–4（TX）与U2。参考U2/U3均TJA1050、5V供电，外部CAN座针2=H、针1=L、各自120Ω终端。CAN1与CAN2是各MCU内部控制器编号，不要求两端编号相同；两端同为500kbps即可按既有方案B CAN1↔C CAN2通信。C软件保持CAN1共享时钟、CAN2 filter start14及独立中断/队列，PB12/PB13不启用I²S2；无外接麦克风/TTS减少外部争用，但不能推断板载WM8978已物理隔离。COM15为CH340/USART1路径，与PA11/PA12的USB_SLAVE资源不同。
 
 裁定为CAN2_DOCUMENT_AND_SOFTWARE_FEASIBLE_PHYSICAL_ADMISSION_PENDING，不签真实CAN收发PASS。C P4最近事实为空，尚未连通MCU与收发器；实际端子/供电/终端、参考地及P6路径仍需现场核对。ESP在板不等于已联网，也不等于已隔离；其现有网络状态未测，未发AT、改凭据或执行云端命令。C当次Flash/options备份、恢复及共同稳态有效性门禁继续保留。读取UID/启动状态/完整Flash应转用接C的J-Link；本轮不要求负责人现在转接，不复位、不改BOOT、不接CAN、不烧录、不改算法。详见[实际读取回执与CAN2复核](../evidence/B4-003/c-com15-can2-site-review.json)。
+
+
+## C身份/完整备份PASS与接线准备（2026-10-23最新）
+
+负责人把J-Link由B转C并明确授权按当前状态只读核验及完整备份。工具新增仅该授权可用的现状备份分支，明确ESP在板、USB最近为COM15且不再发串口命令，电源/BOOT/网络不操作；不把备份当作已隔离台架。底层SDK白名单、双读数量、故障停止及180秒上限不变；18项C替身和15项同步门禁测试通过（6阶段含缺授权退出1负例均按预期）。原只读卡与冻结工具索引保留历史，没有拿旧条件伪报本次现场。
+
+**C_CURRENT_DOUBLE_FULL_READ_PASS，真实退出0，唯一连接79次SDK调用。** CPUID0x410FC241、IDCODE低12位0x413、容量1024KiB、RDP0，UID前后相同且排除B（UID原值只存EFS）。PC运行样本前后均在Flash，VTOR=0x08000000、CFSR/HFSR=0、Flash闲置且锁定；窗口无新复位/HALT/ROM证据。显式复位/暂停/续跑/目标写入均0，正常退出使用已修正的续跑策略。历史ROM根因依旧UNRESOLVED，不将C当前正常状态当B历史根因关闭。
+
+2×1048576B Flash逐字节相同，SHA256 `1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390`；2×16B options相同，SHA256 `52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687`。sector3/7/11独立保存哈希，既有H3应用43172B及sector3配置336B分别匹配历史来源。原件、UID、options、SDK回执、执行源码快照及离线恢复包均保存本机受限EFS目录，本次公开资料只有状态、数值和SHA，不含固件/凭据。
+
+C21700B冻结候选只读入离线工具，已根据当次双备份形成sector0/1安装与原件回退包，包SHA `7c45912d4eead456fc49f46df8c9439ff8b1a96bbe97c53bf4d192cbc467b298`；保持原尾部、sector2/3/7/11及options。离线包载入/重建核验通过不等于已经安装或恢复演练，C实际固件仍原H3，B仍25488B，两个B4候选均未部署。
+
+接线继续**B CAN1↔C CAN2**：H↔H、L↔L、板GND↔板GND；B P6为1–3/2–4 CAN路径、C P4为1–2/3–4两组，C P4现为空，需要在以后获准断电窗口补齐。参考各板已有120Ω终端，不重复添加，不互并电源，不碰RLD或短LL/RL，A段断开。控制器号无需两端一致；若改成B CAN2↔C CAN2，需要另改B驱动并重新验证，不属于当前候选。准确接线与未就绪条件见[检查表](B4-03-PIN-POWER-CHECKLIST.md)。
+
+G3身份与备份子项关闭；实际恢复、网络隔离、电气通路及双板连续取证仍待完成，G4维持DISABLED，CAN真实收发NOT_TESTED、双通道同步NOT_VALIDATED。没有接CAN、烧录、改算法阈值、操作云端或运行Security Gate。[C实际备份和工具/原件SHA回执](../evidence/B4-003/C-current-readback/receipt.json)提供复核入口。
