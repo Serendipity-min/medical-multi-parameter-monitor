@@ -59,11 +59,7 @@ int main(void)
         size = queue_find_cmd(cmd_buffer, CMD_MAX_SIZE);
         if (size > 0)
         {
-            if (cmd_buffer[1] == 0x07)    // 屏要求 MCU 软复位
-            {
-                __disable_fault_irq();
-                NVIC_SystemReset();
-            }
+            // 屏上电报告由协议层恢复显示，不能把屏重启扩大为整机软复位。
             ProcessMessage((PCTRL_MSG)cmd_buffer, size);
         }
 

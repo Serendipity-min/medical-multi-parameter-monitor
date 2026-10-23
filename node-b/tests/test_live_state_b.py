@@ -25,7 +25,8 @@ class LiveTests(unittest.TestCase):
             for name in ('JLINKARM_Reset', 'JLINKARM_Halt', 'JLINKARM_Go', 'JLINKARM_WriteMem', 'JLINKARM_WriteReg'):
                 with self.assertRaises(RuntimeError):
                     link.call(name)
-            for address, size in ((0x40011004, 4), (0x20000000, 131072), (0x08000000, 1048576)):
+            for address, size in ((0x40011004, 4), (0x20000000, 131072), (0x08000000, 1048576),
+                                  (0x1fff0000, 30724), (0x1fff0004, 30720)):
                 with self.assertRaises(RuntimeError):
                     link.call('JLINKARM_ReadMemEx', address, size, None, 0)
             sdk.assert_not_called()

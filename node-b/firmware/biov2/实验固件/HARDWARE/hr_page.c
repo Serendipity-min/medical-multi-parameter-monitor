@@ -707,7 +707,7 @@ void HrPage_OnText(uint16_t scr, uint16_t ctl, uint8_t *str)
     uint16_t v;
     uint8_t  chg = 0;
 
-    // 暂停页(4)提示文本：含"已暂停"则该停判报警，否则照常；lua 是唯一写者
+    // 暂停页(4)提示文本：含"已暂停"则停判报警；平时由lua写，屏重启时由MCU补回原状态。
     if ((scr == HP_SCR_PAUSE) && (ctl == HP_TXT_PAUSE))
     {
         uint8_t run = (uint8_t)(HasGBK(str, STR_TAG_PAUSED, 6) ? 0 : 1);
@@ -796,6 +796,19 @@ void HrPage_Init(void)
     GraphChannelDataClear(HP_SCR_HOME, HP_GRAP_RESP, 0);
     QualityRefresh();
     ReadRTC();
+}
+
+void HrPage_OnScreenReset(void)
+{
+    // 只重建屏端状态；不能调用 HrPage_Init/BioV2_Init，保留采样、限值及监护状态。
+    SetScreen(HP_SCR_HOME);
+    HrPage_NotifyScreen(HP_SCR_HOME);
+    WriteSetupTexts();
+    SetButtonValue(HP_SCR_SET, HP_BTN_SOUND, (uchar)s_sound);
+    // 周期回读以此文本判暂停，重建时也要补回，避免屏默认值覆盖原监护状态。
+    TxtGB(HP_SCR_PAUSE, HP_TXT_PAUSE, (s_run != 0) ? STR_RUN : STR_PAUSE);
+    TxtGB(HP_SCR_HOME, HP_TXT_CAP, STR_CAP);
+    ValueRefresh(s_now_ms);
 }
 
 void HrPage_Task(uint32_t now_ms)

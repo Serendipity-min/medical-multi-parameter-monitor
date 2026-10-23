@@ -17,7 +17,8 @@ CANDIDATE_SHA = '438a8120f6df06ce219cdc30c0e5b697ac0e993f98d5a80521b10361536ae3a
 REGS = old.SYSTEM | {'application_ms': 0x20000044, 'HMI_10ms_ticks': 0x2000013c}
 READS = {a: n for a, n in old.REGIONS.items() if a != 0x08000000}
 READS.update({a: 4 for a in REGS.values()})
-READS.update({0x08000000: 25284, 0x20001ae4: 120, 0x2000018c: 48, 0x200001bc: 12})
+READS.update({0x08000000: 25284, 0x20001ae4: 120, 0x2000018c: 48, 0x200001bc: 12,
+              0x1fff0000: 30720})
 RESUME_CLOSE = 'SetRestartOnClose = 1'
 
 
@@ -79,7 +80,7 @@ class LiveLink(old.RuntimeLink):
         self.close_resume_enabled = enabled
 
 
-def inspect(dll, reference, out):
+def inspect(dll, reference, out, read_rom=False):
     result = {'status': 'STARTED', 'exit_code': 1, 'reset_requests': 0, 'halt_requests': 0,
               'explicit_go_requests': 0, 'target_data_writes': 0,
               'ROM_root_cause': 'CPU_ROOT_CAUSE_UNRESOLVED', 'P0_pass': False,
@@ -106,6 +107,12 @@ def inspect(dll, reference, out):
         require(normal_flash(first_check), 'LIVE_ENTRY_NOT_RUNNING_FLASH')
         link.verified_running_flash = True
         link.set_close_resume(True)
+        if read_rom:
+            # 仅导出 F407 固定系统 ROM 范围用于离线反汇编；绝不执行 ROM 或改 PC。
+            rom = link.read(0x1fff0000, 30720)
+            with (out/'system-ROM-private.bin').open('xb') as stream:
+                stream.write(rom)
+            result['system_ROM_sha256'] = sha_bytes(rom)
         time.sleep(3)
         last = snapshot(link, out, 'before-close')
         result['snapshots'].append(last)
@@ -144,6 +151,8 @@ def supervise(args):
     argv = [sys.executable, '-X', 'utf8', str(Path(__file__)), '--worker']
     for name in ('dll', 'reference', 'out'):
         argv.extend(['--' + name, str(getattr(args, name))])
+    if args.read_rom:
+        argv.append('--read-rom')
     started = time.monotonic()
     reason = None
     with args.out.with_name(args.out.name + '-worker.log').open('xb') as stream:
@@ -183,6 +192,7 @@ def main():
     for name in ('dll', 'reference', 'out'):
         p.add_argument('--' + name, required=True, type=Path)
     p.add_argument('--worker', action='store_true', help=argparse.SUPPRESS)
+    p.add_argument('--read-rom', action='store_true', help='保存固定30KiB系统ROM用于离线归因')
     args = p.parse_args()
     # 原始身份和内存诊断只写既有受限 EFS 目录；独占新目录避免覆盖旧窗口。
     require(args.out.resolve().is_relative_to(PRIVATE.resolve()), 'LIVE_PRIVATE_OUTPUT')
@@ -195,7 +205,7 @@ def main():
     write_json(args.out/'tool-bindings.json', {p.name: sha(p) for p in
                (Path(__file__), Path(old.__file__), Path(__file__).with_name('readback_b.py'),
                 Path(__file__).with_name('resp_exploratory.py'))})
-    result = inspect(args.dll, reference, args.out)
+    result = inspect(args.dll, reference, args.out, args.read_rom)
     print(json.dumps({k: result.get(k) for k in ('status', 'exit_code', 'error', 'close_error')}))
     return result['exit_code']
 

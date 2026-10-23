@@ -101,6 +101,7 @@ void    HrPage_GetVitals(HrVitals_t *v);
 uint8_t HrPage_SetLimits(int16_t hr_hi, int16_t hr_lo, int16_t rr_hi, int16_t rr_lo);
 
 void HrPage_Init(void);
+void HrPage_OnScreenReset(void);
 void HrPage_Task(uint32_t now_ms);
 void HrPage_NotifyScreen(uint16_t screen_id);
 void HrPage_OnButton(uint16_t scr, uint16_t ctl, uint8_t state);

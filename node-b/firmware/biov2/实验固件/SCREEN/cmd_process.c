@@ -14,12 +14,29 @@
 */
 void ProcessMessage(PCTRL_MSG msg, uint16 size)
 {
-    uint8  cmd_type     = msg->cmd_type;
-    uint8  ctrl_msg     = msg->ctrl_msg;
-    uint8  control_type = msg->control_type;
-    uint16 screen_id    = PTR2U16(&msg->screen_id);   // 帧内多字节整数均为大端序
-    uint16 control_id   = PTR2U16(&msg->control_id);
-    uint32 value        = PTR2U32(msg->param);
+    uint8 cmd_type, ctrl_msg, control_type;
+    uint16 screen_id, control_id;
+    uint32 value;
+    const uint8 *raw = (const uint8 *)msg;
+
+    // 07 是屏重启报告，不是请求 MCU 复位；先于通用控件字段解包处理六字节短帧。
+    if ((msg == 0) || (size < 6)) { return; }
+    cmd_type = msg->cmd_type;
+    if (cmd_type == NOTIFY_SCREEN_RESET)
+    {
+        if ((size == 6) && (raw[0] == 0xEE) && (raw[2] == 0xFF) &&
+            (raw[3] == 0xFC) && (raw[4] == 0xFF) && (raw[5] == 0xFF))
+        {
+            HrPage_OnScreenReset();
+        }
+        return;                         // 畸形07帧也不得进入复位或控件分发路径。
+    }
+
+    ctrl_msg     = msg->ctrl_msg;
+    control_type = msg->control_type;
+    screen_id    = PTR2U16(&msg->screen_id);   // 帧内多字节整数均为大端序
+    control_id   = PTR2U16(&msg->control_id);
+    value        = PTR2U32(msg->param);
 
     (void)size;
 
