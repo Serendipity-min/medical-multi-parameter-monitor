@@ -1,0 +1,5 @@
+normal NIBP_valid=89 router_drop=0 malformed=0
+five-second publishing stall=0 dropped=0 replayed=0 live=0 cache=0
+actual coreMQTT worst PUBLISH=1534 bytes
+worst ECG100 JSON=1493 bytes; ECG250 rejected without overrun
+dualbus actual B wire: ECG=222 RESP=88 A_PPG=90 HR_valid=81 RR_valid=64 NIBP_valid=91 maxJSON=812 PASS

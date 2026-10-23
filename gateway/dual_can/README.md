@@ -23,7 +23,7 @@ C 使用两个独立 CANopenNode 消费端口，身份均为同一个业务 Gate
 
 质量位0/1为本通道算法资格通过的波形，2/3为HR/RR有效，4为TEMP有效，31为合成来源。真实B不设置31；Host夹具在模拟器入口另行标记合成，绝不上云。TEMP尚无实现，值0且位4恒清零。未收到可信TIME或超过30秒失效，撤销CAN有效资格；算法与屏幕继续运行。
 
-ECG换算使用已冻结 BIO 显示缩放和名义 Vref=2.42V、gain=6；未作绝对幅度标定。RESP始终为相对量，不表示Ω。菜单 R、基线 Z0、ΔZpp 未标定，不补造数值。
+ECG换算使用已冻结 BIO 显示缩放和名义 Vref=2.42V、已核验CH2 gain=4；未作绝对幅度标定。RESP始终为相对量，不表示Ω。菜单 R、基线 Z0、ΔZpp 未标定，不补造数值。
 
 B 用 H3 Node-A 静态端口及字典作参考，复用固定 CANopenNode `9b8beed8367241e96ac03f916cd5a500bcb2cf23`。应用遥测对象 SDO 只读。算法源 SHA 固定为 `3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7`。构建仅在副本中加入 FrameFeed 后置钩子，CAN与ADC共用TIM2毫秒域，不混入屏幕10ms时基。128点有界队列、每次最多8轮；过期/溢出计数，不阻塞采集。Host已验证邮箱停顿期间23250个BIO样本持续推进。
 
@@ -87,3 +87,12 @@ Keil ARMCC5、MinGW和ARM GCC/STM32 SPL来自既有本机安装；外部DSP按�
 B恢复目标始终是已验收25488B修正版及对应完整Flash；旧25284B只作历史。B CAN候选39948B跨32KiB，不能调用旧固定32KiB last-round下载工具；新工具的离线NOR模型验证了sector0/1/2和部分编程失败后的原件回退。
 
 资源资料详见[本轮来源及核对](../../node-b/evidence/B4-001/bench-r1/resource-audit.json)，构建/负例/加密归档见[台架阶段结果](../../node-b/evidence/B4-001/bench-r1/stage-results.json)。不修改H3、P4、P5/P6或语音分支，不改变BIO阈值。
+
+
+## B4-0.3 ECG单位修正
+
+旧软件候选39948B使用`display*242/600`（gain6），现已撤销其硬件部署候选资格并保留原件。CH2SET=0x40对应gain4，与冻结初始化RREG缓存一致；BIO显示量约为滤波ADC码×10^6/2^23，正确通信换算为`int64(display)*126877696/209715175`整数µV，网关统一除1000输出mV。其中已补偿TI第29页LSB分母2^23−1与UI分母2^23的差异；整数除法向零截断，显示量→µV误差<1µV；上游UI量化/滤波与Vref误差另计。参考2.42V未经绝对校准，不改变ADC寄存器/滤波/算法阈值，不能借此解释或修复既有HR周期失败。
+
+新39948B B候选SHA256 `676eb7a46ad9cd15c7bf93db51a1931d7711d37c6f2fd636197dc4a85b339b82`，仍需评估sector0/1/2；C21700B隔离候选不变。`run_b4.py`新增真实B入队/PDO字节→网关mV JSON→既有Backend序列测试，涵盖正负、INT32边界、2000001个显示输入及65536个随机输入；最坏MQTT1534B<2048B。软件通过不能继承为实板电压/同步有效性或CAN传输PASS。
+
+精确C只读卡、同窗补证卡及G4尚缺门禁见[本轮准入审查](../../node-b/docs/B4-HARDWARE-ADMISSION-REVIEW.md)。

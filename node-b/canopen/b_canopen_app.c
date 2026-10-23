@@ -4,6 +4,7 @@
 #include "b_canopen_app.h"
 #include "bio_v2.h"
 #include "node_policy.h"
+#include "ecg_units.h"
 #include <limits.h>
 #include <string.h>
 #ifndef B4_HOST
@@ -63,9 +64,9 @@ void BCan_Sample(uint32_t tick, uint32_t sequence, uint8_t flags) {
     last_sequence = sequence; have_sequence = 1;
     if (count == 128u) { g_b_can.overflow++; return; }
     Sample *s = &queue[head];
-    /* BIO显示量=h*1e6/2^23；按名义2.42V/gain6转微伏，非绝对幅度标定。
+    /* BIO显示量=h*1e6/2^23；按已核验CH2增益4和名义2.42V转微伏，非绝对标定。
      * RESP只保留显示相对量，百万分之一单位，明确不能解释成欧姆。 */
-    s->ecg = (int32_t)((int64_t)BioV2_EcgWave() * 242 / 600);
+    s->ecg = b4_ecg_display_to_uv(BioV2_EcgWave());
     int64_t resp = (int64_t)BioV2_RespWave() * 1000;
     s->resp = resp > INT32_MAX ? INT32_MAX : resp < INT32_MIN ? INT32_MIN : (int32_t)resp;
     s->tick = tick; s->sequence = sequence; s->flags = flags;

@@ -81,7 +81,7 @@ def main():
     log = (project / 'build.log').read_text(encoding='utf-8', errors='replace')
     (out / 'launcher.log').write_bytes(result.stdout + result.stderr)
     resource = re.search(r'Program Size: Code=(\d+) RO-data=(\d+) RW-data=(\d+) ZI-data=(\d+)', log)
-    report = {'version': 'B4-0.1', 'scope': 'ARM_SOFTWARE_ONLY_NO_FLASH', 'exit_code': result.returncode,
+    report = {'version': 'B4-0.3', 'scope': 'ARM_SOFTWARE_ONLY_NO_FLASH', 'exit_code': result.returncode,
               'hardware_eligible': False, 'deployment_default_unchanged': True,
               'bio_source_sha256': sha(project / 'HARDWARE/bio_v2.c'), 'log_sha256': sha(project / 'build.log'),
               'builder_sha256': sha(Path(__file__)), 'resources': list(map(int, resource.groups())) if resource else None,

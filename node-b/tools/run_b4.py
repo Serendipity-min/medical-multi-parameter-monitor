@@ -42,6 +42,18 @@ def main():
                              *includes, *sources, '-lm', '-o', out / 'b4_node.exe']):
         run('node-b-protocol', [out / 'b4_node.exe', out / 'b2-synthetic-wire.txt'])
         run('node-b-jitter-protocol', [out / 'b4_node.exe', out / 'b2-jitter-wire.txt', 'jitter'])
+    # 独立单位测试复用真实B队列/PDO、网关序列化及Backend，避免只验证帮助函数。
+    units_sources = [p for p in sources if p.name != 'b4_node_protocol.c'] + [
+        ROOT / 'node-b/tests/b4_ecg_units.c', ROOT / 'gateway/data_model/model.c',
+        ROOT / 'gateway/third_party/coreMQTT/source/core_mqtt_serializer.c']
+    if run('compile-ecg-gain4', [gcc, '-std=c99', '-O2', '-DB4_HOST', '-DMP_FRAME_MAX_SAMPLES=100',
+            '-Wall', '-Wextra', '-Wno-unused-parameter', *includes,
+            '-I' + str(ROOT / 'gateway/data_model'),
+            '-I' + str(ROOT / 'gateway/third_party/coreMQTT/source/include'),
+            '-I' + str(ROOT / 'gateway/third_party/coreMQTT/source/interface'),
+            '-I' + str(ROOT / 'gateway/mqtt/src'), *units_sources, '-lm', '-o', out / 'b4_units.exe']):
+        run('ecg-gain4-wire-and-json', [out / 'b4_units.exe', out / 'gain4-mv.jsonl'])
+        run('ecg-gain4-existing-backend', [sys.executable, ROOT / 'node-b/tests/b4_ecg_json.py', out / 'gain4-mv.jsonl'])
     dual = ROOT / 'gateway/dual_can'
     g_sources = [*core, ROOT / 'gateway/canopen/src/mp_od.c', dual / 'b4_bus.c', dual / 'b4_gateway.c',
                  ROOT / 'gateway/data_model/model.c', ROOT / 'gateway/storage/router.c', dual / 'tests/simulator.c',
@@ -61,10 +73,10 @@ def main():
         '-DMP_FRAME_MAX_SAMPLES=100', '-DMP_CACHE_CAPACITY=64', '-DB4_I2S2_PB12_PB13=1', '-'], expected=1, input_data=b'')
     run('mixed-model-abi-negative', [gcc, '-E', '-x', 'c', '-I' + str(dual), '-include', 'b4_resources.h',
         '-DMP_FRAME_MAX_SAMPLES=250', '-DMP_CACHE_CAPACITY=64', '-'], expected=1, input_data=b'')
-    report = {'version': 'B4-0.1', 'scope': 'HOST_OFFLINE_SYNTHETIC_NOT_HARDWARE', 'cases': cases,
+    report = {'version': 'B4-0.3', 'scope': 'HOST_OFFLINE_SYNTHETIC_NOT_HARDWARE', 'cases': cases,
               'status': 'PASS' if all(c['passed'] for c in cases) else 'FAIL',
               'source_sha256': {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
-                                for p in sources + g_sources if p.exists()}}
+                                for p in sources + units_sources + g_sources + [b / 'ecg_units.h', ROOT / 'node-b/tests/b4_ecg_json.py'] if p.exists()}}
     # 原始编码/Canonical输出属于合成夹具，与真实E3原码分目录、分身份归档。
     report['fixture_sha256'] = {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
                                for p in out.glob('*') if p.suffix in ('.txt', '.jsonl')}
