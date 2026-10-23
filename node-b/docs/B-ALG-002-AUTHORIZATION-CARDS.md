@@ -1,5 +1,7 @@
 # Node-B 精确现场授权卡索引及历史草案
 
+最新已执行并消耗：[RA–LL20一次复位及45秒卡](AUTH-B-RESP-RA-LL20-RECOVERY-001-R1.md)获负责人明确同意，reset1/halt1/go2/Flash写0，采集/监督0；CH1相干20周期建立，冻结评价27/38有效、分析3，详见[结果](RESP-RA-LL20-RECOVERY-001-RESULTS-R1.md)。不追加连接或采集，不沿用本卡做速率跟踪。下方“待批/禁用”为历史准备快照；CPU机制按负责人要求[保留待查](B-CPU-ROM-FLASH-DEFERRED-R1.md)。
+
 最新：负责人完成R2并请求采集，[RA–LL20零复位卡](AUTH-B-RESP-RA-LL20-001-R1.md)已执行且消耗，窗口前ROM运行/ABI失败停止，未产生原码或RR。[一次正常复位及有条件45秒新卡](AUTH-B-RESP-RA-LL20-RECOVERY-001-R1.md)已冻结工具/源/profile并通过6项离线测试，待新增明确复位许可；manifest enabled=false、owner_reset_authorized=false，未执行。下方R2准备/R1待批均为历史阶段。
 
 2026-10-23修订：[AUTH-B-RESP-PATH-MEASURE-001 R2](AUTH-B-RESP-PATH-MEASURE-001-R2.md)按新手册和负责人新要求替代R1后续指引，取消全部电阻测量；A段仅呼吸率20等参数确认和三对源端直流核对，B段为待读数审阅且明确开始后的RA–LL冷接方案。本卡采集/SDK调用0；旧R1虽已获同意，但未收到执行结果，不冒填已完成。下方R1待批状态是旧快照。

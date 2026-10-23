@@ -1,5 +1,7 @@
 # MPM-B-ALG-002 唯一阶段交接
 
+最新完成：[RA–LL呼吸20恢复后45秒](RESP-RA-LL20-RECOVERY-001-RESULTS-R1.md)取得可信CH1约3秒周期，三种估计均20；后段33次保存RR20有效，冻结评价27/38有效，因此分析3不改为0。采集/监督0、11339帧完整，reset1/halt1/go2/Flash写0；CH2本窗HR无效，不覆盖旧ECG六窗或宣称同步通过。E2/E3未执行。负责人要求[CPU运行状态问题](B-CPU-ROM-FLASH-DEFERRED-R1.md)保留后查；固件全片前/末一致，不能称算法消失。
+
 最新实板：RA–LL/呼吸20的一次零复位尝试在窗口前停止，Flash/options一致，VTOR与五次PCSR证实当次在运行系统ROM；worker/监督1、原码0、RR未计算、halt/go/reset/写0，原件保留。见[停止报告](RESP-RA-LL20-001-RESULTS-R1.md)。[一次正常复位后有条件45秒新卡](AUTH-B-RESP-RA-LL20-RECOVERY-001-R1.md)和6项离线测试已准备，尚未获新增复位许可且清单禁用，未执行；CPU进入原因仍待查。
 
 2026-10-23：[新V2.2手册](RESP-MANUAL-V22-REVIEW-R1.md)明确呼吸用RA–LL，当前优先排查原RA–LA路径与源设置；取消导联线电阻测量。[修订R2卡](AUTH-B-RESP-PATH-MEASURE-001-R2.md)采用呼吸率20，保留必要三对直流核对，新拓扑待读数审阅后冷接。无新读板/采集/阈值改动；CPU仍待查，旧原件保留。
