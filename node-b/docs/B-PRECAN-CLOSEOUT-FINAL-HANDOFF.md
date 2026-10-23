@@ -1,49 +1,81 @@
-# Node-B 正式CAN集成前唯一交接报告
+# Node-B 当前阶段唯一交接报告｜B4-0.1
 
-2026-10-23，MPM-B-PREC-001。当前为有未关闭项的交接状态，不能解释为三个专项全部通过，也不能据此启动CAN。仅本文件作为本轮交接入口，后续证据在此更新。
+2026-10-23，MPM-B-PREC-001状态冻结及MPM-B4-001软件集成准备。**软件构建与离线验证通过；真实B+C CAN准入BLOCKED。** 本报告是唯一阶段交接入口，不把软件测试写成实物验收，不自动进入联动。
 
-基线实测分支`codex/node-b-bio-v2-field-20261022@bb9bc8e00860ff4f61fa3c4f315edfb76815a59b`已在开工时通过远端HEAD及独立fetch重新核实。实验分支`codex/node-b-precan-closeout-20261023`，独立工作区`E:/medical-monitor-node-b-precan-closeout`；历史实测、B/B2/P4/main/H3/P6/语音及历史标签不修改。
+实验分支 `codex/node-b4-dualbus-software-20261023`，独立工作区 `E:/medical-monitor-node-b4-software`。开工时远端B基线已核验为 `codex/node-b-precan-closeout-20261023@9988d37cd5470d6857bb535aab1d821cf2581302`；H3参考固定为 `a5cdd5b0b1ad48108fd631136e9de69e30582f2d`。仅此新分支提交推送；B/B2/H3/P4/main/P6/语音/历史实测分支与标签不修改，无PR、合并或Security Gate。
 
-## 三项门禁分别签署
+## 冻结后的三个状态分别签署
 
-| 专项 | 门禁 | 当前证据与缺口 |
+| 门禁 | 正式状态 | 证据边界 |
 |---|---|---|
-| P0 CPU根因 | **BLOCKED — CPU_ROOT_CAUSE_UNRESOLVED** | 离线审计及S0再次确认ROM运行/Flash完整；D0/M0均无可辨认应用输出。实物屏跨线至PD2/PD6及PB10/PB11，未到候选USART1 PA9/PA10；P7两组均短接，改接前须隔离CH340输出，P3实物与转换器脚位对应仍缺证据。缺进入ROM的可证实机制、纠正措施及独立启动/调试验证，未签PASS。 |
-| P1 ECG/RESP同步 | **BLOCKED — BLOCKED_BY_P0** | 依任务顺序尚未启动E3 CH2专项分析及新同步采集；没有同窗双路有效性结果，不签B_ECG_RESP_SIMULTANEOUS_ENGINEERING_PASS。也未证明源不支持同步，不能提前签SOURCE_SIMULTANEOUS_CAPABILITY_BLOCKED。 |
-| P2 阻抗幅度 | **BLOCKED — IMPEDANCE_AMPLITUDE_NOT_CALIBRATED_INSTRUMENT_REQUIRED** | 当前仅电池万用表DLX-YQ2915，不具备32kHz动态阻抗标定能力。按负责人“不能做就跳过”跳过实测，Ω真值均null，不要求本轮采购。 |
+| 屏重启引发MCU复位修复 | **SCREEN_RESET_MCU_RESET_FIX_PASS** | 最新25488B实板修正版，屏白色供电/串口插头重启后恢复波形；221次观察中MCU运行时间和BIO计数持续推进，屏07上电报告只恢复UI，不再调用MCU复位 |
+| 历史CPU进入ROM根因 | **CPU_ROM_ROOT_CAUSE_UNRESOLVED** | PC=0x1FFF32F0、VTOR=0x1FFF0000是真实历史观察，Flash完整；ROM中等待USART3接收得到支持，进入机制没有确定，不能写成算法丢失或已修复 |
+| 独立冷启动 | **INDEPENDENT_COLD_BOOT_NOT_VALIDATED** | 虽曾报告关开开关后屏恢复，但相邻取证的主机时间增加213.547秒、MCU运行时间增加213.533秒；不能证明MCU断电/复位。全部供电与反供电路径仍待核验 |
 
-## P0 已完成的实际工作
+J-Link退出时遗留Flash HALT导致画面冻结，与历史进入ROM是两个问题；退出续跑已修正并观察恢复。BOOT0约1.0mV、BOOT1约0.9mV只是200mV直流档的静态读数，不代表复位锁存。NRST未测。无新证据支持将ROM归因于BOOT跳帽、电源、USB或屏复位中的任何单一因素。本轮不再操作或排查实板CPU。
 
-已审查旧CPU延期记录、37份SDK日志及相关IO/心跳、48份关联回执、板图/启动源码/冻结AXF反汇编。重点覆盖BOOT锁存与NRST/电源/自动下载电路，J-Link前后策略及Close行为，RCC/Fault/VTOR/映射，DWT依赖和屏幕07软件复位路径。结论及证据边界见[离线审计](PREC-P0-OFFLINE-AUDIT-R1.md)及[回执索引](../evidence/B-PREC-001/historical-receipt-index.json)。尚无足以唯一归因的证据。
+## 当前部署与恢复原件
 
-S0经单独授权仅执行一次：VTOR三次1FFF0000，15个PCSR样本均ROM；Flash/options SHA与冻结候选一致；BIO ABI无效。显式reset/halt/go/写数据0，Open/Connect/Close各1，不重试。worker/监督器/调用方真实退出3/1/1，约40.672秒；完整结果见[S0/D0报告](PREC-P0-S0-D0-RESULT-R1.md)。首次读值是连接后，Close后状态未知，不能宣称设备全程没有硬件复位。
+当前已验收修正版源码基线是 `9988d37`，**部署冻结对象是25488B，BIN SHA256 `b8e74577dae7a5a1f6caa27687193f5128f89bd70781f06a1d80b0c74d409b44`**。旧25284B仅留作历史证据，永久退出新硬件部署候选身份。
 
-D0负责人回报无波形、电源灯无变化、无其他异常，后续明确JTAG已拔下。M0只授权一次实体复位及无调试器观察，负责人报告仍无反应，没有分别给出5/15/45秒值。图纸默认RS2/P3路径对应USART2，J4/P5第二路对应USART3；冻结候选源码和AXF均为USART1 PA9/PA10。实际跨线按下段新事实记录，不据默认连接推断冲突。此前屏幕观察通道未验证的证据不足已补正，详见[复核](PREC-P0-HMI-PATH-AUDIT-R1.md)。不据静态画面伪造无调试器PC/VTOR或判断CPU仍在ROM。后续按[单变量计划](PREC-P0-FIELD-CONTROL-PLAN-R1.md)逐卡，不无限重试，不强设PC/MSP/VTOR、不重刷。
+- 最新修正版完整Flash：1048576B，SHA256 `d2ea7cbf7081b20f82a4a6ca6dde4918b9c4d4b194a3c6c358c2d74012993316`，前25488B与修正版BIN逐字节相同。
+- options原件：16B，SHA256 `52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687`。本轮未读写设备或选项字节。
+- BIO_V2源 SHA256 `3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7`；全部冻结固件文件逐个核验，算法和阈值不变。
+- 历史f713…整片、失败原件、旧工具SHA、ECG/RR实测数据和历史标签全部保留。
 
-后续现场补充：两块独立屏，P5 PB11_RX↔COM2_T、PB10_TX↔COM2_R；P3 COM1_T↔PD2、COM1_R↔PD6。据实物跨线撤回P3按默认跳帽连接PA3的假设，不能宣称实际存在该冲突。负责人再次确认确实PD2；照片明确为温度屏，型号DC80480DN050_1111_0C，心率屏配置相同由负责人确认；J5丝印OFF=RS232/ON=TTL，与厂家FAQ相符，焊点通断未测。P7 PA9/RXD及PA10/TXD均已短接：后续将转换器接到PA10前必须审阅CH340输出隔离，当前不据此判已发生冲突。实物COM1_T/R对应图纸T1IN/R1OUT未确认，缺近照或同版本资料，未擅自改线或焊接。厂家开发包指令集V5.1确认115200编码，但不能替代实物电气规格。J-Link现已接回，接回时刻未知；当前不再称为持续断开状态，没有自行新增SDK调用。
+[部署入口](../deployment/current.json)区分当前25488B、整片恢复与B4仅软件候选；`hardware_deployment_authorized=false`。[冻结清单](../evidence/B4-001/deployment-freeze.json)包含完整源码文件SHA、AXF/符号/实板回执SHA。L1 BIN/AXF、L2完整Flash/options及本轮软件BIN/ELF/原始构建失败均在受限ACL、NTFS EFS加密目录；本轮又建立并逐字节校验了恢复副本。具体归档位置、加密核验和ZIP SHA见[阶段结果](../evidence/B4-001/stage-results.json)。Git不提交固件、设备身份、私有原码或私有配置。
 
-P0下一步：先取得P3/P7实物近照或同版本板卡资料，核实COM1_T/R对应T1IN/R1OUT；在观察通道改线卡中处理P7/CH340占用，不将RS232 DOUT直连MCU。通道准备与CPU单变量启动试验分开，任何改线先电气审查另卡。如需连接取寄存器对照，先提交另卡，明确介入前后证据来源。冷启动须先解决源/模块潜在反供电的安全初态。即使复位恢复，也保持根因未关闭，直到机制、对应纠正措施及预冻结独立验证全部成立。
+## 既有工程结论与本轮离线发现
 
-## P1 后续补证方案
+[ECG60/90/120 BPM各两轮通过](B-ALG-002-ECG-MATRIX-RESULTS.md)、[RESP12/18/24次分各两轮通过](RESP-E3-MATRIX-001-RESULTS-R1.md)保持原名义源速率范围。RR六窗共206025帧、681/681次稳态保存观察有效；本轮未覆盖或重算旧验收，不把这些不同模式的结果合并成同步通过。
 
-只有P0通过后才分析E3六窗CH2原码、滤波、峰候选、HR原因码及干扰分布，并核对本机V2.2普通ECG模式同步呼吸能力。当前负责人实际源状态已更正为普通ECG60，不是上一轮呼吸24；未擅自切回。
+本轮只分析既有E3的CH2和原Host滤波回放。每窗45秒预热后取90秒共同时间范围，原码与当次采集回执SHA核验一致。序号缺口、削顶和ADC错误均为0；毫秒域存在每窗24–28次非4ms间隔，这是实际时间量化/时钟差异的观察，不冒充物理采样时钟标定。
 
-新同步试验须另卡，采前冻结实际模式/目标值、45秒预热与90秒共同评价、HR/RR各自有效率及同时有效率、失效区间、原码和ADC完整性。HR60±2、RR20±1只是待实际源模式确认的参考值，当前不签已冻结现场判据。不把两个不同模式分别通过合并为同步通过；如证实源输出限制，再签相应阻塞并提出其他工程源方案。
+| 呼吸档/轮次 | HR有效观察/稳态观察 | 有效时出现的HR值 | CH2 49–51Hz能量占比 |
+|---|---|---|---|
+| 12/1 | 0/113 | 无 | 82.3% |
+| 12/2 | 3/114 | 104×3 | 85.8% |
+| 18/1 | 4/114 | 59×1、101×3 | 81.4% |
+| 18/2 | 0/113 | 无 | 85.2% |
+| 24/1 | 0/113 | 无 | 85.4% |
+| 24/2 | 3/114 | 133×3 | 84.9% |
 
-## P2 仪器限制
+合计HR仅10/681次有效，主要为NO_CYCLES、UNSTABLE、EXPIRED，部分叠加MAINS。多数偶发有效值也不构成稳定ECG60输出证据。CH2工频主导、缺乏稳定QRS资格，支持“当前RESP模式下HR未通过”，不能仅归咎算法阈值；没有源端校准波形证据来区分输出能力、幅度、接线/共模等成因。**不签发B_ECG_RESP_SIMULTANEOUS_ENGINEERING_PASS，也不提前签发SOURCE_SIMULTANEOUS_CAPABILITY_BLOCKED。** 未使用未知输入真值计算准确率。
 
-V2.2手册规定呼吸导联II RA–LL、基线“1K”、幅度0.3R–3.0R，但未完整定义R的pp/峰值/RMS、32kHz等效路径及激励条件。现有万用表不能据此测Zmin/Zmax/ΔZpp或不确定度。详见[仪器能力判断](PREC-P2-INSTRUMENT-ASSESSMENT-R1.md)。不通电测欧姆、不接地RLD、不短接LL/RL、不把ADC codes写成Ω。本轮无需增加仪器或开展幅度对照。
+CH2直流/幅度/RMS、峰候选和接受增量、滤波幅度、原因码、失效观察时刻、ADC计数及原件SHA见[离线分析](../evidence/B4-001/existing-ch2-analysis.json)。回放是冻结C源Host结果，不是ARM逐位复现；保存诊断非原子，也不是每帧连续有效率。
 
-若未来另行重启标定，最低需要经电气审查的隔离32kHz阻抗/比值测量能力及夹具，明确浮地/RLD路径、允许激励、三档动态值、重复性及校准/补偿不确定度，接入另行授权。
+J-Link拔下时RESP发生基线阶跃但周期/刷新继续，是负责人照片和观察；事发瞬间没有连续原码和精确事件时刻。地参考/耦合或机械瞬态只是待验证假设；不能据此认定MCU复位、ROM进入或阻抗幅度变化。不用改阈值/软件平移掩盖。后续若另批现场，应固定供电/调试器拓扑后再预热，并单独取得同源时间关联数据。
 
-## 冻结、归档与验证
+阻抗幅度保持 **IMPEDANCE_AMPLITUDE_NOT_CALIBRATED_INSTRUMENT_REQUIRED**：现有电池万用表不能完成32kHz动态阻抗绝对标定，按负责人要求跳过。Z0、Zmin、Zmax、ΔZpp仍为未知/null；R菜单和ADC codes不写成Ω。
 
-ECG60/90/120各两轮、RESP12/18/24各两轮的既有通过保持原验收范围；RR206025帧、681/681稳态保存观察有效不改。BIO_V2算法阈值、固件及历史失败原件不改，不用本轮离线测试代替实物验收。
+## B4软件实现与资源核验
 
-新取证工具8项离线测试通过；真实disabled负例在SDK构造前拒绝，调用方/worker/监督器均1，未接硬件。工具和已用S0/D0/M0卡按SHA留存；S0卡及工具执行后不改写。Close另走继承心跳通道，其证据边界已记录。
+采用两段独立500kbps总线：A CAN1↔C CAN1、B CAN1↔C CAN2，每段两端各120Ω；业务身份A1/B2/C3。C双端口只汇聚业务数据，不转发两段CAN帧。B从旧Node3/1Mbps/单TPDO转换为Node2/500kbps/五PDO，线协议兼容H3对象布局。
 
-私有原件目录`E:/medical-monitor-node-b-precan-private/20261023`采用受限ACL及NTFS EFS加密。L1候选BIN、L2历史安装前整片、L2已安装候选整片/options分级保存，明确区分69d9…历史安装前备份与f713…已安装候选；S0新读Flash/RAM/UID/SDK原件同样受限加密。Git仅提交派生摘要、卡、工具、测试及SHA索引，不提交私有原码/设备身份/整片固件。
+B算法源、ADS1292R引脚/250SPS配置及屏重启修复不动；在构建副本内加入采集后置通信钩子。ADC/BIO/TIME都使用TIM2毫秒域，避免与屏10ms时基混用。静态CANopenNode、128点有界队列、过期/溢出计数、每次任务最多8轮；邮箱拥塞不复位或停止算法，应用SDO只读，NMT通信复位不影响BIO，远程应用复位被拒绝。尚未实现温度采集，CAN温度始终INVALID/null。
 
-主体提交`a858a69a2ca3010e7c0cf948fcd2acfd9e07d798`已通过SSH正常推送到本实验分支，并从GitHub以HTTPS取回到独立裸仓库，22个新增文件与本地逐字节相同，开工时14个既有远端分支HEAD均未改变，固件差异为0。回执见[交付校验](../evidence/B-PREC-001/git-payload-delivery.json)。本页校验附记及该回执随后仅在同一分支提交，最终HEAD以远端和私有复核回执为准；不据主体提交校验冒称尚未取回的新增提交已核验。无PR、合并、删分支、改标签或Security Gate。
+C CAN2为PB12/PB13 AF9，与I²S2默认WS/SCK冲突，编译互斥负例已验证。共享CAN1时钟与28组过滤器按14/14划分，禁止单独复位CAN1；保持H3的8MHz HSE，实际PCLK1校验后配置500kbps。V2.0板图第5页存在P4↔U2/TJA1050/5V及R1/120Ω，但当前C实际版号/跳帽/收发器供电未现场确认，不声明实物就绪。不改INMP441、语音分支或C实板固件。
 
-MPM-B4-001仍暂停。[CAN后续备忘](PREC-CAN-FUTURE-DESIGN-MEMO.md)仅记录两段独立总线方案，本轮不实施。未完成项如实交接，不自动进入CAN，等待PI新合同。
+Gateway保留H3的单位、来源、时间/会话、血压完成tick与同值身份校验。ECG每100点分批（250Hz），RESP/PPG每50点；全B4构建使用一致100点模型ABI，旧目标默认250点不变。真正样本缺口/重复仍清批，允许整数毫秒±1ms量化且整批累计误差限±1ms；不插造样本，不改BIO阈值。最坏ECG JSON1493B、完整coreMQTT PUBLISH1534B，小于2048B。
+
+C完整网络软件目标复用冻结H3的MQTT/AT C源，在独立构建目录链接；公共模型头按B4 ABI绑定并记录实际SHA。没有真实凭据或配置写入，没有执行该固件、联网、云端部署或语音合并。新候选不能继承原H3实物验收，C配置区/恢复方案须在联动准入时单独确认。
+
+协议/资源/复现命令见[软件目标说明](../../gateway/dual_can/README.md)。
+
+## 实际构建与回归证据
+
+- B ARMCC5：0错误、0警告；新BIN仅软件候选，身份/大小/SHA见[最终B构建](../evidence/B4-001/final-node_arm.json)。当前实板仍是25488B修正版。
+- C ARM GCC：双CAN、数据模型、Router及完整H3 MQTT传输链接成功；未下载。[最终C构建](../evidence/B4-001/final-gateway_arm.json)保留真实命令/退出码、头文件与参考源SHA。
+- B4实际生产适配器产生正常250SPS和含量化间隔的编码夹具，经双总线真实CANopenNode消费；验证五PDO、TIME过期、NMT、SDO只读、错段/坏DLC、重启清批、8ms缺点/重复点、温度无效、单路阻塞隔离与有界溢出。Host不是实物验收。
+- 5秒MQTT发布暂停期间CAN持续服务，无丢弃并补传50条；超容量负例有明确丢弃计数，不声称无限断网无损。
+- 真实C输出经既有Backend解码与Hub：976条、11种流，其中222个100点ECG批次，温度88条均INVALID；未修改云端源码或启动服务。
+- 原B普通回归7组全部退出0，算法27/27、通道隔离28/28；屏复位Host2项通过。旧CANopen协议12项、流水线11项、重启/分配回收17项通过。
+- I²S2冲突及混用模型ABI均以真实编译退出1拒绝，这是预期负例；其它正式软件阶段退出0。原始失败轮次保留，不能只展示最后成功。
+
+[最终Host回执](../evidence/B4-001/final-host.json)、[原B回归](../evidence/B4-001/final-baseline_regression.json)、[分级归档/失败历史/真实退出码](../evidence/B4-001/stage-results.json)提供复核入口。新源码/工具/报告逐文件SHA见[源码索引](../evidence/B4-001/source-index.json)；最终Git提交和远端取回校验见[交付回执](../evidence/B4-001/git-delivery.json)。
+
+## 准入与停止点
+
+[单独准入审查及禁用现场卡草稿](B4-HARDWARE-ADMISSION-REVIEW.md)已提交，覆盖真实独立冷启动、CPU残余风险、当前双通道有效性、CAN电气、B/C恢复和有限现场窗口。缺少实物针号/源能力/恢复边界时，不能伪造一张可执行授权卡；草稿enabled=false，授权ID为空，动作数0。
+
+本轮没有接B+C CAN、没有烧录B/C、没有新硬件读取/复位/采集、没有改变电极/供电/源模式，没有修改正式腾讯云或执行Security Gate。**软件准备完成，实物准入保持BLOCKED，停止并等待PI审核新的现场合同。**

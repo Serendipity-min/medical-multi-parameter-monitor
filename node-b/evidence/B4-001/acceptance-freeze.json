@@ -1,0 +1,32 @@
+{
+  "SCREEN_RESET_MCU_RESET_FIX_PASS": true,
+  "CPU_ROM_ROOT_CAUSE_UNRESOLVED": true,
+  "INDEPENDENT_COLD_BOOT_NOT_VALIDATED": true,
+  "old_screen_receipt_sha256": "dafdc952a06c3c7b9d72e2468ae4dddbf8f7795fcc9d9bc67eac1d8d7f4e9a04",
+  "screen_observations": {
+    "first": {
+      "application_ms": 34829,
+      "BIO_samples": 8365,
+      "VTOR": "0x8000000",
+      "screen_reports": 0
+    },
+    "screen_event": {
+      "application_ms": 135377,
+      "BIO_samples": 33493,
+      "VTOR": "0x8000000",
+      "screen_reports": 1
+    },
+    "last": {
+      "application_ms": 150633,
+      "BIO_samples": 37306,
+      "VTOR": "0x8000000",
+      "screen_reports": 1
+    }
+  },
+  "cold_boot_claim_counterevidence": {
+    "host_elapsed_s": 213.547,
+    "mcu_elapsed_s": 213.533,
+    "conclusion": "NO_RESET_SHOWN_IN_RETAINED_OBSERVATIONS"
+  },
+  "hardware_this_round": false
+}

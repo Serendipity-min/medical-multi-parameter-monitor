@@ -1,8 +1,13 @@
 #ifndef MP_ROUTER_H
 #define MP_ROUTER_H
 #include "../data_model/model.h"
+/* 旧目标容量不变；B4以100点帧节省RAM后可独立扩大历史队列。 */
+#ifndef MP_LIVE_CAPACITY
 #define MP_LIVE_CAPACITY 16
+#endif
+#ifndef MP_CACHE_CAPACITY
 #define MP_CACHE_CAPACITY 32
+#endif
 
 typedef struct
 {

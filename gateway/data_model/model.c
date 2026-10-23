@@ -43,18 +43,25 @@ static int number(char **out, size_t *left, int32_t value, int scale)
 /* 只在输出边界缩放固定点并选择 LIVE/MOCK/REPLAY，不修改原始帧的时间和序号。 */
 int mp_json(const MpFrame *f, char *out, size_t size)
 {
-    if (!f || f->stream >= MP_STREAMS || f->count > 250 || !size)
+    if (!f || f->stream >= MP_STREAMS || f->count > MP_FRAME_MAX_SAMPLES || !size)
         return 0;
     char *p = out;
     size_t left = size;
     unsigned k = f->stream;
+    /* 未授时的启动状态为0毫秒；不能拼成0000，否则不是合法JSON数字。 */
+    char timestamp[24];
+    if (f->timestamp < 1000u)
+        (void)snprintf(timestamp, sizeof(timestamp), "%lu", (unsigned long)f->timestamp);
+    else
+        (void)snprintf(timestamp, sizeof(timestamp), "%lu%03lu", (unsigned long)(f->timestamp / 1000),
+                       (unsigned long)(f->timestamp % 1000));
     const char *valid = f->valid                                          ? "VALID"
                         : (k == MP_NODE_STATUS || k == MP_GATEWAY_STATUS) ? "OFFLINE"
                                                                           : "INVALID";
     if (!append(
             &p, &left,
-            "{\"timestamp\":%lu%03lu,\"seq\":%lu,\"session_id\":\"can-%lu-%lu\",\"validity\":\"%s\",\"source\":\"%s\",\"synthetic\":%s,\"unit\":\"%s\",\"value\":",
-            (unsigned long)(f->timestamp / 1000), (unsigned long)(f->timestamp % 1000),
+            "{\"timestamp\":%s,\"seq\":%lu,\"session_id\":\"can-%lu-%lu\",\"validity\":\"%s\",\"source\":\"%s\",\"synthetic\":%s,\"unit\":\"%s\",\"value\":",
+            timestamp,
             (unsigned long)f->seq, (unsigned long)f->epoch, (unsigned long)f->boot, valid,
             f->replay      ? "REPLAY"
             : f->synthetic ? "MOCK"

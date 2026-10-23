@@ -1,0 +1,78 @@
+"""B4普通软件回归，所有失败保留真实退出码；不接SDK、串口或网络服务。"""
+from pathlib import Path
+import datetime
+import hashlib
+import json
+import subprocess
+import os
+import sys
+
+ROOT = Path(__file__).resolve().parents[2]
+VENDOR = ROOT / 'gateway/third_party/CANopenNode'
+
+
+def main():
+    stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
+    out = ROOT / 'node-b/build' / ('b4-host-' + stamp)
+    out.mkdir(parents=True)
+    gcc = 'C:/mingw64/bin/gcc.exe'
+    cases = []
+
+    def run(name, command, expected=0, input_data=None):
+        env = dict(os.environ)
+        if name.startswith('dual-gateway'):
+            env['B4_CANONICAL_OUT'] = str(out / (name + '-canonical.jsonl'))
+        p = subprocess.run(list(map(str, command)), env=env, input=input_data, capture_output=True, cwd=ROOT, timeout=180)
+        log = out / (name + '.log'); log.write_bytes(p.stdout + p.stderr)
+        cases.append({'name': name, 'exit_code': p.returncode, 'expected_exit': expected,
+                      'passed': p.returncode == expected, 'command': list(map(str, command)),
+                      'log_sha256': hashlib.sha256(log.read_bytes()).hexdigest()})
+        print(name, p.returncode, flush=True)
+        if p.returncode != expected:
+            print((p.stdout + p.stderr).decode('utf-8', errors='replace')[-5000:])
+        return p.returncode == expected
+
+    core = [VENDOR / 'CANopen.c', *sorted((VENDOR / '301').glob('*.c'))]
+    b = ROOT / 'node-b/canopen'
+    includes = ['-I' + str(b), '-I' + str(VENDOR), '-I' + str(ROOT / 'node-b/firmware/biov2/实验固件/HARDWARE')]
+    sources = [*core, VENDOR / '303/CO_LEDs.c', b / 'OD.c', b / 'b_canopen_app.c',
+               ROOT / 'node-b/tests/b4_host_driver.c', ROOT / 'node-b/tests/b4_node_protocol.c',
+               ROOT / 'node-b/firmware/biov2/实验固件/HARDWARE/bio_v2.c']
+    if run('compile-node-b', [gcc, '-std=c99', '-O2', '-DB4_HOST', '-Wall', '-Wextra', '-Wno-unused-parameter',
+                             *includes, *sources, '-lm', '-o', out / 'b4_node.exe']):
+        run('node-b-protocol', [out / 'b4_node.exe', out / 'b2-synthetic-wire.txt'])
+        run('node-b-jitter-protocol', [out / 'b4_node.exe', out / 'b2-jitter-wire.txt', 'jitter'])
+    dual = ROOT / 'gateway/dual_can'
+    g_sources = [*core, ROOT / 'gateway/canopen/src/mp_od.c', dual / 'b4_bus.c', dual / 'b4_gateway.c',
+                 ROOT / 'gateway/data_model/model.c', ROOT / 'gateway/storage/router.c', dual / 'tests/simulator.c',
+                 ROOT / 'gateway/third_party/coreMQTT/source/core_mqtt_serializer.c']
+    if (dual / 'tests/simulator.c').exists() and run('compile-dual-gateway', [gcc, '-std=c11', '-O2',
+            '-DCO_MULTIPLE_OD', '-DMP_FRAME_MAX_SAMPLES=100', '-DMP_CACHE_CAPACITY=64',
+            '-Wall', '-Wextra', '-Wno-unused-parameter', '-Werror',
+            '-I' + str(dual), '-I' + str(ROOT / 'gateway/canopen/src'), '-I' + str(VENDOR),
+            '-I' + str(ROOT / 'gateway/third_party/coreMQTT/source/include'),
+            '-I' + str(ROOT / 'gateway/third_party/coreMQTT/source/interface'), '-I' + str(ROOT / 'gateway/mqtt/src'),
+            *g_sources, '-o', out / 'b4_gateway.exe']):
+        run('dual-gateway', [out / 'b4_gateway.exe', out / 'b2-synthetic-wire.txt'])
+        run('dual-gateway-5s-mqtt-pressure', [out / 'b4_gateway.exe', out / 'b2-synthetic-wire.txt', 'pressure'])
+        run('dual-gateway-jitter', [out / 'b4_gateway.exe', out / 'b2-jitter-wire.txt'])
+        run('c-to-existing-backend', [sys.executable, ROOT / 'node-b/tests/b4_backend.py', out / 'dual-gateway-canonical.jsonl'])
+    run('i2s2-conflict-negative', [gcc, '-E', '-x', 'c', '-I' + str(dual), '-include', 'b4_resources.h',
+        '-DMP_FRAME_MAX_SAMPLES=100', '-DMP_CACHE_CAPACITY=64', '-DB4_I2S2_PB12_PB13=1', '-'], expected=1, input_data=b'')
+    run('mixed-model-abi-negative', [gcc, '-E', '-x', 'c', '-I' + str(dual), '-include', 'b4_resources.h',
+        '-DMP_FRAME_MAX_SAMPLES=250', '-DMP_CACHE_CAPACITY=64', '-'], expected=1, input_data=b'')
+    report = {'version': 'B4-0.1', 'scope': 'HOST_OFFLINE_SYNTHETIC_NOT_HARDWARE', 'cases': cases,
+              'status': 'PASS' if all(c['passed'] for c in cases) else 'FAIL',
+              'source_sha256': {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
+                                for p in sources + g_sources if p.exists()}}
+    # 原始编码/Canonical输出属于合成夹具，与真实E3原码分目录、分身份归档。
+    report['fixture_sha256'] = {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
+                               for p in out.glob('*') if p.suffix in ('.txt', '.jsonl')}
+    (out / 'executed-runner.py').write_bytes(Path(__file__).read_bytes())
+    (out / 'receipt.json').write_text(json.dumps(report, indent=2) + '\n')
+    print(str(out.relative_to(ROOT)))
+    return int(report['status'] != 'PASS')
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

@@ -3,6 +3,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
+/* B4分批目标最多100点；旧目标仍保留250点ABI，不能让两个构建配置混链。 */
+#ifndef MP_FRAME_MAX_SAMPLES
+#define MP_FRAME_MAX_SAMPLES 250
+#endif
 
 typedef enum
 {
@@ -29,7 +33,7 @@ typedef struct
     /* seq 按节点/流递增；epoch 与 boot 共同区分采集会话。 */
     uint32_t seq, epoch, boot;
     /* 保留固定点原值，统一在 MQTT 边界缩放；最大容纳 1 秒 250 Hz ECG。 */
-    int32_t values[250];
+    int32_t values[MP_FRAME_MAX_SAMPLES];
     /* rate=0 表示标量或事件；count 表示有效值/样本数量。 */
     uint16_t count, rate;
     uint8_t node, stream;
