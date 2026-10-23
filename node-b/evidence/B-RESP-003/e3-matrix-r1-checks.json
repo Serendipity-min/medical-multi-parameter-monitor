@@ -1,0 +1,152 @@
+{
+  "status": "E3_PREPARATION_SOFTWARE_CHECKS_PASS_NOT_HARDWARE_ACCEPTANCE",
+  "current_rate_rpm": 30,
+  "hardware_actions": 0,
+  "offline_tests_passed": 29,
+  "test_suites": [
+    {
+      "suite": "test_resp_matrix_b.py",
+      "tests_passed": 16,
+      "exit_code": 0
+    },
+    {
+      "suite": "test_recover_resp_rall20_b.py",
+      "tests_passed": 6,
+      "exit_code": 0
+    },
+    {
+      "suite": "test_resp_rall30_tracking_b.py",
+      "tests_passed": 7,
+      "exit_code": 0
+    }
+  ],
+  "disabled_cli_negatives": [
+    {
+      "cell": "12-r1",
+      "invoker_exit_code": 1,
+      "worker_exit_code": 1,
+      "supervisor_exit_code": 1,
+      "sdk_loaded": false,
+      "failure": "E3_NOT_AUTHORIZED",
+      "final_manifest_sha256": "102daf9dc2ba75cc677a5f6f7fbdcd4913845e703f31ea6d1f5693d034b898af"
+    },
+    {
+      "cell": "12-r2",
+      "invoker_exit_code": 1,
+      "worker_exit_code": 1,
+      "supervisor_exit_code": 1,
+      "sdk_loaded": false,
+      "failure": "E3_NOT_AUTHORIZED",
+      "final_manifest_sha256": "b4a47affa72ed8fa212a47dd6b50c37fe11e5dd047bd0760617f77fd3c983c2a"
+    },
+    {
+      "cell": "18-r1",
+      "invoker_exit_code": 1,
+      "worker_exit_code": 1,
+      "supervisor_exit_code": 1,
+      "sdk_loaded": false,
+      "failure": "E3_NOT_AUTHORIZED",
+      "final_manifest_sha256": "e8390cb6bea9b69d6c5f4630bd2cd5b6741e7bdafa38c233584999cc65c1153c"
+    },
+    {
+      "cell": "18-r2",
+      "invoker_exit_code": 1,
+      "worker_exit_code": 1,
+      "supervisor_exit_code": 1,
+      "sdk_loaded": false,
+      "failure": "E3_NOT_AUTHORIZED",
+      "final_manifest_sha256": "fd1b906d388b7d24f8e15995fd2079a834e612fc41d3c7bb36d10beaac2d0e8b"
+    },
+    {
+      "cell": "24-r1",
+      "invoker_exit_code": 1,
+      "worker_exit_code": 1,
+      "supervisor_exit_code": 1,
+      "sdk_loaded": false,
+      "failure": "E3_NOT_AUTHORIZED",
+      "final_manifest_sha256": "99ac1ec84df60c39f31c70cc077587ab7650ef1cfcf02c421fad12dd780817db"
+    },
+    {
+      "cell": "24-r2",
+      "invoker_exit_code": 1,
+      "worker_exit_code": 1,
+      "supervisor_exit_code": 1,
+      "sdk_loaded": false,
+      "failure": "E3_NOT_AUTHORIZED",
+      "final_manifest_sha256": "7fc1ae9ce02a1e3dfb84fe721de146fdd15cc638c4197179178ea2a9fed9e66a"
+    }
+  ],
+  "historical_original_indices_verified": [
+    {
+      "index": "e1-03-original-hashes.json",
+      "files_verified": 71,
+      "sha256": "b716c2b64027abf4ea3b2730e66d737d51540d900006493c43ed4ca965c92855"
+    },
+    {
+      "index": "rall20-01-original-hashes.json",
+      "files_verified": 20,
+      "sha256": "e015aed25fcad687cacfd41dbb0d4de6ee5b42efd9a2f09a7d7ef7a75d6249f8"
+    },
+    {
+      "index": "rall20-recovery-01-original-hashes.json",
+      "files_verified": 218,
+      "sha256": "8b639e6519e90b463285e2c851481dfb87359d16c5889015c75c8b8b72dd9c0e"
+    },
+    {
+      "index": "rall30-01-original-hashes.json",
+      "files_verified": 237,
+      "sha256": "ac0677c61a602a4e4061dcff3da8428a1bf75c584f834b6e697ae84b64f7219e"
+    },
+    {
+      "index": "validity45-01-original-hashes.json",
+      "files_verified": 205,
+      "sha256": "aa3a50b4a93503156314ec84c836a067eec750475439cc1babb6a9cddb5f7a26"
+    }
+  ],
+  "historical_tool_files_unchanged": 25,
+  "preparation_verification_attempts": [
+    {
+      "exit_code": 1,
+      "cause": "OFFLINE_INDEX_BASE_RESOLUTION",
+      "hardware": false
+    },
+    {
+      "exit_code": 0,
+      "cause": "DOCUMENTED_BASES_VERIFIED",
+      "hardware": false
+    }
+  ],
+  "tools_sha256": {
+    "node-b/tools/capture_resp_b.py": "6989a819a5f26c91074bf2cfdd769313fa543aa85e58c01d5198bd0670e309ae",
+    "node-b/tools/resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+    "node-b/tools/analyze_resp_b.py": "225e5ef46b8f450c3b4372d3fc102491c8f2e64ee8a5f9fd87a12074018e3360",
+    "node-b/tools/supervise_resp_b.py": "5019350e361f6ab999dc0fe9a09808b304228235d8c11b3abcf4e5e86f6f8a4d",
+    "node-b/tools/capture_b.py": "7c45589bff1099e20354b8dbe7db9bb2e32095bf67a904b9358cf4f4996800fa",
+    "node-b/tools/readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+    "node-b/tools/precheck_b.py": "3c490ecc99154aa857b0f2f9767951b5e6587844269983670a6ea53684ce4a81",
+    "node-b/tools/adc_path_b.py": "a80c1ed4ccddb8f0f569c3753c2659b78e01bb3c6b4f0b49bcaf3aa27a152d12",
+    "node-b/tools/boot_check_b.py": "0c854ade1cc99807badbdbc8a9f0a5eb7dd24d6447f617356fcd2bcd42f100c0",
+    "node-b/tools/fault_snapshot_b.py": "96d0976b2dd18d5c9a982c4d8b8afe9f2822f0120bbe06ef4c48cb4461bc49a3",
+    "node-b/tools/field_profile.py": "2cc386655e425d7f1ee57a8de956026cadd1057a27b2429ffa0f75a4bb1d9857",
+    "node-b/acquisition/工具/stable_slot_export.py": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2",
+    "node-b/tools/runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+    "node-b/tools/supervise_runtime_state_b.py": "98587c514f8987e76851b87465259a0b3242cb4b222c2289c1b6de5b0f580b22",
+    "node-b/tools/recover_resp_runtime_b.py": "0020bfc6f54bcddfbbaa8576801cab0e53f898a362249415082f95a51ea3b31b",
+    "node-b/tools/supervise_resp_recovery_b.py": "5f28aa9d627621d46f0df497eb460ac83b4ddb7c0cbcd21c2d35fdf9ebf5f4a9",
+    "node-b/tools/resp_rall20_b.py": "8478070d4a4b4c3d468c50a5f0259ce546aa986e95b08182767d74bf9200fa53",
+    "node-b/tools/analyze_resp_rall20_b.py": "030daff2c8e07249392ee9d2e7a12f873ad9cc3a5652b506d71b7db65da67697",
+    "node-b/tools/supervise_resp_rall20_b.py": "131cf822a27eff0b68d47a5de47bcb1920a369583270be12b9559d0601592ecb",
+    "node-b/tools/recover_resp_rall20_b.py": "b57d75c52922b24cce0bc78ec53a636654cae53c7837ce597df904e72193b21d",
+    "node-b/tools/supervise_recover_resp_rall20_b.py": "dffbc700405780731d54e9a0a19f1070a13d1d16a0d7fc4432d98cf3c925c0c5",
+    "node-b/tools/resp_matrix_b.py": "55d933f19ccc8ffabaf5b92bbd77efef5d8940e8941b5338f7ab7d3a82a1b39d",
+    "node-b/tools/analyze_resp_matrix_b.py": "8208773ed890cc276d38144b99f023da68c7fb223d793acb6b76498244d746a5",
+    "node-b/tools/supervise_resp_matrix_b.py": "8286a91d01a5cbf87fb02b07165c77029f38eee895cbae524e317a8a573cee0a",
+    "node-b/tests/test_resp_matrix_b.py": "9ae45d58ec52a61d074726593dfc216572d2d992660ca8ae1a6012810241a0c3"
+  },
+  "formal_cells_attempted": 0,
+  "E3": "NOT_RUN",
+  "CPU_issue": "DEFERRED_BY_OWNER",
+  "post_review_16_tests_exit_code": 0,
+  "disabled_guard_unchanged_after_analyzer_only_review": true,
+  "final_bindings_validated": true
+}
