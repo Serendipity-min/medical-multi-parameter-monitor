@@ -1,5 +1,7 @@
 # B5-002阶段唯一交接｜G0完成，真实云窗尚未授权
 
+> 本文保留G0阶段结论。负责人后续单独授权的G1-A/HW0/G2-RO实际结果，现以[B5-G1-G2RO-ADMISSION-HANDOFF](B5-G1-G2RO-ADMISSION-HANDOFF.md)交接；本轮G2-A/G2-B/G3仍未授权。
+
 本报告是B5-002唯一阶段交接，不替换历史B4/B5-001原始验收。**G0只读审查已完成；尚不能安装或启动云窗。** 审计详情、真实配置指纹和隔离方案见[B5-G0报告](B5-G0-CLOUD-READONLY-ADMISSION.md)。
 
 ## 冻结与已执行

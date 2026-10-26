@@ -1,0 +1,47 @@
+{
+  "baseline": "bdc71313c2c6ebff056d4aa5ffdda9a9b334ea7c",
+  "G1_A": "PASS_GENERATED_MOCK_CLOUD_ADMISSION",
+  "HW0": "COMPLETE_UNOBSERVED_FIELDS_RETAINED",
+  "cold_transfer": "OWNER_SEPARATELY_APPROVED_AND_COMPLETED",
+  "G2_RO_windows": [
+    {
+      "authorization": "ORIGINAL_ONE_SHOT",
+      "executions": 1,
+      "exit_code": 1,
+      "status": "STOP_ROM_NO_FULL_READS"
+    },
+    {
+      "authorization": "OWNER_NEW_READ_REQUEST_AFTER_MANUAL_C_RESET",
+      "executions": 1,
+      "exit_code": 0,
+      "status": "FRESH_C24104_TWO_FULL_READS_PASS"
+    }
+  ],
+  "G2_RO_automatic_retries": 0,
+  "G2_RO_true_PC_MSP": "NOT_OBSERVED_NONINTRUSIVE_SAMPLING_ONLY",
+  "candidate_BIN_bytes": 42552,
+  "candidate_BIN_SHA256": "d5b9624b3da1129b4e045d3b2f669c00d2d93cb7379b15293ff143fe9f130683",
+  "G2_A": "NOT_AUTHORIZED_NOT_RUN",
+  "G2_B": "REAL_CONFIG_NOT_GENERATED_PHYSICAL_WRITER_NOT_IMPLEMENTED_NOT_AUTHORIZED",
+  "G3_B5START": 0,
+  "R_APP_R_CFG_R_CLOUD_executions": 0,
+  "ROM_root_cause": "UNRESOLVED",
+  "B5_independent_cold_boot": "NOT_VALIDATED",
+  "simultaneous_HR_RR": "NOT_VALIDATED",
+  "absolute_impedance_calibration": "INSTRUMENT_REQUIRED",
+  "controlled_CAN_fault_recovery": "NOT_TESTED",
+  "current_site": {
+    "JLink": "C",
+    "C_power": "J5",
+    "C_USB": "DISCONNECTED",
+    "B_power": "OFF",
+    "ESP": "PRESENT_EN_AND_NETWORK_UNVERIFIED",
+    "CAN_and_ground": "UNCHANGED",
+    "A_INMP441_TTS": "DISCONNECTED"
+  },
+  "cloud_services_lifetime": "6h_Restart_no",
+  "cloud_services_expected_expiry_Beijing": "2026-10-27 01:59:19",
+  "formal_Backend_Nginx_AI_P6_changed": false,
+  "security_gate_run": false,
+  "firmware_implementation_changed": false
+}

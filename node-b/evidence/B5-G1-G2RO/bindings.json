@@ -1,0 +1,35 @@
+{
+  "scope": "MPM_B5_002_G1_HW0_G2RO_FINAL_READINESS",
+  "baseline": "bdc71313c2c6ebff056d4aa5ffdda9a9b334ea7c",
+  "frozen_firmware_implementation": "c65fbedce7edf5d822c573ef5cdeb6471d1ae3d5",
+  "files": {
+    "node-b/tools/b5_g1_cloud.py": "4cd9c93c448483c8adad9a7b59c036793b65c7b0d047d75fe3e950cd773f71d8",
+    "node-b/tools/b5_g1_smoke.py": "007bd964a505156e3d9d4c71e00e34d40e159e4f9e46531b719c7b00a2dc8f73",
+    "node-b/tools/b5_g1_supervisor.py": "ae6406a7d598f9be19179f60ce50eb0de0424bb82f6403f42892f1a79ab62234",
+    "node-b/tools/b5_g1_verify.py": "87d903f95a3a1413effbaa64cfc251f32682fcc3e136ce2edbf04aaa36523723",
+    "node-b/tools/b5_g2ro.py": "e37944f04d35e24496215ac23021355811ef6af8e9fb7a4e4c6c15c4ae1ed0d3",
+    "node-b/tools/b5_g2ro_supervisor.py": "07c72f280fc0f3860132765f04204965b53ca76f62420d65cc26821449d09347",
+    "node-b/tools/b5_sector3_plan.py": "ff9118d3b6303bc8bd15b64cd5203339c8abff778d33e4d19cfe69e2d0962ef1",
+    "node-b/tests/test_b5_g1_admission.py": "690b179778a6bc9819e1a5c6bf4f5724569c49d42f2d7118cc91a7597c12f6ba",
+    "node-b/tests/test_b5_g2ro.py": "0fa9fb16f1e96abcb454a0d510e078ad064a3976856b090687ef3cc385f68fad",
+    "node-b/tests/test_b5_sector3_plan.py": "3a32d5c7ca9a05438dd2ddf928cf03888e42003c066c51dff02973847ece8c63",
+    "node-b/docs/AUTH-B5-G1A-EXECUTION-001-R1.md": "3c8a01eab47dc01d3bda7fb0501ff821b626cc76d67642a1d7830179e28c4154",
+    "node-b/docs/AUTH-B5-R-CLOUD-EMERGENCY-001-R1.md": "3357c00449fa210b6c9354be429e9412d02b07c168b6082754b0f06633123df3",
+    "node-b/docs/AUTH-B5-G2RO-BOUND-001-R1.md": "816b87e391066540c2bdd5a7d64a257857b3b25ac2b78fb175c0706a7f1b893b",
+    "node-b/docs/AUTH-B5-G2RO-COLD-TRANSFER-001-R1.md": "77d82957547853dd8c294357c067608741aa2ca54fea5fb521915576f26b5d3a",
+    "node-b/docs/AUTH-B5-G2A-FRESH-001-R1.md": "4456f319a0e846100cfe9d0a783376a1f344935fcfdb7e808a94f193d3bfe270",
+    "node-b/docs/AUTH-B5-G2B-SCHEME-BOUND-001-R1.md": "e839ffffebcfdb0d4e0cc68de47df5392a3d070345c4dd410495507d0d27e8e4",
+    "node-b/docs/B5-G1-G2RO-ADMISSION-HANDOFF.md": "4aa0f26b09329fe7b52930d1e731914a43fdaa92623907794f5c059583f71392"
+  },
+  "G1_approved_deployment_package_sha256": "dcee1658be5ce4db2531975069441444a0f50078828321a3e978a8352b520db0",
+  "fresh_application_manifest_sha256": "3782fc9caa0f921cc51001191df0ac90e2633710e89f56bae017d2e3d35e73fc",
+  "fresh_readback_binding_sha256": "f614271c83b8b6f11992531537ea49ab6434f6f2a7c2481f1cced7ae55f1cad1",
+  "G2_A_G2_B_G3_enabled": false,
+  "actual_hardware_firmware_config_writes": 0,
+  "reviewed_new_tests": {
+    "G1": 9,
+    "G2_RO": 26,
+    "sector3_pure_plan": 14
+  },
+  "source_and_JSON_links_review_exit_code": 0
+}

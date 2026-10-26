@@ -1,0 +1,159 @@
+{
+  "HUP_count": 1,
+  "cloud_rollback_performed": false,
+  "created_utc_epoch": 1793015959.02918,
+  "elapsed_s": 0.5641743289997976,
+  "events": [
+    {
+      "exit_code": 0,
+      "operation": [
+        "systemctl",
+        "show"
+      ]
+    },
+    {
+      "exit_code": 0,
+      "operation": [
+        "systemctl",
+        "show"
+      ]
+    },
+    {
+      "exit_code": 0,
+      "operation": [
+        "systemctl",
+        "show"
+      ]
+    },
+    {
+      "exit_code": 0,
+      "operation": [
+        "systemctl",
+        "show"
+      ]
+    },
+    {
+      "exit_code": 0,
+      "operation": [
+        "ss",
+        "-H"
+      ]
+    },
+    {
+      "exit_code": 0,
+      "operation": [
+        "useradd",
+        "--system"
+      ]
+    },
+    {
+      "exit_code": 0,
+      "operation": [
+        "/usr/sbin/nginx",
+        "-t"
+      ]
+    },
+    {
+      "exit_code": 0,
+      "operation": [
+        "systemctl",
+        "show"
+      ]
+    },
+    {
+      "exit_code": 0,
+      "operation": [
+        "systemctl",
+        "kill"
+      ]
+    },
+    {
+      "exit_code": 0,
+      "operation": [
+        "systemctl",
+        "daemon-reload"
+      ]
+    },
+    {
+      "exit_code": 0,
+      "operation": [
+        "systemctl",
+        "start"
+      ]
+    },
+    {
+      "exit_code": 0,
+      "operation": [
+        "systemctl",
+        "show"
+      ]
+    },
+    {
+      "exit_code": 0,
+      "operation": [
+        "systemctl",
+        "start"
+      ]
+    },
+    {
+      "exit_code": 0,
+      "operation": [
+        "systemctl",
+        "show"
+      ]
+    },
+    {
+      "exit_code": 0,
+      "operation": [
+        "systemctl",
+        "show"
+      ]
+    },
+    {
+      "exit_code": 0,
+      "operation": [
+        "systemctl",
+        "show"
+      ]
+    },
+    {
+      "exit_code": 0,
+      "operation": [
+        "systemctl",
+        "show"
+      ]
+    },
+    {
+      "exit_code": 0,
+      "operation": [
+        "systemctl",
+        "show"
+      ]
+    }
+  ],
+  "formal_pids_unchanged": true,
+  "formal_unaffected_config_hashes_unchanged": true,
+  "new_OS_role": "b5-monitor",
+  "no_login_shell": true,
+  "own_services": {
+    "backend": {
+      "pid": 39883,
+      "start_exit_code": 0,
+      "unit": "medical-monitor-b5-g1a-1ceb665360-backend.service"
+    },
+    "tls": {
+      "pid": 39886,
+      "start_exit_code": 0,
+      "unit": "medical-monitor-b5-g1a-1ceb665360-tls.service"
+    }
+  },
+  "package_sha256": "dcee1658be5ce4db2531975069441444a0f50078828321a3e978a8352b520db0",
+  "scope": "B5_G1A_ONE_CLOUD_NAMESPACE_AND_LOOPBACK_TLS_NO_FORMAL_RESTART",
+  "service_max_residency_s": 21600,
+  "setup_exit_code": 0,
+  "ssh_exit_code": 0,
+  "status": "DEPLOYED_ONCE_PENDING_SMOKE",
+  "stdout_sha256": "462750ea5ef3c3c54dfb05d6860ca0013f9a46bb842221cd0035de5d5e9d425e",
+  "tool_sha256": "4cd9c93c448483c8adad9a7b59c036793b65c7b0d047d75fe3e950cd773f71d8",
+  "tx": "g1a-1ceb665360"
+}

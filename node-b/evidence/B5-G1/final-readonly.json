@@ -1,0 +1,41 @@
+{
+  "8884_not_listening": true,
+  "G0_keyfile_content_read_or_copied": false,
+  "HTTPS_static_index_matches_frozen_B5": true,
+  "actual_server_complete_backups_match": true,
+  "approved_ACL_password_SHA_match": true,
+  "deployed_unit_SHA_match": true,
+  "exit_code": 0,
+  "formal_backend_health_ok": true,
+  "formal_namespace_publish_count": 0,
+  "formal_service_PIDs_active_unchanged": true,
+  "formal_unaffected_config_SHA_unchanged": true,
+  "new_MQTT_or_WSS_window": false,
+  "only_loopback_18775": true,
+  "own_services": {
+    "backend": {
+      "RuntimeMaxUSec": "6h",
+      "active": "active",
+      "estimated_expiry_utc": "2026-10-26T17:59:18.969047+00:00",
+      "observed_start_utc": "Mon 2026-10-26 19:59:18 CST",
+      "pid": 39883,
+      "unit": "medical-monitor-b5-g1a-1ceb665360-backend.service"
+    },
+    "tls": {
+      "RuntimeMaxUSec": "6h",
+      "active": "active",
+      "estimated_expiry_utc": "2026-10-26T17:59:18.991127+00:00",
+      "observed_start_utc": "Mon 2026-10-26 19:59:18 CST",
+      "pid": 39886,
+      "unit": "medical-monitor-b5-g1a-1ceb665360-tls.service"
+    }
+  },
+  "private_files_retrieved": 59,
+  "raw_snapshot_sha256": "bc5e0c170c430616d9f84243a649f87e2692cee6c7fea628caa246c23caa039d",
+  "read_only_final_check": true,
+  "rollback_executed": false,
+  "ssh_exit_code": 0,
+  "status": "G1_A_READY_PASS",
+  "test_services_still_resident": true,
+  "tool_sha256": "87d903f95a3a1413effbaa64cfc251f32682fcc3e136ce2edbf04aaa36523723"
+}

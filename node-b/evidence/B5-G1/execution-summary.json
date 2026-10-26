@@ -1,0 +1,66 @@
+{
+  "G3_300S_E2E": "NOT_RUN",
+  "MQTT5_negative_PUBACK_Not_authorized": [
+    135,
+    135
+  ],
+  "actual_authorization_scope": "B5_G1A_ONE_CLOUD_NAMESPACE_AND_LOOPBACK_TLS_NO_FORMAL_RESTART",
+  "actual_exit_codes": {
+    "apply_SSH": 0,
+    "apply_supervisor": 0,
+    "final_readonly": 0,
+    "smoke": 0,
+    "smoke_supervisor": 0
+  },
+  "actual_private_authorization_sha256": "554c4839510d198e20b995cb40ccb43ae72f7a26eeff13e31f9b08f45863c32c",
+  "browser_UI_interaction": "NOT_RUN_EXISTING_UI_TESTS_NOT_REPEATED",
+  "current_reviewed_draft_vs_actual_authorization": "DRAFT_BINDINGS_DISABLED_ACTUAL_EFS_SINGLE_USE_AUTH_ENABLED",
+  "executions": {
+    "B5START": 0,
+    "HUP": 1,
+    "automatic_retries": 0,
+    "deployment": 1,
+    "hardware_access": 0,
+    "new_Backend_start": 1,
+    "new_TLS_start": 1,
+    "new_WSS_session": 1,
+    "rollback": 0,
+    "smoke": 1
+  },
+  "formal_services_active_and_PIDs_configs_preserved": true,
+  "new_accounts_configuration_cleanup": "NOT_AUTHORIZED_NOT_RUN",
+  "new_six_hour_services_still_resident": {
+    "backend": {
+      "RuntimeMaxUSec": "6h",
+      "active": "active",
+      "estimated_expiry_utc": "2026-10-26T17:59:18.969047+00:00",
+      "observed_start_utc": "Mon 2026-10-26 19:59:18 CST",
+      "pid": 39883,
+      "unit": "medical-monitor-b5-g1a-1ceb665360-backend.service"
+    },
+    "tls": {
+      "RuntimeMaxUSec": "6h",
+      "active": "active",
+      "estimated_expiry_utc": "2026-10-26T17:59:18.991127+00:00",
+      "observed_start_utc": "Mon 2026-10-26 19:59:18 CST",
+      "pid": 39886,
+      "unit": "medical-monitor-b5-g1a-1ceb665360-tls.service"
+    }
+  },
+  "no_auto_publish_or_restart": true,
+  "package_sha256": "dcee1658be5ce4db2531975069441444a0f50078828321a3e978a8352b520db0",
+  "private_credential_reference": "G1_EFS/test-credentials-private.json",
+  "private_entry_reference": "G1_EFS/test-entry-and-lifetime-private.json",
+  "public_direct_WSS": "NOT_RUN_SSH_TUNNEL_ONLY",
+  "real_C_BIN_or_sector3_changed": false,
+  "remaining_next_stage": [
+    "G2-A application separate approval",
+    "G2-B sector3 separate approval",
+    "G3 B5START separate approval"
+  ],
+  "six_MOCK_generated_fixture_messages_Broker_Backend_WSS_matched": true,
+  "source": "GENERATED_G1_SMOKE_NOT_REAL_ADC",
+  "stage": "G1_A",
+  "status": "PASS_CLOUD_ADMISSION_ONLY_NOT_DEVICE_E2E",
+  "tx": "g1a-1ceb665360"
+}
