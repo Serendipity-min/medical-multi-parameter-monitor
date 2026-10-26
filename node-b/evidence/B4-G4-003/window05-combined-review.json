@@ -1,0 +1,29 @@
+{
+  "source_commit": "7657fad07f211496ee7d1e27ed191454f991f7ca",
+  "status": "B_CAN1_C_CAN2_180S_NOMINAL_TRANSPORT_ENGINEERING_PASS",
+  "raw_bytes": 1889504,
+  "raw_sha256": "2177d6ff6b4713fe6eb65d01c5819bba164e6c1b3fa87b9ce9d9544186b78493",
+  "start_tick": 125443,
+  "stop_tick": 305443,
+  "actual_target_tick_span_ms": 180000,
+  "start_attempts": 1,
+  "A_bus_RX_packets": 0,
+  "A_bus_TX_packets": 0,
+  "C_capture_high_water": 3,
+  "C_CAN1_ESR_nonzero_observations": 0,
+  "common_B_quality_observations": 168,
+  "common_B_HR_valid": 0,
+  "common_B_RR_valid": 0,
+  "ECG_RESP_simultaneous_engineering_pass": false,
+  "CPU_ROM_root_cause": "UNRESOLVED",
+  "CAN_fault_injection_recovery": "NOT_VALIDATED",
+  "absolute_impedance_calibration": "INSTRUMENT_REQUIRED_NOT_CALIBRATED",
+  "formal_CAN_cloud_or_A_bus_admission": false,
+  "startup_evidence": "INSTALL_FULL_READBACK_REAL_FLASH_PC_AND_ALIAS_PLUS_RUNNING_DIAGNOSTICS_NO_WIRE_BOOT_CAPTURE",
+  "HR_RR_TEMP_C_models_valid_observations": {
+    "5": 0,
+    "7": 0,
+    "8": 0
+  },
+  "vitals_frames_all_HR_RR_TEMP_zero": true
+}

@@ -1,5 +1,7 @@
 # MPM-B4-001 B+C联动准入审查｜最终软件与现场卡准备 B4-0.3
 
+> 最终B4-G4-003：C23952B已安装、实际恢复H3并重装；新180秒名义CAN窗完整59047包零CRC/缺号/drop/溢出、585次模型校验通过，B采样通过。只关闭本窗名义传输门；ROM根因、同步HR/RR、CAN故障注入恢复及正式部署仍未关闭。当前状态以[唯一交接](B-PRECAN-CLOSEOUT-FINAL-HANDOFF.md)最新节为准，下面较早状态均为历史。
+
 > 10/26最终：B↔C CAN2已出现真实PDO及NMT ACK，但记录缺口/丢包/STOP缺失，完整验收不通过。新23952B IRQ/隔离修正版仅软件冻结，尚未安装；须重新批准新候选安装。当前C仍23744B，B150秒ADC通过，ROM与同步HR/RR仍未关闭。以[唯一交接](B-PRECAN-CLOSEOUT-FINAL-HANDOFF.md)最新节为准。
 
 > 2026-10-26最新：C23744B安装→原H3实际恢复→重新安装均整片核验/启动PASS，options及sector3/7/11不变。首次串口因主机零向量别名误判退出且START=0，已离线修复；新独立窗口C人工复位后44秒遇Windows串口句柄错误，START仍0；B调试读取未开始，已停止不重试。尚无CAN实板PASS，ROM根因仍UNRESOLVED。唯一当前结果见[B4-G4-002](../evidence/B4-G4-002/stage-results.json)与[阶段交接](B-PRECAN-CLOSEOUT-FINAL-HANDOFF.md)；下文10/23段落按历史时点保留。

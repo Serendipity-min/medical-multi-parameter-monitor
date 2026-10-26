@@ -49,8 +49,8 @@
     "archive": "E:\\medical-monitor-node-b-precan-private\\20261023\\b4-software-20261023T093613216574Z\\L1-current\\BIO_V2-25488B.bin"
   },
   "authorization_scope": "Owner-approved isolated B+C install/restore/bench only; no cloud/protected branch changes",
-  "C_current": "OLD_23744B_ISOLATED_CANDIDATE_STILL_INSTALLED; PHYSICAL_RX_NMT_ACK_OBSERVED; CAPTURE_INCOMPLETE_NOT_PASS; NEW23952B_NOT_INSTALLED",
-  "C_last_verified_full_flash_sha256": "b1832459ed8dbf22a0b5e3b6163b93e1dc05a2dbf1adbe1c41ef02ff3dacb370",
+  "C_current": "C23952B_IRQ_ISOLATED_BENCH_INSTALLED_RESTORED_H3_REINSTALLED_FULL_VERIFY_PASS; WINDOW05_NOMINAL_CAN_PASS; ROM_AND_PHYSIOLOGY_UNRESOLVED",
+  "C_last_verified_full_flash_sha256": "1f56dd2ec1eb8002b52b77eb3faf5986bb0336694ac993923c9a7575ba264a10",
   "C_boot_recovery": {
     "reset_requests": 1,
     "go_requests": 1,
@@ -61,16 +61,6 @@
     "root_cause_closed": false
   },
   "C_isolated_candidate": {
-    "bytes": 23744,
-    "sha256": "73d1138f248188593f1be16e628b171a539e00867f324bcef36cdbe34310c0b6",
-    "restore_original_full_sha256": "1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390",
-    "actual_restore_exercised": true,
-    "formal_hardware_eligible": false,
-    "client_date": "2026-10-26",
-    "window_status": "WINDOW04_STARTED_CAPTURE_GAP_AND_DROPS_STOP_MISSING_NOT_PASS"
-  },
-  "B_last_turn_readback_note": "2026-10-26 B ROM recurred; owner one manual reset; image676 verified and 150s ADC249.9639SPS passed; close_resume true",
-  "C_next_software_candidate": {
     "bytes": 23952,
     "sha256": "d30a35e7f7729c16f580c67e660f1f01a76e111606474f6b5e2a4eff8f44ac12",
     "full_expected_sha256": "1f56dd2ec1eb8002b52b77eb3faf5986bb0336694ac993923c9a7575ba264a10",
@@ -80,10 +70,14 @@
       1
     ],
     "IRQ_vector_verified": true,
-    "installed": false,
-    "recovery_package": "OFFLINE_VERIFIED_NOT_ACTUALLY_INSTALLED_OR_RESTORED_NEW_CANDIDATE",
-    "current_C_still_old_23744B": true,
+    "installed": true,
+    "recovery_package": "NEW_CANDIDATE_ACTUALLY_RESTORED_ORIGINAL_H3_AND_REINSTALLED",
+    "current_C_still_old_23744B": false,
     "hardware_eligible": false,
-    "original_full_sha256": "1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390"
-  }
+    "original_full_sha256": "1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390",
+    "window_status": "B_CAN1_C_CAN2_180S_NOMINAL_TRANSPORT_ENGINEERING_PASS"
+  },
+  "B_last_turn_readback_note": "ROM recurred after JLink roundtrip; owner one additional manual reset; subsequent window150s 249.8931SPS pass; image676 verified; close_resume true",
+  "latest_CAN_window": "B_CAN1_C_CAN2_180S_NOMINAL_TRANSPORT_ENGINEERING_PASS",
+  "formal_CAN_release_authorized": false
 }

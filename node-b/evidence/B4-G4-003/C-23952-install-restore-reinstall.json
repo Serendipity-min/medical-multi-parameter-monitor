@@ -1,0 +1,166 @@
+[
+  {
+    "status": "B4_RESTORE_FULL_VERIFY_AND_FLASH_BOOT_PASS",
+    "exit_code": 0,
+    "phase": "restore",
+    "board": "C",
+    "sectors": [
+      0,
+      1
+    ],
+    "full_flash_sha256": "1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390",
+    "options_unchanged": true,
+    "outside_affected_sectors_unchanged": true,
+    "reset_requests": 1,
+    "CAN_or_physiology_acceptance": false,
+    "sdk_calls": 261,
+    "actions": {
+      "JLINKARM_Halt": 1,
+      "JLINKARM_BeginDownload": 1,
+      "JLINKARM_WriteMem": 1,
+      "JLINKARM_EndDownload": 1,
+      "JLINKARM_Reset": 1,
+      "JLINKARM_Go": 1
+    },
+    "download_started": true,
+    "close_resume": true,
+    "operation": "C-old-restore-for-irq-01",
+    "protected_regions": {
+      "sector3": {
+        "sha256": "1698c8783b4fbdd1bc7fc5a8641babc7b499b58a65be54e7b36c65c6c5b88313",
+        "unchanged": true
+      },
+      "sector7": {
+        "sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "unchanged": true
+      },
+      "sector11": {
+        "sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "unchanged": true
+      }
+    }
+  },
+  {
+    "status": "B4_INSTALL_FULL_VERIFY_AND_FLASH_BOOT_PASS",
+    "exit_code": 0,
+    "phase": "install",
+    "board": "C",
+    "sectors": [
+      0,
+      1
+    ],
+    "full_flash_sha256": "1f56dd2ec1eb8002b52b77eb3faf5986bb0336694ac993923c9a7575ba264a10",
+    "options_unchanged": true,
+    "outside_affected_sectors_unchanged": true,
+    "reset_requests": 1,
+    "CAN_or_physiology_acceptance": false,
+    "sdk_calls": 263,
+    "actions": {
+      "JLINKARM_Halt": 1,
+      "JLINKARM_BeginDownload": 1,
+      "JLINKARM_WriteMem": 1,
+      "JLINKARM_EndDownload": 1,
+      "JLINKARM_Reset": 1,
+      "JLINKARM_Go": 1
+    },
+    "download_started": true,
+    "close_resume": true,
+    "operation": "C-irq-install-01",
+    "protected_regions": {
+      "sector3": {
+        "sha256": "1698c8783b4fbdd1bc7fc5a8641babc7b499b58a65be54e7b36c65c6c5b88313",
+        "unchanged": true
+      },
+      "sector7": {
+        "sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "unchanged": true
+      },
+      "sector11": {
+        "sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "unchanged": true
+      }
+    }
+  },
+  {
+    "status": "B4_RESTORE_FULL_VERIFY_AND_FLASH_BOOT_PASS",
+    "exit_code": 0,
+    "phase": "restore",
+    "board": "C",
+    "sectors": [
+      0,
+      1
+    ],
+    "full_flash_sha256": "1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390",
+    "options_unchanged": true,
+    "outside_affected_sectors_unchanged": true,
+    "reset_requests": 1,
+    "CAN_or_physiology_acceptance": false,
+    "sdk_calls": 261,
+    "actions": {
+      "JLINKARM_Halt": 1,
+      "JLINKARM_BeginDownload": 1,
+      "JLINKARM_WriteMem": 1,
+      "JLINKARM_EndDownload": 1,
+      "JLINKARM_Reset": 1,
+      "JLINKARM_Go": 1
+    },
+    "download_started": true,
+    "close_resume": true,
+    "operation": "C-irq-restore-01",
+    "protected_regions": {
+      "sector3": {
+        "sha256": "1698c8783b4fbdd1bc7fc5a8641babc7b499b58a65be54e7b36c65c6c5b88313",
+        "unchanged": true
+      },
+      "sector7": {
+        "sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "unchanged": true
+      },
+      "sector11": {
+        "sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "unchanged": true
+      }
+    }
+  },
+  {
+    "status": "B4_INSTALL_FULL_VERIFY_AND_FLASH_BOOT_PASS",
+    "exit_code": 0,
+    "phase": "install",
+    "board": "C",
+    "sectors": [
+      0,
+      1
+    ],
+    "full_flash_sha256": "1f56dd2ec1eb8002b52b77eb3faf5986bb0336694ac993923c9a7575ba264a10",
+    "options_unchanged": true,
+    "outside_affected_sectors_unchanged": true,
+    "reset_requests": 1,
+    "CAN_or_physiology_acceptance": false,
+    "sdk_calls": 263,
+    "actions": {
+      "JLINKARM_Halt": 1,
+      "JLINKARM_BeginDownload": 1,
+      "JLINKARM_WriteMem": 1,
+      "JLINKARM_EndDownload": 1,
+      "JLINKARM_Reset": 1,
+      "JLINKARM_Go": 1
+    },
+    "download_started": true,
+    "close_resume": true,
+    "operation": "C-irq-install-02",
+    "protected_regions": {
+      "sector3": {
+        "sha256": "1698c8783b4fbdd1bc7fc5a8641babc7b499b58a65be54e7b36c65c6c5b88313",
+        "unchanged": true
+      },
+      "sector7": {
+        "sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "unchanged": true
+      },
+      "sector11": {
+        "sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "unchanged": true
+      }
+    }
+  }
+]

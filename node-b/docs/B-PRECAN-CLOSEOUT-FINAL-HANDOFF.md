@@ -1,8 +1,31 @@
 # Node-B 当前阶段唯一交接报告｜B4-0.3
 
-2026-10-26最终更新：**C原23744B候选安装→原H3恢复→重装均整片核验PASS。B CAN1↔C CAN2已观察真实PDO及NMT发送ACK，但取证丢包、STOP未保存，本窗不通过完整验收。B150秒ADC监测249.964SPS通过，同窗HR/RR保存观察均无有效值；CPU ROM根因仍UNRESOLVED。已离线修复C UART调度、A段禁用和STOP记录，冻结23952B新候选SHA d30a35e7…及恢复包，尚未上板，等待新候选安装准入。** 当前部署仍为B39948B/C23744B；下文早期状态按原时点保留。
+2026-10-26最终更新：**C23952B修正版已实际安装→恢复原H3→重装，完整Flash/options与保护区域核验通过。B CAN1↔C CAN2的新180秒隔离窗及B采样监测均PASS：59047包、CRC/缺号/drop/溢出0，90秒ECG22491/RESP4499帧，585次值/时间校验一致，A段实际收发0。仅签本次名义CAN传输通过；同窗HR/RR仍无有效值，CPU ROM根因及CAN故障注入恢复未关闭。** 当前B39948B/C23952B，所有记录会话已关闭，无云端或Security Gate操作，等待PI审阅。
 
-## 2026-10-26 实际结果及软件纠正（最新）
+## 23952B实板复验与当前交接（最新，B4-G4-003）
+
+| 项目 | 当前结果 | 实际证据与边界 |
+|---|---|---|
+| C安装/原H3恢复 | **PASS** | 先由旧23744B恢复H3，再23952B安装→恢复H3→重装，四次完整1MiB/options/扇区外及真实启动向量核验退出0；新候选恢复已实际演练，非仅备份一致 |
+| 180秒名义CAN传输 | **B_CAN1_C_CAN2_180S_NOMINAL_TRANSPORT_ENGINEERING_PASS** | 目标tick125443→305443，严格180000ms；仅START一次，主机记录约199.328秒含前置附着；45秒预热/90秒共同评价分开，物理A段断开且实际RX/TX均0 |
+| 完整原始记录 | **PASS** | 1889504B/59047包，CRC、序号缺失、重同步、取证丢弃和C RX溢出均0，STOP真实收到，队列最高占用3；不拼接早先失败数据 |
+| PDO/心跳/TIME/模型 | **PASS（传输范围）** | 90秒评价ECG22491、RESP4499、三个周期PDO各90、B心跳180，NMT和TIME均有真实TX_ACK；585次网关值哈希/末样本时间匹配，失败0。名义帧数范围已采前冻结，不能拿实际差数当仪器时钟精度 |
+| ADC与CAN错误 | **PASS（保存观察）** | B150秒/281快照，37996点，249.8931SPS，新增削顶及采样错误0；B CAN1 ESR非零观察0，C CAN2 TEC/REC峰值0，CAN1 ESR非零观察0；窗口显式reset/halt/go/写入0，退出续跑 |
+| HR/RR同步有效性 | **NOT_VALIDATED** | 共同评价168次B保存观察两路有效均0；C HR/RR/TEMP的模型有效观察也均0，vitals三值均0，正确保留INVALID语义。未知源状态不计算准确率，不签生理同步PASS |
+| 历史ROM机制 | **CPU_ROM_ROOT_CAUSE_UNRESOLVED** | 新C安装及J-Link往返后B再次读到ROM，映像仍匹配、Fault0；停止后负责人明确选择且操作新增一次B实体复位，随后本窗Flash运行正常。关联不等于机制已定位，恢复不等于修复 |
+| 故障恢复/正式部署 | **NOT_VALIDATED / BLOCKED** | 本轮没有短断路、CAN热插拔、总线故障注入、A段实测或正式云端。C原H3硬件回退已演练；CAN故障恢复仍须独立精确授权，不自动进入下一阶段 |
+
+**当前身份冻结：** B39948B SHA `676eb7a46ad9cd15c7bf93db51a1931d7711d37c6f2fd636197dc4a85b339b82`，本轮未重刷；C23952B SHA `d30a35e7f7729c16f580c67e660f1f01a76e111606474f6b5e2a4eff8f44ac12`，安装后整片SHA `1f56dd2ec1eb8002b52b77eb3faf5986bb0336694ac993923c9a7575ba264a10`。代码源提交 `7657fad07f211496ee7d1e27ed191454f991f7ca` 已SSH推送并独立HTTPS取回32文件字节一致；随后本交接数据更新另行提交取回。B BIO源SHA3adca55c…不变，算法阈值、ADS寄存器与名义gain4换算未变，绝对电压/阻抗均未校准。
+
+C恢复原件仍为完整1MiB SHA `1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390`；所有options/sector3/7/11均保留。当前恢复必须使用受限归档的 **C-irq-package**（manifest SHA `e02514e64da5414ffa34249102cc2e11aece1d1979812aa492a83ef6a5766898`），其installed期望为1f56dd…，不能误用旧23744B包。旧原件、所有失败、受限BIN/ELF/完整Flash、真实SDK回执和新窗口原码均留EFS，Git仅安全摘要。
+
+本窗先在串口关闭时完成目标启动与调试器转接，再附着连续运行诊断；**未捕获线上的BOOT包**，启动证据明确来自同次完整安装读回、真实Flash PC/0地址别名及连续诊断，不补造启动记录，也不将本窗当独立冷启动验收。新UART TXE中断调度、A段管理禁用、STOP记录均获本窗范围的实际验证；物理USB/驱动复位相关句柄失效机制仍未单独闭环。
+
+停止状态：J-Link留B，两板按原方式上电，C USB_UART/CAN/参考地保留，ESP/喇叭隔离，A段断开；主机串口和J-Link会话均已关闭。C在180秒后停止协议/TIME，不自动复位或重新武装；CAN硬件仍可能ACK，B独立采样继续。下次涉及源模式、人体、CAN故障、电极或固件变更均须相应准入，不自动联网。
+
+[当前阶段摘要](../evidence/B4-G4-003/stage-results.json)、[C真实安装恢复](../evidence/B4-G4-003/C-23952-install-restore-reinstall.json)、[完整CAN窗](../evidence/B4-G4-003/CAN-window05-receipt.json)、[B采样](../evidence/B4-G4-003/B-runtime05-receipt.json)、[合并裁定](../evidence/B4-G4-003/window05-combined-review.json)与[新增ROM原件摘要](../evidence/B4-G4-003/B-rom-recurrence-before-window.json)提供复核入口；此前B4-G4-002失败及源码/回归证据保持不变。
+
+## 2026-10-26早期实板失败及软件纠正（历史）
 
 | 门禁 | 实际结果 | 边界 |
 |---|---|---|
