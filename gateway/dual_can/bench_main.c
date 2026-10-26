@@ -33,8 +33,13 @@ int main(void) {
     b4_capture_emit(B4_CAP_BOOT,1,4,8,identity,b4_bench_milliseconds,b4_bench_init_error);
     uint32_t diag_at=0; unsigned stop_recorded=0, armed=0;
 #endif
+    unsigned hw_quiesced = 0;
     /* 初始化失败即停留诊断，不切换网络/时钟/复位路径补救；成功也只运行180秒窗口。 */
     while (1) {
+        /* STOP报告前先取消尚在仲裁/重传的邮箱；不能只停应用队列却留下后台发送。 */
+        if ((b4_bench_init_error || g_b4_bench.diag.stopped) && !hw_quiesced) {
+            b4_hw_stop(); hw_quiesced = 1;
+        }
 #if defined(B4_CAPTURE_SERIAL)
         b4_capture_uart_wake();
         if (!armed && !g_b4_bench.diag.stopped && !b4_bench_init_error) {

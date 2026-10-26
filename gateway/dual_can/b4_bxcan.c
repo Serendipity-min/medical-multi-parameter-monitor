@@ -1,11 +1,15 @@
-/* 尚未上板的双bxCAN驱动；只在独立软件候选中编译，不替换冻结H3镜像。 */
+/* 双bxCAN独立候选驱动；受限台架与正式H3的部署身份分别管理。 */
 #include "b4_bxcan.h"
 #include "b4_resources.h"
+#if defined(B4_BXCAN_MMIO_TEST)
+#include "tests/bxcan_mmio_shim.h"
+#else
 #include "stm32f4xx.h"
 #include "stm32f4xx_can.h"
 #include "stm32f4xx_gpio.h"
 #include "stm32f4xx_rcc.h"
 #include "misc.h"
+#endif
 #if defined(B4_CAPTURE_SERIAL)
 #include "b4_capture.h"
 /* 邮箱中的原始内容由主循环保存，与随后TXOK/失败分别关联；入邮箱不算ACK。 */
@@ -16,6 +20,7 @@ typedef struct { MpCanFrame frame; uint32_t tick; } Item;
 /* 单生产者ISR/单消费者主循环，各段各自96槽；先写数据再发布head。 */
 static Item rx[2][96];
 static volatile unsigned head[2], tail[2];
+static uint8_t hw_clocks_ready, hw_stopped;
 volatile B4HwDiag b4_hw_diag[2];
 extern uint32_t b4_hw_time(void);
 static CAN_TypeDef *controller(unsigned bus) { return bus ? CAN2 : CAN1; }
@@ -40,11 +45,13 @@ static void irq(unsigned bus) {
 void CAN1_RX0_IRQHandler(void) { irq(0); }
 void CAN2_RX0_IRQHandler(void) { irq(1); }
 int b4_hw_init(void) {
+    hw_clocks_ready = hw_stopped = 0;
     RCC_ClocksTypeDef clocks; RCC_GetClocksFreq(&clocks);
     /* 冻结H3使用8MHz HSE；B使用42MHz APB1，不能套用同一prescaler。 */
     if (clocks.PCLK1_Frequency != 42000000u && clocks.PCLK1_Frequency != 8000000u) return -1;
     /* CAN2共享CAN1控制的过滤器时钟；初始化/重连不得关闭或复位CAN1。 */
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_CAN1 | RCC_APB1Periph_CAN2, ENABLE);
+    hw_clocks_ready = 1;
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA | RCC_AHB1Periph_GPIOB, ENABLE);
     GPIO_InitTypeDef gpio; GPIO_StructInit(&gpio); gpio.GPIO_Mode = GPIO_Mode_AF;
     gpio.GPIO_OType = GPIO_OType_PP; gpio.GPIO_PuPd = GPIO_PuPd_UP; gpio.GPIO_Speed = GPIO_Speed_50MHz;
@@ -54,7 +61,9 @@ int b4_hw_init(void) {
     GPIO_PinAFConfig(GPIOB, GPIO_PinSource12, GPIO_AF_CAN2); GPIO_PinAFConfig(GPIOB, GPIO_PinSource13, GPIO_AF_CAN2);
     for (unsigned bus = 0; bus < 2; bus++) {
         CAN_InitTypeDef can; CAN_StructInit(&can);
-        can.CAN_ABOM = ENABLE; can.CAN_NART = ENABLE; can.CAN_RFLM = ENABLE;
+        /* 常规仲裁失败必须保留发送请求，不能把与低COB-ID波形竞争当成丢弃心跳的理由。
+         * NART=0由硬件在总线可用时重传；台架结束由b4_hw_stop有界取消所有待发请求。 */
+        can.CAN_ABOM = ENABLE; can.CAN_NART = DISABLE; can.CAN_RFLM = ENABLE;
         can.CAN_TXFP = ENABLE; /* 同一COB-ID按请求次序，避免多邮箱并发造成倒序。 */
         can.CAN_Mode = CAN_Mode_Normal; can.CAN_SJW = CAN_SJW_1tq;
         can.CAN_BS1 = clocks.PCLK1_Frequency == 8000000u ? CAN_BS1_13tq : CAN_BS1_11tq;
@@ -100,7 +109,7 @@ static void completed(unsigned bus) {
     }
 }
 int b4_bus_transmit(unsigned bus, const MpCanFrame *frame) {
-    if (bus > 1 || frame->ident > 0x7ff || frame->dlc > 8) return 0;
+    if (hw_stopped || bus > 1 || frame->ident > 0x7ff || frame->dlc > 8) return 0;
     CAN_TypeDef *can = controller(bus);
     /* 先结算已完成邮箱，随后才能记录该邮箱的新原始帧。 */
     completed(bus);
@@ -119,6 +128,19 @@ int b4_bus_transmit(unsigned bus, const MpCanFrame *frame) {
 #endif
     return mailbox != CAN_TxStatus_NoMailBox;
 }
+void b4_hw_stop(void) {
+    /* 初始化失败前未开CAN时钟则不碰外设；停止幂等，不复位共享CAN1时钟/过滤器。
+     * 先禁止新软件请求，再禁止继续自动重传并取消全部邮箱；在途帧最多结束当前一次尝试。
+     * 控制器仍可ACK对端，不因台架STOP额外制造B端无ACK/BOFF。此函数不自动重新武装。 */
+    hw_stopped = 1;
+    if (!hw_clocks_ready) return;
+    for (unsigned bus = 0; bus < 2; bus++) {
+        CAN_TypeDef *can = controller(bus);
+        completed(bus);
+        can->MCR |= CAN_MCR_NART;
+        can->TSR = CAN_TSR_ABRQ0 | CAN_TSR_ABRQ1 | CAN_TSR_ABRQ2;
+    }
+}
 void b4_hw_idle(void) {
     for (unsigned bus=0;bus<2;bus++) {
         for (unsigned budget=0;tail[bus]!=head[bus] && budget<16;budget++)
@@ -126,6 +148,7 @@ void b4_hw_idle(void) {
     }
 }
 void b4_hw_poll(B4Gateway *g) {
+    if (hw_stopped) return;
     for (unsigned bus = 0; bus < 2; bus++) {
         CAN_TypeDef *can = controller(bus);
         completed(bus);

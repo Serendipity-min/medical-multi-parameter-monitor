@@ -49,11 +49,19 @@ def main():
         if run('compile-link-policy-'+name,[*flags,*extra,'-DMP_FRAME_MAX_SAMPLES=100',
                  '-DMP_CACHE_CAPACITY=64',dual/'tests/link_policy.c','-o',exe]):
             run('link-policy-'+name,[exe])
-    report = {'status': 'PASS' if len(cases) == 12 and all(c['passed'] for c in cases) else 'FAIL',
+    # 用RAM MMIO替身编译真实驱动，覆盖仲裁未完成、真正ACK、旧ALST失败和STOP取消邮箱。
+    mmio = out / 'bxcan-retransmit.exe'
+    if run('compile-bxcan-retransmit', [*flags, '-Wno-unused-parameter', '-DB4_BXCAN_MMIO_TEST=1',
+            '-DB4_CAPTURE_SERIAL=1', '-DCO_MULTIPLE_OD', '-DMP_FRAME_MAX_SAMPLES=100',
+            '-DMP_CACHE_CAPACITY=64', '-I' + str(ROOT / 'gateway/canopen/src'),
+            '-I' + str(vendor), dual / 'b4_bxcan.c', dual / 'tests/bxcan_retransmit.c', '-o', mmio]):
+        run('bxcan-retransmit-and-stop', [mmio])
+    report = {'status': 'PASS' if len(cases) == 14 and all(c['passed'] for c in cases) else 'FAIL',
               'scope': 'OFFLINE_SYNTHETIC_NO_TARGET_IO', 'hardware_operations': 0, 'cases': cases,
               'source_sha256': {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in
                                 [*sources,dual/'b4_capture.c',dual/'b4_capture.h',dual/'tests/capture.c',
                                  dual/'b4_resources.h',dual/'tests/link_policy.c',
+                                 dual/'b4_bxcan.c',dual/'tests/bxcan_mmio_shim.h',dual/'tests/bxcan_retransmit.c',
                                  ROOT / 'node-b/tools/b4_recovery.py', ROOT / 'node-b/tests/test_b4_recovery.py', Path(__file__)]}}
     (out / 'receipt.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
     (out / 'executed-runner.py').write_bytes(Path(__file__).read_bytes())
