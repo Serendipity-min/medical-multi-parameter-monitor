@@ -1,8 +1,47 @@
 # Node-B 当前阶段唯一交接报告｜B4-0.3
 
-2026-10-26最新ECG＋B/C共同窗：**普通ECG60/1.0mV、RA–LA–RL，B端110/110次HR60有效；C端90次HR60与225次ECG模型全部有效，22489个波形源tick逐点匹配B原码、585次模型值/时间校验一致。但C有4次心跳仲裁失败，完整180秒CAN判据退出3，不能签完整B+C通过。** 已离线修复C的NART配置并补STOP取消邮箱，31项Python、14阶段Host及两种ARM构建通过；24104B新台架候选仅冻结、未安装。当前仍B39948B/C23952B，RR有效传输未测试，CPU ROM根因UNRESOLVED。
+2026-10-26最新收尾：**C24104B已在实时双份备份后完成原H3恢复→新候选安装→恢复原H3→重装，完整Flash/options/保护区域核验通过。新C的ECG、初次RR和COM6稳定RR三个180秒名义CAN窗均通过，C心跳发送失败0。最新独立RR15在B共同评价110/110次有效、C90/90次有效，4499个呼吸源tick全部匹配，新增削顶0，签RR15_B_TO_C_STEADY_VALID_TRANSPORT_ENGINEERING_PASS。** 最新ECG90秒连续有效性仍未满，同窗HR/RR、ROM根因、独立冷启动、绝对阻抗及故障注入恢复门禁保留，不宣布正式部署通过。当前B39948B/C24104B、C USB串口COM6，全部会话已关闭，无云端或A段实测。
 
-## ECG60与B→C有效数据补证、C重传修复候选（最新，B4-ECG-CAN-001）
+## 24104B安装恢复与三窗收尾（当前，B4-CLOSEOUT-24104-001）
+
+负责人明确批准当前C备份→恢复原H3→24104B安装/恢复/重装→分别复验ECG/RR。本轮起始J-Link与USB均在C、B断电；未先打开COM或运行USB下载。新只读入口按真实CAN保留/ESP隔离/B断电状态冻结授权，不能套用旧CAN断开profile。实际双读1MiB Flash、16B options及C身份，完整SHA均为`1f56dd2ec1eb8002b52b77eb3faf5986bb0336694ac993923c9a7575ba264a10`，与当时23952B镜像一致；这是当次实读原件，非将历史H3备份当当前镜像。实际Flash PC及零地址向量别名通过、Fault0。
+
+四步均实际执行并退出0：①23952B恢复原H3整片`1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390`；②安装24104B，整片`b460d917e1d454fdb0882d1f837d91c606363179b817a3896a1df6897b2dcb98`；③新候选恢复相同原H3；④重装新候选，整片再次b460d917…。每步实际只涉及sector0/1，完整Flash、扇区外尾部、options、身份/保护及真实PC/MSP启动向量逐次核验；sector3/7/11不变，无整片擦除、解保护或配置改写。每步计划halt/download/reset/go各最多1，实际各1；不能写成整个安装过程零复位，也不能借计划动作掩盖意外复位。
+
+**当前固件冻结：** B39948B SHA `676eb7a46ad9cd15c7bf93db51a1931d7711d37c6f2fd636197dc4a85b339b82`，B未烧录；C24104B SHA `127ba765b8144e8f8ae98ef826ac2a98f45f8facb4021ce1888c004e5ca46547`，对应C固件源提交`f577c67febbff5f6a97bd98375df8ae78283d110`。新C实际恢复演练通过，恢复包manifest SHA `0ee3721462a33ae9a21d5c444eca4656265dab98ac0fc26b4b5e1a9c3cc1b178`；新固件不能再使用期望旧23952B的包直接做安装状态核验。BIO源SHA3adca55c…及全部阈值/ADS寄存器不变，Vref仍仅名义2.42V、gain4换算未改。
+
+三窗使用同一新C隔离固件及本地测试TIME，B CAN1↔C CAN2、500kbps、A段断开、ESP隔离。每窗C唯一START、180000ms硬停并收到真实STOP；B单连接150秒只读原码/诊断，覆盖共同45秒预热＋90秒评价。共同B样本按C实际收到的源tick映射，不假定两板开机时钟相同。B本地45–135秒与C共同45–135秒的起点有小偏移，保存观察数及有效数分别列明，不能混用。
+
+| 窗口 | 名义CAN传输 | 生理及网关有效性 |
+|---|---|---|
+| ECG：普通60/1.0mV、RA–LA–RL、COM15 | **PASS**；59071包，C心跳180入队/180ACK，TX失败0，CRC/缺号/drop/TEC/REC均0；583次模型值/时间校验一致，22498个ECG源tick匹配B原码 | B本地HR有效98/110，共同区间101/110；C81/90次模型为有效60BPM，9次为0/INVALID，205/223次ECG波形模型有效。原码出现尖峰，冻结C源Host回放也有失效；**完整90秒ECG稳态NOT_PASS**，正确INVALID不算传输出错 |
+| 初次RR：独立15/1.5R/周期30/窒息0、RA–LL–RL、COM15 | **PASS**；59076包，C心跳180/180ACK、TX失败0，CRC/缺号/drop/TEC/REC均0；585次模型校验一致，4499个RESP源tick匹配 | B本地RR有效39/110，共同区间42/110；C30次有效15、4次有效14、56次0/INVALID。预热期29.679–35.213秒散发9帧CH1削顶；评价段近轨0，但有大幅基线变化，完整周期估计不一致，**稳态NOT_PASS**。预热计数保留，不能把9帧误写成评价段削顶 |
+| 负责人观察稳定后重新测量：相同RR源/导联、COM6 | **PASS**；59048包，C心跳180/180ACK、TX失败0，CRC/缺号/drop/TEC/REC均0；584次模型校验一致，4499个RESP源tick全部匹配B原码 | **RR15_B_TO_C_STEADY_VALID_TRANSPORT_ENGINEERING_PASS**。B本地22495帧、共同原码22491帧，110/110次均有效15；C90/90次RR均1500（0.01rpm单位），quality均10，89/89次RESP波形模型有效。原码时间域/自相关约14.9963次/分，谱峰15.0；CH1峰峰1374codes，整窗新增削顶0，Host回放评价22495帧RR均有效 |
+
+全部CAN判据退出0；ECG及初次RR稳态/共同有效性分析如实退出3；COM6稳定RR采集和两项分析均退出0。保存观察率不是连续逐帧实板有效率，Host回放也不是ARM逐位相同证明。C89个RESP波形模型与90个RR标量模型属于不同批量边界，不补造第90个波形模型；实际4499个50Hz源点、边缘余量及源tick对应关系均保留。新C三窗未再出现旧23952B的4次心跳仲裁丢弃，支持本次名义工况下重传修复；未主动制造仲裁/断线/短路，不签受控故障注入恢复PASS。
+
+**最新测量能定位到的范围：** 本窗未见CAN数字丢包、载荷/时间重建错误或C网关数值/有效位错误。先前的大幅起伏已在B的重复一致原码中出现，C按B资格输出正确INVALID，所以不能把它只解释为C把正常数据传坏。削顶是原码达到量程的独立事实，可能使算法清除周期资格并重新积累；NO_CYCLES、BROADBAND_NOISE等是诊断表现，不等于削顶的电气原因。仍不能单独在SKX输出、导联接触、ADS前端、供电/共模或CAN电气耦合间定责。负责人这次更换了USB接口并确认C为COM6，因此前后两窗并非严格只改变源稳定性的单变量对照，不以本窗通过宣布模拟器自身故障或彻底排除电气耦合。
+
+**全部负例原件保留：** 新C安装完成后的首次B附着仍观察到VTOR1FFF0000、PC1FFF32F2/1FFF32EE、Fault0；B BIN/options仍匹配。B仅46次只读SDK调用后停止，未发START、未写Flash，C记录也关闭。负责人决定并实际完成新增一次B/C人工RESET后才创建独立ECG窗，没有复用失败授权或强设PC。稳定RR重测最初按旧COM15预检失败，真实退出1；尚未打开串口、读取B或发START。随后负责人确认已换接口、C改为COM6，校验CH340 VID/PID后以新目录继续同一测量，未再次复位。端口不存在不是新固件丢失或ROM证据。
+
+**冷启动门禁仍未关闭：** 负责人回忆切换RR时B板、模块与两屏“全部熄灭”，原话保留；读回却显示ECG末次B运行时间250346ms/样本62241，初次RR入口703874ms/样本175543，计数保持连续。现场观察与计数尚未解释一致，不签当前B4独立冷启动PASS，也不擅自确定背供电、BOOT锁存或用户操作中的任何单一原因。本轮没有为此追加电压测量、断电或复位；历史ROM根因继续UNRESOLVED。
+
+| 最终门禁 | 当前结论 |
+|---|---|
+| 实时C备份、新候选安装/原H3恢复演练 | **PASS** |
+| B CAN1↔C CAN2名义传输、有效值与INVALID传播 | **已观察通过**；三个新C窗口均无数字传输错误 |
+| 当前RR15稳态及有效传输 | **PASS（COM6、本次受测条件）** |
+| 最新ECG90秒全窗连续有效 | **NOT_PASS**；先前ECG六窗通过及f577阶段有效接收证据保留 |
+| 同源同窗ECG/HR与RESP/RR同时有效 | **NOT_VALIDATED**；分路测试不能合并签同步PASS |
+| CPU ROM机制 / 当前B4独立冷启动 | **UNRESOLVED / NOT_VALIDATED** |
+| 绝对阻抗幅度 / CAN受控故障恢复 | **NOT_CALIBRATED_INSTRUMENT_REQUIRED / NOT_TESTED** |
+| 正式部署、A段联动及云端 | **未批准，不自动推进** |
+
+41项新增/相关Python离线检查通过；C固件的14阶段Host及隔离/网络ARM回执沿用同字节f577冻结产物，不冒称本轮重建过B或执行过网络固件。全量原码、options/身份、四步完整Flash、原生SDK日志、BIN/ELF、Host回放、图和逐文件SHA只保存在受限NTFS EFS；Git仅[阶段安全摘要](../evidence/B4-CLOSEOUT-24104-001/stage-results.json)、[C实时备份与四步安装恢复](../evidence/B4-CLOSEOUT-24104-001/C-backup-install-restore.json)、[ECG窗](../evidence/B4-CLOSEOUT-24104-001/ECG-measurement-and-transport.json)、[初次RR窗](../evidence/B4-CLOSEOUT-24104-001/RR_initial-measurement-and-transport.json)、[最新稳定RR窗](../evidence/B4-CLOSEOUT-24104-001/RR_stable_COM6-measurement-and-transport.json)及[冷启动/负例](../evidence/B4-CLOSEOUT-24104-001/coldboot-and-failure-evidence.json)。历史ECG六窗、RR六窗及206025帧/681次有效观察原件均不变。
+
+停止状态：全部串口和J-Link软件会话已关闭，J-Link物理在B；C窗口已180秒STOP、停止协议/TIME并取消待发请求，保留控制器ACK能力；B独立采样继续。源保留独立呼吸15/1.5R/周期30/窒息0，RA–LL–RL，C USB串口COM6，CAN/参考地原连接、A段/ESP隔离。无云端写入、Security Gate、PR、保护分支或历史标签操作；提交后等待PI裁定剩余门禁，不追加重试造PASS。
+
+## ECG60与B→C有效数据补证、C重传修复候选（历史阶段，B4-ECG-CAN-001）
 
 负责人确认已切换为普通ECG60bpm/1.0mV及历史ECG接法：红R→RA/R、黄L→LA/L、绿F→RL/N、LL/F空置。为重开一次性C窗口，负责人单独允许并实际短按C RESET一次；串口始终在复位完成后才打开，J-Link留B。代理reset/halt/go/Flash写入及改源/改线均0。C仅本地测试TIME、A段/ESP隔离，无云端。B一次只读取150.062秒原码，C唯一START后180秒硬停，真实收到STOP；没有重试或用重刷消除失败。
 
@@ -26,7 +65,7 @@
 
 [本轮全部安全结果、SHA和真实退出码](../evidence/B4-ECG-CAN-001/ecg60-rala-can-and-c-retransmit-results.json)是当前交接索引。实际仍C23952B，当前串口/J-Link会话已关闭、C窗口已STOP，源/电极保持普通ECG60/1mV及RA–LA–RL；24104B候选、ELF、原件、失败和逐文件SHA均仅受限EFS。此前ECG/RR六窗及B4-G4-003名义传输PASS不修改。本轮没有云端、A联动、Security Gate、PR或保护分支操作，完整BC收尾尚未完成。
 
-## 独立呼吸15专用窗口（最新，B4-RESP15-001）
+## 独立呼吸15专用窗口（历史阶段，B4-RESP15-001）
 
 负责人已自行切换并明确冻结当前独立呼吸15bpm/1.5R/波形周期30bpm/窒息0s和红R→RA/R、黄L→LL/F、绿F→RL/N、LA空置。本次另建RESP专用源/工具及受限目录，没有冒用上一普通ECG profile，也不将伴随ECG60当作已知输入。只读一次137.094秒，45秒预热/90秒评价/2秒尾段，显式reset/halt/go/写Flash/改阈值/改寄存器/改线/代理切源均0，正常Flash退出续跑。
 
@@ -44,7 +83,7 @@
 
 **下一轮ECG仅准备，不在本轮执行：** 恢复历史通过的RA–LA–RL：红R→RA/R、黄L从LL/F改到LA/L、绿F仍→RL/N，LL/F悬空；普通ECG60bpm/1.0mV，45秒预热/90秒评价、HR名义58–62BPM，CH2原码/QRS/有效原因及CH1一并保存。换线必须按冷态处理，不能带电插拔导联；新的启动/现场动作不计入本次零复位窗口，也未由本轮自动执行。ECG分路与本次RR分路即使分别通过，也只能证明各自设置下的有效性，不能签同源同窗双通道同步PASS。要证明Node-B→C的两种有效数值/有效位/波形传输，还需在后续授权窗口重新建立C本地TIME并保存C端接收/模型证据；本轮不为此复位或重刷C。
 
-## 普通ECG60/1.0mV只读共同窗口（最新，B4-SYNC-001）
+## 普通ECG60/1.0mV只读共同窗口（历史阶段，B4-SYNC-001）
 
 负责人明确要求按现状读取CH1/CH2及诊断，不改变源、电极、供电或B状态。本次采用当前39948B的slots=`0x20002160`、BIO=`0x20001D14`，不能使用25488B的历史工具地址。唯一附着/关闭、45秒预热/90秒评价/2秒尾段，实际137.047秒；显式reset/halt/go/目标数据写入均0，健康Flash退出续跑。固件仍SHA `676eb7a46ad9cd15c7bf93db51a1931d7711d37c6f2fd636197dc4a85b339b82`，BIO源SHA `3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7`。
 
@@ -66,7 +105,7 @@
 
 [本次安全统计及SHA](../evidence/B4-SYNC-001/ordinary-ecg60-1mv-readonly-results.json)为唯一交接索引，包含完整窗口与事后描述段的区别。没有新现场卡、云端、Security Gate或保护分支操作。
 
-## 23952B实板复验与当前交接（最新，B4-G4-003）
+## 23952B实板复验与当时交接（历史阶段，B4-G4-003）
 
 | 项目 | 当前结果 | 实际证据与边界 |
 |---|---|---|

@@ -49,8 +49,8 @@
     "archive": "E:\\medical-monitor-node-b-precan-private\\20261023\\b4-software-20261023T093613216574Z\\L1-current\\BIO_V2-25488B.bin"
   },
   "authorization_scope": "Owner-approved isolated B+C install/restore/bench only; no cloud/protected branch changes",
-  "C_current": "C23952B_IRQ_ISOLATED_BENCH_INSTALLED_RESTORED_H3_REINSTALLED_FULL_VERIFY_PASS; WINDOW05_NOMINAL_CAN_PASS; ROM_AND_PHYSIOLOGY_UNRESOLVED",
-  "C_last_verified_full_flash_sha256": "1f56dd2ec1eb8002b52b77eb3faf5986bb0336694ac993923c9a7575ba264a10",
+  "C_current": "C24104B_ARBITRATION_RETRY_FIX_INSTALLED_RESTORED_H3_REINSTALLED_FULL_VERIFY_PASS; THREE180S_NOMINAL_CAN_PASS; LATEST_RR15_STEADY_VALID_TRANSPORT_PASS_COM6; ECG_STEADY_AND_CPU_GATES_REMAIN",
+  "C_last_verified_full_flash_sha256": "b460d917e1d454fdb0882d1f837d91c606363179b817a3896a1df6897b2dcb98",
   "C_boot_recovery": {
     "reset_requests": 1,
     "go_requests": 1,
@@ -58,9 +58,30 @@
     "MSP_at_reset": "0x20020000",
     "VTOR_running": "0x08000000",
     "Fault": 0,
-    "root_cause_closed": false
+    "root_cause_closed": false,
+    "scope": "HISTORICAL_ORIGINAL_H3_RECOVERY_NOT_CURRENT_C24104_VECTOR",
+    "is_current_C_reset_vector": false
   },
   "C_isolated_candidate": {
+    "bytes": 24104,
+    "sha256": "127ba765b8144e8f8ae98ef826ac2a98f45f8facb4021ce1888c004e5ca46547",
+    "full_expected_sha256": "b460d917e1d454fdb0882d1f837d91c606363179b817a3896a1df6897b2dcb98",
+    "manifest_sha256": "0ee3721462a33ae9a21d5c444eca4656265dab98ac0fc26b4b5e1a9c3cc1b178",
+    "sectors": [
+      0,
+      1
+    ],
+    "IRQ_vector_verified": true,
+    "installed": true,
+    "recovery_package": "NEW_CANDIDATE_ACTUALLY_RESTORED_ORIGINAL_H3_AND_REINSTALLED",
+    "hardware_eligible": false,
+    "original_full_sha256": "1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390",
+    "window_status": "RR15_B_TO_C_STEADY_VALID_TRANSPORT_ENGINEERING_PASS_COM6; ECG_CAN_PASS_WITH_TRANSIENT_INVALIDS"
+  },
+  "B_last_turn_readback_note": "B39948B BIN/options verified per collection; prestart ROM stopped and retained, owner one normal B/C reset; no B Flash writes. New COM6 RR window all110 saved observations valid15, source ticks and C values match; historical ROM mechanism unresolved.",
+  "latest_CAN_window": "RR15_B_TO_C_STEADY_VALID_TRANSPORT_ENGINEERING_PASS",
+  "formal_CAN_release_authorized": false,
+  "C_previous_23952B": {
     "bytes": 23952,
     "sha256": "d30a35e7f7729c16f580c67e660f1f01a76e111606474f6b5e2a4eff8f44ac12",
     "full_expected_sha256": "1f56dd2ec1eb8002b52b77eb3faf5986bb0336694ac993923c9a7575ba264a10",
@@ -75,9 +96,23 @@
     "current_C_still_old_23744B": false,
     "hardware_eligible": false,
     "original_full_sha256": "1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390",
-    "window_status": "B_CAN1_C_CAN2_180S_NOMINAL_TRANSPORT_ENGINEERING_PASS"
+    "window_status": "B_CAN1_C_CAN2_180S_NOMINAL_TRANSPORT_ENGINEERING_PASS",
+    "historical_window_status": "B_CAN1_C_CAN2_180S_NOMINAL_TRANSPORT_ENGINEERING_PASS"
   },
-  "B_last_turn_readback_note": "ROM recurred after JLink roundtrip; owner one additional manual reset; subsequent window150s 249.8931SPS pass; image676 verified; close_resume true",
-  "latest_CAN_window": "B_CAN1_C_CAN2_180S_NOMINAL_TRANSPORT_ENGINEERING_PASS",
-  "formal_CAN_release_authorized": false
+  "latest_CAN_transport_validation": {
+    "C_bytes": 24104,
+    "completed180s_windows": 3,
+    "CAN_TX_failures": 0,
+    "CRC_errors": 0,
+    "packet_sequence_errors": 0,
+    "current_port": "COM6",
+    "evidence": "node-b/evidence/B4-CLOSEOUT-24104-001/stage-results.json"
+  },
+  "current_physiology_gates": {
+    "RR15_current_COM6": "STEADY_VALID_AND_TRANSPORT_PASS",
+    "ECG60_latest_C24104_window": "VALID_VALUES_AND_INVALID_PROPAGATION_OBSERVED_BUT_NOT_ALL90S_STEADY_VALID",
+    "same_window_ECG_RESP": "NOT_VALIDATED",
+    "cold_boot_current_B4": "NOT_VALIDATED_OBSERVATION_COUNTER_DISCREPANCY",
+    "impedance_amplitude": "NOT_CALIBRATED_INSTRUMENT_REQUIRED"
+  }
 }

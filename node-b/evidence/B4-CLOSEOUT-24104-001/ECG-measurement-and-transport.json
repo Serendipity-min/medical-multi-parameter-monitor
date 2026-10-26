@@ -1,0 +1,636 @@
+{
+  "source_profile": {
+    "scope": "B4_ECG60_RALA_CAN_JOINT_READONLY_150S",
+    "menu": {
+      "mode": "NORMAL_ECG",
+      "HR_bpm": 60,
+      "ECG_amplitude_menu_mV": 1.0,
+      "stored_RESP_bpm": 15,
+      "RESP_amplitude_literal": "1.5R",
+      "stored_waveform_period_literal": "30bpm",
+      "apnea_literal": "0s"
+    },
+    "criteria": {
+      "warmup_ms": 45000,
+      "evaluation_ms": 90000,
+      "HR_nominal_range": [
+        58,
+        62
+      ],
+      "minimum_raw_frames": 22000,
+      "maximum_diagnostic_gap_ms": 1500,
+      "minimum_saved_observations": 90,
+      "SPS_range": [
+        247.5,
+        252.5
+      ],
+      "required_HR_saved_valid_fraction": 1.0,
+      "CH2_required_near_rail_frames": 0,
+      "RR": "CHARACTERIZATION_ONLY",
+      "CAN_reference": "C_START_PLUS_45_TO_135_SECONDS",
+      "common_raw_selection": "B_SAMPLE_TICKS_ACTUALLY_RECEIVED_BY_C_ECG_PDO"
+    },
+    "tools_sha256": {
+      "b4_ecg_rala_can_current.py": "04876b43afc34d147b6c9c22447b0e3f92ed117d7fabe26b4cb05189ecfd32f0",
+      "b4_runtime.py": "e89c7dc5adc51242c3b7bb51224b7336e6d06c2e8110155e35111d35f37d6710",
+      "c_b4_readonly.py": "614d23736ea8569d4098d33e26fe762fcb00c1be646c0e0ea4ba1f9ad40afb09",
+      "readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+      "runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+      "live_state_b.py": "bdf04c16f74e93028a55a7db244f0a2b6f683dfb987e61d41470f2bf3debde6c",
+      "resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+      "b4_recovery.py": "fa93222b833f2f010d068b0cac97c73db7430c7eb68316d84441d60539c76213"
+    },
+    "image_sha256": "676eb7a46ad9cd15c7bf93db51a1931d7711d37c6f2fd636197dc4a85b339b82",
+    "duration_s": 150,
+    "hard_limit_s": 180,
+    "explicit_reset_halt_go_writes": 0,
+    "probe_sessions": 1,
+    "retries": 0,
+    "Z0_ohm": null,
+    "delta_Zpp_ohm": null,
+    "source_case_model": "SKX-2000+",
+    "manual_model": "SKX-2000D+ V2.2",
+    "model_equivalence": "NOT_PROVEN",
+    "new_C_receive_window": true,
+    "leads": {
+      "R": "RA",
+      "L": "LA",
+      "F": "RL",
+      "LL": "EMPTY"
+    }
+  },
+  "B_capture": {
+    "status": "READONLY_WINDOW_CAPTURED_ANALYSIS_PENDING",
+    "exit_code": 0,
+    "chunks": 1837,
+    "elapsed_host_s": 150.07800000009593,
+    "device_sps": 249.97534759885613,
+    "samples_advanced": 38025,
+    "new_C_receive_window": true,
+    "explicit_reset_halt_go_writes": 0,
+    "sdk_calls": 6888,
+    "close_resume": true
+  },
+  "C_capture": {
+    "status": "CAN_SAVED_BASELINE_PASS_B_ADC_REVIEW_REQUIRED",
+    "failures": [],
+    "raw_packet_count": 59071,
+    "sequence_errors": 0,
+    "CRC_errors": 0,
+    "discarded_bytes_after_BOOT": 0,
+    "capture_drops": 0,
+    "C_RX_overflow": 0,
+    "C_CAN2_peak_TEC": 0,
+    "C_CAN2_peak_REC": 0,
+    "evaluation_counts": {
+      "1:bus1:0x182": 22498,
+      "1:bus1:0x282": 4500,
+      "1:bus1:0x382": 90,
+      "1:bus1:0x482": 90,
+      "1:bus1:0x682": 91,
+      "1:bus1:0x702": 180,
+      "2:bus1:0x100": 9,
+      "2:bus1:0x703": 180,
+      "3:bus1:0x100": 9,
+      "3:bus1:0x703": 180
+    },
+    "model_value_time_checks_passed": 583,
+    "model_value_time_checks_failed": 0,
+    "model_valid_observations": {
+      "4:False": 18,
+      "4:True": 205,
+      "5:False": 9,
+      "5:True": 81,
+      "6:False": 90,
+      "7:False": 90,
+      "8:False": 90,
+      "9:False": 18,
+      "9:True": 18
+    },
+    "HR_RR_simultaneous_engineering_pass": false,
+    "source_absolute_impedance_calibrated": false,
+    "flash_alias_verified_by_installation": true,
+    "startup_evidence": "INSTALL_RECEIPT_AND_RUNNING_DIAGNOSTICS_NO_BOOT_CAPTURE",
+    "window": {
+      "warmup_ms": 45000,
+      "evaluation_ms": 90000,
+      "CAN_limit_ms": 180000
+    },
+    "diagnostic_only": {
+      "last_quality_flags": 5,
+      "vitals_rows_in_evaluation": 90
+    },
+    "serial_bytes": 1890272,
+    "host_elapsed_seconds": 200.81199999991804,
+    "start_commands_attempted": 1,
+    "target_reset_or_download_commands": 0,
+    "exit_code": 0,
+    "C_candidate_sha256": "127ba765b8144e8f8ae98ef826ac2a98f45f8facb4021ce1888c004e5ca46547"
+  },
+  "B_local_analysis": {
+    "scope": "B4_ECG60_RALA_CAN_JOINT_READONLY_150S",
+    "source_menu": {
+      "mode": "NORMAL_ECG",
+      "HR_bpm": 60,
+      "ECG_amplitude_menu_mV": 1.0,
+      "stored_RESP_bpm": 15,
+      "RESP_amplitude_literal": "1.5R",
+      "stored_waveform_period_literal": "30bpm",
+      "apnea_literal": "0s"
+    },
+    "criteria": {
+      "warmup_ms": 45000,
+      "evaluation_ms": 90000,
+      "HR_nominal_range": [
+        58,
+        62
+      ],
+      "minimum_raw_frames": 22000,
+      "maximum_diagnostic_gap_ms": 1500,
+      "minimum_saved_observations": 90,
+      "SPS_range": [
+        247.5,
+        252.5
+      ],
+      "required_HR_saved_valid_fraction": 1.0,
+      "CH2_required_near_rail_frames": 0,
+      "RR": "CHARACTERIZATION_ONLY",
+      "CAN_reference": "C_START_PLUS_45_TO_135_SECONDS",
+      "common_raw_selection": "B_SAMPLE_TICKS_ACTUALLY_RECEIVED_BY_C_ECG_PDO"
+    },
+    "capture_integrity": "PASS",
+    "integrity_failures": [],
+    "evaluation_raw_frames": 22498,
+    "saved_observations": 110,
+    "sequence_gaps": 0,
+    "device_domain_SPS_not_calibrated": 249.9749991666389,
+    "maximum_diagnostic_gap_ms": 836,
+    "HR_valid_observations": 98,
+    "RR_valid_observations": 0,
+    "joint_nominal_pass_observations": null,
+    "HR_reference_bpm": 60,
+    "HR_nominal_pass_observations": 98,
+    "HR_values": {
+      "60": 98
+    },
+    "RR_values": {},
+    "HR_reason_masks": {
+      "2": 8,
+      "0": 98,
+      "6": 3,
+      "10": 1
+    },
+    "RR_reason_masks": {
+      "130": 16,
+      "2": 52,
+      "6": 12,
+      "10": 30
+    },
+    "ADC_counter_increments_whole_capture": {
+      "captured": 38025,
+      "delivered": 38025,
+      "bad_status": 0,
+      "spi_errors": 0,
+      "queue_overflow": 0,
+      "init_errors": 0,
+      "long_gap_count": 0
+    },
+    "CAN_counter_increments_whole_capture": {
+      "offered": 38025,
+      "enqueued": 38025,
+      "sent_ecg": 37458,
+      "sent_resp": 7491,
+      "overflow": 0,
+      "expired": 567,
+      "comm_reset": 0,
+      "app_reset_rejected": 0,
+      "error": 0,
+      "discontinuities": 0
+    },
+    "CAN1_ESR_nonzero_observations": 0,
+    "CAN1_ESR_values": [
+      0
+    ],
+    "new_C_receive_evidence": false,
+    "new_end_to_end_transport_pass": false,
+    "simultaneous_engineering_pass": false,
+    "absolute_accuracy": "NOT_CLAIMED_NO_INDEPENDENT_SOURCE_TRUTH",
+    "impedance_calibration": "NOT_CALIBRATED",
+    "Z0_ohm": null,
+    "delta_Zpp_ohm": null,
+    "HR_saved_state_runs": [
+      {
+        "value_valid_reason": [
+          0,
+          0,
+          2
+        ],
+        "first_observed_offset_ms": 45400,
+        "last_observed_offset_ms": 47848,
+        "observations": 4
+      },
+      {
+        "value_valid_reason": [
+          60,
+          1,
+          0
+        ],
+        "first_observed_offset_ms": 48668,
+        "last_observed_offset_ms": 108274,
+        "observations": 74
+      },
+      {
+        "value_valid_reason": [
+          0,
+          0,
+          6
+        ],
+        "first_observed_offset_ms": 109094,
+        "last_observed_offset_ms": 110738,
+        "observations": 3
+      },
+      {
+        "value_valid_reason": [
+          0,
+          0,
+          10
+        ],
+        "first_observed_offset_ms": 111558,
+        "last_observed_offset_ms": 111558,
+        "observations": 1
+      },
+      {
+        "value_valid_reason": [
+          0,
+          0,
+          2
+        ],
+        "first_observed_offset_ms": 112387,
+        "last_observed_offset_ms": 114855,
+        "observations": 4
+      },
+      {
+        "value_valid_reason": [
+          60,
+          1,
+          0
+        ],
+        "first_observed_offset_ms": 115671,
+        "last_observed_offset_ms": 134453,
+        "observations": 24
+      }
+    ],
+    "RR_saved_state_runs": [
+      {
+        "value_valid_reason": [
+          0,
+          0,
+          130
+        ],
+        "first_observed_offset_ms": 45400,
+        "last_observed_offset_ms": 52753,
+        "observations": 10
+      },
+      {
+        "value_valid_reason": [
+          0,
+          0,
+          2
+        ],
+        "first_observed_offset_ms": 53569,
+        "last_observed_offset_ms": 67442,
+        "observations": 18
+      },
+      {
+        "value_valid_reason": [
+          0,
+          0,
+          6
+        ],
+        "first_observed_offset_ms": 68258,
+        "last_observed_offset_ms": 77231,
+        "observations": 12
+      },
+      {
+        "value_valid_reason": [
+          0,
+          0,
+          10
+        ],
+        "first_observed_offset_ms": 78043,
+        "last_observed_offset_ms": 87024,
+        "observations": 12
+      },
+      {
+        "value_valid_reason": [
+          0,
+          0,
+          2
+        ],
+        "first_observed_offset_ms": 87840,
+        "last_observed_offset_ms": 104190,
+        "observations": 21
+      },
+      {
+        "value_valid_reason": [
+          0,
+          0,
+          10
+        ],
+        "first_observed_offset_ms": 105010,
+        "last_observed_offset_ms": 108274,
+        "observations": 5
+      },
+      {
+        "value_valid_reason": [
+          0,
+          0,
+          130
+        ],
+        "first_observed_offset_ms": 109094,
+        "last_observed_offset_ms": 113215,
+        "observations": 6
+      },
+      {
+        "value_valid_reason": [
+          0,
+          0,
+          2
+        ],
+        "first_observed_offset_ms": 114039,
+        "last_observed_offset_ms": 123840,
+        "observations": 13
+      },
+      {
+        "value_valid_reason": [
+          0,
+          0,
+          10
+        ],
+        "first_observed_offset_ms": 124656,
+        "last_observed_offset_ms": 134453,
+        "observations": 13
+      }
+    ],
+    "HR_increments_evaluation": {
+      "hr_candidates": 166,
+      "hr_accepted": 87
+    },
+    "RR_increments_evaluation": {
+      "resp_candidates": 8,
+      "resp_accepted": 5
+    },
+    "last_cycle_timestamps_evaluation_edges": {
+      "hr_last_cycle_ms": [
+        0,
+        232532
+      ],
+      "resp_last_cycle_ms": [
+        0,
+        0
+      ]
+    },
+    "total_stable_frames": 37569,
+    "raw_blocks": 1837,
+    "pending_slots": 43,
+    "single_version_conflict_sequences": 209,
+    "multiple_repeat_conflicts": 0,
+    "bio_source_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+    "image_sha256": "676eb7a46ad9cd15c7bf93db51a1931d7711d37c6f2fd636197dc4a85b339b82",
+    "reconstruction": "REPEATED_IDENTICAL_24B_SLOTS_NO_HALT_TAIL",
+    "CH1_raw": {
+      "min_codes": 75603,
+      "max_codes": 7381188,
+      "p2p_codes": 7305585,
+      "p01_p99_codes": [
+        79140.42,
+        142059.38999999975
+      ],
+      "mean_codes": 91902.56649479954,
+      "ac_rms_codes": 158719.2955442307,
+      "near_rail_frames": 0,
+      "spectral_fraction": {
+        "49_51Hz": 0.0007635017928713197,
+        "0_1_1Hz": 0.2151625319295852,
+        "0_5_20Hz": 0.7305599979165875,
+        "20_100Hz": 0.13860869010277754
+      },
+      "prominent_event_descriptions_not_BIO": {
+        "-1": {
+          "count": 2,
+          "median_interval_ms": 1040.0,
+          "median_width_ms": 2090.5503005387077
+        },
+        "1": {
+          "count": 4,
+          "median_interval_ms": 408.0,
+          "median_width_ms": 11.028464256201657
+        }
+      }
+    },
+    "CH2_raw": {
+      "min_codes": -27908,
+      "max_codes": 66430,
+      "p2p_codes": 94338,
+      "p01_p99_codes": [
+        5683.94,
+        9280.029999999999
+      ],
+      "mean_codes": 8660.371232998488,
+      "ac_rms_codes": 887.9352888737995,
+      "near_rail_frames": 0,
+      "spectral_fraction": {
+        "49_51Hz": 0.1263072423563968,
+        "0_1_1Hz": 0.02162922367986466,
+        "0_5_20Hz": 0.36951189830539655,
+        "20_100Hz": 0.5825756961482688
+      },
+      "prominent_event_descriptions_not_BIO": {
+        "-1": {
+          "count": 91,
+          "median_interval_ms": 1000.0,
+          "median_width_ms": 25.125438385299763
+        },
+        "1": {
+          "count": 87,
+          "median_interval_ms": 1000.0,
+          "median_width_ms": 974.800066601381
+        }
+      }
+    },
+    "CH1_independent_period": {
+      "origin": "OFFLINE_RAW_CH1_ESTIMATE_NOT_BIO_NOT_REFERENCE",
+      "failures": [],
+      "impedance_calibration": "NOT_CALIBRATED",
+      "Z0_ohm": null,
+      "delta_Zpp_ohm": null,
+      "time_domain_rpm": null,
+      "spectral_rpm": 14.1,
+      "autocorrelation_rpm": null,
+      "periods_ms": [
+        2200.0,
+        2600.0,
+        4401.0,
+        54401.0,
+        4201.0
+      ],
+      "peak_device_offsets_ms": [
+        848.0,
+        3048.0,
+        5648.0,
+        10049.0,
+        64450.0,
+        68651.0
+      ],
+      "raw_peak_to_peak_codes": 7305585,
+      "duration_ms": 89997.0,
+      "finite_window_resolution_rpm": 0.6688888641152273,
+      "status": "CH1_VARIATION_PERIOD_UNRESOLVED",
+      "short_window_limit": "Few cycles and finite-window resolution; no calibrated frequency or L2 rate tracking proof"
+    },
+    "input_quality": {
+      "status": "NO_RAW_CLIPPING_OBSERVED",
+      "clipped_frames": 0,
+      "diagnostic_clipped_increment_whole_capture": 0,
+      "clipped_first_last_offsets_ms": null
+    },
+    "CPU_saved_states": {
+      "RCC_CSR": [
+        234881024
+      ],
+      "VTOR": [
+        134217728
+      ],
+      "DHCSR": [
+        16842753
+      ],
+      "CFSR": [
+        0
+      ],
+      "HFSR": [
+        0
+      ]
+    },
+    "HOST_replay_not_live": {
+      "DLL_sha256": "9b6f0ba67f1a832a32bcd1e9d7729ccb4ffc958c08cd6483e3297f4bb9e6c0a9",
+      "HR_valid_samples": 20075,
+      "RR_valid_samples": 0,
+      "ecg_filtered_UI_minmax": [
+        -1461,
+        1768
+      ],
+      "resp_filtered_UI_minmax": [
+        -16784,
+        135904
+      ],
+      "initial_state": "RESET_HOST_STATE_AT_FIRST_RETAINED_FRAME_NOT_ARM_BIT_IDENTICAL"
+    },
+    "HR_engineering_status": "ECG60_ENGINEERING_NOT_PASS",
+    "HR_failures": [
+      "NOT_ALL_SAVED_HR_VALID"
+    ],
+    "analysis_exit_code": 3,
+    "nominal_reference_only_no_absolute_accuracy": true
+  },
+  "common_review": {
+    "status": "ECG60_B_TO_C_NOT_PASS",
+    "failures": [
+      "B_COMMON_HR_NOT_ALL_VALID60",
+      "C_ECG_HR_VALID_BITS",
+      "C_MODEL_HR_NOT_60",
+      "C_MODEL_VALIDITY_4",
+      "C_MODEL_VALIDITY_5",
+      "C_VITALS_HR_NOT_VALID60"
+    ],
+    "analysis_exit_code": 3,
+    "C_evaluation_relative_ms": [
+      45000,
+      135000
+    ],
+    "C_START_tick": 53448,
+    "C_received_ECG_wave_points": 22498,
+    "matched_B_raw_points": 22498,
+    "B_sample_tick_first_last": [
+      145367,
+      235364
+    ],
+    "B_saved_common_observations": 110,
+    "B_HR_values": {
+      "0": 9,
+      "60": 101
+    },
+    "B_HR_valid_observations": 101,
+    "C_vitals_rows": 90,
+    "C_HR_centi_bpm_values": {
+      "0": 9,
+      "6000": 81
+    },
+    "C_RR_centi_rpm_values_characterization_only": {
+      "0": 90
+    },
+    "C_quality_flags": {
+      "0": 8,
+      "5": 83
+    },
+    "C_model_validity": {
+      "4": {
+        "rows": 223,
+        "valid": 205
+      },
+      "5": {
+        "rows": 90,
+        "valid": 81
+      }
+    },
+    "HR_RR_simultaneous_engineering_pass": false,
+    "RR_valid_transport_pass": false,
+    "absolute_accuracy": "NOT_CALIBRATED_NOMINAL60_REFERENCE_ONLY",
+    "mapping": "C_START_WINDOW_WITH_ACTUALLY_RECEIVED_B_SAMPLE_TICKS_NO_C_B_UPTIME_EQUALITY_ASSUMPTION",
+    "originals_sha256": {
+      "C-serial": "f320665168aa5279d8853af62a3c881ff493568ed0990b337d3ebb877f86b2dd",
+      "C-packets": "49f47d955babce45531689796375ce0a2d5cfa1939f9a48c23915d7f56bf6e00",
+      "C-receipt": "cb9d7133a008785373bf7637ca04c284f30d06dfcfbe0520d687c132c9561b08",
+      "B-slots": "008b79cfbd105255e1b9b0e4c2709bfb6b255e015fd697a4057384b027a2ba2f",
+      "B-diagnostics": "ffd00d58ca2367c47ae3e475291e11fc1b2862715c53470dee5c8655169366ed",
+      "B-analysis": "4fb8b8e15efdfea24c12b45552fcd3b987655493729ee851c78778167068195b"
+    }
+  },
+  "vital_model_value_and_valid_counts": {
+    "(False, 0)": 9,
+    "(True, 6000)": 81
+  },
+  "valid_values_in_nominal_range": true,
+  "invalid_vital_values_are_zero": true,
+  "B_ADC_error_increments": {
+    "init_errors": 0,
+    "spi_errors": 0,
+    "bad_status": 0,
+    "queue_overflow": 0,
+    "long_gap_count": 0
+  },
+  "B_close_last_event": {
+    "operation": "JLINKARM_Close",
+    "active": false
+  },
+  "C_heartbeat_ACKs_in_evaluation": 180,
+  "C_TX_failures_in_window": 0,
+  "key_sha256": {
+    "B-slots": "008b79cfbd105255e1b9b0e4c2709bfb6b255e015fd697a4057384b027a2ba2f",
+    "B-diagnostics": "ffd00d58ca2367c47ae3e475291e11fc1b2862715c53470dee5c8655169366ed",
+    "C-raw": "f320665168aa5279d8853af62a3c881ff493568ed0990b337d3ebb877f86b2dd",
+    "C-packets": "49f47d955babce45531689796375ce0a2d5cfa1939f9a48c23915d7f56bf6e00",
+    "B-analysis": "4fb8b8e15efdfea24c12b45552fcd3b987655493729ee851c78778167068195b",
+    "common-review": "f8739bdad5b6653e0ec95a6ee34e6f7f9895f8c209fcca7c7261fb4d5313e486"
+  },
+  "additional_semantics": {
+    "C_HR_model_valid_value_counts": {
+      "(False, 0)": 9,
+      "(True, 6000)": 81
+    },
+    "valid_HR_values_in_nominal_range": true,
+    "invalid_HR_models_zero": true,
+    "C_heartbeat_TX_failures": 0,
+    "C_heartbeat_ACKs": 180,
+    "scope": "VALUE_AND_INVALID_SEMANTICS_OBSERVATION_NOT_STEADY_PASS"
+  }
+}
