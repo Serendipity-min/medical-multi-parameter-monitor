@@ -49,7 +49,7 @@
     "archive": "E:\\medical-monitor-node-b-precan-private\\20261023\\b4-software-20261023T093613216574Z\\L1-current\\BIO_V2-25488B.bin"
   },
   "authorization_scope": "Owner-approved isolated B+C install/restore/bench only; no cloud/protected branch changes",
-  "C_current": "C24104B_ARBITRATION_RETRY_FIX_INSTALLED_RESTORED_H3_REINSTALLED_FULL_VERIFY_PASS; THREE180S_NOMINAL_CAN_PASS; LATEST_RR15_STEADY_VALID_TRANSPORT_PASS_COM6; ECG_STEADY_AND_CPU_GATES_REMAIN",
+  "C_current": "C24104B_ARBITRATION_RETRY_FIX_INSTALLED_RESTORED_H3_REINSTALLED_FULL_VERIFY_PASS; FOUR180S_NOMINAL_CAN_PASS; ECG60_RALA_AND_RR15_RALL_SEPARATE_STEADY_VALID_TRANSPORT_PASS_COM6; SIMULTANEOUS_CPU_COLDBOOT_GATES_REMAIN",
   "C_last_verified_full_flash_sha256": "b460d917e1d454fdb0882d1f837d91c606363179b817a3896a1df6897b2dcb98",
   "C_boot_recovery": {
     "reset_requests": 1,
@@ -76,10 +76,10 @@
     "recovery_package": "NEW_CANDIDATE_ACTUALLY_RESTORED_ORIGINAL_H3_AND_REINSTALLED",
     "hardware_eligible": false,
     "original_full_sha256": "1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390",
-    "window_status": "RR15_B_TO_C_STEADY_VALID_TRANSPORT_ENGINEERING_PASS_COM6; ECG_CAN_PASS_WITH_TRANSIENT_INVALIDS"
+    "window_status": "ECG60_B_TO_C_VALID_TRANSPORT_ENGINEERING_PASS_COM6; RR15_SEPARATE_WINDOW_STEADY_VALID_TRANSPORT_PASS"
   },
-  "B_last_turn_readback_note": "B39948B BIN/options verified per collection; prestart ROM stopped and retained, owner one normal B/C reset; no B Flash writes. New COM6 RR window all110 saved observations valid15, source ticks and C values match; historical ROM mechanism unresolved.",
-  "latest_CAN_window": "RR15_B_TO_C_STEADY_VALID_TRANSPORT_ENGINEERING_PASS",
+  "B_last_turn_readback_note": "B39948B BIN/options/identity verified; ECG repeat all110 saved observations valid60, CH2 near-rail0, clipped increment0, ADC error increments0; healthy Flash close_resume. No additional agent reset/halt/go/Flash writes; historical ROM mechanism unresolved.",
+  "latest_CAN_window": "ECG60_B_TO_C_VALID_TRANSPORT_ENGINEERING_PASS",
   "formal_CAN_release_authorized": false,
   "C_previous_23952B": {
     "bytes": 23952,
@@ -101,18 +101,31 @@
   },
   "latest_CAN_transport_validation": {
     "C_bytes": 24104,
-    "completed180s_windows": 3,
+    "completed180s_windows": 4,
     "CAN_TX_failures": 0,
     "CRC_errors": 0,
     "packet_sequence_errors": 0,
     "current_port": "COM6",
-    "evidence": "node-b/evidence/B4-CLOSEOUT-24104-001/stage-results.json"
+    "evidence": "node-b/evidence/B4-ECG-RETEST-001/ecg60-rala-repeat-results.json"
   },
   "current_physiology_gates": {
     "RR15_current_COM6": "STEADY_VALID_AND_TRANSPORT_PASS",
-    "ECG60_latest_C24104_window": "VALID_VALUES_AND_INVALID_PROPAGATION_OBSERVED_BUT_NOT_ALL90S_STEADY_VALID",
+    "ECG60_latest_C24104_window": "STEADY_VALID_AND_TRANSPORT_PASS_COM6_ECG_RETEST_001",
     "same_window_ECG_RESP": "NOT_VALIDATED",
     "cold_boot_current_B4": "NOT_VALIDATED_OBSERVATION_COUNTER_DISCREPANCY",
     "impedance_amplitude": "NOT_CALIBRATED_INSTRUMENT_REQUIRED"
+  },
+  "latest_source_state": {
+    "mode": "NORMAL_ECG",
+    "HR_bpm": 60,
+    "amplitude_menu_mV": 1.0,
+    "leads": {
+      "R": "RA",
+      "L": "LA",
+      "F": "RL",
+      "LL": "EMPTY"
+    },
+    "RR_current": "INVALID_PROPAGATED_AS_ZERO",
+    "prior_RR15_RALL_PASS": "SEPARATE_SOURCE_MODE_WINDOW_NOT_SIMULTANEOUS_PASS"
   }
 }
