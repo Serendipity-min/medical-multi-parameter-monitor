@@ -1,0 +1,413 @@
+{
+  "scope": "B4_INDEPENDENT_RESP15_45W90E_READONLY",
+  "source_menu": {
+    "mode": "INDEPENDENT_RESPIRATION",
+    "RESP_bpm": 15,
+    "RESP_amplitude_literal": "1.5R",
+    "waveform_period_literal": "30bpm",
+    "apnea_literal": "0s",
+    "ECG_reference_bpm": null
+  },
+  "criteria": {
+    "warmup_ms": 45000,
+    "evaluation_ms": 90000,
+    "tail_ms": 2000,
+    "RR_nominal_range": [
+      14,
+      16
+    ],
+    "minimum_raw_frames": 22000,
+    "maximum_diagnostic_gap_ms": 1500,
+    "minimum_saved_observations": 90,
+    "SPS_range": [
+      247.5,
+      252.5
+    ],
+    "required_RR_saved_valid_fraction": 1.0,
+    "required_RR_raw_agreement_rpm": 1.0,
+    "required_new_clipped_frames": 0,
+    "required_raw_period_status": "PERIOD_COHERENT_EXPLORATORY_ONLY",
+    "ECG": "CHARACTERIZATION_ONLY_NO_KNOWN_REFERENCE",
+    "new_C_receive_window": false
+  },
+  "capture_integrity": "PASS",
+  "integrity_failures": [],
+  "evaluation_raw_frames": 22490,
+  "saved_observations": 111,
+  "sequence_gaps": 0,
+  "device_domain_SPS_not_calibrated": 249.89443740693824,
+  "maximum_diagnostic_gap_ms": 837,
+  "HR_valid_observations": 0,
+  "RR_valid_observations": 102,
+  "joint_nominal_pass_observations": null,
+  "HR_reference_bpm": null,
+  "RR_nominal_pass_observations": 102,
+  "HR_values": {},
+  "RR_values": {
+    "15": 102
+  },
+  "HR_reason_masks": {
+    "66": 111
+  },
+  "RR_reason_masks": {
+    "0": 102,
+    "6": 9
+  },
+  "ADC_counter_increments_whole_capture": {
+    "captured": 34259,
+    "delivered": 34259,
+    "bad_status": 0,
+    "spi_errors": 0,
+    "queue_overflow": 0,
+    "init_errors": 0,
+    "long_gap_count": 0
+  },
+  "CAN_counter_increments_whole_capture": {
+    "offered": 34259,
+    "enqueued": 34259,
+    "sent_ecg": 0,
+    "sent_resp": 0,
+    "overflow": 0,
+    "expired": 34260,
+    "comm_reset": 0,
+    "app_reset_rejected": 0,
+    "error": 0,
+    "discontinuities": 0
+  },
+  "CAN1_ESR_nonzero_observations": 0,
+  "CAN1_ESR_values": [
+    0
+  ],
+  "new_C_receive_evidence": false,
+  "new_end_to_end_transport_pass": false,
+  "simultaneous_engineering_pass": false,
+  "absolute_accuracy": "NOT_CLAIMED_NO_INDEPENDENT_SOURCE_TRUTH",
+  "impedance_calibration": "NOT_CALIBRATED",
+  "Z0_ohm": null,
+  "delta_Zpp_ohm": null,
+  "HR_saved_state_runs": [
+    {
+      "value_valid_reason": [
+        0,
+        0,
+        66
+      ],
+      "first_observed_offset_ms": 45019,
+      "last_observed_offset_ms": 134877,
+      "observations": 111
+    }
+  ],
+  "RR_saved_state_runs": [
+    {
+      "value_valid_reason": [
+        15,
+        1,
+        0
+      ],
+      "first_observed_offset_ms": 45019,
+      "last_observed_offset_ms": 123448,
+      "observations": 97
+    },
+    {
+      "value_valid_reason": [
+        0,
+        0,
+        6
+      ],
+      "first_observed_offset_ms": 124264,
+      "last_observed_offset_ms": 130799,
+      "observations": 9
+    },
+    {
+      "value_valid_reason": [
+        15,
+        1,
+        0
+      ],
+      "first_observed_offset_ms": 131612,
+      "last_observed_offset_ms": 134877,
+      "observations": 5
+    }
+  ],
+  "HR_increments_evaluation": {
+    "hr_candidates": 1,
+    "hr_accepted": 0
+  },
+  "RR_increments_evaluation": {
+    "resp_candidates": 22,
+    "resp_accepted": 22
+  },
+  "last_cycle_timestamps_evaluation_edges": {
+    "hr_last_cycle_ms": [
+      0,
+      0
+    ],
+    "resp_last_cycle_ms": [
+      3107050,
+      3195080
+    ]
+  },
+  "total_stable_frames": 34312,
+  "raw_blocks": 1678,
+  "pending_slots": 56,
+  "single_version_conflict_sequences": 191,
+  "multiple_repeat_conflicts": 0,
+  "bio_source_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+  "image_sha256": "676eb7a46ad9cd15c7bf93db51a1931d7711d37c6f2fd636197dc4a85b339b82",
+  "reconstruction": "REPEATED_IDENTICAL_24B_SLOTS_NO_HALT_TAIL",
+  "CH1_raw": {
+    "min_codes": 55108,
+    "max_codes": 59641,
+    "p2p_codes": 4533,
+    "p01_p99_codes": [
+      55286.89,
+      57746.0
+    ],
+    "mean_codes": 56317.94037349933,
+    "ac_rms_codes": 608.5207972214214,
+    "near_rail_frames": 0,
+    "spectral_fraction": {
+      "49_51Hz": 0.0015008324312809137,
+      "0_1_1Hz": 0.7674234906818063,
+      "0_5_20Hz": 0.06482434188489251,
+      "20_100Hz": 0.007288547416069486
+    },
+    "prominent_event_descriptions_not_BIO": {
+      "-1": {
+        "count": 2,
+        "median_interval_ms": 6995.0,
+        "median_width_ms": 1590.6907066390986
+      },
+      "1": {
+        "count": 2,
+        "median_interval_ms": 729.0,
+        "median_width_ms": 90.10073723379992
+      }
+    }
+  },
+  "CH2_raw": {
+    "min_codes": 220688,
+    "max_codes": 222934,
+    "p2p_codes": 2246,
+    "p01_p99_codes": [
+      220889.0,
+      222651.0
+    ],
+    "mean_codes": 221875.99208537128,
+    "ac_rms_codes": 506.9473846509228,
+    "near_rail_frames": 0,
+    "spectral_fraction": {
+      "49_51Hz": 0.9054015091341461,
+      "0_1_1Hz": 0.021344512329637775,
+      "0_5_20Hz": 0.011340609048883746,
+      "20_100Hz": 0.9544038917939435
+    },
+    "prominent_event_descriptions_not_BIO": {
+      "-1": {
+        "count": 2,
+        "median_interval_ms": 40597.0,
+        "median_width_ms": 10.990467866281744
+      },
+      "1": {
+        "count": 1,
+        "median_interval_ms": null,
+        "median_width_ms": 13.706724493930595
+      }
+    }
+  },
+  "CH1_independent_period": {
+    "origin": "OFFLINE_RAW_CH1_ESTIMATE_NOT_BIO_NOT_REFERENCE",
+    "failures": [],
+    "impedance_calibration": "NOT_CALIBRATED",
+    "Z0_ohm": null,
+    "delta_Zpp_ohm": null,
+    "time_domain_rpm": 14.992503748125937,
+    "spectral_rpm": 15.0,
+    "autocorrelation_rpm": 15.380671622660856,
+    "periods_ms": [
+      4102.0,
+      3897.0,
+      4002.0,
+      3998.0,
+      4001.0,
+      4002.0,
+      3998.0,
+      4002.0,
+      3997.0,
+      4002.0,
+      8399.0,
+      3602.0,
+      3998.0,
+      4101.0,
+      2501.0,
+      9400.0,
+      3998.0,
+      4002.0,
+      4097.479999999996
+    ],
+    "peak_device_offsets_ms": [
+      2249.0,
+      6351.0,
+      10248.0,
+      14250.0,
+      18248.0,
+      22249.0,
+      26251.0,
+      30249.0,
+      34251.0,
+      38248.0,
+      42250.0,
+      50649.0,
+      54251.0,
+      58249.0,
+      62350.0,
+      64851.0,
+      74251.0,
+      78249.0,
+      82251.0,
+      86348.48
+    ],
+    "raw_peak_to_peak_codes": 4533,
+    "duration_ms": 89994.0,
+    "period_relative_max_deviation": 1.3488255872063968,
+    "finite_window_resolution_rpm": 0.668881407326481,
+    "autocorrelation_coefficient": 0.6474311903704952,
+    "status": "CH1_VARIATION_PERIOD_UNRESOLVED",
+    "short_window_limit": "Few cycles and finite-window resolution; no calibrated frequency or L2 rate tracking proof"
+  },
+  "input_quality": {
+    "status": "NO_RAW_CLIPPING_OBSERVED",
+    "clipped_frames": 0,
+    "diagnostic_clipped_increment_whole_capture": 0,
+    "clipped_first_last_offsets_ms": null
+  },
+  "CPU_saved_states": {
+    "RCC_CSR": [
+      234881024
+    ],
+    "VTOR": [
+      134217728
+    ],
+    "DHCSR": [
+      16842753
+    ],
+    "CFSR": [
+      0
+    ],
+    "HFSR": [
+      0
+    ]
+  },
+  "HOST_replay_not_live": {
+    "DLL_sha256": "8c9caf418f6a70f5cc88c75d8e7cddd0a968d604c8493c122d4c905833dfa878",
+    "HR_valid_samples": 0,
+    "RR_valid_samples": 20479,
+    "ecg_filtered_UI_minmax": [
+      -23,
+      23
+    ],
+    "resp_filtered_UI_minmax": [
+      -172,
+      129
+    ],
+    "initial_state": "RESET_HOST_STATE_AT_FIRST_RETAINED_FRAME_NOT_ARM_BIT_IDENTICAL"
+  },
+  "RR_engineering_status": "RESP15_ENGINEERING_NOT_PASS",
+  "RR_failures": [
+    "NOT_ALL_SAVED_RR_VALID",
+    "RAW_PERIOD_UNRESOLVED"
+  ],
+  "analysis_exit_code": 3,
+  "nominal_reference_only_no_absolute_accuracy": true,
+  "stage": "B4-RESP15-001",
+  "date": "2026-10-26",
+  "capture_exit_code": 0,
+  "analysis_process_exit_code": 3,
+  "capture_receipt": {
+    "status": "READONLY_WINDOW_CAPTURED_ANALYSIS_PENDING",
+    "exit_code": 0,
+    "chunks": 1678,
+    "elapsed_host_s": 137.09400000004098,
+    "device_sps": 249.89423315389442,
+    "samples_advanced": 34259,
+    "new_C_receive_window": false,
+    "explicit_reset_halt_go_writes": 0,
+    "sdk_calls": 6281,
+    "close_resume": true
+  },
+  "supervisor_receipt": {
+    "reason": null,
+    "worker_exit_code": 0,
+    "elapsed_s": 139.45300000009593
+  },
+  "software_tests": {
+    "tests": 14,
+    "exit_code": 0
+  },
+  "tools_sha256": {
+    "node-b/tools/b4_resp15_current.py": "88cfcb49aa2be0efc49789b5f3c9b1db9811a2b1c09cad28a2676232fba211b7",
+    "node-b/tools/analyze_b4_resp15_current.py": "90ca97069fe7876fc8bf3db7bb8ae41a7af12b0e2eb43dfb284b6c9c1bb691e7",
+    "node-b/tests/test_b4_resp15_current.py": "5504ca850495c96faa8b9624a2d955059474eb82bb54f81d7686f32b01c97f1c",
+    "node-b/tests/test_analyze_b4_resp15_current.py": "c86aa70ad11d7a5ccb7cc73aad49d6f106346ea287d4513c304fd05e9aa396c3"
+  },
+  "source_data_class": "NONHUMAN_ENGINEERING_NOMINAL_MENU_REFERENCE_NOT_ABSOLUTE_CALIBRATION",
+  "current_source": "INDEPENDENT_RESP15_1.5R_PERIOD30_APNEA0_RA_LL_RL",
+  "source_power": "BATTERY_CHARGING_USB_DISCONNECTED_INHERITED_UNCHANGED",
+  "explicit_hardware_actions": {
+    "reset": 0,
+    "halt": 0,
+    "go": 0,
+    "flash_write": 0,
+    "wire_change": 0,
+    "source_change_by_agent": 0
+  },
+  "CPU_ROM_root_cause": "UNRESOLVED",
+  "assessment": {
+    "RR": "MOST_SAVED_OBSERVATIONS_VALID15_BUT_STRICT_90S_STEADY_ENGINEERING_FAIL",
+    "CH1_clipping": "NO_NEW_CLIPPING_IN_WHOLE_CAPTURE_NO_EVALUATION_NEAR_RAIL",
+    "CH1_disturbance": "RAW_BASELINE_STEPS_AND_SPIKES_OBSERVED_CAUSE_UNDETERMINED",
+    "ECG": "CH2_MAINS_DOMINATED_HR_INVALID_ALL_111_OBSERVATIONS_NO_KNOWN_ECG_REFERENCE_IN_THIS_MODE",
+    "CAN_current": "C_PREVIOUS_WINDOW_STOPPED_TIME_EXPIRED_NO_NEW_WAVEFORM_PDO_OR_C_RECEIVE_TEST",
+    "simultaneous_HR_RR": "NOT_PASSED_SEPARATE_SOURCE_MODES_DO_NOT_PROVE_SIMULTANEOUS_VALIDITY"
+  },
+  "next_ECG_plan_only": {
+    "active": false,
+    "mode": "NORMAL_ECG",
+    "HR_bpm": 60,
+    "amplitude_menu_mV": 1.0,
+    "leads": {
+      "R_red": "RA/R",
+      "L_yellow": "LA/L",
+      "F_green": "RL/N",
+      "LL/F": "EMPTY"
+    },
+    "warmup_s": 45,
+    "common_evaluation_s": 90,
+    "tail_s": 2,
+    "criteria_HR_nominal_bpm": [
+      58,
+      62
+    ],
+    "RR": "CHARACTERIZE_ONLY_UNCONFIRMED_OUTPUT_IN_THIS_WIRING",
+    "wiring_change": "OWNER_NEXT_WINDOW_COLD_CHANGE_NOT_PERFORMED_THIS_WINDOW",
+    "B_to_C": "NEEDS_LOCAL_TIME_AND_NEW_C_RECEIVE_RECORD_NO_REARM_OR_RESET_THIS_WINDOW"
+  },
+  "private_archive_manifest_sha256": "ffd3916440355eecc211e8922d5da26664e15cb6f74ce9f0c0dd7625fc0a6757",
+  "key_originals_sha256": {
+    "slots-private.bin": "b6dea53036a9c22dce8ab8290d15798e3f972ba062bc8753dc104ebc8092d867",
+    "chunks-private.jsonl": "fca15ad5594b4cc53aa077fe7a412fef9b5eb79461eb6a1bbaa8bbc8a328c7c7",
+    "diagnostics-private.jsonl": "53475fa6630e73d3bf689eb1b831559c62de95bc8df0f4ff87e354a2b1ef5e27",
+    "receipt-private.json": "a3d6c10a2715d4ed55026bd7111fa029c9d075741afb0a839ef2a8327673feac",
+    "supervisor-private.json": "43b90c26e835d043fe537becd1d3c698b65602e4ed4eacb2c22b183fef3f92e6",
+    "window-private.json": "0e452a815fa6b17f97bc6cc59769dcfce581c099513b81a637e62ac34603f534"
+  },
+  "analysis_report_sha256": "b43fe346fee878ee1717b0f3b04b711079bab02177e0b34eb54f25911351d808",
+  "plot_sha256": "ee5d8aec040da8d078b4619d0a00206c678200aad6ad4c6af3defdf6839d0f27",
+  "limitations": [
+    "Saved observations are non-atomic and not continuous per-frame validity",
+    "No independent calibration; source menu does not establish absolute impedance",
+    "TIME-expired offered/enqueued and expired increments differ by1 at observation boundaries; no exact queue accounting inferred",
+    "Current no-clipping result does not erase prior604-frame clipping failure",
+    "C not rearmed; no new end-to-end transport pass; historical180s CAN pass unchanged"
+  ]
+}
