@@ -1,0 +1,28 @@
+{
+  "events": [
+    {
+      "stage": "SSH_READINESS_INLINE_PYTHON_QUOTING",
+      "actual_exit_code": 1,
+      "cloud_mutations": 0,
+      "board_operations": 0,
+      "raw_failure": "SyntaxError: unexpected character after line continuation character"
+    },
+    {
+      "stage": "LOCAL_EFS_ACL_SETUP_BEFORE_SSH",
+      "actual_exit_code": 1,
+      "cloud_mutations": 0,
+      "board_operations": 0,
+      "raw_failure": "ACL_SETUP_FAILED"
+    },
+    {
+      "stage": "DOCUMENT_PATCH_CONTEXT_CHECK",
+      "actual_exit_code": 1,
+      "cloud_mutations": 0,
+      "board_operations": 0,
+      "partial_files_changed": false
+    }
+  ],
+  "failure_originals": "INTERACTIVE_TOOL_TRANSCRIPT_RETAINED",
+  "later_cloud_readonly_exit_code": 0,
+  "later_assets_readonly_exit_code": 0
+}

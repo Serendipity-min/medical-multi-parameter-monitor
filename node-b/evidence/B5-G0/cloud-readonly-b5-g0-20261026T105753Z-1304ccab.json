@@ -1,0 +1,89 @@
+{
+  "utc": "2026-10-26T10:57:55.034408+00:00",
+  "units": {
+    "medical-monitor-mqtt.service": {
+      "active": "active",
+      "pid": 3253
+    },
+    "medical-monitor.service": {
+      "active": "active",
+      "pid": 3255
+    },
+    "p6-ai.service": {
+      "active": "active",
+      "pid": 3264
+    },
+    "nginx.service": {
+      "active": "active",
+      "pid": 3383
+    }
+  },
+  "listeners": {
+    "8883": true,
+    "8884": false,
+    "18765": true,
+    "18766": true,
+    "18775": false
+  },
+  "broker": [
+    {
+      "business_child": true,
+      "listeners": [
+        "8883"
+      ],
+      "allow_anonymous": [
+        "false"
+      ],
+      "per_listener_settings": [],
+      "acl_file_referenced": true,
+      "plugin_referenced": false,
+      "password_file_referenced": true,
+      "test_username_exists": false,
+      "test_acl_rows": [],
+      "global_acl_rows_count": 0,
+      "pattern_rows_count": 0,
+      "acl_role_count": 5,
+      "test_client_id_seen_recently": false
+    }
+  ],
+  "tls": {
+    "business_session": false,
+    "verified": true,
+    "protocol": "TLSv1.3",
+    "not_before": "Oct 13 05:00:00 2026 GMT",
+    "not_after": "Jan 11 04:59:59 2027 GMT",
+    "certificate_sha256": "a3c4d1284c8f59ccb434b8736f4a1862d1ff3b42e589a26f0108c2a2d854bacd"
+  },
+  "backend_gateway_allowlist_includes_test": false,
+  "backend_gateway_allowlist_explicit": true,
+  "backend_view_token_configured": true,
+  "backend_mqtt_gateway_topics_include_test": false,
+  "backend_source_files": {
+    "app/main.py": {
+      "present": true,
+      "sha256": "3ca7d3b60a0f5ebb1ddaea64d8ca3557296a5953ec5ae83e1ec3ee0df4e041d6"
+    },
+    "app/hub.py": {
+      "present": true,
+      "sha256": "f20f69bff5e29e0c4661c5a973dfd6d24c87b9384b0287d011aeace056f6a229"
+    },
+    "app/models.py": {
+      "present": true,
+      "sha256": "1851799fd549d749657c4c2be32622640981b80f7cdb7af66fc79a176a8f8a28"
+    },
+    "app/mqtt_adapter.py": {
+      "present": true,
+      "sha256": "42f723dfcefa1b962b617e26727eca474e7e0709736157214db267c63d6b4b66"
+    }
+  },
+  "nginx_dump_exit_code": 0,
+  "physical_board_access": false,
+  "cloud_mutations": 0,
+  "mqtt_connects": 0,
+  "mqtt_publishes": 0,
+  "raw_file_count": 25,
+  "errors": [],
+  "ssh_exit_code": 0,
+  "tool_sha256": "27e743f943e22eb7997c39de4c732f5281552f7717421e43b3173bc42eda58c2",
+  "private_stdout_sha256": "f10025c1852a23236cbdfa3b9c798f5444eefb7fc0f9d3ba44861527d0417638"
+}

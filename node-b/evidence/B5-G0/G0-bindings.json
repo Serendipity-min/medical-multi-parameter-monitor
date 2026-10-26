@@ -1,0 +1,35 @@
+{
+  "contract_sha256": "4c2821a391b331b3da4421091ec59216960f81a5deb22ce559f320a569dda13a",
+  "baseline_delivery": "baa08b850c9bd5e62ace7682a937b9c68423a0fa",
+  "implementation_source": "c65fbedce7edf5d822c573ef5cdeb6471d1ae3d5",
+  "new_G0_files": {
+    "node-b/tools/b5_g0_readonly.py": "27e743f943e22eb7997c39de4c732f5281552f7717421e43b3173bc42eda58c2",
+    "node-b/tools/b5_g0_assets.py": "d1bfe51bbbdd30e40bfbddb67373a657c2ebdfa894e1d4bd98d25ecfb5f74361",
+    "node-b/deployment/b5-candidate.json": "92d3337b85b159627de88c2ce9f83c291991ccfa340368e387885679c2e23385",
+    "node-b/docs/B5-G0-CLOUD-READONLY-ADMISSION.md": "6cbf68329384875e978303ea67bb09f5806b7c1db9127304913f91584959fe50",
+    "node-b/docs/B5-G0-SPLIT-AUTHORIZATIONS.md": "b8ba4d01e4c21c929b248d99722711d638e50d2155d629a983a5a64f99585a64",
+    "node-b/docs/B5-REAL-CLOUD-FINAL-HANDOFF.md": "723ccfb3950a1053f6dc1b07e5400ad27c550af480edfa84f9158ef3008a316b",
+    "node-b/docs/AUTH-B5-G1-CLOUD-001-R1.md": "8d8953229415a1046c545cb8376f9de3e192dab14cd83108b07bf13dd9a5fef2",
+    "node-b/docs/AUTH-B5-G2-READBACK-001-R1.md": "802d35b7a8cf92afa815e3096928bf54ed89a84e679486790a259439b32952d1",
+    "node-b/docs/AUTH-B5-G2A-APPLICATION-001-R1.md": "ca8efcfcb1696f409b8f7c62d969480a36f67ab605341ebb956c926e73bcd86a",
+    "node-b/docs/AUTH-B5-G2B-SECTOR3-001-R1.md": "7c40ff36706c28c5decdf2eca8d75137bedc9745406648d319a6ec5848948bb1",
+    "node-b/docs/AUTH-B5-G3-CLOUD-WINDOW-001-R1.md": "2394b6a729c41268ed54cd4dce10427dab3b413ef8dca7315803d78683417bce",
+    "node-b/docs/AUTH-B5-HW0-VISUAL-READONLY-001-R1.md": "107a3f9d89c9ad439520af397ac92a14bc1c623c33b374933fdbfdfa75998e69",
+    "node-b/docs/AUTH-B5-ROLLBACK-SEPARATE-001-R1.md": "6ab41cbae1d55ab954ae179b82017a14c1f026b5096263bf301fb79573f15da6"
+  },
+  "historical_application_installer_dependencies_REFERENCE_ONLY": {
+    "b4_swd_install.py": "f8d5a213129f881044c07bb78202f919d2d29feb52adea16abd66b274b155f1f",
+    "b4_recovery.py": "fa93222b833f2f010d068b0cac97c73db7430c7eb68316d84441d60539c76213",
+    "c_b4_readonly.py": "614d23736ea8569d4098d33e26fe762fcb00c1be646c0e0ea4ba1f9ad40afb09",
+    "readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+    "runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+    "live_state_b.py": "bdf04c16f74e93028a55a7db244f0a2b6f683dfb987e61d41470f2bf3debde6c",
+    "resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77"
+  },
+  "historical_installer_DLL_sha256_REFERENCE_ONLY": "632d0d78e72b8a55c65945a0c393a9f081082c725fff4ba3081b0a565fd58cff",
+  "no_live_tool_instantiation": true,
+  "fresh_device_and_package_binding_required": true,
+  "G0_hardware_operations": 0,
+  "G0_cloud_writes": 0,
+  "syntax_checks_exit_code": 0
+}

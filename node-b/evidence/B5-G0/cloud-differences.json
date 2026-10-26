@@ -1,0 +1,52 @@
+{
+  "snapshot_utc": "2026-10-26T10:57:55.034408+00:00",
+  "effective_config_selection": "RUNNING_BUSINESS_BROKER_CHILD_ARGV_C_CONFIG_INCLUDE_TREE",
+  "on_disk_snapshot_not_authenticated_ACL_probe": true,
+  "snapshots": [
+    {
+      "alias": "BROKER_CONFIG",
+      "sha256": "738d54973d959acf1207746c761d42afa2b412daad1b59ac052f781aa5af078c",
+      "bytes": 756,
+      "mode": "0o640"
+    },
+    {
+      "alias": "BROKER_ACL",
+      "sha256": "c987e3ebe5c884f214f2d334c6416804c24480de735c52b896874e6af3b09853",
+      "bytes": 847,
+      "mode": "0o640"
+    },
+    {
+      "alias": "BROKER_CHAIN",
+      "sha256": "f46ef5cef28e10f401dbd1441d02134e7e1479a544649f785cf448154dad67f2",
+      "bytes": 7090,
+      "mode": "0o640"
+    },
+    {
+      "alias": "BACKEND_ENV",
+      "sha256": "33d94a0e773efc11aa7fad055efe150ef74b8efde5467392804f4c076f4f52d5",
+      "bytes": 279,
+      "mode": "0o600"
+    },
+    {
+      "alias": "BACKEND_MQTT_CONFIG",
+      "sha256": "9ac3a7ed84adb483d8c19e23e26eb8f422869ab3dcd94ec26a3e7ff728ddbff7",
+      "bytes": 162,
+      "mode": "0o600"
+    },
+    {
+      "alias": "BROKER_PASSWORD_FILE_METADATA_ONLY",
+      "sha256": "ecd343ceec203afd44737f460b44aa5d23157524761a702978b3e242e50622a4",
+      "mode": "0o640",
+      "content_copied": false
+    }
+  ],
+  "B5_publisher_exists": false,
+  "B5_observer_exists": false,
+  "broker_client_id_ownership_enforced": "NOT_PROVEN",
+  "current_test_client_connection": "NOT_PROVEN_RECENT_LOG_ABSENCE_ONLY",
+  "Backend_B5_whitelist": false,
+  "B5_test_endpoint": "NOT_DEPLOYED",
+  "formal_Backend_preserved": true,
+  "cloud_writes": 0,
+  "board_access": false
+}

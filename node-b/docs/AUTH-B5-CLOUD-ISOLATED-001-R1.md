@@ -1,5 +1,8 @@
 # AUTH-B5-CLOUD-ISOLATED-001 R1｜待PI审批，当前禁用
 
+> **MPM-B5-002 G0已废止本合并草案的执行用途。** 后续仅使用
+> [分阶段授权卡索引](B5-G0-SPLIT-AUTHORIZATIONS.md)。本文件保留为历史原件；其中默认恢复H3和四阶段连做的计划不适用，不可据此执行。默认恢复目标改为新鲜读回的C24104B及其原sector3，各事务分别批准。
+
 合同：MPM-B5-001。本卡仅为下一轮准入计划，`enabled=false`、`owner_approved=false`；本轮软件授权不包含下列硬件、配置、ACL、云端或启动动作。不得根据本文自动执行。完整源码身份由[B5交接报告](B5-CLOUD-INTEGRATION-READINESS-HANDOFF.md)和[候选清单](../deployment/b5-candidate.json)绑定。
 
 ## 固件与已有状态

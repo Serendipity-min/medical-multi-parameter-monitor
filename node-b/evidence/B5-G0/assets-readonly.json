@@ -1,0 +1,80 @@
+{
+  "status": "FROZEN_ASSETS_VERIFIED_FRESH_READBACK_REQUIRED",
+  "hardware_operations": 0,
+  "C_current_frozen_full_sha256": "b460d917e1d454fdb0882d1f837d91c606363179b817a3896a1df6897b2dcb98",
+  "C_options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+  "B_current_frozen_full_sha256": "a1abed50a4c4dbab142a2319d61c047bc43b6816dd62754a080e3f7e12415091",
+  "B_options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+  "C_candidate_bytes": 42552,
+  "C_candidate_sha256": "d5b9624b3da1129b4e045d3b2f669c00d2d93cb7379b15293ff143fe9f130683",
+  "C_candidate_ELF_sha256": "3c726f61f76eadac4909826203ca84dee65521aec448ad477ddca0c3c58795d8",
+  "application_sectors": [
+    0,
+    1,
+    2
+  ],
+  "erase_range": "[0x08000000,0x0800C000)",
+  "offline_C24104_layout_manifest_sha256": "3782fc9caa0f921cc51001191df0ac90e2633710e89f56bae017d2e3d35e73fc",
+  "offline_C24104_expected_post_install_full_sha256": "3eaf583a703137b09665da5d2bfd7e860cd3a2208bf659b631d7ee4d0541545c",
+  "layout_is_today_backup": false,
+  "independent_fresh_double_read_performed": false,
+  "physical_restore_rehearsal": "NOT_RUN",
+  "old_H3_layout_superseded_as_default": true,
+  "protected_sections": {
+    "sector3": {
+      "bytes": 16384,
+      "sha256": "1698c8783b4fbdd1bc7fc5a8641babc7b499b58a65be54e7b36c65c6c5b88313",
+      "B5_app_preserves": true
+    },
+    "sector7": {
+      "bytes": 131072,
+      "sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "B5_app_preserves": true
+    },
+    "sector11": {
+      "bytes": 131072,
+      "sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "B5_app_preserves": true
+    }
+  },
+  "current_frozen_sector3": {
+    "record_header_commit_crc_valid": true,
+    "B5_identity_matches": false,
+    "generation_nonzero": true
+  },
+  "immutable_B5_archive_files_verified": 320,
+  "backend_source_comparison": {
+    "app/main.py": {
+      "deployed_sha256": "3ca7d3b60a0f5ebb1ddaea64d8ca3557296a5953ec5ae83e1ec3ee0df4e041d6",
+      "reviewed_B5_sha256": "3796a4ee4b3db9e96b02e8d3da783104d3bfaa8590779788de27a2beb4b51c37",
+      "LF_equivalent": false
+    },
+    "app/hub.py": {
+      "deployed_sha256": "f20f69bff5e29e0c4661c5a973dfd6d24c87b9384b0287d011aeace056f6a229",
+      "reviewed_B5_sha256": "5b17215626721ae524b9508ec3a40bb7d369f2b71f61f6cfb53bfbcb9b1b4ba1",
+      "LF_equivalent": false
+    },
+    "app/models.py": {
+      "deployed_sha256": "1851799fd549d749657c4c2be32622640981b80f7cdb7af66fc79a176a8f8a28",
+      "reviewed_B5_sha256": "827e89fd552b99a06d7634cbe07caff4588fc8902d054a264abec1171843c52c",
+      "LF_equivalent": false
+    },
+    "app/mqtt_adapter.py": {
+      "deployed_sha256": "42f723dfcefa1b962b617e26727eca474e7e0709736157214db267c63d6b4b66",
+      "reviewed_B5_sha256": "9c213fd3fc6cc2070d5eb087b544e67cd1e3da385a1aca8c55540ad0eba3e17f",
+      "LF_equivalent": false
+    }
+  },
+  "external_TLS12": {
+    "MQTT_CONNECT_sent": false,
+    "MQTT_PUBLISH_sent": false,
+    "connect_from": "LOCAL_WORKSTATION_TO_CONFIGURED_BROKER",
+    "TLS_version_requested": "TLS1.2",
+    "verified": true,
+    "protocol": "TLSv1.2",
+    "certificate_sha256": "a3c4d1284c8f59ccb434b8736f4a1862d1ff3b42e589a26f0108c2a2d854bacd",
+    "not_after": "Jan 11 04:59:59 2027 GMT"
+  },
+  "private_manifest_source": "HISTORICAL_C24104_VERIFIED_READBACK_ONLY",
+  "exit_code": 0
+}
