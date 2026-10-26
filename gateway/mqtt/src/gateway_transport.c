@@ -1,11 +1,29 @@
+/* 正式默认端口保持8883；独立H3隔离构建才使用单独TLS监听，不改变配置结构布局。 */
+#ifndef MP_MQTT_TLS_PORT
+#define MP_MQTT_TLS_PORT 8883
+#endif
 /* 复用第一阶段已验证的 ESP SSL/CA/时间校验，只在外部配置中保存凭据。 */
 #include "gateway_transport.h"
 #include "gateway_config.h"
+#ifdef MP_H3_PERSISTENT_CONFIG
+#include "persistent_config.h"
+#endif
 #include "core_mqtt.h"
 #include "mqtt_transport_adapter.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef MP_B5_CLOUD_CANDIDATE
+#include "b5_policy.h"
+#endif
+#ifdef MP_CAN_RX_IRQ
+#include "at_version.h"
+#include "wifi_status.h"
+#include "esp_io_metrics.h"
+#endif
+#ifdef MP_H3_FRESH_SNTP
+#include "sntp_sample.h"
+#endif
 
 /* 一个串行发布者、一个在途 QoS1 记录；总 TX/RX 容量沿用 P4，不分配堆。 */
 static NetworkContext_t network;
@@ -14,8 +32,22 @@ static MQTTPubAckInfo_t outgoing[1];
 static unsigned char rx_buffer[512];
 static uint16_t pending_id, next_packet_seed = 1;
 static int acknowledged, session_error, mqtt_online, partial_waiting;
+#ifdef MP_CAN_RX_IRQ
+/* 失败时只输出阶段/枚举/耗时，不输出Topic、载荷、口令或原始AT回复。 */
+static void mqtt_diagnostic(unsigned stage, MQTTStatus_t status, uint32_t elapsed)
+{
+    char line[128];
+    (void)snprintf(line,sizeof(line),"GW MQTT_ERROR stage=%u status=%d elapsed=%lu ack=%d connected=%d\r\n",
+                   stage,(int)status,(unsigned long)elapsed,acknowledged,network.connected);
+    console(line);
+}
+#endif
 static uint32_t partial_since;
 static uint32_t epoch, epoch_tick;
+#ifdef MP_H3_FRESH_SNTP
+/* 新鲜SNTP样本保留小数秒；仅独立H3候选启用，旧目标时间公式不变。 */
+static uint32_t epoch_fraction;
+#endif
 #ifdef GATEWAY_MQTT_HOST_TEST
 /* 普通 host 测试仅注入明确合成配置，生产仍使用固定 sector7 的同一结构。 */
 extern const GatewayConfig gateway_test_config;
@@ -28,15 +60,36 @@ _Static_assert(sizeof(GatewayConfig) == 312, "configuration layout changed");
 /* Flash 配置按固定长度读取；先校验魔数和字符串末尾，避免 AT 拼接越界读取。 */
 int gateway_config_valid(void)
 {
+#ifdef MP_H3_PERSISTENT_CONFIG
+    /* 冷启动只读完整提交记录；损坏/未写配置不回退sector7/11或旧RAM。 */
+    if(!h3_config_record_valid((const H3ConfigRecord *)H3_CONFIG_ADDRESS))return 0;
+#endif
     return config->magic == GATEWAY_CONFIG_MAGIC && !config->host[64] && !config->ssid[32] &&
            !config->wifi_password[64] && !config->password[64] && !config->username[32] &&
-           !config->client_id[40];
+           !config->client_id[40]
+#ifdef MP_B5_CLOUD_CANDIDATE
+           && b5_identity_allowed(config->client_id, config->username)
+#endif
+           ;
 }
 
 /* SNTP 提供秒级基准，后续用无符号毫秒差推进，兼容一次 SysTick 计数回绕。 */
 uint32_t gateway_epoch(void)
 {
+#ifdef MP_H3_FRESH_SNTP
+    return (uint32_t)(gateway_epoch_milliseconds()/1000u);
+#else
     return epoch + (uint32_t)(g_uptime_ms - epoch_tick) / 1000;
+#endif
+}
+
+uint64_t gateway_epoch_milliseconds(void)
+{
+    return (uint64_t)epoch*1000u+(uint32_t)(g_uptime_ms-epoch_tick)
+#ifdef MP_H3_FRESH_SNTP
+        +epoch_fraction
+#endif
+        ;
 }
 
 /* 日志只输出固定步骤名；command 可能含凭据，不能连同原始回复一起记录。 */
@@ -72,6 +125,9 @@ static void mqtt_event(MQTTContext_t *context, MQTTPacketInfo_t *packet,
 {
     if (context != &client || (packet->type & 0xf0U) == MQTT_PACKET_TYPE_PUBLISH)
     {
+#ifdef MP_CAN_RX_IRQ
+        mqtt_diagnostic(1,decoded->deserializationResult,0);
+#endif
         mqtt_failed();
         return;
     }
@@ -79,7 +135,12 @@ static void mqtt_event(MQTTContext_t *context, MQTTPacketInfo_t *packet,
         && pending_id && decoded->packetIdentifier == pending_id)
         acknowledged = 1;
     else
+    {
+#ifdef MP_CAN_RX_IRQ
+        mqtt_diagnostic(2,decoded->deserializationResult,packet->type);
+#endif
         mqtt_failed();
+    }
 }
 
 /* 不完整包可在多次 ProcessLoop 间继续，但总装配时间有限，不能无限续活连接。 */
@@ -94,10 +155,20 @@ static int process_once(void)
             partial_since = g_uptime_ms;
         }
         if ((uint32_t)(g_uptime_ms - partial_since) >= 5000U)
+        {
+#ifdef MP_CAN_RX_IRQ
+            mqtt_diagnostic(3,status,g_uptime_ms-partial_since);
+#endif
             mqtt_failed();
+        }
     }
     else if (status != MQTTSuccess)
+    {
+#ifdef MP_CAN_RX_IRQ
+        mqtt_diagnostic(4,status,0);
+#endif
         mqtt_failed();
+    }
     else if (!client.index)
         partial_waiting = 0;
     return !session_error && network.connected;
@@ -107,6 +178,8 @@ static int process_once(void)
 int gateway_mqtt_open(const MpFrame *will_frame)
 {
     char will[512];
+    char will_topic[120];
+    if (!mp_topic(will_frame, will_topic, sizeof(will_topic))) return 0;
     if (!mp_json(will_frame, will, sizeof(will)))
     {
         /* 序列化失败时也可能已有部分内容，返回前清除整个临时缓冲区。 */
@@ -135,7 +208,8 @@ int gateway_mqtt_open(const MpFrame *will_frame)
     MQTTPublishInfo_t will_info = {0};
     will_info.qos = MQTTQoS1;
     will_info.retain = true;
-    will_info.pTopicName = "mpm/v1/GW-C-001/status";
+    /* 遗嘱与遥测使用同一编译期身份；不能把测试遗嘱发到正式Gateway主题。 */
+    will_info.pTopicName = will_topic;
     will_info.topicNameLength = (uint16_t)strlen(will_info.pTopicName);
     will_info.pPayload = will;
     will_info.payloadLength = strlen(will);
@@ -164,7 +238,12 @@ int gateway_mqtt_publish(const MpFrame *frame)
     char topic[120];
     int length = mp_json(frame, payload, sizeof(payload));
     if (!length || !mp_topic(frame, topic, sizeof(topic)))
+    {
+#ifdef MP_CAN_RX_IRQ
+        mqtt_diagnostic(5,MQTTBadParameter,0);
+#endif
         return 0;
+    }
     MQTTPublishInfo_t message = {0};
     message.qos = frame->rate && !frame->replay ? MQTTQoS0 : MQTTQoS1;
     /* 沿用实时波形 QoS0；标量/状态/REPLAY 使用 QoS1。只有 QoS1 成功意味着 PUBACK。 */
@@ -178,7 +257,11 @@ int gateway_mqtt_publish(const MpFrame *frame)
     next_packet_seed = client.nextPacketId;
     uint32_t start = g_uptime_ms;
     mqtt_adapter_begin(&network, 5000);
-    int ok = MQTT_Publish(&client, &message, pending_id) == MQTTSuccess;
+    MQTTStatus_t publish_status=MQTT_Publish(&client, &message, pending_id);
+#ifdef MP_CAN_RX_IRQ
+    uint32_t sent_at=g_uptime_ms;
+#endif
+    int ok = publish_status == MQTTSuccess;
     if (message.qos == MQTTQoS1)
     {
         /* Publish/SEND OK 只是发送结果；匹配 PUBACK 到达后才允许 Router 成功 ACK。 */
@@ -187,6 +270,26 @@ int gateway_mqtt_publish(const MpFrame *frame)
         ok = ok && acknowledged;
     }
     ok = ok && !session_error && network.connected && (uint32_t)(g_uptime_ms - start) < 5000U;
+#ifdef MP_CAN_RX_IRQ
+    /* 保留原5000ms/PUBACK门禁；诊断放在清在途状态之前，以区分发送与确认失败。 */
+    if(!ok) {
+        char diagnostic[256];
+        uint32_t failed_at=g_uptime_ms;
+        mqtt_diagnostic(6,publish_status,failed_at-start);
+        /* 只在失败后输出，不给正常逐包发布增加UART延迟；保留发送/确认阶段界限。 */
+        EspIoMetrics io;platform_io_snapshot(&io);
+        (void)snprintf(diagnostic,sizeof(diagnostic),"GW MQTT_BUDGET send_ms=%lu wait_ms=%lu buffered=%lu\r\n",
+            (unsigned long)(sent_at-start),(unsigned long)(failed_at-sent_at),(unsigned long)client.index);console(diagnostic);
+        (void)snprintf(diagnostic,sizeof(diagnostic),"GW MQTT_IO tx_calls=%lu tx_ok=%lu tx_len=%lu tx_ms=%lu phase=%lu queries=%lu empty=%lu hint=%lu rx_bytes=%lu reads=%lu\r\n",
+            (unsigned long)io.tx_calls,(unsigned long)io.tx_confirmed,(unsigned long)io.tx_length,
+            (unsigned long)io.tx_ms,(unsigned long)io.tx_phase,(unsigned long)io.rx_queries,
+            (unsigned long)io.rx_empty,(unsigned long)io.rx_hint,(unsigned long)io.rx_bytes,(unsigned long)io.rx_reads);console(diagnostic);
+        /* QoS0本来就没有PUBACK，必须记录实际QoS才能把总预算失败归因于确认等待。 */
+        (void)snprintf(diagnostic,sizeof(diagnostic),"GW MQTT_PENDING id=%u qos=%u node=%u stream=%u seq=%lu replay=%u\r\n",
+            pending_id,(unsigned)message.qos,frame->node,frame->stream,(unsigned long)frame->seq,(unsigned)frame->replay);
+        console(diagnostic);
+    }
+#endif
     pending_id = 0;
     acknowledged = 0;
     if (!ok)
@@ -210,6 +313,66 @@ void gateway_network_close(void)
 }
 
 /* 固定顺序为 AT 配置、入网、可信时间、证书名称校验、TLS；任何失败由外层重试。 */
+#ifdef MP_H3_FRESH_SNTP
+/* 单个配置端点不可达时，下次外层重连轮换；每次仍只发一个有界请求。 */
+static unsigned sntp_server_cursor;
+static int fresh_sntp(void) {
+    char server[65]={0},command[112];
+    if(!at_command("AT+CIPSNTPCFG?",2000)) {
+        console("GW FAIL SNTP_SERVER_CONFIG\r\n");return 0;
+    }
+    unsigned selected=sntp_server_cursor;
+    if(!sntp_server_at(at_response(),selected,server))selected=0;
+    if(!sntp_server_at(at_response(),selected,server)) {
+        console("GW FAIL SNTP_SERVER_CONFIG\r\n");return 0;
+    }
+    sntp_server_cursor=(selected+1u)%3u;
+    (void)snprintf(command,sizeof(command),"AT+CIPSTART=\"UDP\",\"%s\",123",server);
+    int opened=at_command(command,5000);
+    secure_memzero(server,sizeof(server));secure_memzero(command,sizeof(command));
+    if(!opened) {console("GW FAIL SNTP_UDP_OPEN\r\n");return 0;}
+    unsigned char request[48]={0},reply[48];request[0]=0x23;
+    /* 近似epoch只用作请求nonce；实际授时取匹配回复的服务器时间，不信旧RTC值。 */
+    sntp_put32(request+40,epoch+2208988800u);sntp_put32(request+44,g_uptime_ms^0x51a7c39du);
+    uint32_t start=g_uptime_ms;int sent=esp_mqtt_send(request,48,1000);
+    int received=0;
+    /* AT适配层可短读；只在同一个有界UDP请求内累积，不能把下一请求旧回复拼入。 */
+    while(sent==48 && received<48 && (uint32_t)(g_uptime_ms-start)<1000u) {
+        int count=esp_mqtt_recv(reply+received,48-received,1000u-(g_uptime_ms-start));
+        if(count<0 || count>48-received) {received=-1;break;}
+        received+=count;
+    }
+    uint32_t rtt=g_uptime_ms-start;uint64_t sample=0;
+    int valid=received==48 && sntp_sample(reply,48,request,rtt,config->minimum_epoch,&sample);
+    /* 无论成功或失败均关UDP，后续SSL不继承该socket；原TLS名称/CA设置不变。 */
+    int closed=at_command("AT+CIPCLOSE",2000);
+    esp_mqtt_reset();
+    if(!valid || !closed) {
+        /* 只解释拒绝原因，不改变原授时判定；完整包之前绝不读取未初始化字段。
+         * 1发送/2长度/3RTT/4未同步/5RATE KoD/6旧nonce/7其他/8关闭/9其他KoD。 */
+        unsigned reason=7;
+        if(sent!=48)reason=1;
+        else if(received!=48)reason=2;
+        else if(rtt>1000u)reason=3;
+        else if(memcmp(reply+24,request+40,8))reason=6;
+        else if(reply[1]==0)reason=!memcmp(reply+12,"RATE",4)?5:9;
+        else if((reply[0]>>6)==3)reason=4;
+        else if(valid && !closed)reason=8;
+        char diagnostic[96];
+        (void)snprintf(diagnostic,sizeof(diagnostic),"GW SNTP_REJECT reason=%u received=%d rtt_ms=%lu server_index=%u\r\n",
+            reason,received,(unsigned long)rtt,selected);console(diagnostic);
+        console("GW FAIL SNTP_FRESH_SAMPLE\r\n");return 0;
+    }
+    epoch=(uint32_t)(sample/1000u);epoch_fraction=(uint32_t)(sample%1000u);
+    epoch_tick=start+rtt;
+    /* 成功端点继续使用；只有失败才在下一轮切换，不改变nonce/RTT/TLS门禁。 */
+    sntp_server_cursor=selected;
+    char line[128];(void)snprintf(line,sizeof(line),"GW SNTP_SAMPLE rtt_ms=%lu uncertainty_ms=%lu epoch=%lu fraction=%lu server_index=%u\r\n",
+        (unsigned long)rtt,(unsigned long)(rtt/2u),(unsigned long)epoch,(unsigned long)epoch_fraction,selected);console(line);
+    return 1;
+}
+#endif
+
 int gateway_network_open(void)
 {
     char command[256];
@@ -218,6 +381,14 @@ int gateway_network_open(void)
     if (!step("AT", "AT", 2000) || !step("ECHO", "ATE0", 2000) ||
         !step("VOLATILE", "AT+SYSSTORE=0", 2000) || !step("STA", "AT+CWMODE=1", 3000))
         return 0;
+#ifdef MP_CAN_RX_IRQ
+    /* 官方只读GMR查询，不改变模块固件/Flash；原始回复不进控制台。 */
+    char version[32];
+    if(!at_command("AT+GMR",2000) || !gateway_at_version(at_response(),version)) {
+        console("GW FAIL AT_VERSION\r\n");return 0;
+    }
+    (void)snprintf(command,sizeof(command),"GW AT_VERSION value=%s\r\n",version);console(command);
+#endif
     /* 对有效配置生成相同命令；显式字段边界也让 host 编译器证明不会跨字段读取。 */
     (void)snprintf(command, sizeof(command), "AT+CWJAP=\"%.*s\",\"%.*s\"",
                    (int)sizeof(config->ssid) - 1, config->ssid,
@@ -227,6 +398,23 @@ int gateway_network_open(void)
     secure_memzero(command, sizeof(command));
     if (!wifi_ok)
         return 0;
+#ifdef MP_CAN_RX_IRQ
+    /* 查询结果只报告信号/休眠枚举；SSID、BSSID和原始回复不写控制台。 */
+    int channel,rssi;
+    if(at_command("AT+CWJAP?",2000) && gateway_wifi_signal(at_response(),&channel,&rssi)) {
+        (void)snprintf(command,sizeof(command),"GW WIFI_SIGNAL channel=%d rssi=%d\r\n",channel,rssi);console(command);
+    } else console("GW WIFI_SIGNAL_UNAVAILABLE\r\n");
+    int sleep_before=at_command("AT+SLEEP?",2000)?gateway_sleep_mode(at_response()):-1;
+#ifdef MP_H3_WIFI_AWAKE
+    /* 仅显式H3候选关闭无线休眠；不写模块Flash，不改变TLS/5000ms/PUBACK门禁。 */
+    if(sleep_before<0 || (sleep_before!=0 && !step("WIFI_AWAKE","AT+SLEEP=0",2000)))return 0;
+    int sleep_after=at_command("AT+SLEEP?",2000)?gateway_sleep_mode(at_response()):-1;
+    if(sleep_after!=0) {console("GW FAIL WIFI_AWAKE_VERIFY\r\n");return 0;}
+#else
+    int sleep_after=sleep_before;
+#endif
+    (void)snprintf(command,sizeof(command),"GW WIFI_SLEEP before=%d after=%d\r\n",sleep_before,sleep_after);console(command);
+#endif
     (void)at_command("AT+CIPCLOSE", 2000);
     if (!step("SINGLE", "AT+CIPMUX=0", 2000) || !step("PASSIVE", "AT+CIPRECVMODE=1", 2000))
         return 0;
@@ -256,6 +444,12 @@ int gateway_network_open(void)
         console("GW FAIL TIME\r\n");
         return 0;
     }
+#ifdef MP_H3_FRESH_SNTP
+    if(!fresh_sntp())return 0;
+#endif
+#ifdef MP_CAN_RX_IRQ
+    (void)snprintf(command,sizeof(command),"GW SNTP_VALID epoch=%lu uptime=%lu\r\n",(unsigned long)epoch,(unsigned long)epoch_tick);console(command);
+#endif
     if (!step("CA_VERIFY", "AT+CIPSSLCCONF=2,0,0", 2000))
         return 0;
     (void)snprintf(command, sizeof(command), "AT+CIPSSLCCN=\"%s\"", config->host);
@@ -270,7 +464,7 @@ int gateway_network_open(void)
     secure_memzero(command, sizeof(command));
     if (!sni_ok)
         return 0;
-    (void)snprintf(command, sizeof(command), "AT+CIPSTART=\"SSL\",\"%s\",8883", config->host);
+    (void)snprintf(command, sizeof(command), "AT+CIPSTART=\"SSL\",\"%s\",%u", config->host, (unsigned)MP_MQTT_TLS_PORT);
     int ok = step("TLS", command, 30000);
     secure_memzero(command, sizeof(command));
     if (ok)

@@ -1,0 +1,282 @@
+{
+  "status": "B5_SOFTWARE_OFFLINE_PASS_REAL_CLOUD_NOT_AUTHORIZED",
+  "hardware_operations": 0,
+  "cloud_operations": 0,
+  "security_gate": "NOT_RUN_NOT_AUTHORIZED",
+  "checks": {
+    "B5_Host_stages": 18,
+    "B5_Host_exit": 0,
+    "B5_ARM_exit": 0,
+    "B4_bench_stages": 14,
+    "B4_bench_exit": 0,
+    "Backend_tests": 34,
+    "Backend_exit": 0,
+    "legacy_installer_tests": 20,
+    "legacy_installer_exit": 0,
+    "B5_installer_tests": 4,
+    "B5_installer_exit": 0,
+    "Web_state_AI_tests": 15,
+    "Web_exit": 0,
+    "actual_WSS_shared_state_cases": 2,
+    "actual_WSS_shared_state_exit": 0,
+    "browser_routes": 7,
+    "browser_exit": 0,
+    "local_TLS_Broker_Backend_WSS_exit": 0,
+    "actual_CAN_value_time_recheck_exit": 0
+  },
+  "expected_nonzero_cases": {
+    "CAN2_I2S2_conflict_compile": 1,
+    "B4_network_bench_mutually_exclusive_CLI": 2
+  },
+  "measurement_limits": {
+    "ESP_hardware": false,
+    "production_Broker": false,
+    "production_Backend_state_readback": false,
+    "300s_real_cloud_window": false,
+    "browser_wave_scroll_real_time": false,
+    "LLM_real_call": false,
+    "frozen_BIO_changed": false
+  },
+  "final_candidate": {
+    "status": "OFFLINE_LAYOUT_ONLY_NOT_INSTALL_AUTHORIZATION",
+    "candidate_bytes": 42552,
+    "candidate_sha256": "d5b9624b3da1129b4e045d3b2f669c00d2d93cb7379b15293ff143fe9f130683",
+    "ELF_sha256": "3c726f61f76eadac4909826203ca84dee65521aec448ad477ddca0c3c58795d8",
+    "sectors": [
+      0,
+      1,
+      2
+    ],
+    "manifest_sha256": "ba21721a0e7d8654c29b7be2b848c4eacc7b9e9da6ccc0adefb1deb61f789c5a",
+    "baseline_H3_full_sha256": "1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390",
+    "expected_B5_full_on_unchanged_H3_config_sha256": "3eaf583a703137b09665da5d2bfd7e860cd3a2208bf659b631d7ee4d0541545c",
+    "fresh_C_backup_required": true,
+    "sector3_and7_and11_preserved": true,
+    "options_write_allowed": false,
+    "config_record_requires_separate_approval": true,
+    "hardware_operations": 0
+  },
+  "failure_history": {
+    "first_host_compiler_or_fixture_failures_retained": true,
+    "local_fixture_stale_snapshot_selection_failure_retained": true,
+    "local_fixture_latest_sequence_selection_failure_retained": true,
+    "local_fixture_manual_disconnect_reconnect_failure_retained": true,
+    "wrong_CAN2_vector_index_verifier_failure_retained": true,
+    "network_entry_prototype_compile_failure_retained": true,
+    "runtime_initial_shell_extraction_failure_retained": true
+  },
+  "log_sha256": {
+    "final/B4_bench.log": {
+      "sha256": "52ba3e741d733f1f47d955067969d47b99f6ed485e335a35404ea4fc40f20429",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "final/B5_ARM.log": {
+      "sha256": "74be11a2a5818dea488727e2f38c816bc03fa265fc34fff4b390d1b2c334137a",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "final/B5_Host.log": {
+      "sha256": "791ca49eafe67770a6c0f26ca12857d54ab5829b3f47be77ace5eec34590af95",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "host/AT-CAN-pressure.log": {
+      "sha256": "a614318d5417a8221d476e09892b6fda1f9fb6909b33a6dbeb3a42109bb9e99c",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "host/CAN2-I2S2-conflict-negative.log": {
+      "sha256": "3c3af2e7379af402c5e14ad9e6e4201a838d22475a1b23f3dd23f543c7403ac9",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "host/compile-actual-network-entry.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "host/compile-AT-CAN-pressure.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "host/compile-connect_keepalive.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "host/compile-entry-control-test.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "host/compile-H3-config.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "host/compile-H3-SNTP.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "host/compile-policy.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "host/compile-qos_ack.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "host/compile-real-CAN-replay.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "host/connect_keepalive.log": {
+      "sha256": "022347f85069d153b495432ddc395e09e94291bdebd85b631ecc0e2ff26b7280",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "host/entry-420s.log": {
+      "sha256": "0d9b2046497b2d9d7291757924e62216f86b2a2579ae5bab3b79568b6a46fa16",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "host/entry-overflow-stop.log": {
+      "sha256": "39b2a5cd74d5f4a7907a472cdfbc7c035841824194a019b637560dfeef003aef",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "host/H3-config-integrity-and-B5-identity.log": {
+      "sha256": "712410bdc3d49245336de52f634a0d87dab01f9f95a08ce4441c71a794624ecc",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "host/H3-fresh-SNTP-parser.log": {
+      "sha256": "4008533f4a8c6f93d3e9140d7e7b01ad1c555673737cb09c8ce642f9d4f3f252",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "host/policy.log": {
+      "sha256": "9a96f89bf6b5403750e6f8a6960056987c55e181e1d9a69f0fce74b124b2c75e",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "host/qos_ack.log": {
+      "sha256": "b211c82ad91742ed430196d2b6e59e52a38869b8cda0a7a582740edd71bde5d9",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "install-backend/B4_bench.log": {
+      "sha256": "094b87d0e19476f5335ace9cea3c922348c8bf20cfe5ab4a3dd9c0c7f79a4f18",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "install-backend/B5_ARM.log": {
+      "sha256": "29d3e903512c64022948ff821ef20b78ca5c6f8e7d7992a79ba102c501cda885",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "install-backend/B5_install_scope.log": {
+      "sha256": "1ccc9a7c4cb454fdf37c65d0c86fa757a98ac1fb75da141a1527978771a34108",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "install-backend/Backend.log": {
+      "sha256": "026d02dd8f63e4733a1f423002344fa5ce5c13086a9e954d1800ac82e444c143",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "install-backend/legacy_install.log": {
+      "sha256": "266e72408ab31fdc40329528b681652eeeff6d5a0573f6eb223b514762bd6251",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "web/actual-WSS-state.log": {
+      "sha256": "04de9caf0e0c1da67093586d19d2a80a2f632a25da32cc04f829a0ca44ae0888",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "web/web-build.log": {
+      "sha256": "5ffa938eb845f4a00c426b7382ec8553216b480599ad3c9c46b476f275b2a4b3",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "web/web-state-and-AI-tests.log": {
+      "sha256": "e80cde019984792b6d7de8719503547a748dd4943877e34c878a670d2efcb55b",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "normalized-final/B5_ARM.log": {
+      "sha256": "375f6430a17e021fbf3482ec0768ecfce55cff4eab90320a3c22031c61e3def2",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "normalized-final/B5_Host.log": {
+      "sha256": "8bc6da1f3f049b79048e89ac45189047b4b211fdef5341d09c932cf683fd6272",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "normalized-host/AT-CAN-pressure.log": {
+      "sha256": "a614318d5417a8221d476e09892b6fda1f9fb6909b33a6dbeb3a42109bb9e99c",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "normalized-host/CAN2-I2S2-conflict-negative.log": {
+      "sha256": "7c1381571cafac547cfd7a6dd970d1f4ff9c2f55c4bbb599d3e665e329a15943",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "normalized-host/compile-actual-network-entry.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "normalized-host/compile-AT-CAN-pressure.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "normalized-host/compile-connect_keepalive.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "normalized-host/compile-entry-control-test.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "normalized-host/compile-H3-config.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "normalized-host/compile-H3-SNTP.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "normalized-host/compile-policy.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "normalized-host/compile-qos_ack.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "normalized-host/compile-real-CAN-replay.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "normalized-host/connect_keepalive.log": {
+      "sha256": "022347f85069d153b495432ddc395e09e94291bdebd85b631ecc0e2ff26b7280",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "normalized-host/entry-420s.log": {
+      "sha256": "0d9b2046497b2d9d7291757924e62216f86b2a2579ae5bab3b79568b6a46fa16",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "normalized-host/entry-overflow-stop.log": {
+      "sha256": "39b2a5cd74d5f4a7907a472cdfbc7c035841824194a019b637560dfeef003aef",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "normalized-host/H3-config-integrity-and-B5-identity.log": {
+      "sha256": "712410bdc3d49245336de52f634a0d87dab01f9f95a08ce4441c71a794624ecc",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "normalized-host/H3-fresh-SNTP-parser.log": {
+      "sha256": "4008533f4a8c6f93d3e9140d7e7b01ad1c555673737cb09c8ce642f9d4f3f252",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "normalized-host/policy.log": {
+      "sha256": "9a96f89bf6b5403750e6f8a6960056987c55e181e1d9a69f0fce74b124b2c75e",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "normalized-host/qos_ack.log": {
+      "sha256": "b211c82ad91742ed430196d2b6e59e52a38869b8cda0a7a582740edd71bde5d9",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "final-raw-local/stderr.log": {
+      "sha256": "0824124862721708d356d7227f4e46fbc61a6da7939edd0cc50f99e5e07b688d",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    },
+    "final-raw-local/stdout.log": {
+      "sha256": "f462369dda34eac4cd6302e9c9c40c8c1933e28d2bf749cf749e6718840e48f3",
+      "private_archive": "SOFTWARE_LOGS_EFS"
+    }
+  },
+  "LF_source_normalization_rebuild": {
+    "source_files_normalized_only": 5,
+    "Host_exit": 0,
+    "ARM_exit": 0,
+    "BIN_unchanged_sha256": "d5b9624b3da1129b4e045d3b2f669c00d2d93cb7379b15293ff143fe9f130683",
+    "ELF_unchanged_sha256": "3c726f61f76eadac4909826203ca84dee65521aec448ad477ddca0c3c58795d8"
+  },
+  "final_raw_Broker_WSS_trace_exit": 0
+}

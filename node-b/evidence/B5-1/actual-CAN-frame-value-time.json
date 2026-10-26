@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "cases": {
+    "ECG": {
+      "status": "PASS",
+      "counts": {
+        "resp_matched_samples": 8900,
+        "resp_batches": 178,
+        "ecg_matched_samples": 44600,
+        "ecg_batches": 446,
+        "hr_messages": 178,
+        "rr_messages": 178,
+        "temp_messages": 178
+      },
+      "max_reencoded_JSON_bytes": 836,
+      "source_UTC_preserved": true,
+      "unit_conversion_matches_CAN_fixed_point": true,
+      "ADC_codes_not_compared_as_filtered_mV": true,
+      "partial_tail_not_padded": true
+    },
+    "RR": {
+      "status": "PASS",
+      "counts": {
+        "ecg_matched_samples": 44400,
+        "ecg_batches": 444,
+        "resp_matched_samples": 8800,
+        "resp_batches": 176,
+        "hr_messages": 178,
+        "rr_messages": 178,
+        "temp_messages": 178
+      },
+      "max_reencoded_JSON_bytes": 796,
+      "source_UTC_preserved": true,
+      "unit_conversion_matches_CAN_fixed_point": true,
+      "ADC_codes_not_compared_as_filtered_mV": true,
+      "partial_tail_not_padded": true
+    }
+  }
+}

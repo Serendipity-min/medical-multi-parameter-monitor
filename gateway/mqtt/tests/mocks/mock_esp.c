@@ -4,10 +4,14 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
+#ifndef MOCK_USERNAME
+#define MOCK_USERNAME "synthetic-user"
+#define MOCK_CLIENT_ID "synthetic-client"
+#endif
 
 const GatewayConfig gateway_test_config = {
     GATEWAY_CONFIG_MAGIC, 1700000000U, "synthetic-wifi", "synthetic-wifi-password",
-    "mqtt.example.invalid", "synthetic-user", "synthetic-mqtt-password", "synthetic-client"
+    "mqtt.example.invalid", MOCK_USERNAME, "synthetic-mqtt-password", MOCK_CLIENT_ID
 };
 volatile uint32_t g_uptime_ms;
 int mock_ack_mode, mock_delay_ms, mock_read_limit, mock_send_limit;
@@ -23,7 +27,13 @@ static unsigned char wire[2048], rx[1024], ack[12];
 static size_t wire_length, rx_length, rx_offset, ack_length;
 static uint32_t ack_at;
 
-void platform_poll(void) { g_uptime_ms++; }
+void (*mock_poll_callback)(void);
+static int polling;
+void platform_poll(void) {
+    g_uptime_ms++;
+    /* B5在真实MQTT等待环中推进独立CAN夹具；其余测试保持空回调。 */
+    if(mock_poll_callback && !polling) {polling=1;mock_poll_callback();polling=0;}
+}
 void mp_model_poll(void) { platform_poll(); }
 void console(const char *text) { (void)text; }
 void delay_ms(uint32_t ms) { g_uptime_ms += ms; }
@@ -157,6 +167,7 @@ int esp_mqtt_recv(unsigned char *data, int length, uint32_t timeout)
 
 void mock_reset(void)
 {
+    mock_poll_callback=NULL;
     g_uptime_ms = 100000;
     mock_ack_mode = ACK_MATCH;
     mock_delay_ms = mock_read_limit = mock_send_limit = 0;

@@ -16,8 +16,8 @@ int main(void)
     PASS("connect_mqtt311_clean_session_lwt_auth_keepalive15");
     /* 按 MQTT 长度字段逐段核对身份和 Will，原始凭据不输出到日志。 */
     offset += 10;
-    const char *fields[] = {"synthetic-client", "mpm/v1/GW-C-001/status", NULL,
-                            "synthetic-user", "synthetic-mqtt-password"};
+    const char *fields[] = {MOCK_CLIENT_ID, "mpm/v1/" MP_MQTT_GATEWAY_ID "/status", NULL,
+                            MOCK_USERNAME, "synthetic-mqtt-password"};
     MpFrame will = mock_frame(MP_GATEWAY_STATUS, 0, false); will.valid = false;
     char will_json[512]; assert(mp_json(&will, will_json, sizeof(will_json))); fields[2] = will_json;
     for (unsigned i = 0; i < 5; ++i)

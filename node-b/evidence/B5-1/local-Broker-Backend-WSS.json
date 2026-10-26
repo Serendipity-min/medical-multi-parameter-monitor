@@ -1,0 +1,75 @@
+{
+  "status": "PASS",
+  "mode": "LOCAL_TLS_MOCK_ONLY",
+  "cases": [
+    {
+      "case": "ECG",
+      "status": "PASS",
+      "source_file_sha256": "750ae5585f8f37c954c2d7753394aea69afa44ccaa0c930cf1f4170991eaa966",
+      "actual_MQTT_messages": 1228,
+      "Backend_accepted": 1271,
+      "Backend_rejected": 0,
+      "valid_stream": "HR",
+      "value": 60.0,
+      "invalid_stream": "RR",
+      "checks": [
+        "actual_Broker_Backend_WSS",
+        "MOCK_and_synthetic",
+        "TEMP_INVALID",
+        "A_OFFLINE",
+        "duplicate",
+        "STALE_6s",
+        "REPLAY_not_current",
+        "node_boot_old_session_masked",
+        "new_session_recovers",
+        "OFFLINE_clears",
+        "AI_facts_null_invalid_stale"
+      ],
+      "source_UTC_unchanged": true,
+      "fixture_Backend_Hub_reset_between_recordings": true
+    },
+    {
+      "case": "RR",
+      "status": "PASS",
+      "source_file_sha256": "97e301234626954384bee388358f4b151a7991ea8aaedc7611dd12bcbd2becd1",
+      "actual_MQTT_messages": 1224,
+      "Backend_accepted": 1267,
+      "Backend_rejected": 0,
+      "valid_stream": "RR",
+      "value": 15.0,
+      "invalid_stream": "HR",
+      "checks": [
+        "actual_Broker_Backend_WSS",
+        "MOCK_and_synthetic",
+        "TEMP_INVALID",
+        "A_OFFLINE",
+        "duplicate",
+        "STALE_6s",
+        "REPLAY_not_current",
+        "node_boot_old_session_masked",
+        "new_session_recovers",
+        "OFFLINE_clears",
+        "AI_facts_null_invalid_stale"
+      ],
+      "source_UTC_unchanged": true,
+      "fixture_Backend_Hub_reset_between_recordings": true
+    }
+  ],
+  "ACL_foreign_gateway_topic_blocked": true,
+  "actual_Backend_disconnect_reconnect": true,
+  "QoS0_puback_is_not_claimed": true,
+  "ESP_AT_TLS_hardware_execution": false,
+  "formal_cloud_operations": 0,
+  "listener_scope": "127.0.0.1_EPHEMERAL_NOT8884",
+  "raw_Broker_WSS_archive_sha256": {
+    "Broker-payloads-private.jsonl": "abf77ad4c841038b628fee896b48c1100b07175b7b823c19be829b5aaaaa1f77",
+    "ECG-WSS-snapshot-private.json": "98aafad33ccf2564b09e91a7444311db734e7ff42230e52a2752e6808e04a687",
+    "RR-WSS-snapshot-private.json": "c2988390dec08210aea0a8c99d7abad78f68d3b629897f5148057ef948369a49",
+    "WSS-payloads-private.jsonl": "272c72dadeea028ed377284b296944b151f148370bb834adc74e7de39dfff6b6"
+  },
+  "raw_Broker_WSS_archive_scope": "UNIQUE_RESTRICTED_EFS_PER_RUN_NOT_MUTABLE_FIXTURE_ALIAS",
+  "raw_archive_records": {
+    "Broker-payloads-private.jsonl": 2540,
+    "WSS-payloads-private.jsonl": 313
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "tool": "agent-browser isolated b5cloud-20261026",
+  "seven_routes": [
+    {
+      "route": "overview",
+      "source": "MOCK 模拟数据",
+      "hash": "#/overview"
+    },
+    {
+      "route": "temp",
+      "source": "MOCK 模拟数据",
+      "hash": "#/temp"
+    },
+    {
+      "route": "ecg",
+      "source": "MOCK 模拟数据",
+      "hash": "#/ecg"
+    },
+    {
+      "route": "spo2",
+      "source": "MOCK 模拟数据",
+      "hash": "#/spo2"
+    },
+    {
+      "route": "resp",
+      "source": "MOCK 模拟数据",
+      "hash": "#/resp"
+    },
+    {
+      "route": "nibp",
+      "source": "MOCK 模拟数据",
+      "hash": "#/nibp"
+    },
+    {
+      "route": "ai",
+      "source": "MOCK 模拟数据",
+      "hash": "#/ai"
+    }
+  ],
+  "RR_overview": {
+    "hash": "#/overview",
+    "source": "MOCK 模拟数据",
+    "hr": "--",
+    "rr": "15",
+    "temp": "--"
+  },
+  "browser_uses_actual_Backend_WSS": true,
+  "display_fixture_uses_prior_Broker_WSS_snapshots": true,
+  "controlled_source_clock_not_current_measurement": true,
+  "AI_external_requests": 0,
+  "raw_screenshots": "RESTRICTED_EFS_ONLY"
+}

@@ -16,6 +16,7 @@ from live_state_b import LiveLink
 
 ROOT = Path(__file__).resolve().parents[2]
 SCOPE = 'B4_ONE_SWD_SECTOR_INSTALL_OR_RESTORE_NO_OPTIONS_NO_MASS_ERASE'
+B5_SCOPE = 'B5_C_SECTOR012_MOCK_INSTALL_OR_RESTORE_NO_CONFIG_WRITE'
 DLL = readonly.DLL
 LIMITS = {'JLINKARM_Halt': 1, 'JLINKARM_BeginDownload': 1, 'JLINKARM_WriteMem': 1,
           'JLINKARM_EndDownload': 1, 'JLINKARM_Reset': 1, 'JLINKARM_Go': 1}
@@ -44,7 +45,7 @@ def site_ready(board,site):
 
 def authorize(a):
     require(a.get('enabled') is True and a.get('owner_approved') is True
-            and a.get('scope') == SCOPE, 'INSTALL_OWNER_AUTH_REQUIRED')
+            and a.get('scope') in (SCOPE,B5_SCOPE), 'INSTALL_OWNER_AUTH_REQUIRED')
     require(a.get('tools_sha256') == bindings() and a.get('DLL_sha256') == raw.DLL_SHA,
             'INSTALL_TOOL_DRIFT')
     require(time.time() < a.get('expires_unix', 0), 'INSTALL_AUTH_EXPIRED')
@@ -54,7 +55,10 @@ def authorize(a):
     m, payload = package.load_package(Path(a['package']), a['manifest_sha256'], False)
     require(m['board_role'] == a['board'] and m['candidate_sha256'] == a['candidate_sha256'],
             'INSTALL_PACKAGE_BINDING')
-    require(m['sectors'] == ([0, 1, 2] if a['board'] == 'B' else [0, 1]), 'INSTALL_SECTOR_SCOPE')
+    # 新C网络候选跨32KiB，必须使用独立B5授权；旧B4 C卡不能悄然扩大写入范围。
+    b5=a['scope']==B5_SCOPE
+    if b5:require(a['board']=='C' and a.get('nonhuman_mock') is True,'B5_INSTALL_ROLE_AND_SOURCE')
+    require(m['sectors'] == ([0, 1, 2] if a['board'] == 'B' or b5 else [0, 1]), 'INSTALL_SECTOR_SCOPE')
     require(m['options_write_allowed'] is False and m['unlock_or_mass_erase_allowed'] is False,
             'INSTALL_PROTECTION_POLICY')
     require(a.get('installed_full_sha256') == m['files']['expected-full-private.bin']['sha256'],
@@ -217,7 +221,8 @@ def main():
     p.add_argument('--plan', action='store_true'); args = p.parse_args()
     if args.plan:
         print(json.dumps({'scope': SCOPE, 'enabled': False, 'tools_sha256': bindings(),
-              'DLL_sha256': raw.DLL_SHA, 'limits': LIMITS, 'session_seconds': 180})); return 0
+              'DLL_sha256': raw.DLL_SHA, 'limits': LIMITS, 'session_seconds': 180,
+              'B5_separate_scope':B5_SCOPE,'B5_C_sectors':[0,1,2],'B5_config_write_allowed':False})); return 0
     try:
         require(args.authorization is not None and args.out is not None, 'INSTALL_AUTH_OUT_REQUIRED')
         a = json.loads(package.protected(args.authorization, False).read_text('utf-8'))
@@ -225,7 +230,7 @@ def main():
         package.protected(args.out.parent, False); require(not args.out.exists(), 'INSTALL_OUTPUT_EXISTS')
         if args.worker: return worker(args, a, m, payload)
         with args.authorization.with_suffix('.used').open('x', encoding='utf-8') as f:
-            json.dump({'scope': SCOPE, 'phase': a['phase'], 'started': time.time()}, f)
+            json.dump({'scope': a['scope'], 'phase': a['phase'], 'started': time.time()}, f)
         # 父进程仅监督磁盘心跳；下载中超时只停止，不追加擦写、复位或补救连接。
         cmd = [sys.executable, '-X', 'utf8', str(Path(__file__)), '--worker',
                '--authorization', str(args.authorization), '--out', str(args.out)]

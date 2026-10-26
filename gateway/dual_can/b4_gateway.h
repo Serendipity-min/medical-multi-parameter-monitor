@@ -18,6 +18,7 @@ typedef struct {
 typedef struct {
     B4Segment segments[2]; MpRouter router;
     uint32_t now, epoch, utc_at, utc_fraction, time_sent, malformed, wrong_bus, resets, wave_gaps, unstamped;
+    uint32_t session; /* B5由新鲜SNTP毫秒锚建立网关连接代次，不改节点原始boot字段。 */
     bool utc_valid;
 } B4Gateway;
 int b4_gateway_init(B4Gateway *g);

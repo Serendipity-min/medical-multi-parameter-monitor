@@ -2,6 +2,9 @@
 #include "model.h"
 #include <stdio.h>
 #include <stdarg.h>
+#ifndef MP_MQTT_GATEWAY_ID
+#define MP_MQTT_GATEWAY_ID "GW-C-001"
+#endif
 static const char *names[] = {"ppg",  "spo2", "pr",   "nibp",   "ecg",   "hr",
                               "resp", "rr",   "temp", "status", "fault", "status"};
 static const char *units[] = {"relative", "%",           "bpm",  "mmHg",  "mV",   "bpm",
@@ -116,12 +119,12 @@ int mp_topic(const MpFrame *f, char *out, size_t size)
 {
     int n;
     if (f->stream == MP_GATEWAY_STATUS)
-        n = snprintf(out, size, "mpm/v1/GW-C-001/status");
+        n = snprintf(out, size, "mpm/v1/" MP_MQTT_GATEWAY_ID "/status");
     else if (f->stream == MP_NODE_STATUS || (f->stream == MP_FAULT && !f->replay))
-        n = snprintf(out, size, "mpm/v1/GW-C-001/NODE-%c/%s", f->node == 1 ? 'A' : 'B',
+        n = snprintf(out, size, "mpm/v1/" MP_MQTT_GATEWAY_ID "/NODE-%c/%s", f->node == 1 ? 'A' : 'B',
                      f->stream == MP_FAULT ? "event" : "status");
     else
-        n = snprintf(out, size, "mpm/v1/GW-C-001/NODE-%c/%s/%s", f->node == 1 ? 'A' : 'B',
+        n = snprintf(out, size, "mpm/v1/" MP_MQTT_GATEWAY_ID "/NODE-%c/%s/%s", f->node == 1 ? 'A' : 'B',
                      f->replay ? "replay" : "telemetry", names[f->stream]);
     return n > 0 && (size_t)n < size ? n : 0;
 }

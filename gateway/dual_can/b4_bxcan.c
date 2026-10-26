@@ -66,6 +66,10 @@ int b4_hw_init(void) {
         can.CAN_ABOM = ENABLE; can.CAN_NART = DISABLE; can.CAN_RFLM = ENABLE;
         can.CAN_TXFP = ENABLE; /* 同一COB-ID按请求次序，避免多邮箱并发造成倒序。 */
         can.CAN_Mode = CAN_Mode_Normal; can.CAN_SJW = CAN_SJW_1tq;
+#ifdef MP_B5_CLOUD_CANDIDATE
+        /* CAN2仍需CAN1共享时钟；首轮A段只保留静默控制器，不收发/ACK A。 */
+        if (!bus) can.CAN_Mode = CAN_Mode_Silent;
+#endif
         can.CAN_BS1 = clocks.PCLK1_Frequency == 8000000u ? CAN_BS1_13tq : CAN_BS1_11tq;
         can.CAN_BS2 = CAN_BS2_2tq; can.CAN_Prescaler = clocks.PCLK1_Frequency == 8000000u ? 1 : 6;
         if (CAN_Init(controller(bus), &can) != CAN_InitStatus_Success) return -2;
@@ -79,11 +83,18 @@ int b4_hw_init(void) {
         filter.CAN_FilterMode = CAN_FilterMode_IdMask; filter.CAN_FilterScale = CAN_FilterScale_32bit;
         filter.CAN_FilterMaskIdLow = 6; /* IDE=0、RTR=0，其余在协议入口按节点/总线过滤。 */
         filter.CAN_FilterFIFOAssignment = CAN_Filter_FIFO0; filter.CAN_FilterActivation = ENABLE;
+#ifdef MP_B5_CLOUD_CANDIDATE
+        if (!bus) filter.CAN_FilterActivation = DISABLE;
+#endif
         CAN_FilterInit(&filter);
         CAN_ITConfig(controller(bus), CAN_IT_FMP0 | CAN_IT_FOV0, ENABLE);
         NVIC_InitTypeDef nvic; nvic.NVIC_IRQChannel = bus ? CAN2_RX0_IRQn : CAN1_RX0_IRQn;
         nvic.NVIC_IRQChannelPreemptionPriority = 3; nvic.NVIC_IRQChannelSubPriority = bus;
-        nvic.NVIC_IRQChannelCmd = ENABLE; NVIC_Init(&nvic);
+        nvic.NVIC_IRQChannelCmd = ENABLE;
+#ifdef MP_B5_CLOUD_CANDIDATE
+        if (!bus) nvic.NVIC_IRQChannelCmd = DISABLE;
+#endif
+        NVIC_Init(&nvic);
     }
     return 0;
 }
@@ -110,6 +121,9 @@ static void completed(unsigned bus) {
 }
 int b4_bus_transmit(unsigned bus, const MpCanFrame *frame) {
     if (hw_stopped || bus > 1 || frame->ident > 0x7ff || frame->dlc > 8) return 0;
+#ifdef MP_B5_CLOUD_CANDIDATE
+    if (!bus) return 0;
+#endif
     CAN_TypeDef *can = controller(bus);
     /* 先结算已完成邮箱，随后才能记录该邮箱的新原始帧。 */
     completed(bus);
@@ -136,6 +150,7 @@ void b4_hw_stop(void) {
     if (!hw_clocks_ready) return;
     for (unsigned bus = 0; bus < 2; bus++) {
         CAN_TypeDef *can = controller(bus);
+        b4_hw_diag[bus].esr = can->ESR;
         completed(bus);
         can->MCR |= CAN_MCR_NART;
         can->TSR = CAN_TSR_ABRQ0 | CAN_TSR_ABRQ1 | CAN_TSR_ABRQ2;
@@ -151,6 +166,7 @@ void b4_hw_poll(B4Gateway *g) {
     if (hw_stopped) return;
     for (unsigned bus = 0; bus < 2; bus++) {
         CAN_TypeDef *can = controller(bus);
+        b4_hw_diag[bus].esr = can->ESR;
         completed(bus);
         /* 同一控制器指针同时供正常目标和可选取证使用，避免非取证构建留下无用变量。 */
         bool up = b4_hw_protocol_link_up(bus,!(can->ESR & CAN_ESR_BOFF));

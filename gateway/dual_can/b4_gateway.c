@@ -76,6 +76,12 @@ static uint64_t sample_utc(B4Gateway *g, B4Segment *s, unsigned base, uint32_t t
     return utc >= current - 5000 && utc <= current + 1000 ? (uint64_t)utc : 0;
 }
 static void emit(B4Gateway *g, B4Segment *s, MpFrame *f) {
+#ifdef MP_B5_CLOUD_CANDIDATE
+    /* SKX原始质量位未标合成；B5在出口强制来源，不改原CAN帧/有效位/时间。 */
+    f->synthetic = true;
+    f->epoch = g->session;
+    f->boot = s->observed_boot;
+#endif
     f->seq = ++s->seq[f->stream];
     /* Backend拒绝0时间戳；未授时只计入本机诊断，绝不改成发送时刻伪装采集UTC。 */
     if (!f->timestamp) { g->unstamped++; return; }

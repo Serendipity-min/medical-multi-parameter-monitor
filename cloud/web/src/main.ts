@@ -2,6 +2,7 @@
 // 严禁在此堆砌 HTML 结构、网络状态机或波形算法。
 
 import './style.css';
+import './ui/aiPanel.css';
 import { AccessDialog } from './ui/accessDialog';
 import { setupMonitorDOM, renderRoute } from './ui/monitorView';
 import { HashRouter } from './router/hashRouter';
@@ -11,6 +12,7 @@ import { StatusBar } from './ui/statusBar';
 import { MonitorStore } from './state/monitorStore';
 import { MonitorSocket } from './transport/monitorSocket';
 import { WaveformRenderer } from './waveform/renderer';
+import { AiPanel } from './ui/aiPanel';
 
 // 1. 初始化 DOM 结构
 const app = document.querySelector<HTMLDivElement>('#app')!;
@@ -39,10 +41,14 @@ const socket = new MonitorSocket({
 });
 
 // 4. 实例化顶部状态栏与鉴权弹窗
+// AI 使用独立令牌和接口，不能读写 MonitorSocket 的监护鉴权或状态。
+const aiPanel = new AiPanel(() => socket.getGatewayId(), store);
+
 const statusBar = new StatusBar({
   onGatewayChange: (gatewayId) => {
     store.changeGateway(gatewayId);
     socket.changeGateway(gatewayId);
+    aiPanel.update();
   },
   onWindowChange: (windowSeconds) => {
     store.setWindowMs(windowSeconds * 1000);
@@ -76,12 +82,25 @@ const updateView = () => {
   numerics.update(state.displayViewModel);
   statusBar.update(state.currentViewModel, state.isConnected, state.connectionText);
   sessionView.update();
+  aiPanel.update();
 };
 const router = new HashRouter((route) => {
+  // 离开 AI 只取消待回答；连接、缓冲和问答实例继续由根部持有。
+  aiPanel.leave();
   renderRoute(route, document.getElementById('route-view')!);
+  if (route === 'ai') aiPanel.mount(document.getElementById('route-view')!);
   sessionView.mount(route);
   updateView();
 });
+// 独立测试Gateway可由公开URL身份预选；令牌仍只走首帧，授权仍由Backend白名单决定。
+const initialGateway = new URLSearchParams(location.search).get('gateway');
+if (initialGateway && /^[A-Za-z0-9-]{1,40}$/.test(initialGateway)) {
+  const select = document.querySelector<HTMLSelectElement>('#gateway-select')!;
+  if (!Array.from(select.options).some((item) => item.value === initialGateway)) select.add(new Option(initialGateway, initialGateway));
+  select.value = initialGateway;
+  store.changeGateway(initialGateway);
+  socket.changeGateway(initialGateway);
+}
 router.start();
 store.subscribe(updateView);
 document.getElementById('open-settings')!.onclick = () => accessDialog.show();

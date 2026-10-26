@@ -26,6 +26,7 @@ extern CAN_TypeDef b4_test_can[2];
 #define CAN_TxStatus_NoMailBox 4u
 #define CAN_InitStatus_Success 1u
 #define CAN_Mode_Normal 0u
+#define CAN_Mode_Silent 2u
 #define CAN_SJW_1tq 0u
 #define CAN_BS1_13tq 12u
 #define CAN_BS1_11tq 10u
@@ -36,7 +37,7 @@ extern CAN_TypeDef b4_test_can[2];
 #define CAN_IT_FMP0 1u
 #define CAN_IT_FOV0 2u
 #define CAN1_RX0_IRQn 20u
-#define CAN2_RX0_IRQn 63u
+#define CAN2_RX0_IRQn 64u
 #define RCC_APB1Periph_CAN1 1u
 #define RCC_APB1Periph_CAN2 2u
 #define RCC_AHB1Periph_GPIOA 1u
@@ -71,7 +72,14 @@ static inline void GPIO_StructInit(GPIO_InitTypeDef *x) { (void)x; }
 static inline void GPIO_Init(void *p,GPIO_InitTypeDef *x) { (void)p;(void)x; }
 static inline void GPIO_PinAFConfig(void *p,unsigned pin,unsigned af) { (void)p;(void)pin;(void)af; }
 static inline void CAN_StructInit(CAN_InitTypeDef *x) { *x=(CAN_InitTypeDef){0}; }
+#ifdef B5_MMIO_INPUT
+extern unsigned b5_rx_pending,b5_mode[2];
+extern CanRxMsg b5_rx_message;
+#endif
 static inline unsigned CAN_Init(CAN_TypeDef *c,CAN_InitTypeDef *x) {
+#ifdef B5_MMIO_INPUT
+    b5_mode[c==CAN2]=x->CAN_Mode;
+#endif
     c->MCR=x->CAN_NART?CAN_MCR_NART:0; c->TSR=CAN_TSR_TME0|CAN_TSR_TME1|CAN_TSR_TME2;
     return CAN_InitStatus_Success;
 }
@@ -79,8 +87,20 @@ static inline void CAN_SlaveStartBank(unsigned bank) { (void)bank; }
 static inline void CAN_FilterInit(CAN_FilterInitTypeDef *f) { (void)f; }
 static inline void CAN_ITConfig(CAN_TypeDef *c,unsigned m,unsigned en) { (void)c;(void)m;(void)en; }
 static inline void NVIC_Init(NVIC_InitTypeDef *n) { (void)n; }
-static inline unsigned CAN_MessagePending(CAN_TypeDef *c,unsigned fifo) { (void)c;(void)fifo;return 0; }
-static inline void CAN_Receive(CAN_TypeDef *c,unsigned fifo,CanRxMsg *m) { (void)c;(void)fifo;(void)m; }
+static inline unsigned CAN_MessagePending(CAN_TypeDef *c,unsigned fifo) {
+    (void)c;(void)fifo;
+#ifdef B5_MMIO_INPUT
+    return c==CAN2?b5_rx_pending:0;
+#else
+    return 0;
+#endif
+}
+static inline void CAN_Receive(CAN_TypeDef *c,unsigned fifo,CanRxMsg *m) {
+    (void)c;(void)fifo;(void)m;
+#ifdef B5_MMIO_INPUT
+    *m=b5_rx_message;b5_rx_pending=0;
+#endif
+}
 static inline uint8_t CAN_Transmit(CAN_TypeDef *c,CanTxMsg *m) {
     (void)m;b4_test_transmit_calls++;c->TSR&=~CAN_TSR_TME0;return 0;
 }

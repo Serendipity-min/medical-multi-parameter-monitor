@@ -115,7 +115,8 @@ int main(void)
     PASS("qos1_wait_survives_tick_wraparound");
 
     mock_connect(); frame = mock_frame(MP_ECG, 250, false); frame.count = 250;
-    for (unsigned i = 0; i < 250; ++i) frame.values[i] = INT32_MAX;
+    /* B5的100点ABI下仍测试非法250点输入，但不得在构造负例时先越界写测试内存。 */
+    for (unsigned i = 0; i < MP_FRAME_MAX_SAMPLES; ++i) frame.values[i] = INT32_MAX;
     size_t old_length = mock_packet_length;
     assert(!gateway_mqtt_publish(&frame) && mock_packet_length == old_length);
     PASS("oversize_json_never_sends_truncated_payload");

@@ -1,7 +1,7 @@
 #ifndef B4_BXCAN_H
 #define B4_BXCAN_H
 #include "b4_gateway.h"
-typedef struct { uint32_t received, overflow, malformed, high_water, busoff, tx_busy, tx_acked, tx_failed; } B4HwDiag;
+typedef struct { uint32_t received, overflow, malformed, high_water, busoff, tx_busy, tx_acked, tx_failed, esr; } B4HwDiag;
 extern volatile B4HwDiag b4_hw_diag[2];
 int b4_hw_init(void);
 /* 台架结束/初始化失败时取消硬件待发；保留ACK与共享时钟，不自动重新武装。 */

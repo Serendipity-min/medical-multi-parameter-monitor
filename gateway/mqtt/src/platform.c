@@ -7,9 +7,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef MP_B5_CLOUD_CANDIDATE
+#include "b5_policy.h"
+static int closing_network;
+#define NETWORK_STOPPED() (b5_network_stopped() && !closing_network)
+#else
+#define NETWORK_STOPPED() 0
+#endif
+#ifdef MP_CAN_RX_IRQ
+#include "esp_io_metrics.h"
+static EspIoMetrics io_metrics;
+static unsigned console_depth;
+void platform_io_snapshot(EspIoMetrics *out) {*out=io_metrics;}
+int platform_console_busy(void) {return console_depth!=0;}
+#endif
 #define CAPACITY 8192U
 static volatile unsigned char ring[CAPACITY];
 static volatile uint32_t head, tail, errors;
+/* 重连可清当前错误门禁，但累计诊断绝不随之清零。 */
+static volatile uint32_t uart_hw_total,uart_overflow_total;
+uint32_t platform_uart_errors_total(void) {return uart_hw_total+uart_overflow_total;}
 static unsigned char reply[4096], network_bytes[256];
 static unsigned int reply_length, network_length, network_offset;
 static void (*poll_callback)(void);
@@ -48,13 +65,15 @@ void USART3_IRQHandler(void)
     if (!(status & (USART_SR_RXNE | USART_SR_ORE | USART_SR_NE | USART_SR_FE)))
         return;
     unsigned char value = (unsigned char)USART3->DR;
-    if (status & (USART_SR_ORE | USART_SR_NE | USART_SR_FE))
-        errors++;
+    if (status & (USART_SR_ORE | USART_SR_NE | USART_SR_FE)) {
+        errors++;uart_hw_total++;
+    }
     if (status & USART_SR_RXNE)
     {
         uint32_t next = (head + 1U) % CAPACITY;
-        if (next == tail)
-            errors++;
+        if (next == tail) {
+            errors++;uart_overflow_total++;
+        }
         else
         {
             ring[head] = value;
@@ -76,9 +95,12 @@ static void send_bytes(const unsigned char *data, unsigned int length)
 {
     for (unsigned int i = 0; i < length; ++i)
     {
+        platform_poll();
+        if (NETWORK_STOPPED()) return;
         while (!(USART3->SR & USART_SR_TXE))
         {
             platform_poll();
+            if (NETWORK_STOPPED()) return;
         }
         USART3->DR = data[i];
     }
@@ -86,6 +108,10 @@ static void send_bytes(const unsigned char *data, unsigned int length)
 
 void console(const char *message)
 {
+#ifdef MP_CAN_RX_IRQ
+    /* 等TXE仍推进CAN；只让周期诊断避开正在输出的行，避免重入串口截断MQTT错误。 */
+    console_depth++;
+#endif
     while (*message)
     {
         while (!(USART1->SR & USART_SR_TXE))
@@ -94,6 +120,9 @@ void console(const char *message)
         }
         USART1->DR = (unsigned char)*message++;
     }
+#ifdef MP_CAN_RX_IRQ
+    console_depth--;
+#endif
 }
 
 int console_char(void)
@@ -119,6 +148,7 @@ void delay_ms(uint32_t ms)
     while (!TimerIsExpired(&timer))
     {
         platform_poll();
+        if (NETWORK_STOPPED()) break;
     }
 }
 
@@ -137,7 +167,7 @@ static int await_reply(uint32_t timeout, int prompt, int sent)
     while (!TimerIsExpired(&timer))
     {
         platform_poll();
-        if (errors)
+        if (errors || NETWORK_STOPPED())
             return 0;
         int value = receive_byte();
         if (value < 0)
@@ -157,9 +187,18 @@ static int await_reply(uint32_t timeout, int prompt, int sent)
 
 int at_command(const char *command, uint32_t timeout)
 {
+#ifdef MP_B5_CLOUD_CANDIDATE
+    /* 硬停禁止继续发业务，但仍允许唯一的有界CIPCLOSE清理TLS连接。 */
+    closing_network = b5_network_stopped() && !strcmp(command,"AT+CIPCLOSE");
+#endif
+    if (NETWORK_STOPPED()) return 0;
     send_bytes((const unsigned char *)command, strlen(command));
     send_bytes((const unsigned char *)"\r\n", 2);
-    return await_reply(timeout, strncmp(command, "AT+CIPSEND=", 11) == 0, 0);
+    int ok=await_reply(timeout, strncmp(command, "AT+CIPSEND=", 11) == 0, 0);
+#ifdef MP_B5_CLOUD_CANDIDATE
+    closing_network=0;
+#endif
+    return ok;
 }
 
 const char *at_response(void)
@@ -173,18 +212,35 @@ int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout)
     if (length <= 0 || length > 2048)
         return -1;
     char command[40];
+#ifdef MP_CAN_RX_IRQ
+    uint32_t started=g_uptime_ms;
+    io_metrics.tx_calls++;io_metrics.tx_length=(uint32_t)length;io_metrics.tx_phase=1;
+#endif
     (void)snprintf(command, sizeof(command), "AT+CIPSEND=%d", length);
     if (!at_command(command, (uint32_t)timeout))
     {
+#ifdef MP_CAN_RX_IRQ
+        io_metrics.tx_ms=g_uptime_ms-started;
+#endif
         console("GW WRITE_PROMPT_FAIL\r\n");
         return -1;
     }
     send_bytes(data, (unsigned int)length);
+#ifdef MP_CAN_RX_IRQ
+    io_metrics.tx_phase=2;
+#endif
     if (!await_reply((uint32_t)timeout, 0, 1))
     {
+#ifdef MP_CAN_RX_IRQ
+        io_metrics.tx_ms=g_uptime_ms-started;
+#endif
         console("GW WRITE_SEND_FAIL\r\n");
         return -1;
     }
+#ifdef MP_CAN_RX_IRQ
+    /* SEND OK只证明ESP协议栈接受，不当作Broker接收或PUBACK。 */
+    io_metrics.tx_confirmed++;io_metrics.tx_ms=g_uptime_ms-started;io_metrics.tx_phase=3;
+#endif
     if (data[0] == 0x10U)
         console("GW CONNECT_PACKET_SENT\r\n");
     return length;
@@ -199,21 +255,44 @@ int esp_mqtt_recv(unsigned char *data, int length, uint32_t timeout)
     while (copied < length)
     {
         platform_poll();
+        if (NETWORK_STOPPED()) return -1;
         if (network_offset < network_length)
         {
             data[copied++] = network_bytes[network_offset++];
+#ifdef MP_CAN_RX_IRQ
+            io_metrics.rx_bytes++;
+#endif
             continue;
         }
         if (TimerIsExpired(&timer))
             break;
         network_offset = network_length = 0;
+#ifdef MP_CAN_RX_IRQ
+        io_metrics.rx_queries++;
+#endif
         /* 此固件在 SSL 尚无数据时读数据返回 ERROR，先查询接收长度再读取。 */
         if (!at_command("AT+CIPRECVLEN?", 1000))
+        {
+#ifdef MP_CAN_RX_IRQ
+            /* 此处原来静默返回，导致无法区分AT查询失败和MQTT确认失败。 */
+            console("GW READ_AVAILABLE_FAIL\r\n");
+#endif
             return -1;
+        }
         char *available = strstr((char *)reply, "+CIPRECVLEN:");
         if (!available)
+        {
+#ifdef MP_CAN_RX_IRQ
+            console("GW READ_AVAILABLE_HEADER_FAIL\r\n");
+#endif
             return -1;
-        if (!strtoul(available + 12, NULL, 10))
+        }
+        unsigned long available_bytes=strtoul(available + 12, NULL, 10);
+#ifdef MP_CAN_RX_IRQ
+        io_metrics.rx_hint=(uint32_t)available_bytes;
+        if(!available_bytes)io_metrics.rx_empty++;
+#endif
+        if (!available_bytes)
         {
             delay_ms(10);
             continue;
@@ -239,6 +318,9 @@ int esp_mqtt_recv(unsigned char *data, int length, uint32_t timeout)
             return -1;
         }
         memcpy(network_bytes, end + 1, size);
+#ifdef MP_CAN_RX_IRQ
+        io_metrics.rx_reads++;
+#endif
         network_length = (unsigned int)size;
         /* 只报告 CONNACK 状态码，不输出 MQTT CONNECT 内容或通用载荷。 */
         if (size == 4U && network_bytes[0] == 0x20U)
@@ -297,7 +379,18 @@ static void init_uart(void)
 
 void platform_init(void)
 {
+#ifdef MP_CAN_RX_IRQ
+    /* USB ROM GO不保证VTOR指向应用；与H2R相同，在UART/SysTick中断前定位应用向量。
+       这是C应用自身正常启动初始化，不对A手工改PC/MSP/VTOR。 */
+    SCB->VTOR=0x08000000u;__DSB();__ISB();
+#endif
     init_uart();
+#ifdef MP_CAN_RX_IRQ
+    /* H3外部晶体失败时只报告并停机，禁止带着错误采集时钟继续联网。 */
+    extern int physical_clock_ready(void);
+    if(!physical_clock_ready()) {console("GW FAIL HSE_CLOCK\r\n");while(1) {}}
+    console("GW CLOCK hse=1 core_hz=8000000\r\n");
+#endif
     if (SysTick_Config(SystemCoreClock / 1000U))
         while (1)
         {

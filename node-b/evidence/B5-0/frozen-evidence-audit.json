@@ -1,0 +1,98 @@
+{
+  "status": "FROZEN_B4_EVIDENCE_REVERIFIED",
+  "hardware_operations": 0,
+  "C_four_actual_phases": [
+    {
+      "name": "01-old-restore-H3",
+      "full_flash_sha256": "1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390",
+      "exit_code": 0,
+      "options_unchanged": true,
+      "outside_application_unchanged": true
+    },
+    {
+      "name": "02-new-install",
+      "full_flash_sha256": "b460d917e1d454fdb0882d1f837d91c606363179b817a3896a1df6897b2dcb98",
+      "exit_code": 0,
+      "options_unchanged": true,
+      "outside_application_unchanged": true
+    },
+    {
+      "name": "03-new-restore-H3",
+      "full_flash_sha256": "1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390",
+      "exit_code": 0,
+      "options_unchanged": true,
+      "outside_application_unchanged": true
+    },
+    {
+      "name": "04-new-reinstall",
+      "full_flash_sha256": "b460d917e1d454fdb0882d1f837d91c606363179b817a3896a1df6897b2dcb98",
+      "exit_code": 0,
+      "options_unchanged": true,
+      "outside_application_unchanged": true
+    }
+  ],
+  "windows": {
+    "ECG": {
+      "status": "ECG60_B_TO_C_VALID_TRANSPORT_ENGINEERING_PASS",
+      "expired_whole_capture": 559,
+      "expired_common_saved_span": 0,
+      "expired_snapshot_span_tick": [
+        197166,
+        286294
+      ],
+      "CAN_failures": [],
+      "TEC": 0,
+      "REC": 0,
+      "NMT_ACK": 1,
+      "TIME_ACK": 18,
+      "model_checks": 585,
+      "quality_flags": {
+        "5": 90
+      },
+      "source_ticks_matched": 22493,
+      "original_sha256": {
+        "C-serial": "7ae53a343513cb2245496e512ee1f52d474e728bdeaba642f093691b3f19fe02",
+        "C-packets": "765a3b7b6d814f386b4ec31ca93b15df3780f76a07cc4a3c402ec335c262dace",
+        "C-receipt": "720bebb909e3058304154cf506d56d974d1eeec76d19254351224f05127b9b90",
+        "B-slots": "db28fd4b6691317f71e1ca0032cf5ee573035e89a1094ffa6689715f4f79bd9b",
+        "B-diagnostics": "c33547760f4cddd101c2e2cabda8b7523de583472e8990c74c71c13a8fd0e436",
+        "B-analysis": "99b8d5c272815de569f05bb2dad5f3663ee67916643facc65007048e51738f66"
+      }
+    },
+    "RR": {
+      "status": "RR15_B_TO_C_STEADY_VALID_TRANSPORT_ENGINEERING_PASS",
+      "expired_whole_capture": 564,
+      "expired_common_saved_span": 0,
+      "expired_snapshot_span_tick": [
+        802383,
+        891523
+      ],
+      "CAN_failures": [],
+      "TEC": 0,
+      "REC": 0,
+      "NMT_ACK": 1,
+      "TIME_ACK": 18,
+      "model_checks": 584,
+      "quality_flags": {
+        "10": 90
+      },
+      "source_ticks_matched": 4499,
+      "original_sha256": {
+        "C-serial": "8c1895911bca47e4714e2f590edf56d4262d8181f8d295f259419ad5fbf036bf",
+        "C-packets": "48079be46873636ccd7ac88de0b062fead6cf674b62a83cfa4499dd499ac316a",
+        "C-receipt": "bc116eb0cf0e0e994492ba3fece861d40dffae21823084849c112ec05768ad42",
+        "B-slots": "e26d0c35ee7a09dc91fb8569d4dd80169aea922f914d079d0e808fd94579e19f",
+        "B-diagnostics": "6ae318a22893c98daad779de8026b056f0a18881ba88be9cff25caf2337810e4",
+        "B-analysis": "81e7d72855af5992e6757b7a99a52dd5d2d3c8b478c69aa13de1658a2b0e1b59"
+      }
+    }
+  },
+  "B_image_sha256": "676eb7a46ad9cd15c7bf93db51a1931d7711d37c6f2fd636197dc4a85b339b82",
+  "C_image_sha256": "127ba765b8144e8f8ae98ef826ac2a98f45f8facb4021ce1888c004e5ca46547",
+  "old_failures_retained": true,
+  "CPU_ROM": "UNRESOLVED",
+  "coldboot": "NOT_VALIDATED",
+  "same_window_HR_RR": "NOT_VALIDATED",
+  "impedance_amplitude": "INSTRUMENT_REQUIRED",
+  "fault_injection_recovery": "NOT_TESTED"
+}

@@ -11,6 +11,10 @@ class Hub:
         self.gateways = gateways
         self.clock, self.monotonic = clock, monotonic
         self.current: dict[tuple, tuple[Telemetry, float]] = {}
+        # 网关会话变化是整机重启边界；记录接收代次，避免新ONLINE重新激活旧节点/读数。
+        # 两个字典均按已配置网关和current固定通道有界，不创建后台任务或无限历史。
+        self.gateway_generation: dict[str, int] = {}
+        self.current_generation: dict[tuple, int] = {}
         self.replays: dict[str, Telemetry] = {}
         self.events: dict[str, Telemetry] = {}
         self.subscribers: dict[asyncio.Queue, str] = {}
@@ -52,7 +56,11 @@ class Hub:
                     or (message.session_id == old.session_id and message.seq <= old.seq)
                 ):
                     return False
+            if (message.stream == 'GATEWAY_STATUS' and previous
+                    and message.session_id != previous[0].session_id):
+                self.gateway_generation[message.gateway_id] = self.gateway_generation.get(message.gateway_id, 0) + 1
             self.current[key] = (message, self.monotonic())
+            self.current_generation[key] = self.gateway_generation.get(message.gateway_id, 0)
         self.accepted += 1
         return True
 
@@ -65,7 +73,8 @@ class Hub:
         if message.value == 'OFFLINE' or message.validity == 'OFFLINE':
             return 'OFFLINE'
         if (
-            message.validity != 'VALID'
+            self.current_generation.get((gateway, node, stream), 0) != self.gateway_generation.get(gateway, 0)
+            or message.validity != 'VALID'
             or self.monotonic() - received > 15
             or self.clock() * 1000 - message.timestamp > 15000
         ):
@@ -77,7 +86,9 @@ class Hub:
         gateway_state = self._state(gateway, 'GATEWAY')
         nodes, streams = {}, []
         for node, names in CHANNELS.items():
-            state = self._state(gateway, node) if gateway_state == 'ONLINE' else gateway_state
+            node_state = self._state(gateway, node)
+            # 缺席/明确OFFLINE的节点不能因网关陈旧变为STALE；只有原在线节点继承网关不可用状态。
+            state = node_state if node_state == 'OFFLINE' or gateway_state == 'ONLINE' else gateway_state
             nodes[node] = state
             for name in sorted(names):
                 entry = self.current.get((gateway, node, name))
@@ -88,6 +99,14 @@ class Hub:
                 limit = 90 if name == 'NIBP' else 5
                 if state != 'ONLINE':
                     data['validity'] = 'OFFLINE' if state == 'OFFLINE' else 'STALE'
+                elif (
+                    self.current_generation.get((gateway, node, name), 0) != self.gateway_generation.get(gateway, 0)
+                    or (status := self.current.get((gateway, node, 'NODE_STATUS')))
+                    and message.session_id != status[0].session_id
+                ):
+                    # 节点新Boot-up已反映到状态流后，旧会话高seq/延迟帧也不能借新ONLINE续活。
+                    # 只收紧输出，不改采集timestamp；同值的新测量必须凭当前会话重新到达。
+                    data['validity'] = 'STALE'
                 elif (
                     self.monotonic() - received > limit
                     or self.clock() * 1000 - message.timestamp > limit * 1000

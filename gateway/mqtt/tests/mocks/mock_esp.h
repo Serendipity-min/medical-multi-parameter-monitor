@@ -3,6 +3,13 @@
 #include "gateway_transport.h"
 #include "../../../storage/router.h"
 #include <stddef.h>
+#ifndef MOCK_USERNAME
+#define MOCK_USERNAME "synthetic-user"
+#define MOCK_CLIENT_ID "synthetic-client"
+#endif
+#ifndef MP_MQTT_GATEWAY_ID
+#define MP_MQTT_GATEWAY_ID "GW-C-001"
+#endif
 enum { ACK_MATCH, ACK_WRONG, ACK_NONE, ACK_HALF, ACK_DUPLICATE, ACK_INBOUND, ACK_OLD, ACK_INBOUND_QOS1 };
 extern int mock_ack_mode, mock_delay_ms, mock_read_limit, mock_send_limit;
 extern int mock_send_error, mock_send_zero, mock_connack_code, mock_drop_ping;
