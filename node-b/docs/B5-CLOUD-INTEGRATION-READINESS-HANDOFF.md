@@ -2,6 +2,8 @@
 
 日期：2026-10-26。**B5-0至B5-2软件/离线预检通过，真实烧录、配置/ACL改动和上云测试未授权、未执行。** 独立工作区 `E:/medical-monitor-node-b5-cloud`，分支 `codex/node-b5-cloud-integration-20261026`；B39948B、C24104B部署及历史原件保持不变。ESP8266已装C为负责人新事实，本轮不查询设备、不启动串口/调试器、不确认其当前联网状态。
 
+实现源码提交：`c65fbedce7edf5d822c573ef5cdeb6471d1ae3d5`。后续仅交接/元数据提交不改变该源码、构建输入或候选BIN。
+
 ## 基线与源码边界
 
 - B4远端核验 `codex/node-b4-dualbus-software-20261023@ffa440b31b8b4993967f0e9aef1b3071a0d1dcfe`。
