@@ -38,19 +38,27 @@ def value_hash(values):
         for byte in struct.pack('<I',value&0xffffffff):h=((h^byte)*16777619)&0xffffffff
     return h
 
-def assess(rows,crc_errors=0,tail_bytes=0,discarded_after_boot=0):
+def vector_diagnostic_ok(vtor,cfsr,hfsr,flash_alias_verified=False):
+    # VTOR=0本身不能证明Flash启动；仅整片安装回执已包含PC和0地址别名实读核验时放行。
+    return not(cfsr or hfsr) and (vtor==0x08000000 or (vtor==0 and flash_alias_verified))
+
+
+def assess(rows,crc_errors=0,tail_bytes=0,discarded_after_boot=0,flash_alias_verified=False,
+           require_boot=True):
     errors=[];counts=Counter();eval_counts=Counter();models=Counter();valids=Counter()
     boot=None;start=None;stop=None;last_seq=None;sequence_errors=0;start_seq=None
     anchor=None;waves=defaultdict(list);wave_times=defaultdict(list);scalars=defaultdict(lambda:deque(maxlen=10))
     matched=0;unmatched=0;pending=None;peak_tec=0;peak_rec=0;capture_drop=0;fifo_overflow=0
     eval_hr=[];eval_rr=[];quality_last=0
+    if not require_boot and not flash_alias_verified:errors.append('RUNNING_ATTACH_INSTALL_PROOF_REQUIRED')
     for row in rows:
         kind=row['kind'];data=bytes.fromhex(row['data']);tick=row['tick']
         if kind==7:
+            if not require_boot:errors.append('UNEXPECTED_BOOT_AFTER_RUNNING_ATTACH')
             if boot is not None:errors.append('SECOND_BOOT_OBSERVED')
             boot=row
             if data[:4]!=b'B4C4' or row['flags']:errors.append('BOOT_IDENTITY_OR_INIT_ERROR')
-        if boot is None:continue
+        if boot is None and require_boot:continue
         if last_seq is not None and row['seq']!=last_seq+1:sequence_errors+=1
         last_seq=row['seq']
         if kind==9:
@@ -94,7 +102,8 @@ def assess(rows,crc_errors=0,tail_bytes=0,discarded_after_boot=0):
                 if evaluate and a&0xffff0007:errors.append('C_CAN2_ERROR_COUNTER_IN_EVALUATION')
                 fifo_overflow=max(fifo_overflow,row['flags'])
             if row['id']==2:capture_drop=max(capture_drop,a)
-            if row['id']==4 and (a!=0x08000000 or b or row['flags']):errors.append('C_VECTOR_OR_FAULT')
+            if row['id']==4 and not vector_diagnostic_ok(a,b,row['flags'],flash_alias_verified):
+                errors.append('C_VECTOR_OR_FAULT')
         if kind==8:
             pending=row
         if kind==10:
@@ -120,7 +129,7 @@ def assess(rows,crc_errors=0,tail_bytes=0,discarded_after_boot=0):
                     if last in scalars[stream] and value_hash([last])==crc:matched+=1
                     else:unmatched+=1
             if evaluate and not (1577836800000<=utc<1577836800000+600000):errors.append('MODEL_NOT_LOCAL_TEST_TIME')
-    if boot is None:errors.append('BOOT_NOT_CAPTURED')
+    if boot is None and require_boot:errors.append('BOOT_NOT_CAPTURED')
     if start is None:errors.append('START_NOT_CAPTURED')
     if stop is None:errors.append('STOP_NOT_CAPTURED')
     elif int.from_bytes(bytes.fromhex(stop['data'])[:4],'little')!=180000 or stop['flags']:
@@ -154,6 +163,8 @@ def assess(rows,crc_errors=0,tail_bytes=0,discarded_after_boot=0):
             'model_value_time_checks_passed':matched,'model_value_time_checks_failed':unmatched,
             'model_valid_observations':{f'{stream}:{valid}':n for (stream,valid),n in sorted(valids.items())},
             'HR_RR_simultaneous_engineering_pass':False,'source_absolute_impedance_calibrated':False,
+            'flash_alias_verified_by_installation':flash_alias_verified,
+            'startup_evidence':'WIRE_BOOT' if require_boot else 'INSTALL_RECEIPT_AND_RUNNING_DIAGNOSTICS_NO_BOOT_CAPTURE',
             'window':{'warmup_ms':45000,'evaluation_ms':90000,'CAN_limit_ms':180000},
             'diagnostic_only':{'last_quality_flags':quality_last,'vitals_rows_in_evaluation':len(eval_hr)}}
 

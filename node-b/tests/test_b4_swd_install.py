@@ -55,6 +55,14 @@ class Fake:
 
 
 class InstallTests(unittest.TestCase):
+    def test_C_J5_install_with_B_off_does_not_authorize_B_install(self):
+        site={'P4_RX_PB12_TX_PB13':True,'B_P6_CAN1':True,'ESP_isolated':True,
+              'A_bus_disconnected':True,'termination_ohms':60.8,'no_human':True,
+              'target_power_ready':True,'power_sources':{'B':'OFF','C':'J5'}}
+        self.assertTrue(w.site_ready('C',site));self.assertFalse(w.site_ready('B',site))
+        site['ESP_isolated']=False;self.assertFalse(w.site_ready('C',site))
+    def test_unreviewed_power_state_refused(self):
+        self.assertFalse(w.site_ready('C',None))
     def setUp(self):
         folder = ROOT / 'node-b/build'; folder.mkdir(exist_ok=True)
         self.tmp = tempfile.TemporaryDirectory(dir=folder, prefix='b4-install-fake-')

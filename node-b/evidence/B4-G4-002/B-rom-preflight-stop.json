@@ -1,0 +1,27 @@
+{
+  "client_date": "2026-10-26",
+  "status": "B_ROM_STOP_BEFORE_CAN",
+  "image_sha256_verified_before_state_gate": "676eb7a46ad9cd15c7bf93db51a1931d7711d37c6f2fd636197dc4a85b339b82",
+  "full_flash_and_options_read_this_attach": false,
+  "identity_matched": true,
+  "exit_code": 1,
+  "sdk_calls": 45,
+  "reset_halt_go_writes": 0,
+  "state": {
+    "VTOR": 536805376,
+    "DHCSR": 16842753,
+    "CFSR": 0,
+    "HFSR": 0,
+    "RCC_CSR": 234881024,
+    "pc_samples": [
+      536818414,
+      536818414,
+      536818410
+    ]
+  },
+  "root_cause": "UNRESOLVED",
+  "USB_handle_fault_same_cause_proven": false,
+  "COM15_after_error": "CH340_OS_STATUS_OK",
+  "matching_System_PnP_events_last25min": 0,
+  "note": "No matching event is not proof that USB never disconnected. BOOT latch/reset edge not captured."
+}

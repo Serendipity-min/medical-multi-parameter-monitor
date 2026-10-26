@@ -1,0 +1,131 @@
+[
+  {
+    "status": "B4_INSTALL_FULL_VERIFY_AND_FLASH_BOOT_PASS",
+    "exit_code": 0,
+    "phase": "install",
+    "board": "C",
+    "sectors": [
+      0,
+      1
+    ],
+    "full_flash_sha256": "b1832459ed8dbf22a0b5e3b6163b93e1dc05a2dbf1adbe1c41ef02ff3dacb370",
+    "options_unchanged": true,
+    "outside_affected_sectors_unchanged": true,
+    "reset_requests": 1,
+    "sdk_calls": 263,
+    "actions": {
+      "JLINKARM_Halt": 1,
+      "JLINKARM_BeginDownload": 1,
+      "JLINKARM_WriteMem": 1,
+      "JLINKARM_EndDownload": 1,
+      "JLINKARM_Reset": 1,
+      "JLINKARM_Go": 1
+    },
+    "download_started": true,
+    "close_resume": true,
+    "operation": "C-install-01",
+    "protected_regions": {
+      "sector3": {
+        "before_sha256": "1698c8783b4fbdd1bc7fc5a8641babc7b499b58a65be54e7b36c65c6c5b88313",
+        "after_sha256": "1698c8783b4fbdd1bc7fc5a8641babc7b499b58a65be54e7b36c65c6c5b88313",
+        "unchanged": true
+      },
+      "sector7": {
+        "before_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "after_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "unchanged": true
+      },
+      "sector11": {
+        "before_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "after_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "unchanged": true
+      }
+    }
+  },
+  {
+    "status": "B4_RESTORE_FULL_VERIFY_AND_FLASH_BOOT_PASS",
+    "exit_code": 0,
+    "phase": "restore",
+    "board": "C",
+    "sectors": [
+      0,
+      1
+    ],
+    "full_flash_sha256": "1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390",
+    "options_unchanged": true,
+    "outside_affected_sectors_unchanged": true,
+    "reset_requests": 1,
+    "sdk_calls": 261,
+    "actions": {
+      "JLINKARM_Halt": 1,
+      "JLINKARM_BeginDownload": 1,
+      "JLINKARM_WriteMem": 1,
+      "JLINKARM_EndDownload": 1,
+      "JLINKARM_Reset": 1,
+      "JLINKARM_Go": 1
+    },
+    "download_started": true,
+    "close_resume": true,
+    "operation": "C-restore-01",
+    "protected_regions": {
+      "sector3": {
+        "before_sha256": "1698c8783b4fbdd1bc7fc5a8641babc7b499b58a65be54e7b36c65c6c5b88313",
+        "after_sha256": "1698c8783b4fbdd1bc7fc5a8641babc7b499b58a65be54e7b36c65c6c5b88313",
+        "unchanged": true
+      },
+      "sector7": {
+        "before_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "after_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "unchanged": true
+      },
+      "sector11": {
+        "before_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "after_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "unchanged": true
+      }
+    }
+  },
+  {
+    "status": "B4_INSTALL_FULL_VERIFY_AND_FLASH_BOOT_PASS",
+    "exit_code": 0,
+    "phase": "install",
+    "board": "C",
+    "sectors": [
+      0,
+      1
+    ],
+    "full_flash_sha256": "b1832459ed8dbf22a0b5e3b6163b93e1dc05a2dbf1adbe1c41ef02ff3dacb370",
+    "options_unchanged": true,
+    "outside_affected_sectors_unchanged": true,
+    "reset_requests": 1,
+    "sdk_calls": 263,
+    "actions": {
+      "JLINKARM_Halt": 1,
+      "JLINKARM_BeginDownload": 1,
+      "JLINKARM_WriteMem": 1,
+      "JLINKARM_EndDownload": 1,
+      "JLINKARM_Reset": 1,
+      "JLINKARM_Go": 1
+    },
+    "download_started": true,
+    "close_resume": true,
+    "operation": "C-install-02",
+    "protected_regions": {
+      "sector3": {
+        "before_sha256": "1698c8783b4fbdd1bc7fc5a8641babc7b499b58a65be54e7b36c65c6c5b88313",
+        "after_sha256": "1698c8783b4fbdd1bc7fc5a8641babc7b499b58a65be54e7b36c65c6c5b88313",
+        "unchanged": true
+      },
+      "sector7": {
+        "before_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "after_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "unchanged": true
+      },
+      "sector11": {
+        "before_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "after_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "unchanged": true
+      }
+    }
+  }
+]

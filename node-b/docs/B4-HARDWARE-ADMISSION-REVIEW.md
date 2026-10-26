@@ -1,5 +1,9 @@
 # MPM-B4-001 B+C联动准入审查｜最终软件与现场卡准备 B4-0.3
 
+> 10/26最终：B↔C CAN2已出现真实PDO及NMT ACK，但记录缺口/丢包/STOP缺失，完整验收不通过。新23952B IRQ/隔离修正版仅软件冻结，尚未安装；须重新批准新候选安装。当前C仍23744B，B150秒ADC通过，ROM与同步HR/RR仍未关闭。以[唯一交接](B-PRECAN-CLOSEOUT-FINAL-HANDOFF.md)最新节为准。
+
+> 2026-10-26最新：C23744B安装→原H3实际恢复→重新安装均整片核验/启动PASS，options及sector3/7/11不变。首次串口因主机零向量别名误判退出且START=0，已离线修复；新独立窗口C人工复位后44秒遇Windows串口句柄错误，START仍0；B调试读取未开始，已停止不重试。尚无CAN实板PASS，ROM根因仍UNRESOLVED。唯一当前结果见[B4-G4-002](../evidence/B4-G4-002/stage-results.json)与[阶段交接](B-PRECAN-CLOSEOUT-FINAL-HANDOFF.md)；下文10/23段落按历史时点保留。
+
 > 最新G4更新：负责人已追加安装/恢复与隔离台架授权，B39948B已安装、恢复原件并重新安装，完整核验均PASS。C安装前观察ROM，复核仍ROM，后续只读取证已保存当前完整Flash/options与原件一致；C异常原件保留，后经单次正常复位/Go已恢复原H3 Flash运行，尚未安装新候选。因此CAN窗口及故障注入继续STOP。下文“全未操作/旧21700B/未接线”保留为历史时点，不能代表当前状态。
 
 | 当前门禁 | 状态 |

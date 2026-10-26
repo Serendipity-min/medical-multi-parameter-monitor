@@ -24,14 +24,25 @@ def bindings():
              'live_state_b.py','runtime_state_b.py','resp_exploratory.py')}
 
 
+def site_ready(site):
+    old={'JLink':'C','BOOT0_static_V':0,'BOOT0_BOOT1_jumpers':'GND',
+         'ESP_isolated':True,'A_disconnected':True,'USB_UART':'COM15_RECONNECTED',
+         'B_power':'J5','C_power':'USB_UART','no_source_or_wiring_change':True}
+    # 本轮未重测BOOT0，不把三日前0V当今天测量；复位后仍必须真实向量匹配才Go。
+    current={'JLink':'C','BOOT0_static_V':None,'BOOT_jumpers_last_report':'GND',
+         'ESP_isolated':True,'speaker_isolated':True,'A_disconnected':True,
+         'USB_UART':'DISCONNECTED','B_power':'OFF','C_power':'J5',
+         'no_source_or_wiring_change':True}
+    data_connected=dict(current,USB_UART='OWNER_CONFIRMED_DATA_PORT')
+    return site in (old,current,data_connected)
+
+
 def validate(a):
     need(a.get('enabled') is True and a.get('owner_approved') is True and a.get('scope')==SCOPE,
          'C_BOOT_OWNER_AUTH_REQUIRED')
     need(a.get('tools_sha256')==bindings() and a.get('DLL_sha256')==raw.DLL_SHA,'C_BOOT_TOOL_DRIFT')
     need(time.time()<a.get('expires_unix',0),'C_BOOT_AUTH_EXPIRED')
-    need(a.get('site')=={'JLink':'C','BOOT0_static_V':0,'BOOT0_BOOT1_jumpers':'GND',
-         'ESP_isolated':True,'A_disconnected':True,'USB_UART':'COM15_RECONNECTED',
-         'B_power':'J5','C_power':'USB_UART','no_source_or_wiring_change':True},'C_BOOT_SITE')
+    need(site_ready(a.get('site')),'C_BOOT_SITE')
 
 
 def entry_gate(state):

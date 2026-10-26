@@ -47,6 +47,26 @@ def fixture():
     return rows
 
 class Tests(unittest.TestCase):
+    def test_running_attach_has_no_fabricated_boot_and_requires_context(self):
+        # 运行附着保留缺失BOOT事实，不能凭参数把未验证的任意诊断升级为安装证明。
+        rows=fixture()[1:]
+        self.assertIn('BOOT_NOT_CAPTURED',d.assess(rows)['failures'])
+        self.assertIn('RUNNING_ATTACH_INSTALL_PROOF_REQUIRED',d.assess(rows,require_boot=False)['failures'])
+        r=d.assess(rows,flash_alias_verified=True,require_boot=False)
+        self.assertEqual(r['failures'],[])
+        self.assertIn('NO_BOOT_CAPTURE',r['startup_evidence'])
+        self.assertIn('UNEXPECTED_BOOT_AFTER_RUNNING_ATTACH',
+                      d.assess(fixture(),flash_alias_verified=True,require_boot=False)['failures'])
+    def test_zero_vector_requires_independent_flash_alias_proof(self):
+        # 对应实板负例：零向量可合法，但不能凭串口零值跳过独立PC/Flash别名核验。
+        self.assertFalse(d.vector_diagnostic_ok(0,0,0))
+        self.assertTrue(d.vector_diagnostic_ok(0,0,0,True))
+        for vtor,cfsr,hfsr in ((0x1fff0000,0,0),(0,1,0),(0,0,1)):
+            self.assertFalse(d.vector_diagnostic_ok(vtor,cfsr,hfsr,True))
+        rows=[dict(r,data=struct.pack('<II',0,0).hex())
+              if r['kind']==5 and r['id']==4 else r for r in fixture()]
+        self.assertIn('C_VECTOR_OR_FAULT',d.assess(rows)['failures'])
+        self.assertEqual(d.assess(rows,flash_alias_verified=True)['failures'],[])
     def test_wire_codec_fragmentation_and_prefix(self):
         data=packet(1,0x182,0xffffffff,struct.pack('<iI',-123,0x80000000))
         p=d.Parser();self.assertFalse(p.feed(b'old H3 logs\r\n'+data[:17]))

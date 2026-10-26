@@ -70,7 +70,7 @@ def main():
         if p.returncode: raise RuntimeError('构建失败，真实退出=' + str(p.returncode))
         return p.stdout
 
-    status = 'FAIL'
+    status = 'FAIL'; irq_vector_verified=False
     try:
         objects = []
         for i, source in enumerate(sources):
@@ -90,6 +90,15 @@ def main():
             nm = base.GCC.with_name('arm-none-eabi-nm' + base.GCC.suffix)
             symbols = run([nm, elf])
             (out / 'symbols.txt').write_bytes(symbols)
+            # 真实向量必须指向强USART1处理器，不能只链接到弱Default_Handler就声称IRQ已启用。
+            table={parts[2]:(int(parts[0],16),parts[1]) for line in symbols.decode().splitlines()
+                   if len(parts:=line.split())==3}
+            handler=table.get('USART1_IRQHandler',(0,'W'))
+            wake=table.get('b4_capture_uart_wake',(0,'W'))
+            image=(out/(target+'.bin')).read_bytes();vector=int.from_bytes(image[53*4:54*4],'little')
+            if handler[1]!='T' or wake[1]!='T' or vector!=(handler[0]|1):
+                raise RuntimeError('台架USART1中断向量/唤醒入口未实际链接')
+            irq_vector_verified=True
             forbidden = ('gateway_network_open', 'gateway_mqtt_open', 'gateway_config_valid',
                          'h3_config_record_valid', 'FLASH_EraseSector', 'FLASH_ProgramWord')
             if any(name.encode() in symbols for name in forbidden):
@@ -112,6 +121,7 @@ def main():
               'bench_time': 'LOCAL_TEST_EPOCH_NOT_UTC' if args.bench else None,
               'bench_window_limit_ms': 180000 if args.bench else None,
               'bench_forbidden_symbols_absent': bool(args.bench and status == 'PASS'),
+              'bench_UART_IRQ_vector_verified':irq_vector_verified,
               'linker_sha256': hashlib.sha256((HERE / 'bench_flash.ld' if args.bench else ROOT / 'gateway/mqtt/STM32F407ZGT6_FLASH.ld').read_bytes()).hexdigest(),
               'hardware_eligible': False, 'network_transport': 'H3_FROZEN_SOURCE_LINKED_NOT_EXECUTED' if args.network_link else 'NOT_LINKED_NOT_DEPLOYED',
               'h3_reference_commit': 'a5cdd5b0b1ad48108fd631136e9de69e30582f2d', 'h3_reference_sha256': reference_sha, 'commands': commands,

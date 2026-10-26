@@ -32,6 +32,16 @@ def bindings():
              'runtime_state_b.py', 'live_state_b.py', 'resp_exploratory.py')}
 
 
+def site_ready(board,site):
+    # 安装C可让B保持断电；CAN窗口另行要求B上电，不把电源来源写成历史USB状态。
+    common={'P4_RX_PB12_TX_PB13': True, 'B_P6_CAN1': True,
+            'ESP_isolated': True, 'A_bus_disconnected': True, 'termination_ohms': 60.8,
+            'no_human': True, 'target_power_ready': True}
+    choices=[{'B':'J5','C':'USB_UART'}]
+    if board=='C':choices += [{'B':'OFF','C':'J5'},{'B':'J5','C':'J5'}]
+    return any(site==dict(common,power_sources=power) for power in choices)
+
+
 def authorize(a):
     require(a.get('enabled') is True and a.get('owner_approved') is True
             and a.get('scope') == SCOPE, 'INSTALL_OWNER_AUTH_REQUIRED')
@@ -40,10 +50,7 @@ def authorize(a):
     require(time.time() < a.get('expires_unix', 0), 'INSTALL_AUTH_EXPIRED')
     require(a.get('phase') in ('install', 'restore'), 'INSTALL_PHASE')
     require(a.get('board') in ('B', 'C'), 'INSTALL_BOARD')
-    require(a.get('site') == {'P4_RX_PB12_TX_PB13': True, 'B_P6_CAN1': True,
-            'ESP_isolated': True, 'A_bus_disconnected': True, 'termination_ohms': 60.8,
-            'no_human': True, 'power_sources': {'B': 'J5', 'C': 'USB_UART'},
-            'target_power_ready': True}, 'INSTALL_SITE_NOT_READY')
+    require(site_ready(a['board'],a.get('site')),'INSTALL_SITE_NOT_READY')
     m, payload = package.load_package(Path(a['package']), a['manifest_sha256'], False)
     require(m['board_role'] == a['board'] and m['candidate_sha256'] == a['candidate_sha256'],
             'INSTALL_PACKAGE_BINDING')

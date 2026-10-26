@@ -7,6 +7,20 @@ ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT/'node-b/tool
 import c_b4_boot_once as t
 
 class Tests(unittest.TestCase):
+    def test_current_J5_site_does_not_fabricate_fresh_BOOT_voltage(self):
+        site={'JLink':'C','BOOT0_static_V':None,'BOOT_jumpers_last_report':'GND',
+              'ESP_isolated':True,'speaker_isolated':True,'A_disconnected':True,
+              'USB_UART':'DISCONNECTED','B_power':'OFF','C_power':'J5',
+              'no_source_or_wiring_change':True}
+        self.assertTrue(t.site_ready(site));site['BOOT0_static_V']=0
+        self.assertFalse(t.site_ready(site))
+    def test_J5_data_port_still_not_USB_power(self):
+        site={'JLink':'C','BOOT0_static_V':None,'BOOT_jumpers_last_report':'GND',
+              'ESP_isolated':True,'speaker_isolated':True,'A_disconnected':True,
+              'USB_UART':'OWNER_CONFIRMED_DATA_PORT','B_power':'OFF','C_power':'J5',
+              'no_source_or_wiring_change':True}
+        self.assertTrue(t.site_ready(site));site['C_power']='UNKNOWN'
+        self.assertFalse(t.site_ready(site))
     def test_disabled_by_default(self):
         with self.assertRaisesRegex(ValueError,'OWNER_AUTH'):t.validate({})
     def test_unreviewed_vector_stops_without_reset(self):

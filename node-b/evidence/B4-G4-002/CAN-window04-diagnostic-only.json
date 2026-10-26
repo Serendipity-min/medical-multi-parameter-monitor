@@ -1,0 +1,83 @@
+{
+  "status": "B_CAN1_C_CAN2_PHYSICAL_RX_AND_NMT_ACK_OBSERVED_NOT_FULL_ACCEPTANCE",
+  "START_commands": 1,
+  "C_start_tick": 31564,
+  "NMT_TX_ACK_count": 1,
+  "raw_parts": [
+    {
+      "name": "C-serial-180s-04",
+      "bytes": 11072,
+      "sha256": "884b2160275919fb0f8a1a14d8990fb9221414b279ffdb95614568c419cfacf6",
+      "packets": 346,
+      "CRC_errors": 0,
+      "tail_bytes": 0,
+      "seq_gaps_within_part": 0,
+      "first_seq": 67,
+      "last_seq": 412,
+      "kind_counts": {
+        "5": 95,
+        "9": 1,
+        "2": 9,
+        "3": 5,
+        "8": 3,
+        "10": 3,
+        "4": 4,
+        "1": 226
+      },
+      "RX_COB_ID_counts": {
+        "0x182": 184,
+        "0x282": 37,
+        "0x382": 1,
+        "0x482": 1,
+        "0x682": 1,
+        "0x702": 2
+      },
+      "STOP_packets": 0
+    },
+    {
+      "name": "C-window04-passive-remainder",
+      "bytes": 466003,
+      "sha256": "66ffd25a1499893e7f5f9d06e9992526054d504bec1ac61f7e553a406915a300",
+      "packets": 14562,
+      "CRC_errors": 0,
+      "tail_bytes": 0,
+      "seq_gaps_within_part": 14131,
+      "first_seq": 16081,
+      "last_seq": 59879,
+      "kind_counts": {
+        "1": 14430,
+        "5": 24,
+        "4": 21,
+        "2": 49,
+        "8": 38
+      },
+      "RX_COB_ID_counts": {
+        "0x182": 14236,
+        "0x282": 126,
+        "0x382": 28,
+        "0x702": 34,
+        "0x682": 6
+      },
+      "STOP_packets": 0
+    }
+  ],
+  "B_runtime": {
+    "status": "B4_B_ADC_RUNTIME_OBSERVED_PASS",
+    "exit_code": 0,
+    "snapshots": 282,
+    "device_sps": 249.96390270795322,
+    "samples_advanced": 38086,
+    "clipped_samples_advanced": 0,
+    "HR_RR_simultaneous_acceptance": false,
+    "CPU_ROM_root_cause": "UNRESOLVED",
+    "explicit_target_reset_halt_go_writes": 0,
+    "sdk_calls": 4829,
+    "close_resume": true
+  },
+  "B_CAN1_ESR_nonzero_observations": 2,
+  "recording_gap_between_parts": true,
+  "full_180s_acceptance": false,
+  "HR_RR_simultaneous_acceptance": false,
+  "C_STOP_captured": false,
+  "observed_problem": "C_CAPTURE_SCHEDULING_STARVATION_AND_A_PORT_ADMIN_DISABLE_OVERRIDDEN; NEW_C_SOFTWARE_CANDIDATE_NOT_INSTALLED"
+}

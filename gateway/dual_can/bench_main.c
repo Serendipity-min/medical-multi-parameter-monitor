@@ -36,7 +36,7 @@ int main(void) {
     /* 初始化失败即停留诊断，不切换网络/时钟/复位路径补救；成功也只运行180秒窗口。 */
     while (1) {
 #if defined(B4_CAPTURE_SERIAL)
-        b4_capture_drain(64);
+        b4_capture_uart_wake();
         if (!armed && !g_b4_bench.diag.stopped && !b4_bench_init_error) {
             b4_hw_idle();
             for (unsigned budget=0;budget<8;budget++) {
@@ -67,8 +67,8 @@ int main(void) {
             uint8_t done[8];
             for (unsigned i=0;i<4;i++) { done[i]=(uint8_t)(g_b4_bench.diag.elapsed_ms>>(8*i));
                 done[i+4]=(uint8_t)(g_b4_capture.dropped>>(8*i)); }
-            b4_capture_emit(B4_CAP_STOP,1,0,8,done,b4_bench_milliseconds,b4_bench_init_error);
-            stop_recorded=1;
+            /* 队列曾满时仍须最终送出STOP与累计丢弃数；不能丢掉唯一结束证据后永久静默。 */
+            stop_recorded=(unsigned)b4_capture_emit(B4_CAP_STOP,1,0,8,done,b4_bench_milliseconds,b4_bench_init_error);
         }
 #endif
         if (b4_bench_init_error || g_b4_bench.diag.stopped) continue;

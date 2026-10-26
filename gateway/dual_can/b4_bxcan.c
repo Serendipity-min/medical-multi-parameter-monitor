@@ -130,7 +130,7 @@ void b4_hw_poll(B4Gateway *g) {
         CAN_TypeDef *can = controller(bus);
         completed(bus);
         /* 同一控制器指针同时供正常目标和可选取证使用，避免非取证构建留下无用变量。 */
-        bool up = !(can->ESR & CAN_ESR_BOFF);
+        bool up = b4_hw_protocol_link_up(bus,!(can->ESR & CAN_ESR_BOFF));
         if (!up && g->segments[bus].link_up) b4_hw_diag[bus].busoff++;
         b4_gateway_link(g, bus, up);
         for (unsigned budget = 0; tail[bus] != head[bus] && budget < 16; budget++) {

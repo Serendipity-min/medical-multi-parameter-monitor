@@ -7,6 +7,14 @@
 #define B4_CAN2_FILTER_START 14u
 #define B4_JSON_CAPACITY 2048u
 #define B4_ECG_BATCH 100u
+/* 隔离台架的管理禁用优先于物理ESR正常；CAN1共享时钟不等于允许A段发送。 */
+static inline int b4_hw_protocol_link_up(unsigned bus,int physical_up) {
+#if defined(B4_CAPTURE_SERIAL)
+    return bus==1 && physical_up;
+#else
+    return bus<2 && physical_up;
+#endif
+}
 #if !defined(MP_FRAME_MAX_SAMPLES) || MP_FRAME_MAX_SAMPLES != 100
 #error B4_MODEL_REQUIRES_100_SAMPLE_ABI
 #endif

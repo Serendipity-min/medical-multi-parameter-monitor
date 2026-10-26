@@ -1,8 +1,42 @@
 # Node-B 当前阶段唯一交接报告｜B4-0.3
 
-2026-10-23，MPM-B-PREC-001状态冻结及MPM-B4-001软件/隔离实板准备。**最新状态：B39948B候选已安装→恢复原件→重新安装，均整片核验通过；C曾观察ROM/HALT；完整原件未变，随后按追加授权一次正常复位＋有条件Go，原H3已恢复Flash运行。C根因仍UNRESOLVED，未烧录C候选、未开始180秒CAN窗口，联动准入仍BLOCKED。** 下列历史软件/冷启动章节保留原时点，当前状态以本节和“本轮G4实际结果”为准，不把软件测试写成实物验收。
+2026-10-26最终更新：**C原23744B候选安装→原H3恢复→重装均整片核验PASS。B CAN1↔C CAN2已观察真实PDO及NMT发送ACK，但取证丢包、STOP未保存，本窗不通过完整验收。B150秒ADC监测249.964SPS通过，同窗HR/RR保存观察均无有效值；CPU ROM根因仍UNRESOLVED。已离线修复C UART调度、A段禁用和STOP记录，冻结23952B新候选SHA d30a35e7…及恢复包，尚未上板，等待新候选安装准入。** 当前部署仍为B39948B/C23744B；下文早期状态按原时点保留。
 
-## 本轮G4实际结果（最新）
+## 2026-10-26 实际结果及软件纠正（最新）
+
+| 门禁 | 实际结果 | 边界 |
+|---|---|---|
+| C安装与原件恢复 | **C_INSTALL_RESTORE_REINSTALL_FULL_VERIFY_PASS** | 23744B旧候选；三次完整1MiB/options/扇区外及真实入口核验通过，原H3整片1c7ea8…恢复已实际演练 |
+| B CAN1↔C CAN2物理通路 | **PHYSICAL_RX_AND_NMT_ACK_OBSERVED** | C真实收到0x182/282/382/482/682/702，NMT TX_ACK及B发包计数推进；不能升级为完整180秒验收 |
+| 完整CAN窗 | **BLOCKED_CAPTURE_INCOMPLETE** | 唯一START已发；首段346包CRC0、后续纯接收14562包CRC0但大量序号缺失，主机段间也有明确缺口，STOP未收到。全部失败/缺口保留，不补帧 |
+| B ADC共同监测 | **B4_B_ADC_RUNTIME_OBSERVED_PASS** | 150秒监测282快照、38086点、249.9639SPS；新增削顶/采样错误0，CAN1 ESR非零观察0，运行中显式reset/halt/go/write为0 |
+| 同窗HR/RR | **NOT_VALIDATED** | 共同评价时段168次保存观察，HR有效0、RR有效0；本次未重新冻结完整源状态，不计算准确率，不降低BIO阈值 |
+| CPU历史ROM | **CPU_ROM_ROOT_CAUSE_UNRESOLVED** | 新B初查PC=0x1FFF32EE附近/VTOR=0x1FFF0000，39948B SHA仍匹配、Fault0。停止后负责人批准且完成一次实体复位，之后Flash/ADC推进通过；恢复不等于根因关闭 |
+| 新C IRQ候选 | **SOFTWARE_PASS_NOT_INSTALLED** | 23952B，SHA256 `d30a35e7f7729c16f580c67e660f1f01a76e111606474f6b5e2a4eff8f44ac12`，仍仅sector0/1；原件恢复包离线重算通过，新候选未实际安装/恢复 |
+
+原因分开裁定：①主机最初错误拒绝合法VTOR=0，后由真实Flash PC/零地址别名读回证明；②打开COM15后再按C复位，现有句柄两次报Windows拒绝访问，COM15随后仍枚举，具体电气/驱动机制未闭环。流程改为关闭串口时复位、随后附着连续运行诊断，不伪造BOOT；③主机全事件时间单调判据又误报模型事件比TX确认早4ms，已改为同源诊断时钟判断，序号/新BOOT仍严格检查。每次真实退出1均保留。
+
+实板暴露的C问题：轮询TXE每次主循环仅推进少量字节，平均线速Host模型未覆盖主循环服务间隔；纯接收段CRC0但序号密集缺失、低优先级诊断/STOP饥饿，结合满环路径支持取证队列饥饿判断，未把缺失的drop计数伪造成实读数。另驱动按ESR正常每轮恢复链路，覆盖了台架管理层A段禁用，实录出现A段错误。软件改为主循环发布完整包、UART TXE中断消费，head/tail分属SPSC两端并有屏障、无共享count读改写；UART优先级低于CAN，不在ISR格式化。A段管理禁用在驱动入口保持，CAN1共享时钟不变。STOP入队失败不再假记成功，空间释放后仍送出真实结束/累计丢弃证据。
+
+新候选IRQ向量已检查实际BIN第53向量与强USART1处理器一致，强wake入口实际链接；没有联网、配置写入或Flash写入符号。132项Python、12阶段台架Host（包括主循环5ms间隔/独立44us字节服务、发布后消费者抢占、满环STOP、A口健康但行政禁用）、13阶段B4 Host、台架/网络ARM均通过，预期负例实际退出1/2保留。BIO源SHA `3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7`不变，B BIN仍676eb7…；MQTT最坏完整包1534B<2048B。
+
+新C23952B预期完整Flash SHA `1f56dd2ec1eb8002b52b77eb3faf5986bb0336694ac993923c9a7575ba264a10`，新恢复包只基于原H3现场原件重算，options及sector3/7/11保留。**尚未安装，不能继承23744B的实板结论。** 下一次须明确批准先恢复当前23744B到原H3，再新候选安装/恢复/重装及一次180秒窗；遇ROM/HALT/意外复位立即停止，不主动无限复位。本次所有会话已关闭、未自动烧录，J-Link留B，两板原供电/接线及ESP隔离保留。CPU、同步生理、绝对阻抗和故障恢复残余门禁仍单列，禁止据物理收发观察进入正式云端。
+
+[阶段及SHA索引](../evidence/B4-G4-002/stage-results.json)、[实板窗与B采样](../evidence/B4-G4-002/CAN-window04-diagnostic-only.json)、[新C候选](../evidence/B4-G4-002/C-irq-software-candidate.json)、[软件回归](../evidence/B4-G4-002/software-regression.json)为当前交接依据；所有原件、原生SDK日志、BIN/ELF与身份/配置仅受限EFS。
+
+## 2026-10-26早期C安装与记录（历史过程）
+
+- C本轮J5供电、B保持断电，随后负责人将C USB_UART接到COM15用于记录；J-Link在C，ESP/喇叭隔离。初始只读再次观察ROM，未写；负责人批准的一次正常Reset/有条件Go后，原H3启动通过。这不能证明USB是唯一触发因素，也不关闭ROM根因。
+- C实际安装23744B候选SHA256 `73d1138f248188593f1be16e628b171a539e00867f324bcef36cdbe34310c0b6`，只影响sector0/1。安装后及重装后完整1MiB SHA均为 `b1832459ed8dbf22a0b5e3b6163b93e1dc05a2dbf1adbe1c41ef02ff3dacb370`；中间实际恢复原H3整片SHA `1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390`，三次原生进程退出均0。options、扇区外尾部和sector3/7/11逐次不变，均经正常复位、真实入口匹配及Flash运行验证。**C_INSTALL_RESTORE_REINSTALL_FULL_VERIFY_PASS**仅代表安装/恢复，不代表CAN通过。
+- 第一次记录保存6487B原始字节，候选BOOT后6个完整诊断包、CRC错误0。VTOR=0、CFSR/HFSR=0，安装器同时已实读0地址64B等于Flash64B并取得Flash PC。串口及离线判据错误地只接受VTOR=0x08000000，导致真实退出1/CAPTURE_C_VECTOR_FAULT。没有发送START，没有CAN评价窗，不将本次归因为CPU进入ROM。失败原件、下载阶段前缀和工具执行版本全部保存。
+- 主机修正为只有独立安装启动证据成立才接受零向量别名，ROM/Fault仍拒绝；串口与离线解码共用判据。安装与采集分成独立启动会话，防止下载阶段计划内启动包进入评价。129项相关Python测试退出0；未改C/B BIN、BIO阈值或ADS寄存器。
+- 负责人已批准新的C人工RESET一次、调试器转B及B原J5上电；记录先开启，再请求现场动作。只有C安装回执与B真实身份/BIN/250SPS推进均通过才发送唯一START；45秒预热、90秒共同评价、180秒停窗。负责人完成C实体复位一次、J-Link转B及B J5上电；C复位后221个连续包、44.001秒、CRC及序号缺口0，VTOR=0且Fault=0。但Windows GetOverlappedResult返回PermissionError(13/系统5，拒绝访问)，串口会话真实退出1。主机没有发START；B启动命令以前置SERIAL_ALREADY_STOPPED_NO_B_ATTACH退出1，SDK连接数0。错误后COM15仍被OS枚举，不能仅凭错误归因USB物理断开、CPU ROM或某人操作。未自动重试、未追加烧录，故障注入及同窗生理有效性仍未通过。
+
+[本轮安全摘要与实际退出码](../evidence/B4-G4-002/stage-results.json)、[C三次安装/恢复](../evidence/B4-G4-002/C-install-restore-reinstall.json)、[串口误判原件审阅](../evidence/B4-G4-002/serial-failure-review.json)及[第二窗串口停止回执](../evidence/B4-G4-002/second-serial-window-stop.json)保留独立证据入口。含身份、配置、Flash/BIN、串口原始前缀和SDK日志仅受限EFS，不进入Git。历史ECG/HR和RESP/RR名义速率通过结论不变；CPU ROM根因、同步有效性、绝对阻抗幅度、CAN故障恢复分别保留，不合并PASS。
+
+当前停止状态：C为23744B隔离候选，J5供电、USB_UART已接；B按负责人报告J5上电，J-Link在B，但未做本轮B读取。CAN接线/参考地保留，A段断开、ESP/喇叭隔离，两个主机记录会话均已关闭，无正式MQTT或云端写入。C等待START最多5分钟后本地停窗，不自动复位或重启。下一步先在不改BOOT/供电/CAN的前提下核对COM15连接稳定性及控制线；记录稳定后另批一次独立启动与180秒窗口，不能复用本次失败会话或宣称CAN通过。**G4安装/恢复门PASS，G5真实收发、G6同步生理及G7故障恢复仍BLOCKED/NOT_VALIDATED。**
+
+## 2026-10-23 G4实际结果（历史）
 
 | 项目 | 实际结论 | 边界 |
 |---|---|---|
