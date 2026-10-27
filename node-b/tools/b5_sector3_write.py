@@ -13,8 +13,9 @@ import b5_sector3_plan as planner
 from b5_sector3_write_protocol import DapBridge, Engine, require, BASE, END, COMMIT, ACR, KEYR, SR, CR
 
 ROOT = Path(__file__).resolve().parents[2]
-PROVISION = 'B5_G2B_SECTOR3_PROVISION_COMMIT_LAST_RAW_MEMAP'
-RESTORE = 'B5_R_CFG_SECTOR3_ORIGINAL_FIRST_RAW_MEMAP'
+PROVISION = 'B5_G2B_SECTOR3_CONNECTED_CONTEXT_ESP_PRESENT'
+RESTORE = 'B5_R_CFG_SECTOR3_CONNECTED_CONTEXT_ESP_PRESENT'
+CARDS = {'provision': 'AUTH-B5-G2B-SECTOR3-001-R3.md', 'restore_config': 'AUTH-B5-R-CFG-001-R3.md'}
 ELF_SHA = '3c726f61f76eadac4909826203ca84dee65521aec448ad477ddca0c3c58795d8'
 SYMBOL_SHA = 'fbf88b80076b6b508cc49b225067e9daf775d9c1c9ffeaeb559f9100ac365716'
 FRESH_SHA = 'f614271c83b8b6f11992531537ea49ab6434f6f2a7c2481f1cced7ae55f1cad1'
@@ -46,7 +47,10 @@ def plan():
             'sector_range': [BASE, END], 'session_timeout_s': 180, 'probe_sessions': 1,
             'erase_start_max': 1, 'commit_write_max': 1, 'reset_max': 1, 'Go_max': 1, 'Halt_max': 1,
             'BeginDownload_EndDownload_and_highlevel_memory_writes': 0,
-            'raw_AP_DP_bridge_hardware_validated': False,
+            'read_path_hardware_evidence': 'B5-MEMAP-READONLY-02',
+            'Flash_programming_hardware_validated': False,
+            'CORESIGHT_Configure_calls': 0, 'reuse_connected_SDK_context': True,
+            'ESP_isolated': False, 'ESP_write_transaction_exception_requires_separate_approval': True,
             'AP_index_derivation': 'ADI_WORD_INDEX_CSW0_TAR1_DRW3_DP_SELECT2_AP0_BANK0_IDR_BANKF0_REG3',
             'raw_bridge_readonly_crosscheck_before_any_FLASH_unlock': True,
             'independent_before_flash_and_options_reads': 2, 'independent_after_flash_and_options_reads': 2,
@@ -114,6 +118,7 @@ def authorize(a, out):
     require(time.time() < a.get('expires_unix', 0), 'S3_AUTH_EXPIRED')
     phase = 'provision' if a['scope'] == PROVISION else 'restore_config'
     require(a.get('phase') == phase and a.get('board') == 'C', 'S3_SCOPE_PHASE')
+    require(a.get('card_sha256') == sha((ROOT/'node-b/docs'/CARDS[phase]).read_bytes()), 'S3_CARD_DRIFT')
     entry_runtime_state(a)
     require(a.get('session_timeout_s') == 180 and a.get('probe_sessions') == 1 and a.get('retries') == 0,
             'S3_SESSION_BOUND')
@@ -124,8 +129,12 @@ def authorize(a, out):
     require(sha(site_raw) == a.get('site_record_sha256'), 'S3_SITE_SHA')
     site = json.loads(site_raw)
     require(site.get('JLink_target') == 'C' and all(site.get(k) is True for k in
-            ('latest_power_state_checked', 'ESP_electrically_isolated', 'A_bus_disconnected', 'no_human',
+            ('latest_power_state_checked', 'A_bus_disconnected', 'no_human',
              'C_power_ready', 'USB_and_CAN_state_frozen', 'BOOT_and_RESET_untouched')), 'S3_SITE_NOT_READY')
+    require(site.get('ESP_isolated') is False and site.get('ESP_present_powered') is True
+            and site.get('ESP_autonomous_network') == 'UNKNOWN'
+            and a.get('ESP_isolated') is False and a.get('ESP_present_powered_exception_approved') is True
+            and a.get('ESP_exception_scope') == a['scope'], 'S3_TRANSACTION_ESP_EXCEPTION_REQUIRED')
     binding, blobs, identity = load_package(a['package'], a['package_binding_sha256'])
     if phase == 'provision':
         before, after, stage = blobs['app-before-private.bin'], blobs['expected-full-B5-new-config-private.bin'], blobs['sector3-uncommitted-private.bin']
@@ -152,7 +161,36 @@ class NativeLink(ro.ReadLink):
         self.dll.JLINKARM_CORESIGHT_WriteAPDPReg.argtypes = [C.c_uint8, C.c_uint8, C.c_uint32]
         self.dll.JLINKARM_CORESIGHT_WriteAPDPReg.restype = C.c_int
 
+    def install_log_filters(self):
+        callback = C.CFUNCTYPE(None, C.c_char_p)
+        def logged(data):
+            if data:
+                self.log.write((json.dumps({'sdk_text_sha256': sha(data), 'bytes': len(data),
+                    'monotonic_s': time.monotonic(), 'inflight_host_API': getattr(self, 'active_api', None)})+'\n').encode())
+                self.log.flush()
+        def failed(data): logged(data); self.error = True
+        self.logger, self.error_callback = callback(logged), callback(failed)
+
     def call(self, name, *args, timeout=5):
+        require(name != 'JLINKARM_CORESIGHT_Configure', 'S3_RECONFIGURE_CONNECTED_CONTEXT_DENIED')
+        if name.endswith('APDPReg'):
+            require(not getattr(self, 'raw_failed', False), 'S3_RAW_STOP_LATCHED')
+        previous = getattr(self, 'active_api', None); self.active_api = name
+        try:
+            result = self._call_native(name, *args, timeout=timeout)
+            if name.endswith('APDPReg') and result < 0: self.raw_failed = True
+            return result
+        except BaseException:
+            if name.endswith('APDPReg'): self.raw_failed = True
+            raise
+        finally: self.active_api = previous
+
+    def close(self):
+        previous = getattr(self, 'active_api', None); self.active_api = 'JLINKARM_Close'
+        try: return super().close()
+        finally: self.active_api = previous
+
+    def _call_native(self, name, *args, timeout=5):
         require(name in ro.old.runtime.CALLS | DAP_CALLS | {'JLINKARM_Halt', 'JLINKARM_Reset', 'JLINKARM_Go'},
                 'S3_NATIVE_FUNCTION_DENIED')
         require(self.sdk_calls < self.sdk_limit, 'S3_SDK_BUDGET')
@@ -179,7 +217,6 @@ class NativeLink(ro.ReadLink):
                     self.post_verified if name == 'JLINKARM_Reset' else self.boot_vector_verified,
                     'S3_NATIVE_ACTION_BEFORE_VERIFY')
             self.actions[name] = 1
-        if name == 'JLINKARM_CORESIGHT_Configure': require(args == (b'',), 'S3_DAP_CONFIG_STRING')
         if name.endswith('APDPReg'):
             reg, ap = args[:2]; require((ap == 0 and reg == 2) or (ap == 1 and reg in (0, 1, 3)), 'S3_DAP_REG_SCOPE')
             if name == 'JLINKARM_CORESIGHT_ReadAPDPReg': require(ap == 1, 'S3_DAP_DP_SELECT_IS_NOT_READABLE')
@@ -189,10 +226,16 @@ class NativeLink(ro.ReadLink):
         self.sdk_calls += 1; self.gate()
         deadline = time.monotonic()+timeout
         self.events.write(json.dumps({'operation': name, 'active': True, 'deadline_monotonic': deadline})+'\n'); self.events.flush()
-        result = getattr(self.dll, name)(*args)
+        try: result = getattr(self.dll, name)(*args)
+        except BaseException as error:
+            self.events.write(json.dumps({'operation': name, 'active': False, 'monotonic_s': time.monotonic(),
+                                          'exception_type': type(error).__name__})+'\n'); self.events.flush()
+            raise
         # 先保存原生返回，再检查SDK错误回调/期限，错误路径也不丢失真实整数返回。
-        self.io.write(json.dumps({'operation': name, 'native_return_int': result if isinstance(result, int) else None,
-                                  'return_type': type(result).__name__})+'\n'); self.io.flush()
+        record = {'operation': name, 'native_return_int': result if isinstance(result, int) else None,
+                  'return_type': type(result).__name__, 'monotonic_s': time.monotonic()}
+        if name == 'JLINKARM_ReadMemEx': record.update(address=hex(args[0]), requested=args[1])
+        self.io.write(json.dumps(record)+'\n'); self.io.flush()
         self.events.write(json.dumps({'operation': name, 'active': False})+'\n'); self.events.flush()
         if name.endswith('APDPReg') and result >= 0:
             value = args[2] if name.endswith('WriteAPDPReg') else C.cast(args[2], C.POINTER(C.c_uint32)).contents.value
@@ -208,7 +251,10 @@ class NativeLink(ro.ReadLink):
         require(size in READS.get(address, set()), 'S3_NATIVE_READ_SCOPE')
         buffer = (C.c_uint8*size)()
         returned = self.call('JLINKARM_ReadMemEx', address, size, buffer, 0, timeout=45 if size == 1048576 else 5)
-        require(returned == size, 'S3_NATIVE_SHORT_READ'); return bytes(buffer)
+        self.io.write(json.dumps({'address': hex(address), 'requested': size, 'returned': returned,
+                                  'monotonic_s': time.monotonic()})+'\n'); self.io.flush()
+        require(returned >= 0, 'S3_SDK_MEMORY_NATIVE_ERROR')
+        require(returned == size, 'S3_SDK_POSITIVE_SHORT_READ'); return bytes(buffer)
 
 
 class NativeBus:
@@ -246,7 +292,6 @@ def execute(link, out, auth, loaded):
     require(seen == reference, 'S3_WRONG_UID_OR_PROTECTION'); ro.raw.write_json(out/'identity-before-private.json', seen)
     ro.raw.write_json(out/'entry-sticky-private.json', {'DHCSR': link.u32(ro.SYSTEM['DHCSR'])})
     state = ro.old.snapshot(link); ro.raw.write_json(out/'entry-private.json', state); ro.old.check_running(link, state)
-    link.set_close_resume(True)
     pairs = []
     for index in (1, 2):
         actual, options = link.read(0x08000000, 1048576), link.read(0x1fffc000, 16)
@@ -266,10 +311,11 @@ def execute(link, out, auth, loaded):
     require(link.read(RAM_STATE, 4) == expected_runtime, 'S3_ARMED_CHANGED_AFTER_HALT')
     require(link.u32(RCC_CR) & (1 << 17) and link.u32(RCC_CFGR) & 0xfc == 4, 'S3_HCLK_CHANGED_AFTER_HALT')
     link.policy('DisableFlashDL'); link.policy('DisableFlashBPs')
-    require(link.call('JLINKARM_CORESIGHT_Configure', b'') >= 0, 'S3_DAP_CONFIG_NATIVE_ERROR')
+    require(link.call('JLINKARM_IsConnected') == 1, 'S3_SDK_NOT_CONNECTED')
+    sdk = (link.u32(0xe000ed00), link.read(0x08000000, 64), link.u32(CR), link.u32(SR))
     bridge = DapBridge(NativeBus(link))
-    result = bridge.probe(link.u32(0xe000ed00), link.read(0x08000000, 64), link.u32(CR), link.u32(SR))
-    require(link.u32(0xe000ed00) == bridge.read32(0xe000ed00) and
+    result = bridge.probe(*sdk)
+    require(bridge.state_restored and link.u32(0xe000ed00) == bridge.read32(0xe000ed00) and
             link.read(0x08000000, 64) == actual[:64] and link.u32(CR) == bridge.read32(CR),
             'S3_RAW_SDK_MIXED_READ_CROSSCHECK')
     ro.raw.write_json(out/'raw-bridge-preflight-private.json', result)
@@ -315,11 +361,13 @@ def worker(authorization, out):
         result = execute(link, out, auth, loaded)
     except BaseException as error:
         result.update(status='STOP', exit_code=1, error_type=type(error).__name__)
+        if link: link.verified_running_flash = False
         if link and getattr(link, 'active_engine', None): result['failure_engine_phase'] = link.active_engine.phase
         text = str(error); ro.raw.write_json(out/'failure-private.json', {'error_type': type(error).__name__,
             'reason': text if text.startswith(('S3_', 'SECTOR3_', 'DAP_', 'C_RO_')) and text.replace('_', '').isalnum() else 'ERROR_TEXT_SUPPRESSED',
             'error_text_sha256': sha(text.encode())})
-        if link and getattr(link, 'active_engine', None) and not link.post_verified:
+        if (link and getattr(link, 'active_engine', None) and not link.post_verified
+                and not getattr(link, 'raw_failed', False) and not link.error):
             try:
                 engine = link.active_engine
                 if (engine.keys or engine.acr_history) and engine.phase != 'DONE' and link.u32(ro.SYSTEM['DHCSR']) & ro.raw.HALT:
@@ -334,6 +382,8 @@ def worker(authorization, out):
                 try: link.close()
                 except BaseException as error: result.update(exit_code=1, close_error_type=type(error).__name__)
             result.update(sdk_calls=link.sdk_calls, actions=link.actions, close_resume=link.close_resume_enabled)
+            result.update(raw_error_stop_latched=getattr(link, 'raw_failed', False), ESP_isolated=False,
+                          ESP_autonomous_network='UNKNOWN_NO_AT_COMMANDS', B5START=0, cloud_service_actions=0)
             if getattr(link, 'active_engine', None):
                 engine = link.active_engine
                 result.update(erase_start_attempts=engine.erases, stage1_word_attempts=len(engine.words),

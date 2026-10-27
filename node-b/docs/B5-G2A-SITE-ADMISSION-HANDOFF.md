@@ -66,3 +66,29 @@
 本轮无B固件/算法修改、无源模式/电极操作、无保护分支合并、无Security Gate。第二窗口通过支持当前连接方式在本机有效，但不是严格单变量根因实验：旧日志中暂停失败究竟属于ReadMemEx还是Close仍无法追溯，也不关闭历史CPU ROM问题。SDK正常Close前最后一次硬件观察为Flash运行；Close后没有追加探测，不签独立冷启动或退出后长期运行验收。
 
 交付后停止。G2-B配置写入前仍须核对物理写入器是否已采用本次成功连接方式、冻结相应源码/SHA和必要负例，并另获配置写入批准；本次ESP在板豁免不自动覆盖该写事务。随后G1服务恢复、G3和回滚继续分别批准，不自动启用。
+
+## 2026-10-27追加｜G2-B连接流程离线收尾与第三阶段准备
+
+当前追加只做软件与申请准备。G2-A安装PASS、MEMAP_READONLY_02实际PASS及所有原件不变。本轮实板会话、Flash写入、复位、AT、云服务启动、B5START、恢复均为0。
+
+sector3写入器已采用成功只读窗的已连接SDK流程：禁止Configure，不重连；暂停后IsConnected=1，先完整读取SDK CPUID/Flash头/CR/SR，再做原始MEM-AP交叉核验；退出恢复CSW/TAR并规范化SELECT=0。负返回和非负短读分开记录，SDK消息指纹带在途API/单调时间；AP/DP原生错误锁禁止后续原始清理访问，回调错误也禁止失败清理。仅最终全片/身份、正常向量启动和DISARMED通过后才开启Close续跑。读路径实测证据不冒充raw Flash编程通过。
+
+本次写入器SHA `5464387e61ecbd1d109539996e06648a0e47d0ac601f674a3e1d449a045e0c3d`，旧SHA `39befcee1c7426c0b74222509fbe86759da0f3d4d18521f6729bb95ac2a52107`及历史依赖在原提交/EFS保留。protocol、监督器、planner和42552B BIN均未改。真实配置包15个文件离线逐一校验并重建相等，仍绑定原20cba97d…；没有重新生成配置或修改凭据。
+
+16项定向验证退出0，覆盖真实Engine+MEM-AP+NOR替身的完整写入和反向恢复、提交字最后写、四次全片/四次options独立调用、无连接/身份漂移/暂停后武装变化、SDK错误日志与停止锁、事务专属ESP例外及卡/工具漂移。未重复既有27项writer、15项只读入口、C配置3项、Host/ARM/TLS/UI矩阵。前4次新测试存在替身适配/计数错误，均退出1并保留日志；第5次12项通过，第6次新增授权检查后16项通过。包校验脚本首次因编码名utf8-sig无效退出1，改为utf-8-sig后退出0，未进入DLL或硬件。
+
+| 项目 | 当前裁定 |
+|---|---|
+| G2-A安装、MEM-AP读路径 | 既有实际PASS，未重跑 |
+| G2-B连接流程与真实配置包离线验证 | PASS_OFFLINE；新工具已冻结 |
+| raw Flash物理写入 / 配置启动验收 | NOT_AUTHORIZED / NOT_RUN |
+| ESP | 保持在板供电，ESP_isolated=false；自主联网UNKNOWN，不发AT |
+| G1测试服务 | 最近只读回执为驻留超时停止；本轮未新查、未启动；账号/ACL仍保留 |
+| G3真实上云 | NOT_AUTHORIZED / NOT_RUN；ECG60、RR/TEMP INVALID、A OFFLINE、MOCK判据冻结 |
+| CPU ROM / B5独立冷启动 / 同窗双有效 / 阻抗标定 / 故障注入 | 原状态保留，不随离线验证升级 |
+
+下一次配置申请只用[配置R3](AUTH-B5-G2B-SECTOR3-001-R3.md)，明确批准一次sector3写入及本事务ESP非隔离例外；不借用安装豁免或旧卡。私有启用模板仍disabled/owner_approved=false/有效期0，现场最新核对项未虚填。恢复单独用[R-CFG R3](AUTH-B5-R-CFG-001-R3.md)，再另批R-APP R2；未演练恢复。
+
+第三阶段准备见[检查表](B5-G2B-TO-G3-PREPARATION.md)及[G3 R3](AUTH-B5-G3-CLOUD-WINDOW-001-R3.md)。实际配置通过之后，服务恢复和G3分别批准，不自动串行执行。G1旧apply会修改ACL/HUP，不能拿它代替只启动两个独立unit的resume-only工具。有限resume-only工具、ESP实机TLS条件和五层联合记录工具完整绑定尚须补齐，现不宣称G3可执行。
+
+新工具/卡/日志/包校验与真实退出见 `../evidence/B5-G2B-CONNECTED-PREP/`。源码原件与私有禁用模板另存受限EFS；无固件、配置凭据、UID明文进入Git。仅正常推送独立B5分支并远端回读，完成后等待分项批准。
