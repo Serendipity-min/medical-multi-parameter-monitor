@@ -43,9 +43,10 @@ def extract_version(data):
 
 
 class ByteGrant:
-    def __init__(self):self.command=b'';self.index=0;self.history=[];self.commands=0
+    def __init__(self,commands=COMMANDS):
+        self.allowed_commands=tuple(commands);self.command=b'';self.index=0;self.history=[];self.commands=0
     def begin(self,command):
-        g.require(self.commands<len(COMMANDS) and command==COMMANDS[self.commands]
+        g.require(self.commands<len(self.allowed_commands) and command==self.allowed_commands[self.commands]
                   and self.index==len(self.command),'ESP_COMMAND_SEQUENCE')
         self.command=command;self.index=0;self.commands+=1
     def check(self,address,value):
@@ -80,8 +81,9 @@ def rx_route_snapshot(link):
 
 
 class QueryLink(site.BridgeLink):
+    BYTE_COMMANDS=COMMANDS
     def __init__(self,out):
-        self.byte_grant=ByteGrant();self.query_before_verified=False;self.native_UART_writes=0
+        self.byte_grant=ByteGrant(self.BYTE_COMMANDS);self.query_before_verified=False;self.native_UART_writes=0
         super().__init__(out);self.sdk_limit=6000;self.memory_counts={}
     def call(self,name,*args,timeout=5):
         return site.config.NativeLink.call(self,name,*args,timeout=timeout)
@@ -106,7 +108,7 @@ class QueryLink(site.BridgeLink):
                 if ap==1 and reg==3:
                     g.require(self.query_before_verified and self.dap_select==0 and self.dap_csw is not None and self.dap_csw&0x37==2
                               and self.dap_tar==DR and self.raw_target_grant==(DR,value)
-                              and self.native_UART_writes<len(self.byte_grant.history)<=12
+                              and self.native_UART_writes<len(self.byte_grant.history)<=sum(map(len,self.BYTE_COMMANDS))
                               and self.byte_grant.history[self.native_UART_writes]==value,'ESP_DAP_TARGET_WRITE_DENIED')
                     self.native_UART_writes+=1
             elif reg==3 and self.dap_select==0:
@@ -136,7 +138,7 @@ class QueryLink(site.BridgeLink):
             self.read_failed=True;self.verified_running_flash=False;raise
 
 
-def capture(link,bridge,command,out,index):
+def capture(link,bridge,command,out,index,accept_error=False):
     baseline=struct.unpack('<5I',link.read(STATS,20));cursor=baseline[4]
     g.save(out/f'query-{index}-baseline-private.json',{'UART_stats':baseline})
     g.save(out/f'query-{index}-route-before-private.json',rx_route_snapshot(link))
@@ -164,7 +166,8 @@ def capture(link,bridge,command,out,index):
           'OK':b'\r\nOK\r\n' in data,'ERROR':b'\r\nERROR\r\n' in data,'UART_new_errors':0}
     g.save(out/f'query-{index}-meta-private.json',meta)
     g.save(out/f'query-{index}-route-after-private.json',rx_route_snapshot(link))
-    g.require(meta['OK'],'ESP_NO_BYTES' if not data and last_head==cursor else 'ESP_RESPONSE_NOT_OK')
+    g.require(meta['OK'] or accept_error and meta['ERROR'],
+              'ESP_NO_BYTES' if not data and last_head==cursor else 'ESP_RESPONSE_NOT_OK')
     return data
 
 

@@ -1,0 +1,24 @@
+{
+  "status": "TIME_DIAG_01_STOP_ROM_BEFORE_AT_QUERIES",
+  "worker_exit_code": 1,
+  "supervisor_exit_code": 1,
+  "reason": "C_RO_ROM_STOP",
+  "hardware_sessions": 1,
+  "UART_native_attempts": 0,
+  "raw_query_files": 0,
+  "VTOR": "0x1fff0000",
+  "pc_samples": [
+    "0x1fff32f2",
+    "0x1fff32ea",
+    "0x1fff32ee"
+  ],
+  "DHCSR": "0x1010001",
+  "SDK_calls": 44,
+  "reset_halt_go": 0,
+  "Flash_config_writes": 0,
+  "B5START": 0,
+  "automatic_retry": false,
+  "CPU_ROM_ROOT_CAUSE": "UNRESOLVED",
+  "time_diagnosis": "NOT_RUN_ENTRY_STOP",
+  "all_host_sessions_closed": true
+}
