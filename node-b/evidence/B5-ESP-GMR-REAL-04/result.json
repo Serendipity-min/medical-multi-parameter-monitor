@@ -1,0 +1,223 @@
+{
+  "status": "ESP_CURRENT_RESEATED_MODULE_ACTUAL_GMR_PASS",
+  "exit_code": 0,
+  "worker_receipt": {
+    "status": "ESP_ACTUAL_GMR_READ_PASS",
+    "exit_code": 0,
+    "B5START": 0,
+    "Flash_options_config_writes": 0,
+    "halt_go_reset": 0,
+    "baud_register_writes": 0,
+    "AT_version": "2.3.0.0-dev",
+    "SDK_version": "v3.4-22-g967752e2",
+    "physical_module_age_or_flash_capacity": "NOT_ESTABLISHED_BY_GMR",
+    "full_sha256": "acb33fdd39ecb016ecd848ec25eee051635f56ef8138b577a8590d2734ad687e",
+    "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+    "UART_byte_permissions_consumed": 12,
+    "UART_native_write_attempts": 12,
+    "SDK_calls": 534
+  },
+  "supervisor": {
+    "reason": null,
+    "worker_exit_code": 0,
+    "exit_code": 0,
+    "retry": false
+  },
+  "AT_version": "2.3.0.0-dev",
+  "SDK_version": "v3.4-22-g967752e2",
+  "other_version_metadata": {
+    "AT_version": "2.3.0.0-dev",
+    "SDK_version": "v3.4-22-g967752e2",
+    "physical_module_age_or_flash_capacity": "NOT_ESTABLISHED_BY_GMR",
+    "Bin_version_reported": "2.2.0",
+    "target_label_reported": "ESP8266_1MB"
+  },
+  "C_private_identity_matches": true,
+  "C_CPU_running_Flash_at_entry_and_exit": true,
+  "C_state_at_entry": {
+    "DHCSR": 16842753,
+    "VTOR": 134217728,
+    "CFSR": 0,
+    "HFSR": 0,
+    "RCC_CSR": 234881024,
+    "DWT_PCSR": 134237972,
+    "RCC_APB2ENR": 16,
+    "SYSCFG_MEMRMP": 0,
+    "FLASH_CR": 2147483648,
+    "FLASH_SR": 0,
+    "pc_samples": [
+      134237972,
+      134224230,
+      134237978
+    ]
+  },
+  "C_state_at_exit": {
+    "DHCSR": 16842753,
+    "VTOR": 134217728,
+    "CFSR": 0,
+    "HFSR": 0,
+    "RCC_CSR": 234881024,
+    "DWT_PCSR": 134224202,
+    "RCC_APB2ENR": 16,
+    "SYSCFG_MEMRMP": 0,
+    "FLASH_CR": 2147483648,
+    "FLASH_SR": 0,
+    "pc_samples": [
+      134224202,
+      134237984,
+      134224172
+    ]
+  },
+  "AT_reply_metadata": {
+    "command_hex": "41540d0a",
+    "bytes_received": 10,
+    "sha256": "d0b5d81778fcd971bf20f1bb4548debe255e022f1de3ec9f5b26dafd532b7f20",
+    "OK": true,
+    "ERROR": false,
+    "UART_new_errors": 0
+  },
+  "GMR_reply_metadata": {
+    "command_hex": "41542b474d520d0a",
+    "bytes_received": 189,
+    "sha256": "0e9b75e7baa831449898c1940251ed60f192a4a8c151da6a50ddd87e2bb81535",
+    "OK": true,
+    "ERROR": false,
+    "UART_new_errors": 0
+  },
+  "RX_route_snapshots": {
+    "query-0-route-before-private.json": {
+      "registers": {
+        "GPIOB_MODER": 178258560,
+        "GPIOB_IDR": 16280,
+        "GPIOB_AFRH": 10057472,
+        "RCC_AHB1ENR": 1048579,
+        "RCC_APB1ENR": 100925440,
+        "NVIC_ISER1": 128,
+        "NVIC_ISPR1": 0,
+        "NVIC_IABR1": 0,
+        "USART3_SR": 208
+      },
+      "uptime_samples": [
+        2981438,
+        2981460
+      ],
+      "uptime_advances": true,
+      "PB10_PB11_AF7": true,
+      "GPIOB_clock_enabled": true,
+      "USART3_clock_enabled": true,
+      "USART3_IRQ_enabled": true,
+      "USART3_IRQ_pending": false,
+      "USART3_IRQ_active": false,
+      "RXNE": false,
+      "ORE": false,
+      "DR_reads_or_target_writes": 0
+    },
+    "query-0-route-after-private.json": {
+      "registers": {
+        "GPIOB_MODER": 178258560,
+        "GPIOB_IDR": 16344,
+        "GPIOB_AFRH": 10057472,
+        "RCC_AHB1ENR": 1048579,
+        "RCC_APB1ENR": 100925440,
+        "NVIC_ISER1": 128,
+        "NVIC_ISPR1": 0,
+        "NVIC_IABR1": 0,
+        "USART3_SR": 208
+      },
+      "uptime_samples": [
+        2981862,
+        2981884
+      ],
+      "uptime_advances": true,
+      "PB10_PB11_AF7": true,
+      "GPIOB_clock_enabled": true,
+      "USART3_clock_enabled": true,
+      "USART3_IRQ_enabled": true,
+      "USART3_IRQ_pending": false,
+      "USART3_IRQ_active": false,
+      "RXNE": false,
+      "ORE": false,
+      "DR_reads_or_target_writes": 0
+    },
+    "query-1-route-before-private.json": {
+      "registers": {
+        "GPIOB_MODER": 178258560,
+        "GPIOB_IDR": 16280,
+        "GPIOB_AFRH": 10057472,
+        "RCC_AHB1ENR": 1048579,
+        "RCC_APB1ENR": 100925440,
+        "NVIC_ISER1": 128,
+        "NVIC_ISPR1": 0,
+        "NVIC_IABR1": 0,
+        "USART3_SR": 208
+      },
+      "uptime_samples": [
+        2981902,
+        2981924
+      ],
+      "uptime_advances": true,
+      "PB10_PB11_AF7": true,
+      "GPIOB_clock_enabled": true,
+      "USART3_clock_enabled": true,
+      "USART3_IRQ_enabled": true,
+      "USART3_IRQ_pending": false,
+      "USART3_IRQ_active": false,
+      "RXNE": false,
+      "ORE": false,
+      "DR_reads_or_target_writes": 0
+    },
+    "query-1-route-after-private.json": {
+      "registers": {
+        "GPIOB_MODER": 178258560,
+        "GPIOB_IDR": 16280,
+        "GPIOB_AFRH": 10057472,
+        "RCC_AHB1ENR": 1048579,
+        "RCC_APB1ENR": 100925440,
+        "NVIC_ISER1": 128,
+        "NVIC_ISPR1": 0,
+        "NVIC_IABR1": 0,
+        "USART3_SR": 208
+      },
+      "uptime_samples": [
+        2982415,
+        2982436
+      ],
+      "uptime_advances": true,
+      "PB10_PB11_AF7": true,
+      "GPIOB_clock_enabled": true,
+      "USART3_clock_enabled": true,
+      "USART3_IRQ_enabled": true,
+      "USART3_IRQ_pending": false,
+      "USART3_IRQ_active": false,
+      "RXNE": false,
+      "ORE": false,
+      "DR_reads_or_target_writes": 0
+    }
+  },
+  "full_before_sha256": "acb33fdd39ecb016ecd848ec25eee051635f56ef8138b577a8590d2734ad687e",
+  "full_after_sha256": "acb33fdd39ecb016ecd848ec25eee051635f56ef8138b577a8590d2734ad687e",
+  "options_before_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+  "options_after_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+  "full_options_byte_equal": true,
+  "DISARMED_exit": true,
+  "sector3_sector7_sector11_unchanged_by_full_byte_compare": true,
+  "UART_DR_native_attempts": 12,
+  "UART_configuration_GPIO_Flash_options_config_CPU_writes": 0,
+  "manual_reset_or_new_power_changes_by_agent": 0,
+  "B5START": 0,
+  "photo_sha256": "ce42f41aa6a8dc8e43e970037b1243b2b5a7e719587b103747683950e2671ed3",
+  "photo_route": "APPEARS_EXPECTED_NOT_ELECTRICAL_CONTINUITY_PROOF",
+  "reseat_power_state": "UNKNOWN_NOT_CLAIMED_COLD",
+  "current_module_physical_unique_ID": "NOT_QUERIED_NO_PROOF_OF_PURCHASE_AGE",
+  "actual_tool_sha256": "ba9036c9c3b2b81fc0b78890c9f1b26d7b2d17b852bf3b3333522ad0ea30beb9",
+  "authorization_sha256": "d23aa41f8d7d37be54958d2a70ef583ba7f854d8b6deeb4f7c086b2d1d5854e3",
+  "card_sha256": "ef548be4d7b41ac65bc743ae23adfae10900be970d13b12ed728d2ee6d3839cf",
+  "raw_files_EFS": 24,
+  "raw_manifest_sha256": "1f94c7e23e282bdef1317e15efdb2f8a557239ec3f3062a8aa34f66bbc6e958f",
+  "conclusion": "After owner reseating, same nominal 115200 fixed AT/GMR queries succeed with unchanged C image/config; unique cause of prior zero RX not established",
+  "TLS_CA_SNI_SNTP_MQTT_300s_cloud_window": "NOT_RUN_THIS_TRANSACTION",
+  "G3_previous_AT_failure": "RETAINED_NOT_OVERRIDDEN",
+  "CPU_ROM_ROOT_CAUSE": "UNRESOLVED",
+  "BIO_V2_thresholds": "UNCHANGED",
+  "all_device_sessions_closed": true
+}

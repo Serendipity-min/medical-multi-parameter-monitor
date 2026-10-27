@@ -77,6 +77,23 @@ class Tests(unittest.TestCase):
         b=bytearray(q.CAPACITY);b[-3:]=b'ABC';b[:2]=b'DE'
         self.assertEqual(q.circular_delta(q.CAPACITY-3,2,b),b'ABCDE')
         self.assertEqual(q.circular_delta(3,3,b),b'')
+    def test_route_snapshot_reads_only_status_and_exposes_unserviced_RX(self):
+        registers={v:0 for v in q.RX_ROUTE_REGISTERS.values()}
+        registers.update({0x40020400:(2<<20)|(2<<22),0x40020424:(7<<8)|(7<<12),
+                          0x40023830:2,0x40023840:1<<18,0xe000e204:1<<7,q.UART:(1<<5)|(1<<7)})
+        ticks=iter((123,143));reads=[]
+        def read(address):
+            reads.append(address);return next(ticks) if address==q.UPTIME else registers[address]
+        with patch.object(q.time,'sleep'):
+            r=q.rx_route_snapshot(types.SimpleNamespace(u32=read))
+        self.assertTrue(r['PB10_PB11_AF7']);self.assertTrue(r['uptime_advances']);self.assertTrue(r['RXNE'])
+        self.assertTrue(r['USART3_IRQ_pending']);self.assertFalse(r['USART3_IRQ_enabled'])
+        self.assertNotIn(q.DR,reads);self.assertEqual(r['DR_reads_or_target_writes'],0)
+    def test_added_register_scope_does_not_allow_UART_DR_read_or_GPIO_write(self):
+        self.assertNotIn(q.DR,q.READS)
+        grant=q.ByteGrant();grant.begin(q.COMMANDS[0])
+        for address in q.RX_ROUTE_REGISTERS.values():
+            with self.assertRaises(ValueError):grant.check(address,65)
     def test_capture_uses_running_RX_ring_and_fails_on_ERROR(self):
         with tempfile.TemporaryDirectory() as temp:
             root=Path(temp);clock=[0.0]

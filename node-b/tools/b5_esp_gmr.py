@@ -16,7 +16,7 @@ import runtime_state_b as runtime
 from b5_sector3_write_protocol import DapBridge, CR, SR
 
 SCOPE='B5_ESP_GMR_FIXED_UART_QUERY_NO_FLASH_NO_CPU_CONTROL'
-CARD='AUTH-B5-ESP-GMR-001-R3.md'
+CARD='AUTH-B5-ESP-GMR-001-R4.md'
 ELF_SHA='3c726f61f76eadac4909826203ca84dee65521aec448ad477ddca0c3c58795d8'
 UART=0x40004800; DR=UART+4
 STATS=0x2000f6c0; RING=0x2000f6d4; CAPACITY=8192; UPTIME=0x2001170c
@@ -24,6 +24,10 @@ COMMANDS=(b'AT\r\n',b'AT+GMR\r\n')
 READS={a:set(n) for a,n in previous.C_READS.items()}
 READS.update({UART:{4},UART+8:{4},UART+12:{4},UART+16:{4},UART+20:{4},
               0x40023800:{4},0x40023808:{4},STATS:{20},RING:{CAPACITY},UPTIME:{4}})
+RX_ROUTE_REGISTERS={'GPIOB_MODER':0x40020400,'GPIOB_IDR':0x40020410,'GPIOB_AFRH':0x40020424,
+    'RCC_AHB1ENR':0x40023830,'RCC_APB1ENR':0x40023840,'NVIC_ISER1':0xe000e104,
+    'NVIC_ISPR1':0xe000e204,'NVIC_IABR1':0xe000e304,'USART3_SR':UART}
+READS.update({a:{4} for a in RX_ROUTE_REGISTERS.values()})
 
 
 def bindings():return {**g.bindings(),'b5_esp_gmr.py':g.sha(Path(__file__).read_bytes())}
@@ -60,6 +64,19 @@ def baud_from_registers(cfgr,brr):
     ahb=(1,1,1,1,1,1,1,1,2,4,8,16,64,128,256,512)[(cfgr>>4)&15]
     apb=(1,1,1,1,2,4,8,16)[(cfgr>>10)&7]
     return 8000000/ahb/apb/brr
+
+
+def rx_route_snapshot(link):
+    raw={name:link.u32(address) for name,address in RX_ROUTE_REGISTERS.items()}
+    first=link.u32(UPTIME);time.sleep(.02);last=link.u32(UPTIME)
+    return {'registers':raw,'uptime_samples':[first,last],'uptime_advances':g.signed(last,first)>0,
+       'PB10_PB11_AF7':all((raw['GPIOB_MODER']>>(pin*2))&3==2 and (raw['GPIOB_AFRH']>>((pin-8)*4))&15==7 for pin in (10,11)),
+       'GPIOB_clock_enabled':bool(raw['RCC_AHB1ENR']&2),'USART3_clock_enabled':bool(raw['RCC_APB1ENR']&(1<<18)),
+       'USART3_IRQ_enabled':bool(raw['NVIC_ISER1']&(1<<7)),
+       'USART3_IRQ_pending':bool(raw['NVIC_ISPR1']&(1<<7)),
+       'USART3_IRQ_active':bool(raw['NVIC_IABR1']&(1<<7)),
+       'RXNE':bool(raw['USART3_SR']&(1<<5)),'ORE':bool(raw['USART3_SR']&(1<<3)),
+       'DR_reads_or_target_writes':0}
 
 
 class QueryLink(site.BridgeLink):
@@ -122,6 +139,7 @@ class QueryLink(site.BridgeLink):
 def capture(link,bridge,command,out,index):
     baseline=struct.unpack('<5I',link.read(STATS,20));cursor=baseline[4]
     g.save(out/f'query-{index}-baseline-private.json',{'UART_stats':baseline})
+    g.save(out/f'query-{index}-route-before-private.json',rx_route_snapshot(link))
     link.byte_grant.begin(command)
     for value in command:
         until=time.monotonic()+.5
@@ -145,6 +163,7 @@ def capture(link,bridge,command,out,index):
     meta={'command_hex':command.hex(),'bytes_received':len(data),'sha256':g.sha(data),
           'OK':b'\r\nOK\r\n' in data,'ERROR':b'\r\nERROR\r\n' in data,'UART_new_errors':0}
     g.save(out/f'query-{index}-meta-private.json',meta)
+    g.save(out/f'query-{index}-route-after-private.json',rx_route_snapshot(link))
     g.require(meta['OK'],'ESP_NO_BYTES' if not data and last_head==cursor else 'ESP_RESPONSE_NOT_OK')
     return data
 
@@ -160,8 +179,8 @@ def validate(a):
         g.require(g.sha(g.private.read(Path(bundle[key]['path']),False))==bundle[key]['sha256'],'ESP_REFERENCE_DRIFT')
     site_record=g.load(a['site_record'])
     g.require(g.sha(g.private.read(Path(a['site_record']),False))==a['site_sha256'] and all(site_record.get(k) is True for k in
-       ('cold_transfer_complete','all_dark_10s','JLink_on_C','C_J5_only','B_off','C_USB_disconnected','P5_unchanged_confirmed','ESP_present_powered','no_human',
-        'manual_C_RESET_completed_once','spare_module_installed_once','DIP8_VCC_GND_orientation_checked')),'ESP_SITE_INCOMPLETE')
+       ('JLink_on_C','C_J5_only','B_off','C_USB_disconnected','P5_unchanged_confirmed','ESP_present_powered','no_human',
+        'reseat_owner_reported','photo_P5_WB_route_observed','photo_module_in_P1_observed')),'ESP_SITE_INCOMPLETE')
     return bundle
 
 
@@ -203,6 +222,7 @@ def worker(a,bundle,out):
                     g.write_private(out/'after-full-private.bin',after);g.write_private(out/'after-options-private.bin',opts_after)
                     g.require(after==full and opts_after==options and link.read(site.RAM,4)==bytes(4),'ESP_FAILURE_POST_IMAGE_DRIFT')
                     r['failure_post_full_options_DISARMED_match']=True
+                    state=site.ro.old.snapshot(link);g.save(out/'failure-post-verify-state-private.json',state);site.ro.old.check_running(link,state)
                 link.set_close_resume(True)
             except BaseException as cleanup:r['failure_exit_check_error_type']=type(cleanup).__name__;link.verified_running_flash=False
     finally:

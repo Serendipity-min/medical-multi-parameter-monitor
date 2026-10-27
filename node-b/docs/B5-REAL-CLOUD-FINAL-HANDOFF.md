@@ -1,6 +1,14 @@
-# B5-002阶段唯一交接｜G3在AT阶段停止，ESP身份补证
+# B5-002阶段唯一交接｜重插后AT/GMR通过，G3旧窗仍失败
 
 ## 最新状态｜2026-10-27
+
+最新R4已按负责人“重新插入模块后再测一次”的新许可执行并PASS，worker/监督/实际进程退出0。代理显式reset/halt/go、冷态转接及改线动作均0；不能据零显式reset断言绝无未观测硬件复位。用户仅报告重新插入和灯闪，重插时供电状态UNKNOWN，不补签冷启动。当前模块实读AT `2.3.0.0-dev`、SDK `v3.4-22-g967752e2`，另报告Bin `2.2.0`及目标标签`ESP8266_1MB`；目标标签不等于独立物理Flash容量测量，也不能确定购买新旧或唯一模块ID。AT一次收到10B OK，GMR一次收到189B OK，UART_DR写请求总12，未重试。见[R4实际回执](../evidence/B5-ESP-GMR-REAL-04/result.json)。
+
+R4补齐了不读UART_DR、不改寄存器的路由观察：PB10/PB11为AF7，GPIOB与USART3时钟、USART3 NVIC使能和运行时基均符合预期；保存查询前后SR及NVIC/时基快照。完整1MiB Flash/options前后逐字节一致、DISARMED及正常Flash出口通过，sector3/7/11未变。照片P5路由看起来符合预期，但不是电气通断证明；重插后相同115200查询恢复只支持当前通路可用，不能唯一锁定此前插接/供电/启动状态中的某个原因。
+
+当前AT版本已由UNKNOWN更新为上述实读版本；原R1 ROM、R2/R3零RX、原G3首次AT失败全部保留，不能覆盖。R4未发Wi-Fi/TLS/MQTT命令或B5START，G3的300秒评价仍未完成，CA/SNI/SNTP/TLS能力不因GMR通过自动升级。新G3窗口需独立准入/批准，不自动启动，旧ROM及双通道/冷启动/标定残余状态不变。当前SDK会话已关闭，沿用J-Link在C、C J5、B断电、C USB断开。
+
+以下UNKNOWN及等待近照等均为此前检查点，不覆盖R4最新实测。
 
 接收证据边界：A/B的0字节为C软件RX环增量，不等于物理ESP TX无信号。保存Flash的USART3向量与ELF强ISR已离线核对一致，但NVIC/USART_SR/GPIO实际状态未在该查询中保存，仍需与P5实物/供电EN共同补证；不得直接判两块模块损坏。见[接收证据范围](../evidence/B5-ESP-GMR-REAL-03/RX-evidence-scope.json)。
 
