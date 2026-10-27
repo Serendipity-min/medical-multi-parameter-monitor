@@ -2,6 +2,10 @@
 
 ## 最新状态｜2026-10-27
 
+负责人已批准HW卡一次C只读及G3 R4进入许可，并明确ESP保持在板供电。HW实际首窗已PASS：一连接/关闭、1MiB Flash与16B options各一次，退出0；UID/保护匹配、PC采样均在Flash、VTOR=0x08000000、无HALT/Fault，DISARMED=0。完整Flash及options与G2-B后冻结原件逐字节一致，sector3/7/11未变。显式halt/go/reset/Flash写/AT/B5START均0，未重试；原件仍只存受限EFS，见[真实C准入回执](../evidence/B5-G3-HW-PREFLIGHT-01/result.json)。
+
+当前等待负责人按已批准HW卡完成一次冷态转接、C USB_UART及B J5上电，并回报实际COM和源/电气附件。G3许可已取得，不再重复申请；执行器在现场齐全前保持禁用，B5START仍0。下方“尚待批准/待现场”的描述为此前软件准备检查点，不覆盖本段最新实际进展。独立测试服务本次尚未新鲜查询，不自动启动或恢复。
+
 G2-A唯一42552B应用实际安装PASS；MEM-AP第二只读窗口PASS；G2-B R3首次真实sector3写入PASS，耗时110.641秒，完整Flash/options及DISARMED合格。写后全片SHA `acb33fdd39ecb016ecd848ec25eee051635f56ef8138b577a8590d2734ad687e`，候选BIN及sector3外所有字节未变。
 
 负责人另批G1-RESUME R2后，独立Backend/TLS已实际恢复PASS，TLS CA/SNI、Backend健康和MQTT订阅通过；18775监听、8884未监听，正式服务PID与配置未变。仅两个测试unit各start1，无ACL/HUP/正式环境改写。北京时间11:15:45启动，原6h驻留上限预计17:15:45；测试账号/ACL仍在，未自动撤销。
