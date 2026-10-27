@@ -1,0 +1,63 @@
+test_ROM_stops_runtime_before_UART_packet (test_b5_esp_udp_ntp.Tests.test_ROM_stops_runtime_before_UART_packet) ... ok
+test_active_and_both_passive_binary_formats_preserve_NUL (test_b5_esp_udp_ntp.Tests.test_active_and_both_passive_binary_formats_preserve_NUL) ... ok
+test_binary_OK_ERROR_and_nested_header_do_not_finish_AT (test_b5_esp_udp_ntp.Tests.test_binary_OK_ERROR_and_nested_header_do_not_finish_AT) ... ok
+test_controller_sends_once_and_closes_with_or_without_reply (test_b5_esp_udp_ntp.Tests.test_controller_sends_once_and_closes_with_or_without_reply) ... 
+  test_controller_sends_once_and_closes_with_or_without_reply (test_b5_esp_udp_ntp.Tests.test_controller_sends_once_and_closes_with_or_without_reply) (reply=False) ... ERROR
+  test_controller_sends_once_and_closes_with_or_without_reply (test_b5_esp_udp_ntp.Tests.test_controller_sends_once_and_closes_with_or_without_reply) (reply=True) ... ERROR
+test_default_never_executes (test_b5_esp_udp_ntp.Tests.test_default_never_executes) ... ok
+test_disabled_authorization_stops_before_file_access (test_b5_esp_udp_ntp.Tests.test_disabled_authorization_stops_before_file_access) ... ok
+test_native_and_high_level_uid_flash_options_reads_are_denied (test_b5_esp_udp_ntp.Tests.test_native_and_high_level_uid_flash_options_reads_are_denied) ... ok
+test_no_socket_requires_IP_ready_and_no_connection_rows (test_b5_esp_udp_ntp.Tests.test_no_socket_requires_IP_ready_and_no_connection_rows) ... ok
+test_non_IP_or_non_48B_packet_denied (test_b5_esp_udp_ntp.Tests.test_non_IP_or_non_48B_packet_denied) ... ok
+test_nonce_LI_version_mode_KOD_and_receive_timestamp_checks (test_b5_esp_udp_ntp.Tests.test_nonce_LI_version_mode_KOD_and_receive_timestamp_checks) ... ok
+test_partial_and_oversize_frames_not_accepted (test_b5_esp_udp_ntp.Tests.test_partial_and_oversize_frames_not_accepted) ... ok
+test_plan_has_exactly_one_payload_and_no_identity_or_time_setting (test_b5_esp_udp_ntp.Tests.test_plan_has_exactly_one_payload_and_no_identity_or_time_setting) ... ok
+test_prompt_and_send_ok_are_distinct (test_b5_esp_udp_ntp.Tests.test_prompt_and_send_ok_are_distinct) ... ok
+test_raw_DAP_cannot_read_identity_or_vectors (test_b5_esp_udp_ntp.Tests.test_raw_DAP_cannot_read_identity_or_vectors) ... ok
+test_target_writes_other_than_exact_UART_bytes_are_denied (test_b5_esp_udp_ntp.Tests.test_target_writes_other_than_exact_UART_bytes_are_denied) ... ok
+test_valid_nonce_reply_and_g3_rtt_not_claimed (test_b5_esp_udp_ntp.Tests.test_valid_nonce_reply_and_g3_rtt_not_claimed) ... ok
+
+======================================================================
+ERROR: test_controller_sends_once_and_closes_with_or_without_reply (test_b5_esp_udp_ntp.Tests.test_controller_sends_once_and_closes_with_or_without_reply) (reply=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\medical-monitor-node-b5-cloud\node-b\tools\b5_esp_udp_ntp.py", line 175, in worker
+    link.query_before_verified=True;bridge.guard=link.byte_grant.check
+                                                 ^^^^^^^^^^^^^^^
+AttributeError: 'types.SimpleNamespace' object has no attribute 'byte_grant'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\medical-monitor-node-b5-cloud\node-b\tests\test_b5_esp_udp_ntp.py", line 118, in test_controller_sends_once_and_closes_with_or_without_reply
+    self.assertEqual(u.worker({},commands,request(),out),0)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\medical-monitor-node-b5-cloud\node-b\tools\b5_esp_udp_ntp.py", line 216, in worker
+    if (link and link.query_before_verified and not link.error and not getattr(link,'read_failed',False)
+                                                    ^^^^^^^^^^
+AttributeError: 'types.SimpleNamespace' object has no attribute 'error'
+
+======================================================================
+ERROR: test_controller_sends_once_and_closes_with_or_without_reply (test_b5_esp_udp_ntp.Tests.test_controller_sends_once_and_closes_with_or_without_reply) (reply=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\medical-monitor-node-b5-cloud\node-b\tools\b5_esp_udp_ntp.py", line 175, in worker
+    link.query_before_verified=True;bridge.guard=link.byte_grant.check
+                                                 ^^^^^^^^^^^^^^^
+AttributeError: 'types.SimpleNamespace' object has no attribute 'byte_grant'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\medical-monitor-node-b5-cloud\node-b\tests\test_b5_esp_udp_ntp.py", line 118, in test_controller_sends_once_and_closes_with_or_without_reply
+    self.assertEqual(u.worker({},commands,request(),out),0)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\medical-monitor-node-b5-cloud\node-b\tools\b5_esp_udp_ntp.py", line 216, in worker
+    if (link and link.query_before_verified and not link.error and not getattr(link,'read_failed',False)
+                                                    ^^^^^^^^^^
+AttributeError: 'types.SimpleNamespace' object has no attribute 'error'
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.029s
+
+FAILED (errors=2)

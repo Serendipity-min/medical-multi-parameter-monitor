@@ -58,3 +58,8 @@ R1只读入口再次处于ROM，未开始AT；R2经负责人另批一次正常C 
 ## SNTP启用及网络对照：有效UTC仍BLOCKED
 
 本轮默认启用/读回均OK但0–30秒仅1513→1543；模块三个既有NTP主机DNS均解析成功（带引号IP已离线修正解析，原收据保留）。电脑每目标单包对照首个超时、后两个合法回复；临时选择既有第二服务器后模块仍2526→2556，原G3默认命令会覆盖选择。三次C硬件worker/监督均退出0并验证完整Flash/options/DISARMED不变；SNTP正常关闭。问题限定在ESP实际链路或内置SNTP处理，尚未证实具体UDP/路由器/模块机制。新G3 START=0，且17:10查询测试服务剩余约327秒不足625秒。详见唯一交接和`../evidence/B5-ESP-SNTP-01/investigation-summary.json`；不灌时间、不降TLS、不自动烧录或重启服务。
+
+
+## ESP侧单包：发送接受、无回包记录，socket已关闭
+
+负责人免除重复板卡识别/全片哈希后，仅执行最小运行/DISARMED检查与一个固定UDP/NTP请求。CIPDINFO:false的主机解析问题在发包前触发停止，原件保留，修正后总载荷尝试仍仅1；修正执行worker/监督退出0。ESP SEND OK、主动IPD无数据、RX覆盖无缺口、被动ERROR、socket关闭确认，不能把SEND OK签成授时成功，也不能直接判路由器封包。见`B5-ESP-UDP-NTP-ANALYSIS.md`和`../evidence/B5-ESP-UDP-NTP-01/result.json`。本轮未访问云端、未写时间、未烧录或修改阈值，没有新G3。
