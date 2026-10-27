@@ -1,0 +1,26 @@
+{
+  "status": "LAN_03_HOST_PREJOIN_STATUS5_MISCLASSIFIED_STOP_NO_JOIN_NO_UDP",
+  "reason": "LAN_WIFI_PREEXISTING_SOCKET",
+  "actual_STATUS": 5,
+  "existing_socket_connection_lines": 0,
+  "worker_exits": {
+    "PC": 1,
+    "ESP": 1
+  },
+  "supervisor_exit": 1,
+  "caller_exit": 1,
+  "elapsed_s": 2.765999999945052,
+  "CWJAP_attempts": 0,
+  "ESP_payload_attempts": 0,
+  "PC_reply_attempts": 0,
+  "PC_listener_opened": false,
+  "UART_native_attempts": 30,
+  "SDK_calls": 499,
+  "close_resume": true,
+  "C_DISARMED": true,
+  "agent_reset_halt_go": 0,
+  "Flash_writes": 0,
+  "B5START": 0,
+  "host_fix": "prejoin accepts disconnected STATUS5 only when no CIPSTATUS connection entries; postjoin predicate unchanged",
+  "owner_new_target_trial_still_unattempted": true
+}

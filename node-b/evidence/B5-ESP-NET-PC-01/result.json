@@ -1,0 +1,44 @@
+{
+  "status": "LAN_01_STOP_BEFORE_UDP_DIFFERENT_SUBNET_AND_PC_TUN_ROUTE",
+  "scope": "APPLICATION_RAW_ONLY_OWNER_EXCEPTIONS",
+  "worker_exits": {
+    "PC": 1,
+    "ESP": 1
+  },
+  "supervisor_exit": 1,
+  "caller_exit": 1,
+  "elapsed_s": 5.141000000061467,
+  "primary_reason": "LAN_NOT_LOCAL_PEER",
+  "ESP_payload_attempts": 0,
+  "PC_reply_attempts": 0,
+  "PC_listener_opened": false,
+  "UART_bytes": 98,
+  "C_entry_VTOR": 134217728,
+  "C_DISARMED": true,
+  "close_resume": true,
+  "SDK_calls": 1406,
+  "UID_Flash_options_reads": 0,
+  "reset_halt_go": 0,
+  "Flash_writes": 0,
+  "B5START": 0,
+  "firewall_changed": false,
+  "PCAP": "NOT_RUN_APPROVED_EXCEPTION",
+  "topology": {
+    "ESP_IP_unspecified": false,
+    "ESP_IP_is_private": true,
+    "ESP_equals_PC": false,
+    "ESP_in_PC_prefix": false,
+    "CIPSTATUS": "4",
+    "ESP_mask_prefix": 24,
+    "route_read_exit": 0,
+    "route_interfaces": [
+      14
+    ],
+    "PC_UDP_listener_opened": false,
+    "UDP_payload_attempts": 0
+  },
+  "PC_failure_is_cooperative_STOP_not_independent_network_failure": true,
+  "scope_validation_not_UDP_network_failure": true,
+  "used_nonce_sha256": "974762df05ccac54613dde0d138fcdf696273375876904dafaaebef145c25300",
+  "next_step": "Owner PC WiFi alignment, then fresh private destination/nonce, new independent window, no automatic device reset"
+}
