@@ -5,7 +5,7 @@ G2-B R3首次实板写入已PASS（110.641秒），本节之后只做云服务/G
 | 顺序 | 事务与准入 | 目前状态 |
 |---|---|---|
 | 1 | G2-B R3：新工具/配置包/卡SHA绑定，一次sector3事务和ESP在板非隔离例外分别明确，180秒，失败即停 | 首次真实写入PASS；完整Flash/options/DISARMED合格，许可已消费 |
-| 2 | G1-RESUME R2：新鲜只读比对正式服务/PID、ACL/password SHA、测试unit/权限/端口；仅既有Backend和TLS两个unit各start≤1，300秒准入，Restart=no/驻留6h | 新resume-only执行器及9项定向测试通过、输入/源码/权限已绑定；仍待单独启动批准 |
+| 2 | G1-RESUME R2：新鲜只读比对正式服务/PID、ACL/password SHA、测试unit/权限/端口；仅既有Backend和TLS两个unit各start≤1，300秒准入，Restart=no/驻留6h | 新resume-only执行器及9项定向测试通过、输入/源码/权限已绑定；负责人已另批并实际恢复PASS；仅backend/tls各start1，G3仍另批 |
 | 3 | ESP实际AT版本、CA/SNI/证书存储/SNTP及串口电气检查 | 未实测；旧P分支/Host TLS不能代替；有限检查须独立授权 |
 | 4 | G3 R3：B原码诊断、C队列/CAN/网络、Broker实收、Backend接受/拒绝、WSS同session日志及420秒监督器/人工停止附件 | 判据已冻结；实际联合取证工具绑定和现场附件未齐，不可启用 |
 | 5 | G3后R-CFG R3→R-APP R2、另R-CLOUD | 分别批准；不自动恢复；ESP在板例外不能代批H3启动 |
@@ -19,3 +19,5 @@ G1最新只读生命周期证据 `../evidence/B5-G2B-PREP/cloud-lifecycle-202610
 SDK读路径实际PASS仅来自MEMAP_READONLY_02；新sector3写入已按R3首次实际通过。所有旧ROM、B5冷启动、同窗HR/RR、绝对阻抗、故障注入状态原样保留。BIO_V2及唯一42552B候选不变。
 
 当前登记现场仍为J-Link在C、C J5、C USB_UART断开、B断电。G3需C串口记录及B供电/原码观察；这些变化须精确电气附件和负责人操作，不能从本次“供电接线不变”的配置许可推导出热转接或上电权限。当前COM号不得直接套用历史COM6/COM15。
+
+最新G1-RESUME R2已经真实通过：TLS/CA/SNI、Backend健康及MQTT订阅正常，18775监听，正式服务PID/配置不变。见 `../evidence/B5-G1-RESUME-01/result.json`。服务预计北京时间17:15:45到6h驻留上限，账号/ACL不自动撤销；当前没有B5START。

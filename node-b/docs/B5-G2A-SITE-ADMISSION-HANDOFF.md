@@ -110,3 +110,13 @@ sector3写入器已采用成功只读窗的已连接SDK流程：禁止Configure�
 为下阶段新备resume-only工具和[G1-RESUME R2](AUTH-B5-G1-RESUME-001-R2.md)，9项定向测试通过。开发第2次离线测试因Windows缺少Linux pwd模块而失败，补合成模块替身后通过；日志全部保留，不是服务器执行失败。只对冻结两个unit各start≤1，实际服务启动待单独批准；不借用会改ACL/HUP的旧G1 apply。G3现场与联合取证工具未齐，仍不启动B5START。
 
 CPU ROM根因UNRESOLVED、B5独立冷启动、同窗双通道、绝对阻抗和CAN故障注入保持原状态。当前C确为42552B＋新B5配置，原24104B/旧配置仅作为恢复原件；回滚顺序仍独立R-CFG R3后R-APP R2，未演练。BIO_V2阈值、保护分支和正式云服务未改。
+
+## 2026-10-27追加｜G1-RESUME R2真实恢复PASS，G3仍单独待批
+
+负责人另批“批准仅恢复测试服务，G3另批”后，只执行新冻结resume-only入口一次。源码 `73c0d4c7fba45f61414053f6c651435201bbc7014e4d4de6eb8df3b9bea5ba2f`，提交7c961db；一次SSH，外层耗时2.343秒，SSH/worker/外层退出0。先核对26项源码/配置/ACL/password/正式引用及私有权限，只对原独立backend、tls各start1次，均退出0；无Broker HUP/正式服务重启/ACL配置改写。
+
+真实TLS CA/SNI和隔离Backend健康检查通过，Backend已实际MQTT订阅；loopback18775已监听、8884不监听。前后正式服务活跃、PID及查询配置SHA相同。没有MQTT测试发布、WSS业务窗口、AT或B5START，没有新实板连接。该结果是测试入口恢复，不是B→C→Broker→Backend→WSS通过。
+
+两个测试服务北京时间11:15:45启动，沿用Restart=no和6h RuntimeMax，预计17:15:45到驻留上限，可能提前退出；测试账号/ACL不会自动撤销，不能声称已清理。真实受限原件、启用许可和.used均保留，许可已消费。结果与恢复前后快照见 `../evidence/B5-G1-RESUME-01/`。
+
+下一步只准备G3：C当前仍DISARMED；当前登记B断电、C USB_UART断开、J-Link在C，尚无新的串口号/采集现场附件。源ECG60/1.0mV、RA–LA–RL、电池与隔离条件须按实际附件冻结；供电、串口/JTAG转接不能由此前“保持接线不变”的sector3许可代批。G3联合原码/各层取证工具、ESP实机TLS条件和420秒监督器仍须补齐；卡R3判据保留但不可据卡名直接发送B5START。G3明确未批准，300秒云窗NOT_RUN。所有历史残余风险不升级。

@@ -1,4 +1,20 @@
-# B5-002阶段唯一交接｜G0完成，真实云窗尚未授权
+# B5-002阶段唯一交接｜应用/配置与测试服务恢复PASS，G3未运行
+
+## 最新状态｜2026-10-27
+
+G2-A唯一42552B应用实际安装PASS；MEM-AP第二只读窗口PASS；G2-B R3首次真实sector3写入PASS，耗时110.641秒，完整Flash/options及DISARMED合格。写后全片SHA `acb33fdd39ecb016ecd848ec25eee051635f56ef8138b577a8590d2734ad687e`，候选BIN及sector3外所有字节未变。
+
+负责人另批G1-RESUME R2后，独立Backend/TLS已实际恢复PASS，TLS CA/SNI、Backend健康和MQTT订阅通过；18775监听、8884未监听，正式服务PID与配置未变。仅两个测试unit各start1，无ACL/HUP/正式环境改写。北京时间11:15:45启动，原6h驻留上限预计17:15:45；测试账号/ACL仍在，未自动撤销。
+
+G3明确另批，B5START=0、300秒实板云窗NOT_RUN。C保持DISARMED，现场供电/USB/JTAG与联合原码/各层观察工具准入未齐；不把人工MOCK、配置字节或Backend订阅通过当作设备全链路通过。ROM根因、独立冷启动、同窗双有效、阻抗标定和故障注入保留原状态。
+
+最新详细交接见[B5-G2A-SITE-ADMISSION-HANDOFF](B5-G2A-SITE-ADMISSION-HANDOFF.md)，实板配置证据见 `../evidence/B5-G2B-SECTOR3-01/`，服务恢复见 `../evidence/B5-G1-RESUME-01/`。恢复R-CFG→R-APP及R-CLOUD仍各自另批且未执行。
+
+---
+
+## 以下为G0历史检查点
+
+以下“本轮/当前/未授权”均指G0当时；最新进展以上方汇总和各期原件为准，历史不覆盖。
 
 > 本文保留G0阶段结论。负责人后续单独授权的G1-A/HW0/G2-RO实际结果，现以[B5-G1-G2RO-ADMISSION-HANDOFF](B5-G1-G2RO-ADMISSION-HANDOFF.md)交接；本轮G2-A/G2-B/G3仍未授权。
 
