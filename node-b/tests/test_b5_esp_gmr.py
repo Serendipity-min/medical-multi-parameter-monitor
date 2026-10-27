@@ -50,7 +50,7 @@ class Tests(unittest.TestCase):
         link=object.__new__(q.QueryLink);link.sdk_calls=0;link.sdk_limit=6000;link.query_before_verified=True
         link.byte_grant=q.ByteGrant();link.byte_grant.begin(q.COMMANDS[0]);link.byte_grant.check(q.DR,65)
         link.native_UART_writes=0;link.dap_select=0;link.dap_csw=2;link.dap_tar=address
-        link.raw_target_grant=(address,65);link.raw_failed=False;link.active_api=None
+        link.raw_target_grant=(address,65);link.raw_failed=False;link.active_api=None;link.error=False
         link.io=io.StringIO();link.events=io.StringIO();link.gate=lambda:None
         return link
     def test_native_DAP_guard_denies_Flash_even_with_forged_parent_grant(self):
@@ -62,7 +62,7 @@ class Tests(unittest.TestCase):
         link=self.native_link_stub(q.DR);calls=[]
         link.dll=types.SimpleNamespace(JLINKARM_CORESIGHT_WriteAPDPReg=lambda *a:(calls.append(a) or -1))
         bus=q.site.config.NativeBus(link)
-        with self.assertRaisesRegex(ValueError,'WRITE_NATIVE_ERROR'):bus.write(3,True,65)
+        with self.assertRaisesRegex(q.NativeCallUncertain,'ESP_NATIVE_DAP_ERROR'):bus.write(3,True,65)
         with self.assertRaisesRegex(ValueError,'RAW_STOP_LATCHED'):bus.write(3,True,65)
         self.assertEqual(calls,[(3,1,65)])
         self.assertEqual(json.loads(link.io.getvalue())['native_return_int'],-1)

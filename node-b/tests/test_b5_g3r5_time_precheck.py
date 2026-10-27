@@ -54,7 +54,7 @@ class Tests(unittest.TestCase):
         for values,on,cfg in (([1,2],True,True),([MINIMUM]*2,True,True),([MINIMUM,MINIMUM+1],False,True),([MINIMUM,MINIMUM+1],True,False)):
             self.assertFalse(p.time_gate(values,MINIMUM,on,cfg))
 
-    def run_worker(self,enable_ok=True,valid_time=True):
+    def run_worker(self,enable_ok=True,valid_time=True,exhaust_after_samples=False):
         plan=p.plan(NAMES);calls=[]
         fake=types.SimpleNamespace(open=lambda:None,u32=lambda a:{p.q.UART+8:1,p.q.UART+12:0x202c}.get(a,0),
             call=lambda *a:1,query_before_verified=False,error=False,native_UART_writes=0,sdk_calls=0,
@@ -71,11 +71,13 @@ class Tests(unittest.TestCase):
             elif index<29:raw=b'+CIPDOMAIN:"192.0.2.10"\r\nOK\r\n'
             elif index==29:raw=b'\r\nOK\r\n'
             else:raw=b'+CIPSNTPCFG:0\r\nOK\r\n'
+            if index==25 and exhaust_after_samples:
+                link.sdk_calls=link.sdk_limit-link.command_budget.cleanup_reserve
             return raw,(),0
         route={k:True for k in ('PB10_PB11_AF7','GPIOB_clock_enabled','USART3_clock_enabled','USART3_IRQ_enabled','uptime_advances')}
         with tempfile.TemporaryDirectory() as folder:
             out=Path(folder)/'run'
-            with patch.object(p.u,'UdpLink',return_value=fake),patch.object(p.u,'runtime'),patch.object(p.q,'rx_route_snapshot',return_value=route),patch.object(p.q,'baud_from_registers',return_value=115200),patch.object(p.q.site.config,'NativeBus'),patch.object(p.u,'UartBridge'),patch.object(p.u,'exchange',side_effect=exchange),patch.object(p.time,'sleep'),patch.object(p.g.private,'protected'),patch.object(p.g,'save',side_effect=lambda f,v:Path(f).write_text(json.dumps(v))),contextlib.redirect_stdout(io.StringIO()):
+            with patch.object(p.u,'UdpLink',return_value=fake),patch.object(p.u,'runtime',side_effect=lambda *args:setattr(fake,'sdk_calls',fake.sdk_calls+11)),patch.object(p.q,'rx_route_snapshot',return_value=route),patch.object(p.q,'baud_from_registers',return_value=115200),patch.object(p.q.site.config,'NativeBus'),patch.object(p.u,'UartBridge'),patch.object(p.u,'exchange',side_effect=exchange),patch.object(p.time,'sleep'),patch.object(p.g.private,'protected'),patch.object(p.g,'save',side_effect=lambda f,v:Path(f).write_text(json.dumps(v))),contextlib.redirect_stdout(io.StringIO()):
                 code=p.worker({'dns_names':NAMES,'minimum_epoch':MINIMUM},plan,'TestSSID',out)
             result=json.loads((out/'receipt-private.json').read_text())
         return code,result,calls
@@ -94,6 +96,12 @@ class Tests(unittest.TestCase):
         code,result,calls=self.run_worker(valid_time=False)
         self.assertEqual(code,2);self.assertEqual(result['status'],'TIME_PRECHECK_BLOCKED');self.assertTrue(result['SNTP_stop_verified'])
 
+    def test_exhaustion_after_SNTP_samples_skips_DNS_and_uses_reserved_stop(self):
+        code,result,calls=self.run_worker(exhaust_after_samples=True)
+        self.assertEqual(code,1);self.assertEqual(calls,list(range(26))+[29,30])
+        self.assertEqual(result['failure_class'],'HostBudgetExhausted')
+        self.assertTrue(result['SNTP_stop_verified']);self.assertEqual(result['SNTP_disable_attempts'],1)
+
     def test_ROM_prevents_any_UART_or_enable(self):
         with tempfile.TemporaryDirectory() as folder:
             fake=types.SimpleNamespace(open=lambda:None,u32=lambda a:0,query_before_verified=False,native_UART_writes=0,sdk_calls=0,close_resume_enabled=False,close=lambda:None)
@@ -105,13 +113,15 @@ class Tests(unittest.TestCase):
 
 
     def test_API_reserve_stops_before_native_read_latch(self):
-        link=types.SimpleNamespace(sdk_limit=12000,sdk_calls=9000,byte_grant=types.SimpleNamespace(cleanup_started=False),read_failed=False)
+        commands=p.plan(NAMES)
+        link=types.SimpleNamespace(sdk_limit=6000,sdk_calls=5900,byte_grant=p.Grant(commands),read_failed=False)
         with patch.object(p.u,'exchange') as native:
-            with self.assertRaisesRegex(ValueError,'P0A_API_CLEANUP_RESERVE'):p.exchange(link,None,b'',Path('.'),0)
+            with self.assertRaisesRegex(p.HostBudgetExhausted,'P0A_API_CLEANUP_RESERVE'):p.exchange(link,None,commands[0],Path('.'),0)
         native.assert_not_called();self.assertFalse(link.read_failed)
 
     def test_cleanup_may_use_reserved_budget_but_not_change_commands(self):
-        link=types.SimpleNamespace(sdk_limit=12000,sdk_calls=9000,byte_grant=types.SimpleNamespace(cleanup_started=True))
+        grant=p.Grant(p.plan(NAMES));grant.cleanup()
+        link=types.SimpleNamespace(sdk_limit=6000,sdk_calls=3500,byte_grant=grant)
         with patch.object(p.u,'exchange',return_value=('ok',(),0)) as native:
             self.assertEqual(p.exchange(link,None,b'AT+CIPSNTPCFG=0\r\n',Path('.'),29)[0],'ok')
         native.assert_called_once()

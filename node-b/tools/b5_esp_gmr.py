@@ -14,6 +14,7 @@ import b5_g3_devices as previous
 import b5_g2_site as site
 import runtime_state_b as runtime
 from b5_sector3_write_protocol import DapBridge, CR, SR
+from b5_esp_budget import HostBudgetExhausted, NativeReadFailed, NativeCallUncertain
 
 SCOPE='B5_ESP_GMR_FIXED_UART_QUERY_NO_FLASH_NO_CPU_CONTROL'
 CARD='AUTH-B5-ESP-GMR-001-R4.md'
@@ -30,7 +31,8 @@ RX_ROUTE_REGISTERS={'GPIOB_MODER':0x40020400,'GPIOB_IDR':0x40020410,'GPIOB_AFRH'
 READS.update({a:{4} for a in RX_ROUTE_REGISTERS.values()})
 
 
-def bindings():return {**g.bindings(),'b5_esp_gmr.py':g.sha(Path(__file__).read_bytes())}
+def bindings():return {**g.bindings(),'b5_esp_gmr.py':g.sha(Path(__file__).read_bytes()),
+                      'b5_esp_budget.py':g.sha(Path(__file__).with_name('b5_esp_budget.py').read_bytes())}
 
 
 def extract_version(data):
@@ -86,11 +88,17 @@ class QueryLink(site.BridgeLink):
         self.byte_grant=ByteGrant(self.BYTE_COMMANDS);self.query_before_verified=False;self.native_UART_writes=0
         super().__init__(out);self.sdk_limit=6000;self.memory_counts={}
     def call(self,name,*args,timeout=5):
-        return site.config.NativeLink.call(self,name,*args,timeout=timeout)
+        # 不走写Flash基类的全异常锁存；只有实际原生错误才污染链路。
+        previous=getattr(self,'active_api',None);self.active_api=name
+        try:return self._call_native(name,*args,timeout=timeout)
+        finally:self.active_api=previous
     def _call_native(self,name,*args,timeout=5):
         g.require(name in site.ro.CALLS|{'JLINKARM_CORESIGHT_ReadAPDPReg','JLINKARM_CORESIGHT_WriteAPDPReg'},'ESP_NATIVE_API_DENIED')
         g.require(not getattr(self,'read_failed',False),'ESP_READ_STOP_LATCHED')
-        g.require(self.sdk_calls<self.sdk_limit,'ESP_API_BUDGET')
+        g.require(not getattr(self,'raw_failed',False),'ESP_RAW_STOP_LATCHED')
+        g.require(not getattr(self,'native_uncertain',False),'ESP_NATIVE_STOP_LATCHED')
+        # 最后一调用始终留给一次Close，不能用于UART或普通读。
+        if self.sdk_calls>=self.sdk_limit-1:raise HostBudgetExhausted('ESP_API_BUDGET')
         if name=='JLINKARM_ExecCommand':
             command=args[0].decode('ascii');g.require(command in site.ro.COMMANDS,'ESP_POLICY_DENIED')
             if command=='SetRestartOnClose = 1':g.require(self.verified_running_flash,'ESP_CLOSE_UNVERIFIED')
@@ -113,15 +121,28 @@ class QueryLink(site.BridgeLink):
                     self.native_UART_writes+=1
             elif reg==3 and self.dap_select==0:
                 g.require(self.dap_tar in (0xe000ed00,CR,SR) or 0x08000000<=self.dap_tar<0x08000040,'ESP_DAP_READ_SCOPE')
-        self.sdk_calls+=1;self.gate();deadline=time.monotonic()+timeout
+        self.gate();self.sdk_calls+=1;deadline=time.monotonic()+timeout
         self.events.write(json.dumps({'operation':name,'active':True,'deadline_monotonic':deadline})+'\n');self.events.flush()
-        result=getattr(self.dll,name)(*args)
+        try:result=getattr(self.dll,name)(*args)
+        except Exception as error:
+            self.native_uncertain=True;self.verified_running_flash=False
+            self.events.write(json.dumps({'operation':name,'active':False,'exception_type':type(error).__name__})+'\n');self.events.flush()
+            raise NativeCallUncertain('ESP_NATIVE_EXCEPTION') from error
         row={'operation':name,'native_return_int':result if isinstance(result,int) else None,'monotonic':time.monotonic()}
         if name=='JLINKARM_ReadMemEx':row.update(address=hex(args[0]),requested=args[1])
         if name.endswith('WriteAPDPReg'):row.update(reg=args[0],AP=args[1],value=args[2])
         self.io.write(json.dumps(row)+'\n');self.io.flush()
         self.events.write(json.dumps({'operation':name,'active':False})+'\n');self.events.flush()
-        g.require(time.monotonic()<=deadline,'ESP_NATIVE_TIMEOUT');self.gate()
+        if name=='JLINKARM_ReadMemEx' and result!=args[1]:
+            self.read_failed=True;self.verified_running_flash=False
+            raise NativeReadFailed('ESP_NATIVE_READ_ERROR' if result<0 else 'ESP_NATIVE_SHORT_READ')
+        if name.endswith('APDPReg') and result<0:
+            self.raw_failed=True;self.verified_running_flash=False
+            raise NativeCallUncertain('ESP_NATIVE_DAP_ERROR')
+        if time.monotonic()>deadline or self.error:
+            self.native_uncertain=True;self.verified_running_flash=False
+            raise NativeCallUncertain('ESP_NATIVE_TIMEOUT' if time.monotonic()>deadline else 'ESP_NATIVE_CALLBACK_ERROR')
+        self.gate()
         if name.endswith('APDPReg') and result>=0:
             v=args[2] if name.endswith('WriteAPDPReg') else C.cast(args[2],C.POINTER(C.c_uint32)).contents.value
             if args[1]==0 and args[0]==2:self.dap_select=v
@@ -131,11 +152,48 @@ class QueryLink(site.BridgeLink):
         return result
     def read(self,address,size):
         g.require(size in READS.get(address,set()),'ESP_READ_SCOPE');buf=(C.c_uint8*size)()
+        self.call('JLINKARM_ReadMemEx',address,size,buf,0,timeout=45 if size==1048576 else 5)
+        return bytes(buf)
+
+    def set_close_resume(self,enabled):
+        # 先记请求；最终Close前重新核实状态，不能沿用过早的运行证明。
+        self.close_resume_requested=enabled
+
+    def close(self):
+        self.close_completed=False
         try:
-            n=self.call('JLINKARM_ReadMemEx',address,size,buf,0,timeout=45 if size==1048576 else 5)
-            g.require(n>=0,'ESP_NATIVE_READ_ERROR');g.require(n==size,'ESP_NATIVE_SHORT_READ');return bytes(buf)
-        except BaseException:
-            self.read_failed=True;self.verified_running_flash=False;raise
+            if self.opened:
+                if getattr(self,'close_resume_requested',False):
+                    g.require(self.verified_running_flash and not any(getattr(self,k,False) for k in
+                        ('read_failed','raw_failed','native_uncertain','error')),'ESP_CLOSE_UNVERIFIED')
+                    dhcsr=self.u32(0xe000edf0);vtor=self.u32(0xe000ed08)
+                    faults=self.u32(0xe000ed28)|self.u32(0xe000ed2c)
+                    pc=self.u32(0xe000101c);last=self.u32(0xe000edf0)
+                    flags=self.read(site.RAM,4)
+                    state_ok=not (dhcsr|last)&((1<<17)|(1<<19)|(1<<25)) and not faults and flags==bytes(4) \
+                        and vtor==0x08000000 and 0x08000000<=pc<0x0800a638
+                    if not state_ok:self.verified_running_flash=False
+                    g.require(state_ok,'ESP_CLOSE_TARGET_STATE_STOP')
+                    super().set_close_resume(True)
+        finally:
+            try:
+                if self.opened:
+                    g.require(not getattr(self,'close_native_calls',0),'ESP_CLOSE_ALREADY_ATTEMPTED')
+                    self.sdk_calls+=1;self.close_native_calls=1;deadline=time.monotonic()+5
+                    self.events.write(json.dumps({'operation':'JLINKARM_Close','active':True,'deadline_monotonic':deadline})+'\n');self.events.flush()
+                    try:self.dll.JLINKARM_Close()
+                    except Exception as error:
+                        self.native_uncertain=True
+                        raise NativeCallUncertain('ESP_CLOSE_EXCEPTION') from error
+                    self.events.write(json.dumps({'operation':'JLINKARM_Close','active':False})+'\n');self.events.flush()
+                    self.io.write(json.dumps({'operation':'JLINKARM_Close','native_return_int':None,'monotonic':time.monotonic()})+'\n');self.io.flush()
+                    if time.monotonic()>deadline or self.error:
+                        self.native_uncertain=True
+                        raise NativeCallUncertain('ESP_CLOSE_TIMEOUT_OR_CALLBACK')
+                    self.close_completed=True;self.opened=False
+            finally:
+                for stream in (self.io,self.log,self.events):stream.close()
+                self.directory.close()
 
 
 def capture(link,bridge,command,out,index,accept_error=False,response_timeout_s=None):

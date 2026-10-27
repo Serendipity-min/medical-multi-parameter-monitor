@@ -12,6 +12,7 @@ import time
 
 import b5_esp_gmr as q
 import b5_ntp_reference_probe as reference
+from b5_esp_budget import TX_POLLS, RX_INTERVAL, response_polls
 g=q.g
 SCOPE='B5_ESP_ONE_UDP_NTP_PACKET_NO_IDENTITY_OR_FULL_FLASH_RESCAN'
 CARD='AUTH-B5-ESP-UDP-NTP-001-R2.md'
@@ -107,21 +108,31 @@ def ring_since(link,baseline):
     return q.circular_delta(baseline[4],after[4],blob)
 
 
-def exchange(link,bridge,command,out,index,mode='OK',timeout=3,allow_error=False):
+def exchange(link,bridge,command,out,index,mode='OK',timeout=3,allow_error=False,budget=None):
     baseline=struct.unpack('<5I',link.read(q.STATS,20));g.save(out/f'query-{index}-baseline-private.json',{'stats':baseline})
     link.byte_grant.begin(command);started=time.monotonic()
-    for value in command:
+    for offset,value in enumerate(command):
+        if budget:
+            budget.byte(len(command)-offset,response_polls(timeout))
         until=time.monotonic()+.5
-        while not link.u32(q.UART)&(1<<7):
-            g.require(time.monotonic()<=until,'UDP_TX_NOT_READY');time.sleep(.005)
+        if budget:
+            for poll in range(TX_POLLS):
+                if link.u32(q.UART)&(1<<7):break
+                if poll+1<TX_POLLS:time.sleep(.005)
+            else:raise ValueError('UDP_TX_NOT_READY')
+        else:
+            while not link.u32(q.UART)&(1<<7):
+                g.require(time.monotonic()<=until,'UDP_TX_NOT_READY');time.sleep(.005)
         bridge.write32(q.DR,value)
     sent=time.monotonic();until=sent+timeout;data=b'';kind=None
-    while time.monotonic()<until:
+    polls=0
+    while time.monotonic()<until and (budget is None or polls<response_polls(timeout)):
+        polls+=1
         received=ring_since(link,baseline)
         if received is not None:
             data=received;kind=terminal(data,mode)
             if kind:break
-        time.sleep(.02)
+        time.sleep(RX_INTERVAL)
     g.write_private(out/f'query-{index}-response-private.bin',data)
     g.save(out/f'query-{index}-meta-private.json',{'command_bytes':len(command),'response_bytes':len(data),
         'terminal':kind,'mode':mode,'sent_monotonic':sent,'observed_monotonic':time.monotonic(),'elapsed_s':time.monotonic()-started})

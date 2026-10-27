@@ -8,13 +8,13 @@ import sys
 import time
 
 import b5_esp_udp_ntp as u
+from b5_esp_budget import CommandBudget, HostBudgetExhausted
 q=u.q;g=u.g
 SCOPE='B5_G3R5_P0A_CURRENT_WIFI_SNTP_TIME_NO_IMAGE_RESCAN'
 CARD='AUTH-B5-G3R5-P0A-TIME-001-R1.md'
 FINALIZE_SCOPE='B5_G3R5_P0A_REMAINING_DNS_AND_SNTP_STOP_ONLY'
 FINALIZE_CARD='AUTH-B5-G3R5-P0A-FINALIZE-001-R1.md'
 SDK_LIMIT=12000
-CLEANUP_RESERVE=3200
 SAMPLES=15
 
 
@@ -36,9 +36,52 @@ def finalize_plan(names):
 
 
 def exchange(link,bridge,command,out,index,**kw):
-    if not getattr(link.byte_grant,'cleanup_started',False):
-        g.require(link.sdk_limit-link.sdk_calls>=CLEANUP_RESERVE,'P0A_API_CLEANUP_RESERVE')
-    return u.exchange(link,bridge,command,out,index,**kw)
+    if not hasattr(link,'command_budget'):
+        link.command_budget=CommandBudget(link,link.byte_grant.allowed_commands[link.byte_grant.cleanup_index:])
+    budget=link.command_budget
+    budget.admit(command,kw.get('timeout',3),link.byte_grant.cleanup_started)
+    return u.exchange(link,bridge,command,out,index,budget=budget,**kw)
+
+
+def healthy(link):
+    return bool(link and link.query_before_verified and not any(getattr(link,k,False) for k in
+        ('error','read_failed','raw_failed','native_uncertain')))
+
+
+def close_receipt(link,r):
+    try:link.close()
+    except Exception as error:
+        r.update(exit_code=1,SDK_close_error=True,close_error_type=type(error).__name__)
+    r.update(SDK_calls=link.sdk_calls,SDK_limit=link.sdk_limit,
+        close_resume_requested=getattr(link,'close_resume_requested',False),close_resume=link.close_resume_enabled,
+        Close_completed=getattr(link,'close_completed',False),post_close_target_state='UNKNOWN_REQUIRES_INDEPENDENT_OBSERVATION')
+
+
+def supervisor_summary(reason,worker_exit_code,receipt):
+    stopped=bool(not reason and receipt.get('SNTP_stop_verified',False))
+    unknown=bool(reason or receipt.get('SDK_close_error') or receipt.get('failure_cleanup_unverified')
+        or receipt.get('cleanup_unverified') or receipt.get('failure_class') in ('NativeReadFailed','NativeCallUncertain'))
+    return {'reason':reason,'worker_exit_code':worker_exit_code,'exit_code':1 if reason else worker_exit_code,
+        'retry':False,'SNTP_stop_verified':stopped,'B5START':0,'manual_UDP_payloads':0,
+        'target_state':'UNKNOWN' if unknown else 'SEE_WORKER_RECEIPT',
+        'physical_power_off_required':bool(unknown or not stopped)}
+
+
+def supervise(child,out,limit,start):
+    reason=None
+    try:
+        while child.poll() is None:
+            if time.monotonic()-start>=limit:reason='P0A_HARD_SESSION_LIMIT'
+            if (out/'STOP').exists():reason='P0A_OWNER_STOP'
+            event=__import__('b5_g3_joint').last_event(out/'heartbeat-events.jsonl')
+            if event.get('active') and time.monotonic()>event['deadline_monotonic']:reason='P0A_NATIVE_DEADLINE'
+            if reason:break
+            time.sleep(.05)
+    finally:
+        # 仅回收本监督器创建的子进程；不发任何目标恢复指令。
+        if child.poll() is None:child.kill()
+        child.wait(timeout=5)
+    return reason
 
 
 class Grant(q.ByteGrant):
@@ -140,8 +183,8 @@ def worker(a,commands,ssid,out):
     except BaseException as e:
         r.update(g.error_record(e))
         if isinstance(e,ValueError) and re.fullmatch(r'(P0A|UDP|ESP)_[A-Z0-9_]+',str(e)):r['reason']=str(e)
-        healthy=link and link.query_before_verified and not link.error and not getattr(link,'read_failed',False) and not getattr(link,'raw_failed',False)
-        if healthy:
+        r['failure_class']=type(e).__name__
+        if healthy(link):
             try:
                 u.runtime(link,out,'failure-exit')
                 if r['SNTP_enable_attempts'] and not r['SNTP_disable_attempts']:cleanup()
@@ -150,8 +193,7 @@ def worker(a,commands,ssid,out):
     finally:
         if link:
             r.update(UART_native_attempts=link.native_UART_writes,SDK_calls=link.sdk_calls,close_resume=link.close_resume_enabled)
-            try:link.close()
-            except BaseException:r['exit_code']=1;r['SDK_close_error']=True
+            close_receipt(link,r)
         g.save(out/'receipt-private.json',r)
     print(json.dumps({k:r[k] for k in ('status','exit_code','reason','SNTP_stop_verified','SNTP_enable_attempts') if k in r}));return r['exit_code']
 
@@ -193,7 +235,8 @@ def finalize_worker(a,commands,ssid,out):
     except BaseException as e:
         r.update(g.error_record(e))
         if isinstance(e,ValueError) and re.fullmatch(r'(P0A|UDP|ESP)_[A-Z0-9_]+',str(e)):r['reason']=str(e)
-        if link and link.query_before_verified and not link.error and not getattr(link,'read_failed',False) and not getattr(link,'raw_failed',False):
+        r['failure_class']=type(e).__name__
+        if healthy(link):
             try:
                 u.runtime(link,out,'failure-exit')
                 if not r['SNTP_disable_attempts']:stop()
@@ -202,8 +245,7 @@ def finalize_worker(a,commands,ssid,out):
     finally:
         if link:
             r.update(SDK_calls=link.sdk_calls,SDK_limit=link.sdk_limit,UART_native_attempts=link.native_UART_writes,close_resume=link.close_resume_enabled)
-            try:link.close()
-            except BaseException:r['exit_code']=1;r['SDK_close_error']=True
+            close_receipt(link,r)
         g.save(out/'receipt-private.json',r)
     print(json.dumps({k:r[k] for k in ('status','exit_code','reason','SNTP_stop_verified') if k in r}));return r['exit_code']
 
@@ -220,19 +262,11 @@ def main():
         logfile=out.with_name(out.name+'-worker-private.log');g.write_private(logfile,b'');start=time.monotonic();reason=None
         with logfile.open('ab') as log:
             child=subprocess.Popen([sys.executable,'-X','utf8',__file__,'--worker','--authorization',str(args.authorization)],stdout=log,stderr=subprocess.STDOUT)
-            while child.poll() is None:
-                if time.monotonic()-start>=a['session_timeout_s']:reason='P0A_HARD_180S'
-                if (out/'STOP').exists():reason='P0A_OWNER_STOP'
-                event=__import__('b5_g3_joint').last_event(out/'heartbeat-events.jsonl')
-                if event.get('active') and time.monotonic()>event['deadline_monotonic']:reason='P0A_NATIVE_DEADLINE'
-                if reason:child.kill();break
-                time.sleep(.05)
-            child.wait(timeout=5)
+            reason=supervise(child,out,a['session_timeout_s'],start)
         out.mkdir(exist_ok=True);receipt=g.maybe(out/'receipt-private.json') or {}
-        summary={'reason':reason,'worker_exit_code':child.returncode,'exit_code':1 if reason else child.returncode,'retry':False,
-            'SNTP_stop_verified':receipt.get('SNTP_stop_verified',False),'B5START':0,'manual_UDP_payloads':0}
+        summary=supervisor_summary(reason,child.returncode,receipt)
         g.save(out/'supervisor-private.json',summary)
-        if receipt.get('SNTP_enable_attempts') and not receipt.get('SNTP_stop_verified'):print(json.dumps({'event':'C_POWER_OFF_REQUIRED_SNTP_STATE_UNKNOWN'}),flush=True)
+        if summary['physical_power_off_required']:print(json.dumps({'event':'C_POWER_OFF_REQUIRED_SNTP_STATE_UNKNOWN'}),flush=True)
         return summary['exit_code']
     except BaseException as e:print(json.dumps({'status':'STOP','error_type':type(e).__name__,'exit_code':1}));return 1
 

@@ -33,7 +33,7 @@ class Tests(unittest.TestCase):
             with self.assertRaises(ValueError):t.q.ByteGrant(t.COMMANDS).begin(command)
     def test_native_all_34_bytes_and_35th_denied(self):
         x=object.__new__(t.TimeLink);x.byte_grant=t.q.ByteGrant(t.COMMANDS)
-        x.sdk_calls=0;x.sdk_limit=6000;x.query_before_verified=True;x.native_UART_writes=0
+        x.sdk_calls=0;x.sdk_limit=6000;x.query_before_verified=True;x.native_UART_writes=0;x.error=False
         x.dap_select=0;x.dap_csw=2;x.dap_tar=t.q.DR;x.io=io.StringIO();x.events=io.StringIO();x.gate=lambda:None
         native=Mock(return_value=0);x.dll=types.SimpleNamespace(JLINKARM_CORESIGHT_WriteAPDPReg=native)
         for command in t.COMMANDS:
