@@ -1,0 +1,107 @@
+{
+  "status": "G2B_MEMAP_READONLY_CROSSCHECK_PASS",
+  "exit_code": 0,
+  "full_flash_sha256": "3eaf583a703137b09665da5d2bfd7e860cd3a2208bf659b631d7ee4d0541545c",
+  "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+  "SDK_and_raw_DAP_readonly_match": true,
+  "DP_SELECT_canonical0_CSW_TAR_restored": true,
+  "explicit_reset_halt_go": 0,
+  "Flash_unlock_erase_program_and_target_memory_writes": 0,
+  "G2B_config_write": "NOT_AUTHORIZED_NOT_RUN",
+  "sdk_calls": 325,
+  "actions": {},
+  "close_resume_policy": true,
+  "scope": "B5_G2B_MEMAP_READONLY_NO_HALT_NO_FLASH_UNLOCK",
+  "ESP_isolated": false,
+  "ESP_isolation_waived_by_owner": true,
+  "ESP_autonomous_network": "UNKNOWN_NO_AT_COMMANDS",
+  "B5START": 0,
+  "cloud_service_actions": 0,
+  "window_id": "MEMAP_READONLY_02",
+  "supervisor": {
+    "reason": null,
+    "worker_exit_code": 0,
+    "supervisor_exit_code": 0,
+    "target_state": "SEE_WORKER_RECEIPT",
+    "automatic_retry_or_recovery": false
+  },
+  "outer_process_exit_code": 0,
+  "independent_full_reads": 2,
+  "independent_options_reads": 2,
+  "private_UID_before_after_match": true,
+  "before_full_sha256": "3eaf583a703137b09665da5d2bfd7e860cd3a2208bf659b631d7ee4d0541545c",
+  "after_full_sha256": "3eaf583a703137b09665da5d2bfd7e860cd3a2208bf659b631d7ee4d0541545c",
+  "before_options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+  "after_options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+  "candidate_BIN_bytes": 42552,
+  "candidate_BIN_sha256": "d5b9624b3da1129b4e045d3b2f669c00d2d93cb7379b15293ff143fe9f130683",
+  "regions": {
+    "sector3": {
+      "bytes": 16384,
+      "sha256": "1698c8783b4fbdd1bc7fc5a8641babc7b499b58a65be54e7b36c65c6c5b88313",
+      "before_equals_after": true
+    },
+    "sector7": {
+      "bytes": 131072,
+      "sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "before_equals_after": true
+    },
+    "sector11": {
+      "bytes": 131072,
+      "sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "before_equals_after": true
+    }
+  },
+  "entry_VTOR": "0x8000000",
+  "exit_VTOR": "0x8000000",
+  "entry_DHCSR": "0x1010001",
+  "exit_DHCSR": "0x1010001",
+  "entry_PC_samples": [
+    "0x80063f2",
+    "0x8004fbc",
+    "0x80063dc"
+  ],
+  "exit_PC_samples": [
+    "0x80063f2",
+    "0x80063f2",
+    "0x8004f86"
+  ],
+  "Faults_entry_exit": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "ROM_HALT_new_reset_observed": false,
+  "real_PC_MSP": "NOT_OBSERVED_RUNNING_NO_HALT",
+  "native_API_calls": 325,
+  "raw_AP_DP_read_calls": 83,
+  "raw_AP_DP_transport_write_calls": 166,
+  "AP_DRW_target_write_calls": 0,
+  "CORESIGHT_Configure_calls": 0,
+  "negative_native_returns": 0,
+  "SDK_halt_failure_message_count": 0,
+  "debugger_initial_Connect_calls": 1,
+  "reconnects_or_retries": 0,
+  "read_path_hardware_crosscheck": "PASS_IN_THIS_ACTUAL_WINDOW",
+  "raw_Flash_programming_hardware_validation": "NOT_RUN",
+  "old_frozen_helper_static_label_preserved": "NOT_ESTABLISHED_BY_OFFLINE_TESTS",
+  "post_Close_independent_hardware_observation": "NOT_RUN_ONE_SESSION_ONLY",
+  "CPU_ROM_ROOT_CAUSE": "UNRESOLVED",
+  "G2B_sector3_write": "NOT_AUTHORIZED_NOT_RUN",
+  "G1_RESUME_G3_and_restore": "NOT_AUTHORIZED_NOT_RUN",
+  "SDK_operation_counts": {
+    "JLINKARM_ExecCommand": 18,
+    "JLINKARM_EMU_GetNumDevices": 1,
+    "JLINKARM_SelectUSB": 1,
+    "JLINKARM_OpenEx": 1,
+    "JLINKARM_GetHWStatus": 1,
+    "JLINKARM_TIF_Select": 1,
+    "JLINKARM_SetSpeed": 1,
+    "JLINKARM_IsConnected": 2,
+    "JLINKARM_Connect": 1,
+    "JLINKARM_ReadMemEx": 49,
+    "JLINKARM_CORESIGHT_WriteAPDPReg": 166,
+    "JLINKARM_CORESIGHT_ReadAPDPReg": 83
+  }
+}

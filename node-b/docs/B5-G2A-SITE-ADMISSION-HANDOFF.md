@@ -1,6 +1,6 @@
 # G2-A实际安装与MEM-AP只读窗口交接
 
-**G2-A安装与DISARMED启动通过；随后MEM-AP只读窗口因SDK原生读错误停止，不能签桥通过。** 起点为 `codex/node-b5-cloud-integration-20261026@7c535558db0a65cf2a11298fb1db80f445fa2ea2`。本轮不写sector3、不启动测试服务、不发B5START、不执行恢复。
+**最新状态：G2-A安装与DISARMED启动PASS；负责人另批的修正版MEM-AP第二个只读窗口PASS。** 第一次桥窗口的SDK错误及离线修正原件保留。安装阶段起点为 `7c535558db0a65cf2a11298fb1db80f445fa2ea2`，第二只读窗口起点为 `d74f9ae7592e6d8d88bd29729b6c2837af4f884c`，均在独立分支 `codex/node-b5-cloud-integration-20261026`。没有写sector3、启动测试服务、发B5START或执行恢复。
 
 ## 负责人授权与ESP事实
 
@@ -15,6 +15,7 @@
 | 当前C只读准入 | 一次，worker/监督器/调用者退出0；85次SDK调用，双1MiB及双16B真实读取一致；显式reset/halt/go/目标写均0 |
 | G2-A42552B安装 | 一次，worker/监督器/调用者退出0；262次SDK调用；halt/download/reset/go各1；完整Flash、options和身份合格，实际RAM4B全零DISARMED |
 | MEM-AP只读 | 一次，worker/监督器/调用者退出1；50次SDK调用；Configure=1、返回0；随后SDK CPUID读返回-1；AP/DP寄存器调用0，显式halt/reset/go、解锁/擦写均0；无重试 |
+| 修正版MEM-AP第二只读窗口 | 负责人另批新一次许可，不复用旧`.used`；worker/监督器/调用者退出0，325次SDK调用；原始AP/DP读83、仅传输寄存器写166，SDK/原始读取一致，完整Flash/options前后相同、DISARMED；Configure及显式halt/reset/go/目标写均0 |
 | sector3写入 / G1-RESUME / G3 / 实际R-CFG/R-APP/R-CLOUD | 全部0 / NOT_AUTHORIZED / NOT_RUN |
 
 复用了冻结安装和读取实现，不修改原ESP门禁、BIO_V2或固件。新入口 `b5_g2_site.py` 仅提供明确豁免scope和独立只读scope，默认禁用；新增8项门禁检查通过，未重跑原27项writer、3项配置C验证或Host/ARM/TLS/UI矩阵。原始启用文件与`.used`分别独占创建，失败后未重发、重连或复位。
@@ -57,9 +58,11 @@
 ## 下一步与未完成项
 
 - 当前G2-A实际安装PASS保留，不能因桥失败重复安装或重刷。当前唯一C应用已是42552B，后续不得再把24104B当当前部署。
-- MEM-AP仍 **BLOCKED_SDK_CONTEXT_TRANSITION_NOT_VALIDATED**。已离线修正为复用Connected上下文、禁止重复Configure、SDK基准先读齐，再做原始比较；同时区分负错误/正短读，仅全部通过才启用退出续跑，并增加SDK回调时序和原生错误后禁止再次AP/DP调用的停止锁。修正版15项离线检查通过，初始8项和中间13/14项回执保留，不叠加为独立硬件验证。没有追加硬件尝试，也没有宣称SDK内部机制已完全证实或桥已修好。
+- **MEM_AP_READONLY_CROSSCHECK_PASS，限第二次获批只读窗口。** 复用已连接上下文、禁止重复Configure的冻结修正版在本机DLL与C板实测通过；原来15项离线检查及开发回执不重跑、不覆盖。新增27条SDK回调均带在途API和单调时间；Connect阶段24条、ExecCommand1条、Close2条，无原生负返回，也未出现上一窗的暂停失败消息指纹。读路径门禁已取得实板证据，不等于raw Flash编程已经验证。
 - 冻结专用sector3写入器也存在同样的“Configure后直接SDK读取”模式，原27项替身测试不能替代这次实际失败证据。它的旧SHA和配置包不改，但**不得据旧离线PASS直接启用物理写入**；须先完成这一准入缺口，不在暂停的CPU上自动试错。
-- 任何修正版实板核验都必须另获[新的单次只读授权](AUTH-B5-G2B-MEMAP-READONLY-002-R1.md)、绑定新工具/原件/输出；不复用已消费许可。本轮不执行第二次桥、不解锁/写sector3，不进入G1服务恢复或G3。执行版源码/历史清单保留在提交83bff8d及EFS；当前离线修正版另用 `SDK-context-audit-bindings.json` 绑定，不改写旧执行身份。
+- [第二次单次只读卡](AUTH-B5-G2B-MEMAP-READONLY-002-R1.md)已由负责人明确批准，实际执行1次后许可已消费。独立授权、原码、源码及API时序分别归档，见[实测结果](../evidence/B5-MEMAP-READONLY-02/result.json)、[时序核对](../evidence/B5-MEMAP-READONLY-02/API-timing-review.json)。没有复位、重装G2-A或改变供电/接线；不追加第三次连接。实际执行源SHA仍为冻结修正版 `44751b86728c5fb75c6960135c99470d5297d3b83a60d468ec53aafee14a949c`，没有边测边改代码。
 - ESP AT/TLS/自主联网状态未查询；云服务当前存活本轮未再核查或启动。历史G1人工MOCK PASS保留，不代表真实B→C→云通过。CPU ROM根因、B5独立冷启动、同窗HR/RR、绝对阻抗和故障注入均保持原未完成状态。
 
-本轮无B固件/算法修改、无源模式/电极操作、无保护分支合并、无Security Gate。交付后停止，等待负责人决定离线修正及新的独立只读窗口，不自动继续现场操作。
+本轮无B固件/算法修改、无源模式/电极操作、无保护分支合并、无Security Gate。第二窗口通过支持当前连接方式在本机有效，但不是严格单变量根因实验：旧日志中暂停失败究竟属于ReadMemEx还是Close仍无法追溯，也不关闭历史CPU ROM问题。SDK正常Close前最后一次硬件观察为Flash运行；Close后没有追加探测，不签独立冷启动或退出后长期运行验收。
+
+交付后停止。G2-B配置写入前仍须核对物理写入器是否已采用本次成功连接方式、冻结相应源码/SHA和必要负例，并另获配置写入批准；本次ESP在板豁免不自动覆盖该写事务。随后G1服务恢复、G3和回滚继续分别批准，不自动启用。

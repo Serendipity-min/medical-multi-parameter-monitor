@@ -1,6 +1,6 @@
 # MEM-AP窗口SDK读错误原因审查
 
-结论：**失败位置与工具设计缺陷已证实；具体SDK内部失败分支仍待单独实测，不归因于CPU进入ROM。** 调查后已准备离线修正版，没有追加实板尝试。
+最新结论：**负责人另批的修正版第二只读窗口已通过，支持修正后的连接方式有效；旧SDK内部失败分支仍未唯一确定，不归因于CPU进入ROM。** 以下保留上一轮失败与离线调查记录，第二窗口补证见末节。
 
 ## 真实失败链
 
@@ -42,10 +42,22 @@ SEGGER将Configure列为接口设置操作，`PerformTIFInit`参数涉及是否�
 
 修正版15项离线测试通过；初始8项及中间13/14项各次回执/原始日志也保留。不重跑既有27项writer、3项配置C或Host/ARM/TLS/UI矩阵。新增重放使用“观察到Configure后读错误”的替身边界，**不是在假对象中证明真实DLL根因或硬件已修好**。
 
-原始执行版已在提交 `83bff8d` 和EFS中保留；新版本仅离线准备，源SHA、静态资料SHA和试验退出见[原因审查回执](../evidence/B5-G2A-ADMISSION/SDK-cause-audit.json)、[最终15项检查](../evidence/B5-G2A-ADMISSION/SDK-fix-offline-04.json)。实际板卡尝试仍是原来的一次，错误后新增0次。
+原始执行版已在提交 `83bff8d` 和EFS中保留；截至上一轮归档，新版本仅离线准备，源SHA、静态资料SHA和试验退出见[原因审查回执](../evidence/B5-G2A-ADMISSION/SDK-cause-audit.json)、[最终15项检查](../evidence/B5-G2A-ADMISSION/SDK-fix-offline-04.json)。上一轮没有在失败后追加板卡尝试；此后另获批准的第二窗口单独记于末节。
 
 ## 下一步门禁
 
-需要另获[新一次只读窗口](AUTH-B5-G2B-MEMAP-READONLY-002-R1.md)授权才能验证该方案。当前C最后已验证应用为42552B，不重跑G2-A、不重新烧录、不写sector3、不复位掩盖状态。首次读到ROM/HALT/身份或Flash漂移仍立即停。
+上一轮提交的[新一次只读窗口](AUTH-B5-G2B-MEMAP-READONLY-002-R1.md)现已获得负责人单独批准并执行一次。C已验证应用仍为42552B，没有重跑G2-A、重新烧录、写sector3或复位。
 
-冻结sector3物理写入器中也有相同初始化混用模式，保持原SHA及27项离线结果，但在这个缺口关闭前禁止启用。即使新只读桥以后通过，实际配置写入、ESP电气条件/豁免、恢复和云窗仍各自另批。
+冻结sector3物理写入器中也有相同初始化混用模式，保持原SHA及27项离线结果；不得因本次只读桥通过就直接启用它，须先核对其连接方式并冻结对应修正。实际配置写入、ESP电气条件/豁免、恢复和云窗仍各自另批。
+
+## 第二个获批窗口的实测补证
+
+在基线 `d74f9ae` 上不改代码，核对冻结源码与DLL SHA后，只执行一次修正版只读会话。实际SDK调用325次，原始AP/DP读取83次、传输设置写166次；AHB MEM-AP IDR类别、CPUID、Flash前64B及CR/SR均与SDK读取一致。CSW/TAR恢复、SELECT规范化0，前后独立完整Flash与options一致，C保持DISARMED、VTOR=0x08000000，未观察到HALT/ROM/Fault或新增复位。
+
+Configure调用0，显式halt/reset/go及Flash/目标内存写0。325次调用无负返回，独立监督器、worker和调用者退出均0。新增27条SDK回调全部具备单调时间和在途API，时间递增；Connect24条、ExecCommand1条、Close2条。上一窗 `CPU could not be halted` 的消息指纹本窗为0，SDK基准先于原始AP/DP操作取得的顺序已核对。
+
+因此可签 **MEM_AP_READONLY_CROSSCHECK_PASS**，关闭“修正后的SDK与原始DAP读路径尚无实板证据”这一缺口。不能把它扩大成Flash编程通过、同窗HR/RR通过或上云通过。原始冻结helper返回的 `NOT_ESTABLISHED_BY_OFFLINE_TESTS` 固定文字没有篡改；这次实板通过来自新独立SDK回执与字节对照，并非把离线标签改成PASS。
+
+本窗同时包含初始化顺序、错误分类、关闭策略和日志等软件修正，不是旧故障的严格单变量复现实验；旧诊断消息到底发生在ReadMemEx还是Close仍不能倒推出唯一答案。没有Close后的第二次硬件探测，历史ROM根因/独立冷启动状态不变。
+
+详细结果和实际27条时序指纹见[窗口结果](../evidence/B5-MEMAP-READONLY-02/result.json)、[API时序核对](../evidence/B5-MEMAP-READONLY-02/API-timing-review.json)。原失败、私有UID、完整Flash/options和原生日志仍独立保存在受限EFS；本轮只读许可已消费，配置写入与云端操作仍未授权。
