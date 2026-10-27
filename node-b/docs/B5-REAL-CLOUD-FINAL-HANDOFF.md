@@ -2,6 +2,8 @@
 
 ## 最新状态｜2026-10-27
 
+接收证据边界：A/B的0字节为C软件RX环增量，不等于物理ESP TX无信号。保存Flash的USART3向量与ELF强ISR已离线核对一致，但NVIC/USART_SR/GPIO实际状态未在该查询中保存，仍需与P5实物/供电EN共同补证；不得直接判两块模块损坏。见[接收证据范围](../evidence/B5-ESP-GMR-REAL-03/RX-evidence-scope.json)。
+
 最新R3备用模块对照已完成并停止：负责人已确认冷态替换、DIP-8方向及一次正常C RESET，J-Link在C、C J5、B断电、C USB断开；保持P5/P7/115200/固定查询不变。备用B同样只有4字节AT写请求、新RX=0、新UART错误=0，GMR未发送，版本仍UNKNOWN；C身份、完整Flash/options和DISARMED核验一致。见[R3真实回执](../evidence/B5-ESP-GMR-REAL-03/result.json)。原A与备用B都不能据本次结果判定为旧/新或损坏；共同供电/EN/启动/实际串口路径/波特率仍待物理补证，不自动重复查询、改参数或刷模块。
 
 当前所有SDK/串口会话均已结束，R1/R2/R3许可均消费。C保持原42552B及G2-B配置、现装备用B，B断电；G3没有重启。下一步优先取得C P5及P1/P2插座可读丝印的近照，核实共同路由/并接设备；没有额外测量或硬件窗口授权时不继续连接或写UART。

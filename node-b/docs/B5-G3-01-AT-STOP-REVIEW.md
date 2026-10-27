@@ -33,3 +33,6 @@
 R1只读入口再次处于ROM，未开始AT；R2经负责人另批一次正常C RESET后，在Flash正常/原件身份匹配时仅发AT四字节，115200下新RX=0、UART新增错误0、未发GMR，完整Flash/options及DISARMED保持不变。R1异常收尾多读一份ROM快照的问题已在修正版纠正，14项定向测试通过，旧源码/快照未覆盖。
 
 负责人随后同意换备用模块。R3按相同接线/波特率/命令完成B对照，结果仍无新RX，仍未到GMR；完整Flash/options前后相同。参见 `../evidence/B5-ESP-GMR-REAL-01/`、`../evidence/B5-ESP-GMR-REAL-02/`、`../evidence/B5-ESP-GMR-REAL-03/`。当前真实AT版本UNKNOWN；不能把型号ESP-01S、灯不亮或换件结果当成固件版本/损坏证明。下一步先看C P5与P1/P2实际照片和共同供电/EN/启动路径，再决定新的有限测量；不自动重试或刷写。
+
+
+证据边界补充：A/B的“新RX=0”来自运行中C的软件RX环，不是ESP物理引脚波形或USART_DR直接测量。已离线核对R3保存的实际Flash向量，USART3向量与冻结ELF强处理函数一致；这不能证明当时NVIC使能/挂起、GPIO复用、USART_SR与实际引脚信号均正常。后续应把C接收中断/路由、P5实物和供电/EN一起排查，不能仅凭两次缓存为空认定两个模块均无输出或损坏。
