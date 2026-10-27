@@ -1,4 +1,4 @@
-# B5-002阶段唯一交接｜应用/配置与测试服务恢复PASS，G3未运行
+# B5-002阶段唯一交接｜G3联合工具已冻结，实板云窗未运行
 
 ## 最新状态｜2026-10-27
 
@@ -6,7 +6,11 @@ G2-A唯一42552B应用实际安装PASS；MEM-AP第二只读窗口PASS；G2-B R3�
 
 负责人另批G1-RESUME R2后，独立Backend/TLS已实际恢复PASS，TLS CA/SNI、Backend健康和MQTT订阅通过；18775监听、8884未监听，正式服务PID与配置未变。仅两个测试unit各start1，无ACL/HUP/正式环境改写。北京时间11:15:45启动，原6h驻留上限预计17:15:45；测试账号/ACL仍在，未自动撤销。
 
-G3明确另批，B5START=0、300秒实板云窗NOT_RUN。C保持DISARMED，现场供电/USB/JTAG与联合原码/各层观察工具准入未齐；不把人工MOCK、配置字节或Backend订阅通过当作设备全链路通过。ROM根因、独立冷启动、同窗双有效、阻抗标定和故障注入保留原状态。
+G3联合取证工具现已完成软件准备，41项定向离线测试通过：真实B原码/过滤后CAN队列映射、Broker原始载荷、实际Backend聚合计数/WSS、单次START及独立420秒监督。完整300秒软件合成夹具逐点核对75000个ECG点和15000个RESP点；改坏波形值或QoS均拒绝。这不是实板或真实云窗验收。默认计划退出0，两个禁用许可CLI负例均按预期退出1，未消费授权。失败原件及历次退出码保留。
+
+[HW准备卡](AUTH-B5-G3-HW-PREP-001-R1.md)、[G3 R4卡](AUTH-B5-G3-CLOUD-WINDOW-001-R4.md)与[现场附件](B5-G3-SITE-ATTACHMENT-R1.md)已冻结；工具、DLL、地址白名单、24个依赖源码及环境SHA见[绑定清单](../evidence/B5-G3-PREP/bindings.json)。实际COM、冷态转接、源/电气完成事实与一次新鲜C只读回执仍缺，私有授权均禁用。未来计划内C人工RESET仅在B/云端观察器就绪后一次，由G3 R4另批，不能现在提前按。
+
+本次软件准备没有连接J-Link/串口或云端、没有发送AT/B5START、没有复位/烧录/改配置，BIO阈值与固件不变。G3 B5START=0，300秒实板云窗NOT_RUN；C最后实测DISARMED，不能冒称本轮重新读到。G1服务本轮未重新查询，17:15:45只是原驻留预计上限，启动前要实时健康和至少625秒预算，不能自行重启。ROM根因、独立冷启动、同窗双有效、阻抗标定和故障注入保留原状态。
 
 最新详细交接见[B5-G2A-SITE-ADMISSION-HANDOFF](B5-G2A-SITE-ADMISSION-HANDOFF.md)，实板配置证据见 `../evidence/B5-G2B-SECTOR3-01/`，服务恢复见 `../evidence/B5-G1-RESUME-01/`。恢复R-CFG→R-APP及R-CLOUD仍各自另批且未执行。
 

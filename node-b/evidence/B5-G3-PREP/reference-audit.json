@@ -1,0 +1,49 @@
+{
+  "status": "ACTUAL_FROZEN_REFERENCES_AND_ELF_LAYOUT_VERIFIED_OFFLINE",
+  "exit_code": 0,
+  "B_BIN_sha256": "676eb7a46ad9cd15c7bf93db51a1931d7711d37c6f2fd636197dc4a85b339b82",
+  "B_ELF_sha256": "94e1ed1d188acae350943382645ce49edc1ed91bb043245657de3df1f1f89249",
+  "B_symbols_sha256": "b6810d245bc7f76b8ed620de5e28d936e2aa36c2df34034a58c7bf7431c91ca2",
+  "ELF_extracted_BIN_matches_frozen_B": true,
+  "fromelf_exit_code": 0,
+  "fromelf_sha256": "65145272c817c19d9fc3c498a8ff26765e09a86ed82b307bb0cccf65767a8b51",
+  "firmware_builds_or_new_deployment_candidates": 0,
+  "ELF_extract_purpose": "IDENTITY_AND_SYMBOL_LAYOUT_ONLY",
+  "C_BIN_sha256": "d5b9624b3da1129b4e045d3b2f669c00d2d93cb7379b15293ff143fe9f130683",
+  "C_full_sha256": "acb33fdd39ecb016ecd848ec25eee051635f56ef8138b577a8590d2734ad687e",
+  "B_C_private_UIDs_distinct": true,
+  "bundle_sha256": "6c40e584d40fdb263cce369463e0653e92e153830d029e1c03ef4ea8f0224761",
+  "layout": {
+    "base": 536879456,
+    "bytes": 5692,
+    "raw_slots_offset": 0,
+    "raw_slots_bytes": 3072,
+    "CAN_queue_offset": 3072,
+    "CAN_queue_bytes": 2560,
+    "CAN_Sample_bytes": 20,
+    "clock_offset": 5632,
+    "clock_bytes": 16,
+    "CAN_diag_offset": 5648,
+    "CAN_diag_bytes": 44,
+    "coherence": "LIVE_NONATOMIC_REPEATED_VERSION_CERTIFICATION_REQUIRED"
+  },
+  "environment": {
+    "python": "3.11.9",
+    "packages": {
+      "pyserial": "3.5",
+      "paho-mqtt": "2.1.0",
+      "websockets": "16.0",
+      "pydantic": "2.12.5"
+    },
+    "Backend_sources": {
+      "adapters.py": "b4b9993d234741edffa420b81f49478fb32dbab7d8ae156e53cae793083afcde",
+      "models.py": "827e89fd552b99a06d7634cbe07caff4588fc8902d054a264abec1171843c52c",
+      "hub.py": "5b17215626721ae524b9508ec3a40bb7d369f2b71f61f6cfb53bfbcb9b1b4ba1"
+    }
+  },
+  "local_Backend_sources_match_actual_deployed_test_package": true,
+  "loaded_JLink_DLL": false,
+  "serial_sessions": 0,
+  "SSH_or_MQTT_WSS_connections": 0,
+  "B5START": 0
+}

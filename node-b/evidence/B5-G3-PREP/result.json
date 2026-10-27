@@ -1,0 +1,124 @@
+{
+  "status": "G3_SOFTWARE_PREPARATION_PASS_SITE_AND_OWNER_APPROVAL_PENDING",
+  "exit_code": 0,
+  "latest_targeted_tests": 41,
+  "latest_test_exit_code": 0,
+  "attempts": [
+    {
+      "log": "offline-attempt-01.log",
+      "sha256": "e29948a3805bf89ffd848506cb617eafbbbe33a75de0cb5e504855cbf172d334",
+      "tests": 29,
+      "exit_code": 1,
+      "seconds": 0.119
+    },
+    {
+      "log": "offline-attempt-02.log",
+      "sha256": "8af5ca79b0a36ea248a836e2d839490875337fcc2133d4a839df227bd926ae90",
+      "tests": 29,
+      "exit_code": 0,
+      "seconds": 0.102
+    },
+    {
+      "log": "offline-attempt-03.log",
+      "sha256": "d364cee537b6f9e9909ccc351ba9bab6c91dcc11525f0cde7ed69ec9624fbf62",
+      "tests": 32,
+      "exit_code": 0,
+      "seconds": 2.151
+    },
+    {
+      "log": "offline-attempt-04.log",
+      "sha256": "47694c0571ae9e5adb27e5e22687c36962c1acfe60c5cc0b9c45d8ec7e42edf7",
+      "tests": 34,
+      "exit_code": 0,
+      "seconds": 3.307
+    },
+    {
+      "log": "offline-attempt-05.log",
+      "sha256": "3223d1521e0c716fdefc1f9b0c18f482513ad83913841a5f460427b45341b575",
+      "tests": 35,
+      "exit_code": 0,
+      "seconds": 8.62
+    },
+    {
+      "log": "offline-attempt-06.log",
+      "sha256": "6232a06a33bccabc7d7933ab5a004bf00b4873c450571e5f71cebb636ea31485",
+      "tests": 40,
+      "exit_code": 0,
+      "seconds": 8.487
+    },
+    {
+      "log": "offline-attempt-07.log",
+      "sha256": "febe68a82e5dce8f411e8cc3e292567f90b9b9d70ed4c66dafc1f65a95232cdd",
+      "tests": 41,
+      "exit_code": 1,
+      "seconds": 8.613
+    },
+    {
+      "log": "offline-attempt-08.log",
+      "sha256": "9b5aad851a86b8e9899576ed8b438edaa5a9a5833ac65c09a29cb3320e65cde0",
+      "tests": 41,
+      "exit_code": 0,
+      "seconds": 8.506
+    },
+    {
+      "log": "offline-attempt-09.log",
+      "sha256": "fc502f989fbf6dfdc2c1cff92b0efbb906808bb0b046d8c6ce02560d5e3f06e8",
+      "tests": 41,
+      "exit_code": 0,
+      "seconds": 12.216
+    },
+    {
+      "log": "offline-attempt-10.log",
+      "sha256": "d2b215374a6e3f73c5e70386330c935c5fb98d2fcad2d5d42592f36802a42c87",
+      "tests": 41,
+      "exit_code": 0,
+      "seconds": 10.848
+    },
+    {
+      "log": "offline-attempt-11.log",
+      "sha256": "bd7bde73c43ba88f86b92f346bbddc4588bc394b6f54ca801e2877854ff334ff",
+      "tests": 41,
+      "exit_code": 0,
+      "seconds": 10.618
+    }
+  ],
+  "earlier_failures": "Attempt01 synthetic expectation/resource cleanup; Attempt07 second-call synthetic clock; fixed and raw failures retained",
+  "fixed_300s_synthetic_fixture": {
+    "ECG_points": 75000,
+    "RESP_points": 15000,
+    "Backend": "actual local adapters/models/Hub matching frozen deployed test package",
+    "one_wave_value_corruption_rejected": true,
+    "wrong_QoS_rejected": true,
+    "physical_board_or_cloud_acceptance": false
+  },
+  "virtual_clock": {
+    "business_stop_s": 420,
+    "passive_observation_s": 20,
+    "missing_MCU_stop_fails_at_s": 422,
+    "host_process_kill_does_not_prove_MCU_stop": true
+  },
+  "default_plan_exit_code": 0,
+  "disabled_authorization_CLI_exit_codes": [
+    1,
+    1
+  ],
+  "G3_B5START": 0,
+  "hardware_sessions_this_turn": 0,
+  "AT_or_target_commands": 0,
+  "cloud_connections_this_turn": 0,
+  "firmware_or_BIO_changes": 0,
+  "new_Host_ARM_TLS_UI_regressions_repeated": false,
+  "hardware_preparation_card": "AUTH-B5-G3-HW-PREP-001-R1.md",
+  "G3_card": "AUTH-B5-G3-CLOUD-WINDOW-001-R4.md",
+  "actual_G3": "NOT_RUN_NOT_AUTHORIZED",
+  "remaining": [
+    "new C readonly receipt",
+    "cold transfer and actual COM",
+    "source/electrical completion facts",
+    "HW approval",
+    "G3 separate approval"
+  ],
+  "source_preparation_start_HEAD": "a44bbda028f1baaf1810361b85370b5c535e244c",
+  "fixed_recording_cadence": "B diagnostic deadlines use a fixed 0.5s timebase; SDK read time does not accumulate into the interval",
+  "manual_C_reset_confirmation_budget_s": 30
+}
