@@ -1,6 +1,20 @@
-# B5-002阶段唯一交接｜G3联合工具已冻结，实板云窗未运行
+# B5-002阶段唯一交接｜G3在AT阶段停止，ESP身份补证
 
 ## 最新状态｜2026-10-27
+
+最新R3备用模块对照已完成并停止：负责人已确认冷态替换、DIP-8方向及一次正常C RESET，J-Link在C、C J5、B断电、C USB断开；保持P5/P7/115200/固定查询不变。备用B同样只有4字节AT写请求、新RX=0、新UART错误=0，GMR未发送，版本仍UNKNOWN；C身份、完整Flash/options和DISARMED核验一致。见[R3真实回执](../evidence/B5-ESP-GMR-REAL-03/result.json)。原A与备用B都不能据本次结果判定为旧/新或损坏；共同供电/EN/启动/实际串口路径/波特率仍待物理补证，不自动重复查询、改参数或刷模块。
+
+当前所有SDK/串口会话均已结束，R1/R2/R3许可均消费。C保持原42552B及G2-B配置、现装备用B，B断电；G3没有重启。下一步优先取得C P5及P1/P2插座可读丝印的近照，核实共同路由/并接设备；没有额外测量或硬件窗口授权时不继续连接或写UART。
+
+G3 R4已获批并真实执行一次：C复位由负责人仅按一次，完整B5START只发送一次；C约2.078秒后输出GW FAIL AT，联合worker/监督退出1，无T0、300秒正式评价0秒，许可消费，不自动重试或恢复。见[AT停止复核](B5-G3-01-AT-STOP-REVIEW.md)和[真实G3回执](../evidence/B5-G3-REAL-01/result.json)。B保存94份诊断均HR60有效/RR无效、250SPS且无新增ADC错误；云观察CONNECT/SUBACK、Backend健康/MQTT订阅和WSS正常，但记录期间START后Broker实收0、Backend接受增量0，不能签B到云通过。
+
+负责人随后确认C P5路线正确，当前A模块为ESP-01S且灯不亮；尚不能据此判A损坏或AT版本旧。新增GMR查询未刷C/ESP固件：R1入口VTOR=1FFF0000、PC均在ROM，UART写0停止；原件和异常收尾多读的一份ROM快照保留。已修正ROM直接Close，14项新增离线测试通过。负责人另批一次C正常人工RESET后，R2确认C运行Flash、完整镜像/options符合，固定115200 AT写4字节但新RX=0、新UART错误0，未发GMR；收尾完整Flash/options逐字节未变、DISARMED不变。见[R1](../evidence/B5-ESP-GMR-REAL-01/result.json)及[R2](../evidence/B5-ESP-GMR-REAL-02/result.json)，当前AT版本仍UNKNOWN。
+
+根据负责人新的换备用模块指令，已准备[R3单模块对照](AUTH-B5-ESP-GMR-001-R3.md)：A原件保留，备用记B，不先贴旧/新或坏/好标签；只更换模块，P5/波特率/固定查询逻辑不变。新的物理完成附件未齐前执行器保持禁用，不自动再跑原R1/R2/G3。最多一次正常人工C RESET属于本次对照启动准备，仍ROM立即停，不追查ROM根因。替换后AT成功也只能关联模块/插接状态，不能确定A唯一故障原因。
+
+G3失败后的420秒固件STOP行未取得；负责人最初要求先分析，随后已为独立GMR准备确认全暗10秒冷断电，这仅是后续物理隔离证据，不补签G3到期自停。正式云配置、B/C应用、sector3/options、BIO阈值均未改；GMR新增权限仅UART_DR固定字节，不冒称全目标零写只读。历史ROM根因、独立冷启动、同窗HR/RR、阻抗绝对标定及故障注入状态原样保留。
+
+以下为此前检查点；其中“G3未启动/待现场”不覆盖以上最新真实结果。
 
 负责人已批准HW卡一次C只读及G3 R4进入许可，并明确ESP保持在板供电。HW实际首窗已PASS：一连接/关闭、1MiB Flash与16B options各一次，退出0；UID/保护匹配、PC采样均在Flash、VTOR=0x08000000、无HALT/Fault，DISARMED=0。完整Flash及options与G2-B后冻结原件逐字节一致，sector3/7/11未变。显式halt/go/reset/Flash写/AT/B5START均0，未重试；原件仍只存受限EFS，见[真实C准入回执](../evidence/B5-G3-HW-PREFLIGHT-01/result.json)。
 
