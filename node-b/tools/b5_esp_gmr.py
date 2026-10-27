@@ -138,7 +138,9 @@ class QueryLink(site.BridgeLink):
             self.read_failed=True;self.verified_running_flash=False;raise
 
 
-def capture(link,bridge,command,out,index,accept_error=False):
+def capture(link,bridge,command,out,index,accept_error=False,response_timeout_s=None):
+    timeout=(2 if index==0 else 3) if response_timeout_s is None else response_timeout_s
+    g.require(0<timeout<=30,'ESP_RESPONSE_TIMEOUT_RANGE')
     baseline=struct.unpack('<5I',link.read(STATS,20));cursor=baseline[4]
     g.save(out/f'query-{index}-baseline-private.json',{'UART_stats':baseline})
     g.save(out/f'query-{index}-route-before-private.json',rx_route_snapshot(link))
@@ -148,7 +150,7 @@ def capture(link,bridge,command,out,index,accept_error=False):
         while not link.u32(UART)&(1<<7):
             g.require(time.monotonic()<=until,'ESP_UART_TX_NOT_READY');time.sleep(.005)
         bridge.write32(DR,value)
-    until=time.monotonic()+(2 if index==0 else 3);data=b'';last_changed=time.monotonic();last_head=cursor
+    until=time.monotonic()+timeout;data=b'';last_changed=time.monotonic();last_head=cursor
     while time.monotonic()<until:
         state=struct.unpack('<5I',link.read(STATS,20))
         if state[:4]!=baseline[:4]:g.save(out/f'query-{index}-changed-state-private.json',{'UART_stats':state})

@@ -1,0 +1,54 @@
+{
+  "status": "PC_NTP_REFERENCE_PROBES_CAPTURED",
+  "exit_code": 0,
+  "results": [
+    {
+      "valid": false,
+      "reason": "TimeoutError",
+      "errno": null,
+      "index": 0,
+      "target_sha256": "c1989fd7478c3267bb9f565a200ce08706eb1955f90819b6e0969bc32324fb15",
+      "request_packets": 1,
+      "path": "PC_NOT_ESP_WIFI"
+    },
+    {
+      "valid": true,
+      "epoch_s": 1793091240.2142289,
+      "rtt_s": 0.5310000000754371,
+      "stratum": 1,
+      "reason": null,
+      "index": 1,
+      "target_sha256": "7106985bbddf3eb8d2de2fbc7fbb1169315d9e6686a1f5b073ed096a35aa36af",
+      "request_packets": 1,
+      "path": "PC_NOT_ESP_WIFI"
+    },
+    {
+      "valid": true,
+      "epoch_s": 1793091240.6217284,
+      "rtt_s": 0.3279999999795109,
+      "stratum": 1,
+      "reason": null,
+      "index": 2,
+      "target_sha256": "69d01b5e49320516a09b39333f84a1a17e188cd578f57000da630d66a36c3aa0",
+      "request_packets": 1,
+      "path": "PC_NOT_ESP_WIFI"
+    }
+  ],
+  "packets_sent_max": 3,
+  "device_access": 0,
+  "device_time_writes": 0,
+  "formal_cloud_changes": 0,
+  "not_module_reachability_proof": true,
+  "source_HEAD": "f5dbc1b5d67d389738b5c46ac3dfde9b9357021b",
+  "source_bindings_at_execution": null,
+  "executed_tool_sha256": "9ee3aece47d18f66b6144c6a8e54612e6bff2a61a9a6859d61b94f5d898497d4",
+  "authorization_sha256": "618f04dd58416b1c038a9f7b09c57f5d873d7211b48b7361ad5686fec6ff35d0",
+  "status_means": "CAPTURE_COMPLETE_DOES_NOT_MEAN_TIME_OR_CLOUD_PASS",
+  "automatic_hardware_retry": false,
+  "source_tool_at_execution_sha256": "9ee3aece47d18f66b6144c6a8e54612e6bff2a61a9a6859d61b94f5d898497d4",
+  "source_DNS_reply_hashes": [
+    "3379e720e0d4a7d233ccf3ec5f21f057f573aa5d00e52bbf7d4a1c854bbd0ce0",
+    "6999ba31930f4baad0019b471462b14d65d9cdb3f9644ee1e91be9991ecdfc58",
+    "3f160c88d45f65d8f52fc5498965b9d095e61c93964de9b500cd990940984a5b"
+  ]
+}

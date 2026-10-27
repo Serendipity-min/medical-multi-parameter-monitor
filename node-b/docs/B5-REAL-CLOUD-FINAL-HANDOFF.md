@@ -1,6 +1,30 @@
-# B5-002阶段唯一交接｜时间查询原始回复已取得，授时根因仍待补证
+# B5-002阶段唯一交接｜SNTP启用/DNS通过，ESP有效UTC与G3驻留预算阻塞
 
 ## 最新状态｜2026-10-27
+
+本轮依据负责人“启用命令返回→配置读回→时间变化，然后继续上次失败进度”的新许可执行有界分阶段排查；没有消费新的G3 START许可。当前结论为`TIME_SYNC_ADMISSION_BLOCKED_G3_NOT_STARTED`。保持原C42552B（BIN SHA d5b9624b3da1129b4e045d3b2f669c00d2d93cb7379b15293ff143fe9f130683）、B39948B、sector3及算法阈值，未烧录、不改正式云。总览见[授时排查汇总](../evidence/B5-ESP-SNTP-01/investigation-summary.json)。
+
+| 分阶段实际证据 | 本轮结果 | 严格边界 |
+|---|---|---|
+| 易失参数与测试Wi-Fi | SYSSTORE=0并查询确认；CWMODE/冻结sector3测试Wi-Fi一次连接及SLEEP=0均OK | 只用既有私有配置，未打印SSID/密码，不代表互联网UDP授时通过 |
+| 默认SNTP启用/读回/时间变化 | CIPSNTPCFG=1,0返回OK，enabled=1；0/5/15/30秒读到1513/1518/1528/1543 | 仍非有效UTC；已复现设置成功但未获授时，不能把命令接受等同时间有效 |
+| 模块端既有三主机DNS | 三条CIPDOMAIN均OK并返回IP；首个为RFC1918，另两个为公网分类 | 私网地址本身不是故障证明，也不证明UDP123可达 |
+| 电脑侧单包参考 | 对模块实际DNS结果每个发1个48B NTP请求；首个超时，后两个收到匹配nonce/模式/stratum/时间和RTT的包 | 路径是电脑，不能冒充ESP Wi-Fi链路可达；只3包，无重试、无设备时间写入 |
+| 临时优先既有第二服务器 | 设置及读回OK，模块仍只返回2526/2531/2541/2556 | 单纯更换优先目标未恢复有效UTC；未安装固件或永久更改配置 |
+| 回放当前候选原命令 | 原CIPSNTPCFG=1,0重新恢复默认主机列表，与最初enabled读回逐字节相同 | 会覆盖临时选择，不能把易失预设当旧候选已自愈；随后SNTP已关闭并读回 |
+
+三次C硬件会话（默认启用、DNS只读、单变量对照）均有独立字节白名单、180秒监督和一次`.used`，worker/监督实际退出均0；每窗均核对UID、完整1MiB Flash/options前后逐字节相同、Flash正常运行及DISARMED，未执行reset/halt/go。两次启用阶段正常关闭SNTP并读回确认；DNS阶段没有启用SNTP。UART字节实际231/94/225，均与各自冻结计划一致。完整Flash仍acb33fdd39ecb016ecd848ec25eee051635f56ef8138b577a8590d2734ad687e，options仍52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687。源/工具SHA、原始回复及真实退出码分别见[SNTP](../evidence/B5-ESP-SNTP-01/result.json)、[DNS](../evidence/B5-ESP-NTP-DNS-01/result.json)、[电脑参考](../evidence/B5-NTP-PC-REFERENCE-01/result.json)、[单变量对照](../evidence/B5-ESP-NTP-SELECT-01/result.json)。
+
+DNS原执行解析器未识别带引号的IP，原收据中的IP_parsed=false保留；只离线去掉引号并重解同一原始回复，三条均有合法IP，未因此重发查询。工具按阶段改动的原执行版本均保存在各自EFS源码档案；当前版本包含新增DNS与单变量流程，不能把最后源码SHA冒称全部窗口的执行SHA。默认阶段11项/共享16项定向验证、DNS13项、单变量15项及电脑参考4项通过；没有重跑旧Host/ARM/TLS/UI矩阵。
+
+授时精确根因仍OPEN：本轮SNTP启用命令明确被接受，后续三个目标也均能DNS解析；仍不排除最初授时期间的DNS瞬态故障。问题待从ESP实际链路/回包或内置SNTP处理继续区分，尚不能唯一断言路由器封UDP、模块损坏或源码算法问题。负责人仅补充Wi-Fi来自“路由器”，UDP123策略UNKNOWN。下一项补证应为ESP侧一次原始UDP/NTP请求、匹配nonce的回复和socket关闭，不能用电脑NTP包给模块灌时间；该原始UDP工具/负例/精确scope尚未完成，本轮未发该包。没有充分证据支持改算法或盲改固件；新固件安装仍须独立批准。
+
+G3另有服务驻留阻塞：北京时间17:10:17只读核查测试Backend/TLS仍active，正式服务PID及所有冻结配置SHA不变、18775监听、8884不监听；测试服务到17:15:45的6h上限只剩约327秒，低于G3冻结的625秒启用预算。本轮没有start/restart、ACL/HUP或正式云写入；账号/ACL未自动撤销，不能声称已清理。后续先重新核实到期状态，必要时按单独测试服务恢复权限处理，不能为赶窗口缩短300秒评价/420秒硬停。
+
+新的G3继续许可已记录为条件授权但enabled=false、B5START_allowed=false、实际START=0：TIME_SYNC及TEST_SERVICE_BUDGET两门禁未过。没有为了“继续”而再次触发已知TIME失败或降低TLS校验。当前J-Link在C、C J5、B断电、C USB_UART断开，所有主机设备会话已关闭，SNTP关闭，C DISARMED；无须为未就绪云窗提前转接。原ROM、B5独立冷启动、同窗HR/RR、绝对阻抗及故障注入原状态保留。
+
+本轮四阶段原件/源码快照共312份已逐个验证受限EFS；此计数是各阶段归档时点，Git只含安全摘要/哈希/非敏感测试日志。以下时间查询与G3-02为历史检查点，不覆盖本轮结果。
+
 
 时间诊断已按新授权完成。首次入口C位于ROM（VTOR=0x1FFF0000，PC样本0x1FFF32F2/32EA/32EE），实际worker/监督退出1、SDK44次、UART写0，未开始两条查询；原件保留。负责人随后单独批准一次人工C RESET及一个新的180秒查询窗口，并回报“C已复位一次”；只在完成事实之后启用第二次会话，代理reset/halt/go始终0。新窗口不复用已消费许可，C在Flash运行及身份/完整Flash/options/DISARMED先通过后才发送固定查询。
 
