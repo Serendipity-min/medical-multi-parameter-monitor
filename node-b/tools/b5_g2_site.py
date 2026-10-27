@@ -92,13 +92,48 @@ class BridgeLink(config.NativeLink):
     def __init__(self, out):
         super().__init__(out, 0)
 
+    def install_log_filters(self):
+        callback = C.CFUNCTYPE(None, C.c_char_p)
+        def logged(data):
+            if data:
+                value = {'sdk_text_sha256': sha(data), 'bytes': len(data),
+                         'monotonic_s': time.monotonic(), 'inflight_host_API': getattr(self, 'active_api', None)}
+                self.log.write((json.dumps(value)+'\n').encode()); self.log.flush()
+        def failed(data): logged(data); self.error = True
+        self.logger, self.error_callback = callback(logged), callback(failed)
+
     def call(self, name, *args, timeout=5):
-        require(name in ro.CALLS | config.DAP_CALLS, 'SITE_RO_ACTION_DENIED')
+        require(name in ro.CALLS | (config.DAP_CALLS-{'JLINKARM_CORESIGHT_Configure'}), 'SITE_RO_ACTION_DENIED')
+        if name.endswith('APDPReg'): require(not getattr(self, 'raw_failed', False), 'SITE_RO_RAW_STOP_LATCHED')
         if name == 'JLINKARM_CORESIGHT_WriteAPDPReg':
             reg, ap, value = args
             require((ap == 0 and reg == 2 and value in (0, 0xf0)) or (ap == 1 and reg in (0, 1)),
                     'SITE_RO_TARGET_WRITE_DENIED')
-        return super().call(name, *args, timeout=timeout)
+        previous = getattr(self, 'active_api', None); self.active_api = name
+        try:
+            result = super().call(name, *args, timeout=timeout)
+            if name.endswith('APDPReg') and result < 0: self.raw_failed = True
+            return result
+        except BaseException:
+            if name.endswith('APDPReg'): self.raw_failed = True
+            raise
+        finally: self.active_api = previous
+
+    def close(self):
+        previous = getattr(self, 'active_api', None); self.active_api = 'JLINKARM_Close'
+        try: return super().close()
+        finally: self.active_api = previous
+
+    def read(self, address, size):
+        require(size in config.READS.get(address, set()), 'SITE_RO_READ_SCOPE')
+        data = (C.c_uint8*size)()
+        returned = self.call('JLINKARM_ReadMemEx', address, size, data, 0,
+                             timeout=45 if size == 1048576 else 5)
+        self.io.write(json.dumps({'address': hex(address), 'requested': size, 'returned': returned})+'\n')
+        self.io.flush()
+        require(returned >= 0, 'SITE_SDK_MEMORY_NATIVE_ERROR')
+        require(returned == size, 'SITE_SDK_POSITIVE_SHORT_READ')
+        return bytes(data)
 
 
 def bridge_readonly(link, out, payload):
@@ -108,14 +143,16 @@ def bridge_readonly(link, out, payload):
     ro.raw.write_json(out/'identity-before-private.json', first)
     ro.raw.write_json(out/'entry-sticky-private.json', {'DHCSR': link.u32(ro.SYSTEM['DHCSR'])})
     state = ro.old.snapshot(link); ro.raw.write_json(out/'entry-private.json', state); ro.old.check_running(link, state)
-    link.set_close_resume(True)
     before = link.read(0x08000000, 1048576); options = link.read(0x1fffc000, 16)
     config.save(out, 'before-full-private.bin', before); config.save(out, 'before-options-private.bin', options)
     require(before == payload['expected-full-private.bin'] and options == payload['options-private.bin'], 'SITE_BEFORE_DRIFT')
     require(link.read(RAM, 4) == bytes(4), 'SITE_NOT_DISARMED')
-    require(link.call('JLINKARM_CORESIGHT_Configure', b'') >= 0, 'SITE_DAP_CONFIG_ERROR')
+    # 复用已连接的目标；Configure会重新初始化接口，不能混入当前SDK会话。
+    require(link.call('JLINKARM_IsConnected') == 1, 'SITE_SDK_NOT_CONNECTED')
+    sdk = (link.u32(0xe000ed00), link.read(0x08000000, 64), link.u32(config.CR), link.u32(config.SR))
+    link.verified_running_flash = False
     bridge = config.DapBridge(config.NativeBus(link))
-    proof = bridge.probe(link.u32(0xe000ed00), link.read(0x08000000, 64), link.u32(config.CR), link.u32(config.SR))
+    proof = bridge.probe(*sdk)
     # 验证原始AP退出后SDK仍读到同一对象；不调用Engine或绑定任何目标写权限。
     require(bridge.state_restored and link.u32(0xe000ed00) == bridge.read32(0xe000ed00)
             and link.read(0x08000000, 64) == before[:64], 'SITE_BRIDGE_SDK_STATE_DRIFT')
@@ -126,6 +163,7 @@ def bridge_readonly(link, out, payload):
     last = ro.raw.identity(link); ro.raw.write_json(out/'identity-after-private.json', last)
     require(first == last and link.read(RAM, 4) == bytes(4), 'SITE_POST_IDENTITY_OR_DISARMED')
     state = ro.old.snapshot(link); ro.raw.write_json(out/'exit-private.json', state); ro.old.check_running(link, state)
+    link.set_close_resume(True)
     ro.raw.write_json(out/'raw-bridge-proof-private.json', proof)
     return {'status': 'G2B_MEMAP_READONLY_CROSSCHECK_PASS', 'exit_code': 0,
             'full_flash_sha256': sha(before), 'options_sha256': sha(options),
@@ -151,6 +189,7 @@ def worker(a, auth_path, out, m, payload):
             result = bridge_readonly(link, out, payload)
     except BaseException as error:
         reason = str(error)
+        if link and a['scope'] == BRIDGE: link.verified_running_flash = False
         result.update(status='STOP', exit_code=1, error_type=type(error).__name__)
         ro.raw.write_json(out/'failure-private.json', {'reason': reason if reason.isupper() and reason.replace('_', '').isalnum()
                                                      else 'SUPPRESSED', 'error_text_sha256': sha(reason.encode())})

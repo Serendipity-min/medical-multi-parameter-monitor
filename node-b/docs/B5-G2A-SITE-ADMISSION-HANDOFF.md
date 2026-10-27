@@ -48,6 +48,8 @@
 
 主要嫌疑在**脚本从已连接的高层内存读取切到低层CoreSight配置后，没有验证接口状态便继续调用高层SDK读**。SEGGER官方说明该Configure路径涉及调试接口初始化/切换序列，它不是可任意穿插而假定无状态影响的纯元数据查询。[SEGGER接口说明](https://kb.segger.com/Using_J-Link_Script_Files)、[PyLink官方接口文档](https://pylink.readthedocs.io/en/latest/pylink.html)。
 
+负责人随后要求继续排查再写报告，本轮只追加离线调查：原SDK消息指纹已与DLL静态文字 `CPU could not be halted` 匹配，确认SDK报告过暂停失败，但旧日志没有在途API/时间，不能唯一归属于ReadMemEx或Close，也不能据显式Halt=0宣称SDK内部硬件暂停尝试必为0。冻结DLL的静态控制流显示ReadMemEx与Connect共用检查入口，但当次内部运行分支未观测。详细证据、限制和修正见[原因审查](B5-MEMAP-SDK-ERROR-CAUSE-AUDIT.md)。
+
 这支持审查调用顺序，但**尚未证明**具体是DLL连接上下文、SWD切换或DP/AP状态中的哪一项，不能从一个-1断言根因已关闭，更不能推断CPU进入ROM。Configure前真实观测为Flash运行、VTOR=0x08000000、Fault=0；错误后按卡未再读硬件，当前运行状态未重新确认。实际关闭使用了先前已验证Flash的退出续跑策略，显式Go为0；不把SDK关闭语义描述成“绝无运行状态影响”。
 
 精确返回及执行源码SHA见[桥失败回执](../evidence/B5-G2A-ADMISSION/bridge-readonly-result.json)。实际执行的新入口源码已另存EFS，未在失败后修改代码冒充本次执行版本。所有窗口的成功、失败和原始退出保留。
@@ -55,9 +57,9 @@
 ## 下一步与未完成项
 
 - 当前G2-A实际安装PASS保留，不能因桥失败重复安装或重刷。当前唯一C应用已是42552B，后续不得再把24104B当当前部署。
-- MEM-AP仍 **BLOCKED_SDK_CONTEXT_TRANSITION_NOT_VALIDATED**。下一步只能先离线核对SDK/CoreSight初始化顺序、是否需要保留现有接口状态、SDK快照应取得的阶段及失败关闭策略，补充“-1在原始DAP前停止”的针对性负例；具体机制未证实前不随意套用连接/接口参数。
+- MEM-AP仍 **BLOCKED_SDK_CONTEXT_TRANSITION_NOT_VALIDATED**。已离线修正为复用Connected上下文、禁止重复Configure、SDK基准先读齐，再做原始比较；同时区分负错误/正短读，仅全部通过才启用退出续跑，并增加SDK回调时序和原生错误后禁止再次AP/DP调用的停止锁。修正版15项离线检查通过，初始8项和中间13/14项回执保留，不叠加为独立硬件验证。没有追加硬件尝试，也没有宣称SDK内部机制已完全证实或桥已修好。
 - 冻结专用sector3写入器也存在同样的“Configure后直接SDK读取”模式，原27项替身测试不能替代这次实际失败证据。它的旧SHA和配置包不改，但**不得据旧离线PASS直接启用物理写入**；须先完成这一准入缺口，不在暂停的CPU上自动试错。
-- 任何修正版实板核验都必须另获一次明确授权、绑定新工具/原件/输出；不复用已消费许可。本轮不执行第二次桥、不解锁/写sector3，不进入G1服务恢复或G3。
+- 任何修正版实板核验都必须另获[新的单次只读授权](AUTH-B5-G2B-MEMAP-READONLY-002-R1.md)、绑定新工具/原件/输出；不复用已消费许可。本轮不执行第二次桥、不解锁/写sector3，不进入G1服务恢复或G3。执行版源码/历史清单保留在提交83bff8d及EFS；当前离线修正版另用 `SDK-context-audit-bindings.json` 绑定，不改写旧执行身份。
 - ESP AT/TLS/自主联网状态未查询；云服务当前存活本轮未再核查或启动。历史G1人工MOCK PASS保留，不代表真实B→C→云通过。CPU ROM根因、B5独立冷启动、同窗HR/RR、绝对阻抗和故障注入均保持原未完成状态。
 
 本轮无B固件/算法修改、无源模式/电极操作、无保护分支合并、无Security Gate。交付后停止，等待负责人决定离线修正及新的独立只读窗口，不自动继续现场操作。
