@@ -1,0 +1,37 @@
+{
+  "scope": "WRITER_RAW_NEGATIVE_TEST_LOGS_EFS_ARCHIVE",
+  "original_ignored_logs_preserved": true,
+  "EFS_attributes_verified": true,
+  "files": [
+    {
+      "file": "attempt1.log",
+      "bytes": 3022,
+      "sha256": "96a6bef10fb694d2c88e9057b02d3ed9bedb3e0d64202cee64fd71728a8fe644",
+      "actual_exit_code": 0,
+      "tests": 18
+    },
+    {
+      "file": "attempt2.log",
+      "bytes": 3802,
+      "sha256": "a3546a4f9c8dd1a6f293a96ad9c5c513decdf3982a34156ba543399c82d57eba",
+      "actual_exit_code": 0,
+      "tests": 23
+    },
+    {
+      "file": "attempt3.log",
+      "bytes": 3802,
+      "sha256": "2ac8b3dc3396b694ac5aa84fe3d5789f4b79898742d891eda3f942e5deb66f3f",
+      "actual_exit_code": 0,
+      "tests": 23
+    },
+    {
+      "file": "attempt4.log",
+      "bytes": 4508,
+      "sha256": "4f64a89c0b74d65c995f3eb7d14c2a24f3dad03eebc7cffc467ec14238496c4a",
+      "actual_exit_code": 0,
+      "tests": 27
+    }
+  ],
+  "manifest_sha256": "e9f0203136255b75e09c4c50d48cf2fe53bab27738eefdf47d7045c639f7bc62",
+  "exit_code": 0
+}
