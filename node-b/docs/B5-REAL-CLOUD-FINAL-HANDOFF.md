@@ -1,6 +1,19 @@
-# B5-002阶段唯一交接｜重插后AT/GMR通过，G3旧窗仍失败
+# B5-002阶段唯一交接｜G3-02在TIME门禁停止，尚未上云通过
 
 ## 最新状态｜2026-10-27
+
+G3-02已按负责人“AT已恢复，继续准备并执行新的G3上云窗口”重新独立授权并执行，原失败窗口没有复用。C新鲜只读PASS（全片/options一致、DISARMED），工具/环境/42552B与39948B部署未改；测试Backend/TLS在窗口前后均active、正式服务PID及配置SHA不变、8884未监听，没有云配置写入。负责人对整组冷态准备回复“COM6，正常刷新”，现场附件以该完成回复绑定，不能据此签独立冷启动或ROM根因通过。
+
+本次只发送一次8B B5START，计划内C人工RESET一次由负责人完成；AT、GMR 2.3.0.0、WIFI、WIFI_AWAKE、SINGLE、PASSIVE通过。START后17.687秒出现`GW FAIL TIME`，未建立T0，300秒评价实际0秒；worker及监督器实际退出码均1，自动重试/恢复0。TLS/CA/SNI/MQTT及新鲜UDP SNTP取样没有在这次记录中完成，不能将观察器联网当作C发布成功。真实Broker观察消息0，Backend accepted/rejected/dropped均0，WSS保存753份仅证明观察链可用。见[新窗实际回执](../evidence/B5-G3-02/result.json)。
+
+已离线核对sector3最低epoch为1792977536（2026-10-26 01:18:56 UTC），不是未来时间。`gateway_transport.c`中TIME门禁先发送CIPSNTPCFG（返回值被忽略），再至多15次查询SYSTIMESTAMP，只在解析到不低于最低epoch的值才放行。现日志未保存这组模块原始回复，故不能区分配置命令被拒、DNS/NTP不可达、时间未同步或回复解析问题；不能直接判ESP损坏，也不能绕过时间和TLS校验。下一步应单独冻结有界时间诊断，保存CIPSNTPCFG?/SYSTIMESTAMP?/CIPSNTPTIME?等实际回复后再决定纠正措施，不继续重发云窗。
+
+B保存103份诊断，HR60有效103/103、RR无效103/103，无新增ADC bad_status/SPI/overflow/init/long-gap；这不是300秒评价通过。CAN预备期TEC最高123/REC1，START后保存观察TEC最高78/REC0，未保存到BOFF；B全记录expired增加13057，ECG发送点计数0，必须保留，不能签CAN或云传输PASS。正常DISARMED/无TIME阶段与真正传输异常需另行区分，不从本次TIME故障直接认定CAN电气根因。
+
+失败后电脑串口/J-Link/观察会话已关闭，但B只读工人收到STOP后Close未启用退出续跑，关闭后的B状态UNKNOWN，未再连接确认；不以最后一次健康Flash采样声称关闭后状态。C `STOPPED`横幅未捕获，负责人对切电提示回复“排查原因，在决定是否停止”，物理停止UNKNOWN。Tarm+420截止北京时间16:09:03.661，结束主机进程不等于C业务停机；再次提示断电，未获得完成事实前不能填写停止通过。原始612份文件及原码/Flash/options保留受限EFS，公开仅摘要和SHA。未烧录、改sector3、改BIO_V2阈值、恢复固件或改正式云；CPU ROM、同窗双有效、阻抗标定等原状态保留。
+
+以下R4 AT成功及G3-01失败为历史检查点，不覆盖G3-02结果。
+
 
 最新R4已按负责人“重新插入模块后再测一次”的新许可执行并PASS，worker/监督/实际进程退出0。代理显式reset/halt/go、冷态转接及改线动作均0；不能据零显式reset断言绝无未观测硬件复位。用户仅报告重新插入和灯闪，重插时供电状态UNKNOWN，不补签冷启动。当前模块实读AT `2.3.0.0-dev`、SDK `v3.4-22-g967752e2`，另报告Bin `2.2.0`及目标标签`ESP8266_1MB`；目标标签不等于独立物理Flash容量测量，也不能确定购买新旧或唯一模块ID。AT一次收到10B OK，GMR一次收到189B OK，UART_DR写请求总12，未重试。见[R4实际回执](../evidence/B5-ESP-GMR-REAL-04/result.json)。
 

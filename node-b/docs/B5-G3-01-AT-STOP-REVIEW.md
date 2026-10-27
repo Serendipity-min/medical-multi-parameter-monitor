@@ -43,3 +43,8 @@ R1只读入口再次处于ROM，未开始AT；R2经负责人另批一次正常C 
 负责人提供P5/P1照片，重新插入模块并报告灯闪后，授权独立再测一次。R4实际AT收到10字节OK，GMR收到189字节OK，实读AT 2.3.0.0-dev、SDK v3.4-22-g967752e2，模块另报告Bin 2.2.0(ESP8266_1MB)。没有改波特率、GPIO、固件或配置，代理未发送reset/halt/go，也未发B5START。完整Flash/options前后相同，DISARMED及Flash正常出口通过；所有记录及失败原件保留。
 
 新增16项定向离线验证通过后，R4只读保存了GPIOB复用/时钟、USART3 SR、NVIC使能/挂起/活动与两次时基，当前路由和中断使能正确、时基推进，查询前后无RXNE/ORE滞留。重插后通路成功不能追溯证明之前是哪一种接触/供电/启动问题，也不能把模块报告的目标标签当绝对容量或物理新旧身份。当前版本已知，TLS/CA/SNI/SNTP及新云窗仍需下一阶段实证。参见 `../evidence/B5-ESP-GMR-REAL-04/result.json`。
+
+
+## G3-02：AT恢复后TIME门禁失败
+
+新独立窗口C只读及测试服务前置通过，一次START后AT/GMR/WIFI均通过，但17.687秒返回`GW FAIL TIME`。新鲜UDP SNTP/TLS/MQTT未完成，T0未建立，评价0秒，实际worker/监督退出1。最低epoch不是未来值；未保留SNTP配置/时间查询原始回复，因此更细根因仍需独立有界补证。B HR60在103份保存诊断均有效，但有CAN TEC/REC及expired增加，不能签传输PASS。详见唯一交接及`../evidence/B5-G3-02/result.json`；旧G3-01/R1–R4原件均保留。失败后主机会话关闭，C物理停止因负责人暂缓切电尚未确认，不能把记录器退出当作MCU停止。
