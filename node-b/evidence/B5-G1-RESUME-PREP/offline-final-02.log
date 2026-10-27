@@ -1,0 +1,111 @@
+test_config_or_ACL_drift_prevents_all_starts (test_b5_g1_resume.Tests.test_config_or_ACL_drift_prevents_all_starts) ... ERROR
+test_default_has_no_execute_and_old_G1_scope_denied (test_b5_g1_resume.Tests.test_default_has_no_execute_and_old_G1_scope_denied) ... ok
+test_failed_start_is_not_retried_and_no_rollback (test_b5_g1_resume.Tests.test_failed_start_is_not_retried_and_no_rollback) ... ERROR
+test_formal_drift_prevents_all_starts (test_b5_g1_resume.Tests.test_formal_drift_prevents_all_starts) ... ERROR
+test_formal_unit_substitution_prevents_all_starts (test_b5_g1_resume.Tests.test_formal_unit_substitution_prevents_all_starts) ... ERROR
+test_occupied_port_prevents_all_starts (test_b5_g1_resume.Tests.test_occupied_port_prevents_all_starts) ... ERROR
+test_only_two_existing_units_started_on_success (test_b5_g1_resume.Tests.test_only_two_existing_units_started_on_success) ... ERROR
+test_tls_failure_stops_without_extra_start_or_certificate_bypass (test_b5_g1_resume.Tests.test_tls_failure_stops_without_extra_start_or_certificate_bypass) ... ERROR
+
+======================================================================
+ERROR: test_config_or_ACL_drift_prevents_all_starts (test_b5_g1_resume.Tests.test_config_or_ACL_drift_prevents_all_starts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\medical-monitor-node-b5-cloud\node-b\tests\test_b5_g1_resume.py", line 61, in test_config_or_ACL_drift_prevents_all_starts
+    result,calls,_=self.run_remote(before=s)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\medical-monitor-node-b5-cloud\node-b\tests\test_b5_g1_resume.py", line 41, in run_remote
+    result=r.remote_resume(inputs or self.inputs())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\medical-monitor-node-b5-cloud\node-b\tools\b5_g1_resume.py", line 82, in remote_resume
+    import json,socket,ssl,subprocess,time,pwd,stat
+ModuleNotFoundError: No module named 'pwd'
+
+======================================================================
+ERROR: test_failed_start_is_not_retried_and_no_rollback (test_b5_g1_resume.Tests.test_failed_start_is_not_retried_and_no_rollback)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\medical-monitor-node-b5-cloud\node-b\tests\test_b5_g1_resume.py", line 68, in test_failed_start_is_not_retried_and_no_rollback
+    result,calls,_=self.run_remote(codes=(1,))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\medical-monitor-node-b5-cloud\node-b\tests\test_b5_g1_resume.py", line 41, in run_remote
+    result=r.remote_resume(inputs or self.inputs())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\medical-monitor-node-b5-cloud\node-b\tools\b5_g1_resume.py", line 82, in remote_resume
+    import json,socket,ssl,subprocess,time,pwd,stat
+ModuleNotFoundError: No module named 'pwd'
+
+======================================================================
+ERROR: test_formal_drift_prevents_all_starts (test_b5_g1_resume.Tests.test_formal_drift_prevents_all_starts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\medical-monitor-node-b5-cloud\node-b\tests\test_b5_g1_resume.py", line 50, in test_formal_drift_prevents_all_starts
+    result,calls,_=self.run_remote(before=s)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\medical-monitor-node-b5-cloud\node-b\tests\test_b5_g1_resume.py", line 41, in run_remote
+    result=r.remote_resume(inputs or self.inputs())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\medical-monitor-node-b5-cloud\node-b\tools\b5_g1_resume.py", line 82, in remote_resume
+    import json,socket,ssl,subprocess,time,pwd,stat
+ModuleNotFoundError: No module named 'pwd'
+
+======================================================================
+ERROR: test_formal_unit_substitution_prevents_all_starts (test_b5_g1_resume.Tests.test_formal_unit_substitution_prevents_all_starts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\medical-monitor-node-b5-cloud\node-b\tests\test_b5_g1_resume.py", line 65, in test_formal_unit_substitution_prevents_all_starts
+    result,calls,_=self.run_remote(inputs=i)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\medical-monitor-node-b5-cloud\node-b\tests\test_b5_g1_resume.py", line 41, in run_remote
+    result=r.remote_resume(inputs or self.inputs())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\medical-monitor-node-b5-cloud\node-b\tools\b5_g1_resume.py", line 82, in remote_resume
+    import json,socket,ssl,subprocess,time,pwd,stat
+ModuleNotFoundError: No module named 'pwd'
+
+======================================================================
+ERROR: test_occupied_port_prevents_all_starts (test_b5_g1_resume.Tests.test_occupied_port_prevents_all_starts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\medical-monitor-node-b5-cloud\node-b\tests\test_b5_g1_resume.py", line 54, in test_occupied_port_prevents_all_starts
+    result,calls,_=self.run_remote(before=s)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\medical-monitor-node-b5-cloud\node-b\tests\test_b5_g1_resume.py", line 41, in run_remote
+    result=r.remote_resume(inputs or self.inputs())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\medical-monitor-node-b5-cloud\node-b\tools\b5_g1_resume.py", line 82, in remote_resume
+    import json,socket,ssl,subprocess,time,pwd,stat
+ModuleNotFoundError: No module named 'pwd'
+
+======================================================================
+ERROR: test_only_two_existing_units_started_on_success (test_b5_g1_resume.Tests.test_only_two_existing_units_started_on_success)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\medical-monitor-node-b5-cloud\node-b\tests\test_b5_g1_resume.py", line 44, in test_only_two_existing_units_started_on_success
+    result,calls,tls=self.run_remote()
+                     ^^^^^^^^^^^^^^^^^
+  File "E:\medical-monitor-node-b5-cloud\node-b\tests\test_b5_g1_resume.py", line 41, in run_remote
+    result=r.remote_resume(inputs or self.inputs())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\medical-monitor-node-b5-cloud\node-b\tools\b5_g1_resume.py", line 82, in remote_resume
+    import json,socket,ssl,subprocess,time,pwd,stat
+ModuleNotFoundError: No module named 'pwd'
+
+======================================================================
+ERROR: test_tls_failure_stops_without_extra_start_or_certificate_bypass (test_b5_g1_resume.Tests.test_tls_failure_stops_without_extra_start_or_certificate_bypass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\medical-monitor-node-b5-cloud\node-b\tests\test_b5_g1_resume.py", line 72, in test_tls_failure_stops_without_extra_start_or_certificate_bypass
+    result,calls,_=self.run_remote(tls_failure=True)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\medical-monitor-node-b5-cloud\node-b\tests\test_b5_g1_resume.py", line 41, in run_remote
+    result=r.remote_resume(inputs or self.inputs())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\medical-monitor-node-b5-cloud\node-b\tools\b5_g1_resume.py", line 82, in remote_resume
+    import json,socket,ssl,subprocess,time,pwd,stat
+ModuleNotFoundError: No module named 'pwd'
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.029s
+
+FAILED (errors=7)

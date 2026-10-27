@@ -92,3 +92,21 @@ sector3写入器已采用成功只读窗的已连接SDK流程：禁止Configure�
 第三阶段准备见[检查表](B5-G2B-TO-G3-PREPARATION.md)及[G3 R3](AUTH-B5-G3-CLOUD-WINDOW-001-R3.md)。实际配置通过之后，服务恢复和G3分别批准，不自动串行执行。G1旧apply会修改ACL/HUP，不能拿它代替只启动两个独立unit的resume-only工具。有限resume-only工具、ESP实机TLS条件和五层联合记录工具完整绑定尚须补齐，现不宣称G3可执行。
 
 新工具/卡/日志/包校验与真实退出见 `../evidence/B5-G2B-CONNECTED-PREP/`。源码原件与私有禁用模板另存受限EFS；无固件、配置凭据、UID明文进入Git。仅正常推送独立B5分支并远端回读，完成后等待分项批准。
+
+## 2026-10-27追加｜G2-B R3首次真实写入PASS
+
+负责人明确批准一次sector3写入及本事务ESP在板供电非隔离例外，供电/接线不变。只执行一次冻结writer `5464387e61ecbd1d109539996e06648a0e47d0ac601f674a3e1d449a045e0c3d`，无临场改代码，唯一许可已消费。
+
+实际耗时110.641秒，180秒总限；worker、独立监督器、外层退出均0。3010次SDK调用；初始Connect一次、Configure=0、负返回=0，无新增暂停失败消息指纹。SDK回调31条均有在途API/单调时间。只halt/reset/go各1；sector3 erase1、未提交数据83个32位字、commit1，普通KEYR2次、ACR控制4次，Engine最终DONE、原ACR恢复。
+
+写前双1MiB均为 `3eaf583a703137b09665da5d2bfd7e860cd3a2208bf659b631d7ee4d0541545c`；写后双1MiB均为 `acb33fdd39ecb016ecd848ec25eee051635f56ef8138b577a8590d2734ad687e`；前后四份16B options均为 `52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687`。整sector3为 `260dba9243272dfa2f678a688b0f772e2dace3d41eff84e5d1ce9e3ab9f72dfc`，generation3→4、CRC及提交字匹配，尾部16048B保留。sector3以外每个字节都未变，应用42552B与sector7/11不变，私有UID和保护位前后相同。nWRP仍0xFFF，不能说保留区硬件锁定。
+
+正常复位后真实PC=0x080080DC、MSP=0x20020000，与实际Flash向量匹配；随后Go1，三次运行检查与最终RAM4全零DISARMED断言通过。冻结writer没有另存最终RAM4原码或三个退出快照，原生读元数据和强制断言由执行源码/回执证明；不虚构不存在的文件。Close开启续跑，关闭后未追加硬件连接，不签冷启动或长期运行通过。
+
+本次raw Flash编程只裁定本受批事务PASS。原始八份Flash/options、身份、SDK回调/返回/时序、实际源码、启用许可及.used、原配置和恢复档案均保存在受限EFS；Git只收摘要及SHA。完整结果见 `../evidence/B5-G2B-SECTOR3-01/`。没有写应用/options/sector7/11，没有AT/B5START或自动恢复；ESP仍在板供电，自主联网UNKNOWN。
+
+其后仅执行一次云端只读生命周期查询：北京时间11:06:48测试Backend/TLS仍因6h上限停止、18775/8884不监听，测试账号/ACL未撤销，正式服务PID及全部查询配置SHA不变。未start服务、未发MQTT/WSS业务。
+
+为下阶段新备resume-only工具和[G1-RESUME R2](AUTH-B5-G1-RESUME-001-R2.md)，9项定向测试通过。开发第2次离线测试因Windows缺少Linux pwd模块而失败，补合成模块替身后通过；日志全部保留，不是服务器执行失败。只对冻结两个unit各start≤1，实际服务启动待单独批准；不借用会改ACL/HUP的旧G1 apply。G3现场与联合取证工具未齐，仍不启动B5START。
+
+CPU ROM根因UNRESOLVED、B5独立冷启动、同窗双通道、绝对阻抗和CAN故障注入保持原状态。当前C确为42552B＋新B5配置，原24104B/旧配置仅作为恢复原件；回滚顺序仍独立R-CFG R3后R-APP R2，未演练。BIO_V2阈值、保护分支和正式云服务未改。

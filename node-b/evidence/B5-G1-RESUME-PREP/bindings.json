@@ -1,0 +1,52 @@
+{
+  "status": "RESUME_ONLY_TOOL_FROZEN_DISABLED",
+  "tools_sha256": {
+    "b5_g1_resume.py": "73c0d4c7fba45f61414053f6c651435201bbc7014e4d4de6eb8df3b9bea5ba2f",
+    "b5_g1_lifecycle_readonly.py": "95b4a581fcb6168e9d366fbbca19c6768e1f2ee9caf5b86e3416c3b216156b00",
+    "b5_g0_readonly.py": "27e743f943e22eb7997c39de4c732f5281552f7717421e43b3173bc42eda58c2",
+    "b4_recovery.py": "fa93222b833f2f010d068b0cac97c73db7430c7eb68316d84441d60539c76213"
+  },
+  "card_sha256": "00e8dfe6c1c78467fba137efd0887cd6a13fb611e4c33fbf2a0c71c4143fcc88",
+  "package_sha256": "dcee1658be5ce4db2531975069441444a0f50078828321a3e978a8352b520db0",
+  "inputs_sha256": "f0679ca3757064f6c843291ee5fb3667ab80f2a6391aa970aff4f6033d4b5a39",
+  "G2B_receipt_sha256": "3f7ea5092794e70d1d5cc58c1ce0389e2dccd3ec1933374201942ce7c137e1a6",
+  "frozen_files": {
+    "node-b/tools/b5_g1_resume.py": "73c0d4c7fba45f61414053f6c651435201bbc7014e4d4de6eb8df3b9bea5ba2f",
+    "node-b/tools/b5_g1_lifecycle_readonly.py": "95b4a581fcb6168e9d366fbbca19c6768e1f2ee9caf5b86e3416c3b216156b00",
+    "node-b/tools/b5_g0_readonly.py": "27e743f943e22eb7997c39de4c732f5281552f7717421e43b3173bc42eda58c2",
+    "node-b/tools/b4_recovery.py": "fa93222b833f2f010d068b0cac97c73db7430c7eb68316d84441d60539c76213",
+    "node-b/tests/test_b5_g1_resume.py": "e61023eaf5307d6933d17896eda5c2ce4bd6107be65f9b3a3518f8fb7b1d07a2",
+    "node-b/docs/AUTH-B5-G1-RESUME-001-R2.md": "00e8dfe6c1c78467fba137efd0887cd6a13fb611e4c33fbf2a0c71c4143fcc88",
+    "node-b/evidence/B5-G2B-SECTOR3-01/result.json": "3f7ea5092794e70d1d5cc58c1ce0389e2dccd3ec1933374201942ce7c137e1a6",
+    "node-b/evidence/B5-G1-RESUME-PREP/offline-01.log": "f3a65bcd5ff089b03ea2ee718a733874a8cf0ebe6aaafb072cf85067e61abb5f",
+    "node-b/evidence/B5-G1-RESUME-PREP/offline-final-02.log": "587e72f7d373d822b91c1ad181a51e400dbb4328b99c96f7791bcf588731e69d",
+    "node-b/evidence/B5-G1-RESUME-PREP/offline-final-03.log": "0cc0f4fe774c4782b065802184e233b488989ce6d198683e8e0568062b9d2fd3"
+  },
+  "enabled_authorizations_created": 0,
+  "actual_service_starts": 0,
+  "B5START": 0,
+  "new_hardware_sessions": 0,
+  "real_package_input_rebuild": "PASS_OFFLINE",
+  "config_and_source_references": 26,
+  "permission_references": 17,
+  "final_offline_tests": 9,
+  "final_test_exit_code": 0,
+  "test_attempts": [
+    {
+      "log": "offline-01.log",
+      "tests": 8,
+      "exit_code": 0
+    },
+    {
+      "log": "offline-final-02.log",
+      "tests": 8,
+      "exit_code": 1,
+      "reason": "Windows lacks Linux pwd; synthetic dependency added to test"
+    },
+    {
+      "log": "offline-final-03.log",
+      "tests": 9,
+      "exit_code": 0
+    }
+  ]
+}
