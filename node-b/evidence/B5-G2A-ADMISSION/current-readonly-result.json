@@ -1,0 +1,89 @@
+{
+  "scope": "CURRENT_C_G2A_ADMISSION_READONLY",
+  "status": "PASS_CURRENT_C24104_IDENTITY_AND_DOUBLE_READ_ONLY",
+  "observed_utc_from_evidence_files": "2026-10-27T01:52:33.224638+00:00",
+  "private_UID_matches_checkpoint": true,
+  "CPUID": "0x410fc241",
+  "device_id": "0x10076413",
+  "capacity_kib": 1024,
+  "OPTCR": "0xfffaaed",
+  "RDP_byte": "0xaa",
+  "nWRP_bits": "0xfff",
+  "sector3_7_11_physical_WRP_locked": false,
+  "Flash_CR_LOCK": true,
+  "VTOR": "0x0",
+  "zero_alias_matches_Flash_vector": true,
+  "SYSCFG_MEMRMP": "0x0",
+  "PC_samples_entry": [
+    "0x8004ad4",
+    "0x8004a90",
+    "0x80018ec"
+  ],
+  "PC_samples_end": [
+    "0x8004a90",
+    "0x8005254",
+    "0x8005246"
+  ],
+  "real_PC_MSP": "NOT_OBSERVED_RUNNING_NO_HALT",
+  "DHCSR": "0x1010001",
+  "CFSR": "0x0",
+  "HFSR": "0x0",
+  "RCC_CSR": "0xe000000",
+  "reset_flags_are_sticky_not_root_cause_proof": true,
+  "Flash_and_options": {
+    "scope": "B5_G2RO_C24104_DOUBLE_BACKUP_NO_TARGET_ACTION",
+    "status": "C24104_FRESH_DOUBLE_READ_PASS",
+    "exit_code": 0,
+    "full_flash_sha256": "b460d917e1d454fdb0882d1f837d91c606363179b817a3896a1df6897b2dcb98",
+    "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+    "regions": {
+      "sector3": {
+        "bytes": 16384,
+        "sha256": "1698c8783b4fbdd1bc7fc5a8641babc7b499b58a65be54e7b36c65c6c5b88313",
+        "double_read_identical": true
+      },
+      "sector7": {
+        "bytes": 131072,
+        "sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "double_read_identical": true
+      },
+      "sector11": {
+        "bytes": 131072,
+        "sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+        "double_read_identical": true
+      }
+    },
+    "config": {
+      "header_committed_CRC_valid": true,
+      "CRC_matches": true,
+      "B5_identity_matches": false
+    },
+    "real_PC": "NOT_OBSERVED_RUNNING_NO_HALT",
+    "real_MSP": "NOT_OBSERVED_RUNNING_NO_HALT",
+    "DWT_PCSR_is_PC_sample_only": true,
+    "explicit_reset_halt_go_and_target_writes": 0,
+    "independent_flash_ReadMemEx_calls": 2,
+    "independent_options_ReadMemEx_calls": 2,
+    "board_sessions": 1,
+    "retries": 0,
+    "C_install": "NOT_RUN",
+    "ROM_root_cause": "UNRESOLVED",
+    "sdk_calls": 85,
+    "close_resume_policy": true,
+    "last_verified_running_Flash": true,
+    "close_policy_counts": {
+      "SetRestartOnClose 0": 4,
+      "SetRestartOnClose = 1": 1
+    },
+    "SDK_close_may_resume_verified_running_Flash": true
+  },
+  "actual_process_exit_code": 0,
+  "supervisor": {
+    "reason": null,
+    "worker_exit_code": 0,
+    "supervisor_exit_code": 0,
+    "automatic_retry_or_hardware_recovery": false
+  },
+  "application_flash_write_approved_at_readonly_time": false,
+  "ESP_isolation_proven_at_readonly_time": false
+}
