@@ -132,6 +132,7 @@ class FakeLink:
     def call(self,name,*args,**kwargs):
         self.actions[name]=self.actions.get(name,0)+1
         if name=='JLINKARM_Halt':self.halted=True;return 0
+        if name=='JLINKARM_IsConnected':return 1
         if name=='JLINKARM_CORESIGHT_Configure':return 0
         raise AssertionError(name)
     def stable_halt(self):assert self.halted
@@ -258,6 +259,10 @@ class Tests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'FUNCTION_DENIED'):link.call(name)
         with self.assertRaises(ValueError):link.call('JLINKARM_ReadReg',0)
         with self.assertRaisesRegex(ValueError,'SELECT_IS_NOT_READABLE'):link.call('JLINKARM_CORESIGHT_ReadAPDPReg',2,0,ctypes.byref(ctypes.c_uint32()))
+        self.assertTrue(link.raw_failed)
+        with self.assertRaisesRegex(ValueError,'RAW_STOP_LATCHED'):link.call('JLINKARM_CORESIGHT_WriteAPDPReg',3,1,0x45670123)
+        self.assertEqual(link.sdk_calls,0)
+        link=self.native_stub()
         with self.assertRaisesRegex(ValueError,'DRW_NOT_GRANTED'):link.call('JLINKARM_CORESIGHT_WriteAPDPReg',3,1,0x45670123)
         self.assertEqual(link.sdk_calls,0)
 
@@ -330,7 +335,7 @@ class Tests(unittest.TestCase):
                     writer.execute(link,out,{'phase':'provision','entry_runtime_state_hex':'00000000'},self.loaded())
             self.assertNotIn('JLINKARM_Halt',link.actions)
 
-    def test_RCFG_stopped_state_still_requires_explicit_ESP_isolation(self):
+    def test_RCFG_stopped_state_still_requires_explicit_ESP_exception(self):
         site={'JLink_target':'C','latest_power_state_checked':True,'ESP_electrically_isolated':False,
               'A_bus_disconnected':True,'no_human':True,'C_power_ready':True,'USB_and_CAN_state_frozen':True,'BOOT_and_RESET_untouched':True}
         raw=json.dumps(site).encode()
@@ -338,9 +343,10 @@ class Tests(unittest.TestCase):
            'entry_runtime_state_hex':'00000101','tools_sha256':{},'DLL_sha256':writer.ro.raw.DLL_SHA,
            'expires_unix':time.time()+60,'session_timeout_s':180,'probe_sessions':1,'retries':0,
            'failure_cleanup_scope':'PG_CLEAR_CR_LOCK_AND_ORIGINAL_ACR_IF_IDLE_ONLY','nonhuman_mock':True,
+           'card_sha256':writer.sha((ROOT/'node-b/docs'/writer.CARDS['restore_config']).read_bytes()),
            'output':str(self.out/'unused'),'site_record':'SYNTHETIC_SITE','site_record_sha256':writer.sha(raw)}
         with patch.object(writer,'bindings',return_value={}),patch.object(writer.recovery,'read',return_value=raw),patch.object(writer,'load_package') as load:
-            with self.assertRaisesRegex(ValueError,'SITE_NOT_READY'):writer.authorize(a,self.out/'unused')
+            with self.assertRaisesRegex(ValueError,'TRANSACTION_ESP_EXCEPTION_REQUIRED'):writer.authorize(a,self.out/'unused')
             load.assert_not_called()
 
     def package_fixture(self):

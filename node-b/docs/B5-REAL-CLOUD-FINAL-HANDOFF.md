@@ -1,6 +1,14 @@
-# B5-002阶段唯一交接｜ESP单包发送接受、未见回包，UDP已关闭
+# B5-002阶段唯一交接｜新鲜公网NTP通过，gen5及G3待独立批准
 
-## 最新状态｜2026-10-27
+## 最新状态｜2026-10-28
+
+负责人新批准的一次180秒快速桥单包窗口已实际通过：新nonce、48B请求/回复，CIPSEND前至完整回复观察结束595ms，满足原1000ms完整门；SDK1519次，调用者/worker/监督器退出均0，socket/接收模式/SNTP停止状态清理及Close通过。没有复位、Go、烧录、sector3写入、MCU时间安装或B5START。Close后的运行状态未另取证，不借此关闭CPU问题。
+
+gen5 Wi-Fi最小配置、gen5→gen4和gen5→原gen3回退包已在受限EFS离线封存，79项定向Python验证和3项C记录校验通过；实际写入与恢复均NOT_RUN。C仍为最后已知42552B应用＋gen4，测试云服务当前UNKNOWN，本轮未查询或重启。gen5安装、测试服务只读/必要恢复、HW准备、G3及每项回退保持分对象批准，所有新模板均禁用。详见[本轮综合诊断与下一轮准入](B5-G3R6-FAST-PASS-GEN5-G3-READINESS.md)、[分对象授权草案](B5-GEN5-AND-G3-OBJECT-AUTHORIZATION-DRAFT.md)及[真实结果](../evidence/B5-G3R6-FAST-01/result.json)。
+
+以下按原文保留历史检查点，包括最早无回包、SNTP TIME失败、2578ms门失败；不能将其解释为最新状态或因新窗口PASS而覆盖失败原件。
+
+## 历史状态｜2026-10-27
 
 本轮已按负责人“允许ESP侧单个UDP/NTP取证并分析，模块未变，不重复识别/哈希”的许可完成。裁定`ESP_SINGLE_NTP_REQUEST_ACCEPTED_NO_REPLY_OBSERVED_SOCKET_CLOSED`；总NTP载荷尝试1、收到包0、socket关闭已确认，未发送B5START。详情见[单包分析报告](B5-ESP-UDP-NTP-ANALYSIS.md)及[原始执行摘要](../evidence/B5-ESP-UDP-NTP-01/result.json)。SEND OK仅证明ESP接受载荷，不等于服务端收包或授时通过。
 

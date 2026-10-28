@@ -1,0 +1,162 @@
+{
+  "timer_start": "BEFORE_CIPSEND_COMMAND",
+  "timer_stop": "AFTER_COMPLETE_CIPRECVDATA_REPLY_OBSERVATION",
+  "ceil_full_interval_ms": 595,
+  "all_query_timestamps": [
+    {
+      "index": 0,
+      "command_bytes": 14,
+      "response_bytes": 33,
+      "mode": "OK",
+      "terminal": "OK",
+      "started_monotonic": 887892.703,
+      "sent_monotonic": 887892.796,
+      "observed_monotonic": 887892.812
+    },
+    {
+      "index": 1,
+      "command_bytes": 16,
+      "response_bytes": 37,
+      "mode": "OK",
+      "terminal": "OK",
+      "started_monotonic": 887892.812,
+      "sent_monotonic": 887892.906,
+      "observed_monotonic": 887892.921
+    },
+    {
+      "index": 2,
+      "command_bytes": 13,
+      "response_bytes": 31,
+      "mode": "OK",
+      "terminal": "OK",
+      "started_monotonic": 887892.921,
+      "sent_monotonic": 887893.0,
+      "observed_monotonic": 887893.015
+    },
+    {
+      "index": 3,
+      "command_bytes": 12,
+      "response_bytes": 29,
+      "mode": "OK",
+      "terminal": "OK",
+      "started_monotonic": 887893.015,
+      "sent_monotonic": 887893.093,
+      "observed_monotonic": 887893.093
+    },
+    {
+      "index": 4,
+      "command_bytes": 17,
+      "response_bytes": 39,
+      "mode": "OK",
+      "terminal": "OK",
+      "started_monotonic": 887893.109,
+      "sent_monotonic": 887893.203,
+      "observed_monotonic": 887893.218
+    },
+    {
+      "index": 5,
+      "command_bytes": 14,
+      "response_bytes": 30,
+      "mode": "OK",
+      "terminal": "OK",
+      "started_monotonic": 887893.218,
+      "sent_monotonic": 887893.312,
+      "observed_monotonic": 887893.312
+    },
+    {
+      "index": 6,
+      "command_bytes": 18,
+      "response_bytes": 24,
+      "mode": "OK",
+      "terminal": "OK",
+      "started_monotonic": 887893.328,
+      "sent_monotonic": 887893.421,
+      "observed_monotonic": 887893.468
+    },
+    {
+      "index": 7,
+      "command_bytes": 46,
+      "response_bytes": 61,
+      "mode": "OK",
+      "terminal": "OK",
+      "started_monotonic": 887893.468,
+      "sent_monotonic": 887893.718,
+      "observed_monotonic": 887893.765
+    },
+    {
+      "index": 8,
+      "command_bytes": 15,
+      "response_bytes": 24,
+      "mode": "PROMPT",
+      "terminal": "PROMPT",
+      "started_monotonic": 887893.765,
+      "sent_monotonic": 887893.859,
+      "observed_monotonic": 887893.875
+    },
+    {
+      "index": 9,
+      "command_bytes": 48,
+      "response_bytes": 39,
+      "mode": "SEND",
+      "terminal": "SEND_OK",
+      "started_monotonic": 887893.875,
+      "sent_monotonic": 887894.14,
+      "observed_monotonic": 887894.203
+    },
+    {
+      "index": 10,
+      "command_bytes": 19,
+      "response_bytes": 89,
+      "mode": "OK",
+      "terminal": "OK",
+      "started_monotonic": 887894.203,
+      "sent_monotonic": 887894.312,
+      "observed_monotonic": 887894.359
+    },
+    {
+      "index": 11,
+      "command_bytes": 13,
+      "response_bytes": 27,
+      "mode": "OK",
+      "terminal": "OK",
+      "started_monotonic": 887894.359,
+      "sent_monotonic": 887894.453,
+      "observed_monotonic": 887894.484
+    },
+    {
+      "index": 12,
+      "command_bytes": 14,
+      "response_bytes": 30,
+      "mode": "OK",
+      "terminal": "OK",
+      "started_monotonic": 887894.484,
+      "sent_monotonic": 887894.578,
+      "observed_monotonic": 887894.578
+    },
+    {
+      "index": 13,
+      "command_bytes": 18,
+      "response_bytes": 24,
+      "mode": "OK",
+      "terminal": "OK",
+      "started_monotonic": 887894.593,
+      "sent_monotonic": 887894.687,
+      "observed_monotonic": 887894.734
+    },
+    {
+      "index": 14,
+      "command_bytes": 17,
+      "response_bytes": 39,
+      "mode": "OK",
+      "terminal": "OK",
+      "started_monotonic": 887894.734,
+      "sent_monotonic": 887894.828,
+      "observed_monotonic": 887894.843
+    }
+  ],
+  "SDK_timing_events_preserved_private": true,
+  "raw_receipt_sha256": "d641a62ce99d869370b68dbcd6fe71a803ccb87db1fb689f167bc3ffb9740afb",
+  "sdk_io_sha256": "1fd8cdac9a3f82451244d03643b1df12080d0e81301dc149bd9b5fd0bb153f43",
+  "sdk_events_sha256": "54fa72a83776ceb2a7c6266bffa07c7cbc7538d2f0edbc73350cfbc8471f60f4",
+  "no_after_the_fact_subinterval_substitution": true
+}

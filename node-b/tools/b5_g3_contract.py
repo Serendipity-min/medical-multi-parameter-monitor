@@ -41,7 +41,7 @@ def bindings():
     names=('b5_g3_contract.py','b5_g3_devices.py','b5_g3_cloud.py','b5_g3_joint.py','b5_g3_review.py',
            'b4_runtime.py','b4_ecg_rala_can_current.py','c_b4_readonly.py','c_b4_closeout_readonly.py',
            'readback_b.py','runtime_state_b.py','live_state_b.py','resp_exploratory.py',
-           'b4_recovery.py','b5_g0_readonly.py','b5_g1_smoke.py','b5_g2_site.py',
+           'b4_recovery.py','b5_g0_readonly.py','b5_g1_smoke.py','b5_g2_site.py','b5_gen5_plan.py','b5_gen5_writer.py',
            'b5_sector3_write.py','b5_sector3_write_protocol.py','b5_g2ro.py',
            'b4_swd_install.py','b5_sector3_write_supervisor.py','b5_sector3_plan.py','b5_g1_cloud.py')
     return {n:sha((ROOT/'node-b/tools'/n).read_bytes()) for n in names}
@@ -76,12 +76,31 @@ def error_record(error):
             'errno':getattr(error,'errno',None),'TLS_verify_code':getattr(error,'verify_code',None)}
 
 
+def expected_c_full(a,bundle):
+    if 'gen5_package' not in a:
+        require(a.get('configuration_generation',4)==4,'G3_GEN5_PACKAGE_REQUIRED')
+        return C_FULL
+    import b5_gen5_writer as gen5
+    require(a.get('configuration_generation')==5,'G3_GEN5_GENERATION')
+    _,files=gen5.load_package(a['gen5_package'],a['gen5_package_manifest_sha256'])
+    expected=sha(files['gen5-full-private.bin'])
+    raw=private.read(Path(a['gen5_install_receipt']),False);receipt=json.loads(raw)
+    require(sha(raw)==a['gen5_install_receipt_sha256'] and receipt.get('exit_code')==0
+        and receipt.get('status')=='SECTOR3_FULL_VERIFY_AND_DISARMED_BOOT_PASS'
+        and receipt.get('scope')=='B5_GEN5_WIFI_WRITE' and receipt.get('configuration_generation')==5
+        and receipt.get('Close_completed') is True
+        and receipt.get('after_full_sha256')==expected
+        and receipt.get('package_manifest_sha256')==a['gen5_package_manifest_sha256'],'G3_GEN5_INSTALL_NOT_PASS')
+    require(bundle['C_full']['sha256']==expected,'G3_GEN5_FULL_REFERENCE')
+    return expected
+
+
 def validate(a,scope):
     require(a.get('enabled') is True and a.get('owner_approved') is True and a.get('scope')==scope,'G3_OWNER_SCOPE')
     require(a.get('tools_sha256')==bindings() and a.get('criteria')==CRITERIA,'G3_FROZEN_BINDINGS')
     require(a.get('environment')==environment(),'G3_ENVIRONMENT_DRIFT')
     require(time.time()<a.get('expires_unix',0) and a.get('retries')==0,'G3_EXPIRED_OR_RETRY')
-    card='AUTH-B5-G3-CLOUD-WINDOW-001-R4.md' if scope==G3 else 'AUTH-B5-G3-HW-PREP-001-R1.md'
+    card='B5-GEN5-AND-G3-OBJECT-AUTHORIZATION-DRAFT.md' if 'gen5_package' in a else ('AUTH-B5-G3-CLOUD-WINDOW-001-R4.md' if scope==G3 else 'AUTH-B5-G3-HW-PREP-001-R1.md')
     require(a.get('card_sha256')==sha((ROOT/'node-b/docs'/card).read_bytes()),'G3_CARD_DRIFT')
     require(a.get('DLL_sha256')=='632d0d78e72b8a55c65945a0c393a9f081082c725fff4ba3081b0a565fd58cff','G3_DLL_IDENTITY')
     bundle_raw=private.read(Path(a['bundle']),False)
@@ -90,8 +109,9 @@ def validate(a,scope):
     for key in ('B_identity','B_full','B_options','C_identity','C_full','C_options','B_ELF','B_symbols','cloud_package','cloud_credentials'):
         b=private.read(Path(bundle[key]['path']),False)
         require(sha(b)==bundle[key]['sha256'],'G3_PRIVATE_REFERENCE_DRIFT')
+    expected_full=expected_c_full(a,bundle)
     require(bundle['B_ELF']['sha256']==B_ELF and bundle['B_symbols']['sha256']==B_SYMBOLS
-            and bundle['C_full']['sha256']==C_FULL
+            and bundle['C_full']['sha256']==expected_full
             and bundle['cloud_package']['sha256']=='dcee1658be5ce4db2531975069441444a0f50078828321a3e978a8352b520db0','G3_ELF_FULL_BINDING')
     P=load(bundle['cloud_package']['path'])
     require(all(sha(base64.b64decode(P['sources']['backend/app/'+n]))==v
@@ -117,12 +137,13 @@ def validate(a,scope):
         require(sha(cproof_raw)==a.get('C_preflight_receipt_sha256'),'G3_C_PREFLIGHT_BINDING')
         cproof=json.loads(cproof_raw)
         require(cproof.get('status')=='C_CURRENT_B5_CONFIG_DISARMED_READONLY_PASS' and cproof.get('exit_code')==0
-                and cproof.get('full_sha256')==C_FULL,'G3_C_PREFLIGHT_NOT_PASS')
+                and cproof.get('full_sha256')==expected_full,'G3_C_PREFLIGHT_NOT_PASS')
         require(time.time()-cproof['observed_unix']<=3600,'G3_C_PREFLIGHT_TOO_OLD')
     else:
         require(a.get('B5START_allowed') is False and site.get('JLink_target')=='C'
                 and site.get('unchanged_power_wiring') is True,'G3_HW_SCOPE_ONLY')
     private.protected(Path(a['output']).parent,False)
+    bundle['_expected_C_full_sha256']=expected_full
     return bundle,site
 
 

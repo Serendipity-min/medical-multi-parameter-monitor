@@ -285,7 +285,7 @@ def save(out, name, data):
     recovery.protected(out/name, False); require((out/name).read_bytes() == data, 'S3_DISK_VERIFY')
 
 
-def execute(link, out, auth, loaded):
+def execute(link, out, auth, loaded, engine_type=None):
     _, blobs, reference, before, after, stage = loaded
     expected_runtime = entry_runtime_state(auth)
     link.open(); seen = ro.raw.identity(link); recovery.identity_check(seen)
@@ -319,7 +319,7 @@ def execute(link, out, auth, loaded):
             link.read(0x08000000, 64) == actual[:64] and link.u32(CR) == bridge.read32(CR),
             'S3_RAW_SDK_MIXED_READ_CROSSCHECK')
     ro.raw.write_json(out/'raw-bridge-preflight-private.json', result)
-    engine = Engine(NativeIO(link, bridge), before, after, stage, options, auth['phase'], started_monotonic=link.started)
+    engine = (Engine if engine_type is None else engine_type)(NativeIO(link, bridge), before, after, stage, options, auth['phase'], started_monotonic=link.started)
     link.active_engine = engine
     result = engine.run(actual, options)
     actual, options = engine.verified_full, engine.verified_options

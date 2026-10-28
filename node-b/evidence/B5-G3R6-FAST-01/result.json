@@ -1,0 +1,66 @@
+{
+  "status": "FRESH_PUBLIC_NTP_PASS",
+  "exit_code": 0,
+  "connection_count": 1,
+  "hard_limit_s": 180,
+  "manual_packets_attempted": 1,
+  "packets_received": 1,
+  "SDK_calls": 1519,
+  "SDK_limit": 15469,
+  "negative_native_returns": 0,
+  "cleanup_verified": true,
+  "Close_completed": true,
+  "post_close_target_state": "UNKNOWN_REQUIRES_INDEPENDENT_OBSERVATION",
+  "physical_stop_required": false,
+  "Flash_sector3_Reset_Go_B5START": 0,
+  "UID_image_options_reads": 0,
+  "caller": {
+    "exit_code": 0
+  },
+  "supervisor": {
+    "reason": null,
+    "worker_exit_code": 0,
+    "exit_code": 0,
+    "physical_stop_required": false
+  },
+  "NTP": {
+    "request_and_reply_bytes": 48,
+    "new_nonce_differs_from_previous_failed_window": true,
+    "originate_matches_this_nonce": true,
+    "LI_not_unsynchronised": true,
+    "mode_server": true,
+    "stratum_1_to_15": true,
+    "actual_reference_function_pass": true,
+    "frozen_full_interval_ms": 595,
+    "original_gate_ms": 1000,
+    "wire_RTT_measured": false,
+    "MCU_time_installation": "NOT_PERFORMED"
+  },
+  "entry": {
+    "DHCSR": 16842753,
+    "VTOR": 134217728,
+    "CFSR": 0,
+    "HFSR": 0,
+    "pc_samples": [
+      134224208,
+      134243812,
+      134238136
+    ],
+    "DISARMED": true
+  },
+  "exit": {
+    "DHCSR": 16842753,
+    "VTOR": 134217728,
+    "CFSR": 0,
+    "HFSR": 0,
+    "pc_samples": [
+      134243810,
+      134224206,
+      134224176
+    ],
+    "DISARMED": true
+  },
+  "previous_2578ms_failure": "PRESERVED_NOT_RECLASSIFIED",
+  "gen5": "OFFLINE_PREPARED_NOT_WRITTEN",
+  "G3": "NOT_RUN"
+}

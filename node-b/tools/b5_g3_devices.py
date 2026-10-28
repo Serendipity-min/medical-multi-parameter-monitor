@@ -93,7 +93,7 @@ def c_preflight(a,base,bundle):
         state=c.ro.old.snapshot(link);raw.write_json(out/'entry-private.json',state);c.ro.old.check_running(link,state)
         full=link.read(0x08000000,1048576);opts=link.read(0x1fffc000,16);flags=link.read(c.RAM,4)
         g.write_private(out/'full-private.bin',full);g.write_private(out/'options-private.bin',opts);g.write_private(out/'flags-private.bin',flags)
-        g.require(g.sha(full)==g.C_FULL and g.sha(opts)==bundle['C_options']['sha256'] and flags==bytes(4),'G3_C_FULL_OPTIONS_DISARMED')
+        g.require(g.sha(full)==bundle.get('_expected_C_full_sha256',g.C_FULL) and g.sha(opts)==bundle['C_options']['sha256'] and flags==bytes(4),'G3_C_FULL_OPTIONS_DISARMED')
         state=c.ro.old.snapshot(link);raw.write_json(out/'exit-private.json',state);c.ro.old.check_running(link,state)
         link.set_close_resume(True)
         r.update(status='C_CURRENT_B5_CONFIG_DISARMED_READONLY_PASS',exit_code=0,full_sha256=g.sha(full),

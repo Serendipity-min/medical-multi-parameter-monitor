@@ -1,0 +1,38 @@
+{
+  "new_gen5": {
+    "count": 11,
+    "exit_code": 0,
+    "log": "gen5-regression.log"
+  },
+  "sector3_writer_regression": {
+    "count": 27,
+    "exit_code": 0,
+    "log": "writer-regression.log"
+  },
+  "G3_joint_regression": {
+    "count": 41,
+    "exit_code": 0,
+    "log": "joint-regression.log"
+  },
+  "actual_record_C_checks": {
+    "count": 3,
+    "exit_codes": [
+      0,
+      0,
+      0
+    ]
+  },
+  "first_affected_run": {
+    "count": 77,
+    "failures": 4,
+    "exit_code": 1,
+    "preserved": true
+  },
+  "second_writer_run": {
+    "count": 27,
+    "failures": 1,
+    "exit_code": 1,
+    "preserved": true
+  },
+  "source_or_algorithm_Host_ARM_UI_TLS_full_matrices_rerun": false
+}

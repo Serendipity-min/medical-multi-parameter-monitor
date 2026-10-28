@@ -86,13 +86,7 @@ class Engine:
         require(uncommitted_sector[:20] + uncommitted_sector[24:] == final_sector[:20] + final_sector[24:]
                 and uncommitted_sector[20:24] == b'\xff'*4, 'SECTOR3_PRECOMMIT_LAYOUT')
         require(final_sector[336:] == before[49152+336:65536], 'SECTOR3_TAIL_DRIFT')
-        generation, _, fields = plan.parse_record(final_sector[:336])
-        old_generation, _, old_fields = plan.parse_record(before[49152:49152+336])
-        is_b5 = fields['username'] == b'b5-gateway' and fields['client_id'] == b'b5-c-isolated'
-        old_b5 = old_fields['username'] == b'b5-gateway' and old_fields['client_id'] == b'b5-c-isolated'
-        require((phase == 'provision' and (old_generation, generation) == (3, 4) and is_b5 and not old_b5)
-                or (phase == 'restore_config' and (old_generation, generation) == (4, 3) and old_b5 and not is_b5),
-                'SECTOR3_CONFIG_IDENTITY_OR_GENERATION')
+        self.validate_transition(phase,before[49152:49152+336],final_sector[:336])
         self.io, self.before, self.after, self.stage, self.options = io, before, after, uncommitted_sector, options
         self.phase = 'PREFLIGHT'; self.operation = phase; self.erases = 0; self.commits = 0
         self.keys = []; self.words = []; self.stage_verified = False; self.original_acr = None
@@ -102,6 +96,14 @@ class Engine:
         self.started = time.monotonic() if started_monotonic is None else started_monotonic
         self.timeout_s = timeout_s
         self.io.bind_guard(self.authorize_write)
+
+    def validate_transition(self,phase,before,after):
+        old_generation,_,old_fields=plan.parse_record(before);generation,_,fields=plan.parse_record(after)
+        old_b5=old_fields['username']==b'b5-gateway' and old_fields['client_id']==b'b5-c-isolated'
+        is_b5=fields['username']==b'b5-gateway' and fields['client_id']==b'b5-c-isolated'
+        require((phase=='provision' and (old_generation,generation)==(3,4) and is_b5 and not old_b5)
+            or (phase=='restore_config' and (old_generation,generation)==(4,3) and old_b5 and not is_b5),
+            'SECTOR3_CONFIG_IDENTITY_OR_GENERATION')
 
     def deadline(self, reserve=0):
         require(time.monotonic()-self.started+reserve <= self.timeout_s, 'SECTOR3_SESSION_TIMEOUT')

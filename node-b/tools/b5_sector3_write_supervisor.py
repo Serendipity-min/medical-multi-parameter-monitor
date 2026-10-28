@@ -29,7 +29,8 @@ def watch(child, out, timeout_s=180, started_monotonic=None):
             'automatic_retry_or_recovery': False}
 
 
-def supervise(authorization, out):
+def supervise(authorization, out, backend=writer):
+    writer=backend
     raw = writer.recovery.read(authorization, False); auth = json.loads(raw)
     writer.authorize(auth, out); writer.require(not out.exists(), 'S3_OUTPUT_EXISTS')
     used = authorization.with_suffix('.used')
