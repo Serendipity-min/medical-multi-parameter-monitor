@@ -1,0 +1,55 @@
+{
+  "8884_listening": false,
+  "ACL_test_account_rules_present": {
+    "observer_account_exists": true,
+    "observer_exact_read_only_rule": true,
+    "publisher_account_exists": true,
+    "publisher_exact_write_only_rule": true
+  },
+  "all_formal_test_config_SHA_unchanged": true,
+  "formal_PIDs_unchanged": true,
+  "formal_cloud_writes": 0,
+  "formal_services_active": true,
+  "initial_formal_PIDs_match": true,
+  "initial_test_units_expired_with_timeout": true,
+  "post_window_WSS": {
+    "exit_code": 0,
+    "last_gateway": "OFFLINE",
+    "last_nodeB": "OFFLINE",
+    "new_START": 0,
+    "publications": 0,
+    "status": "CLOUD_OBSERVATIONS_SAVED_REVIEW_PENDING"
+  },
+  "postcheck_SSH_exit": 0,
+  "readiness": {
+    "Backend_MQTT_ready": true,
+    "WSS_authenticated": true,
+    "elapsed_s": 5.469000000040978,
+    "exit_code": 0,
+    "network_ready": true,
+    "observer_CONNACK": [
+      0
+    ],
+    "observer_SUBACK": [
+      1
+    ],
+    "publications": 0
+  },
+  "resume_exit": 0,
+  "resume_status": "G1_EXISTING_TEST_BACKEND_TLS_RESUME_PASS",
+  "services_stopped_by_agent_after_window": false,
+  "test_accounts_revoked": false,
+  "test_service_remaining_s_at_archive": 19365,
+  "test_service_starts": [
+    {
+      "attempt": 1,
+      "exit_code": 0,
+      "service": "backend"
+    },
+    {
+      "attempt": 1,
+      "exit_code": 0,
+      "service": "tls"
+    }
+  ]
+}

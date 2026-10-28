@@ -22,11 +22,11 @@ C_READS.update({0xe000ed00:{4},0xe0042000:{4},0x40023c14:{4},0x1fff7a10:{12},0x1
 
 class BLink(b.Link):
     def __init__(self,out,root):
-        self.root=root;self.final_close_verified=False;self.active_api=None
+        self.root=root;self.final_close_verified=False;self.active_api=None;self.native_failed=False;self.host_cancel_close=False
         super().__init__(out)
         c.config.NativeLink.install_log_filters(self)
     def gate(self):
-        g.require(not (self.root/'STOP').exists(),'G3_STOP_REQUESTED')
+        g.require(self.host_cancel_close or not (self.root/'STOP').exists(),'G3_STOP_REQUESTED')
         arm=g.maybe(self.root/'ARM_ATTEMPT.json')
         deadline=arm['monotonic']+422 if arm else self.started+g.CRITERIA['prearm_s']
         g.require(time.monotonic()<=deadline and time.monotonic()-self.started<=565,'G3_B_SESSION_TIMEOUT')
@@ -57,14 +57,25 @@ class BLink(b.Link):
             self.events.write(json.dumps({'operation':name,'active':False})+'\n');self.events.flush()
             g.require(time.monotonic()<=deadline,'G3_B_NATIVE_TIMEOUT');self.gate()
             return value
-        except BaseException:
-            self.verified_running_flash=False;raise
+        except BaseException as error:
+            self.verified_running_flash=False
+            if str(error)!='G3_STOP_REQUESTED':self.native_failed=True
+            raise
         finally:self.active_api=None
     def read(self,address,size):
         g.require(size in READS.get(address,set()),'G3_B_READ_SCOPE')
         buf=(C.c_uint8*size)();n=self.call('JLINKARM_ReadMemEx',address,size,buf,0,timeout=45 if size==1048576 else 5)
+        if n!=size:self.native_failed=True;self.verified_running_flash=False
         g.require(n>=0,'G3_B_NATIVE_READ_ERROR');g.require(n==size,'G3_B_POSITIVE_SHORT_READ')
         return bytes(buf)
+    def prepare_host_cancel_close(self,out):
+        g.require(not self.error and not self.native_failed,'G3_B_HOST_CANCEL_NATIVE_UNHEALTHY')
+        # 仅主机取消时补一次原白名单CPU核验；ROM/HALT/native失败不续跑、不发Go。
+        self.host_cancel_close=True
+        try:
+            cpu=b.ro.snapshot(self);raw.write_json(out/'host-cancel-before-close-private.json',cpu)
+            b.ro.check_running(self,cpu);self.final_close_verified=True;self.set_close_resume(True)
+        finally:self.host_cancel_close=False
     def close(self):
         self.active_api='JLINKARM_Close'
         try:return super().close()
@@ -150,6 +161,9 @@ def b_worker(a,root,bundle):
         r.update(status='B_G3_READONLY_CAPTURED_REVIEW_PENDING',exit_code=0,blocks=n)
     except BaseException as e:
         r.update(g.error_record(e))
+        if link and str(e)=='G3_STOP_REQUESTED':
+            try:link.prepare_host_cancel_close(out);r['host_cancel_close_running_verified']=True
+            except BaseException as cleanup:r['host_cancel_close_error']=g.error_record(cleanup)
         if not (root/'B_FAULT.json').exists():g.save(root/'B_FAULT.json',{'reason':'B_READONLY_WORKER_FAILED'})
     finally:
         if link:

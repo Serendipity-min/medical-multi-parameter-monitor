@@ -98,6 +98,7 @@ def expected_c_full(a,bundle):
 def validate(a,scope):
     require(a.get('enabled') is True and a.get('owner_approved') is True and a.get('scope')==scope,'G3_OWNER_SCOPE')
     require(a.get('tools_sha256')==bindings() and a.get('criteria')==CRITERIA,'G3_FROZEN_BINDINGS')
+    require(a.get('precommon_ntp_retries_max',0) in (0,2),'G3_PRECOMMON_NTP_RETRY_SCOPE')
     require(a.get('environment')==environment(),'G3_ENVIRONMENT_DRIFT')
     require(time.time()<a.get('expires_unix',0) and a.get('retries')==0,'G3_EXPIRED_OR_RETRY')
     card='B5-GEN5-AND-G3-OBJECT-AUTHORIZATION-DRAFT.md' if 'gen5_package' in a else ('AUTH-B5-G3-CLOUD-WINDOW-001-R4.md' if scope==G3 else 'AUTH-B5-G3-HW-PREP-001-R1.md')

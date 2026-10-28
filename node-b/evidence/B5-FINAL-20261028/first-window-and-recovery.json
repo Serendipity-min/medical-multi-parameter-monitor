@@ -1,0 +1,43 @@
+{
+  "B_HALTED_PC_sampling": "INVALID_FFFFFFFF_NOT_REAL_PC",
+  "B_close_resume": false,
+  "B_exit_reason": "G3_STOP_REQUESTED",
+  "B_later_CFSR": 0,
+  "B_later_HFSR": 0,
+  "B_later_VTOR": 134217728,
+  "B_later_observed_DHCSR": 196611,
+  "B_once_Go": {
+    "close_resume": true,
+    "exit_code": 0,
+    "explicit_go": 1,
+    "go_attempts": 1,
+    "historical_ROM_root_cause": "UNRESOLVED",
+    "reset_halt_download_writes": 0,
+    "sdk_calls": 201,
+    "status": "B4_B_ONE_GO_FLASH_AND_ADC_ADVANCE_PASS"
+  },
+  "causality_limit": "HALT_OBSERVED_AFTER_REATTACH_DOES_NOT_IDENTIFY_CLOSE_VS_ATTACH_OR_HISTORICAL_ROM_CAUSE",
+  "first_START_count": 1,
+  "first_caller_exit": 1,
+  "first_failure": "GW_SNTP_REJECT_REASON2_RECEIVED0_RTT1003_INDEX0",
+  "host_abort": "G3_C_NETWORK_STEP_FAILED",
+  "original_failed_receipts_not_changed": true,
+  "read_only_passive_cloud_continuation": {
+    "Broker_fresh_nonretained_source": "SEE_RAW",
+    "Broker_messages": 153,
+    "MCU_STOP_banner_observed": false,
+    "formal_300s_joint_evaluation": "NOT_COMPLETED",
+    "gateway_ONLINE_snapshots": 2463,
+    "last_gateway": "OFFLINE",
+    "last_nodeB": "OFFLINE",
+    "new_START": 0,
+    "nodeB_ONLINE_snapshots": 0,
+    "post435_gateway_states": [
+      "OFFLINE"
+    ],
+    "streams": [
+      "GATEWAY_STATUS",
+      "NODE_STATUS"
+    ]
+  }
+}

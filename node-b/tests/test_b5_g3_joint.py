@@ -9,7 +9,7 @@ import sys
 import tempfile
 import types
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 ROOT=Path(__file__).resolve().parents[2]
 sys.path[:0]=[str(ROOT/'node-b/tools'),str(ROOT)]
 import b5_g3_contract as g
@@ -96,6 +96,19 @@ class Tests(unittest.TestCase):
     def test_SNTPrtt_or_clock_metadata_invalid_denied(self):
         with self.assertRaisesRegex(ValueError,'SNTP_METADATA'):
             j.SerialGate().consume('GW SNTP_SAMPLE rtt_ms=1001 uncertainty_ms=500 epoch=1700000000 fraction=0 server_index=0',True)
+    def test_only_explicit_precommon_NTP_rejections_can_be_observed(self):
+        with self.assertRaises(ValueError):j.SerialGate().consume('GW FAIL SNTP_FRESH_SAMPLE',True)
+        gate=j.SerialGate()
+        for _ in range(2):gate.consume('GW FAIL SNTP_FRESH_SAMPLE',True,2)
+        self.assertEqual(len(gate.precommon_ntp_failures),2)
+        self.assertFalse(gate.startup_ready())
+        with self.assertRaises(ValueError):gate.consume('GW FAIL SNTP_FRESH_SAMPLE',True,2)
+        with self.assertRaises(ValueError):j.SerialGate().consume('GW FAIL SNTP_FRESH_SAMPLE',False,2)
+    def test_TLS_and_other_network_failures_still_stop_with_NTP_observation_permission(self):
+        for line in ('GW FAIL CA_VERIFY','GW FAIL CERT_NAME','GW FAIL SNI','GW FAIL TLS','GW FAIL WIFI'):
+            with self.subTest(line=line),self.assertRaises(ValueError):j.SerialGate().consume(line,True,2)
+        gate=j.SerialGate();gate.steps={'AT_VERSION','SNTP_SAMPLE','SNTP_VALID','CA','CERT','SNI','TLS','MQTT'}
+        with self.assertRaises(ValueError):gate.consume('GW FAIL SNTP_FRESH_SAMPLE',True,2)
     def test_C_error_counter_or_TEC_REC_stops(self):
         fields=dict(tick=1,session=1,rx=1,txack=1,txfail=0,overflow=0,esr=0,uart_err=0,live=0,cache=0,dropped=0,q0_transport=0,q1_puback=0,mqtt_fail=0,stop=0)
         for key,value in [('txfail',1),('overflow',1),('esr',1<<16),('esr',1<<24),('esr',4),('uart_err',1)]:
@@ -161,6 +174,23 @@ class Tests(unittest.TestCase):
         link.dll=types.SimpleNamespace(JLINKARM_ReadMemEx=lambda *a:-1)
         with self.assertRaisesRegex(ValueError,'NATIVE_READ_ERROR'):link.read(g.SLOTS,g.BLOCK_BYTES)
         row=json.loads(link.io.getvalue());self.assertEqual(row['native_return_int'],-1);self.assertEqual(row['address'],hex(g.SLOTS))
+        self.assertTrue(link.native_failed);self.assertFalse(link.verified_running_flash)
+    def test_host_cancel_close_requires_fresh_running_state_and_never_Go(self):
+        link=object.__new__(d.BLink);link.error=False;link.native_failed=False;link.host_cancel_close=False
+        link.final_close_verified=False;link.set_close_resume=Mock()
+        with patch.object(d.b.ro,'snapshot',return_value={'fixture':'SYNTHETIC'}),patch.object(d.raw,'write_json'),\
+                patch.object(d.b.ro,'check_running') as check:
+            link.prepare_host_cancel_close(self.root)
+            check.assert_called_once();link.set_close_resume.assert_called_once_with(True)
+        self.assertTrue(link.final_close_verified);self.assertFalse(link.host_cancel_close)
+    def test_host_cancel_close_does_not_resume_HALT_ROM_or_native_failures(self):
+        for native,error,fault in ((True,False,False),(False,True,False),(False,False,True)):
+            link=object.__new__(d.BLink);link.error=error;link.native_failed=native;link.host_cancel_close=False
+            link.final_close_verified=False;link.set_close_resume=Mock()
+            with patch.object(d.b.ro,'snapshot',return_value={}),patch.object(d.raw,'write_json'),\
+                    patch.object(d.b.ro,'check_running',side_effect=ValueError('SYNTHETIC_HALT_OR_ROM')):
+                with self.assertRaises(ValueError):link.prepare_host_cancel_close(self.root)
+            link.set_close_resume.assert_not_called();self.assertFalse(link.host_cancel_close)
     def test_no_MQTT_publisher_or_firmware_write_in_cloud_observer(self):
         tree=ast.parse((ROOT/'node-b/tools/b5_g3_cloud.py').read_text('utf8'))
         calls=[x.func.attr for x in ast.walk(tree) if isinstance(x,ast.Call) and isinstance(x.func,ast.Attribute)]
@@ -211,6 +241,7 @@ class JointControlTests(unittest.TestCase):
         temporary=tempfile.TemporaryDirectory();self.addCleanup(temporary.cleanup)
         root=Path(temporary.name)/'window';clock=[10000.0];writes=[];shared_holder={}
         a={'output':str(root),'COM':'SYNTHETIC','owner_approved':True,'B5START_allowed':True}
+        if mode in ('ntp_retry','ntp_late'):a['precommon_ntp_retries_max']=2
         def save(path,value):
             with Path(path).open('x',encoding='utf8') as f:json.dump(value,f)
         def cloud(a,r,bundle,stop,shared):
@@ -231,7 +262,7 @@ class JointControlTests(unittest.TestCase):
             def wait(self,**kwargs):self.returncode=0;return 0
             def kill(self):self.returncode=-9
         class Serial:
-            def __init__(self,**kw):self.sent=False;self.banner=False;self.arm=None;self.stop=False
+            def __init__(self,**kw):self.sent=False;self.banner=False;self.arm=None;self.stop=False;self.ntp_failed=False
             def open(self):pass
             def close(self):pass
             def write(self,data):writes.append(data);self.arm=clock[0];return len(data)
@@ -246,6 +277,9 @@ class JointControlTests(unittest.TestCase):
                     return b'B5 DISARMED MOCK B_ONLY NO_FLASH_WRITE\r\n'
                 if self.arm is None:return b''
                 if not self.sent:
+                    if mode in ('ntp_retry','ntp_late') and not self.ntp_failed:
+                        self.ntp_failed=True;return b'GW FAIL SNTP_FRESH_SAMPLE\r\n'
+                    if mode=='ntp_late' and clock[0]-self.arm<=61:return b''
                     self.sent=True
                     if mode=='network_failure':return b'GW FAIL CA_VERIFY\r\n'
                     save(root/'CLOUD_COMMON.json',{'monotonic':clock[0],'server_time':int((1700000000+clock[0]-10000)*1000),
@@ -279,6 +313,15 @@ class JointControlTests(unittest.TestCase):
         self.assertEqual(code,1);self.assertEqual(len(writes),1)
         self.assertIn('MANUAL_ALL_BOARD_POWER_REMOVAL',r['physical_stop'])
         self.assertEqual(len(r['manual_isolation_required']),4)
+    def test_NTP_rotation_before_common_keeps_same_single_start_and_full_window(self):
+        code,r,writes,ended,root=self.run_joint('ntp_retry')
+        self.assertEqual(code,0);self.assertEqual(writes,[b'B5START\n'])
+        self.assertEqual(r['precommon_ntp_failures'],['GW FAIL SNTP_FRESH_SAMPLE'])
+        self.assertGreaterEqual(ended-json.loads((root/'ARM_ATTEMPT.json').read_text())['monotonic'],440)
+    def test_NTP_rotation_cannot_extend_frozen_60_second_ready_gate(self):
+        code,r,writes,ended,root=self.run_joint('ntp_late')
+        self.assertEqual(code,1);self.assertEqual(writes,[b'B5START\n'])
+        self.assertEqual(r['reason'],'G3_COMMON_NOT_READY_IN_60S')
 
 
 class SupervisorTests(unittest.TestCase):

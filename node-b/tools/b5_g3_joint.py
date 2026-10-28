@@ -12,11 +12,15 @@ import b5_g3_contract as g
 
 
 class SerialGate:
-    def __init__(self):self.banner=0;self.steps=set();self.diags=[];self.stopped=False;self.sntp_metadata=None;self.network_session=None
-    def consume(self,line,armed=False):
+    def __init__(self):self.banner=0;self.steps=set();self.diags=[];self.stopped=False;self.sntp_metadata=None;self.network_session=None;self.precommon_ntp_failures=[]
+    def consume(self,line,armed=False,ntp_failures_max=0):
         if line=='B5 DISARMED MOCK B_ONLY NO_FLASH_WRITE':
             g.require(not armed,'G3_C_UNEXPECTED_REBOOT');self.banner+=1;g.require(self.banner==1,'G3_C_MULTIPLE_BOOTS')
-        if line.startswith('GW FAIL '):raise ValueError('G3_C_NETWORK_STEP_FAILED')
+        if line.startswith('GW FAIL '):
+            # 仅新授权允许观察候选已有的授时端点轮换；不发送重试，原60秒就绪门不变。
+            if (line=='GW FAIL SNTP_FRESH_SAMPLE' and armed and not self.startup_ready()
+                    and len(self.precommon_ntp_failures)<ntp_failures_max):self.precommon_ntp_failures.append(line)
+            else:raise ValueError('G3_C_NETWORK_STEP_FAILED')
         if line.startswith('GW AT_VERSION value='):
             g.require(re.fullmatch(r'[0-9.]{3,32}',line.split('=',1)[1]) is not None,'G3_AT_VERSION_FORMAT')
             self.steps.add('AT_VERSION')
@@ -115,7 +119,7 @@ def joint_worker(auth_path,a,bundle):
                 g.require(len(pending)<=4096,'G3_SERIAL_LINE_OVERFLOW')
                 while b'\n' in pending:
                     line,pending=pending.split(b'\n',1);text=line.rstrip(b'\r').decode('ascii')
-                    g.append(lines,'C_LINE',text);diag=gate.consume(text,arm is not None)
+                    g.append(lines,'C_LINE',text);diag=gate.consume(text,arm is not None,a.get('precommon_ntp_retries_max',0))
                     if text=='B5 DISARMED MOCK B_ONLY NO_FLASH_WRITE':
                         g.save(root/'C_BANNER_READY.json',{'monotonic':time.monotonic(),'line':text,'owner_preplanned_reset_count':1})
                     if gate.stopped and C_stop_at is None:
@@ -165,6 +169,7 @@ def joint_worker(auth_path,a,bundle):
             receipt['manual_isolation_required']=['B_J5_OFF','C_J5_OFF','C_USB_UNPLUG','JLink_PC_USB_UNPLUG']
             print(json.dumps({'event':'MANUAL_BC_J5_C_USB_JLINK_USB_POWER_OFF_REQUIRED','reason':receipt['reason']}),flush=True)
     finally:
+        receipt['precommon_ntp_failures']=gate.precommon_ntp_failures
         stop.set()
         if b_child:
             try:b_child.wait(timeout=5)
