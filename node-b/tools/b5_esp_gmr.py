@@ -94,6 +94,8 @@ class QueryLink(site.BridgeLink):
         previous=getattr(self,'active_api',None);self.active_api=name
         try:return self._call_native(name,*args,timeout=timeout)
         finally:self.active_api=previous
+    def raw_read_allowed(self,address):
+        return address in (0xe000ed00,CR,SR) or 0x08000000<=address<0x08000040
     def _call_native(self,name,*args,timeout=5):
         g.require(name in self.NATIVE_SCOPE,'ESP_NATIVE_API_DENIED')
         g.require(not getattr(self,'read_failed',False),'ESP_READ_STOP_LATCHED')
@@ -122,7 +124,7 @@ class QueryLink(site.BridgeLink):
                               and self.byte_grant.history[self.native_UART_writes]==value,'ESP_DAP_TARGET_WRITE_DENIED')
                     self.native_UART_writes+=1
             elif reg==3 and self.dap_select==0:
-                g.require(self.dap_tar in (0xe000ed00,CR,SR) or 0x08000000<=self.dap_tar<0x08000040,'ESP_DAP_READ_SCOPE')
+                g.require(self.raw_read_allowed(self.dap_tar),'ESP_DAP_READ_SCOPE')
         self.gate();self.sdk_calls+=1;deadline=time.monotonic()+timeout
         self.events.write(json.dumps({'operation':name,'active':True,'deadline_monotonic':deadline})+'\n');self.events.flush()
         try:result=getattr(self.dll,name)(*args)
