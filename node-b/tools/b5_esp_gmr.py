@@ -84,6 +84,8 @@ def rx_route_snapshot(link):
 
 class QueryLink(site.BridgeLink):
     BYTE_COMMANDS=COMMANDS
+    READ_SCOPE=READS
+    NATIVE_SCOPE=site.ro.CALLS|{'JLINKARM_CORESIGHT_ReadAPDPReg','JLINKARM_CORESIGHT_WriteAPDPReg'}
     def __init__(self,out):
         self.byte_grant=ByteGrant(self.BYTE_COMMANDS);self.query_before_verified=False;self.native_UART_writes=0
         super().__init__(out);self.sdk_limit=6000;self.memory_counts={}
@@ -93,7 +95,7 @@ class QueryLink(site.BridgeLink):
         try:return self._call_native(name,*args,timeout=timeout)
         finally:self.active_api=previous
     def _call_native(self,name,*args,timeout=5):
-        g.require(name in site.ro.CALLS|{'JLINKARM_CORESIGHT_ReadAPDPReg','JLINKARM_CORESIGHT_WriteAPDPReg'},'ESP_NATIVE_API_DENIED')
+        g.require(name in self.NATIVE_SCOPE,'ESP_NATIVE_API_DENIED')
         g.require(not getattr(self,'read_failed',False),'ESP_READ_STOP_LATCHED')
         g.require(not getattr(self,'raw_failed',False),'ESP_RAW_STOP_LATCHED')
         g.require(not getattr(self,'native_uncertain',False),'ESP_NATIVE_STOP_LATCHED')
@@ -103,7 +105,7 @@ class QueryLink(site.BridgeLink):
             command=args[0].decode('ascii');g.require(command in site.ro.COMMANDS,'ESP_POLICY_DENIED')
             if command=='SetRestartOnClose = 1':g.require(self.verified_running_flash,'ESP_CLOSE_UNVERIFIED')
         if name=='JLINKARM_ReadMemEx':
-            address,size=args[:2];g.require(size in READS.get(address,set()) and args[3]==0,'ESP_READ_SCOPE')
+            address,size=args[:2];g.require(size in self.READ_SCOPE.get(address,set()) and args[3]==0,'ESP_READ_SCOPE')
             if (address,size) in ((0x08000000,1048576),(0x1fffc000,16)):
                 n=self.memory_counts.get((address,size),0);g.require(n<2,'ESP_FULL_OPTIONS_READ_LIMIT')
                 self.memory_counts[address,size]=n+1
@@ -151,7 +153,7 @@ class QueryLink(site.BridgeLink):
                 if args[0]==1:self.dap_tar=v
         return result
     def read(self,address,size):
-        g.require(size in READS.get(address,set()),'ESP_READ_SCOPE');buf=(C.c_uint8*size)()
+        g.require(size in self.READ_SCOPE.get(address,set()),'ESP_READ_SCOPE');buf=(C.c_uint8*size)()
         self.call('JLINKARM_ReadMemEx',address,size,buf,0,timeout=45 if size==1048576 else 5)
         return bytes(buf)
 
