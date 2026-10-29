@@ -105,10 +105,13 @@ static void waveform(B4Gateway *g, unsigned bus, unsigned pdo, uint32_t arrival)
         /* 真实250SPS内部ADC时钟与整数毫秒域有3/4/5ms量化；不能当作缺帧。
          * 单步和整批相位均限±1ms，8ms丢点/重复/倒序仍清批，不伪造重采样点。 */
         if (delta < step - 1 || delta > step + 1 || (f->count && (phase < -1 || phase > 1))) {
+            g->partial_discarded+=f->count;
             f->count = 0; g->wave_gaps++;
         }
     }
-    if (f->count && (f->valid != valid || f->synthetic != synthetic)) f->count = 0;
+    if (f->count && (f->valid != valid || f->synthetic != synthetic)) {
+        g->partial_discarded+=f->count;g->quality_resets++;f->count=0;
+    }
     s->have_tick[pdo] = true; s->last_tick[pdo] = tick;
     if (!f->count) s->first_tick[pdo] = tick;
     f->node = bus + 1; f->stream = bus == 0 ? MP_PPG : pdo == 0 ? MP_ECG : MP_RESP;
@@ -129,6 +132,11 @@ static void scalars(B4Gateway *g, unsigned bus, uint32_t arrival, bool vitals) {
         f.stream = bus ? (i == 0 ? MP_HR : i == 1 ? MP_RR : MP_TEMP) : (i == 0 ? MP_SPO2 : MP_PR);
         f.timestamp = utc; f.epoch = s->observed_boot; f.boot = s->generation; f.synthetic = flags >> 31;
         f.valid = utc && fresh(s, 4, g->now) && b4_gateway_online(g, bus + 1) && (flags & (1u << (i + (bus ? 2 : 1))));
+        if (bus && i==2) {
+            uint32_t age=mp_od_read(&s->od,base+0x20,4);
+            /* utc是节点标量报告秒锚；帧龄只撤销过旧读数，不冒充精确测温UTC。 */
+            f.valid=f.valid && age<=2500u;
+        }
         f.values[0] = (int32_t)mp_od_read(&s->od, base + 0x20, i + 1);
         emit(g, s, &f);
     }

@@ -16,6 +16,7 @@ import b5_g3_contract as g
 import b5_g3_joint as j
 import b5_g3_devices as d
 import b5_g3_review as review
+import b5_g3_cloud as cloud_observer
 
 
 def raw_slot(seq,tick,ch2=0):
@@ -191,6 +192,27 @@ class Tests(unittest.TestCase):
                     patch.object(d.b.ro,'check_running',side_effect=ValueError('SYNTHETIC_HALT_OR_ROM')):
                 with self.assertRaises(ValueError):link.prepare_host_cancel_close(self.root)
             link.set_close_resume.assert_not_called();self.assertFalse(link.host_cancel_close)
+    def test_R3_cleanup_reserve_is_finite_and_cannot_continue_capture(self):
+        link=object.__new__(d.BLink);link.root=self.root;link.started=0;link.error=False
+        link.host_cancel_close=False;link.operator_wait_extra_s=180;link.host_cancel_cleanup_s=10
+        with patch.object(g,'maybe',return_value=None),patch.object(d.time,'monotonic',return_value=301):
+            with self.assertRaisesRegex(ValueError,'SESSION_TIMEOUT'):link.gate()
+            link.host_cancel_close=True;link.gate()
+        with patch.object(g,'maybe',return_value=None),patch.object(d.time,'monotonic',return_value=310.01):
+            with self.assertRaisesRegex(ValueError,'SESSION_TIMEOUT'):link.gate()
+    def test_host_budget_after_native_return_is_not_DLL_failure(self):
+        link=object.__new__(d.BLink);link.sdk_calls=0;link.native_failed=False;link.verified_running_flash=True
+        link.io=io.StringIO();link.events=io.StringIO();link.active_api=None
+        link.gate=Mock(side_effect=[None,ValueError('G3_B_SESSION_TIMEOUT')])
+        link.dll=types.SimpleNamespace(JLINKARM_ReadMemEx=lambda *a:g.BLOCK_BYTES)
+        with self.assertRaisesRegex(ValueError,'SESSION_TIMEOUT'):
+            link.call('JLINKARM_ReadMemEx',g.SLOTS,g.BLOCK_BYTES,None,0)
+        self.assertFalse(link.native_failed);self.assertFalse(link.verified_running_flash)
+        self.assertEqual(json.loads(link.io.getvalue())['native_return_int'],g.BLOCK_BYTES)
+    def test_operator_wait_extension_needs_separate_card(self):
+        a={'enabled':True,'owner_approved':True,'scope':g.G3,'tools_sha256':g.bindings(),
+           'criteria':g.CRITERIA,'operator_wait_extra_s':180,'host_cancel_cleanup_s':10}
+        with self.assertRaisesRegex(ValueError,'OPERATOR_WAIT_CARD'):g.validate(a,g.G3)
     def test_no_MQTT_publisher_or_firmware_write_in_cloud_observer(self):
         tree=ast.parse((ROOT/'node-b/tools/b5_g3_cloud.py').read_text('utf8'))
         calls=[x.func.attr for x in ast.walk(tree) if isinstance(x,ast.Call) and isinstance(x.func,ast.Attribute)]
@@ -206,12 +228,38 @@ class Tests(unittest.TestCase):
 
 
 class AdditionalBoundaryTests(unittest.TestCase):
+    def session_snapshot(self,session='can-222-7'):
+        return {'streams':[{'node_id':'NODE-B','stream':n,'session_id':session,'source':'MOCK','synthetic':True,
+                            'validity':'VALID' if n in ('ECG','HR') else 'INVALID'} for n in ('ECG','HR','RR','TEMP')]}
+    def test_fresh_gateway_cannot_pair_with_old_B_snapshot(self):
+        self.assertIsNone(cloud_observer.current_b_session(self.session_snapshot('can-111-1'),'can-222-1'))
+    def test_current_B_boot_may_differ_from_gateway_boot(self):
+        self.assertEqual(cloud_observer.current_b_session(self.session_snapshot(),'can-222-1'),'can-222-7')
+    def test_common_waits_for_all_four_current_streams(self):
+        snap=self.session_snapshot();snap['streams'][2]['session_id']='can-111-1'
+        self.assertIsNone(cloud_observer.current_b_session(snap,'can-222-1'))
+    def test_current_but_stale_or_replay_cannot_start_common(self):
+        snap=self.session_snapshot();snap['streams'][0]['validity']='STALE'
+        self.assertIsNone(cloud_observer.current_b_session(snap,'can-222-1'))
+        snap=self.session_snapshot();snap['streams'][0]['source']='REPLAY'
+        self.assertIsNone(cloud_observer.current_b_session(snap,'can-222-1'))
+    def test_counter_failure_cannot_discard_STOP_in_same_serial_read(self):
+        with tempfile.TemporaryDirectory() as tmp,patch.object(g,'save') as save:
+            stream=io.StringIO();root=Path(tmp)
+            pending,texts,stop=j.record_lines(b'B5 DIAG tick=1 mqtt_fail=1\r\nB5 STOPPED NO_AUTOREARM\r\nTAIL',stream,root,True,None)
+            self.assertEqual(pending,b'TAIL');self.assertIsNotNone(stop);save.assert_called_once()
+            self.assertEqual(len(stream.getvalue().splitlines()),2)
+            with self.assertRaises(ValueError):j.SerialGate().consume(texts[0],True)
+    def test_prearm_STOP_does_not_become_stop_proof(self):
+        with patch.object(g,'save') as save:
+            _,_,stop=j.record_lines(b'B5 STOPPED NO_AUTOREARM\n',io.StringIO(),Path('unused'),False,None)
+            self.assertIsNone(stop);save.assert_not_called()
     def test_C_control_and_DAP_calls_denied_even_if_old_bridge_supported_them(self):
         link=object.__new__(d.CLink)
         for name in ('JLINKARM_Reset','JLINKARM_Halt','JLINKARM_Go','JLINKARM_WriteMem','JLINKARM_CORESIGHT_ReadAPDPReg','JLINKARM_CORESIGHT_WriteAPDPReg'):
             with self.assertRaisesRegex(ValueError,'READONLY_API'):link.call(name)
     def test_C_full_and_options_single_read_limit_is_enforced_before_parent(self):
-        link=object.__new__(d.CLink);link.started=j.time.monotonic()
+        link=object.__new__(d.CLink);link.started=j.time.monotonic();link.flags_address=d.c.RAM
         with patch.object(d.c.BridgeLink,'call',return_value=16) as parent:
             self.assertEqual(link.call('JLINKARM_ReadMemEx',0x1fffc000,16,None,0),16)
             with self.assertRaisesRegex(ValueError,'ONE_READ_LIMIT'):link.call('JLINKARM_ReadMemEx',0x1fffc000,16,None,0)
@@ -242,6 +290,7 @@ class JointControlTests(unittest.TestCase):
         root=Path(temporary.name)/'window';clock=[10000.0];writes=[];shared_holder={}
         a={'output':str(root),'COM':'SYNTHETIC','owner_approved':True,'B5START_allowed':True}
         if mode in ('ntp_retry','ntp_late'):a['precommon_ntp_retries_max']=2
+        if mode=='operator_wait':a.update(operator_wait_extra_s=180,host_cancel_cleanup_s=10)
         def save(path,value):
             with Path(path).open('x',encoding='utf8') as f:json.dump(value,f)
         def cloud(a,r,bundle,stop,shared):
@@ -271,6 +320,7 @@ class JointControlTests(unittest.TestCase):
                 shared_holder['shared']['cloud_last_monotonic']=clock[0]
                 if (root/'ARM_PREPARE.json').exists() and not (root/'ARM_BACKEND_BASELINE.json').exists():save(root/'ARM_BACKEND_BASELINE.json',{})
                 if not self.banner:
+                    if mode=='operator_wait' and clock[0]<10200:return b''
                     self.banner=True
                     if mode=='no_banner':return b''
                     save(root/'C_RESET_OWNER_DONE.json',{})
@@ -322,10 +372,17 @@ class JointControlTests(unittest.TestCase):
         code,r,writes,ended,root=self.run_joint('ntp_late')
         self.assertEqual(code,1);self.assertEqual(writes,[b'B5START\n'])
         self.assertEqual(r['reason'],'G3_COMMON_NOT_READY_IN_60S')
+    def test_owner_wait_200s_is_separate_from_original_business_limits(self):
+        code,r,writes,ended,root=self.run_joint('operator_wait')
+        arm=json.loads((root/'ARM_ATTEMPT.json').read_text());t0=json.loads((root/'T0.json').read_text())
+        self.assertEqual(code,0);self.assertEqual(writes,[b'B5START\n']);self.assertGreaterEqual(arm['monotonic'],10200)
+        self.assertEqual(t0['evaluation'],[t0['monotonic']+45,t0['monotonic']+345])
+        self.assertLessEqual(r['C_STOP_banner_monotonic']-arm['monotonic'],422)
+        self.assertGreaterEqual(ended-arm['monotonic'],440);self.assertEqual(g.CRITERIA['prearm_s'],120)
 
 
 class SupervisorTests(unittest.TestCase):
-    def scenario(self,stop_confirmed):
+    def scenario(self,stop_confirmed,operator_wait=False):
         tmp=tempfile.TemporaryDirectory();self.addCleanup(tmp.cleanup)
         base=Path(tmp.name);root=base/'window';auth=base/'auth.json';auth.write_text('{}')
         clock=[10000.0];instances=[];kills=[]
@@ -334,14 +391,19 @@ class SupervisorTests(unittest.TestCase):
         class Child:
             def __init__(self,*args,**kwargs):
                 self.pid=987654;self.returncode=None;instances.append(self);root.mkdir()
-                save(root/'ARM_ATTEMPT.json',{'monotonic':10000.0});save(root/'T0.json',{})
+                if not operator_wait:save(root/'ARM_ATTEMPT.json',{'monotonic':10000.0});save(root/'T0.json',{})
             def poll(self):
+                if operator_wait:
+                    if clock[0]>=10320:self.returncode=0
+                    return self.returncode
                 if stop_confirmed and clock[0]>=10420 and not (root/'C_STOP_BANNER.json').exists():save(root/'C_STOP_BANNER.json',{'monotonic':clock[0]})
                 if clock[0]>=10440 and self.returncode is None:self.returncode=0
                 return self.returncode
             def wait(self,**kwargs):return self.returncode
         def kill(command,**kwargs):kills.append(command);instances[0].returncode=99;return types.SimpleNamespace(returncode=0)
-        with patch.object(g,'load',return_value={'output':str(root),'scope':g.G3}),patch.object(g,'validate',return_value=({},{})), \
+        a={'output':str(root),'scope':g.G3}
+        if operator_wait:a.update(operator_wait_extra_s=180,host_cancel_cleanup_s=10)
+        with patch.object(g,'load',return_value=a),patch.object(g,'validate',return_value=({},{})), \
              patch.object(g,'save',side_effect=save),patch.object(g,'write_private',side_effect=lambda p,b:Path(p).write_bytes(b)), \
              patch.object(j.subprocess,'Popen',Child),patch.object(j.subprocess,'run',side_effect=kill), \
              patch.object(j.time,'monotonic',side_effect=lambda:clock[0]),patch.object(j.time,'sleep',side_effect=lambda n:clock.__setitem__(0,clock[0]+1)), \
@@ -355,6 +417,10 @@ class SupervisorTests(unittest.TestCase):
     def test_independent_supervisor_allows_only_passive_20s_after_confirmed_stop(self):
         code,r,kills,at=self.scenario(True)
         self.assertEqual(code,0);self.assertEqual(kills,[]);self.assertEqual(at,10440)
+    def test_prearm_supervisor_reserves_cleanup_instead_of_killing_B_at_worker_deadline(self):
+        code,r,kills,at=self.scenario(False,True)
+        self.assertEqual(code,0);self.assertEqual(kills,[]);self.assertEqual(at,10320)
+        self.assertFalse(r['G3_B5START_attempted'])
 
 
 class SyntheticReviewIntegrationTests(unittest.TestCase):

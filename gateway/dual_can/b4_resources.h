@@ -18,7 +18,11 @@ static inline int b4_hw_protocol_link_up(unsigned bus,int physical_up) {
 #if !defined(MP_FRAME_MAX_SAMPLES) || MP_FRAME_MAX_SAMPLES != 100
 #error B4_MODEL_REQUIRES_100_SAMPLE_ABI
 #endif
-#if !defined(MP_CACHE_CAPACITY) || MP_CACHE_CAPACITY != 64
+#ifdef MP_B5_EGRESS_FINAL
+#if MP_LIVE_CAPACITY != 24 || MP_CACHE_CAPACITY != 56
+#error B5_EGRESS_REQUIRES_24_LIVE_56_HISTORY_SAME_80_FRAME_BUDGET
+#endif
+#elif !defined(MP_CACHE_CAPACITY) || MP_CACHE_CAPACITY != 64
 #error B4_ROUTER_REQUIRES_64_CACHE_SLOTS
 #endif
 #endif

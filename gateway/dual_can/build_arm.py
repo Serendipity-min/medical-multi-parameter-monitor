@@ -17,7 +17,9 @@ def main():
     targets.add_argument('--network-link', action='store_true', help='仅链接完整H3 MQTT传输，不运行固件/网络')
     targets.add_argument('--bench', action='store_true', help='独立禁联网台架及本地测试TIME，仅构建不部署')
     targets.add_argument('--b5', action='store_true', help='B5手工武装MOCK网络完整候选；只构建，禁止部署')
+    parser.add_argument('--egress-final', action='store_true', help='仅B5出口收尾候选，离线构建')
     args = parser.parse_args()
+    if args.egress_final and not args.b5:parser.error('--egress-final requires --b5')
     spec = importlib.util.spec_from_file_location('b4_sdk', ROOT / 'gateway/esp_at_probe/build.py')
     base = importlib.util.module_from_spec(spec); spec.loader.exec_module(base)
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
@@ -34,6 +36,10 @@ def main():
              '-I' + str(ROOT / 'gateway/canopen/src'), '-I' + str(vendor),
              *['-I' + str(p) for p in base.INCLUDES]]
     reference_sha = {}
+    if args.egress_final:
+        # 总80个MpFrame槽不增：从历史划8槽给实时，配合可推进ACK和时效调度。
+        flags.remove('-DMP_CACHE_CAPACITY=64')
+        flags += ['-DMP_B5_EGRESS_FINAL','-DMP_LIVE_CAPACITY=24','-DMP_CACHE_CAPACITY=56','-fstack-usage']
     if args.b5:
         # H3逐文件引入的传输与当前双CAN真实驱动一起编译，不能复用旧网络链接产物。
         transport = ROOT / 'gateway/mqtt/src'

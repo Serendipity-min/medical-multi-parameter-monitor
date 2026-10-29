@@ -1,0 +1,19 @@
+{
+  "B_algorithm_or_temperature_driver_changed_this_contract": false,
+  "MQTT_adapter_audited_unchanged": true,
+  "files": [
+    "gateway/storage/router.c",
+    "gateway/b5/network_main.c",
+    "gateway/mqtt/src/gateway_transport.c",
+    "gateway/mqtt/src/platform.c",
+    "gateway/esp_at_probe/src/stm32f4xx_it.c",
+    "gateway/dual_can/b4_resources.h",
+    "gateway/storage/router.h",
+    "gateway/b5/b5_policy.h",
+    "gateway/b5/egress.h",
+    "gateway/b5/egress_metrics.h",
+    "gateway/b5/ram_watermark.h",
+    "gateway/mqtt/src/esp_io_metrics.h",
+    "gateway/mqtt/src/gateway_transport.h"
+  ]
+}

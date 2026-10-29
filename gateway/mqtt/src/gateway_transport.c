@@ -21,6 +21,9 @@
 #include "wifi_status.h"
 #include "esp_io_metrics.h"
 #endif
+#if defined(MP_B5_EGRESS_FINAL) && !defined(MP_CAN_RX_IRQ)
+#include "esp_io_metrics.h"
+#endif
 #ifdef MP_H3_FRESH_SNTP
 #include "sntp_sample.h"
 #endif
@@ -44,6 +47,14 @@ static void mqtt_diagnostic(unsigned stage, MQTTStatus_t status, uint32_t elapse
 #endif
 static uint32_t partial_since;
 static uint32_t epoch, epoch_tick;
+#ifdef MP_B5_EGRESS_FINAL
+static uint32_t pending_started;
+static int opening_ntp_retry;
+static GatewayMqttMetrics mqtt_metrics;
+int gateway_network_retryable(void){return opening_ntp_retry;}
+void gateway_mqtt_metrics(GatewayMqttMetrics *out){*out=mqtt_metrics;}
+int gateway_mqtt_pending(void){return pending_id!=0;}
+#endif
 #ifdef MP_H3_FRESH_SNTP
 /* 新鲜SNTP样本保留小数秒；仅独立H3候选启用，旧目标时间公式不变。 */
 static uint32_t epoch_fraction;
@@ -297,6 +308,55 @@ int gateway_mqtt_publish(const MpFrame *frame)
     return ok;
 }
 
+#ifdef MP_B5_EGRESS_FINAL
+int gateway_mqtt_begin(const MpFrame *frame) {
+    if(!mqtt_online || !network.connected)return GW_FAILED;
+    bool qos1=!frame->rate || frame->replay;
+    if(qos1 && pending_id)return GW_FAILED;
+    if(pending_id && (uint32_t)(g_uptime_ms-pending_started)>=5000u)return GW_FAILED;
+    static char payload[2048];char topic[120];
+    uint32_t json_at=g_uptime_ms;
+    int length=mp_json(frame,payload,sizeof(payload));
+    if(!length || !mp_topic(frame,topic,sizeof(topic)))return GW_FAILED;
+    b5_latency_add(&mqtt_metrics.json,g_uptime_ms-json_at);
+    MQTTPublishInfo_t m={0};m.qos=qos1?MQTTQoS1:MQTTQoS0;
+    m.retain=frame->stream==MP_NODE_STATUS || frame->stream==MP_GATEWAY_STATUS;
+    m.pTopicName=topic;m.topicNameLength=(uint16_t)strlen(topic);m.pPayload=payload;m.payloadLength=(size_t)length;
+    uint16_t id=0;uint32_t start=g_uptime_ms,budget=5000;
+    if(pending_id && (uint32_t)(start-pending_started)>=5000u)return GW_FAILED;
+    if(qos1){acknowledged=0;pending_id=id=MQTT_GetPacketId(&client);next_packet_seed=client.nextPacketId;pending_started=start;}
+    else if(pending_id)budget=5000u-(uint32_t)(start-pending_started);
+    mqtt_adapter_begin(&network,budget);
+    MQTTStatus_t status=MQTT_Publish(&client,&m,id);
+    b5_latency_add(&mqtt_metrics.send,g_uptime_ms-start);
+    if(status!=MQTTSuccess || !network.connected || session_error || (uint32_t)(g_uptime_ms-start)>=budget) {
+        char diagnostic[160];(void)snprintf(diagnostic,sizeof(diagnostic),"GW SEND_CONTEXT qos=%u stream=%u seq=%lu pending=%u pending_age=%lu budget=%lu elapsed=%lu status=%u\r\n",
+            (unsigned)m.qos,frame->stream,(unsigned long)frame->seq,pending_id,
+            (unsigned long)(pending_id?g_uptime_ms-pending_started:0),(unsigned long)budget,
+            (unsigned long)(g_uptime_ms-start),(unsigned)status);console(diagnostic);
+        mqtt_metrics.failed++;mqtt_failed();return GW_FAILED;
+    }
+    if(qos1){mqtt_metrics.q1_sent++;return GW_PENDING;}
+    mqtt_metrics.q0_sent++;return GW_COMPLETE;
+}
+int gateway_mqtt_progress(void) {
+    if(!mqtt_online || !network.connected)return GW_FAILED;
+    if(pending_id && (uint32_t)(g_uptime_ms-pending_started)>=5000u) {
+        mqtt_metrics.failed++;mqtt_failed();return GW_FAILED;
+    }
+    uint32_t budget=pending_id?5000u-(uint32_t)(g_uptime_ms-pending_started):5u;
+    mqtt_adapter_begin(&network,budget);
+    if(!process_once()){mqtt_metrics.failed++;return GW_FAILED;}
+    if(pending_id) {
+        if((uint32_t)(g_uptime_ms-pending_started)>=5000u){mqtt_metrics.failed++;mqtt_failed();return GW_FAILED;}
+        if(!acknowledged)return GW_PENDING;
+        b5_latency_add(&mqtt_metrics.ack,g_uptime_ms-pending_started);
+        mqtt_metrics.q1_acked++;pending_id=0;acknowledged=0;
+    }
+    return GW_COMPLETE;
+}
+#endif
+
 /* 没有业务帧时仍处理 MQTT 保活和接收，避免空闲连接被 Broker 关闭。 */
 int gateway_mqtt_yield(void)
 {
@@ -309,7 +369,14 @@ int gateway_mqtt_yield(void)
 void gateway_network_close(void)
 {
     mqtt_failed();
+#ifdef MP_B5_EGRESS_FINAL
+    if(!platform_at_synchronized()){console("GW CLOSE_UNSYNCED_MANUAL_POWER_REQUIRED\r\n");return;}
+#endif
+#ifdef MP_B5_EGRESS_FINAL
+    if(!at_command("AT+CIPCLOSE",2000))console("GW CLOSE_NOT_CONFIRMED_MANUAL_POWER_REQUIRED\r\n");
+#else
     (void)at_command("AT+CIPCLOSE", 2000);
+#endif
 }
 
 /* 固定顺序为 AT 配置、入网、可信时间、证书名称校验、TLS；任何失败由外层重试。 */
@@ -348,6 +415,10 @@ static int fresh_sntp(void) {
     int closed=at_command("AT+CIPCLOSE",2000);
     esp_mqtt_reset();
     if(!valid || !closed) {
+#ifdef MP_B5_EGRESS_FINAL
+        /* 只恢复已完整发送、零回复且UDP确已关闭的既有端点轮换。 */
+        opening_ntp_retry=sent==48 && received==0 && closed && platform_at_synchronized();
+#endif
         /* 只解释拒绝原因，不改变原授时判定；完整包之前绝不读取未初始化字段。
          * 1发送/2长度/3RTT/4未同步/5RATE KoD/6旧nonce/7其他/8关闭/9其他KoD。 */
         unsigned reason=7;
@@ -376,6 +447,9 @@ static int fresh_sntp(void) {
 int gateway_network_open(void)
 {
     char command[256];
+#ifdef MP_B5_EGRESS_FINAL
+    opening_ntp_retry=0;
+#endif
     mqtt_failed();
     esp_mqtt_reset();
     if (!step("AT", "AT", 2000) || !step("ECHO", "ATE0", 2000) ||

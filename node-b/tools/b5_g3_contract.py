@@ -37,13 +37,17 @@ require=private.require
 sha=lambda b:hashlib.sha256(b).hexdigest()
 
 
+def prearm_seconds(a):return CRITERIA['prearm_s']+a.get('operator_wait_extra_s',0)
+
+
 def bindings():
     names=('b5_g3_contract.py','b5_g3_devices.py','b5_g3_cloud.py','b5_g3_joint.py','b5_g3_review.py',
            'b4_runtime.py','b4_ecg_rala_can_current.py','c_b4_readonly.py','c_b4_closeout_readonly.py',
            'readback_b.py','runtime_state_b.py','live_state_b.py','resp_exploratory.py',
            'b4_recovery.py','b5_g0_readonly.py','b5_g1_smoke.py','b5_g2_site.py','b5_gen5_plan.py','b5_gen5_writer.py',
            'b5_sector3_write.py','b5_sector3_write_protocol.py','b5_g2ro.py',
-           'b4_swd_install.py','b5_sector3_write_supervisor.py','b5_sector3_plan.py','b5_g1_cloud.py')
+           'b4_swd_install.py','b5_sector3_write_supervisor.py','b5_sector3_plan.py','b5_g1_cloud.py','b5_c_app_update.py','b4_resume.py',
+           'b5_channel_profiles.py','b5_channel_review.py','b5_b_temp_update.py','b5_b_temp_readonly.py')
     return {n:sha((ROOT/'node-b/tools'/n).read_bytes()) for n in names}
 
 
@@ -91,17 +95,49 @@ def expected_c_full(a,bundle):
         and receipt.get('Close_completed') is True
         and receipt.get('after_full_sha256')==expected
         and receipt.get('package_manifest_sha256')==a['gen5_package_manifest_sha256'],'G3_GEN5_INSTALL_NOT_PASS')
+    if 'C_application_binding' in a:
+        import b5_c_app_update as update
+        binding,manifest,appfiles=update.load_binding(a['C_application_binding'],a['C_application_binding_sha256'])
+        # 新应用可承接已实测的R1应用；配置和所有保护区仍须等于实际gen5原件。
+        require(appfiles['before-full-private.bin']==files['gen5-full-private.bin'] or
+                 (binding['before_full_sha256'] in (update.BEFORE_R1,update.BEFORE_R2,update.BEFORE_R4,update.BEFORE_TEMP,update.BEFORE_FINAL_R1,update.BEFORE_FINAL_R2) and
+                 appfiles['before-full-private.bin'][49152:]==files['gen5-full-private.bin'][49152:]),'G3_C_UPDATE_BASELINE')
+        proof_raw=private.read(Path(a['C_application_install_receipt']),False);proof=json.loads(proof_raw)
+        require(sha(proof_raw)==a['C_application_install_receipt_sha256']
+            and proof.get('status')=='C_EGRESS_INSTALL_FULL_VERIFY_DISARMED_PASS' and proof.get('exit_code')==0
+            and proof.get('Close_completed') is True and proof.get('DISARMED') is True
+            and proof.get('binding_sha256')==a['C_application_binding_sha256']
+            and proof.get('full_flash_sha256')==binding['after_full_sha256'],'G3_C_UPDATE_INSTALL_NOT_PASS')
+        expected=binding['after_full_sha256'];bundle['_C_flags_address']=binding['flags_address']
     require(bundle['C_full']['sha256']==expected,'G3_GEN5_FULL_REFERENCE')
     return expected
 
 
 def validate(a,scope):
+    if scope==G3 and a.get('scope') in ('B5_SEPARATE_CHANNEL_CLOUD_WINDOW','B5_FINAL_ECG60_R1','B5_FINAL_TEMP_OBJECT_R1','B5_FINAL_RR15_R1',
+                                      'B5_FINAL_ECG60_R2','B5_FINAL_TEMP_OBJECT_R2','B5_FINAL_RR15_R2',
+                                      'B5_FINAL_ECG60_R3','B5_FINAL_TEMP_OBJECT_R3','B5_FINAL_RR15_R3'):
+        import b5_channel_profiles as channels
+        return channels.validate(a)
     require(a.get('enabled') is True and a.get('owner_approved') is True and a.get('scope')==scope,'G3_OWNER_SCOPE')
     require(a.get('tools_sha256')==bindings() and a.get('criteria')==CRITERIA,'G3_FROZEN_BINDINGS')
     require(a.get('precommon_ntp_retries_max',0) in (0,2),'G3_PRECOMMON_NTP_RETRY_SCOPE')
+    waits=(a.get('operator_wait_extra_s',0),a.get('host_cancel_cleanup_s',0))
+    require(waits in ((0,0),(180,10)),'G3_OPERATOR_WAIT_SCOPE')
+    continuation_cards=('AUTH-B5-C-EGRESS-CONTINUE-001-R3.md','AUTH-B5-C-EGRESS-RETEST-001-R4.md')
+    if waits!=(0,0):require(a.get('continuation_card') in continuation_cards,'G3_OPERATOR_WAIT_CARD')
     require(a.get('environment')==environment(),'G3_ENVIRONMENT_DRIFT')
     require(time.time()<a.get('expires_unix',0) and a.get('retries')==0,'G3_EXPIRED_OR_RETRY')
-    card='B5-GEN5-AND-G3-OBJECT-AUTHORIZATION-DRAFT.md' if 'gen5_package' in a else ('AUTH-B5-G3-CLOUD-WINDOW-001-R4.md' if scope==G3 else 'AUTH-B5-G3-HW-PREP-001-R1.md')
+    app_card=a.get('C_application_card','AUTH-B5-C-EGRESS-RETEST-001-R1.md')
+    require(app_card in ('AUTH-B5-C-EGRESS-RETEST-001-R1.md','AUTH-B5-C-EGRESS-RETEST-001-R2.md','AUTH-B5-C-EGRESS-RETEST-001-R4.md',
+                        'AUTH-B5-TEMP-AND-SEPARATE-CHANNELS-001-R2.md','AUTH-B5-C-EGRESS-FINAL-APP-001-R1.md',
+                        'AUTH-B5-C-EGRESS-FINAL-APP-001-R2.md','AUTH-B5-C-EGRESS-DIAGNOSTIC-001-R3.md'),'G3_C_UPDATE_CARD')
+    card=(app_card if 'C_application_binding' in a else
+          'B5-GEN5-AND-G3-OBJECT-AUTHORIZATION-DRAFT.md' if 'gen5_package' in a else
+          'AUTH-B5-G3-CLOUD-WINDOW-001-R4.md' if scope==G3 else 'AUTH-B5-G3-HW-PREP-001-R1.md')
+    if 'continuation_card' in a:
+        require(scope==G3 and a['continuation_card'] in continuation_cards,'G3_CONTINUATION_SCOPE')
+        card=a['continuation_card']
     require(a.get('card_sha256')==sha((ROOT/'node-b/docs'/card).read_bytes()),'G3_CARD_DRIFT')
     require(a.get('DLL_sha256')=='632d0d78e72b8a55c65945a0c393a9f081082c725fff4ba3081b0a565fd58cff','G3_DLL_IDENTITY')
     bundle_raw=private.read(Path(a['bundle']),False)
@@ -122,7 +158,7 @@ def validate(a,scope):
     site=json.loads(site_raw)
     if scope==G3:
         require(a.get('B5START_allowed') is True and a.get('start_max')==1,'G3_ARM_NOT_APPROVED')
-        require(a.get('test_service_expiry_unix',0)>time.time()+625,'G3_TEST_SERVICE_RESIDENCY_TOO_SHORT')
+        require(a.get('test_service_expiry_unix',0)>time.time()+625+a.get('operator_wait_extra_s',0),'G3_TEST_SERVICE_RESIDENCY_TOO_SHORT')
         require(site.get('source')==SOURCE and site.get('COM_confirmed') is True
                 and site.get('JLink_target')=='B' and site.get('C_USB_port')==a.get('COM')
                 and site.get('C_USB_connector')=='USB_UART/USB232'
@@ -148,6 +184,15 @@ def validate(a,scope):
     return bundle,site
 
 
+def parse_stop_state(line):
+    if not line.startswith('B5 STOP_STATE '):return None
+    values={k:int(v) for k,v in (item.split('=',1) for item in line[14:].split())}
+    require(set(values)=={'tick','armed_at','reason','phase','required','written','unsynced','pending','live','cache'},'G3_STOP_SOURCE_SCHEMA')
+    require(all(0<=v<=0xffffffff for v in values.values()),'G3_STOP_SOURCE_RANGE')
+    values['business_elapsed_ms']=(values['tick']-values['armed_at'])&0xffffffff
+    return values
+
+
 def parse_diag(line):
     if not line.startswith('B5 DIAG '):return None
     out={}
@@ -158,7 +203,10 @@ def parse_diag(line):
     return out
 
 
-def assert_snapshot(s):
+def assert_snapshot(s,profile=None):
+    if profile is not None:
+        import b5_channel_profiles as channels
+        return channels.assert_snapshot(s,profile)
     require(s.get('gateway_id')=='GW-B5-001' and s.get('nodes',{}).get('NODE-A')=='OFFLINE','G3_WSS_IDENTITY_A')
     for x in s.get('streams',[]):
         require(x.get('source')=='MOCK' and x.get('synthetic') is True,'G3_WSS_SOURCE')

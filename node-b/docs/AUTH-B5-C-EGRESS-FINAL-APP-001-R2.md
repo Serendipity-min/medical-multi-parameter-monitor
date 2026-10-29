@@ -1,0 +1,17 @@
+# C出口有限授时轮换纠正｜R2应用对象
+
+PI已在R1实测中明确批准“修改完毕授权烧录然后再次重新采集上传测试”。本卡具体落实该次有界应用对象，不复用R1已消费token，不允许无限安装或恢复。
+
+当前真实部署C46456B，BIN `1771ee61bde1fda9543ff7d056311d1602719d842552ce09dd7dece4aa19937e`，全片 `b9e7518ec2af1b780534a97e769054630e19b6a4600800a6db2dea98b8f675ea`，旧四状态0x20001DC2–0x20001DC5。B40928不变。
+
+替代唯一候选C46584B：BIN `d01d08c23de3fbdc6639609136cacc6c0da0eda1fc4489bad8273829a2200e7a`；ELF `f1a8d02436914b518b29e115e67ca58c5cd74156491ac956aa83780e3fa90544`；源码清单 `abfd311cb8c0065704fd6a509594863d41610eaf273e371223b48808339059ed`。新预期全片 `707d88987431cb4cdf4580d8f627ba58eea4980429d95fc6dcde6ceb8718ca4a`；options不变 `52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687`。包manifest `0dd7b692a39918bb0f67ef3679fddc24ee1b70f1f5ec2b5db897d313a59e6144`，私有绑定 `76bd25cce0a730484c84fa9e6a24cd5a653584238730a7966189cb2edb489376`。
+
+仅纠正R1将既有SNTP端点轮换截断的回归：完整发送48B、收到0B、UDP关闭成功且AT同步时，允许启动前最多2次转向既有下一端点，每个请求新nonce，原1000ms、60秒就绪及420秒门不变。粗TIME失败、部分发送/接收、旧nonce、关闭失败/UNSYNCED仍停止。没有新端点、人工UTC或gen5写入。
+
+APP-INSTALL scope `B5_C_EGRESS_APP012_UPDATE`，本次全新私有授权及.used，会话≤1、180秒硬限，正常Halt/Reset/Go各≤1；开始先新鲜双完整1MiB Flash/双16B options、C私有UID/保护/正常Flash及DISARMED全部匹配，才允许sector0/1/2的49152B受控安装。写后双全片/options、符号绑定四状态、DISARMED及正常Flash核验。sector3、0x0800C000以后所有字节、options和保护区不写。ROM/HALT/漂移/native异常即停，无自动重试/恢复。
+
+负责人已补充本次冷态转C事实：两板J5、C USB、J-Link电脑USB均断开，全暗10秒后转接；现在C J5已上电、J-Link在C、B断电、C USB断开。ESP在板供电例外沿用本批批准，自主联网UNKNOWN；其他CAN/地/BOOT/源/温度及无人条件不变。每项写入前仍与本次私有现场附件绑定，不以本卡代替事实。
+
+APP-RESTORE scope `B5_C_EGRESS_APP012_RESTORE`单独批准、一次≤180秒，只恢复原C46456应用段，完成全片必须回到 `b9e7518ec2af1b780534a97e769054630e19b6a4600800a6db2dea98b8f675ea`；不自动回H3/C24104、不恢复正式联网。原C43036及其回退包继续保留。恢复字节离线重建核验不等于物理演练通过。
+
+安装不发送B5START。后续三窗使用独立R2窗口对象；不修改B算法、sector3、正式云或保护分支，不运行Security Gate。

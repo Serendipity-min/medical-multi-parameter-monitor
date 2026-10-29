@@ -43,7 +43,7 @@ def supervise(authorization, out, backend=writer):
     with out.with_name(out.name+'-worker-private.log').open('xb') as log:
         writer.recovery.protected(out.with_name(out.name+'-worker-private.log'), False)
         child = subprocess.Popen(command, stdout=log, stderr=subprocess.STDOUT)
-        try: result = watch(child, out, started_monotonic=started)
+        try: result = watch(child, out, timeout_s=auth.get('session_timeout_s',180), started_monotonic=started)
         except BaseException as error:
             result = {'reason': 'SUPERVISOR_EXCEPTION', 'error_type': type(error).__name__, 'worker_exit_code': None,
                 'supervisor_exit_code': 1, 'target_state': 'UNKNOWN_NO_RECONNECT_CLEANUP', 'automatic_retry_or_recovery': False}

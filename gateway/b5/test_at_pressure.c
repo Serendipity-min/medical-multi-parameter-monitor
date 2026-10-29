@@ -2,6 +2,7 @@
 #include "../mqtt/tests/mocks/mock_esp.h"
 #include "../dual_can/b4_bxcan.h"
 #include "../dual_can/tests/bxcan_mmio_shim.h"
+#include "b5_policy.h"
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
@@ -9,7 +10,7 @@ CAN_TypeDef b4_test_can[2];uint32_t b4_test_clock=8000000;
 unsigned b4_test_transmit_calls,b4_test_clock_calls,b5_rx_pending,b5_mode[2];
 CanRxMsg b5_rx_message;
 static B4Gateway gateway;
-static uint32_t produced;static int stall;
+static uint32_t produced,service_at;static int stall;
 extern void (*mock_poll_callback)(void);
 void CAN2_RX0_IRQHandler(void);
 uint32_t b4_hw_time(void){return g_uptime_ms;}
@@ -30,7 +31,8 @@ static void service(void) {
         if(produced%4==0)inject(0x182,123,produced,8);
         if(produced%20==0)inject(0x282,456,produced,8);
     }
-    if(!stall) {
+    if(!stall && (uint32_t)(g_uptime_ms-service_at)>=B5_SERVICE_MS) {
+        service_at=g_uptime_ms;
         CAN2->TSR=CAN_TSR_TME0|CAN_TSR_TME1|CAN_TSR_TME2;
         b4_gateway_tick(&gateway,g_uptime_ms);b4_hw_poll(&gateway);
     }

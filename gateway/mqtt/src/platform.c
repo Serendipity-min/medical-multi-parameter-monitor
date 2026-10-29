@@ -1,12 +1,17 @@
 /* UART3 中断接收、主循环同步 AT；敏感命令和原始回复不写入控制台。 */
 #include "gateway_platform.h"
+#ifdef PLATFORM_HOST_TEST
+#include "../tests/mocks/platform_mmio.h"
+#else
 #include "stm32f4xx.h"
 #include "stm32f4xx_gpio.h"
 #include "stm32f4xx_rcc.h"
 #include "stm32f4xx_usart.h"
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #ifdef MP_B5_CLOUD_CANDIDATE
 #include "b5_policy.h"
 static int closing_network;
@@ -17,6 +22,15 @@ static int closing_network;
 #ifdef MP_CAN_RX_IRQ
 #include "esp_io_metrics.h"
 static EspIoMetrics io_metrics;
+#ifdef MP_B5_EGRESS_FINAL
+static int reply_boundary;
+static uint32_t serial_deadline;
+static void phase(unsigned p){io_metrics.at_phase=p;io_metrics.phase_at=g_uptime_ms;}
+static void unsync(void){io_metrics.unsynced=1;phase(ESP_AT_UNSYNCED);}
+int platform_at_synchronized(void){return !io_metrics.unsynced &&
+    (io_metrics.at_phase==ESP_AT_IDLE || io_metrics.at_phase==ESP_AT_CLOSED);}
+int platform_at_unsynced(void){return io_metrics.unsynced!=0;}
+#endif
 static unsigned console_depth;
 void platform_io_snapshot(EspIoMetrics *out) {*out=io_metrics;}
 int platform_console_busy(void) {return console_depth!=0;}
@@ -91,19 +105,33 @@ static int receive_byte(void)
     return value;
 }
 
-static void send_bytes(const unsigned char *data, unsigned int length)
+static unsigned send_bytes(const unsigned char *data, unsigned int length)
 {
     for (unsigned int i = 0; i < length; ++i)
     {
         platform_poll();
-        if (NETWORK_STOPPED()) return;
+        if (NETWORK_STOPPED()) return i;
+#ifdef MP_B5_EGRESS_FINAL
+        if((int32_t)(g_uptime_ms-serial_deadline)>=0)return i;
+#endif
         while (!(USART3->SR & USART_SR_TXE))
         {
             platform_poll();
-            if (NETWORK_STOPPED()) return;
+            if (NETWORK_STOPPED()) return i;
+#ifdef MP_B5_EGRESS_FINAL
+            if((int32_t)(g_uptime_ms-serial_deadline)>=0)return i;
+#endif
         }
+#ifdef PLATFORM_HOST_TEST
+        platform_test_tx(data[i]);
+#else
         USART3->DR = data[i];
+#endif
+#ifdef MP_B5_EGRESS_FINAL
+        if(io_metrics.at_phase==ESP_AT_DATA)io_metrics.written=i+1;
+#endif
     }
+    return length;
 }
 
 void console(const char *message)
@@ -158,43 +186,93 @@ static int ends_with(const char *suffix)
     return reply_length >= length && memcmp(reply + reply_length - length, suffix, length) == 0;
 }
 
+static int wait_end(int ok,unsigned reason) {
+#ifdef MP_B5_EGRESS_FINAL
+    io_metrics.wait_reason=reason;io_metrics.reply_bytes=reply_length;
+#else
+    (void)reason;
+#endif
+    return ok;
+}
+
 /* 按当前命令等待 OK、发送提示或 SEND OK；容量/串口错误立即失败，等待仍轮询 CAN。 */
 static int await_reply(uint32_t timeout, int prompt, int sent)
 {
     Timer timer;
     TimerCountdownMS(&timer, timeout);
     reply_length = 0;
+#ifdef MP_B5_EGRESS_FINAL
+    reply_boundary=0;
+    io_metrics.wait_reason=0;io_metrics.reply_bytes=0;io_metrics.reply_flags=0;
+#endif
     while (!TimerIsExpired(&timer))
     {
         platform_poll();
         if (errors || NETWORK_STOPPED())
-            return 0;
+            return wait_end(0,errors?7:8);
         int value = receive_byte();
         if (value < 0)
             continue;
         if (reply_length >= sizeof(reply) - 1U)
-            return 0;
+            return wait_end(0,9);
         reply[reply_length++] = (unsigned char)value;
         reply[reply_length] = 0;
+#ifdef MP_B5_EGRESS_FINAL
+        /* 仅记录发送确认阶段的URC特征；这些标志不改变命令边界判断。 */
+        if(sent) {
+            if(ends_with("\r\nCLOSED\r\n"))io_metrics.reply_flags|=1u;
+            if(ends_with("\r\nready\r\n"))io_metrics.reply_flags|=2u;
+            if(ends_with("busy p...\r\n") || ends_with("busy s...\r\n"))io_metrics.reply_flags|=4u;
+        }
+#endif
         /* 尾部按长度判断，不能用 strlen 解析含 NUL 的 MQTT 二进制回复。 */
-        if (ends_with("\r\nERROR\r\n") || ends_with("\r\nFAIL\r\n") || ends_with("SEND FAIL\r\n"))
-            return 0;
-        if (prompt ? value == '>' : sent ? ends_with("SEND OK\r\n") : ends_with("\r\nOK\r\n"))
-            return 1;
+        if (ends_with("\r\nERROR\r\n") || ends_with("\r\nFAIL\r\n") || ends_with("SEND FAIL\r\n")) {
+#ifdef MP_B5_EGRESS_FINAL
+            reply_boundary=1;
+#endif
+            return wait_end(0,4);
+        }
+        if (prompt ? value == '>' : sent ? ends_with("SEND OK\r\n") : ends_with("\r\nOK\r\n")) {
+#ifdef MP_B5_EGRESS_FINAL
+            reply_boundary=1;
+#endif
+            return wait_end(1,prompt?2:sent?3:1);
+        }
     }
-    return 0;
+    return wait_end(0,10);
 }
 
 int at_command(const char *command, uint32_t timeout)
 {
+#ifdef MP_B5_EGRESS_FINAL
+    if(!platform_at_synchronized())return 0;
+    bool close=!strcmp(command,"AT+CIPCLOSE");
+    if(!close && b5_business_remaining()<timeout+B5_CLOSE_RESERVE_MS){io_metrics.budget_refused++;return 0;}
+    uint32_t started=g_uptime_ms;serial_deadline=started+timeout;phase(ESP_AT_COMMAND);
+#endif
 #ifdef MP_B5_CLOUD_CANDIDATE
     /* 硬停禁止继续发业务，但仍允许唯一的有界CIPCLOSE清理TLS连接。 */
     closing_network = b5_network_stopped() && !strcmp(command,"AT+CIPCLOSE");
 #endif
     if (NETWORK_STOPPED()) return 0;
-    send_bytes((const unsigned char *)command, strlen(command));
-    send_bytes((const unsigned char *)"\r\n", 2);
+    unsigned written=send_bytes((const unsigned char *)command, strlen(command));
+    unsigned ending=written==strlen(command)?send_bytes((const unsigned char *)"\r\n", 2):0;
+#ifdef MP_B5_EGRESS_FINAL
+    if(written!=strlen(command) || ending!=2){unsync();closing_network=0;return 0;}
+    bool prompt=!strncmp(command,"AT+CIPSEND=",11);
+    phase(prompt?ESP_AT_WAIT_PROMPT:ESP_AT_COMMAND);
+    uint32_t elapsed=g_uptime_ms-started;
+    if(elapsed>=timeout){unsync();closing_network=0;return 0;}
+    timeout-=elapsed;
+#else
+    (void)ending;
+#endif
     int ok=await_reply(timeout, strncmp(command, "AT+CIPSEND=", 11) == 0, 0);
+#ifdef MP_B5_EGRESS_FINAL
+    b5_latency_add(prompt?&io_metrics.prompt:&io_metrics.command,g_uptime_ms-started);
+    if(!ok && !reply_boundary)unsync();
+    else phase(ok&&prompt?ESP_AT_DATA:ok&&close?ESP_AT_CLOSED:ESP_AT_IDLE);
+#endif
 #ifdef MP_B5_CLOUD_CANDIDATE
     closing_network=0;
 #endif
@@ -212,6 +290,11 @@ int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout)
     if (length <= 0 || length > 2048)
         return -1;
     char command[40];
+#ifdef MP_B5_EGRESS_FINAL
+    uint32_t transaction_budget=timeout;
+    if(!platform_at_synchronized() || b5_business_remaining()<timeout+B5_CLOSE_RESERVE_MS){io_metrics.budget_refused++;return -1;}
+    io_metrics.required=(uint32_t)length;io_metrics.written=0;
+#endif
 #ifdef MP_CAN_RX_IRQ
     uint32_t started=g_uptime_ms;
     io_metrics.tx_calls++;io_metrics.tx_length=(uint32_t)length;io_metrics.tx_phase=1;
@@ -225,18 +308,43 @@ int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout)
         console("GW WRITE_PROMPT_FAIL\r\n");
         return -1;
     }
-    send_bytes(data, (unsigned int)length);
+#ifdef MP_B5_EGRESS_FINAL
+    serial_deadline=started+timeout;
+#endif
+    unsigned written=send_bytes(data, (unsigned int)length);
+#ifdef MP_B5_EGRESS_FINAL
+    io_metrics.written=written;b5_latency_add(&io_metrics.data,g_uptime_ms-io_metrics.phase_at);
+    if(written!=(unsigned)length){unsync();return -1;}
+    phase(ESP_AT_WAIT_SEND_OK);
+    uint32_t elapsed=g_uptime_ms-started;
+    if(elapsed>=timeout){unsync();return -1;}
+    timeout-=elapsed;
+#else
+    (void)written;
+#endif
 #ifdef MP_CAN_RX_IRQ
     io_metrics.tx_phase=2;
 #endif
     if (!await_reply((uint32_t)timeout, 0, 1))
     {
+#ifdef MP_B5_EGRESS_FINAL
+        if(!reply_boundary)unsync();else phase(ESP_AT_IDLE);
+#endif
 #ifdef MP_CAN_RX_IRQ
         io_metrics.tx_ms=g_uptime_ms-started;
+#endif
+#ifdef MP_B5_EGRESS_FINAL
+        char detail[160];(void)snprintf(detail,sizeof(detail),"GW WRITE_DETAIL reason=%lu reply_n=%lu flags=%lu budget=%lu elapsed=%lu written=%lu required=%lu\r\n",
+            (unsigned long)io_metrics.wait_reason,(unsigned long)io_metrics.reply_bytes,(unsigned long)io_metrics.reply_flags,
+            (unsigned long)transaction_budget,(unsigned long)(g_uptime_ms-started),(unsigned long)written,(unsigned long)length);
+        console(detail);
 #endif
         console("GW WRITE_SEND_FAIL\r\n");
         return -1;
     }
+#ifdef MP_B5_EGRESS_FINAL
+    b5_latency_add(&io_metrics.send_ok,g_uptime_ms-io_metrics.phase_at);phase(ESP_AT_IDLE);
+#endif
 #ifdef MP_CAN_RX_IRQ
     /* SEND OK只证明ESP协议栈接受，不当作Broker接收或PUBACK。 */
     io_metrics.tx_confirmed++;io_metrics.tx_ms=g_uptime_ms-started;io_metrics.tx_phase=3;
@@ -347,6 +455,7 @@ void esp_mqtt_reset(void)
 }
 
 
+#ifndef PLATFORM_HOST_TEST
 static void init_uart(void)
 {
     GPIO_InitTypeDef gpio;
@@ -396,3 +505,4 @@ void platform_init(void)
         {
         }
 }
+#endif

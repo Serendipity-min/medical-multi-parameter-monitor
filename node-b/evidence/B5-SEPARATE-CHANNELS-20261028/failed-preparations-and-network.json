@@ -1,0 +1,39 @@
+{
+  "attempts": [
+    {
+      "profile": "ECG60",
+      "record_name": "window-ECG60",
+      "status": "STOP",
+      "exit_code": 1,
+      "reason": "G3_PREARM_TIMEOUT_NO_START",
+      "B5START_attempts": 0,
+      "C_raw_sha256": "e26160c2a6165d0334059f23d8f5819c4d4071d289d34b4064808a92537d653e",
+      "B_close_resume": true,
+      "original_receipt_sha256": "61b2bbb9d20b39bb3a5f4b2fd73e5424d52adc7c805baf7e8d6a7da865cc9549"
+    },
+    {
+      "profile": "TEMP_OBJECT",
+      "record_name": "window-TEMP_OBJECT-r3",
+      "status": "STOP",
+      "exit_code": 1,
+      "reason": "G3_C_NETWORK_STEP_FAILED",
+      "B5START_attempts": 1,
+      "C_raw_sha256": "35463ab70c9535ed67fe7379e74b8a246a08e1225aeb4d39a3dc14b742ff1151",
+      "B_close_resume": true,
+      "original_receipt_sha256": "b65c08b2d7fba3be77808f6ce3af2b02ec0ef566d7ca6073412dc9968028c36e"
+    },
+    {
+      "profile": "TEMP_OBJECT",
+      "record_name": "window-TEMP_OBJECT-r3-at-retry-01",
+      "status": "STOP",
+      "exit_code": 1,
+      "reason": "G3_C_NETWORK_STEP_FAILED",
+      "B5START_attempts": 1,
+      "C_raw_sha256": "331c1e17ce4cc3c2350b1dd62a556c3d3ef2b3e1696688e2d6a67f1ce953752f",
+      "B_close_resume": true,
+      "original_receipt_sha256": "b65c08b2d7fba3be77808f6ce3af2b02ec0ef566d7ca6073412dc9968028c36e"
+    }
+  ],
+  "RR15_cloud_window": "NOT_RUN",
+  "failed_STARTs_reused": false
+}

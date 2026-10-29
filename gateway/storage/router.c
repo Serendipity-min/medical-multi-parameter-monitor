@@ -1,6 +1,10 @@
 /* 单线程队列：网络等待期间只允许生产，取出帧复制给发布者直到传输结果返回。 */
 #include "router.h"
 #include <string.h>
+#ifdef MP_B5_EGRESS_FINAL
+extern volatile uint32_t g_uptime_ms;
+extern uint64_t gateway_epoch_milliseconds(void);
+#endif
 
 void mp_router_init(MpRouter *r)
 {
@@ -12,6 +16,9 @@ static void cache(MpRouter *r, const MpFrame *f)
     /* 状态只保留当下语义，不能补传旧 ONLINE/OFFLINE 覆盖当前状态。 */
     if (f->stream == MP_NODE_STATUS || f->stream == MP_GATEWAY_STATUS)
         return;
+#ifdef MP_B5_EGRESS_FINAL
+    r->historized[f->stream]++;
+#endif
     if (r->cn == MP_CACHE_CAPACITY)
     {
         r->ch = (r->ch + 1) % MP_CACHE_CAPACITY;
@@ -44,6 +51,13 @@ void mp_router_online(MpRouter *r, bool online)
 /* 同一节点/流仅保留最新待发项；替换内容时保留队列位置，避免慢流长期饥饿。 */
 void mp_router_put(MpRouter *r, const MpFrame *f)
 {
+#ifdef MP_B5_EGRESS_FINAL
+    r->enqueued[f->stream]++;
+    if(f->node==2 && f->stream==MP_TEMP) {
+        if(r->temp_written-r->temp_reported>=8){r->temp_reported++;r->temp_trace_lost++;}
+        r->temp_entry[r->temp_written++%8]=(B5TempEntry){f->timestamp,gateway_epoch_milliseconds(),f->seq,f->epoch,f->boot,f->values[0],f->valid};
+    }
+#endif
     if (!r->online)
     {
         cache(r, f);
@@ -53,8 +67,20 @@ void mp_router_put(MpRouter *r, const MpFrame *f)
     for (unsigned i = 0; i < r->ln; i++)
     {
         MpFrame *pending = &r->live[(r->lh + i) % MP_LIVE_CAPACITY];
-        if (pending->node == f->node && pending->stream == f->stream)
+        if (pending->node == f->node && pending->stream == f->stream
+#ifdef MP_B5_CLOUD_CANDIDATE
+            /* B5遥测按次FIFO；短突发不能把仍有实时队列空间的前项变成历史。 */
+            && !(f->node == 2 && !f->replay &&
+                 (f->stream == MP_ECG || f->stream == MP_RESP ||
+                  f->stream == MP_HR || f->stream == MP_RR || f->stream == MP_TEMP))
+#endif
+           )
         {
+#ifdef MP_B5_EGRESS_FINAL
+            if(f->stream==MP_NODE_STATUS || f->stream==MP_GATEWAY_STATUS)r->status_coalesced++;
+            else r->live_replaced++;
+            r->put_tick[(r->lh+i)%MP_LIVE_CAPACITY]=g_uptime_ms;
+#endif
             cache(r, pending);
             *pending = *f;
             return;
@@ -62,13 +88,55 @@ void mp_router_put(MpRouter *r, const MpFrame *f)
     }
     if (r->ln == MP_LIVE_CAPACITY)
     {
+#ifdef MP_B5_EGRESS_FINAL
+        r->live_overflow++;
+#endif
         cache(r, &r->live[r->lh]);
         r->lh = (r->lh + 1) % MP_LIVE_CAPACITY;
         r->ln--;
     }
     r->live[(r->lh + r->ln) % MP_LIVE_CAPACITY] = *f;
+#ifdef MP_B5_EGRESS_FINAL
+    r->put_tick[(r->lh+r->ln)%MP_LIVE_CAPACITY]=g_uptime_ms;
+#endif
     r->ln++;
+#ifdef MP_B5_EGRESS_FINAL
+    if(r->ln>r->high_water)r->high_water=r->ln;
+#endif
 }
+
+#ifdef MP_B5_EGRESS_FINAL
+bool mp_router_take_egress(MpRouter *r,MpFrame *out,uint32_t now,uint64_t utc,bool pending) {
+    if(!r->online)return false;
+    unsigned chosen=MP_LIVE_CAPACITY;int best=100;
+    for(unsigned i=0;i<r->ln;i++) {
+        MpFrame *f=&r->live[(r->lh+i)%MP_LIVE_CAPACITY];
+        bool wave=f->rate && !f->replay;
+        if(pending && !wave)continue;
+        /* 状态先行；标量/波形交替，组内FIFO，不能让快流或心跳饿死另一组。 */
+        bool status=f->stream==MP_NODE_STATUS || f->stream==MP_GATEWAY_STATUS;
+        int rank=status?0:wave==(r->fair_wave!=0)?1:2;
+        if(rank<best){best=rank;chosen=i;}
+    }
+    if(chosen!=MP_LIVE_CAPACITY) {
+        *out=r->live[(r->lh+chosen)%MP_LIVE_CAPACITY];
+        b5_latency_add(&r->residence,(uint32_t)(now-r->put_tick[(r->lh+chosen)%MP_LIVE_CAPACITY]));
+        for(unsigned i=chosen;i+1<r->ln;i++) {
+            r->live[(r->lh+i)%MP_LIVE_CAPACITY]=r->live[(r->lh+i+1)%MP_LIVE_CAPACITY];
+            r->put_tick[(r->lh+i)%MP_LIVE_CAPACITY]=r->put_tick[(r->lh+i+1)%MP_LIVE_CAPACITY];
+        }
+        r->ln--;r->taken[out->stream]++;
+        if(out->stream!=MP_NODE_STATUS && out->stream!=MP_GATEWAY_STATUS)r->fair_wave=!r->fair_wave;
+        if(utc>=out->timestamp)b5_latency_add(&r->source_age,(uint32_t)(utc-out->timestamp));
+        if(utc>out->timestamp && utc-out->timestamp>5000)r->expired++;
+        return true;
+    }
+    if(pending)return false;
+    bool result=mp_router_take(r,out,now);
+    if(result)r->taken[out->stream]++;
+    return result;
+}
+#endif
 
 /* now 使用单调毫秒计数，与帧的采集时间独立；历史出队只改变副本的 replay 标记。 */
 bool mp_router_take(MpRouter *r, MpFrame *out, uint32_t now)

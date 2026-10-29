@@ -1,0 +1,69 @@
+{
+  "B_close_running_verified": true,
+  "Backend_after_readonly_accepted": 270,
+  "Backend_before_accepted": 3,
+  "Backend_counter_delta": 267,
+  "C_sender_q0_transport": 135,
+  "C_sender_q1_puback": 134,
+  "RR15": "NOT_RUN",
+  "STARTs": 1,
+  "TEMP_OBJECT": "NOT_RUN",
+  "common_ready_offset_s": 16.375,
+  "firmware_recovery": "NOT_RUN",
+  "formal_evaluation_seconds": 0,
+  "no_C_UART_CAN_error_in_saved_diagnostics": true,
+  "observed_Broker_messages": 264,
+  "observer_close_receipt": "MISSING_THREAD_UNKNOWN",
+  "physical_power_off": "NOT_CONFIRMED",
+  "raw_sha256": {
+    "B/receipt-private.json": "379b824abdc027b25e248f6c15f8810817e4db3a7cebd74f0d75755d65ea2beb",
+    "C-lines-private.jsonl": "cb2056deae9a2f3fb84c6f966c74682fcb0f148aa343ff852396f5afa5f474d8",
+    "C-serial-raw-private.bin": "e9f90a1987799ba8d43c7b608b10c0d257d4d8fcd651301147ad2168f76b7a59",
+    "C_STOP_SOURCE_STATE.json": "a18036d53d818934a75031dd86d4ad9f3959b4aef888cb14a1cc80f0a1380ee3",
+    "cloud-events-private.jsonl": "e730bf4db674e55cbb60108f6376fed7f68c8af2b3d4c78f5d9e8da74a765647",
+    "joint-receipt-private.json": "f941634c9154f5d890ff3a01941895e23e89fb520c4d9d0dad1261ded22ee95d",
+    "supervisor-private.json": "6f2754580dd0ed369fd54196572470cf90e9cce8282f2e561e8904fe1e1c6864"
+  },
+  "short_scalar_diagnostics": {
+    "HR": {
+      "maximum": 60.0,
+      "messages": 37,
+      "minimum": 60.0,
+      "validity": {
+        "INVALID": 4,
+        "VALID": 33
+      }
+    },
+    "RR": {
+      "maximum": null,
+      "messages": 37,
+      "minimum": null,
+      "validity": {
+        "INVALID": 37
+      }
+    },
+    "TEMP": {
+      "maximum": 23.07,
+      "messages": 37,
+      "minimum": 22.89,
+      "validity": {
+        "VALID": 37
+      }
+    }
+  },
+  "source_STOP": {
+    "armed_at": 581,
+    "business_elapsed_ms": 53919,
+    "cache": 7,
+    "live": 24,
+    "pending": 1,
+    "phase": 6,
+    "reason": 2,
+    "required": 854,
+    "tick": 54500,
+    "unsynced": 1,
+    "written": 854
+  },
+  "status": "ECG60_NOT_PASS_SHARED_EGRESS_BLOCKED",
+  "unobserved_counter_delta_contents": "UNKNOWN_MAY_INCLUDE_BROKER_WILL_NOT_ASSUMED_NORMAL_TELEMETRY"
+}

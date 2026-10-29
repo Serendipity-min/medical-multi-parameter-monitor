@@ -1,0 +1,9 @@
+{
+  "behavior": "FAILURE_OBSERVABILITY_ONLY",
+  "files": [
+    "gateway/mqtt/src/gateway_transport.c",
+    "gateway/mqtt/src/platform.c",
+    "gateway/mqtt/src/esp_io_metrics.h"
+  ],
+  "no_algorithm_or_timeout_gate_change": true
+}

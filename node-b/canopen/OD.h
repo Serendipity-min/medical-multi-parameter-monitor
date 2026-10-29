@@ -271,7 +271,7 @@ typedef struct {
         uint16_t HR;
         uint16_t RR;
         uint16_t TEMP;
-        uint16_t reserved;
+        uint16_t reserved; /* B_TEMP_ENABLED工程扩展：有效TEMP的模块帧龄ms，旧版本恒0。 */
     } x2120_vitals;
     struct {
         uint8_t highestSub_indexSupported;

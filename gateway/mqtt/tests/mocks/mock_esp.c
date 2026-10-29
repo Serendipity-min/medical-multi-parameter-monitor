@@ -29,12 +29,21 @@ static uint32_t ack_at;
 
 void (*mock_poll_callback)(void);
 static int polling;
+#ifdef MP_B5_EGRESS_FINAL
+int platform_at_synchronized(void){return 1;}
+#endif
+unsigned mock_send_stall_ms;
+unsigned mock_send_base_ms,mock_emulate_uart;
+unsigned mock_model_poll_divisor;
+static unsigned model_calls;
 void platform_poll(void) {
     g_uptime_ms++;
     /* B5在真实MQTT等待环中推进独立CAN夹具；其余测试保持空回调。 */
     if(mock_poll_callback && !polling) {polling=1;mock_poll_callback();polling=0;}
 }
-void mp_model_poll(void) { platform_poll(); }
+void mp_model_poll(void) {
+    if(!mock_model_poll_divisor || ++model_calls%mock_model_poll_divisor==0)platform_poll();
+}
 void console(const char *text) { (void)text; }
 void delay_ms(uint32_t ms) { g_uptime_ms += ms; }
 const char *at_response(void) { return "+SYSTIMESTAMP:1800000000"; }
@@ -123,6 +132,8 @@ int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout)
 {
     assert(timeout > 0);
     platform_poll();
+    if(mock_send_stall_ms){g_uptime_ms+=mock_send_stall_ms;mock_send_stall_ms=0;platform_poll();}
+    if(mock_send_base_ms || mock_emulate_uart){g_uptime_ms+=mock_send_base_ms+(mock_emulate_uart?(unsigned)(length*10000u+115199u)/115200u:0);platform_poll();}
     if (mock_send_error) return -1;
     if (mock_send_zero) return 0;
     int sent = mock_send_limit && length > mock_send_limit ? mock_send_limit : length;
@@ -173,6 +184,9 @@ void mock_reset(void)
     mock_delay_ms = mock_read_limit = mock_send_limit = 0;
     mock_send_error = mock_send_zero = mock_connack_code = mock_drop_ping = 0;
     mock_drop_connack = 0;
+    mock_send_stall_ms=0;
+    mock_send_base_ms=mock_emulate_uart=0;
+    mock_model_poll_divisor=model_calls=0;
     mock_tls_started = mock_ping_count = 0;
     mock_last_id = mock_old_id = 0;
     mock_fail_at = NULL;

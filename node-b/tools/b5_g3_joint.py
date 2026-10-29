@@ -58,11 +58,22 @@ def start_once(serial_port,root,a,now=None,utc_ms=None):
     at=time.monotonic() if now is None else now;banner=g.maybe(root/'C_BANNER_READY.json')
     g.require(banner is not None and 0<=at-banner['monotonic']<=g.CRITERIA['manual_reset_ack_max_s'],'G3_C_RESET_ACK_TOO_LATE_NO_START')
     attempt={'monotonic':at,'UTC_ms':int(time.time()*1000) if utc_ms is None else utc_ms,
-             'bytes':8,'command_sha256':g.sha(b'B5START\n'),'authorization_scope':g.G3,
+             'bytes':8,'command_sha256':g.sha(b'B5START\n'),'authorization_scope':a.get('scope',g.G3),
              'actual_MCU_acceptance':'NOT_ESTABLISHED_BY_SERIAL_WRITE_RETURN'}
     g.save(root/'ARM_ATTEMPT.json',attempt)
     g.require(serial_port.write(b'B5START\n')==8,'G3_START_SHORT_WRITE_NO_RETRY')
     return attempt
+
+
+def confirm_serial_reset(root,a,now):
+    if a.get('reset_confirmation')!='SERIAL_DISARMED_AFTER_INTENT':return
+    request=g.maybe(root/'RESET_REQUESTED.json')
+    g.require(a.get('owner_manual_reset_preapproved') is True and request is not None
+              and 0<=now-request['monotonic']<=g.prearm_seconds(a),'G3_RESET_WITHOUT_APPROVED_INTENT')
+    # 仅新卡允许以随后串口启动行确认动作；不等待模型/聊天往返，不证明复位电气根因。
+    g.save(root/'C_RESET_OWNER_DONE.json',{'monotonic':now,'count':1,
+        'completion_basis':'PREAPPROVED_OWNER_ACTION_AND_NEW_SERIAL_DISARMED',
+        'physical_reset_cause_proven':False,'owner_chat_ack_required':False})
 
 
 def last_event(path):
@@ -71,6 +82,21 @@ def last_event(path):
             f.seek(0,2);size=f.tell();f.seek(max(0,size-4096));lines=f.read().splitlines()
         return json.loads(lines[-1]) if lines else {}
     except (OSError,ValueError):return {}
+
+
+def record_lines(pending,stream,root,armed,stop_at):
+    parts=pending.split(b'\n');texts=[x.rstrip(b'\r').decode('ascii') for x in parts[:-1]]
+    # 同一读取中先完整留存各行和STOP，再裁定计数；故障仍失败，不丢后续真实停止证据。
+    for text in texts:
+        g.append(stream,'C_LINE',text)
+        if armed and text=='B5 STOPPED NO_AUTOREARM' and stop_at is None:
+            stop_at=time.monotonic();g.save(root/'C_STOP_BANNER.json',{'monotonic':stop_at})
+    # 先保存同块所有原行，之后才解析可选的新源端STOP记录；解析错误不吞后续原件。
+    for text in texts:
+        if armed and text.startswith('B5 STOP_STATE '):
+            source=g.parse_stop_state(text)
+            g.save(root/'C_STOP_SOURCE_STATE.json',{'monotonic':time.monotonic(),'source':source,'raw_line_sha256':g.sha(text.encode())})
+    return parts[-1],texts,stop_at
 
 
 def phase_limits(arm,t0=None):
@@ -117,15 +143,15 @@ def joint_worker(auth_path,a,bundle):
             if chunk:
                 rawfile.write(chunk);rawfile.flush();pending+=chunk
                 g.require(len(pending)<=4096,'G3_SERIAL_LINE_OVERFLOW')
-                while b'\n' in pending:
-                    line,pending=pending.split(b'\n',1);text=line.rstrip(b'\r').decode('ascii')
-                    g.append(lines,'C_LINE',text);diag=gate.consume(text,arm is not None,a.get('precommon_ntp_retries_max',0))
+                pending,texts,C_stop_at=record_lines(pending,lines,root,arm is not None,C_stop_at)
+                for text in texts:
+                    diag=gate.consume(text,arm is not None,a.get('precommon_ntp_retries_max',0))
                     if text=='B5 DISARMED MOCK B_ONLY NO_FLASH_WRITE':
-                        g.save(root/'C_BANNER_READY.json',{'monotonic':time.monotonic(),'line':text,'owner_preplanned_reset_count':1})
-                    if gate.stopped and C_stop_at is None:
-                        C_stop_at=time.monotonic();g.save(root/'C_STOP_BANNER.json',{'monotonic':C_stop_at})
+                        observed=time.monotonic()
+                        g.save(root/'C_BANNER_READY.json',{'monotonic':observed,'line':text,'owner_preplanned_reset_count':1})
+                        confirm_serial_reset(root,a,observed)
             if arm is None:
-                g.require(now-started<=g.CRITERIA['prearm_s'],'G3_PREARM_TIMEOUT_NO_START')
+                g.require(now-started<=g.prearm_seconds(a),'G3_PREARM_TIMEOUT_NO_START')
                 if all((root/n).exists() for n in ('B_READY.json','NET_READY.json')) and not (root/'RESET_REQUESTED.json').exists():
                     g.save(root/'RESET_REQUESTED.json',{'monotonic':time.monotonic(),'preplanned_C_manual_RESET_max':1})
                 if all((root/n).exists() for n in ('B_READY.json','NET_READY.json','C_BANNER_READY.json','C_RESET_OWNER_DONE.json')):
@@ -156,7 +182,13 @@ def joint_worker(auth_path,a,bundle):
                     g.require(shared.get('cloud_last_monotonic',0)>=now-2,'G3_WSS_GAP')
                 if now>=limits['passive_end']:break
         g.require(t0 is not None and C_stop_at is not None and gate.stopped,'G3_INCOMPLETE_WINDOW')
+        if bundle.get('_require_source_STOP_state'):
+            proof=g.load(root/'C_STOP_SOURCE_STATE.json')['source']
+            g.require(proof['business_elapsed_ms']==420000 and proof['reason']==1
+                      and proof['phase']==7 and not proof['unsynced'] and not proof['pending'],
+                      'G3_STOP_SOURCE_OR_UNSAFE_NETWORK_END')
         receipt.update(status='G3_FILES_CAPTURED_REVIEW_PENDING',exit_code=0,Tarm=arm['monotonic'],T0=t0,
+                       source_STOP_required=bool(bundle.get('_require_source_STOP_state')),
                        C_STOP_banner_monotonic=C_stop_at,serial_startup_steps=sorted(gate.steps),
                        physiological_and_transport_PASS='NOT_GRANTED_UNTIL_OFFLINE_JOINT_REVIEW')
     except BaseException as e:
@@ -172,7 +204,7 @@ def joint_worker(auth_path,a,bundle):
         receipt['precommon_ntp_failures']=gate.precommon_ntp_failures
         stop.set()
         if b_child:
-            try:b_child.wait(timeout=5)
+            try:b_child.wait(timeout=15 if a.get('host_cancel_cleanup_s',0) else 5)
             except subprocess.TimeoutExpired:b_child.kill();b_child.wait(timeout=5);receipt['B_target_state']='UNKNOWN_NO_RECONNECT'
             receipt['B_worker_exit_code']=b_child.returncode;b_log.close()
             if b_child.returncode:receipt['exit_code']=1
@@ -201,7 +233,8 @@ def supervise(auth_path,c_check=False):
         reason=None;serial_notice=False;hard_notice=False
         while child.poll() is None:
             now=time.monotonic();arm=g.maybe(output/'ARM_ATTEMPT.json')
-            end=marker['started_monotonic']+90 if c_check else (arm['monotonic']+445 if arm else marker['started_monotonic']+120)
+            prearm_limit=g.prearm_seconds(a)+(30 if a.get('host_cancel_cleanup_s',0) else 0)
+            end=marker['started_monotonic']+90 if c_check else (arm['monotonic']+445 if arm else marker['started_monotonic']+prearm_limit)
             if now>end:reason='SUPERVISOR_DEADLINE'
             if (output/'STOP-SUPERVISOR').exists():reason='OWNER_STOP'
             if not c_check:

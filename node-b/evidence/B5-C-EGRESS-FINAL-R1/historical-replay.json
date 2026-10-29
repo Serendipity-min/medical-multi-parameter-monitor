@@ -1,0 +1,64 @@
+{
+  "Broker_messages": 2893,
+  "C_enqueue_prompt_data_SEND_OK_PUBACK_stage_times": "UNKNOWN_NOT_CAPTURED_PER_PACKET",
+  "Hub_offline_replay_counts": {
+    "replayed_node_not_online": 18,
+    "replayed_target_invalid": 72
+  },
+  "hardware_operations": 0,
+  "largest_delivery_gaps_s_and_ARM_offset": [
+    [
+      2.5160000000614673,
+      131.59299999999348
+    ],
+    [
+      2.51500000001397,
+      138.0779999999795
+    ],
+    [
+      1.625,
+      127.51500000001397
+    ],
+    [
+      1.5309999999590218,
+      101.43700000003446
+    ],
+    [
+      1.5,
+      99.93700000003446
+    ],
+    [
+      1.2650000000139698,
+      186.625
+    ],
+    [
+      1.1880000000819564,
+      288.920999999973
+    ],
+    [
+      1.187000000034459,
+      158.5779999999795
+    ]
+  ],
+  "original_Broker_raw_sha256": "85d14f376ae466853077f16c4576a56789facc959dbdde80306a2bccb9c8cfb6",
+  "raw_ECG_points": 74993,
+  "replay_Hub_is_not_replacement_for_original_WSS": true,
+  "saved_WSS_invalid_counts": {
+    "node_STALE": 19,
+    "target_invalid": 72
+  },
+  "source_counts": {
+    "MOCK": 2845,
+    "REPLAY": 48
+  },
+  "source_reconstruction": {
+    "CAN_stable": 114744,
+    "CAN_unqualified_sequences": 101,
+    "CAN_version_conflicts": 206,
+    "blocks": 2722,
+    "raw_stable": 114741,
+    "raw_unqualified_sequences": 105,
+    "raw_version_conflicts": 331
+  },
+  "status": "HISTORICAL_FAILURE_REPRODUCED"
+}

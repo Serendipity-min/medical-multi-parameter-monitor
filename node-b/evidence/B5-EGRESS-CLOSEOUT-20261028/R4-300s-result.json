@@ -1,0 +1,179 @@
+{
+  "review": {
+    "status": "B5_G3_NOT_PASS",
+    "exit_code": 3,
+    "failures": [
+      "BROKER_NOT_MOCK",
+      "ECG_SOURCE_COVERAGE_OR_GAP"
+    ],
+    "criteria": {
+      "prearm_s": 120,
+      "readiness_s": 60,
+      "warmup_s": 45,
+      "evaluation_s": 300,
+      "tail_s": 15,
+      "arm_hard_s": 420,
+      "passive_after_hard_s": 20,
+      "cleanup_s": 5,
+      "HR_range": [
+        58,
+        62
+      ],
+      "HR_valid_fraction": 1.0,
+      "RR": "INVALID",
+      "TEMP": "INVALID",
+      "A": "OFFLINE",
+      "source": "MOCK",
+      "synthetic": true,
+      "ECG_batch": 100,
+      "ECG_rate": 250,
+      "RESP_batch": 50,
+      "RESP_rate": 50,
+      "ECG_min_points": 74250,
+      "RESP_min_points": 14850,
+      "B_min_saved": 590,
+      "WSS_min_saved": 2900,
+      "scalar_min_messages": 295,
+      "nominal_grid_phase_max_ms": 2,
+      "host_server_T0_max_skew_ms": 1500,
+      "manual_reset_ack_max_s": 30
+    },
+    "evaluation_UTC_ms": [
+      1793172904275,
+      1793173204275
+    ],
+    "raw_reconstruction": {
+      "blocks": 2986,
+      "raw_stable": 116774,
+      "CAN_stable": 116774,
+      "raw_unqualified_sequences": 88,
+      "CAN_unqualified_sequences": 75,
+      "raw_version_conflicts": 336,
+      "CAN_version_conflicts": 182
+    },
+    "ECG_source_points": 74921,
+    "RESP_source_points": 14998,
+    "CH2_near_rail": 0,
+    "exact_value_mapping": "Actual B CAN queue fixed point -> observed Broker payload; ±2ms nominal-grid phase only, no voltage tolerance",
+    "mapping_failures": {},
+    "wave_units": "ECG nominal mV; RESP relative, not ohms",
+    "Broker_unique_messages_after_arm": 2923,
+    "Broker_identical_duplicates": 0,
+    "MQTT_max_payload_bytes": 845,
+    "actual_Backend_counter_delta": {
+      "accepted": 2923,
+      "rejected": 0,
+      "dropped": 0
+    },
+    "Backend_evidence_limit": "Aggregate acceptance + actual WSS, not a server per-message acceptance trace",
+    "WSS_evaluation_snapshots": 2973,
+    "ECG_batches_observed_in_WSS": 751,
+    "B": {
+      "failures": [],
+      "saved": 600,
+      "device_domain_SPS": 249.95826126444996,
+      "CAN_evaluation_increments": {
+        "offered": 74858,
+        "enqueued": 74858,
+        "sent_ecg": 74858,
+        "sent_resp": 14971,
+        "overflow": 0,
+        "expired": 0,
+        "comm_reset": 0,
+        "app_reset_rejected": 0,
+        "error": 0,
+        "discontinuities": 0
+      },
+      "ADC_evaluation_increments": {
+        "bad_status": 0,
+        "spi_errors": 0,
+        "queue_overflow": 0,
+        "init_errors": 0,
+        "long_gap_count": 0
+      },
+      "HR_values": {
+        "60": 600
+      },
+      "RR_reason_masks": {
+        "2": 206,
+        "10": 54,
+        "130": 340
+      },
+      "clipped_counter_increment": 0
+    },
+    "C_evaluation_counter_delta": {
+      "rx": 89994,
+      "txack": 620,
+      "txfail": 0,
+      "overflow": 0,
+      "uart_err": 0,
+      "dropped": 0,
+      "mqtt_fail": 0,
+      "q0_transport": 1031,
+      "q1_puback": 1064
+    },
+    "C_saved_diagnostics": 60,
+    "NMT_TIME_payload_log": "NOT_AVAILABLE_IN_FROZEN_42552B; immutable path + ACK/counters/B_TIME_anchor observed",
+    "AI_calls": "NOT_RUN",
+    "formal_cloud_changes": 0,
+    "CPU_ROM_ROOT_CAUSE": "UNRESOLVED",
+    "independent_cold_boot": "NOT_VALIDATED",
+    "same_window_HR_RR": "NOT_VALIDATED",
+    "impedance": "NOT_CALIBRATED"
+  },
+  "scalars": {
+    "HR": {
+      "messages": 300,
+      "source_counts": {
+        "MOCK": 299,
+        "REPLAY": 1
+      },
+      "validities": {
+        "VALID": 300
+      },
+      "values": {
+        "60.0": 300
+      }
+    },
+    "RR": {
+      "messages": 300,
+      "source_counts": {
+        "MOCK": 299,
+        "REPLAY": 1
+      },
+      "validities": {
+        "INVALID": 300
+      },
+      "values": {
+        "None": 300
+      }
+    },
+    "TEMP": {
+      "messages": 300,
+      "source_counts": {
+        "MOCK": 299,
+        "REPLAY": 1
+      },
+      "validities": {
+        "INVALID": 300
+      },
+      "values": {
+        "None": 300
+      }
+    }
+  },
+  "source_counts": {
+    "MOCK": 2920,
+    "REPLAY": 3
+  },
+  "STOP_observed_offset_s": 420.0779999999795,
+  "STOP_within_original_bound": true,
+  "STOP_raw_banner_count": 1,
+  "raw_serial_sha256": "13d1d28cb5b7552b88b3cc1de7b330a923650444ed10fe08259f48454dc538bd",
+  "joint_exit_code": 0,
+  "supervisor_exit_code": 0,
+  "B_capture_exit_code": 0,
+  "B_close_resume": true,
+  "cloud_capture_exit_code": 0,
+  "B5START_attempts": 1
+}

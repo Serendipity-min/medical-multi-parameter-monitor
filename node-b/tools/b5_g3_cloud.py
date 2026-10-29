@@ -16,14 +16,59 @@ sys.path.insert(0,str(g.ROOT))
 from cloud.backend.app.adapters import decode_mqtt
 
 
+def current_b_session(snap,fresh_gateway,profile=None):
+    streams={x['stream']:x for x in snap['streams'] if x['node_id']=='NODE-B'}
+    if not {'HR','RR','TEMP','ECG'}<=streams.keys():return None
+    names=('HR','RR','TEMP','ECG','RESP') if profile is not None else ('HR','RR','TEMP','ECG')
+    if any(n not in streams for n in names):return None
+    rows=[streams[n] for n in names]
+    sessions={m['session_id'] for m in rows}
+    if len(sessions)!=1:return None
+    session=next(iter(sessions))
+    if not session.startswith(fresh_gateway.rsplit('-',1)[0]+'-'):return None
+    if profile is None:
+        if streams['ECG']['validity']!='VALID' or streams['HR']['validity']!='VALID':return None
+    else:
+        import b5_channel_profiles as channels
+        if not channels.ready_streams(streams,profile):return None
+    if any(m['source']!='MOCK' or m['synthetic'] is not True for m in rows):return None
+    return session
+
+def drain_final_events(rawq,log):
+    while not rawq.empty():
+        kind,data=rawq.get_nowait();g.append(log,kind,data)
+
+async def bounded_health(host,port,timeout=3):
+    async def request():
+        reader,writer=await asyncio.open_connection('127.0.0.1',port,ssl=ssl.create_default_context(),
+            server_hostname=host,ssl_handshake_timeout=timeout)
+        try:
+            writer.write(('GET /medical-monitor/api/health HTTP/1.1\r\nHost: '+host+
+                ':18775\r\nConnection: close\r\n\r\n').encode());await writer.drain()
+            head=await reader.readuntil(b'\r\n\r\n');rows=head.decode('ascii').split('\r\n')
+            g.require(rows[0].split()[1]=='200','G3_HEALTH_HTTP_STATUS')
+            headers=dict(row.lower().split(':',1) for row in rows[1:] if ':' in row)
+            length=int(headers['content-length']);g.require(0<length<=65536,'G3_HEALTH_BODY_BOUND')
+            return json.loads(await reader.readexactly(length))
+        finally:
+            writer.close()
+            try:await asyncio.wait_for(writer.wait_closed(),.2)
+            except asyncio.TimeoutError:pass
+    return await asyncio.wait_for(request(),timeout)
+
+
 async def observe(a,root,bundle,stop,shared):
     P=g.load(bundle['cloud_package']['path']);credentials=g.load(bundle['cloud_credentials']['path'])
     host=P['snapshot']['backend']['host'];origin=P['origin'];client=None;tunnel=None
     rawq=queue.Queue(maxsize=2048);connected=threading.Event();subscribed=threading.Event();pre_sessions=set()
-    con_reason=[];sub_codes=[];port=prior.free_port();r={'status':'STOP','exit_code':1,'publications':0}
+    con_reason=[];sub_codes=[];disconnects=[];port=prior.free_port();r={'status':'STOP','exit_code':1,'publications':0}
     network_log=(root/'cloud-events-private.jsonl').open('x',encoding='utf8')
     tunnel_log=(root/'tunnel-private.log').open('xb')
     try:
+        async def health_query(label,timeout=3):
+            g.append(network_log,'HEALTH_BEGIN',{'label':label,'deadline_monotonic':time.monotonic()+timeout})
+            try:return await bounded_health(host,port,timeout)
+            finally:g.append(network_log,'HEALTH_END',{'label':label})
         tunnel=subprocess.Popen(['ssh','-o','BatchMode=yes','-o','StrictHostKeyChecking=yes',
           '-o','ExitOnForwardFailure=yes','-o','ConnectTimeout=10','-o','ServerAliveInterval=15',
           '-o','ServerAliveCountMax=2','-N','-L',f'127.0.0.1:{port}:127.0.0.1:18775','tencent-codex'],
@@ -47,7 +92,8 @@ async def observe(a,root,bundle,stop,shared):
             put('BROKER_RAW',{'topic':m.topic,'payload_hex':bytes(m.payload).hex(),'qos':m.qos,'retain':bool(m.retain),
                               'dup':bool(m.dup),'received_monotonic':time.monotonic(),'received_UTC_ms':int(time.time()*1000)})
         def on_disconnect(_c,_u,_flags,reason,_props):
-            put('OBSERVER_DISCONNECT',{'code':reason.value})
+            event={'code':reason.value,'requested_shutdown':stop.is_set(),'received_monotonic':time.monotonic()}
+            disconnects.append(event);put('OBSERVER_DISCONNECT',event)
             if not stop.is_set():shared['cloud_disconnected']=True
         client.on_connect=on_connect;client.on_subscribe=on_sub;client.on_message=on_message;client.on_disconnect=on_disconnect
         await asyncio.to_thread(client.connect,host,8883,15);client.loop_start()
@@ -58,9 +104,9 @@ async def observe(a,root,bundle,stop,shared):
         g.require(sub_codes and all(x<128 for x in sub_codes),'G3_OBSERVER_SUBACK_REJECTED')
         async with prior.connect(origin.replace('https:','wss:')+'/medical-monitor/ws/v1/monitor',host='127.0.0.1',
           port=port,server_hostname=host,ssl=ssl.create_default_context(),origin=origin,proxy=None,
-          open_timeout=8,max_size=65536,max_queue=8) as ws:
+          open_timeout=8,close_timeout=1,max_size=65536,max_queue=8) as ws:
             await ws.send(json.dumps({'token':credentials['view_token'],'gateway_id':'GW-B5-001'}))
-            health=await asyncio.to_thread(prior.health,host,port)
+            health=await health_query('BEFORE')
             g.require(health.get('status')=='ok' and health.get('mqtt_connected') is True,'G3_BACKEND_NOT_READY')
             g.append(network_log,'BACKEND_HEALTH_BEFORE',health);health_at=time.monotonic();first=True
             fresh_gateway=None;common=False;arm_baseline=False
@@ -69,7 +115,7 @@ async def observe(a,root,bundle,stop,shared):
                 g.require(not shared.get('cloud_queue_overflow') and not shared.get('cloud_disconnected'),'G3_CLOUD_TRANSPORT_FAILURE')
                 arm=g.maybe(root/'ARM_ATTEMPT.json')
                 if (root/'ARM_PREPARE.json').exists() and not arm_baseline:
-                    health=await asyncio.to_thread(prior.health,host,port)
+                    health=await health_query('ARM_BASELINE')
                     g.require(health.get('status')=='ok' and health.get('mqtt_connected') is True,'G3_ARM_BACKEND_NOT_READY')
                     g.append(network_log,'BACKEND_ARM_BASELINE',health)
                     g.save(root/'ARM_BACKEND_BASELINE.json',{'monotonic':time.monotonic(),'health':health})
@@ -88,26 +134,24 @@ async def observe(a,root,bundle,stop,shared):
                               and message['session_id'] not in pre_sessions and message['timestamp']>=arm['UTC_ms']-5000):
                             fresh_gateway=message['session_id']
                 if time.monotonic()-health_at>=1:
-                    health=await asyncio.to_thread(prior.health,host,port);g.append(network_log,'BACKEND_HEALTH',health)
+                    health=await health_query('PERIODIC');g.append(network_log,'BACKEND_HEALTH',health)
                     g.require(health.get('status')=='ok' and health.get('mqtt_connected') is True,'G3_BACKEND_DISCONNECTED')
                     health_at=time.monotonic()
                 try:raw=await asyncio.wait_for(ws.recv(),.2)
                 except asyncio.TimeoutError:continue
-                snap=json.loads(raw);g.assert_snapshot(snap);g.append(network_log,'WSS_RAW',snap)
+                snap=json.loads(raw);g.assert_snapshot(snap,a.get('channel_profile'));g.append(network_log,'WSS_RAW',snap)
                 shared['cloud_last_monotonic']=time.monotonic()
                 if first:
                     g.save(root/'NET_READY.json',{'monotonic':time.monotonic(),'backend_health':health,
                        'observer_CONNACK':con_reason,'observer_SUBACK':sub_codes,'WSS_authenticated_snapshot':True,
                        'health_baseline_may_include_old_messages':True});first=False
-                streams={x['stream']:x for x in snap['streams'] if x['node_id']=='NODE-B'}
+                session=current_b_session(snap,fresh_gateway,a.get('channel_profile')) if fresh_gateway else None
                 if (arm and not common and fresh_gateway and snap['gateway_state']=='ONLINE'
-                    and snap['nodes']['NODE-B']=='ONLINE' and {'HR','RR','TEMP','ECG'}<=streams.keys()
-                    and streams['ECG']['session_id']==streams['HR']['session_id']
-                    and streams['ECG']['source']=='MOCK' and streams['HR']['source']=='MOCK'):
+                    and snap['nodes']['NODE-B']=='ONLINE' and session):
                     g.save(root/'CLOUD_COMMON.json',{'monotonic':time.monotonic(),'server_time':snap['server_time'],
-                         'gateway_session':fresh_gateway,'B_session':streams['HR']['session_id']})
+                         'gateway_session':fresh_gateway,'B_session':session})
                     common=True
-            health=await asyncio.to_thread(prior.health,host,port);g.append(network_log,'BACKEND_HEALTH_AFTER',health)
+            health=await health_query('AFTER',1);g.append(network_log,'BACKEND_HEALTH_AFTER',health)
             r.update(status='CLOUD_OBSERVATIONS_SAVED_REVIEW_PENDING',exit_code=0,
                      observer_CONNACK=con_reason,observer_SUBACK=sub_codes,WSS_authenticated=True)
     except BaseException as e:
@@ -115,14 +159,17 @@ async def observe(a,root,bundle,stop,shared):
         shared['cloud_error']=True
         if not (root/'CLOUD_FAULT.json').exists():g.save(root/'CLOUD_FAULT.json',{'reason':'CLOUD_OBSERVER_FAILED'})
     finally:
+        g.save(root/'cloud-cleanup-started-private.json',dict(r,observer_disconnects=disconnects,cleanup_complete=False))
         if client:
             stop.set()
             try:client.disconnect();client.loop_stop()
             except Exception:r['client_close_error']=True
         if tunnel:
             tunnel.terminate()
-            try:tunnel.wait(timeout=5)
-            except subprocess.TimeoutExpired:tunnel.kill();tunnel.wait(timeout=5)
+            try:tunnel.wait(timeout=1)
+            except subprocess.TimeoutExpired:tunnel.kill();tunnel.wait(timeout=1)
+        # 回调会先触发失败锁存；退出时仍落盘其原因码，不丢最后一批原始事件。
+        drain_final_events(rawq,network_log);r['observer_disconnects']=disconnects;r['cleanup_complete']=True
         tunnel_log.close();network_log.close();g.save(root/'cloud-receipt-private.json',r)
     return r
 

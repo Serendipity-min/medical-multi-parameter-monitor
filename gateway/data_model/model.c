@@ -2,6 +2,7 @@
 #include "model.h"
 #include <stdio.h>
 #include <stdarg.h>
+#include <string.h>
 #ifndef MP_MQTT_GATEWAY_ID
 #define MP_MQTT_GATEWAY_ID "GW-C-001"
 #endif
@@ -39,8 +40,22 @@ static int number(char **out, size_t *left, int32_t value, int scale)
     /* 放大到 int64 后取绝对值，正确处理 INT32_MIN；不依赖 nano printf 浮点扩展。 */
     uint32_t mag = value < 0 ? (uint32_t)(-(int64_t)value) : (uint32_t)value;
     unsigned decimals = scale == 1000000 ? 6 : scale == 1000 ? 3 : scale == 100 ? 2 : 1;
+#ifdef MP_B5_CLOUD_CANDIDATE
+    /* B5的100点批次避免逐点通用格式解析；小数位和输出字节保持原协议。 */
+    char digits[24], *end = digits + sizeof(digits), *p = end;
+    uint32_t fraction = mag % (uint32_t)scale, whole = mag / (uint32_t)scale;
+    for (unsigned i = 0; i < decimals; i++) { *--p = (char)('0' + fraction % 10); fraction /= 10; }
+    *--p = '.';
+    do { *--p = (char)('0' + whole % 10); whole /= 10; } while (whole);
+    if (value < 0) *--p = '-';
+    size_t length = (size_t)(end - p);
+    if (length >= *left) return 0;
+    memcpy(*out, p, length); *out += length; *left -= length; **out = 0;
+    return 1;
+#else
     return append(out, left, "%s%lu.%0*lu", value < 0 ? "-" : "", (unsigned long)(mag / scale),
                   decimals, (unsigned long)(mag % scale));
+#endif
 }
 
 /* 只在输出边界缩放固定点并选择 LIVE/MOCK/REPLAY，不修改原始帧的时间和序号。 */
@@ -89,8 +104,14 @@ int mp_json(const MpFrame *f, char *out, size_t size)
         {
             /* 大批次格式化也需让出时间给 CAN，不能等到串口发送时才处理 RPDO。 */
             mp_model_poll();
-            if (i && !append(&p, &left, ","))
-                return 0;
+            if (i) {
+#ifdef MP_B5_CLOUD_CANDIDATE
+                if (left <= 1) return 0;
+                *p++ = ','; left--; *p = 0;
+#else
+                if (!append(&p, &left, ",")) return 0;
+#endif
+            }
             if (!number(&p, &left, f->values[i], scales[k]))
                 return 0;
         }

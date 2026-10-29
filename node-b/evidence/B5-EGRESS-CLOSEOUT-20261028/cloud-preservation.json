@@ -1,0 +1,28 @@
+{
+  "SSH_exit_code": 0,
+  "elapsed_s": 0.9059999999590218,
+  "source_sha256": "5ed308215a49d7339f6450899bfbb5868c198a43d89791d77ad8904797ebe758",
+  "formal_services_active": true,
+  "formal_PIDs_match": true,
+  "all_config_SHA_match": true,
+  "test_accounts_rules_match": true,
+  "test_units_expired": false,
+  "test_listener": true,
+  "8884_listener": false,
+  "own_units": {
+    "backend": {
+      "ActiveState": "active",
+      "Result": "success",
+      "RuntimeMaxUSec": "6h"
+    },
+    "tls": {
+      "ActiveState": "active",
+      "Result": "success",
+      "RuntimeMaxUSec": "6h"
+    }
+  },
+  "test_accounts_revoked": false,
+  "cloud_mutations": 0,
+  "MQTT_connects_or_publishes": 0,
+  "physical_board_access": false
+}

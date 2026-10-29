@@ -8,6 +8,7 @@ import shutil
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
+import argparse
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -17,6 +18,9 @@ def sha(p):
 
 
 def main():
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--temp',action='store_true',help='离线构建UART4温度物表工程变体；不下载')
+    args=parser.parse_args()
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     out = ROOT / 'node-b/build' / ('b4-arm-' + stamp)
     project = out / 'firmware'
@@ -26,6 +30,8 @@ def main():
         if sha(ROOT / name) != expected_sha: raise RuntimeError('冻结部署源码漂移：' + name)
     shutil.copytree(frozen, project)
     shutil.copytree(ROOT / 'node-b/canopen', project / 'B4')
+    if args.temp:
+        shutil.copytree(ROOT / 'node-b/temperature', project / 'B5_TEMP')
     shutil.copytree(ROOT / 'gateway/third_party/CANopenNode', project / 'CANopenNode')
     dsp = Path('E:/medical-monitor-node-b-precan-closeout/node-b/build/arm-20261022T074340122429Z/firmware/CORE/arm_cortexM4lf_math.lib')
     expected = json.loads((ROOT / 'node-b/evidence/external-build-dependencies.json').read_text(encoding='utf-8'))['CMSIS_DSP_ARMCC_library']['sha256']
@@ -46,6 +52,9 @@ def main():
     # 屏10ms时基和算法TIM2时基不混用，避免两次CAN任务之间出现假回绕/假过期。
     text = text.replace('CanOpen_Task(now_ms);', 'CanOpen_Task(TimeBase_GetMs());')
     text = text.replace('CAN1 1M + CANopen 从站(NodeID=3)', 'CAN1 500kbps + CANopenNode B2（软件候选，未实测）')
+    if args.temp:
+        text='#include "b_temperature.h"\n'+text
+        text=text.replace('UartInit(HMI_BAUDRATE);','UartInit(HMI_BAUDRATE);\n    BTemp_Init();')
     main_c.write_text(text, encoding='utf-8')
     xml = project / 'USER/BIO_V2.uvprojx'
     tree = ET.parse(xml)
@@ -60,6 +69,8 @@ def main():
     files = ET.SubElement(group, 'Files')
     sources = [*sorted((project / 'B4').glob('*.c')), project / 'CANopenNode/CANopen.c',
                *sorted((project / 'CANopenNode/301').glob('*.c')), project / 'CANopenNode/303/CO_LEDs.c']
+    if args.temp:
+        sources += [project/'B5_TEMP/gy641.c',project/'B5_TEMP/b_temperature.c']
     for file in sources:
         entry = ET.SubElement(files, 'File')
         ET.SubElement(entry, 'FileName').text = file.name
@@ -67,6 +78,10 @@ def main():
         ET.SubElement(entry, 'FilePath').text = '..\\' + str(file.relative_to(project)).replace('/', '\\')
     inc = tree.find('.//Cads/VariousControls/IncludePath')
     inc.text = '..\\B4;..\\CANopenNode;' + inc.text
+    if args.temp:
+        inc.text='..\\B5_TEMP;'+inc.text
+        define=tree.find('.//Cads/VariousControls/Define')
+        define.text=(define.text+',' if define.text else '')+'B_TEMP_ENABLED'
     # CANopenNode使用标准inline/指定初始化，AC5必须显式选择C99。
     tree.find('.//Cads/uC99').text = '1'
     tree.write(xml, encoding='utf-8', xml_declaration=True)
@@ -86,13 +101,15 @@ def main():
               'bio_source_sha256': sha(project / 'HARDWARE/bio_v2.c'), 'log_sha256': sha(project / 'build.log'),
               'builder_sha256': sha(Path(__file__)), 'resources': list(map(int, resource.groups())) if resource else None,
               'tool_sha256': {'UV4': sha(uv), 'fromelf': sha(fromelf)}}
+    report['temperature_variant']=args.temp
+    report['temperature_quantity']='nonhuman_object_surface_uncalibrated' if args.temp else 'INVALID'
     # 输出实际编译副本的头文件/工程输入SHA，覆盖屏幕钩子和C99选项，不只列出C文件。
     report['source_sha256'] = {p.relative_to(project).as_posix(): sha(p) for p in sorted(project.rglob('*'))
                               if p.is_file() and p.suffix.lower() in ('.c', '.h', '.s', '.uvprojx')}
     (out / 'executed-builder.py').write_bytes(Path(__file__).read_bytes())
     success = result.returncode == 0 and resource and '0 Error(s)' in log
     if success:
-        binary = out / 'B4_NODE_B.bin'
+        binary = out / ('B5_TEMP_NODE_B.bin' if args.temp else 'B4_NODE_B.bin')
         axf = project / 'OBJ/BIO_V2.axf'
         symbols = out / 'symbols.txt'
         for mode, target in [('--bin', binary), ('-s', symbols)]:

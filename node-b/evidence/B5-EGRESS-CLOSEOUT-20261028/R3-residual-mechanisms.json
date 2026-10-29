@@ -1,0 +1,17 @@
+{
+  "actual_B_session_count": 1,
+  "actual_B_session_counts": {
+    "can-2169905398-1": 2743
+  },
+  "wrong_common_B_session": "can-2167682321-1",
+  "Gateway_session_at_common": "can-2169905398-1",
+  "actual_B_session_change_proven": false,
+  "old_B_snapshot_falsely_accepted_by_old_observer": true,
+  "replay_ECG_messages": 33,
+  "WSS_missing_batches": 29,
+  "all_WSS_missing_batches_were_REPLAY": true,
+  "formal_R3_NOT_PASS_retained": true,
+  "T0_or_original_receipts_rewritten": false,
+  "correction": "B5 bounded waveform FIFO; current four-stream session and valid ECG/HR required for common readiness",
+  "formal_Backend_or_Hub_changes": 0
+}

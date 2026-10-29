@@ -5,6 +5,9 @@
 #include "bio_v2.h"
 #include "node_policy.h"
 #include "ecg_units.h"
+#ifdef B_TEMP_ENABLED
+#include "b_temperature.h"
+#endif
 #include <limits.h>
 #include <string.h>
 #ifndef B4_HOST
@@ -78,15 +81,29 @@ void BCan_Sample(uint32_t tick, uint32_t sequence, uint8_t flags) {
 static uint8_t produce(uint32_t now) {
     uint32_t epoch, anchor;
     NodeClock clock;
-    node_can_lock(); clock = clock_anchor; node_can_unlock();
+    node_can_lock(); clock = clock_anchor;
+#ifdef B_TEMP_ENABLED
+    /* TIME回调可晚于本轮任务入口；同一临界区取锚和当前时刻，避免无符号假过期。 */
+    now=TimeBase_GetMs();
+#endif
+    node_can_unlock();
     node_clock_read(&clock, now, &epoch, &anchor);
     OD_RAM.x2100_epoch_tick.epoch = epoch; OD_RAM.x2100_epoch_tick.tick = anchor;
     uint16_t hr = 0, rr = 0;
     uint8_t hr_ok = BioV2_GetHeart(&hr, now), rr_ok = BioV2_GetResp(&rr, now);
     OD_RAM.x2120_vitals.HR = hr_ok ? (uint16_t)(hr * 100u) : 0;
     OD_RAM.x2120_vitals.RR = rr_ok ? (uint16_t)(rr * 100u) : 0;
-    OD_RAM.x2120_vitals.TEMP = 0; /* 尚无温度采集接口：保持无效，不伪造36.5。 */
+    OD_RAM.x2120_vitals.TEMP = 0;
+#ifdef B_TEMP_ENABLED
+    uint16_t temperature=0;
+    uint8_t temp_ok=epoch && BTemp_Get(now,&temperature);
+    OD_RAM.x2120_vitals.TEMP = temp_ok ? temperature : 0;
+#endif
     OD_RAM.x2120_vitals.reserved = 0;
+#ifdef B_TEMP_ENABLED
+    /* 复用原保留字携带温度帧龄；C还原真实接收时刻，不把重复发布当作新测量。 */
+    if (temp_ok) OD_RAM.x2120_vitals.reserved=(uint16_t)(now-g_b_temp.module.last_ms);
+#endif
     uint32_t flags = 0;
     if (epoch && g_bio_v2.samples && (uint32_t)(now - g_bio_v2.last_sample_ms) <= 100u) {
         /* CAN有效波形采用本通道算法资格，噪声/无周期仍传原值但标INVALID。 */
@@ -95,6 +112,9 @@ static uint8_t produce(uint32_t now) {
         if (hr_ok) flags |= 4u;
         if (rr_ok) flags |= 8u;
     }
+#ifdef B_TEMP_ENABLED
+    if (temp_ok) flags |= 16u;
+#endif
     OD_RAM.x2130_validity_generation.data_valid_flags = flags;
     if (flags != last_flags) { last_flags = flags; CO_TPDOsendRequest(&co->TPDO[4]); }
     /* 每轮最多丢弃8个过期点，避免通信积压反过来饿死采集/屏幕。 */
@@ -120,6 +140,9 @@ static uint8_t produce(uint32_t now) {
 }
 
 void CanOpen_Task(uint32_t now) {
+#ifdef B_TEMP_ENABLED
+    BTemp_Task(now);
+#endif
     if (!running) return;
     uint32_t elapsed = first ? 0u : now - last_task;
     first = 0; last_task = now;

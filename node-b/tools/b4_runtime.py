@@ -57,21 +57,27 @@ class Link(LiveLink):
         need(n==size,'B4_RUNTIME_PARTIAL_READ');return bytes(data)
 
 
-def snapshot(link,out=None,label='snapshot'):
+def snapshot(link,out=None,label='snapshot',addresses=None):
     state=ro.snapshot(link)
     if out:raw.write_json(out/(label+'-state-private.json'),state)
     ro.check_running(link,state)
     # CPU状态先于后续RAM/质量解析独立确认，任何解析负例也必须保留健康Flash续跑。
     if not link.close_resume_enabled:link.set_close_resume(True)
-    blobs=[link.read(a,n) for a,n in ((0x20001d14,120),(0x20000608,48),(0x20000638,12))]
+    addresses=addresses or {'bio':(0x20001d14,120),'adc':(0x20000608,48),'registers':(0x20000638,12),'CAN':(0x20003770,44)}
+    blobs=[link.read(*addresses[name]) for name in ('bio','adc','registers')]
     if out:
         # 判据失败前先保留实际诊断字节，不能只留下异常名称而丢弃触发依据。
         for name,blob in zip(('bio','adc','registers'),blobs):
             with (out/(label+'-'+name+'-private.bin')).open('xb') as f:f.write(blob)
     bio=decode(*blobs)
-    can=dict(zip(CAN_FIELDS,struct.unpack('<11I',link.read(0x20003770,44))))
+    can=dict(zip(CAN_FIELDS,struct.unpack('<11I',link.read(*addresses['CAN']))))
     result={'host_monotonic':time.monotonic(),'state':state,'bio':bio,'CAN':can,
             'CAN1_ESR':link.u32(0x40006418),'coherence':'LIVE_NONATOMIC_NO_HALT'}
+    if 'temperature' in addresses:
+        import b5_b_temp_readonly as temp
+        blob=link.read(*addresses['temperature'])
+        result['temperature']=temp.decode_temp(blob)
+        if out:raw.write_json(out/(label+'-temperature-private.json'),result['temperature'])
     if out:raw.write_json(out/(label+'-decoded-private.json'),result)
     # 初始化失败不能带入台架；历史累计的帧/队列错误则保留原值，由评价窗增量判定。
     # 这样不会把此前暂停留下的一次状态错误误报为当前仍在发生的新错误。
