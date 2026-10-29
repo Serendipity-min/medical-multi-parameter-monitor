@@ -1,5 +1,34 @@
 # R4当前综合交接：TIME路径修复，方案A已补一致性检查
 
+## 最新ECG复测：C49068已安装，TIME冷启动缺口复现并修正待审批
+
+2026-10-29，负责人决定暂缓ROM根因调查，先测方案A时间门禁及ECG60的B→C→云。负责人完成新全暗10秒、C先上电5秒接J-Link、一次C人工RESET；在正常Flash、私有身份、保护、DISARMED及新鲜双全片/options全部合格后，**C49068实际安装一次PASS**。完整Flash实测`75db57c038c021b40f36fa1ee627f410d26061e18e0f59a8465c73af0216bc25`，正常Halt/Reset/Go各1、下载1，写后双全片/options、sector3及应用区外精确核验、Close均通过。随后独立C只读PASS；B40928、算法、传感器、CAN及gen5不变，没有烧录任何中间候选。
+
+隔离测试Backend/TLS确因原RuntimeMax到期停止；配置/权限/端口、ACL及正式PID/服务合格后，各start一次，TLS/订阅/WSS就绪，驻留预算大于625秒。正式服务和配置未变，Broker HUP/ACL写/8884开放均0；测试账户未撤销，服务仍按六小时驻留，不称已清理。
+
+负责人完成冷态回接，确认COM6、B屏刷新、ECG60/1mV、电池无充电USB、RA–LA–RL与非人体隔离状态；B只读/250SPS准备通过。记录就绪后负责人仅C RESET一次，工具按新DISARMED行发送**E-TB唯一START一次**。AT/GMR2.3.0.0/Wi-Fi/休眠关闭/单连接/被动接收通过，但TIME为`queries=0 elapsed=6 valid=0 epoch=0 tried=0`，C在START后2951ms STOP，reason3/phase0、unsynced/pending/live/cache均0；随后提示关闭未确认。**未到新鲜NTP、TLS/MQTT、共同T0或300秒评价，当前ECG上云仍NOT_PASS，不能判断本次传输正常。**
+
+联合/监督器exit1=G3_C_NETWORK_STEP_FAILED；B exit1为G3_STOP_REQUESTED主机取消，关闭前Flash运行核验及Close续跑均true，不是B原生读取失败。云观察exit0、清理完成；背景/保留消息不冒充本窗设备交付。所有原件、工具及现场附件保留EFS；当前负责人已明确回报**全部断电熄灭**。本次无ROM/HALT复现，没有借恢复动作排查ROM。
+
+### 这次提前TIME的归因与最小修正
+
+已核对历史ESP真实原件：含回显37B，去回显后21B，内容为`+CIPSNTPCFG:0`、空行及OK，不含服务器列表；多次历史查询有同一SHA。本次末尾AT事件也记录21B，但本窗未保存ESP UART回复原文，故不能宣称字节级证实本次回复与历史原件完全相同。
+
+软件缺口已在真实transport/coreMQTT/adapter/platform/UART-MMIO组合中复现：原C49068先要求读到服务器列表，之后才启用SNTP；未启用状态只返回`:0`时，初始化在任何时间查询和服务器尝试之前退出。原组合夹具始终回带列表的配置，遗漏此冷启动状态。反例使用上述真实禁用回复格式，断言time_queries=0、TLS打开0、UDP请求0；这解释可达的软件提前拒绝路径，**不证明公网NTP/AP/NAT问题已经排除**。
+
+最小修正仅在明确的`:0`行时易失启用一次并重新读回列表，之后继续既有显式完整列表选源与轮换。启用最多多一次（合计≤4），不增加手工NTP重发或START；共享15次查询/30秒准备、60秒就绪、两类时间校验及一致性区间、1000ms新鲜性、TLS/严格PUBACK/2048B/420秒均不变。启用后仍无列表或命令错误照常拒绝。官方[ESP8266 ESP-AT v2.3命令说明](https://docs.espressif.com/projects/esp-at/en/release-v2.3.0.0_esp8266/AT_Command_Set/TCP-IP_AT_Commands.html#at-cipsntpcfg-query-set-the-time-zone-and-the-sntp-server)用于核对启用/查询语义；禁用时省略列表的具体格式依据本机历史原件，不冒称文档逐字规定。
+
+89条真实AT组合构建/既有停顿/STOP回归步骤均exit0，含新增禁用启动正例和启用后仍空列表负例；相关4套Python实际121项测试通过。一个不存在的独立devices筛选器命中0项，明确不计为测试通过证据。两次ARM BIN/ELF完全一致；未重复算法六窗、本地TLS/UI或基础CAN验收。
+
+### 唯一后继候选：C49132，仅离线冻结
+
+- BIN SHA：`72131dbb5ef6bc0e0d33e328925c685403bae928aea9447a81f8291c6ae5c1ab`；ELF：`10051aa990cff78882d94870ad99509011f140439d01e76aa0e47f2bcfc44b0b`。
+- 91份真实编译输入清单SHA：`84ea9a8699c5915ec2b5846374c04cf4fd845d2b0a4b17287143a2aa4643639e`；生产输入仅gateway_transport.c改变。
+- 48KiB应用区余20B；bss74180B/data92B，最大静态单帧1096B不等于总调用栈证明。C49068启动期记录stack_used_upper2212B，不转作新C49132或300秒运行证据。
+- **预期，尚未实测**after全片：`9bba23b436f079183296fa98dcaeed047eb919ba8597d75a85bc144bc48417fd`。当前C49068→C49132的精确sector0/1/2安装/回退包已离线逐字节重建，sector3/options/sector7/11不变；备妥不等于恢复演练。
+
+新[初始化补包](AUTH-B5-C-REPAIR-R4-TIME-INIT-SUPPLEMENT.md)只准备I-TI/RO-TI/L-TI与独立ECG60 E-TI，模板全部disabled/owner_approved=false；新烧录和新START均0，等待新字节/窗口的一次对象批准。TEMP/RR新窗未启用。实际回执、反例、89项日志SHA、工具绑定、资源及候选见[TIME-INIT-R1](../evidence/B5-C-REPAIR-R4/TIME-INIT-R1/actual-C49068-install-and-ECG.json)。CPU ROM仍UNRESOLVED并暂缓，同窗ECG/RR、绝对标定、CAN故障注入均不补签PASS。下文为历史时间快照，以本节为当前状态。
+
 ## 最新启动监控：观察到复位后Flash，ROM根因仍UNRESOLVED
 
 2026-10-29，负责人完成“C先上电5秒、再接J-Link电脑USB”，随后批准多轮有界启动调查。JTAG板端始终接C，不能称为调试器电气隔离的冷启动。B断电，C J5、USB_UART断开，ESP在板；本阶段零Flash/sector3/UART/START、零软件Reset/Halt/显式Go。健康Flash退出采用已批准的SDK Close续跑策略，**该策略有运行控制语义，不等于完全无副作用的只读连接**。C49068仍未安装，C49048/B40928及gen5不变。

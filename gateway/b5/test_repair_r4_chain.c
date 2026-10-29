@@ -33,6 +33,7 @@ static unsigned configured_order[3]={0,1,2};
 static unsigned configured_primary,sntp_enabled=1,blocked_primary_mask,sntp_stops,sntp_enables;
 static unsigned config_lie,stop_error,config_changes,clock_synced,udp_primary=99,tls_opens,time_queries;
 static unsigned config_queries;
+static unsigned disabled_report_bare,empty_enabled_config;
 static uint32_t bootstrap_at;
 static int module_skew_seconds;
 static unsigned char response[16384],server[512],packet[2048];
@@ -112,6 +113,9 @@ void platform_test_tx(unsigned char b){
     else if(strstr(command,"AT+CIPCLOSE") && close_mode)terminal(close_mode==2?"\r\nCLOSED\r\n":"\r\nCLOSED\r\n\r\nOK\r\n",at_delay);
     else if(strstr(command,"AT+CIPSNTPCFG?")){
         if(!config_queries++)bootstrap_at=g_uptime_ms;
+        if(disabled_report_bare && (!sntp_enabled || empty_enabled_config)){
+            terminal(sntp_enabled?"+CIPSNTPCFG:1\r\n\r\nOK\r\n":"+CIPSNTPCFG:0\r\n\r\nOK\r\n",at_delay);return;
+        }
         char line[256];unsigned primary=config_lie && config_changes?(configured_primary+1u)%3:configured_primary;
         int z=snprintf(line,sizeof(line),"\r\n+CIPSNTPCFG:%u,0,\"ntp-%u.example.invalid\",\"ntp-%u.example.invalid\",\"ntp-%u.example.invalid\"\r\n\r\nOK\r\n",sntp_enabled,primary,configured_order[1],configured_order[2]);
         queue_bytes(line,(unsigned)z,at_delay);
@@ -196,6 +200,8 @@ int main(int argc,char **argv){
     if(!strncmp(mode,"bootstrap-",10)){
         ntp_fixture=1;ntp_packets=1;close_mode=1;clock_valid_at=base;
         if(strstr(mode,"secondary"))blocked_primary_mask=1;
+        if(strstr(mode,"disabled")){sntp_enabled=0;disabled_report_bare=1;}
+        if(!strcmp(mode,"bootstrap-disabled-empty"))empty_enabled_config=1;
         if(!strcmp(mode,"bootstrap-preserve")){configured_primary=1;configured_order[0]=1;configured_order[1]=2;configured_order[2]=0;blocked_primary_mask=1;}
         if(!strcmp(mode,"bootstrap-all-bad"))blocked_primary_mask=7;
         if(!strcmp(mode,"bootstrap-readback"))config_lie=1;
@@ -205,7 +211,10 @@ int main(int argc,char **argv){
         if(!strcmp(mode,"bootstrap-future-ESP"))module_skew_seconds=864000;
         if(!strcmp(mode,"bootstrap-budget")){blocked_primary_mask=7;at_delay=1500;}
         uint32_t start=g_uptime_ms;int ok=gateway_network_open();
-#ifdef EXPECT_BOOTSTRAP_DEFECT
+#ifdef EXPECT_DISABLED_SNTP_DEFECT
+        assert(!ok && !time_queries && !tls_opens && ntp_packets==1);
+        printf("DEPLOYED_C49068_DISABLED_CFG_ZERO_QUERIES_TIME_FAIL_REPRODUCED elapsed=%lu\n",(unsigned long)(g_uptime_ms-start));
+#elif defined(EXPECT_BOOTSTRAP_DEFECT)
         assert(!ok && ntp_packets==1 && !tls_opens);
         printf("DEPLOYED_BOOTSTRAP_NO_PRIMARY_ROTATION_TIME_FAIL_REPRODUCED elapsed=%lu\n",(unsigned long)(g_uptime_ms-start));
 #else

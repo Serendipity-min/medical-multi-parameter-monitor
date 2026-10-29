@@ -91,6 +91,12 @@ class Tests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'GEN5_BASELINE'):self.predecessor(before=u.BEFORE_REPAIR_R4D)
         with self.assertRaisesRegex(ValueError,'PREDECESSOR_NOT_PASS'):
             self.predecessor(before=u.BEFORE_REPAIR_R4D,flags=0x20001e6a,Close_completed=False)
+    def test_time_init_requires_verified_C49068_and_exact_flags(self):
+        b,_,_=self.predecessor(before=u.BEFORE_REPAIR_R4TB,flags=0x20001e6a)
+        self.assertEqual(b['before_full_sha256'],u.BEFORE_REPAIR_R4TB)
+        with self.assertRaisesRegex(ValueError,'GEN5_BASELINE'):self.predecessor(before=u.BEFORE_REPAIR_R4TB)
+        with self.assertRaisesRegex(ValueError,'PREDECESSOR_NOT_PASS'):
+            self.predecessor(before=u.BEFORE_REPAIR_R4TB,flags=0x20001e6a,Close_completed=False)
     def test_final_accepts_verified_C43036_and_rejects_failed_receipt(self):
         b,_,_=self.predecessor(before=u.BEFORE_TEMP);self.assertEqual(b['before_full_sha256'],u.BEFORE_TEMP)
         with self.assertRaisesRegex(ValueError,'PREDECESSOR_NOT_PASS'):self.predecessor(before=u.BEFORE_TEMP,exit_code=1)

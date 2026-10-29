@@ -409,6 +409,10 @@ static int sntp_time_consistent(uint64_t sample,uint32_t tick,uint32_t rtt) {
 static int sntp_load_targets(uint32_t start) {
     if(!sntp_target_count) {
         if(sntp_prepare_command("AT+CIPSNTPCFG?",start)<=0)return 0;
+        /* 冷启动未启用时只回:0；先易失启用并读回列表，再按原流程显式选择。 */
+        if(strstr(at_response(),"+CIPSNTPCFG:0\r\n") &&
+           (sntp_prepare_command("AT+CIPSNTPCFG=1,0",start)<=0 ||
+            sntp_prepare_command("AT+CIPSNTPCFG?",start)<=0))return 0;
         while(sntp_target_count<3 && sntp_server_at(at_response(),sntp_target_count,sntp_targets[sntp_target_count]))sntp_target_count++;
     }
     return sntp_target_count!=0;

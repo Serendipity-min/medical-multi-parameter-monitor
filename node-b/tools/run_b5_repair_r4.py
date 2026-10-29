@@ -59,7 +59,7 @@ def main():
     ntp=out/'ntp-chain.exe';built=run('compile-actual-SNTP-AT-chain',[*flags,'-DMP_H3_FRESH_SNTP',*sources,'-o',ntp]);ok=built and ok
     if built:
         for mode in ('expected-close','close-no-ok','fresh-rotate','clock19','clock19-wrap','clock-never'):ok=run('SNTP-chain-'+mode,[ntp,mode]) and ok
-        for mode in ('bootstrap-secondary','bootstrap-secondary-wrap','bootstrap-preserve','bootstrap-all-bad','bootstrap-readback','bootstrap-stop-error','bootstrap-bad-fresh','bootstrap-budget','bootstrap-stale-ESP','bootstrap-future-ESP','time-consistency'):
+        for mode in ('bootstrap-secondary','bootstrap-secondary-wrap','bootstrap-disabled-secondary','bootstrap-disabled-empty','bootstrap-preserve','bootstrap-all-bad','bootstrap-readback','bootstrap-stop-error','bootstrap-bad-fresh','bootstrap-budget','bootstrap-stale-ESP','bootstrap-future-ESP','time-consistency'):
             ok=run('SNTP-chain-'+mode,[ntp,mode]) and ok
     deployed=json.loads((ROOT/'node-b/build/b5-repair-r4-diagnostics-pointer.json').read_text('utf8'))
     previous=Path(deployed['root'])/'compiled-source/gateway/mqtt/src/gateway_transport.c'

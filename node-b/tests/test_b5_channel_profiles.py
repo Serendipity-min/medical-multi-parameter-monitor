@@ -23,6 +23,12 @@ def snapshot(profile):
     return dict(gateway_id='GW-B5-001',nodes={'NODE-A':'OFFLINE','NODE-B':'ONLINE'},streams=rows)
 
 class Profiles(unittest.TestCase):
+    def test_time_init_scope_is_new_and_ECG_only(self):
+        self.assertEqual(set(p.FINAL_SCOPES_R4TI),{'ECG60'})
+        self.assertFalse(set(p.FINAL_SCOPES_R4TI.values())&set(p.FINAL_SCOPES_R4TB.values()))
+        for profile in ('RR15','TEMP_OBJECT'):
+            a=dict(enabled=True,owner_approved=True,scope=p.FINAL_SCOPES_R4TI['ECG60'],channel_profile=profile,require_source_STOP_state=True)
+            with self.assertRaisesRegex(ValueError,'FINAL_OBJECT'):g.validate(a,g.G3)
     def test_diagnostic_successor_is_not_a_consumed_time_close_window(self):
         self.assertFalse(set(p.FINAL_SCOPES_R4D.values())&set(p.FINAL_SCOPES_R4TC.values()))
         a=dict(enabled=True,owner_approved=True,scope=p.FINAL_SCOPES_R4D['ECG60'],channel_profile='RR15',require_source_STOP_state=True)
