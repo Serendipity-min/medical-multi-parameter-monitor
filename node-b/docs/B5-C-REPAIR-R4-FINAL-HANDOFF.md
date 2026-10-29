@@ -60,6 +60,8 @@ python -X utf8 gateway/dual_can/build_arm.py --b5 --egress-final
 | 原options | `52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687` |
 | 新四状态地址 | `0x20001E6A`至`0x20001E6D`（mqtt_connected/network_open/stopped/armed） |
 
+源码实现提交：`fe164b0e2e58e21e52aa48d0e3454044f21d9098`（构建输入逐字节另按上述清单封存）。
+
 两次ARM构建BIN/ELF完全一致；MAP、编译参数、GNU14.2、实际宏、符号、原始日志和所有编译输入按SHA归档EFS。应用止于sector2内，剩264B，不能再随意加诊断或越界。`.data=92B`、普通`.bss=73972B`，另有24576B堆和8192B保留栈，堆顶到保留栈下还有24232B间隔。最大已编译单函数静态帧1096B，**不是传递调用总栈证明**；新候选实板stack high-water为NOT_RUN，须在现场记录RAM行。IRQ、网络与采集不使用新动态分配。
 
 精确回退离线拼接已验证：只恢复sector0/1/2即可逐字节恢复C46584全片；新BIN之外采用旧原件，sector3/7/11和options不变。备份/离线拼接不等于实际恢复演练。原C43036/C46456/C46584/R3候选和历史失败均保留。
