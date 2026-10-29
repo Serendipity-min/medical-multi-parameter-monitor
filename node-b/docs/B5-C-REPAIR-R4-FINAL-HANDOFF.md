@@ -1,5 +1,45 @@
 # R4当前综合交接：TIME路径修复，方案A已补一致性检查
 
+## 最新实板交接：C49132的ECG60追加复验PASS，首窗失败保留
+
+2026-10-29。本阶段已按批准完成C49132一次安装及独立只读，真实完整Flash匹配`9bba23b436f079183296fa98dcaeed047eb919ba8597d75a85bc144bc48417fd`，双全片/options、DISARMED、保护区及Close通过；sector3、B40928、算法阈值、ADS/GY配置与CAN接线未改。源码实现提交`29e6a773dcd65ccd7b63507188067baa6fe9f71e`，BIN/ELF和91份编译输入仍按TIME-INIT-R1冻结；未安装额外字节或自动回退旧镜像。
+
+首个C49132窗完整采集，但ECG/HR质量不满足原判据，正式联评exit3、NOT_PASS。负责人随后**明确新增一次采集许可并表示现场观察模拟器**；使用全新授权/token/目录，绑定前次授权和失败联评SHA，同一固件、工具、源名义设置与判据，仅追加B只读一次、C人工RESET一次、B5START一次，没有烧录/复位B/Go。沿用仍在一小时有效期内的C独立核验；没有冒称复验时重新读取C完整Flash。
+
+两窗均为普通ECG60/1mV、RA–LA–RL、电池无充电USB、非人体MOCK，45秒预热＋300秒评价＋15秒尾段、420秒业务硬停。C唯一复位均在联合记录就绪后由负责人完成，以新DISARMED行确认并各发START一次；首窗未覆盖或重写。原始B帧/C串口/Broker/Backend观察/WSS、API时序、授权消费和SHA全部保存受限EFS。安装器及独立C核验、两窗采集/监督器/B工人/云观察exit均0；**采集exit0与首窗联评exit3分开记录**。
+
+| 项目 | C49132首窗 | 负责人追加复验 |
+| --- | --- | --- |
+| TIME | 第二端点，第7次查询、12012ms；新鲜RTT103ms、时间差104ms | 首端点，第3次查询、4012ms；新鲜RTT55ms、时间差127ms |
+| B稳态观察HR有效 | 493/600；107次NO_CYCLES/UNSTABLE | **601/601均60 BPM、有效** |
+| Broker评价期HR | 250 VALID、50 INVALID | **300 VALID均60 BPM** |
+| Broker评价期RR | 297 INVALID、3条10次/分VALID，不合ECG窗预期 | **300 INVALID、值null** |
+| ECG源点及映射 | 74439点，有序列缺口；已匹配批次无数值错误 | **75012点、无覆盖/连续性失败，逐点映射错误0** |
+| Broker实收/Backend接受（整窗观测） | 2785/2785；拒收/丢弃0 | **2857/2857；拒收/丢弃0** |
+| 评价期WSS快照 | 2973 | **2972** |
+| C稳态发送/溢出/UART/丢弃/MQTT错误增量 | 均0 | **均0** |
+| 正式联评 | `B5_SEPARATE_ECG60_NOT_PASS`，exit3 | **`B5_SEPARATE_ECG60_ENGINEERING_PASS`，exit0、失败项空** |
+
+### 判定与根因边界
+
+两窗都通过了方案A的模块时间、新鲜NTP及原一致性区间，随后TLS/MQTT和共同T0成功；**本次没有再次触发TIME拒绝**。这是本阶段两个实际窗口的结果，不声称所有未来网络条件下永不失败。
+
+首窗B质量无效在CAN/上云之前已经出现。130个Broker ECG批次带INVALID；614个VALID ECG批次均在WSS找到且值一致，INVALID按既有规则屏蔽。C的WAVE记录gaps始终0，质量切换时quality_resets和partial_discarded增长；代码本来会清理不同质量状态之间的未满批次，解释可达的波形缺口路径，不把它说成网络凭空丢包。B的ADC坏状态、SPI、队列、长间隔、CAN错误/过期/断续增量均0。
+
+追加复验完整通过原判据：B约250.035 SPS、HR601/601有效，C诊断60条、最大间隔5.094秒；WSS全部所需波形及标量一致，原MOCK/INVALID/STALE/OFFLINE语义、2048B限制、严格PUBACK及会话约束均未放宽，最大MQTT JSON848B。温度同时有300条VALID传输观察，**不能替代未执行的独立TEMP物表验收**；RR15正式窗亦未运行。
+
+负责人本窗未发送异常时点报告；这不等于独立测量证明模拟器输出稳定。同一名义条件下首窗不稳、追加窗通过，说明需要保留间歇质量风险；**模拟器输出、导联接触、供电/参考地或其他输入扰动的唯一物理原因仍UNKNOWN**。工频占比在首窗有效/无效观察中重叠，不能单凭该指标断言唯一根因，不改BIO阈值制造有效值。
+
+### STOP、恢复与封存
+
+两窗C源端业务均精确420000ms停止，phase7/CLOSED、pending=0、unsynced=0；主机观察STOP分别420.047s和420.063s，尾段/自然STALE或OFFLINE及客户端关闭通过。追加窗原STOP中live24/cache28，随后RAM cache52、停止后队列overflow30；首窗对应cache51/overflow29也保留。**这是停止边界的残留队列行为，不计成稳态零错误，更不隐去或宣称队列排空。** 按原冻结STOP判据本窗通过，残留队列语义另列遗留，不为关闭它追加新固件。
+
+本窗记录的C栈水位上界最大2700B，未超8192B保留栈；不作为所有中断嵌套/未来运行的总栈证明。B/C末态均由负责人再次确认全部断电熄灭，C USB及J-Link电脑USB断开，未复位/重新上电；停机不当作新的冷启动实验。
+
+当前保留B40928/C49132及gen5，R-APP/R-CFG/R-CLOUD实际执行0，未恢复C49068/C24104/H3。隔离Backend/TLS在本次就绪核验时正常，未再次start；账号未撤销，沿用原六小时RuntimeMax，不声称整个测试环境已清理。正式配置、ACL、Broker、保护分支和Security Gate均未改动。
+
+证据：[首窗正式联评](../evidence/B5-C-REPAIR-R4/TIME-INIT-R1/actual-C49132-ECG-review.json)、[追加窗正式联评](../evidence/B5-C-REPAIR-R4/TIME-INIT-R1/actual-C49132-owner-retest-ECG-review.json)、[同字节/同判据双窗对照](../evidence/B5-C-REPAIR-R4/TIME-INIT-R1/two-ECG-window-comparison.json)。仅签发本次**ECG60独立工程窗PASS**；B5三模式最终结项、独立冷启动、CPU ROM根因、同窗ECG/RR、绝对标定及CAN故障注入保持未完成/原状态。下文为历史时间快照，以本节为当前交接状态。
+
 ## 最新ECG复测：C49068已安装，TIME冷启动缺口复现并修正待审批
 
 2026-10-29，负责人决定暂缓ROM根因调查，先测方案A时间门禁及ECG60的B→C→云。负责人完成新全暗10秒、C先上电5秒接J-Link、一次C人工RESET；在正常Flash、私有身份、保护、DISARMED及新鲜双全片/options全部合格后，**C49068实际安装一次PASS**。完整Flash实测`75db57c038c021b40f36fa1ee627f410d26061e18e0f59a8465c73af0216bc25`，正常Halt/Reset/Go各1、下载1，写后双全片/options、sector3及应用区外精确核验、Close均通过。随后独立C只读PASS；B40928、算法、传感器、CAN及gen5不变，没有烧录任何中间候选。

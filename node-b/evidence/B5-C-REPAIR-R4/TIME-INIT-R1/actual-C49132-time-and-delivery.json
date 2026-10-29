@@ -1,0 +1,281 @@
+{
+  "B": {
+    "ADC_errors": {
+      "bad_status": 0,
+      "init_errors": 0,
+      "long_gap_count": 0,
+      "queue_overflow": 0,
+      "spi_errors": 0
+    },
+    "CAN_increments": {
+      "app_reset_rejected": 0,
+      "comm_reset": 0,
+      "discontinuities": 0,
+      "enqueued": 74883,
+      "error": 0,
+      "expired": 0,
+      "offered": 74883,
+      "overflow": 0,
+      "sent_ecg": 74883,
+      "sent_resp": 14976
+    },
+    "HR_invalid": 107,
+    "HR_valid": 493,
+    "device_domain_SPS": 250.0542630740616,
+    "invalid_observation_ranges_s": [
+      [
+        0.328,
+        6.266,
+        13
+      ],
+      [
+        8.281,
+        18.313,
+        21
+      ],
+      [
+        20.328,
+        28.25,
+        17
+      ],
+      [
+        32.297,
+        37.359,
+        11
+      ],
+      [
+        48.375,
+        61.375,
+        27
+      ],
+      [
+        286.328,
+        294.891,
+        18
+      ]
+    ],
+    "invalid_reason_names": {
+      "['NO_CYCLES', 'UNSTABLE']": 107
+    },
+    "saved": 600
+  },
+  "STOP": {
+    "note": "Nonzero residual live/cache at STOP and overflow29 observed after hard STOP; not hidden or counted as steady-state zero-loss proof",
+    "observed_offset_s": 420.0470000000205,
+    "queue_records_after_hard_stop": [
+      {
+        "arm_offset_s": 420.219000000041,
+        "line": "B5 QUEUE high=24 replaced=0 overflow=29 expired=0 phase=7 unsynced=0 budget_refused=0"
+      }
+    ],
+    "source": {
+      "armed_at": 679,
+      "business_elapsed_ms": 420000,
+      "cache": 27,
+      "live": 24,
+      "pending": 0,
+      "phase": 7,
+      "reason": 1,
+      "required": 880,
+      "tick": 420679,
+      "unsynced": 0,
+      "written": 880
+    }
+  },
+  "TIME_lines": [
+    "GW TIME_SAMPLE query=1 primary=0 parsed=1 epoch=171",
+    "GW TIME_SAMPLE query=2 primary=0 parsed=1 epoch=173",
+    "GW TIME_SAMPLE query=3 primary=0 parsed=1 epoch=175",
+    "GW TIME_SAMPLE query=4 primary=0 parsed=1 epoch=177",
+    "GW TIME_SAMPLE query=5 primary=0 parsed=1 epoch=179",
+    "GW TIME_SAMPLE query=6 primary=1 parsed=1 epoch=181",
+    "GW TIME_SAMPLE query=7 primary=1 parsed=1 epoch=1793266950",
+    "GW TIME_WAIT queries=7 elapsed=12012 valid=1 epoch=1793266950 tried=3",
+    "GW TIME_MATCH delta_ms=104 query_ms=6",
+    "GW SNTP_SAMPLE rtt_ms=103 uncertainty_ms=51 epoch=1793266950 fraction=233 server_index=1",
+    "GW SNTP_VALID epoch=1793266950 uptime=15718",
+    "GW OK TLS",
+    "GW MQTT_CONNECTED"
+  ],
+  "TIME_pass_this_window": true,
+  "delivery": {
+    "Backend_delta": {
+      "accepted": 2785,
+      "dropped": 0,
+      "rejected": 0
+    },
+    "Broker_messages": 2785,
+    "C_diagnostic_count": 60,
+    "C_diagnostic_max_gap_s": 5.452999999979511,
+    "C_error_delta": {
+      "dropped": 0,
+      "mqtt_fail": 0,
+      "overflow": 0,
+      "rx": 89991,
+      "txack": 623,
+      "txfail": 0,
+      "uart_err": 0
+    },
+    "ECG_batches": 744,
+    "ECG_invalid_batches": 130,
+    "ECG_source_coverage_has_gaps": true,
+    "ECG_source_points": 74439,
+    "ECG_valid_batches": 614,
+    "WSS_snapshots": 2973,
+    "all_valid_ECG_batches_seen_identical_in_WSS": true,
+    "max_MQTT_JSON_bytes": 839,
+    "scalars": {
+      "HR": {
+        "count": 300,
+        "validities": {
+          "INVALID": 50,
+          "VALID": 250
+        },
+        "values": {
+          "60.0": 249,
+          "61.0": 1,
+          "None": 50
+        }
+      },
+      "RR": {
+        "count": 300,
+        "validities": {
+          "INVALID": 297,
+          "VALID": 3
+        },
+        "values": {
+          "10.0": 3,
+          "None": 297
+        }
+      },
+      "TEMP": {
+        "count": 300,
+        "validities": {
+          "VALID": 300
+        }
+      }
+    },
+    "source_mapping_errors": {},
+    "valid_ECG_missing_from_WSS": 0
+  },
+  "execution": {
+    "B_exit_code": 0,
+    "START": 1,
+    "cloud_exit_code": 0,
+    "joint_exit_code": 0,
+    "supervisor_exit_code": 0
+  },
+  "formal_review_exit_code": 3,
+  "formal_review_unchanged": true,
+  "independent_C_readonly": {
+    "exit_code": 0,
+    "full_sha256": "9bba23b436f079183296fa98dcaeed047eb919ba8597d75a85bc144bc48417fd",
+    "status": "C_CURRENT_B5_CONFIG_DISARMED_READONLY_PASS"
+  },
+  "installation": {
+    "Close_completed": true,
+    "DISARMED": true,
+    "actions": {
+      "JLINKARM_BeginDownload": 1,
+      "JLINKARM_EndDownload": 1,
+      "JLINKARM_Go": 1,
+      "JLINKARM_Halt": 1,
+      "JLINKARM_Reset": 1,
+      "JLINKARM_WriteMem": 1
+    },
+    "double_full_options": true,
+    "exit_code": 0,
+    "full_flash_sha256": "9bba23b436f079183296fa98dcaeed047eb919ba8597d75a85bc144bc48417fd",
+    "status": "C_EGRESS_INSTALL_FULL_VERIFY_DISARMED_PASS"
+  },
+  "isolated_cloud": {
+    "cleanup_complete": true,
+    "cloud_config_writes": 0,
+    "elapsed_s": 8.811999999918044,
+    "exit_code": 0,
+    "expiry_unix": 1793286305.0,
+    "formal_services_unchanged": true,
+    "ready": true,
+    "remaining_s": 19568.942420244217,
+    "test_unit_start_actions": 0
+  },
+  "physical_final": "OWNER_CONFIRMED_ALL_BOARDS_ADS_SCREENS_ESP_DARK_USB_AND_PROBE_USB_REMOVED",
+  "private_field_manifest_sha256": "789ac3230c051cf3a36ea51b040cc2ba54da2c3dfcef26ff8d8d0debbac23ca3",
+  "quality_transition_evidence": {
+    "C_WAVE_records": [
+      {
+        "arm_offset_s": 18.75,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=90 unstamped=67"
+      },
+      {
+        "arm_offset_s": 57.0,
+        "line": "B5 WAVE gaps=0 quality_resets=4 partial_discarded=256 unstamped=67"
+      },
+      {
+        "arm_offset_s": 87.73499999998603,
+        "line": "B5 WAVE gaps=0 quality_resets=12 partial_discarded=625 unstamped=67"
+      },
+      {
+        "arm_offset_s": 118.93799999996554,
+        "line": "B5 WAVE gaps=0 quality_resets=16 partial_discarded=742 unstamped=67"
+      },
+      {
+        "arm_offset_s": 152.03200000000652,
+        "line": "B5 WAVE gaps=0 quality_resets=17 partial_discarded=807 unstamped=67"
+      },
+      {
+        "arm_offset_s": 174.18799999996554,
+        "line": "B5 WAVE gaps=0 quality_resets=19 partial_discarded=861 unstamped=67"
+      },
+      {
+        "arm_offset_s": 208.03200000000652,
+        "line": "B5 WAVE gaps=0 quality_resets=21 partial_discarded=875 unstamped=67"
+      },
+      {
+        "arm_offset_s": 237.7970000000205,
+        "line": "B5 WAVE gaps=0 quality_resets=21 partial_discarded=875 unstamped=67"
+      },
+      {
+        "arm_offset_s": 273.7970000000205,
+        "line": "B5 WAVE gaps=0 quality_resets=21 partial_discarded=875 unstamped=67"
+      },
+      {
+        "arm_offset_s": 317.7970000000205,
+        "line": "B5 WAVE gaps=0 quality_resets=21 partial_discarded=875 unstamped=67"
+      },
+      {
+        "arm_offset_s": 355.18799999996554,
+        "line": "B5 WAVE gaps=0 quality_resets=22 partial_discarded=947 unstamped=67"
+      },
+      {
+        "arm_offset_s": 380.73499999998603,
+        "line": "B5 WAVE gaps=0 quality_resets=23 partial_discarded=1040 unstamped=67"
+      },
+      {
+        "arm_offset_s": 407.0470000000205,
+        "line": "B5 WAVE gaps=0 quality_resets=23 partial_discarded=1040 unstamped=67"
+      },
+      {
+        "arm_offset_s": 420.094000000041,
+        "line": "B5 WAVE gaps=0 quality_resets=26 partial_discarded=1161 unstamped=67"
+      }
+    ],
+    "cause_limit": "B NO_CYCLES/UNSTABLE and overlapping mains fractions do not uniquely identify simulator/contact/power/interference cause",
+    "source_code": "gateway/dual_can/b4_gateway.c waveform(): valid/synthetic transition discards partial batch; gaps remain0 in observed WAVE counters"
+  },
+  "recovery": {
+    "R_APP_R_CFG_R_CLOUD_executed": false,
+    "original_C49068_restored": false,
+    "sector3_written": false
+  },
+  "residual": {
+    "CPU_ROM": "UNRESOLVED_PAUSED",
+    "RR15": "SEPARATE_FORMAL_WINDOW_NOT_RUN",
+    "TEMP_OBJECT": "SEPARATE_FORMAL_WINDOW_NOT_RUN",
+    "absolute_calibration": "NOT_CALIBRATED",
+    "test_accounts": "NOT_REVOKED_TEST_UNITS_REMAIN_UNTIL_ORIGINAL_RUNTIME_LIMIT"
+  },
+  "runtime_stack_used_upper_max": 2676,
+  "source_truth_scope": "Nonhuman MOCK ECG60 nominal; no absolute calibration claim",
+  "status": "ECG60_NOT_PASS_TIME_AND_DELIVERY_OBSERVED"
+}

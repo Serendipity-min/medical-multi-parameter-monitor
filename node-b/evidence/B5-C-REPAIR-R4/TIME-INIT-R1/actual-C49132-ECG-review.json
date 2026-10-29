@@ -1,0 +1,153 @@
+{
+  "B": {
+    "ADC_evaluation_increments": {
+      "bad_status": 0,
+      "init_errors": 0,
+      "long_gap_count": 0,
+      "queue_overflow": 0,
+      "spi_errors": 0
+    },
+    "CAN_evaluation_increments": {
+      "app_reset_rejected": 0,
+      "comm_reset": 0,
+      "discontinuities": 0,
+      "enqueued": 74883,
+      "error": 0,
+      "expired": 0,
+      "offered": 74883,
+      "overflow": 0,
+      "sent_ecg": 74883,
+      "sent_resp": 14976
+    },
+    "HR_values": {
+      "0": 107,
+      "60": 491,
+      "61": 2
+    },
+    "RR_reason_masks": {
+      "0": 7,
+      "10": 85,
+      "130": 100,
+      "2": 208,
+      "6": 200
+    },
+    "clipped_counter_increment": 0,
+    "device_domain_SPS": 250.0542630740616,
+    "failures": [
+      "B_HR_VALID60"
+    ],
+    "profile": "ECG60",
+    "saved": 600,
+    "temperature_errors": {
+      "checksum_errors": 0,
+      "overflow": 0,
+      "uart_errors": 0
+    },
+    "temperature_new_frames": 1370
+  },
+  "Backend_delta": {
+    "accepted": 2785,
+    "dropped": 0,
+    "rejected": 0
+  },
+  "Broker_duplicates": 0,
+  "Broker_messages": 2785,
+  "CPU_ROM_ROOT_CAUSE": "UNRESOLVED",
+  "C_diagnostic_count": 60,
+  "C_diagnostic_max_gap_s": 5.452999999979511,
+  "C_error_delta": {
+    "dropped": 0,
+    "mqtt_fail": 0,
+    "overflow": 0,
+    "rx": 89991,
+    "txack": 623,
+    "txfail": 0,
+    "uart_err": 0
+  },
+  "ECG_source_points": 74439,
+  "RESP_source_points": 14949,
+  "STOP_observed_offset_s": 420.0470000000205,
+  "UART_source": {
+    "blocks": 1025,
+    "stable_bytes": 28492,
+    "unqualified_bytes": 60,
+    "valid_frames": 2373
+  },
+  "WSS_snapshots": 2973,
+  "criteria": {
+    "A": "OFFLINE",
+    "B_min_saved": 590,
+    "ECG_batch": 100,
+    "ECG_min_points": 74250,
+    "ECG_rate": 250,
+    "HR_range": [
+      58,
+      62
+    ],
+    "HR_valid_fraction": 1.0,
+    "RESP_batch": 50,
+    "RESP_min_points": 14850,
+    "RESP_rate": 50,
+    "RR": "INVALID",
+    "RR_range": null,
+    "TEMP": "OBSERVE_INDEPENDENTLY",
+    "WSS_min_saved": 2900,
+    "arm_hard_s": 420,
+    "cleanup_s": 5,
+    "evaluation_s": 300,
+    "expected_valid": [
+      "ECG",
+      "HR"
+    ],
+    "host_server_T0_max_skew_ms": 1500,
+    "manual_reset_ack_max_s": 30,
+    "nominal_grid_phase_max_ms": 2,
+    "passive_after_hard_s": 20,
+    "prearm_s": 120,
+    "profile": "ECG60",
+    "readiness_s": 60,
+    "scalar_min_messages": 295,
+    "source": "MOCK",
+    "synthetic": true,
+    "tail_s": 15,
+    "temperature_accuracy": "NOT_CALIBRATED",
+    "temperature_frame_age_max_ms": 2500,
+    "temperature_quantity": "NONHUMAN_OBJECT_SURFACE",
+    "temperature_reference": null,
+    "temperature_wire_time": "NODE_SCALAR_REPORT_UTC_SECONDS",
+    "warmup_s": 45
+  },
+  "evaluation_UTC_ms": [
+    1793267000633,
+    1793267300633
+  ],
+  "exit_code": 3,
+  "failures": [
+    "B_HR_VALID60",
+    "ECG_INVALID",
+    "ECG_SOURCE_COVERAGE_OR_GAP",
+    "ECG_WSS_BATCH_MISSING",
+    "HR_INVALID",
+    "HR_VALUE",
+    "RR_EXPECTED_INVALID",
+    "WSS_TARGET_CHANNEL_INVALID"
+  ],
+  "max_MQTT_JSON_bytes": 839,
+  "original_G3_verdict_rewritten": false,
+  "profile": "ECG60",
+  "source_mapping_errors": {},
+  "source_reconstruction": {
+    "CAN_stable": 129717,
+    "CAN_unqualified_sequences": 99,
+    "CAN_version_conflicts": 231,
+    "blocks": 3077,
+    "raw_stable": 129708,
+    "raw_unqualified_sequences": 109,
+    "raw_version_conflicts": 338
+  },
+  "status": "B5_SEPARATE_ECG60_NOT_PASS",
+  "temperature_absolute_accuracy": "NOT_CALIBRATED",
+  "temperature_message_candidate_counts": [],
+  "temperature_source_proof": "raw UART checksum/value plus source report-second interval; not unique frame identity or absolute calibration",
+  "wave_batches_observed_in_WSS": 615
+}
