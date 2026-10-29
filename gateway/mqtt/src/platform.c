@@ -48,6 +48,7 @@ uint32_t platform_uart_errors_total(void) {return uart_hw_total+uart_overflow_to
 static unsigned char reply[4096], network_bytes[256];
 static unsigned int reply_length, network_length, network_offset;
 static unsigned line_start,binary_left,binary_offset,binary_length,binary_seen;
+static int reply_closing;
 #ifdef MP_B5_EGRESS_FINAL
 static unsigned rx_state,rx_tx;
 static uint32_t rx_deadline,rx_retry_at;
@@ -262,7 +263,8 @@ static int reply_byte(int value,int prompt,int sent) {
 #ifdef MP_B5_EGRESS_FINAL
     io_metrics.reply_flags|=flags;
 #endif
-    if(flags)return -11;
+    /* 主动关闭仍须等末尾OK；只有本命令预期的CLOSED可作为中间URC。 */
+    if(flags && !(flags==1u && reply_closing))return -11;
     if(line_is("ERROR") || line_is("FAIL") || line_is("SEND FAIL"))return -4;
     if(sent?line_is("SEND OK"):!prompt && line_is("OK"))return sent?3:1;
     line_start=reply_length;
@@ -328,7 +330,9 @@ int at_command(const char *command, uint32_t timeout)
 #else
     (void)ending;
 #endif
+    reply_closing=!strcmp(command,"AT+CIPCLOSE");
     int ok=await_reply(timeout, strncmp(command, "AT+CIPSEND=", 11) == 0, 0);
+    reply_closing=0;
 #ifdef MP_B5_EGRESS_FINAL
     b5_latency_add(prompt?&io_metrics.prompt:&io_metrics.command,g_uptime_ms-started);
     if(!ok && !reply_boundary)unsync();
@@ -438,6 +442,7 @@ void platform_tx_context(unsigned qos,unsigned stream,uint32_t seq,unsigned pend
     io_metrics.pending_id=pending;io_metrics.pending_age=age;
 }
 static void rx_begin(unsigned state) {
+    reply_closing=0;
     rx_state=state;rx_tx=0;rx_deadline=g_uptime_ms+1000u;
     serial_deadline=rx_deadline;phase(ESP_AT_COMMAND);reply_begin();
     if(state==1)io_metrics.rx_queries++;

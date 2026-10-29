@@ -43,6 +43,12 @@ def main():
     sources=[ROOT/'gateway/b5/test_repair_r4_chain.c',mqtt/'src/mqtt_transport_adapter.c',
         ROOT/'gateway/storage/router.c',ROOT/'gateway/data_model/model.c',ROOT/'gateway/b5/b5_policy.c',
         *[vendor/n for n in ('core_mqtt.c','core_mqtt_serializer.c','core_mqtt_state.c')]]
+    deployed=json.loads((ROOT/'node-b/build/b5-repair-r4-pointer.json').read_text('utf8'))
+    for file,macro,case in [('platform.c','EXPECT_CLOSE_DEFECT','expected-close'),('gateway_transport.c','EXPECT_TIME_DEFECT','clock19')]:
+        previous=Path(deployed['root'])/'compiled-source/gateway/mqtt/src'/file;short=out/('deployed-R4-'+file);short.write_bytes(previous.read_bytes())
+        selector='REPAIR_PLATFORM_SOURCE' if file=='platform.c' else 'REPAIR_TRANSPORT_SOURCE'
+        oldexe=out/(macro+'.exe');built=run('compile-'+macro,[*flags,'-DMP_H3_FRESH_SNTP','-D'+macro,'-D'+selector+'="'+short.as_posix()+'"',*sources,'-o',oldexe]);ok=built and ok
+        if built:ok=run('reproduce-'+macro,[oldexe,case]) and ok
     compiled=run('compile-real-egress-core-adapter-platform-UART',[*flags,*sources,'-o',exe]);ok=compiled and ok
     if compiled:
         for mode in ('normal','wrap','poll','keepalive','close-active','wrong','missing','late','during','duplicate','deferqueue','raw854','raw2048',
@@ -50,6 +56,9 @@ def main():
             'age900','age4500','age4950','age4999','terminal1','terminal2','terminal3','terminal4','terminal5',
             'stop1','stop2','stop3','stop4','pressure'):
             ok=run('combined-'+mode,[exe,mode]) and ok
+    ntp=out/'ntp-chain.exe';built=run('compile-actual-SNTP-AT-chain',[*flags,'-DMP_H3_FRESH_SNTP',*sources,'-o',ntp]);ok=built and ok
+    if built:
+        for mode in ('expected-close','close-no-ok','fresh-rotate','clock19','clock19-wrap','clock-never'):ok=run('SNTP-chain-'+mode,[ntp,mode]) and ok
     (out/'receipt.json').write_text(json.dumps(dict(status='PASS' if ok else 'FAIL',cases=cases,
         hardware_operations=0,network_operations=0),indent=2)+'\n',encoding='utf8')
     (ROOT/'node-b/build/b5-repair-r4-host-latest.json').write_text(json.dumps(dict(out=str(out)))+'\n',encoding='utf8')

@@ -524,11 +524,16 @@ int gateway_network_open(void)
                 }
             }
         }
+#ifdef MP_B5_EGRESS_FINAL
+        /* 15次查询按绝对2秒时隙推进，粗授时准备有界30秒；共同就绪60秒不变。 */
+        if(attempt<14u){int32_t wait=(int32_t)(time_wait_at+(attempt+1u)*2000u-g_uptime_ms);if(wait>0)delay_ms((uint32_t)wait);}
+#else
         delay_ms(1000);
+#endif
     }
 #ifdef MP_B5_EGRESS_FINAL
-    (void)snprintf(command,sizeof(command),"GW TIME_WAIT queries=%lu elapsed=%lu valid=%u\r\n",
-        (unsigned long)time_queries,(unsigned long)(g_uptime_ms-time_wait_at),(unsigned)time_ok);console(command);
+    (void)snprintf(command,sizeof(command),"GW TIME_WAIT queries=%lu elapsed=%lu valid=%u epoch=%lu\r\n",
+        (unsigned long)time_queries,(unsigned long)(g_uptime_ms-time_wait_at),(unsigned)time_ok,(unsigned long)epoch);console(command);
 #endif
     if (!time_ok)
     {

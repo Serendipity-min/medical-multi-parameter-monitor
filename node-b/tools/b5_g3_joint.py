@@ -205,7 +205,8 @@ def joint_worker(auth_path,a,bundle):
             receipt['failure_passive_tail_started']=time.monotonic()
             try:
                 while port and port.is_open and time.monotonic()<end:
-                    chunk=port.read(512)
+                    port.timeout=min(.05,max(0,end-time.monotonic()))
+                    chunk=serial_call('SERIAL_READ_PASSIVE_TAIL',lambda:port.read(512))
                     if not chunk:continue
                     rawfile.write(chunk);rawfile.flush();pending+=chunk
                     pending,_,C_stop_at=record_lines(pending,lines,root,True,C_stop_at)

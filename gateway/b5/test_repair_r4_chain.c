@@ -2,8 +2,14 @@
 #include "gateway_platform.h"
 #include "esp_io_metrics.h"
 #include "../mqtt/tests/mocks/platform_mmio.h"
-#include "../mqtt/src/gateway_transport.c"
-#include "../mqtt/src/platform.c"
+#ifndef REPAIR_TRANSPORT_SOURCE
+#define REPAIR_TRANSPORT_SOURCE "../mqtt/src/gateway_transport.c"
+#endif
+#ifndef REPAIR_PLATFORM_SOURCE
+#define REPAIR_PLATFORM_SOURCE "../mqtt/src/platform.c"
+#endif
+#include REPAIR_TRANSPORT_SOURCE
+#include REPAIR_PLATFORM_SOURCE
 #include "egress.h"
 #include <assert.h>
 #include <stdio.h>
@@ -18,6 +24,11 @@ static uint32_t base,stop_after=420000,ack_delay=30,at_delay=2,send_delay=5;
 static unsigned stop_phase,wire,commands,sends,pings,published[MP_STREAMS],stall_i;
 static unsigned bad_ack,no_ack,terminal_mode,fragment=1;
 static unsigned freeze_after;
+static unsigned close_mode;
+#ifdef MP_H3_FRESH_SNTP
+static unsigned ntp_packets,ntp_fixture;
+#endif
+static uint32_t clock_valid_at;
 static unsigned char response[16384],server[512],packet[2048];
 static unsigned rn,ri,sn,expected,packet_n,cmd_n;
 static uint32_t response_at,server_at;
@@ -38,6 +49,14 @@ static void terminal(const char *p,uint32_t delay){queue_bytes(p,(unsigned)strle
 static unsigned varint(unsigned *pos){unsigned n=0,shift=0,b;do{b=packet[(*pos)++];n|=(b&127u)<<shift;shift+=7;}while(b&128);return n;}
 static void mqtt_packet(void){
     unsigned type=packet[0]>>4;
+#ifdef MP_H3_FRESH_SNTP
+    if(ntp_fixture && packet_n==48 && packet[0]==0x23){
+        ntp_packets++;
+        if(ntp_packets>1){memset(server,0,48);server[0]=0x24;server[1]=1;memcpy(server+24,packet+40,8);
+            sntp_put32(server+32,1800000000u+2208988800u);sntp_put32(server+40,1800000000u+2208988800u);sn=48;server_at=g_uptime_ms;}
+        return;
+    }
+#endif
     if(type==1){const unsigned char c[]={0x20,2,0,0};memcpy(server,c,4);sn=4;server_at=g_uptime_ms;}
     if(type==12){if(!sn)server_at=g_uptime_ms;server[sn++]=0xd0;server[sn++]=0;pings++;}
     if(type==3){
@@ -80,7 +99,12 @@ void platform_test_tx(unsigned char b){
     }else if(strstr(command,"CIPRECVDATA")){
         unsigned char line[600];int z=snprintf((char *)line,sizeof(line),"\r\n+CIPRECVDATA:%u,",sn);
         memcpy(line+z,server,sn);memcpy(line+z+sn,"\r\nOK\r\n",6);queue_bytes(line,(unsigned)z+sn+6,at_delay);sn=0;
-    }else terminal("\r\nOK\r\n",at_delay);
+    }else if(strstr(command,"AT+GMR"))terminal("\r\nAT version:2.3.0.0\r\n\r\nOK\r\n",at_delay);
+    else if(strstr(command,"AT+SLEEP?"))terminal("\r\n+SLEEP:0\r\n\r\nOK\r\n",at_delay);
+    else if(strstr(command,"AT+CIPCLOSE") && close_mode)terminal(close_mode==2?"\r\nCLOSED\r\n":"\r\nCLOSED\r\n\r\nOK\r\n",at_delay);
+    else if(strstr(command,"AT+CIPSNTPCFG?"))terminal("\r\n+CIPSNTPCFG:1,0,\"ntp-0.example.invalid\",\"ntp-1.example.invalid\",\"ntp-2.example.invalid\"\r\n\r\nOK\r\n",at_delay);
+    else if(strstr(command,"AT+SYSTIMESTAMP?"))terminal((int32_t)(g_uptime_ms-clock_valid_at)>=0?"\r\n+SYSTIMESTAMP:1800000000\r\n\r\nOK\r\n":"\r\n+SYSTIMESTAMP:0\r\n\r\nOK\r\n",at_delay);
+    else terminal("\r\nOK\r\n",at_delay);
 }
 static void put(unsigned stream,unsigned rate,unsigned count,uint32_t at){
     MpFrame f={0};f.node=stream==MP_GATEWAY_STATUS?3:2;f.stream=(uint8_t)stream;f.rate=(uint16_t)rate;f.count=(uint16_t)count;
@@ -114,8 +138,41 @@ static void open_session(void){
 }
 int main(int argc,char **argv){
     const char *mode=argc>1?argv[1]:"normal";
-    if(!strcmp(mode,"wrap")){base=0xfffff000u;g_uptime_ms=base;}
+    if(strstr(mode,"wrap")){base=0xfffff000u;g_uptime_ms=base;}
     open_session();
+    if(!strcmp(mode,"expected-close") || !strcmp(mode,"close-no-ok")){
+        close_mode=!strcmp(mode,"close-no-ok")?2:1;
+        int ok=at_command("AT+CIPCLOSE",2000);
+#ifdef EXPECT_CLOSE_DEFECT
+        assert(!ok && platform_at_unsynced());puts("DEPLOYED_R4_EXPECTED_CLOSED_MISCLASSIFIED_REPRODUCED");
+#else
+        if(close_mode==1)assert(ok && platform_at_synchronized() && io_metrics.at_phase==ESP_AT_CLOSED);
+        else assert(!ok && platform_at_unsynced());
+        puts("EXPECTED_CLOSED_REQUIRES_OWN_COMMAND_AND_TRAILING_OK_PASS");
+#endif
+        return 0;
+    }
+#ifdef MP_H3_FRESH_SNTP
+    if(!strcmp(mode,"clock19") || !strcmp(mode,"clock19-wrap") || !strcmp(mode,"clock-never")){
+        ntp_fixture=1;ntp_packets=1;close_mode=1;
+        clock_valid_at=g_uptime_ms+(strcmp(mode,"clock-never")?19000u:60000u);
+        uint32_t start=g_uptime_ms;int ok=gateway_network_open();
+#ifdef EXPECT_TIME_DEFECT
+        assert(!ok && g_uptime_ms-start<19000);puts("DEPLOYED_15_FAST_QUERIES_END_BEFORE_SYNTHETIC_19S_READY_REPRODUCED");
+#else
+        if(strcmp(mode,"clock-never"))assert(ok && g_uptime_ms-start>=19000 && g_uptime_ms-start<35000);
+        else assert(!ok && g_uptime_ms-start>=28000 && g_uptime_ms-start<31000);
+        printf("BOUNDED_TIME_PREP_%s_PASS elapsed=%lu\n",mode,(unsigned long)(g_uptime_ms-start));
+#endif
+        return 0;
+    }
+    if(!strcmp(mode,"fresh-rotate")){
+        close_mode=1;ntp_fixture=1;opening_ntp_retry=0;
+        assert(!fresh_sntp() && gateway_network_retryable() && platform_at_synchronized());
+        opening_ntp_retry=0;assert(fresh_sntp() && ntp_packets==2 && !gateway_network_retryable());
+        puts("ACTUAL_SNTP_UART_NO_REPLY_CLOSE_CLOSED_OK_ROTATES_NEW_NONCE_AND_VALIDATES_FRESH_SAMPLE_PASS");return 0;
+    }
+#endif
     if(!strcmp(mode,"no-prompt") || !strcmp(mode,"slow-prompt") || !strcmp(mode,"partial-data")){
         unsigned char bytes[854]={0};
         if(!strcmp(mode,"partial-data"))freeze_after=400;else at_delay=!strcmp(mode,"no-prompt")?6000:200;
