@@ -99,6 +99,27 @@ class Profiles(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'OWNER'):p.validate({'enabled':True,'owner_approved':True,'scope':g.G3})
     def test_profile_unknown_rejected(self):
         with self.assertRaisesRegex(ValueError,'PROFILE'):p.criteria('ECG_RR_SIMULTANEOUS')
+    def test_r5_scopes_are_three_windows_and_independent(self):
+        self.assertEqual(set(p.FINAL_SCOPES_R5), {'ECG60', 'TEMP_OBJECT', 'RR15'})
+        self.assertEqual(len(set(p.FINAL_SCOPES_R5.values())), 3)
+        self.assertFalse(set(p.FINAL_SCOPES_R5.values()) & set(p.FINAL_SCOPES_R4TI.values()))
+        self.assertFalse(set(p.FINAL_SCOPES_R5.values()) & set(p.FINAL_SCOPES_R4TB.values()))
+        self.assertFalse(set(p.FINAL_SCOPES_R5.values()) & set(p.FINAL_SCOPES_R4TC.values()))
+        self.assertFalse(set(p.FINAL_SCOPES_R5.values()) & set(p.FINAL_SCOPES_R4D.values()))
+        self.assertFalse(set(p.FINAL_SCOPES_R5.values()) & set(p.FINAL_SCOPES_R4.values()))
+        self.assertFalse(set(p.FINAL_SCOPES_R5.values()) & set(p.FINAL_SCOPES_R3.values()))
+        self.assertFalse(set(p.FINAL_SCOPES_R5.values()) & set(p.FINAL_SCOPES_R2.values()))
+        self.assertFalse(set(p.FINAL_SCOPES_R5.values()) & set(p.FINAL_SCOPES.values()))
+        # Cross profile rejected
+        a = dict(enabled=True, owner_approved=True, scope=p.FINAL_SCOPES_R5['ECG60'], channel_profile='RR15', require_source_STOP_state=True)
+        with self.assertRaisesRegex(ValueError, 'FINAL_OBJECT'): p.validate(a)
+        a = dict(enabled=True, owner_approved=True, scope=p.FINAL_SCOPES_R5['TEMP_OBJECT'], channel_profile='ECG60', require_source_STOP_state=True)
+        with self.assertRaisesRegex(ValueError, 'FINAL_OBJECT'): p.validate(a)
+        a = dict(enabled=True, owner_approved=True, scope=p.FINAL_SCOPES_R5['RR15'], channel_profile='TEMP_OBJECT', require_source_STOP_state=True)
+        with self.assertRaisesRegex(ValueError, 'FINAL_OBJECT'): p.validate(a)
+        # require_source_STOP_state missing rejected
+        a = dict(enabled=True, owner_approved=True, scope=p.FINAL_SCOPES_R5['ECG60'], channel_profile='ECG60', require_source_STOP_state=False)
+        with self.assertRaisesRegex(ValueError, 'FINAL_OBJECT'): p.validate(a)
 
 class SyntheticAdmission(unittest.TestCase):
     def admission(self,changes=None,broken=None):
@@ -157,5 +178,106 @@ class SyntheticAdmission(unittest.TestCase):
     def test_R2_cannot_silently_enable_new_confirmation(self):
         with self.assertRaisesRegex(ValueError,'RESET_CONFIRMATION'):
             self.admission({'reset_confirmation':'SERIAL_DISARMED_AFTER_INTENT','owner_manual_reset_preapproved':True})
+    def test_r5_synthetic_admission_three_windows(self):
+        c49132_full = '9bba23b436f079183296fa98dcaeed047eb919ba8597d75a85bc144bc48417fd'
+        c49132_bin = '72131dbb5ef6bc0e0d33e328925c685403bae928aea9447a81f8291c6ae5c1ab'
+        binding_data = {'candidate_sha256': c49132_bin}
+        for profile in ('ECG60', 'TEMP_OBJECT', 'RR15'):
+            site_src = dict(p.SOURCE_RR if profile == 'RR15' else p.SOURCE_ECG)
+            changes = {
+                'scope': p.FINAL_SCOPES_R5[profile],
+                'channel_profile': profile,
+                'criteria': p.criteria(profile),
+                'execution_card': p.FINAL_CARD_R5.name,
+                'card_sha256': g.sha(p.FINAL_CARD_R5.read_bytes()),
+                'require_source_STOP_state': True,
+                'reset_confirmation': 'SERIAL_DISARMED_AFTER_INTENT',
+                'owner_manual_reset_preapproved': True,
+                'C_application_binding': 'mock_binding',
+            }
+            # broken/override in admission
+            encode = lambda x: json.dumps(x).encode()
+            blobs = {n: ('SYNTHETIC_' + n).encode() for n in ('B_identity', 'B_full', 'B_options', 'C_identity', 'C_full', 'C_options', 'B_ELF', 'B_symbols', 'cloud_credentials')}
+            blobs['B_full'] = b'SYNTHETIC_B' + bytes(40928)
+            env = {'Backend_sources': {'models.py': g.sha(b'SYNTHETIC_BACKEND')}}
+            blobs['cloud_package'] = encode({'sources': {'backend/app/models.py': base64.b64encode(b'SYNTHETIC_BACKEND').decode()}})
+            bundle = {n: {'path': n, 'sha256': g.sha(b)} for n, b in blobs.items()}
+            full = g.sha(blobs['B_full'])
+            blobs['install'] = encode(dict(status='B_TEMP_INSTALL_FULL_VERIFY_AND_FLASH_BOOT_PASS', exit_code=0, Close_completed=True, full_flash_sha256=full))
+            blobs['temperature'] = encode(dict(status='B_TEMP_READONLY_CAPTURED', exit_code=0, new_valid_frames=3, Close_completed=True, full_flash_sha256=full))
+            blobs['cpre'] = encode(dict(status='C_CURRENT_B5_CONFIG_DISARMED_READONLY_PASS', exit_code=0, full_sha256=c49132_full, observed_unix=time.time()))
+            site = dict(source=site_src, temperature_source='GY641V3_NONHUMAN_OBJECT_NO_REFERENCE', JLink_target='B', C_USB_connector='USB_UART/USB232', C_USB_port='COM6')
+            site.update(dict.fromkeys(('COM_confirmed', 'C_J5', 'B_J5', 'CAN_GND_unchanged', 'A_disconnected', 'INMP441_TTS_disconnected', 'ESP_present_powered_exception', 'operator_ready_manual_cutoff', 'one_C_reset_preplanned_only', 'B_USB_disconnected', 'exclusive_test_namespace'), True))
+            blobs['site'] = encode(site); blobs['bundle'] = encode(bundle)
+            a = dict(enabled=True, owner_approved=True, scope=p.FINAL_SCOPES_R5[profile], channel_profile=profile, tools_sha256={'SYNTHETIC_TOOL': '0'}, criteria=p.criteria(profile), environment=env,
+                     card_sha256=g.sha(p.FINAL_CARD_R5.read_bytes()), execution_card=p.FINAL_CARD_R5.name, require_source_STOP_state=True,
+                     reset_confirmation='SERIAL_DISARMED_AFTER_INTENT', owner_manual_reset_preapproved=True,
+                     expires_unix=time.time()+2000, retries=0, B5START_allowed=True, start_max=1,
+                     precommon_ntp_retries_max=2, operator_wait_extra_s=180, host_cancel_cleanup_s=10, test_service_expiry_unix=time.time()+2000,
+                     DLL_sha256=p.temp.raw.DLL_SHA, bundle='bundle', bundle_sha256=g.sha(blobs['bundle']),
+                     B_install_receipt='install', B_install_receipt_sha256=g.sha(blobs['install']),
+                     B_temperature_receipt='temperature', B_temperature_receipt_sha256=g.sha(blobs['temperature']),
+                     C_preflight_receipt='cpre', C_preflight_receipt_sha256=g.sha(blobs['cpre']),
+                     C_application_binding='binding',
+                     site_record='site', site_record_sha256=g.sha(blobs['site']), COM='COM6',
+                     observer_username='b5-observer', observer_client_id='b5-g3-observer-synthetic', output='SYNTHETIC_NO_TARGET')
+            with ExitStack() as stack:
+                stack.enter_context(patch.object(g.private, 'read', side_effect=lambda path, _: blobs[str(path)]))
+                stack.enter_context(patch.object(g.private, 'protected'))
+                stack.enter_context(patch.object(g, 'bindings', return_value={'SYNTHETIC_TOOL': '0'}))
+                stack.enter_context(patch.object(g, 'environment', return_value=env))
+                stack.enter_context(patch.object(g, 'expected_c_full', return_value=c49132_full))
+                stack.enter_context(patch.object(g, 'load', side_effect=lambda p: binding_data if 'binding' in str(p) else json.loads(blobs['cloud_package'])))
+                stack.enter_context(patch.object(p, 'B_ELF', g.sha(blobs['B_ELF'])))
+                stack.enter_context(patch.object(p, 'B_SYMBOLS', g.sha(blobs['B_symbols'])))
+                stack.enter_context(patch.object(p, 'CLOUD_PACKAGE_SHA', g.sha(blobs['cloud_package'])))
+                stack.enter_context(patch.object(p.update, 'CANDIDATE_BIN', g.sha(blobs['B_full'][:40928])))
+                b, s = p.validate(a)
+                self.assertEqual(b['_expected_C_full_sha256'], c49132_full)
+                self.assertTrue(b['_require_source_STOP_state'])
+                self.assertEqual(s['source'], site_src)
+
+    def test_r5_negative_older_c49068_rejected(self):
+        c49068_full = '75db57c038c021b40f36fa1ee627f410d26061e18e0f59a8465c73af0216bc25'
+        c49132_bin = '72131dbb5ef6bc0e0d33e328925c685403bae928aea9447a81f8291c6ae5c1ab'
+        binding_data = {'candidate_sha256': c49132_bin}
+        encode = lambda x: json.dumps(x).encode()
+        blobs = {n: ('SYNTHETIC_' + n).encode() for n in ('B_identity', 'B_full', 'B_options', 'C_identity', 'C_full', 'C_options', 'B_ELF', 'B_symbols', 'cloud_credentials')}
+        blobs['B_full'] = b'SYNTHETIC_B' + bytes(40928)
+        env = {'Backend_sources': {'models.py': g.sha(b'SYNTHETIC_BACKEND')}}
+        blobs['cloud_package'] = encode({'sources': {'backend/app/models.py': base64.b64encode(b'SYNTHETIC_BACKEND').decode()}})
+        bundle = {n: {'path': n, 'sha256': g.sha(b)} for n, b in blobs.items()}
+        full = g.sha(blobs['B_full'])
+        blobs['install'] = encode(dict(status='B_TEMP_INSTALL_FULL_VERIFY_AND_FLASH_BOOT_PASS', exit_code=0, Close_completed=True, full_flash_sha256=full))
+        blobs['temperature'] = encode(dict(status='B_TEMP_READONLY_CAPTURED', exit_code=0, new_valid_frames=3, Close_completed=True, full_flash_sha256=full))
+        blobs['cpre'] = encode(dict(status='C_CURRENT_B5_CONFIG_DISARMED_READONLY_PASS', exit_code=0, full_sha256=c49068_full, observed_unix=time.time()))
+        site = dict(source=dict(p.SOURCE_ECG), temperature_source='GY641V3_NONHUMAN_OBJECT_NO_REFERENCE', JLink_target='B', C_USB_connector='USB_UART/USB232', C_USB_port='COM6')
+        site.update(dict.fromkeys(('COM_confirmed', 'C_J5', 'B_J5', 'CAN_GND_unchanged', 'A_disconnected', 'INMP441_TTS_disconnected', 'ESP_present_powered_exception', 'operator_ready_manual_cutoff', 'one_C_reset_preplanned_only', 'B_USB_disconnected', 'exclusive_test_namespace'), True))
+        blobs['site'] = encode(site); blobs['bundle'] = encode(bundle)
+        a = dict(enabled=True, owner_approved=True, scope=p.FINAL_SCOPES_R5['ECG60'], channel_profile='ECG60', tools_sha256={'SYNTHETIC_TOOL': '0'}, criteria=p.criteria('ECG60'), environment=env,
+                 card_sha256=g.sha(p.FINAL_CARD_R5.read_bytes()), execution_card=p.FINAL_CARD_R5.name, require_source_STOP_state=True,
+                 reset_confirmation='SERIAL_DISARMED_AFTER_INTENT', owner_manual_reset_preapproved=True,
+                 expires_unix=time.time()+2000, retries=0, B5START_allowed=True, start_max=1,
+                 precommon_ntp_retries_max=2, operator_wait_extra_s=180, host_cancel_cleanup_s=10, test_service_expiry_unix=time.time()+2000,
+                 DLL_sha256=p.temp.raw.DLL_SHA, bundle='bundle', bundle_sha256=g.sha(blobs['bundle']),
+                 B_install_receipt='install', B_install_receipt_sha256=g.sha(blobs['install']),
+                 B_temperature_receipt='temperature', B_temperature_receipt_sha256=g.sha(blobs['temperature']),
+                 C_preflight_receipt='cpre', C_preflight_receipt_sha256=g.sha(blobs['cpre']),
+                 C_application_binding='binding',
+                 site_record='site', site_record_sha256=g.sha(blobs['site']), COM='COM6',
+                 observer_username='b5-observer', observer_client_id='b5-g3-observer-synthetic', output='SYNTHETIC_NO_TARGET')
+        with ExitStack() as stack:
+            stack.enter_context(patch.object(g.private, 'read', side_effect=lambda path, _: blobs[str(path)]))
+            stack.enter_context(patch.object(g.private, 'protected'))
+            stack.enter_context(patch.object(g, 'bindings', return_value={'SYNTHETIC_TOOL': '0'}))
+            stack.enter_context(patch.object(g, 'environment', return_value=env))
+            stack.enter_context(patch.object(g, 'expected_c_full', return_value=c49068_full))
+            stack.enter_context(patch.object(g, 'load', side_effect=lambda p: binding_data if 'binding' in str(p) else json.loads(blobs['cloud_package'])))
+            stack.enter_context(patch.object(p, 'B_ELF', g.sha(blobs['B_ELF'])))
+            stack.enter_context(patch.object(p, 'B_SYMBOLS', g.sha(blobs['B_symbols'])))
+            stack.enter_context(patch.object(p, 'CLOUD_PACKAGE_SHA', g.sha(blobs['cloud_package'])))
+            stack.enter_context(patch.object(p.update, 'CANDIDATE_BIN', g.sha(blobs['B_full'][:40928])))
+            with self.assertRaisesRegex(ValueError, 'FINAL_CANDIDATE'):
+                p.validate(a)
 
 if __name__=='__main__':unittest.main()
