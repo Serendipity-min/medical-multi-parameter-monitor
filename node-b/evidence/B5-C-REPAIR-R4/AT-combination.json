@@ -1,0 +1,247 @@
+{
+  "cases": [
+    {
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "compile-deployed-platform-50ms-counterexample"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "a32f42556c264f9b5b987ace5947c3ad907b1a3c6ca5c92271d2ef12de9ebf94",
+      "name": "deployed-854B-50ms-counterexample"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "compile-repaired-platform-admission"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "108552a184203fe09ec307242781705f5bffc7ece0b90f97809edbb9b9ed3494",
+      "name": "repaired-854B-50ms-zero-UART"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "compile-PI-real-platform"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "7ccef12d470f1d3a00d13b94b2037e25eb57728c97f0829d0d69efa7a4061a9d",
+      "name": "poll"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "70198fb931939e0787f4d673967a5b8f6091aeb75b4d8b028fded5a597a17195",
+      "name": "poll1"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "5639d30fbf24c24ca91df3254f69163d2ee50327c1f7ce84cdf3cb05693c8137",
+      "name": "poll50"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "042310c3574c3a8a293a7dbae7d0461b62ec2578291170e4c79c81bfa35cbbcd",
+      "name": "poll200"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "321ed58408e6601366b34841a6aee242299a1f11404945264c396bc582996f04",
+      "name": "poll1000"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "4a5b01ed5246309cdeeefb462fc95ac7c3bf3b1a54d4cb043125ad36ac64b128",
+      "name": "parser-matrix"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "f3c0282f8032fecb2c1be849527c33b564ca5155d2b55b1e4824f0729c8d31a7",
+      "name": "binary-OK"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "f3c0282f8032fecb2c1be849527c33b564ca5155d2b55b1e4824f0729c8d31a7",
+      "name": "binary-ERROR"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "f3c0282f8032fecb2c1be849527c33b564ca5155d2b55b1e4824f0729c8d31a7",
+      "name": "binary-URC"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "compile-real-egress-core-adapter-platform-UART"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "3b7f5e84ed0ec326c259f238e5b61e8113a46e82783ee2c1c56f1150cf4ee785",
+      "name": "combined-normal"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "4b6ac4cb61cb7006691a59547672d15299f1ab4615597886706230851966b5f4",
+      "name": "combined-wrap"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "d1269d05c0299c188971fd5977c45c9f8e0f987d871459cd211995d46f1ab923",
+      "name": "combined-poll"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "0de6ff5d3d500c066d481b9a786c019e041629d0dad650828fdba062c2ed814f",
+      "name": "combined-keepalive"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "ae4b51d750e996dc3c829868fb36b4bfe8a6243fffc25fe623548afb358a7180",
+      "name": "combined-close-active"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "3b7f5e84ed0ec326c259f238e5b61e8113a46e82783ee2c1c56f1150cf4ee785",
+      "name": "combined-wrong"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "3b7f5e84ed0ec326c259f238e5b61e8113a46e82783ee2c1c56f1150cf4ee785",
+      "name": "combined-missing"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "3b7f5e84ed0ec326c259f238e5b61e8113a46e82783ee2c1c56f1150cf4ee785",
+      "name": "combined-late"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "5f1dcdcceb37c329eb18060ed7bcb619b25c021ec2beab034baef950c36bc017",
+      "name": "combined-during"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "0d6ed9e2e18123228f066da046a9552232838a4272f6be5b94d9b87af561dee7",
+      "name": "combined-duplicate"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "26828a3a83b5eb3d0c99bb80e620c32a4fa753d9d84d79787494bd23a65dcc83",
+      "name": "combined-deferqueue"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "24c1912ab10369eb2b239de2f3e371d80fea38757b7829df877717bb93ff63be",
+      "name": "combined-raw854"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "d4670849bf95df5fd523c97246e0f55afac6157fd16771cb4599993665b31275",
+      "name": "combined-raw2048"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "5e7138056de69ab1ad7bb5bca6fbf7888235336847a1bdda0be59442a88c7bcf",
+      "name": "combined-no-prompt"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "ec885d26be6242587d92d5192e548ccf54a0e90e19637a45ffa815934c2b8ce1",
+      "name": "combined-slow-prompt"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "30d56b349af320adffed4a1638b5d162b699ee51016f1f7a52a6f66ef38e8272",
+      "name": "combined-partial-data"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "3b7f5e84ed0ec326c259f238e5b61e8113a46e82783ee2c1c56f1150cf4ee785",
+      "name": "combined-slowrx"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "3b7f5e84ed0ec326c259f238e5b61e8113a46e82783ee2c1c56f1150cf4ee785",
+      "name": "combined-rxlate"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "a7af3d8c42e09aba33c34a20fc5a27f9305192a063206a50bea3d9f5b3cc0043",
+      "name": "combined-stopack"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "0a35365a7c55103bf7d8c7f0271883d7e7a8dd3b4bf85ddc08b6774c281c0770",
+      "name": "combined-age900"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "2df5f0bbcbe542f36eebecbe0b70656a9d4c2e79174ec847a71585819db07da0",
+      "name": "combined-age4500"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "a86a8986d71f9dd47e44fc50248a2c45ac74f7107a3e82aac86243bb4c9ee146",
+      "name": "combined-age4950"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "4af409b620d1f545fd6c6f8ff9a12942788eda990af0617c9b0ca403bad37f85",
+      "name": "combined-age4999"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "eca7713045fb67cac3540b0c3af61daf0d9958308acdb259a87749250ec61007",
+      "name": "combined-terminal1"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "411a897a7aea55f7410db1e6489f1a8012caa70da2ca3e1e3933ad52d88557e0",
+      "name": "combined-terminal2"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "a8dbb7889d8862647ffe1cfd6e97dc18954e49ab64e974019f819d30ee57dd27",
+      "name": "combined-terminal3"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "a8dbb7889d8862647ffe1cfd6e97dc18954e49ab64e974019f819d30ee57dd27",
+      "name": "combined-terminal4"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "a8dbb7889d8862647ffe1cfd6e97dc18954e49ab64e974019f819d30ee57dd27",
+      "name": "combined-terminal5"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "b81f51726da30bda9e3ddadd3cb3f6ff5a13927e7a614c1ce780d2c663cd742f",
+      "name": "combined-stop1"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "cf78f9829a2eb252901a3d04fdf22415666b5172448a915e12060389f01d0d3b",
+      "name": "combined-stop2"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "8289a50334fcbd10859338aaefdd7921f30c156322ea320a9ad4019d60de3b56",
+      "name": "combined-stop3"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "cf78f9829a2eb252901a3d04fdf22415666b5172448a915e12060389f01d0d3b",
+      "name": "combined-stop4"
+    },
+    {
+      "exit_code": 0,
+      "log_sha256": "c301818c7706391eac387e7c4841eece217ddc8840d80832de18b85134477887",
+      "name": "combined-pressure"
+    }
+  ],
+  "hardware_operations": 0,
+  "network_operations": 0,
+  "status": "PASS"
+}

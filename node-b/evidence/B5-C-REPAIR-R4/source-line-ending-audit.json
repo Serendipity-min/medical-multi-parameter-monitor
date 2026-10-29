@@ -1,0 +1,24 @@
+{
+  "content_changed_files": [
+    "gateway/mqtt/src/esp_io_metrics.h",
+    "gateway/mqtt/src/gateway_transport.c",
+    "gateway/mqtt/src/platform.c"
+  ],
+  "line_ending_only_files": [
+    "gateway/canopen/src/CO_driver_target.h",
+    "gateway/canopen/src/mp_adapter.h",
+    "gateway/canopen/src/mp_can_driver.h",
+    "gateway/canopen/src/mp_od.c",
+    "gateway/canopen/src/mp_od.h",
+    "gateway/canopen/src/mp_stack.h",
+    "gateway/data_model/model.h",
+    "gateway/esp_at_probe/src/stm32f4xx_it.c",
+    "gateway/esp_at_probe/src/syscalls.c",
+    "gateway/mqtt/src/gateway_assert.c",
+    "gateway/mqtt/src/heap.c",
+    "gateway/storage/router.c",
+    "gateway/storage/router.h"
+  ],
+  "meaning": "Raw SHA drift caused by Git newline normalization is separated from implementation changes; original bytes retained.",
+  "raw_byte_changes": 16
+}

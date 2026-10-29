@@ -60,7 +60,7 @@ static int32_t recv_bytes(NetworkContext_t *network, void *data, size_t length)
     uint32_t budget = remaining(network);
     if (!budget)
         return 0;
-    /* 单次轮询给出短等待；已有 AT 查询仍保留其 1000ms 命令上界与 CAN 协作。 */
+    /* 5ms只是推进切片；platform持有未完成AT事务，不重发或丢掉其回复。 */
     int result = esp_mqtt_recv(data, (int)length, budget > 5U ? 5U : budget);
     if (result < 0 || (size_t)result > length)
     {

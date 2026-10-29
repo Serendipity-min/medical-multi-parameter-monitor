@@ -47,8 +47,10 @@ void gateway_network_close(void){
     closes++;g_uptime_ms+=2000;}
 #ifdef MP_B5_EGRESS_FINAL
 int platform_at_unsynced(void){return 0;}
+int platform_at_synchronized(void){return 1;}
 int gateway_network_retryable(void){return retry_then_pass_case || retry_exhaust_case;}
 int gateway_mqtt_begin(const MpFrame *f){(void)f;return GW_COMPLETE;}
+int gateway_mqtt_admit(void){return GW_COMPLETE;}
 int gateway_mqtt_progress(void){if(overflow_case && g_uptime_ms>30000)b4_hw_diag[1].overflow=1;return GW_COMPLETE;}
 int gateway_mqtt_pending(void){return 0;}
 void gateway_mqtt_metrics(GatewayMqttMetrics *out){memset(out,0,sizeof(*out));}

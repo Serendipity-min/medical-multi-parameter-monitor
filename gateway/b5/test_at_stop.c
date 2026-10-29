@@ -32,6 +32,17 @@ static void tick(void){
     if(ri<rn){USART3->DR=(unsigned char)response[ri++];USART3->SR|=USART_SR_RXNE;USART3_IRQHandler();USART3->SR&=~USART_SR_RXNE;}
 }
 int main(int argc,char **argv){
+    if(argc>1 && !strcmp(argv[1],"short854")){
+        platform_set_poll(tick);unsigned char data[854]={0x30};int result=esp_mqtt_send(data,854,50);
+#ifdef EXPECT_OLD_DEFECT
+        assert(result<0 && wire_bytes>0 && data_written<854);
+        printf("DEPLOYED_REAL_PLATFORM_854B_50MS_STARTS_IMPOSSIBLE_SEND wire=%u data=%u\n",wire_bytes,data_written);
+#else
+        assert(result<0 && !wire_bytes && platform_at_synchronized());
+        puts("854B_50MS_NOT_ADMITTED_ZERO_UART_PASS");
+#endif
+        return 0;
+    }
     if(argc>1 && !strcmp(argv[1],"budget")){
         platform_set_poll(tick);stop_at=6000;unsigned char data[12]={0x30};
         assert(esp_mqtt_send(data,12,5000)<0 && !wire_bytes && platform_at_synchronized());
@@ -49,7 +60,7 @@ int main(int argc,char **argv){
     if(terminal) {
         assert(result<0 && io.written==12);
         if(!strcmp(argv[1],"sendfail")){assert(io.wait_reason==4 && !io.unsynced);assert(at_command("AT+CIPCLOSE",2000));}
-        else{assert(io.wait_reason==10 && io.unsynced);unsigned expected=!strcmp(argv[1],"closed")?1u:!strcmp(argv[1],"ready")?2u:!strcmp(argv[1],"busy")?4u:0u;assert(io.reply_flags==expected);unsigned before=wire_bytes;assert(!at_command("AT+CIPCLOSE",2000) && wire_bytes==before);}
+        else{assert(io.wait_reason==(!strcmp(argv[1],"silent")?10u:11u) && io.unsynced);unsigned expected=!strcmp(argv[1],"closed")?1u:!strcmp(argv[1],"ready")?2u:!strcmp(argv[1],"busy")?4u:0u;assert(io.reply_flags==expected);unsigned before=wire_bytes;assert(!at_command("AT+CIPCLOSE",2000) && wire_bytes==before);}
         puts("SEND_TERMINAL_DIAGNOSTICS_WITHOUT_WEAKENING_BOUNDARY_PASS");
     }else if(cut_phase){assert(result<0 && io.unsynced);unsigned before=wire_bytes;assert(!at_command("AT+CIPCLOSE",2000) && wire_bytes==before);
         esp_mqtt_reset();assert(!platform_at_synchronized() && !at_command("AT+CIPCLOSE",2000) && wire_bytes==before);

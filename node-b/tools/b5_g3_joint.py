@@ -111,7 +111,7 @@ def joint_worker(auth_path,a,bundle):
     import b5_g3_cloud as cloud
     root=Path(a['output']);root.mkdir(exist_ok=False);g.private.protected(root,False)
     started=time.monotonic();port=None;b_child=None;cloud_thread=None;stop=threading.Event();shared={}
-    gate=SerialGate();arm=None;t0=None;C_stop_at=None
+    gate=SerialGate();arm=None;t0=None;C_stop_at=None;pending=b''
     receipt={'status':'STOP','exit_code':1,'B5START_attempts':0,'automatic_retry_or_rollback':False,
              'explicit_target_halt_go_reset_writes':0,'manual_preplanned_C_RESET':'OWNER_ACTION_ONLY'}
     rawfile=(root/'C-serial-raw-private.bin').open('xb');lines=(root/'C-lines-private.jsonl').open('x',encoding='utf8')
@@ -200,6 +200,18 @@ def joint_worker(auth_path,a,bundle):
             receipt['B5START_attempts']=1;receipt['physical_stop']='NOT_CONFIRMED_REQUIRE_MANUAL_ALL_BOARD_POWER_REMOVAL'
             receipt['manual_isolation_required']=['B_J5_OFF','C_J5_OFF','C_USB_UNPLUG','JLink_PC_USB_UNPLUG']
             print(json.dumps({'event':'MANUAL_BC_J5_C_USB_JLINK_USB_POWER_OFF_REQUIRED','reason':receipt['reason']}),flush=True)
+            # 只读尾段不发AT/START；目标失败后仍保留随后到达的STOP和云端末批原件。
+            end=min(time.monotonic()+5,arm['monotonic']+440) if arm else time.monotonic()
+            receipt['failure_passive_tail_started']=time.monotonic()
+            try:
+                while port and port.is_open and time.monotonic()<end:
+                    chunk=port.read(512)
+                    if not chunk:continue
+                    rawfile.write(chunk);rawfile.flush();pending+=chunk
+                    pending,_,C_stop_at=record_lines(pending,lines,root,True,C_stop_at)
+            except Exception as error:
+                receipt['passive_tail_error']=g.error_record(error)
+            receipt['failure_passive_tail_ended']=time.monotonic()
     finally:
         receipt['precommon_ntp_failures']=gate.precommon_ntp_failures
         stop.set()
@@ -209,9 +221,10 @@ def joint_worker(auth_path,a,bundle):
             receipt['B_worker_exit_code']=b_child.returncode;b_log.close()
             if b_child.returncode:receipt['exit_code']=1
         if cloud_thread:
-            cloud_thread.join(timeout=8)
+            cloud_thread.join(timeout=5)
             if cloud_thread.is_alive():receipt.update(exit_code=1,cloud_thread_state='UNKNOWN_SUPERVISOR_MUST_END_PROCESS')
         if port:port.close()
+        if pending:receipt['serial_unterminated_tail_bytes']=len(pending)
         rawfile.close();lines.close();heartbeat.close();serial_events.close()
         cloud_receipt=g.maybe(root/'cloud-receipt-private.json')
         if not cloud_receipt or cloud_receipt.get('exit_code')!=0:receipt['exit_code']=1

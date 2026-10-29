@@ -13,7 +13,8 @@ int gateway_mqtt_yield(void);
 void gateway_network_close(void);
 #ifdef MP_B5_EGRESS_FINAL
 #include "../../b5/egress_metrics.h"
-enum { GW_FAILED=-1,GW_PENDING=0,GW_COMPLETE=1 };
+enum { GW_FAILED=-1,GW_PENDING=0,GW_COMPLETE=1,GW_DEFERRED=2 };
+int gateway_mqtt_admit(void);
 int gateway_mqtt_begin(const MpFrame *frame);
 int gateway_mqtt_progress(void);
 int gateway_mqtt_pending(void);

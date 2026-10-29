@@ -31,6 +31,10 @@ void (*mock_poll_callback)(void);
 static int polling;
 #ifdef MP_B5_EGRESS_FINAL
 int platform_at_synchronized(void){return 1;}
+int platform_at_unsynced(void){return 0;}
+uint32_t platform_send_reserve(unsigned bytes){return ((bytes+24u)*10000u+115199u)/115200u+2100u;}
+int platform_send_admissible(unsigned bytes,uint32_t budget){return budget>=platform_send_reserve(bytes);}
+void platform_tx_context(unsigned qos,unsigned stream,uint32_t seq,unsigned pending,uint32_t age,uint32_t budget){(void)qos;(void)stream;(void)seq;(void)pending;(void)age;(void)budget;}
 #endif
 unsigned mock_send_stall_ms;
 unsigned mock_send_base_ms,mock_emulate_uart;

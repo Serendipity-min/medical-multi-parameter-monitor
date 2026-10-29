@@ -38,6 +38,15 @@ def drain_final_events(rawq,log):
     while not rawq.empty():
         kind,data=rawq.get_nowait();g.append(log,kind,data)
 
+
+def close_client_bounded(client,timeout=1.5):
+    result={}
+    def close():
+        try:client.disconnect();client.loop_stop();result['complete']=True
+        except Exception:result['error']=True
+    thread=threading.Thread(target=close,daemon=True);thread.start();thread.join(timeout)
+    return result.get('complete') is True
+
 async def bounded_health(host,port,timeout=3):
     async def request():
         reader,writer=await asyncio.open_connection('127.0.0.1',port,ssl=ssl.create_default_context(),
@@ -106,6 +115,9 @@ async def observe(a,root,bundle,stop,shared):
           port=port,server_hostname=host,ssl=ssl.create_default_context(),origin=origin,proxy=None,
           open_timeout=8,close_timeout=1,max_size=65536,max_queue=8) as ws:
             await ws.send(json.dumps({'token':credentials['view_token'],'gateway_id':'GW-B5-001'}))
+            # WSS令牌发送不等于鉴权通过；先收到并校验首份真实快照，再冻结基线。
+            first_snap=json.loads(await asyncio.wait_for(ws.recv(),3))
+            g.assert_snapshot(first_snap,a.get('channel_profile'));g.append(network_log,'WSS_RAW',first_snap)
             health=await health_query('BEFORE')
             g.require(health.get('status')=='ok' and health.get('mqtt_connected') is True,'G3_BACKEND_NOT_READY')
             g.append(network_log,'BACKEND_HEALTH_BEFORE',health);health_at=time.monotonic();first=True
@@ -144,7 +156,8 @@ async def observe(a,root,bundle,stop,shared):
                 if first:
                     g.save(root/'NET_READY.json',{'monotonic':time.monotonic(),'backend_health':health,
                        'observer_CONNACK':con_reason,'observer_SUBACK':sub_codes,'WSS_authenticated_snapshot':True,
-                       'health_baseline_may_include_old_messages':True});first=False
+                       'health_baseline_may_include_old_messages':True,
+                       'baseline_after_CONNACK_SUBACK_authenticated_WSS':True});first=False
                 session=current_b_session(snap,fresh_gateway,a.get('channel_profile')) if fresh_gateway else None
                 if (arm and not common and fresh_gateway and snap['gateway_state']=='ONLINE'
                     and snap['nodes']['NODE-B']=='ONLINE' and session):
@@ -160,16 +173,17 @@ async def observe(a,root,bundle,stop,shared):
         if not (root/'CLOUD_FAULT.json').exists():g.save(root/'CLOUD_FAULT.json',{'reason':'CLOUD_OBSERVER_FAILED'})
     finally:
         g.save(root/'cloud-cleanup-started-private.json',dict(r,observer_disconnects=disconnects,cleanup_complete=False))
+        client_closed=True
         if client:
             stop.set()
-            try:client.disconnect();client.loop_stop()
-            except Exception:r['client_close_error']=True
+            client_closed=close_client_bounded(client)
+            if not client_closed:r.update(client_close_error=True,exit_code=1,client_thread_state='UNKNOWN')
         if tunnel:
             tunnel.terminate()
             try:tunnel.wait(timeout=1)
             except subprocess.TimeoutExpired:tunnel.kill();tunnel.wait(timeout=1)
         # 回调会先触发失败锁存；退出时仍落盘其原因码，不丢最后一批原始事件。
-        drain_final_events(rawq,network_log);r['observer_disconnects']=disconnects;r['cleanup_complete']=True
+        drain_final_events(rawq,network_log);r['observer_disconnects']=disconnects;r['cleanup_complete']=client_closed
         tunnel_log.close();network_log.close();g.save(root/'cloud-receipt-private.json',r)
     return r
 

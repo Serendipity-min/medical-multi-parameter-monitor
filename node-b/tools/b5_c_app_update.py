@@ -71,7 +71,7 @@ def authorize(a, out):
     card=a.get('card_name',CARD.name)
     require(card in (CARD.name,'AUTH-B5-C-EGRESS-RETEST-001-R2.md','AUTH-B5-C-EGRESS-RETEST-001-R4.md',
                     'AUTH-B5-TEMP-AND-SEPARATE-CHANNELS-001-R2.md','AUTH-B5-C-EGRESS-FINAL-APP-001-R1.md',
-                    'AUTH-B5-C-EGRESS-FINAL-APP-001-R2.md','AUTH-B5-C-EGRESS-DIAGNOSTIC-001-R3.md')
+                    'AUTH-B5-C-EGRESS-FINAL-APP-001-R2.md','AUTH-B5-C-EGRESS-DIAGNOSTIC-001-R3.md','AUTH-B5-C-REPAIR-R4-BATCH.md')
             and a.get('card_sha256') == sha((CARD.parent/card).read_bytes()), 'C_UPDATE_CARD_DRIFT')
     require(a.get('expires_unix',0) > time.time() and a.get('session_timeout_s') == 180
             and a.get('probe_sessions') == 1 and a.get('retries') == 0, 'C_UPDATE_BUDGET')
@@ -83,9 +83,9 @@ def authorize(a, out):
                 'C_USB_disconnected','CAN_GND_BOOT_unchanged','ESP_present_powered_exception',
                 'no_other_program','no_human')), 'C_UPDATE_SITE_INCOMPLETE')
     b, m, files = load_binding(a['binding'], a['binding_sha256'])
-    if card in ('AUTH-B5-C-EGRESS-FINAL-APP-001-R1.md','AUTH-B5-C-EGRESS-FINAL-APP-001-R2.md','AUTH-B5-C-EGRESS-DIAGNOSTIC-001-R3.md'):
-        version='R3' if card.endswith('-R3.md') else 'R2' if card.endswith('-R2.md') else 'R1'
-        frozen=json.loads((ROOT/('node-b/evidence/B5-C-EGRESS-FINAL-'+version+'/candidate.json')).read_text())
+    if card in ('AUTH-B5-C-EGRESS-FINAL-APP-001-R1.md','AUTH-B5-C-EGRESS-FINAL-APP-001-R2.md','AUTH-B5-C-EGRESS-DIAGNOSTIC-001-R3.md','AUTH-B5-C-REPAIR-R4-BATCH.md'):
+        version='R4' if card=='AUTH-B5-C-REPAIR-R4-BATCH.md' else 'R3' if card.endswith('-R3.md') else 'R2' if card.endswith('-R2.md') else 'R1'
+        frozen=json.loads((ROOT/('node-b/evidence/'+('B5-C-REPAIR-R4' if version=='R4' else 'B5-C-EGRESS-FINAL-'+version)+'/candidate.json')).read_text())
         require(frozen['status']=='FROZEN_SOFTWARE_PASS' and b['before_full_sha256']==frozen.get('predecessor_full_sha256',BEFORE_TEMP) and
                 b['candidate_sha256']==frozen['BIN_sha256'] and b['after_full_sha256']==frozen['expected_new_full_sha256'],
                 'C_UPDATE_FINAL_CANDIDATE_REQUIRED')

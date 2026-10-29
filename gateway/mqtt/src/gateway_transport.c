@@ -309,6 +309,12 @@ int gateway_mqtt_publish(const MpFrame *frame)
 }
 
 #ifdef MP_B5_EGRESS_FINAL
+int gateway_mqtt_admit(void) {
+    if(!mqtt_online || !network.connected)return GW_FAILED;
+    uint32_t age=(uint32_t)(g_uptime_ms-pending_started);
+    if(pending_id && age>=5000u)return GW_FAILED;
+    return platform_send_admissible(2048,pending_id?5000u-age:5000u)?GW_COMPLETE:GW_DEFERRED;
+}
 int gateway_mqtt_begin(const MpFrame *frame) {
     if(!mqtt_online || !network.connected)return GW_FAILED;
     bool qos1=!frame->rate || frame->replay;
@@ -324,16 +330,16 @@ int gateway_mqtt_begin(const MpFrame *frame) {
     m.pTopicName=topic;m.topicNameLength=(uint16_t)strlen(topic);m.pPayload=payload;m.payloadLength=(size_t)length;
     uint16_t id=0;uint32_t start=g_uptime_ms,budget=5000;
     if(pending_id && (uint32_t)(start-pending_started)>=5000u)return GW_FAILED;
+    if(pending_id)budget=5000u-(uint32_t)(start-pending_started);
+    /* coreMQTT调用前拒绝新事务；未发送不等于失败或已确认。 */
+    if(!platform_send_admissible((unsigned)length+(unsigned)m.topicNameLength+9u,budget))return GW_DEFERRED;
     if(qos1){acknowledged=0;pending_id=id=MQTT_GetPacketId(&client);next_packet_seed=client.nextPacketId;pending_started=start;}
-    else if(pending_id)budget=5000u-(uint32_t)(start-pending_started);
+    platform_tx_context(m.qos,frame->stream,frame->seq,pending_id,pending_id?start-pending_started:0,budget);
     mqtt_adapter_begin(&network,budget);
     MQTTStatus_t status=MQTT_Publish(&client,&m,id);
     b5_latency_add(&mqtt_metrics.send,g_uptime_ms-start);
     if(status!=MQTTSuccess || !network.connected || session_error || (uint32_t)(g_uptime_ms-start)>=budget) {
-        char diagnostic[160];(void)snprintf(diagnostic,sizeof(diagnostic),"GW SEND_CONTEXT qos=%u stream=%u seq=%lu pending=%u pending_age=%lu budget=%lu elapsed=%lu status=%u\r\n",
-            (unsigned)m.qos,frame->stream,(unsigned long)frame->seq,pending_id,
-            (unsigned long)(pending_id?g_uptime_ms-pending_started:0),(unsigned long)budget,
-            (unsigned long)(g_uptime_ms-start),(unsigned)status);console(diagnostic);
+        char diagnostic[48];(void)snprintf(diagnostic,sizeof(diagnostic),"GW PUBLISH_FAIL status=%u\r\n",(unsigned)status);console(diagnostic);
         mqtt_metrics.failed++;mqtt_failed();return GW_FAILED;
     }
     if(qos1){mqtt_metrics.q1_sent++;return GW_PENDING;}
@@ -344,7 +350,8 @@ int gateway_mqtt_progress(void) {
     if(pending_id && (uint32_t)(g_uptime_ms-pending_started)>=5000u) {
         mqtt_metrics.failed++;mqtt_failed();return GW_FAILED;
     }
-    uint32_t budget=pending_id?5000u-(uint32_t)(g_uptime_ms-pending_started):5u;
+    /* 接收切片仍为5ms；ProcessLoop保活发送不能误用5ms作为整包预算。 */
+    uint32_t budget=pending_id?5000u-(uint32_t)(g_uptime_ms-pending_started):5000u;
     mqtt_adapter_begin(&network,budget);
     if(!process_once()){mqtt_metrics.failed++;return GW_FAILED;}
     if(pending_id) {
@@ -370,7 +377,7 @@ void gateway_network_close(void)
 {
     mqtt_failed();
 #ifdef MP_B5_EGRESS_FINAL
-    if(!platform_at_synchronized()){console("GW CLOSE_UNSYNCED_MANUAL_POWER_REQUIRED\r\n");return;}
+    if(platform_at_unsynced()){console("GW CLOSE_UNSYNCED_MANUAL_POWER_REQUIRED\r\n");return;}
 #endif
 #ifdef MP_B5_EGRESS_FINAL
     if(!at_command("AT+CIPCLOSE",2000))console("GW CLOSE_NOT_CONFIRMED_MANUAL_POWER_REQUIRED\r\n");
@@ -493,10 +500,16 @@ int gateway_network_open(void)
     if (!step("SINGLE", "AT+CIPMUX=0", 2000) || !step("PASSIVE", "AT+CIPRECVMODE=1", 2000))
         return 0;
     /* 模块时间必须有效；不能用过时的编译时间冒充采集时间。 */
-    (void)at_command("AT+CIPSNTPCFG=1,0", 2000);
+    if(!step("SNTP_ENABLE","AT+CIPSNTPCFG=1,0",2000))return 0;
     int time_ok = 0;
+#ifdef MP_B5_EGRESS_FINAL
+    uint32_t time_wait_at=g_uptime_ms,time_queries=0;
+#endif
     for (unsigned int attempt = 0; attempt < 15U; ++attempt)
     {
+#ifdef MP_B5_EGRESS_FINAL
+        time_queries++;
+#endif
         if (at_command("AT+SYSTIMESTAMP?", 2000))
         {
             const char *value = strstr(at_response(), "+SYSTIMESTAMP:");
@@ -513,6 +526,10 @@ int gateway_network_open(void)
         }
         delay_ms(1000);
     }
+#ifdef MP_B5_EGRESS_FINAL
+    (void)snprintf(command,sizeof(command),"GW TIME_WAIT queries=%lu elapsed=%lu valid=%u\r\n",
+        (unsigned long)time_queries,(unsigned long)(g_uptime_ms-time_wait_at),(unsigned)time_ok);console(command);
+#endif
     if (!time_ok)
     {
         console("GW FAIL TIME\r\n");

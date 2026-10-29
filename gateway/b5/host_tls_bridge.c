@@ -17,6 +17,10 @@ void mp_model_poll(void){platform_poll();}
 void console(const char *s){(void)s;}
 int b5_network_stopped(void){return 0;}
 int platform_at_synchronized(void){return 1;}
+int platform_at_unsynced(void){return 0;}
+uint32_t platform_send_reserve(unsigned bytes){return ((bytes+24u)*10000u+115199u)/115200u+2100u;}
+int platform_send_admissible(unsigned bytes,uint32_t budget){return budget>=platform_send_reserve(bytes);}
+void platform_tx_context(unsigned qos,unsigned stream,uint32_t seq,unsigned pending,uint32_t age,uint32_t budget){(void)qos;(void)stream;(void)seq;(void)pending;(void)age;(void)budget;}
 int at_command(const char *s,uint32_t timeout){(void)s;(void)timeout;return 1;}
 const char *at_response(void){return time_response;}
 void delay_ms(uint32_t ms){(void)ms;platform_poll();}

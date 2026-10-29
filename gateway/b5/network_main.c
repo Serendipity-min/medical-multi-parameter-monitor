@@ -65,45 +65,51 @@ static void stop(void) {
     mp_router_online(&gateway.router, false); b4_hw_stop();
     report_stop();
 }
-static void diagnostic(void) {
+static void diagnostic(unsigned stage) {
     char line[300];
     /* 仅固定计数/状态，无Topic、载荷、Wi-Fi或凭据；QoS0不命名为云端接收成功。 */
+    if(stage==0){
     (void)snprintf(line,sizeof(line),"B5 DIAG tick=%lu session=%lu rx=%lu txack=%lu txfail=%lu overflow=%lu esr=%lu uart_err=%lu live=%u cache=%u dropped=%lu q0_transport=%lu q1_puback=%lu mqtt_fail=%lu stop=%u\r\n",
         (unsigned long)g_uptime_ms,(unsigned long)gateway.session,(unsigned long)b4_hw_diag[1].received,
         (unsigned long)b4_hw_diag[1].tx_acked,(unsigned long)b4_hw_diag[1].tx_failed,
         (unsigned long)b4_hw_diag[1].overflow,(unsigned long)b4_hw_diag[1].esr,(unsigned long)platform_uart_errors_total(),gateway.router.ln,gateway.router.cn,
         (unsigned long)gateway.router.dropped,(unsigned long)mqtt_qos0_transport_ok,
         (unsigned long)mqtt_qos1_puback,(unsigned long)mqtt_failed_count,(unsigned)stopped);
-    console(line);
+    console(line);return;}
+    if(stage==1){
     (void)snprintf(line,sizeof(line),"B5 WAVE gaps=%lu quality_resets=%lu partial_discarded=%lu unstamped=%lu\r\n",
         (unsigned long)gateway.wave_gaps,(unsigned long)gateway.quality_resets,
         (unsigned long)gateway.partial_discarded,(unsigned long)gateway.unstamped);
-    console(line);
+    console(line);return;}
     EspIoMetrics io; platform_io_snapshot(&io);
+    if(stage==2){
     (void)snprintf(line,sizeof(line),"B5 IO tx_calls=%lu tx_ok=%lu tx_ms=%lu rx_queries=%lu rx_empty=%lu rx_reads=%lu\r\n",
         (unsigned long)io.tx_calls,(unsigned long)io.tx_confirmed,(unsigned long)io.tx_ms,
         (unsigned long)io.rx_queries,(unsigned long)io.rx_empty,(unsigned long)io.rx_reads);
-    console(line);
+    console(line);return;}
 #ifdef MP_B5_EGRESS_FINAL
     GatewayMqttMetrics mq;gateway_mqtt_metrics(&mq);
     const B5Latency *lat[]={&io.command,&io.prompt,&io.data,&io.send_ok,&mq.json,&mq.send,&mq.ack,&gateway.router.residence,&gateway.router.source_age};
     for(unsigned i=0;i<9;i++) {
+        if(stage!=3+i)continue;
         const B5Latency *s=lat[i];
         (void)snprintf(line,sizeof(line),"B5 LAT stage=%u n=%lu p50_upper=%lu p95_upper=%lu p99_upper=%lu max=%lu\r\n",i,
             (unsigned long)s->count,(unsigned long)b5_latency_percentile(s,50),(unsigned long)b5_latency_percentile(s,95),
             (unsigned long)b5_latency_percentile(s,99),(unsigned long)s->max);console(line);
     }
+    if(stage==12){
     (void)snprintf(line,sizeof(line),"B5 QUEUE high=%lu replaced=%lu overflow=%lu expired=%lu phase=%lu unsynced=%lu budget_refused=%lu\r\n",
         (unsigned long)gateway.router.high_water,(unsigned long)gateway.router.live_replaced,
         (unsigned long)gateway.router.live_overflow,(unsigned long)gateway.router.expired,
-        (unsigned long)io.at_phase,(unsigned long)io.unsynced,(unsigned long)io.budget_refused);console(line);
+        (unsigned long)io.at_phase,(unsigned long)io.unsynced,(unsigned long)io.budget_refused);console(line);return;}
     const unsigned streams[]={MP_ECG,MP_RESP,MP_HR,MP_RR,MP_TEMP,MP_NODE_STATUS,MP_GATEWAY_STATUS};
     for(unsigned i=0;i<7;i++){
+        if(stage!=13+i)continue;
         unsigned k=streams[i];(void)snprintf(line,sizeof(line),"B5 FLOW stream=%u put=%lu take=%lu history=%lu\r\n",k,
             (unsigned long)gateway.router.enqueued[k],(unsigned long)gateway.router.taken[k],
             (unsigned long)gateway.router.historized[k]);console(line);
     }
-    for(unsigned i=0;i<8 && gateway.router.temp_reported<gateway.router.temp_written;i++) {
+    if(stage==20 && gateway.router.temp_reported<gateway.router.temp_written) {
         B5TempEntry t=gateway.router.temp_entry[gateway.router.temp_reported++%8];
         (void)snprintf(line,sizeof(line),"B5 TEMP_ENTRY seq=%lu epoch=%lu boot=%lu report_utc=%lu%03lu arrival_utc=%lu%03lu centi=%ld valid=%lu lost=%lu\r\n",
             (unsigned long)t.seq,(unsigned long)t.epoch,(unsigned long)t.boot,(unsigned long)(t.report_utc/1000u),(unsigned long)(t.report_utc%1000u),
@@ -111,10 +117,39 @@ static void diagnostic(void) {
             (unsigned long)gateway.router.temp_trace_lost);console(line);
     }
 #ifdef __arm__
-    (void)snprintf(line,sizeof(line),"B5 RAM stack_used_upper=%lu\r\n",(unsigned long)b5_stack_used_upper());console(line);
+    if(stage==21){(void)snprintf(line,sizeof(line),"B5 RAM stack_used_upper=%lu\r\n",(unsigned long)b5_stack_used_upper());console(line);}
 #endif
+    if(stage==22){(void)snprintf(line,sizeof(line),"B5 SCHED service_gap=%lu console_ms=%lu rx_high=%lu\r\n",
+        (unsigned long)io.service_gap_max,(unsigned long)io.console_max,(unsigned long)io.rx_high_water);console(line);}
 #endif
 }
+static void diagnostic_idle(void) {
+    static unsigned stage=23;
+    static uint32_t temp_at;
+    if(platform_console_busy())return;
+#ifdef MP_B5_EGRESS_FINAL
+    if(publisher.pending || publisher.deferred || !platform_at_synchronized())return;
+#endif
+    if(g_uptime_ms-temp_at>=1000u){temp_at=g_uptime_ms;diagnostic(20);return;}
+    if(stage>=23){if(g_uptime_ms-diag_at<5000u)return;diag_at=g_uptime_ms;stage=0;}
+    diagnostic(stage++);
+}
+#ifdef MP_B5_EGRESS_FINAL
+static void transaction_stop_trace(void) {
+    char line[256];const EspIoMetrics *s=&stop_io;
+    (void)snprintf(line,sizeof(line),"B5 TX_CONTEXT id=%lu at=%lu qos=%lu stream=%lu seq=%lu pending=%lu age=%lu budget=%lu required=%lu written=%lu\r\n",
+        (unsigned long)s->tx_id,(unsigned long)s->tx_at,(unsigned long)s->qos,(unsigned long)s->stream,
+        (unsigned long)s->frame_seq,(unsigned long)s->pending_id,(unsigned long)s->pending_age,
+        (unsigned long)s->tx_budget,(unsigned long)s->required,(unsigned long)s->written);console(line);
+    unsigned n=s->event_count<4?s->event_count:4;
+    for(unsigned i=0;i<n;i++){
+        const EspAtEvent *e=&s->events[(s->event_count-n+i)%4];
+        (void)snprintf(line,sizeof(line),"B5 AT_EVENT tick=%lu phase=%lu written=%lu reply=%lu reason=%lu flags=%lu\r\n",
+            (unsigned long)e->tick,(unsigned long)e->phase,(unsigned long)e->written,
+            (unsigned long)e->reply,(unsigned long)e->reason,(unsigned long)e->flags);console(line);
+    }
+}
+#endif
 static void service(void) {
     if (stopped) { report_stop(); b4_hw_idle(); return; }
     /* 未武装时不推进CANopen/TIME，避免B尚断电时发心跳耗尽ACK并积累BOFF。 */
@@ -139,7 +174,6 @@ static void service(void) {
         MpFrame status = will; status.valid = true; status.timestamp = gateway_epoch_milliseconds();
         status.seq = ++status_seq; mp_router_put(&gateway.router, &status); status_at = g_uptime_ms;
     }
-    if (g_uptime_ms-diag_at>=5000u && !platform_console_busy()) {diag_at=g_uptime_ms;diagnostic();}
 }
 int main(void) {
     platform_init();
@@ -205,6 +239,7 @@ int main(void) {
 #ifdef MP_B5_EGRESS_FINAL
             bool allow_new=b5_business_remaining()>B5_DRAIN_MS;
             int progress=b5_egress_step(&gateway.router,&publisher,allow_new);
+            diagnostic_idle();
             mqtt_qos0_transport_ok=publisher.q0;mqtt_qos1_puback=publisher.q1;mqtt_failed_count=publisher.failed;
             if(!progress)break;
             /* 预留1秒准备、5秒事务及2秒关闭；业务锁存仍在420秒。 */
@@ -233,6 +268,10 @@ int main(void) {
 #endif
         if (!stopped) delay_ms(2000);
     }
-    report_stop();diagnostic();
+    report_stop();
+#ifdef MP_B5_EGRESS_FINAL
+    transaction_stop_trace();
+#endif
+    for(unsigned i=0;i<23;i++)diagnostic(i);
     while (1) b4_hw_idle();
 }

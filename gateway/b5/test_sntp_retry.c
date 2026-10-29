@@ -11,6 +11,9 @@ void console(const char *text){(void)text;}
 void platform_poll(void){g_uptime_ms++;}
 void delay_ms(uint32_t ms){g_uptime_ms+=ms;}
 int platform_at_synchronized(void){return mode!=5;}
+int platform_at_unsynced(void){return mode==5;}
+int platform_send_admissible(unsigned bytes,uint32_t budget){(void)bytes;(void)budget;return 1;}
+void platform_tx_context(unsigned qos,unsigned stream,uint32_t seq,unsigned pending,uint32_t age,uint32_t budget){(void)qos;(void)stream;(void)seq;(void)pending;(void)age;(void)budget;}
 int at_command(const char *command,uint32_t timeout){
     (void)timeout;
     if(!strncmp(command,"AT+CIPSTART=",12)){

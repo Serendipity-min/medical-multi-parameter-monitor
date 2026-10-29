@@ -5,12 +5,19 @@ import queue
 import sys
 import unittest
 import asyncio
+import threading
 from unittest.mock import patch,AsyncMock,Mock
 ROOT=Path(__file__).resolve().parents[2]
 sys.path[:0]=[str(ROOT/'node-b/tools'),str(ROOT)]
 import b5_g3_cloud as cloud
 
 class FinalEvents(unittest.TestCase):
+    def test_hanging_client_cleanup_is_bounded_and_never_complete(self):
+        release=threading.Event();client=Mock();client.loop_stop.side_effect=lambda:release.wait(1)
+        self.assertFalse(cloud.close_client_bounded(client,.01));release.set()
+    def test_normal_client_cleanup_is_proven(self):
+        client=Mock();self.assertTrue(cloud.close_client_bounded(client,.1))
+        client.disconnect.assert_called_once();client.loop_stop.assert_called_once()
     def test_failure_latch_does_not_discard_pending_native_disconnect(self):
         q=queue.Queue();log=io.StringIO()
         event={'code':7,'requested_shutdown':False,'received_monotonic':123.5}
