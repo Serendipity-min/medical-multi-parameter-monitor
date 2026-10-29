@@ -1,5 +1,25 @@
 # R4当前综合交接：TIME路径修复，方案A已补一致性检查
 
+## 最新启动监控：观察到复位后Flash，ROM根因仍UNRESOLVED
+
+2026-10-29，负责人完成“C先上电5秒、再接J-Link电脑USB”，随后批准多轮有界启动调查。JTAG板端始终接C，不能称为调试器电气隔离的冷启动。B断电，C J5、USB_UART断开，ESP在板；本阶段零Flash/sector3/UART/START、零软件Reset/Halt/显式Go。健康Flash退出采用已批准的SDK Close续跑策略，**该策略有运行控制语义，不等于完全无副作用的只读连接**。C49068仍未安装，C49048/B40928及gen5不变。
+
+结果和原生回执索引见[启动监控证据](../evidence/B5-C-REPAIR-R4/TIME-BOOTSTRAP-R2/C-BOOT-WATCH-20261029.json)。原件、每次执行源码、授权/.used、API时序、原生回调、样本和退出码均保存受限EFS；没有覆盖此前ROM或TIME失败。各会话只核对私有身份、64B Flash向量和16B options，**没有重复完整Flash读取，也不冒充新鲜全片PASS**。
+
+| 阶段 | 实际证据与限制 |
+| --- | --- |
+| SDK兼容修复 | 首次OpenEx后可选EnableRemarks被本机DLL拒绝，尚未Device/Connect/读CPU；删除可选增强命令，保留原生日志。不是CPU启动失败。 |
+| 健康挂接 | 一次60秒观察553样本，Flash、应用计时推进，3264 SDK调用、Close完成且续跑；未消费人工复位。其后15秒弹窗窗184样本仍Flash，负责人确认看到了但未按键，不能记为复位通过。 |
+| 复位边沿 | 原样本捕获DHCSR=0x02010001、VTOR/PCSR/计时暂为0；下一轮捕获其后VTOR=0x08000000、应用PC、计时23ms。两轮工具分别因零向量过渡和沿用复位期间alias=0而过早判UNKNOWN，不是已证实进入ROM。修复仅在受邀复位后允许最多2秒只读零向量过渡，显式Flash VTOR不依赖该alias；ROM/HALT/Fault仍停止。 |
+| 真实Flash HALT | 下一次挂接首次DHCSR=0x00030003，已暂停核心真实PC=0x0800A3A0、VTOR=0x08000000。按部署49048B ELF及SHA离线定位为__ssputs_r；未调用Go/复位恢复。它是应用暂停，与历史PC=0x1FFF369E的ROM停止分开。 |
+| 负责人单次复位后关闭对照 | 单独批准并回报C实体RESET一次。首次15秒138样本Flash，853 SDK、Close续跑完成；再次挂接后15秒138样本仍Flash、计时继续，支持该次健康Close后正常运行。第二次收尾因重复创建POPUP_END抛FileExistsError，**显式Close和最终回执缺失、worker/supervisor均exit1**；不能签整组PASS或称退出后运行已确认。 |
+
+监控新增代码已通过36项相关离线测试（exit0）。最后一项修复使POPUP_END幂等且放在必须执行的Close之后，避免主机标记错误跳过资源释放；此修正版尚未实板复验。早期各版源码与失败均保留，不用最新测试覆盖历史退出事实。
+
+**归因边界：** 已证实监控存在两处状态误判及一处收尾错误；误判UNKNOWN→Close不续跑→下次见Flash HALT构成时间关联，且Close续跑后的一次再挂接保持运行。但没有每条Device/Connect/Close之前的独立CPU证据，不能指定某一API为唯一HALT原因，更不能将其等同为历史进入ROM的根因。BOOT0/NRST边沿仍未测量，CH340自动下载支路仍为待证假设，不把运行GPIO/万用表静态值当作锁存。
+
+**当前末态：** 最后一次样本及关闭前检查为Flash运行；主机第二会话异常退出后设备状态UNKNOWN，没有追加连接、Go、复位、上电或烧录。下一组需冻结新的有限次数并取得对应主动恢复许可；不能重用已消费的两连接包。CPU_ROM_ROOT_CAUSE_UNRESOLVED及三窗NOT_PASS保留。下文为此前历史记录，涉及“当前”的旧文字以本节为准。
+
 ## 最新ROM专项：读取已完成，根因仍未关闭
 
 负责人另行授权利用当前现场只读取证及排查可能原因。新增两个有限只读会话，每次120秒监督、最多300次SDK调用：第一会话120次，保存完整1MiB Flash/16B options、30KiB ROM、128KiB RAM及外设/别名快照；第二会话254次，只补已暂停CPU的真实核心寄存器，没有重复全片读取。均真实exit0、Close完成，显式Halt/Reset/Go/Flash/sector3/UART写0；Close不续跑。原件只在受限EFS。
