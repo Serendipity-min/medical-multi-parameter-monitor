@@ -8,3 +8,6 @@ artifacts/ecg-source/g2s/** -text
 /.gitattributes text eol=lf
 /README.md text eol=lf
 /doc/B/README.md text eol=lf
+
+# 实板候选的实际编译输入按原始字节归档。
+/gateway/b5/network_main.c -text
