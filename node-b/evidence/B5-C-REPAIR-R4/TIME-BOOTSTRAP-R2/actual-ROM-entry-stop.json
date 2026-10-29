@@ -1,0 +1,61 @@
+{
+  "ESP_autonomous_network": "UNKNOWN",
+  "Flash_writes": 0,
+  "agent_go": 0,
+  "agent_halt": 0,
+  "agent_reset": 0,
+  "attempts": [
+    {
+      "CFSR": "0x0",
+      "Close_completed": true,
+      "DHCSR": "0x1010001",
+      "HFSR": "0x0",
+      "RCC_CSR": "0xe000000",
+      "SDK_calls": 44,
+      "VTOR": "0x1fff0000",
+      "actions": {},
+      "attempt": "first",
+      "entry_sha256": "4880b8bfac010c862cd6d5a5713018784829875e71cdf334a6ff78e6dc449a46",
+      "error": "C_RO_ROM_STOP",
+      "exit_code": 1,
+      "identity_matched": true,
+      "pc_samples": [
+        "0x1fff369a",
+        "0x1fff3746",
+        "0x1fff36ba"
+      ],
+      "receipt_sha256": "cbbad0f3039fc3f2e89352008e7b087542dfef2f51aea2d9d7e125c6cbf7b20c"
+    },
+    {
+      "CFSR": "0x0",
+      "Close_completed": true,
+      "DHCSR": "0x1010001",
+      "HFSR": "0x0",
+      "RCC_CSR": "0xe000000",
+      "SDK_calls": 44,
+      "VTOR": "0x1fff0000",
+      "actions": {},
+      "attempt": "owner-reset-reentry",
+      "entry_sha256": "7f5a6d6efb4adb5a07c9ae4423befd65ee27fbd1d0d8ecfc086b9d6d911b4110",
+      "error": "C_RO_ROM_STOP",
+      "exit_code": 1,
+      "identity_matched": true,
+      "pc_samples": [
+        "0x1fff36c8",
+        "0x1fff36bc",
+        "0x1fff36b2"
+      ],
+      "receipt_sha256": "cbbad0f3039fc3f2e89352008e7b087542dfef2f51aea2d9d7e125c6cbf7b20c"
+    }
+  ],
+  "fresh_full_options_read": "NOT_COMPLETED_BECAUSE_ROM_ENTRY_STOP",
+  "last_verified_deployed_C_bytes": 49048,
+  "last_verified_full_SHA": "81b1808f9936b02f115cef99a47059417eec99eb80dff4ca4cf1f103392588d7",
+  "ledger_sha256": "c30867e6d598bfa0ef2c5faa7860bd457cfb214d46b61a52baa21c95a9ceebc7",
+  "new_B5START": 0,
+  "new_C_installed": false,
+  "owner_manual_RESET": 1,
+  "physical_site": "C_J5_POWERED_JLINK_C_B_OFF_C_USB_OFF_UNCHANGED_AFTER_OWNER_RESET",
+  "sector3_writes": 0,
+  "status": "STOP_TARGET_ROM_STILL_PRESENT_AFTER_OWNER_MANUAL_RESET"
+}

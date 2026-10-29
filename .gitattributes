@@ -11,3 +11,6 @@ artifacts/ecg-source/g2s/** -text
 
 # 实板候选的实际编译输入按原始字节归档。
 /gateway/b5/network_main.c -text
+
+/gateway/mqtt/src/gateway_transport.c -text
+/gateway/mqtt/src/core_mqtt_config.h -text

@@ -85,6 +85,12 @@ class Tests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'GEN5_BASELINE'):self.predecessor(before=u.BEFORE_REPAIR_R4TC)
         with self.assertRaisesRegex(ValueError,'PREDECESSOR_NOT_PASS'):
             self.predecessor(before=u.BEFORE_REPAIR_R4TC,flags=0x20001e6a,DISARMED=False)
+    def test_time_bootstrap_requires_verified_C49048_and_exact_flags(self):
+        b,_,_=self.predecessor(before=u.BEFORE_REPAIR_R4D,flags=0x20001e6a)
+        self.assertEqual(b['before_full_sha256'],u.BEFORE_REPAIR_R4D)
+        with self.assertRaisesRegex(ValueError,'GEN5_BASELINE'):self.predecessor(before=u.BEFORE_REPAIR_R4D)
+        with self.assertRaisesRegex(ValueError,'PREDECESSOR_NOT_PASS'):
+            self.predecessor(before=u.BEFORE_REPAIR_R4D,flags=0x20001e6a,Close_completed=False)
     def test_final_accepts_verified_C43036_and_rejects_failed_receipt(self):
         b,_,_=self.predecessor(before=u.BEFORE_TEMP);self.assertEqual(b['before_full_sha256'],u.BEFORE_TEMP)
         with self.assertRaisesRegex(ValueError,'PREDECESSOR_NOT_PASS'):self.predecessor(before=u.BEFORE_TEMP,exit_code=1)
@@ -105,6 +111,17 @@ class Tests(unittest.TestCase):
         with patch.object(u.recovery,'read',return_value=b'{}'),patch.object(u,'load_binding') as load:
             with self.assertRaisesRegex(ValueError,'SITE_INCOMPLETE'):u.authorize(a,self.out)
             load.assert_not_called()
+    def test_time_bootstrap_card_rejects_nonfrozen_image_before_target(self):
+        card=u.CARD.parent/'AUTH-B5-C-REPAIR-R4-TIME-BOOTSTRAP-SUPPLEMENT.md'
+        site=dict.fromkeys(('cold_all_dark_10s','JLink_on_C','C_J5','B_OFF','C_USB_disconnected','CAN_GND_BOOT_unchanged','ESP_present_powered_exception','no_other_program','no_human'),True)
+        raw=json.dumps(site).encode()
+        a=dict(enabled=True,owner_approved=True,scope=u.SCOPE,phase='install',tools_sha256=u.bindings(),
+            DLL_sha256=u.ro.raw.DLL_SHA,card_name=card.name,card_sha256=u.sha(card.read_bytes()),
+            expires_unix=u.time.time()+100,session_timeout_s=180,probe_sessions=1,retries=0,
+            output=str(self.out),site_record='SYNTHETIC',site_record_sha256=u.sha(raw),binding='SYNTHETIC',binding_sha256='SYNTHETIC')
+        b=dict(before_full_sha256=u.BEFORE_REPAIR_R4D,candidate_sha256='0'*64,after_full_sha256='0'*64)
+        with patch.object(u.recovery,'read',return_value=raw),patch.object(u,'load_binding',return_value=(b,{},{})):
+            with self.assertRaisesRegex(ValueError,'FINAL_CANDIDATE_REQUIRED'):u.authorize(a,self.out)
     def test_halt_refused_before_native_unless_DISARMED(self):
         link=object.__new__(u.InstallLink);link.before_flags=u.OLD_FLAGS;link.flags=lambda a:b'\0\0\1\1'
         with patch.object(u.app.InstallLink,'call') as native:

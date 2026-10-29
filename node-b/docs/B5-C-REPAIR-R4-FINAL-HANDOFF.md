@@ -1,4 +1,82 @@
-# R4当前综合交接：真实ECG300秒完成，诊断证据不足；C49048待一次增补
+# R4当前综合交接：TIME路径修复，方案A已补一致性检查
+
+## 最新ROM专项：读取已完成，根因仍未关闭
+
+负责人另行授权利用当前现场只读取证及排查可能原因。新增两个有限只读会话，每次120秒监督、最多300次SDK调用：第一会话120次，保存完整1MiB Flash/16B options、30KiB ROM、128KiB RAM及外设/别名快照；第二会话254次，只补已暂停CPU的真实核心寄存器，没有重复全片读取。均真实exit0、Close完成，显式Halt/Reset/Go/Flash/sector3/UART写0；Close不续跑。原件只在受限EFS。
+
+**当前最新状态为HALT在ROM，C49068仍未烧录。** 第一新增会话的首次DHCSR读为0x00030003，DWT_PCSR均FFFFFFFF，因此没有拿它冒充真实PC。第二会话仅在确认已HALT后读取真实R15=0x1FFF369E、MSP=0x20001D50、LR=0x1FFF14E1；CFSR/HFSR0、DFSR1、DEMCR01000000。之前安装入场时的非HALT与现在HALT属于不同时间快照；没有调用前独立CPU证据，不能宣称已定位某一条SDK API为唯一触发。DFSR和RCC_CSR均可能保留历史标志，不当作本次事件计数或时间戳。
+
+新鲜完整Flash和options现在已核实仍精确匹配C49048原件；ROM SHA为`ca1ae7213d01ce43f1f30d4e2751e2aec68cef16f7be62f856210104f583fc02`。0地址64B等于Flash向量、不同于ROM：Flash初始SP=0x20020000/入口0x08009681，ROM为0x20001D80/0x1FFF3DA1。MEMRMP读0时SYSCFG时钟未开，不能拿该值冒充复位BOOT锁存；别名比较只描述当前实际映射。PB2/BOOT1当前为低，专用BOOT0复位边沿没有捕获。
+
+本机ROM反汇编和RAM结构一致：真实PC处于GPIO输入探测循环，检查PA10等引脚，符合bootloader接口自动探测；不是B5网络/算法正在执行。ROM栈位置也与本机ROM向量一致。反汇编最初因工具不支持长路径失败，原失败保留；只在同一受限EFS根内复制ROM到短路径后离线解码成功，没有新设备连接。
+
+| 候选机制 | 支持证据 | 尚未证明的部分 |
+| --- | --- | --- |
+| BOOT0/NRST自动下载支路瞬态 | 本机板图第3页：CH340由板上+5V供电，Q1/D2影响RESET，Q3/R44接BOOT0；第4页BOOT0跳帽经R55=10k，Q3支路R44=1k。USB拔下不等于CH340控制支路电气隔离 | 未捕获复位边沿；不能由电阻网络理论直接认定其本次拉高，也不能用当前Flash别名反推曾经的BOOT锁存 |
+| 调试挂接/退出的暂停副作用 | 之前运行ROM，新增只读窗口首次读时已HALT；每窗有一次Connect但显式Halt0。DFSR1与调试请求相符，Close策略0会保留停止状态 | 没有每次Connect/Close前独立状态，DFSR又是粘滞位，仍不能唯一归因到Connect、Close或某条读API |
+| 应用故意跳ROM/软件复位 | 37个实装C49048编译C输入逐一核SHA审查，没有NVIC_SystemReset/ROM跳转路径；实际BIN没有本机ROM入口字面量，AIRCR写命中仅为NVIC优先级配置 | 静态检查不能排除全部间接控制流损坏；不能把“未发现故意跳转”写成绝对不可能 |
+
+现有MCP和B5联合采集源码均已在open前设置DTR/RTS=False，本轮只核对源码，未打开串口。串口程序顺序风险已缓解，但板载电路上电瞬态及J-Link内部动作未因此关闭。按[SEGGER文档](https://kb.segger.com/J-Link_Command_Strings)，ForceAttachTarget跳过目标初始化，SetRestartOnClose=1相当于退出Go，SetSkipDebugDeInit跳过调试反初始化；这些命令被接受，不等于已证明零硬件副作用。
+
+裁定保持`CPU_ROM_ROOT_CAUSE_UNRESOLVED`，**未宣称解决ROM**。本次读取已排除Flash被擦除/身份错误，并确认真实停留代码；要闭环，最小剩余补证是“无调试器独立启动→挂接前后”受控对照，并记录或隔离BOOT0/NRST自动下载支路。现有万用表不能捕捉复位边沿；若做电气隔离、正常复位/有条件Go或接入边沿仪器，需另行限定主动动作。本轮没有用重刷、强设PC/MSP/VTOR或擅自Go掩盖现场。
+
+证据、两次实际SDK计数、原件清单SHA及可能原因见[ROM只读审计](../evidence/B5-C-REPAIR-R4/TIME-BOOTSTRAP-R2/ROM-cause-readonly-audit.json)。以下是此前各阶段的时间顺序记录，以本节为最新状态。
+
+**最终现场更新：负责人完成本次全暗10秒冷态转接后，首次新会话在ROM入场门停止；负责人随后明确回报已人工复位一次并要求复查，新独立token会话仍在ROM。两次均身份匹配，VTOR=0x1FFF0000，第二次PC采样0x1FFF36C8/36BC/36B2，DHCSR=0x01010001（未显示HALT），CFSR/HFSR=0。每次44 SDK调用，agent Halt/Reset/Go/Flash写均0，Close完成。没有新鲜完整Flash/options通过，不能把上次全片身份冒作本次实时读回。C49068未安装，新START0；这不是TIME修复复测结果。**
+
+当前物理状态按最新完成事实：C J5供电、J-Link在C、B断电、C USB_UART断开；ESP仍在板供电，自主联网UNKNOWN。停止目标操作，不追加复位/Go或重刷。原先“仍供电、USB在C/J-Link在B”和等待转接的文字仅为下文较早过程记录，已由此更新。两份原件、动作计数和SHA见[ROM入场停止](../evidence/B5-C-REPAIR-R4/TIME-BOOTSTRAP-R2/actual-ROM-entry-stop.json)。
+
+2026-10-29。**实装B40928/C49048，gen5不变；最近E-D在TIME停止，三窗仍NOT_PASS，TEMP/RR未运行。负责人明确仍供电，USB在C/J-Link在B；没有把旧全暗事实代作当前断电证据。方案A说明后，负责人新批准“修复完毕之后允许烧录”，但本次冷态转接完成事实尚未收到；目前没有新增连接、AT、Flash/sector3、复位或START。**
+
+## 最近实板原件
+
+C49048安装和独立C只读真实PASS，全片`81b1808f9936b02f115cef99a47059417eec99eb80dff4ca4cf1f103392588d7`；双全片/options、保护区、DISARMED及Close通过。中断前C只读和隔离云核验子进程其实均已完成；核对原进程/回执后继续，没有重复连接或重试。原件和本批910份现场文件SHA清单仅EFS。
+
+E-D的计划C RESET/START各1。AT、Wi-Fi和SNTP命令接受，但**15次查询/28005ms/末次epoch122/valid0**；新鲜NTP、TLS、MQTT、T0、预热和评价均未开始。C STOP为tick32468、armed_at542、reason3、phase0，UNSYNCED/pending/live/cache均0。joint exit1为G3_C_NETWORK_STEP_FAILED；B exit1为主机G3_STOP_REQUESTED取消，close_resume和关闭后运行核验均true，不是B原生读取故障。云观察exit0、清理完成、测试发布0；旧背景消息不冒充本窗测量。TEMP/RR START均0。
+
+详见[实际安装、只读和TIME回执](../evidence/B5-C-REPAIR-R4/TIME-BOOTSTRAP-R2/actual-C49048-install-RO-and-TIME.json)。C STOP/主机Close不证明ESP已断电或自主SNTP已停止。
+
+## 归因和方案A
+
+已证实的软件缺口：旧代码裸启用SNTP后，粗时间失败就提前退出，**位于其后的新鲜NTP安全轮换不可达**。历史真实选择回执`B5-ESP-NTP-SELECT-01/result.json`还记录`exact_G3_preserves_selected_primary=false`。那次选择本身仍没有有效UTC，不能说备用端点已被真实证明始终可达。C48988成功窗与最近C49048的transport相同，后者新增诊断空档尚未执行，不能将TIME归因于诊断出口调度。
+
+默认首端点不可用、备用可用的合成输入，封存C49048真实transport/platform/UART组合仍在28067ms失败，反例已复现。**当前网络底层原因仍UNKNOWN**：没有本次AP/路由/公网双向包证据，不能认定DNS、UDP123、NAT、服务器或模块SNTP的具体故障，也不能从epoch122单独断言CPU/ESP复位。
+
+修复采用负责人建议的方案A：
+
+1. ESP内置SNTP建立模块系统时间，C主动48B新鲜NTP建立毫秒UTC；不发送SYSTIMESTAMP设置命令，不用PC/编译时间替代。
+2. 读回并缓存至多3个现有端点；选择时携带完整列表，只轮换优先顺序，逐项核验启用、UTC时区及全部端点，新鲜NTP沿用成功端点。没有添加新地址，未将全部端点标为已验证可达。
+3. 共享最多15次查询、2秒绝对时隙及总≤30秒SNTP准备预算，不是每端点30秒；预算不足不开始新AT。原60秒共同就绪仍覆盖TLS/MQTT，未就绪不评价。成功后保留完整列表及次序，不额外启用SNTP恢复默认，避免无价值的再授时触发。
+4. 事前冻结两份UTC的一致性区间：ESP回复e、查询起止tq0/tq1、新鲜参考接收时刻tr，q=tq1-tq0≤2000ms、u=floor(rtt/2)+1ms、L=1000e+uint32(tr-tq1)。仅`L-u ≤ S ≤ L+1000+q+u`通过；按实际q/rtt，最大上偏3501ms、下偏501ms。成功打印TIME_MATCH实际差值和q；失配reason10拒绝TLS。整数模块读数不继承旧fraction。
+5. nonce/完整48B/LI/mode/stratum/服务器时间关系、1000ms新鲜包、CA/CN/SNI、5000ms严格PUBACK、2048B、MOCK、原UTC/时效和420秒门均保留。nonce匹配不是加密认证，普通UDP授时不证明能防主动伪造。
+
+[官方v2.3 CIPSNTPCFG](https://docs.espressif.com/projects/esp-at/en/release-v2.3.0.0_esp8266/AT_Command_Set/TCP-IP_AT_Commands.html#at-cipsntpcfg-query-set-the-time-zone-and-the-sntp-server)支持显式列表和读回；[SYSTIMESTAMP](https://docs.espressif.com/projects/esp-at/en/release-v2.3.0.0_esp8266/AT_Command_Set/Basic_AT_Commands.html#at-systimestamp-query-set-local-time-stamp)分别支持读、设模块时间。**当前ESP二进制实际TLS证书日期检查构建选项UNKNOWN**；不以AT版本或CA配置OK代替该证据，未刷写ESP。
+
+## 软件结果和唯一新候选
+
+真实组合链新增主端点失败/备用可用、配置读回错、停用ERROR、三端全坏、坏nonce、慢命令预算、ESP旧/未来10天但仍高于下界、3501/501ms边界及超界1ms、uptime回绕。受控备用场景6次查询/10191ms通过两类校验；三端全坏15次/≤30秒失败，旧/未来时间拒绝TLS。这里只证明软件处理这些输入正确，未证明当前真实网络已经恢复。
+
+真实egress/coreMQTT/adapter/platform/UART、1.5/2.516秒停顿、FIFO/严格PUBACK/二进制解析/STOP及178项相关Python工具用例通过。低扰动诊断旧空档回放60/60条、最大5610/5937ms、温度300/遗漏0。隔离TLS旧EFS回放不冒充物理ESP或300秒实板PASS；失败构建和夹具修正原件均保留，不重复算法六窗/UI矩阵。
+
+唯一新候选C49068B，BIN `b663e82b16c16d1d252ca38e0ceec5b172495a30f893e50c370e200a4777dead`，ELF `f6dbbb9a93327752ecdb844fd547812ca02f9be8cf630966871b0a5bbfb72b38`，双实际ARM构建一致，48KiB剩84B。ARM断言保留全部条件、文件/函数/行号及原fatal/IRQ停机路径，只省略handler本就不用的表达式文本，未关闭断言或修改vendor coreMQTT。
+
+**预期，尚未实板完成**after全片`75db57c038c021b40f36fa1ee627f410d26061e18e0f59a8465c73af0216bc25`。精确包从实际C49048出发，候选长度后的旧应用尾部按原件保留；sector3/options/sector7/11和应用区外不变。回退仅新候选→C49048，离线逐字节重建通过，默认禁用，不回H3。中间48904B未安装草稿已被替代，原件EFS保留；草稿曾误按FF尾部算after，离线精确包核验发现并更正，错稿/禁用模板保留，没有据此写设备。
+
+源码/工具/恢复包身份及RAM/栈见[TIME-BOOTSTRAP-R2冻结](../evidence/B5-C-REPAIR-R4/TIME-BOOTSTRAP-R2/candidate.json)和[资源](../evidence/B5-C-REPAIR-R4/TIME-BOOTSTRAP-R2/resources.json)。新运行水位NOT_RUN，静态单帧不当作总栈证明。
+
+## 当前执行边界
+
+[综合补包](AUTH-B5-C-REPAIR-R4-TIME-BOOTSTRAP-SUPPLEMENT.md)分开I/RO/L/E/T/R。负责人已允许修好后安装，私有事务仍需冻结当次现场完成事实；未收到冷态转接回报，不将J-Link在B当作C目标。每窗同候选、独立一次START、45秒预热＋300秒评价＋15秒尾段、420秒硬停，保留全部原数量/时效/INVALID和五层原件要求。失败不自动重发、复位、Go、恢复。
+
+原测试云驻留截至北京时间2026-10-29 15:07；目前未重新远端核验，不冒称仍在线或已清理。L仅在两个原独立unit确实到期且配置/PID/权限/端口一致时各启动一次；正式云、ACL/Broker不改，测试账号未撤销。
+
+CPU ROM、独立冷启动、同窗ECG/RR、绝对阻抗/温度标定及CAN故障注入维持独立遗留。旧C48988真实ECG300秒数据保留，其诊断不足NOT_PASS也不改写。
+
+---
+
+## 以下为本次前历史快照，其中“当前”仅指对应旧阶段
+
+# 历史：真实ECG300秒完成，诊断证据不足；C49048待一次增补
 
 2026-10-29。**当前实装B40928/C48988，gen5及全部算法/接线保持原状。负责人已确认全部断电熄灭。C49048仅离线冻结、尚未安装，新增Flash和START对象均禁用。三模式总判定NOT_PASS；TEMP/RR未运行，不把ECG通信数据通过冒充三窗结项。**
 

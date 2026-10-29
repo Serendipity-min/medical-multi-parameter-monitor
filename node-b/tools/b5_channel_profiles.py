@@ -23,6 +23,8 @@ FINAL_CARD_R4TC=g.ROOT/'node-b/docs/AUTH-B5-C-REPAIR-R4-TIME-CLOSE-SUPPLEMENT.md
 FINAL_SCOPES_R4TC={name:'B5_FINAL_'+name+'_R4TC' for name in ('ECG60','TEMP_OBJECT','RR15')}
 FINAL_CARD_R4D=g.ROOT/'node-b/docs/AUTH-B5-C-REPAIR-R4-DIAGNOSTICS-SUPPLEMENT.md'
 FINAL_SCOPES_R4D={name:'B5_FINAL_'+name+'_R4D' for name in ('ECG60','TEMP_OBJECT','RR15')}
+FINAL_CARD_R4TB=g.ROOT/'node-b/docs/AUTH-B5-C-REPAIR-R4-TIME-BOOTSTRAP-SUPPLEMENT.md'
+FINAL_SCOPES_R4TB={name:'B5_FINAL_'+name+'_R4TB' for name in ('ECG60','TEMP_OBJECT','RR15')}
 PROFILES=('ECG60','TEMP_OBJECT','RR15')
 B_PROFILE={'BIN_bytes':40928,'BIN_sha256':update.CANDIDATE_BIN,'slots':0x2000216c,
            'UART_ring':0x20004878,'RAM':temp.RAM}
@@ -62,20 +64,20 @@ def assert_snapshot(s,profile):
 
 def validate(a):
     g.require(a.get('enabled') is True and a.get('owner_approved') is True and
-              a.get('scope') in (SCOPE,*FINAL_SCOPES.values(),*FINAL_SCOPES_R2.values(),*FINAL_SCOPES_R3.values(),*FINAL_SCOPES_R4.values(),*FINAL_SCOPES_R4TC.values(),*FINAL_SCOPES_R4D.values()),'CHANNEL_OWNER')
+              a.get('scope') in (SCOPE,*FINAL_SCOPES.values(),*FINAL_SCOPES_R2.values(),*FINAL_SCOPES_R3.values(),*FINAL_SCOPES_R4.values(),*FINAL_SCOPES_R4TC.values(),*FINAL_SCOPES_R4D.values(),*FINAL_SCOPES_R4TB.values()),'CHANNEL_OWNER')
     profile=a.get('channel_profile');g.require(profile in PROFILES,'CHANNEL_PROFILE')
-    final=a.get('scope') in (*FINAL_SCOPES.values(),*FINAL_SCOPES_R2.values(),*FINAL_SCOPES_R3.values(),*FINAL_SCOPES_R4.values(),*FINAL_SCOPES_R4TC.values(),*FINAL_SCOPES_R4D.values())
-    final_card=FINAL_CARD_R4D if a.get('scope') in FINAL_SCOPES_R4D.values() else FINAL_CARD_R4TC if a.get('scope') in FINAL_SCOPES_R4TC.values() else FINAL_CARD_R4 if a.get('scope') in FINAL_SCOPES_R4.values() else FINAL_CARD_R3 if a.get('scope') in FINAL_SCOPES_R3.values() else FINAL_CARD_R2 if a.get('scope') in FINAL_SCOPES_R2.values() else FINAL_CARD
-    final_scopes=FINAL_SCOPES_R4D if final_card==FINAL_CARD_R4D else FINAL_SCOPES_R4TC if final_card==FINAL_CARD_R4TC else FINAL_SCOPES_R4 if final_card==FINAL_CARD_R4 else FINAL_SCOPES_R3 if final_card==FINAL_CARD_R3 else FINAL_SCOPES_R2 if final_card==FINAL_CARD_R2 else FINAL_SCOPES
+    final=a.get('scope') in (*FINAL_SCOPES.values(),*FINAL_SCOPES_R2.values(),*FINAL_SCOPES_R3.values(),*FINAL_SCOPES_R4.values(),*FINAL_SCOPES_R4TC.values(),*FINAL_SCOPES_R4D.values(),*FINAL_SCOPES_R4TB.values())
+    final_card=FINAL_CARD_R4TB if a.get('scope') in FINAL_SCOPES_R4TB.values() else FINAL_CARD_R4D if a.get('scope') in FINAL_SCOPES_R4D.values() else FINAL_CARD_R4TC if a.get('scope') in FINAL_SCOPES_R4TC.values() else FINAL_CARD_R4 if a.get('scope') in FINAL_SCOPES_R4.values() else FINAL_CARD_R3 if a.get('scope') in FINAL_SCOPES_R3.values() else FINAL_CARD_R2 if a.get('scope') in FINAL_SCOPES_R2.values() else FINAL_CARD
+    final_scopes=FINAL_SCOPES_R4TB if final_card==FINAL_CARD_R4TB else FINAL_SCOPES_R4D if final_card==FINAL_CARD_R4D else FINAL_SCOPES_R4TC if final_card==FINAL_CARD_R4TC else FINAL_SCOPES_R4 if final_card==FINAL_CARD_R4 else FINAL_SCOPES_R3 if final_card==FINAL_CARD_R3 else FINAL_SCOPES_R2 if final_card==FINAL_CARD_R2 else FINAL_SCOPES
     if final:g.require(a['scope']==final_scopes[profile] and a.get('require_source_STOP_state') is True,'CHANNEL_FINAL_OBJECT')
     g.require(a.get('tools_sha256')==g.bindings() and a.get('criteria')==criteria(profile),'CHANNEL_FROZEN_BINDING')
     g.require(a.get('environment')==g.environment(),'CHANNEL_ENVIRONMENT')
     selected=a.get('execution_card',CARD.name)
-    g.require(selected in (CARD.name,CONTINUE_CARD.name,FINAL_CARD.name,FINAL_CARD_R2.name,FINAL_CARD_R3.name,FINAL_CARD_R4.name,FINAL_CARD_R4TC.name,FINAL_CARD_R4D.name),'CHANNEL_CARD')
-    g.require((selected in (FINAL_CARD.name,FINAL_CARD_R2.name,FINAL_CARD_R3.name,FINAL_CARD_R4.name,FINAL_CARD_R4TC.name,FINAL_CARD_R4D.name))==final and (not final or selected==final_card.name),'CHANNEL_FINAL_CARD')
+    g.require(selected in (CARD.name,CONTINUE_CARD.name,FINAL_CARD.name,FINAL_CARD_R2.name,FINAL_CARD_R3.name,FINAL_CARD_R4.name,FINAL_CARD_R4TC.name,FINAL_CARD_R4D.name,FINAL_CARD_R4TB.name),'CHANNEL_CARD')
+    g.require((selected in (FINAL_CARD.name,FINAL_CARD_R2.name,FINAL_CARD_R3.name,FINAL_CARD_R4.name,FINAL_CARD_R4TC.name,FINAL_CARD_R4D.name,FINAL_CARD_R4TB.name))==final and (not final or selected==final_card.name),'CHANNEL_FINAL_CARD')
     card=final_card if final else CARD if selected==CARD.name else CONTINUE_CARD
     g.require(a.get('card_sha256')==g.sha(card.read_bytes()),'CHANNEL_CARD')
-    if selected in (CONTINUE_CARD.name,FINAL_CARD.name,FINAL_CARD_R2.name,FINAL_CARD_R3.name,FINAL_CARD_R4.name,FINAL_CARD_R4TC.name,FINAL_CARD_R4D.name):
+    if selected in (CONTINUE_CARD.name,FINAL_CARD.name,FINAL_CARD_R2.name,FINAL_CARD_R3.name,FINAL_CARD_R4.name,FINAL_CARD_R4TC.name,FINAL_CARD_R4D.name,FINAL_CARD_R4TB.name):
         g.require(a.get('reset_confirmation')=='SERIAL_DISARMED_AFTER_INTENT' and
                   a.get('owner_manual_reset_preapproved') is True,'CHANNEL_RESET_CONFIRMATION')
     else:g.require(a.get('reset_confirmation') in (None,'OWNER_CHAT'),'CHANNEL_RESET_CONFIRMATION')
@@ -102,8 +104,8 @@ def validate(a):
               ro.get('Close_completed') is True and ro.get('full_flash_sha256')==bundle['B_full']['sha256'],'CHANNEL_B_TEMP_INPUT')
     cfull=g.expected_c_full(a,bundle)
     if final:
-        version='R4D' if final_card==FINAL_CARD_R4D else 'R4TC' if final_card==FINAL_CARD_R4TC else 'R4' if final_card==FINAL_CARD_R4 else 'R3' if final_card==FINAL_CARD_R3 else 'R2' if final_card==FINAL_CARD_R2 else 'R1'
-        frozen=json.loads((g.ROOT/('node-b/evidence/'+('B5-C-REPAIR-R4/DIAGNOSTICS-R1' if version=='R4D' else 'B5-C-REPAIR-R4/TIME-CLOSE-R1' if version=='R4TC' else 'B5-C-REPAIR-R4' if version=='R4' else 'B5-C-EGRESS-FINAL-'+version)+'/candidate.json')).read_text())
+        version='R4TB' if final_card==FINAL_CARD_R4TB else 'R4D' if final_card==FINAL_CARD_R4D else 'R4TC' if final_card==FINAL_CARD_R4TC else 'R4' if final_card==FINAL_CARD_R4 else 'R3' if final_card==FINAL_CARD_R3 else 'R2' if final_card==FINAL_CARD_R2 else 'R1'
+        frozen=json.loads((g.ROOT/('node-b/evidence/'+('B5-C-REPAIR-R4/TIME-BOOTSTRAP-R2' if version=='R4TB' else 'B5-C-REPAIR-R4/DIAGNOSTICS-R1' if version=='R4D' else 'B5-C-REPAIR-R4/TIME-CLOSE-R1' if version=='R4TC' else 'B5-C-REPAIR-R4' if version=='R4' else 'B5-C-EGRESS-FINAL-'+version)+'/candidate.json')).read_text())
         g.require(frozen['status']=='FROZEN_SOFTWARE_PASS' and cfull==frozen['expected_new_full_sha256'] and
                   g.load(a['C_application_binding'])['candidate_sha256']==frozen['BIN_sha256'],'CHANNEL_FINAL_CANDIDATE')
     cproof_raw=g.private.read(Path(a['C_preflight_receipt']),False);cp=json.loads(cproof_raw)

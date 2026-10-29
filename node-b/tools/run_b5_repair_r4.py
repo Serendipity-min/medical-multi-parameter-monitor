@@ -59,6 +59,19 @@ def main():
     ntp=out/'ntp-chain.exe';built=run('compile-actual-SNTP-AT-chain',[*flags,'-DMP_H3_FRESH_SNTP',*sources,'-o',ntp]);ok=built and ok
     if built:
         for mode in ('expected-close','close-no-ok','fresh-rotate','clock19','clock19-wrap','clock-never'):ok=run('SNTP-chain-'+mode,[ntp,mode]) and ok
+        for mode in ('bootstrap-secondary','bootstrap-secondary-wrap','bootstrap-preserve','bootstrap-all-bad','bootstrap-readback','bootstrap-stop-error','bootstrap-bad-fresh','bootstrap-budget','bootstrap-stale-ESP','bootstrap-future-ESP','time-consistency'):
+            ok=run('SNTP-chain-'+mode,[ntp,mode]) and ok
+    deployed=json.loads((ROOT/'node-b/build/b5-repair-r4-diagnostics-pointer.json').read_text('utf8'))
+    previous=Path(deployed['root'])/'compiled-source/gateway/mqtt/src/gateway_transport.c'
+    short=out/'deployed-C49048-transport.c';short.write_bytes(previous.read_bytes());oldexe=out/'bootstrap-old.exe'
+    built=run('compile-deployed-bootstrap-counterexample',[*flags,'-DMP_H3_FRESH_SNTP','-DEXPECT_BOOTSTRAP_DEFECT','-DREPAIR_TRANSPORT_SOURCE="'+short.as_posix()+'"',*sources,'-o',oldexe]);ok=built and ok
+    if built:
+        for mode in ('bootstrap-secondary','bootstrap-preserve'):ok=run('reproduce-deployed-'+mode,[oldexe,mode]) and ok
+    for compact in (False,True):
+        exe=out/('compact-assert.exe' if compact else 'original-assert.exe')
+        test=mqtt/'tests'/('test_b5_compact_assert.c' if compact else 'test_p5_assert_fault.c')
+        built=run('compile-assert-fault-'+str(compact),[flags[0],'-std=c11','-Os','-Wall','-Wextra','-Werror','-DGATEWAY_ASSERT_HOST_TEST',test,mqtt/'src/gateway_assert.c','-o',exe]);ok=built and ok
+        if built:ok=run('assert-fault-'+str(compact),[exe]) and ok
     schedule=ROOT/'gateway/b5/test_diagnostic_schedule.c'
     schedule_flags=[*flags,'-DCO_MULTIPLE_OD','-I'+str(ROOT/'gateway/canopen/src'),'-I'+str(ROOT/'gateway/third_party/CANopenNode'),
         '-Wno-unused-function','-Wno-return-type','-ffunction-sections','-fdata-sections','-Wl,--gc-sections']

@@ -26,9 +26,15 @@ static unsigned bad_ack,no_ack,terminal_mode,fragment=1;
 static unsigned freeze_after;
 static unsigned close_mode;
 #ifdef MP_H3_FRESH_SNTP
-static unsigned ntp_packets,ntp_fixture;
+static unsigned ntp_packets,ntp_fixture,ntp_bad_nonce;
 #endif
 static uint32_t clock_valid_at;
+static unsigned configured_order[3]={0,1,2};
+static unsigned configured_primary,sntp_enabled=1,blocked_primary_mask,sntp_stops,sntp_enables;
+static unsigned config_lie,stop_error,config_changes,clock_synced,udp_primary=99,tls_opens,time_queries;
+static unsigned config_queries;
+static uint32_t bootstrap_at;
+static int module_skew_seconds;
 static unsigned char response[16384],server[512],packet[2048];
 static unsigned rn,ri,sn,expected,packet_n,cmd_n;
 static uint32_t response_at,server_at;
@@ -53,7 +59,9 @@ static void mqtt_packet(void){
     if(ntp_fixture && packet_n==48 && packet[0]==0x23){
         ntp_packets++;
         if(ntp_packets>1){memset(server,0,48);server[0]=0x24;server[1]=1;memcpy(server+24,packet+40,8);
-            sntp_put32(server+32,1800000000u+2208988800u);sntp_put32(server+40,1800000000u+2208988800u);sn=48;server_at=g_uptime_ms;}
+            uint64_t utc=1800000000000ULL+(uint32_t)(g_uptime_ms-base);
+            uint32_t seconds=(uint32_t)(utc/1000u)+2208988800u,fraction=(uint32_t)(((utc%1000u)<<32)/1000u);
+            sntp_put32(server+32,seconds);sntp_put32(server+36,fraction);sntp_put32(server+40,seconds);sntp_put32(server+44,fraction);sn=48;server_at=g_uptime_ms;if(ntp_bad_nonce)server[24]^=1;}
         return;
     }
 #endif
@@ -102,8 +110,25 @@ void platform_test_tx(unsigned char b){
     }else if(strstr(command,"AT+GMR"))terminal("\r\nAT version:2.3.0.0\r\n\r\nOK\r\n",at_delay);
     else if(strstr(command,"AT+SLEEP?"))terminal("\r\n+SLEEP:0\r\n\r\nOK\r\n",at_delay);
     else if(strstr(command,"AT+CIPCLOSE") && close_mode)terminal(close_mode==2?"\r\nCLOSED\r\n":"\r\nCLOSED\r\n\r\nOK\r\n",at_delay);
-    else if(strstr(command,"AT+CIPSNTPCFG?"))terminal("\r\n+CIPSNTPCFG:1,0,\"ntp-0.example.invalid\",\"ntp-1.example.invalid\",\"ntp-2.example.invalid\"\r\n\r\nOK\r\n",at_delay);
-    else if(strstr(command,"AT+SYSTIMESTAMP?"))terminal((int32_t)(g_uptime_ms-clock_valid_at)>=0?"\r\n+SYSTIMESTAMP:1800000000\r\n\r\nOK\r\n":"\r\n+SYSTIMESTAMP:0\r\n\r\nOK\r\n",at_delay);
+    else if(strstr(command,"AT+CIPSNTPCFG?")){
+        if(!config_queries++)bootstrap_at=g_uptime_ms;
+        char line[256];unsigned primary=config_lie && config_changes?(configured_primary+1u)%3:configured_primary;
+        int z=snprintf(line,sizeof(line),"\r\n+CIPSNTPCFG:%u,0,\"ntp-%u.example.invalid\",\"ntp-%u.example.invalid\",\"ntp-%u.example.invalid\"\r\n\r\nOK\r\n",sntp_enabled,primary,configured_order[1],configured_order[2]);
+        queue_bytes(line,(unsigned)z,at_delay);
+    }else if(strstr(command,"AT+CIPSNTPCFG=0")){
+        sntp_stops++;if(stop_error)terminal("\r\nERROR\r\n",at_delay);
+        else{sntp_enabled=0;terminal("\r\nOK\r\n",at_delay);}
+    }else if(strstr(command,"AT+CIPSNTPCFG=1,0")){
+        const char *p=strstr(command,"ntp-");configured_primary=p?(unsigned)(p[4]-'0'):0;
+        for(unsigned i=0;i<3;i++){configured_order[i]=p?(unsigned)(p[4]-'0'):i;if(p)p=strstr(p+5,"ntp-");}
+        assert(configured_primary<3);sntp_enabled=1;sntp_enables++;config_changes++;terminal("\r\nOK\r\n",at_delay);
+    }else if(strstr(command,"AT+SYSTIMESTAMP?")){
+        time_queries++;if(sntp_enabled && (int32_t)(g_uptime_ms-clock_valid_at)>=0 && !(blocked_primary_mask&(1u<<configured_primary)))clock_synced=1;
+        char line[96];(void)snprintf(line,sizeof(line),"\r\n+SYSTIMESTAMP:%lu\r\n\r\nOK\r\n",
+            (unsigned long)(clock_synced?1800000000u+(uint32_t)(g_uptime_ms-base)/1000u+module_skew_seconds:122u));terminal(line,at_delay);
+    }else if(strstr(command,"AT+CIPSTART=\"UDP\"")){
+        const char *p=strstr(command,"ntp-");udp_primary=p?(unsigned)(p[4]-'0'):99;terminal("\r\nOK\r\n",at_delay);
+    }else if(strstr(command,"AT+CIPSTART=\"SSL\"")){tls_opens++;terminal("\r\nOK\r\n",at_delay);}
     else terminal("\r\nOK\r\n",at_delay);
 }
 static void put(unsigned stream,unsigned rate,unsigned count,uint32_t at){
@@ -153,6 +178,47 @@ int main(int argc,char **argv){
         return 0;
     }
 #ifdef MP_H3_FRESH_SNTP
+    if(!strcmp(mode,"time-consistency")){
+#if !defined(EXPECT_BOOTSTRAP_DEFECT) && !defined(EXPECT_TIME_DEFECT) && !defined(EXPECT_CLOSE_DEFECT)
+        epoch=1800000000u;epoch_tick=0xfffffff0u;epoch_query_ms=2000;
+        uint32_t tick=0x30u;uint64_t coarse=1800000000064ULL;
+        assert(sntp_time_consistent(coarse-501,tick,1000));
+        assert(!sntp_time_consistent(coarse-502,tick,1000));
+        assert(sntp_time_consistent(coarse+3501,tick,1000));
+        assert(!sntp_time_consistent(coarse+3502,tick,1000));
+        epoch_query_ms=0;assert(sntp_time_consistent(coarse+1501,tick,1000));
+        assert(!sntp_time_consistent(coarse+1502,tick,1000));
+        epoch_query_ms=2001;assert(!sntp_time_consistent(coarse,tick,1000));
+        puts("FROZEN_TIME_INTERVAL_BOUNDARIES_WRAP_QUERY_SPAN_PASS");
+#endif
+        return 0;
+    }
+    if(!strncmp(mode,"bootstrap-",10)){
+        ntp_fixture=1;ntp_packets=1;close_mode=1;clock_valid_at=base;
+        if(strstr(mode,"secondary"))blocked_primary_mask=1;
+        if(!strcmp(mode,"bootstrap-preserve")){configured_primary=1;configured_order[0]=1;configured_order[1]=2;configured_order[2]=0;blocked_primary_mask=1;}
+        if(!strcmp(mode,"bootstrap-all-bad"))blocked_primary_mask=7;
+        if(!strcmp(mode,"bootstrap-readback"))config_lie=1;
+        if(!strcmp(mode,"bootstrap-stop-error"))stop_error=1;
+        if(!strcmp(mode,"bootstrap-bad-fresh"))ntp_bad_nonce=1;
+        if(!strcmp(mode,"bootstrap-stale-ESP"))module_skew_seconds=-864000;
+        if(!strcmp(mode,"bootstrap-future-ESP"))module_skew_seconds=864000;
+        if(!strcmp(mode,"bootstrap-budget")){blocked_primary_mask=7;at_delay=1500;}
+        uint32_t start=g_uptime_ms;int ok=gateway_network_open();
+#ifdef EXPECT_BOOTSTRAP_DEFECT
+        assert(!ok && ntp_packets==1 && !tls_opens);
+        printf("DEPLOYED_BOOTSTRAP_NO_PRIMARY_ROTATION_TIME_FAIL_REPRODUCED elapsed=%lu\n",(unsigned long)(g_uptime_ms-start));
+#else
+        int positive=strstr(mode,"secondary")!=NULL || !strcmp(mode,"bootstrap-preserve");
+        if(positive){assert(ok && udp_primary==1 && ntp_packets==2 && tls_opens==1 && sntp_stops>0);assert(configured_primary==1 && configured_order[1]==2 && configured_order[2]==0);}
+        else{assert(!ok && !tls_opens);if(!ntp_bad_nonce && !module_skew_seconds)assert(ntp_packets==1);}
+        assert(time_queries<=15 && (uint32_t)(g_uptime_ms-start)<60000u);
+        if(!strcmp(mode,"bootstrap-budget"))assert(g_uptime_ms-bootstrap_at<=30000u);
+        if(stop_error)assert(!sntp_enables && !time_queries);
+        printf("CONTROLLED_SNTP_BOOTSTRAP_%s_PASS queries=%u stops=%u enables=%u elapsed=%lu\n",mode,time_queries,sntp_stops,sntp_enables,(unsigned long)(g_uptime_ms-start));
+#endif
+        return 0;
+    }
     if(!strcmp(mode,"clock19") || !strcmp(mode,"clock19-wrap") || !strcmp(mode,"clock-never")){
         ntp_fixture=1;ntp_packets=1;close_mode=1;
         clock_valid_at=g_uptime_ms+(strcmp(mode,"clock-never")?19000u:60000u);

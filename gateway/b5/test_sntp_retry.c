@@ -48,6 +48,7 @@ int main(void){
     assert(opens==3 && closes==3);
     for(mode=1;mode<=6;mode++){
         opens=closes=part=0;sntp_server_cursor=0;opening_ntp_retry=0;
+        epoch=1800000000u;epoch_fraction=0;epoch_tick=g_uptime_ms;epoch_query_ms=0;
         int valid=fresh_sntp();assert(valid==(mode==1));assert(!gateway_network_retryable());assert(closes==1);
     }
     mode=0;opens=closes=0;opening_ntp_retry=1;

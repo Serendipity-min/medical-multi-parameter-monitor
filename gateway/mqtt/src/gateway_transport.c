@@ -390,8 +390,73 @@ void gateway_network_close(void)
 #ifdef MP_H3_FRESH_SNTP
 /* 单个配置端点不可达时，下次外层重连轮换；每次仍只发一个有界请求。 */
 static unsigned sntp_server_cursor;
+#ifdef MP_B5_EGRESS_FINAL
+static int sntp_prepare_command(const char *command,uint32_t start) {
+    uint32_t used=g_uptime_ms-start;
+    if(used>28000u){console("GW SNTP_PREP_BUDGET\r\n");return -1;}
+    return at_command(command,2000u);
+}
+static char sntp_targets[3][65];
+static unsigned sntp_target_count;
+static uint32_t epoch_query_ms;
+static int sntp_time_consistent(uint64_t sample,uint32_t tick,uint32_t rtt) {
+    uint64_t coarse=(uint64_t)epoch*1000u+(uint32_t)(tick-epoch_tick);
+    uint32_t uncertainty=rtt/2u+1u;
+    /* 秒级量化、实际查询耗时和新鲜包半程误差共同形成区间，不重写任一路时间。 */
+    return epoch_query_ms<=2000u && sample+uncertainty>=coarse &&
+           sample<=coarse+1000u+epoch_query_ms+uncertainty;
+}
+static int sntp_load_targets(uint32_t start) {
+    if(!sntp_target_count) {
+        if(sntp_prepare_command("AT+CIPSNTPCFG?",start)<=0)return 0;
+        while(sntp_target_count<3 && sntp_server_at(at_response(),sntp_target_count,sntp_targets[sntp_target_count]))sntp_target_count++;
+    }
+    return sntp_target_count!=0;
+}
+static int sntp_bootstrap(char line[256]) {
+    uint32_t start=g_uptime_ms,queries=0,tried=0;int valid=0;
+    if(!sntp_load_targets(start))goto done;
+    unsigned first=sntp_server_cursor;
+    /* 保留启动时的端点列表，显式选择不会丢掉下一次轮换目标。 */
+    for(unsigned turn=0;turn<sntp_target_count;turn++) {
+        unsigned index=(first+turn)%sntp_target_count;char server[65];
+        if(sntp_prepare_command("AT+CIPSNTPCFG=0",start)<=0)goto done;
+        int used=snprintf(line,256,"AT+CIPSNTPCFG=1,0");
+        for(unsigned i=0;i<sntp_target_count;i++)used+=snprintf(line+used,256u-(unsigned)used,",\"%s\"",sntp_targets[(index+i)%sntp_target_count]);
+        if(sntp_prepare_command(line,start)<=0 || sntp_prepare_command("AT+CIPSNTPCFG?",start)<=0 ||
+            !strstr(at_response(),"+CIPSNTPCFG:1,0,"))goto done;
+        for(unsigned i=0;i<sntp_target_count;i++)
+            if(!sntp_server_at(at_response(),i,server) || strcmp(server,sntp_targets[(index+i)%sntp_target_count]))goto done;
+        tried|=1u<<index;
+        for(unsigned attempt=0;attempt<(15u+sntp_target_count-1u)/sntp_target_count && queries<15 && g_uptime_ms-start<30000u;attempt++) {
+            uint32_t query_start=g_uptime_ms;
+            int status=sntp_prepare_command("AT+SYSTIMESTAMP?",start);
+            uint32_t query_end=g_uptime_ms;
+            if(status<0)goto done;
+            queries++;
+            if(!status)goto done;
+            const char *value=strstr(at_response(),"+SYSTIMESTAMP:");
+            if(value)epoch=(uint32_t)strtoul(value+14,NULL,10);
+            (void)snprintf(line,256,"GW TIME_SAMPLE query=%lu primary=%u parsed=%u epoch=%lu\r\n",
+                (unsigned long)queries,index,(unsigned)(value!=NULL),(unsigned long)(value?epoch:0));console(line);
+            if(value && epoch>=config->minimum_epoch){epoch_tick=query_end;epoch_query_ms=query_end-query_start;epoch_fraction=0;sntp_server_cursor=index;valid=1;goto done;}
+            if(queries<15){int32_t wait=(int32_t)(start+queries*2000u-g_uptime_ms);if(wait>0)delay_ms((uint32_t)wait);}
+        }
+    }
+done:
+    (void)snprintf(line,256,"GW TIME_WAIT queries=%lu elapsed=%lu valid=%u epoch=%lu tried=%lu\r\n",
+        (unsigned long)queries,(unsigned long)(g_uptime_ms-start),(unsigned)valid,(unsigned long)epoch,(unsigned long)tried);console(line);
+    return valid;
+}
+#endif
 static int fresh_sntp(void) {
     char server[65]={0},command[112];
+#ifdef MP_B5_EGRESS_FINAL
+    if(!sntp_load_targets(g_uptime_ms)){console("GW FAIL SNTP_SERVER_CONFIG\r\n");return 0;}
+    unsigned selected=sntp_server_cursor%sntp_target_count;
+    memcpy(server,sntp_targets[selected],sizeof(server));
+    sntp_server_cursor=(selected+1u)%sntp_target_count;
+#else
     if(!at_command("AT+CIPSNTPCFG?",2000)) {
         console("GW FAIL SNTP_SERVER_CONFIG\r\n");return 0;
     }
@@ -401,6 +466,7 @@ static int fresh_sntp(void) {
         console("GW FAIL SNTP_SERVER_CONFIG\r\n");return 0;
     }
     sntp_server_cursor=(selected+1u)%3u;
+#endif
     (void)snprintf(command,sizeof(command),"AT+CIPSTART=\"UDP\",\"%s\",123",server);
     int opened=at_command(command,5000);
     secure_memzero(server,sizeof(server));secure_memzero(command,sizeof(command));
@@ -418,6 +484,10 @@ static int fresh_sntp(void) {
     }
     uint32_t rtt=g_uptime_ms-start;uint64_t sample=0;
     int valid=received==48 && sntp_sample(reply,48,request,rtt,config->minimum_epoch,&sample);
+#ifdef MP_B5_EGRESS_FINAL
+    int time_mismatch=valid && !sntp_time_consistent(sample,start+rtt,rtt);
+    if(time_mismatch)valid=0;
+#endif
     /* 无论成功或失败均关UDP，后续SSL不继承该socket；原TLS名称/CA设置不变。 */
     int closed=at_command("AT+CIPCLOSE",2000);
     esp_mqtt_reset();
@@ -427,7 +497,7 @@ static int fresh_sntp(void) {
         opening_ntp_retry=sent==48 && received==0 && closed && platform_at_synchronized();
 #endif
         /* 只解释拒绝原因，不改变原授时判定；完整包之前绝不读取未初始化字段。
-         * 1发送/2长度/3RTT/4未同步/5RATE KoD/6旧nonce/7其他/8关闭/9其他KoD。 */
+         * 1发送/2长度/3RTT/4未同步/5RATE KoD/6旧nonce/7其他/8关闭/9其他KoD/10模块与新鲜UTC不一致。 */
         unsigned reason=7;
         if(sent!=48)reason=1;
         else if(received!=48)reason=2;
@@ -436,11 +506,19 @@ static int fresh_sntp(void) {
         else if(reply[1]==0)reason=!memcmp(reply+12,"RATE",4)?5:9;
         else if((reply[0]>>6)==3)reason=4;
         else if(valid && !closed)reason=8;
+#ifdef MP_B5_EGRESS_FINAL
+        else if(time_mismatch)reason=10;
+#endif
         char diagnostic[96];
         (void)snprintf(diagnostic,sizeof(diagnostic),"GW SNTP_REJECT reason=%u received=%d rtt_ms=%lu server_index=%u\r\n",
             reason,received,(unsigned long)rtt,selected);console(diagnostic);
         console("GW FAIL SNTP_FRESH_SAMPLE\r\n");return 0;
     }
+    #ifdef MP_B5_EGRESS_FINAL
+    int64_t time_delta=(int64_t)sample-((int64_t)epoch*1000u+(uint32_t)(start+rtt-epoch_tick));
+    char match[96];(void)snprintf(match,sizeof(match),"GW TIME_MATCH delta_ms=%ld query_ms=%lu\r\n",
+        (long)time_delta,(unsigned long)epoch_query_ms);console(match);
+#endif
     epoch=(uint32_t)(sample/1000u);epoch_fraction=(uint32_t)(sample%1000u);
     epoch_tick=start+rtt;
     /* 成功端点继续使用；只有失败才在下一轮切换，不改变nonce/RTT/TLS门禁。 */
@@ -500,6 +578,9 @@ int gateway_network_open(void)
     if (!step("SINGLE", "AT+CIPMUX=0", 2000) || !step("PASSIVE", "AT+CIPRECVMODE=1", 2000))
         return 0;
     /* 模块时间必须有效；不能用过时的编译时间冒充采集时间。 */
+#if defined(MP_B5_EGRESS_FINAL) && defined(MP_H3_FRESH_SNTP)
+    if(!sntp_bootstrap(command)){console("GW FAIL TIME\r\n");return 0;}
+#else
     if(!step("SNTP_ENABLE","AT+CIPSNTPCFG=1,0",2000))return 0;
     int time_ok = 0;
 #ifdef MP_B5_EGRESS_FINAL
@@ -540,6 +621,7 @@ int gateway_network_open(void)
         console("GW FAIL TIME\r\n");
         return 0;
     }
+#endif
 #ifdef MP_H3_FRESH_SNTP
     if(!fresh_sntp())return 0;
 #endif

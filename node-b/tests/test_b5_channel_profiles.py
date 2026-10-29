@@ -35,6 +35,13 @@ class Profiles(unittest.TestCase):
         self.assertEqual(len(set((*p.FINAL_SCOPES.values(),*p.FINAL_SCOPES_R2.values(),*p.FINAL_SCOPES_R3.values()))),9)
         a=dict(enabled=True,owner_approved=True,scope=p.FINAL_SCOPES['ECG60'],channel_profile='TEMP_OBJECT',require_source_STOP_state=True)
         with self.assertRaisesRegex(ValueError,'FINAL_OBJECT'):p.validate(a)
+    def test_time_bootstrap_new_objects_do_not_reuse_D_scopes(self):
+        self.assertFalse(set(p.FINAL_SCOPES_R4D.values()) & set(p.FINAL_SCOPES_R4TB.values()))
+        for profile in p.PROFILES:
+            a=dict(enabled=True,owner_approved=True,scope=p.FINAL_SCOPES_R4TB[profile],channel_profile=profile)
+            with self.assertRaisesRegex(ValueError,'FINAL_OBJECT'):g.validate(a,g.G3)
+        a=dict(enabled=True,owner_approved=True,scope=p.FINAL_SCOPES_R4TB['ECG60'],channel_profile='RR15',require_source_STOP_state=True)
+        with self.assertRaisesRegex(ValueError,'FINAL_OBJECT'):p.validate(a)
     def test_final_object_requires_source_stop_proof(self):
         a=dict(enabled=True,owner_approved=True,scope=p.FINAL_SCOPES['ECG60'],channel_profile='ECG60')
         with self.assertRaisesRegex(ValueError,'FINAL_OBJECT'):p.validate(a)
