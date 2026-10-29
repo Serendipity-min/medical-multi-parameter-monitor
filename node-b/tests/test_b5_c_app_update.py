@@ -79,6 +79,12 @@ class Tests(unittest.TestCase):
         b,_,_=self.predecessor(before=u.BEFORE_FINAL_R2,flags=0x20001dc2)
         self.assertEqual(b['before_full_sha256'],u.BEFORE_FINAL_R2)
         with self.assertRaisesRegex(ValueError,'GEN5_BASELINE'):self.predecessor(before=u.BEFORE_FINAL_R2)
+    def test_diagnostic_schedule_requires_verified_C48988_and_exact_flags(self):
+        b,_,_=self.predecessor(before=u.BEFORE_REPAIR_R4TC,flags=0x20001e6a)
+        self.assertEqual(b['before_full_sha256'],u.BEFORE_REPAIR_R4TC)
+        with self.assertRaisesRegex(ValueError,'GEN5_BASELINE'):self.predecessor(before=u.BEFORE_REPAIR_R4TC)
+        with self.assertRaisesRegex(ValueError,'PREDECESSOR_NOT_PASS'):
+            self.predecessor(before=u.BEFORE_REPAIR_R4TC,flags=0x20001e6a,DISARMED=False)
     def test_final_accepts_verified_C43036_and_rejects_failed_receipt(self):
         b,_,_=self.predecessor(before=u.BEFORE_TEMP);self.assertEqual(b['before_full_sha256'],u.BEFORE_TEMP)
         with self.assertRaisesRegex(ValueError,'PREDECESSOR_NOT_PASS'):self.predecessor(before=u.BEFORE_TEMP,exit_code=1)
@@ -140,6 +146,15 @@ class Tests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'ROM_STOP'):
             u.app.execute(fake,self.out,{'phase':'install','board':'C'},self.m,self.files)
         self.assertEqual(fake.counts,{})
+    def test_wrong_identity_is_saved_before_rejecting_without_target_actions(self):
+        fake=Fake(self.files['before-full-private.bin'],self.files['options-private.bin']);fake.wrong_uid=True
+        with self.assertRaisesRegex(ValueError,'WRONG_BOARD_OR_PROTECTION'):
+            u.app.execute(fake,self.out,{'phase':'install','board':'C'},self.m,self.files)
+        self.assertEqual(fake.counts,{})
+        observed=json.loads((self.out/'identity-before-private.json').read_text())
+        expected=json.loads(self.files['identity-private.json'])
+        self.assertNotEqual(observed['uid_hex'],expected['uid_hex'])
+        self.assertEqual(json.loads((self.out/'identity-comparison-private.json').read_text())['different_fields'],['uid_hex'])
     def update_proof(self,**changes):
         gen5={'exit_code':0,'status':'SECTOR3_FULL_VERIFY_AND_DISARMED_BOOT_PASS','scope':'B5_GEN5_WIFI_WRITE',
               'configuration_generation':5,'Close_completed':True,'after_full_sha256':u.sha(b'old'),

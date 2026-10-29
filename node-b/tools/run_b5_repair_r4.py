@@ -59,6 +59,20 @@ def main():
     ntp=out/'ntp-chain.exe';built=run('compile-actual-SNTP-AT-chain',[*flags,'-DMP_H3_FRESH_SNTP',*sources,'-o',ntp]);ok=built and ok
     if built:
         for mode in ('expected-close','close-no-ok','fresh-rotate','clock19','clock19-wrap','clock-never'):ok=run('SNTP-chain-'+mode,[ntp,mode]) and ok
+    schedule=ROOT/'gateway/b5/test_diagnostic_schedule.c'
+    schedule_flags=[*flags,'-DCO_MULTIPLE_OD','-I'+str(ROOT/'gateway/canopen/src'),'-I'+str(ROOT/'gateway/third_party/CANopenNode'),
+        '-Wno-unused-function','-Wno-return-type','-ffunction-sections','-fdata-sections','-Wl,--gc-sections']
+    prior=json.loads((ROOT/'node-b/build/b5-repair-r4-time-close-pointer.json').read_text('utf8'))
+    previous=Path(prior['root'])/'compiled-source/gateway/b5/network_main.c'
+    short=out/'deployed-C48988-network_main.c';short.write_bytes(previous.read_bytes())
+    for old in (True,False):
+        exe=out/('diagnostics-old.exe' if old else 'diagnostics.exe')
+        extra=['-DEXPECT_DIAGNOSTIC_DEFECT','-DDIAGNOSTIC_MAIN_SOURCE="'+short.as_posix()+'"'] if old else []
+        built=run('compile-diagnostic-schedule-'+str(old),[*schedule_flags,*extra,schedule,'-o',exe]);ok=built and ok
+        if built:
+            for mode in range(3):ok=run(('reproduce-old-diagnostic-' if old else 'fixed-diagnostic-')+str(mode),[exe,mode]) and ok
+            ok=run(('reproduce-old' if old else 'fixed')+'-field-diagnostic-opportunities',
+                [exe,3,ROOT/'gateway/b5/fixtures/C48988-diagnostic-opportunities-ms.txt',61163]) and ok
     (out/'receipt.json').write_text(json.dumps(dict(status='PASS' if ok else 'FAIL',cases=cases,
         hardware_operations=0,network_operations=0),indent=2)+'\n',encoding='utf8')
     (ROOT/'node-b/build/b5-repair-r4-host-latest.json').write_text(json.dumps(dict(out=str(out)))+'\n',encoding='utf8')

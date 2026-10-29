@@ -125,13 +125,19 @@ static void diagnostic(unsigned stage) {
 }
 static void diagnostic_idle(void) {
     static unsigned stage=23;
-    static uint32_t temp_at;
+    static uint32_t essential_at;
+    static bool queue_due;
     if(platform_console_busy())return;
 #ifdef MP_B5_EGRESS_FINAL
     if(publisher.pending || publisher.deferred || !platform_at_synchronized())return;
 #endif
-    if(g_uptime_ms-temp_at>=1000u){temp_at=g_uptime_ms;diagnostic(20);return;}
-    if(stage>=23){if(g_uptime_ms-diag_at<5000u)return;diag_at=g_uptime_ms;stage=0;}
+    /* 主诊断和队列按固定时隙优先，不能等完整细项轮转后才留证。 */
+    uint32_t elapsed=g_uptime_ms-essential_at;
+    if(elapsed>=5000u){essential_at+=elapsed/5000u*5000u;queue_due=true;diagnostic(0);return;}
+    if(queue_due){queue_due=false;diagnostic(12);return;}
+    if(gateway.router.temp_reported<gateway.router.temp_written){diagnostic(20);return;}
+    if(stage>=23){if(g_uptime_ms-diag_at<5000u)return;diag_at=g_uptime_ms;stage=1;}
+    if(stage==12 || stage==20)stage++;
     diagnostic(stage++);
 }
 #ifdef MP_B5_EGRESS_FINAL

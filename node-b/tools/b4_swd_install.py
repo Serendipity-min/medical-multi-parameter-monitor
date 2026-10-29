@@ -131,9 +131,13 @@ def execute(link, out, a, m, payload):
     reference = json.loads(payload['identity-private.json'])
     size = m['erase_end_exclusive'] - 0x08000000
     link.open()
-    seen = raw.identity(link); raw.check_identity(seen)
-    require(seen == reference, 'INSTALL_WRONG_BOARD_OR_PROTECTION')
+    seen = raw.identity(link)
+    # 不匹配也保留真实读值；UID只留受限私有目录，不能只剩笼统失败码。
     raw.write_json(out / 'identity-before-private.json', seen)
+    raw.write_json(out / 'identity-comparison-private.json', {'matches': seen == reference,
+        'different_fields': [key for key in reference if seen.get(key) != reference[key]]})
+    raw.check_identity(seen)
+    require(seen == reference, 'INSTALL_WRONG_BOARD_OR_PROTECTION')
     raw.write_json(out / 'entry-sticky-private.json', {'DHCSR': link.u32(readonly.SYSTEM['DHCSR'])})
     state = readonly.snapshot(link); raw.write_json(out / 'entry-private.json', state)
     readonly.check_running(link, state)

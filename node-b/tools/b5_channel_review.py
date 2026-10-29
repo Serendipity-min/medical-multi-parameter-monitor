@@ -174,7 +174,8 @@ def review(folder,profile):
     b=assess_b(diag,t0,profile);fail.extend(b['failures'])
     lines=[json.loads(x) for x in (folder/'C-lines-private.jsonl').read_text().splitlines()]
     cs=[(x,g.parse_diag(x['data'])) for x in lines if x['data'].startswith('B5 DIAG ') and t0['monotonic']+45<=x['monotonic']<t0['monotonic']+345]
-    g.require(len(cs)>=58,'CHANNEL_C_DIAGNOSTICS');chosen=[x[1] for x in cs]
+    if len(cs)<58:fail.append('CHANNEL_C_DIAGNOSTICS')
+    g.require(cs,'CHANNEL_C_DIAGNOSTICS_EMPTY');chosen=[x[1] for x in cs]
     if any(b[0]['monotonic']-a[0]['monotonic']>8 for a,b in zip(cs,cs[1:])):fail.append('C_DIAGNOSTIC_GAP')
     delta={k:chosen[-1][k]-chosen[0][k] for k in ('rx','txack','txfail','overflow','uart_err','dropped','mqtt_fail')}
     if any(delta[k] for k in ('txfail','overflow','uart_err','dropped','mqtt_fail')) or delta['rx']<=0 or delta['txack']<=0:fail.append('C_NEW_LOSS_OR_ERROR')
@@ -203,7 +204,9 @@ def review(folder,profile):
         'source_mapping_errors':dict(mapping),'UART_source':uart_summary,'temperature_message_candidate_counts':temp_matches,
         'temperature_source_proof':'raw UART checksum/value plus source report-second interval; not unique frame identity or absolute calibration',
         'Broker_messages':len(messages),'Broker_duplicates':duplicates,'Backend_delta':backend,'WSS_snapshots':len(wss),
-        'wave_batches_observed_in_WSS':len(expected&seen),'C_error_delta':delta,'STOP_observed_offset_s':offset,
+        'wave_batches_observed_in_WSS':len(expected&seen),'C_error_delta':delta,'C_diagnostic_count':len(cs),
+        'C_diagnostic_max_gap_s':max((b[0]['monotonic']-a[0]['monotonic'] for a,b in zip(cs,cs[1:])),default=0),
+        'STOP_observed_offset_s':offset,
         'evaluation_UTC_ms':[start,end],'max_MQTT_JSON_bytes':max_bytes,'original_G3_verdict_rewritten':False,
         'CPU_ROM_ROOT_CAUSE':'UNRESOLVED','temperature_absolute_accuracy':'NOT_CALIBRATED'}
 

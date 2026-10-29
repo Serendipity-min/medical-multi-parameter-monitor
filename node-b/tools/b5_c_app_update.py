@@ -23,6 +23,7 @@ BEFORE_TEMP = '3369c5de14c2f81b37a2ca3a684ac80c65a2b50c63aba9e3ee892a074bb84fbd'
 BEFORE_FINAL_R1 = 'b9e7518ec2af1b780534a97e769054630e19b6a4600800a6db2dea98b8f675ea'
 BEFORE_FINAL_R2 = '707d88987431cb4cdf4580d8f627ba58eea4980429d95fc6dcde6ceb8718ca4a'
 BEFORE_REPAIR_R4 = '6d3eee3ed63f6256ff34b415cd3edc04cfdebcd37eec108dba833105bda2dcb8'
+BEFORE_REPAIR_R4TC = '9799f39c731ce0dd33eba00749f945db1255a887939f88a924b6908405392873'
 OLD_FLAGS = 0x20001918
 require = recovery.require
 sha = recovery.digest
@@ -43,8 +44,8 @@ def load_binding(path, expected_sha, synthetic=False):
     require(m['files']['before-full-private.bin']['sha256'] == b['before_full_sha256']
             and m['files']['expected-full-private.bin']['sha256'] == b['after_full_sha256'], 'C_UPDATE_IMAGES')
     if not synthetic and b['before_full_sha256'] != BEFORE:
-        expected_flags=0x20001e6a if b['before_full_sha256']==BEFORE_REPAIR_R4 else 0x20001dc2 if b['before_full_sha256'] in (BEFORE_FINAL_R1,BEFORE_FINAL_R2,BEFORE_REPAIR_R4) else 0x2000191a
-        require(b['before_full_sha256'] in (BEFORE_R1,BEFORE_R2,BEFORE_R4,BEFORE_TEMP,BEFORE_FINAL_R1,BEFORE_FINAL_R2,BEFORE_REPAIR_R4) and b.get('before_flags_address') == expected_flags,
+        expected_flags=0x20001e6a if b['before_full_sha256'] in (BEFORE_REPAIR_R4,BEFORE_REPAIR_R4TC) else 0x20001dc2 if b['before_full_sha256'] in (BEFORE_FINAL_R1,BEFORE_FINAL_R2) else 0x2000191a
+        require(b['before_full_sha256'] in (BEFORE_R1,BEFORE_R2,BEFORE_R4,BEFORE_TEMP,BEFORE_FINAL_R1,BEFORE_FINAL_R2,BEFORE_REPAIR_R4,BEFORE_REPAIR_R4TC) and b.get('before_flags_address') == expected_flags,
                 'C_UPDATE_GEN5_BASELINE')
         proof_blob=recovery.read(Path(b['prior_install_receipt']),False);proof=json.loads(proof_blob)
         require(sha(proof_blob)==b['prior_install_receipt_sha256']
@@ -72,7 +73,7 @@ def authorize(a, out):
     card=a.get('card_name',CARD.name)
     require(card in (CARD.name,'AUTH-B5-C-EGRESS-RETEST-001-R2.md','AUTH-B5-C-EGRESS-RETEST-001-R4.md',
                     'AUTH-B5-TEMP-AND-SEPARATE-CHANNELS-001-R2.md','AUTH-B5-C-EGRESS-FINAL-APP-001-R1.md',
-                    'AUTH-B5-C-EGRESS-FINAL-APP-001-R2.md','AUTH-B5-C-EGRESS-DIAGNOSTIC-001-R3.md','AUTH-B5-C-REPAIR-R4-BATCH.md','AUTH-B5-C-REPAIR-R4-TIME-CLOSE-SUPPLEMENT.md')
+                    'AUTH-B5-C-EGRESS-FINAL-APP-001-R2.md','AUTH-B5-C-EGRESS-DIAGNOSTIC-001-R3.md','AUTH-B5-C-REPAIR-R4-BATCH.md','AUTH-B5-C-REPAIR-R4-TIME-CLOSE-SUPPLEMENT.md','AUTH-B5-C-REPAIR-R4-DIAGNOSTICS-SUPPLEMENT.md')
             and a.get('card_sha256') == sha((CARD.parent/card).read_bytes()), 'C_UPDATE_CARD_DRIFT')
     require(a.get('expires_unix',0) > time.time() and a.get('session_timeout_s') == 180
             and a.get('probe_sessions') == 1 and a.get('retries') == 0, 'C_UPDATE_BUDGET')
@@ -84,9 +85,9 @@ def authorize(a, out):
                 'C_USB_disconnected','CAN_GND_BOOT_unchanged','ESP_present_powered_exception',
                 'no_other_program','no_human')), 'C_UPDATE_SITE_INCOMPLETE')
     b, m, files = load_binding(a['binding'], a['binding_sha256'])
-    if card in ('AUTH-B5-C-EGRESS-FINAL-APP-001-R1.md','AUTH-B5-C-EGRESS-FINAL-APP-001-R2.md','AUTH-B5-C-EGRESS-DIAGNOSTIC-001-R3.md','AUTH-B5-C-REPAIR-R4-BATCH.md','AUTH-B5-C-REPAIR-R4-TIME-CLOSE-SUPPLEMENT.md'):
-        version='R4TC' if card=='AUTH-B5-C-REPAIR-R4-TIME-CLOSE-SUPPLEMENT.md' else 'R4' if card=='AUTH-B5-C-REPAIR-R4-BATCH.md' else 'R3' if card.endswith('-R3.md') else 'R2' if card.endswith('-R2.md') else 'R1'
-        frozen=json.loads((ROOT/('node-b/evidence/'+('B5-C-REPAIR-R4/TIME-CLOSE-R1' if version=='R4TC' else 'B5-C-REPAIR-R4' if version=='R4' else 'B5-C-EGRESS-FINAL-'+version)+'/candidate.json')).read_text())
+    if card in ('AUTH-B5-C-EGRESS-FINAL-APP-001-R1.md','AUTH-B5-C-EGRESS-FINAL-APP-001-R2.md','AUTH-B5-C-EGRESS-DIAGNOSTIC-001-R3.md','AUTH-B5-C-REPAIR-R4-BATCH.md','AUTH-B5-C-REPAIR-R4-TIME-CLOSE-SUPPLEMENT.md','AUTH-B5-C-REPAIR-R4-DIAGNOSTICS-SUPPLEMENT.md'):
+        version='R4D' if card=='AUTH-B5-C-REPAIR-R4-DIAGNOSTICS-SUPPLEMENT.md' else 'R4TC' if card=='AUTH-B5-C-REPAIR-R4-TIME-CLOSE-SUPPLEMENT.md' else 'R4' if card=='AUTH-B5-C-REPAIR-R4-BATCH.md' else 'R3' if card.endswith('-R3.md') else 'R2' if card.endswith('-R2.md') else 'R1'
+        frozen=json.loads((ROOT/('node-b/evidence/'+('B5-C-REPAIR-R4/DIAGNOSTICS-R1' if version=='R4D' else 'B5-C-REPAIR-R4/TIME-CLOSE-R1' if version=='R4TC' else 'B5-C-REPAIR-R4' if version=='R4' else 'B5-C-EGRESS-FINAL-'+version)+'/candidate.json')).read_text())
         require(frozen['status']=='FROZEN_SOFTWARE_PASS' and b['before_full_sha256']==frozen.get('predecessor_full_sha256',BEFORE_TEMP) and
                 b['candidate_sha256']==frozen['BIN_sha256'] and b['after_full_sha256']==frozen['expected_new_full_sha256'],
                 'C_UPDATE_FINAL_CANDIDATE_REQUIRED')

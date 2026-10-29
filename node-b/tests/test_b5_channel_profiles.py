@@ -23,6 +23,12 @@ def snapshot(profile):
     return dict(gateway_id='GW-B5-001',nodes={'NODE-A':'OFFLINE','NODE-B':'ONLINE'},streams=rows)
 
 class Profiles(unittest.TestCase):
+    def test_diagnostic_successor_is_not_a_consumed_time_close_window(self):
+        self.assertFalse(set(p.FINAL_SCOPES_R4D.values())&set(p.FINAL_SCOPES_R4TC.values()))
+        a=dict(enabled=True,owner_approved=True,scope=p.FINAL_SCOPES_R4D['ECG60'],channel_profile='RR15',require_source_STOP_state=True)
+        with self.assertRaisesRegex(ValueError,'FINAL_OBJECT'):p.validate(a)
+        a.update(channel_profile='ECG60',require_source_STOP_state=False)
+        with self.assertRaisesRegex(ValueError,'FINAL_OBJECT'):p.validate(a)
     def test_final_objects_cannot_be_shared_or_mapped_to_another_profile(self):
         self.assertEqual(len(set(p.FINAL_SCOPES.values())),3)
         self.assertEqual(len(set((*p.FINAL_SCOPES.values(),*p.FINAL_SCOPES_R2.values()))),6)
