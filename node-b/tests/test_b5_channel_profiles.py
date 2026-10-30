@@ -234,6 +234,7 @@ class SyntheticAdmission(unittest.TestCase):
                 stack.enter_context(patch.object(p.update, 'CANDIDATE_BIN', g.sha(blobs['B_full'][:40928])))
                 b, s = p.validate(a)
                 self.assertEqual(b['_expected_C_full_sha256'], c49132_full)
+                self.assertEqual(b['_B_profile']['BIN_bytes'], 40928)
                 self.assertTrue(b['_require_source_STOP_state'])
                 self.assertEqual(s['source'], site_src)
 
@@ -298,64 +299,20 @@ class SyntheticAdmission(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'FINAL_CARD'):
             p.validate(a)
 
-    def test_r6_negative_expired_preflight_rejected(self):
+    def test_r6_field_execution_without_signed_freeze_blocked(self):
+        # 机器互锁负向测试：未设置 OFFLINE_MOCK 且未签署正式 Gate F 冻结清单时，实机准入必须被机器拦截
         c49132_full = '9bba23b436f079183296fa98dcaeed047eb919ba8597d75a85bc144bc48417fd'
         c49132_bin = '72131dbb5ef6bc0e0d33e328925c685403bae928aea9447a81f8291c6ae5c1ab'
         binding_data = {'candidate_sha256': c49132_bin}
         encode = lambda x: json.dumps(x).encode()
         blobs = {n: ('SYNTHETIC_' + n).encode() for n in ('B_identity', 'B_full', 'B_options', 'C_identity', 'C_full', 'C_options', 'B_ELF', 'B_symbols', 'cloud_credentials')}
-        blobs['B_full'] = b'SYNTHETIC_B' + bytes(40928)
+        blobs['B_full'] = b'SYNTHETIC_B_41012' + bytes(41012)
         env = {'Backend_sources': {'models.py': g.sha(b'SYNTHETIC_BACKEND')}}
         blobs['cloud_package'] = encode({'sources': {'backend/app/models.py': base64.b64encode(b'SYNTHETIC_BACKEND').decode()}})
         bundle = {n: {'path': n, 'sha256': g.sha(b)} for n, b in blobs.items()}
         full = g.sha(blobs['B_full'])
         blobs['install'] = encode(dict(status='B_TEMP_INSTALL_FULL_VERIFY_AND_FLASH_BOOT_PASS', exit_code=0, Close_completed=True, full_flash_sha256=full))
         blobs['temperature'] = encode(dict(status='B_TEMP_READONLY_CAPTURED', exit_code=0, new_valid_frames=3, Close_completed=True, full_flash_sha256=full))
-        # Preflight observed 3605 seconds ago (> 3600s). For R6 this MUST be rejected!
-        blobs['cpre'] = encode(dict(status='C_CURRENT_B5_CONFIG_DISARMED_READONLY_PASS', exit_code=0, full_sha256=c49132_full, observed_unix=time.time()-3605))
-        site = dict(source=dict(p.SOURCE_ECG), temperature_source='GY641V3_NONHUMAN_OBJECT_NO_REFERENCE', JLink_target='B', C_USB_connector='USB_UART/USB232', C_USB_port='COM6')
-        site.update(dict.fromkeys(('COM_confirmed', 'C_J5', 'B_J5', 'CAN_GND_unchanged', 'A_disconnected', 'INMP441_TTS_disconnected', 'ESP_present_powered_exception', 'operator_ready_manual_cutoff', 'one_C_reset_preplanned_only', 'B_USB_disconnected', 'exclusive_test_namespace'), True))
-        blobs['site'] = encode(site); blobs['bundle'] = encode(bundle)
-        a = dict(enabled=True, owner_approved=True, scope=p.FINAL_SCOPES_R6['ECG60'], channel_profile='ECG60', tools_sha256={'SYNTHETIC_TOOL': '0'}, criteria=p.criteria('ECG60'), environment=env,
-                 card_sha256=g.sha(p.FINAL_CARD_R6.read_bytes()), execution_card=p.FINAL_CARD_R6.name, require_source_STOP_state=True,
-                 reset_confirmation='SERIAL_DISARMED_AFTER_INTENT', owner_manual_reset_preapproved=True,
-                 expires_unix=time.time()+2000, retries=0, B5START_allowed=True, start_max=1,
-                 precommon_ntp_retries_max=2, operator_wait_extra_s=180, host_cancel_cleanup_s=10, test_service_expiry_unix=time.time()+2000,
-                 DLL_sha256=p.temp.raw.DLL_SHA, bundle='bundle', bundle_sha256=g.sha(blobs['bundle']),
-                 B_install_receipt='install', B_install_receipt_sha256=g.sha(blobs['install']),
-                 B_temperature_receipt='temperature', B_temperature_receipt_sha256=g.sha(blobs['temperature']),
-                 C_preflight_receipt='cpre', C_preflight_receipt_sha256=g.sha(blobs['cpre']),
-                 C_application_binding='binding',
-                 site_record='site', site_record_sha256=g.sha(blobs['site']), COM='COM6',
-                 observer_username='b5-observer', observer_client_id='b5-g3-observer-synthetic', output='SYNTHETIC_NO_TARGET')
-        with ExitStack() as stack:
-            stack.enter_context(patch.object(g.private, 'read', side_effect=lambda path, _: blobs[str(path)]))
-            stack.enter_context(patch.object(g.private, 'protected'))
-            stack.enter_context(patch.object(g, 'bindings', return_value={'SYNTHETIC_TOOL': '0'}))
-            stack.enter_context(patch.object(g, 'environment', return_value=env))
-            stack.enter_context(patch.object(g, 'expected_c_full', return_value=c49132_full))
-            stack.enter_context(patch.object(g, 'load', side_effect=lambda p: binding_data if 'binding' in str(p) else json.loads(blobs['cloud_package'])))
-            stack.enter_context(patch.object(p, 'B_ELF', g.sha(blobs['B_ELF'])))
-            stack.enter_context(patch.object(p, 'B_SYMBOLS', g.sha(blobs['B_symbols'])))
-            stack.enter_context(patch.object(p, 'CLOUD_PACKAGE_SHA', g.sha(blobs['cloud_package'])))
-            stack.enter_context(patch.object(p.update, 'CANDIDATE_BIN', g.sha(blobs['B_full'][:40928])))
-            with self.assertRaisesRegex(ValueError, 'C_PREFLIGHT'):
-                p.validate(a)
-
-    def test_r6_positive_mock_validates_cleanly(self):
-        c49132_full = '9bba23b436f079183296fa98dcaeed047eb919ba8597d75a85bc144bc48417fd'
-        c49132_bin = '72131dbb5ef6bc0e0d33e328925c685403bae928aea9447a81f8291c6ae5c1ab'
-        binding_data = {'candidate_sha256': c49132_bin}
-        encode = lambda x: json.dumps(x).encode()
-        blobs = {n: ('SYNTHETIC_' + n).encode() for n in ('B_identity', 'B_full', 'B_options', 'C_identity', 'C_full', 'C_options', 'B_ELF', 'B_symbols', 'cloud_credentials')}
-        blobs['B_full'] = b'SYNTHETIC_B' + bytes(40928)
-        env = {'Backend_sources': {'models.py': g.sha(b'SYNTHETIC_BACKEND')}}
-        blobs['cloud_package'] = encode({'sources': {'backend/app/models.py': base64.b64encode(b'SYNTHETIC_BACKEND').decode()}})
-        bundle = {n: {'path': n, 'sha256': g.sha(b)} for n, b in blobs.items()}
-        full = g.sha(blobs['B_full'])
-        blobs['install'] = encode(dict(status='B_TEMP_INSTALL_FULL_VERIFY_AND_FLASH_BOOT_PASS', exit_code=0, Close_completed=True, full_flash_sha256=full))
-        blobs['temperature'] = encode(dict(status='B_TEMP_READONLY_CAPTURED', exit_code=0, new_valid_frames=3, Close_completed=True, full_flash_sha256=full))
-        # Fresh preflight (50s old <= 3600s)
         blobs['cpre'] = encode(dict(status='C_CURRENT_B5_CONFIG_DISARMED_READONLY_PASS', exit_code=0, full_sha256=c49132_full, observed_unix=time.time()-50))
         site = dict(source=dict(p.SOURCE_ECG), temperature_source='GY641V3_NONHUMAN_OBJECT_NO_REFERENCE', JLink_target='B', C_USB_connector='USB_UART/USB232', C_USB_port='COM6')
         site.update(dict.fromkeys(('COM_confirmed', 'C_J5', 'B_J5', 'CAN_GND_unchanged', 'A_disconnected', 'INMP441_TTS_disconnected', 'ESP_present_powered_exception', 'operator_ready_manual_cutoff', 'one_C_reset_preplanned_only', 'B_USB_disconnected', 'exclusive_test_namespace'), True))
@@ -377,14 +334,104 @@ class SyntheticAdmission(unittest.TestCase):
             stack.enter_context(patch.object(g.private, 'protected'))
             stack.enter_context(patch.object(g, 'bindings', return_value={'SYNTHETIC_TOOL': '0'}))
             stack.enter_context(patch.object(g, 'environment', return_value=env))
+            with self.assertRaisesRegex(ValueError, 'CHANNEL_R6_FIELD_EXECUTION_BLOCKED_UNSIGNED_FREEZE'):
+                p.validate(a)
+
+    def test_r6_negative_expired_preflight_rejected(self):
+        c49132_full = '9bba23b436f079183296fa98dcaeed047eb919ba8597d75a85bc144bc48417fd'
+        c49132_bin = '72131dbb5ef6bc0e0d33e328925c685403bae928aea9447a81f8291c6ae5c1ab'
+        binding_data = {'candidate_sha256': c49132_bin}
+        encode = lambda x: json.dumps(x).encode()
+        blobs = {n: ('SYNTHETIC_' + n).encode() for n in ('B_identity', 'B_full', 'B_options', 'C_identity', 'C_full', 'C_options', 'B_ELF', 'B_symbols', 'cloud_credentials')}
+        blobs['B_full'] = b'SYNTHETIC_B_41012' + bytes(41012)
+        env = {'Backend_sources': {'models.py': g.sha(b'SYNTHETIC_BACKEND')}}
+        blobs['cloud_package'] = encode({'sources': {'backend/app/models.py': base64.b64encode(b'SYNTHETIC_BACKEND').decode()}})
+        bundle = {n: {'path': n, 'sha256': g.sha(b)} for n, b in blobs.items()}
+        full = g.sha(blobs['B_full'])
+        blobs['install'] = encode(dict(status='B_TEMP_INSTALL_FULL_VERIFY_AND_FLASH_BOOT_PASS', exit_code=0, Close_completed=True, full_flash_sha256=full))
+        blobs['temperature'] = encode(dict(status='B_TEMP_READONLY_CAPTURED', exit_code=0, new_valid_frames=3, Close_completed=True, full_flash_sha256=full))
+        # Preflight observed 3605 seconds ago (> 3600s). For R6 this MUST be rejected!
+        blobs['cpre'] = encode(dict(status='C_CURRENT_B5_CONFIG_DISARMED_READONLY_PASS', exit_code=0, full_sha256=c49132_full, observed_unix=time.time()-3605))
+        site = dict(source=dict(p.SOURCE_ECG), temperature_source='GY641V3_NONHUMAN_OBJECT_NO_REFERENCE', JLink_target='B', C_USB_connector='USB_UART/USB232', C_USB_port='COM6')
+        site.update(dict.fromkeys(('COM_confirmed', 'C_J5', 'B_J5', 'CAN_GND_unchanged', 'A_disconnected', 'INMP441_TTS_disconnected', 'ESP_present_powered_exception', 'operator_ready_manual_cutoff', 'one_C_reset_preplanned_only', 'B_USB_disconnected', 'exclusive_test_namespace'), True))
+        blobs['site'] = encode(site); blobs['bundle'] = encode(bundle)
+        a = dict(enabled=True, owner_approved=True, scope=p.FINAL_SCOPES_R6['ECG60'], channel_profile='ECG60', tools_sha256={'SYNTHETIC_TOOL': '0'}, criteria=p.criteria('ECG60'), environment=env,
+                 card_sha256=g.sha(p.FINAL_CARD_R6.read_bytes()), execution_card=p.FINAL_CARD_R6.name, require_source_STOP_state=True,
+                 execution_mode='OFFLINE_MOCK',
+                 reset_confirmation='SERIAL_DISARMED_AFTER_INTENT', owner_manual_reset_preapproved=True,
+                 expires_unix=time.time()+2000, retries=0, B5START_allowed=True, start_max=1,
+                 precommon_ntp_retries_max=2, operator_wait_extra_s=180, host_cancel_cleanup_s=10, test_service_expiry_unix=time.time()+2000,
+                 DLL_sha256=p.temp.raw.DLL_SHA, bundle='bundle', bundle_sha256=g.sha(blobs['bundle']),
+                 B_install_receipt='install', B_install_receipt_sha256=g.sha(blobs['install']),
+                 B_temperature_receipt='temperature', B_temperature_receipt_sha256=g.sha(blobs['temperature']),
+                 C_preflight_receipt='cpre', C_preflight_receipt_sha256=g.sha(blobs['cpre']),
+                 C_application_binding='binding',
+                 site_record='site', site_record_sha256=g.sha(blobs['site']), COM='COM6',
+                 observer_username='b5-observer', observer_client_id='b5-g3-observer-synthetic', output='SYNTHETIC_NO_TARGET')
+        with ExitStack() as stack:
+            stack.enter_context(patch.object(g.private, 'read', side_effect=lambda path, _: blobs[str(path)]))
+            stack.enter_context(patch.object(g.private, 'protected'))
+            stack.enter_context(patch.object(g, 'bindings', return_value={'SYNTHETIC_TOOL': '0'}))
+            stack.enter_context(patch.object(g, 'environment', return_value=env))
             stack.enter_context(patch.object(g, 'expected_c_full', return_value=c49132_full))
             stack.enter_context(patch.object(g, 'load', side_effect=lambda p: binding_data if 'binding' in str(p) else json.loads(blobs['cloud_package'])))
-            stack.enter_context(patch.object(p, 'B_ELF', g.sha(blobs['B_ELF'])))
-            stack.enter_context(patch.object(p, 'B_SYMBOLS', g.sha(blobs['B_symbols'])))
+            stack.enter_context(patch.object(p, 'B_ELF_R6', g.sha(blobs['B_ELF'])))
+            stack.enter_context(patch.object(p, 'B_SYMBOLS_R6', g.sha(blobs['B_symbols'])))
             stack.enter_context(patch.object(p, 'CLOUD_PACKAGE_SHA', g.sha(blobs['cloud_package'])))
-            stack.enter_context(patch.object(p.update, 'CANDIDATE_BIN', g.sha(blobs['B_full'][:40928])))
+            cand_sha = g.sha(blobs['B_full'][:41012])
+            stack.enter_context(patch.object(p, 'B_CANDIDATE_R6_BIN', cand_sha))
+            stack.enter_context(patch.object(p, 'B_PROFILE_R6', {'BIN_bytes': 41012, 'BIN_sha256': cand_sha, 'slots': 0x2000216c, 'UART_ring': 0x20004878, 'RAM': p.temp.RAM}))
+            with self.assertRaisesRegex(ValueError, 'C_PREFLIGHT'):
+                p.validate(a)
+
+    def test_r6_positive_mock_validates_cleanly_with_b41012b(self):
+        c49132_full = '9bba23b436f079183296fa98dcaeed047eb919ba8597d75a85bc144bc48417fd'
+        c49132_bin = '72131dbb5ef6bc0e0d33e328925c685403bae928aea9447a81f8291c6ae5c1ab'
+        binding_data = {'candidate_sha256': c49132_bin}
+        encode = lambda x: json.dumps(x).encode()
+        blobs = {n: ('SYNTHETIC_' + n).encode() for n in ('B_identity', 'B_full', 'B_options', 'C_identity', 'C_full', 'C_options', 'B_ELF', 'B_symbols', 'cloud_credentials')}
+        blobs['B_full'] = b'SYNTHETIC_B_41012' + bytes(41012)
+        env = {'Backend_sources': {'models.py': g.sha(b'SYNTHETIC_BACKEND')}}
+        blobs['cloud_package'] = encode({'sources': {'backend/app/models.py': base64.b64encode(b'SYNTHETIC_BACKEND').decode()}})
+        bundle = {n: {'path': n, 'sha256': g.sha(b)} for n, b in blobs.items()}
+        full = g.sha(blobs['B_full'])
+        blobs['install'] = encode(dict(status='B_TEMP_INSTALL_FULL_VERIFY_AND_FLASH_BOOT_PASS', exit_code=0, Close_completed=True, full_flash_sha256=full))
+        blobs['temperature'] = encode(dict(status='B_TEMP_READONLY_CAPTURED', exit_code=0, new_valid_frames=3, Close_completed=True, full_flash_sha256=full))
+        # Fresh preflight (50s old <= 3600s)
+        blobs['cpre'] = encode(dict(status='C_CURRENT_B5_CONFIG_DISARMED_READONLY_PASS', exit_code=0, full_sha256=c49132_full, observed_unix=time.time()-50))
+        site = dict(source=dict(p.SOURCE_ECG), temperature_source='GY641V3_NONHUMAN_OBJECT_NO_REFERENCE', JLink_target='B', C_USB_connector='USB_UART/USB232', C_USB_port='COM6')
+        site.update(dict.fromkeys(('COM_confirmed', 'C_J5', 'B_J5', 'CAN_GND_unchanged', 'A_disconnected', 'INMP441_TTS_disconnected', 'ESP_present_powered_exception', 'operator_ready_manual_cutoff', 'one_C_reset_preplanned_only', 'B_USB_disconnected', 'exclusive_test_namespace'), True))
+        blobs['site'] = encode(site); blobs['bundle'] = encode(bundle)
+        a = dict(enabled=True, owner_approved=True, scope=p.FINAL_SCOPES_R6['ECG60'], channel_profile='ECG60', tools_sha256={'SYNTHETIC_TOOL': '0'}, criteria=p.criteria('ECG60'), environment=env,
+                 card_sha256=g.sha(p.FINAL_CARD_R6.read_bytes()), execution_card=p.FINAL_CARD_R6.name, require_source_STOP_state=True,
+                 execution_mode='OFFLINE_MOCK',
+                 reset_confirmation='SERIAL_DISARMED_AFTER_INTENT', owner_manual_reset_preapproved=True,
+                 expires_unix=time.time()+2000, retries=0, B5START_allowed=True, start_max=1,
+                 precommon_ntp_retries_max=2, operator_wait_extra_s=180, host_cancel_cleanup_s=10, test_service_expiry_unix=time.time()+2000,
+                 DLL_sha256=p.temp.raw.DLL_SHA, bundle='bundle', bundle_sha256=g.sha(blobs['bundle']),
+                 B_install_receipt='install', B_install_receipt_sha256=g.sha(blobs['install']),
+                 B_temperature_receipt='temperature', B_temperature_receipt_sha256=g.sha(blobs['temperature']),
+                 C_preflight_receipt='cpre', C_preflight_receipt_sha256=g.sha(blobs['cpre']),
+                 C_application_binding='binding',
+                 site_record='site', site_record_sha256=g.sha(blobs['site']), COM='COM6',
+                 observer_username='b5-observer', observer_client_id='b5-g3-observer-synthetic', output='SYNTHETIC_NO_TARGET')
+        with ExitStack() as stack:
+            stack.enter_context(patch.object(g.private, 'read', side_effect=lambda path, _: blobs[str(path)]))
+            stack.enter_context(patch.object(g.private, 'protected'))
+            stack.enter_context(patch.object(g, 'bindings', return_value={'SYNTHETIC_TOOL': '0'}))
+            stack.enter_context(patch.object(g, 'environment', return_value=env))
+            stack.enter_context(patch.object(g, 'expected_c_full', return_value=c49132_full))
+            stack.enter_context(patch.object(g, 'load', side_effect=lambda p: binding_data if 'binding' in str(p) else json.loads(blobs['cloud_package'])))
+            stack.enter_context(patch.object(p, 'B_ELF_R6', g.sha(blobs['B_ELF'])))
+            stack.enter_context(patch.object(p, 'B_SYMBOLS_R6', g.sha(blobs['B_symbols'])))
+            stack.enter_context(patch.object(p, 'CLOUD_PACKAGE_SHA', g.sha(blobs['cloud_package'])))
+            cand_sha = g.sha(blobs['B_full'][:41012])
+            stack.enter_context(patch.object(p, 'B_CANDIDATE_R6_BIN', cand_sha))
+            stack.enter_context(patch.object(p, 'B_PROFILE_R6', {'BIN_bytes': 41012, 'BIN_sha256': cand_sha, 'slots': 0x2000216c, 'UART_ring': 0x20004878, 'RAM': p.temp.RAM}))
             ret_bundle, ret_site = p.validate(a)
             self.assertIn('_B_profile', ret_bundle)
+            self.assertEqual(ret_bundle['_B_profile']['BIN_bytes'], 41012)
+            self.assertEqual(ret_bundle['_B_profile']['BIN_sha256'], cand_sha)
             self.assertEqual(ret_site['C_USB_port'], 'COM6')
 
 if __name__=='__main__':unittest.main()

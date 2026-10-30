@@ -1,52 +1,64 @@
 {
-  "version": "R6-PATCH01-V1",
-  "git_base": "64d07ff33e2fddb46a4a0570d9abfa83adbc3e02",
+  "version": "R6-PATCH01-FIX02-V1",
+  "git_base": "81984f4e9f5c89df56dce7691c723f6b3fea7dd6",
   "branch": "patch/b5-r6-patch01-20261030",
   "status": "FROZEN_OFFLINE_MANIFEST",
   "files": {
-    "node-b/docs/B5-R6-PATCH01/R6-PATCH01-ISSUE-LEDGER.md": {
-      "bytes": 13793,
-      "sha256": "f68dd377dad0bce113deff3649dc8bffc3dd8612d8903ac103092d5ec636e205"
-    },
-    "node-b/docs/B5-R6-PATCH01/R5-ATTEMPT-TRUTH-RECEIPT.md": {
-      "bytes": 6372,
-      "sha256": "d7347cdd46ae953031f290c410afea62efd82eb4c39eae811f2b0a93c39376ad"
-    },
-    "node-b/docs/B5-R6-PATCH01/R6-SCOPE-NEGATIVE-POSITIVE-RECEIPTS.md": {
-      "bytes": 4079,
-      "sha256": "15c26430d4332f8b35ddbbf6f8d0042f8c3bebf4f0efd19ba0700cceb974c8e9"
-    },
-    "node-b/docs/B5-R6-PATCH01/TEMP-PATCH-CPU-REGRESSION.md": {
-      "bytes": 9088,
-      "sha256": "d7093a143139700abfaaeeda1222c7f041a8ce5c905bc48defc91b853e3cb616"
-    },
-    "node-b/docs/B5-R6-PATCH01/R6-PHYSICAL-MATRIX.proposed.md": {
-      "bytes": 5466,
-      "sha256": "0d0f88db4f2f458c2641587cbb98d79bc414abd238eb2f20e1cfda78c0672108"
+    "node-b/docs/AUTH-B5-R6-THREE-WINDOWS.md": {
+      "bytes": 5832,
+      "sha256": "97898460d5439c78efae6df898a53f967505f6bf41dc9de6f60455054f3e7dc5"
     },
     "node-b/docs/B5-R6-PATCH01/R6-PATCH01-FINAL-PI-PACKET.md": {
-      "bytes": 5432,
-      "sha256": "443f1fb49ca237c6f31df208ed1dd3f5abda1c40233191814d555a061c9013fb"
+      "bytes": 6736,
+      "sha256": "6d31605e8a2ac148a60293c604ca43174b4cec068e78be190f7c536edf393c80"
     },
-    "node-b/docs/AUTH-B5-R6-THREE-WINDOWS.md": {
-      "bytes": 4477,
-      "sha256": "54d1a5eeec21a8d9ad27ea8bbf7a9645f33de0d7a755fb3458f8a1fb83c13c6b"
+    "node-b/docs/B5-R6-PATCH01/R6-PATCH01-ISSUE-LEDGER.md": {
+      "bytes": 11962,
+      "sha256": "c8c9db8724bf6457a8de7e6266eefd8dfc1a38a3509131c50dfa79b46aa26320"
+    },
+    "node-b/docs/B5-R6-PATCH01/R5-ATTEMPT-TRUTH-RECEIPT.md": {
+      "bytes": 6783,
+      "sha256": "8b42e8956db4cba5fc141619e4d243e4487c14a56eb4f26e29fd59cbaccb4957"
+    },
+    "node-b/docs/B5-R6-PATCH01/R6-SCOPE-NEGATIVE-POSITIVE-RECEIPTS.md": {
+      "bytes": 5763,
+      "sha256": "58c88e3235abcb193c739ad1b92d8b24dcddf3b31822eaa061950bbca4199091"
+    },
+    "node-b/docs/B5-R6-PATCH01/TEMP-PATCH-CPU-REGRESSION.md": {
+      "bytes": 11924,
+      "sha256": "eea70974c4e4f08e87aed632873d05a7f08bf9af08719c92405fd8c6a8e283a3"
+    },
+    "node-b/docs/B5-R6-PATCH01/R6-PHYSICAL-MATRIX.proposed.md": {
+      "bytes": 5975,
+      "sha256": "5a549881f682ba5b0b079c022c38bbdec83fc92be6e8d62ace301b0dae90c076"
+    },
+    "node-b/evidence/B5-R6-PATCH01/hr_page.candidate.c": {
+      "bytes": 41042,
+      "sha256": "f7e6bc7e052660589f83ae6b04e0df0d0090421f39cd619eabfda3dbd06f6daf"
+    },
+    "node-b/evidence/B5-R6-PATCH01/symbols.candidate.txt": {
+      "bytes": 108998,
+      "sha256": "07e2166e9a145bcbdbb592b475b789cf55553ee38cf97c1dd5fcf9aebe7853f8"
+    },
+    "node-b/evidence/B5-R6-PATCH01/B5_TEMP_NODE_B.candidate.bin": {
+      "bytes": 41012,
+      "sha256": "1dbbf27177caa429f037ac72c43581a519e8ff70ac6224411c9c4ffe9529432d"
     },
     "node-b/tools/b5_channel_profiles.py": {
-      "bytes": 13180,
-      "sha256": "2acd8c8001557f04b9735996080041dda088b8542d63e3b37369db220298ce6a"
+      "bytes": 15225,
+      "sha256": "ee98c0f9170bbb4167cf1ebdb375074f616f76272f902df606e8d5095af6d603"
     },
     "node-b/tools/build_b4_arm.py": {
-      "bytes": 9362,
-      "sha256": "db65a00a60f5c084a1109c633a46f3ac3fbeb975e2be511a61dccb07bea2df9e"
+      "bytes": 9812,
+      "sha256": "629040a8a23da2c82ec4a14c81621dfdb9022f1fc453c47f737ae9c6f8d29c7b"
     },
     "node-b/tests/test_b5_channel_profiles.py": {
-      "bytes": 34904,
-      "sha256": "f6e5fc70f65f8d8a8f9cc5da79d9e81e849852a223e93c853242624f20df81b9"
+      "bytes": 39225,
+      "sha256": "b1580be489b461312e1c509e3c3e37d6359e1a4e57b681064f6aab4946060e02"
     },
     "node-b/temperature/test_timing_simulation.py": {
-      "bytes": 13761,
-      "sha256": "de170f5bd776b74b03548cbd9810994f513e6ad51cc558f519116e44ddde7f44"
+      "bytes": 18512,
+      "sha256": "286037ca945d1906a31474dc3629bf2bf9bc94b7bb8b0f74a4a982801fa49e3f"
     }
   }
 }

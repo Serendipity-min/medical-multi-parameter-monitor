@@ -19,9 +19,25 @@
 |---|---|---|---|
 | E-R6 | `B5_FINAL_ECG60_R6` | 普通 60bpm / 1.0mV，R→RA，L→LA，F→RL/N，LL空置；SKX 电池供电、充电 USB 断开；非人体 MOCK。 | 45s 预热 ＋ 300s 评价 ＋ 15s 尾段，420s 业务硬停；ECG 连续源点 ≥ 74250，RESP 源点 ≥ 14850；HR 58–62 且有效标量 ≥ 295；RR 保持真实 INVALID/null；WSS 快照 ≥ 2900。 |
 | T-R6 | `B5_FINAL_TEMP_OBJECT_R6` | GY-641V3 模块 3.3V/GND，TD→B PC11(UART4 RX 9600)，B PC10 仅输入；禁止写配置或改线；非人体物表。 | 至少 295 条有效 TEMP 标量，UART 源帧校验通过、源龄维持严格 `[-10, 2500] ms`，C TEMP_ENTRY 精确 seq/epoch/boot/采集报告 UTC 与源值核对，原 2ms 相位界保持；Broker→Backend→WSS 各层值一致；不伪造同窗 ECG/RR 有效。 |
-| R-R6 | `B5_FINAL_RR15_R6` | 唯一批准冷态改线：黄L 从 LA 移至 LL/F，R 接 RA，绿F 接 RL/N，LA 空置；模拟器 RESP/RR15，振幅菜单 1.5R，周期 30bpm，窒息 0s；SKX 电池供电，无充电 USB。 | RESP 50SPS、连续源点 ≥ 14850，RR 14–16 稳态有效 ≥ 295 条；无真实 QRS 时 HR 必须 INVALID/null；ECG 不宣称本窗有效；同源序号/CAN/UTC/Broker/Backend/WSS 完整验证。 |
+| R-R6 | `B5_FINAL_RR15_R6` | 唯一批准冷态改线：黄L 从 LA 移至 LL/F，R 接 RA，绿F 接 RL/N，LA 空置；SKX-2000D+ 现场主菜单呼吸率【RR】= 15 bpm（严禁设为 30 bpm！），阻抗变化量菜单 1.5R，阻抗基准心率/呼吸波形周期菜单 30 bpm，窒息时间菜单 0s；SKX 电池供电，无充电 USB。 | RESP 50SPS、连续源点 ≥ 14850，RR 14–16 稳态有效 ≥ 295 条；无真实 QRS 时 HR 必须 INVALID/null；ECG 不宣称本窗有效；同源序号/CAN/UTC/Broker/Backend/WSS 完整验证。 |
 
-## 3. 一次确认、逐对象独立消费规则
+> [!IMPORTANT]
+> **SKX-2000D+ 模拟器呼吸工况设置防错核心规则**：
+> - **主菜单呼吸率【RR】**：必须且只能设为 **15 bpm**。严禁误设为 30 bpm（误设将重演 R5 窗口因工况错设导致的不合格）。
+> - **阻抗基准心率 / 呼吸波形周期菜单**：设为 **30 bpm**（作为 1.5R 阻抗调制载波基准）。
+> - **阻抗变化量**：设为 **1.5R**。
+> - **窒息时间**：设为 **0s**。
+
+## 3. 机器准入互锁与现场执行硬门禁
+
+1. **机器互锁拒绝未签署清单（Machine Interlock）**：
+   - 主机准入程序 `validate()` 对 `version == 'R6'` 默认执行严格机器互锁拦截；
+   - 必须核验由 PI 正式书面签署的 `node-b/evidence/B5-R6-PATCH01/R6-FREEZE-MANIFEST.json`（要求 `status == 'FROZEN_GATE_F_SIGNED'`、有效 `pi_signature` 且指纹匹配候选 B41012B）；
+   - 若未签署或 `field_execution_authorized != true`，主机程序直接抛出 `CHANNEL_R6_FIELD_EXECUTION_BLOCKED_UNSIGNED_FREEZE` 阻断执行；禁止仅凭 `owner_approved = true` 绕过门禁。
+2. **离线 MOCK 隔离**：
+   - 离线单元测试与仿真验证必须显式声明 `execution_mode = 'OFFLINE_MOCK'`，严禁与现场实机令牌混淆。
+
+## 4. 一次确认、逐对象独立消费规则
 
 1. 逐对象独立性：每个窗口必须具备独立的私有令牌文件、数据输出目录、`.used` 标记、START 尝试记录与结束证据。一个窗口的失败不自动消耗下一窗口。
 2. 启动与重置限制：

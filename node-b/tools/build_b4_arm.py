@@ -48,24 +48,34 @@ def main():
         '        BCan_Sample(sampleMs,sequence,ADS1292_GetLastFrameFlags());\n'
         '        CanOpen_Task(TimeBase_GetMs());')
     if args.candidate_r6:
-        # 在 ValueRefresh 及周期 UI 刷新后增加协作式 FrameFeed(TimeBase_GetMs())
-        # 消除 17.4ms 阻塞串口屏刷新引起的 EcgQueue 延迟，保证 bio.last_sample_ms 紧跟硬件 DRDY
+        # 在 ValueRefresh 及周期 UI 刷新后增加协作式 FrameFeed(TimeBase_GetMs())（严格对齐 8 处协作点）
+        # 协作点 1: HR 状态刷新后
         text = text.replace('StateTxt(HP_TXT_HR_ST, st_hr);',
                             'StateTxt(HP_TXT_HR_ST, st_hr);\n        FrameFeed(TimeBase_GetMs());')
+        # 协作点 2: RR 状态刷新后
         text = text.replace('StateTxt(HP_TXT_RR_ST, st_rr);',
                             'StateTxt(HP_TXT_RR_ST, st_rr);\n        FrameFeed(TimeBase_GetMs());')
+        # 协作点 3: 探头刷新后
         text = text.replace('ProbeRefresh(now_ms);',
                             'ProbeRefresh(now_ms);\n    FrameFeed(TimeBase_GetMs());')
+        # 协作点 4: 探头页面刷新后
         text = text.replace('if (s_cur == HP_SCR_PROBE) { ProbePageRefresh(now_ms); }',
                             'if (s_cur == HP_SCR_PROBE) { ProbePageRefresh(now_ms); }\n        FrameFeed(TimeBase_GetMs());')
+        # 协作点 5: 质量统计刷新后
         text = text.replace('QualityRefresh();\n    }',
                             'QualityRefresh();\n        FrameFeed(TimeBase_GetMs());\n    }')
+        # 协作点 6: 60s 趋势历史推点后
         text = text.replace('MinuteTick();                            // 60s：趋势历史推 1 点\n    }',
                             'MinuteTick();                            // 60s：趋势历史推 1 点\n        FrameFeed(TimeBase_GetMs());\n    }')
+        # 协作点 7: 30s RTC 校时后
         text = text.replace('ReadRTC();                               // 30s：RTC 校时\n    }',
                             'ReadRTC();                               // 30s：RTC 校时\n        FrameFeed(TimeBase_GetMs());\n    }')
+        # 协作点 8: 控件扫描后
         text = text.replace('ScanControls();\n    }',
                             'ScanControls();\n        FrameFeed(TimeBase_GetMs());\n    }')
+        cand_dest = ROOT / 'node-b/evidence/B5-R6-PATCH01/hr_page.candidate.c'
+        cand_dest.parent.mkdir(parents=True, exist_ok=True)
+        cand_dest.write_text(text, encoding='utf-8')
     page.write_text(text, encoding='utf-8')
     main_c = project / 'USER/main.c'
     text = main_c.read_text(encoding='utf-8').replace('#include "canopen.h"', '#include "b_canopen_app.h"')

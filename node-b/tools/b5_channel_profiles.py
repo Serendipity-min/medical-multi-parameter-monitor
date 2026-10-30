@@ -32,12 +32,20 @@ FINAL_SCOPES_R5={name:'B5_FINAL_'+name+'_R5' for name in ('ECG60','TEMP_OBJECT',
 FINAL_CARD_R6=g.ROOT/'node-b/docs/AUTH-B5-R6-THREE-WINDOWS.md'
 FINAL_SCOPES_R6={name:'B5_FINAL_'+name+'_R6' for name in ('ECG60','TEMP_OBJECT','RR15')}
 PROFILES=('ECG60','TEMP_OBJECT','RR15')
+# 历史基线 Node-B 固件指纹 (40928 字节)
 B_PROFILE={'BIN_bytes':40928,'BIN_sha256':update.CANDIDATE_BIN,'slots':0x2000216c,
            'UART_ring':0x20004878,'RAM':temp.RAM}
 B_ELF='e0433f3246e3e9aa422365834ceeae7e2e3c68360164a8bb583d7a45f4700ed1'
 B_SYMBOLS='4c3e2ab42a3379c615924d8af4deb7e81207554bc1ef3d9e9ac79e977c9ecfcf'
+# R6 候选微调度 Node-B 固件指纹 (41012 字节)
+B_CANDIDATE_R6_BIN='1dbbf27177caa429f037ac72c43581a519e8ff70ac6224411c9c4ffe9529432d'
+B_ELF_R6='e11219c4de3718fc0832a6e6863ec9645836300197f36503cc13d8e8bd9923b7'
+B_SYMBOLS_R6='07e2166e9a145bcbdbb592b475b789cf55553ee38cf97c1dd5fcf9aebe7853f8'
+B_PROFILE_R6={'BIN_bytes':41012,'BIN_sha256':B_CANDIDATE_R6_BIN,'slots':0x2000216c,
+              'UART_ring':0x20004878,'RAM':temp.RAM}
 CLOUD_PACKAGE_SHA='dcee1658be5ce4db2531975069441444a0f50078828321a3e978a8352b520db0'
 SOURCE_ECG=dict(g.SOURCE)
+# RR15 模拟器工况：主呼吸率【RR】= 15 bpm（严禁设为 30 bpm！），阻抗变化量 1.5R，阻抗基准心率/周期菜单 30 bpm，窒息 0s
 SOURCE_RR={'mode':'RESP','RR_bpm':15,'amplitude_menu_R':1.5,'waveform_period_bpm':30,'apnea_s':0,
            'leads':{'R':'RA','L':'LL/F','F':'RL/N','LA':'EMPTY'},'battery_no_USB':True,'no_human':True}
 
@@ -76,6 +84,21 @@ def validate(a):
     final_card=FINAL_CARD_R6 if a.get('scope') in FINAL_SCOPES_R6.values() else FINAL_CARD_R5 if a.get('scope') in FINAL_SCOPES_R5.values() else FINAL_CARD_R4TI if a.get('scope') in FINAL_SCOPES_R4TI.values() else FINAL_CARD_R4TB if a.get('scope') in FINAL_SCOPES_R4TB.values() else FINAL_CARD_R4D if a.get('scope') in FINAL_SCOPES_R4D.values() else FINAL_CARD_R4TC if a.get('scope') in FINAL_SCOPES_R4TC.values() else FINAL_CARD_R4 if a.get('scope') in FINAL_SCOPES_R4.values() else FINAL_CARD_R3 if a.get('scope') in FINAL_SCOPES_R3.values() else FINAL_CARD_R2 if a.get('scope') in FINAL_SCOPES_R2.values() else FINAL_CARD
     final_scopes=FINAL_SCOPES_R6 if final_card==FINAL_CARD_R6 else FINAL_SCOPES_R5 if final_card==FINAL_CARD_R5 else FINAL_SCOPES_R4TI if final_card==FINAL_CARD_R4TI else FINAL_SCOPES_R4TB if final_card==FINAL_CARD_R4TB else FINAL_SCOPES_R4D if final_card==FINAL_CARD_R4D else FINAL_SCOPES_R4TC if final_card==FINAL_CARD_R4TC else FINAL_SCOPES_R4 if final_card==FINAL_CARD_R4 else FINAL_SCOPES_R3 if final_card==FINAL_CARD_R3 else FINAL_SCOPES_R2 if final_card==FINAL_CARD_R2 else FINAL_SCOPES
     if final:g.require(a['scope']==final_scopes.get(profile) and a.get('require_source_STOP_state') is True,'CHANNEL_FINAL_OBJECT')
+    version=None
+    if final:
+        version='R6' if final_card==FINAL_CARD_R6 else 'R5' if final_card==FINAL_CARD_R5 else 'R4TI' if final_card==FINAL_CARD_R4TI else 'R4TB' if final_card==FINAL_CARD_R4TB else 'R4D' if final_card==FINAL_CARD_R4D else 'R4TC' if final_card==FINAL_CARD_R4TC else 'R4' if final_card==FINAL_CARD_R4 else 'R3' if final_card==FINAL_CARD_R3 else 'R2' if final_card==FINAL_CARD_R2 else 'R1'
+    if version=='R6':
+        expected_b_elf=B_ELF_R6
+        expected_b_symbols=B_SYMBOLS_R6
+        expected_b_bin_bytes=B_PROFILE_R6['BIN_bytes']
+        expected_b_bin_sha=B_PROFILE_R6['BIN_sha256']
+        active_b_profile=B_PROFILE_R6
+    else:
+        expected_b_elf=B_ELF
+        expected_b_symbols=B_SYMBOLS
+        expected_b_bin_bytes=B_PROFILE['BIN_bytes']
+        expected_b_bin_sha=update.CANDIDATE_BIN
+        active_b_profile=B_PROFILE
     g.require(a.get('tools_sha256')==g.bindings() and a.get('criteria')==criteria(profile),'CHANNEL_FROZEN_BINDING')
     g.require(a.get('environment')==g.environment(),'CHANNEL_ENVIRONMENT')
     selected=a.get('execution_card',CARD.name)
@@ -83,6 +106,19 @@ def validate(a):
     g.require((selected in (FINAL_CARD.name,FINAL_CARD_R2.name,FINAL_CARD_R3.name,FINAL_CARD_R4.name,FINAL_CARD_R4TC.name,FINAL_CARD_R4D.name,FINAL_CARD_R4TB.name,FINAL_CARD_R4TI.name,FINAL_CARD_R5.name,FINAL_CARD_R6.name))==final and (not final or selected==final_card.name),'CHANNEL_FINAL_CARD')
     card=final_card if final else CARD if selected==CARD.name else CONTINUE_CARD
     g.require(a.get('card_sha256')==g.sha(card.read_bytes()),'CHANNEL_CARD')
+    if version=='R6':
+        # 机器互锁：R6未签署正式冻结清单前，严禁任何实机执行；仅允许显式离线MOCK模式验证准入规则
+        if a.get('execution_mode')!='OFFLINE_MOCK':
+            freeze_manifest=g.ROOT/'node-b/evidence/B5-R6-PATCH01/R6-FREEZE-MANIFEST.json'
+            frozen_ok=False
+            if freeze_manifest.exists():
+                try:
+                    f_doc=json.loads(freeze_manifest.read_text(encoding='utf-8'))
+                    if f_doc.get('status')=='FROZEN_GATE_F_SIGNED' and f_doc.get('candidate_b_sha256')==B_CANDIDATE_R6_BIN and f_doc.get('pi_signature'):
+                        frozen_ok=True
+                except Exception:
+                    pass
+            g.require(frozen_ok and a.get('field_execution_authorized') is True,'CHANNEL_R6_FIELD_EXECUTION_BLOCKED_UNSIGNED_FREEZE')
     if selected in (CONTINUE_CARD.name,FINAL_CARD.name,FINAL_CARD_R2.name,FINAL_CARD_R3.name,FINAL_CARD_R4.name,FINAL_CARD_R4TC.name,FINAL_CARD_R4D.name,FINAL_CARD_R4TB.name,FINAL_CARD_R4TI.name,FINAL_CARD_R5.name,FINAL_CARD_R6.name):
         g.require(a.get('reset_confirmation')=='SERIAL_DISARMED_AFTER_INTENT' and
                   a.get('owner_manual_reset_preapproved') is True,'CHANNEL_RESET_CONFIRMATION')
@@ -97,21 +133,21 @@ def validate(a):
     bundle=json.loads(raw)
     for key in ('B_identity','B_full','B_options','C_identity','C_full','C_options','B_ELF','B_symbols','cloud_package','cloud_credentials'):
         ref=bundle[key];g.require(g.sha(g.private.read(Path(ref['path']),False))==ref['sha256'],'CHANNEL_REFERENCE_DRIFT')
-    g.require(bundle['B_ELF']['sha256']==B_ELF and bundle['B_symbols']['sha256']==B_SYMBOLS,'CHANNEL_B_ABI')
+    g.require(bundle['B_ELF']['sha256']==expected_b_elf and bundle['B_symbols']['sha256']==expected_b_symbols,'CHANNEL_B_ABI')
     before=g.private.read(Path(bundle['B_full']['path']),False)
-    g.require(g.sha(before[:40928])==update.CANDIDATE_BIN,'CHANNEL_B_IMAGE')
+    g.require(len(before)>=expected_b_bin_bytes and g.sha(before[:expected_b_bin_bytes])==expected_b_bin_sha,'CHANNEL_B_IMAGE')
     proofraw=g.private.read(Path(a['B_install_receipt']),False);proof=json.loads(proofraw)
     g.require(g.sha(proofraw)==a['B_install_receipt_sha256'] and proof.get('exit_code')==0 and
               proof.get('status')=='B_TEMP_INSTALL_FULL_VERIFY_AND_FLASH_BOOT_PASS' and proof.get('Close_completed') is True and
               proof.get('full_flash_sha256')==bundle['B_full']['sha256'],'CHANNEL_B_INSTALL')
+    if 'candidate_bin_sha256' in proof:
+        g.require(proof['candidate_bin_sha256']==expected_b_bin_sha,'CHANNEL_B_INSTALL_CANDIDATE')
     ro_raw=g.private.read(Path(a['B_temperature_receipt']),False);ro=json.loads(ro_raw)
     g.require(g.sha(ro_raw)==a['B_temperature_receipt_sha256'] and ro.get('exit_code')==0 and
               ro.get('status')=='B_TEMP_READONLY_CAPTURED' and ro.get('new_valid_frames',0)>0 and
               ro.get('Close_completed') is True and ro.get('full_flash_sha256')==bundle['B_full']['sha256'],'CHANNEL_B_TEMP_INPUT')
     cfull=g.expected_c_full(a,bundle)
-    version=None
     if final:
-        version='R6' if final_card==FINAL_CARD_R6 else 'R5' if final_card==FINAL_CARD_R5 else 'R4TI' if final_card==FINAL_CARD_R4TI else 'R4TB' if final_card==FINAL_CARD_R4TB else 'R4D' if final_card==FINAL_CARD_R4D else 'R4TC' if final_card==FINAL_CARD_R4TC else 'R4' if final_card==FINAL_CARD_R4 else 'R3' if final_card==FINAL_CARD_R3 else 'R2' if final_card==FINAL_CARD_R2 else 'R1'
         frozen=json.loads((g.ROOT/('node-b/evidence/'+('B5-C-REPAIR-R4/TIME-INIT-R1' if version in ('R4TI','R5','R6') else 'B5-C-REPAIR-R4/TIME-BOOTSTRAP-R2' if version=='R4TB' else 'B5-C-REPAIR-R4/DIAGNOSTICS-R1' if version=='R4D' else 'B5-C-REPAIR-R4/TIME-CLOSE-R1' if version=='R4TC' else 'B5-C-REPAIR-R4' if version=='R4' else 'B5-C-EGRESS-FINAL-'+version)+'/candidate.json')).read_text())
         g.require(frozen['status']=='FROZEN_SOFTWARE_PASS' and cfull==frozen['expected_new_full_sha256'] and
                   g.load(a['C_application_binding'])['candidate_sha256']==frozen['BIN_sha256'],'CHANNEL_FINAL_CANDIDATE')
@@ -134,6 +170,6 @@ def validate(a):
     g.require(a.get('observer_username')=='b5-observer' and a.get('observer_client_id','').startswith('b5-g3-observer-') and
               len(a['observer_client_id'])<=60,'CHANNEL_OBSERVER_IDENTITY')
     g.private.protected(Path(a['output']).parent,False)
-    bundle['_B_profile']=B_PROFILE;bundle['_expected_C_full_sha256']=cfull
+    bundle['_B_profile']=active_b_profile;bundle['_expected_C_full_sha256']=cfull
     if final:bundle['_require_source_STOP_state']=True
     return bundle,site

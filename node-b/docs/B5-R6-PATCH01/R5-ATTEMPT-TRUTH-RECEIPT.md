@@ -29,7 +29,7 @@
 | **4** | `owner-observed-TEMP_OBJECT-R5-f75b446e` | `TEMP_OBJECT` | `1793323756314`<br>(mono: 1057803.343) | **1** | **1** | **1** | *无 (未完成)* | **8 字节**<br>(1次) | `G3_C_STOPPED_BEFORE_EVALUATION_END`<br>(SNTP 校验不匹配触发停机) | **ABORTED**<br>(在进入评价前由主管进程主动中止) |
 | **5** | `owner-observed-TEMP_OBJECT-R5-6104c2e6` | `TEMP_OBJECT` | `1793324048419`<br>(mono: 1058095.375) | **0** | **0** | **0** | **3** | **8 字节**<br>(1次) | 完成 420s 业务硬停与 300s 窗口评价 | **NOT_PASS**<br>(1 项失败：`B_TEMP_FRESH_SOURCE`，29/600 帧 age < -10ms) |
 | **6** | `owner-observed-RR15-R5-7058a3bd` | `RR15` | `1793325036561`<br>(mono: 1059083.312) | **1** | **1** | *未生成* | *无 (未完成)* | **8 字节**<br>(1次) | `G3_COMMON_NOT_READY_IN_60S`<br>(授权卡写30bpm与配置15bpm矛盾导致超时) | **ABORTED**<br>(60秒共同就绪超时，主管强杀工作进程) |
-| **7** | `owner-observed-RR15-R5-5bb61eef` | `RR15` | `1793325606946`<br>(mono: 1059653.593) | **0** | **0** | **0** | **3** | **8 字节**<br>(1次) | 完成 420s 业务硬停与 300s 窗口评价 | **NOT_PASS**<br>(3 项失败：`B_RR_VALID15_HR_INVALID`、`RR_EXPECTED_INVALID`、`RR_BROKER_COVERAGE`) |
+| **7** | `owner-observed-RR15-R5-5bb61eef` | `RR15` | `1793325606946`<br>(mono: 1059653.593) | **0** | **0** | **0** | **3** | **8 字节**<br>(1次) | 完成 420s 业务硬停与 300s 窗口评价 | **NOT_PASS**<br>(依冻结联评器原件 3 项失败：`B_RR_VALID15_HR_INVALID`、`HR_EXPECTED_INVALID`、`WSS_TARGET_CHANNEL_INVALID`) |
 
 ---
 
@@ -48,6 +48,7 @@
   ```
 - `joint-receipt-private.json`: `exit_code: 0`, `status: "G3_FILES_CAPTURED_REVIEW_PENDING"`
 - `formal-ECG60-review-private.json`: `exit_code: 3`, `status: "B5_SEPARATE_ECG60_NOT_PASS"`
+- 评价期 WSS 批次接收审计：Broker 期望 750 批（300s 评价期 @ 400ms/批），WSS 评价期内实际接收 740 批，评价期后另接收 1 批（全会话总接收 741 批）。评价期内严格缺失 10 批（`750 - 740 = 10`），触发 `ECG_WSS_BATCH_MISSING`。
 
 ### 3.2 尝试 3 (TEMP-A02: `owner-observed-TEMP_OBJECT-R5-cff28389`)
 - `ARM_ATTEMPT.json`: `bytes: 8`, `UTC_ms: 1793323487931`
@@ -69,7 +70,7 @@
 ### 3.5 尝试 7 (RR15-W01: `owner-observed-RR15-R5-5bb61eef`)
 - `ARM_ATTEMPT.json`: `bytes: 8`, `UTC_ms: 1793325606946`
 - `joint-receipt-private.json`: `exit_code: 0`, `status: "G3_FILES_CAPTURED_REVIEW_PENDING"`
-- `formal-RR15-review-private.json`: `exit_code: 3`, `status: "B5_SEPARATE_RR15_NOT_PASS"`
+- `formal-RR15-review-private.json`: `exit_code: 3`, `status: "B5_SEPARATE_RR15_NOT_PASS"`, `failures: ["B_RR_VALID15_HR_INVALID", "HR_EXPECTED_INVALID", "WSS_TARGET_CHANNEL_INVALID"]`
 
 ---
 
