@@ -20,6 +20,7 @@ def sha(p):
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--temp',action='store_true',help='离线构建UART4温度物表工程变体；不下载')
+    parser.add_argument('--candidate-r6',action='store_true',help='离线构建带有R6微调度补偿的Node-B候选镜像；不下载')
     args=parser.parse_args()
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     out = ROOT / 'node-b/build' / ('b4-arm-' + stamp)
@@ -46,6 +47,25 @@ def main():
         '\n        /* 通信只读取已处理快照，不改变250SPS采集及算法。 */\n'
         '        BCan_Sample(sampleMs,sequence,ADS1292_GetLastFrameFlags());\n'
         '        CanOpen_Task(TimeBase_GetMs());')
+    if args.candidate_r6:
+        # 在 ValueRefresh 及周期 UI 刷新后增加协作式 FrameFeed(TimeBase_GetMs())
+        # 消除 17.4ms 阻塞串口屏刷新引起的 EcgQueue 延迟，保证 bio.last_sample_ms 紧跟硬件 DRDY
+        text = text.replace('StateTxt(HP_TXT_HR_ST, st_hr);',
+                            'StateTxt(HP_TXT_HR_ST, st_hr);\n        FrameFeed(TimeBase_GetMs());')
+        text = text.replace('StateTxt(HP_TXT_RR_ST, st_rr);',
+                            'StateTxt(HP_TXT_RR_ST, st_rr);\n        FrameFeed(TimeBase_GetMs());')
+        text = text.replace('ProbeRefresh(now_ms);',
+                            'ProbeRefresh(now_ms);\n    FrameFeed(TimeBase_GetMs());')
+        text = text.replace('if (s_cur == HP_SCR_PROBE) { ProbePageRefresh(now_ms); }',
+                            'if (s_cur == HP_SCR_PROBE) { ProbePageRefresh(now_ms); }\n        FrameFeed(TimeBase_GetMs());')
+        text = text.replace('QualityRefresh();\n    }',
+                            'QualityRefresh();\n        FrameFeed(TimeBase_GetMs());\n    }')
+        text = text.replace('MinuteTick();                            // 60s：趋势历史推 1 点\n    }',
+                            'MinuteTick();                            // 60s：趋势历史推 1 点\n        FrameFeed(TimeBase_GetMs());\n    }')
+        text = text.replace('ReadRTC();                               // 30s：RTC 校时\n    }',
+                            'ReadRTC();                               // 30s：RTC 校时\n        FrameFeed(TimeBase_GetMs());\n    }')
+        text = text.replace('ScanControls();\n    }',
+                            'ScanControls();\n        FrameFeed(TimeBase_GetMs());\n    }')
     page.write_text(text, encoding='utf-8')
     main_c = project / 'USER/main.c'
     text = main_c.read_text(encoding='utf-8').replace('#include "canopen.h"', '#include "b_canopen_app.h"')
@@ -102,6 +122,7 @@ def main():
               'builder_sha256': sha(Path(__file__)), 'resources': list(map(int, resource.groups())) if resource else None,
               'tool_sha256': {'UV4': sha(uv), 'fromelf': sha(fromelf)}}
     report['temperature_variant']=args.temp
+    report['candidate_r6_variant']=args.candidate_r6
     report['temperature_quantity']='nonhuman_object_surface_uncalibrated' if args.temp else 'INVALID'
     # 输出实际编译副本的头文件/工程输入SHA，覆盖屏幕钩子和C99选项，不只列出C文件。
     report['source_sha256'] = {p.relative_to(project).as_posix(): sha(p) for p in sorted(project.rglob('*'))
