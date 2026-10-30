@@ -1,0 +1,110 @@
+{
+  "window": "CURRENT_B41012_RR15",
+  "failures_preserved": true,
+  "valid_HR_diagnostics": 20,
+  "total": 600,
+  "valid_HR_bursts": [
+    {
+      "start_evaluation_s": 15.375,
+      "end_evaluation_s": 15.875,
+      "diagnostics": 2,
+      "HR_values": [
+        52
+      ],
+      "HR_last_cycle_ms": [
+        956660
+      ]
+    },
+    {
+      "start_evaluation_s": 54.422,
+      "end_evaluation_s": 56.313,
+      "diagnostics": 5,
+      "HR_values": [
+        64
+      ],
+      "HR_last_cycle_ms": [
+        995802
+      ]
+    },
+    {
+      "start_evaluation_s": 90.313,
+      "end_evaluation_s": 92.86,
+      "diagnostics": 6,
+      "HR_values": [
+        73,
+        82
+      ],
+      "HR_last_cycle_ms": [
+        1031623,
+        1032443
+      ]
+    },
+    {
+      "start_evaluation_s": 115.391,
+      "end_evaluation_s": 115.891,
+      "diagnostics": 2,
+      "HR_values": [
+        38
+      ],
+      "HR_last_cycle_ms": [
+        1056776
+      ]
+    },
+    {
+      "start_evaluation_s": 166.906,
+      "end_evaluation_s": 168.438,
+      "diagnostics": 4,
+      "HR_values": [
+        58
+      ],
+      "HR_last_cycle_ms": [
+        1107983
+      ]
+    },
+    {
+      "start_evaluation_s": 179.422,
+      "end_evaluation_s": 179.422,
+      "diagnostics": 1,
+      "HR_values": [
+        39
+      ],
+      "HR_last_cycle_ms": [
+        1120527
+      ]
+    }
+  ],
+  "ecg_rms_codes_valid_HR": {
+    "min": 40.927303314208984,
+    "median": 46.07447814941406,
+    "max": 57.90040588378906
+  },
+  "ecg_rms_codes_invalid_HR": {
+    "min": 38.76787567138672,
+    "median": 47.9173583984375,
+    "max": 58.248390197753906
+  },
+  "ecg_mains_fraction_valid_HR": {
+    "min": 0.8914974927902222,
+    "median": 0.904891312122345,
+    "max": 0.9164494872093201
+  },
+  "ecg_mains_fraction_invalid_HR": {
+    "min": 0.8833513855934143,
+    "median": 0.9077783524990082,
+    "max": 0.9251078963279724
+  },
+  "hr_reason_histogram": {
+    "2": 270,
+    "10": 87,
+    "6": 223,
+    "0": 20
+  },
+  "ECG_gain_registers": [
+    "7301e0f04040ec00ffea030f"
+  ],
+  "source_hashes": {
+    "diagnostics": "aae56ea2bfda4c11f9337987528ba0975eec3fa6b5029359ac80f963cc0cc176",
+    "algorithm": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7"
+  },
+  "causal_limit": "Irregular HR bursts and filtered RMS/mains metrics do not alone distinguish real simulator QRS from coupled noise. No algorithm, gain, ADS setting or criterion changed."
+}

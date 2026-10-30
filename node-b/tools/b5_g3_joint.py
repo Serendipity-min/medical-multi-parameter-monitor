@@ -106,7 +106,7 @@ def phase_limits(arm,t0=None):
             'evaluation':None if t0 is None else [t0+45,t0+345],'tail_end':None if t0 is None else t0+360}
 
 
-def joint_worker(auth_path,a,bundle):
+def joint_worker(auth_path,a,bundle,*,b_worker_command=None):
     import serial
     import b5_g3_cloud as cloud
     root=Path(a['output']);root.mkdir(exist_ok=False);g.private.protected(root,False)
@@ -130,8 +130,9 @@ def joint_worker(auth_path,a,bundle):
                  'physical_pulse_absence':'NOT_PROVEN_BY_SOFTWARE_FLAGS'})
         print(json.dumps({'event':'SERIAL_OPEN_NO_ACTION_YET','B5START':0}),flush=True)
         b_log=(root/'B-worker-private.log').open('xb')
-        b_child=subprocess.Popen([sys.executable,'-X','utf8',str(g.ROOT/'node-b/tools/b5_g3_devices.py'),
-          '--b-worker','--authorization',str(auth_path)],stdout=b_log,stderr=subprocess.STDOUT)
+        command=b_worker_command if b_worker_command is not None else [sys.executable,'-X','utf8',str(g.ROOT/'node-b/tools/b5_g3_devices.py'),
+          '--b-worker','--authorization',str(auth_path)]
+        b_child=subprocess.Popen(command,stdout=b_log,stderr=subprocess.STDOUT)
         cloud_thread=threading.Thread(target=cloud.run,args=(a,root,bundle,stop,shared),daemon=True);cloud_thread.start()
         pending=b'';ended_B=False
         while True:

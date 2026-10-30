@@ -1,0 +1,15 @@
+{
+  "status": "PASS_MOCK",
+  "exit_code": 0,
+  "case": "41012 byte application in exact 48KiB sectors with preserved tail/options",
+  "actions_mock": {
+    "JLINKARM_Halt": 1,
+    "JLINKARM_BeginDownload": 1,
+    "JLINKARM_WriteMem": 1,
+    "JLINKARM_EndDownload": 1,
+    "JLINKARM_Reset": 1,
+    "JLINKARM_Go": 1
+  },
+  "native_target_calls": 0,
+  "installer_sha256": "e290cbcd334140d93d4c1008ef351fe45ecffa0eb0069e330581057adf08a456"
+}

@@ -1,0 +1,10 @@
+{
+  "status": "RUNNER_INITIALIZATION_FAILED",
+  "shell_exit_code": 1,
+  "tests_run": 0,
+  "exception": "AssertionError: OFFLINE_GUARD_ctypes.dlopen",
+  "cause": "pyserial import attempted Windows kernel32 load before the guard was replaced with a stub serial module",
+  "target_calls": 0,
+  "raw_console_trace": "EXEC_TOOL_OUTPUT_PRESERVED_IN_CHAT_NOT_A_SEPARATE_FILE",
+  "resolution": "Inject synthetic serial module before importing tested code; final run mock-final-04.json passes 16 tests"
+}

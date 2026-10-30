@@ -1,0 +1,165 @@
+{
+  "version": "CODEX-R6-P1B0-AND-OWNER-FIELD-DELIVERY-R1",
+  "base_sha": "9f5a6641fec2bcdb575f5f9ff549b8e9b0223820",
+  "branch": "audit/codex-b5-r6-p1b0-20261030",
+  "status": "P1B0_OFFLINE_CANDIDATE_FIELD_OVERRIDE_RR15_NOT_PASS_WAIT_PI",
+  "self_reference": "EXCLUDED; commit SHA published after commit in chat and ignored delivery receipt",
+  "files": {
+    "node-b/tools/b5_codex_p1b_readonly.py": {
+      "bytes": 7630,
+      "sha256": "6ff1f89156a504b840008c957114ae38aafe93b7798a33af5d280f79c04e9049"
+    },
+    "node-b/tools/b5_g3_joint.py": {
+      "bytes": 21680,
+      "sha256": "7a2bb42d026f69b564764f41ef5f93c68f21b571ef9c3ebab259d8da9ce71ddf"
+    },
+    "node-b/tests/test_codex_p1b_gate.py": {
+      "bytes": 10636,
+      "sha256": "17ef78d2781c7992b04b482ff82f1b567e6516131ab8d4118fc49e04a63fea0a"
+    },
+    "node-b/tests/run_codex_p1b_mock.py": {
+      "bytes": 3509,
+      "sha256": "04c7a4c6b15999ac298b2397c07d7f799dafa8ab882bde927431453d29b61140"
+    },
+    "node-b/docs/CODEX-R6-P1B0-20261030/BOARD-B-SUPPLEMENT.disabled.md": {
+      "bytes": 2891,
+      "sha256": "10d9f5ac1ba65f9bb06024cabe18f952a251751b3e427e4a59a4d0f7ea02d274"
+    },
+    "node-b/docs/CODEX-R6-P1B0-20261030/BOARD-C-SUPPLEMENT.disabled.md": {
+      "bytes": 2371,
+      "sha256": "ef8933c73ff86921d88eb451fb70df6928a3c37b01895a82698953c5ebc0b383"
+    },
+    "node-b/docs/CODEX-R6-P1B0-20261030/contracts/MPM-B5-CODEX-R6-P1A-PI-ACCEPTANCE-AND-P1B0-CONTRACT-R1.md": {
+      "bytes": 15160,
+      "sha256": "91a6794b79bc938362907367c242b5cc87f34446b6645e086a65026acb687c4c"
+    },
+    "node-b/docs/CODEX-R6-P1B0-20261030/CURRENT-FIELD-AND-FAILURE.md": {
+      "bytes": 8361,
+      "sha256": "ea8bda38efac53267eb70971796459ebfdca993be36c1537df96cdbfb6827cc7"
+    },
+    "node-b/docs/CODEX-R6-P1B0-20261030/ENTRY-AND-SIGNATURE.md": {
+      "bytes": 5611,
+      "sha256": "d2438bf9ef87cef6a30fe37baec035f8115c5bf7452b58ba68d97229378973f9"
+    },
+    "node-b/docs/CODEX-R6-P1B0-20261030/PI-DECISION.md": {
+      "bytes": 4288,
+      "sha256": "443f1bf3346c4b81e8e75bb3cfdb75a3b99ac7094f40f8f3e8ec7ef7a71ac813"
+    },
+    "node-b/docs/CODEX-R6-P1B0-20261030/SDK-CLOSE-RISK.md": {
+      "bytes": 4786,
+      "sha256": "b5def5d2d0f67d84fa99296730f64e575290e7f6ba7ea8c39c2f259fde1d68aa"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/accepted-source-preservation.json": {
+      "bytes": 10569,
+      "sha256": "6a55232114e4ce2cf1d805411b94ea6d94156138f183dc2cfa2811f7ef4cbf85"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/cloud-existing-test-resume-summary.json": {
+      "bytes": 995,
+      "sha256": "538b628ebf4989bf0ad88009ee10fd34c8e67d40cb0b183cef740e2930131f6f"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/contract-provenance.json": {
+      "bytes": 449,
+      "sha256": "288ae9a69c565565a7fda52480017ca6776aa44f84627d563e57aa2e8af9ccb3"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/executed-vs-final-source.json": {
+      "bytes": 393,
+      "sha256": "3d83d4dc2cde2bff9c65e40ae570a75ac6f081252d9b4ea0c619623fd2a08773"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/exit-code-ledger.json": {
+      "bytes": 1936,
+      "sha256": "ab8cbd67f73cf543b6b54ef84ad9a51337b5e1c352df8d2315f0e6a615743c96"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/final-site-owner-report.json": {
+      "bytes": 669,
+      "sha256": "1ddb76c9c226ec5595f322e53b26fd8ac6c82358883fbf724fe7cc3ab3bfd048"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/frozen-review-and-disabled-requests.json": {
+      "bytes": 2156,
+      "sha256": "b2bad8f725221e03c9390cc62d326162c9d03e67daea7315eac517afa4111d16"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/install-41012-mock-01.json": {
+      "bytes": 453,
+      "sha256": "f6029a16cf1f3376c6ca75630ffc42f74fde575113f21af38966533c8190b8db"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/joint-worker-default-static.json": {
+      "bytes": 249,
+      "sha256": "45983e8c3080bf05209bc42d92827ab4b0c5a3452aa919aa8964d62fde218a99"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/live-B41012-install-summary.json": {
+      "bytes": 2962,
+      "sha256": "f1c1afe3e18c0643d3740acb220a0a485656d4e6a08fc9551fc6bdfbd2ba44fc"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/live-initial-B-C-read-summary.json": {
+      "bytes": 8144,
+      "sha256": "418f7e532764349de4a74d11bf743ca81d50e76b25880dfffca3ea4040cfb179"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/live-RR15-execution-summary.json": {
+      "bytes": 2781,
+      "sha256": "0a920bdcfce980b86957c42621ab6ac1620acbd80e00faaa814db1833a30306f"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/live-RR15-review-summary.json": {
+      "bytes": 1056,
+      "sha256": "f3c85c3b8c04e107d1bce4908c3487fbe889aa7f602ae07d421ac44daa9778d1"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/mock-01.json": {
+      "bytes": 196,
+      "sha256": "863ed5591c05d00563589236e89f549d9b561df2320a0b7a3fed9d4f93a114d6"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/mock-01.log": {
+      "bytes": 1771,
+      "sha256": "b6564e78250797b987b64f6e68681bcb437998d57dc38f6927ce8e982d33da90"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/mock-02.log": {
+      "bytes": 1602,
+      "sha256": "36ae3a985a36751efea39cfc1dede68f5c044fcafb99c30c9401397893929fa2"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/mock-final-03.json": {
+      "bytes": 232,
+      "sha256": "cced2f299299361407c3e27823fa34da18eaf0de2a5ed83888d3121c46438b04"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/mock-final-03.log": {
+      "bytes": 2185,
+      "sha256": "0ce530681c608bd033637deea59bcdb785e126f446ecc8d75b06e6eca86de0fd"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/mock-final-04.json": {
+      "bytes": 318,
+      "sha256": "3b0a1eb588275bea95091eb381f07486a412b45bed5a8e7ff9f9a7701d252d49"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/mock-final-04.log": {
+      "bytes": 2140,
+      "sha256": "6fc1f6dafdf7ba2d553fab2905a49db649e836cbe072d14d9af4093481144fe6"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/mock-runner-init-failure-04.json": {
+      "bytes": 506,
+      "sha256": "39093ab4217a856a2c9a8b48f23ebc361a12bf99379cf7024abc1e458d4c08b1"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/mock-SDK-fault-matrix.json": {
+      "bytes": 14066,
+      "sha256": "0bb34180f5edc2ec71127d852858be0c6c7724650ca9d67552f578e4477d6361"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/private-evidence-digest-index.json": {
+      "bytes": 10207,
+      "sha256": "eb5e6f9f1c6370c95216eb7ed57e100eaea3d4c2771ad0c12a4e23f0b2e4a7d6"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/RR15-HR-event-index.json": {
+      "bytes": 2018,
+      "sha256": "e71f3d03699fb8a2f6ae5de996e280c85612eec10e0d0e5263aa006f137a332f"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/RR15-HR-offline-causal-summary.json": {
+      "bytes": 2546,
+      "sha256": "77fb292e194afbfb567b4275aa47f7541ff12df2489fca70f886fdb99b08c6e2"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/RR15-shadow-TEMP-age.json": {
+      "bytes": 309,
+      "sha256": "3815f8597872992a239febce18648bf8c31ebe3a0cee51a42599420caaae9856"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/RR15-TEMP-read-skew-analysis-02.json": {
+      "bytes": 4478,
+      "sha256": "98558b42721e72c54c5017da2ba592220f1da08a69fc260bb557fc9435436d6e"
+    },
+    "node-b/evidence/CODEX-R6-P1B0-20261030/RR15-TEMP-read-skew-analysis.json": {
+      "bytes": 2564,
+      "sha256": "55e6c4dd3f19f5b858302b25774e4dcf7a63a5e172d0210cab9f844e6fc42d99"
+    }
+  }
+}

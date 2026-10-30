@@ -1,0 +1,92 @@
+{
+  "status": "B41012_INSTALL_FULL_VERIFY_AND_FLASH_BOOT_PASS",
+  "exit_code": 0,
+  "phase": "install",
+  "board": "B",
+  "sectors": [
+    0,
+    1,
+    2
+  ],
+  "full_flash_sha256": "9ff8133d06330a4b05cb15d26bfb51b6f7e1197014692c5267d178d744f4287d",
+  "options_unchanged": true,
+  "outside_affected_sectors_unchanged": true,
+  "reset_requests": 1,
+  "CAN_or_physiology_acceptance": false,
+  "candidate_bin_sha256": "1dbbf27177caa429f037ac72c43581a519e8ff70ac6224411c9c4ffe9529432d",
+  "session_authority": "CURRENT_USER_DIRECT_APPROVAL",
+  "Close_completed": true,
+  "sdk_calls": 257,
+  "actions": {
+    "JLINKARM_Halt": 1,
+    "JLINKARM_BeginDownload": 1,
+    "JLINKARM_WriteMem": 1,
+    "JLINKARM_EndDownload": 1,
+    "JLINKARM_Reset": 1,
+    "JLINKARM_Go": 1
+  },
+  "download_started": true,
+  "close_resume": true,
+  "C_writes": 0,
+  "options_writes": 0,
+  "automatic_retry_or_restore": false,
+  "SDK_residual_risk": "NOT_CLOSED_BY_THIS_INSTALL",
+  "supervisor": {
+    "reason": null,
+    "worker_exit_code": 0,
+    "supervisor_exit_code": 0,
+    "target_state": "SEE_WORKER_RECEIPT",
+    "automatic_retry_or_recovery": false
+  },
+  "package_manifest_sha256": "175cb6dfc906dd63cf12716365ba114c9d7539cfafdf89ec7188acb8d6509229",
+  "before_full_sha256": "ceebec5a91835aed3cb70c683fd8de5142e5ba59a2163a1968cec182018b48ae",
+  "executed_worker": {
+    "file": "executed-worker-source.py",
+    "bytes": 3565,
+    "sha256": "f2d5191fb8df1155777d78478c4a299c750ddc31a6687f4a0f3d83c5ef6ccbe6"
+  },
+  "comparison_sources": "One fresh B session plus independently sealed historical matching full/options/identity; not two fresh reads",
+  "same_build_chain": {
+    "BIN_sha256": "1dbbf27177caa429f037ac72c43581a519e8ff70ac6224411c9c4ffe9529432d",
+    "AXF_sha256": "e11219c4de3718fc0832a6e6863ec9645836300197f36503cc13d8e8bd9923b7",
+    "symbols_sha256": "07e2166e9a145bcbdbb592b475b789cf55553ee38cf97c1dd5fcf9aebe7853f8",
+    "build": "b4-arm-20261030T062335164483Z"
+  },
+  "affected_range": [
+    "0x08000000",
+    "0x0800C000"
+  ],
+  "candidate_bytes": 41012,
+  "native_control_return_rows": [
+    {
+      "operation": "JLINKARM_Halt",
+      "native_return_int": 0,
+      "native_void_or_pointer_return": false
+    },
+    {
+      "operation": "JLINKARM_BeginDownload",
+      "native_return_int": null,
+      "native_void_or_pointer_return": true
+    },
+    {
+      "operation": "JLINKARM_WriteMem",
+      "native_return_int": 49152,
+      "native_void_or_pointer_return": false
+    },
+    {
+      "operation": "JLINKARM_EndDownload",
+      "native_return_int": 49152,
+      "native_void_or_pointer_return": false
+    },
+    {
+      "operation": "JLINKARM_Reset",
+      "native_return_int": 0,
+      "native_void_or_pointer_return": false
+    },
+    {
+      "operation": "JLINKARM_Go",
+      "native_return_int": null,
+      "native_void_or_pointer_return": true
+    }
+  ]
+}

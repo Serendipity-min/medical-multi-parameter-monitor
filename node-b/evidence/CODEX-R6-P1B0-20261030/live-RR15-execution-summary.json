@@ -1,0 +1,94 @@
+{
+  "status": "G3_FILES_CAPTURED_REVIEW_PENDING",
+  "exit_code": 0,
+  "B5START_attempts": 1,
+  "automatic_retry_or_rollback": false,
+  "explicit_target_halt_go_reset_writes": 0,
+  "manual_preplanned_C_RESET": "OWNER_ACTION_ONLY",
+  "Tarm": 1085170.203,
+  "T0": 1085192.015,
+  "source_STOP_required": true,
+  "C_STOP_banner_monotonic": 1085590.265,
+  "serial_startup_steps": [
+    "AT_VERSION",
+    "CA",
+    "CERT",
+    "MQTT",
+    "SNI",
+    "SNTP_SAMPLE",
+    "SNTP_VALID",
+    "TLS"
+  ],
+  "physiological_and_transport_PASS": "NOT_GRANTED_UNTIL_OFFLINE_JOINT_REVIEW",
+  "precommon_ntp_failures": [],
+  "B_worker_exit_code": 0,
+  "supervisor": {
+    "supervisor_reason": null,
+    "worker_exit_code": 0,
+    "supervisor_exit_code": 0,
+    "total_elapsed_s": 546.188000000082,
+    "scope": "CODEX_CURRENT_OWNER_RR15_B41012_DIRECT_SESSION",
+    "automatic_retry_or_recovery": false
+  },
+  "B_worker": {
+    "status": "B_G3_READONLY_CAPTURED_REVIEW_PENDING",
+    "exit_code": 0,
+    "explicit_reset_halt_go_target_writes": 0,
+    "blocks": 2939,
+    "sdk_calls": 25794,
+    "close_resume": true
+  },
+  "cloud_observer": {
+    "status": "CLOUD_OBSERVATIONS_SAVED_REVIEW_PENDING",
+    "exit_code": 0,
+    "publications": 0,
+    "observer_CONNACK": [
+      0
+    ],
+    "observer_SUBACK": [
+      1
+    ],
+    "WSS_authenticated": true,
+    "observer_disconnects": [
+      {
+        "code": 0,
+        "requested_shutdown": true,
+        "received_monotonic": 1085610.843
+      }
+    ],
+    "cleanup_complete": true
+  },
+  "STOP_source": {
+    "monotonic": 1085590.265,
+    "source": {
+      "tick": 420644,
+      "armed_at": 644,
+      "reason": 1,
+      "phase": 7,
+      "required": 851,
+      "written": 851,
+      "unsynced": 0,
+      "pending": 0,
+      "live": 24,
+      "cache": 28,
+      "business_elapsed_ms": 420000
+    },
+    "raw_line_sha256": "64d9f0257bcd899f6f87acf7e7ed2b3fcdd20c9deb368af99aacdf2587e72443"
+  },
+  "authority": "CURRENT_AUTHENTICATED_OWNER_SESSION_NOT_SIGNED_PI_GATE",
+  "manual_C_RESET_count": 1,
+  "scope": "CODEX_CURRENT_OWNER_RR15_B41012_DIRECT_SESSION",
+  "period_bpm": 30,
+  "RESP_rate_bpm": 15,
+  "amplitude_R": 1.5,
+  "apnea_s": 0,
+  "host_COM": "COM6_CURRENT_ENUMERATION",
+  "formal_review_status": "B5_SEPARATE_RR15_NOT_PASS",
+  "formal_review_exit_code": 3,
+  "initial_review_PowerShell_wrapper_exit_code": 1,
+  "initial_wrapper_note": "Python SystemExit(3) was not explicitly forwarded by pwsh; review JSON recorded 3. Later forwarding existing result returned shell 3; reviewer not rerun",
+  "retries": 0,
+  "independent_TEMP_window": "NOT_RUN",
+  "independent_ECG60_window": "NOT_RUN",
+  "raw_identity_flash_options": "EFS_ONLY_NOT_UPLOADED"
+}

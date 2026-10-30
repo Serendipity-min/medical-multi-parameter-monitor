@@ -1,0 +1,301 @@
+{
+  "storage": "USER_CONTROLLED_EFS_OUTSIDE_GIT; locator pointers only in ignored node-b/build",
+  "scope": "Critical retained originals, not exhaustive directory enumeration",
+  "groups": {
+    "B_initial_read": [
+      {
+        "file": "receipt-private.json",
+        "bytes": 630,
+        "sha256": "085ec3af7939df3b86cd37a3968d3bbc0085a4e7447dfb6e69ecb341dd7c3d2a"
+      },
+      {
+        "file": "io-private.jsonl",
+        "bytes": 6429,
+        "sha256": "36210404c2ca1cf375be26933f90530a092a1cc819b6550da5e5fbe19de4adcd"
+      },
+      {
+        "file": "heartbeat-events.jsonl",
+        "bytes": 7032,
+        "sha256": "2c38f9068707a8714129e968b388cf84f082840be83afaacd13720f5dde9e012"
+      },
+      {
+        "file": "sdk-private.log",
+        "bytes": 4590,
+        "sha256": "5617e9fe6d97f22c09f8ba304f6cd97091a32c4397f0b94fab6f3aba4caee640"
+      },
+      {
+        "file": "full-private.bin",
+        "bytes": 1048576,
+        "sha256": "ceebec5a91835aed3cb70c683fd8de5142e5ba59a2163a1968cec182018b48ae"
+      },
+      {
+        "file": "options-private.bin",
+        "bytes": 16,
+        "sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687"
+      },
+      {
+        "file": "identity-private.json",
+        "bytes": 156,
+        "sha256": "6807dc3c928c11b5ba3d2185286f2a7e18bc526485d7ac84edace59728dc0323"
+      },
+      {
+        "file": "entry-state-private.json",
+        "bytes": 159,
+        "sha256": "b5ff7b530ef51925397084204b514da759fb7674971d91ce72bf3649a8e96478"
+      },
+      {
+        "file": "exit-state-private.json",
+        "bytes": 159,
+        "sha256": "2dee60b0d7a90c06abaa869f57909ccf38a2f60e5ec7c797859e9fd35d75dc6f"
+      },
+      {
+        "file": "executed-thin-source.py",
+        "bytes": 7224,
+        "sha256": "79b59e21e4fff1b055af3faccb5eb9c7c111e7fb806890a180e224056e536021"
+      },
+      {
+        "file": "executed-worker-source.py",
+        "bytes": 1975,
+        "sha256": "a0ed5d2e58e186dbc76fc20ac3f553261de5ad6db06cead45fcb348ddce60b67"
+      }
+    ],
+    "C_initial_read": [
+      {
+        "file": "receipt-private.json",
+        "bytes": 630,
+        "sha256": "3c0c81590128bef5408adfd93c205c5591e06b6b8e71e9add644668186855f71"
+      },
+      {
+        "file": "io-private.jsonl",
+        "bytes": 10218,
+        "sha256": "adba01eeaa78ef3a7e4d7a74ac832c76ee9bfe73df9fc3ff137aee8c1ff266a2"
+      },
+      {
+        "file": "heartbeat-events.jsonl",
+        "bytes": 7154,
+        "sha256": "66dd835a97b8da0dda877fe0eed7380457688eae3b550ced87446b269bbebb28"
+      },
+      {
+        "file": "sdk-private.log",
+        "bytes": 4586,
+        "sha256": "6fa07e2cec05b00b1801e96769607f91343f88957febb0d9636ca947ecffc16e"
+      },
+      {
+        "file": "full-private.bin",
+        "bytes": 1048576,
+        "sha256": "9bba23b436f079183296fa98dcaeed047eb919ba8597d75a85bc144bc48417fd"
+      },
+      {
+        "file": "options-private.bin",
+        "bytes": 16,
+        "sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687"
+      },
+      {
+        "file": "identity-private.json",
+        "bytes": 156,
+        "sha256": "0e1392ac80a96ecf719636a7c27b5ded120378b40f9e52de05b6772d26640e67"
+      },
+      {
+        "file": "entry-state-private.json",
+        "bytes": 159,
+        "sha256": "12ec462893580cd9e1b1ebedc39fb160900dadb2ef11284d0ad7adc81814ab89"
+      },
+      {
+        "file": "exit-state-private.json",
+        "bytes": 159,
+        "sha256": "210f9ea366866e21e8e7afb234f6c12d17a868afdab76d1e24c7329e49b2689b"
+      },
+      {
+        "file": "executed-thin-source.py",
+        "bytes": 7224,
+        "sha256": "79b59e21e4fff1b055af3faccb5eb9c7c111e7fb806890a180e224056e536021"
+      },
+      {
+        "file": "executed-worker-source.py",
+        "bytes": 2054,
+        "sha256": "b06a8e7e2afb48ff9f03b604261f5e18540d586ae1c784f6be0d396945e130fd"
+      }
+    ],
+    "B_install": [
+      {
+        "file": "receipt-private.json",
+        "bytes": 953,
+        "sha256": "a11857373b31c4354ba8aaca8422057466e34e79c914224f0c1ca29e008db9cf"
+      },
+      {
+        "file": "io-private.jsonl",
+        "bytes": 28307,
+        "sha256": "16094d8b66ceba1bda0c8edba6e939092c4427094e7003fcd66c046d6792f82c"
+      },
+      {
+        "file": "heartbeat-events.jsonl",
+        "bytes": 37977,
+        "sha256": "95a9e2f53e7d88f92d735532e9a15a27f32fca67978a22e4e8751c4264ed0306"
+      },
+      {
+        "file": "sdk-private.log",
+        "bytes": 1513,
+        "sha256": "ee439636d5c3d6c9c978da87551b62edcc2c0afb441d6bd2430fbe02bc3fcfa7"
+      },
+      {
+        "file": "before-full-private.bin",
+        "bytes": 1048576,
+        "sha256": "ceebec5a91835aed3cb70c683fd8de5142e5ba59a2163a1968cec182018b48ae"
+      },
+      {
+        "file": "after-full-private.bin",
+        "bytes": 1048576,
+        "sha256": "9ff8133d06330a4b05cb15d26bfb51b6f7e1197014692c5267d178d744f4287d"
+      },
+      {
+        "file": "after-options-private.bin",
+        "bytes": 16,
+        "sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687"
+      },
+      {
+        "file": "executed-worker-source.py",
+        "bytes": 3565,
+        "sha256": "f2d5191fb8df1155777d78478c4a299c750ddc31a6687f4a0f3d83c5ef6ccbe6"
+      }
+    ],
+    "cloud_resume": [
+      {
+        "file": "receipt-private.json",
+        "bytes": 20986,
+        "sha256": "2702cbbc3e6d0adca9b2eaf31ec762a9fb6c7590dde176c43dbdffe8ee679db7"
+      },
+      {
+        "file": "executed-remote-private.py",
+        "bytes": 8810,
+        "sha256": "9cda34ccbfebc20212e5355968efab76471204a7b3dcaf59f69b3a00e9993942"
+      },
+      {
+        "file": "SSH-stdout-private.json",
+        "bytes": 16284,
+        "sha256": "6f548f1bb93e560658b0f99902a9c81f8ec2405549ca90c02b09f3682dbfcebc"
+      },
+      {
+        "file": "SSH-stderr-private.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "RR15": [
+      {
+        "file": "owner-runtime-inputs-private.json",
+        "bytes": 5698,
+        "sha256": "2a5480ca74db9b11092f03d650f3beaf9c6560c2a0105a145e9d1f35dd3a52dd"
+      },
+      {
+        "file": "owner-session-once-private.json",
+        "bytes": 305,
+        "sha256": "3745c1e00991772c090b253d6a02c4b65fb2b2cef649bc465398095f2cfcb5e3"
+      },
+      {
+        "file": "current-runtime-reference-bundle-private.json",
+        "bytes": 3584,
+        "sha256": "86ea7c651653f52f96fb5f9313b2a292eb068face9dbce62ed9a2450e41c32a7"
+      },
+      {
+        "file": "executed-B-owner-worker.py",
+        "bytes": 715,
+        "sha256": "b2fd5a74e0e8974e062d6e97265b32e90ae74813071a7f5b947035734aa70fcd"
+      },
+      {
+        "file": "executed-joint-owner-worker.py",
+        "bytes": 823,
+        "sha256": "1d990639d7723b169029f1ae830c8903010b20bad806aab5bde28887e286e206"
+      },
+      {
+        "file": "executed-joint-component.py",
+        "bytes": 21680,
+        "sha256": "7a2bb42d026f69b564764f41ef5f93c68f21b571ef9c3ebab259d8da9ce71ddf"
+      },
+      {
+        "file": "formal-RR15-review-private.json",
+        "bytes": 3649,
+        "sha256": "deb0c703a5d25c72c6fe737358fcbf9603d098f20861ac2f56df7df0398654c3"
+      },
+      {
+        "file": "B41012-from-one-build-private.axf",
+        "bytes": 811816,
+        "sha256": "e11219c4de3718fc0832a6e6863ec9645836300197f36503cc13d8e8bd9923b7"
+      },
+      {
+        "file": "B41012-from-one-build-symbols-private.txt",
+        "bytes": 108998,
+        "sha256": "07e2166e9a145bcbdbb592b475b789cf55553ee38cf97c1dd5fcf9aebe7853f8"
+      },
+      {
+        "file": "joint-receipt-private.json",
+        "bytes": 631,
+        "sha256": "0c0f74261a370aa90f4d70309445ee1a9c123aa2cc5dffa7e9241505447ae7f0"
+      },
+      {
+        "file": "supervisor-private.json",
+        "bytes": 876,
+        "sha256": "e387fb876a51ac681ae75cb474ca52f39a42c0a82dbdcbffd9893e153c55c98b"
+      },
+      {
+        "file": "C-serial-raw-private.bin",
+        "bytes": 86494,
+        "sha256": "967bc988a9f293ae02cf0f9c986ddfcbae389f221839d89cbc9f5be7e9291d5e"
+      },
+      {
+        "file": "C-lines-private.jsonl",
+        "bytes": 155796,
+        "sha256": "4fa28f601ba5c3aef0ee54203088908496a8f9744b536f8f310bb146f27c6635"
+      },
+      {
+        "file": "cloud-events-private.jsonl",
+        "bytes": 14146283,
+        "sha256": "2458a81819bb780fdc00e0853b46e2a15614929781b19408d15798cfec2c95e6"
+      },
+      {
+        "file": "C_STOP_SOURCE_STATE.json",
+        "bytes": 358,
+        "sha256": "6d8ec05ef484407ae2d8524807f49891e779a491088be408ea677e022997141f"
+      },
+      {
+        "file": "T0.json",
+        "bytes": 458,
+        "sha256": "295ebf09b3bdffe1df8c192ba097b1206cc4aadc0b075be28414b7758640056e"
+      },
+      {
+        "file": "ARM_ATTEMPT.json",
+        "bytes": 304,
+        "sha256": "2d209410b3abe5acfbbe20c6fa179e2271c15712497f7f5cb1cd83f761ac2df0"
+      },
+      {
+        "file": "receipt-private.json",
+        "bytes": 183,
+        "sha256": "eb3515f27999aaaea6295c82f1b59e8c2e5682e1a4d938c35687a647f7900fdc"
+      },
+      {
+        "file": "io-private.jsonl",
+        "bytes": 3387437,
+        "sha256": "026fd25cf72257dae39818fcaae092b8dc33a61d49c8abb0155806b9be6587e1"
+      },
+      {
+        "file": "heartbeat-events.jsonl",
+        "bytes": 3659624,
+        "sha256": "6941e6011f525b5defa58520438f6da038253e259aa9cf1f3a8ab6ff4afe2e5a"
+      },
+      {
+        "file": "diagnostics-private.jsonl",
+        "bytes": 1995617,
+        "sha256": "aae56ea2bfda4c11f9337987528ba0975eec3fa6b5029359ac80f963cc0cc176"
+      },
+      {
+        "file": "blocks-private.bin",
+        "bytes": 16728788,
+        "sha256": "e8cbb06f2af82b5de373ea289df0a0b9c24ef3010366db28d651308d9804f923"
+      },
+      {
+        "file": "UART4-ring-private.bin",
+        "bytes": 1065152,
+        "sha256": "5c66d8d97dc1162598df859718dd7711d9bb8565d06487ac6a0e80aac1950c2c"
+      }
+    ]
+  }
+}
