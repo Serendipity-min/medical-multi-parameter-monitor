@@ -1,0 +1,22 @@
+test_DC_reports_zero_without_claiming_a_line_fraction (test_rr15_causal_replay.LineProjection.test_DC_reports_zero_without_claiming_a_line_fraction) ... ok
+test_contiguous_50Hz_projection_uses_wrapped_original_ms (test_rr15_causal_replay.LineProjection.test_contiguous_50Hz_projection_uses_wrapped_original_ms) ... ok
+test_single_missing_sample_refuses_projection (test_rr15_causal_replay.LineProjection.test_single_missing_sample_refuses_projection) ... ok
+test_C_offset_mismatch_is_refused_before_initialization (test_rr15_causal_replay.ReplayClock.test_C_offset_mismatch_is_refused_before_initialization) ... ok
+test_uint32_wrap_warmup_preserves_original_inputs_and_peak_timestamp (test_rr15_causal_replay.ReplayClock.test_uint32_wrap_warmup_preserves_original_inputs_and_peak_timestamp) ... ok
+test_full_binary_hash_mismatch_is_refused (test_rr15_causal_replay.SealedFrames.test_full_binary_hash_mismatch_is_refused) ... ok
+test_index_hash_mismatch_is_refused (test_rr15_causal_replay.SealedFrames.test_index_hash_mismatch_is_refused) ... ok
+test_missing_original_is_refused (test_rr15_causal_replay.SealedFrames.test_missing_original_is_refused) ... ok
+test_offset_mismatch_is_refused (test_rr15_causal_replay.SealedFrames.test_offset_mismatch_is_refused) ... ok
+test_one_repeated_version_and_single_transient_matches_frozen_rule (test_rr15_causal_replay.SealedFrames.test_one_repeated_version_and_single_transient_matches_frozen_rule) ... ok
+test_per_block_hash_mismatch_is_refused (test_rr15_causal_replay.SealedFrames.test_per_block_hash_mismatch_is_refused) ... ok
+test_positive_short_block_is_refused_even_when_its_hash_matches (test_rr15_causal_replay.SealedFrames.test_positive_short_block_is_refused_even_when_its_hash_matches) ... ok
+test_preserves_signed_channels_flags_status_and_wrapped_IRQ_statistics (test_rr15_causal_replay.SealedFrames.test_preserves_signed_channels_flags_status_and_wrapped_IRQ_statistics) ... ok
+test_sequence_restart_or_wrap_is_refused_before_sorting (test_rr15_causal_replay.SealedFrames.test_sequence_restart_or_wrap_is_refused_before_sorting) ... ok
+test_single_copy_is_excluded_without_inventing_a_frame (test_rr15_causal_replay.SealedFrames.test_single_copy_is_excluded_without_inventing_a_frame) ... ok
+test_two_repeated_conflicting_versions_are_excluded (test_rr15_causal_replay.SealedFrames.test_two_repeated_conflicting_versions_are_excluded) ... ok
+test_unindexed_extra_byte_is_refused (test_rr15_causal_replay.SealedFrames.test_unindexed_extra_byte_is_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.143s
+
+OK

@@ -1,0 +1,309 @@
+{
+  "status": "REPLAY_ORIGIN_CONFIRMED_PHYSICAL_ROOT_UNRESOLVED",
+  "windows": {
+    "RR15": {
+      "input_seals": {
+        "blocks": 2939,
+        "stable": 123870,
+        "unqualified_sequences": 53,
+        "invalid_status_sequences": 0,
+        "nonzero_flags_frames": 0,
+        "sequence_gaps": [],
+        "IRQ_ms_step_histogram": {
+          "4": 123690,
+          "5": 179
+        },
+        "IRQ_cycles_step_min": 672018,
+        "IRQ_cycles_step_max": 672452,
+        "raw_status_values": [
+          12582912,
+          12591104,
+          12599296,
+          12607488
+        ],
+        "blocks_sha256": "e8cbb06f2af82b5de373ea289df0a0b9c24ef3010366db28d651308d9804f923",
+        "index_sha256": "b42f1a28ea7fbcbb552377af8a8e73960652612ac74b56f901ab49369cf2a40b"
+      },
+      "host_board_agreement": {
+        "all_diagnostics_matched_by_seq": 992,
+        "evaluation_diagnostics": 600,
+        "evaluation_HR_pair_mismatches": 0,
+        "evaluation_all_primary_field_mismatches": 1,
+        "evaluation_IRQ_ms_mismatches": 13,
+        "evaluation_max_RMS_error_codes": 0.6000022888183594,
+        "evaluation_max_mains_fraction_error": 0.0018891096115112305,
+        "observer_vs_original_all_120_bytes": "EXACT_EVERY_INPUT_FRAME",
+        "actual_getter_schedule": "NOT_CAPTURED_NOT_INVENTED",
+        "candidate_peaks": 816
+      },
+      "sampling_continuity": {
+        "blocks": 2939,
+        "raw_stable": 123870,
+        "CAN_stable": 123868,
+        "raw_unqualified_sequences": 53,
+        "CAN_unqualified_sequences": 58,
+        "raw_version_conflicts": 351,
+        "CAN_version_conflicts": 194,
+        "raw_seq_gaps": 0,
+        "RESP_due_records": 24770,
+        "RESP_due_seq_gaps": 0,
+        "CAN_flags_nonzero": 0,
+        "IRQ_ms_mapping_mismatches": 0,
+        "due_bit_or_modulo_mismatches": 0
+      },
+      "baseline_replay": {
+        "stream": "RR15",
+        "verified_input_samples": 123870,
+        "analyzed_samples_after_replay_warmup": 112624,
+        "hr_valid_samples": 2821,
+        "rr_valid_samples": 112624,
+        "hr_valid_fraction": 0.025048,
+        "hr_rates_while_valid": {
+          "38": 246,
+          "39": 84,
+          "42": 229,
+          "52": 189,
+          "58": 490,
+          "64": 497,
+          "73": 498,
+          "82": 204,
+          "115": 384
+        },
+        "hr_episode_count": 8,
+        "episodes_first_24": [
+          {
+            "start_seq": 212701,
+            "end_seq": 213084,
+            "first_ms": 852423,
+            "last_ms": 853955,
+            "rates": [
+              115
+            ],
+            "last_accepted_peak_timestamp_ms": 852879,
+            "duration_ms": 1536,
+            "ecg_raw_features_before_event": {
+              "quality": "RAW_UNCALIBRATED",
+              "raw_rms_codes": 339.86,
+              "line_50hz_projection_fraction": 0.87227,
+              "max_abs_to_rms": 2.301,
+              "actual_samples": 250
+            }
+          },
+          {
+            "start_seq": 219043,
+            "end_seq": 219271,
+            "first_ms": 877800,
+            "last_ms": 878712,
+            "rates": [
+              42
+            ],
+            "last_accepted_peak_timestamp_ms": 877784,
+            "duration_ms": 916,
+            "ecg_raw_features_before_event": {
+              "quality": "RAW_UNCALIBRATED",
+              "raw_rms_codes": 326.238,
+              "line_50hz_projection_fraction": 0.89913,
+              "max_abs_to_rms": 2.191,
+              "actual_samples": 250
+            }
+          },
+          {
+            "start_seq": 238753,
+            "end_seq": 238941,
+            "first_ms": 956668,
+            "last_ms": 957420,
+            "rates": [
+              52
+            ],
+            "last_accepted_peak_timestamp_ms": 956660,
+            "duration_ms": 756,
+            "ecg_raw_features_before_event": {
+              "quality": "RAW_UNCALIBRATED",
+              "raw_rms_codes": 356.321,
+              "line_50hz_projection_fraction": 0.89364,
+              "max_abs_to_rms": 2.097,
+              "actual_samples": 250
+            }
+          },
+          {
+            "start_seq": 248536,
+            "end_seq": 249032,
+            "first_ms": 995814,
+            "last_ms": 997799,
+            "rates": [
+              64
+            ],
+            "last_accepted_peak_timestamp_ms": 995802,
+            "duration_ms": 1989,
+            "ecg_raw_features_before_event": {
+              "quality": "RAW_UNCALIBRATED",
+              "raw_rms_codes": 326.194,
+              "line_50hz_projection_fraction": 0.85216,
+              "max_abs_to_rms": 2.503,
+              "actual_samples": 250
+            }
+          },
+          {
+            "start_seq": 257488,
+            "end_seq": 258189,
+            "first_ms": 1031635,
+            "last_ms": 1034440,
+            "rates": [
+              73,
+              82
+            ],
+            "last_accepted_peak_timestamp_ms": 1032443,
+            "duration_ms": 2809,
+            "ecg_raw_features_before_event": {
+              "quality": "RAW_UNCALIBRATED",
+              "raw_rms_codes": 370.088,
+              "line_50hz_projection_fraction": 0.88325,
+              "max_abs_to_rms": 2.283,
+              "actual_samples": 250
+            }
+          },
+          {
+            "start_seq": 263773,
+            "end_seq": 264018,
+            "first_ms": 1056784,
+            "last_ms": 1057764,
+            "rates": [
+              38
+            ],
+            "last_accepted_peak_timestamp_ms": 1056776,
+            "duration_ms": 984,
+            "ecg_raw_features_before_event": {
+              "quality": "RAW_UNCALIBRATED",
+              "raw_rms_codes": 322.686,
+              "line_50hz_projection_fraction": 0.90257,
+              "max_abs_to_rms": 1.847,
+              "actual_samples": 250
+            }
+          },
+          {
+            "start_seq": 276571,
+            "end_seq": 277060,
+            "first_ms": 1107995,
+            "last_ms": 1109951,
+            "rates": [
+              58
+            ],
+            "last_accepted_peak_timestamp_ms": 1107983,
+            "duration_ms": 1960,
+            "ecg_raw_features_before_event": {
+              "quality": "RAW_UNCALIBRATED",
+              "raw_rms_codes": 349.729,
+              "line_50hz_projection_fraction": 0.89043,
+              "max_abs_to_rms": 2.042,
+              "actual_samples": 250
+            }
+          },
+          {
+            "start_seq": 279707,
+            "end_seq": 279790,
+            "first_ms": 1120543,
+            "last_ms": 1120875,
+            "rates": [
+              39
+            ],
+            "last_accepted_peak_timestamp_ms": 1120527,
+            "duration_ms": 336,
+            "ecg_raw_features_before_event": {
+              "quality": "RAW_UNCALIBRATED",
+              "raw_rms_codes": 340.042,
+              "line_50hz_projection_fraction": 0.90987,
+              "max_abs_to_rms": 1.883,
+              "actual_samples": 250
+            }
+          }
+        ],
+        "important_limit": "Raw full-session host replay; NOT the original 600 SWD snapshots or the frozen T0 evaluation boundary"
+      }
+    },
+    "ECG60": {
+      "input_seals": {
+        "blocks": 2943,
+        "stable": 123616,
+        "unqualified_sequences": 96,
+        "invalid_status_sequences": 0,
+        "nonzero_flags_frames": 0,
+        "sequence_gaps": [],
+        "IRQ_ms_step_histogram": {
+          "4": 123482,
+          "5": 133
+        },
+        "IRQ_cycles_step_min": 671952,
+        "IRQ_cycles_step_max": 672408,
+        "raw_status_values": [
+          12582912,
+          12591104,
+          12599296,
+          12607488
+        ],
+        "blocks_sha256": "acea4fd11750626ffcfd34a2476d5bb24a48563b7a34770ce1ad6dd63932ab4f",
+        "index_sha256": "b51c11a8d423a55f98ee8797da4098cf7d0af156541523d6ecbf016e4fc112ca"
+      },
+      "host_board_agreement": {
+        "all_diagnostics_matched_by_seq": 990,
+        "evaluation_diagnostics": 600,
+        "evaluation_HR_pair_mismatches": 0,
+        "evaluation_all_primary_field_mismatches": 0,
+        "evaluation_IRQ_ms_mismatches": 15,
+        "evaluation_max_RMS_error_codes": 0.861114501953125,
+        "evaluation_max_mains_fraction_error": 0.0003504157066345215,
+        "observer_vs_original_all_120_bytes": "EXACT_EVERY_INPUT_FRAME",
+        "actual_getter_schedule": "NOT_CAPTURED_NOT_INVENTED",
+        "candidate_peaks": 913
+      },
+      "sampling_continuity": {
+        "blocks": 2943,
+        "raw_stable": 123616,
+        "CAN_stable": 123618,
+        "raw_unqualified_sequences": 96,
+        "CAN_unqualified_sequences": 92,
+        "raw_version_conflicts": 375,
+        "CAN_version_conflicts": 200,
+        "raw_seq_gaps": 0,
+        "RESP_due_records": 24719,
+        "RESP_due_seq_gaps": 0,
+        "CAN_flags_nonzero": 0,
+        "IRQ_ms_mapping_mismatches": 0,
+        "due_bit_or_modulo_mismatches": 0
+      },
+      "baseline_replay": {
+        "stream": "ECG60",
+        "verified_input_samples": 123616,
+        "analyzed_samples_after_replay_warmup": 112368,
+        "hr_valid_samples": 112368,
+        "rr_valid_samples": 0,
+        "hr_valid_fraction": 1.0,
+        "hr_rates_while_valid": {
+          "60": 112368
+        },
+        "hr_episode_count": 1,
+        "episodes_first_24": [
+          {
+            "start_seq": 49476,
+            "end_seq": 161843,
+            "first_ms": 199310,
+            "last_ms": 648900,
+            "rates": [
+              60
+            ],
+            "last_accepted_peak_timestamp_ms": 647936,
+            "duration_ms": 449594,
+            "ecg_raw_features_before_event": {
+              "quality": "RAW_UNCALIBRATED",
+              "raw_rms_codes": 540.359,
+              "line_50hz_projection_fraction": 0.11374,
+              "max_abs_to_rms": 6.109,
+              "actual_samples": 250
+            }
+          }
+        ],
+        "important_limit": "Raw full-session host replay; NOT the original 600 SWD snapshots or the frozen T0 evaluation boundary"
+      }
+    }
+  },
+  "interpretation": "Full-session 8 RR episodes includes 2 outside formal evaluation. Six evaluation events/20 SWD positives remain the original formal failures."
+}

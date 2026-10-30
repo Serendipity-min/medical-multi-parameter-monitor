@@ -1,0 +1,330 @@
+{
+  "events": [
+    {
+      "event": 1,
+      "positive_SWD_diagnostics": 2,
+      "board_HR_values": [
+        52
+      ],
+      "first_last_good_timestamp_ms": 956660,
+      "last_last_good_timestamp_ms": 956660,
+      "qualifying_peak_updates": [
+        {
+          "sequence": 238753,
+          "peak_ms": 956660,
+          "end_ms": 956668,
+          "width_ms": 12,
+          "intervals_ms": [
+            996,
+            1269,
+            1156
+          ],
+          "fresh_intervals": 3,
+          "rate": 52,
+          "peak_to_gate_ratio": 1.1024504914593034
+        }
+      ],
+      "eight_second_features": {
+        "samples": 1999,
+        "raw_rms_codes": 359.2486403957986,
+        "residual_50_100_rms_codes": 205.8665464128756,
+        "joint_50_100_LS_removed_fraction": 0.6716165271543284,
+        "residual_RESP_linear_correlation": 0.38217946971371547,
+        "residual_RESP_harmonics_explained_fraction": 0.15842398214424028,
+        "raw_peak_abs_over_RMS": 2.672994485823076,
+        "peak_nominal_frequency_hz": 50.02501250625312,
+        "limit": "LS uses actual IRQ ms; FFT nominal frequency is descriptive; correlation is not physical causation"
+      },
+      "coupling_summary": {
+        "event": 1,
+        "line50_amplitude_envelope_vs_RESP_corr": -0.4129906737682634,
+        "half_second_blocks": 16,
+        "qualifying_intervals_ms": [
+          996,
+          1269,
+          1156
+        ],
+        "last_peak_width_ms": 12,
+        "HR_values": [
+          52
+        ],
+        "band_width_not_independent_QRS_label": true
+      }
+    },
+    {
+      "event": 2,
+      "positive_SWD_diagnostics": 5,
+      "board_HR_values": [
+        64
+      ],
+      "first_last_good_timestamp_ms": 995802,
+      "last_last_good_timestamp_ms": 995802,
+      "qualifying_peak_updates": [
+        {
+          "sequence": 248536,
+          "peak_ms": 995802,
+          "end_ms": 995814,
+          "width_ms": 12,
+          "intervals_ms": [
+            932,
+            1113,
+            856
+          ],
+          "fresh_intervals": 3,
+          "rate": 64,
+          "peak_to_gate_ratio": 1.0567207474516296
+        }
+      ],
+      "eight_second_features": {
+        "samples": 1999,
+        "raw_rms_codes": 348.51281995053415,
+        "residual_50_100_rms_codes": 192.45764223420798,
+        "joint_50_100_LS_removed_fraction": 0.6950470732681349,
+        "residual_RESP_linear_correlation": 0.3181855953485271,
+        "residual_RESP_harmonics_explained_fraction": 0.12573937543662395,
+        "raw_peak_abs_over_RMS": 2.500824172740688,
+        "peak_nominal_frequency_hz": 50.02501250625312,
+        "limit": "LS uses actual IRQ ms; FFT nominal frequency is descriptive; correlation is not physical causation"
+      },
+      "coupling_summary": {
+        "event": 2,
+        "line50_amplitude_envelope_vs_RESP_corr": -0.4895197359766235,
+        "half_second_blocks": 16,
+        "qualifying_intervals_ms": [
+          932,
+          1113,
+          856
+        ],
+        "last_peak_width_ms": 12,
+        "HR_values": [
+          64
+        ],
+        "band_width_not_independent_QRS_label": true
+      }
+    },
+    {
+      "event": 3,
+      "positive_SWD_diagnostics": 6,
+      "board_HR_values": [
+        73,
+        82
+      ],
+      "first_last_good_timestamp_ms": 1031623,
+      "last_last_good_timestamp_ms": 1032443,
+      "qualifying_peak_updates": [
+        {
+          "sequence": 257488,
+          "peak_ms": 1031623,
+          "end_ms": 1031635,
+          "width_ms": 20,
+          "intervals_ms": [
+            736,
+            841,
+            684
+          ],
+          "fresh_intervals": 3,
+          "rate": 82,
+          "peak_to_gate_ratio": 1.3153336334786072
+        },
+        {
+          "sequence": 257692,
+          "peak_ms": 1032443,
+          "end_ms": 1032451,
+          "width_ms": 12,
+          "intervals_ms": [
+            736,
+            841,
+            684,
+            820
+          ],
+          "fresh_intervals": 4,
+          "rate": 73,
+          "peak_to_gate_ratio": 1.1156535809773136
+        }
+      ],
+      "eight_second_features": {
+        "samples": 1999,
+        "raw_rms_codes": 356.24070576870696,
+        "residual_50_100_rms_codes": 199.01871294951908,
+        "joint_50_100_LS_removed_fraction": 0.6878949889407493,
+        "residual_RESP_linear_correlation": 0.3501639348982055,
+        "residual_RESP_harmonics_explained_fraction": 0.14349864070204116,
+        "raw_peak_abs_over_RMS": 2.5480113248643494,
+        "peak_nominal_frequency_hz": 50.02501250625312,
+        "limit": "LS uses actual IRQ ms; FFT nominal frequency is descriptive; correlation is not physical causation"
+      },
+      "coupling_summary": {
+        "event": 3,
+        "line50_amplitude_envelope_vs_RESP_corr": 0.5346904444180227,
+        "half_second_blocks": 16,
+        "qualifying_intervals_ms": [
+          736,
+          841,
+          684
+        ],
+        "last_peak_width_ms": 20,
+        "HR_values": [
+          73,
+          82
+        ],
+        "band_width_not_independent_QRS_label": true
+      }
+    },
+    {
+      "event": 4,
+      "positive_SWD_diagnostics": 2,
+      "board_HR_values": [
+        38
+      ],
+      "first_last_good_timestamp_ms": 1056776,
+      "last_last_good_timestamp_ms": 1056776,
+      "qualifying_peak_updates": [
+        {
+          "sequence": 263773,
+          "peak_ms": 1056776,
+          "end_ms": 1056784,
+          "width_ms": 12,
+          "intervals_ms": [
+            1445,
+            1596,
+            1729
+          ],
+          "fresh_intervals": 3,
+          "rate": 38,
+          "peak_to_gate_ratio": 1.0508889674430806
+        }
+      ],
+      "eight_second_features": {
+        "samples": 1999,
+        "raw_rms_codes": 354.3121408594223,
+        "residual_50_100_rms_codes": 129.84176069982246,
+        "joint_50_100_LS_removed_fraction": 0.8657059646897277,
+        "residual_RESP_linear_correlation": 0.5299646563413396,
+        "residual_RESP_harmonics_explained_fraction": 0.3287446911881331,
+        "raw_peak_abs_over_RMS": 2.3556596660368525,
+        "peak_nominal_frequency_hz": 50.02501250625312,
+        "limit": "LS uses actual IRQ ms; FFT nominal frequency is descriptive; correlation is not physical causation"
+      },
+      "coupling_summary": {
+        "event": 4,
+        "line50_amplitude_envelope_vs_RESP_corr": 0.5969373593560326,
+        "half_second_blocks": 16,
+        "qualifying_intervals_ms": [
+          1445,
+          1596,
+          1729
+        ],
+        "last_peak_width_ms": 12,
+        "HR_values": [
+          38
+        ],
+        "band_width_not_independent_QRS_label": true
+      }
+    },
+    {
+      "event": 5,
+      "positive_SWD_diagnostics": 4,
+      "board_HR_values": [
+        58
+      ],
+      "first_last_good_timestamp_ms": 1107983,
+      "last_last_good_timestamp_ms": 1107983,
+      "qualifying_peak_updates": [
+        {
+          "sequence": 276571,
+          "peak_ms": 1107983,
+          "end_ms": 1107995,
+          "width_ms": 16,
+          "intervals_ms": [
+            1053,
+            888,
+            1029
+          ],
+          "fresh_intervals": 3,
+          "rate": 58,
+          "peak_to_gate_ratio": 1.2227266861440214
+        }
+      ],
+      "eight_second_features": {
+        "samples": 1999,
+        "raw_rms_codes": 357.255245148141,
+        "residual_50_100_rms_codes": 181.9908631198694,
+        "joint_50_100_LS_removed_fraction": 0.7404972634780267,
+        "residual_RESP_linear_correlation": 0.4091006390264106,
+        "residual_RESP_harmonics_explained_fraction": 0.17801016139200737,
+        "raw_peak_abs_over_RMS": 2.3390918335339674,
+        "peak_nominal_frequency_hz": 50.02501250625312,
+        "limit": "LS uses actual IRQ ms; FFT nominal frequency is descriptive; correlation is not physical causation"
+      },
+      "coupling_summary": {
+        "event": 5,
+        "line50_amplitude_envelope_vs_RESP_corr": -0.07385700015226586,
+        "half_second_blocks": 16,
+        "qualifying_intervals_ms": [
+          1053,
+          888,
+          1029
+        ],
+        "last_peak_width_ms": 16,
+        "HR_values": [
+          58
+        ],
+        "band_width_not_independent_QRS_label": true
+      }
+    },
+    {
+      "event": 6,
+      "positive_SWD_diagnostics": 1,
+      "board_HR_values": [
+        39
+      ],
+      "first_last_good_timestamp_ms": 1120527,
+      "last_last_good_timestamp_ms": 1120527,
+      "qualifying_peak_updates": [
+        {
+          "sequence": 279707,
+          "peak_ms": 1120527,
+          "end_ms": 1120543,
+          "width_ms": 20,
+          "intervals_ms": [
+            1521,
+            1673,
+            1328
+          ],
+          "fresh_intervals": 3,
+          "rate": 39,
+          "peak_to_gate_ratio": 1.3147336731679513
+        }
+      ],
+      "eight_second_features": {
+        "samples": 1999,
+        "raw_rms_codes": 345.5839435549306,
+        "residual_50_100_rms_codes": 141.9620997809052,
+        "joint_50_100_LS_removed_fraction": 0.8312523566075898,
+        "residual_RESP_linear_correlation": 0.3650085799407374,
+        "residual_RESP_harmonics_explained_fraction": 0.14912012829937948,
+        "raw_peak_abs_over_RMS": 2.4779946914769555,
+        "peak_nominal_frequency_hz": 50.02501250625312,
+        "limit": "LS uses actual IRQ ms; FFT nominal frequency is descriptive; correlation is not physical causation"
+      },
+      "coupling_summary": {
+        "event": 6,
+        "line50_amplitude_envelope_vs_RESP_corr": -0.2227941854427554,
+        "half_second_blocks": 16,
+        "qualifying_intervals_ms": [
+          1521,
+          1673,
+          1328
+        ],
+        "last_peak_width_ms": 20,
+        "HR_values": [
+          39
+        ],
+        "band_width_not_independent_QRS_label": true
+      }
+    }
+  ],
+  "C_source_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+  "period_semantics": "last_good is timestamp; actual intervals are captured from original static C state",
+  "QRS_truth": "NOT_ESTABLISHED_BY_PEAK_MARKERS_OR_MODE_MENU"
+}

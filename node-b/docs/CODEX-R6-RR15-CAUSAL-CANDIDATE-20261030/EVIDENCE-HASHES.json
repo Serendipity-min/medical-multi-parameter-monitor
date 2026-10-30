@@ -1,0 +1,105 @@
+{
+  "version": "CODEX-R6-RR15-CAUSAL-OFFLINE-DELIVERY-R1",
+  "base_sha": "b9b17a7657f101e8901a24115da8538becc420d0",
+  "branch": "codex/b5-r6-rr15-causal-candidate-20261030",
+  "status": "ROOT_CAUSE_UNRESOLVED_TOOL_FIX_ONLY_ALGORITHM_UNCHANGED_WAIT_PI",
+  "self_reference": "EXCLUDED; commit SHA delivered after commit",
+  "files": {
+    "node-b/tools/b5_rr15_causal_replay.py": {
+      "bytes": 15178,
+      "sha256": "b384e549a7fe935def77689c2f81796c8104b2708bbb31890560bc7a6f34ed1b"
+    },
+    "node-b/tools/b5_rr15_causal_analysis.py": {
+      "bytes": 13975,
+      "sha256": "3ae5d6e7195e337bf0566ee408235a62ca9018d25b5aa1d18b9642931222597e"
+    },
+    "node-b/tests/test_rr15_causal_replay.py": {
+      "bytes": 8980,
+      "sha256": "5668f3e631cd19be7d2f4d8c03fe8f6d946c521e9da13608d2b425ff526ca5cf"
+    },
+    "node-b/tests/run_rr15_causal_corpus.py": {
+      "bytes": 7961,
+      "sha256": "d5249849aaf9a81d84ddc85e035cbc34f05a4b5c6453cefc2be80701b075923a"
+    },
+    "node-b/docs/CODEX-R6-RR15-CAUSAL-CANDIDATE-20261030/audit-context/ALGORITHM-DOSSIER.md": {
+      "bytes": 10731,
+      "sha256": "051fb9bc3269f46f4953ecb4a1ac71259b97aa6e805b5b7b68fa1b0888365e78"
+    },
+    "node-b/docs/CODEX-R6-RR15-CAUSAL-CANDIDATE-20261030/audit-context/REPLAY-DOSSIER.md": {
+      "bytes": 13109,
+      "sha256": "99a56dd8495eef817343b0471a3b03ea51fc4804bfccc3a653bcdcb6d0893967"
+    },
+    "node-b/docs/CODEX-R6-RR15-CAUSAL-CANDIDATE-20261030/DEVELOPMENT-DECISION-BEFORE-HOLDOUT.md": {
+      "bytes": 1643,
+      "sha256": "e6cbf216937a2150c806aa3d086055f1a41b5a58555a485a7a1b3bf18d3cdda7"
+    },
+    "node-b/docs/CODEX-R6-RR15-CAUSAL-CANDIDATE-20261030/PREREGISTRATION.md": {
+      "bytes": 2988,
+      "sha256": "06c92043a7f63f4d17ce67b9bf81c0b4fbb78b205973cca8dae630a22e4ee481"
+    },
+    "node-b/docs/CODEX-R6-RR15-CAUSAL-CANDIDATE-20261030/RESULT-AND-PI-HANDOFF.md": {
+      "bytes": 10886,
+      "sha256": "b5dc22398efedb2f68080b2ca801e4cda3f268aec2c4415195b16f3d7b056116"
+    },
+    "node-b/docs/CODEX-R6-RR15-CAUSAL-CANDIDATE-20261030/TOOL-REVIEW-AND-REPRODUCTION.md": {
+      "bytes": 4469,
+      "sha256": "bd8be97ea3fa972e1bdbd2c327683034243322e1f4b977980346b8f5189a45d0"
+    },
+    "node-b/evidence/CODEX-R6-RR15-CAUSAL-CANDIDATE-20261030/artifact-provenance.json": {
+      "bytes": 2589,
+      "sha256": "563660e610871c2926c08e7c7a1f35d5a58a9a179cc79a967c0333b82c759d1c"
+    },
+    "node-b/evidence/CODEX-R6-RR15-CAUSAL-CANDIDATE-20261030/baseline-GitHub-verification.json": {
+      "bytes": 366,
+      "sha256": "64023ed67a243b73d6cbe1bed1fadeeeeb4136388e54e0fdf346289467b3f41f"
+    },
+    "node-b/evidence/CODEX-R6-RR15-CAUSAL-CANDIDATE-20261030/before-after-tool-counterexamples.json": {
+      "bytes": 1369,
+      "sha256": "f856a2b9c561bd27a96893b6672f9ae46dfd20a6cdbff153390f121c09acd364"
+    },
+    "node-b/evidence/CODEX-R6-RR15-CAUSAL-CANDIDATE-20261030/corpus-and-holdout-results.json": {
+      "bytes": 49560,
+      "sha256": "9f3bac438f3e78b671c330202dee4860a146c86073f33bcd4045208e4e874e05"
+    },
+    "node-b/evidence/CODEX-R6-RR15-CAUSAL-CANDIDATE-20261030/executed-vs-delivered-core.json": {
+      "bytes": 1075,
+      "sha256": "81955d0489995c0674064ce8006dd02d15999280929a5dade500a82a0df51eed"
+    },
+    "node-b/evidence/CODEX-R6-RR15-CAUSAL-CANDIDATE-20261030/existing-host-regressions.json": {
+      "bytes": 13795,
+      "sha256": "e0a4c0b4ecb40a7c7cfdb594cfec3dc93c77eb7fc8d6f4fc8009918fd23ffad8"
+    },
+    "node-b/evidence/CODEX-R6-RR15-CAUSAL-CANDIDATE-20261030/frozen-source-and-criteria-preservation.json": {
+      "bytes": 2245,
+      "sha256": "57c70a173e17b005618db9be31d8b8064337a15f7eaba105aabd5c08638933c5"
+    },
+    "node-b/evidence/CODEX-R6-RR15-CAUSAL-CANDIDATE-20261030/input-integrity-and-C-agreement.json": {
+      "bytes": 10514,
+      "sha256": "1fb9c0c5e072e681dce8b5d2d82026c40de36174d8629c2cdd622356f72f7e0d"
+    },
+    "node-b/evidence/CODEX-R6-RR15-CAUSAL-CANDIDATE-20261030/offline-boundary-and-exit-ledger.json": {
+      "bytes": 3367,
+      "sha256": "ee029c16c40e008af5f471e769cfef275af1f564a5fb8ed8e2ff15c2dcadd456"
+    },
+    "node-b/evidence/CODEX-R6-RR15-CAUSAL-CANDIDATE-20261030/private-evidence-digest-index.json": {
+      "bytes": 29934,
+      "sha256": "75cb8744ef3a779c2a3066b47aa09887b763f1ef69ddb21a4a03c28a346b41c7"
+    },
+    "node-b/evidence/CODEX-R6-RR15-CAUSAL-CANDIDATE-20261030/replay-tool-tests-final.json": {
+      "bytes": 158,
+      "sha256": "d1d3ae315d6e25288f585082240eb66b29097b48fa7afd97e596afe61462e092"
+    },
+    "node-b/evidence/CODEX-R6-RR15-CAUSAL-CANDIDATE-20261030/replay-tool-tests-final.log": {
+      "bytes": 2641,
+      "sha256": "64f10b194259f5b155c29fcb967639cb96ebdf29bbad36869355668789e6fa85"
+    },
+    "node-b/evidence/CODEX-R6-RR15-CAUSAL-CANDIDATE-20261030/six-event-period-and-signal-evidence.json": {
+      "bytes": 10403,
+      "sha256": "7db707657f61e8ce5a6b0ed863c95303bc674ccf10ace8a040b5871ce5e78a52"
+    },
+    "node-b/evidence/CODEX-R6-RR15-CAUSAL-CANDIDATE-20261030/waveform-QA-and-artifact-hashes.json": {
+      "bytes": 3272,
+      "sha256": "6c74006c1e86431f6f00305e30e6520bd0f98e75234cc7e7f138d1e8952e1798"
+    }
+  }
+}

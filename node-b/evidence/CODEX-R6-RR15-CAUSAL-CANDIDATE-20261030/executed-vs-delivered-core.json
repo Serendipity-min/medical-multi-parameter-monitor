@@ -1,0 +1,33 @@
+{
+  "comparisons": [
+    {
+      "executed_snapshot": "executed-initial-b5_rr15_causal_replay.py",
+      "delivered_source": "node-b/tools/b5_rr15_causal_replay.py",
+      "same_core_function_AST": {
+        "compile_host": true,
+        "replay": true,
+        "sealed_raw_frames": true
+      }
+    },
+    {
+      "executed_snapshot": "executed-initial-b5_rr15_causal_analysis.py",
+      "delivered_source": "node-b/tools/b5_rr15_causal_analysis.py",
+      "same_core_function_AST": {
+        "host_lib": true,
+        "trace_window": true,
+        "spectral_features": true,
+        "continuity": true
+      }
+    },
+    {
+      "executed_snapshot": "executed-run_rr15_causal_corpus.py",
+      "delivered_source": "node-b/tests/run_rr15_causal_corpus.py",
+      "same_core_function_AST": {
+        "run_rows": true,
+        "read_csv": true,
+        "synthetic": true
+      }
+    }
+  ],
+  "remaining_edits": "CLI pins and missing-time gate, plot output/title and phase metadata labels; original snapshots and final real CLI run retained"
+}

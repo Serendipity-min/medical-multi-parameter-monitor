@@ -1,0 +1,31 @@
+{
+  "status": "BEFORE_AFTER_C_RESULTS_IDENTICAL",
+  "same_C_results": {
+    "RR15": {
+      "verified_input_samples": true,
+      "analyzed_samples_after_replay_warmup": true,
+      "hr_valid_samples": true,
+      "hr_rates_while_valid": true,
+      "hr_episode_count": true
+    },
+    "ECG60": {
+      "verified_input_samples": true,
+      "analyzed_samples_after_replay_warmup": true,
+      "hr_valid_samples": true,
+      "hr_rates_while_valid": true,
+      "hr_episode_count": true
+    }
+  },
+  "missing_sample_spectral_counterexample": {
+    "before_quality": "RAW_UNCALIBRATED",
+    "after_quality": "INSUFFICIENT_CONTIGUOUS_SOURCE"
+  },
+  "original_tool_sha256": "bd13d5282034c1b1c7399332ef97358b52664fdc349d9caaaeee55cf70cc23b3",
+  "fixed_tool_sha256": "b384e549a7fe935def77689c2f81796c8104b2708bbb31890560bc7a6f34ed1b",
+  "algorithm_before_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+  "algorithm_after_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+  "algorithm_patch": "NOT_IMPLEMENTED",
+  "RR_full_session_valid_samples_before": 2821,
+  "RR_full_session_valid_samples_after": 2821,
+  "comparison_error_retained": "Initial in-memory int-key versus JSON string-key rate dictionary comparison falsely differed; normalized comparison true, no source/output change"
+}

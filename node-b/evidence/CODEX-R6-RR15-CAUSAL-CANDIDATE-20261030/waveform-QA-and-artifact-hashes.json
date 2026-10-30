@@ -1,0 +1,93 @@
+{
+  "artifacts": [
+    {
+      "file": "waveform-event-01-private.png",
+      "dataset": "RR15",
+      "sha256": "8e5538a38de8787e65a1652d308517e58d2c75dd9bd1729b1c3dcd1dab500a2f",
+      "bytes": 369139
+    },
+    {
+      "file": "waveform-event-01-private.pdf",
+      "dataset": "RR15",
+      "sha256": "9f23d57f27fd74abe188987a93969e79c0b434f6a4ce04c340a06c78a61d586d",
+      "bytes": 76856
+    },
+    {
+      "file": "waveform-event-02-private.png",
+      "dataset": "RR15",
+      "sha256": "b43af4f4523e564ec180e540d4438c5ee93a7f1978af496e1454f8ff2740ca2c",
+      "bytes": 382253
+    },
+    {
+      "file": "waveform-event-02-private.pdf",
+      "dataset": "RR15",
+      "sha256": "e1700797b626b0a30987131fb336761836e3c4a8bb4def0a50bd1f0c43104140",
+      "bytes": 77243
+    },
+    {
+      "file": "waveform-event-03-private.png",
+      "dataset": "RR15",
+      "sha256": "92f588887623c881fecbefa1eeb4bcbd854fd07f47ba857f21470bb5636ff64c",
+      "bytes": 372940
+    },
+    {
+      "file": "waveform-event-03-private.pdf",
+      "dataset": "RR15",
+      "sha256": "5bd402965d8f6debfec751e5fcd0b2f2f7ba520bbc01cd4f9eb2bfb9b5fcd12c",
+      "bytes": 77625
+    },
+    {
+      "file": "waveform-event-04-private.png",
+      "dataset": "RR15",
+      "sha256": "7a45b6ca345cda75cbf7ce660e10f5ec4ae796b5db5effc571066137441fc810",
+      "bytes": 378166
+    },
+    {
+      "file": "waveform-event-04-private.pdf",
+      "dataset": "RR15",
+      "sha256": "c0ec3fa8b21501c125bff4c1077e29aaf6f8b8cb00d36d42116940e458b651c8",
+      "bytes": 78679
+    },
+    {
+      "file": "waveform-event-05-private.png",
+      "dataset": "RR15",
+      "sha256": "2cf7127eaa7eef759b04dafa243c105882261b39e4682d0d78c74365ca3e693d",
+      "bytes": 375463
+    },
+    {
+      "file": "waveform-event-05-private.pdf",
+      "dataset": "RR15",
+      "sha256": "0eff1535797cc5131b4c9f1a00f8f3cbbe7e20ee1fd6bf6643d0c9abea84696b",
+      "bytes": 76234
+    },
+    {
+      "file": "waveform-event-06-private.png",
+      "dataset": "RR15",
+      "sha256": "c7ddd6505b7dc629accb159342c2292c197f54fa4b8c06b92c7db13be40f249f",
+      "bytes": 377287
+    },
+    {
+      "file": "waveform-event-06-private.pdf",
+      "dataset": "RR15",
+      "sha256": "b56dcb504d0fd8bde046b863b920c8c9f0039612774b816ad20fa24e56e6e408",
+      "bytes": 75080
+    },
+    {
+      "file": "waveform-event-01-private.png",
+      "dataset": "ECG60",
+      "sha256": "5d1c4e28fd2e7b178b447b6a0492d4460f45fa0a5f3b51ecbf030301249f5f1f",
+      "bytes": 296209
+    },
+    {
+      "file": "waveform-event-01-private.pdf",
+      "dataset": "ECG60",
+      "sha256": "9fb1709f4f4b0e184fd4a4f2c333f8ef31568ea453ef26c0c5c13c1621a9683a",
+      "bytes": 71433
+    }
+  ],
+  "source_sha256": "3ae5d6e7195e337bf0566ee408235a62ca9018d25b5aa1d18b9642931222597e",
+  "storage": "RAW_AND_WAVEFORMS_EFS_ONLY",
+  "initial_seven_waveforms_reviewed": "Six RR15 plus one ECG60, all data panels inspected",
+  "title_clipping_fix": "All seven regenerated from same verified raw arrays with two-line title; final event2 inspected",
+  "meaning": "Red marks are algorithm-accepted candidates, not QRS labels; filtered graph is quantized UI output, raw source uses IRQ time"
+}

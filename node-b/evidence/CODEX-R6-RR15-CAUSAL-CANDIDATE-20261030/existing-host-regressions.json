@@ -1,0 +1,275 @@
+{
+  "status": "PASS_EXISTING_HOST_REGRESSIONS",
+  "exit_code": 0,
+  "scope": "CPU_ONLY_EXISTING_UNMODIFIED_SCRIPTS; byte-identical EFS sandbox preserves private outputs",
+  "run_pretest_review": "stdlib, local gcc/host BioV2 library only; no --replay-manifest, hardware/cloud SDK or serial imports",
+  "physical_access": false,
+  "R5_and_ECG02_holdout_features_or_replay": "NOT_RUN",
+  "compiler": {
+    "compiler_exe_sha256": "c5f0953f7a71ddcdf0852e1e44a43cef9b8fe121beba4d4202bfe6d405de47c0",
+    "version_log": {
+      "file": "existing-host-regressions/compiler-version-private.log",
+      "bytes": 273,
+      "sha256": "6fd7cc88596832db1cc0e4cd1593c5ca63a027a9528cfd0d717c982484fb5b05"
+    }
+  },
+  "runs": [
+    {
+      "script": "node-b/firmware/biov2/tests/run_host.py",
+      "executed_copy_sha256": "69069bd9c002a4770e8295e0339406473bdb5f812e0b16672af6c807e97e174a",
+      "exit_code": 0,
+      "pass": 27,
+      "total": 27,
+      "receipt": {
+        "file": "existing-host-regressions/ordinary/algorithm/host_receipt.json",
+        "bytes": 20352,
+        "sha256": "6c53d8c5017f6c3284ebc24c3b7dd7791bb16a7540467d9205564c973c69745f"
+      },
+      "logs": [
+        {
+          "file": "existing-host-regressions/run_host-stdout-private.log",
+          "bytes": 74,
+          "sha256": "56ad99c0fa0d8d159cc9a694e8b7895b3c850dd73effe530525e636027db0248"
+        },
+        {
+          "file": "existing-host-regressions/run_host-stderr-private.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "script": "node-b/firmware/biov2/tests/run_channel_isolation.py",
+      "executed_copy_sha256": "9ad7ff3e04a33ca8e9c1fbcec1f3f707ed3bad4eff56215ddd9d58d1462bfcab",
+      "exit_code": 0,
+      "pass": 28,
+      "total": 28,
+      "receipt": {
+        "file": "existing-host-regressions/ordinary/channel-isolation/receipt.json",
+        "bytes": 3857,
+        "sha256": "c46266b750737abfb6ccdafba925285b7bb73ea8f4547a810da50da838226d81"
+      },
+      "logs": [
+        {
+          "file": "existing-host-regressions/run_channel_isolation-stdout-private.log",
+          "bytes": 50,
+          "sha256": "c627f89a58bb6cb8e503fe38853addef83d706170dd412a14183691edcb41ad4"
+        },
+        {
+          "file": "existing-host-regressions/run_channel_isolation-stderr-private.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "script": "node-b/tests/run_pretest.py",
+      "executed_copy_sha256": "2e593be1b0fd9ed06ae6dde7c0ac809a90dc86859d94506b796f167bbf0f78a7",
+      "exit_code": 0,
+      "pass": 10,
+      "total": 10,
+      "receipt": {
+        "file": "existing-host-regressions/source-sandbox/node-b/build/pretest-20261030T102105631316Z/receipt.json",
+        "bytes": 1502,
+        "sha256": "2a1c76535f87e953f4d11cb7e570b39c9608497fecdba284d7ffc9007b89b01d"
+      },
+      "logs": [
+        {
+          "file": "existing-host-regressions/run_pretest-stdout-private.log",
+          "bytes": 115,
+          "sha256": "88b2dfac88263d1bb3844619551bc0ded96313eba5b3af483ae8dd23043e6009"
+        },
+        {
+          "file": "existing-host-regressions/run_pretest-stderr-private.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    }
+  ],
+  "C_header_and_library_artifacts": [
+    {
+      "file": "existing-host-regressions/ordinary/algorithm/bio_v2_host.dll",
+      "bytes": 56275,
+      "sha256": "853fc95ffae7b4c6c6d99a6b08bebdb36bdaddb1dc7993a481fbc70edb7545ff"
+    },
+    {
+      "file": "existing-host-regressions/ordinary/channel-isolation/after.dll",
+      "bytes": 56275,
+      "sha256": "ccca02e448a7c776ffb87b403180286297f6f2b706aca531f6315c28d53caf65"
+    },
+    {
+      "file": "existing-host-regressions/ordinary/channel-isolation/before.dll",
+      "bytes": 55736,
+      "sha256": "69528f063f907549494067bf13a4672a30183283b0cc186f13cf4b409ebfe86f"
+    },
+    {
+      "file": "existing-host-regressions/source-sandbox/node-b/build/pretest-20261030T102105631316Z/before.dll",
+      "bytes": 55736,
+      "sha256": "e84d55b1d125661eca8a5af60942d9906059748105f809be8833370b97443718"
+    },
+    {
+      "file": "existing-host-regressions/source-sandbox/node-b/build/pretest-20261030T102105631316Z/current.dll",
+      "bytes": 56275,
+      "sha256": "e9c1c634cf3363c54e8e14cf8f90e8d34dc129029c37a933bb146f15b1a2de3b"
+    },
+    {
+      "file": "existing-host-regressions/source-sandbox/node-b/firmware/biov2/\u5b9e\u9a8c\u56fa\u4ef6/HARDWARE/bio_v2.c",
+      "bytes": 12391,
+      "sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7"
+    },
+    {
+      "file": "existing-host-regressions/source-sandbox/node-b/firmware/biov2/\u5b9e\u9a8c\u56fa\u4ef6/HARDWARE/bio_v2.h",
+      "bytes": 1729,
+      "sha256": "76198016006ab8de6126a7cb051aeb3ab296c5655152c74cf5565bd85aba0913"
+    },
+    {
+      "file": "existing-host-regressions/source-sandbox/node-b/reference/biov2-before-isolation/HARDWARE/bio_v2.c",
+      "bytes": 11300,
+      "sha256": "007d10dc254480814c2226815a4ba347bf4d7b3a4e934c26a3b730af4b61c25d"
+    },
+    {
+      "file": "existing-host-regressions/source-sandbox/node-b/reference/biov2-before-isolation/HARDWARE/bio_v2.h",
+      "bytes": 1499,
+      "sha256": "313ad6226aeebec09e5d827f67a1d43322fbb2e69c05fb5a5e93fc643274ba1b"
+    }
+  ],
+  "source_script_copies": [
+    {
+      "path": "node-b/firmware/biov2/tests/run_host.py",
+      "sha256": "69069bd9c002a4770e8295e0339406473bdb5f812e0b16672af6c807e97e174a"
+    },
+    {
+      "path": "node-b/firmware/biov2/tests/run_channel_isolation.py",
+      "sha256": "9ad7ff3e04a33ca8e9c1fbcec1f3f707ed3bad4eff56215ddd9d58d1462bfcab"
+    },
+    {
+      "path": "node-b/tests/run_pretest.py",
+      "sha256": "2e593be1b0fd9ed06ae6dde7c0ac809a90dc86859d94506b796f167bbf0f78a7"
+    },
+    {
+      "path": "node-b/firmware/biov2/\u5b9e\u9a8c\u56fa\u4ef6/HARDWARE/bio_v2.c",
+      "sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7"
+    },
+    {
+      "path": "node-b/firmware/biov2/\u5b9e\u9a8c\u56fa\u4ef6/HARDWARE/bio_v2.h",
+      "sha256": "76198016006ab8de6126a7cb051aeb3ab296c5655152c74cf5565bd85aba0913"
+    },
+    {
+      "path": "node-b/reference/biov2-before-isolation/HARDWARE/bio_v2.c",
+      "sha256": "007d10dc254480814c2226815a4ba347bf4d7b3a4e934c26a3b730af4b61c25d"
+    },
+    {
+      "path": "node-b/reference/biov2-before-isolation/HARDWARE/bio_v2.h",
+      "sha256": "313ad6226aeebec09e5d827f67a1d43322fbb2e69c05fb5a5e93fc643274ba1b"
+    }
+  ],
+  "historical_ECG_slot_export_seals": {
+    "status": "PASS_SEAL_ONLY",
+    "exit_code": 0,
+    "entry": "capture_b.export:128-155 semantics with unchanged StableSlots; no hardware imports or entry",
+    "capture_source_sha256": "7c45589bff1099e20354b8dbe7db9bb2e32095bf67a904b9358cf4f4996800fa",
+    "stable_export_source_sha256": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2",
+    "datasets": [
+      {
+        "dataset": "matrix-ecg60-r3-01",
+        "receipt_sha256": "abfbd2ba75cafa51086b26b2ceb61cb50e0799b01af3bd10bccbfe666a184fcf",
+        "profile_sha256": "4e298cf97e55ea8c7d01aa9509b54ef682256fcad6c9ba30cca835ec1cde1a7f",
+        "source_record_sha256": "0a93909ef9796ab66689738bdb8ed5ec46d1ef7c606c2e139c8dcace4fd76105",
+        "running_slots_sha256": "9d2af7cc3d9ffacfd4cb22ba4b468cec2197d91939b42db7dcc636fe576ae870",
+        "chunks_index_sha256": "6f4dc97371fb7b57ca9519a86ea382c52a065bb79ba3a0b1b714d26ec12785e2",
+        "paused_ram_sha256": "eb69c9a50de25426ef6bdf5fdf69f0a12dad243a55a14b72c6269b62bce02c9f",
+        "reconstructed_csv_sha256": "a5160a4f4e12425e8cd396faeab821c8b781d88de55e3b782448ef61e17a4177",
+        "frames": 23109,
+        "chunks": 1156,
+        "CSV_BYTE_IDENTICAL_TO_ORIGINAL": true,
+        "source_fields_unchanged": "sequence,device_ms,IRQ_cycles,status,flags,CH1,CH2,integrity",
+        "holdout_features_or_algorithm_replay": "NOT_RUN"
+      },
+      {
+        "dataset": "matrix-ecg60-r3-02",
+        "receipt_sha256": "411706242db1aa0a4da4c298caace74ffe8a5d0fb4f94977cafaf6360b4fc90f",
+        "profile_sha256": "4e298cf97e55ea8c7d01aa9509b54ef682256fcad6c9ba30cca835ec1cde1a7f",
+        "source_record_sha256": "0a93909ef9796ab66689738bdb8ed5ec46d1ef7c606c2e139c8dcace4fd76105",
+        "running_slots_sha256": "90dfa6d1f54f460cc866db5a9518e3cdba97faea5c100c8cddd34198c730b55c",
+        "chunks_index_sha256": "41ba190bd3de49bf0772a25c8f9156003d0a47f5304d962c6973cdeca6b6d122",
+        "paused_ram_sha256": "86afd360910a6d22f33c8da734ae0c0744ce7c57bc072176d2f08d5b18cea914",
+        "reconstructed_csv_sha256": "437813bdc03e9eb27b09c25a9240d0bbff6757d3d06130760482b77d894fae9a",
+        "frames": 23096,
+        "chunks": 1154,
+        "CSV_BYTE_IDENTICAL_TO_ORIGINAL": true,
+        "source_fields_unchanged": "sequence,device_ms,IRQ_cycles,status,flags,CH1,CH2,integrity",
+        "holdout_features_or_algorithm_replay": "NOT_RUN"
+      },
+      {
+        "dataset": "matrix-ecg90-r3-01",
+        "receipt_sha256": "00fe49706c84a75fe047c5f9f3610a888314ac0cbeb54a12c62b820d2cd886e3",
+        "profile_sha256": "4e298cf97e55ea8c7d01aa9509b54ef682256fcad6c9ba30cca835ec1cde1a7f",
+        "source_record_sha256": "07459517d3ff963710ec588357c924b5797c1cdd99beecda15beb0b1852787d5",
+        "running_slots_sha256": "db70305567b2ab2d632b08ff3d9c414fcd498c01e73f0f5f18d558b058d073d3",
+        "chunks_index_sha256": "e73c768be1985d95d402572dea05eadc00828dcb3fa656b86b6335b3e10bf46c",
+        "paused_ram_sha256": "4ac99eb1192f8ed25fad8c4bab51aacff542efad37841c9045b6bdd698ee18fc",
+        "reconstructed_csv_sha256": "5d7d0a6f95c24eed9560b1864f53dd8553ac713a305d3349a4e2d49aa6f44b9e",
+        "frames": 23093,
+        "chunks": 1157,
+        "CSV_BYTE_IDENTICAL_TO_ORIGINAL": true,
+        "source_fields_unchanged": "sequence,device_ms,IRQ_cycles,status,flags,CH1,CH2,integrity",
+        "holdout_features_or_algorithm_replay": "NOT_RUN"
+      },
+      {
+        "dataset": "matrix-ecg90-r3-02",
+        "receipt_sha256": "2c59ca8344fe9a5d40bdae3d29cdb0c8e3ff91c6e9c8a981f465a89b8808accf",
+        "profile_sha256": "4e298cf97e55ea8c7d01aa9509b54ef682256fcad6c9ba30cca835ec1cde1a7f",
+        "source_record_sha256": "07459517d3ff963710ec588357c924b5797c1cdd99beecda15beb0b1852787d5",
+        "running_slots_sha256": "d81380e9d84031b44ac6dbee3a1962e18192ceb4c250cb7d73c575734b7ae2b7",
+        "chunks_index_sha256": "0641f61996812b196b37cf1bd583d3f133b453bee1e6077c799fe506baaded01",
+        "paused_ram_sha256": "606c9988fa5a96df1a4309a505e5e7cf440186b8b902c61970db4d4c52ca84a1",
+        "reconstructed_csv_sha256": "5f46fd6a838c4e3ddbee38f2f32342b49b62ff5d19edea71ebe81826c0c024ad",
+        "frames": 23096,
+        "chunks": 1157,
+        "CSV_BYTE_IDENTICAL_TO_ORIGINAL": true,
+        "source_fields_unchanged": "sequence,device_ms,IRQ_cycles,status,flags,CH1,CH2,integrity",
+        "holdout_features_or_algorithm_replay": "NOT_RUN"
+      },
+      {
+        "dataset": "matrix-ecg120-r3-01",
+        "receipt_sha256": "c916c93ba569d102c6e1de6df4389e15120e6de94f5296dfbc1db211e4b1ff1d",
+        "profile_sha256": "4e298cf97e55ea8c7d01aa9509b54ef682256fcad6c9ba30cca835ec1cde1a7f",
+        "source_record_sha256": "a03b54f12ef9487d1eebac9936cce9fa3a5c65f891a528bfd6e67ad2f53badbe",
+        "running_slots_sha256": "be262c4de1724d86194a56ae6f9c44b82151e207a59fe348d752328d913bdca4",
+        "chunks_index_sha256": "3cc5f763007b38128b1e1d95ddde025cc3b86d27ddf16c86a0d1354e6a8a899a",
+        "paused_ram_sha256": "c809cfd5e26a764c1baf5daaed35bc14be3443c488771758055bf8ba256ae589",
+        "reconstructed_csv_sha256": "95d2675bb8caf5cfe89b6595579e2bab743b6112a4cc891b1c6248941b629a9e",
+        "frames": 23105,
+        "chunks": 1157,
+        "CSV_BYTE_IDENTICAL_TO_ORIGINAL": true,
+        "source_fields_unchanged": "sequence,device_ms,IRQ_cycles,status,flags,CH1,CH2,integrity",
+        "holdout_features_or_algorithm_replay": "NOT_RUN"
+      },
+      {
+        "dataset": "matrix-ecg120-r3-02",
+        "receipt_sha256": "a8e30a3f065466f6e0290e424394872cc792b9d99f265214b6de893a5fe15ac9",
+        "profile_sha256": "4e298cf97e55ea8c7d01aa9509b54ef682256fcad6c9ba30cca835ec1cde1a7f",
+        "source_record_sha256": "a03b54f12ef9487d1eebac9936cce9fa3a5c65f891a528bfd6e67ad2f53badbe",
+        "running_slots_sha256": "2e539a62c334196f838ea4a1aac155b9405f2c0cd17f78f21ef17f040fb5cda3",
+        "chunks_index_sha256": "c6922e6339e6e114592b82e23db80a4893b812814bb6ff41226b294dbe87c532",
+        "paused_ram_sha256": "825a350bc856cee1ac9beaaa38e09ee4685d17ba90864421db4846886c2399c8",
+        "reconstructed_csv_sha256": "8f26c377700409b436738610c2a170db026872fc77e5f96a9e363c57d84edcfe",
+        "frames": 23108,
+        "chunks": 1157,
+        "CSV_BYTE_IDENTICAL_TO_ORIGINAL": true,
+        "source_fields_unchanged": "sequence,device_ms,IRQ_cycles,status,flags,CH1,CH2,integrity",
+        "holdout_features_or_algorithm_replay": "NOT_RUN"
+      }
+    ],
+    "no_signal_features_or_algorithm_replay": true,
+    "reconstructed_raw_outputs": "EFS_ONLY"
+  },
+  "private_corpus_index": {
+    "file": "corpus-index-private.json",
+    "bytes": 14589,
+    "sha256": "aea6e071162d0cf4f0dea3cc67b88d9f13432b296fe5d3e2a2a42b126e3d4d91"
+  },
+  "phase": "AGENT_SEAL_AND_REGRESSION_PHASE_BEFORE_ROOT_HOLDOUT_EVALUATION",
+  "later_root_holdout_evaluation": "corpus-and-holdout-results.json"
+}
