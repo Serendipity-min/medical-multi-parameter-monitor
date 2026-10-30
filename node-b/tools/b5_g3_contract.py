@@ -113,7 +113,13 @@ def expected_c_full(a,bundle):
     return expected
 
 
-def validate(a,scope):
+def validate(a,scope,*,execution_context='FIELD'):
+    require(execution_context in ('FIELD','OFFLINE_MOCK'),'G3_EXECUTION_CONTEXT')
+    r6_scopes=tuple('B5_FINAL_'+name+'_R6' for name in ('ECG60','TEMP_OBJECT','RR15'))
+    if execution_context=='FIELD':
+        require(a.get('execution_mode')!='OFFLINE_MOCK','G3_OFFLINE_MOCK_FORBIDDEN_IN_FIELD')
+        # 本轮没有可信现场签署实现；任何自填签名、nonce或许可字段均不能放行R6。
+        require(a.get('scope') not in r6_scopes,'G3_R6_FIELD_NOT_AUTHORIZED_P1A')
     if scope==G3 and a.get('scope') in ('B5_SEPARATE_CHANNEL_CLOUD_WINDOW','B5_FINAL_ECG60_R1','B5_FINAL_TEMP_OBJECT_R1','B5_FINAL_RR15_R1',
                                       'B5_FINAL_ECG60_R2','B5_FINAL_TEMP_OBJECT_R2','B5_FINAL_RR15_R2',
                                       'B5_FINAL_ECG60_R3','B5_FINAL_TEMP_OBJECT_R3','B5_FINAL_RR15_R3',
@@ -121,9 +127,9 @@ def validate(a,scope):
                                       'B5_FINAL_ECG60_R4TC','B5_FINAL_TEMP_OBJECT_R4TC','B5_FINAL_RR15_R4TC',
                                       'B5_FINAL_ECG60_R4D','B5_FINAL_TEMP_OBJECT_R4D','B5_FINAL_RR15_R4D',
                                       'B5_FINAL_ECG60_R4TB','B5_FINAL_TEMP_OBJECT_R4TB','B5_FINAL_RR15_R4TB','B5_FINAL_ECG60_R4TI',
-                                      'B5_FINAL_ECG60_R5','B5_FINAL_TEMP_OBJECT_R5','B5_FINAL_RR15_R5'):
+                                      'B5_FINAL_ECG60_R5','B5_FINAL_TEMP_OBJECT_R5','B5_FINAL_RR15_R5',*r6_scopes):
         import b5_channel_profiles as channels
-        return channels.validate(a)
+        return channels.validate(a,execution_context=execution_context)
     require(a.get('enabled') is True and a.get('owner_approved') is True and a.get('scope')==scope,'G3_OWNER_SCOPE')
     require(a.get('tools_sha256')==bindings() and a.get('criteria')==CRITERIA,'G3_FROZEN_BINDINGS')
     require(a.get('precommon_ntp_retries_max',0) in (0,2),'G3_PRECOMMON_NTP_RETRY_SCOPE')

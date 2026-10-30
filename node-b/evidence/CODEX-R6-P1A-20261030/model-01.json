@@ -1,0 +1,37 @@
+{
+  "status": "PASS_SYNTHETIC",
+  "WCET": "WCET_MODEL_ONLY",
+  "real_cpu_WCET": "NOT_MEASURED",
+  "phase_sweep": {
+    "old_fails": 6,
+    "old_min_age": -16,
+    "cand_fails": 0,
+    "cand_min_age": -3
+  },
+  "scheduling": {
+    "candidate_patch": true,
+    "duration_s": 600,
+    "total_drdy_frames": 150000,
+    "expected_drdy_frames": 150000,
+    "queue_max_depth": 1,
+    "snapshots_count": 1200,
+    "min_age": -2,
+    "max_age": 99,
+    "fails_count": 0,
+    "failing_ages": []
+  },
+  "coincident": {
+    "old": {
+      "min_age": -23.400000000000002,
+      "max_queue": 5,
+      "fails": 134
+    },
+    "cand": {
+      "min_age": -7.5,
+      "max_queue": 1,
+      "fails": 0
+    }
+  },
+  "source_sha256": "286037ca945d1906a31474dc3629bf2bf9bc94b7bb8b0f74a4a982801fa49e3f",
+  "exit_code": 0
+}

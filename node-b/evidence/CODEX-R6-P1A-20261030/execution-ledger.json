@@ -1,0 +1,345 @@
+{
+  "runs": [
+    {
+      "run": "mock-regression-01",
+      "argv": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "node-b/tools/b5_codex_offline_tests.py",
+        "--receipt",
+        "node-b/evidence/CODEX-R6-P1A-20261030/mock-regression-01.json"
+      ],
+      "working_directory": "E:\\medical-monitor-node-b5-cloud",
+      "actual_exit_code": 1,
+      "classification": "DEPENDENCY_IMPORT_GUARD_REFUSED_LOCAL_VERSION_SUBPROCESS",
+      "stdout_stderr_log": "node-b/evidence/CODEX-R6-P1A-20261030/mock-regression-01.log",
+      "log_sha256": "5a9cd64ea6afdaa86302b7f667b5ac0c212a2d625f3283a4ac8c51303db9f944",
+      "executed_tool_sha256": null,
+      "tool_provenance": "INTERMEDIATE_SOURCE_NOT_SEALED_KEEP_FAILURE_LOG"
+    },
+    {
+      "run": "mock-regression-02",
+      "argv": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "node-b/tools/b5_codex_offline_tests.py",
+        "--receipt",
+        "node-b/evidence/CODEX-R6-P1A-20261030/mock-regression-02.json"
+      ],
+      "working_directory": "E:\\medical-monitor-node-b5-cloud",
+      "actual_exit_code": 0,
+      "classification": "PASS_MOCK_151",
+      "stdout_stderr_log": "node-b/evidence/CODEX-R6-P1A-20261030/mock-regression-02.log",
+      "log_sha256": "f3e5e3337dbcdbe3934299bc1ea1c0bb65acd316b9935a18c545a14bac22cbd0",
+      "executed_tool_sha256": "9fe08b6cedbcba1127e5b9ad0b70ed0a68a728a4a600964cfb87ef7252f741dd",
+      "tool_provenance": "SEALED_CURRENT_SOURCE"
+    },
+    {
+      "run": "arm-build-01",
+      "argv": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "node-b/tools/build_b4_arm.py",
+        "--temp",
+        "--candidate-r6"
+      ],
+      "working_directory": "E:\\medical-monitor-node-b5-cloud",
+      "actual_exit_code": 0,
+      "classification": "OFFLINE_ARM_PASS",
+      "stdout_stderr_log": "node-b/evidence/CODEX-R6-P1A-20261030/arm-build-01.log",
+      "log_sha256": "e531e7109c1f4d41b84b34e0c6c6b1625b2e31f17c3e7fbba42955b50cfdb546",
+      "executed_tool_sha256": "7afac832dd8701e8c8300c88bb40c437d2af28d9284c093d55626d27d3d36a4b",
+      "tool_provenance": "SEALED_CURRENT_SOURCE"
+    },
+    {
+      "run": "integrity-01",
+      "argv": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "node-b/tools/b5_codex_p1a_audit.py",
+        "--mode",
+        "integrity",
+        "--build-root",
+        "node-b/build/b4-arm-20261030T075345488870Z",
+        "--out",
+        "node-b/evidence/CODEX-R6-P1A-20261030/integrity-01.json"
+      ],
+      "working_directory": "E:\\medical-monitor-node-b5-cloud",
+      "actual_exit_code": 1,
+      "classification": "AUDIT_HOST_ERROR_PRESERVED",
+      "stdout_stderr_log": "node-b/evidence/CODEX-R6-P1A-20261030/integrity-01.log",
+      "log_sha256": "ef47bb359bf5f439b7ce8824c22a01fa2bf93af5e4d4cbad9b1af9ca38a9c169",
+      "executed_tool_sha256": null,
+      "tool_provenance": "INTERMEDIATE_SOURCE_NOT_SEALED_KEEP_FAILURE_LOG"
+    },
+    {
+      "run": "integrity-02",
+      "argv": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "node-b/tools/b5_codex_p1a_audit.py",
+        "--mode",
+        "integrity",
+        "--build-root",
+        "node-b/build/b4-arm-20261030T075345488870Z",
+        "--out",
+        "node-b/evidence/CODEX-R6-P1A-20261030/integrity-02.json"
+      ],
+      "working_directory": "E:\\medical-monitor-node-b5-cloud",
+      "actual_exit_code": 0,
+      "classification": "PASS_OFFLINE",
+      "stdout_stderr_log": "node-b/evidence/CODEX-R6-P1A-20261030/integrity-02.log",
+      "log_sha256": "8f19d90bcb08d41f982d14bfc4209e2afa0fb257ac1d356afd2f523947feae0b",
+      "executed_tool_sha256": null,
+      "tool_provenance": "INTERMEDIATE_SOURCE_NOT_SEALED_KEEP_FAILURE_LOG"
+    },
+    {
+      "run": "integrity-03",
+      "argv": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "node-b/tools/b5_codex_p1a_audit.py",
+        "--mode",
+        "integrity",
+        "--build-root",
+        "node-b/build/b4-arm-20261030T075345488870Z",
+        "--out",
+        "node-b/evidence/CODEX-R6-P1A-20261030/integrity-03.json"
+      ],
+      "working_directory": "E:\\medical-monitor-node-b5-cloud",
+      "actual_exit_code": 0,
+      "classification": "PASS_OFFLINE",
+      "stdout_stderr_log": "node-b/evidence/CODEX-R6-P1A-20261030/integrity-03.log",
+      "log_sha256": "8f19d90bcb08d41f982d14bfc4209e2afa0fb257ac1d356afd2f523947feae0b",
+      "executed_tool_sha256": "f892f3d93f96082bd7f0b8173c9d0ea130d4b3927e02b5a375984f12c94ab9b3",
+      "tool_provenance": "SEALED_CURRENT_SOURCE"
+    },
+    {
+      "run": "r5-replay-01",
+      "argv": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "node-b/tools/b5_codex_p1a_audit.py",
+        "--mode",
+        "replay",
+        "--private-root",
+        "E:/medical-monitor-node-b-precan-private/20261023/time-init-field-6cd64b90",
+        "--out",
+        "node-b/evidence/CODEX-R6-P1A-20261030/r5-replay-01.json"
+      ],
+      "working_directory": "E:\\medical-monitor-node-b5-cloud",
+      "actual_exit_code": 1,
+      "classification": "AUDIT_HOST_ERROR_PRESERVED",
+      "stdout_stderr_log": "node-b/evidence/CODEX-R6-P1A-20261030/r5-replay-01.log",
+      "log_sha256": "729db81ee79b8d69c847e5814913e99d1c38cdd69ed5ba1a4324e86efe9f6734",
+      "executed_tool_sha256": null,
+      "tool_provenance": "INTERMEDIATE_SOURCE_NOT_SEALED_KEEP_FAILURE_LOG"
+    },
+    {
+      "run": "r5-replay-02",
+      "argv": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "node-b/tools/b5_codex_p1a_audit.py",
+        "--mode",
+        "replay",
+        "--private-root",
+        "E:/medical-monitor-node-b-precan-private/20261023/time-init-field-6cd64b90",
+        "--out",
+        "node-b/evidence/CODEX-R6-P1A-20261030/r5-replay-02.json"
+      ],
+      "working_directory": "E:\\medical-monitor-node-b5-cloud",
+      "actual_exit_code": 3,
+      "classification": "HISTORICAL_NOT_PASS_REPRODUCED",
+      "stdout_stderr_log": "node-b/evidence/CODEX-R6-P1A-20261030/r5-replay-02.log",
+      "log_sha256": "989810c6311822c767579031a36b652fdd362cea18698f32cd1ba5fa2d073ec7",
+      "executed_tool_sha256": null,
+      "tool_provenance": "INTERMEDIATE_SOURCE_NOT_SEALED_KEEP_FAILURE_LOG"
+    },
+    {
+      "run": "r5-replay-03",
+      "argv": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "node-b/tools/b5_codex_p1a_audit.py",
+        "--mode",
+        "replay",
+        "--private-root",
+        "E:/medical-monitor-node-b-precan-private/20261023/time-init-field-6cd64b90",
+        "--out",
+        "node-b/evidence/CODEX-R6-P1A-20261030/r5-replay-03.json"
+      ],
+      "working_directory": "E:\\medical-monitor-node-b5-cloud",
+      "actual_exit_code": 3,
+      "classification": "HISTORICAL_NOT_PASS_REPRODUCED",
+      "stdout_stderr_log": "node-b/evidence/CODEX-R6-P1A-20261030/r5-replay-03.log",
+      "log_sha256": "989810c6311822c767579031a36b652fdd362cea18698f32cd1ba5fa2d073ec7",
+      "executed_tool_sha256": "f892f3d93f96082bd7f0b8173c9d0ea130d4b3927e02b5a375984f12c94ab9b3",
+      "tool_provenance": "SEALED_CURRENT_SOURCE"
+    },
+    {
+      "run": "model-01",
+      "argv": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "node-b/tools/b5_codex_p1a_audit.py",
+        "--mode",
+        "model",
+        "--out",
+        "node-b/evidence/CODEX-R6-P1A-20261030/model-01.json"
+      ],
+      "working_directory": "E:\\medical-monitor-node-b5-cloud",
+      "actual_exit_code": 0,
+      "classification": "PASS_OFFLINE",
+      "stdout_stderr_log": "node-b/evidence/CODEX-R6-P1A-20261030/model-01.log",
+      "log_sha256": "332d6dc671e69727c4c3d83f764f1dfadd2fc893e007e22ebefc9a1236725a85",
+      "executed_tool_sha256": null,
+      "tool_provenance": "INTERMEDIATE_SOURCE_NOT_SEALED_KEEP_FAILURE_LOG"
+    },
+    {
+      "run": "model-02",
+      "argv": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "node-b/tools/b5_codex_p1a_audit.py",
+        "--mode",
+        "model",
+        "--out",
+        "node-b/evidence/CODEX-R6-P1A-20261030/model-02.json"
+      ],
+      "working_directory": "E:\\medical-monitor-node-b5-cloud",
+      "actual_exit_code": 0,
+      "classification": "PASS_OFFLINE",
+      "stdout_stderr_log": "node-b/evidence/CODEX-R6-P1A-20261030/model-02.log",
+      "log_sha256": "332d6dc671e69727c4c3d83f764f1dfadd2fc893e007e22ebefc9a1236725a85",
+      "executed_tool_sha256": "f892f3d93f96082bd7f0b8173c9d0ea130d4b3927e02b5a375984f12c94ab9b3",
+      "tool_provenance": "SEALED_CURRENT_SOURCE"
+    },
+    {
+      "run": "artifact-file-comparison-02",
+      "argv": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "node-b/tools/b5_codex_artifact_compare.py",
+        "--old-build",
+        "node-b/build/b4-arm-20261030T062335164483Z",
+        "--old-build",
+        "node-b/build/b4-arm-20261030T065438840092Z",
+        "--new-build",
+        "node-b/build/b4-arm-20261030T075345488870Z",
+        "--out",
+        "node-b/evidence/CODEX-R6-P1A-20261030/artifact-file-comparison-02.json"
+      ],
+      "working_directory": "E:\\medical-monitor-node-b5-cloud",
+      "actual_exit_code": 1,
+      "classification": "DIFFERENCE_REQUIRES_REVIEW",
+      "stdout_stderr_log": "node-b/evidence/CODEX-R6-P1A-20261030/artifact-file-comparison-02.log",
+      "log_sha256": "c0325a5a089e4e75aa49ac922b65193d8dcf64adddab9dc07dfe3920ebc1e8b4",
+      "executed_tool_sha256": "2922c462c2e41e95340ea905a6056dce18205738f9eddd51d8b53ce1035439d3",
+      "tool_provenance": "SOURCE_SHA_SEALED_IN_RECEIPT"
+    },
+    {
+      "run": "artifact-file-comparison-03",
+      "argv": [
+        "python",
+        "-X",
+        "utf8",
+        "-B",
+        "node-b/tools/b5_codex_artifact_compare.py",
+        "--old-build",
+        "node-b/build/b4-arm-20261030T062335164483Z",
+        "--old-build",
+        "node-b/build/b4-arm-20261030T065438840092Z",
+        "--new-build",
+        "node-b/build/b4-arm-20261030T075345488870Z",
+        "--out",
+        "node-b/evidence/CODEX-R6-P1A-20261030/artifact-file-comparison-03.json"
+      ],
+      "working_directory": "E:\\medical-monitor-node-b5-cloud",
+      "actual_exit_code": 0,
+      "classification": "NONALLOCATED_METADATA_DIFFERENCE_CONFIRMED",
+      "stdout_stderr_log": "node-b/evidence/CODEX-R6-P1A-20261030/artifact-file-comparison-03.log",
+      "log_sha256": "2da150986a043e8f389e2c28e8fbc1e7f70b1af424dcc5748e99e63cf687f87e",
+      "executed_tool_sha256": "5c95f01b6c178f7d777e3e1c0d34c39574f4112ff40a061d2fcbad49275589ca",
+      "tool_provenance": "SOURCE_SHA_SEALED_IN_RECEIPT"
+    },
+    {
+      "run": "whitespace-full-01",
+      "argv": [
+        "git",
+        "-c",
+        "core.whitespace=cr-at-eol",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "actual_exit_code": 2,
+      "classification": "EXPECTED_RAW_ATTACHMENT_WHITESPACE",
+      "stdout_stderr_log": "node-b/evidence/CODEX-R6-P1A-20261030/whitespace-full-01.log",
+      "log_sha256": "1aa7a23b0e77cf5433ed25351401fb81fb6900b2f5359015b90235b3999c0cb1"
+    },
+    {
+      "run": "whitespace-code-01",
+      "argv": [
+        "git",
+        "-c",
+        "core.whitespace=cr-at-eol",
+        "diff",
+        "--cached",
+        "--check",
+        "--",
+        ".",
+        ":(exclude)node-b/docs/CODEX-R6-P1A-20261030/contracts/**",
+        ":(exclude)node-b/evidence/CODEX-R6-P1A-20261030/*.log"
+      ],
+      "actual_exit_code": 0,
+      "classification": "ORDINARY_CODE_AND_DOCUMENTS_CHECK_PASS",
+      "stdout_stderr_log": "node-b/evidence/CODEX-R6-P1A-20261030/whitespace-code-01.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "final_sealed_runs": [
+    "arm-build-01",
+    "integrity-03",
+    "mock-regression-02",
+    "model-02",
+    "r5-replay-03",
+    "artifact-file-comparison-03"
+  ],
+  "field_sessions": 0,
+  "environment": {
+    "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "git": "git version 2.52.0.windows.1",
+    "packages": {
+      "pyserial": "3.5",
+      "paho-mqtt": "2.1.0",
+      "websockets": "16.0",
+      "pydantic": "2.12.5",
+      "numpy": "2.3.5"
+    }
+  }
+}

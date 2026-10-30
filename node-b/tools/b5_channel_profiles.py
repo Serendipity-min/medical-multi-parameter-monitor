@@ -76,7 +76,8 @@ def assert_snapshot(s,profile):
         g.require(x.get('source')=='MOCK' and x.get('synthetic') is True,'CHANNEL_WSS_SOURCE')
         if x['validity']!='VALID':g.require(x.get('value') is None and not x.get('samples'),'CHANNEL_WSS_INVALID_MASK')
 
-def validate(a):
+def validate(a,*,execution_context='FIELD'):
+    g.require(execution_context in ('FIELD','OFFLINE_MOCK'),'CHANNEL_EXECUTION_CONTEXT')
     g.require(a.get('enabled') is True and a.get('owner_approved') is True and
               a.get('scope') in (SCOPE,*FINAL_SCOPES.values(),*FINAL_SCOPES_R2.values(),*FINAL_SCOPES_R3.values(),*FINAL_SCOPES_R4.values(),*FINAL_SCOPES_R4TC.values(),*FINAL_SCOPES_R4D.values(),*FINAL_SCOPES_R4TB.values(),*FINAL_SCOPES_R4TI.values(),*FINAL_SCOPES_R5.values(),*FINAL_SCOPES_R6.values()),'CHANNEL_OWNER')
     profile=a.get('channel_profile');g.require(profile in PROFILES,'CHANNEL_PROFILE')
@@ -107,18 +108,9 @@ def validate(a):
     card=final_card if final else CARD if selected==CARD.name else CONTINUE_CARD
     g.require(a.get('card_sha256')==g.sha(card.read_bytes()),'CHANNEL_CARD')
     if version=='R6':
-        # 机器互锁：R6未签署正式冻结清单前，严禁任何实机执行；仅允许显式离线MOCK模式验证准入规则
-        if a.get('execution_mode')!='OFFLINE_MOCK':
-            freeze_manifest=g.ROOT/'node-b/evidence/B5-R6-PATCH01/R6-FREEZE-MANIFEST.json'
-            frozen_ok=False
-            if freeze_manifest.exists():
-                try:
-                    f_doc=json.loads(freeze_manifest.read_text(encoding='utf-8'))
-                    if f_doc.get('status')=='FROZEN_GATE_F_SIGNED' and f_doc.get('candidate_b_sha256')==B_CANDIDATE_R6_BIN and f_doc.get('pi_signature'):
-                        frozen_ok=True
-                except Exception:
-                    pass
-            g.require(frozen_ok and a.get('field_execution_authorized') is True,'CHANNEL_R6_FIELD_EXECUTION_BLOCKED_UNSIGNED_FREEZE')
+        # 离线调用上下文不能由授权JSON选择；现场在P1-A期间始终拒止。
+        g.require(execution_context=='OFFLINE_MOCK' and a.get('execution_mode')=='OFFLINE_MOCK',
+                  'CHANNEL_R6_FIELD_EXECUTION_BLOCKED_UNSIGNED_FREEZE')
     if selected in (CONTINUE_CARD.name,FINAL_CARD.name,FINAL_CARD_R2.name,FINAL_CARD_R3.name,FINAL_CARD_R4.name,FINAL_CARD_R4TC.name,FINAL_CARD_R4D.name,FINAL_CARD_R4TB.name,FINAL_CARD_R4TI.name,FINAL_CARD_R5.name,FINAL_CARD_R6.name):
         g.require(a.get('reset_confirmation')=='SERIAL_DISARMED_AFTER_INTENT' and
                   a.get('owner_manual_reset_preapproved') is True,'CHANNEL_RESET_CONFIRMATION')

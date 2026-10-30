@@ -382,7 +382,7 @@ class SyntheticAdmission(unittest.TestCase):
             stack.enter_context(patch.object(p, 'B_CANDIDATE_R6_BIN', cand_sha))
             stack.enter_context(patch.object(p, 'B_PROFILE_R6', {'BIN_bytes': 41012, 'BIN_sha256': cand_sha, 'slots': 0x2000216c, 'UART_ring': 0x20004878, 'RAM': p.temp.RAM}))
             with self.assertRaisesRegex(ValueError, 'C_PREFLIGHT'):
-                p.validate(a)
+                g.validate(a,g.G3,execution_context='OFFLINE_MOCK')
 
     def test_r6_positive_mock_validates_cleanly_with_b41012b(self):
         c49132_full = '9bba23b436f079183296fa98dcaeed047eb919ba8597d75a85bc144bc48417fd'
@@ -428,7 +428,7 @@ class SyntheticAdmission(unittest.TestCase):
             cand_sha = g.sha(blobs['B_full'][:41012])
             stack.enter_context(patch.object(p, 'B_CANDIDATE_R6_BIN', cand_sha))
             stack.enter_context(patch.object(p, 'B_PROFILE_R6', {'BIN_bytes': 41012, 'BIN_sha256': cand_sha, 'slots': 0x2000216c, 'UART_ring': 0x20004878, 'RAM': p.temp.RAM}))
-            ret_bundle, ret_site = p.validate(a)
+            ret_bundle, ret_site = g.validate(a,g.G3,execution_context='OFFLINE_MOCK')
             self.assertIn('_B_profile', ret_bundle)
             self.assertEqual(ret_bundle['_B_profile']['BIN_bytes'], 41012)
             self.assertEqual(ret_bundle['_B_profile']['BIN_sha256'], cand_sha)

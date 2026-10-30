@@ -1,0 +1,67 @@
+{
+  "scope": "P1A_ONLY",
+  "rows": [
+    {
+      "id": "CX-01",
+      "status": "PASS_MOCK",
+      "evidence": "legacy profile/joint regressions; original criteria byte check"
+    },
+    {
+      "id": "CX-02",
+      "status": "PASS_MOCK",
+      "evidence": "R6 old card/cross profile/wrong ELF/symbols/B image refused"
+    },
+    {
+      "id": "CX-03",
+      "status": "PASS_MOCK",
+      "evidence": "actual main five field flags reject before marker/child/driver"
+    },
+    {
+      "id": "CX-04",
+      "status": "FAIL_CLOSED_NO_TRUSTED_VERIFIER",
+      "evidence": "all R6 Field denied including self-filled signature/authorization/reused nonce; no nonce verifier implemented"
+    },
+    {
+      "id": "CX-05",
+      "status": "PASS_MOCK",
+      "evidence": "Mock JSON cannot choose field context; explicit context only for in-process fixtures"
+    },
+    {
+      "id": "CX-06",
+      "status": "PASS_MOCK",
+      "evidence": "3601s/86400s synthetic preflight rejected"
+    },
+    {
+      "id": "CX-07",
+      "status": "PASS_MOCK_AND_OFFLINE_BYTES",
+      "evidence": "wrong ABI rejected; new single build tied to receipt; raw debug hashes not substituted"
+    },
+    {
+      "id": "CX-08",
+      "status": "PASS_MOCK_ONLY",
+      "evidence": "legacy fake SDK negative/short reads, HALT/ROM/timeouts and denied controls; no real native behavior proof"
+    },
+    {
+      "id": "CX-09",
+      "status": "HISTORICAL_EXIT_3_REPRODUCED",
+      "evidence": "frozen full review on three original R5 windows preserves all failure sets"
+    },
+    {
+      "id": "CX-10",
+      "status": "PASS_MOCK_NOT_FIELD",
+      "evidence": "bound synthetic G3-to-profile admission and waveform/snapshot unit fixtures; no real E2E or full 300s joint-success run"
+    },
+    {
+      "id": "CX-11",
+      "status": "PASS_OFFLINE_SINGLE_BUILD",
+      "evidence": "eight real-source anchors once; same-directory BIN/AXF/symbols/MAP/log; source matches compiled"
+    },
+    {
+      "id": "CX-12",
+      "status": "HALT_BEFORE_CONNECT",
+      "evidence": "owner current report retained; unknown host USB/connector/power/VTref/menu facts block P1-B activation"
+    }
+  ],
+  "P1B": "NOT_AUTHORIZED",
+  "Gate_F": "NOT_SIGNED"
+}
