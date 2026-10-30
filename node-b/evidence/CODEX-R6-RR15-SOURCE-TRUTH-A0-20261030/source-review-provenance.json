@@ -1,0 +1,154 @@
+{
+  "scope": "A0_OFFLINE_SOURCE_TRUTH_DESIGN_ONLY",
+  "base_sha": "eda6e24a8eedcfe0b50416390022db0c187550af",
+  "contract": {
+    "file": "MPM-B5-RR15-SOURCE-TRUTH-PI-CONTRACT-R1.md",
+    "sha256": "8c5423a090005efa2744da75baca0b38a8bb280f1880ca24d736304868f945dd",
+    "bytes": 10042
+  },
+  "manuals": [
+    {
+      "file": "SKX2000D+说明书.pdf",
+      "sha256": "27fe9e4a37a761ab7df939bf49693942dbf3e5692f09e2e10311106053503cc8",
+      "bytes": 629590
+    },
+    {
+      "file": "操作手册.pdf",
+      "sha256": "8b264906747e76336e7a7221ab77b76e3697078f794b064e77081e7e56fc48aa",
+      "bytes": 1258901
+    }
+  ],
+  "accepted_manifest_paths_checked": 24,
+  "reused_evidence": [
+    {
+      "alias": "inputs-private.json",
+      "sha256": "b5e45daaa14e79e572861dae5559ac0a44e85ccaa23c80c3d31d00f033e7aa89",
+      "bytes": 1397
+    },
+    {
+      "alias": "causal-analysis/causal-evidence-private.json",
+      "sha256": "9f7e8582464ca1a293b050e2ff5706423c1f6bceaa15159d12a7cce96e41ccd6",
+      "bytes": 136521
+    },
+    {
+      "alias": "corpus-evaluation/corpus-results-reviewed-private.json",
+      "sha256": "c7fb4366ff9ae76d4cec9269cc75b0c224e273078f8c226be90429db39aec787",
+      "bytes": 49005
+    },
+    {
+      "alias": "causal-analysis/waveforms-reviewed/RR15/waveform-event-01-private.png",
+      "sha256": "8e5538a38de8787e65a1652d308517e58d2c75dd9bd1729b1c3dcd1dab500a2f",
+      "bytes": 369139
+    },
+    {
+      "alias": "causal-analysis/waveforms-reviewed/RR15/waveform-event-02-private.png",
+      "sha256": "b43af4f4523e564ec180e540d4438c5ee93a7f1978af496e1454f8ff2740ca2c",
+      "bytes": 382253
+    },
+    {
+      "alias": "causal-analysis/waveforms-reviewed/RR15/waveform-event-03-private.png",
+      "sha256": "92f588887623c881fecbefa1eeb4bcbd854fd07f47ba857f21470bb5636ff64c",
+      "bytes": 372940
+    },
+    {
+      "alias": "causal-analysis/waveforms-reviewed/RR15/waveform-event-04-private.png",
+      "sha256": "7a45b6ca345cda75cbf7ce660e10f5ec4ae796b5db5effc571066137441fc810",
+      "bytes": 378166
+    },
+    {
+      "alias": "causal-analysis/waveforms-reviewed/RR15/waveform-event-05-private.png",
+      "sha256": "2cf7127eaa7eef759b04dafa243c105882261b39e4682d0d78c74365ca3e693d",
+      "bytes": 375463
+    },
+    {
+      "alias": "causal-analysis/waveforms-reviewed/RR15/waveform-event-06-private.png",
+      "sha256": "c7ddd6505b7dc629accb159342c2292c197f54fa4b8c06b92c7db13be40f249f",
+      "bytes": 377287
+    },
+    {
+      "alias": "causal-analysis/waveforms-reviewed/ECG60/waveform-event-01-private.png",
+      "sha256": "5d1c4e28fd2e7b178b447b6a0492d4460f45fa0a5f3b51ecbf030301249f5f1f",
+      "bytes": 296209
+    },
+    {
+      "alias": "RR15_raw_blocks",
+      "sha256": "e8cbb06f2af82b5de373ea289df0a0b9c24ef3010366db28d651308d9804f923",
+      "bytes": 16728788
+    },
+    {
+      "alias": "ECG60_raw_blocks",
+      "sha256": "acea4fd11750626ffcfd34a2476d5bb24a48563b7a34770ce1ad6dd63932ab4f",
+      "bytes": 16751556
+    }
+  ],
+  "document_sources": [
+    {
+      "path": "node-b/docs/RESP-SOURCE-MENU-REVIEW-R1.md",
+      "sha256": "45907298aa48d2bb8dd2806c4e5bc40df1b3236d169f5c00f2b096e8fe9d1cf6",
+      "bytes": 3456
+    },
+    {
+      "path": "node-b/docs/RESP-MANUAL-V22-REVIEW-R1.md",
+      "sha256": "84a6642fd2512f72bd4925ec45e871f37529276941ec91f44c53fb4044ab808c",
+      "bytes": 5245
+    },
+    {
+      "path": "node-b/docs/RESP-SOURCE-PATH-REVIEW-R1.md",
+      "sha256": "d03ed6b93c8fb23a1709cb4f777c7329e9e92d6952130fd5f26fb1e58296d8af",
+      "bytes": 8067
+    },
+    {
+      "path": "node-b/evidence/B-ALG-002/authorization-r2/photo-tool-and-owner-facts.json",
+      "sha256": "bc26423d5fbf9957d0a500deb9d56f210390cdbb2945739bc93ed82e22308c8f",
+      "bytes": 2470
+    },
+    {
+      "path": "node-b/evidence/B-RESP-003/source-path-review-r1.json",
+      "sha256": "37e675828b46eeb0fa482c612e714e5b5b13971f135a4792f6018659abdebd7b",
+      "bytes": 2464
+    },
+    {
+      "path": "node-b/evidence/B-RESP-003/manual-v22-preparation-r1.json",
+      "sha256": "c82123c64fe00c2d0ea605404fa12db7252c3a850a80507e7dc726b3ab067426",
+      "bytes": 1966
+    },
+    {
+      "path": "node-b/evidence/CODEX-R6-P1B0-20261030/final-site-owner-report.json",
+      "sha256": "1ddb76c9c226ec5595f322e53b26fd8ac6c82358883fbf724fe7cc3ab3bfd048",
+      "bytes": 669
+    },
+    {
+      "path": "node-b/evidence/CODEX-R6-ECG-TEMP-20261030/final-site-owner-report.json",
+      "sha256": "e3ecb54c0563d78d39720081bc39d8eab91157bdb01d2da65694989c3661b328",
+      "bytes": 633
+    },
+    {
+      "path": "node-b/evidence/CODEX-R6-RR15-CAUSAL-CANDIDATE-20261030/corpus-and-holdout-results.json",
+      "sha256": "9f3bac438f3e78b671c330202dee4860a146c86073f33bcd4045208e4e874e05",
+      "bytes": 49560
+    }
+  ],
+  "tools_read_not_executed": [
+    {
+      "path": "node-b/tools/b5_rr15_causal_replay.py",
+      "sha256": "b384e549a7fe935def77689c2f81796c8104b2708bbb31890560bc7a6f34ed1b"
+    },
+    {
+      "path": "node-b/tools/b5_rr15_causal_analysis.py",
+      "sha256": "3ae5d6e7195e337bf0566ee408235a62ca9018d25b5aa1d18b9642931222597e"
+    },
+    {
+      "path": "node-b/tests/run_rr15_causal_corpus.py",
+      "sha256": "d5249849aaf9a81d84ddc85e035cbc34f05a4b5c6453cefc2be80701b075923a"
+    }
+  ],
+  "new_C_replay_runs": 0,
+  "existing_65_and_17_tests_rerun": false,
+  "new_acquisitions": 0,
+  "target_SDK_COM": 0,
+  "board_power_wiring_SKX_actions": 0,
+  "RESET_B5START_Flash": 0,
+  "cloud_business_actions": 0,
+  "current_instrument_inventory": "UNKNOWN",
+  "manual_review_storage": "NEW_EFS_JOB; generated manual PNG/TXT copied with SHA verification and EFS attribute check, then removed only from known build output directory"
+}

@@ -1,0 +1,101 @@
+{
+  "base_sha": "eda6e24a8eedcfe0b50416390022db0c187550af",
+  "checks": [
+    {
+      "path": "node-b/tools/b5_rr15_causal_replay.py",
+      "sha256": "b384e549a7fe935def77689c2f81796c8104b2708bbb31890560bc7a6f34ed1b",
+      "same_bytes_as_accepted_parent": true,
+      "executed_this_A0": false
+    },
+    {
+      "path": "node-b/tools/b5_rr15_causal_analysis.py",
+      "sha256": "3ae5d6e7195e337bf0566ee408235a62ca9018d25b5aa1d18b9642931222597e",
+      "same_bytes_as_accepted_parent": true,
+      "executed_this_A0": false
+    },
+    {
+      "path": "node-b/tests/run_rr15_causal_corpus.py",
+      "sha256": "d5249849aaf9a81d84ddc85e035cbc34f05a4b5c6453cefc2be80701b075923a",
+      "same_bytes_as_accepted_parent": true,
+      "executed_this_A0": false
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/bio_v2.c",
+      "sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+      "same_bytes_as_accepted_parent": true,
+      "executed_this_A0": false
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/bio_v2.h",
+      "sha256": "76198016006ab8de6126a7cb051aeb3ab296c5655152c74cf5565bd85aba0913",
+      "same_bytes_as_accepted_parent": true,
+      "executed_this_A0": false
+    },
+    {
+      "path": "node-b/tools/b5_channel_review.py",
+      "sha256": "14838db66a5142f24a010109de6f67a76d4f386a0b3914afb5b32b9a751dda91",
+      "same_bytes_as_accepted_parent": true,
+      "executed_this_A0": false
+    },
+    {
+      "path": "node-b/tools/b5_g3_review.py",
+      "sha256": "79e4a732a12b988a322eb0cb656088f129717c6bacd85bc9cc55c06a8efac729",
+      "same_bytes_as_accepted_parent": true,
+      "executed_this_A0": false
+    },
+    {
+      "path": "node-b/tools/b4_recovery.py",
+      "sha256": "fa93222b833f2f010d068b0cac97c73db7430c7eb68316d84441d60539c76213",
+      "same_bytes_as_accepted_parent": true,
+      "executed_this_A0": false
+    },
+    {
+      "path": "node-b/evidence/B5-GEMINI-R5/ECG60-WINDOW-01/criteria.json",
+      "sha256": "962a830ff5f28e8f46e376ab2db11208561a41500d884701fe9d834b5a7b22c6",
+      "same_bytes_as_accepted_parent": true,
+      "executed_this_A0": false
+    },
+    {
+      "path": "node-b/evidence/B5-GEMINI-R5/RR15-ATTEMPT-01/criteria.json",
+      "sha256": "96831cbfcb797aece3429914d54c9f992af1e5ca933b12c65b3e545241d3f572",
+      "same_bytes_as_accepted_parent": true,
+      "executed_this_A0": false
+    },
+    {
+      "path": "node-b/evidence/B5-GEMINI-R5/RR15-WINDOW-01/criteria.json",
+      "sha256": "172227b905524397c7c7ab17b237e0a8d1f07892c7997d58285d64e40bb724ee",
+      "same_bytes_as_accepted_parent": true,
+      "executed_this_A0": false
+    },
+    {
+      "path": "node-b/evidence/B5-GEMINI-R5/TEMP_OBJECT-ATTEMPT-01/criteria.json",
+      "sha256": "89cb3517f388a3572758128df5c5ecb649b50418b483dcd87eed53ed0969dd8b",
+      "same_bytes_as_accepted_parent": true,
+      "executed_this_A0": false
+    },
+    {
+      "path": "node-b/evidence/B5-GEMINI-R5/TEMP_OBJECT-ATTEMPT-02/criteria.json",
+      "sha256": "89cb3517f388a3572758128df5c5ecb649b50418b483dcd87eed53ed0969dd8b",
+      "same_bytes_as_accepted_parent": true,
+      "executed_this_A0": false
+    },
+    {
+      "path": "node-b/evidence/B5-GEMINI-R5/TEMP_OBJECT-ATTEMPT-03/criteria.json",
+      "sha256": "89cb3517f388a3572758128df5c5ecb649b50418b483dcd87eed53ed0969dd8b",
+      "same_bytes_as_accepted_parent": true,
+      "executed_this_A0": false
+    },
+    {
+      "path": "node-b/evidence/B5-GEMINI-R5/TEMP_OBJECT-WINDOW-01/criteria.json",
+      "sha256": "92b94f9a5491d88ac87500f99f6fb6dc2423388dcbf7f8f883cddcaa3cc02def",
+      "same_bytes_as_accepted_parent": true,
+      "executed_this_A0": false
+    }
+  ],
+  "collector_script": {
+    "file": "executed-a0-collect.py",
+    "sha256": "3271bdbeff6dd12100ee46879d6d371a4dc86367c54d3315fcc6d0aaecd60748",
+    "EFS_executed_copy_matches": true
+  },
+  "source_repository_remote_verification": "git ls-remote accepted branch HEAD equals eda6e24; VCS only, no server or device access"
+}

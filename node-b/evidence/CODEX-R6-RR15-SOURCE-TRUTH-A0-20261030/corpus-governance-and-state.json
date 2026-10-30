@@ -1,0 +1,42 @@
+{
+  "root_cause": "ROOT_CAUSE_UNRESOLVED",
+  "source_truth": "SOURCE_UNKNOWN",
+  "A0": "OFFLINE_DESIGN_COMPLETE",
+  "A1": "NOT_AUTHORIZED_MEASUREMENT_NOT_READY",
+  "algorithm_patch": "NOT_AUTHORIZED_NOT_IMPLEMENTED",
+  "R6_RR15_420s": "NOT_AUTHORIZED",
+  "Gate_F": "NOT_SIGNED",
+  "B5_STAGE_CLOSURE": "DENIED",
+  "viewed_existing_sets": [
+    {
+      "dataset": "R6_RR15_six_events",
+      "current_role": "KNOWN_SOURCE_UNKNOWN_REGRESSION"
+    },
+    {
+      "dataset": "R5_RR15_previous_holdout",
+      "current_role": "KNOWN_NONBLIND_SOURCE_UNKNOWN_REGRESSION"
+    },
+    {
+      "dataset": "ECG60_90_120_01_and_02_and_current_ECG60",
+      "current_role": "KNOWN_NONBLIND_ECG_REGRESSION"
+    },
+    {
+      "dataset": "synthetic_seed47_phase0.3_and_seed9047_phase0.47",
+      "current_role": "KNOWN_NONBLIND_SYNTHETIC_REGRESSION"
+    }
+  ],
+  "new_independent_holdout": "NOT_CREATED_NOT_ACQUIRED",
+  "low_amplitude_noisy_ECG120_baselines": [
+    {
+      "dataset": "DEVELOPMENT_QRS120_amp300_mains300_noise50",
+      "correct_samples": 10624,
+      "denominator": 11250
+    },
+    {
+      "dataset": "HOLDOUT_QRS120_amp300_mains300_noise50",
+      "correct_samples": 10625,
+      "denominator": 11250
+    }
+  ],
+  "future_nonregression": "Per-dataset decrease <=1 percentage point and rate +/-2bpm, not a newly invented .95 cutoff"
+}

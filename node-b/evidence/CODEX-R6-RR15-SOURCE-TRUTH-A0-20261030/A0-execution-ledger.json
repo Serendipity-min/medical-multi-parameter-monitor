@@ -1,0 +1,49 @@
+{
+  "scope": "DOCUMENT_AND_DISK_REVIEW_ONLY_NOT_SOURCE_TRUTH_PASS",
+  "runs": [
+    {
+      "operation": "PDF text extraction and render",
+      "actual_shell_exit_code": 0
+    },
+    {
+      "operation": "existing accepted evidence collection and hash check",
+      "actual_shell_exit_code": 0
+    },
+    {
+      "operation": "two named archived photo SHA check",
+      "actual_shell_exit_code": 0
+    },
+    {
+      "operation": "accepted remote Git branch lookup",
+      "actual_shell_exit_code": 0
+    },
+    {
+      "operation": "named photo lookup in two EFS roots",
+      "actual_shell_exit_code": 1,
+      "interpretation": "First root found both files; second root no matches; rg1 means no matches, not photo absence or measurement failure"
+    },
+    {
+      "operation": "A1 disabled card syntax and static consistency check",
+      "actual_python_exit_code": 0,
+      "interpretation": "No physical truth established"
+    }
+  ],
+  "C_compiles_and_replays": 0,
+  "existing_65_and_17_tests": "NOT_RUN_REUSED_ACCEPTED_RECEIPTS",
+  "new_samples": 0,
+  "target_SDK_COM_SWD": 0,
+  "board_or_SKX_power_menu_wiring": 0,
+  "RESET_B5START_Flash": 0,
+  "cloud_business_actions": 0,
+  "actual_scripts_used": [
+    {
+      "file": "executed-a0-collect.py",
+      "sha256": "3271bdbeff6dd12100ee46879d6d371a4dc86367c54d3315fcc6d0aaecd60748"
+    },
+    {
+      "file": "executed-a0-package.py",
+      "sha256": "dd72dd44ce6ad6b637dd377da55cd795cc56b3c287c2862f41ed7e58e47599ef"
+    }
+  ],
+  "Git_commit_push_exit_codes": "Recorded after operation in final ignored delivery receipt and chat, not predicted here"
+}
