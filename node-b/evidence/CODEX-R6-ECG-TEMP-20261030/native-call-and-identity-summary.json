@@ -1,0 +1,60 @@
+{
+  "ECG60": {
+    "operation_counts": {
+      "JLINKARM_ExecCommand": 18,
+      "JLINKARM_EMU_GetNumDevices": 1,
+      "JLINKARM_SelectUSB": 1,
+      "JLINKARM_OpenEx": 1,
+      "JLINKARM_GetHWStatus": 1,
+      "JLINKARM_TIF_Select": 1,
+      "JLINKARM_SetSpeed": 1,
+      "JLINKARM_IsConnected": 1,
+      "JLINKARM_Connect": 1,
+      "JLINKARM_ReadMemEx": 25744
+    },
+    "explicit_control_or_write_calls": {
+      "JLINKARM_Halt": 0,
+      "JLINKARM_Go": 0,
+      "JLINKARM_Reset": 0,
+      "JLINKARM_WriteMem": 0,
+      "JLINKARM_BeginDownload": 0,
+      "JLINKARM_EndDownload": 0
+    },
+    "full_flash_sha256": "9ff8133d06330a4b05cb15d26bfb51b6f7e1197014692c5267d178d744f4287d",
+    "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+    "identity_matches_prior_EFS": true,
+    "Close_ABI": "VOID_NO_INTEGER_RETURN; native heartbeat start/completion retained; post-Close target state UNKNOWN",
+    "executed_runtime_sha256": "03bcf557a1ce8dcc20ddc51479bdbd5dd7d9394af193246d37752659cda2573b",
+    "Close_heartbeat_started": 1,
+    "Close_heartbeat_completed": 1
+  },
+  "TEMP_OBJECT": {
+    "operation_counts": {
+      "JLINKARM_ExecCommand": 18,
+      "JLINKARM_EMU_GetNumDevices": 1,
+      "JLINKARM_SelectUSB": 1,
+      "JLINKARM_OpenEx": 1,
+      "JLINKARM_GetHWStatus": 1,
+      "JLINKARM_TIF_Select": 1,
+      "JLINKARM_SetSpeed": 1,
+      "JLINKARM_IsConnected": 1,
+      "JLINKARM_Connect": 1,
+      "JLINKARM_ReadMemEx": 23827
+    },
+    "explicit_control_or_write_calls": {
+      "JLINKARM_Halt": 0,
+      "JLINKARM_Go": 0,
+      "JLINKARM_Reset": 0,
+      "JLINKARM_WriteMem": 0,
+      "JLINKARM_BeginDownload": 0,
+      "JLINKARM_EndDownload": 0
+    },
+    "full_flash_sha256": "9ff8133d06330a4b05cb15d26bfb51b6f7e1197014692c5267d178d744f4287d",
+    "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+    "identity_matches_prior_EFS": true,
+    "Close_ABI": "VOID_NO_INTEGER_RETURN; native heartbeat start/completion retained; post-Close target state UNKNOWN",
+    "executed_runtime_sha256": "66adde98790da1bca713b68607474f8fe7222914ab503e3d61bb6d88b216c66f",
+    "Close_heartbeat_started": 1,
+    "Close_heartbeat_completed": 1
+  }
+}

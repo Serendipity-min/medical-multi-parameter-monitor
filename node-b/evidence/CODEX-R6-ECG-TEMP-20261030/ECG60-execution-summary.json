@@ -1,0 +1,94 @@
+{
+  "profile": "ECG60",
+  "supervisor": {
+    "supervisor_reason": null,
+    "worker_exit_code": 0,
+    "supervisor_exit_code": 0,
+    "total_elapsed_s": 545.3129999998491,
+    "scope": "CODEX_CURRENT_OWNER_ECG60_B41012_DIRECT_SESSION",
+    "profile": "ECG60",
+    "inputs_sha256": "05cc341141bc2c145c93a990f2772afab9de7dec7e4d1ccdc82e752dd1218022",
+    "source_sha256": {
+      "joint": "1d990639d7723b169029f1ae830c8903010b20bad806aab5bde28887e286e206",
+      "B": "b2fd5a74e0e8974e062d6e97265b32e90ae74813071a7f5b947035734aa70fcd"
+    },
+    "automatic_retry_or_recovery": false,
+    "process_tree_killed_is_not_MCU_stop": true
+  },
+  "joint": {
+    "status": "G3_FILES_CAPTURED_REVIEW_PENDING",
+    "exit_code": 0,
+    "B5START_attempts": 1,
+    "automatic_retry_or_rollback": false,
+    "explicit_target_halt_go_reset_writes": 0,
+    "manual_preplanned_C_RESET": "OWNER_ACTION_ONLY",
+    "Tarm": 1087255.718,
+    "T0": 1087267.031,
+    "source_STOP_required": true,
+    "C_STOP_banner_monotonic": 1087675.781,
+    "serial_startup_steps": [
+      "AT_VERSION",
+      "CA",
+      "CERT",
+      "MQTT",
+      "SNI",
+      "SNTP_SAMPLE",
+      "SNTP_VALID",
+      "TLS"
+    ],
+    "physiological_and_transport_PASS": "NOT_GRANTED_UNTIL_OFFLINE_JOINT_REVIEW",
+    "precommon_ntp_failures": [],
+    "B_worker_exit_code": 0
+  },
+  "B": {
+    "status": "B_G3_READONLY_CAPTURED_REVIEW_PENDING",
+    "exit_code": 0,
+    "explicit_reset_halt_go_target_writes": 0,
+    "blocks": 2943,
+    "sdk_calls": 25770,
+    "close_resume": true
+  },
+  "cloud": {
+    "status": "CLOUD_OBSERVATIONS_SAVED_REVIEW_PENDING",
+    "exit_code": 0,
+    "publications": 0,
+    "observer_CONNACK": [
+      0
+    ],
+    "observer_SUBACK": [
+      1
+    ],
+    "WSS_authenticated": true,
+    "observer_disconnects": [
+      {
+        "code": 0,
+        "requested_shutdown": true,
+        "received_monotonic": 1087696.375
+      }
+    ],
+    "cleanup_complete": true
+  },
+  "STOP_source": {
+    "monotonic": 1087675.781,
+    "source": {
+      "tick": 420830,
+      "armed_at": 830,
+      "reason": 1,
+      "phase": 7,
+      "required": 858,
+      "written": 858,
+      "unsynced": 0,
+      "pending": 0,
+      "live": 24,
+      "cache": 28,
+      "business_elapsed_ms": 420000
+    },
+    "raw_line_sha256": "4a6c75e6d80eef57877461d0e0936f5ef43c9975eb717df9a43cf07e692406d6"
+  },
+  "authority": "CURRENT_AUTHENTICATED_OWNER_TEST_REQUEST_NOT_SIGNED_PI_GATE",
+  "COM": "COM6",
+  "physical_RESET": "ONE_OWNER_ACTION_PER_WINDOW",
+  "input_sha256": "05cc341141bc2c145c93a990f2772afab9de7dec7e4d1ccdc82e752dd1218022",
+  "bundle_sha256": "86ea7c651653f52f96fb5f9313b2a292eb068face9dbce62ed9a2450e41c32a7",
+  "review_process_exit_code": 0
+}

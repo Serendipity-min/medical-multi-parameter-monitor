@@ -64,7 +64,18 @@ def snapshot(link,out=None,label='snapshot',addresses=None):
     # CPU状态先于后续RAM/质量解析独立确认，任何解析负例也必须保留健康Flash续跑。
     if not link.close_resume_enabled:link.set_close_resume(True)
     addresses=addresses or {'bio':(0x20001d14,120),'adc':(0x20000608,48),'registers':(0x20000638,12),'CAN':(0x20003770,44)}
-    blobs=[link.read(*addresses[name]) for name in ('bio','adc','registers')]
+    observation=None
+    if 'temperature' in addresses:
+        # TEMP夹在两次BIO之间，以后一次完整BIO作诊断，保留前一次原件证明观察区间。
+        before_at=time.monotonic();before=link.read(*addresses['bio'])
+        temperature_blob=link.read(*addresses['temperature'])
+        bio_blob=link.read(*addresses['bio']);after_at=time.monotonic()
+        observation={'method':'BIO_TEMP_BIO','host_before_monotonic':before_at,'host_after_monotonic':after_at}
+        if out:
+            for name,blob in (('bio-before-temperature',before),('temperature-raw',temperature_blob)):
+                with (out/(label+'-'+name+'-private.bin')).open('xb') as f:f.write(blob)
+    else:bio_blob=link.read(*addresses['bio'])
+    blobs=[bio_blob]+[link.read(*addresses[name]) for name in ('adc','registers')]
     if out:
         # 判据失败前先保留实际诊断字节，不能只留下异常名称而丢弃触发依据。
         for name,blob in zip(('bio','adc','registers'),blobs):
@@ -75,8 +86,10 @@ def snapshot(link,out=None,label='snapshot',addresses=None):
             'CAN1_ESR':link.u32(0x40006418),'coherence':'LIVE_NONATOMIC_NO_HALT'}
     if 'temperature' in addresses:
         import b5_b_temp_readonly as temp
-        blob=link.read(*addresses['temperature'])
-        result['temperature']=temp.decode_temp(blob)
+        result['temperature']=temp.decode_temp(temperature_blob)
+        observation.update(bio_before_ms=decode(before,blobs[1],blobs[2])['last_sample_ms'],
+                           bio_after_ms=bio['last_sample_ms'],temperature_last_ms=result['temperature']['last_ms'])
+        result['temperature_observation']=observation
         if out:raw.write_json(out/(label+'-temperature-private.json'),result['temperature'])
     if out:raw.write_json(out/(label+'-decoded-private.json'),result)
     # 初始化失败不能带入台架；历史累计的帧/队列错误则保留原值，由评价窗增量判定。

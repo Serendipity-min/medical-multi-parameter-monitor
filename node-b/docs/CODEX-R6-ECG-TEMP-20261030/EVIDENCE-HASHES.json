@@ -1,0 +1,89 @@
+{
+  "version": "CODEX-R6-ECG-TEMP-DELIVERY-R1",
+  "base_sha": "98bd1f86d8e1cbf3b764a0876142a888b8837343",
+  "branch": "codex/b5-r6-ecg-temp-20261030",
+  "status": "ECG60_ENGINEERING_PASS_TEMP_OBJECT_ENGINEERING_PASS_RR15_STILL_NOT_PASS",
+  "self_reference": "EXCLUDED; commit SHA delivered after commit",
+  "files": {
+    "node-b/tools/b4_runtime.py": {
+      "bytes": 11925,
+      "sha256": "66adde98790da1bca713b68607474f8fe7222914ab503e3d61bb6d88b216c66f"
+    },
+    "node-b/tests/test_b4_temperature_observation.py": {
+      "bytes": 4061,
+      "sha256": "995ef73462f018c9b787d0a710b7fed662a38f65ccf33546c4ff1c41e0bb17f2"
+    },
+    "node-b/tests/run_b4_temperature_mock.py": {
+      "bytes": 1671,
+      "sha256": "43622b9012f4b1546f7633cad4a9d67cd1d620ef4d4ea56740422236581ae758"
+    },
+    "node-b/docs/CODEX-R6-ECG-TEMP-20261030/RESULT-AND-HANDOFF.md": {
+      "bytes": 6109,
+      "sha256": "12918916e2a8f33e5e24db5af064f216082138e1e9b9d2541fd63bc64ea0b85b"
+    },
+    "node-b/docs/CODEX-R6-ECG-TEMP-20261030/RUN-SCOPE.md": {
+      "bytes": 2469,
+      "sha256": "5e9e46f97909ca7027f6c3c115aac40bd60372ee4888bd7b099bdfc1700915b2"
+    },
+    "node-b/docs/CODEX-R6-ECG-TEMP-20261030/TEMPERATURE-HOST-FIX.md": {
+      "bytes": 3110,
+      "sha256": "57be3bd0bb6b6cf077966403bfb39fee0e728cdff6b623fa48e71575d92a5d05"
+    },
+    "node-b/evidence/CODEX-R6-ECG-TEMP-20261030/cloud-readonly-readiness.json": {
+      "bytes": 837,
+      "sha256": "f78619c3cb901055ec7da1ab7620dd74ff4581b5e136d94c61a5b5de2e2001e1"
+    },
+    "node-b/evidence/CODEX-R6-ECG-TEMP-20261030/ECG60-execution-summary.json": {
+      "bytes": 2796,
+      "sha256": "8fd9738219bbd697a822f575ff0f37bf1fdb103c98bebf2b70d20a60446a720a"
+    },
+    "node-b/evidence/CODEX-R6-ECG-TEMP-20261030/ECG60-review-summary.json": {
+      "bytes": 6060,
+      "sha256": "c0901d575b6168247f3713b510766412b6a213aec84504ac05ab06956e9cdbdc"
+    },
+    "node-b/evidence/CODEX-R6-ECG-TEMP-20261030/exit-code-ledger.json": {
+      "bytes": 1876,
+      "sha256": "fb6ea9d79c3db89f16bc6593fa9262c29df295f0a1822d1efbf33f7e6f536e1a"
+    },
+    "node-b/evidence/CODEX-R6-ECG-TEMP-20261030/final-site-owner-report.json": {
+      "bytes": 633,
+      "sha256": "e3ecb54c0563d78d39720081bc39d8eab91157bdb01d2da65694989c3661b328"
+    },
+    "node-b/evidence/CODEX-R6-ECG-TEMP-20261030/frozen-review-preservation.json": {
+      "bytes": 745,
+      "sha256": "b88ab9c9ee147d6c00d50c0286660e1e1d678195eb45e0ee88a34e3363b696ea"
+    },
+    "node-b/evidence/CODEX-R6-ECG-TEMP-20261030/native-call-and-identity-summary.json": {
+      "bytes": 2283,
+      "sha256": "81f8a25b234f0df236b11c8fcdecfefcc6a4af08e619bdbc9b3ef068981f984f"
+    },
+    "node-b/evidence/CODEX-R6-ECG-TEMP-20261030/private-evidence-digest-index.json": {
+      "bytes": 21818,
+      "sha256": "63ca4273db6c41d79e8255d8fc64bb194e016cbfccbe863bf9ab6e90b1d31a82"
+    },
+    "node-b/evidence/CODEX-R6-ECG-TEMP-20261030/TEMP_OBJECT-execution-summary.json": {
+      "bytes": 2891,
+      "sha256": "cfcadc2ec54bebd01ee1d62c32326f6826db1629b483e0a42ff6c0e6ab18b971"
+    },
+    "node-b/evidence/CODEX-R6-ECG-TEMP-20261030/TEMP_OBJECT-review-summary.json": {
+      "bytes": 6077,
+      "sha256": "cd3d63e7b3a7821fc12e945500f9d8452ddbaff39dad017f47dd58576a7c43c1"
+    },
+    "node-b/evidence/CODEX-R6-ECG-TEMP-20261030/temperature-host-fix-mock.json": {
+      "bytes": 531,
+      "sha256": "0eff575d5ceeb6279b8c420016452ff88649adffb4f24f377f8cec7fa4d8fd50"
+    },
+    "node-b/evidence/CODEX-R6-ECG-TEMP-20261030/temperature-host-fix-mock.log": {
+      "bytes": 1879,
+      "sha256": "fb86fb5f6dee3b76fa0c1095630fcdd5091905de92bace5905859ae4b80c805f"
+    },
+    "node-b/evidence/CODEX-R6-ECG-TEMP-20261030/temperature-observation-before-fix-02.json": {
+      "bytes": 222,
+      "sha256": "baf96550960588671043f400bc59675baff5c05d0a6120783961049b55e32e3c"
+    },
+    "node-b/evidence/CODEX-R6-ECG-TEMP-20261030/temperature-observation-before-fix.json": {
+      "bytes": 211,
+      "sha256": "6470e14e3fdd70305e3f24c628458141914fc6c3bc56849ddf6763cc3405097f"
+    }
+  }
+}
