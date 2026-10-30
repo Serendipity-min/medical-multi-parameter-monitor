@@ -30,5 +30,78 @@
     "mcu_hard_stop": "PASS_420000ms",
     "intermittent_anomaly": "8.375s_network_stall_at_sec_60",
     "verdict": "NOT_PASS_exit_3"
+  },
+  "broker_accounting": {
+    "total_broker_raw_captured": 2870,
+    "pre_arm_retained_filtered": 3,
+    "pre_arm_retained_details": [
+      {
+        "topic": "mpm/v1/GW-B5-001/status",
+        "monotonic": 1007149.75,
+        "retain": true,
+        "session": "can-2267102118-1"
+      },
+      {
+        "topic": "mpm/v1/GW-B5-001/NODE-B/status",
+        "monotonic": 1007149.75,
+        "retain": true,
+        "session": "can-2267102118-1"
+      },
+      {
+        "topic": "mpm/v1/GW-B5-001/NODE-A/status",
+        "monotonic": 1007149.75,
+        "retain": true,
+        "session": "can-2267102118-1"
+      }
+    ],
+    "post_arm_in_scope_evaluated": 2867,
+    "mock_messages": 2861,
+    "replay_messages": 6,
+    "replay_details": [
+      {
+        "stream": "RR",
+        "seq": 74,
+        "timestamp": 1793273221000
+      },
+      {
+        "stream": "TEMP",
+        "seq": 74,
+        "timestamp": 1793273221000
+      },
+      {
+        "stream": "RR",
+        "seq": 75,
+        "timestamp": 1793273222000
+      },
+      {
+        "stream": "TEMP",
+        "seq": 75,
+        "timestamp": 1793273222000
+      },
+      {
+        "stream": "TEMP",
+        "seq": 76,
+        "timestamp": 1793273223000
+      },
+      {
+        "stream": "TEMP",
+        "seq": 77,
+        "timestamp": 1793273224000
+      }
+    ]
+  },
+  "formal_failures_explanation": {
+    "count": 5,
+    "failures": [
+      "BROKER_NOT_MOCK",
+      "C_DIAGNOSTIC_GAP",
+      "C_NEW_REALTIME_LOSS_OR_EXPIRY",
+      "ECG_WSS_BATCH_MISSING",
+      "WSS_TARGET_CHANNEL_INVALID"
+    ]
+  },
+  "hardware_architecture": {
+    "wifi_module": "ESP-01S (ESP8266_1MB)",
+    "mcu": "STM32F407"
   }
 }
