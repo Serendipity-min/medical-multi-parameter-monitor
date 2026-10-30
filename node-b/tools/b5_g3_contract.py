@@ -120,7 +120,8 @@ def validate(a,scope):
                                       'B5_FINAL_ECG60_R4','B5_FINAL_TEMP_OBJECT_R4','B5_FINAL_RR15_R4',
                                       'B5_FINAL_ECG60_R4TC','B5_FINAL_TEMP_OBJECT_R4TC','B5_FINAL_RR15_R4TC',
                                       'B5_FINAL_ECG60_R4D','B5_FINAL_TEMP_OBJECT_R4D','B5_FINAL_RR15_R4D',
-                                      'B5_FINAL_ECG60_R4TB','B5_FINAL_TEMP_OBJECT_R4TB','B5_FINAL_RR15_R4TB','B5_FINAL_ECG60_R4TI'):
+                                      'B5_FINAL_ECG60_R4TB','B5_FINAL_TEMP_OBJECT_R4TB','B5_FINAL_RR15_R4TB','B5_FINAL_ECG60_R4TI',
+                                      'B5_FINAL_ECG60_R5','B5_FINAL_TEMP_OBJECT_R5','B5_FINAL_RR15_R5'):
         import b5_channel_profiles as channels
         return channels.validate(a)
     require(a.get('enabled') is True and a.get('owner_approved') is True and a.get('scope')==scope,'G3_OWNER_SCOPE')
@@ -135,7 +136,7 @@ def validate(a,scope):
     app_card=a.get('C_application_card','AUTH-B5-C-EGRESS-RETEST-001-R1.md')
     require(app_card in ('AUTH-B5-C-EGRESS-RETEST-001-R1.md','AUTH-B5-C-EGRESS-RETEST-001-R2.md','AUTH-B5-C-EGRESS-RETEST-001-R4.md',
                         'AUTH-B5-TEMP-AND-SEPARATE-CHANNELS-001-R2.md','AUTH-B5-C-EGRESS-FINAL-APP-001-R1.md',
-                        'AUTH-B5-C-EGRESS-FINAL-APP-001-R2.md','AUTH-B5-C-EGRESS-DIAGNOSTIC-001-R3.md','AUTH-B5-C-REPAIR-R4-BATCH.md','AUTH-B5-C-REPAIR-R4-TIME-CLOSE-SUPPLEMENT.md','AUTH-B5-C-REPAIR-R4-DIAGNOSTICS-SUPPLEMENT.md','AUTH-B5-C-REPAIR-R4-TIME-BOOTSTRAP-SUPPLEMENT.md','AUTH-B5-C-REPAIR-R4-TIME-INIT-SUPPLEMENT.md'),'G3_C_UPDATE_CARD')
+                        'AUTH-B5-C-EGRESS-FINAL-APP-001-R2.md','AUTH-B5-C-EGRESS-DIAGNOSTIC-001-R3.md','AUTH-B5-C-REPAIR-R4-BATCH.md','AUTH-B5-C-REPAIR-R4-TIME-CLOSE-SUPPLEMENT.md','AUTH-B5-C-REPAIR-R4-DIAGNOSTICS-SUPPLEMENT.md','AUTH-B5-C-REPAIR-R4-TIME-BOOTSTRAP-SUPPLEMENT.md','AUTH-B5-C-REPAIR-R4-TIME-INIT-SUPPLEMENT.md','AUTH-B5-GEMINI-R5-THREE-WINDOWS.md'),'G3_C_UPDATE_CARD')
     card=(app_card if 'C_application_binding' in a else
           'B5-GEN5-AND-G3-OBJECT-AUTHORIZATION-DRAFT.md' if 'gen5_package' in a else
           'AUTH-B5-G3-CLOUD-WINDOW-001-R4.md' if scope==G3 else 'AUTH-B5-G3-HW-PREP-001-R1.md')

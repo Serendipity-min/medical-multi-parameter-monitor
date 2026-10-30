@@ -1,0 +1,26 @@
+{
+  "broker_total": 2870,
+  "broker_topic_counts": {
+    "mpm/v1/GW-B5-001/status": 83,
+    "mpm/v1/GW-B5-001/NODE-B/status": 82,
+    "mpm/v1/GW-B5-001/NODE-A/status": 82,
+    "mpm/v1/GW-B5-001/NODE-B/telemetry/resp": 404,
+    "mpm/v1/GW-B5-001/NODE-B/telemetry/ecg": 1010,
+    "mpm/v1/GW-B5-001/NODE-B/telemetry/hr": 403,
+    "mpm/v1/GW-B5-001/NODE-B/telemetry/rr": 401,
+    "mpm/v1/GW-B5-001/NODE-B/telemetry/temp": 399,
+    "mpm/v1/GW-B5-001/NODE-B/replay/rr": 2,
+    "mpm/v1/GW-B5-001/NODE-B/replay/temp": 4
+  },
+  "backend_delta": {
+    "accepted": 2867,
+    "rejected": 0,
+    "dropped": 0
+  },
+  "wss_snapshots_total": 4820,
+  "wave_batches_observed_in_WSS": 741,
+  "ecg_source_points": 75004,
+  "resp_source_points": 15001,
+  "hr_valid_in_eval": 2952,
+  "hr_stale_in_eval": 21
+}

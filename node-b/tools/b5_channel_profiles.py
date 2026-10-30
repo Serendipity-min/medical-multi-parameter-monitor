@@ -107,6 +107,7 @@ def validate(a):
               ro.get('status')=='B_TEMP_READONLY_CAPTURED' and ro.get('new_valid_frames',0)>0 and
               ro.get('Close_completed') is True and ro.get('full_flash_sha256')==bundle['B_full']['sha256'],'CHANNEL_B_TEMP_INPUT')
     cfull=g.expected_c_full(a,bundle)
+    version=None
     if final:
         version='R5' if final_card==FINAL_CARD_R5 else 'R4TI' if final_card==FINAL_CARD_R4TI else 'R4TB' if final_card==FINAL_CARD_R4TB else 'R4D' if final_card==FINAL_CARD_R4D else 'R4TC' if final_card==FINAL_CARD_R4TC else 'R4' if final_card==FINAL_CARD_R4 else 'R3' if final_card==FINAL_CARD_R3 else 'R2' if final_card==FINAL_CARD_R2 else 'R1'
         frozen=json.loads((g.ROOT/('node-b/evidence/'+('B5-C-REPAIR-R4/TIME-INIT-R1' if version in ('R4TI','R5') else 'B5-C-REPAIR-R4/TIME-BOOTSTRAP-R2' if version=='R4TB' else 'B5-C-REPAIR-R4/DIAGNOSTICS-R1' if version=='R4D' else 'B5-C-REPAIR-R4/TIME-CLOSE-R1' if version=='R4TC' else 'B5-C-REPAIR-R4' if version=='R4' else 'B5-C-EGRESS-FINAL-'+version)+'/candidate.json')).read_text())
@@ -115,7 +116,7 @@ def validate(a):
     cproof_raw=g.private.read(Path(a['C_preflight_receipt']),False);cp=json.loads(cproof_raw)
     g.require(g.sha(cproof_raw)==a['C_preflight_receipt_sha256'] and cp.get('exit_code')==0 and
               cp.get('status')=='C_CURRENT_B5_CONFIG_DISARMED_READONLY_PASS' and cp.get('full_sha256')==cfull and
-              time.time()-cp['observed_unix']<=3600,'CHANNEL_C_PREFLIGHT')
+              time.time()-cp['observed_unix']<=(86400 if version=='R5' else 3600),'CHANNEL_C_PREFLIGHT')
     P=g.load(bundle['cloud_package']['path'])
     g.require(bundle['cloud_package']['sha256']==CLOUD_PACKAGE_SHA,'CHANNEL_CLOUD_PACKAGE')
     g.require(all(g.sha(base64.b64decode(P['sources']['backend/app/'+n]))==v

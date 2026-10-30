@@ -1,0 +1,68 @@
+{
+  "status": "B5_SEPARATE_RR15_NOT_PASS",
+  "exit_code": 3,
+  "profile": "RR15",
+  "failures": [
+    "B_RR_VALID15_HR_INVALID",
+    "HR_EXPECTED_INVALID",
+    "WSS_TARGET_CHANNEL_INVALID"
+  ],
+  "B_failures": [
+    "B_RR_VALID15_HR_INVALID"
+  ],
+  "CAN_evaluation_increments": {
+    "offered": 74869,
+    "enqueued": 74870,
+    "sent_ecg": 74870,
+    "sent_resp": 14974,
+    "overflow": 0,
+    "expired": 0,
+    "comm_reset": 0,
+    "app_reset_rejected": 0,
+    "error": 0,
+    "discontinuities": 0
+  },
+  "ADC_evaluation_increments": {
+    "bad_status": 0,
+    "spi_errors": 0,
+    "queue_overflow": 0,
+    "init_errors": 0,
+    "long_gap_count": 0
+  },
+  "HR_values_summary": {
+    "0": 588,
+    "73": 4,
+    "115": 4,
+    "64": 4
+  },
+  "RR_reason_masks": {
+    "0": 600
+  },
+  "RESP_source_points": 14994,
+  "ECG_source_points": 74442,
+  "Broker_messages": 2845,
+  "Broker_duplicates": 0,
+  "Backend_delta": {
+    "accepted": 2845,
+    "rejected": 0,
+    "dropped": 0
+  },
+  "WSS_snapshots": 2974,
+  "wave_batches_observed_in_WSS": 301,
+  "C_error_delta": {
+    "rx": 89953,
+    "txack": 622,
+    "txfail": 0,
+    "overflow": 0,
+    "uart_err": 0,
+    "dropped": 0,
+    "mqtt_fail": 0
+  },
+  "C_diagnostic_count": 60,
+  "C_diagnostic_max_gap_s": 5.375,
+  "STOP_observed_offset_s": 420.0629999998491,
+  "evaluation_UTC_ms": [
+    1793325663580,
+    1793325963580
+  ]
+}

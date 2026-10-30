@@ -1,0 +1,34 @@
+{
+  "status": "B5_RR15_PRE_T0_ABORTED",
+  "exit_code": 1,
+  "profile": "RR15",
+  "criteria_preserved": {
+    "profile": "RR15",
+    "RR_range": [
+      14,
+      16
+    ],
+    "HR": "INVALID",
+    "ECG": "INVALID",
+    "RESP_min_points": 14850,
+    "scalar_min_messages": 295,
+    "warmup_s": 45,
+    "evaluation_s": 300,
+    "tail_s": 15,
+    "arm_hard_s": 420
+  },
+  "failures": [
+    "G3_COMMON_NOT_READY_IN_60S"
+  ],
+  "positive_telemetry": {
+    "SNTP_sync": "PASS (delta 950ms)",
+    "TLS_MQTT": "CONNECTED",
+    "CAN_rx": 14775,
+    "MQTT_txack": 126,
+    "WSS_snapshots_before_abort": 1097,
+    "WSS_observed_RR_value": 30.0,
+    "WSS_observed_HR_validity": "INVALID"
+  },
+  "c_flash_writes": 0,
+  "repeated_b5start_attempts": 0
+}

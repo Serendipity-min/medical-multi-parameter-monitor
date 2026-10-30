@@ -1,0 +1,57 @@
+{
+  "audit_type": "GEMINI_INDEPENDENT_CALCULATION_PATH",
+  "window_id": "owner-observed-TEMP_OBJECT-R5-6104c2e6",
+  "scope": "B5_FINAL_TEMP_OBJECT_R5",
+  "T0_UTC_ms": 1793324069463,
+  "eval_window_UTC_ms": [
+    1793324114463,
+    1793324414463
+  ],
+  "stop_offset_s": 420.0460000000894,
+  "mcu_hard_stop": {
+    "tick": 420901,
+    "armed_at": 901,
+    "reason": 1,
+    "phase": 7,
+    "required": 200,
+    "written": 200,
+    "unsynced": 0,
+    "pending": 0,
+    "live": 24,
+    "cache": 29,
+    "business_elapsed_ms": 420000
+  },
+  "temperature_metrics": {
+    "total_broker_temp_messages": 300,
+    "matched_uart_candidates_min": 1,
+    "matched_uart_candidates_max": 7,
+    "uart_valid_frames": 2386,
+    "uart_errors": 0,
+    "uart_checksum_errors": 0,
+    "uart_overflow": 0
+  },
+  "broker_backend_wss": {
+    "broker_total_messages": 2793,
+    "backend_accepted": 2793,
+    "backend_rejected": 0,
+    "backend_dropped": 0,
+    "wss_eval_snapshots": 2974
+  },
+  "gateway_c_egress": {
+    "can_rx_frames": 89922,
+    "mqtt_tx_acks": 622,
+    "mqtt_tx_fails": 0,
+    "can_overflow": 0,
+    "uart_errors": 0,
+    "mqtt_fails": 0,
+    "max_diag_gap_s": 5.2810000001918525
+  },
+  "independent_findings": {
+    "cold_usb_sync": "PASS (sntp_sample delta < 300ms, zero ntp retries)",
+    "temperature_acquisition": "PERFECT (300/300 scalar messages matched UART and C TEMP_ENTRY, valid=1, lost=0)",
+    "transport_and_cloud": "PERFECT (2793 accepted, 0 rejected, 0 dropped, 2974 WSS snapshots >= 2900)",
+    "mcu_hard_stop": "PERFECT (420000ms, reason 1, phase 7 CLOSED, unsynced 0, pending 0)",
+    "failure_cause_analysis": "B_TEMP_FRESH_SOURCE triggered because 29/600 diagnostic frames had bio-to-temp age in [-19ms, -11ms], which fell below the rigid [-10ms, 2500ms] criteria threshold due to ~15ms timer jitter between UART4 ISR and bio loop. No criteria relaxation applied.",
+    "verdict": "NOT_PASS_exit_3"
+  }
+}

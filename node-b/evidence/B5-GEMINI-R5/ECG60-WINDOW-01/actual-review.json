@@ -1,0 +1,142 @@
+{
+  "status": "B5_SEPARATE_ECG60_NOT_PASS",
+  "exit_code": 3,
+  "profile": "ECG60",
+  "criteria": {
+    "prearm_s": 120,
+    "readiness_s": 60,
+    "warmup_s": 45,
+    "evaluation_s": 300,
+    "tail_s": 15,
+    "arm_hard_s": 420,
+    "passive_after_hard_s": 20,
+    "cleanup_s": 5,
+    "HR_range": [
+      58,
+      62
+    ],
+    "HR_valid_fraction": 1.0,
+    "RR": "INVALID",
+    "TEMP": "OBSERVE_INDEPENDENTLY",
+    "A": "OFFLINE",
+    "source": "MOCK",
+    "synthetic": true,
+    "ECG_batch": 100,
+    "ECG_rate": 250,
+    "RESP_batch": 50,
+    "RESP_rate": 50,
+    "ECG_min_points": 74250,
+    "RESP_min_points": 14850,
+    "B_min_saved": 590,
+    "WSS_min_saved": 2900,
+    "scalar_min_messages": 295,
+    "nominal_grid_phase_max_ms": 2,
+    "host_server_T0_max_skew_ms": 1500,
+    "manual_reset_ack_max_s": 30,
+    "profile": "ECG60",
+    "expected_valid": [
+      "ECG",
+      "HR"
+    ],
+    "RR_range": null,
+    "temperature_quantity": "NONHUMAN_OBJECT_SURFACE",
+    "temperature_reference": null,
+    "temperature_accuracy": "NOT_CALIBRATED",
+    "temperature_wire_time": "NODE_SCALAR_REPORT_UTC_SECONDS",
+    "temperature_frame_age_max_ms": 2500
+  },
+  "failures": [
+    "BROKER_NOT_MOCK",
+    "C_DIAGNOSTIC_GAP",
+    "C_NEW_REALTIME_LOSS_OR_EXPIRY",
+    "ECG_WSS_BATCH_MISSING",
+    "WSS_TARGET_CHANNEL_INVALID"
+  ],
+  "B": {
+    "failures": [],
+    "saved": 600,
+    "device_domain_SPS": 250.01085029596268,
+    "CAN_evaluation_increments": {
+      "offered": 74886,
+      "enqueued": 74886,
+      "sent_ecg": 74886,
+      "sent_resp": 14977,
+      "overflow": 0,
+      "expired": 0,
+      "comm_reset": 0,
+      "app_reset_rejected": 0,
+      "error": 0,
+      "discontinuities": 0
+    },
+    "ADC_evaluation_increments": {
+      "bad_status": 0,
+      "spi_errors": 0,
+      "queue_overflow": 0,
+      "init_errors": 0,
+      "long_gap_count": 0
+    },
+    "HR_values": {
+      "60": 600
+    },
+    "RR_reason_masks": {
+      "130": 600
+    },
+    "clipped_counter_increment": 0,
+    "temperature_errors": {
+      "overflow": 0,
+      "uart_errors": 0,
+      "checksum_errors": 0
+    },
+    "temperature_new_frames": 1372,
+    "profile": "ECG60"
+  },
+  "source_reconstruction": {
+    "blocks": 2614,
+    "raw_stable": 110337,
+    "CAN_stable": 110353,
+    "raw_unqualified_sequences": 102,
+    "CAN_unqualified_sequences": 88,
+    "raw_version_conflicts": 298,
+    "CAN_version_conflicts": 189
+  },
+  "ECG_source_points": 75004,
+  "RESP_source_points": 15001,
+  "source_mapping_errors": {},
+  "UART_source": {
+    "blocks": 871,
+    "stable_bytes": 24271,
+    "unqualified_bytes": 69,
+    "valid_frames": 2021
+  },
+  "temperature_message_candidate_counts": [],
+  "temperature_source_proof": "raw UART checksum/value plus source report-second interval; not unique frame identity or absolute calibration",
+  "Broker_messages": 2867,
+  "Broker_duplicates": 0,
+  "Backend_delta": {
+    "accepted": 2867,
+    "rejected": 0,
+    "dropped": 0
+  },
+  "WSS_snapshots": 2973,
+  "wave_batches_observed_in_WSS": 741,
+  "C_error_delta": {
+    "rx": 90006,
+    "txack": 619,
+    "txfail": 0,
+    "overflow": 0,
+    "uart_err": 0,
+    "dropped": 0,
+    "mqtt_fail": 0
+  },
+  "C_diagnostic_count": 60,
+  "C_diagnostic_max_gap_s": 8.375,
+  "STOP_observed_offset_s": 420.06299999996554,
+  "evaluation_UTC_ms": [
+    1793273203647,
+    1793273503647
+  ],
+  "max_MQTT_JSON_bytes": 843,
+  "original_G3_verdict_rewritten": false,
+  "CPU_ROM_ROOT_CAUSE": "UNRESOLVED",
+  "temperature_absolute_accuracy": "NOT_CALIBRATED"
+}
