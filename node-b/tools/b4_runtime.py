@@ -74,7 +74,7 @@ def snapshot(link,out=None,label='snapshot',addresses=None,*,stable_temperature=
             import b5_b_temp_readonly as temp
             def publication(blob):return (blob[12:35],blob[36:37],blob[49:61])
             qualified=False
-            for _ in range(2):
+            for _ in range(3):
                 current=link.read(*addresses['temperature']);reads.append(current)
                 frame=current[49:61]
                 valid_frame=(not temp.decode_temp(current)['present'] or

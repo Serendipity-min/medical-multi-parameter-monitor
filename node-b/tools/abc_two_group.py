@@ -26,6 +26,7 @@ def validate_snapshot(s,profile=None):
 def current_sessions(s,fresh_gateway,profile):
     if s.get('gateway_state')!='ONLINE' or any(s['nodes'].get(n)!='ONLINE' for n in ('NODE-A','NODE-B')):return None
     by_node={node:[x for x in s['streams'] if x['node_id']==node] for node in ('NODE-A','NODE-B')}
+    by_node['NODE-A']=[x for x in by_node['NODE-A'] if not (x['stream']=='NIBP' and x['validity'] in ('STALE','OFFLINE'))]
     prefix=fresh_gateway.rsplit('-',1)[0]+'-'
     for rows in by_node.values():
         sessions={x['session_id'] for x in rows}
@@ -57,7 +58,8 @@ def make_inputs(profile):
     stamp=datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     job=parent/(profile+'-'+stamp);job.mkdir();g.private.protected(job,False)
     old=json.loads((g.ROOT/'node-b/build/codex-ECG-TEMP-current-pointer.json').read_text());bundle=g.load(old['bundle'])
-    c=parent/'C-dual-CAN-candidate-installed';c_proof=g.load(c/'receipt-private.json')
+    state=json.loads((g.ROOT/'node-b/build/abc-two-group-resume-state.json').read_text())
+    c=parent/state['C_install'];c_proof=g.load(c/'receipt-private.json')
     g.require(c_proof['exit_code']==0 and c_proof['Close_completed'] and c_proof['outside_affected_sectors_unchanged'],'G3_ABC_C_NOT_INSTALLED')
     a_proof=g.load(parent/'A-restored-candidate/receipt-private.json')
     g.require(a_proof['exit_code']==0 and a_proof['Close_completed'],'G3_ABC_A_NOT_INSTALLED')

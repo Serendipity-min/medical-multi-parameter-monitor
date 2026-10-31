@@ -19,6 +19,9 @@ int platform_at_synchronized(void){return available;}
 uint32_t platform_uart_errors_total(void){return 0;}
 void platform_io_snapshot(EspIoMetrics *out){memset(out,0,sizeof(*out));}
 void gateway_mqtt_metrics(GatewayMqttMetrics *out){memset(out,0,sizeof(*out));}
+#ifdef MP_ABC_TRI_CANDIDATE
+uint32_t mp_od_read(MpOD *od,uint16_t index,uint8_t sub){(void)od;(void)index;(void)sub;return 0;}
+#endif
 void console(const char *line){
     uint32_t at=g_uptime_ms-base_tick;
     if(!strncmp(line,"B5 TEMP_ENTRY ",14) && at>=evaluation_start && at<evaluation_start+300000u)temperature++;
@@ -50,13 +53,19 @@ int main(int argc,char **argv){
             r->temp_entry[r->temp_written++%8]=(B5TempEntry){0};
         }
         publisher.pending=mode==3?false:at%1000u<550u;
+        if(mode==4)publisher.pending=true;
         publisher.deferred=false;
         available=mode==3 || at%1000u>=600u;
         if(mode==2 && (at>=99750u && at<102266u))publisher.pending=true;
         unsigned before=lines;
         diagnostic_idle();
+#ifdef MP_ABC_TRI_CANDIDATE
+        assert(lines-before<=3);
+        if(!available)assert(lines==before);
+#else
         assert(lines-before<=1);
         if(publisher.pending || !available)assert(lines==before);
+#endif
     }
     if(replay)fclose(replay);
     printf("REAL_NETWORK_MAIN_DIAGNOSTICS diag=%u queue=%u max_gap=%lu/%lu console_ms=%lu temp=%u lost=%lu mode=%u\n",

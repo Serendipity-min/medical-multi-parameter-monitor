@@ -28,6 +28,13 @@ class ABCReadiness(unittest.TestCase):
         self.assertEqual(abc.current_sessions(s,'can-123456-1','RR18'),'can-123456-1')
         self.assertIsNone(next(x for x in s['streams'] if x['stream']=='HR')['value'])
 
+    def test_prior_stale_NIBP_does_not_deadlock_manual_new_measurement_after_T0(self):
+        s=self.snapshot();s['streams'].append({'node_id':'NODE-A','stream':'NIBP','session_id':'can-OLD-1',
+            'validity':'STALE','value':None,'samples':[],'source':'MOCK','synthetic':True})
+        self.assertEqual(abc.current_sessions(s,'can-123456-1','ECG60'),'can-123456-1')
+        s['streams'][-1].update(validity='VALID',value=[120,80])
+        self.assertIsNone(abc.current_sessions(s,'can-123456-1','ECG60'))
+
     def test_old_session_wrong_rate_or_stale_TEMP_cannot_establish_T0(self):
         for channel,changes in (('PR',{'session_id':'can-OLD-1'}),('HR',{'value':90}),('TEMP',{'validity':'STALE','value':None})):
             s=self.snapshot();next(x for x in s['streams'] if x['stream']==channel).update(changes)

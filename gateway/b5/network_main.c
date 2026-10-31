@@ -142,7 +142,12 @@ static void diagnostic_idle(void) {
     static bool queue_due;
     if(platform_console_busy())return;
 #ifdef MP_B5_EGRESS_FINAL
+#ifdef MP_ABC_TRI_CANDIDATE
+    /* 双板标量持续等待PUBACK时仍有AT空档，不能饿死温度入口取证。 */
+    if(!platform_at_synchronized())return;
+#else
     if(publisher.pending || publisher.deferred || !platform_at_synchronized())return;
+#endif
 #endif
     /* 主诊断和队列按固定时隙优先，不能等完整细项轮转后才留证。 */
     uint32_t elapsed=g_uptime_ms-essential_at;

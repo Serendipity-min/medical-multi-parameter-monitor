@@ -48,10 +48,19 @@ class ABCObservation(unittest.TestCase):
         self.assertTrue(r['temperature_observation']['qualified']);self.assertEqual(r['temperature']['used'],11)
         self.assertFalse(r['temperature_observation']['atomic_snapshot'])
 
-    def test_three_bad_reads_stay_unqualified_without_clearing_present_or_clamping(self):
-        bad=bytearray(blob());bad[60]^=1;target=ScriptedTemperature([bytes(bad)]*3);r=self.observe(target)
-        self.assertFalse(r['temperature_observation']['qualified']);self.assertEqual(target.temperature_reads,3)
+    def test_four_bad_reads_stay_unqualified_without_clearing_present_or_clamping(self):
+        bad=bytearray(blob());bad[60]^=1;target=ScriptedTemperature([bytes(bad)]*4);r=self.observe(target)
+        self.assertFalse(r['temperature_observation']['qualified']);self.assertEqual(target.temperature_reads,4)
         self.assertEqual(r['temperature']['present'],1);self.assertEqual(r['temperature']['last_ms'],900)
+
+    def test_publication_crosses_three_reads_then_fourth_confirms_whole_blob(self):
+        old=blob();new=bytearray(blob(1100));struct.pack_into('<I',new,12,11)
+        middle=bytearray(new);struct.pack_into('<I',middle,12,10)
+        target=ScriptedTemperature([old,bytes(middle),bytes(new),bytes(new)])
+        result=self.observe(target)
+        self.assertTrue(result['temperature_observation']['qualified'])
+        self.assertEqual(result['temperature_observation']['read_count'],4)
+        self.assertEqual(result['temperature']['last_ms'],1100)
 
     def test_real_stale_and_future_ticks_remain_rejected_by_original_reviewer(self):
         helper=TemperatureObservation()
