@@ -57,7 +57,7 @@ class Link(LiveLink):
         need(n==size,'B4_RUNTIME_PARTIAL_READ');return bytes(data)
 
 
-def snapshot(link,out=None,label='snapshot',addresses=None):
+def snapshot(link,out=None,label='snapshot',addresses=None,*,stable_temperature=False):
     state=ro.snapshot(link)
     if out:raw.write_json(out/(label+'-state-private.json'),state)
     ro.check_running(link,state)
@@ -69,8 +69,26 @@ def snapshot(link,out=None,label='snapshot',addresses=None):
         # TEMP夹在两次BIO之间，以后一次完整BIO作诊断，保留前一次原件证明观察区间。
         before_at=time.monotonic();before=link.read(*addresses['bio'])
         temperature_blob=link.read(*addresses['temperature'])
+        reads=[temperature_blob];qualified=None;selected=0
+        if stable_temperature:
+            import b5_b_temp_readonly as temp
+            def publication(blob):return (blob[12:35],blob[36:37],blob[49:61])
+            qualified=False
+            for _ in range(2):
+                current=link.read(*addresses['temperature']);reads.append(current)
+                frame=current[49:61]
+                valid_frame=(not temp.decode_temp(current)['present'] or
+                    frame[:4]==bytes((0xa4,3,7,7)) and sum(frame[:11])&255==frame[11])
+                if publication(current)==publication(reads[-2]) and valid_frame:
+                    temperature_blob=current;selected=len(reads)-1;qualified=True;break
         bio_blob=link.read(*addresses['bio']);after_at=time.monotonic()
         observation={'method':'BIO_TEMP_BIO','host_before_monotonic':before_at,'host_after_monotonic':after_at}
+        if stable_temperature:
+            observation.update(method='BIO_TEMP_BOUNDED_MATCHING_PUBLICATIONS_BIO',qualified=qualified,
+                read_count=len(reads),selected_read_index=selected,atomic_snapshot=False)
+            if out:
+                for i,blob in enumerate(reads):
+                    with (out/(label+'-temperature-observation-'+str(i)+'-private.bin')).open('xb') as f:f.write(blob)
         if out:
             for name,blob in (('bio-before-temperature',before),('temperature-raw',temperature_blob)):
                 with (out/(label+'-'+name+'-private.bin')).open('xb') as f:f.write(blob)

@@ -1,0 +1,29 @@
+{
+  "first_run": {
+    "tests": 69,
+    "failures": 2,
+    "errors": 0,
+    "exit_code": 1,
+    "blocked_events": [
+      "socket.bind",
+      "socket.bind"
+    ],
+    "hardware_network_actions": 0
+  },
+  "two_asyncio_tests_retested": {
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "exit_code": 0,
+    "blocked_events": [],
+    "Windows_asyncio_internal_socketpair_events": [
+      "socket.bind",
+      "socket.connect",
+      "socket.bind",
+      "socket.connect"
+    ],
+    "external_network_or_SDK_actions": 0,
+    "previous_67_tests_not_repeated": true
+  },
+  "explanation": "Windows asyncio socketpair internal loopback was incorrectly blocked by offline runner; original failure retained; only two affected tests repeated"
+}

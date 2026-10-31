@@ -161,7 +161,8 @@ def b_worker(a,root,bundle,*,start_record_name='B-worker.used'):
         size=profile['BIN_bytes'] if profile else 39948;image=profile['BIN_sha256'] if profile else g.B_IMAGE
         g.require(g.sha(full)==bundle['B_full']['sha256'] and g.sha(full[:size])==image
                   and g.sha(options)==bundle['B_options']['sha256'],'G3_B_FULL_OPTIONS')
-        def snapshot(label):return b.snapshot(link,out,label,profile['RAM'] if profile else None)
+        def snapshot(label):return b.snapshot(link,out,label,profile['RAM'] if profile else None,
+            stable_temperature=bool(bundle.get('_ABC_stable_temperature_read')))
         first=snapshot('entry');time.sleep(2);last=snapshot('ready');b.assess(first,last)
         slots=profile['slots'] if profile else g.SLOTS
         anchor_block=link.read(slots,g.BLOCK_BYTES);g.write_private(out/'prearm-anchor-block-private.bin',anchor_block)
