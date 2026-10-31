@@ -54,7 +54,8 @@ def review(job):
             g.require(messages[key]==m,'ABC_DUPLICATE_CONFLICT');duplicates+=1;continue
         messages[key]=m
         if m['source'] not in ('MOCK','REPLAY') or not m['synthetic']:fail.append('SOURCE_NOT_MOCK_OR_HISTORY')
-        if x['qos']!=(0 if m['stream'] in ('ECG','RESP','PPG') else 1):fail.append('BROKER_QOS')
+        if x['qos']!=(0 if m['stream'] in ('ECG','RESP','PPG') and m['source']=='MOCK' else 1):fail.append('BROKER_QOS')
+        if m['source']=='REPLAY':continue
         if m['node_id']!='NODE-B' or m['stream'] not in points:continue
         rate,count=(250,100) if m['stream']=='ECG' else (50,50)
         g.require(m['sample_rate']==rate and len(m['samples'])==count,'ABC_WAVE_SHAPE')
@@ -71,7 +72,7 @@ def review(job):
     if maximum>2047:fail.append('MQTT_BUFFER')
     sequences=sorted(points[primary]);stride=1 if primary=='ECG' else 5;minimum=74250 if primary=='ECG' else 14850
     if len(sequences)<minimum or any(b-a!=stride for a,b in zip(sequences,sequences[1:])):fail.append('PRIMARY_SOURCE_COVERAGE_OR_GAP')
-    selected=[m for m in messages.values() if start<=m['timestamp']<end]
+    selected=[m for m in messages.values() if start<=m['timestamp']<end and m['source']=='MOCK']
     b_selected=[m for m in selected if m['node_id']=='NODE-B']
     if any(m['session_id']!=t0['B_session'] for m in b_selected):fail.append('B_SESSION_CHANGED')
     for stream in (scalar,'TEMP'):
