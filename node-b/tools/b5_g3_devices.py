@@ -146,8 +146,8 @@ def c_preflight(a,base,bundle):
     return r['exit_code']
 
 
-def b_worker(a,root,bundle):
-    g.save(root/'B-worker.used',{'role':'B','authorization_sha256':g.sha(json.dumps(a,sort_keys=True).encode())})
+def b_worker(a,root,bundle,*,start_record_name='B-worker.used'):
+    g.save(root/start_record_name,{'role':'B','authorization_sha256':g.sha(json.dumps(a,sort_keys=True).encode())})
     out=root/'B';out.mkdir(exist_ok=False);g.private.protected(out,False)
     link=None;r={'status':'STOP','exit_code':1,'explicit_reset_halt_go_target_writes':0}
     try:

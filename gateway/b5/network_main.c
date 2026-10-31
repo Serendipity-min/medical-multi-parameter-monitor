@@ -81,6 +81,12 @@ static void diagnostic(unsigned stage) {
         (unsigned long)b4_hw_diag[0].received,(unsigned long)b4_hw_diag[0].tx_acked,
         (unsigned long)b4_hw_diag[0].tx_failed,(unsigned long)b4_hw_diag[0].overflow,
         (unsigned long)b4_hw_diag[0].esr);console(line);
+    B4Segment *a=&gateway.segments[0];
+    (void)snprintf(line,sizeof(line),"ABC A_STATE boot=%lu gen=%lu flags=%lu completion=%lu packed=%lu emitted=%u emitted_tick=%lu nibp_seq=%lu\r\n",
+        (unsigned long)a->observed_boot,(unsigned long)a->generation,
+        (unsigned long)mp_od_read(&a->od,0x3130,1),(unsigned long)mp_od_read(&a->od,0x3111,1),
+        (unsigned long)mp_od_read(&a->od,0x3111,2),(unsigned)a->nibp_emitted,
+        (unsigned long)a->nibp_tick,(unsigned long)a->seq[MP_NIBP]);console(line);
 #endif
     return;}
     if(stage==1){

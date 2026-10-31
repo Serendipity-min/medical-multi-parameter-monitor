@@ -60,6 +60,11 @@ bool mp_router_take_egress(MpRouter *r,MpFrame *f,uint32_t now,uint64_t utc,bool
 #endif
 uint64_t gateway_epoch_milliseconds(void){return 1800000000000ULL+g_uptime_ms;}
 int b4_gateway_init(B4Gateway *g){memset(g,0,sizeof(*g));return 0;}
+#ifdef MP_ABC_TRI_CANDIDATE
+uint32_t mp_od_read(MpOD *od,uint16_t index,uint8_t sub){
+    (void)od;assert((index==0x3130 && sub==1) || (index==0x3111 && (sub==1 || sub==2)));return 0;
+}
+#endif
 int b4_hw_init(void){return 0;}
 void b4_gateway_tick(B4Gateway *g,uint32_t tick){g->now=tick;ticks++;}
 void b4_hw_poll(B4Gateway *g){(void)g;}

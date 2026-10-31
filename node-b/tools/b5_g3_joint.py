@@ -106,12 +106,13 @@ def phase_limits(arm,t0=None):
             'evaluation':None if t0 is None else [t0+45,t0+345],'tail_end':None if t0 is None else t0+360}
 
 
-def joint_worker(auth_path,a,bundle,*,b_worker_command=None):
+def joint_worker(auth_path,a,bundle,*,b_worker_command=None,serial_gate_factory=None,cloud_runner=None,
+                 banner_line='B5 DISARMED MOCK B_ONLY NO_FLASH_WRITE'):
     import serial
     import b5_g3_cloud as cloud
     root=Path(a['output']);root.mkdir(exist_ok=False);g.private.protected(root,False)
     started=time.monotonic();port=None;b_child=None;cloud_thread=None;stop=threading.Event();shared={}
-    gate=SerialGate();arm=None;t0=None;C_stop_at=None;pending=b''
+    gate=(serial_gate_factory or SerialGate)();arm=None;t0=None;C_stop_at=None;pending=b''
     receipt={'status':'STOP','exit_code':1,'B5START_attempts':0,'automatic_retry_or_rollback':False,
              'explicit_target_halt_go_reset_writes':0,'manual_preplanned_C_RESET':'OWNER_ACTION_ONLY'}
     rawfile=(root/'C-serial-raw-private.bin').open('xb');lines=(root/'C-lines-private.jsonl').open('x',encoding='utf8')
@@ -133,7 +134,7 @@ def joint_worker(auth_path,a,bundle,*,b_worker_command=None):
         command=b_worker_command if b_worker_command is not None else [sys.executable,'-X','utf8',str(g.ROOT/'node-b/tools/b5_g3_devices.py'),
           '--b-worker','--authorization',str(auth_path)]
         b_child=subprocess.Popen(command,stdout=b_log,stderr=subprocess.STDOUT)
-        cloud_thread=threading.Thread(target=cloud.run,args=(a,root,bundle,stop,shared),daemon=True);cloud_thread.start()
+        cloud_thread=threading.Thread(target=cloud_runner or cloud.run,args=(a,root,bundle,stop,shared),daemon=True);cloud_thread.start()
         pending=b'';ended_B=False
         while True:
             now=time.monotonic();g.append(heartbeat,'JOINT_ALIVE',{'armed':arm is not None})
@@ -147,7 +148,7 @@ def joint_worker(auth_path,a,bundle,*,b_worker_command=None):
                 pending,texts,C_stop_at=record_lines(pending,lines,root,arm is not None,C_stop_at)
                 for text in texts:
                     diag=gate.consume(text,arm is not None,a.get('precommon_ntp_retries_max',0))
-                    if text=='B5 DISARMED MOCK B_ONLY NO_FLASH_WRITE':
+                    if text==banner_line:
                         observed=time.monotonic()
                         g.save(root/'C_BANNER_READY.json',{'monotonic':observed,'line':text,'owner_preplanned_reset_count':1})
                         confirm_serial_reset(root,a,observed)

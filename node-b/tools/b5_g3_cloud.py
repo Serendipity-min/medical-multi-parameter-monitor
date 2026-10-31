@@ -66,7 +66,9 @@ async def bounded_health(host,port,timeout=3):
     return await asyncio.wait_for(request(),timeout)
 
 
-async def observe(a,root,bundle,stop,shared):
+async def observe(a,root,bundle,stop,shared,*,snapshot_validator=None,session_selector=None):
+    validate=snapshot_validator or g.assert_snapshot
+    select_session=session_selector or current_b_session
     P=g.load(bundle['cloud_package']['path']);credentials=g.load(bundle['cloud_credentials']['path'])
     host=P['snapshot']['backend']['host'];origin=P['origin'];client=None;tunnel=None
     rawq=queue.Queue(maxsize=2048);connected=threading.Event();subscribed=threading.Event();pre_sessions=set()
@@ -117,7 +119,7 @@ async def observe(a,root,bundle,stop,shared):
             await ws.send(json.dumps({'token':credentials['view_token'],'gateway_id':'GW-B5-001'}))
             # WSS令牌发送不等于鉴权通过；先收到并校验首份真实快照，再冻结基线。
             first_snap=json.loads(await asyncio.wait_for(ws.recv(),3))
-            g.assert_snapshot(first_snap,a.get('channel_profile'));g.append(network_log,'WSS_RAW',first_snap)
+            validate(first_snap,a.get('channel_profile'));g.append(network_log,'WSS_RAW',first_snap)
             health=await health_query('BEFORE')
             g.require(health.get('status')=='ok' and health.get('mqtt_connected') is True,'G3_BACKEND_NOT_READY')
             g.append(network_log,'BACKEND_HEALTH_BEFORE',health);health_at=time.monotonic();first=True
@@ -151,14 +153,14 @@ async def observe(a,root,bundle,stop,shared):
                     health_at=time.monotonic()
                 try:raw=await asyncio.wait_for(ws.recv(),.2)
                 except asyncio.TimeoutError:continue
-                snap=json.loads(raw);g.assert_snapshot(snap,a.get('channel_profile'));g.append(network_log,'WSS_RAW',snap)
+                snap=json.loads(raw);validate(snap,a.get('channel_profile'));g.append(network_log,'WSS_RAW',snap)
                 shared['cloud_last_monotonic']=time.monotonic()
                 if first:
                     g.save(root/'NET_READY.json',{'monotonic':time.monotonic(),'backend_health':health,
                        'observer_CONNACK':con_reason,'observer_SUBACK':sub_codes,'WSS_authenticated_snapshot':True,
                        'health_baseline_may_include_old_messages':True,
                        'baseline_after_CONNACK_SUBACK_authenticated_WSS':True});first=False
-                session=current_b_session(snap,fresh_gateway,a.get('channel_profile')) if fresh_gateway else None
+                session=select_session(snap,fresh_gateway,a.get('channel_profile')) if fresh_gateway else None
                 if (arm and not common and fresh_gateway and snap['gateway_state']=='ONLINE'
                     and snap['nodes']['NODE-B']=='ONLINE' and session):
                     g.save(root/'CLOUD_COMMON.json',{'monotonic':time.monotonic(),'server_time':snap['server_time'],
