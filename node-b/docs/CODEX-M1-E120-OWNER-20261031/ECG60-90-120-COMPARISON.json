@@ -1,0 +1,53 @@
+{
+  "scope": "ONE_OWNER_AUTHORIZED_PASS_PER_RATE_NOT_THREE_REPEATS_EACH",
+  "results": [
+    {
+      "status": "OWNER_AUTHORIZED_ECG60_ENGINEERING_METRICS_PASS",
+      "field_source_commit": "c2085db160fd481259fe15a3a0a0223ad4c99af6",
+      "correct_valid_slots": 120,
+      "denominator": 120,
+      "valid_HR_values": [
+        60
+      ],
+      "parent_actual_process_exit_code": 0,
+      "worker_actual_native_exit_code": 0,
+      "review_actual_process_exit_code": 0,
+      "raw_sample_rate_SPS": 249.8939381083407,
+      "evaluation_raw_frames": 29987,
+      "derived_RESP50_evaluation_frames": 5997
+    },
+    {
+      "status": "OWNER_AUTHORIZED_ECG90_ENGINEERING_METRICS_PASS",
+      "field_source_commit": "73d07c70f8e5184a27cddc99f371b76058f38152",
+      "correct_valid_slots": 120,
+      "denominator": 120,
+      "valid_HR_values": [
+        90
+      ],
+      "parent_actual_process_exit_code": 0,
+      "worker_actual_native_exit_code": 0,
+      "review_actual_process_exit_code": 0,
+      "raw_sample_rate_SPS": 249.89242359044601,
+      "evaluation_raw_frames": 29987,
+      "derived_RESP50_evaluation_frames": 5997
+    },
+    {
+      "status": "OWNER_AUTHORIZED_ECG120_ENGINEERING_METRICS_PASS",
+      "field_source_commit": "60381603c1f2044693ddf37c0f12888e6ed0e75e",
+      "correct_valid_slots": 120,
+      "denominator": 120,
+      "valid_HR_values": [
+        120
+      ],
+      "parent_actual_process_exit_code": 0,
+      "worker_actual_native_exit_code": 0,
+      "review_actual_process_exit_code": 0,
+      "raw_sample_rate_SPS": 249.89545264459355,
+      "evaluation_raw_frames": 29987,
+      "derived_RESP50_evaluation_frames": 5997
+    }
+  ],
+  "algorithm_or_firmware_changes": false,
+  "previous_failures_preserved": true,
+  "RR15_not_retested": true
+}
