@@ -1,0 +1,59 @@
+{
+  "field_source_commit": "6a5b160a9b1b8c8b202ca9a89ad62b193499edf4",
+  "field_source_tree": "56e0c974ce7e185225beba12220a4fa3e2e62feb",
+  "owner_authority_not_PI": true,
+  "worker_actual_native_exit_code": 4,
+  "supervisor_result_code": 4,
+  "launcher_PowerShell_exit_code": 1,
+  "formal_review_actual_process_exit_code": 2,
+  "formal_session_status": "NOT_PASS_CAPTURE_TIMEOUT",
+  "stop_reason": "M1_PHASE_TIMEOUT",
+  "Close_completed": true,
+  "post_Close_state": "UNKNOWN_NOT_OBSERVED",
+  "native_side_effects": "UNRESOLVED",
+  "actual_identity_matches_reference": true,
+  "actual_full_sha256": "9ff8133d06330a4b05cb15d26bfb51b6f7e1197014692c5267d178d744f4287d",
+  "actual_options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+  "raw_blocks": 1056,
+  "stable_frames": 41233,
+  "raw_seq_gaps": [],
+  "invalid_ADC_status_sequences": 0,
+  "nonzero_raw_flags": 0,
+  "partial_metrics_from_unmodified_evaluate": {
+    "status": "M1_ENGINEERING_RATE_SUBFUNCTION_PASS",
+    "exit_code": 0,
+    "integrity_failures": [],
+    "engineering_failures": [],
+    "condition": "E60",
+    "target": 60,
+    "correct_valid_slots": 120,
+    "denominator": 120,
+    "missing_slots": 0,
+    "selection": "FIRST_NATIVE_OBSERVATION_PER_HALF_OPEN_SECOND_NO_VALIDITY_FILTER",
+    "native_evaluation_observations": 240,
+    "observed_raw_sps": 249.8939381083407,
+    "raw_window_frames": 41233,
+    "raw_evaluation_frames": 29987,
+    "RESP50_evaluation_frames": 5998,
+    "HR_valid_native_observations": 240,
+    "HR_snapshot_clusters": [
+      {
+        "first_observed_ms": 45327,
+        "last_observed_ms": 164926,
+        "observations": 240
+      }
+    ],
+    "HR_truth": "NOMINAL_ECG_NO_PER_BEAT_CALIBRATION",
+    "whole_RR_window_PASS": false,
+    "physical_accuracy": "NOT_CALIBRATED",
+    "snapshot_duration_resolution": "OBSERVATIONS_ONLY_NOT_CONTINUOUS_PROOF"
+  },
+  "partial_metrics_do_not_override_capture_failure": true,
+  "evaluation_valid_HR_values": [
+    60
+  ],
+  "cold_time_precision_seconds": 60,
+  "field_attempt_used": true,
+  "retries": 0,
+  "final_power_state": "UNKNOWN_NOT_CONFIRMED_OFF"
+}

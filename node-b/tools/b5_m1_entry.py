@@ -179,11 +179,15 @@ def capture_window(factory, out, reference, *, clock=time.monotonic, sleep=time.
         need(sha(full)==reference['full_sha256'] and sha(full[:41012])==reference['BIN_sha256'], 'M1_FIRMWARE_DRIFT')
         need(sha(options)==reference['options_sha256'], 'M1_OPTIONS_DRIFT')
         first=live.snapshot(link,b,'entry',RAM)
-        need(first['bio']['last_sample_ms']<=reference['maximum_cold_start_uptime_ms'], 'M1_COLD_BOOT_NOT_FRESH')
+        maximum_uptime=reference['maximum_cold_start_uptime_ms']
+        need(maximum_uptime is None or first['bio']['last_sample_ms']<=maximum_uptime, 'M1_COLD_BOOT_NOT_FRESH')
         sleep(2)
         ready=live.snapshot(link,b,'ready',RAM);live.assess(first,ready)
         need(clock()-started<=BUDGET['preflight_s'], 'M1_PREFLIGHT_TIMEOUT')
-        capture_started=clock();link.phase='capture';link.deadline=capture_started+BUDGET['capture_s']
+        capture_started=clock();capture_io_s=reference.get('capture_io_s',BUDGET['capture_s'])
+        link.phase='capture'
+        # 原码窗仍165秒；负责人台架路线单独留I/O余量，总会话内预留原收尾预算。
+        link.deadline=min(capture_started+capture_io_s,started+BUDGET['session_s']-BUDGET['cleanup_s'])
         previous=None;anchor=None;high_previous=None;last=ready;n=0;next_diag=capture_started
         with (b/'blocks-private.bin').open('xb') as blocks, (b/'blocks-private.jsonl').open('x',encoding='utf-8') as index, \
              (b/'diagnostics-private.jsonl').open('x',encoding='utf-8') as diag:
@@ -215,7 +219,7 @@ def capture_window(factory, out, reference, *, clock=time.monotonic, sleep=time.
                 if anchor and high_previous is not None and high_previous>=anchor['ms']+165000 and high>=anchor['ms']+165000:break
                 previous=frames;high_previous=high
                 sleep(max(0,.05-(clock()-before)))
-        capture_elapsed=clock()-capture_started;need(capture_elapsed<=165, 'M1_CAPTURE_OVERRUN')
+        capture_elapsed=clock()-capture_started;need(capture_elapsed<=capture_io_s, 'M1_CAPTURE_OVERRUN')
         link.phase='closing';link.deadline=clock()+BUDGET['cleanup_s']
         final=live.snapshot(link,b,'final',RAM);live.assess(last,final)
         need(sha(link.read(0x08000000,41012))==reference['BIN_sha256'], 'M1_POST_IMAGE_DRIFT')

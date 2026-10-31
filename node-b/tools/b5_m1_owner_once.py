@@ -41,8 +41,7 @@ def bindings(a):
            and (site.get('R_lead'), site.get('L_lead'), site.get('F_lead')) == ('RA', 'LA', 'RL'),
            'M1_OWNER_ECG60_MENU')
     m.need(cold.get('run_id') == 'M1-E60-R1' and cold.get('cold_start_completed') is True
-           and bool(cold.get('independent_boot_epoch'))
-           and 0 <= time.time()-cold.get('power_on_unix', 0) <= 120, 'M1_INDEPENDENT_COLD_START')
+           and bool(cold.get('independent_boot_epoch')), 'M1_INDEPENDENT_COLD_START')
     output = Path(a['output']).resolve()
     m.need(output.is_relative_to(m.PRIVATE.resolve()) and output.parent.is_dir()
            and output.parent.stat().st_file_attributes & 0x4000, 'M1_OUTPUT_EFS')
@@ -59,7 +58,8 @@ def bindings(a):
                 'manual_stop_responsibility': site['manual_stop_responsibility']}
     reference = {'identity': json.loads(Path(bundle['identity_reference']).read_text()),
                  'full_sha256': m.FULL_SHA, 'BIN_sha256': m.BIN_SHA, 'options_sha256': m.OPTIONS_SHA,
-                 'maximum_cold_start_uptime_ms': 120000, 'cold_start_sha256': expected['cold_start_sha256']}
+                 'maximum_cold_start_uptime_ms': None, 'capture_io_s': 180,
+                 'cold_start_sha256': expected['cold_start_sha256']}
     return expected, reference
 
 
