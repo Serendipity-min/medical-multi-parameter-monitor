@@ -1,0 +1,88 @@
+{
+  "scope": "M0_OFFLINE_PLANNING_ONLY",
+  "current_base_and_remote": "6669a85 accepted A0 branch verified by git ls-remote exit0",
+  "operations": [
+    {
+      "operation": "Initial optional node-a/node-c path query",
+      "actual_shell_exit_code": 1,
+      "interpretation": "Those names are not root directories in this checkout; used actual worktrees/gateway paths; remote Git lookup itself exit0"
+    },
+    {
+      "operation": "Initial prepare original private-summary EFS guard",
+      "actual_shell_exit_code": 1,
+      "reason": "12 legacy private analysis summaries lack EFS attribute; no algorithm or target failure",
+      "preservation": "executed-m0-prepare.py plus original tool result retained; no original file changed"
+    },
+    {
+      "operation": "Corrected prepare, new EFS copies and SHA/provenance",
+      "actual_shell_exit_code": 0,
+      "executed_script": "executed-m0-prepare-02.py"
+    },
+    {
+      "operation": "rg optional nonexistent build script paths",
+      "native_exit_code": 2,
+      "interpretation": "Path discovery only; corrected to gateway/dual_can/build_arm.py; no test executed"
+    },
+    {
+      "operation": "rg quoted literal wildcard candidate path",
+      "native_exit_code": 2,
+      "interpretation": "Windows literal wildcard path rejected; used known exact provenance instead; A binary remains UNKNOWN"
+    },
+    {
+      "operation": "initial strict disk-vs-Git blob hash collection",
+      "python_exit_code": 1,
+      "interpretation": "CRLF/LF difference in three current files; corrected provenance records distinct byte SHA and normalized text match, without changing source"
+    },
+    {
+      "operation": "Existing pure Host components runner",
+      "actual_shell_exit_code": 0,
+      "compile_jobs": 3,
+      "component_runs": 3,
+      "compiler_version_query": 1,
+      "all_native_exit_codes": 0
+    },
+    {
+      "operation": "Final plan/card/hash/source consistency",
+      "result": "PASS_DOCUMENT_CONSISTENCY_ONLY",
+      "actual_shell_exit_code": "Caller records actual completion; see final delivery receipt"
+    },
+    {
+      "operation": "Full staged whitespace check",
+      "actual_shell_exit_code": 2,
+      "reason": "Five original contract Markdown hard-break double-space lines; preserve exact source bytes"
+    },
+    {
+      "operation": "Staged whitespace check excluding exact copied contract only",
+      "actual_shell_exit_code": 0,
+      "source_contract_byte_identity_verified": true
+    },
+    {
+      "operation": "Original B2 source menu field/hash recheck",
+      "actual_shell_exit_code": 0,
+      "result": "ORDINARY_ECG and target confirmed; amplitude not declared, kept UNKNOWN rather than assuming 1mV"
+    }
+  ],
+  "original_tests_rerun": {
+    "old_12_field_windows": 0,
+    "65_plus_17_regressions": 0,
+    "420s_windows": 0,
+    "C_causal_replay": 0
+  },
+  "device_SDK_DLL_COM_loads": 0,
+  "hardware_power_wiring_SKX_actions": 0,
+  "RESET_HALT_GO_START_Flash": 0,
+  "cloud_services_ACL_production_actions": 0,
+  "manufacturer_messages_sent": 0,
+  "dependency_or_firmware_downloads": 0,
+  "T0_full_integration": "NOT_RUN",
+  "M1_M2_TRIPLE_FIELD": "NOT_AUTHORIZED_NOT_RUN",
+  "script_hashes": {
+    "executed-m0-prepare.py": "8a1ea791a71e1c82ebc9cb2b0ce49faf47610cc8dc37fdfe66be6924f3521fa5",
+    "executed-m0-prepare-02.py": "56a0457415cf9483a71f6ed1161a8b1ebc08414cdaed9433385bd6cb2b2e3d0e",
+    "executed-m0-host.py": "1ce83ed75548cf0d8133837bdfe13de1818b47e908a4e541013c73a6a08183c2",
+    "executed-m0-finalize.py": "fd84a40b35b22a288dc4e8f584fca30de44ecace766e93c89d37dbf43b5bb400",
+    "executed-m0-whitespace-receipt.py": "dcb0d91f3393e366c3a514937a374da578ab9374e44d19630914e5e5a998d508",
+    "executed-m0-source-fields.py": "bfe30d6e7eadae2bd0ce3be732aec7bf32e626ecc3dda69039ba11b4c999ec82"
+  },
+  "Git_commit_push_exit_codes": "Recorded after actual operations in ignored delivery receipt and final response, never predicted here"
+}
