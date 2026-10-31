@@ -1,0 +1,28 @@
+{
+  "scope": "TARGETED_ORIGINAL_NO_TEMP_CONFIGURATION_NONREGRESSION",
+  "cases": [
+    {
+      "name": "compile-original-TEMP-disabled-producer",
+      "actual_exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "original-TEMP-disabled-producer",
+      "actual_exit_code": 0,
+      "log_sha256": "7094aeca649ba975be92cf1c236ec77124300d6d219b89c7d3ffb30faa1686d4"
+    },
+    {
+      "name": "original-TEMP-disabled-dual-gateway",
+      "actual_exit_code": 0,
+      "log_sha256": "49a2efb9efaa8cdc00b83d139fbfff9850f2deb08b76cbd1532340060079859a"
+    },
+    {
+      "name": "original-TEMP-disabled-backend",
+      "actual_exit_code": 0,
+      "log_sha256": "ec84e5ca2e5e95f72a1976e3350b3e052cdbcffd4dc7e3be076286fc9c32f284"
+    }
+  ],
+  "runner_sha256": "3fc45f820ae8cbb32adb0cd97e50040027e59fc753443952042b950b64bf664a",
+  "new_full_integration_runs": 0,
+  "SDK_COM_network_actions": 0
+}

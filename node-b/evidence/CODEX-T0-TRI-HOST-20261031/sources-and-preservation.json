@@ -1,0 +1,116 @@
+{
+  "base": "e78cd19197bda2f9986355e28ecf05ce5cf02fb9",
+  "executed_sources": {
+    "gateway\\third_party\\CANopenNode\\CANopen.c": "880ce212a88b13d00d88cc3ad2bd0361e8eff904645f8d67c85f215805a9b658",
+    "gateway\\third_party\\CANopenNode\\301\\CO_Emergency.c": "be85a4515c3b5b0c0da37e9025a4f60d8eae4fef739d7b4df463c16705bb06cb",
+    "gateway\\third_party\\CANopenNode\\301\\CO_fifo.c": "f7bd28caa6af90bd243fddf500058113dd9cf0a22e46638c4b6f0c331fb6c3fc",
+    "gateway\\third_party\\CANopenNode\\301\\CO_HBconsumer.c": "8507404f1fcf5e66680699cb3f698ea805d337a6f5c01e7688a780ac54ca0a8e",
+    "gateway\\third_party\\CANopenNode\\301\\CO_NMT_Heartbeat.c": "2ad2b2f92ea1198de0ca3b28465d50039a8de09f6f33587ee9735c7b63e2589d",
+    "gateway\\third_party\\CANopenNode\\301\\CO_Node_Guarding.c": "08549daae43832074b2c5e9f454d7d5793666621f69d37c27ebc6497cd9b9922",
+    "gateway\\third_party\\CANopenNode\\301\\CO_ODinterface.c": "af3672c73c8b2e6141fb59a21d0f8b757240fc77dc25720b446a21a96fc1dd75",
+    "gateway\\third_party\\CANopenNode\\301\\CO_PDO.c": "4791d3acaa044fbe4c05b3b9cd4cbe76c07d9534b04adda3f3df12fdc71a2252",
+    "gateway\\third_party\\CANopenNode\\301\\CO_SDOclient.c": "2c5a779e4ec9e65215e3ebd119dfddcee98bac4d6ea59574e6f6d90d1f3b5529",
+    "gateway\\third_party\\CANopenNode\\301\\CO_SDOserver.c": "27d3e86c519bd99e388f57f5b44192a44d75aaf3247aae9e00db13a17fddd00b",
+    "gateway\\third_party\\CANopenNode\\301\\CO_SYNC.c": "f140a45ea032cbf360a2fb8429ed7498a37c1e9ecedcb2b5d6dc387ea21c78a9",
+    "gateway\\third_party\\CANopenNode\\301\\CO_TIME.c": "bea365c4d56bcd83182018c54fa4c2bf921dd835d10f3332ef191a148ff17bdc",
+    "gateway\\third_party\\CANopenNode\\301\\crc16-ccitt.c": "bc9a9278008276eefd264e6724b906230f7f8b3c32183c50443201c4ff4f25b8",
+    "gateway\\third_party\\CANopenNode\\303\\CO_LEDs.c": "d9147ae486e050d889e00ed1d4565ac5f1899a1cd287e4629e84dff5c0bbe637",
+    "node-b\\canopen\\OD.c": "5aeadffde08d15970f566afcf0837532c00a719b99aff0c3a36183ccfcdd27e0",
+    "node-b\\canopen\\b_canopen_app.c": "00a7138087f4a78124d25fd4c180e933bdacc08e8703c3754fd28e9b9a159613",
+    "node-b\\tests\\b4_host_driver.c": "e2fc956d4f880974030023a2a98d9719fbc4189197a43aed3da4ed4399d2a0c2",
+    "node-b\\tests\\b4_node_protocol.c": "6caaa39e60ffca3886e264b447db56e1c0e43dfd0c3af9fb50c8c6bb01078f31",
+    "node-b\\firmware\\biov2\\实验固件\\HARDWARE\\bio_v2.c": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+    "node-b\\tests\\b4_ecg_units.c": "06828d8ee3192bf113364acaa0cf9acfd360f89a9dfda17c5d2243a2eefb1fc8",
+    "gateway\\data_model\\model.c": "29b54ab85700864169b9bf891626cdd5e816478be9ac79ac42c558518d5cc494",
+    "gateway\\third_party\\coreMQTT\\source\\core_mqtt_serializer.c": "1e4bf5a2b307f37f3cbc83a898e9c6b89b873daf93968fddb81eac06bb113c0b",
+    "gateway\\canopen\\src\\mp_od.c": "687e3c58770a5f7ad0de96eeeda089515be44f4458fd854395811b852fb7c0fc",
+    "gateway\\dual_can\\b4_bus.c": "1c53e14f3264d6202e5bcf0e83f1f269f2696c997e0077caa81449560c66ed60",
+    "gateway\\dual_can\\b4_gateway.c": "7dce371a8fa049ea18edc394ab109d9224c96d819d9c767447a2755d082853be",
+    "gateway\\storage\\router.c": "40705d882fb48bc3effad2f7b1f0c6cdcd4b8f23ef13cc9d85d779b9f46e2e7e",
+    "gateway\\dual_can\\tests\\simulator.c": "cd8fae9cdbcd22c6a07f909e61f3cd965d17cdf8b7e3009630e14cb20c5be7a3",
+    "node-b\\temperature\\gy641.c": "8190ed05ba8779b35ad26d359df895dfb4dddbdd3315df8549feb7ba52b77973",
+    "node-b\\canopen\\ecg_units.h": "78611650d6daaff9620275c9a55f9d0966b1be2d094704fc00080c231a612b43",
+    "node-b\\temperature\\gy641.h": "1fda5a2c1d2ccf61e4353870d166e37c6791cd23a4e2e1906651b6df38e4060d",
+    "node-b\\temperature\\b_temperature.h": "aa68c78ed38f3da63fafe971abd583d59cc2e8defc8bfd25ccef71f4771cead6",
+    "node-b\\tests\\b4_backend.py": "f844b7d87c29eaf27f57a36cd903a97aaab1a2242ba1de47b1c6c705f65c516d",
+    "node-b\\tests\\b4_ecg_json.py": "2c42748ecce844257598d6302881ad87c6655b7ce7bb5452fef9bf24465a42a7",
+    "cloud\\backend\\app\\adapters.py": "b4b9993d234741edffa420b81f49478fb32dbab7d8ae156e53cae793083afcde",
+    "cloud\\backend\\app\\hub.py": "5b17215626721ae524b9508ec3a40bb7d369f2b71f61f6cfb53bfbcb9b1b4ba1",
+    "cloud\\backend\\app\\models.py": "827e89fd552b99a06d7634cbe07caff4588fc8902d054a264abec1171843c52c",
+    "cloud\\web\\tests\\tri-host-run.mjs": "1a3a33219cb3b880afd414215a104cce5ce9f7ffb723f6f125e23d6a25dc73d2",
+    "cloud\\web\\tests\\tri-host.test.ts": "676fc908c7b2c1bca85e32cd832caccb6ff6becf7bba02f97e7057da4f72ae60",
+    "cloud\\web\\src\\model\\viewModel.ts": "a03bb262836eedbeb6bc816f25dc81847d668c50543cd3ead6810554545a1d45",
+    "cloud\\web\\src\\state\\monitorStore.ts": "8c158d60caf232d31324c7cee41483a9ae32fc805db0faba88955e36a59c1503",
+    "cloud\\web\\src\\state\\sessionHistory.ts": "d9357676a2e29e00925f82f8fd657284f7d0cc26a2e5bd2ac48e9da96e2a590e",
+    "cloud\\web\\src\\types.ts": "41454cf2af97e09413098774721e443922fd6987b4146b9685d620ad5dcd1372",
+    "node-b\\tools\\run_b4.py": "9cf95f3d9adb36161e2a60eb2563347816c0efc123bef3b7785e3efe65c58406",
+    "cloud/web/tests/tri-host.test.ts": "676fc908c7b2c1bca85e32cd832caccb6ff6becf7bba02f97e7057da4f72ae60",
+    "cloud/web/tests/tri-host-run.mjs": "1a3a33219cb3b880afd414215a104cce5ce9f7ffb723f6f125e23d6a25dc73d2"
+  },
+  "copied_executed_source_snapshots_match": true,
+  "firmware_algorithm_frozen_evaluators_unchanged": [
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/bio_v2.c",
+      "sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+      "same_bytes_as_base": true
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/bio_v2.h",
+      "sha256": "76198016006ab8de6126a7cb051aeb3ab296c5655152c74cf5565bd85aba0913",
+      "same_bytes_as_base": true
+    },
+    {
+      "path": "node-b/tools/b5_g3_review.py",
+      "sha256": "79e4a732a12b988a322eb0cb656088f129717c6bacd85bc9cc55c06a8efac729",
+      "same_bytes_as_base": true
+    },
+    {
+      "path": "node-b/tools/b5_channel_review.py",
+      "sha256": "14838db66a5142f24a010109de6f67a76d4f386a0b3914afb5b32b9a751dda91",
+      "same_bytes_as_base": true
+    },
+    {
+      "path": "node-b/evidence/B5-GEMINI-R5/ECG60-WINDOW-01/criteria.json",
+      "sha256": "962a830ff5f28e8f46e376ab2db11208561a41500d884701fe9d834b5a7b22c6",
+      "same_bytes_as_base": true
+    },
+    {
+      "path": "node-b/evidence/B5-GEMINI-R5/RR15-ATTEMPT-01/criteria.json",
+      "sha256": "96831cbfcb797aece3429914d54c9f992af1e5ca933b12c65b3e545241d3f572",
+      "same_bytes_as_base": true
+    },
+    {
+      "path": "node-b/evidence/B5-GEMINI-R5/RR15-WINDOW-01/criteria.json",
+      "sha256": "172227b905524397c7c7ab17b237e0a8d1f07892c7997d58285d64e40bb724ee",
+      "same_bytes_as_base": true
+    },
+    {
+      "path": "node-b/evidence/B5-GEMINI-R5/TEMP_OBJECT-ATTEMPT-01/criteria.json",
+      "sha256": "89cb3517f388a3572758128df5c5ecb649b50418b483dcd87eed53ed0969dd8b",
+      "same_bytes_as_base": true
+    },
+    {
+      "path": "node-b/evidence/B5-GEMINI-R5/TEMP_OBJECT-ATTEMPT-02/criteria.json",
+      "sha256": "89cb3517f388a3572758128df5c5ecb649b50418b483dcd87eed53ed0969dd8b",
+      "same_bytes_as_base": true
+    },
+    {
+      "path": "node-b/evidence/B5-GEMINI-R5/TEMP_OBJECT-ATTEMPT-03/criteria.json",
+      "sha256": "89cb3517f388a3572758128df5c5ecb649b50418b483dcd87eed53ed0969dd8b",
+      "same_bytes_as_base": true
+    },
+    {
+      "path": "node-b/evidence/B5-GEMINI-R5/TEMP_OBJECT-WINDOW-01/criteria.json",
+      "sha256": "92b94f9a5491d88ac87500f99f6fb6dc2423388dcbf7f8f883cddcaa3cc02def",
+      "same_bytes_as_base": true
+    }
+  ],
+  "source_working_tree_change_scope": "four existing Host test/runner files plus two new pure UI test files only",
+  "STOP_evidence_reused": {
+    "path": "node-b/evidence/CODEX-M0-MULTIRATE-20261031/pure-host-component-checks.json",
+    "sha256": "33d2d77d2b20fd416652460f16fe71aeb0703171beb4a51ff623bc4a69add753",
+    "component_status": "PASS_COMPONENT_ONLY_NOT_T0_INTEGRATION",
+    "source_hashes_still_match": true,
+    "not_a_B5_full_lifecycle_test": true
+  }
+}

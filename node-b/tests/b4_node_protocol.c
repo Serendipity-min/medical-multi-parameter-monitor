@@ -6,6 +6,22 @@
 #include <assert.h>
 #include <math.h>
 #include <stdio.h>
+#ifdef B_TEMP_ENABLED
+#include "b_temperature.h"
+extern uint32_t TimeBase_GetMs(void);
+BTempDiag g_b_temp;
+static uint32_t last_feed = UINT32_MAX;
+void BTemp_Init(void) { gy641_init(&g_b_temp.module); }
+void BTemp_Task(uint32_t now) {
+    now = TimeBase_GetMs();
+    /* 只替代UART字节到达边界；30..36s停帧，真实解析器/过期与生产者不替换。 */
+    if (now % 1000u || last_feed == now || (now >= 30000u && now < 36000u)) return;
+    static const uint8_t frame[12] = {0xa4,3,7,7,0x62,0x0c,0xeb,0x0c,0x3f,0x0e,0x20,0x87};
+    for (unsigned i = 0; i < sizeof(frame); i++) gy641_feed(&g_b_temp.module, frame[i], now);
+    last_feed = now;
+}
+int BTemp_Get(uint32_t now, uint16_t *value) { return gy641_object(&g_b_temp.module, now, value); }
+#endif
 extern void b4_host_now(uint32_t tick);
 extern void b4_host_wire(FILE *f);
 extern void b4_host_block(int value);
@@ -27,7 +43,11 @@ static void sample(uint32_t now, uint32_t sequence) {
 int main(int argc, char **argv) {
     assert(argc == 2 || argc == 3); bool jitter = argc == 3;
     FILE *f = fopen(argv[1], "w"); assert(f); b4_host_wire(f);
-    BioV2_Init(0); CanOpen_Init(); assert(!g_b_can.error);
+    BioV2_Init(0);
+#ifdef B_TEMP_ENABLED
+    BTemp_Init();
+#endif
+    CanOpen_Init(); assert(!g_b_can.error);
     uint32_t seq = 0, next_sample = 0;
     for (uint32_t now = 0; now < 90000; now++) {
         b4_host_now(now); if (now % 10000 == 0) sync_time(now);
@@ -40,8 +60,13 @@ int main(int argc, char **argv) {
     assert(g_bio_v2.samples == seq && g_bio_v2.discontinuities == 0);
     assert(g_bio_v2.hr_valid && g_bio_v2.rpm_valid);
     assert(g_b_can.sent_ecg == seq && g_b_can.sent_resp == seq / 5 && !g_b_can.overflow);
+#ifdef B_TEMP_ENABLED
+    assert(OD_RAM.x2120_vitals.TEMP == 3307 && g_b_temp.module.frames == 84);
+    assert(OD_RAM.x2130_validity_generation.data_valid_flags == 31);
+#else
     assert(OD_RAM.x2120_vitals.TEMP == 0 && !(OD_RAM.x2130_validity_generation.data_valid_flags & 16));
     assert(OD_RAM.x2130_validity_generation.data_valid_flags == 15);
+#endif
     b4_host_wire(NULL); fclose(f);
     /* SDO仅响应新Node2地址，身份可读，应用快照拒绝远端写入。 */
     CO_CANtx_t reply; unsigned responses = b4_host_sdo(&reply);

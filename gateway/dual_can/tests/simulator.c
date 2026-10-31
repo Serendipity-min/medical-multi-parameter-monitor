@@ -13,6 +13,8 @@ static unsigned blocked[2], traffic[2][2048], frames[MP_STREAMS], valid[MP_STREA
 static uint32_t sequence[3][MP_STREAMS];
 static unsigned replayed;
 static FILE *canonical;
+static bool temperature_expected;
+static unsigned temperature_valid, temperature_invalid, temperature_recovered;
 int b4_bus_transmit(unsigned bus, const MpCanFrame *frame) {
     if (blocked[bus]) return 0;
     MpCanFrame f = *frame; traffic[bus][f.ident]++;
@@ -48,6 +50,8 @@ static void a_tick(uint32_t now) {
 static void drain(uint32_t now) {
     MpFrame f; char json[2048], topic[128];
     while (mp_router_take(&gateway.router, &f, now)) {
+        /* 本进程全部输入均为合成夹具，启动状态也必须明确MOCK；不改生产序列化器。 */
+        f.synthetic = true;
         int n = mp_json(&f, json, sizeof(json)); assert(n > 0 && n < 2048 && json[n] == 0);
         assert(mp_topic(&f, topic, sizeof(topic)) > 0);
         if (canonical) fprintf(canonical, "%s\t%s\n", topic, json);
@@ -58,7 +62,15 @@ static void drain(uint32_t now) {
         frames[f.stream]++; if (f.valid) valid[f.stream]++;
         if (f.stream == MP_ECG) assert(f.rate == 250 && f.count == 100);
         if (f.stream == MP_RESP || f.stream == MP_PPG) assert(f.rate == 50 && f.count == 50);
-        if (f.stream == MP_TEMP) assert(!f.valid && strstr(json, "\"value\":null"));
+        if (f.stream == MP_TEMP) {
+            if (f.valid) {
+                assert(temperature_expected && f.values[0] == 3307);
+                temperature_valid++;
+                if (now >= 36000) temperature_recovered++;
+            } else {
+                assert(strstr(json, "\"value\":null")); temperature_invalid++;
+            }
+        }
         mp_router_ack(&gateway.router, &f, true);
     }
 }
@@ -87,7 +99,9 @@ static void json_bounds(void) {
     assert(mp_json(&f, guarded + 1, 2048) > 0 && strstr(guarded + 1, "\"timestamp\":0,"));
 }
 int main(int argc, char **argv) {
-    assert(argc == 2 || argc == 3); bool pressure = argc == 3;
+    assert(argc >= 2 && argc <= 4);
+    bool pressure = argc >= 3 && strcmp(argv[2], "pressure") == 0;
+    temperature_expected = argc == 4 && strcmp(argv[3], "temperature") == 0;
     const char *output = getenv("B4_CANONICAL_OUT");
     if (output) { canonical = fopen(output, "w"); assert(canonical); }
     assert(b4_gateway_init(&gateway) == 0);
@@ -111,7 +125,11 @@ int main(int argc, char **argv) {
     assert(scanned == EOF); fclose(wire);
     assert(gateway.wave_gaps == 0); /* 真实量化间隔夹具不得被误判为缺帧。 */
     assert(frames[MP_ECG] >= (pressure ? 210u : 220u) && frames[MP_RESP] >= 85 && frames[MP_PPG] >= 85);
-    assert(valid[MP_HR] > 20 && valid[MP_RR] > 20 && !valid[MP_TEMP]);
+    assert(valid[MP_HR] > 20 && valid[MP_RR] > 20);
+    if (temperature_expected) assert(temperature_valid && temperature_invalid && temperature_recovered);
+    else assert(!valid[MP_TEMP]);
+    printf("temperature expected=%u valid=%u invalid=%u recovered=%u\n", temperature_expected,
+           temperature_valid, temperature_invalid, temperature_recovered);
     printf("normal NIBP_valid=%u router_drop=%u malformed=%u\n", valid[MP_NIBP], gateway.router.dropped, gateway.malformed); fflush(stdout);
     assert(valid[MP_NIBP] > 80 && gateway.malformed == 0);
     if (pressure) assert(gateway.router.dropped == 0 && replayed > 0);

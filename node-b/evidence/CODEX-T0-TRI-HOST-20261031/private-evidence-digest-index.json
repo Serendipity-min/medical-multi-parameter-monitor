@@ -1,0 +1,596 @@
+{
+  "locator": "ignored node-b/build/tri-t0-pointer.json",
+  "new_EFS_job_only": true,
+  "files": [
+    {
+      "file": "before-b4_backend.py",
+      "bytes": 1426,
+      "sha256": "024cbe992a3101fca442e29ab602747e4cd145ed91b87e5b1f14c41bd46b033e"
+    },
+    {
+      "file": "before-temperature-counterexample-corrected.log",
+      "bytes": 380,
+      "sha256": "f5eed1a67924349059125192e3a8dd8be993afe0734acf4e8a3718091221a04b"
+    },
+    {
+      "file": "before-temperature-counterexample.log",
+      "bytes": 1072,
+      "sha256": "1beb90be7a3edbe90247ebd0e68a3e38d6a515a8e4564fbfea2fb81f418a09fb"
+    },
+    {
+      "file": "executed-legacy-check.py",
+      "bytes": 1690,
+      "sha256": "3fc45f820ae8cbb32adb0cd97e50040027e59fc753443952042b950b64bf664a"
+    },
+    {
+      "file": "executed-prepare.py",
+      "bytes": 1816,
+      "sha256": "4732592e6f025316a8d571d0eb714083024beebca79c39204556e199f41ce5bf"
+    },
+    {
+      "file": "executed-source-snapshots/cloud/backend/app/adapters.py",
+      "bytes": 1850,
+      "sha256": "b4b9993d234741edffa420b81f49478fb32dbab7d8ae156e53cae793083afcde"
+    },
+    {
+      "file": "executed-source-snapshots/cloud/backend/app/hub.py",
+      "bytes": 7047,
+      "sha256": "5b17215626721ae524b9508ec3a40bb7d369f2b71f61f6cfb53bfbcb9b1b4ba1"
+    },
+    {
+      "file": "executed-source-snapshots/cloud/backend/app/models.py",
+      "bytes": 3497,
+      "sha256": "827e89fd552b99a06d7634cbe07caff4588fc8902d054a264abec1171843c52c"
+    },
+    {
+      "file": "executed-source-snapshots/cloud/web/src/model/viewModel.ts",
+      "bytes": 5432,
+      "sha256": "a03bb262836eedbeb6bc816f25dc81847d668c50543cd3ead6810554545a1d45"
+    },
+    {
+      "file": "executed-source-snapshots/cloud/web/src/state/monitorStore.ts",
+      "bytes": 7493,
+      "sha256": "8c158d60caf232d31324c7cee41483a9ae32fc805db0faba88955e36a59c1503"
+    },
+    {
+      "file": "executed-source-snapshots/cloud/web/src/state/sessionHistory.ts",
+      "bytes": 4096,
+      "sha256": "d9357676a2e29e00925f82f8fd657284f7d0cc26a2e5bd2ac48e9da96e2a590e"
+    },
+    {
+      "file": "executed-source-snapshots/cloud/web/src/types.ts",
+      "bytes": 1960,
+      "sha256": "41454cf2af97e09413098774721e443922fd6987b4146b9685d620ad5dcd1372"
+    },
+    {
+      "file": "executed-source-snapshots/cloud/web/tests/tri-host-run.mjs",
+      "bytes": 595,
+      "sha256": "1a3a33219cb3b880afd414215a104cce5ce9f7ffb723f6f125e23d6a25dc73d2"
+    },
+    {
+      "file": "executed-source-snapshots/cloud/web/tests/tri-host.test.ts",
+      "bytes": 2757,
+      "sha256": "676fc908c7b2c1bca85e32cd832caccb6ff6becf7bba02f97e7057da4f72ae60"
+    },
+    {
+      "file": "executed-source-snapshots/gateway/canopen/src/mp_od.c",
+      "bytes": 6507,
+      "sha256": "687e3c58770a5f7ad0de96eeeda089515be44f4458fd854395811b852fb7c0fc"
+    },
+    {
+      "file": "executed-source-snapshots/gateway/data_model/model.c",
+      "bytes": 6214,
+      "sha256": "29b54ab85700864169b9bf891626cdd5e816478be9ac79ac42c558518d5cc494"
+    },
+    {
+      "file": "executed-source-snapshots/gateway/dual_can/b4_bus.c",
+      "bytes": 4791,
+      "sha256": "1c53e14f3264d6202e5bcf0e83f1f269f2696c997e0077caa81449560c66ed60"
+    },
+    {
+      "file": "executed-source-snapshots/gateway/dual_can/b4_gateway.c",
+      "bytes": 12844,
+      "sha256": "7dce371a8fa049ea18edc394ab109d9224c96d819d9c767447a2755d082853be"
+    },
+    {
+      "file": "executed-source-snapshots/gateway/dual_can/tests/simulator.c",
+      "bytes": 11793,
+      "sha256": "cd8fae9cdbcd22c6a07f909e61f3cd965d17cdf8b7e3009630e14cb20c5be7a3"
+    },
+    {
+      "file": "executed-source-snapshots/gateway/storage/router.c",
+      "bytes": 6618,
+      "sha256": "40705d882fb48bc3effad2f7b1f0c6cdcd4b8f23ef13cc9d85d779b9f46e2e7e"
+    },
+    {
+      "file": "executed-source-snapshots/gateway/third_party/CANopenNode/301/CO_Emergency.c",
+      "bytes": 27188,
+      "sha256": "be85a4515c3b5b0c0da37e9025a4f60d8eae4fef739d7b4df463c16705bb06cb"
+    },
+    {
+      "file": "executed-source-snapshots/gateway/third_party/CANopenNode/301/CO_fifo.c",
+      "bytes": 46834,
+      "sha256": "f7bd28caa6af90bd243fddf500058113dd9cf0a22e46638c4b6f0c331fb6c3fc"
+    },
+    {
+      "file": "executed-source-snapshots/gateway/third_party/CANopenNode/301/CO_HBconsumer.c",
+      "bytes": 19433,
+      "sha256": "8507404f1fcf5e66680699cb3f698ea805d337a6f5c01e7688a780ac54ca0a8e"
+    },
+    {
+      "file": "executed-source-snapshots/gateway/third_party/CANopenNode/301/CO_NMT_Heartbeat.c",
+      "bytes": 11192,
+      "sha256": "2ad2b2f92ea1198de0ca3b28465d50039a8de09f6f33587ee9735c7b63e2589d"
+    },
+    {
+      "file": "executed-source-snapshots/gateway/third_party/CANopenNode/301/CO_Node_Guarding.c",
+      "bytes": 14041,
+      "sha256": "08549daae43832074b2c5e9f454d7d5793666621f69d37c27ebc6497cd9b9922"
+    },
+    {
+      "file": "executed-source-snapshots/gateway/third_party/CANopenNode/301/CO_ODinterface.c",
+      "bytes": 12441,
+      "sha256": "af3672c73c8b2e6141fb59a21d0f8b757240fc77dc25720b446a21a96fc1dd75"
+    },
+    {
+      "file": "executed-source-snapshots/gateway/third_party/CANopenNode/301/CO_PDO.c",
+      "bytes": 55180,
+      "sha256": "4791d3acaa044fbe4c05b3b9cd4cbe76c07d9534b04adda3f3df12fdc71a2252"
+    },
+    {
+      "file": "executed-source-snapshots/gateway/third_party/CANopenNode/301/CO_SDOclient.c",
+      "bytes": 77859,
+      "sha256": "2c5a779e4ec9e65215e3ebd119dfddcee98bac4d6ea59574e6f6d90d1f3b5529"
+    },
+    {
+      "file": "executed-source-snapshots/gateway/third_party/CANopenNode/301/CO_SDOserver.c",
+      "bytes": 66351,
+      "sha256": "27d3e86c519bd99e388f57f5b44192a44d75aaf3247aae9e00db13a17fddd00b"
+    },
+    {
+      "file": "executed-source-snapshots/gateway/third_party/CANopenNode/301/CO_SYNC.c",
+      "bytes": 14453,
+      "sha256": "f140a45ea032cbf360a2fb8429ed7498a37c1e9ecedcb2b5d6dc387ea21c78a9"
+    },
+    {
+      "file": "executed-source-snapshots/gateway/third_party/CANopenNode/301/CO_TIME.c",
+      "bytes": 7271,
+      "sha256": "bea365c4d56bcd83182018c54fa4c2bf921dd835d10f3332ef191a148ff17bdc"
+    },
+    {
+      "file": "executed-source-snapshots/gateway/third_party/CANopenNode/301/crc16-ccitt.c",
+      "bytes": 4461,
+      "sha256": "bc9a9278008276eefd264e6724b906230f7f8b3c32183c50443201c4ff4f25b8"
+    },
+    {
+      "file": "executed-source-snapshots/gateway/third_party/CANopenNode/303/CO_LEDs.c",
+      "bytes": 5612,
+      "sha256": "d9147ae486e050d889e00ed1d4565ac5f1899a1cd287e4629e84dff5c0bbe637"
+    },
+    {
+      "file": "executed-source-snapshots/gateway/third_party/CANopenNode/CANopen.c",
+      "bytes": 52234,
+      "sha256": "880ce212a88b13d00d88cc3ad2bd0361e8eff904645f8d67c85f215805a9b658"
+    },
+    {
+      "file": "executed-source-snapshots/gateway/third_party/coreMQTT/source/core_mqtt_serializer.c",
+      "bytes": 96494,
+      "sha256": "1e4bf5a2b307f37f3cbc83a898e9c6b89b873daf93968fddb81eac06bb113c0b"
+    },
+    {
+      "file": "executed-source-snapshots/node-b/canopen/b_canopen_app.c",
+      "bytes": 7734,
+      "sha256": "00a7138087f4a78124d25fd4c180e933bdacc08e8703c3754fd28e9b9a159613"
+    },
+    {
+      "file": "executed-source-snapshots/node-b/canopen/ecg_units.h",
+      "bytes": 917,
+      "sha256": "78611650d6daaff9620275c9a55f9d0966b1be2d094704fc00080c231a612b43"
+    },
+    {
+      "file": "executed-source-snapshots/node-b/canopen/OD.c",
+      "bytes": 52968,
+      "sha256": "5aeadffde08d15970f566afcf0837532c00a719b99aff0c3a36183ccfcdd27e0"
+    },
+    {
+      "file": "executed-source-snapshots/node-b/firmware/biov2/实验固件/HARDWARE/bio_v2.c",
+      "bytes": 12391,
+      "sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7"
+    },
+    {
+      "file": "executed-source-snapshots/node-b/temperature/b_temperature.h",
+      "bytes": 295,
+      "sha256": "aa68c78ed38f3da63fafe971abd583d59cc2e8defc8bfd25ccef71f4771cead6"
+    },
+    {
+      "file": "executed-source-snapshots/node-b/temperature/gy641.c",
+      "bytes": 1465,
+      "sha256": "8190ed05ba8779b35ad26d359df895dfb4dddbdd3315df8549feb7ba52b77973"
+    },
+    {
+      "file": "executed-source-snapshots/node-b/temperature/gy641.h",
+      "bytes": 477,
+      "sha256": "1fda5a2c1d2ccf61e4353870d166e37c6791cd23a4e2e1906651b6df38e4060d"
+    },
+    {
+      "file": "executed-source-snapshots/node-b/tests/b4_backend.py",
+      "bytes": 5373,
+      "sha256": "f844b7d87c29eaf27f57a36cd903a97aaab1a2242ba1de47b1c6c705f65c516d"
+    },
+    {
+      "file": "executed-source-snapshots/node-b/tests/b4_ecg_json.py",
+      "bytes": 1104,
+      "sha256": "2c42748ecce844257598d6302881ad87c6655b7ce7bb5452fef9bf24465a42a7"
+    },
+    {
+      "file": "executed-source-snapshots/node-b/tests/b4_ecg_units.c",
+      "bytes": 5266,
+      "sha256": "06828d8ee3192bf113364acaa0cf9acfd360f89a9dfda17c5d2243a2eefb1fc8"
+    },
+    {
+      "file": "executed-source-snapshots/node-b/tests/b4_host_driver.c",
+      "bytes": 3285,
+      "sha256": "e2fc956d4f880974030023a2a98d9719fbc4189197a43aed3da4ed4399d2a0c2"
+    },
+    {
+      "file": "executed-source-snapshots/node-b/tests/b4_node_protocol.c",
+      "bytes": 5136,
+      "sha256": "6caaa39e60ffca3886e264b447db56e1c0e43dfd0c3af9fb50c8c6bb01078f31"
+    },
+    {
+      "file": "executed-source-snapshots/node-b/tools/run_b4.py",
+      "bytes": 8078,
+      "sha256": "9cf95f3d9adb36161e2a60eb2563347816c0efc123bef3b7785e3efe65c58406"
+    },
+    {
+      "file": "executed-t0-package.py",
+      "bytes": 7454,
+      "sha256": "7add5d015627aecefdb4e5ac7a0c73d3690e053ca2192f2f6aa4f34f07c602c2"
+    },
+    {
+      "file": "full-integration-console.log",
+      "bytes": 1097,
+      "sha256": "19c0ad910787b19053c18c623cdca8c56874816277dd67fa57d8add03816e8f8"
+    },
+    {
+      "file": "full-integration-final-console.log",
+      "bytes": 369,
+      "sha256": "76e555cd14edfaf758871832363cbb9f018ce5fbcf50625febf5cbbb4595bfa6"
+    },
+    {
+      "file": "gcc-version.log",
+      "bytes": 273,
+      "sha256": "6fd7cc88596832db1cc0e4cd1593c5ca63a027a9528cfd0d717c982484fb5b05"
+    },
+    {
+      "file": "integration/b2-jitter-wire.txt",
+      "bytes": 948280,
+      "sha256": "ae0091f5adbaee087d2956fbb895922c26bd1630ba13b19c348d01a627f5cfb2"
+    },
+    {
+      "file": "integration/b2-synthetic-wire.txt",
+      "bytes": 948271,
+      "sha256": "3338af8bbd1cc52b32d560bf9f2a9e20a95b19b9b82882c3d833828c576e013a"
+    },
+    {
+      "file": "integration/b4_gateway.exe",
+      "bytes": 126393,
+      "sha256": "8295e1cb7650006a896b1775b5e439530b69deb7e2b357deb04e779a1a184960"
+    },
+    {
+      "file": "integration/b4_node.exe",
+      "bytes": 111239,
+      "sha256": "367738fc2a5f28ae6b0f8c451d6d0e809bbda062591989b16b794892c49ee743"
+    },
+    {
+      "file": "integration/b4_units.exe",
+      "bytes": 120434,
+      "sha256": "265021509109eba3a3c4315c6a8306978c2be4b2de53ac1e9fb05725820e441e"
+    },
+    {
+      "file": "integration/c-to-existing-backend.log",
+      "bytes": 318,
+      "sha256": "335f53772b017db5778f04d7eee821c0eae2202cc0695d239872de1f34773e30"
+    },
+    {
+      "file": "integration/compile-dual-gateway.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "integration/compile-ecg-gain4.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "integration/compile-node-b.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "integration/dual-gateway-5s-mqtt-pressure-canonical.jsonl",
+      "bytes": 407756,
+      "sha256": "5e9c72afcaaff1ecec12509af26107647c346395442183fe3b2d36c3ee6f06da"
+    },
+    {
+      "file": "integration/dual-gateway-5s-mqtt-pressure.log",
+      "bytes": 382,
+      "sha256": "6fd4f64305efed5edbcd5043947b1f99d4e23a1d795817e94e41664ed383b660"
+    },
+    {
+      "file": "integration/dual-gateway-canonical.jsonl",
+      "bytes": 407806,
+      "sha256": "cec69d71af7f4f722df11bf5941edae0d489f7875fc35048025a933ef61d1eb8"
+    },
+    {
+      "file": "integration/dual-gateway-jitter-canonical.jsonl",
+      "bytes": 407818,
+      "sha256": "9c6dd38006b956ff1cad7739bc068e049eb504b5f32000c16ee411561bbd8b28"
+    },
+    {
+      "file": "integration/dual-gateway-jitter.log",
+      "bytes": 381,
+      "sha256": "4639ba54bab835756f7a34a36e8be1f30dfa8500748f0d226da99fbb5ae621c5"
+    },
+    {
+      "file": "integration/dual-gateway.log",
+      "bytes": 381,
+      "sha256": "4639ba54bab835756f7a34a36e8be1f30dfa8500748f0d226da99fbb5ae621c5"
+    },
+    {
+      "file": "integration/ecg-gain4-existing-backend.log",
+      "bytes": 126,
+      "sha256": "99aa42547b3b9cfb1e72008df66fb4c7b2b72fb26e907ed9aabf1a9e571e06d8"
+    },
+    {
+      "file": "integration/ecg-gain4-wire-and-json.log",
+      "bytes": 170,
+      "sha256": "e9b09cfcfbc5c62860a0bbf5a153993ee2e2d01d6f14356e426bc9c98b15045d"
+    },
+    {
+      "file": "integration/executed-runner.py",
+      "bytes": 8036,
+      "sha256": "5fc3546772faa75bdbf9c4667b3840b2b27b64c995982c9ade3ddbddce271ee5"
+    },
+    {
+      "file": "integration/existing-ui-from-Hub-snapshots.log",
+      "bytes": 369,
+      "sha256": "52c3e78de36b0ff0b4b427d9063f9e0116656a331bf5a4d34bce92291c8fc09f"
+    },
+    {
+      "file": "integration/gain4-mv.jsonl",
+      "bytes": 939,
+      "sha256": "22c3ae1cbd16d2e479ef4eb725b24473320d3f61dac1515fd3abaeb49555e47f"
+    },
+    {
+      "file": "integration/i2s2-conflict-negative.log",
+      "bytes": 580,
+      "sha256": "275c3751ee9adb9dd3f1d5cd51a1dc0ded2c65a598848176c411e8a14ff86872"
+    },
+    {
+      "file": "integration/mixed-model-abi-negative.log",
+      "bytes": 571,
+      "sha256": "7dfd6ea37e9ec8dbd09d89332bacce179fd5301e877988232fd58d3cfcedf1cd"
+    },
+    {
+      "file": "integration/node-b-jitter-protocol.log",
+      "bytes": 107,
+      "sha256": "48dc0d4290f007ccfc310970f1fb5b7bc8a8bb03d812068e7cbfa31b4a480705"
+    },
+    {
+      "file": "integration/node-b-protocol.log",
+      "bytes": 107,
+      "sha256": "7094aeca649ba975be92cf1c236ec77124300d6d219b89c7d3ffb30faa1686d4"
+    },
+    {
+      "file": "integration/receipt.json",
+      "bytes": 21125,
+      "sha256": "0da685f3a22a6dbfb0f85bad7bb0b473c57eb3fdc491adad9bf580b6ddbe0b45"
+    },
+    {
+      "file": "integration/tri-host-snapshots.json",
+      "bytes": 54111,
+      "sha256": "4dd4f45ba25c39d07834ccaf77e88b30542422750637cb1c3da284dbcebd7285"
+    },
+    {
+      "file": "integration/tri-host.test.cjs",
+      "bytes": 17483,
+      "sha256": "805817fb712d398c2a9600e3dc65b31fc29edb1272590aa5740287698be3ce77"
+    },
+    {
+      "file": "integration-final/b2-jitter-wire.txt",
+      "bytes": 948280,
+      "sha256": "ae0091f5adbaee087d2956fbb895922c26bd1630ba13b19c348d01a627f5cfb2"
+    },
+    {
+      "file": "integration-final/b2-synthetic-wire.txt",
+      "bytes": 948271,
+      "sha256": "3338af8bbd1cc52b32d560bf9f2a9e20a95b19b9b82882c3d833828c576e013a"
+    },
+    {
+      "file": "integration-final/b4_gateway.exe",
+      "bytes": 126393,
+      "sha256": "0861de6538f4e6802f1c89edc1121d5467a7257a4f176402bf40f76fe5540d2b"
+    },
+    {
+      "file": "integration-final/b4_node.exe",
+      "bytes": 111239,
+      "sha256": "7e243aee42f2bd064e5984626c25355caef44fa2e77210dab63c858971b7da60"
+    },
+    {
+      "file": "integration-final/b4_units.exe",
+      "bytes": 120434,
+      "sha256": "6d96e5843709ba954098f49ba69f7be03df46641ecfcb4929f0ca902217e766e"
+    },
+    {
+      "file": "integration-final/c-to-existing-backend.log",
+      "bytes": 318,
+      "sha256": "335f53772b017db5778f04d7eee821c0eae2202cc0695d239872de1f34773e30"
+    },
+    {
+      "file": "integration-final/compile-dual-gateway.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "integration-final/compile-ecg-gain4.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "integration-final/compile-node-b.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "integration-final/dual-gateway-5s-mqtt-pressure-canonical.jsonl",
+      "bytes": 407756,
+      "sha256": "5e9c72afcaaff1ecec12509af26107647c346395442183fe3b2d36c3ee6f06da"
+    },
+    {
+      "file": "integration-final/dual-gateway-5s-mqtt-pressure.log",
+      "bytes": 382,
+      "sha256": "6fd4f64305efed5edbcd5043947b1f99d4e23a1d795817e94e41664ed383b660"
+    },
+    {
+      "file": "integration-final/dual-gateway-canonical.jsonl",
+      "bytes": 407806,
+      "sha256": "cec69d71af7f4f722df11bf5941edae0d489f7875fc35048025a933ef61d1eb8"
+    },
+    {
+      "file": "integration-final/dual-gateway-jitter-canonical.jsonl",
+      "bytes": 407818,
+      "sha256": "9c6dd38006b956ff1cad7739bc068e049eb504b5f32000c16ee411561bbd8b28"
+    },
+    {
+      "file": "integration-final/dual-gateway-jitter.log",
+      "bytes": 381,
+      "sha256": "4639ba54bab835756f7a34a36e8be1f30dfa8500748f0d226da99fbb5ae621c5"
+    },
+    {
+      "file": "integration-final/dual-gateway.log",
+      "bytes": 381,
+      "sha256": "4639ba54bab835756f7a34a36e8be1f30dfa8500748f0d226da99fbb5ae621c5"
+    },
+    {
+      "file": "integration-final/ecg-gain4-existing-backend.log",
+      "bytes": 126,
+      "sha256": "99aa42547b3b9cfb1e72008df66fb4c7b2b72fb26e907ed9aabf1a9e571e06d8"
+    },
+    {
+      "file": "integration-final/ecg-gain4-wire-and-json.log",
+      "bytes": 170,
+      "sha256": "e9b09cfcfbc5c62860a0bbf5a153993ee2e2d01d6f14356e426bc9c98b15045d"
+    },
+    {
+      "file": "integration-final/executed-runner.py",
+      "bytes": 8078,
+      "sha256": "9cf95f3d9adb36161e2a60eb2563347816c0efc123bef3b7785e3efe65c58406"
+    },
+    {
+      "file": "integration-final/existing-ui-from-Hub-snapshots.log",
+      "bytes": 369,
+      "sha256": "37be8199d5df5e47c7645f2559a270b6a10daf26bfef250d1e1da526b0bdfc92"
+    },
+    {
+      "file": "integration-final/gain4-mv.jsonl",
+      "bytes": 939,
+      "sha256": "22c3ae1cbd16d2e479ef4eb725b24473320d3f61dac1515fd3abaeb49555e47f"
+    },
+    {
+      "file": "integration-final/i2s2-conflict-negative.log",
+      "bytes": 580,
+      "sha256": "275c3751ee9adb9dd3f1d5cd51a1dc0ded2c65a598848176c411e8a14ff86872"
+    },
+    {
+      "file": "integration-final/mixed-model-abi-negative.log",
+      "bytes": 571,
+      "sha256": "7dfd6ea37e9ec8dbd09d89332bacce179fd5301e877988232fd58d3cfcedf1cd"
+    },
+    {
+      "file": "integration-final/node-b-jitter-protocol.log",
+      "bytes": 107,
+      "sha256": "48dc0d4290f007ccfc310970f1fb5b7bc8a8bb03d812068e7cbfa31b4a480705"
+    },
+    {
+      "file": "integration-final/node-b-protocol.log",
+      "bytes": 107,
+      "sha256": "7094aeca649ba975be92cf1c236ec77124300d6d219b89c7d3ffb30faa1686d4"
+    },
+    {
+      "file": "integration-final/receipt.json",
+      "bytes": 21245,
+      "sha256": "f4c05eff37d37435b72111c3d4f80b06d81d08fb352f2c164f3733e96ef46b25"
+    },
+    {
+      "file": "integration-final/tri-host-snapshots.json",
+      "bytes": 54111,
+      "sha256": "4dd4f45ba25c39d07834ccaf77e88b30542422750637cb1c3da284dbcebd7285"
+    },
+    {
+      "file": "integration-final/tri-host.test.cjs",
+      "bytes": 17483,
+      "sha256": "805817fb712d398c2a9600e3dc65b31fc29edb1272590aa5740287698be3ce77"
+    },
+    {
+      "file": "legacy-temperature-disabled/canonical.jsonl",
+      "bytes": 407889,
+      "sha256": "3a157d0437f6c64d3b2f4fe54bad09191054d3a5901e892726c04a15ab33199a"
+    },
+    {
+      "file": "legacy-temperature-disabled/compile-original-TEMP-disabled-producer.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "legacy-temperature-disabled/legacy-node.exe",
+      "bytes": 109534,
+      "sha256": "27d13369bc99e2130d31505e11f5094ee81112ba35ab889320a4ee5b1bee6ee4"
+    },
+    {
+      "file": "legacy-temperature-disabled/original-TEMP-disabled-backend.log",
+      "bytes": 318,
+      "sha256": "ec84e5ca2e5e95f72a1976e3350b3e052cdbcffd4dc7e3be076286fc9c32f284"
+    },
+    {
+      "file": "legacy-temperature-disabled/original-TEMP-disabled-dual-gateway.log",
+      "bytes": 380,
+      "sha256": "49a2efb9efaa8cdc00b83d139fbfff9850f2deb08b76cbd1532340060079859a"
+    },
+    {
+      "file": "legacy-temperature-disabled/original-TEMP-disabled-producer.log",
+      "bytes": 107,
+      "sha256": "7094aeca649ba975be92cf1c236ec77124300d6d219b89c7d3ffb30faa1686d4"
+    },
+    {
+      "file": "legacy-temperature-disabled/wire.txt",
+      "bytes": 947952,
+      "sha256": "69df6de0108fb020870cc776930aea51ab1420b8db3119ce9b15495a4e75bc3d"
+    },
+    {
+      "file": "node-version.log",
+      "bytes": 10,
+      "sha256": "d3418c43c24a028c4774f8771e03c578ccc9021a4098708b6aa0b7f6686b5bbe"
+    },
+    {
+      "file": "preregistration-amendment-01-before-run.json",
+      "bytes": 420,
+      "sha256": "f4d90a1127609ede49948fbc4f432c0b44ca9273e2e17897ebdf5a80e4749970"
+    },
+    {
+      "file": "preregistration-before-run.json",
+      "bytes": 3874,
+      "sha256": "3203f3bd420b47feb4c46eba15d100fdf83a8ddb790fb321d10168627191071e"
+    },
+    {
+      "file": "valid-temperature-counterexample-corrected.txt",
+      "bytes": 213,
+      "sha256": "1385ce67b22cdffd079c3397f8f38cadebc35406a33ddd2b3a070ee24e6a94ee"
+    },
+    {
+      "file": "valid-temperature-counterexample.txt",
+      "bytes": 210,
+      "sha256": "40d877aba288d1faf967863dc2a2363c2d4fb6b160da80ccd782340c3f98c6d6"
+    }
+  ]
+}
