@@ -1,4 +1,4 @@
-"""负责人直接授权的固定ECG单次台架入口；不是PI签署。"""
+"""负责人直接授权的固定RR批次的单次台架入口；不是PI签署。"""
 import argparse
 import json
 from pathlib import Path
@@ -8,11 +8,38 @@ import time
 
 import b5_m1_entry as m
 
-AUTHORITY = 'OWNER_DIRECT_ECG120_ONCE_20261031'
-RUN_ID = 'M1-E120-R1'
-TARGET = 120
-PUBLIC_SHA256 = 'b6bf54fcf241301caf12e571b8a5b0be4a5e54860203e7cd38eedd567fe0465d'
-NONCE_SHA256 = '975563bca26f3f276be501673c8e8d816a2395271be2224c27bf5e715c2b4c4c'
+AUTHORITY = 'OWNER_DIRECT_RESP_BATCH15_20261031'
+PUBLIC_SHA256 = '952db85562070889df8f525df49dda83ffbb9f4a25692fa42559639167705a95'
+AUTHORIZED_RUNS = {'M1-R12-R1': {'target': 12,
+               'nonce_sha256': '535c7882898a87d00412f5c452ea505ff3b4c7ac89d8f52ef1409bebd9676ace'},
+ 'M1-R15-R1': {'target': 15,
+               'nonce_sha256': '5dceddd687bd89c021a1fca56c37a6fe0eb4b5c12aaa28e3155fb4f7e926cef9'},
+ 'M1-R18-R1': {'target': 18,
+               'nonce_sha256': '3e19dce95d5c8a4a6aaf240438fd60bff11bbea3ead50f2e58713ae99392ddfc'},
+ 'M1-R24-R1': {'target': 24,
+               'nonce_sha256': '350ae2e01c6cbbb4c62297452779c6c385159f5e667b4c30059a6a0ac9bc25cb'},
+ 'M1-R30-R1': {'target': 30,
+               'nonce_sha256': '6c3a820b78be0e472365c853a30a374d984e37dc6c646b32b0826c746a30d35e'},
+ 'M1-R30-R2': {'target': 30,
+               'nonce_sha256': '7f4dc70cb9ba841f52b228bb9b57f8758f121facece0baf2ffb6c9ede874613c'},
+ 'M1-R24-R2': {'target': 24,
+               'nonce_sha256': '2146b69848efd96fb83291e22955c368ef4734ac9868bb83d1283ae5c860881d'},
+ 'M1-R18-R2': {'target': 18,
+               'nonce_sha256': '5eca8ae44d6ba90a6e02b4069e33859a98682cec8c481f0f4a12319dea1c5049'},
+ 'M1-R15-R2': {'target': 15,
+               'nonce_sha256': '334ef256a5a6a8ecd43471b6692242dfd3c0db37ab184ed4e6eb92cd9f978e6e'},
+ 'M1-R12-R2': {'target': 12,
+               'nonce_sha256': 'a6dbbd90d5d61780b246855831f98f64738ba60901f04ba76270095056862aea'},
+ 'M1-R18-R3': {'target': 18,
+               'nonce_sha256': '2808790c690de02e539651b7ba9dc5a14f766e3701146beeff5c5884eb275dbc'},
+ 'M1-R30-R3': {'target': 30,
+               'nonce_sha256': '06e9270b826aec479d934c59aa0ff6f99242cdfb70e618e6b965b3805a1f1b8d'},
+ 'M1-R15-R3': {'target': 15,
+               'nonce_sha256': 'a53e127a62b67d6daedaf14a7f4cd4e9b8b52241e09e7e15feb272e24acfc909'},
+ 'M1-R24-R3': {'target': 24,
+               'nonce_sha256': 'd73f8a5b07f0de6b4107babf9c665c0e69063ad986367d823b5d8896955c6b9d'},
+ 'M1-R12-R3': {'target': 12,
+               'nonce_sha256': '25826830f0fa14b437efc50957b1e25a9526a1311ebc7a166306526b7d072fb3'}}
 TOPOLOGY = 'B_READ_ONLY_C_POWERED_CAN_BACKGROUND'
 
 
@@ -24,6 +51,7 @@ def private_file(name):
 
 
 def bindings(a):
+    run_id = a['run_id']; target = AUTHORIZED_RUNS[run_id]['target']
     bundle_path = private_file(a['bundle_file'])
     bundle = json.loads(bundle_path.read_text()); m.validate_bundle(bundle)
     for role in ('identity', 'full', 'options'):
@@ -38,11 +66,13 @@ def bindings(a):
     m.need(all(site.get(k) is True for k in required), 'M1_OWNER_SITE_NOT_READY')
     m.need(site.get('topology') == TOPOLOGY and site.get('B_C_electrically_isolated') is False,
            'M1_OWNER_TOPOLOGY')
-    m.need(site.get('source_mode') == 'NORMAL_ECG' and site.get('target_rate') == TARGET
-           and site.get('ECG_amplitude_mV') == 1 and site.get('waveform_type_confirmed') is True
-           and (site.get('R_lead'), site.get('L_lead'), site.get('F_lead')) == ('RA', 'LA', 'RL'),
-           'M1_OWNER_ECG_MENU')
-    m.need(cold.get('run_id') == RUN_ID and cold.get('cold_start_completed') is True
+    m.need(site.get('source_mode') == 'RESP' and site.get('target_rate') == target
+           and site.get('waveform_type_confirmed') is True
+           and (site.get('R_lead'), site.get('L_lead'), site.get('F_lead')) == ('RA', 'LL', 'RL'),
+           'M1_OWNER_RESP_SOURCE')
+    m.need(site.get('RESP_amplitude') == '1.5R' and site.get('waveform_period_bpm') == 30
+           and site.get('apnea_s') == 0, 'M1_OWNER_RESP_MENU')
+    m.need(cold.get('run_id') == run_id and cold.get('cold_start_completed') is True
            and bool(cold.get('independent_boot_epoch')), 'M1_INDEPENDENT_COLD_START')
     output = Path(a['output']).resolve()
     m.need(output.is_relative_to(m.PRIVATE.resolve()) and output.parent.is_dir()
@@ -52,7 +82,7 @@ def bindings(a):
     m.need(not git('status', '--porcelain'), 'M1_WORKTREE_NOT_FROZEN')
     tools = m.tool_bindings()
     tools[Path(__file__).relative_to(m.ROOT).as_posix()] = m.sha(Path(__file__).read_bytes())
-    expected = {'scope': m.SCOPE, 'run_id': RUN_ID, 'plan_sha256': m.plan_hash(RUN_ID),
+    expected = {'scope': m.SCOPE, 'run_id': run_id, 'plan_sha256': m.plan_hash(run_id),
                 'repo_commit': git('rev-parse', 'HEAD'), 'repo_tree': git('rev-parse', 'HEAD^{tree}'),
                 'tools_sha256': tools, 'DLL_sha256': '632d0d78e72b8a55c65945a0c393a9f081082c725fff4ba3081b0a565fd58cff',
                 'bundle_sha256': m.sha(bundle_path.read_bytes()), 'site_sha256': m.sha(site_path.read_bytes()),
@@ -73,8 +103,9 @@ def verify(args):
     Ed25519PublicKey.from_public_bytes(public).verify(sig, raw)
     a = json.loads(raw)
     m.need(a.get('authority') == AUTHORITY and a.get('PI_independent_signature') is False
-           and a.get('run_id') == RUN_ID
-           and m.sha(a.get('nonce', '').encode()) == NONCE_SHA256, 'M1_OWNER_ONCE_SCOPE')
+           and a.get('run_id') in AUTHORIZED_RUNS
+           and m.sha(a.get('nonce', '').encode()) == AUTHORIZED_RUNS[a['run_id']]['nonce_sha256'],
+           'M1_OWNER_ONCE_SCOPE')
     expected, reference = bindings(a)
     m.verify_signed_card(raw, sig, public, PUBLIC_SHA256, expected, time.time())
     return raw, sig, public, a, expected, reference
@@ -109,8 +140,9 @@ def main():
         p.add_argument('--'+name, type=Path)
     a = p.parse_args()
     if not (a.execute or a.worker):
-        print(json.dumps({'authority': AUTHORITY, 'PI_root_changed': False, 'run_id': RUN_ID,
-                          'nonce_sha256': NONCE_SHA256, 'execute_requires_signed_current_card': True})); return 0
+        print(json.dumps({'authority': AUTHORITY, 'PI_root_changed': False,
+                          'authorized_runs': list(AUTHORIZED_RUNS),
+                          'execute_requires_signed_current_card': True})); return 0
     try:
         m.need(a.authorization and a.signature and a.public_key, 'M1_SIGNED_FILES_REQUIRED')
         return execute(a)

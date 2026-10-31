@@ -66,6 +66,8 @@ class CaptureIOTiming(unittest.TestCase):
 
     def test_owner_cold_confirmation_needs_no_exact_clock(self):
         import b5_m1_owner_once as owner
+        run_id = next(iter(owner.AUTHORIZED_RUNS))
+        target = owner.AUTHORIZED_RUNS[run_id]['target']
         job = Path(os.environ['M1_TIMING_REPLAY_JOB'])
         bundle = json.loads((job/'reference-bundle-path.json').read_text())['bundle_file']
         with tempfile.TemporaryDirectory(dir=os.environ['M1_TEST_ROOT']) as folder:
@@ -74,13 +76,14 @@ class CaptureIOTiming(unittest.TestCase):
                                  'B_USB_disconnected', 'SKX_battery_no_charge_USB', 'manual_emergency_cutoff_ready',
                                  'sdk_residual_risk_acknowledged', 'C_J5_powered', 'CAN_B_C_connected',
                                  'C_USB_disconnected'), True)
-            site.update(topology=owner.TOPOLOGY, B_C_electrically_isolated=False, source_mode='NORMAL_ECG',
-                        target_rate=owner.TARGET, ECG_amplitude_mV=1, waveform_type_confirmed=True,
-                        R_lead='RA', L_lead='LA', F_lead='RL', manual_stop_responsibility='SYNTHETIC_PERSON')
-            cold = {'run_id': owner.RUN_ID, 'cold_start_completed': True,
+            site.update(topology=owner.TOPOLOGY, B_C_electrically_isolated=False, source_mode='RESP',
+                        target_rate=target, RESP_amplitude='1.5R', waveform_period_bpm=30,
+                        apnea_s=0, waveform_type_confirmed=True,
+                        R_lead='RA', L_lead='LL', F_lead='RL', manual_stop_responsibility='SYNTHETIC_PERSON')
+            cold = {'run_id': run_id, 'cold_start_completed': True,
                     'independent_boot_epoch': 'SYNTHETIC_PHYSICAL_CONFIRMATION_NO_EXACT_TIME'}
             site_path.write_text(json.dumps(site)); cold_path.write_text(json.dumps(cold))
-            a = {'bundle_file': bundle, 'site_file': str(site_path), 'cold_start_file': str(cold_path),
+            a = {'run_id': run_id, 'bundle_file': bundle, 'site_file': str(site_path), 'cold_start_file': str(cold_path),
                  'output': str(root/'session')}
             def git(command, **kwargs):
                 return b'' if command[1] == 'status' else b'SYNTHETIC_FROZEN_GIT_ID'

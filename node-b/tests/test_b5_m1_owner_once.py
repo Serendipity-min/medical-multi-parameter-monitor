@@ -21,10 +21,12 @@ class OwnerOnce(unittest.TestCase):
         self.root = Path(self.tmp.name)
         self.key = Ed25519PrivateKey.generate()
         self.public = self.key.public_key().public_bytes(serialization.Encoding.Raw, serialization.PublicFormat.Raw)
+        self.run_id = next(iter(owner.AUTHORIZED_RUNS))
+        self.target = owner.AUTHORIZED_RUNS[self.run_id]['target']
         self.expected = dict(zip(('scope', 'run_id', 'plan_sha256', 'repo_commit', 'repo_tree', 'tools_sha256',
                                   'DLL_sha256', 'bundle_sha256', 'site_sha256', 'cold_start_sha256',
                                   'output', 'manual_stop_responsibility'),
-                                 (owner.m.SCOPE, owner.RUN_ID, 'plan', 'commit', 'tree', {'mock': 'sha'},
+                                 (owner.m.SCOPE, self.run_id, 'plan', 'commit', 'tree', {'mock': 'sha'},
                                   'dll', 'bundle', 'site', 'cold', str(self.root/'capture'), 'MOCK_PERSON')))
         self.card = dict(self.expected, authority=owner.AUTHORITY, PI_independent_signature=False,
                          nonce='MOCK_OWNER_NONCE_123456', enabled=True, sessions=1, retries=0,
@@ -33,7 +35,8 @@ class OwnerOnce(unittest.TestCase):
                                        public_key=self.root/'public.raw', worker=False)
         self.args.public_key.write_bytes(self.public)
         for obj, name, value in ((owner, 'PUBLIC_SHA256', owner.m.sha(self.public)),
-                                 (owner, 'NONCE_SHA256', owner.m.sha(self.card['nonce'].encode()))):
+                                 (owner, 'AUTHORIZED_RUNS', {self.run_id: {'target': self.target,
+                                  'nonce_sha256': owner.m.sha(self.card['nonce'].encode())}})):
             p = patch.object(obj, name, value); p.start(); self.addCleanup(p.stop)
         # EFS路径是外部存储边界；其本身另有实际磁盘检查，不在临时夹具中伪称EFS。
         p = patch.object(owner, 'private_file', side_effect=Path); p.start(); self.addCleanup(p.stop)
@@ -62,7 +65,7 @@ class OwnerOnce(unittest.TestCase):
         self.bindings.assert_not_called()
 
     def test_other_run_before_bindings(self):
-        self.signed(run_id='M1-E60-R1' if owner.RUN_ID != 'M1-E60-R1' else 'M1-E90-R1')
+        self.signed(run_id='M1-E60-R1')
         with self.assertRaisesRegex(ValueError, 'M1_OWNER_ONCE_SCOPE'): owner.verify(self.args)
         self.bindings.assert_not_called()
 
@@ -92,7 +95,7 @@ class OwnerOnce(unittest.TestCase):
         with patch('sys.argv', ['owner', '--execute']), contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(owner.main(), 2)
 
-    def test_site_rejects_C_USB_or_wrong_ECG_lead(self):
+    def test_site_rejects_wrong_RR_lead_menu_and_period_interchange(self):
         reference = self.root/'reference.json'; reference.write_text('{}')
         bundle = {k+'_reference': str(reference) for k in ('identity', 'full', 'options')}
         bundle.update({k+'_reference_sha256': owner.m.sha(b'{}') for k in ('identity', 'full', 'options')})
@@ -103,14 +106,16 @@ class OwnerOnce(unittest.TestCase):
                              'B_USB_disconnected', 'SKX_battery_no_charge_USB', 'manual_emergency_cutoff_ready',
                              'sdk_residual_risk_acknowledged', 'C_J5_powered', 'CAN_B_C_connected',
                              'C_USB_disconnected'), True)
-        site.update(topology=owner.TOPOLOGY, B_C_electrically_isolated=False, source_mode='NORMAL_ECG',
-                    target_rate=owner.TARGET, ECG_amplitude_mV=1, waveform_type_confirmed=True,
-                    R_lead='RA', L_lead='LA', F_lead='RL')
-        for change in ({'C_USB_disconnected': False}, {'L_lead': 'LL'}, {'target_rate': owner.TARGET+30},
-                       {'owner_approved_topology': False}):
+        site.update(topology=owner.TOPOLOGY, B_C_electrically_isolated=False, source_mode='RESP',
+                    target_rate=self.target, RESP_amplitude='1.5R', waveform_period_bpm=30,
+                    apnea_s=0, waveform_type_confirmed=True, R_lead='RA', L_lead='LL', F_lead='RL')
+        a['run_id'] = self.run_id
+        for change in ({'C_USB_disconnected': False}, {'L_lead': 'LA'}, {'target_rate': self.target+30},
+                       {'owner_approved_topology': False}, {'waveform_period_bpm': 12},
+                       {'RESP_amplitude': '1R'}, {'apnea_s': 10}, {'source_mode': 'NORMAL_ECG'}):
             with self.subTest(change=change), patch.object(owner.m, 'validate_bundle'):
                 site_file.write_text(json.dumps(dict(site, **change)))
-                with self.assertRaisesRegex(ValueError, 'M1_OWNER_(SITE_NOT_READY|ECG_MENU)'):
+                with self.assertRaisesRegex(ValueError, 'M1_OWNER_(SITE_NOT_READY|RESP_SOURCE|RESP_MENU)'):
                     self.real_bindings(a)
 
 
