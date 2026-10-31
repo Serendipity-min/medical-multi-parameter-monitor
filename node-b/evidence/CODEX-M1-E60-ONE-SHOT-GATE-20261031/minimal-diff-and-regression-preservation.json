@@ -1,0 +1,34 @@
+{
+  "base": "37630aee2ef0af5bee9b13b827d21b38351d2445",
+  "implementation_change": "ONE_CONDITION_REMOVE_CLOSING_STOP_EXEMPTION",
+  "exact_one_condition_replacement": true,
+  "existing19_test_method_AST_unchanged": [
+    "Adapter.test_inherited_native_negative_and_short_reads",
+    "Adapter.test_m1_budget_and_forbidden_API_before_DLL",
+    "Authorization.test_CLI_cannot_be_enabled_or_mock_bypassed",
+    "Authorization.test_all_M0_runs_reused_and_unknown_refused",
+    "Authorization.test_artifact_drift_rejected_before_device",
+    "Authorization.test_bound_fields_and_old_scope",
+    "Authorization.test_invalid_signature_key_and_payload",
+    "Authorization.test_reject_before_factory_and_no_nonce_refund",
+    "Authorization.test_signed_binding_and_atomic_nonce",
+    "Capture.test_full_virtual165_capture_and_real_stable_reader_review",
+    "Capture.test_open_native_and_Close_paths",
+    "Capture.test_operator_stop_and_stale_cold_boot",
+    "Evaluation.test_baseline_and_RR_HR_truth_unknown",
+    "Evaluation.test_earliest_slot_never_selects_later_valid",
+    "Evaluation.test_missing_slots_118_boundary_and_extra_outlier",
+    "Evaluation.test_monitor_failure_terminates_child_and_preserves_error",
+    "Evaluation.test_raw_sequence_tick_flags_irq_and_diag_errors",
+    "Evaluation.test_review_CLI_bad_signature_returns_input_exit2",
+    "Evaluation.test_supervisor_kill_preserves_native_exit"
+  ],
+  "new_test_methods": [
+    "Capture.test_closing_STOP_before_final_state_read",
+    "Capture.test_closing_STOP_before_restart_on_Close_policy"
+  ],
+  "accepted_base_original_SHA256_recomputed_by_Codex": 18,
+  "not_a_claim_that_PI_recomputed_all_original_hashes": true,
+  "reviewer_and_harness_modified": false,
+  "old_firmware_evaluators_criteria_and_T0_modified": false
+}

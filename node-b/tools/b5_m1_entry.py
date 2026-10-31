@@ -137,7 +137,7 @@ def link_class():
                 0:{64},0x40006418:{4},SLOTS:{BLOCK_BYTES}})
             for address,size in RAM.values():self.allowed_reads.setdefault(address,set()).add(size)
         def gate(self):
-            need(self.phase=='closing' or not (self.root/'STOP').exists(), 'M1_OPERATOR_STOP')
+            need(not (self.root/'STOP').exists(), 'M1_OPERATOR_STOP')
             need(time.monotonic()<=self.deadline, 'M1_PHASE_TIMEOUT')
             need(time.monotonic()-self.started<=BUDGET['session_s'], 'M1_SESSION_TIMEOUT')
             need(not self.error, 'M1_NATIVE_CALLBACK_ERROR')

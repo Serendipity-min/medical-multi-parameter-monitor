@@ -1,0 +1,73 @@
+{
+  "schema": "M1_ECG60_STOP_GUARD_HASHES_R1",
+  "base_sha": "37630aee2ef0af5bee9b13b827d21b38351d2445",
+  "branch": "codex/b5-m1-ecg60-stop-gate-20261031",
+  "self_excluded": true,
+  "files": [
+    {
+      "path": "node-b/tools/b5_m1_entry.py",
+      "bytes": 22863,
+      "sha256": "032b921b129fcac223c44f18d88e65ecbee536e772b1715e92fc13dadbd3eb86"
+    },
+    {
+      "path": "node-b/tests/test_b5_m1.py",
+      "bytes": 20420,
+      "sha256": "0525c18cd1c7a7ae556c398760c41d273c45c3810b4a78fdd1f51bf96af815ed"
+    },
+    {
+      "path": "node-b/docs/CODEX-M1-E60-ONE-SHOT-GATE-20261031/contracts/MPM-B5-M1-P0-PI-REVIEW-AND-ECG60-ONE-SHOT-GATE-R1.md",
+      "bytes": 8215,
+      "sha256": "91e2ff7fb6adb461108f344497d710fac50bc4e659caf8d24a9890f917fe4bba"
+    },
+    {
+      "path": "node-b/docs/CODEX-M1-E60-ONE-SHOT-GATE-20261031/FIRST-SIGNING-READINESS.disabled.json",
+      "bytes": 5746,
+      "sha256": "973effb97af06368da31e2a6151f6cdfdc2784cb38f4eae29e835c872d12c796"
+    },
+    {
+      "path": "node-b/docs/CODEX-M1-E60-ONE-SHOT-GATE-20261031/M1-E60-R1-ONE-SHOT.disabled.json",
+      "bytes": 7013,
+      "sha256": "6202c54547bf12d0fff462f4d0add80b266fa5eb58c01275768c676bd7fa22b6"
+    },
+    {
+      "path": "node-b/docs/CODEX-M1-E60-ONE-SHOT-GATE-20261031/M1-E60-R1-ONE-SHOT.disabled.md",
+      "bytes": 2880,
+      "sha256": "285653ce444307bb95f5b02df7110cb5104c991afc220a639e28de2d6b2a8dc3"
+    },
+    {
+      "path": "node-b/docs/CODEX-M1-E60-ONE-SHOT-GATE-20261031/PI-REVIEW-PACKET.md",
+      "bytes": 5625,
+      "sha256": "5c08c47dc6a28fa095ea4a8c45250b612002e1844d379fa1780b3e9f2c8ebc65"
+    },
+    {
+      "path": "node-b/evidence/CODEX-M1-E60-ONE-SHOT-GATE-20261031/B41012-historical-reference-check.json",
+      "bytes": 1680,
+      "sha256": "efe7ae12dc185e8924982a985ce798db050dd9b95894fc20869e2bd0c1a27a33"
+    },
+    {
+      "path": "node-b/evidence/CODEX-M1-E60-ONE-SHOT-GATE-20261031/execution-ledger.json",
+      "bytes": 2084,
+      "sha256": "bfc2f6ead61b37feda250155ab17e2cf17b8c3552a4e8d0a1d07fab2d0662955"
+    },
+    {
+      "path": "node-b/evidence/CODEX-M1-E60-ONE-SHOT-GATE-20261031/frozen-tools-and-scope.json",
+      "bytes": 11551,
+      "sha256": "625df18539dc24af40ef93bc8f1cd8130aa24762a16581bd36752c2c60a127e5"
+    },
+    {
+      "path": "node-b/evidence/CODEX-M1-E60-ONE-SHOT-GATE-20261031/minimal-diff-and-regression-preservation.json",
+      "bytes": 1818,
+      "sha256": "81549666d9c5970da69a3941eaa942077ac7d5674b67e753e207118578428d91"
+    },
+    {
+      "path": "node-b/evidence/CODEX-M1-E60-ONE-SHOT-GATE-20261031/private-evidence-digest-index.json",
+      "bytes": 3287,
+      "sha256": "f3d42c737df435241e3a97e3674155ab5a84ebb1c6a2fa895b3f0ab96080ee3f"
+    },
+    {
+      "path": "node-b/evidence/CODEX-M1-E60-ONE-SHOT-GATE-20261031/STOP-before-after.json",
+      "bytes": 4867,
+      "sha256": "b959e158f7a68b5f66b620ce4fa6ddc48b83e317ba337ee0bd7b45cfd1a0f934"
+    }
+  ]
+}

@@ -173,6 +173,51 @@ class Capture(unittest.TestCase):
                 self.assertEqual(r['exit_code'],4 if kind=='STOP' else 1,r)
                 self.assertFalse(link.close_resume_enabled)
 
+    def _closing_stop_timing(self,moment):
+        parent=Path(os.environ.get('M1_TEST_ROOT',tempfile.gettempdir()))
+        gate=entry.link_class().gate
+        with tempfile.TemporaryDirectory(dir=parent) as f:
+            root=Path(f);clock=Clock();events=[]
+            class StopLink(FakeLink):
+                def __init__(self):
+                    super().__init__(clock);self.root=root/'s';self.phase='preflight'
+                    self.started=clock();self.deadline=75;self.error=False;self.injected=False
+                def inject(self):
+                    (self.root/'STOP').touch();self.injected=True;events.append('STOP')
+                def read(self,address,size):
+                    if self.phase=='closing' and moment=='final-state' and not self.injected:self.inject()
+                    gate(self)
+                    if self.injected:events.append('ordinary-read-after-STOP')
+                    data=super().read(address,size);gate(self);return data
+                def set_close_resume(self,yes):
+                    if yes and self.final_close_verified:
+                        if moment=='resume-policy' and not self.injected:self.inject()
+                        gate(self)
+                        if self.injected:events.append('resume-policy-after-STOP')
+                    return super().set_close_resume(yes)
+                def close(self):events.append('Close');return super().close()
+            link=StopLink()
+            with patch.object(entry.time,'monotonic',clock):
+                result=entry.capture_window(lambda *_:link,root/'s',reference(),clock=clock,sleep=clock.sleep)
+            detail={'moment':moment,'result':result,'events':events,'Close_calls':link.closes,
+                    'close_resume_enabled':link.close_resume_enabled,'real_SDK_calls':0}
+            if 'M1_TEST_ROOT' in os.environ:
+                (parent/('closing-STOP-'+moment+'.json')).write_text(json.dumps(detail,indent=2)+'\n')
+            self.assertTrue(link.injected)
+            self.assertEqual(result['exit_code'],4,detail)
+            self.assertEqual(result['reason'],'M1_OPERATOR_STOP')
+            self.assertNotIn('ordinary-read-after-STOP',events)
+            self.assertNotIn('resume-policy-after-STOP',events)
+            self.assertFalse(link.close_resume_enabled)
+            self.assertEqual(link.closes,1)
+            self.assertTrue(result['Close_attempted'])
+            self.assertEqual(result['post_Close_state'],'UNKNOWN_NOT_OBSERVED')
+            self.assertEqual(result['native_side_effects'],'UNRESOLVED')
+
+    def test_closing_STOP_before_final_state_read(self):self._closing_stop_timing('final-state')
+
+    def test_closing_STOP_before_restart_on_Close_policy(self):self._closing_stop_timing('resume-policy')
+
 
 def rows_and_diagnostics():
     rows=[(s,s*4,200,100,0,(s*672000)&0xffffffff,0xc00000) for s in range(1,41251)]
