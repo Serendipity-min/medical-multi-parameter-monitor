@@ -8,6 +8,10 @@
 #include <string.h>
 #include "core_mqtt_serializer.h"
 static B4Gateway gateway;
+#ifdef MP_B5_EGRESS_FINAL
+volatile uint32_t g_uptime_ms;
+uint64_t gateway_epoch_milliseconds(void){return UINT64_C(1792713600000)+gateway.now;}
+#endif
 static struct { MpOD od; CO_config_t config; CO_t *co; B4Port port; } a;
 static unsigned blocked[2], traffic[2][2048], frames[MP_STREAMS], valid[MP_STREAMS], max_json;
 static uint32_t sequence[3][MP_STREAMS];
@@ -109,6 +113,9 @@ int main(int argc, char **argv) {
     FILE *wire = fopen(argv[1], "r"); assert(wire);
     unsigned at, id, dlc, bytes[8]; int scanned = fscanf(wire, "%u %u %u", &at, &id, &dlc);
     for (uint32_t now = 0; now < 90000; now++) {
+#ifdef MP_B5_EGRESS_FINAL
+        g_uptime_ms=now;
+#endif
         if (now % 10000 == 0) b4_gateway_sync(&gateway, 1792713600 + now / 1000, now);
         b4_gateway_tick(&gateway, now); a_tick(now); b4_bus_poll();
         while (scanned == 3 && at == now) {
@@ -166,7 +173,11 @@ int main(int argc, char **argv) {
     for (unsigned i = 0; i < 200; i++) (void)CO_CANsend(gateway.segments[1].co->CANmodule, &tx);
     assert(b4_bus_diag[1].overflow >= 72 && b4_bus_diag[1].high_water == 128);
     unsigned sent0 = b4_bus_diag[0].sent;
-    for (uint32_t now = 90000; now < 92000; now++) { b4_gateway_tick(&gateway, now); a_tick(now); b4_bus_poll(); drain(now); }
+    for (uint32_t now = 90000; now < 92000; now++) {
+#ifdef MP_B5_EGRESS_FINAL
+        g_uptime_ms=now;
+#endif
+        b4_gateway_tick(&gateway, now); a_tick(now); b4_bus_poll(); drain(now); }
     assert(b4_bus_diag[0].sent > sent0 && b4_bus_diag[0].overflow == 0);
     b4_bus_online(1, false); assert(b4_bus_diag[1].offline_drop >= 128);
     b4_bus_online(1, true); blocked[1] = 0;
