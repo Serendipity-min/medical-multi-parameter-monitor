@@ -1,0 +1,215 @@
+{
+  "scope": "M1_P0_READONLY_SOURCE_AND_LOCAL_ARTIFACT_REVIEW",
+  "base": "025839a2fc272232141b557bfce8aa10952ca682",
+  "build": "b4-arm-20261030T062335164483Z",
+  "artifacts": [
+    {
+      "path": "node-b/build/b4-arm-20261030T062335164483Z/B5_TEMP_NODE_B.bin",
+      "bytes": 41012,
+      "sha256": "1dbbf27177caa429f037ac72c43581a519e8ff70ac6224411c9c4ffe9529432d",
+      "verified_from_existing_local_bytes": true,
+      "fresh_device_read": false
+    },
+    {
+      "path": "node-b/build/b4-arm-20261030T062335164483Z/firmware/OBJ/BIO_V2.axf",
+      "bytes": 811816,
+      "sha256": "e11219c4de3718fc0832a6e6863ec9645836300197f36503cc13d8e8bd9923b7",
+      "verified_from_existing_local_bytes": true,
+      "fresh_device_read": false
+    },
+    {
+      "path": "node-b/build/b4-arm-20261030T062335164483Z/symbols.txt",
+      "bytes": 108998,
+      "sha256": "07e2166e9a145bcbdbb592b475b789cf55553ee38cf97c1dd5fcf9aebe7853f8",
+      "verified_from_existing_local_bytes": true,
+      "fresh_device_read": false
+    }
+  ],
+  "mapping": [
+    {
+      "role": "bio",
+      "symbol": "g_bio_v2",
+      "address": "0x20001d20",
+      "bytes": 120,
+      "symbols_line": 1617
+    },
+    {
+      "role": "adc",
+      "symbol": "s_stats",
+      "address": "0x20000614",
+      "bytes": 48,
+      "symbols_line": 558
+    },
+    {
+      "role": "registers",
+      "symbol": "g_ads_readback",
+      "address": "0x20000644",
+      "bytes": 12,
+      "symbols_line": 1616
+    },
+    {
+      "role": "slots",
+      "symbol": "slots",
+      "address": "0x2000216c",
+      "bytes": 3072,
+      "symbols_line": 855
+    },
+    {
+      "role": "CAN_queue",
+      "symbol": "queue",
+      "address": "0x20002d6c",
+      "bytes": 2560,
+      "symbols_line": 879
+    },
+    {
+      "role": "clock",
+      "symbol": "clock_anchor",
+      "address": "0x2000376c",
+      "bytes": 16,
+      "symbols_line": 880
+    },
+    {
+      "role": "CAN",
+      "symbol": "g_b_can",
+      "address": "0x2000377c",
+      "bytes": 44,
+      "symbols_line": 1618
+    },
+    {
+      "role": "UART_ring",
+      "symbol": "rx",
+      "address": "0x20004878",
+      "bytes": 1024,
+      "symbols_line": 1089
+    },
+    {
+      "role": "temperature",
+      "symbol": "g_b_temp",
+      "address": "0x20004c78",
+      "bytes": 64,
+      "symbols_line": 1619
+    }
+  ],
+  "slots_capacity": 128,
+  "slot_record_bytes": 24,
+  "raw_slot_layout": {
+    "status_be": [
+      0,
+      3
+    ],
+    "CH1_RESP_signed_be24": [
+      3,
+      6
+    ],
+    "CH2_ECG_signed_be24": [
+      6,
+      9
+    ],
+    "flags_byte": 9,
+    "padding": [
+      10,
+      12
+    ],
+    "seq_le32": 12,
+    "IRQ_cycles_le32": 16,
+    "sample_ms_le32": 20
+  },
+  "raw_ADC_two_channels_sps": 250,
+  "RESP_CAN_derivation": "sequence % 5 == 0; 50Hz derivative, not separate 50Hz ADC stream",
+  "g3_block_bytes": 5692,
+  "g3_block_composition": [
+    3072,
+    2560,
+    16,
+    44
+  ],
+  "recommended_reuse": [
+    "readback_b.identity/write_json",
+    "RuntimeLink.open via existing subclass",
+    "BLink.read native-return and short-read checks",
+    "b4_runtime.snapshot/assess with explicit B_PROFILE_R6 RAM",
+    "stable_slot_export.StableSlots running-chunk duplicate qualification"
+  ],
+  "required_M1_overrides": [
+    "new M1 gate/session/capture/cleanup budgets, no G3 ARM_ATTEMPT",
+    "precise authorized reads and per-address limits; no legacy39948/40928 slots",
+    "SDK call budget and approved close policy",
+    "auth before Link construction or CDLL; no mock token as live authority"
+  ],
+  "SDK_native_side_effect_status": "UNRESOLVED_NOT_ESTABLISHED_BY_SOURCE_OR_MOCK",
+  "native_open_failure_cleanup_status": "PARTIAL_NATIVE_INITIALIZATION_UNKNOWN",
+  "native_close_failure_status": "UNKNOWN_NO_AUTO_RECONNECT",
+  "hardware_calls": 0,
+  "DLL_loads": 0,
+  "COM_network_actions": 0,
+  "source_files": [
+    {
+      "path": "node-b/tools/readback_b.py",
+      "sha256": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116"
+    },
+    {
+      "path": "node-b/tools/runtime_state_b.py",
+      "sha256": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46"
+    },
+    {
+      "path": "node-b/tools/live_state_b.py",
+      "sha256": "bdf04c16f74e93028a55a7db244f0a2b6f683dfb987e61d41470f2bf3debde6c"
+    },
+    {
+      "path": "node-b/tools/c_b4_readonly.py",
+      "sha256": "614d23736ea8569d4098d33e26fe762fcb00c1be646c0e0ea4ba1f9ad40afb09"
+    },
+    {
+      "path": "node-b/tools/b4_runtime.py",
+      "sha256": "66adde98790da1bca713b68607474f8fe7222914ab503e3d61bb6d88b216c66f"
+    },
+    {
+      "path": "node-b/tools/b5_g3_devices.py",
+      "sha256": "f5e94fd2c27390020cc0e1cc8ac43b88cee3d08067b6110a1b2842aef5dcf64e"
+    },
+    {
+      "path": "node-b/tools/b5_g3_contract.py",
+      "sha256": "7e4b4d94c9a97b78e26b51465f07364fe2ea814cd14c24ecc0a4528ff6755453"
+    },
+    {
+      "path": "node-b/tools/b5_channel_profiles.py",
+      "sha256": "548e9b14ad5db5b16b288d117f25bb2f5aa75d99c51c07f4f83567632e5e86a7"
+    },
+    {
+      "path": "node-b/tools/b5_b_temp_readonly.py",
+      "sha256": "ad39e45103544b717de6a349034fcfbf63f18e485e06d0610033e6c9a1c67399"
+    },
+    {
+      "path": "node-b/tools/b5_rr15_causal_replay.py",
+      "sha256": "b384e549a7fe935def77689c2f81796c8104b2708bbb31890560bc7a6f34ed1b"
+    },
+    {
+      "path": "node-b/acquisition/工具/stable_slot_export.py",
+      "sha256": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/ads1292.c",
+      "sha256": "f99c3d567338f95b4cbae5579554d15e3af4928f8b1a39e0f18b9dbd30192ced"
+    },
+    {
+      "path": "node-b/docs/CODEX-R6-P1B0-20261030/CURRENT-FIELD-AND-FAILURE.md",
+      "sha256": "ea8bda38efac53267eb70971796459ebfdca993be36c1537df96cdbfb6827cc7"
+    },
+    {
+      "path": "node-b/evidence/CODEX-R6-P1B0-20261030/live-B41012-install-summary.json",
+      "sha256": "f1c1afe3e18c0643d3740acb220a0a485656d4e6a08fc9551fc6bdfbd2ba44fc"
+    }
+  ],
+  "lookup_notes": [
+    {
+      "operation": "rg quoted Windows wildcard paths",
+      "actual_exit_code": 1,
+      "reason": "Literal wildcard path rejected; corrected to exact paths"
+    },
+    {
+      "operation": "optional wrong adc_path.c lookup",
+      "actual_exit_code": 1,
+      "reason": "Actual source ads1292.c located; no source or target operation"
+    }
+  ]
+}
