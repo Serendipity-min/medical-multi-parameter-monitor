@@ -1,0 +1,1077 @@
+{
+  "scope": "OWNER_AUTHORIZED_RR_RATE_SUBFUNCTION_ONLY",
+  "completed": 15,
+  "planned": 15,
+  "passed_RR_rate_windows": 13,
+  "not_passed_RR_rate_windows": 2,
+  "retries": 0,
+  "independent_cold_start_evidence": "OPERATOR_REPORT_PER_WINDOW_NOT_INDEPENDENT_BOOT_INSTRUMENT",
+  "whole_RR_window_PASS": false,
+  "HR_truth": "SOURCE_UNKNOWN_ROOT_CAUSE_UNRESOLVED",
+  "source_menu": {
+    "main_RR_rates": [
+      12,
+      15,
+      18,
+      24,
+      30
+    ],
+    "independent_waveform_period_bpm": 30,
+    "amplitude_literal": "1.5R",
+    "absolute_impedance_ohms": "UNKNOWN",
+    "apnea_s": 0
+  },
+  "final_power_state": {
+    "B_C": "OWNER_CONFIRMED_ON_HANDOFF_TO_TEMP180",
+    "C_USB": "DISCONNECTED_LAST_CONFIRMED",
+    "JLink_PC_USB": "CONNECTED",
+    "JLink_board": "B",
+    "R": "RA",
+    "L": "LL",
+    "F": "RL",
+    "CAN": "UNCHANGED",
+    "owner_report": "桌面，B/C仍上电、J-Link在B、C USB拔出"
+  },
+  "PI_independent_acceptance": false,
+  "PI_trust_root_configured": false,
+  "cloud_actions": 0,
+  "explicit_RESET_HALT_GO_Flash_START": 0,
+  "push_authorized": true,
+  "remaining_original_24_window_matrix": "ECG60/90/120 each needs two additional independent repeats; six ECG windows NOT_RUN",
+  "field_source_commits": {
+    "c177d16a5f884207717b9fc694f3e991e7bf5b9a": 5,
+    "e6a128bfa51bb3d5a958913fa4afea216f402b05": 5,
+    "36a8c9bbd8430a215e0697ce684baf019ab9f3be": 5
+  },
+  "runs": [
+    {
+      "run_id": "M1-R12-R1",
+      "target": 12,
+      "status": "OWNER_AUTHORIZED_RR_RATE_SUBFUNCTION_PASS",
+      "authority": "OWNER_DIRECT_NOT_PI",
+      "parent_actual_exit_code": 0,
+      "worker_native_exit_code": 0,
+      "supervisor_result_code": 0,
+      "capture_exit_code": 0,
+      "review_actual_exit_code": 0,
+      "correct_valid_slots": 120,
+      "denominator": 120,
+      "missing_slots": 0,
+      "valid_RR_values": [
+        12
+      ],
+      "RR_invalid_observations": 0,
+      "HR_valid_observations": 0,
+      "observed_valid_HR_values": [],
+      "HR_snapshot_clusters": [],
+      "HR_truth": "SOURCE_UNKNOWN_ROOT_CAUSE_UNRESOLVED",
+      "whole_RR_window_PASS": false,
+      "integrity_failures": [],
+      "engineering_failures": [],
+      "raw_sample_rate_SPS": 249.93939247012048,
+      "raw_evaluation_frames": 29992,
+      "RESP50_evaluation_frames": 5998,
+      "raw_integrity": {
+        "blocks": 1060,
+        "stable": 41264,
+        "unqualified_sequences": 80,
+        "invalid_status_sequences": 0,
+        "nonzero_flags_frames": 0,
+        "sequence_gaps": [],
+        "IRQ_ms_step_histogram": {
+          "4": 41223,
+          "5": 40
+        },
+        "IRQ_cycles_step_min": 671922,
+        "IRQ_cycles_step_max": 672400,
+        "raw_status_values": [
+          12582912,
+          12591104,
+          12599296,
+          12607488
+        ],
+        "blocks_sha256": "57e8371e723b4c673c8689312fd6748a3329ae71e71d2ef38ec36d6e85ee758c",
+        "index_sha256": "1aca696d1f38e3d347fe04f72046a1affa51df8ed41707c34aff7f85ebd2e63c"
+      },
+      "capture_host_s": 165.0779999999795,
+      "session_elapsed_s": 194.34399999980815,
+      "Close_completed": true,
+      "post_Close_state": "UNKNOWN_NOT_OBSERVED",
+      "SDK_native_risk": "UNRESOLVED",
+      "original_review_status": "M1_OFFLINE_RATE_METRICS_ONLY_UNVERIFIED_PI_ROOT",
+      "original_PI_trust_root_verified": false,
+      "original_field_scope_PASS": false,
+      "field_source_commit": "c177d16a5f884207717b9fc694f3e991e7bf5b9a",
+      "explicit_RESET_HALT_GO_Flash_START": 0,
+      "test_public_key_sha256": "952db85562070889df8f525df49dda83ffbb9f4a25692fa42559639167705a95",
+      "authorization_sha256": "99632236cff1a533e28e2c526b2bce86900334c29d20bf31ee000a63031eef27",
+      "original_input_manifest_verified": true
+    },
+    {
+      "run_id": "M1-R15-R1",
+      "target": 15,
+      "status": "OWNER_AUTHORIZED_RR_RATE_SUBFUNCTION_PASS",
+      "authority": "OWNER_DIRECT_NOT_PI",
+      "parent_actual_exit_code": 0,
+      "worker_native_exit_code": 0,
+      "supervisor_result_code": 0,
+      "capture_exit_code": 0,
+      "review_actual_exit_code": 0,
+      "correct_valid_slots": 120,
+      "denominator": 120,
+      "missing_slots": 0,
+      "valid_RR_values": [
+        15
+      ],
+      "RR_invalid_observations": 0,
+      "HR_valid_observations": 4,
+      "observed_valid_HR_values": [
+        66
+      ],
+      "HR_snapshot_clusters": [
+        {
+          "first_observed_ms": 95429,
+          "last_observed_ms": 96981,
+          "observations": 4
+        }
+      ],
+      "HR_truth": "SOURCE_UNKNOWN_ROOT_CAUSE_UNRESOLVED",
+      "whole_RR_window_PASS": false,
+      "integrity_failures": [],
+      "engineering_failures": [],
+      "raw_sample_rate_SPS": 249.92424150595764,
+      "raw_evaluation_frames": 29991,
+      "RESP50_evaluation_frames": 5998,
+      "raw_integrity": {
+        "blocks": 1060,
+        "stable": 41241,
+        "unqualified_sequences": 74,
+        "invalid_status_sequences": 0,
+        "nonzero_flags_frames": 0,
+        "sequence_gaps": [],
+        "IRQ_ms_step_histogram": {
+          "4": 41190,
+          "5": 50
+        },
+        "IRQ_cycles_step_min": 671980,
+        "IRQ_cycles_step_max": 672416,
+        "raw_status_values": [
+          12582912,
+          12591104,
+          12599296,
+          12607488
+        ],
+        "blocks_sha256": "58e54b713d3a8d97416a3c4bad20f88a2a8b07cf7f3d03618317bbfc581b0a85",
+        "index_sha256": "2bce88802c4485c2d92767b2b7e87bf2a944707b5f1aba4ed807e7e134b5c70c"
+      },
+      "capture_host_s": 164.9539999999106,
+      "session_elapsed_s": 194.23400000017136,
+      "Close_completed": true,
+      "post_Close_state": "UNKNOWN_NOT_OBSERVED",
+      "SDK_native_risk": "UNRESOLVED",
+      "original_review_status": "M1_OFFLINE_RATE_METRICS_ONLY_UNVERIFIED_PI_ROOT",
+      "original_PI_trust_root_verified": false,
+      "original_field_scope_PASS": false,
+      "field_source_commit": "c177d16a5f884207717b9fc694f3e991e7bf5b9a",
+      "explicit_RESET_HALT_GO_Flash_START": 0,
+      "test_public_key_sha256": "952db85562070889df8f525df49dda83ffbb9f4a25692fa42559639167705a95",
+      "authorization_sha256": "575919a7ca03591fc46b9998b197fcce14984d7aef7f487a4edfc2f105deda82",
+      "original_input_manifest_verified": true
+    },
+    {
+      "run_id": "M1-R18-R1",
+      "target": 18,
+      "status": "OWNER_AUTHORIZED_RR_RATE_SUBFUNCTION_PASS",
+      "authority": "OWNER_DIRECT_NOT_PI",
+      "parent_actual_exit_code": 0,
+      "worker_native_exit_code": 0,
+      "supervisor_result_code": 0,
+      "capture_exit_code": 0,
+      "review_actual_exit_code": 0,
+      "correct_valid_slots": 120,
+      "denominator": 120,
+      "missing_slots": 0,
+      "valid_RR_values": [
+        18
+      ],
+      "RR_invalid_observations": 0,
+      "HR_valid_observations": 6,
+      "observed_valid_HR_values": [
+        88,
+        156
+      ],
+      "HR_snapshot_clusters": [
+        {
+          "first_observed_ms": 91335,
+          "last_observed_ms": 92415,
+          "observations": 3
+        },
+        {
+          "first_observed_ms": 133377,
+          "last_observed_ms": 134313,
+          "observations": 3
+        }
+      ],
+      "HR_truth": "SOURCE_UNKNOWN_ROOT_CAUSE_UNRESOLVED",
+      "whole_RR_window_PASS": false,
+      "integrity_failures": [],
+      "engineering_failures": [],
+      "raw_sample_rate_SPS": 249.9166661616131,
+      "raw_evaluation_frames": 29990,
+      "RESP50_evaluation_frames": 5998,
+      "raw_integrity": {
+        "blocks": 1060,
+        "stable": 41244,
+        "unqualified_sequences": 96,
+        "invalid_status_sequences": 0,
+        "nonzero_flags_frames": 0,
+        "sequence_gaps": [],
+        "IRQ_ms_step_histogram": {
+          "4": 41188,
+          "5": 55
+        },
+        "IRQ_cycles_step_min": 671999,
+        "IRQ_cycles_step_max": 672435,
+        "raw_status_values": [
+          12582912,
+          12591104,
+          12607488
+        ],
+        "blocks_sha256": "af6301c9dd320bfa04d128f11e62af8955adc71473a0d804117b8ffbb96f1b70",
+        "index_sha256": "2a7b3da0de453584a5668b6b63d66c3d01551dfbf2a395811805d75add22f09b"
+      },
+      "capture_host_s": 164.96900000004098,
+      "session_elapsed_s": 194.25,
+      "Close_completed": true,
+      "post_Close_state": "UNKNOWN_NOT_OBSERVED",
+      "SDK_native_risk": "UNRESOLVED",
+      "original_review_status": "M1_OFFLINE_RATE_METRICS_ONLY_UNVERIFIED_PI_ROOT",
+      "original_PI_trust_root_verified": false,
+      "original_field_scope_PASS": false,
+      "field_source_commit": "c177d16a5f884207717b9fc694f3e991e7bf5b9a",
+      "explicit_RESET_HALT_GO_Flash_START": 0,
+      "test_public_key_sha256": "952db85562070889df8f525df49dda83ffbb9f4a25692fa42559639167705a95",
+      "authorization_sha256": "317b329822a1c2a33972891025d677bb2850bbffe1d21c7f10e96cffbdd55c92",
+      "original_input_manifest_verified": true
+    },
+    {
+      "run_id": "M1-R24-R1",
+      "target": 24,
+      "status": "OWNER_AUTHORIZED_RR_RATE_SUBFUNCTION_PASS",
+      "authority": "OWNER_DIRECT_NOT_PI",
+      "parent_actual_exit_code": 0,
+      "worker_native_exit_code": 0,
+      "supervisor_result_code": 0,
+      "capture_exit_code": 0,
+      "review_actual_exit_code": 0,
+      "correct_valid_slots": 120,
+      "denominator": 120,
+      "missing_slots": 0,
+      "valid_RR_values": [
+        24
+      ],
+      "RR_invalid_observations": 0,
+      "HR_valid_observations": 5,
+      "observed_valid_HR_values": [
+        43,
+        78
+      ],
+      "HR_snapshot_clusters": [
+        {
+          "first_observed_ms": 64393,
+          "last_observed_ms": 65330,
+          "observations": 3
+        },
+        {
+          "first_observed_ms": 121808,
+          "last_observed_ms": 122277,
+          "observations": 2
+        }
+      ],
+      "HR_truth": "SOURCE_UNKNOWN_ROOT_CAUSE_UNRESOLVED",
+      "whole_RR_window_PASS": false,
+      "integrity_failures": [],
+      "engineering_failures": [],
+      "raw_sample_rate_SPS": 249.9166661616131,
+      "raw_evaluation_frames": 29990,
+      "RESP50_evaluation_frames": 5998,
+      "raw_integrity": {
+        "blocks": 1061,
+        "stable": 41267,
+        "unqualified_sequences": 96,
+        "invalid_status_sequences": 0,
+        "nonzero_flags_frames": 0,
+        "sequence_gaps": [],
+        "IRQ_ms_step_histogram": {
+          "4": 41211,
+          "5": 55
+        },
+        "IRQ_cycles_step_min": 671960,
+        "IRQ_cycles_step_max": 672501,
+        "raw_status_values": [
+          12582912,
+          12591104,
+          12607488
+        ],
+        "blocks_sha256": "15b133c0b7ae3483fddeb3514f76128fa32b141b1b6b751b8b94f1df172e994c",
+        "index_sha256": "db5514fce31edc34b29171646d8b53bc8c0b04358e6809b63a102e51e45db74c"
+      },
+      "capture_host_s": 165.1720000000205,
+      "session_elapsed_s": 194.4539999999106,
+      "Close_completed": true,
+      "post_Close_state": "UNKNOWN_NOT_OBSERVED",
+      "SDK_native_risk": "UNRESOLVED",
+      "original_review_status": "M1_OFFLINE_RATE_METRICS_ONLY_UNVERIFIED_PI_ROOT",
+      "original_PI_trust_root_verified": false,
+      "original_field_scope_PASS": false,
+      "field_source_commit": "c177d16a5f884207717b9fc694f3e991e7bf5b9a",
+      "explicit_RESET_HALT_GO_Flash_START": 0,
+      "test_public_key_sha256": "952db85562070889df8f525df49dda83ffbb9f4a25692fa42559639167705a95",
+      "authorization_sha256": "6628037af14d2efd4d7ba14c201aa699a74f9656378aaa0df5548f8882ea11e2",
+      "original_input_manifest_verified": true
+    },
+    {
+      "run_id": "M1-R30-R1",
+      "target": 30,
+      "status": "NOT_PASS",
+      "authority": "OWNER_DIRECT_NOT_PI",
+      "parent_actual_exit_code": 0,
+      "worker_native_exit_code": 0,
+      "supervisor_result_code": 0,
+      "capture_exit_code": 0,
+      "review_actual_exit_code": 3,
+      "correct_valid_slots": 94,
+      "denominator": 120,
+      "missing_slots": 0,
+      "valid_RR_values": [
+        30
+      ],
+      "RR_invalid_observations": 53,
+      "HR_valid_observations": 2,
+      "observed_valid_HR_values": [
+        91
+      ],
+      "HR_snapshot_clusters": [
+        {
+          "first_observed_ms": 162829,
+          "last_observed_ms": 163442,
+          "observations": 2
+        }
+      ],
+      "HR_truth": "SOURCE_UNKNOWN_ROOT_CAUSE_UNRESOLVED",
+      "whole_RR_window_PASS": false,
+      "integrity_failures": [],
+      "engineering_failures": [
+        "CORRECT_VALID_COVERAGE_BELOW_118_OF_120"
+      ],
+      "raw_sample_rate_SPS": 249.91212014691087,
+      "raw_evaluation_frames": 29990,
+      "RESP50_evaluation_frames": 5998,
+      "raw_integrity": {
+        "blocks": 1060,
+        "stable": 41243,
+        "unqualified_sequences": 82,
+        "invalid_status_sequences": 0,
+        "nonzero_flags_frames": 0,
+        "sequence_gaps": [],
+        "IRQ_ms_step_histogram": {
+          "4": 41184,
+          "5": 58
+        },
+        "IRQ_cycles_step_min": 672018,
+        "IRQ_cycles_step_max": 672459,
+        "raw_status_values": [
+          12582912,
+          12591104,
+          12607488
+        ],
+        "blocks_sha256": "22730f4ae032a15d415d6d2e9aee52cd3fbcca2c2a1643864e1225eee2b05f36",
+        "index_sha256": "dfc0035c10422d96db60672c26025e29ce110aadf1ff33a7ec21231ac96b98ed"
+      },
+      "capture_host_s": 164.98399999993853,
+      "session_elapsed_s": 194.28099999995902,
+      "Close_completed": true,
+      "post_Close_state": "UNKNOWN_NOT_OBSERVED",
+      "SDK_native_risk": "UNRESOLVED",
+      "original_review_status": "M1_ENGINEERING_NOT_PASS",
+      "original_PI_trust_root_verified": false,
+      "original_field_scope_PASS": false,
+      "field_source_commit": "c177d16a5f884207717b9fc694f3e991e7bf5b9a",
+      "explicit_RESET_HALT_GO_Flash_START": 0,
+      "test_public_key_sha256": "952db85562070889df8f525df49dda83ffbb9f4a25692fa42559639167705a95",
+      "authorization_sha256": "6ecd6b04e02d68853ceec0e6c5000598f8ae23da47f65c8342221e8376ffe4e6",
+      "original_input_manifest_verified": true
+    },
+    {
+      "run_id": "M1-R30-R2",
+      "target": 30,
+      "status": "OWNER_AUTHORIZED_RR_RATE_SUBFUNCTION_PASS",
+      "authority": "OWNER_DIRECT_NOT_PI",
+      "parent_actual_exit_code": 0,
+      "worker_native_exit_code": 0,
+      "supervisor_result_code": 0,
+      "capture_exit_code": 0,
+      "review_actual_exit_code": 0,
+      "correct_valid_slots": 120,
+      "denominator": 120,
+      "missing_slots": 0,
+      "valid_RR_values": [
+        30
+      ],
+      "RR_invalid_observations": 0,
+      "HR_valid_observations": 2,
+      "observed_valid_HR_values": [
+        146
+      ],
+      "HR_snapshot_clusters": [
+        {
+          "first_observed_ms": 49326,
+          "last_observed_ms": 49790,
+          "observations": 2
+        }
+      ],
+      "HR_truth": "SOURCE_UNKNOWN_ROOT_CAUSE_UNRESOLVED",
+      "whole_RR_window_PASS": false,
+      "integrity_failures": [],
+      "engineering_failures": [],
+      "raw_sample_rate_SPS": 249.90757407710444,
+      "raw_evaluation_frames": 29989,
+      "RESP50_evaluation_frames": 5998,
+      "raw_integrity": {
+        "blocks": 1060,
+        "stable": 41247,
+        "unqualified_sequences": 75,
+        "invalid_status_sequences": 0,
+        "nonzero_flags_frames": 0,
+        "sequence_gaps": [],
+        "IRQ_ms_step_histogram": {
+          "4": 41185,
+          "5": 61
+        },
+        "IRQ_cycles_step_min": 672030,
+        "IRQ_cycles_step_max": 672456,
+        "raw_status_values": [
+          12582912,
+          12591104,
+          12607488
+        ],
+        "blocks_sha256": "dec8e67d605c4f490c04b38d5ea7edc352f4fc2601c96dc54dc74dabc5817adf",
+        "index_sha256": "3400e05441ee4967552f9bdba9b937ab778b25562482c0a22cec5b956aecbf5d"
+      },
+      "capture_host_s": 164.98499999986961,
+      "session_elapsed_s": 194.2819999998901,
+      "Close_completed": true,
+      "post_Close_state": "UNKNOWN_NOT_OBSERVED",
+      "SDK_native_risk": "UNRESOLVED",
+      "original_review_status": "M1_OFFLINE_RATE_METRICS_ONLY_UNVERIFIED_PI_ROOT",
+      "original_PI_trust_root_verified": false,
+      "original_field_scope_PASS": false,
+      "field_source_commit": "e6a128bfa51bb3d5a958913fa4afea216f402b05",
+      "explicit_RESET_HALT_GO_Flash_START": 0,
+      "test_public_key_sha256": "952db85562070889df8f525df49dda83ffbb9f4a25692fa42559639167705a95",
+      "authorization_sha256": "1a6f954e915775f9840c9ad759f2c5abc294296bb6a3d07478e89a685a269944",
+      "original_input_manifest_verified": true
+    },
+    {
+      "run_id": "M1-R24-R2",
+      "target": 24,
+      "status": "NOT_PASS",
+      "authority": "OWNER_DIRECT_NOT_PI",
+      "parent_actual_exit_code": 0,
+      "worker_native_exit_code": 0,
+      "supervisor_result_code": 0,
+      "capture_exit_code": 0,
+      "review_actual_exit_code": 3,
+      "correct_valid_slots": 108,
+      "denominator": 120,
+      "missing_slots": 0,
+      "valid_RR_values": [
+        24
+      ],
+      "RR_invalid_observations": 25,
+      "HR_valid_observations": 2,
+      "observed_valid_HR_values": [
+        74
+      ],
+      "HR_snapshot_clusters": [
+        {
+          "first_observed_ms": 95372,
+          "last_observed_ms": 95841,
+          "observations": 2
+        }
+      ],
+      "HR_truth": "SOURCE_UNKNOWN_ROOT_CAUSE_UNRESOLVED",
+      "whole_RR_window_PASS": false,
+      "integrity_failures": [],
+      "engineering_failures": [
+        "CORRECT_VALID_COVERAGE_BELOW_118_OF_120"
+      ],
+      "raw_sample_rate_SPS": 249.90454487602955,
+      "raw_evaluation_frames": 29989,
+      "RESP50_evaluation_frames": 5998,
+      "raw_integrity": {
+        "blocks": 1061,
+        "stable": 41261,
+        "unqualified_sequences": 96,
+        "invalid_status_sequences": 0,
+        "nonzero_flags_frames": 0,
+        "sequence_gaps": [],
+        "IRQ_ms_step_histogram": {
+          "4": 41197,
+          "5": 63
+        },
+        "IRQ_cycles_step_min": 672040,
+        "IRQ_cycles_step_max": 672466,
+        "raw_status_values": [
+          12582912,
+          12591104,
+          12607488
+        ],
+        "blocks_sha256": "b1cf6292a3162b4c8c287a64c2191a4aff57b9dd24c8b88c73ac5b282140c929",
+        "index_sha256": "a402a39aedbcfe555ae493649d1b63c2509a39b75335b121c3da2654d0641b88"
+      },
+      "capture_host_s": 165.15599999995902,
+      "session_elapsed_s": 194.43799999984913,
+      "Close_completed": true,
+      "post_Close_state": "UNKNOWN_NOT_OBSERVED",
+      "SDK_native_risk": "UNRESOLVED",
+      "original_review_status": "M1_ENGINEERING_NOT_PASS",
+      "original_PI_trust_root_verified": false,
+      "original_field_scope_PASS": false,
+      "field_source_commit": "e6a128bfa51bb3d5a958913fa4afea216f402b05",
+      "explicit_RESET_HALT_GO_Flash_START": 0,
+      "test_public_key_sha256": "952db85562070889df8f525df49dda83ffbb9f4a25692fa42559639167705a95",
+      "authorization_sha256": "97c0c0caed5479b95724473bec90a801d5641ce0892e3641058daf6ff7fe43b9",
+      "original_input_manifest_verified": true
+    },
+    {
+      "run_id": "M1-R18-R2",
+      "target": 18,
+      "status": "OWNER_AUTHORIZED_RR_RATE_SUBFUNCTION_PASS",
+      "authority": "OWNER_DIRECT_NOT_PI",
+      "parent_actual_exit_code": 0,
+      "worker_native_exit_code": 0,
+      "supervisor_result_code": 0,
+      "capture_exit_code": 0,
+      "review_actual_exit_code": 0,
+      "correct_valid_slots": 120,
+      "denominator": 120,
+      "missing_slots": 0,
+      "valid_RR_values": [
+        18
+      ],
+      "RR_invalid_observations": 0,
+      "HR_valid_observations": 0,
+      "observed_valid_HR_values": [],
+      "HR_snapshot_clusters": [],
+      "HR_truth": "SOURCE_UNKNOWN_ROOT_CAUSE_UNRESOLVED",
+      "whole_RR_window_PASS": false,
+      "integrity_failures": [],
+      "engineering_failures": [],
+      "raw_sample_rate_SPS": 249.90454487602955,
+      "raw_evaluation_frames": 29989,
+      "RESP50_evaluation_frames": 5998,
+      "raw_integrity": {
+        "blocks": 1060,
+        "stable": 41249,
+        "unqualified_sequences": 96,
+        "invalid_status_sequences": 0,
+        "nonzero_flags_frames": 0,
+        "sequence_gaps": [],
+        "IRQ_ms_step_histogram": {
+          "4": 41185,
+          "5": 63
+        },
+        "IRQ_cycles_step_min": 672038,
+        "IRQ_cycles_step_max": 672460,
+        "raw_status_values": [
+          12582912,
+          12591104,
+          12607488
+        ],
+        "blocks_sha256": "c4c1148c53f3ac3447753d3701930342e8082e2f3a7cc954b665230ba244df98",
+        "index_sha256": "403ca92ddfb38db2c7ec75b5a4e1710440361f20e6432382b979ffd6e0baf56f"
+      },
+      "capture_host_s": 165.10900000017136,
+      "session_elapsed_s": 194.39100000006147,
+      "Close_completed": true,
+      "post_Close_state": "UNKNOWN_NOT_OBSERVED",
+      "SDK_native_risk": "UNRESOLVED",
+      "original_review_status": "M1_OFFLINE_RATE_METRICS_ONLY_UNVERIFIED_PI_ROOT",
+      "original_PI_trust_root_verified": false,
+      "original_field_scope_PASS": false,
+      "field_source_commit": "e6a128bfa51bb3d5a958913fa4afea216f402b05",
+      "explicit_RESET_HALT_GO_Flash_START": 0,
+      "test_public_key_sha256": "952db85562070889df8f525df49dda83ffbb9f4a25692fa42559639167705a95",
+      "authorization_sha256": "dbafc9ca59f34fefd5df375ba6c68f28539ba1450f3969920a9504778320d1a9",
+      "original_input_manifest_verified": true
+    },
+    {
+      "run_id": "M1-R15-R2",
+      "target": 15,
+      "status": "OWNER_AUTHORIZED_RR_RATE_SUBFUNCTION_PASS",
+      "authority": "OWNER_DIRECT_NOT_PI",
+      "parent_actual_exit_code": 0,
+      "worker_native_exit_code": 0,
+      "supervisor_result_code": 0,
+      "capture_exit_code": 0,
+      "review_actual_exit_code": 0,
+      "correct_valid_slots": 120,
+      "denominator": 120,
+      "missing_slots": 0,
+      "valid_RR_values": [
+        15
+      ],
+      "RR_invalid_observations": 0,
+      "HR_valid_observations": 0,
+      "observed_valid_HR_values": [],
+      "HR_snapshot_clusters": [],
+      "HR_truth": "SOURCE_UNKNOWN_ROOT_CAUSE_UNRESOLVED",
+      "whole_RR_window_PASS": false,
+      "integrity_failures": [],
+      "engineering_failures": [],
+      "raw_sample_rate_SPS": 249.90757407710444,
+      "raw_evaluation_frames": 29989,
+      "RESP50_evaluation_frames": 5997,
+      "raw_integrity": {
+        "blocks": 1060,
+        "stable": 41240,
+        "unqualified_sequences": 96,
+        "invalid_status_sequences": 0,
+        "nonzero_flags_frames": 0,
+        "sequence_gaps": [],
+        "IRQ_ms_step_histogram": {
+          "4": 41178,
+          "5": 61
+        },
+        "IRQ_cycles_step_min": 672020,
+        "IRQ_cycles_step_max": 672470,
+        "raw_status_values": [
+          12582912,
+          12591104,
+          12607488
+        ],
+        "blocks_sha256": "e1cb65b2def6b7096a5f39a16f18b4d77db54711958be5b8283729dca6cc887c",
+        "index_sha256": "79883ad3ecf247d7ebd8ab3d1662e3009fc00862bd1cfed6f770a8634c31f8e4"
+      },
+      "capture_host_s": 165.0779999999795,
+      "session_elapsed_s": 194.375,
+      "Close_completed": true,
+      "post_Close_state": "UNKNOWN_NOT_OBSERVED",
+      "SDK_native_risk": "UNRESOLVED",
+      "original_review_status": "M1_OFFLINE_RATE_METRICS_ONLY_UNVERIFIED_PI_ROOT",
+      "original_PI_trust_root_verified": false,
+      "original_field_scope_PASS": false,
+      "field_source_commit": "e6a128bfa51bb3d5a958913fa4afea216f402b05",
+      "explicit_RESET_HALT_GO_Flash_START": 0,
+      "test_public_key_sha256": "952db85562070889df8f525df49dda83ffbb9f4a25692fa42559639167705a95",
+      "authorization_sha256": "6b37268624ecfa24ba081dcfbb84a49584ba9aaaf7a3813a311a77ade74338ee",
+      "original_input_manifest_verified": true
+    },
+    {
+      "run_id": "M1-R12-R2",
+      "target": 12,
+      "status": "OWNER_AUTHORIZED_RR_RATE_SUBFUNCTION_PASS",
+      "authority": "OWNER_DIRECT_NOT_PI",
+      "parent_actual_exit_code": 0,
+      "worker_native_exit_code": 0,
+      "supervisor_result_code": 0,
+      "capture_exit_code": 0,
+      "review_actual_exit_code": 0,
+      "correct_valid_slots": 120,
+      "denominator": 120,
+      "missing_slots": 0,
+      "valid_RR_values": [
+        12
+      ],
+      "RR_invalid_observations": 0,
+      "HR_valid_observations": 4,
+      "observed_valid_HR_values": [
+        78
+      ],
+      "HR_snapshot_clusters": [
+        {
+          "first_observed_ms": 142407,
+          "last_observed_ms": 143816,
+          "observations": 4
+        }
+      ],
+      "HR_truth": "SOURCE_UNKNOWN_ROOT_CAUSE_UNRESOLVED",
+      "whole_RR_window_PASS": false,
+      "integrity_failures": [],
+      "engineering_failures": [],
+      "raw_sample_rate_SPS": 249.9106055188213,
+      "raw_evaluation_frames": 29990,
+      "RESP50_evaluation_frames": 5998,
+      "raw_integrity": {
+        "blocks": 1060,
+        "stable": 41247,
+        "unqualified_sequences": 89,
+        "invalid_status_sequences": 0,
+        "nonzero_flags_frames": 0,
+        "sequence_gaps": [],
+        "IRQ_ms_step_histogram": {
+          "4": 41187,
+          "5": 59
+        },
+        "IRQ_cycles_step_min": 672022,
+        "IRQ_cycles_step_max": 672449,
+        "raw_status_values": [
+          12582912,
+          12591104,
+          12607488
+        ],
+        "blocks_sha256": "0d7a8cf49657b43eb1155b74b41bcfa339df722d53043efd7d52803b379a2c81",
+        "index_sha256": "f6ba3d62580b47ea803426e108d7cb65d1c93eb2e6edd9702c978cf2ed5bf6ef"
+      },
+      "capture_host_s": 165.0779999999795,
+      "session_elapsed_s": 194.35899999993853,
+      "Close_completed": true,
+      "post_Close_state": "UNKNOWN_NOT_OBSERVED",
+      "SDK_native_risk": "UNRESOLVED",
+      "original_review_status": "M1_OFFLINE_RATE_METRICS_ONLY_UNVERIFIED_PI_ROOT",
+      "original_PI_trust_root_verified": false,
+      "original_field_scope_PASS": false,
+      "field_source_commit": "e6a128bfa51bb3d5a958913fa4afea216f402b05",
+      "explicit_RESET_HALT_GO_Flash_START": 0,
+      "test_public_key_sha256": "952db85562070889df8f525df49dda83ffbb9f4a25692fa42559639167705a95",
+      "authorization_sha256": "f06e35a769b9c5cf0113399556615b906ffcd3e4ebf5601300438f3363b0c634",
+      "original_input_manifest_verified": true
+    },
+    {
+      "run_id": "M1-R18-R3",
+      "target": 18,
+      "status": "OWNER_AUTHORIZED_RR_RATE_SUBFUNCTION_PASS",
+      "authority": "OWNER_DIRECT_NOT_PI",
+      "parent_actual_exit_code": 0,
+      "worker_native_exit_code": 0,
+      "supervisor_result_code": 0,
+      "capture_exit_code": 0,
+      "review_actual_exit_code": 0,
+      "correct_valid_slots": 120,
+      "denominator": 120,
+      "missing_slots": 0,
+      "valid_RR_values": [
+        18
+      ],
+      "RR_invalid_observations": 0,
+      "HR_valid_observations": 0,
+      "observed_valid_HR_values": [],
+      "HR_snapshot_clusters": [],
+      "HR_truth": "SOURCE_UNKNOWN_ROOT_CAUSE_UNRESOLVED",
+      "whole_RR_window_PASS": false,
+      "integrity_failures": [],
+      "engineering_failures": [],
+      "raw_sample_rate_SPS": 249.94545322310844,
+      "raw_evaluation_frames": 29993,
+      "RESP50_evaluation_frames": 5998,
+      "raw_integrity": {
+        "blocks": 1060,
+        "stable": 41278,
+        "unqualified_sequences": 96,
+        "invalid_status_sequences": 0,
+        "nonzero_flags_frames": 0,
+        "sequence_gaps": [],
+        "IRQ_ms_step_histogram": {
+          "4": 41241,
+          "5": 36
+        },
+        "IRQ_cycles_step_min": 671932,
+        "IRQ_cycles_step_max": 672358,
+        "raw_status_values": [
+          12582912,
+          12591104,
+          12599296,
+          12607488
+        ],
+        "blocks_sha256": "8b665b0f1e12db3a0cecfb4f54c40f0dc57e31b8817b296382f890473ee5ccc2",
+        "index_sha256": "aab669e7435da0a54a31661aaecc58df2dd5f391f6af45bb02fff3eb4cc31618"
+      },
+      "capture_host_s": 165.17199999978766,
+      "session_elapsed_s": 194.51599999982864,
+      "Close_completed": true,
+      "post_Close_state": "UNKNOWN_NOT_OBSERVED",
+      "SDK_native_risk": "UNRESOLVED",
+      "original_review_status": "M1_OFFLINE_RATE_METRICS_ONLY_UNVERIFIED_PI_ROOT",
+      "original_PI_trust_root_verified": false,
+      "original_field_scope_PASS": false,
+      "field_source_commit": "36a8c9bbd8430a215e0697ce684baf019ab9f3be",
+      "explicit_RESET_HALT_GO_Flash_START": 0,
+      "test_public_key_sha256": "d3d4d120edb0c2b7138d6662ffb8b283a4b4ada6d0e678c0fc538590e058c5f3",
+      "authorization_sha256": "62ee2687942459da64dfe51e952270fe6b67112582492034fbc60c13f55d9063",
+      "original_input_manifest_verified": true
+    },
+    {
+      "run_id": "M1-R30-R3",
+      "target": 30,
+      "status": "OWNER_AUTHORIZED_RR_RATE_SUBFUNCTION_PASS",
+      "authority": "OWNER_DIRECT_NOT_PI",
+      "parent_actual_exit_code": 0,
+      "worker_native_exit_code": 0,
+      "supervisor_result_code": 0,
+      "capture_exit_code": 0,
+      "review_actual_exit_code": 0,
+      "correct_valid_slots": 120,
+      "denominator": 120,
+      "missing_slots": 0,
+      "valid_RR_values": [
+        30
+      ],
+      "RR_invalid_observations": 0,
+      "HR_valid_observations": 0,
+      "observed_valid_HR_values": [],
+      "HR_snapshot_clusters": [],
+      "HR_truth": "SOURCE_UNKNOWN_ROOT_CAUSE_UNRESOLVED",
+      "whole_RR_window_PASS": false,
+      "integrity_failures": [],
+      "engineering_failures": [],
+      "raw_sample_rate_SPS": 249.93030218548103,
+      "raw_evaluation_frames": 29992,
+      "RESP50_evaluation_frames": 5998,
+      "raw_integrity": {
+        "blocks": 1061,
+        "stable": 41260,
+        "unqualified_sequences": 96,
+        "invalid_status_sequences": 0,
+        "nonzero_flags_frames": 0,
+        "sequence_gaps": [],
+        "IRQ_ms_step_histogram": {
+          "4": 41213,
+          "5": 46
+        },
+        "IRQ_cycles_step_min": 671964,
+        "IRQ_cycles_step_max": 672396,
+        "raw_status_values": [
+          12582912,
+          12591104,
+          12599296,
+          12607488
+        ],
+        "blocks_sha256": "402541d0b5565017a4f8d962df538ee83728ed3ef7167cc9153877c2bcfd15b7",
+        "index_sha256": "dc2e9c178b3afb75d2406c920084f0aed9c45f2511b78e73ac8cc2895f79b9ad"
+      },
+      "capture_host_s": 165.125,
+      "session_elapsed_s": 194.4220000000205,
+      "Close_completed": true,
+      "post_Close_state": "UNKNOWN_NOT_OBSERVED",
+      "SDK_native_risk": "UNRESOLVED",
+      "original_review_status": "M1_OFFLINE_RATE_METRICS_ONLY_UNVERIFIED_PI_ROOT",
+      "original_PI_trust_root_verified": false,
+      "original_field_scope_PASS": false,
+      "field_source_commit": "36a8c9bbd8430a215e0697ce684baf019ab9f3be",
+      "explicit_RESET_HALT_GO_Flash_START": 0,
+      "test_public_key_sha256": "d3d4d120edb0c2b7138d6662ffb8b283a4b4ada6d0e678c0fc538590e058c5f3",
+      "authorization_sha256": "b217da5c4f29d31c14d4b06fde3e15ad64d4d99b27581ff78306aef1d1f3c179",
+      "original_input_manifest_verified": true
+    },
+    {
+      "run_id": "M1-R15-R3",
+      "target": 15,
+      "status": "OWNER_AUTHORIZED_RR_RATE_SUBFUNCTION_PASS",
+      "authority": "OWNER_DIRECT_NOT_PI",
+      "parent_actual_exit_code": 0,
+      "worker_native_exit_code": 0,
+      "supervisor_result_code": 0,
+      "capture_exit_code": 0,
+      "review_actual_exit_code": 0,
+      "correct_valid_slots": 120,
+      "denominator": 120,
+      "missing_slots": 0,
+      "valid_RR_values": [
+        15
+      ],
+      "RR_invalid_observations": 0,
+      "HR_valid_observations": 4,
+      "observed_valid_HR_values": [
+        74
+      ],
+      "HR_snapshot_clusters": [
+        {
+          "first_observed_ms": 58850,
+          "last_observed_ms": 60398,
+          "observations": 4
+        }
+      ],
+      "HR_truth": "SOURCE_UNKNOWN_ROOT_CAUSE_UNRESOLVED",
+      "whole_RR_window_PASS": false,
+      "integrity_failures": [],
+      "engineering_failures": [],
+      "raw_sample_rate_SPS": 249.92424150595764,
+      "raw_evaluation_frames": 29991,
+      "RESP50_evaluation_frames": 5998,
+      "raw_integrity": {
+        "blocks": 1060,
+        "stable": 41257,
+        "unqualified_sequences": 76,
+        "invalid_status_sequences": 0,
+        "nonzero_flags_frames": 0,
+        "sequence_gaps": [],
+        "IRQ_ms_step_histogram": {
+          "4": 41206,
+          "5": 50
+        },
+        "IRQ_cycles_step_min": 671983,
+        "IRQ_cycles_step_max": 672419,
+        "raw_status_values": [
+          12582912,
+          12591104,
+          12607488
+        ],
+        "blocks_sha256": "f6e22083129163eeb86ef16915e8f075a13e38b88888fe1ace60567b772f8e90",
+        "index_sha256": "23573800f2655d16127e7b262d9c4d53c9e6d0953be115aca4c271e09fa6e947"
+      },
+      "capture_host_s": 165.0470000000205,
+      "session_elapsed_s": 194.3430000001099,
+      "Close_completed": true,
+      "post_Close_state": "UNKNOWN_NOT_OBSERVED",
+      "SDK_native_risk": "UNRESOLVED",
+      "original_review_status": "M1_OFFLINE_RATE_METRICS_ONLY_UNVERIFIED_PI_ROOT",
+      "original_PI_trust_root_verified": false,
+      "original_field_scope_PASS": false,
+      "field_source_commit": "36a8c9bbd8430a215e0697ce684baf019ab9f3be",
+      "explicit_RESET_HALT_GO_Flash_START": 0,
+      "test_public_key_sha256": "d3d4d120edb0c2b7138d6662ffb8b283a4b4ada6d0e678c0fc538590e058c5f3",
+      "authorization_sha256": "55b8590ea6d34b2f92d1d86a7203a56b0c44ade049d9425ad85df685bee7adc8",
+      "original_input_manifest_verified": true
+    },
+    {
+      "run_id": "M1-R24-R3",
+      "target": 24,
+      "status": "OWNER_AUTHORIZED_RR_RATE_SUBFUNCTION_PASS",
+      "authority": "OWNER_DIRECT_NOT_PI",
+      "parent_actual_exit_code": 0,
+      "worker_native_exit_code": 0,
+      "supervisor_result_code": 0,
+      "capture_exit_code": 0,
+      "review_actual_exit_code": 0,
+      "correct_valid_slots": 120,
+      "denominator": 120,
+      "missing_slots": 0,
+      "valid_RR_values": [
+        24
+      ],
+      "RR_invalid_observations": 0,
+      "HR_valid_observations": 0,
+      "observed_valid_HR_values": [],
+      "HR_snapshot_clusters": [],
+      "HR_truth": "SOURCE_UNKNOWN_ROOT_CAUSE_UNRESOLVED",
+      "whole_RR_window_PASS": false,
+      "integrity_failures": [],
+      "engineering_failures": [],
+      "raw_sample_rate_SPS": 249.91969550961534,
+      "raw_evaluation_frames": 29990,
+      "RESP50_evaluation_frames": 5998,
+      "raw_integrity": {
+        "blocks": 1060,
+        "stable": 41265,
+        "unqualified_sequences": 74,
+        "invalid_status_sequences": 0,
+        "nonzero_flags_frames": 0,
+        "sequence_gaps": [],
+        "IRQ_ms_step_histogram": {
+          "4": 41211,
+          "5": 53
+        },
+        "IRQ_cycles_step_min": 672022,
+        "IRQ_cycles_step_max": 672396,
+        "raw_status_values": [
+          12582912,
+          12591104,
+          12607488
+        ],
+        "blocks_sha256": "d28b6be2ccc833b6450d513f4d4df326e17e6e042a940fae4d7d49c614242a3a",
+        "index_sha256": "71fe6c5a0130d77b714a38e442f43a22c5b7e6b508ac79f91dd79f96e7a9b0a8"
+      },
+      "capture_host_s": 165.09400000004098,
+      "session_elapsed_s": 194.35999999986961,
+      "Close_completed": true,
+      "post_Close_state": "UNKNOWN_NOT_OBSERVED",
+      "SDK_native_risk": "UNRESOLVED",
+      "original_review_status": "M1_OFFLINE_RATE_METRICS_ONLY_UNVERIFIED_PI_ROOT",
+      "original_PI_trust_root_verified": false,
+      "original_field_scope_PASS": false,
+      "field_source_commit": "36a8c9bbd8430a215e0697ce684baf019ab9f3be",
+      "explicit_RESET_HALT_GO_Flash_START": 0,
+      "test_public_key_sha256": "d3d4d120edb0c2b7138d6662ffb8b283a4b4ada6d0e678c0fc538590e058c5f3",
+      "authorization_sha256": "c95ae408c108b048b2ac3a14ab8d8f79ac717e351f0d609132cf2e4df7864b87",
+      "original_input_manifest_verified": true
+    },
+    {
+      "run_id": "M1-R12-R3",
+      "target": 12,
+      "status": "OWNER_AUTHORIZED_RR_RATE_SUBFUNCTION_PASS",
+      "authority": "OWNER_DIRECT_NOT_PI",
+      "parent_actual_exit_code": 0,
+      "worker_native_exit_code": 0,
+      "supervisor_result_code": 0,
+      "capture_exit_code": 0,
+      "review_actual_exit_code": 0,
+      "correct_valid_slots": 120,
+      "denominator": 120,
+      "missing_slots": 0,
+      "valid_RR_values": [
+        12
+      ],
+      "RR_invalid_observations": 0,
+      "HR_valid_observations": 4,
+      "observed_valid_HR_values": [
+        53,
+        79
+      ],
+      "HR_snapshot_clusters": [
+        {
+          "first_observed_ms": 124362,
+          "last_observed_ms": 124362,
+          "observations": 1
+        },
+        {
+          "first_observed_ms": 149438,
+          "last_observed_ms": 150379,
+          "observations": 3
+        }
+      ],
+      "HR_truth": "SOURCE_UNKNOWN_ROOT_CAUSE_UNRESOLVED",
+      "whole_RR_window_PASS": false,
+      "integrity_failures": [],
+      "engineering_failures": [],
+      "raw_sample_rate_SPS": 249.91514945816868,
+      "raw_evaluation_frames": 29989,
+      "RESP50_evaluation_frames": 5998,
+      "raw_integrity": {
+        "blocks": 1060,
+        "stable": 41248,
+        "unqualified_sequences": 74,
+        "invalid_status_sequences": 0,
+        "nonzero_flags_frames": 0,
+        "sequence_gaps": [],
+        "IRQ_ms_step_histogram": {
+          "4": 41191,
+          "5": 56
+        },
+        "IRQ_cycles_step_min": 672012,
+        "IRQ_cycles_step_max": 672440,
+        "raw_status_values": [
+          12582912,
+          12591104,
+          12607488
+        ],
+        "blocks_sha256": "a0dbd619cb90de7c3386e5207f0a49358b7d73be7a093a5e3bd940ddf75ab10c",
+        "index_sha256": "c66f4fed2ec9249439b8362a8defc14f36bf28e964aa708c2a40251c4bbfb1b8"
+      },
+      "capture_host_s": 164.98399999993853,
+      "session_elapsed_s": 194.2819999998901,
+      "Close_completed": true,
+      "post_Close_state": "UNKNOWN_NOT_OBSERVED",
+      "SDK_native_risk": "UNRESOLVED",
+      "original_review_status": "M1_OFFLINE_RATE_METRICS_ONLY_UNVERIFIED_PI_ROOT",
+      "original_PI_trust_root_verified": false,
+      "original_field_scope_PASS": false,
+      "field_source_commit": "36a8c9bbd8430a215e0697ce684baf019ab9f3be",
+      "explicit_RESET_HALT_GO_Flash_START": 0,
+      "test_public_key_sha256": "d3d4d120edb0c2b7138d6662ffb8b283a4b4ada6d0e678c0fc538590e058c5f3",
+      "authorization_sha256": "dfcdf70ab3a1a312173959565cd08150d4ed13755871ecc7cf49c9fe38b5bf6c",
+      "original_input_manifest_verified": true
+    }
+  ],
+  "push_authorization": "Owner latest request: test TEMP for three minutes then summarize all data and push"
+}
