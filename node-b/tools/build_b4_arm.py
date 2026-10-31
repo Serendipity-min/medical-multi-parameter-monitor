@@ -57,7 +57,9 @@ def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--temp',action='store_true',help='离线构建UART4温度物表工程变体；不下载')
     parser.add_argument('--candidate-r6',action='store_true',help='离线构建带有R6微调度补偿的Node-B候选镜像；不下载')
+    parser.add_argument('--temp-screen',action='store_true',help='复用旧USART3独立温度屏，仅构建显示绑定候选；不下载')
     args=parser.parse_args()
+    if args.temp_screen and not(args.temp and args.candidate_r6):parser.error('--temp-screen requires --temp --candidate-r6')
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     out = ROOT / 'node-b/build' / ('b4-arm-' + stamp)
     project = out / 'firmware'
@@ -86,6 +88,9 @@ def main():
     if args.candidate_r6:
         text = inject_r6(text)
         (out / 'hr_page.candidate.c').write_text(text, encoding='utf-8')
+    if args.temp_screen:
+        text='#include "b_temp_screen.h"\n'+text
+        text=replace_once(text,'ValueRefresh(now_ms);','ValueRefresh(now_ms);\n        BTempScreen_Refresh(TimeBase_GetMs());\n        FrameFeed(TimeBase_GetMs());')
     page.write_text(text, encoding='utf-8')
     main_c = project / 'USER/main.c'
     text = main_c.read_text(encoding='utf-8').replace('#include "canopen.h"', '#include "b_canopen_app.h"')
@@ -95,6 +100,14 @@ def main():
     if args.temp:
         text='#include "b_temperature.h"\n'+text
         text=text.replace('UartInit(HMI_BAUDRATE);','UartInit(HMI_BAUDRATE);\n    BTemp_Init();')
+    if args.temp_screen:
+        text='#include "b_temp_screen.h"\n'+text
+        text=replace_once(text,'BTemp_Init();','BTemp_Init();\n    BTempScreen_Init();')
+        driver=project/'SCREEN/hmi_user_uart.c';uart=driver.read_text(encoding='utf-8')
+        marker='void SendChar(uchar t)';at=uart.index(marker);body=uart[at:]
+        body=replace_once(body,'{\n','{\n    USART_TypeDef *target=BTempScreen_IsSelected()?USART3:USART1;\n')
+        if body.count('USART1,')!=3:raise RuntimeError('TEMP_SCREEN_UART_SEND_ANCHOR')
+        driver.write_text('#include "b_temp_screen.h"\n'+uart[:at]+body.replace('USART1,','target,'),encoding='utf-8')
     main_c.write_text(text, encoding='utf-8')
     xml = project / 'USER/BIO_V2.uvprojx'
     tree = ET.parse(xml)
@@ -111,6 +124,7 @@ def main():
                *sorted((project / 'CANopenNode/301').glob('*.c')), project / 'CANopenNode/303/CO_LEDs.c']
     if args.temp:
         sources += [project/'B5_TEMP/gy641.c',project/'B5_TEMP/b_temperature.c']
+    if args.temp_screen:sources += [project/'B5_TEMP/b_temp_screen.c']
     for file in sources:
         entry = ET.SubElement(files, 'File')
         ET.SubElement(entry, 'FileName').text = file.name
@@ -143,6 +157,7 @@ def main():
               'tool_sha256': {'UV4': sha(uv), 'fromelf': sha(fromelf)}}
     report['temperature_variant']=args.temp
     report['candidate_r6_variant']=args.candidate_r6
+    report['temperature_screen_variant']=args.temp_screen
     report['compiled_page_sha256']=sha(page)
     report['temperature_quantity']='nonhuman_object_surface_uncalibrated' if args.temp else 'INVALID'
     # 输出实际编译副本的头文件/工程输入SHA，覆盖屏幕钩子和C99选项，不只列出C文件。
@@ -151,7 +166,7 @@ def main():
     (out / 'executed-builder.py').write_bytes(Path(__file__).read_bytes())
     success = result.returncode == 0 and resource and '0 Error(s)' in log
     if success:
-        binary = out / ('B5_TEMP_NODE_B.bin' if args.temp else 'B4_NODE_B.bin')
+        binary = out / ('B5_TEMP_SCREEN_NODE_B.bin' if args.temp_screen else 'B5_TEMP_NODE_B.bin' if args.temp else 'B4_NODE_B.bin')
         axf = project / 'OBJ/BIO_V2.axf'
         symbols = out / 'symbols.txt'
         for mode, target in [('--bin', binary), ('-s', symbols)]:

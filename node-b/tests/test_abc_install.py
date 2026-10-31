@@ -36,11 +36,12 @@ class InstallAdapter(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'NATIVE_ERROR'):link.call('JLINKARM_Halt')
         write.assert_called_once_with(0x1008);self.assertEqual(call.call_count,1)
 
-    def test_C_keeps_original_install_watchdog_behavior(self):
-        link=self.link('C')
-        with patch.object(link,'freeze_read') as read,patch.object(link,'freeze_write') as write,patch.object(abc.install.InstallLink,'call',return_value=0):
-            link.call('JLINKARM_Halt');link.call('JLINKARM_Go')
-        read.assert_not_called();write.assert_not_called()
+    def test_C_and_B_keep_original_install_watchdog_behavior(self):
+        for board in ('C','B'):
+            link=self.link(board)
+            with patch.object(link,'freeze_read') as read,patch.object(link,'freeze_write') as write,patch.object(abc.install.InstallLink,'call',return_value=0):
+                link.call('JLINKARM_Halt');link.call('JLINKARM_Go')
+            read.assert_not_called();write.assert_not_called()
 
 
 if __name__=='__main__':unittest.main()

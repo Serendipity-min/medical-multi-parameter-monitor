@@ -1,0 +1,65 @@
+{
+  "status": "B_TEMP_SCREEN_OFFLINE_CANDIDATE_ONLY",
+  "actual_ARM_build_exit_code": 0,
+  "actual_Host_test_exit_code": 0,
+  "Host_cases": 3,
+  "BIN": {
+    "bytes": 41516,
+    "sha256": "e452c2eafd07868c642c530c09c7ec31b07f919cb41886c849fe84b817644fcd"
+  },
+  "AXF": {
+    "bytes": 817256,
+    "sha256": "37274a57592e5a9e734efa27e2db4385fe41c47dc083e8827a556268813fa80b"
+  },
+  "symbols": {
+    "bytes": 110557,
+    "sha256": "8ab3e758488c4c65c12c63388964bfd98def66d3c4aeb6f59c3e5836c142ea7c"
+  },
+  "profile_from_actual_symbols": {
+    "BIN_bytes": 41516,
+    "BIN_sha256": "e452c2eafd07868c642c530c09c7ec31b07f919cb41886c849fe84b817644fcd",
+    "slots": 536879472,
+    "UART_ring": 536889468,
+    "RAM": {
+      "adc": [
+        536872472,
+        48
+      ],
+      "registers": [
+        536872520,
+        12
+      ],
+      "bio": [
+        536878372,
+        120
+      ],
+      "CAN": [
+        536885120,
+        44
+      ],
+      "temperature": [
+        536890492,
+        64
+      ]
+    }
+  },
+  "Flash_sectors_planned": [
+    0,
+    1,
+    2
+  ],
+  "application_limit_bytes": 49152,
+  "USART": "USART3 PB10 TX; existing PB11 RX wire confirmed, RX interaction not enabled",
+  "screen_binding": {
+    "home": 0,
+    "temperature": 10,
+    "state": 12
+  },
+  "source_quantity": "GY641 object_centi, same as CAN/cloud; no body-temperature conversion",
+  "display_precision_C": 0.1,
+  "validity_ms": 2500,
+  "B_installed_bytes": 41012,
+  "new_candidate_installed": false,
+  "field_display_verification": "NOT_RUN_PLANNED_NEXT_DAY",
+  "old_source_and_evaluators_rewritten": false
+}

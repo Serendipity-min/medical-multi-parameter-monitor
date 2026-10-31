@@ -16,6 +16,8 @@ def backup(board,out):
         link=ro.CReadLink(probe);link.open()
         ident=ro.raw.identity(link);ro.raw.check_identity(ident)
         ro.raw.write_json(probe/'identity-private.json',ident)
+        if board=='B':
+            ro.require(ident['uid_hex']==json.loads(ro.B_REFERENCE.read_text())['uid_hex'],'ABC_PROBE_IS_NOT_KNOWN_B')
         ro.raw.write_json(probe/'entry-sticky-private.json',{'DHCSR':link.u32(ro.SYSTEM['DHCSR'])})
         state=ro.snapshot(link);ro.raw.write_json(probe/'entry-state-private.json',state);ro.check_running(link,state)
         link.set_close_resume(True)
@@ -75,7 +77,7 @@ def supervise(cmd,out):
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--board',choices=('A','C'),required=True)
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--board',choices=('A','B','C'),required=True)
     p.add_argument('--out',type=Path,required=True);p.add_argument('--execute',action='store_true');p.add_argument('--worker',action='store_true')
     a=p.parse_args()
     if not(a.execute or a.worker):print('BACKUP_NOT_STARTED');return 0

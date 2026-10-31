@@ -52,7 +52,7 @@ def prepare(board,reference,image,expected_sha):
     # A复用相同48KiB三扇区几何；原安装CLI的B/C授权范围保持不变。
     plan,payload=recovery.make_plan('B' if board=='A' else 'C',*files[:4],
         json.loads(files[4]),json.loads(files[5]),candidate,expected_sha)
-    plan['board_role']=board;plan['scope']='ABC_OWNER_RESTORE_APPLICATION_48K'
+    plan['board_role']=board;plan['scope']='ABC_OWNER_B_TEMP_SCREEN_APPLICATION_48K' if board=='B' else 'ABC_OWNER_RESTORE_APPLICATION_48K'
     install.require(plan['sectors']==[0,1,2] and payload['expected-full-private.bin'][49152:]==files[0][49152:],
                     'ABC_CONFIG_SECTOR_PRESERVATION')
     return plan,payload
@@ -85,7 +85,7 @@ def worker(a,out):
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--board',choices=('A','C'),required=True)
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--board',choices=('A','B','C'),required=True)
     for name in ('backup','image','out'):p.add_argument('--'+name,type=Path,required=True)
     p.add_argument('--image-sha256',required=True);p.add_argument('--execute',action='store_true');p.add_argument('--worker',action='store_true')
     a=p.parse_args();out=a.out.resolve()
