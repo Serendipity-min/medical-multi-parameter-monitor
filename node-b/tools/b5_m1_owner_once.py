@@ -9,28 +9,8 @@ import time
 import b5_m1_entry as m
 
 AUTHORITY = 'OWNER_DIRECT_RESP_BATCH15_20261031'
-PUBLIC_SHA256 = '952db85562070889df8f525df49dda83ffbb9f4a25692fa42559639167705a95'
-AUTHORIZED_RUNS = {'M1-R12-R1': {'target': 12,
-               'nonce_sha256': '535c7882898a87d00412f5c452ea505ff3b4c7ac89d8f52ef1409bebd9676ace'},
- 'M1-R15-R1': {'target': 15,
-               'nonce_sha256': '5dceddd687bd89c021a1fca56c37a6fe0eb4b5c12aaa28e3155fb4f7e926cef9'},
- 'M1-R18-R1': {'target': 18,
-               'nonce_sha256': '3e19dce95d5c8a4a6aaf240438fd60bff11bbea3ead50f2e58713ae99392ddfc'},
- 'M1-R24-R1': {'target': 24,
-               'nonce_sha256': '350ae2e01c6cbbb4c62297452779c6c385159f5e667b4c30059a6a0ac9bc25cb'},
- 'M1-R30-R1': {'target': 30,
-               'nonce_sha256': '6c3a820b78be0e472365c853a30a374d984e37dc6c646b32b0826c746a30d35e'},
- 'M1-R30-R2': {'target': 30,
-               'nonce_sha256': '7f4dc70cb9ba841f52b228bb9b57f8758f121facece0baf2ffb6c9ede874613c'},
- 'M1-R24-R2': {'target': 24,
-               'nonce_sha256': '2146b69848efd96fb83291e22955c368ef4734ac9868bb83d1283ae5c860881d'},
- 'M1-R18-R2': {'target': 18,
-               'nonce_sha256': '5eca8ae44d6ba90a6e02b4069e33859a98682cec8c481f0f4a12319dea1c5049'},
- 'M1-R15-R2': {'target': 15,
-               'nonce_sha256': '334ef256a5a6a8ecd43471b6692242dfd3c0db37ab184ed4e6eb92cd9f978e6e'},
- 'M1-R12-R2': {'target': 12,
-               'nonce_sha256': 'a6dbbd90d5d61780b246855831f98f64738ba60901f04ba76270095056862aea'},
- 'M1-R18-R3': {'target': 18,
+PUBLIC_SHA256 = 'd3d4d120edb0c2b7138d6662ffb8b283a4b4ada6d0e678c0fc538590e058c5f3'
+AUTHORIZED_RUNS = {'M1-R18-R3': {'target': 18,
                'nonce_sha256': '2808790c690de02e539651b7ba9dc5a14f766e3701146beeff5c5884eb275dbc'},
  'M1-R30-R3': {'target': 30,
                'nonce_sha256': '06e9270b826aec479d934c59aa0ff6f99242cdfb70e618e6b965b3805a1f1b8d'},

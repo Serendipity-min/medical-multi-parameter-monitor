@@ -8,11 +8,12 @@ from test_b5_m1 import rows_and_diagnostics
 
 
 class RRScope(unittest.TestCase):
-    def test_exact_fifteen_preregistered_RR_runs_with_unique_nonce_pins(self):
-        self.assertEqual(len(owner.AUTHORIZED_RUNS), 15)
+    def test_only_five_unconsumed_preregistered_RR_runs_after_key_rotation(self):
+        self.assertEqual(len(owner.AUTHORIZED_RUNS), 5)
         self.assertEqual(Counter(r['target'] for r in owner.AUTHORIZED_RUNS.values()),
-                         {12: 3, 15: 3, 18: 3, 24: 3, 30: 3})
-        self.assertEqual(len({r['nonce_sha256'] for r in owner.AUTHORIZED_RUNS.values()}), 15)
+                         {12: 1, 15: 1, 18: 1, 24: 1, 30: 1})
+        self.assertEqual(len({r['nonce_sha256'] for r in owner.AUTHORIZED_RUNS.values()}), 5)
+        self.assertEqual(set(owner.AUTHORIZED_RUNS), {'M1-R18-R3','M1-R30-R3','M1-R15-R3','M1-R24-R3','M1-R12-R3'})
         for run_id, spec in owner.AUTHORIZED_RUNS.items():
             self.assertTrue(run_id.startswith('M1-R'))
             self.assertEqual(owner.m.plan(run_id)['target'], spec['target'])
