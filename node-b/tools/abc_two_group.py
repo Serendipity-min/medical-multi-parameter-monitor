@@ -26,7 +26,7 @@ def validate_snapshot(s,profile=None):
 def current_sessions(s,fresh_gateway,profile):
     if s.get('gateway_state')!='ONLINE' or any(s['nodes'].get(n)!='ONLINE' for n in ('NODE-A','NODE-B')):return None
     by_node={node:[x for x in s['streams'] if x['node_id']==node] for node in ('NODE-A','NODE-B')}
-    by_node['NODE-A']=[x for x in by_node['NODE-A'] if not (x['stream']=='NIBP' and x['validity'] in ('STALE','OFFLINE'))]
+    by_node['NODE-A']=[x for x in by_node['NODE-A'] if x['validity'] not in ('STALE','OFFLINE')]
     prefix=fresh_gateway.rsplit('-',1)[0]+'-'
     for rows in by_node.values():
         sessions={x['session_id'] for x in rows}
