@@ -66,7 +66,7 @@ int b4_hw_init(void) {
         can.CAN_ABOM = ENABLE; can.CAN_NART = DISABLE; can.CAN_RFLM = ENABLE;
         can.CAN_TXFP = ENABLE; /* 同一COB-ID按请求次序，避免多邮箱并发造成倒序。 */
         can.CAN_Mode = CAN_Mode_Normal; can.CAN_SJW = CAN_SJW_1tq;
-#ifdef MP_B5_CLOUD_CANDIDATE
+#if defined(MP_B5_CLOUD_CANDIDATE) && !defined(MP_ABC_TRI_CANDIDATE)
         /* CAN2仍需CAN1共享时钟；首轮A段只保留静默控制器，不收发/ACK A。 */
         if (!bus) can.CAN_Mode = CAN_Mode_Silent;
 #endif
@@ -83,7 +83,7 @@ int b4_hw_init(void) {
         filter.CAN_FilterMode = CAN_FilterMode_IdMask; filter.CAN_FilterScale = CAN_FilterScale_32bit;
         filter.CAN_FilterMaskIdLow = 6; /* IDE=0、RTR=0，其余在协议入口按节点/总线过滤。 */
         filter.CAN_FilterFIFOAssignment = CAN_Filter_FIFO0; filter.CAN_FilterActivation = ENABLE;
-#ifdef MP_B5_CLOUD_CANDIDATE
+#if defined(MP_B5_CLOUD_CANDIDATE) && !defined(MP_ABC_TRI_CANDIDATE)
         if (!bus) filter.CAN_FilterActivation = DISABLE;
 #endif
         CAN_FilterInit(&filter);
@@ -91,7 +91,7 @@ int b4_hw_init(void) {
         NVIC_InitTypeDef nvic; nvic.NVIC_IRQChannel = bus ? CAN2_RX0_IRQn : CAN1_RX0_IRQn;
         nvic.NVIC_IRQChannelPreemptionPriority = 3; nvic.NVIC_IRQChannelSubPriority = bus;
         nvic.NVIC_IRQChannelCmd = ENABLE;
-#ifdef MP_B5_CLOUD_CANDIDATE
+#if defined(MP_B5_CLOUD_CANDIDATE) && !defined(MP_ABC_TRI_CANDIDATE)
         if (!bus) nvic.NVIC_IRQChannelCmd = DISABLE;
 #endif
         NVIC_Init(&nvic);
@@ -121,7 +121,7 @@ static void completed(unsigned bus) {
 }
 int b4_bus_transmit(unsigned bus, const MpCanFrame *frame) {
     if (hw_stopped || bus > 1 || frame->ident > 0x7ff || frame->dlc > 8) return 0;
-#ifdef MP_B5_CLOUD_CANDIDATE
+#if defined(MP_B5_CLOUD_CANDIDATE) && !defined(MP_ABC_TRI_CANDIDATE)
     if (!bus) return 0;
 #endif
     CAN_TypeDef *can = controller(bus);

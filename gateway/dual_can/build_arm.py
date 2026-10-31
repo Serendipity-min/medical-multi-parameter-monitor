@@ -18,7 +18,9 @@ def main():
     targets.add_argument('--bench', action='store_true', help='独立禁联网台架及本地测试TIME，仅构建不部署')
     targets.add_argument('--b5', action='store_true', help='B5手工武装MOCK网络完整候选；只构建，禁止部署')
     parser.add_argument('--egress-final', action='store_true', help='仅B5出口收尾候选，离线构建')
+    parser.add_argument('--tri', action='store_true', help='A/B双CAN与B5云端集成候选，保护原48KiB分区')
     args = parser.parse_args()
+    if args.tri and not (args.b5 and args.egress_final):parser.error('--tri requires --b5 --egress-final')
     if args.egress_final and not args.b5:parser.error('--egress-final requires --b5')
     spec = importlib.util.spec_from_file_location('b4_sdk', ROOT / 'gateway/esp_at_probe/build.py')
     base = importlib.util.module_from_spec(spec); spec.loader.exec_module(base)
@@ -35,6 +37,7 @@ def main():
              '-DHSE_VALUE=8000000', '-I' + str(HERE),
              '-I' + str(ROOT / 'gateway/canopen/src'), '-I' + str(vendor),
              *['-I' + str(p) for p in base.INCLUDES]]
+    if args.tri:flags += ['-DMP_ABC_TRI_CANDIDATE', '-flto']
     reference_sha = {}
     if args.egress_final:
         # 总80个MpFrame槽不增：从历史划8槽给实时，配合可推进ACK和时效调度。
@@ -100,7 +103,7 @@ def main():
             warnings = ['-Wextra', '-Werror'] if source.is_relative_to(HERE) else []
             run([base.GCC, *flags, *warnings, '-c', source, '-o', obj]); objects.append(obj)
         obj = out / 'startup.o'; run([base.GCC, *flags, '-c', base.STARTUP, '-o', obj]); objects.append(obj)
-        target = 'B5_CLOUD_MOCK_GATEWAY' if args.b5 else ('B4_GATEWAY_BENCH' if args.bench else ('B4_GATEWAY_NETWORK_SOFTWARE' if args.network_link else 'B4_GATEWAY_LINK_ONLY'))
+        target = 'ABC_TRI_CLOUD_CANDIDATE' if args.tri else 'B5_CLOUD_MOCK_GATEWAY' if args.b5 else ('B4_GATEWAY_BENCH' if args.bench else ('B4_GATEWAY_NETWORK_SOFTWARE' if args.network_link else 'B4_GATEWAY_LINK_ONLY'))
         elf = out / (target + '.elf')
         linker = ROOT/'gateway/b5/flash.ld' if args.b5 else (HERE / 'bench_flash.ld' if args.bench else ROOT / 'gateway/mqtt/STM32F407ZGT6_FLASH.ld')
         run([base.GCC, *flags, '-T', linker,
@@ -152,7 +155,7 @@ def main():
         headers += list((out / 'reference-h3').rglob('*.h'))
     if args.b5:
         headers += [*ROOT.glob('gateway/b5/*.h'),*ROOT.glob('gateway/mqtt/src/*.h')]
-    report = {'version': 'B5-001' if args.b5 else 'B4-0.2', 'status': status,
+    report = {'ABC_tri_candidate': args.tri, 'version': 'B5-001' if args.b5 else 'B4-0.2', 'status': status,
               'scope': 'B5_CLOUD_MOCK_SOFTWARE_ONLY_NOT_DEPLOYED' if args.b5 else ('C_ISOLATED_BENCH_LOCAL_TEST_TIME_NOT_DEPLOYED' if args.bench else ('C_DUAL_CAN_ARM_NETWORK_SOFTWARE_BUILD_NOT_DEPLOYED' if args.network_link else 'C_DUAL_CAN_ARM_LINK_ONLY')),
               'bench_time': 'LOCAL_TEST_EPOCH_NOT_UTC' if args.bench else None,
               'bench_window_limit_ms': 180000 if args.bench else None,

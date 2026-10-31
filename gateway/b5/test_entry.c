@@ -14,6 +14,7 @@ static unsigned pos,configs,opens,closes,nmts,stops,notice_count,ticks,polls,cal
 static uint32_t arm_tick,notice_tick;
 static int overflow_case,inflight_case,wrap_case,open_fail_case;
 static int retry_then_pass_case,retry_exhaust_case;
+static unsigned overflow_bus=1;
 volatile uint32_t g_uptime_ms;
 volatile B4HwDiag b4_hw_diag[2];
 int b5_firmware_main(void);
@@ -37,7 +38,7 @@ int gateway_config_valid(void){configs++;return configs>1;}
 int gateway_network_open(void){assert(pos==sizeof(script)-1 && configs==2);opens++;return !open_fail_case && !retry_exhaust_case && (!retry_then_pass_case || opens>2);}
 int gateway_mqtt_open(const MpFrame *f){assert(f->synthetic && !f->valid && f->stream==MP_GATEWAY_STATUS);return 1;}
 int gateway_mqtt_publish(const MpFrame *f){assert(f->synthetic);while(!b5_network_stopped())platform_poll();return 0;}
-int gateway_mqtt_yield(void){if(overflow_case && g_uptime_ms>30000)b4_hw_diag[1].overflow=1;return 1;}
+int gateway_mqtt_yield(void){if(overflow_case && g_uptime_ms>30000)b4_hw_diag[overflow_bus].overflow=1;return 1;}
 void gateway_network_close(void){
 #ifndef MP_B5_EGRESS_FINAL
     assert(notice_count==1);
@@ -51,7 +52,7 @@ int platform_at_synchronized(void){return 1;}
 int gateway_network_retryable(void){return retry_then_pass_case || retry_exhaust_case;}
 int gateway_mqtt_begin(const MpFrame *f){(void)f;return GW_COMPLETE;}
 int gateway_mqtt_admit(void){return GW_COMPLETE;}
-int gateway_mqtt_progress(void){if(overflow_case && g_uptime_ms>30000)b4_hw_diag[1].overflow=1;return GW_COMPLETE;}
+int gateway_mqtt_progress(void){if(overflow_case && g_uptime_ms>30000)b4_hw_diag[overflow_bus].overflow=1;return GW_COMPLETE;}
 int gateway_mqtt_pending(void){return 0;}
 void gateway_mqtt_metrics(GatewayMqttMetrics *out){memset(out,0,sizeof(*out));}
 bool mp_router_take_egress(MpRouter *r,MpFrame *f,uint32_t now,uint64_t utc,bool pending){
@@ -64,7 +65,13 @@ void b4_gateway_tick(B4Gateway *g,uint32_t tick){g->now=tick;ticks++;}
 void b4_hw_poll(B4Gateway *g){(void)g;}
 void b4_gateway_link(B4Gateway *g,unsigned bus,bool up){(void)g;assert(bus==0 && !up);}
 void b4_gateway_sync_ms(B4Gateway *g,uint64_t utc,uint32_t now){(void)g;(void)utc;(void)now;}
-int b4_gateway_nmt(B4Gateway *g,unsigned node,CO_NMT_command_t cmd){(void)g;assert(node==2 && cmd==CO_NMT_ENTER_OPERATIONAL);nmts++;arm_tick=g_uptime_ms;return 0;}
+int b4_gateway_nmt(B4Gateway *g,unsigned node,CO_NMT_command_t cmd){(void)g;
+#ifdef MP_ABC_TRI_CANDIDATE
+    assert(node==1+nmts);
+#else
+    assert(node==2);
+#endif
+    assert(cmd==CO_NMT_ENTER_OPERATIONAL);nmts++;arm_tick=g_uptime_ms;return 0;}
 void b4_hw_stop(void){stops++;}
 void b4_hw_idle(void){if(b5_network_stopped())longjmp(finished,1);else assert(!opens && !nmts);}
 void mp_router_online(MpRouter *r,bool online){r->online=online;}
@@ -73,11 +80,19 @@ bool mp_router_take(MpRouter *r,MpFrame *f,uint32_t now){(void)r;(void)now;if(in
 void mp_router_ack(MpRouter *r,const MpFrame *f,bool ok){(void)r;(void)f;(void)ok;assert(!b5_network_stopped());}
 int main(int argc,char **argv){
     overflow_case=argc>1 && !strcmp(argv[1],"overflow");inflight_case=argc>1 && !strcmp(argv[1],"inflight");wrap_case=argc>1 && !strcmp(argv[1],"wrap");
+#ifdef MP_ABC_TRI_CANDIDATE
+    if(argc>1 && !strcmp(argv[1],"A-overflow")){overflow_case=1;overflow_bus=0;}
+#endif
     open_fail_case=argc>1 && !strcmp(argv[1],"openfail");
     retry_then_pass_case=argc>1 && !strcmp(argv[1],"retry-pass");retry_exhaust_case=argc>1 && !strcmp(argv[1],"retry-exhaust");
     if(wrap_case)g_uptime_ms=0xffff0000u;
     if(!setjmp(finished))b5_firmware_main();
-    assert(opens==((retry_then_pass_case||retry_exhaust_case)?3u:1u) && closes==1 && nmts==1 && stops==1);
+    assert(opens==((retry_then_pass_case||retry_exhaust_case)?3u:1u) && closes==1 && stops==1);
+#ifdef MP_ABC_TRI_CANDIDATE
+    assert(nmts==2);
+#else
+    assert(nmts==1);
+#endif
     assert(notice_count==1 && ticks<=polls && ticks*8<callbacks);
     assert(ticks<=(polls+B5_SERVICE_MS-1)/B5_SERVICE_MS);
     assert(overflow_case||open_fail_case||retry_exhaust_case?(uint32_t)(notice_tick-arm_tick)<B5_WINDOW_MS:(uint32_t)(notice_tick-arm_tick)==B5_WINDOW_MS);

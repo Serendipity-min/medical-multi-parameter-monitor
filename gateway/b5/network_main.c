@@ -75,7 +75,14 @@ static void diagnostic(unsigned stage) {
         (unsigned long)b4_hw_diag[1].overflow,(unsigned long)b4_hw_diag[1].esr,(unsigned long)platform_uart_errors_total(),gateway.router.ln,gateway.router.cn,
         (unsigned long)gateway.router.dropped,(unsigned long)mqtt_qos0_transport_ok,
         (unsigned long)mqtt_qos1_puback,(unsigned long)mqtt_failed_count,(unsigned)stopped);
-    console(line);return;}
+    console(line);
+#ifdef MP_ABC_TRI_CANDIDATE
+    (void)snprintf(line,sizeof(line),"ABC A_CAN rx=%lu txack=%lu txfail=%lu overflow=%lu esr=%lu\r\n",
+        (unsigned long)b4_hw_diag[0].received,(unsigned long)b4_hw_diag[0].tx_acked,
+        (unsigned long)b4_hw_diag[0].tx_failed,(unsigned long)b4_hw_diag[0].overflow,
+        (unsigned long)b4_hw_diag[0].esr);console(line);
+#endif
+    return;}
     if(stage==1){
     (void)snprintf(line,sizeof(line),"B5 WAVE gaps=%lu quality_resets=%lu partial_discarded=%lu unstamped=%lu\r\n",
         (unsigned long)gateway.wave_gaps,(unsigned long)gateway.quality_resets,
@@ -160,6 +167,9 @@ static void service(void) {
     if (stopped) { report_stop(); b4_hw_idle(); return; }
     /* 未武装时不推进CANopen/TIME，避免B尚断电时发心跳耗尽ACK并积累BOFF。 */
     if (!armed) { b4_hw_idle(); return; }
+#ifdef MP_ABC_TRI_CANDIDATE
+    if (b4_hw_diag[0].overflow || b4_hw_diag[0].busoff || b4_hw_diag[0].tx_failed) { stop(); return; }
+#endif
     if (armed && ((uint32_t)(g_uptime_ms - armed_at) >= B5_WINDOW_MS ||
         b4_hw_diag[1].overflow || b4_hw_diag[1].busoff || b4_hw_diag[1].tx_failed || platform_uart_errors_total()
 #ifdef MP_B5_EGRESS_FINAL
@@ -187,8 +197,15 @@ int main(void) {
     b5_stack_watermark_init();
 #endif
     if (b4_gateway_init(&gateway) || b4_hw_init()) while (1) {}
-    b4_gateway_link(&gateway, 0, false); platform_set_poll(service);
+#ifndef MP_ABC_TRI_CANDIDATE
+    b4_gateway_link(&gateway, 0, false);
+#endif
+    platform_set_poll(service);
+#ifdef MP_ABC_TRI_CANDIDATE
+    console("B5 DISARMED MOCK ABC_DUAL_CAN NO_FLASH_WRITE\r\n");
+#else
     console("B5 DISARMED MOCK B_ONLY NO_FLASH_WRITE\r\n");
+#endif
     char command[9] = {0}; unsigned used = 0;
     /* 固定完整命令才武装；上电串口杂字节、旧H3配置和重复命令均不能自动联网。 */
     while (!armed) {
@@ -203,6 +220,9 @@ int main(void) {
     armed_at = g_uptime_ms;
 #ifdef MP_B5_EGRESS_FINAL
     unsigned startup_ntp_retries=0;
+#endif
+#ifdef MP_ABC_TRI_CANDIDATE
+    (void)b4_gateway_nmt(&gateway, 1, CO_NMT_ENTER_OPERATIONAL);
 #endif
     (void)b4_gateway_nmt(&gateway, 2, CO_NMT_ENTER_OPERATIONAL);
     while (!stopped) {

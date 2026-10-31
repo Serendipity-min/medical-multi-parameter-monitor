@@ -66,7 +66,12 @@ typedef CanRxMsg CanTxMsg;
 extern uint32_t b4_test_clock;
 extern unsigned b4_test_transmit_calls,b4_test_clock_calls;
 static inline void RCC_GetClocksFreq(RCC_ClocksTypeDef *x) { x->PCLK1_Frequency=b4_test_clock; }
-static inline void RCC_APB1PeriphClockCmd(unsigned p,unsigned en) { (void)p;(void)en;b4_test_clock_calls++; }
+static inline void RCC_APB1PeriphClockCmd(unsigned p,unsigned en) {
+#ifdef ABC_MMIO_INPUT
+    extern unsigned abc_clock_mask;abc_clock_mask|=p;
+#endif
+    (void)p;(void)en;b4_test_clock_calls++;
+}
 static inline void RCC_AHB1PeriphClockCmd(unsigned p,unsigned en) { (void)p;(void)en; }
 static inline void GPIO_StructInit(GPIO_InitTypeDef *x) { (void)x; }
 static inline void GPIO_Init(void *p,GPIO_InitTypeDef *x) { (void)p;(void)x; }
@@ -76,21 +81,48 @@ static inline void CAN_StructInit(CAN_InitTypeDef *x) { *x=(CAN_InitTypeDef){0};
 extern unsigned b5_rx_pending,b5_mode[2];
 extern CanRxMsg b5_rx_message;
 #endif
+#ifdef ABC_MMIO_INPUT
+extern unsigned abc_mode[2],abc_pending[2],abc_filter_enabled[28],abc_irq_enabled[2],abc_filter_split,abc_clock_mask;
+extern CanRxMsg abc_rx[2];
+#endif
 static inline unsigned CAN_Init(CAN_TypeDef *c,CAN_InitTypeDef *x) {
 #ifdef B5_MMIO_INPUT
     b5_mode[c==CAN2]=x->CAN_Mode;
 #endif
+#ifdef ABC_MMIO_INPUT
+    abc_mode[c==CAN2]=x->CAN_Mode;
+#endif
     c->MCR=x->CAN_NART?CAN_MCR_NART:0; c->TSR=CAN_TSR_TME0|CAN_TSR_TME1|CAN_TSR_TME2;
     return CAN_InitStatus_Success;
 }
-static inline void CAN_SlaveStartBank(unsigned bank) { (void)bank; }
-static inline void CAN_FilterInit(CAN_FilterInitTypeDef *f) { (void)f; }
+static inline void CAN_SlaveStartBank(unsigned bank) {
+#ifdef ABC_MMIO_INPUT
+    abc_filter_split=bank;
+#else
+    (void)bank;
+#endif
+}
+static inline void CAN_FilterInit(CAN_FilterInitTypeDef *f) {
+#ifdef ABC_MMIO_INPUT
+    abc_filter_enabled[f->CAN_FilterNumber]=f->CAN_FilterActivation;
+#else
+    (void)f;
+#endif
+}
 static inline void CAN_ITConfig(CAN_TypeDef *c,unsigned m,unsigned en) { (void)c;(void)m;(void)en; }
-static inline void NVIC_Init(NVIC_InitTypeDef *n) { (void)n; }
+static inline void NVIC_Init(NVIC_InitTypeDef *n) {
+#ifdef ABC_MMIO_INPUT
+    abc_irq_enabled[n->NVIC_IRQChannel==CAN2_RX0_IRQn]=n->NVIC_IRQChannelCmd;
+#else
+    (void)n;
+#endif
+}
 static inline unsigned CAN_MessagePending(CAN_TypeDef *c,unsigned fifo) {
     (void)c;(void)fifo;
 #ifdef B5_MMIO_INPUT
     return c==CAN2?b5_rx_pending:0;
+#elif defined(ABC_MMIO_INPUT)
+    return abc_pending[c==CAN2];
 #else
     return 0;
 #endif
@@ -99,6 +131,9 @@ static inline void CAN_Receive(CAN_TypeDef *c,unsigned fifo,CanRxMsg *m) {
     (void)c;(void)fifo;(void)m;
 #ifdef B5_MMIO_INPUT
     *m=b5_rx_message;b5_rx_pending=0;
+#endif
+#ifdef ABC_MMIO_INPUT
+    *m=abc_rx[c==CAN2];abc_pending[c==CAN2]=0;
 #endif
 }
 static inline uint8_t CAN_Transmit(CAN_TypeDef *c,CanTxMsg *m) {
