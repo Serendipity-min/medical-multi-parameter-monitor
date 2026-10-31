@@ -1,0 +1,65 @@
+{
+  "date": "2026-10-31",
+  "ECG_single_successful_trial_each": [
+    {
+      "target": 60,
+      "correct_valid_slots": 120,
+      "denominator": 120,
+      "review_exit": 0,
+      "capture_exit": 0,
+      "parent_exit": 0,
+      "worker_exit": 0,
+      "restricted_locator": "node-b/build/m1-owner-retest2-pointer.json",
+      "review_sha256": "995ff127aad16dd448fd495647b693dd6c6f3c0a160208905567527e1f92091d",
+      "capture_input_manifest_sha256": "2895cfaf906caee1438d0b8d83f1d6b21d6050d2b0b2b8df19bffd070deebf1b"
+    },
+    {
+      "target": 90,
+      "correct_valid_slots": 120,
+      "denominator": 120,
+      "review_exit": 0,
+      "capture_exit": 0,
+      "parent_exit": 0,
+      "worker_exit": 0,
+      "restricted_locator": "node-b/build/m1-owner-e90-pointer.json",
+      "review_sha256": "3f34252d900b99a41bcb012eac1e1ae67d816e0273544e7395eb0376d46ce18f",
+      "capture_input_manifest_sha256": "8de068d327a2d0e3631a9a98e1a003e37b75ff7d5fc601359a008dd88121e443"
+    },
+    {
+      "target": 120,
+      "correct_valid_slots": 120,
+      "denominator": 120,
+      "review_exit": 0,
+      "capture_exit": 0,
+      "parent_exit": 0,
+      "worker_exit": 0,
+      "restricted_locator": "node-b/build/m1-owner-e120-pointer.json",
+      "review_sha256": "e3b0260e889a80a02f55efda57f83258a2c8ff046432b147caf5dbaefc971de0",
+      "capture_input_manifest_sha256": "a95378314f3c1da62ff6a5689789898cf9c0b69995f994d45fb2898b62164fd2"
+    }
+  ],
+  "RR_trials_completed": 15,
+  "RR_rate_subfunction_passed": 13,
+  "RR_rate_not_passed": 2,
+  "RR_results_sha256": "1c7bc3fd61bb28c6abcfc8f39592761453186cfac83f8826590f13cced91afa6",
+  "TEMP180_result_sha256": "d059c67f582e4686eb7df4e4378373d252e338cfb11d8c9c465d804a7fa287d9",
+  "TEMP180_status": "NOT_PASS",
+  "TEMP180_actual_exit_code": 3,
+  "remaining_ECG_independent_repeats": 6,
+  "RR_HR_source_truth": "SOURCE_UNKNOWN_ROOT_CAUSE_UNRESOLVED",
+  "absolute_temperature_accuracy": "NOT_CALIBRATED",
+  "cloud_actions_this_round": 0,
+  "final_state": {
+    "B_C_power": "OWNER_CONFIRMED_OFF_ALL_DARK",
+    "JLink_PC_USB": "OWNER_CONFIRMED_DISCONNECTED",
+    "C_USB": "DISCONNECTED",
+    "JLink_board": "B",
+    "leads": "R_RA/L_LL/F_RL",
+    "CAN": "UNCHANGED",
+    "last_source": "RESP_RR12_PERIOD30_1.5R_APNEA0",
+    "owner_report": "已全部断电熄灭",
+    "SKX_final_power": "NOT_CONFIRMED",
+    "live_device_sessions": 0
+  },
+  "push_authorized_by_latest_owner": true
+}
