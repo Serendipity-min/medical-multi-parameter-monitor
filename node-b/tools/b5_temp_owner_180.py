@@ -15,7 +15,8 @@ RUN = 'OWNER-TEMP180-20261031-ONE'
 
 
 def tools():
-    return {**m.tool_bindings(), 'node-b/tools/b5_temp_owner_180.py': m.sha(Path(__file__).read_bytes())}
+    return {**m.tool_bindings(), 'node-b/tools/b5_temp_owner_180.py': m.sha(Path(__file__).read_bytes()),
+            'node-b/tools/b5_m1_owner_once.py': m.sha(Path(private_file.__code__.co_filename).read_bytes())}
 
 
 def assess(rows):
