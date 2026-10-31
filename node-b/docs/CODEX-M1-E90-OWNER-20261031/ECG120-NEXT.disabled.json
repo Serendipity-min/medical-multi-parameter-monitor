@@ -3,7 +3,7 @@
   "run_id": "M1-E120-R1",
   "enabled": false,
   "authorized_sessions": 0,
-  "status": "PREPARED_DISABLED_NOT_RUN",
+  "status": "READY_DISABLED_NOT_RUN",
   "M0_plan": {
     "schema": "M1_CAPTURE_PLAN_R1",
     "scope": "B5_M1_NODE_B_MULTIRATE_165S_R1",
@@ -76,11 +76,14 @@
     "L": "LA",
     "F": "RL"
   },
-  "actual_menu_confirmed": false,
+  "actual_menu_confirmed": true,
   "owner_capture_IO_budget_s_proposed": 180,
   "operator_exact_power_on_time_required": false,
-  "ECG90_result": "PENDING",
+  "ECG90_result": "OWNER_AUTHORIZED_ECG90_ENGINEERING_METRICS_PASS",
   "signature": null,
   "nonce": null,
-  "current_owner_entry_scope": "E90_ONLY"
+  "current_owner_entry_scope": "E90_ONLY",
+  "ECG90_field_source_commit": "73d07c70f8e5184a27cddc99f371b76058f38152",
+  "owner_report": "\u5df2\u5b8c\u6210\uff08\u56de\u590d\u5173\u95edB/C\u3001\u62d4J-Link\u7535\u8111USB\u3001\u4fdd\u6301C USB\u62d4\u51fa\u3001\u6b63\u5e38ECG120bpm/1mV\u3001\u4fdd\u6301\u65ad\u7535\u7684\u5b8c\u6574\u51c6\u5907\u95ee\u9898\uff09",
+  "B_C_power": "OWNER_CONFIRMED_OFF_ALL_DARK"
 }
