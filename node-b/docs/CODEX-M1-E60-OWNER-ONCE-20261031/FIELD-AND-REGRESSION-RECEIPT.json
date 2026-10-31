@@ -1,0 +1,60 @@
+{
+  "field": {
+    "authority": "OWNER_DIRECT_NOT_PI",
+    "field_source_commit": "595c5e21a90787ea9e43a47788ed7be111097941",
+    "field_attempt_consumed": true,
+    "authorized_field_sessions": 1,
+    "automatic_retries": 0,
+    "parent_actual_exit_code": 1,
+    "worker_actual_exit_code": 1,
+    "review_actual_exit_code": 2,
+    "capture_status": "M1_STOP",
+    "stop_reason": "G3_B_READ_SCOPE",
+    "Close_attempted": true,
+    "Close_completed": true,
+    "post_Close_state": "UNKNOWN_NOT_OBSERVED",
+    "native_SDK_side_effects": "UNRESOLVED",
+    "elapsed_s": 26.17200000002049,
+    "identity_matches_historical_reference": true,
+    "full_sha256": "9ff8133d06330a4b05cb15d26bfb51b6f7e1197014692c5267d178d744f4287d",
+    "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+    "ECG165s_capture_started": false,
+    "raw_capture_blocks_present": false,
+    "ECG_engineering_result": "NOT_RUN_PRECHECK_FAILED",
+    "MCU_cold_uptime_check": "NOT_REACHED",
+    "PI_field_scope_PASS": false,
+    "explicit_RESET_HALT_GO_Flash_START": 0,
+    "current_final_power_state": "UNKNOWN_NOT_CONFIRMED_OFF",
+    "new_owner_instruction": "Analyze first; owner will decide whether to recollect"
+  },
+  "offline_regression": {
+    "tests": 33,
+    "original_M1_tests": 21,
+    "owner_entry_tests": 10,
+    "new_snapshot_scope_tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "blocked_events": [],
+    "exit_code": 0,
+    "SDK_connections": 0,
+    "sources": {
+      "node-b/tools/b5_m1_entry.py": "8a66c00620e12f81b13f1cb1e7c2d650129c1d59432bff9bd2d6a7ebdad50aee",
+      "node-b/tools/b5_m1_owner_once.py": "beba35ee7b0d982bfbd0047424fe2b3306c625e1ee96ea8db6b0a20898665db0",
+      "node-b/tests/test_b5_m1.py": "0525c18cd1c7a7ae556c398760c41d273c45c3810b4a78fdd1f51bf96af815ed",
+      "node-b/tests/test_b5_m1_owner_once.py": "3015de81a9895231c0b6c1a9dd9625b99705848d1cff9db1cbb509632ef44029",
+      "node-b/tests/test_b5_m1_snapshot_scope.py": "c0721540aa1481c7f7de4b10d693b9dc7ab998d3564ae8728ad0a2834aa45642",
+      "node-b/tools/b5_m1_review.py": "98559f8948be4fed7a862baf06173d8f8327f54f3cd4ad24d71e9ae24d917e52"
+    }
+  },
+  "snapshot_before": {
+    "tests": 2,
+    "failures": 0,
+    "errors": 1,
+    "exit_code": 1,
+    "blocked_events": [],
+    "actual_SDK_actions": 0
+  },
+  "parent_and_worker_claims_present": true,
+  "old_owner_entry_not_reenabled": true,
+  "new_field_authorization_created": false
+}

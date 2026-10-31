@@ -133,6 +133,7 @@ def link_class():
             from runtime_state_b import SYSTEM
             self.allowed_reads={a:{4} for a in SYSTEM.values()}
             self.allowed_reads.update({0xe000ed00:{4},0xe0042000:{4},0x40023c14:{4},0x40023c0c:{4},
+                0x40023c10:{4},
                 0x1fff7a10:{12},0x1fff7a22:{2},0x1fffc000:{16},0x08000000:{64,41012,1048576},
                 0:{64},0x40006418:{4},SLOTS:{BLOCK_BYTES}})
             for address,size in RAM.values():self.allowed_reads.setdefault(address,set()).add(size)

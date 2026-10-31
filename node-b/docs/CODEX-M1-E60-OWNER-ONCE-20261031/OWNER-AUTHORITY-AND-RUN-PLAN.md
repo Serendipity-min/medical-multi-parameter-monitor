@@ -6,7 +6,7 @@
 
 并确认“只读取B，C保持J5供电及CAN连接作背景”，由其本人负责现场STOP、保全和断电，知情接受J-Link原生连接/关闭的隐式副作用风险。其更正的当前刺激为L→LA、R→RA、F→RL，正常ECG60/1mV，SKX电池供电。
 
-这是对本次授权来源的明确修订，不是PI独立签署。原PI信任根仍None，原禁用卡/21项回归/评测器/采集器均不改；不称B/C电气隔离，不获得PI合同验收资格。C供电及CAN作为已获负责人批准的背景，不打开C串口，不操作云端或发B5START。
+这是对本次授权来源的明确修订，不是PI独立签署。首个现场冻结版本595c5e21保留原PI信任根None及原禁用卡/21项回归/评测器/采集器；不称B/C电气隔离，不获得PI合同验收资格。C供电及CAN作为已获负责人批准的背景，不打开C串口，不操作云端或发B5START。现场失败后仅离线追加一项FLASH_CR只读白名单，见ROOT-CAUSE-AND-RESULT.md，未补跑实板。
 
 ## 最小入口与单次性
 
@@ -29,3 +29,7 @@
 旧评测器正常执行并保留真实退出码，`PI_trust_root_verified=false`、`field_scope_PASS=false`必须如实保留。若原工程数值通过，只能另报OWNER_AUTHORIZED_ECG60_ENGINEERING_METRICS_PASS，不能改写评测器结果或称M1_E60_R1的PI工程验收通过。SDK原生副作用仍UNRESOLVED，Close后态仍UNKNOWN；故障后保存失败而停止，无补跑。
 
 ECG90仅准备既有M0禁用卡，不在本次现场授权。其余23场、C设备控制、三板联动、Flash、RESET/Go与云端均不开放。
+
+## 实际停止结果
+
+父/worker真实退出1，预检G3_B_READ_SCOPE，review真实退出2。身份/full/options比对通过；没有原码采集块和165s窗口，没有ECG60准确性结论。Close返回，关闭后态UNKNOWN。原nonce父/worker均已消耗，私钥未导出且已释放内存引用；没有新的现场卡。用户要求先分析再决定是否重采，最终断电状态未确认。
