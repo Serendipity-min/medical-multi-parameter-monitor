@@ -53,10 +53,10 @@ def observe(a,root,bundle,stop,shared):
 
 def make_inputs(profile):
     from serial.tools import list_ports
-    parent=Path(g.load(g.ROOT/'node-b/build/abc-two-group-pointer.json')['job'])
+    parent=Path(json.loads((g.ROOT/'node-b/build/abc-two-group-pointer.json').read_text())['job'])
     stamp=datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     job=parent/(profile+'-'+stamp);job.mkdir();g.private.protected(job,False)
-    old=g.load(g.ROOT/'node-b/build/codex-ECG-TEMP-current-pointer.json');bundle=g.load(old['bundle'])
+    old=json.loads((g.ROOT/'node-b/build/codex-ECG-TEMP-current-pointer.json').read_text());bundle=g.load(old['bundle'])
     c=parent/'C-dual-CAN-candidate-installed';c_proof=g.load(c/'receipt-private.json')
     g.require(c_proof['exit_code']==0 and c_proof['Close_completed'] and c_proof['outside_affected_sectors_unchanged'],'G3_ABC_C_NOT_INSTALLED')
     a_proof=g.load(parent/'A-restored-candidate/receipt-private.json')
