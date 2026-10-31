@@ -1,4 +1,4 @@
-"""负责人直接授权的一次ECG60台架入口；不是PI签署，不修改原PI入口。"""
+"""负责人直接授权的固定ECG单次台架入口；不是PI签署。"""
 import argparse
 import json
 from pathlib import Path
@@ -8,9 +8,11 @@ import time
 
 import b5_m1_entry as m
 
-AUTHORITY = 'OWNER_DIRECT_ECG60_ONCE_20261031'
-PUBLIC_SHA256 = 'ed2666639b091a19d671628cd6d6491a5d7e976680dc8288cc11ed661f6402d4'
-NONCE_SHA256 = '5172feac6e3ec4b26702c2558e44a892090713d19f08f351bcea8953f8a76e3f'
+AUTHORITY = 'OWNER_DIRECT_ECG90_ONCE_20261031'
+RUN_ID = 'M1-E90-R1'
+TARGET = 90
+PUBLIC_SHA256 = '3e172f3a5aec5f8082215b026ad2562185e1736abebb341ae76225078ade7638'
+NONCE_SHA256 = 'b7d6a6398465af730472159231b90bf09a61d696c046f5496c1af3f646e6b477'
 TOPOLOGY = 'B_READ_ONLY_C_POWERED_CAN_BACKGROUND'
 
 
@@ -36,11 +38,11 @@ def bindings(a):
     m.need(all(site.get(k) is True for k in required), 'M1_OWNER_SITE_NOT_READY')
     m.need(site.get('topology') == TOPOLOGY and site.get('B_C_electrically_isolated') is False,
            'M1_OWNER_TOPOLOGY')
-    m.need(site.get('source_mode') == 'NORMAL_ECG' and site.get('target_rate') == 60
+    m.need(site.get('source_mode') == 'NORMAL_ECG' and site.get('target_rate') == TARGET
            and site.get('ECG_amplitude_mV') == 1 and site.get('waveform_type_confirmed') is True
            and (site.get('R_lead'), site.get('L_lead'), site.get('F_lead')) == ('RA', 'LA', 'RL'),
-           'M1_OWNER_ECG60_MENU')
-    m.need(cold.get('run_id') == 'M1-E60-R1' and cold.get('cold_start_completed') is True
+           'M1_OWNER_ECG_MENU')
+    m.need(cold.get('run_id') == RUN_ID and cold.get('cold_start_completed') is True
            and bool(cold.get('independent_boot_epoch')), 'M1_INDEPENDENT_COLD_START')
     output = Path(a['output']).resolve()
     m.need(output.is_relative_to(m.PRIVATE.resolve()) and output.parent.is_dir()
@@ -50,7 +52,7 @@ def bindings(a):
     m.need(not git('status', '--porcelain'), 'M1_WORKTREE_NOT_FROZEN')
     tools = m.tool_bindings()
     tools[Path(__file__).relative_to(m.ROOT).as_posix()] = m.sha(Path(__file__).read_bytes())
-    expected = {'scope': m.SCOPE, 'run_id': 'M1-E60-R1', 'plan_sha256': m.plan_hash('M1-E60-R1'),
+    expected = {'scope': m.SCOPE, 'run_id': RUN_ID, 'plan_sha256': m.plan_hash(RUN_ID),
                 'repo_commit': git('rev-parse', 'HEAD'), 'repo_tree': git('rev-parse', 'HEAD^{tree}'),
                 'tools_sha256': tools, 'DLL_sha256': '632d0d78e72b8a55c65945a0c393a9f081082c725fff4ba3081b0a565fd58cff',
                 'bundle_sha256': m.sha(bundle_path.read_bytes()), 'site_sha256': m.sha(site_path.read_bytes()),
@@ -71,7 +73,7 @@ def verify(args):
     Ed25519PublicKey.from_public_bytes(public).verify(sig, raw)
     a = json.loads(raw)
     m.need(a.get('authority') == AUTHORITY and a.get('PI_independent_signature') is False
-           and a.get('run_id') == 'M1-E60-R1'
+           and a.get('run_id') == RUN_ID
            and m.sha(a.get('nonce', '').encode()) == NONCE_SHA256, 'M1_OWNER_ONCE_SCOPE')
     expected, reference = bindings(a)
     m.verify_signed_card(raw, sig, public, PUBLIC_SHA256, expected, time.time())
@@ -107,7 +109,7 @@ def main():
         p.add_argument('--'+name, type=Path)
     a = p.parse_args()
     if not (a.execute or a.worker):
-        print(json.dumps({'authority': AUTHORITY, 'PI_root_changed': False, 'run_id': 'M1-E60-R1',
+        print(json.dumps({'authority': AUTHORITY, 'PI_root_changed': False, 'run_id': RUN_ID,
                           'nonce_sha256': NONCE_SHA256, 'execute_requires_signed_current_card': True})); return 0
     try:
         m.need(a.authorization and a.signature and a.public_key, 'M1_SIGNED_FILES_REQUIRED')

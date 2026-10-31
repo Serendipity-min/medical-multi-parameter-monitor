@@ -24,7 +24,7 @@ class OwnerOnce(unittest.TestCase):
         self.expected = dict(zip(('scope', 'run_id', 'plan_sha256', 'repo_commit', 'repo_tree', 'tools_sha256',
                                   'DLL_sha256', 'bundle_sha256', 'site_sha256', 'cold_start_sha256',
                                   'output', 'manual_stop_responsibility'),
-                                 (owner.m.SCOPE, 'M1-E60-R1', 'plan', 'commit', 'tree', {'mock': 'sha'},
+                                 (owner.m.SCOPE, owner.RUN_ID, 'plan', 'commit', 'tree', {'mock': 'sha'},
                                   'dll', 'bundle', 'site', 'cold', str(self.root/'capture'), 'MOCK_PERSON')))
         self.card = dict(self.expected, authority=owner.AUTHORITY, PI_independent_signature=False,
                          nonce='MOCK_OWNER_NONCE_123456', enabled=True, sessions=1, retries=0,
@@ -62,7 +62,7 @@ class OwnerOnce(unittest.TestCase):
         self.bindings.assert_not_called()
 
     def test_other_run_before_bindings(self):
-        self.signed(run_id='M1-E90-R1')
+        self.signed(run_id='M1-E60-R1' if owner.RUN_ID != 'M1-E60-R1' else 'M1-E90-R1')
         with self.assertRaisesRegex(ValueError, 'M1_OWNER_ONCE_SCOPE'): owner.verify(self.args)
         self.bindings.assert_not_called()
 
@@ -104,13 +104,13 @@ class OwnerOnce(unittest.TestCase):
                              'sdk_residual_risk_acknowledged', 'C_J5_powered', 'CAN_B_C_connected',
                              'C_USB_disconnected'), True)
         site.update(topology=owner.TOPOLOGY, B_C_electrically_isolated=False, source_mode='NORMAL_ECG',
-                    target_rate=60, ECG_amplitude_mV=1, waveform_type_confirmed=True,
+                    target_rate=owner.TARGET, ECG_amplitude_mV=1, waveform_type_confirmed=True,
                     R_lead='RA', L_lead='LA', F_lead='RL')
-        for change in ({'C_USB_disconnected': False}, {'L_lead': 'LL'}, {'target_rate': 90},
+        for change in ({'C_USB_disconnected': False}, {'L_lead': 'LL'}, {'target_rate': owner.TARGET+30},
                        {'owner_approved_topology': False}):
             with self.subTest(change=change), patch.object(owner.m, 'validate_bundle'):
                 site_file.write_text(json.dumps(dict(site, **change)))
-                with self.assertRaisesRegex(ValueError, 'M1_OWNER_(SITE_NOT_READY|ECG60_MENU)'):
+                with self.assertRaisesRegex(ValueError, 'M1_OWNER_(SITE_NOT_READY|ECG_MENU)'):
                     self.real_bindings(a)
 
 

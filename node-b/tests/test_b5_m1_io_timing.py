@@ -75,9 +75,9 @@ class CaptureIOTiming(unittest.TestCase):
                                  'sdk_residual_risk_acknowledged', 'C_J5_powered', 'CAN_B_C_connected',
                                  'C_USB_disconnected'), True)
             site.update(topology=owner.TOPOLOGY, B_C_electrically_isolated=False, source_mode='NORMAL_ECG',
-                        target_rate=60, ECG_amplitude_mV=1, waveform_type_confirmed=True,
+                        target_rate=owner.TARGET, ECG_amplitude_mV=1, waveform_type_confirmed=True,
                         R_lead='RA', L_lead='LA', F_lead='RL', manual_stop_responsibility='SYNTHETIC_PERSON')
-            cold = {'run_id': 'M1-E60-R1', 'cold_start_completed': True,
+            cold = {'run_id': owner.RUN_ID, 'cold_start_completed': True,
                     'independent_boot_epoch': 'SYNTHETIC_PHYSICAL_CONFIRMATION_NO_EXACT_TIME'}
             site_path.write_text(json.dumps(site)); cold_path.write_text(json.dumps(cold))
             a = {'bundle_file': bundle, 'site_file': str(site_path), 'cold_start_file': str(cold_path),
