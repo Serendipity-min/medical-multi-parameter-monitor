@@ -117,8 +117,15 @@ def review(job):
     nibp_proofs=[]
     for m in nibp:
         matched=[s for at,s in states if nibp_source_match(m,s)]
+        expired=[]
+        for row in events:
+            if row['kind']!='WSS_RAW' or row['data']['server_time']<=m['timestamp']+90000:continue
+            for current in row['data']['streams']:
+                if g.telemetry_key(current)!=g.telemetry_key(m):continue
+                if current['validity']=='VALID':fail.append('NIBP_VALID_AFTER_90S')
+                elif current['value'] is None:expired.append(current['validity'])
         nibp_proofs.append({'session_id':m['session_id'],'seq':m['seq'],'timestamp':m['timestamp'],'value':m['value'],
-            'source_states_matched':len(matched),'WSS_seen':g.telemetry_key(m) in seen})
+            'source_states_matched':len(matched),'WSS_seen':g.telemetry_key(m) in seen,'expiry_states_observed':dict(Counter(expired))})
         if m['timestamp']<int(arm['UTC_ms']) or not matched or g.telemetry_key(m) not in seen:fail.append('NIBP_FRESH_SOURCE_WSS_PROOF')
     if not nibp:fail.append('NEW_NIBP_NOT_OBSERVED')
     diagnostics=[json.loads(x)['data'] for x in (folder/'B/diagnostics-private.jsonl').read_text().splitlines()]
@@ -138,6 +145,8 @@ def review(job):
     if backend['accepted']!=len(messages) or backend['rejected'] or backend['dropped']:fail.append('BACKEND_ACCEPTANCE')
     source=g.load(folder/'C_STOP_SOURCE_STATE.json')['source']
     if source['business_elapsed_ms']!=420000 or source['reason']!=1 or source['phase']!=7 or source['unsynced'] or source['pending']:fail.append('SOURCE_STOP')
+    post=[x['data'] for x in events if x['kind']=='WSS_RAW' and x['monotonic']>=arm['monotonic']+435]
+    if not any(x['gateway_state'] in ('OFFLINE','STALE') for x in post):fail.append('NATURAL_OFFLINE_NOT_OBSERVED')
     observations=job/'browser-observations-private.jsonl'
     browser=[json.loads(x) for x in observations.read_text().splitlines()] if observations.exists() else []
     if not browser:fail.append('ACTUAL_WEBPAGE_NOT_OBSERVED')
