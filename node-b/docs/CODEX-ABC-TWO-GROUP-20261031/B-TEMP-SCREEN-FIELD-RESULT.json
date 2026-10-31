@@ -1,0 +1,65 @@
+{
+  "status": "B_TEMP_SCREEN_LOCAL_ENGINEERING_PASS",
+  "exit_code": 0,
+  "actual_component_exit_code": 0,
+  "actual_install_exit_code": 0,
+  "installed_BIN_bytes": 41516,
+  "installed_BIN_sha256": "e452c2eafd07868c642c530c09c7ec31b07f919cb41886c849fe84b817644fcd",
+  "full_Flash_sha256": "4c276ce987e20c22d4768dd4a2eb090601e687f90d3577b7337b682b7556f9c8",
+  "outside_application_sectors_unchanged": true,
+  "Close_completed": true,
+  "native_install_actions": {
+    "JLINKARM_Halt": 1,
+    "JLINKARM_BeginDownload": 1,
+    "JLINKARM_WriteMem": 1,
+    "JLINKARM_EndDownload": 1,
+    "JLINKARM_Reset": 1,
+    "JLINKARM_Go": 1
+  },
+  "component": {
+    "exit_code": 0,
+    "scope": "B_TEMP_SCREEN_COMPONENT_ONLY",
+    "explicit_target_writes": 0,
+    "CAN_and_cloud": "NOT_TESTED_B_ONLY_NO_CAN_PEER",
+    "SDK_native_side_effects": "UNRESOLVED",
+    "failures": [],
+    "samples": 31,
+    "ADC_SPS": 249.96666222162955,
+    "ADC_error_increments": {
+      "bad_status": 0,
+      "spi_errors": 0,
+      "queue_overflow": 0,
+      "init_errors": 0,
+      "long_gap_count": 0
+    },
+    "temperature_range_C": [
+      25.58,
+      26.01
+    ],
+    "display_round_values": [
+      "25.6",
+      "25.7",
+      "25.8",
+      "25.9",
+      "26.0"
+    ],
+    "HR_values": [
+      60
+    ],
+    "screen_visual_result": "REQUIRES_OWNER_CONFIRMATION",
+    "Close_completed": true
+  },
+  "operator_visual": {
+    "visual_confirmation_completed": true,
+    "temperature_live_refresh": true,
+    "temperature_display_values_C": [
+      25.6,
+      25.7
+    ],
+    "HR_display": 60,
+    "source": "Owner visual report",
+    "comparison": "Rounded values both present in same component observation range; not synchronized per-frame accuracy calibration"
+  },
+  "new_B_CAN_cloud_retest": "NOT_RUN",
+  "two_group_link_result_applies_to": "B41012B + C44520 + A42608"
+}

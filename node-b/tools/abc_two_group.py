@@ -63,6 +63,15 @@ def make_inputs(profile):
     g.require(c_proof['exit_code']==0 and c_proof['Close_completed'] and c_proof['outside_affected_sectors_unchanged'],'G3_ABC_C_NOT_INSTALLED')
     a_proof=g.load(parent/'A-restored-candidate/receipt-private.json')
     g.require(a_proof['exit_code']==0 and a_proof['Close_completed'],'G3_ABC_A_NOT_INSTALLED')
+    if state.get('B_current_install'):
+        installed=parent/state['B_current_install'];proof=g.load(installed/'receipt-private.json')
+        g.require(proof['board']=='B' and proof['exit_code']==0 and proof['Close_completed'],'G3_ABC_B_CURRENT_INSTALL')
+        current=g.load(state['B_current_profile'])
+        bundle['_B_profile']=current['profile_from_actual_symbols']
+        for name,file in (('B_full','after-full-private.bin'),('B_options','after-options-private.bin'),('B_identity','identity-after-private.json')):
+            path=installed/'probe'/file;bundle[name]={'path':str(path),'sha256':g.sha(path.read_bytes())}
+        for name,path in (('B_ELF',state['B_current_ELF']),('B_symbols',state['B_current_symbols'])):
+            path=Path(path);bundle[name]={'path':str(path),'sha256':g.sha(path.read_bytes())}
     for name,file in (('C_full','after-full-private.bin'),('C_options','after-options-private.bin'),('C_identity','identity-after-private.json')):
         p=c/'probe'/file;bundle[name]={'path':str(p),'sha256':g.sha(p.read_bytes())}
     bundle['_expected_C_full_sha256']=c_proof['full_flash_sha256'];bundle['_require_source_STOP_state']=True
