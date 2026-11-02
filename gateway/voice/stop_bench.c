@@ -69,6 +69,8 @@ int main(void) {
     for (;;) {
         tts_poll(&speaker, ticks);
         if (tx_pending) { tx_pending = 0; event("TX", tx_byte); }
+        /* 日志串口可能跨过TTS的TX完成；消费ACK前补记TC，且不多发下一字节。 */
+        if (speaker.position == speaker.length) tts_poll(&speaker, ticks);
         for (unsigned i = 0; i < 4; ++i) {
             int byte = tts_uart_receive(); if (byte < 0) break;
             event("RX", (unsigned)byte); tts_receive(&speaker, (uint8_t)byte, ticks);

@@ -8,7 +8,10 @@
 #include <string.h>
 
 extern int physical_clock_ready(void);
-#ifdef MIC_NETWORK_BENCH
+#ifdef MIC_SHARED_RUNTIME
+extern volatile uint32_t g_uptime_ms;
+#define uptime g_uptime_ms
+#elif defined(MIC_NETWORK_BENCH)
 volatile uint32_t g_uptime_ms;
 #define uptime g_uptime_ms
 #else
@@ -16,7 +19,12 @@ static volatile uint32_t uptime;
 #endif
 static volatile uint16_t dma_words[2][MIC_BLOCK_WORDS];
 static uint16_t staging[MIC_BLOCK_WORDS], raw_head[64];
+#ifdef MIC_SHARED_RUNTIME
+/* CCM仅供CPU访问，I²S DMA仍写普通SRAM的dma_words。录满前不发布PCM。 */
+static int16_t pcm[MIC_SAMPLES] __attribute__((section(".ccm_audio"), aligned(8)));
+#else
 static int16_t pcm[MIC_SAMPLES];
+#endif
 static volatile uint32_t irq_cycles[300], blocks, dma_errors, overruns;
 static uint16_t recorded_blocks[200];
 static uint32_t decode_cycles_max;
@@ -25,7 +33,9 @@ static unsigned frames, state; /* 0=空闲，1=采集，2=完成，3=错误 */
 static uint32_t began_at;
 static uint32_t left_abs, right_abs, right_nonzero, zero24, clip24, low24, fault_flags;
 
+#ifndef MIC_SHARED_RUNTIME
 void SysTick_Handler(void) { ++uptime; }
+#endif
 
 void DMA1_Stream0_IRQHandler(void) {
     uint32_t flags = DMA1->LISR;
@@ -59,16 +69,22 @@ static void stop(void) {
 
 static int initialize(void) {
     GPIO_InitTypeDef gpio;
+#ifndef MIC_SHARED_RUNTIME
     USART_InitTypeDef uart;
+#endif
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA | RCC_AHB1Periph_GPIOC |
                          RCC_AHB1Periph_GPIOF | RCC_AHB1Periph_DMA1, ENABLE);
+#ifndef MIC_SHARED_RUNTIME
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
+#endif
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI3, ENABLE);
     GPIO_StructInit(&gpio); gpio.GPIO_Mode = GPIO_Mode_AF; gpio.GPIO_Speed = GPIO_Speed_25MHz;
+#ifndef MIC_SHARED_RUNTIME
     gpio.GPIO_Pin = GPIO_Pin_9 | GPIO_Pin_10;
     GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_USART1);
     GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_USART1); GPIO_Init(GPIOA, &gpio);
     USART_StructInit(&uart); uart.USART_BaudRate = 115200; USART_Init(USART1, &uart); USART_Cmd(USART1, ENABLE);
+#endif
     gpio.GPIO_Pin = GPIO_Pin_4; GPIO_PinAFConfig(GPIOA, GPIO_PinSource4, GPIO_AF_SPI3); GPIO_Init(GPIOA, &gpio);
     gpio.GPIO_Pin = GPIO_Pin_10; GPIO_PinAFConfig(GPIOC, GPIO_PinSource10, GPIO_AF_SPI3); GPIO_Init(GPIOC, &gpio);
     gpio.GPIO_Pin = GPIO_Pin_12; gpio.GPIO_PuPd = GPIO_PuPd_DOWN;
@@ -87,8 +103,14 @@ static int initialize(void) {
     SPI3->I2SPR = 25u;
     SPI3->I2SCFGR = SPI_I2SCFGR_I2SMOD | SPI_I2SCFGR_I2SCFG | SPI_I2SCFGR_DATLEN_0 | SPI_I2SCFGR_CHLEN;
     CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk; DWT->CYCCNT = 0; DWT->CTRL |= 1u;
+#ifdef MIC_SHARED_RUNTIME
+    /* 共享入口不重配SysTick/控制台；音频IRQ低于CAN的抢占级3。 */
+    NVIC_SetPriority(DMA1_Stream0_IRQn, 8);
+#else
     if (SysTick_Config(SystemCoreClock / 1000u)) return 0;
-    NVIC_SetPriority(DMA1_Stream0_IRQn, 2); NVIC_EnableIRQ(DMA1_Stream0_IRQn);
+    NVIC_SetPriority(DMA1_Stream0_IRQn, 2);
+#endif
+    NVIC_EnableIRQ(DMA1_Stream0_IRQn);
     return 1;
 }
 

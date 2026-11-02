@@ -5,6 +5,7 @@ import datetime
 import hashlib
 import importlib.util
 import json
+import struct
 import subprocess
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -19,8 +20,10 @@ def main():
     targets.add_argument('--b5', action='store_true', help='B5手工武装MOCK网络完整候选；只构建，禁止部署')
     parser.add_argument('--egress-final', action='store_true', help='仅B5出口收尾候选，离线构建')
     parser.add_argument('--tri', action='store_true', help='A/B双CAN与B5云端集成候选，保护原48KiB分区')
+    parser.add_argument('--audio-link', action='store_true', help='仅离线保留MIC/TTS完整API与CCM缓存，不启用录音或新增现场命令')
     args = parser.parse_args()
     if args.tri and not (args.b5 and args.egress_final):parser.error('--tri requires --b5 --egress-final')
+    if args.audio_link and not args.tri:parser.error('--audio-link requires --tri')
     if args.egress_final and not args.b5:parser.error('--egress-final requires --b5')
     spec = importlib.util.spec_from_file_location('b4_sdk', ROOT / 'gateway/esp_at_probe/build.py')
     base = importlib.util.module_from_spec(spec); spec.loader.exec_module(base)
@@ -87,7 +90,20 @@ def main():
         flags += ['-DMP_H3_FRESH_SNTP', '-I' + str(transport), '-I' + str(probe),
                   '-I' + str(out / 'reference-h3/gateway/physical_can/src'),
                   '-I' + str(mqtt / 'source/include'), '-I' + str(mqtt / 'source/interface')]
-    log = bytearray(); commands = []
+    if args.audio_link:
+        sources += [ROOT/'gateway/microphone'/n for n in ('bench_main.c','mic_format.c','link_probe.c')]
+        sources += [ROOT/'gateway/voice'/n for n in ('tts_frame.c','tts_queue.c','tts_uart_port.c')]
+        flags += ['-DMIC_SHARED_RUNTIME','-DMIC_NETWORK_BENCH','-DMP_CLOUD_VOICE',
+                  '-I'+str(ROOT/'gateway/microphone'),'-I'+str(ROOT/'gateway/voice')]
+    linker = ROOT/'gateway/b5/flash.ld' if args.b5 else (HERE/'bench_flash.ld' if args.bench else ROOT/'gateway/mqtt/STM32F407ZGT6_FLASH.ld')
+    if args.audio_link:
+        template=linker.read_text()
+        memory='  RAM (xrw)   : ORIGIN = 0x20000000, LENGTH = 128K'
+        assert template.count(memory)==1 and template.count('  /DISCARD/')==1
+        template=template.replace(memory,memory+'\n  CCM (rw)    : ORIGIN = 0x10000000, LENGTH = 64K')
+        template=template.replace('  /DISCARD/', '  .ccm_audio (NOLOAD) : { *(.ccm_audio) } > CCM\n\n  .audio_link_probe : { KEEP(*(.audio_link_probe)) } > FLASH\n\n  /DISCARD/')
+        linker=out/'audio-ccm-link.ld';linker.write_text(template)
+    log = bytearray(); commands = []; audio_layout=None
 
     def run(command):
         p = subprocess.run(list(map(str, command)), capture_output=True, timeout=120)
@@ -103,9 +119,8 @@ def main():
             warnings = ['-Wextra', '-Werror'] if source.is_relative_to(HERE) else []
             run([base.GCC, *flags, *warnings, '-c', source, '-o', obj]); objects.append(obj)
         obj = out / 'startup.o'; run([base.GCC, *flags, '-c', base.STARTUP, '-o', obj]); objects.append(obj)
-        target = 'ABC_TRI_CLOUD_CANDIDATE' if args.tri else 'B5_CLOUD_MOCK_GATEWAY' if args.b5 else ('B4_GATEWAY_BENCH' if args.bench else ('B4_GATEWAY_NETWORK_SOFTWARE' if args.network_link else 'B4_GATEWAY_LINK_ONLY'))
+        target = 'ABC_AUDIO_LINK_PROBE' if args.audio_link else 'ABC_TRI_CLOUD_CANDIDATE' if args.tri else 'B5_CLOUD_MOCK_GATEWAY' if args.b5 else ('B4_GATEWAY_BENCH' if args.bench else ('B4_GATEWAY_NETWORK_SOFTWARE' if args.network_link else 'B4_GATEWAY_LINK_ONLY'))
         elf = out / (target + '.elf')
-        linker = ROOT/'gateway/b5/flash.ld' if args.b5 else (HERE / 'bench_flash.ld' if args.bench else ROOT / 'gateway/mqtt/STM32F407ZGT6_FLASH.ld')
         run([base.GCC, *flags, '-T', linker,
              '-Wl,--gc-sections', '-Wl,-Map=' + str(out / 'gateway.map'), '--specs=nano.specs', '--specs=nosys.specs',
              *objects, '-lm', '-o', elf])
@@ -119,6 +134,23 @@ def main():
             for name,index in (('CAN1_RX0_IRQHandler',36),('CAN2_RX0_IRQHandler',80),('USART3_IRQHandler',55)):
                 if table.get(name,(0,'W'))[1]!='T' or int.from_bytes(image[index*4:index*4+4],'little')!=(table[name][0]|1):
                     raise RuntimeError('B5实际中断向量未绑定:'+name)
+            if args.audio_link:
+                for name,index in (('DMA1_Stream0_IRQHandler',27),('USART2_IRQHandler',54),('SysTick_Handler',15)):
+                    assert table.get(name,(0,'W'))[1]=='T' and int.from_bytes(image[index*4:index*4+4],'little')==table[name][0]|1
+                sizes=run([nm,'-S',elf]).decode()
+                sized={p[3]:(int(p[0],16),int(p[1],16)) for line in sizes.splitlines() if len(p:=line.split())==4}
+                dma=[v for n,v in sized.items() if n.startswith('dma_words')]
+                assert len(dma)==1 and dma[0][1]==2560 and 0x20000000<=dma[0][0]<dma[0][0]+dma[0][1]<=0x20020000
+                pcm=[v for n,v in sized.items() if n=='pcm' or n.startswith('pcm.lto')]
+                assert len(pcm)==1 and pcm[0][1]==64000 and 0x10000000<=pcm[0][0]<pcm[0][0]+pcm[0][1]<=0x10010000
+                raw=elf.read_bytes();off=struct.unpack_from('<I',raw,28)[0];step,count=struct.unpack_from('<HH',raw,42);loads=[]
+                for i in range(count):
+                    typ,_,va,pa,fs,ms,_,_=struct.unpack_from('<8I',raw,off+i*step)
+                    if typ!=1:continue
+                    assert not fs or 0x08000000<=pa<pa+fs<=0x0800c000
+                    loads.append({'RAM_start':va,'load_start':pa,'load_bytes':fs,'memory_bytes':ms})
+                audio_layout={'load_segments':loads,'DMA':dma[0],'PCM':pcm[0],
+                              'audio_IRQ_priority':8,'CAN_IRQ_priority':3,'runtime_enabled':False}
             if len(image)>49152 or any(n.encode() in symbols for n in ('FLASH_EraseSector','FLASH_ProgramWord')):
                 raise RuntimeError('B5应用越过sector2或包含Flash写入口')
             irq_vector_verified=True
@@ -155,13 +187,15 @@ def main():
         headers += list((out / 'reference-h3').rglob('*.h'))
     if args.b5:
         headers += [*ROOT.glob('gateway/b5/*.h'),*ROOT.glob('gateway/mqtt/src/*.h')]
+    if args.audio_link:headers += [*ROOT.glob('gateway/microphone/*.h'),*ROOT.glob('gateway/voice/*.h')]
     report = {'ABC_tri_candidate': args.tri, 'version': 'B5-001' if args.b5 else 'B4-0.2', 'status': status,
               'scope': 'B5_CLOUD_MOCK_SOFTWARE_ONLY_NOT_DEPLOYED' if args.b5 else ('C_ISOLATED_BENCH_LOCAL_TEST_TIME_NOT_DEPLOYED' if args.bench else ('C_DUAL_CAN_ARM_NETWORK_SOFTWARE_BUILD_NOT_DEPLOYED' if args.network_link else 'C_DUAL_CAN_ARM_LINK_ONLY')),
               'bench_time': 'LOCAL_TEST_EPOCH_NOT_UTC' if args.bench else None,
               'bench_window_limit_ms': 180000 if args.bench else None,
               'bench_forbidden_symbols_absent': bool(args.bench and status == 'PASS'),
               'bench_UART_IRQ_vector_verified':irq_vector_verified,
-              'linker_sha256': hashlib.sha256((ROOT/'gateway/b5/flash.ld' if args.b5 else (HERE / 'bench_flash.ld' if args.bench else ROOT / 'gateway/mqtt/STM32F407ZGT6_FLASH.ld')).read_bytes()).hexdigest(),
+              'linker_sha256': hashlib.sha256(linker.read_bytes()).hexdigest(),
+              'audio_link_probe':args.audio_link,'audio_layout':audio_layout,
               'hardware_eligible': False, 'network_transport': 'B5_H3_TRANSPORT_B4_RETRY_DRIVER_ARM_LINKED_NOT_EXECUTED' if args.b5 else ('H3_FROZEN_SOURCE_LINKED_NOT_EXECUTED' if args.network_link else 'NOT_LINKED_NOT_DEPLOYED'),
               'h3_reference_commit': 'a5cdd5b0b1ad48108fd631136e9de69e30582f2d', 'h3_reference_sha256': reference_sha, 'commands': commands,
               'log_sha256': hashlib.sha256(log).hexdigest(),

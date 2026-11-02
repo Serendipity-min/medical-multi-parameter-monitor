@@ -1,0 +1,17 @@
+{
+  "exit_code": 1,
+  "scope": "C_ONLY_TTS_STOP",
+  "playing": false,
+  "SDK_opens": 0,
+  "Flash_writes": 0,
+  "MCU_RESET_commands": 0,
+  "network_operations": 0,
+  "hardware_concurrency": "NOT_RUN",
+  "error_type": "ValueError",
+  "reason": "TTS_NATIVE_STOP_OR_UART_ERROR",
+  "transcript_SHA256": "b7880c18ea14e21dbe39786d1ce3ebb81ac0332eeafc3ea2b7d2cdbf48029f07",
+  "controller_native_exit": 1,
+  "cause": "BENCH_DIAGNOSTIC_LOG_DELAY_BEFORE_PHYSICAL_TX_DONE_STATE_UPDATE",
+  "classification": "SOFTWARE_BENCH_FAIL_NOT_MODULE_FAILURE_PROOF",
+  "automatic_STOP_retry": false
+}

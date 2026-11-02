@@ -1,0 +1,36 @@
+{
+  "scope": "OFFLINE_SHARED_TTS_QUEUE_ARM_REGRESSION_ONLY",
+  "native_exit": 0,
+  "BIN_bytes": 29744,
+  "artifacts": {
+    "MIC_NETWORK_BENCH.elf": "f0e4dabe37a8811de91b9d3f8b6df24d0e4638726b3a596c9b17e7c43342c31c",
+    "MIC_NETWORK_BENCH.bin": "8ca94e838b9727a306cd3a0ae471ed7fb180b9e4ca3eb51a0c627c3abf6dcfd9",
+    "symbols.txt": "e361e3279eb53b62654ea8277d3ee81644745e5cea22cc6cf1b8cc071bbde305"
+  },
+  "source_SHA256": {
+    "gateway\\microphone\\bench_main.c": "ea7820bdc3fa78e88118d405cbbead20ca87bd9503a0c0a3db6dcbf9d1e7e4f2",
+    "gateway\\microphone\\mic_format.c": "6bb4e5489206fc3d32a72413b24e67f3a84f7af1950a9a1f99dc0f321e98b4ec",
+    "gateway\\dual_can\\system_hse.c": "5192e6351edae0ce2b5ad90e1dced3e38af944ae50645131a54e75fba22a04db",
+    "gateway\\esp_at_probe\\src\\syscalls.c": "796e258d6c2e20e2d1f629c43d7d6ea17b32d3040c466055ae9a2a084caf9ead",
+    "external/stm32f4xx_rcc.c": "4169568c167d701fada6c2366d2537c62d194dbe9a311e513fc9ff80061dc998",
+    "external/stm32f4xx_gpio.c": "3043fe9e52501fad9cea9afa95e741f0697d658471d930610447623784e80bf8",
+    "external/stm32f4xx_usart.c": "f76877834c69e6f44f6a5daa61191ae06c17ef19c80318b3e05542f7bd6d869c",
+    "external/startup_stm32f40_41xxx.s": "7130bda839175b88ae9b13c03f2e0e993139b253eebd03f1f1ef23840dc569a4",
+    "gateway\\microphone\\network_main.c": "603c5e67c241b9b4497781118bffc3e7b9097724874fad99cafdc64b989ff67e",
+    "gateway\\microphone\\network_transport.c": "796d1dbe7c3e396dfc3791c9dda0c07e32a986bd0f38a10d1def0ed7af399908",
+    "gateway\\microphone\\mic_protocol.c": "1d3f1bdd47687d2dd435a9d42d350a6329f46323d2e0677b01df80cede6e8461",
+    "gateway\\data_model\\model.c": "29b54ab85700864169b9bf891626cdd5e816478be9ac79ac42c558518d5cc494",
+    "gateway\\mqtt\\src\\platform.c": "4bc08c174b8a564859fe6cbf48be3a07c8f67dd6f8b8146ee6e9ef91e6e82926",
+    "gateway\\mqtt\\src\\mqtt_transport_adapter.c": "0d1b16e59b8c929ca84c992be1d3f23c9e4103b6152910aa254d6cf578c94e96",
+    "gateway\\mqtt\\src\\heap.c": "20bf6b3b9c5ddc276ba4d85016ce14ae1425c18e24e5f020bea011d9168b2923",
+    "gateway\\mqtt\\src\\gateway_assert.c": "d29eb278706acf7a4249a2104b05f22cf859c61de5d924773c785228d7523d17",
+    "gateway\\third_party\\coreMQTT\\source\\core_mqtt.c": "98cfdd1651acd725296164e9a865c51d0cd137b531a54e2e0c937846c202de0c",
+    "gateway\\third_party\\coreMQTT\\source\\core_mqtt_serializer.c": "1e4bf5a2b307f37f3cbc83a898e9c6b89b873daf93968fddb81eac06bb113c0b",
+    "gateway\\third_party\\coreMQTT\\source\\core_mqtt_state.c": "af5c215f11692c7ced8a90b9d6f9c9c23d2476538ff77a38952945f642fbc8cf",
+    "gateway\\voice\\tts_frame.c": "81e76cc50aedad7de1d558f970255e4b5e32635fbb8994cf8b50537c62c8fde9",
+    "gateway\\voice\\tts_queue.c": "8aa90e26a962b29376522c3992031dc3978d1d9f21c7a0f77d9cec00adab1496",
+    "gateway\\voice\\tts_uart_port.c": "90f23fcdeb94d64cf1c5158c26c344cf439be5ce29cf70b12bc4d433aa4df1c2"
+  },
+  "hardware": "NOT_INSTALLED",
+  "CAN": "NOT_LINKED"
+}

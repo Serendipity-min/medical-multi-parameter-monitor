@@ -1,0 +1,25 @@
+{
+  "status": "R2_BUILT_NATIVE_TEST_PENDING",
+  "BIN_bytes": 7180,
+  "BIN_SHA256": "75f7c92761dae69a8f8a660821dbc1ac6970b2ba24ecccb31e402d045c65adf3",
+  "ELF_SHA256": "29d6b4ad914bd4929b72bcfb96008aa70683db706c90baf3befe43c007dc6864",
+  "change": "Confirm physical TC after logging last TX byte and before consuming ACK; never transmit another byte in this extra check",
+  "build_native_exit": 0,
+  "install_plan_native_exit": 0,
+  "application_sectors": [
+    0
+  ],
+  "sector3_and_Options": "PRESERVED",
+  "source_SHA256": {
+    "gateway\\dual_can\\system_hse.c": "5192e6351edae0ce2b5ad90e1dced3e38af944ae50645131a54e75fba22a04db",
+    "gateway\\esp_at_probe\\src\\syscalls.c": "796e258d6c2e20e2d1f629c43d7d6ea17b32d3040c466055ae9a2a084caf9ead",
+    "external/stm32f4xx_rcc.c": "4169568c167d701fada6c2366d2537c62d194dbe9a311e513fc9ff80061dc998",
+    "external/stm32f4xx_gpio.c": "3043fe9e52501fad9cea9afa95e741f0697d658471d930610447623784e80bf8",
+    "external/stm32f4xx_usart.c": "f76877834c69e6f44f6a5daa61191ae06c17ef19c80318b3e05542f7bd6d869c",
+    "external/startup_stm32f40_41xxx.s": "7130bda839175b88ae9b13c03f2e0e993139b253eebd03f1f1ef23840dc569a4",
+    "gateway\\voice\\stop_bench.c": "9b298d382e7f2480ce2c38d81dc0651dc8c462e17102d38ad5b8c59b5081e4fe",
+    "gateway\\voice\\tts_frame.c": "81e76cc50aedad7de1d558f970255e4b5e32635fbb8994cf8b50537c62c8fde9",
+    "gateway\\voice\\tts_queue.c": "8aa90e26a962b29376522c3992031dc3978d1d9f21c7a0f77d9cec00adab1496",
+    "gateway\\voice\\tts_uart_port.c": "90f23fcdeb94d64cf1c5158c26c344cf439be5ce29cf70b12bc4d433aa4df1c2"
+  }
+}
