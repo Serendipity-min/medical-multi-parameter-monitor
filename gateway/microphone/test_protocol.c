@@ -5,12 +5,21 @@
 #include <string.h>
 static void u32(uint8_t *p,uint32_t n){for(unsigned i=0;i<4;i++)p[i]=(uint8_t)(n>>(8*i));}
 int main(int argc,char **argv) {
-    uint8_t config[147]={0};memcpy(config,"MCFG",4);strcpy((char *)config+4,"mock-user");
+    uint8_t config[249]={0};memcpy(config,"MCF3",4);strcpy((char *)config+4,"mock-user");
     strcpy((char *)config+37,"INVALID_TEST_ONLY");strcpy((char *)config+102,"mock-client");
-    u32(config+143,mic_crc32(config,143));assert(mic_config_packet_valid(config,sizeof config));
-    for(unsigned n=0;n<147;n++)assert(!mic_config_packet_valid(config,n));
-    config[7]='\n';u32(config+143,mic_crc32(config,143));assert(!mic_config_packet_valid(config,147));
-    config[7]='k';u32(config+143,mic_crc32(config,143));config[146]^=1;assert(!mic_config_packet_valid(config,147));
+    strcpy((char *)config+143,"INVALID TEST AP");strcpy((char *)config+176,"INVALID_TEST_ONLY");
+    u32(config+241,1790000000u);u32(config+245,mic_crc32(config,245));assert(mic_config_packet_valid(config,sizeof config));
+    for(unsigned n=0;n<249;n++)assert(!mic_config_packet_valid(config,n));
+    u32(config+241,1);u32(config+245,mic_crc32(config,245));assert(!mic_config_packet_valid(config,sizeof config));u32(config+241,1790000000u);
+    config[7]='\n';u32(config+245,mic_crc32(config,245));assert(!mic_config_packet_valid(config,sizeof config));config[7]='k';
+    for(unsigned i=0;i<4;i++) {
+        config[143]=(uint8_t[]){'"','\\','\n',0}[i];u32(config+245,mic_crc32(config,245));
+        assert(!mic_config_packet_valid(config,sizeof config));
+    }
+    memset(config+143,'x',33);u32(config+245,mic_crc32(config,245));assert(!mic_config_packet_valid(config,sizeof config));
+    memset(config+143,0,33);strcpy((char *)config+143,"INVALID TEST AP");config[176]=0;
+    u32(config+245,mic_crc32(config,245));assert(!mic_config_packet_valid(config,sizeof config));
+    strcpy((char *)config+176,"INVALID_TEST_ONLY");u32(config+245,mic_crc32(config,245));config[248]^=1;assert(!mic_config_packet_valid(config,sizeof config));
     uint8_t reply[21]={0};memcpy(reply,"MR01",4);u32(reply+4,7);u32(reply+8,8);reply[12]=5;memcpy(reply+16,"hello",5);
     assert(mic_reply_packet_valid(reply,21,7,8));assert(!mic_reply_packet_valid(reply,20,7,8));
     assert(!mic_reply_packet_valid(reply,21,9,8));assert(!mic_reply_packet_valid(reply,21,7,9));

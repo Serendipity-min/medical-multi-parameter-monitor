@@ -1,0 +1,13 @@
+{
+  "scope": "Windows NTP and standalone Python TLS socket probes only",
+  "correction": "Some diagnostic JSON used native_exit=1 to mean socket probe failure. That value is not a native child-process return code. Originals remain unchanged in EFS.",
+  "actual_Python_controller_exit": 0,
+  "probe_result": "FAILED_SOCKET_TIMEOUT_OR_SSLEOF",
+  "does_not_apply_to": [
+    "field.py real exit1",
+    "installation controller real exit0",
+    "tcpdump actual wait return0",
+    "SSH actual subprocess return codes"
+  ],
+  "false_PASS_claim": false
+}

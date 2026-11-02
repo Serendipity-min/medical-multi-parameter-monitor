@@ -1,4 +1,4 @@
-"""复用C现有SPL/GNU工具链，仅构建禁联网MIC台架；不访问设备。"""
+"""复用C现有SPL/GNU工具链，构建独立MIC台架或显式语音候选；不访问设备。"""
 import datetime
 import argparse
 import hashlib
@@ -30,8 +30,8 @@ def main():
                     *[ROOT/'gateway/mqtt/src'/n for n in ('platform.c','mqtt_transport_adapter.c','heap.c','gateway_assert.c')],
                     *[mqtt/'source'/n for n in ('core_mqtt.c','core_mqtt_serializer.c','core_mqtt_state.c')],
                     *[ROOT/'gateway/voice'/n for n in ('tts_frame.c','tts_queue.c','tts_uart_port.c')]]
-        flags += ['-DMIC_NETWORK_BENCH','-DMP_TTS_BENCH','-DMP_H3_PERSISTENT_CONFIG','-DMP_H3_FRESH_SNTP',
-                  '-DMP_H3_WIFI_AWAKE','-DMP_CAN_RX_IRQ','-DMP_MQTT_TLS_PORT=18884','-DMP_MQTT_GATEWAY_ID="GW-MIC-TEST"',
+        flags += ['-DMIC_NETWORK_BENCH','-DMP_TTS_BENCH','-DMP_H3_PERSISTENT_CONFIG',
+                  '-DMP_H3_WIFI_AWAKE','-DMP_CAN_RX_IRQ','-DMP_MQTT_TLS_PORT=1883','-DMP_MQTT_GATEWAY_ID="GW-MIC-TEST"',
                   '-I'+str(ROOT/'gateway/mqtt/src'),'-I'+str(ROOT/'gateway/voice'),
                   '-I'+str(mqtt/'source/include'),'-I'+str(mqtt/'source/interface')]
     target='MIC_NETWORK_BENCH' if args.network else 'MIC_BENCH'

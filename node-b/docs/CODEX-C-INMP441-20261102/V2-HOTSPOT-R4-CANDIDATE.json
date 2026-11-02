@@ -1,0 +1,21 @@
+{
+  "status": "OFFLINE_PASS_NOT_INSTALLED",
+  "BIN_bytes": 30208,
+  "BIN_SHA256": "a930d8e56f365f806418a82cd4032528af05117ff4ecfc5ad0149291ab6554e1",
+  "checks": [
+    {
+      "tool": "gcc.exe",
+      "native_exit": 0
+    },
+    {
+      "tool": "test_protocol.exe",
+      "native_exit": 0
+    },
+    {
+      "tool": "python",
+      "native_exit": 0
+    }
+  ],
+  "configuration": "WIFI_RAM_V2, Windows per-session 2.4GHz hotspot; sector3 unchanged",
+  "MCFG_v1_refused_before_secret_write": true
+}

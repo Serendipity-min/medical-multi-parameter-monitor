@@ -11,7 +11,7 @@ static TtsQueue speaker;
 static uint32_t session, checksum, began, ack_before, done_before;
 static unsigned phase, chunk, online, ready, reply_received;
 static unsigned stopping_reported;
-static uint8_t packet[544], config_packet[147];
+static uint8_t packet[544], config_packet[249];
 static unsigned config_count, configuring;
 static uint32_t config_at;
 
@@ -86,7 +86,7 @@ int main(void) {
             session=mic_network_epoch();began=g_uptime_ms;phase=1;chunk=reply_received=0;
             ack_before=speaker.ack_count;done_before=speaker.done_count;mic_record_begin();report("RECORDING");
         } else if(c=='D' && (phase==0 || phase==4 || phase==5))mic_record_export();
-        else if(c=='I')console("MIC_NETWORK_ID PA4_PC10_PC12 TLS_PCM16_TTS_LOW_VOLUME\r\n");
+        else if(c=='I')console("MIC_NETWORK_ID PA4_PC10_PC12 TLS_PCM16_TTS_LOW_VOLUME WIFI_RAM_V3_SSH_UTC\r\n");
         else if(c=='S') {
             mic_record_cancel();tts_cancel(&speaker,g_uptime_ms);phase=5;stopping_reported=0;
             if(online)mic_network_close();

@@ -18,4 +18,16 @@
 
 后续真实音频经PC代上传只能记HOST_BRIDGE_PROOF；实际C分块上行及隔离ASR通过才记MIC_ASR_UPLINK_PASS；同会话AI回复及TW-TTS人工可闻才记MIC_CLOUD_ROUNDTRIP_PASS。V1实录通过前不启动V2实测，不因空间不足覆盖配置区。
 
+`build.py --network`构建独立C语音候选：复用上述录音器、原ESP8266 TLS/MQTT传输及VOICE-002的USART2/TTS组件。此镜像不链接CAN驱动，必须仅C上电、两段CAN隔离；保留CAN引脚不代表三板负载共存通过。2秒原始PCM录完后分125个512字节块上传，云端核对序号、长度、CRC及会话再执行ASR和真实AI；未设固定回复兜底。
+
+`field.py --job <受限目录> --port COMx --action connect|capture|stop`先查询当前镜像标识，再执行对应动作。`connect`仅向RAM配置隔离MQTT角色，核对TLS、SUBACK及低音量设置ACK；`capture`只观察Broker，不代发C音频，结束后导出源PCM与云端实收逐字节对账。ACK、播放完成、STOP确认和人工听到分别记录。原音频及运行凭据不得进入Git。现场声源须在回复准备完成前开始持续播放，采集完成后停止，以免把没有覆盖录音窗口的说话判成麦克风失败。
+
+现场迁移后原Wi-Fi不可用，最终`WIFI_RAM_V3_SSH_UTC`标识对应249字节`MCF3`配置帧：MQTT角色后追加33字节SSID、65字节Wi-Fi口令与32位UTC秒，末尾CRC32。配置仅在RAM，按AT引号边界拒绝换行、引号及反斜杠，禁止向旧入口发送新帧。主机从受限`host-hotspot-runtime-private.json`读取负责人确认的当前手机热点配置；不把现场口令编入固件或写回sector3。
+
+手机网络下三个既有UDP授时端点均未取得有效回复，原失败保留。此独立镜像改用现有SSH认证链读取隔离服务器UTC，先确认`NTPSynchronized=yes`并记录实际查询往返耗时，再通过易失`AT+SYSTIMESTAMP`设置及读回模块时钟。C继续进行CA/主机名校验，毫秒推进仍来自本板单调计数；UTC为秒级量化且包含已记录的主机查询延迟，不冒充独立精密授时或UDP SNTP通过。原B5/C构建及新鲜UDP判据未修改。
+
+外部18884连接未到达服务器，故仅占用已放行且无既有监听的1883，运行`cloud/microphone/ingress.py`临时TCP透传到隔离Broker18884。透传不终止TLS、不解密、不记录音频，正式服务与防火墙不改；结束停止本任务入口。主机监听Broker仅用于观察C实际上传，不代发C输入。
+
+发布型客户端原本仅配置出站QoS1表，直接订阅QoS1会被coreMQTT以`MQTTBadParameter`拒绝。语音适配层增加一条入站记录；`test_subscription.c`使用真实coreMQTT、真实adapter及实际订阅回调，覆盖分片SUBACK、降级/拒绝/错ID和入站QoS1及PUBACK。ESP返回为合成数据，只记Host回归；现场`MIC_VOICE_READY`才证明C的订阅及音量设置ACK。
+
 资料：[TDK INMP441，页8/10–12/15](https://product.tdk.com/system/files/dam/doc/product/sw_piezo/mic/mems-mic/data_sheet/inmp441.pdf)、[ST F407数据手册](https://www.st.com/resource/en/datasheet/stm32f407vg.pdf)、本机`E:/stm32/stm32文件/STM32F407_原理图.pdf`（6页）、本机RM0090及现有C启动源码。首次上电零输出时间按TDK的2^18个SCK处理：1.024MHz下约256ms，台架预留500ms。HSE与IRQ推导的采样率不是独立频率计测量。

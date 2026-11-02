@@ -12,8 +12,16 @@ static int token(const char *p,size_t capacity) {
     return n>0 && n<capacity;
 }
 int mic_config_packet_valid(const uint8_t *p,size_t n) {
-    return n==147 && !memcmp(p,"MCFG",4) && load32(p+143)==mic_crc32(p,143) &&
-           token((const char *)p+4,33) && token((const char *)p+37,65) && token((const char *)p+102,41);
+    if(n!=249 || memcmp(p,"MCF3",4) || load32(p+245)!=mic_crc32(p,245) || load32(p+241)<1700000000u ||
+       !token((const char *)p+4,33) || !token((const char *)p+37,65) || !token((const char *)p+102,41))return 0;
+    const unsigned offsets[2]={143,176},capacities[2]={33,65};
+    for(unsigned field=0;field<2;field++) {
+        unsigned length=0;const uint8_t *value=p+offsets[field];
+        for(;length<capacities[field] && value[length];length++)
+            if(value[length]<0x20 || value[length]==0x7f || value[length]=='"' || value[length]=='\\')return 0;
+        if(length<(field?8u:1u) || length==capacities[field])return 0;
+    }
+    return 1;
 }
 void mic_chunk_packet(uint8_t p[544],uint32_t session,unsigned seq,uint32_t crc,const uint8_t data[512]) {
     memcpy(p,"MC01",4);store32(p+4,session);store16(p+8,seq);store16(p+10,125);

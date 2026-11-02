@@ -1,0 +1,16 @@
+{
+  "status": "B4_INSTALL_FULL_VERIFY_AND_FLASH_BOOT_PASS",
+  "exit_code": 0,
+  "full_flash_sha256": "ef3ce74d4d1b4f623c8cdf1a7045989e819d072d4ee949166f9740f8146b0b0f",
+  "Close_completed": true,
+  "options_unchanged": true,
+  "outside_affected_sectors_unchanged": true,
+  "native_actions": {
+    "JLINKARM_Halt": 1,
+    "JLINKARM_BeginDownload": 1,
+    "JLINKARM_WriteMem": 1,
+    "JLINKARM_EndDownload": 1,
+    "JLINKARM_Reset": 1,
+    "JLINKARM_Go": 1
+  }
+}

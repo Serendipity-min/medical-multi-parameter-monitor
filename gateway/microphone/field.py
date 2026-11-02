@@ -88,12 +88,29 @@ def main():
         if not observer_ready.wait(7):raise RuntimeError('FIELD_OBSERVER_NOT_READY')
 
     try:
-        s.open();s.write(b'I');until(b'MIC_NETWORK_ID ',3)
+        s.open();s.write(b'I');identity=until(b'MIC_NETWORK_ID ',3)
+        if identity.strip()!=b'MIC_NETWORK_ID PA4_PC10_PC12 TLS_PCM16_TTS_LOW_VOLUME WIFI_RAM_V3_SSH_UTC':
+            raise ValueError('FIELD_WRONG_RUNTIME_CONFIG_VERSION')
         if a.action=='connect':
             settings=json.loads((a.job/'voice-runtime-credentials-private.json').read_text())
             user=b'mic-device';password=settings['roles']['mic-device'].encode('ascii');cid=('mic-c-'+stamp).encode('ascii')
-            body=b'MCFG'+user.ljust(33,b'\0')+password.ljust(65,b'\0')+cid.ljust(41,b'\0')
-            if len(body)!=143:raise ValueError('FIELD_RUNTIME_CONFIG_LENGTH')
+            wifi=json.loads((a.job/'host-hotspot-runtime-private.json').read_text())
+            ssid=wifi['ssid'].encode('utf-8');wifi_password=wifi['wifi_password'].encode('utf-8')
+            if not 1<=len(ssid)<=32 or not 8<=len(wifi_password)<=64:raise ValueError('FIELD_WIFI_LENGTH')
+            code="import json,time,subprocess\ns=subprocess.run(['timedatectl','show','-p','NTPSynchronized','--value'],capture_output=True,text=True,timeout=3)\nprint(json.dumps({'unix_ms':time.time_ns()//1000000,'NTP_synced':s.returncode==0 and s.stdout.strip()=='yes'}))\n"
+            utc_at=time.monotonic_ns()
+            utc_run=subprocess.run(['ssh','-o','BatchMode=yes','-o','StrictHostKeyChecking=yes','tencent-codex','python3','-'],
+                                   input=code.encode(),capture_output=True,timeout=15)
+            utc_elapsed=(time.monotonic_ns()-utc_at)//1000000
+            (out/'UTC-native-stdout-private.json').write_bytes(utc_run.stdout)
+            (out/'UTC-native-stderr-private.txt').write_bytes(utc_run.stderr)
+            if utc_run.returncode:raise RuntimeError('FIELD_UTC_SSH_FAILED')
+            utc=json.loads(utc_run.stdout)
+            if not utc['NTP_synced'] or utc_elapsed>5000:raise ValueError('FIELD_UTC_SOURCE_OR_LATENCY')
+            result.update(UTC_source='SSH_AUTHENTICATED_NTP_SYNCED_SERVER',UTC_query_native_exit=utc_run.returncode,
+                          UTC_query_roundtrip_ms=utc_elapsed,UTC_source_unix_ms=utc['unix_ms'],UTC_quantization_ms=1000)
+            body=b'MCF3'+user.ljust(33,b'\0')+password.ljust(65,b'\0')+cid.ljust(41,b'\0')+ssid.ljust(33,b'\0')+wifi_password.ljust(65,b'\0')+struct.pack('<I',utc['unix_ms']//1000)
+            if len(body)!=245:raise ValueError('FIELD_RUNTIME_CONFIG_LENGTH')
             s.write(b'C'+body+struct.pack('<I',zlib.crc32(body)));until(b'MIC_CONFIG_OK',3)
             s.write(b'N');until(b'MIC_VOICE_READY',140)
             result.update(exit_code=0,status='C_TLS_MQTT_SUBACK_TTS_VOLUME_ACK_READY_NOT_AUDIO_UPLINK')
