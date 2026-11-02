@@ -1,0 +1,283 @@
+{
+  "baseline": "be552179d77b21132d0027ff757e5db60959713f",
+  "contract_SHA256": "4076cec00a950288ab25b31d0215fcef62d46450afc9fb38664dbc382d9ceafc",
+  "refs": [
+    {
+      "ref": "origin/A",
+      "SHA": "3fa14b00a0823d2855e9dd8bd1c6c8545abb8dc5",
+      "HEAD_only": 145,
+      "ref_only": 15,
+      "tip_is_ancestor": false,
+      "ref_side_changed_files": 486
+    },
+    {
+      "ref": "origin/B",
+      "SHA": "f8c99433561b2e110c04ba9fb33c30235910a3e9",
+      "HEAD_only": 143,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/B2",
+      "SHA": "2ca744d2f06d49711863968aeef15b64891edd18",
+      "HEAD_only": 144,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin",
+      "SHA": "50699048010c57ba10f8573461844c525b022a07",
+      "HEAD_only": 199,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/P4",
+      "SHA": "67f5f57bd82c6e326e9e78ec9540481c80105e5f",
+      "HEAD_only": 145,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/P5-coremqtt-baremetal",
+      "SHA": "88a993cb2dad828d2d13438445a67324e10f71d0",
+      "HEAD_only": 146,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/audit/b5-r5qc-r6p0-20261030",
+      "SHA": "8954c8ea96af1eda99f00b927f19fecab3cc3215",
+      "HEAD_only": 48,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/audit/b5-r6-p0b-20261030",
+      "SHA": "64d07ff33e2fddb46a4a0570d9abfa83adbc3e02",
+      "HEAD_only": 47,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/audit/b5-r6-rr15-offline-causal-20261030",
+      "SHA": "b9b17a7657f101e8901a24115da8538becc420d0",
+      "HEAD_only": 40,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/audit/codex-b5-r6-p1b0-20261030",
+      "SHA": "98bd1f86d8e1cbf3b764a0876142a888b8837343",
+      "HEAD_only": 43,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/audit/codex-b5-r6-takeover-20261030",
+      "SHA": "9f5a6641fec2bcdb575f5f9ff549b8e9b0223820",
+      "HEAD_only": 44,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/codex/abc-two-group-integration-20261031",
+      "SHA": "e1274b337e2b8393b315409cc5d030a83658b129",
+      "HEAD_only": 5,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/codex/b5-m1-ecg60-stop-gate-20261031",
+      "SHA": "cba0bcfeead7c0c0c38dd4046538b82ddf151722",
+      "HEAD_only": 34,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/codex/b5-m1-p0-offline-entry-20261031",
+      "SHA": "37630aee2ef0af5bee9b13b827d21b38351d2445",
+      "HEAD_only": 35,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/codex/b5-m1-rr-batch15-owner-20261031",
+      "SHA": "010706e2b196b59e489c2dfde557301dae0d0337",
+      "HEAD_only": 18,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/codex/b5-multirate-planning-20261031",
+      "SHA": "e78cd19197bda2f9986355e28ecf05ce5cf02fb9",
+      "HEAD_only": 37,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/codex/b5-r6-ecg-temp-20261030",
+      "SHA": "e24e9705a31ed9c2237ed38dd6bc843b6ffaa45c",
+      "HEAD_only": 42,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/codex/b5-r6-rr15-causal-candidate-20261030",
+      "SHA": "eda6e24a8eedcfe0b50416390022db0c187550af",
+      "HEAD_only": 39,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/codex/b5-rr15-source-truth-a0-20261030",
+      "SHA": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+      "HEAD_only": 38,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/codex/b5-tri-t0-host-20261031",
+      "SHA": "025839a2fc272232141b557bfce8aa10952ca682",
+      "HEAD_only": 36,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/codex/c-inmp441-voice-20261102",
+      "SHA": "be552179d77b21132d0027ff757e5db60959713f",
+      "HEAD_only": 0,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/codex/c-voice-cloud-20261022",
+      "SHA": "ba61ae2c97204f240d8fa6f316eb700aff70d29e",
+      "HEAD_only": 145,
+      "ref_only": 66,
+      "tip_is_ancestor": false,
+      "ref_side_changed_files": 1741
+    },
+    {
+      "ref": "origin/codex/node-b-bio-v2-field-20261022",
+      "SHA": "bb9bc8e00860ff4f61fa3c4f315edfb76815a59b",
+      "HEAD_only": 120,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/codex/node-b-bio-v2-test-20261022",
+      "SHA": "c0617b9fc0ee1f1c6b2f3c4ece90b36db7a78740",
+      "HEAD_only": 142,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/codex/node-b-precan-closeout-20261023",
+      "SHA": "9988d37cd5470d6857bb535aab1d821cf2581302",
+      "HEAD_only": 112,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/codex/node-b4-dualbus-software-20261023",
+      "SHA": "ffa440b31b8b4993967f0e9aef1b3071a0d1dcfe",
+      "HEAD_only": 95,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/codex/node-b5-cloud-integration-20261026",
+      "SHA": "2854d3581658a91d65c1aa30d827ff489ff0f081",
+      "HEAD_only": 49,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/codex/p5-c3a-diagnostic",
+      "SHA": "38ccef7fd7e265b848880dd2ca1015ca3f3a7099",
+      "HEAD_only": 157,
+      "ref_only": 3,
+      "tip_is_ancestor": false,
+      "ref_side_changed_files": 67
+    },
+    {
+      "ref": "origin/dev/h3-nodea-cloud-ai-integration",
+      "SHA": "a5cdd5b0b1ad48108fd631136e9de69e30582f2d",
+      "HEAD_only": 145,
+      "ref_only": 62,
+      "tip_is_ancestor": false,
+      "ref_side_changed_files": 1606
+    },
+    {
+      "ref": "origin/dev/node-a-v07",
+      "SHA": "dab0b3de78a8c76efb48593eb8a164a13663e422",
+      "HEAD_only": 176,
+      "ref_only": 6,
+      "tip_is_ancestor": false,
+      "ref_side_changed_files": 173
+    },
+    {
+      "ref": "origin/dev/node-b-v07",
+      "SHA": "ce84b33b705403775790d4723978d586aeb877a4",
+      "HEAD_only": 176,
+      "ref_only": 2,
+      "tip_is_ancestor": false,
+      "ref_side_changed_files": 2
+    },
+    {
+      "ref": "origin/dev/p6-cloud-ai-text-tts-v1",
+      "SHA": "1a5d7d16a1df00a1195a6754c35d33f4380324a6",
+      "HEAD_only": 145,
+      "ref_only": 11,
+      "tip_is_ancestor": false,
+      "ref_side_changed_files": 195
+    },
+    {
+      "ref": "origin/main",
+      "SHA": "50699048010c57ba10f8573461844c525b022a07",
+      "HEAD_only": 199,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    },
+    {
+      "ref": "origin/patch/b5-r6-patch01-20261030",
+      "SHA": "01864fb4c1ea35c9da38aa98b1e85790d2ed5415",
+      "HEAD_only": 45,
+      "ref_only": 0,
+      "tip_is_ancestor": true,
+      "ref_side_changed_files": 0
+    }
+  ],
+  "scope": "READ_ONLY_GIT_INVENTORY_NOT_MERGE_OR_FIELD_AUTH",
+  "SDK_opens": 0,
+  "serial_opens": 0,
+  "Flash_writes": 0,
+  "cloud_changes": 0
+}

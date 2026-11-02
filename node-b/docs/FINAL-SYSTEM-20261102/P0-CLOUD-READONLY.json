@@ -1,0 +1,82 @@
+{
+  "scope": "P0_READ_ONLY_NO_SERVICE_OR_CONFIG_WRITES",
+  "units": {
+    "medical-monitor-h3-webai.service": {
+      "ActiveState": "active",
+      "Git_SHA": "UNKNOWN_NON_GIT_DEPLOYMENT",
+      "source_file_SHA256": {
+        "cloud/ai/facts.py": "86f0d7adc24aac8006d51684e7060d01ca9e7f32d2f7d8e96a2a0126d48b004c",
+        "cloud/backend/app/hub.py": "b48047b0c7390601e8a3230cf87733dc28121cecf9901073c6d8ee436b9b877e",
+        "cloud/web/package.json": "191a6d6566d67219e26e61b0e6bbc89d95dcfb3ad559a56f9edf991e537413d0"
+      },
+      "systemctl_native_exit": 0,
+      "git_native_exit": 128
+    },
+    "medical-monitor-h3-webbackend.service": {
+      "ActiveState": "active",
+      "Git_SHA": "UNKNOWN_NON_GIT_DEPLOYMENT",
+      "source_file_SHA256": {
+        "app/hub.py": "b48047b0c7390601e8a3230cf87733dc28121cecf9901073c6d8ee436b9b877e"
+      },
+      "systemctl_native_exit": 0,
+      "git_native_exit": 128
+    },
+    "medical-monitor-mqtt.service": {
+      "ActiveState": "active",
+      "source_file_SHA256": {},
+      "systemctl_native_exit": 0
+    },
+    "medical-monitor.service": {
+      "ActiveState": "active",
+      "Git_SHA": "UNKNOWN_NON_GIT_DEPLOYMENT",
+      "source_file_SHA256": {
+        "app/hub.py": "f20f69bff5e29e0c4661c5a973dfd6d24c87b9384b0287d011aeace056f6a229"
+      },
+      "systemctl_native_exit": 0,
+      "git_native_exit": 128
+    },
+    "medical-monitor-mock.service": {
+      "ActiveState": "active",
+      "Git_SHA": "UNKNOWN_NON_GIT_DEPLOYMENT",
+      "source_file_SHA256": {},
+      "systemctl_native_exit": 0,
+      "git_native_exit": 128
+    }
+  },
+  "local_facts_SHA256": "2c1d4a0d64ff0beb9674af578ce362fc88069c3a8140c5d38b3894b8025df8a7",
+  "deployed_facts_matches_current_branch": false,
+  "facts_source_ref_comparisons": [
+    {
+      "ref": "origin/dev/p6-cloud-ai-text-tts-v1",
+      "file_SHA256": "2c1d4a0d64ff0beb9674af578ce362fc88069c3a8140c5d38b3894b8025df8a7",
+      "matches_deployed_facts": false
+    },
+    {
+      "ref": "origin/dev/h3-nodea-cloud-ai-integration",
+      "file_SHA256": "2c1d4a0d64ff0beb9674af578ce362fc88069c3a8140c5d38b3894b8025df8a7",
+      "matches_deployed_facts": false
+    },
+    {
+      "ref": "origin/codex/c-voice-cloud-20261022",
+      "file_SHA256": "2c1d4a0d64ff0beb9674af578ce362fc88069c3a8140c5d38b3894b8025df8a7",
+      "matches_deployed_facts": false
+    },
+    {
+      "ref": "origin/codex/abc-two-group-integration-20261031",
+      "file_SHA256": "2c1d4a0d64ff0beb9674af578ce362fc88069c3a8140c5d38b3894b8025df8a7",
+      "matches_deployed_facts": false
+    },
+    {
+      "ref": "origin/codex/b5-tri-t0-host-20261031",
+      "file_SHA256": "2c1d4a0d64ff0beb9674af578ce362fc88069c3a8140c5d38b3894b8025df8a7",
+      "matches_deployed_facts": false
+    }
+  ],
+  "facts_semantic_comparison": {
+    "deployed_SHA256": "86f0d7adc24aac8006d51684e7060d01ca9e7f32d2f7d8e96a2a0126d48b004c",
+    "working_copy_SHA256": "2c1d4a0d64ff0beb9674af578ce362fc88069c3a8140c5d38b3894b8025df8a7",
+    "Git_blob_SHA256": "2c1d4a0d64ff0beb9674af578ce362fc88069c3a8140c5d38b3894b8025df8a7",
+    "equal_after_CRLF_normalization": true,
+    "AST_equal": true
+  }
+}

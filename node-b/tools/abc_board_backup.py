@@ -9,13 +9,17 @@ import time
 import c_b4_readonly as ro
 
 
-def backup(board,out):
+def backup(board,out,reference_identity=None):
     out.mkdir();probe=out/'probe';probe.mkdir();link=None
     result={'board':board,'status':'STOP','exit_code':1,'target_writes':0,'native_side_effects':'UNRESOLVED'}
     try:
+        expected=json.loads(reference_identity.read_text()) if reference_identity else None
         link=ro.CReadLink(probe);link.open()
         ident=ro.raw.identity(link);ro.raw.check_identity(ident)
         ro.raw.write_json(probe/'identity-private.json',ident)
+        if expected:
+            ro.require(ident['uid_hex']==expected['uid_hex'],'ABC_REFERENCE_UID_MISMATCH')
+            result['known_reference_identity_matched']=True
         if board=='B':
             ro.require(ident['uid_hex']==json.loads(ro.B_REFERENCE.read_text())['uid_hex'],'ABC_PROBE_IS_NOT_KNOWN_B')
         ro.raw.write_json(probe/'entry-sticky-private.json',{'DHCSR':link.u32(ro.SYSTEM['DHCSR'])})
@@ -79,12 +83,15 @@ def supervise(cmd,out):
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--board',choices=('A','B','C'),required=True)
     p.add_argument('--out',type=Path,required=True);p.add_argument('--execute',action='store_true');p.add_argument('--worker',action='store_true')
+    p.add_argument('--reference-identity',type=Path,help='可选的既有实物身份原件；读取完整Flash前核对UID')
     a=p.parse_args()
     if not(a.execute or a.worker):print('BACKUP_NOT_STARTED');return 0
     out=a.out.resolve();ro.require(out.parent.is_relative_to(Path('E:/medical-monitor-node-b-precan-private/20261023')),'ABC_PRIVATE_ROOT')
     ro.require(out.parent.stat().st_file_attributes&0x4000 and not out.exists(),'ABC_PRIVATE_OUTPUT')
-    if a.worker:return backup(a.board,out)
-    return supervise([sys.executable,'-X','utf8',str(Path(__file__)),'--worker','--board',a.board,'--out',str(out)],out)
+    if a.worker:return backup(a.board,out,a.reference_identity)
+    command=[sys.executable,'-X','utf8',str(Path(__file__)),'--worker','--board',a.board,'--out',str(out)]
+    if a.reference_identity:command+=['--reference-identity',str(a.reference_identity)]
+    return supervise(command,out)
 
 
 if __name__=='__main__':raise SystemExit(main())
