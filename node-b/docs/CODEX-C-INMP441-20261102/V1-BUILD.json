@@ -1,0 +1,100 @@
+{
+  "status": "MIC_BENCH_BUILD_PASS",
+  "scope": "MIC_BENCH_BUILD_ONLY",
+  "device_operations": 0,
+  "commands": [
+    {
+      "tool": "arm-none-eabi-gcc.exe",
+      "actual_exit_code": 0
+    },
+    {
+      "tool": "arm-none-eabi-gcc.exe",
+      "actual_exit_code": 0
+    },
+    {
+      "tool": "arm-none-eabi-gcc.exe",
+      "actual_exit_code": 0
+    },
+    {
+      "tool": "arm-none-eabi-gcc.exe",
+      "actual_exit_code": 0
+    },
+    {
+      "tool": "arm-none-eabi-gcc.exe",
+      "actual_exit_code": 0
+    },
+    {
+      "tool": "arm-none-eabi-gcc.exe",
+      "actual_exit_code": 0
+    },
+    {
+      "tool": "arm-none-eabi-gcc.exe",
+      "actual_exit_code": 0
+    },
+    {
+      "tool": "arm-none-eabi-gcc.exe",
+      "actual_exit_code": 0
+    },
+    {
+      "tool": "arm-none-eabi-gcc.exe",
+      "actual_exit_code": 0
+    },
+    {
+      "tool": "arm-none-eabi-size.exe",
+      "actual_exit_code": 0
+    },
+    {
+      "tool": "arm-none-eabi-objcopy.exe",
+      "actual_exit_code": 0
+    },
+    {
+      "tool": "arm-none-eabi-nm.exe",
+      "actual_exit_code": 0
+    },
+    {
+      "tool": "arm-none-eabi-nm.exe",
+      "actual_exit_code": 0
+    }
+  ],
+  "BIN_bytes": 6532,
+  "ELF_load_segments": [
+    {
+      "physical_address": "0x8000000",
+      "virtual_address": "0x8000000",
+      "file_bytes": 6444,
+      "memory_bytes": 6444
+    },
+    {
+      "physical_address": "0x800192c",
+      "virtual_address": "0x20000000",
+      "file_bytes": 88,
+      "memory_bytes": 69444
+    },
+    {
+      "physical_address": "0x8001984",
+      "virtual_address": "0x20010f44",
+      "file_bytes": 0,
+      "memory_bytes": 32772
+    }
+  ],
+  "DMA_buffer_address": "0x200103f0",
+  "DMA_buffer_bytes": 2560,
+  "strong_IRQ_vectors_verified": true,
+  "sector3_not_in_image": true,
+  "network_and_Flash_write_symbols_absent": true,
+  "artifacts": {
+    "MIC_BENCH.elf": "ba520d0d8283c47d61469349247a6135636af929116470de95690894e855cd8c",
+    "MIC_BENCH.bin": "08dc1bfb657d50c4c742853b03dd73804f74b28e44d34c0e4c8e8f36ebd20059",
+    "symbols.txt": "a5b38fbd204bebc35d483fd18f6d354ac700550c95be6736a6cda967af05a586"
+  },
+  "source_SHA256": {
+    "gateway\\microphone\\bench_main.c": "1dd91514ffd30ee16ef83ead94986abf146c47408ca189d0814b5f3313598c13",
+    "gateway\\microphone\\mic_format.c": "6bb4e5489206fc3d32a72413b24e67f3a84f7af1950a9a1f99dc0f321e98b4ec",
+    "gateway\\dual_can\\system_hse.c": "5192e6351edae0ce2b5ad90e1dced3e38af944ae50645131a54e75fba22a04db",
+    "gateway\\esp_at_probe\\src\\syscalls.c": "796e258d6c2e20e2d1f629c43d7d6ea17b32d3040c466055ae9a2a084caf9ead",
+    "external/stm32f4xx_rcc.c": "4169568c167d701fada6c2366d2537c62d194dbe9a311e513fc9ff80061dc998",
+    "external/stm32f4xx_gpio.c": "3043fe9e52501fad9cea9afa95e741f0697d658471d930610447623784e80bf8",
+    "external/stm32f4xx_usart.c": "f76877834c69e6f44f6a5daa61191ae06c17ef19c80318b3e05542f7bd6d869c",
+    "external/startup_stm32f40_41xxx.s": "7130bda839175b88ae9b13c03f2e0e993139b253eebd03f1f1ef23840dc569a4"
+  }
+}

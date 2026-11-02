@@ -1,0 +1,19 @@
+{
+  "status": "MIC_BENCH_INSTALL_PLAN_READY",
+  "scope": "OWNER_VOICE_MIC_V1_C_ONLY",
+  "known_C_UID_matches": true,
+  "current_C_full_matches_last_three_board_install": true,
+  "initial_offline_plan_exit_code": 1,
+  "initial_offline_failure": "Existing ABC wrapper requires all application sectors, tiny image selected sector0 only; no device writes",
+  "resolution": "Reuse previously verified 48KiB app012 installer with explicit FF padding; no new flash engine",
+  "linked_BIN_bytes": 6532,
+  "install_image_bytes": 49152,
+  "install_image_sha256": "56f9c9d2e109012eae6d669f255e6833599e7931750daa12003fe9a1690583df",
+  "sectors": [
+    0,
+    1,
+    2
+  ],
+  "outside_sector012_unchanged": true,
+  "rollback": "Today original sector012 exact 49152-byte image; no old C49132 image"
+}
