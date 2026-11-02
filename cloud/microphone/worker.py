@@ -15,6 +15,7 @@ import wave
 import paho.mqtt.client as mqtt
 from protocol import AudioAssembler,reply_packet
 from ai_reference.providers import Provider
+from ai_reference import providers as ai_module
 
 INPUT='mpm/mic/v1/in'
 OUTPUT='mpm/mic/v1/out'
@@ -99,13 +100,24 @@ def main():
                 if not transcription or len(transcription)>200:
                     result['status']='ASR_NO_ACCEPTABLE_TEXT';save(folder/'receipt-private.json',result);continue
                 try:
-                    question='语音工程测试。识别内容：'+transcription+'。请只用十个汉字以内简短确认收到，不重复英文，不作医疗判断。'
+                    question=('非人体麦克风工程测试，识别片段：'+transcription+
+                              '。请严格返回JSON对象，kind取project，explanation只用十个汉字以内简短确认收到。'
+                              '不要复述识别片段，不含数字、单位、表情、换行、标签或医疗判断。')
                     result['AI_called']=True
-                    answer=asyncio.run(provider.explain(question,[],[]))
+                    original_validate=ai_module.validate_explanation
+                    def audit_output(parsed):
+                        save(folder/'AI-output-JSON-private.json',parsed)
+                        return original_validate(parsed)
+                    # 此worker串行调用AI，旁路仅留原件，仍由未改动的原校验器裁定。
+                    ai_module.validate_explanation=audit_output
+                    try:answer=asyncio.run(provider.explain(question,[],[]))
+                    finally:ai_module.validate_explanation=original_validate
                     result.update(AI_text=str(answer),AI_evidence=dict(answer.evidence))
                     response=reply_packet(result['session'],result['crc32'],str(answer))
                 except Exception as error:
                     result.update(status='AI_OR_TEXT_REJECTED',error_type=type(error).__name__)
+                    if isinstance(error,ValueError) and str(error) in ('MODEL_OUTPUT_REJECTED','MODEL_RESPONSE_INCOMPLETE','MODEL_RESPONSE_SIZE'):
+                        result['error_code']=str(error)
                     if provider.last_call:result['AI_evidence']=dict(provider.last_call)
                     save(folder/'receipt-private.json',result);continue
                 publication=client.publish(OUTPUT if source=='C' else HOST_OUTPUT,response,qos=1,retain=False)

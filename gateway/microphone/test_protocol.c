@@ -9,6 +9,14 @@ int main(int argc,char **argv) {
     strcpy((char *)config+37,"INVALID_TEST_ONLY");strcpy((char *)config+102,"mock-client");
     strcpy((char *)config+143,"INVALID TEST AP");strcpy((char *)config+176,"INVALID_TEST_ONLY");
     u32(config+241,1790000000u);u32(config+245,mic_crc32(config,245));assert(mic_config_packet_valid(config,sizeof config));
+    uint8_t received[249]={0};unsigned position=0;
+    assert(mic_config_byte(received,&position,'C')==1);
+    for(unsigned i=0;i<sizeof config;i++)assert(mic_config_byte(received,&position,config[i])==(i==sizeof config-1?2:1));
+    assert(!position && !memcmp(received,config,sizeof config));
+    assert(mic_config_byte(received,&position,'S')==0);
+    assert(mic_config_byte(received,&position,'C')==1);
+    for(unsigned i=0;i<sizeof config;i++)assert(mic_config_byte(received,&position,"SNRDC"[i%5])==(i==sizeof config-1?2:1));
+    assert(!position);
     for(unsigned n=0;n<249;n++)assert(!mic_config_packet_valid(config,n));
     u32(config+241,1);u32(config+245,mic_crc32(config,245));assert(!mic_config_packet_valid(config,sizeof config));u32(config+241,1790000000u);
     config[7]='\n';u32(config+245,mic_crc32(config,245));assert(!mic_config_packet_valid(config,sizeof config));config[7]='k';

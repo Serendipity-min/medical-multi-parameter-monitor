@@ -1,0 +1,51 @@
+{
+  "exit_code": 0,
+  "action": "capture",
+  "scope": "C_ONLY_VOICE_NETWORK",
+  "MCU_RESET_commands": 0,
+  "B5START": 0,
+  "host_MQTT_application_publications": 0,
+  "formal_PI_signature_or_nonce_used": false,
+  "status": "C_AUDIO_BROKER_BYTE_MATCH_AND_TTS_ACK_DONE_PENDING_ASR_REVIEW_OWNER_HEARING",
+  "session": 1793616888,
+  "source_proof": {
+    "status": "MIC_RECORD_INTEGRITY_PASS_NOT_FULL_LOCAL_ACCEPTANCE",
+    "duration_s": 2.0,
+    "RMS_PCM16": 463.06066027438567,
+    "mean_PCM16": 161.92540625,
+    "peak_PCM16": 1768,
+    "RMS_dBFS": -36.99624096536573,
+    "IRQ_rate_from_declared_HSE_Hz": 16000.0,
+    "IRQ_gap_min_s": 0.009999125,
+    "IRQ_gap_max_s": 0.010000875,
+    "clock_measurement": "REGISTER_AND_CYCLE_EVIDENCE_NOT_INDEPENDENT_FREQUENCY_METER",
+    "zero24_fraction": 0.0,
+    "clip24_count": 0,
+    "left_right_abs_ratio": 10909063.0,
+    "PCM_SHA256": "771aad26dfec6c38b4c1cd93264fb06a3a2513aa66be78021ea8491c0bdc2771",
+    "acceptance": "REQUIRES_QUIET_TONE_SPEECH_COMPARISON_AND_OWNER_LISTENING"
+  },
+  "broker_chunks": 125,
+  "source_cloud_PCM_SHA256": "771aad26dfec6c38b4c1cd93264fb06a3a2513aa66be78021ea8491c0bdc2771",
+  "actual_reply": {
+    "session": 1793616888,
+    "crc32": 3456105564,
+    "text": "已收到该测试内容"
+  },
+  "last_TTS": {
+    "event": "PLAYBACK_DONE_REQUIRES_OWNER_HEARING",
+    "session": 1793616888,
+    "crc": 3456105564,
+    "chunk": 125,
+    "phase": 4,
+    "ack": 1,
+    "done": 1,
+    "uart_errors": 0,
+    "uart_overflow": 0,
+    "stop_sent": 1,
+    "stop_ack": 1,
+    "stop_idle": 0,
+    "stop_failed": 1
+  },
+  "own_tunnel_native_exit": 1
+}

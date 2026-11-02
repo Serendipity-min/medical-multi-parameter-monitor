@@ -24,7 +24,7 @@ from capture import analyze
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--job',type=Path,required=True)
-    p.add_argument('--port',required=True);p.add_argument('--action',choices=('connect','capture','stop'),required=True);a=p.parse_args()
+    p.add_argument('--port',required=True);p.add_argument('--action',choices=('connect','capture','retry','stop'),required=True);a=p.parse_args()
     stamp=time.strftime('%Y%m%dT%H%M%S',time.gmtime());out=a.job/('field-'+a.action+'-'+stamp);out.mkdir()
     if not out.stat().st_file_attributes&0x4000:raise ValueError('FIELD_OUTPUT_NOT_EFS')
     (out/'executed-field-tool.py').write_bytes(Path(__file__).read_bytes())
@@ -50,7 +50,7 @@ def main():
                 events.append(event)
                 with (out/'C-events-live.jsonl').open('a',encoding='utf-8') as live:live.write(json.dumps(event)+'\n')
                 print(json.dumps({'C_event':event['event'],'session':event['session'],'chunk':event['chunk']}),flush=True)
-                if event['event']=='RECORDING':session['id']=event['session']
+                if event['event'] in ('RECORDING','REUPLOAD_EXISTING_RECORD'):session['id']=event['session']
                 if event['event'] in ('CONNECT_FAILED','TTS_FAILED','CAPTURE_FAILED','UPLOAD_FAILED','NETWORK_FAILED','TURN_TIMEOUT'):
                     raise ValueError('FIELD_'+event['event'])
             if b.startswith(prefix):return b
@@ -89,9 +89,10 @@ def main():
 
     try:
         s.open();s.write(b'I');identity=until(b'MIC_NETWORK_ID ',3)
-        if identity.strip()!=b'MIC_NETWORK_ID PA4_PC10_PC12 TLS_PCM16_TTS_LOW_VOLUME WIFI_RAM_V3_SSH_UTC':
+        if identity.strip()!=b'MIC_NETWORK_ID PA4_PC10_PC12 TLS_PCM16_TTS_LOW_VOLUME WIFI_RAM_V4_STATE_SAFE':
             raise ValueError('FIELD_WRONG_RUNTIME_CONFIG_VERSION')
         if a.action=='connect':
+            s.write(b'S');until(b'MIC_NET OWNER_STOP_STOP_ACK_NOT_ASSUMED',12);until(b'MIC_CONTROL_READY',3)
             settings=json.loads((a.job/'voice-runtime-credentials-private.json').read_text())
             user=b'mic-device';password=settings['roles']['mic-device'].encode('ascii');cid=('mic-c-'+stamp).encode('ascii')
             wifi=json.loads((a.job/'host-hotspot-runtime-private.json').read_text())
@@ -113,9 +114,12 @@ def main():
             if len(body)!=245:raise ValueError('FIELD_RUNTIME_CONFIG_LENGTH')
             s.write(b'C'+body+struct.pack('<I',zlib.crc32(body)));until(b'MIC_CONFIG_OK',3)
             s.write(b'N');until(b'MIC_VOICE_READY',140)
-            result.update(exit_code=0,status='C_TLS_MQTT_SUBACK_TTS_VOLUME_ACK_READY_NOT_AUDIO_UPLINK')
-        elif a.action=='capture':
-            observe();s.write(b'R');until(b'MIC_NET PLAYBACK_DONE_REQUIRES_OWNER_HEARING',125)
+            result.update(exit_code=0,status='C_TLS_MQTT_SUBACK_TTS_VOLUME_ACK_READY_NOT_AUDIO_UPLINK',
+                          connect_cleanup_STOP_ACK_and_IDLE_proven=any(e['event']=='STOP_ACK_IDLE_CONFIRMED' for e in events))
+        elif a.action in ('capture','retry'):
+            observe();s.write(b'R' if a.action=='capture' else b'U')
+            until(b'MIC_NET RECORDING ' if a.action=='capture' else b'MIC_NET REUPLOAD_EXISTING_RECORD ',3)
+            until(b'MIC_NET PLAYBACK_DONE_REQUIRES_OWNER_HEARING',125)
             last=events[-1]
             if last['ack']!=1 or last['done']!=1 or last['uart_errors'] or last['uart_overflow']:
                 raise ValueError('FIELD_TTS_ACK_DONE_OR_UART')

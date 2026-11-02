@@ -11,6 +11,15 @@ static int token(const char *p,size_t capacity) {
              (p[n]>='0'&&p[n]<='9') || p[n]=='-' || p[n]=='_'))return 0;
     return n>0 && n<capacity;
 }
+int mic_config_byte(uint8_t packet[249],unsigned *position,uint8_t byte) {
+    if(*position) {
+        packet[(*position)++-1]=byte;
+        if(*position==250){*position=0;return 2;}
+        return 1;
+    }
+    if(byte=='C'){*position=1;return 1;}
+    return 0;
+}
 int mic_config_packet_valid(const uint8_t *p,size_t n) {
     if(n!=249 || memcmp(p,"MCF3",4) || load32(p+245)!=mic_crc32(p,245) || load32(p+241)<1700000000u ||
        !token((const char *)p+4,33) || !token((const char *)p+37,65) || !token((const char *)p+102,41))return 0;

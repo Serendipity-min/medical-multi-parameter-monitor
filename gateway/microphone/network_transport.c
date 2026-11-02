@@ -91,13 +91,20 @@ int mic_network_connect(void) {
     return subscribe_reply();
 }
 int mic_network_send(const uint8_t *packet,size_t length) {
-    if(!mqtt_online || !network.connected || length>544)return 0;
+    if(!mqtt_online || !network.connected || length>544){console("MIC_SEND_NOT_READY\r\n");return 0;}
     MQTTPublishInfo_t m={0};m.qos=MQTTQoS1;m.pTopicName=MIC_INPUT;m.topicNameLength=sizeof(MIC_INPUT)-1;
     m.pPayload=packet;m.payloadLength=length;pending_id=MQTT_GetPacketId(&client);acknowledged=0;
     mqtt_adapter_begin(&network,5000);uint32_t at=g_uptime_ms;
-    int ok=MQTT_Publish(&client,&m,pending_id)==MQTTSuccess;
+    MQTTStatus_t published=MQTT_Publish(&client,&m,pending_id);
+    int ok=published==MQTTSuccess;
     while(ok && !acknowledged && g_uptime_ms-at<5000)ok=process_once();
-    ok=ok && acknowledged && network.connected && g_uptime_ms-at<5000;pending_id=0;acknowledged=0;
+    ok=ok && acknowledged && network.connected && g_uptime_ms-at<5000;
+    if(!ok) {
+        char line[160];snprintf(line,sizeof line,"MIC_SEND_DIAG status=%u ack=%d connected=%u elapsed=%lu uart_errors=%lu\r\n",
+            (unsigned)published,acknowledged,(unsigned)network.connected,(unsigned long)(g_uptime_ms-at),
+            (unsigned long)platform_uart_errors_total());console(line);
+    }
+    pending_id=0;acknowledged=0;
     if(!ok)mqtt_failed();
     return ok;
 }
