@@ -3,17 +3,26 @@
 #include "stm32f4xx_rcc.h"
 #include "stm32f4xx_usart.h"
 #include "mic_format.h"
+#include "mic_api.h"
 #include <stdio.h>
 #include <string.h>
 
 extern int physical_clock_ready(void);
+#ifdef MIC_NETWORK_BENCH
+volatile uint32_t g_uptime_ms;
+#define uptime g_uptime_ms
+#else
 static volatile uint32_t uptime;
+#endif
 static volatile uint16_t dma_words[2][MIC_BLOCK_WORDS];
 static uint16_t staging[MIC_BLOCK_WORDS], raw_head[64];
 static int16_t pcm[MIC_SAMPLES];
-static volatile uint32_t irq_cycles[250], blocks, dma_errors, overruns;
+static volatile uint32_t irq_cycles[300], blocks, dma_errors, overruns;
+static uint16_t recorded_blocks[200];
+static uint32_t decode_cycles_max;
 static volatile int pending = -1;
 static unsigned frames, state; /* 0=空闲，1=采集，2=完成，3=错误 */
+static uint32_t began_at;
 static uint32_t left_abs, right_abs, right_nonzero, zero24, clip24, low24, fault_flags;
 
 void SysTick_Handler(void) { ++uptime; }
@@ -23,7 +32,7 @@ void DMA1_Stream0_IRQHandler(void) {
     DMA1->LIFCR = 0x3du;
     if (flags & 0x0du) ++dma_errors;
     if (flags & (1u << 5)) {
-        if (blocks < 250u) irq_cycles[blocks] = DWT->CYCCNT;
+        if (blocks < 300u) irq_cycles[blocks] = DWT->CYCCNT;
         ++blocks;
         if (pending != -1) ++overruns;
         pending = (DMA1_Stream0->CR & DMA_SxCR_CT) ? 0 : 1;
@@ -39,9 +48,12 @@ static void number(uint32_t n) { char b[16]; snprintf(b, sizeof b, "%lu", (unsig
 static void field(const char *name, uint32_t n) { text(name); number(n); }
 
 static void stop(void) {
-    SPI3->I2SCFGR &= ~SPI_I2SCFGR_I2SE;
+    __disable_irq();
     SPI3->CR2 = 0;
     DMA1_Stream0->CR &= ~DMA_SxCR_EN;
+    SPI3->I2SCFGR &= ~SPI_I2SCFGR_I2SE;
+    DMA1->LIFCR = 0x3du; NVIC_ClearPendingIRQ(DMA1_Stream0_IRQn);
+    __enable_irq();
     GPIOF->BSRRL = GPIO_Pin_9;
 }
 
@@ -81,8 +93,10 @@ static int initialize(void) {
 }
 
 static void start(void) {
+    began_at = uptime;
     frames = state = left_abs = right_abs = right_nonzero = zero24 = clip24 = low24 = 0;
     fault_flags = 0;
+    decode_cycles_max = 0;
     blocks = dma_errors = overruns = 0; pending = -1;
     memset(raw_head, 0, sizeof raw_head);
     DMA1_Stream0->CR = 0; DMA1->LIFCR = 0x3du;
@@ -100,6 +114,7 @@ static void start(void) {
 }
 
 static void consume(void) {
+    uint32_t decode_began = DWT->CYCCNT;
     __disable_irq(); int index = pending; uint32_t generation = blocks; __enable_irq();
     if (index < 0) return;
     if (((DMA1_Stream0->CR & DMA_SxCR_CT) ? 1 : 0) == index) { ++overruns; return; }
@@ -108,6 +123,7 @@ static void consume(void) {
     if (generation != blocks || ((DMA1_Stream0->CR & DMA_SxCR_CT) ? 1 : 0) == index) ++overruns;
     pending = -1; __enable_irq();
     if (overruns || dma_errors || generation <= 50u) return;
+    if (frames / MIC_BLOCK_FRAMES < 200u) recorded_blocks[frames / MIC_BLOCK_FRAMES] = (uint16_t)generation;
     for (unsigned i = 0; i < MIC_BLOCK_FRAMES && frames < MIC_SAMPLES; ++i) {
         const uint16_t *v = staging + 4u * i;
         int32_t l = mic_sample24(v[0], v[1]);
@@ -118,6 +134,8 @@ static void consume(void) {
         right_nonzero += mic_sample24(v[2], v[3]) != 0; zero24 += l == 0;
         clip24 += l >= 8388352 || l <= -8388352; low24 += (v[1] & 0xff00u) != 0;
     }
+    uint32_t duration = DWT->CYCCNT - decode_began;
+    if (duration > decode_cycles_max) decode_cycles_max = duration;
 }
 
 static void dump(void) {
@@ -125,6 +143,7 @@ static void dump(void) {
     field(",\"bytes\":", frames * 2u); field(",\"crc32\":", mic_crc32(pcm, frames * 2u));
     field(",\"blocks\":", blocks); field(",\"dma_errors\":", dma_errors); field(",\"overruns\":", overruns);
     field(",\"fault_flags\":", fault_flags);
+    field(",\"decode_cycles_max\":", decode_cycles_max);
     field(",\"left_abs\":", left_abs); field(",\"right_abs\":", right_abs); field(",\"right_nonzero\":", right_nonzero);
     field(",\"zero24\":", zero24); field(",\"clip24\":", clip24); field(",\"low24_nonzero\":", low24);
     field(",\"cpu_hz\":", SystemCoreClock); field(",\"PLLCFGR\":", RCC->PLLCFGR);
@@ -132,32 +151,45 @@ static void dump(void) {
     field(",\"I2SPR\":", SPI3->I2SPR); text(",\"raw_head\":[");
     for (unsigned i = 0; i < 64u; ++i) { if (i) put(','); number(raw_head[i]); }
     text("],\"irq_cycles\":[");
-    for (unsigned i = 0; i < blocks && i < 250u; ++i) { if (i) put(','); number(irq_cycles[i]); }
+    for (unsigned i = 0; i < blocks && i < 300u; ++i) { if (i) put(','); number(irq_cycles[i]); }
+    text("],\"recorded_blocks\":[");
+    for (unsigned i = 0; i < frames / MIC_BLOCK_FRAMES; ++i) { if (i) put(','); number(recorded_blocks[i]); }
     text("]}\r\n");
     const uint8_t *p = (const uint8_t *)pcm;
     for (unsigned i = 0; i < frames * 2u; ++i) put(p[i]);
     text("\r\nMIC_END\r\n");
 }
 
-int main(void) {
-    if (!initialize()) { text("MIC_CLOCK_FAIL\r\n"); for (;;) {} }
-    text("MIC_BENCH_READY PA4_PC10_PC12 16000 S24_32 LEFT; R=record D=dump S=stop\r\n");
-    uint32_t began = 0;
-    for (;;) {
-        if (state == 1) {
+int mic_initialize(void) { return initialize(); }
+void mic_record_begin(void) { start(); }
+unsigned mic_record_state(void) { return state; }
+const int16_t *mic_record_pcm(unsigned *count) { *count = frames; return pcm; }
+void mic_record_export(void) { dump(); }
+void mic_record_cancel(void) { stop(); fault_flags |= 16u; state = 3; text("MIC_OWNER_STOP\r\n"); }
+void mic_record_poll(void) {
+    if (state == 1) {
             consume();
             fault_flags = (dma_errors ? 1u : 0u) | (overruns ? 2u : 0u) |
-                ((SPI3->SR & SPI_SR_OVR) ? 4u : 0u) | ((uptime - began > 3500u) ? 8u : 0u);
+                ((SPI3->SR & SPI_SR_OVR) ? 4u : 0u) | ((uptime - began_at > 3500u) ? 8u : 0u);
             if (fault_flags) {
                 stop(); state = 3; text("MIC_CAPTURE_ERROR\r\n");
             } else if (frames == MIC_SAMPLES) { stop(); state = 2; text("MIC_DONE\r\n"); }
-        }
+    }
+}
+
+#ifndef MIC_NETWORK_BENCH
+int main(void) {
+    if (!initialize()) { text("MIC_CLOCK_FAIL\r\n"); for (;;) {} }
+    text("MIC_BENCH_READY PA4_PC10_PC12 16000 S24_32 LEFT; R=record D=dump S=stop\r\n");
+    for (;;) {
+        mic_record_poll();
         if (USART1->SR & USART_SR_RXNE) {
             uint8_t c = (uint8_t)USART1->DR;
-            if (c == 'S') { stop(); fault_flags |= 16u; state = 3; text("MIC_OWNER_STOP\r\n"); }
-            else if (c == 'R' && state != 1) { text("MIC_RECORDING\r\n"); began = uptime; start(); }
+            if (c == 'S') mic_record_cancel();
+            else if (c == 'R' && state != 1) { text("MIC_RECORDING\r\n"); start(); }
             else if (c == 'D' && state != 1) dump();
             else if (c == 'I' && state != 1) text("MIC_BENCH_ID PA4_PC10_PC12 16000 S24_32 LEFT\r\n");
         }
     }
 }
+#endif

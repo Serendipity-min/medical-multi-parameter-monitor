@@ -1,0 +1,20 @@
+{
+  "C_protocol_fixture_exit": 0,
+  "Python_reassembly_tests": 4,
+  "Python_reassembly_exit": 0,
+  "C_to_Python_vector_exit": 0,
+  "existing_TTS_assertions": 3103,
+  "existing_TTS_exit": 0,
+  "capture_regression_tests": 3,
+  "capture_regression_exit": 0,
+  "initial_TTS_compile_failures_preserved": [
+    {
+      "exit": 1,
+      "cause": "missing include search path"
+    },
+    {
+      "exit": 1,
+      "cause": "MinGW MSVCRT percent-zu; fixed build flag, TTS source unchanged"
+    }
+  ]
+}

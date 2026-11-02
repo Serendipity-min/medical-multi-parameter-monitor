@@ -1,0 +1,10 @@
+{
+  "status": "MIC_LOCAL_NOT_YET_ACCEPTED",
+  "attempt": "quiet-1",
+  "actual_process_exit_code": 1,
+  "reason": "MIC_CAPTURE_FAULT: total IRQ count251, expected250; PCM complete and CRC correct; DMA errors/overruns0",
+  "root_cause": "UNRESOLVED_PENDING_RECORDED_BLOCK_GENERATION_TRACE",
+  "next_change": "Expose consumed IRQ sequence and decode cycles; stop DMA request/stream before I2S, clear pending interrupt atomically",
+  "raw_failure_preserved": true,
+  "hardware_wiring_unchanged": true
+}

@@ -1,0 +1,11 @@
+#ifndef MP_MIC_API_H
+#define MP_MIC_API_H
+#include <stdint.h>
+int mic_initialize(void);
+void mic_record_begin(void);
+void mic_record_poll(void);
+void mic_record_cancel(void);
+unsigned mic_record_state(void);
+const int16_t *mic_record_pcm(unsigned *count);
+void mic_record_export(void);
+#endif

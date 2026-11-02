@@ -24,6 +24,8 @@ def analyze(meta, pcm):
         raise ValueError('MIC_CLOCK_OR_FORMAT_REGISTERS')
     ticks = meta['irq_cycles']
     if len(ticks) != 250: raise ValueError('MIC_IRQ_COUNT')
+    if meta['recorded_blocks'] != list(range(51,251)):
+        raise ValueError('MIC_RECORDED_BLOCK_DISCONTINUITY')
     gaps = [((b-a) & 0xffffffff)/meta['cpu_hz'] for a,b in zip(ticks,ticks[1:])]
     elapsed = ((ticks[249]-ticks[49]) & 0xffffffff)/meta['cpu_hz']
     rate = 32000/elapsed
@@ -50,6 +52,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--port',required=True);parser.add_argument('--condition',choices=('quiet','tone','speech'),required=True)
     parser.add_argument('--out',type=Path,required=True);parser.add_argument('--execute',action='store_true')
+    parser.add_argument('--cue',action='store_true',help='确认台架身份后播放三声提示，再开始录音')
+    parser.add_argument('--play-reference',type=Path,help='录音时由电脑外放已登记参考WAV；不向C注入样本')
     a = parser.parse_args()
     if not a.execute: print('MIC_CAPTURE_NOT_STARTED');return 0
     if a.out.exists() or not a.out.parent.stat().st_file_attributes & 0x4000:
@@ -67,7 +71,17 @@ def main():
     try:
         s.open();s.write(b'I');deadline=time.monotonic()+3
         while not line(deadline).startswith(b'MIC_BENCH_ID PA4_PC10_PC12 16000 S24_32 LEFT'): pass
+        if a.cue:
+            import winsound
+            for frequency in (650,650,1000):
+                winsound.Beep(frequency,160);time.sleep(.18)
+            result['operator_audio_cue_executed']=True
         s.write(b'R');deadline=time.monotonic()+7
+        if a.play_reference:
+            import winsound
+            reference=a.play_reference.read_bytes()
+            result['acoustic_reference_WAV_SHA256']=hashlib.sha256(reference).hexdigest()
+            winsound.PlaySound(str(a.play_reference),winsound.SND_FILENAME|winsound.SND_ASYNC|winsound.SND_NODEFAULT)
         while True:
             answer=line(deadline)
             if answer in (b'MIC_DONE\r\n',b'MIC_CAPTURE_ERROR\r\n'):break
@@ -88,6 +102,9 @@ def main():
     except (ValueError,TimeoutError,serial.SerialException) as error:
         result.update(error_type=type(error).__name__,reason=str(error))
     finally:
+        if a.play_reference:
+            import winsound
+            winsound.PlaySound(None,0)
         if s.is_open:s.close()
         (a.out/'serial-raw.bin').write_bytes(transcript)
         (a.out/'receipt.json').write_text(json.dumps(result,indent=2)+'\n')
