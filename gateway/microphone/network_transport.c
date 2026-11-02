@@ -39,7 +39,9 @@ static void mic_event(MQTTContext_t *context,MQTTPacketInfo_t *packet,MQTTDeseri
 
 int mic_network_connect(void) {
     MpFrame will={0};will.node=3;will.stream=MP_GATEWAY_STATUS;will.synthetic=true;will.seq=UINT32_MAX;
-    if(!gateway_network_open() || !gateway_mqtt_open(&will))return 0;
+    if(!gateway_network_open())return 0;
+    will.timestamp=gateway_epoch_milliseconds();will.epoch=gateway_epoch();will.boot=1;
+    if(!gateway_mqtt_open(&will))return 0;
     client.appCallback=mic_event;subscription_ack=0;subscription_id=MQTT_GetPacketId(&client);
     MQTTSubscribeInfo_t s={MQTTQoS1,MIC_OUTPUT,sizeof(MIC_OUTPUT)-1};
     mqtt_adapter_begin(&network,5000);

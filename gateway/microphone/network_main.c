@@ -24,8 +24,9 @@ static void report(const char *event) {
              speaker.stop_sent,speaker.stop_ack,speaker.stop_idle,speaker.stop_failed);console(b);
 }
 static void speaker_poll(void) {
-    for(unsigned i=0;i<4;i++){int c=tts_uart_receive();if(c<0)break;tts_receive(&speaker,(uint8_t)c,g_uptime_ms);}
+    /* 沿用VOICE-002顺序：先确认物理TX完成，再消费可能已排队的ACK。 */
     tts_poll(&speaker,g_uptime_ms);
+    for(unsigned i=0;i<4;i++){int c=tts_uart_receive();if(c<0)break;tts_receive(&speaker,(uint8_t)c,g_uptime_ms);}
 }
 
 void mic_network_reply(const uint8_t *p,size_t n) {
