@@ -77,7 +77,8 @@ int main(void)
     tts_cancel(&q, 5001); CHECK(q.state == TTS_DISABLED && !q.enabled && q.stopping && p.aborted);
     drain(&q, 5002); CHECK(q.stop_sent && !q.stop_idle && !q.stop_ack);
     tts_receive(&q, 0x4f, 5003); CHECK(!q.stop_idle);
-    tts_receive(&q, 0x41, 5004); tts_receive(&q, 0x4f, 5005); tts_poll(&q, 5006);
+    tts_receive(&q, 0x41, 5004); drain(&q, 5005);
+    CHECK(q.stop_query_sent); tts_receive(&q, 0x4f, 5006); tts_poll(&q, 5007);
     CHECK(!q.stopping && q.stop_idle && !q.stop_failed);
     CHECK(!tts_submit(&q, hello, 6, 3, 10000));
     CHECK(tts_enable(&q, true, true));

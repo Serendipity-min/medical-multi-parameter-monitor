@@ -13,9 +13,9 @@ FREEZE=0xe0042008
 
 
 class Link(install.InstallLink):
-    def __init__(self,out,board):
+    def __init__(self,out,board,size=49152):
         self.board=board;self.original_freeze=None;self.debug_freeze_writes=0
-        super().__init__(out,49152)
+        super().__init__(out,size)
 
     def freeze_read(self):
         value=(C.c_uint8*4)()
@@ -53,7 +53,9 @@ def prepare(board,reference,image,expected_sha):
     plan,payload=recovery.make_plan('B' if board=='A' else 'C',*files[:4],
         json.loads(files[4]),json.loads(files[5]),candidate,expected_sha)
     plan['board_role']=board;plan['scope']='ABC_OWNER_B_TEMP_SCREEN_APPLICATION_48K' if board=='B' else 'ABC_OWNER_RESTORE_APPLICATION_48K'
-    install.require(plan['sectors']==[0,1,2] and payload['expected-full-private.bin'][49152:]==files[0][49152:],
+    end=plan['erase_end_exclusive']-0x08000000
+    install.require((plan['sectors']==[0,1,2] or board=='C' and plan['sectors'] in ([0],[0,1]))
+                    and payload['expected-full-private.bin'][end:]==files[0][end:],
                     'ABC_CONFIG_SECTOR_PRESERVATION')
     return plan,payload
 
@@ -64,9 +66,9 @@ def worker(a,out):
     result={'status':'STOP','exit_code':1,'board':a.board,'automatic_reflash_or_rollback':False}
     install.raw.write_json(out/'image-plan-private.json',plan)
     try:
-        link=Link(probe,a.board)
+        link=Link(probe,a.board,plan['erase_end_exclusive']-0x08000000)
         result.update(install.execute(link,probe,{'phase':'install','board':a.board},plan,payload))
-        result['status']='ABC_'+a.board+'_APP012_FULL_VERIFY_BOOT_PASS'
+        result['status']='ABC_'+a.board+'_APP'+''.join(map(str,plan['sectors']))+'_FULL_VERIFY_BOOT_PASS'
     except (Exception,KeyboardInterrupt) as error:
         if link:link.verified_running_flash=False
         install.raw.write_json(out/'failure-private.json',{'type':type(error).__name__,'reason':str(error)})

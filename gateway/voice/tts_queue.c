@@ -8,7 +8,7 @@ void tts_init(TtsQueue *q, TtsIo io)
 
 bool tts_enable(TtsQueue *q, bool power, bool protocol)
 {
-    if (q->stopping || q->state == TTS_SENDING || q->state == TTS_ACCEPTED || q->state == TTS_PLAYING ||
+    if (q->stopping || q->stop_failed || q->state == TTS_SENDING || q->state == TTS_ACCEPTED || q->state == TTS_PLAYING ||
         q->state == TTS_ERROR || q->state == TTS_TIMEOUT || !q->io.write_byte || !q->io.tx_idle || !q->io.abort_tx) return false;
     q->power_good = power; q->protocol_confirmed = protocol;
     if (!power || !protocol) return false;
@@ -53,6 +53,7 @@ static void stop(TtsQueue *q, TtsState result, uint32_t now)
     memset(q->frame, 0, sizeof(q->frame));
     q->length = tts_control_frame(q->frame, 2); q->position = 0; q->at = now;
     q->stopping = true; q->stop_sent = q->stop_ack = q->stop_idle = q->stop_failed = false;
+    q->stop_query_started = q->stop_query_sent = false;
     q->state = result;
 }
 
@@ -69,11 +70,19 @@ void tts_poll(TtsQueue *q, uint32_t now)
             if (q->io.abort_tx) q->io.abort_tx(q->io.context);
             q->stopping = false; q->stop_failed = true; q->errors++; return;
         }
+        if (q->stop_sent && q->stop_ack && !q->stop_query_started) {
+            /* STOP的ACK不保证自动上报空闲；只补一帧状态查询，共用原停止总预算。 */
+            q->length = tts_control_frame(q->frame, 0x21); q->position = 0;
+            q->stop_query_started = true;
+        }
         if (q->position < q->length) {
             int rc = q->io.write_byte(q->io.context, q->frame[q->position]);
             if (rc > 0) q->position++;
             else if (rc < 0) { q->stopping = false; q->stop_failed = true; q->errors++; }
-        } else if (q->io.tx_idle(q->io.context)) q->stop_sent = true;
+        } else if (q->io.tx_idle(q->io.context)) {
+            if (q->stop_query_started) q->stop_query_sent = true;
+            else q->stop_sent = true;
+        }
         if (q->stop_sent && q->stop_ack && q->stop_idle) q->stopping = false;
         return;
     }
@@ -96,7 +105,7 @@ void tts_receive(TtsQueue *q, uint8_t status, uint32_t now)
 {
     if (q->stopping) {
         if (q->stop_sent && status == 0x41) q->stop_ack = true;
-        if (q->stop_sent && q->stop_ack && status == 0x4f) q->stop_idle = true;
+        if (q->stop_query_sent && status == 0x4f) q->stop_idle = true;
         return;
     }
     bool active = q->state == TTS_SENDING || q->state == TTS_ACCEPTED || q->state == TTS_PLAYING;

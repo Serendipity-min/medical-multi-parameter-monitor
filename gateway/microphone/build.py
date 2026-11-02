@@ -13,7 +13,8 @@ ROOT = HERE.parents[1]
 
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--network',action='store_true');args=parser.parse_args()
+    parser=argparse.ArgumentParser(description=__doc__); modes=parser.add_mutually_exclusive_group()
+    modes.add_argument('--network',action='store_true');modes.add_argument('--tts-stop',action='store_true',help='仅C的TTS STOP查询台架，不链接MIC/CAN/ESP');args=parser.parse_args()
     spec = importlib.util.spec_from_file_location('c_sdk', ROOT/'gateway/esp_at_probe/build.py')
     sdk = importlib.util.module_from_spec(spec); spec.loader.exec_module(sdk)
     out = ROOT/'node-b/build'/('mic-bench-'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ'))
@@ -24,6 +25,10 @@ def main():
                *[driver/n for n in ('stm32f4xx_rcc.c','stm32f4xx_gpio.c','stm32f4xx_usart.c')], sdk.STARTUP]
     flags = [*sdk.COMMON_FLAGS, '-fstack-usage', '-DHSE_VALUE=8000000', '-I'+str(HERE),
              '-I'+str(ROOT/'gateway/dual_can'), *['-I'+str(p) for p in sdk.INCLUDES]]
+    if args.tts_stop:
+        sources=[p for p in sources if p.name not in ('bench_main.c','mic_format.c')]
+        sources += [ROOT/'gateway/voice'/n for n in ('stop_bench.c','tts_frame.c','tts_queue.c','tts_uart_port.c')]
+        flags += ['-DMP_TTS_BENCH','-I'+str(ROOT/'gateway/voice')]
     if args.network:
         mqtt=ROOT/'gateway/third_party/coreMQTT'
         sources += [HERE/'network_main.c',HERE/'network_transport.c',HERE/'mic_protocol.c',ROOT/'gateway/data_model/model.c',
@@ -34,8 +39,8 @@ def main():
                   '-DMP_H3_WIFI_AWAKE','-DMP_CAN_RX_IRQ','-DMP_MQTT_TLS_PORT=1883','-DMP_MQTT_GATEWAY_ID="GW-MIC-TEST"',
                   '-I'+str(ROOT/'gateway/mqtt/src'),'-I'+str(ROOT/'gateway/voice'),
                   '-I'+str(mqtt/'source/include'),'-I'+str(mqtt/'source/interface')]
-    target='MIC_NETWORK_BENCH' if args.network else 'MIC_BENCH'
-    receipt = {'status':'FAIL', 'scope':'C_ONLY_VOICE_NETWORK_BUILD_NOT_TRIBOARD_CONCURRENCY' if args.network else 'MIC_BENCH_BUILD_ONLY', 'device_operations':0, 'commands':[]}
+    target='TTS_STOP_BENCH' if args.tts_stop else 'MIC_NETWORK_BENCH' if args.network else 'MIC_BENCH'
+    receipt = {'status':'FAIL', 'scope':'C_ONLY_TTS_STOP_NO_MIC_CAN_ESP' if args.tts_stop else 'C_ONLY_VOICE_NETWORK_BUILD_NOT_TRIBOARD_CONCURRENCY' if args.network else 'MIC_BENCH_BUILD_ONLY', 'device_operations':0, 'commands':[]}
     log = bytearray()
 
     def run(args):
@@ -48,7 +53,7 @@ def main():
     try:
         objects = []
         for i, source in enumerate(sources):
-            obj = out/f'{i}.o'; extra = ['-Wextra','-Werror'] if source.parent == HERE else []
+            obj = out/f'{i}.o'; extra = ['-Wextra','-Werror'] if source.parent == HERE or (args.tts_stop and source.parent == ROOT/'gateway/voice') else []
             run([sdk.GCC,*flags,*extra,'-c',source,'-o',obj]); objects.append(obj)
         elf = out/(target+'.elf'); binary = out/(target+'.bin')
         run([sdk.GCC,*flags,'-T',ROOT/'gateway/b5/flash.ld','-Wl,--gc-sections',
@@ -70,20 +75,28 @@ def main():
             loads.append({'physical_address':hex(paddr),'virtual_address':hex(vaddr),'file_bytes':filesz,'memory_bytes':memsz})
         # 无size的汇编/别名符号另以普通nm核对。
         simple = run([sdk.GCC.with_name('arm-none-eabi-nm.exe'),elf]).decode()
-        irqs=[('DMA1_Stream0_IRQHandler',27),('SysTick_Handler',15)]
+        irqs=[('SysTick_Handler',15)]
+        if args.tts_stop:irqs += [('USART2_IRQHandler',54)]
+        else:irqs += [('DMA1_Stream0_IRQHandler',27)]
         if args.network:irqs += [('USART2_IRQHandler',54),('USART3_IRQHandler',55)]
         for name,index in irqs:
             address = {p[2]:(int(p[0],16),p[1]) for line in simple.splitlines() if len(p:=line.split())==3}[name]
             assert address[1]=='T' and int.from_bytes(image[index*4:index*4+4],'little') == address[0]|1
-        address,bytes_,_ = table['dma_words']
-        assert 0x20000000 <= address < address+bytes_ <= 0x20020000 and bytes_ == 2560
+        address=bytes_=None
+        if not args.tts_stop:
+            address,bytes_,_ = table['dma_words']
+            assert 0x20000000 <= address < address+bytes_ <= 0x20020000 and bytes_ == 2560
         assert len(image) <= 49152
         forbidden=['FLASH_EraseSector','FLASH_ProgramWord']
         if not args.network:forbidden+=['gateway_network_open','gateway_mqtt_open']
+        if args.tts_stop:
+            forbidden+=['CAN_Init','mic_record_begin']
+            irq_table={p[2]:p[1] for line in simple.splitlines() if len(p:=line.split())==3}
+            assert all(irq_table.get(n)!='T' for n in ('USART3_IRQHandler','DMA1_Stream0_IRQHandler','CAN1_RX0_IRQHandler','CAN2_RX0_IRQHandler'))
         assert not any(n.encode() in symbols for n in forbidden)
         if args.network:assert b'CAN_Init' not in symbols
-        receipt.update(status='MIC_BENCH_BUILD_PASS', BIN_bytes=len(image), ELF_load_segments=loads,
-                       DMA_buffer_address=hex(address),DMA_buffer_bytes=bytes_,strong_IRQ_vectors_verified=True,
+        receipt.update(status='TTS_STOP_BENCH_BUILD_PASS' if args.tts_stop else 'MIC_BENCH_BUILD_PASS', BIN_bytes=len(image), ELF_load_segments=loads,
+                       DMA_buffer_address=hex(address) if address is not None else None,DMA_buffer_bytes=bytes_,strong_IRQ_vectors_verified=True,
                        sector3_not_in_image=True,Flash_write_symbols_absent=True,network_linked=args.network,
                        artifacts={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in (elf,binary,out/'symbols.txt')})
     except subprocess.CalledProcessError as error:
@@ -93,10 +106,10 @@ def main():
         receipt['source_SHA256'] = {str(p.relative_to(ROOT)) if p.is_relative_to(ROOT) else 'external/'+p.name:
                                    hashlib.sha256(p.read_bytes()).hexdigest() for p in sources}
         (out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
-        pointer='mic-network-current-pointer.json' if args.network else 'mic-bench-current-pointer.json'
+        pointer='tts-stop-current-pointer.json' if args.tts_stop else 'mic-network-current-pointer.json' if args.network else 'mic-bench-current-pointer.json'
         (ROOT/'node-b/build'/pointer).write_text(json.dumps({'out':str(out)})+'\n')
     print(json.dumps({'status':receipt['status'],'out':str(out),'BIN_bytes':receipt.get('BIN_bytes')}))
-    return 0 if receipt['status']=='MIC_BENCH_BUILD_PASS' else 1
+    return 0 if receipt['status'] in ('MIC_BENCH_BUILD_PASS','TTS_STOP_BENCH_BUILD_PASS') else 1
 
 
 if __name__ == '__main__': raise SystemExit(main())

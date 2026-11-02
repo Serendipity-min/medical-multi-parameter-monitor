@@ -1,5 +1,8 @@
 """A恢复适配的调试看门狗范围与异常路径；无SDK或设备调用。"""
 import ctypes as C
+import json
+from pathlib import Path
+import tempfile
 import unittest
 from unittest.mock import patch
 
@@ -7,6 +10,32 @@ import abc_board_install as abc
 
 
 class InstallAdapter(unittest.TestCase):
+    def test_short_C_image_uses_only_required_sectors_and_preserves_tail(self):
+        build=Path(__file__).resolve().parents[1]/'build'
+        with tempfile.TemporaryDirectory(dir=build) as temp:
+            out=Path(temp);self.assertTrue(out.resolve().is_relative_to(build.resolve()))
+            probe=out/'probe';probe.mkdir()
+            original=bytearray(b'\xa5'*1048576)
+            original[:8]=(0x20020000).to_bytes(4,'little')+(0x08000101).to_bytes(4,'little')
+            ident={'device_id':0x10000413,'cpuid':0x410fc241,'capacity_kib':1024,
+                   'uid_hex':'5a'*12,'optcr':0x0fffaaed,'flash_sr':0}
+            (out/'receipt-private.json').write_text(json.dumps({'board':'C','exit_code':0,'independent_reads_match':True,'Close_completed':True}))
+            for n in (1,2):
+                (probe/f'flash-{n}-private.bin').write_bytes(original)
+                (probe/f'options-{n}-private.bin').write_bytes(b'\xaa'*16)
+            for name in ('identity-private.json','identity-after-private.json'):
+                (probe/name).write_text(json.dumps(ident))
+            for size,end,sectors in ((7164,16384,[0]),(20000,32768,[0,1]),(44520,49152,[0,1,2])):
+                image=bytes(original[:8])+b'\x5a'*(size-8);candidate=out/'candidate.bin';candidate.write_bytes(image)
+                with patch.object(abc.recovery,'protected',side_effect=lambda p,s:Path(p)):
+                    plan,payload=abc.prepare('C',out,candidate,abc.recovery.digest(image))
+                self.assertEqual(plan['sectors'],sectors)
+                self.assertEqual(len(payload['install-sectors-private.bin']),end)
+                self.assertEqual(payload['expected-full-private.bin'][size:],bytes(original[size:]))
+                with patch.object(abc.install.InstallLink,'__init__',return_value=None) as init:
+                    abc.Link(probe,'C',end)
+                init.assert_called_once_with(probe,end)
+
     def link(self,board='A'):
         link=object.__new__(abc.Link);link.board=board;link.original_freeze=None;link.debug_freeze_writes=0
         return link

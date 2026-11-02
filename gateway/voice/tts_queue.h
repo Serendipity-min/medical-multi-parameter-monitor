@@ -20,6 +20,7 @@ typedef struct {
     uint32_t at, last_submit, last_id, tx_done_count, ack_count, done_count, errors;
     bool enabled, power_good, protocol_confirmed, submitted, tx_done, admin_command;
     bool stopping, stop_sent, stop_ack, stop_idle, stop_failed;
+    bool stop_query_started, stop_query_sent;
 } TtsQueue;
 
 /* 全部队列方法只由主循环调用；ISR只操作独立UART接收队列。 */
