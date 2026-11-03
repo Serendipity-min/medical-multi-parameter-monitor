@@ -1,4 +1,5 @@
 """统一候选定向Host回归；复用现有GCC、真实coreMQTT、模型/队列与ESP替身，无设备连接。"""
+import argparse
 import datetime
 import hashlib
 import json
@@ -9,6 +10,7 @@ ROOT=Path(__file__).resolve().parents[2]
 
 
 def main():
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--payload-stress',action='store_true');args=parser.parse_args()
     out=ROOT/'node-b/build'/('unified-host-'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ'))
     out.mkdir()
     inc=['gateway/microphone','gateway/voice','gateway/mqtt/src','gateway/b5',
@@ -33,6 +35,8 @@ def main():
             ['gateway/microphone/test_unified_replay.c','gateway/dual_can/b4_bxcan.c','gateway/dual_can/b4_bus.c','gateway/dual_can/b4_gateway.c',
              'gateway/canopen/src/mp_od.c','gateway/data_model/model.c','gateway/storage/router.c',
              'gateway/third_party/CANopenNode/CANopen.c',*[str(p.relative_to(ROOT)) for p in sorted((ROOT/'gateway/third_party/CANopenNode/301').glob('*.c'))]]),
+        'contention':([*macros,'-DMP_FINAL_UNIFIED','-DMP_ABC_TRI_CANDIDATE','-DMP_CLOUD_VOICE'],['gateway/microphone/test_unified_contention.c','gateway/mqtt/src/gateway_transport.c',*transport,*shared,'gateway/voice/tts_queue.c','gateway/voice/tts_frame.c']),
+        'queued_clock':([*macros,'-flto','-fwhole-program','-DMP_FINAL_UNIFIED','-DCO_MULTIPLE_OD'],['gateway/microphone/test_unified_clock.c','gateway/canopen/src/mp_od.c','gateway/third_party/CANopenNode/301/CO_ODinterface.c']),
         'format':([],['gateway/microphone/test_format.c','gateway/microphone/mic_format.c']),
         'legacy_egress':(macros,['gateway/b5/test_egress_async.c','gateway/mqtt/src/gateway_transport.c',*transport])}
     results=[]
@@ -46,6 +50,16 @@ def main():
             p=subprocess.run([str(exe)],capture_output=True,timeout=30)
             (out/(name+'-run.log')).write_bytes(p.stdout+p.stderr)
             r.update(run_native_exit=p.returncode,stdout=p.stdout.decode().strip())
+            if name=='contention' and not p.returncode:
+                q=subprocess.run([str(exe),'ABC'],capture_output=True,timeout=30)
+                (out/'contention-ABC-run.log').write_bytes(q.stdout+q.stderr)
+                r.update(ABC_run_native_exit=q.returncode,ABC_stdout=q.stdout.decode().strip())
+                if q.returncode:p=q
+                elif args.payload_stress:
+                    q=subprocess.run([str(exe),'ABC','large-payload-300ms-ACK'],capture_output=True,timeout=30)
+                    (out/'contention-payload-stress-run.log').write_bytes(q.stdout+q.stderr)
+                    r.update(payload_stress_native_exit=q.returncode,payload_stress_stdout=q.stdout.decode().strip())
+                    if q.returncode:p=q
         (out/'receipt.json').write_text(json.dumps({'scope':'HOST_ONLY_NOT_HARDWARE','results':results},indent=2)+'\n')
         print(json.dumps({k:v for k,v in r.items() if k not in ('commands','source_SHA256')}),flush=True)
         if p.returncode:print((p.stdout+p.stderr).decode(errors='replace')[-2500:]);return 1

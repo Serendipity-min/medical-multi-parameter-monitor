@@ -1,0 +1,28 @@
+{
+  "native_exit": 0,
+  "new_recording_commands": 0,
+  "MCU_RESET_commands": 0,
+  "status": "FAILED_WINDOW_SOURCE_PCM_BYTE_MATCH_90S_EXPIRY_COUNTEREXAMPLE",
+  "source_proof": {
+    "status": "MIC_RECORD_INTEGRITY_PASS_NOT_FULL_LOCAL_ACCEPTANCE",
+    "duration_s": 2.0,
+    "RMS_PCM16": 1550.3927149072586,
+    "mean_PCM16": -1375.7754375,
+    "peak_PCM16": 2977,
+    "RMS_dBFS": -26.500164318824886,
+    "IRQ_rate_from_declared_HSE_Hz": 15999.99800000025,
+    "IRQ_gap_min_s": 0.00999175,
+    "IRQ_gap_max_s": 0.010008375,
+    "clock_measurement": "REGISTER_AND_CYCLE_EVIDENCE_NOT_INDEPENDENT_FREQUENCY_METER",
+    "zero24_fraction": 0.0,
+    "clip24_count": 0,
+    "left_right_abs_ratio": 44026456.0,
+    "PCM_SHA256": "6b232b8144924b60d5932f872db8e142379c4bb12dd2b4d33ad227c1ab32d91d",
+    "acceptance": "REQUIRES_QUIET_TONE_SPEECH_COMPARISON_AND_OWNER_LISTENING"
+  },
+  "broker_chunks": 125,
+  "actual_span_s": 91.2869146,
+  "assembler90_error": "MIC_SESSION_OR_EXPIRY",
+  "assembler180_completed": true,
+  "formal_window_pass": false
+}

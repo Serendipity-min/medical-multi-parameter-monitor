@@ -8,7 +8,7 @@
 
 static TtsQueue speaker;
 static unsigned state,chunk,hash_bytes,block_pending,online,report_due;
-static uint32_t session,checksum,hash_state,began,failures,turns,acked_chunks;
+static uint32_t session,checksum,hash_state,began,failures,turns,acked_chunks,last_audio_at;
 static uint8_t packet[544];
 
 static void phase(unsigned next) {state=next;report_due=1;}
@@ -44,13 +44,13 @@ void unified_audio_local_poll(void) {
         if(mic_record_state()==2){hash_bytes=0;hash_state=0xffffffffu;phase(UA_HASHING);}
     }
     if(state==UA_PLAYING && speaker.state==TTS_DONE)phase(UA_IDLE);
-    if(state>=UA_RECORDING && state<=UA_PLAYING && (uint32_t)(g_uptime_ms-began)>=120000u)failed();
+    if(state>=UA_RECORDING && state<=UA_PLAYING && (uint32_t)(g_uptime_ms-began)>=UA_TURN_BUDGET_MS)failed();
     if(state==UA_STOPPING && !speaker.stopping && speaker.stop_idle)
         phase(speaker.state==TTS_DISABLED?UA_IDLE:UA_FAILED);
 }
 void unified_audio_reply(const uint8_t *p,size_t n) {
     if(state!=UA_WAITING || !mic_reply_packet_valid(p,n,session,checksum) ||
-       (uint32_t)(g_uptime_ms-began)>=120000u)return;
+       (uint32_t)(g_uptime_ms-began)>=UA_TURN_BUDGET_MS)return;
     if(tts_submit(&speaker,p+16,n-16,session,g_uptime_ms))phase(UA_PLAYING);
 }
 void unified_audio_step(bool telemetry_idle) {
@@ -70,11 +70,11 @@ void unified_audio_step(bool telemetry_idle) {
         block_pending=0;++chunk;++acked_chunks;report_due=1;
         if(chunk==125){phase(UA_WAITING);return;}
     }
-    /* 一个循环至多发一块；低优先级音频只在监护队列和QoS1均空闲时入网。 */
-    if(!telemetry_idle || !online || !gateway_audio_ready() || gateway_mqtt_pending())return;
+    /* 每次至多一块，主循环限制竞争发送间隔；始终复用同一个QoS1所有者。 */
+    if(!telemetry_idle || !online || !gateway_audio_ready())return;
     mic_chunk_packet(packet,session,chunk,checksum,(const uint8_t *)pcm+chunk*512u);
     int result=gateway_audio_begin(packet);
-    if(result==GW_PENDING)block_pending=1;
+    if(result==GW_PENDING){block_pending=1;last_audio_at=g_uptime_ms;}
     else if(result==GW_FAILED)failed();
 }
 void unified_audio_command(int c,bool export_allowed) {
@@ -96,7 +96,10 @@ void unified_audio_command(int c,bool export_allowed) {
     session=now>session?now:session+1u;began=g_uptime_ms;turns++;
     checksum=chunk=block_pending=0;console("UNI RECORDING\r\n");mic_record_begin();phase(UA_RECORDING);
 }
-bool unified_audio_quiet(void) {return state!=UA_RECORDING && state!=UA_HASHING;}
+bool unified_audio_quiet(void) {return state!=UA_RECORDING;}
+bool unified_audio_send_due(void) {
+    return state==UA_UPLOADING && !block_pending && (uint32_t)(g_uptime_ms-last_audio_at)>=250u;
+}
 void unified_audio_report(void) {
     if(!report_due || !unified_audio_quiet())return;
     report_due=0;MicDiag d;mic_diagnostics(&d);char line[512];

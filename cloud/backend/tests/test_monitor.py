@@ -16,6 +16,19 @@ from app.main import create_app
 BASE = 'mpm/v1/GW-DEV-001'
 
 
+def test_task_loopback_plaintext_keeps_external_tls_default():
+    import ssl
+    from app.mqtt_adapter import configured_client
+    credentials = {'username': 'fixture-user', 'password': 'fixture-password'}
+    local = configured_client(dict(credentials, host='127.0.0.1', tls=False), 'local-only')
+    assert local._ssl_context is None
+    external = configured_client(dict(credentials, host='example.invalid'), 'tls-default')
+    assert external._ssl_context.check_hostname
+    assert external._ssl_context.verify_mode == ssl.CERT_REQUIRED
+    with pytest.raises(ValueError, match='restricted to task loopback'):
+        configured_client(dict(credentials, host='example.invalid', tls=False), 'reject-external')
+
+
 def message(suffix='NODE-B/telemetry/hr', **changes):
     body = {
         'timestamp': 1000000,
@@ -31,9 +44,9 @@ def message(suffix='NODE-B/telemetry/hr', **changes):
     return decode_mqtt(BASE + '/' + suffix, json.dumps(body).encode())
 
 
-def ready():
+def ready(wave_batches=False):
     clock = [1000.0]
-    hub = Hub(['GW-DEV-001'], clock=lambda: clock[0], monotonic=lambda: clock[0])
+    hub = Hub(['GW-DEV-001'], clock=lambda: clock[0], monotonic=lambda: clock[0], wave_batches=wave_batches)
     hub.broker_connected = True
     for suffix in ['status', 'NODE-A/status', 'NODE-B/status']:
         hub.ingest(message(suffix, value='ONLINE', unit='state'))
@@ -179,6 +192,34 @@ def test_future_gateway_and_bounded_subscriber():
     hub.publish()
     hub.publish()
     assert queue.qsize() == 1
+
+
+def test_wave_batches_survive_same_period_burst_with_unchanged_schema():
+    for enabled in (False, True):
+        hub, clock = ready(wave_batches=enabled)
+        queue = asyncio.Queue(maxsize=8 if enabled else 1)
+        hub.subscribers[queue] = 'GW-DEV-001'
+        for seq in (1, 2):
+            hub.ingest(message('NODE-B/telemetry/ecg', seq=seq, timestamp=int(clock[0]*1000),
+                value=None, unit='mV', sample_rate=250, samples=[float(seq)]*100))
+            clock[0] += .027
+        hub.publish()
+        rows=[]
+        while not queue.empty():
+            snapshot=queue.get_nowait()
+            assert snapshot['type']=='snapshot' and snapshot['schema_version']==1
+            rows.append(next(x['seq'] for x in snapshot['streams'] if x['stream']=='ECG'))
+        assert set(rows)==({1, 2} if enabled else {2})
+
+
+def test_wave_overload_is_bounded_and_explicitly_disconnects():
+    hub, _ = ready(wave_batches=True)
+    queue=asyncio.Queue(maxsize=8);hub.subscribers[queue]='GW-DEV-001'
+    for seq in range(1,10):
+        hub.ingest(message('NODE-B/telemetry/ecg', seq=seq, value=None, unit='mV',
+            sample_rate=250, samples=[1.0]*100))
+    assert queue not in hub.subscribers
+    assert queue.qsize()==1 and queue.get_nowait() is None
 
 
 def test_browser_auth_and_no_device_ingest(monkeypatch):

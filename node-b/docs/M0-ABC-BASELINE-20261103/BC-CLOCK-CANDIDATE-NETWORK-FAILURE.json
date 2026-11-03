@@ -1,0 +1,23 @@
+{
+  "status": "NOT_PASS_NETWORK_SEND_CONFIRMATION_TIMEOUT",
+  "job": "BC-ECG60-20261103T093055518892Z",
+  "capture_native_exit": 1,
+  "cleanup_STOP_native_exit": 0,
+  "B_native_exit": 0,
+  "audio_chunks": 98,
+  "send_required_bytes": 852,
+  "send_written_bytes": 852,
+  "native_reply_bytes": 18,
+  "send_budget_ms": 4805,
+  "send_elapsed_ms": 4805,
+  "AT_unsynced": true,
+  "clock_boundary_fix": "no_new_quality_resets_in_observed_partial_window_NOT_FULL_WINDOW_PASS",
+  "next": "SAME_C_IMAGE_COLD_BOOT_RETEST_NO_FLASH",
+  "host_fix": "exact irrecoverable unsynced notice now ends capture promptly; finish STOP remains allowed",
+  "owner_followup": {
+    "hotspot_was_disconnected": true,
+    "exact_disconnect_time": "UNKNOWN",
+    "hotspot_now_on": true,
+    "reported_2026_11_03_Asia_Shanghai": true
+  }
+}

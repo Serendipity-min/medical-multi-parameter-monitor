@@ -1,0 +1,38 @@
+{
+  "scope": "HOST_ONLY_FIELD_RETEST_PENDING",
+  "confirmed_defect": "Queued IRQ arrival earlier than refreshed C UTC anchor wraps unsigned elapsed to about49days; sample_utc incorrectly rejects fresh source sample",
+  "field_observation": {
+    "job": "BC-ECG60-20261103T091224900649Z",
+    "capture_native_exit": 0,
+    "review_native_exit": 3,
+    "failures": [
+      "PRIMARY_COVERAGE_OR_GAP"
+    ],
+    "ECG_gaps_points": [
+      79,
+      100
+    ],
+    "quality_reset_delta": 4,
+    "partial_discarded_delta": 179,
+    "wave_gap_delta": 0,
+    "B_new_ADC_or_CAN_errors": 0,
+    "WSS_missing_batches": 0,
+    "TEMP_matches": 297
+  },
+  "candidate": "MP_FINAL_UNIFIED signed elapsed in sample_utc only; original IRQ and source UTC remain unchanged",
+  "negative": {
+    "case": "queued_clock",
+    "compile_native_exit": 0,
+    "run_native_exit": 3,
+    "stdout": ""
+  },
+  "positive": {
+    "case": "queued_clock",
+    "compile_native_exit": 0,
+    "run_native_exit": 0,
+    "stdout": "HOST_QUEUED_IRQ_RESYNC_AND_WRAP_PASS freshness_unchanged=1"
+  },
+  "related_host_cases": 10,
+  "legacy_C44520_BIN_SHA256": "5f4690eca0a00334ff1a9b653be2a0b99cba034b869ae4592dd36a042a147442",
+  "legacy_C44520_ELF_SHA256": "5b198faeaa87bffe5e026a067c19e23db20d1cfb8612a951087551bc4ed18599"
+}

@@ -19,6 +19,12 @@ int gateway_mqtt_begin(const MpFrame *frame);
 int gateway_mqtt_progress(void);
 int gateway_mqtt_pending(void);
 int gateway_network_retryable(void);
+#ifdef MP_FINAL_UNIFIED
+#define GATEWAY_TELEMETRY_SLOTS 3u
+uint16_t gateway_mqtt_ticket(void);
+int gateway_mqtt_slots_full(void);
+int gateway_mqtt_ticket_result(uint16_t id);
+#endif
 typedef struct { uint32_t q0_sent,q1_sent,q1_acked,failed; B5Latency json,send,ack; } GatewayMqttMetrics;
 void gateway_mqtt_metrics(GatewayMqttMetrics *out);
 #endif

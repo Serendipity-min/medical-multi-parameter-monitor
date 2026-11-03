@@ -1,0 +1,22 @@
+{
+  "scope": "REAL_C_CONTROL_PATH_HOST_ONLY",
+  "results": [
+    {
+      "case": "before",
+      "compile_exit": 0,
+      "run_exit": 3,
+      "output": "FAIL line=39"
+    },
+    {
+      "case": "after",
+      "compile_exit": 0,
+      "run_exit": 0,
+      "output": "HOST_UNIFIED_CONTROL_PASS checks=31 CAN_CONTINUES_ON_NETWORK_FAULT hardware=NOT_RUN"
+    }
+  ],
+  "production_source_SHA256": "85ff51ccd51816489a70ef717152b1469e941d7e2a4a6aa8641828d282584031",
+  "prearm_errors_do_not_block_new_session": true,
+  "new_postarm_error_still_stops_network": true,
+  "cumulative_counters_not_reset": true,
+  "field_error_physical_source": "UNKNOWN"
+}

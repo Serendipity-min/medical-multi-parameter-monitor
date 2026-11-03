@@ -71,6 +71,22 @@ class ProtocolChecks(unittest.TestCase):
         with self.assertRaises(ValueError):a.feed('C',old[0],2)
         self.assertEqual(a.active['C']['session'],9)
 
+    def test_m0_180_seconds_stays_bounded_without_duplicate_renewal(self):
+        p=packets();a=AudioAssembler(timeout_s=180)
+        for n,packet in enumerate(p):result=a.feed('C',packet,n*100/124)
+        self.assertEqual(result['chunks'],125)
+        self.assertEqual(result['pcm'],bytes(range(256))*250)
+        a=AudioAssembler(timeout_s=180);a.feed('C',p[0],0);a.feed('C',p[0],179)
+        with self.assertRaises(ValueError):a.feed('C',p[1],180)
+
+    def test_m0_240_seconds_accepts_slow_upload_but_duplicates_do_not_renew(self):
+        p=packets();a=AudioAssembler(timeout_s=240)
+        for n,packet in enumerate(p):result=a.feed('C',packet,n*193/124)
+        self.assertEqual(result['chunks'],125)
+        self.assertEqual(result['pcm'],bytes(range(256))*250)
+        a=AudioAssembler(timeout_s=240);a.feed('C',p[0],0);a.feed('C',p[0],239)
+        with self.assertRaises(ValueError):a.feed('C',p[1],240)
+
     def test_host_separate_and_reply(self):
         a=AudioAssembler();p=packets();a.feed('HOST',p[0],0)
         with self.assertRaises(ValueError):a.feed('C',p[1],1)

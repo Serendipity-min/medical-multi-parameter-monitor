@@ -32,14 +32,66 @@ int main(void) {
     uint8_t data[512]={0},packet[544];mic_chunk_packet(packet,1800000000u,0,7,data);
     CHECK(gateway_audio_begin(packet)==GW_PENDING);uint16_t id=mock_last_id;
     MpFrame scalar=mock_frame(MP_TEMP,0,false),wave=mock_frame(MP_ECG,250,false);
-    CHECK(gateway_mqtt_begin(&scalar)==GW_DEFERRED);
-    CHECK(gateway_mqtt_begin(&wave)==GW_COMPLETE && mock_last_id==id);
-    unsigned loops=0;while(gateway_audio_result()==GW_PENDING && loops++<1000)CHECK(gateway_mqtt_progress()==GW_COMPLETE);
-    CHECK(gateway_audio_result()==GW_COMPLETE && !gateway_mqtt_pending());
-    CHECK(mqtt_metrics.q1_acked==0);
-    CHECK(gateway_mqtt_begin(&scalar)==GW_PENDING);CHECK(gateway_audio_begin(packet)==GW_DEFERRED);
-    loops=0;while(gateway_mqtt_progress()==GW_PENDING)CHECK(loops++<1000);
-    CHECK(mqtt_metrics.q1_acked==1);
+    CHECK(gateway_mqtt_begin(&scalar)==GW_PENDING);uint16_t scalar_id=mock_last_id;CHECK(scalar_id!=id);
+    CHECK(gateway_audio_begin(packet)==GW_DEFERRED);
+    CHECK(gateway_mqtt_begin(&wave)==GW_COMPLETE && mock_last_id==scalar_id);
+    unsigned loops=0;while((gateway_audio_result()==GW_PENDING || gateway_mqtt_pending()) && loops++<1000){
+        CHECK(gateway_mqtt_progress()!=GW_FAILED);if(scalar_id && gateway_mqtt_ticket_result(scalar_id)==GW_COMPLETE)scalar_id=0;
+    }
+    CHECK(gateway_audio_result()==GW_COMPLETE && !gateway_mqtt_pending());CHECK(mqtt_metrics.q1_acked==1);
+    CHECK(gateway_mqtt_begin(&scalar)==GW_PENDING);scalar_id=mock_last_id;
+    CHECK(gateway_audio_begin(packet)==GW_PENDING && mock_last_id!=scalar_id);
+    loops=0;while((gateway_audio_result()==GW_PENDING || gateway_mqtt_pending()) && loops++<1000){
+        CHECK(gateway_mqtt_progress()!=GW_FAILED);if(scalar_id && gateway_mqtt_ticket_result(scalar_id)==GW_COMPLETE)scalar_id=0;
+    }
+    CHECK(mqtt_metrics.q1_acked==2 && gateway_audio_result()==GW_COMPLETE);
+    /* 反向ACK只能完成对应业务，不能把音频ACK误交给Router。 */
+    mock_ack_mode=ACK_NONE;CHECK(gateway_mqtt_begin(&scalar)==GW_PENDING);scalar_id=mock_last_id;
+    CHECK(gateway_audio_begin(packet)==GW_PENDING);id=mock_last_id;
+    uint8_t ack[]={0x40,2,(uint8_t)(id>>8),(uint8_t)id};mock_queue(ack,4);
+    for(unsigned i=0;i<20 && gateway_audio_result()==GW_PENDING;i++)CHECK(gateway_mqtt_progress()!=GW_FAILED);
+    CHECK(gateway_audio_result()==GW_COMPLETE && gateway_mqtt_pending() && mqtt_metrics.q1_acked==2);
+    ack[2]=(uint8_t)(scalar_id>>8);ack[3]=(uint8_t)scalar_id;mock_queue(ack,4);
+    for(unsigned i=0;i<20 && gateway_mqtt_pending();i++){
+        CHECK(gateway_mqtt_progress()!=GW_FAILED);if(scalar_id && gateway_mqtt_ticket_result(scalar_id)==GW_COMPLETE)scalar_id=0;
+    }
+    CHECK(!gateway_mqtt_pending() && mqtt_metrics.q1_acked==3);mock_ack_mode=ACK_MATCH;
+    /* 三个遥测槽加一个音频槽满载，反序ACK与槽复用均保持精确归属。 */
+    mock_ack_mode=ACK_NONE;CHECK(gateway_mqtt_begin(&scalar)==GW_PENDING);uint16_t first=gateway_mqtt_ticket();
+    scalar.seq++;CHECK(gateway_mqtt_begin(&scalar)==GW_PENDING);uint16_t second=gateway_mqtt_ticket();
+    CHECK(first!=second && !gateway_mqtt_slots_full());scalar.seq++;
+    CHECK(gateway_mqtt_begin(&scalar)==GW_PENDING);uint16_t third=gateway_mqtt_ticket();
+    CHECK(third!=first && third!=second && gateway_mqtt_slots_full());CHECK(gateway_audio_begin(packet)==GW_PENDING);id=mock_last_id;
+    CHECK(id!=first && id!=second && gateway_mqtt_begin(&scalar)==GW_DEFERRED && gateway_audio_begin(packet)==GW_DEFERRED);
+    ack[2]=(uint8_t)(second>>8);ack[3]=(uint8_t)second;mock_queue(ack,4);
+    for(unsigned i=0;i<20 && telemetry[1].result==GW_PENDING;i++)CHECK(gateway_mqtt_progress()!=GW_FAILED);
+    CHECK(gateway_mqtt_ticket_result(first)==GW_PENDING && gateway_mqtt_ticket_result(second)==GW_COMPLETE);
+    CHECK(!gateway_mqtt_slots_full() && gateway_audio_result()==GW_PENDING);
+    ack[2]=(uint8_t)(id>>8);ack[3]=(uint8_t)id;mock_queue(ack,4);
+    for(unsigned i=0;i<20 && gateway_audio_result()==GW_PENDING;i++)CHECK(gateway_mqtt_progress()!=GW_FAILED);
+    CHECK(gateway_audio_result()==GW_COMPLETE && gateway_mqtt_ticket_result(first)==GW_PENDING);
+    ack[2]=(uint8_t)(first>>8);ack[3]=(uint8_t)first;mock_queue(ack,4);
+    for(unsigned i=0;i<20 && telemetry[0].result==GW_PENDING;i++)CHECK(gateway_mqtt_progress()!=GW_FAILED);
+    CHECK(gateway_mqtt_ticket_result(first)==GW_COMPLETE && gateway_mqtt_pending());
+    ack[2]=(uint8_t)(third>>8);ack[3]=(uint8_t)third;mock_queue(ack,4);
+    for(unsigned i=0;i<20 && telemetry[2].result==GW_PENDING;i++)CHECK(gateway_mqtt_progress()!=GW_FAILED);
+    CHECK(gateway_mqtt_ticket_result(third)==GW_COMPLETE && !gateway_mqtt_pending());mock_ack_mode=ACK_MATCH;
+    /* 任一槽缺ACK都遵守原5秒期限，其余ACK不代替缺失者。 */
+    for(unsigned missing=0;missing<4;missing++){
+        connect_subscribe(1,2,0);mock_ack_mode=ACK_NONE;unsigned before=mqtt_metrics.q1_acked;
+        uint16_t tickets[4];
+        for(unsigned i=0;i<3;i++){scalar.seq++;CHECK(gateway_mqtt_begin(&scalar)==GW_PENDING);tickets[i]=gateway_mqtt_ticket();}
+        CHECK(gateway_audio_begin(packet)==GW_PENDING);tickets[3]=mock_last_id;
+        for(unsigned i=0;i<4;i++)if(i!=missing){ack[2]=(uint8_t)(tickets[i]>>8);ack[3]=(uint8_t)tickets[i];mock_queue(ack,4);}
+        for(unsigned i=0;i<20;i++)CHECK(gateway_mqtt_progress()!=GW_FAILED);
+        for(unsigned i=0;i<3;i++)CHECK(gateway_mqtt_ticket_result(tickets[i])==(i==missing?GW_PENDING:GW_COMPLETE));
+        CHECK(gateway_audio_result()==(missing==3?GW_PENDING:GW_COMPLETE));
+        mock_poll_callback=poll;polls=0;uint32_t at=g_uptime_ms;int failed=0;
+        for(unsigned i=0;i<6000;i++)if(gateway_mqtt_progress()==GW_FAILED){failed=1;break;}
+        CHECK(failed && polls && g_uptime_ms-at<5100 && !gateway_audio_pending() && !gateway_mqtt_pending());
+        CHECK(mqtt_metrics.q1_acked-before==(missing==3?3u:2u));mock_poll_callback=NULL;
+    }
+    connect_subscribe(1,1,0);
     inbound(0,0);CHECK(replies==1);inbound(1,0);inbound(0,1);CHECK(replies==1);
     CHECK(gateway_mqtt_begin(&wave)==GW_COMPLETE);
     const unsigned modes[]={ACK_WRONG,ACK_NONE,ACK_HALF,ACK_OLD};

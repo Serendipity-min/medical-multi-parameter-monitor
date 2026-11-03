@@ -72,7 +72,12 @@ static uint64_t sample_utc(B4Gateway *g, B4Segment *s, unsigned base, uint32_t t
     int32_t delta = (int32_t)(tick - anchor);
     if (!epoch || delta < -2000 || delta > 2000) return 0;
     int64_t utc = (int64_t)epoch * 1000 + delta;
+#ifdef MP_FINAL_UNIFIED
+    /* IRQ帧可早于新校时锚点；保留有符号时间差，避免绕回约49天。 */
+    int64_t current = (int64_t)g->epoch * 1000 + g->utc_fraction + (int32_t)(arrival - g->utc_at);
+#else
     int64_t current = (int64_t)g->epoch * 1000 + g->utc_fraction + (uint32_t)(arrival - g->utc_at);
+#endif
     return utc >= current - 5000 && utc <= current + 1000 ? (uint64_t)utc : 0;
 }
 static void emit(B4Gateway *g, B4Segment *s, MpFrame *f) {

@@ -1,0 +1,715 @@
+{
+  "scope": "M0_CURRENT_COMBINATION_ONLY",
+  "prior_results_preserved": true,
+  "tunnel_termination_exit1_is_not_target_failure": true,
+  "windows": [
+    {
+      "window": "ABC-ECG60-20261103T104756600991Z",
+      "topology": "ABC",
+      "profile": "ECG60",
+      "orchestrator_native_exit": 0,
+      "capture_native_exit": 0,
+      "cleanup_STOP_native_exit": null,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "evaluation_started": true,
+      "reviews": [
+        {
+          "file": "M0-review.json",
+          "exit_code": 0,
+          "status": "M0_ABC_ECG60_ENGINEERING_PASS",
+          "failures": [],
+          "SHA256": "6b3e7dcd78f8dc0e825d9f0b05760fbba22719acc5666fa2e02336d536d82a73"
+        }
+      ],
+      "B_native_exit": 0
+    },
+    {
+      "window": "ABC-ECG60-20261103T132147149024Z",
+      "topology": "ABC",
+      "profile": "ECG60",
+      "orchestrator_native_exit": 0,
+      "capture_native_exit": 0,
+      "cleanup_STOP_native_exit": null,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "evaluation_started": true,
+      "reviews": [
+        {
+          "file": "M0-review-corrected.json",
+          "exit_code": 0,
+          "status": "M0_ABC_ECG60_ENGINEERING_PASS",
+          "failures": [],
+          "SHA256": "ce42c88a443152cd1ca379509eb883aba43bb0d1e7f1f98939860be15f79d50d"
+        },
+        {
+          "file": "M0-review-original.json",
+          "exit_code": 3,
+          "status": "M0_ABC_ECG60_NOT_PASS",
+          "failures": [
+            "NIBP_NEW_SOURCE_OR_EXPIRY"
+          ],
+          "SHA256": "d59ff9ca2664c48cef9668903c46094c169f10f8e0b6d455fb71e920581c7be7"
+        },
+        {
+          "file": "review-corrected-stdout-private.json",
+          "exit_code": 0,
+          "status": "M0_ABC_ECG60_ENGINEERING_PASS",
+          "failures": [],
+          "SHA256": "63abc111401d48828f403467c426685afe92b0c07e6aac44b491abc4710e2c75"
+        },
+        {
+          "file": "review-original-stdout-private.json",
+          "exit_code": 3,
+          "status": "M0_ABC_ECG60_NOT_PASS",
+          "failures": [
+            "NIBP_NEW_SOURCE_OR_EXPIRY"
+          ],
+          "SHA256": "384df05b9ba8fd2a1f731f8060a79f52f6b5e9c280713ff46d6a48bdf53f26b1"
+        }
+      ],
+      "B_native_exit": 0,
+      "C_full_flash_SHA256": "fb15578d20d11676a8128b26f5b7b1473464e349adfed45ad0a2a4e2c780f5c5"
+    },
+    {
+      "window": "ABC-RR18-20261103T105826997548Z",
+      "topology": "ABC",
+      "profile": "RR18",
+      "orchestrator_native_exit": 1,
+      "capture_native_exit": 1,
+      "cleanup_STOP_native_exit": 0,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        0,
+        null,
+        1,
+        0
+      ],
+      "evaluation_started": true,
+      "reviews": [],
+      "B_native_exit": 0
+    },
+    {
+      "window": "ABC-RR18-20261103T121015124633Z",
+      "topology": "ABC",
+      "profile": "RR18",
+      "orchestrator_native_exit": 1,
+      "capture_native_exit": null,
+      "cleanup_STOP_native_exit": 0,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "evaluation_started": false,
+      "reviews": [],
+      "B_native_exit": 0
+    },
+    {
+      "window": "ABC-RR18-20261103T121851538700Z",
+      "topology": "ABC",
+      "profile": "RR18",
+      "orchestrator_native_exit": 1,
+      "capture_native_exit": null,
+      "cleanup_STOP_native_exit": 1,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        1,
+        1
+      ],
+      "evaluation_started": false,
+      "reviews": [],
+      "B_native_exit": 0
+    },
+    {
+      "window": "ABC-RR18-20261103T122410349647Z",
+      "topology": "ABC",
+      "profile": "RR18",
+      "orchestrator_native_exit": 1,
+      "capture_native_exit": 1,
+      "cleanup_STOP_native_exit": 0,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        0,
+        null,
+        1,
+        0
+      ],
+      "evaluation_started": true,
+      "reviews": [],
+      "B_native_exit": 0
+    },
+    {
+      "window": "ABC-RR18-20261103T133401161687Z",
+      "topology": "ABC",
+      "profile": "RR18",
+      "orchestrator_native_exit": 0,
+      "capture_native_exit": 0,
+      "cleanup_STOP_native_exit": null,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "evaluation_started": true,
+      "reviews": [
+        {
+          "file": "M0-review-current.json",
+          "exit_code": 0,
+          "status": "M0_ABC_RR18_ENGINEERING_PASS",
+          "failures": [],
+          "SHA256": "209e85b4aed62ba9173202f5a54b0ac081c0f3265e156ec40cd16eb3a9af25e6"
+        },
+        {
+          "file": "review-current-stdout-private.json",
+          "exit_code": 0,
+          "status": "M0_ABC_RR18_ENGINEERING_PASS",
+          "failures": [],
+          "SHA256": "8be36299702fa35fd0e2de86b9691ea955d9afc2a0547de99aae0444bfa67f4f"
+        }
+      ],
+      "B_native_exit": 0,
+      "C_full_flash_SHA256": "fb15578d20d11676a8128b26f5b7b1473464e349adfed45ad0a2a4e2c780f5c5"
+    },
+    {
+      "window": "BC-ECG60-20261103T063419968078Z",
+      "topology": "BC",
+      "profile": "ECG60",
+      "orchestrator_native_exit": 1,
+      "capture_native_exit": null,
+      "cleanup_STOP_native_exit": null,
+      "worker_native_exit_codes_original": [
+        1,
+        1
+      ],
+      "evaluation_started": false,
+      "reviews": [],
+      "B_native_exit": null
+    },
+    {
+      "window": "BC-ECG60-20261103T063543143914Z",
+      "topology": "BC",
+      "profile": "ECG60",
+      "orchestrator_native_exit": 1,
+      "capture_native_exit": null,
+      "cleanup_STOP_native_exit": null,
+      "worker_native_exit_codes_original": [
+        1
+      ],
+      "evaluation_started": false,
+      "reviews": [],
+      "B_native_exit": null
+    },
+    {
+      "window": "BC-ECG60-20261103T063556690151Z",
+      "topology": "BC",
+      "profile": "ECG60",
+      "orchestrator_native_exit": 1,
+      "capture_native_exit": 1,
+      "cleanup_STOP_native_exit": 0,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        0,
+        null,
+        1,
+        0
+      ],
+      "evaluation_started": true,
+      "reviews": [],
+      "B_native_exit": 0
+    },
+    {
+      "window": "BC-ECG60-20261103T064454721213Z",
+      "topology": "BC",
+      "profile": "ECG60",
+      "orchestrator_native_exit": 1,
+      "capture_native_exit": 1,
+      "cleanup_STOP_native_exit": 1,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        0,
+        null,
+        1,
+        1
+      ],
+      "evaluation_started": true,
+      "reviews": [],
+      "B_native_exit": 0
+    },
+    {
+      "window": "BC-ECG60-20261103T065336174715Z",
+      "topology": "BC",
+      "profile": "ECG60",
+      "orchestrator_native_exit": 1,
+      "capture_native_exit": null,
+      "cleanup_STOP_native_exit": 0,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        0,
+        null,
+        2,
+        0
+      ],
+      "evaluation_started": false,
+      "reviews": [],
+      "B_native_exit": 0
+    },
+    {
+      "window": "BC-ECG60-20261103T075725323884Z",
+      "topology": "BC",
+      "profile": "ECG60",
+      "orchestrator_native_exit": 1,
+      "capture_native_exit": 1,
+      "cleanup_STOP_native_exit": 0,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        0,
+        null,
+        1,
+        0
+      ],
+      "evaluation_started": true,
+      "reviews": [],
+      "B_native_exit": 0
+    },
+    {
+      "window": "BC-ECG60-20261103T082223204938Z",
+      "topology": "BC",
+      "profile": "ECG60",
+      "orchestrator_native_exit": 1,
+      "capture_native_exit": 1,
+      "cleanup_STOP_native_exit": 0,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        0,
+        null,
+        1,
+        0
+      ],
+      "evaluation_started": true,
+      "reviews": [],
+      "B_native_exit": 0
+    },
+    {
+      "window": "BC-ECG60-20261103T083504233201Z",
+      "topology": "BC",
+      "profile": "ECG60",
+      "orchestrator_native_exit": 0,
+      "capture_native_exit": 0,
+      "cleanup_STOP_native_exit": null,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "evaluation_started": true,
+      "reviews": [
+        {
+          "file": "M0-review.json",
+          "exit_code": 3,
+          "status": "M0_BC_ECG60_NOT_PASS",
+          "failures": [
+            "PRIMARY_COVERAGE_OR_GAP",
+            "WAVE_SOURCE_MAPPING"
+          ],
+          "SHA256": "c97194c920ed7ac53da4923a26727bfc7245b255288c3d0b47a60046a60fd005"
+        }
+      ],
+      "B_native_exit": 0
+    },
+    {
+      "window": "BC-ECG60-20261103T085103745603Z",
+      "topology": "BC",
+      "profile": "ECG60",
+      "orchestrator_native_exit": 0,
+      "capture_native_exit": 0,
+      "cleanup_STOP_native_exit": null,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "evaluation_started": true,
+      "reviews": [
+        {
+          "file": "M0-review-before-delivery-tail.json",
+          "exit_code": 3,
+          "status": "M0_BC_ECG60_NOT_PASS",
+          "failures": [
+            "PRIMARY_WSS_BATCH_MISSING"
+          ],
+          "SHA256": "b38b18cfc8664642f98261797e2ad1a19698343a9adccf9fceda2204df8d8dde"
+        },
+        {
+          "file": "M0-review-final.json",
+          "exit_code": 3,
+          "status": "M0_BC_ECG60_NOT_PASS",
+          "failures": [
+            "PRIMARY_WSS_BATCH_MISSING"
+          ],
+          "SHA256": "b38b18cfc8664642f98261797e2ad1a19698343a9adccf9fceda2204df8d8dde"
+        },
+        {
+          "file": "M0-review.json",
+          "exit_code": 3,
+          "status": "M0_BC_ECG60_NOT_PASS",
+          "failures": [
+            "PRIMARY_WSS_BATCH_MISSING"
+          ],
+          "SHA256": "b38b18cfc8664642f98261797e2ad1a19698343a9adccf9fceda2204df8d8dde"
+        }
+      ],
+      "B_native_exit": 0
+    },
+    {
+      "window": "BC-ECG60-20261103T091224900649Z",
+      "topology": "BC",
+      "profile": "ECG60",
+      "orchestrator_native_exit": 0,
+      "capture_native_exit": 0,
+      "cleanup_STOP_native_exit": null,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "evaluation_started": true,
+      "reviews": [
+        {
+          "file": "M0-review.json",
+          "exit_code": 3,
+          "status": "M0_BC_ECG60_NOT_PASS",
+          "failures": [
+            "PRIMARY_COVERAGE_OR_GAP"
+          ],
+          "SHA256": "27974dba8135a132a9d560fdc20234f7e3ccad3ae014bb9fb2f528cd046f64e0"
+        }
+      ],
+      "B_native_exit": 0
+    },
+    {
+      "window": "BC-ECG60-20261103T093055518892Z",
+      "topology": "BC",
+      "profile": "ECG60",
+      "orchestrator_native_exit": 1,
+      "capture_native_exit": 1,
+      "cleanup_STOP_native_exit": 0,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        0,
+        null,
+        1,
+        0
+      ],
+      "evaluation_started": true,
+      "reviews": [],
+      "B_native_exit": 0
+    },
+    {
+      "window": "BC-ECG60-20261103T103010535290Z",
+      "topology": "BC",
+      "profile": "ECG60",
+      "orchestrator_native_exit": 1,
+      "capture_native_exit": null,
+      "cleanup_STOP_native_exit": null,
+      "worker_native_exit_codes_original": [
+        1
+      ],
+      "evaluation_started": false,
+      "reviews": [],
+      "B_native_exit": null
+    },
+    {
+      "window": "BC-ECG60-20261103T103055067355Z",
+      "topology": "BC",
+      "profile": "ECG60",
+      "orchestrator_native_exit": 1,
+      "capture_native_exit": 1,
+      "cleanup_STOP_native_exit": 1,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        0,
+        null,
+        1,
+        1
+      ],
+      "evaluation_started": true,
+      "reviews": [
+        {
+          "file": "M0-review-after-stop-completion.json",
+          "exit_code": 0,
+          "status": "M0_BC_ECG60_ENGINEERING_PASS_WITH_STOP_COMPLETION_RECOVERY",
+          "failures": [],
+          "SHA256": "6f9326d9f66090b81e257cb2eb26b811a095b05e0fe8b2eec64c4f01e08eeff2"
+        }
+      ],
+      "B_native_exit": 0
+    },
+    {
+      "window": "BC-ECG60-20261103T111819205883Z",
+      "topology": "BC",
+      "profile": "ECG60",
+      "orchestrator_native_exit": 0,
+      "capture_native_exit": 0,
+      "cleanup_STOP_native_exit": null,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "evaluation_started": true,
+      "reviews": [
+        {
+          "file": "M0-review-clock-aligned.json",
+          "exit_code": 3,
+          "status": "M0_BC_ECG60_NOT_PASS",
+          "failures": [
+            "PRIMARY_WSS_BATCH_MISSING",
+            "TEMP_WSS_MISSING",
+            "WSS_PRIMARY_OR_TEMP_NOT_READY"
+          ],
+          "SHA256": "f5ebd01b0bfaff928d1da485e069924494759e75300da26cb6993107d8a7e2cf"
+        },
+        {
+          "file": "M0-review-dual-clock-window.json",
+          "exit_code": 3,
+          "status": "M0_BC_ECG60_NOT_PASS",
+          "failures": [
+            "WSS_PRIMARY_OR_TEMP_NOT_READY"
+          ],
+          "SHA256": "92aa8ce7e3c06be74d699acf3575160fc644d55d8abcee7987d73f22f6fa2f6c"
+        },
+        {
+          "file": "M0-review.json",
+          "exit_code": 3,
+          "status": "M0_BC_ECG60_NOT_PASS",
+          "failures": [
+            "WSS_B_OR_GATEWAY_OFFLINE",
+            "WSS_PRIMARY_OR_TEMP_NOT_READY"
+          ],
+          "SHA256": "61663ae5d931e9a25f2cc9d8af59c346e592307c6cb2f4ea4deff8ee0a5f3912"
+        }
+      ],
+      "B_native_exit": 0
+    },
+    {
+      "window": "BC-ECG60-20261103T113824447538Z",
+      "topology": "BC",
+      "profile": "ECG60",
+      "orchestrator_native_exit": 1,
+      "capture_native_exit": null,
+      "cleanup_STOP_native_exit": 0,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        0,
+        null,
+        0
+      ],
+      "evaluation_started": false,
+      "reviews": [],
+      "B_native_exit": 0
+    },
+    {
+      "window": "BC-ECG60-20261103T114310157644Z",
+      "topology": "BC",
+      "profile": "ECG60",
+      "orchestrator_native_exit": 1,
+      "capture_native_exit": 1,
+      "cleanup_STOP_native_exit": 0,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        0,
+        null,
+        1,
+        0
+      ],
+      "evaluation_started": true,
+      "reviews": [],
+      "B_native_exit": 0
+    },
+    {
+      "window": "BC-ECG60-20261103T115308315632Z",
+      "topology": "BC",
+      "profile": "ECG60",
+      "orchestrator_native_exit": 0,
+      "capture_native_exit": 0,
+      "cleanup_STOP_native_exit": null,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "evaluation_started": true,
+      "reviews": [
+        {
+          "file": "M0-review.json",
+          "exit_code": 3,
+          "status": "M0_BC_ECG60_NOT_PASS",
+          "failures": [
+            "B_HR_VALID60",
+            "HR_COVERAGE_OR_VALIDITY",
+            "HR_VALUE",
+            "PRIMARY_COVERAGE_OR_GAP",
+            "PRIMARY_WSS_BATCH_MISSING",
+            "WSS_PRIMARY_OR_TEMP_NOT_READY"
+          ],
+          "SHA256": "a90e3286323f6d0e97063641dce0805b51c4e2598794753aa3c425e44bdb2e4c"
+        }
+      ],
+      "B_native_exit": 0
+    },
+    {
+      "window": "BC-ECG60-20261103T124500409230Z",
+      "topology": "BC",
+      "profile": "ECG60",
+      "orchestrator_native_exit": 1,
+      "capture_native_exit": null,
+      "cleanup_STOP_native_exit": 1,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        1,
+        1
+      ],
+      "evaluation_started": false,
+      "reviews": [],
+      "B_native_exit": 0
+    },
+    {
+      "window": "BC-ECG60-20261103T124938849752Z",
+      "topology": "BC",
+      "profile": "ECG60",
+      "orchestrator_native_exit": 1,
+      "capture_native_exit": null,
+      "cleanup_STOP_native_exit": 1,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        1,
+        1
+      ],
+      "evaluation_started": false,
+      "reviews": [],
+      "B_native_exit": 0,
+      "C_full_flash_SHA256": "a9302b0aafd2a9e1f2bff8cae29fb1ce4cba496a28f1d90442b6bca361709c3b"
+    },
+    {
+      "window": "BC-ECG60-20261103T125401131272Z",
+      "topology": "BC",
+      "profile": "ECG60",
+      "orchestrator_native_exit": 1,
+      "capture_native_exit": null,
+      "cleanup_STOP_native_exit": 0,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        1,
+        0
+      ],
+      "evaluation_started": false,
+      "reviews": [],
+      "B_native_exit": 0
+    },
+    {
+      "window": "BC-ECG60-20261103T130100447393Z",
+      "topology": "BC",
+      "profile": "ECG60",
+      "orchestrator_native_exit": 1,
+      "capture_native_exit": null,
+      "cleanup_STOP_native_exit": 1,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        1,
+        1
+      ],
+      "evaluation_started": false,
+      "reviews": [],
+      "B_native_exit": 0,
+      "C_full_flash_SHA256": "245ace31315509f7c5c1117f013b1c13f8befbc5d4bed34289d0db3ae6caf596"
+    },
+    {
+      "window": "BC-ECG60-20261103T131035262559Z",
+      "topology": "BC",
+      "profile": "ECG60",
+      "orchestrator_native_exit": 0,
+      "capture_native_exit": 0,
+      "cleanup_STOP_native_exit": null,
+      "worker_native_exit_codes_original": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "evaluation_started": true,
+      "reviews": [
+        {
+          "file": "M0-review-corrected.json",
+          "exit_code": 0,
+          "status": "M0_BC_ECG60_ENGINEERING_PASS",
+          "failures": [],
+          "SHA256": "43742ae658d170685ef0dd8bfb1e82d16b64a451554e4c90c7f5f01ef083829e"
+        },
+        {
+          "file": "M0-review-current.json",
+          "exit_code": 0,
+          "status": "M0_BC_ECG60_ENGINEERING_PASS",
+          "failures": [],
+          "SHA256": "43742ae658d170685ef0dd8bfb1e82d16b64a451554e4c90c7f5f01ef083829e"
+        },
+        {
+          "file": "review-corrected-stdout-private.json",
+          "exit_code": 0,
+          "status": "M0_BC_ECG60_ENGINEERING_PASS",
+          "failures": [],
+          "SHA256": "82a5042d20a00ad92672869405b08956d02a436a9b6a4b0a773127f6e6f2da9a"
+        },
+        {
+          "file": "review-current-stdout-private.json",
+          "exit_code": 0,
+          "status": "M0_BC_ECG60_ENGINEERING_PASS",
+          "failures": [],
+          "SHA256": "82a5042d20a00ad92672869405b08956d02a436a9b6a4b0a773127f6e6f2da9a"
+        }
+      ],
+      "B_native_exit": 0,
+      "C_full_flash_SHA256": "fb15578d20d11676a8128b26f5b7b1473464e349adfed45ad0a2a4e2c780f5c5"
+    }
+  ]
+}

@@ -8,6 +8,9 @@
 #ifdef MP_FINAL_UNIFIED
 #include "unified_audio.h"
 #include "mic_protocol.h"
+#ifdef __arm__
+#include "stm32f4xx.h"
+#endif
 unsigned final_can_mask;
 static uint32_t run_limit_ms=B5_WINDOW_MS;
 static bool network_fault;
@@ -124,7 +127,10 @@ static void local_control(void) {
             else if(!strcmp(line,"UNISTART ABC")){final_can_mask=3;run_limit_ms=0;}
             else if(!strcmp(line,"B5START")){final_can_mask=3;run_limit_ms=B5_WINDOW_MS;}
             else {used=0;memset(line,0,sizeof line);continue;}
-            if(gateway_config_valid())armed=true;
+            if(gateway_config_valid()){
+                /* 启动前累计错误留档；仅把本轮武装后的新增错误判为网络故障。 */
+                uart_error_baseline=platform_uart_errors_total();armed=true;
+            }
             used=0;memset(line,0,sizeof line);
         } else if(used<sizeof line-1)line[used++]=(char)c;
         else used=sizeof line-1;
@@ -147,6 +153,12 @@ static void diagnostic(unsigned stage) {
         (unsigned long)b4_hw_diag[0].high_water,(unsigned long)b4_hw_diag[1].high_water,
         final_can_mask,(unsigned long)run_limit_ms,(unsigned)network_fault,
         (unsigned long)b4_replayed[0],(unsigned long)b4_replayed[1],(unsigned long)can_poll_cycles_max);console(line);
+#ifdef __arm__
+    snprintf(line,sizeof line,"UNI IRQ group=%lu can_a=%u can_b=%u dma=%u calls_a=%lu calls_b=%lu\r\n",
+        (unsigned long)((SCB->AIRCR>>8)&7u),(unsigned)NVIC_GetPriority(CAN1_RX0_IRQn),
+        (unsigned)NVIC_GetPriority(CAN2_RX0_IRQn),(unsigned)NVIC_GetPriority(DMA1_Stream0_IRQn),
+        (unsigned long)b4_irq_entries[0],(unsigned long)b4_irq_entries[1]);console(line);
+#endif
 #endif
 #ifdef MP_ABC_TRI_CANDIDATE
     (void)snprintf(line,sizeof(line),"ABC A_CAN rx=%lu txack=%lu txfail=%lu overflow=%lu esr=%lu\r\n",
@@ -324,6 +336,9 @@ int main(void) {
     unified_audio_init();
     if(b4_hw_init())for(;;){}
     for(unsigned bus=0;bus<2;bus++)b4_gateway_link(&gateway,bus,(final_can_mask&(1u<<bus))!=0);
+    char uart_start[96];
+    snprintf(uart_start,sizeof uart_start,"UNI UART baseline=%lu total=%lu\r\n",
+        (unsigned long)uart_error_baseline,(unsigned long)platform_uart_errors_total());console(uart_start);
 #else
 #ifdef MP_ABC_TRI_CANDIDATE
     console("B5 DISARMED MOCK ABC_DUAL_CAN NO_FLASH_WRITE\r\n");
@@ -419,7 +434,7 @@ int main(void) {
             bool allow_new=b5_business_remaining()>B5_DRAIN_MS;
             int progress=b5_egress_step(&gateway.router,&publisher,allow_new);
 #ifdef MP_FINAL_UNIFIED
-            unified_audio_step(!publisher.pending && !publisher.deferred && !gateway.router.ln && allow_new);
+            unified_audio_step(!publisher.deferred && !gateway.router.ln && allow_new);
             if(platform_at_synchronized() && !platform_console_busy())unified_audio_report();
 #endif
             diagnostic_idle();

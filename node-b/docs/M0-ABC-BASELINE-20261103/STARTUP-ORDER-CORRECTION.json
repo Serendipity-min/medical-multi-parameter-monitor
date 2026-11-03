@@ -1,0 +1,22 @@
+{
+  "scope": "HOST_REAL_BXCAN_GATEWAY_ENTRY_ORDER_NOT_HARDWARE_PASS",
+  "results": [
+    {
+      "case": "premature_poll",
+      "native_exit": 3,
+      "output": "FAIL line=18"
+    },
+    {
+      "case": "proper_init_order",
+      "native_exit": 0,
+      "output": "C_ONLY_CAN_SOFTWARE_REPLAY_PASS checks=21 frames=4000 real_RX=0 real_TX=0 measurement_frames=0 hardware=NOT_RUN"
+    }
+  ],
+  "field_failed_window": "BC-ECG60-20261103T130100447393Z",
+  "field_evaluation_started": false,
+  "old_diagnostic_before_CAN_init": true,
+  "corrected_diagnostic_after_CAN_init_and_both_links": true,
+  "ARM_disassembly_verified": true,
+  "production_source_SHA256": "85ff51ccd51816489a70ef717152b1469e941d7e2a4a6aa8641828d282584031",
+  "old_results_modified": false
+}

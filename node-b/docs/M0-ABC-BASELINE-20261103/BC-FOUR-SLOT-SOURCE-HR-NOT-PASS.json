@@ -1,0 +1,42 @@
+{
+  "status": "M0_BC_ECG60_NOT_PASS",
+  "exit_code": 3,
+  "failures": [
+    "B_HR_VALID60",
+    "HR_COVERAGE_OR_VALIDITY",
+    "HR_VALUE",
+    "PRIMARY_COVERAGE_OR_GAP",
+    "PRIMARY_WSS_BATCH_MISSING",
+    "WSS_PRIMARY_OR_TEMP_NOT_READY"
+  ],
+  "source_points": {
+    "ECG": 74708,
+    "RESP": 14921
+  },
+  "TEMP_messages": 298,
+  "TEMP_source_matches": 298,
+  "TEMP_max_WSS_age_ms": 4053,
+  "WSS_snapshots": 4006,
+  "Backend_delta": {
+    "accepted": 3374,
+    "rejected": 0,
+    "dropped": 0
+  },
+  "field_job": "BC-ECG60-20261103T115308315632Z",
+  "capture_native_exit": 0,
+  "B_close_native_exit": 0,
+  "STOP_ACK_query_IDLE": true,
+  "C_install": "C_M0_FOUR_SLOT_CANDIDATE",
+  "B_HR_observations": {
+    "(60, 1, 0, ('VALID',))": 582,
+    "(0, 0, 6, ('NO_CYCLES', 'UNSTABLE'))": 12,
+    "(0, 0, 2, ('NO_CYCLES',))": 6
+  },
+  "B_HR_invalid_interval_s": [
+    40.5,
+    48.91
+  ],
+  "B_ADC_CAN_new_errors": 0,
+  "algorithm_changed": false,
+  "overall_verdict": "NOT_PASS_DO_NOT_FREEZE_BASELINE"
+}

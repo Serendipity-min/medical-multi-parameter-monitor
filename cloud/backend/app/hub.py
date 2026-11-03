@@ -7,7 +7,8 @@ from .models import Telemetry, CHANNELS
 
 class Hub:
     # Hub 只由 asyncio 事件循环读写；注入两种时钟便于独立验证采集时间与接收过期。
-    def __init__(self, gateways: list[str], clock=time.time, monotonic=time.monotonic):
+    def __init__(self, gateways: list[str], clock=time.time, monotonic=time.monotonic, *, wave_batches=False):
+        self.wave_batches = wave_batches
         self.gateways = gateways
         self.clock, self.monotonic = clock, monotonic
         self.current: dict[tuple, tuple[Telemetry, float]] = {}
@@ -62,6 +63,8 @@ class Hub:
             self.current[key] = (message, self.monotonic())
             self.current_generation[key] = self.gateway_generation.get(message.gateway_id, 0)
         self.accepted += 1
+        if self.wave_batches and message.source != 'REPLAY' and message.stream in ('ECG', 'RESP', 'PPG'):
+            self.publish(message.gateway_id)
         return True
 
     def _state(self, gateway: str, node: str) -> str:
@@ -130,12 +133,21 @@ class Hub:
             'event': event.model_dump() if event else None,
         }
 
-    def publish(self):
+    def publish(self, only_gateway=None):
         snapshots = {}
         for queue, gateway in tuple(self.subscribers.items()):
+            if only_gateway is not None and gateway != only_gateway:
+                continue
             if gateway not in snapshots:
                 snapshots[gateway] = self.snapshot(gateway)
             # 慢浏览器只保留最新快照，不能阻塞 MQTT 或增长内存。
             if queue.full():
+                if self.wave_batches:
+                    # 波形客户端来不及消费时明确关闭，不能静默覆盖有效批次。
+                    self.subscribers.pop(queue)
+                    while not queue.empty():
+                        queue.get_nowait()
+                    queue.put_nowait(None)
+                    continue
                 queue.get_nowait()
             queue.put_nowait(snapshots[gateway])

@@ -51,13 +51,17 @@ int main(void) {
     for(unsigned i=0;i<sizeof samples;i+=128)part=mic_crc32_update(part,(uint8_t *)samples+i,128);
     CHECK((part^0xffffffffu)==whole && mic_crc32("123456789",9)==0xcbf43926u);
     prepare();result=GW_PENDING;unified_audio_command('R',false);CHECK(record_state==1);result=GW_DEFERRED;
+    CHECK(!unified_audio_quiet());
     record_state=2;sample_count=MIC_SAMPLES;tick();
+    CHECK(unified_audio_quiet());
     for(steps=0;steps<500;steps++){unified_audio_step(false);tick();CHECK(submissions==0);}
     unified_audio_step(false);CHECK(submissions==0);
     unsigned previous=nbytes;uint8_t early[19]={0};memcpy(early,"MR01",4);unified_audio_reply(early,19);CHECK(nbytes==previous);
     unified_audio_command('D',false);CHECK(!exported);
+    CHECK(unified_audio_send_due());
     for(sent=0;sent<125;sent++) {
         unified_audio_step(true);CHECK(submissions==sent+1 && result==GW_PENDING);
+        CHECK(!unified_audio_send_due());
         uint16_t seq;memcpy(&seq,last_packet+8,2);CHECK(seq==sent);
         CHECK(!memcmp(last_packet+32,(uint8_t *)samples+512*sent,512));
         memcpy(&accepted_session,last_packet+4,4);memcpy(&accepted_crc,last_packet+20,4);CHECK(accepted_crc==whole);
@@ -69,6 +73,8 @@ int main(void) {
         }
         unsigned before=submissions;for(unsigned i=0;i<10;i++){unified_audio_step(true);tick();}CHECK(submissions==before);
         result=GW_COMPLETE;unified_audio_step(false);
+        CHECK(!unified_audio_send_due());
+        if(sent<124){for(unsigned i=0;i<240;i++)tick();CHECK(unified_audio_send_due());}
     }
     CHECK(submissions==125);
     uint8_t reply[19]={0};memcpy(reply,"MR01",4);memcpy(reply+4,&accepted_session,4);memcpy(reply+8,&whole,4);
@@ -79,6 +85,21 @@ int main(void) {
     CHECK(!memcmp(tx+nbytes-8,(uint8_t[]){0xfd,0,1,2,0xfd,0,1,0x21},8));
     unified_audio_command('D',true);CHECK(exported==1);
     unsigned total=submissions;unified_audio_step(true);CHECK(submissions==total);
+    prepare();unified_audio_command('R',false);CHECK(record_state==1);
+    g_uptime_ms+=UA_TURN_BUDGET_MS-1u;unified_audio_local_poll();CHECK(record_state==1);
+    g_uptime_ms++;unified_audio_local_poll();CHECK(record_state==3);
+    /* 真实双CAN慢传需等待ASR；旧240秒整轮在有效回包前已经撤销会话。 */
+    prepare();unified_audio_command('R',false);uint32_t turn_start=g_uptime_ms;
+    record_state=2;sample_count=MIC_SAMPLES;tick();
+    for(unsigned i=0;i<500;i++){unified_audio_step(false);tick();}
+    for(unsigned i=0;i<125;i++){
+        unified_audio_step(true);CHECK(result==GW_PENDING);
+        memcpy(&accepted_session,last_packet+4,4);memcpy(&accepted_crc,last_packet+20,4);
+        result=GW_COMPLETE;unified_audio_step(false);
+    }
+    g_uptime_ms=turn_start+270000u;unified_audio_local_poll();
+    memcpy(reply+4,&accepted_session,4);memcpy(reply+8,&accepted_crc,4);
+    previous=nbytes;unified_audio_reply(reply,sizeof reply);drain();CHECK(nbytes==previous+8);
     printf("HOST_UNIFIED_AUDIO_PASS checks=%u chunks=%u hash_slices=%u crc=%lu hardware=NOT_RUN\n",checks,submissions,steps,(unsigned long)whole);
     return 0;
 }

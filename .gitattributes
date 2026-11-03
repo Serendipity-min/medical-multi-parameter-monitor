@@ -39,3 +39,22 @@ artifacts/ecg-source/g2s/** -text
 /cloud/microphone/protocol.py -text
 /cloud/microphone/test_protocol.py -text
 /gateway/microphone/README.md -text
+
+# M0实际执行与编译源码保持回执所记字节。
+/gateway/dual_can/b4_gateway.c -text
+/gateway/mqtt/src/gateway_transport.h -text
+/gateway/mqtt/tests/mocks/mock_esp.c -text
+/gateway/microphone/test_unified_clock.c -text
+/gateway/microphone/test_unified_contention.c -text
+/cloud/backend/app/hub.py -text
+/cloud/backend/app/main.py -text
+/cloud/backend/app/mqtt_adapter.py -text
+/cloud/backend/tests/test_monitor.py -text
+/cloud/microphone/worker.py -text
+/node-b/tools/b5_g3_cloud.py -text
+/node-b/tools/b5_g3_devices.py -text
+/node-b/tools/m0_cloud.py -text
+/node-b/tools/m0_field.py -text
+/node-b/tools/m0_review.py -text
+/node-b/tools/m0_stop_completion.py -text
+/node-b/tests/test_m0_entry.py -text

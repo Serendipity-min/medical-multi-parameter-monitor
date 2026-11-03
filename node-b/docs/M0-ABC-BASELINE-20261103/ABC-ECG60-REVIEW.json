@@ -1,0 +1,156 @@
+{
+  "status": "M0_ABC_ECG60_ENGINEERING_PASS",
+  "original_capture_native_exit": 0,
+  "post_STOP_completion_recovery": false,
+  "exit_code": 0,
+  "failures": [],
+  "evaluation_UTC_ms": [
+    1793703036447,
+    1793703336447
+  ],
+  "B": {
+    "failures": [],
+    "saved": 599,
+    "device_domain_SPS": 249.96153871880455,
+    "CAN_evaluation_increments": {
+      "offered": 74745,
+      "enqueued": 74745,
+      "sent_ecg": 74746,
+      "sent_resp": 14949,
+      "overflow": 0,
+      "expired": 0,
+      "comm_reset": 0,
+      "app_reset_rejected": 0,
+      "error": 0,
+      "discontinuities": 0
+    },
+    "ADC_evaluation_increments": {
+      "bad_status": 0,
+      "spi_errors": 0,
+      "queue_overflow": 0,
+      "init_errors": 0,
+      "long_gap_count": 0
+    },
+    "HR_values": {
+      "60": 599
+    },
+    "RR_reason_masks": {
+      "10": 8,
+      "130": 570,
+      "2": 21
+    },
+    "clipped_counter_increment": 0,
+    "temperature_errors": {
+      "overflow": 0,
+      "uart_errors": 0,
+      "checksum_errors": 0
+    },
+    "temperature_new_frames": 1370,
+    "profile": "ECG60"
+  },
+  "source_reconstruction": {
+    "blocks": 4791,
+    "raw_stable": 112671,
+    "CAN_stable": 112671,
+    "raw_unqualified_sequences": 68,
+    "CAN_unqualified_sequences": 64,
+    "raw_version_conflicts": 178,
+    "CAN_version_conflicts": 125
+  },
+  "source_points": {
+    "ECG": 74855,
+    "RESP": 14935
+  },
+  "mapping_errors": {},
+  "UART_source": {
+    "blocks": 1597,
+    "stable_bytes": 24844,
+    "unqualified_bytes": 23,
+    "valid_frames": 2069
+  },
+  "TEMP_messages": 298,
+  "TEMP_source_matches": 298,
+  "TEMP_max_WSS_age_ms": 4990,
+  "NIBP": [
+    {
+      "value": [
+        108.0,
+        64.0
+      ],
+      "timestamp": 1793703232835,
+      "source_matches": 18,
+      "expiry_observed": true,
+      "WSS_seen": true
+    }
+  ],
+  "webpage_simultaneous_readings": [
+    {
+      "UTC_ms": 1793703236449,
+      "NIBP": [
+        108.0,
+        64.0
+      ]
+    }
+  ],
+  "Broker_messages": 3655,
+  "Broker_duplicates": 0,
+  "Backend_delta": {
+    "accepted": 3655,
+    "rejected": 0,
+    "dropped": 0
+  },
+  "WSS_snapshots": 4083,
+  "C_CAN_delta": {
+    "B_CAN": {
+      "rx": 89963,
+      "txack": 621,
+      "txfail": 0,
+      "overflow": 0
+    },
+    "A_CAN": {
+      "rx": 8438,
+      "txack": 621,
+      "txfail": 0,
+      "overflow": 0
+    }
+  },
+  "actual_IRQ_first_last": [
+    {
+      "group": 3,
+      "can_a": 3,
+      "can_b": 3,
+      "dma": 8,
+      "calls_a": 889,
+      "calls_b": 39710
+    },
+    {
+      "group": 3,
+      "can_a": 3,
+      "can_b": 3,
+      "dma": 8,
+      "calls_a": 9327,
+      "calls_b": 129673
+    }
+  ],
+  "browser": {
+    "exit_code": 0,
+    "sensor_data_injected": false,
+    "TLS_errors_ignored": false,
+    "browser_context": "TASK_ONLY",
+    "observations": 431,
+    "NIBP_screenshot_taken": true
+  },
+  "old_results_modified": false,
+  "field_job": "ABC-ECG60-20261103T104756600991Z",
+  "capture_native_exit": 0,
+  "review_native_exit": 0,
+  "owner_NIBP_screen": [
+    108,
+    64
+  ],
+  "owner_SpO2_PR_reference": {
+    "SpO2_percent": 95,
+    "PR_bpm": 84,
+    "accuracy": "NOT_CALIBRATED"
+  }
+}

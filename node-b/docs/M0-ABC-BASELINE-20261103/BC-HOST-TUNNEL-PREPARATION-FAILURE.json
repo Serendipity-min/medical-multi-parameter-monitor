@@ -1,0 +1,10 @@
+{
+  "job": "BC-ECG60-20261103T103010535290Z",
+  "status": "HOST_PREPARATION_FAILED_BEFORE_TARGET_OPEN",
+  "native_exit": 1,
+  "reason": "isolated local MQTT SSH forwarding not ready / ConnectionRefusedError10061",
+  "B_SDK_opened": false,
+  "C_capture_started": false,
+  "B5START": 0,
+  "fix": "probe local forwarding readiness before observer; no physical restart required"
+}

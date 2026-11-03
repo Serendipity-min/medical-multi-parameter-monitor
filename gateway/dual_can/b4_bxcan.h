@@ -11,6 +11,6 @@ void b4_hw_idle(void);
 void b4_hw_poll(B4Gateway *g);
 #ifdef MP_FINAL_UNIFIED
 int b4_hw_set_replay(bool enabled);
-extern uint32_t b4_replayed[2];
+extern uint32_t b4_replayed[2], b4_irq_entries[2];
 #endif
 #endif

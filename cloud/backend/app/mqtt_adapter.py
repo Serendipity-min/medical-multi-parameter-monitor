@@ -20,9 +20,12 @@ def configured_client(config: dict, client_id: str):
         clean_session=True,
     )
     client.username_pw_set(config['username'], config['password'])
-    context = ssl.create_default_context(cafile=config.get('ca_file') or None)
-    context.minimum_version = ssl.TLSVersion.TLSv1_2
-    client.tls_set_context(context)
+    if config.get('tls', True):
+        context = ssl.create_default_context(cafile=config.get('ca_file') or None)
+        context.minimum_version = ssl.TLSVersion.TLSv1_2
+        client.tls_set_context(context)
+    elif config['host'] not in ('127.0.0.1', '::1'):
+        raise ValueError('Plain MQTT is restricted to task loopback')
     client.reconnect_delay_set(1, 15)
     client.max_queued_messages_set(256)
     client.max_inflight_messages_set(16)

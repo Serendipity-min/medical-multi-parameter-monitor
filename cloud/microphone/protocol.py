@@ -8,7 +8,8 @@ HEADER=struct.Struct('<4sIHHIIIIHBB')
 
 
 class AudioAssembler:
-    def __init__(self):
+    def __init__(self,timeout_s=90):
+        self.timeout_s=timeout_s
         self.active={}
         self.completed={}
 
@@ -26,10 +27,10 @@ class AudioAssembler:
             raise ValueError('MIC_PACKET_FIELDS_OR_CRC')
         if (source,session) in self.completed:raise ValueError('MIC_COMPLETED_SESSION_REPLAY')
         current=self.active.get(source)
-        # 经校验的新起始块可取代中断会话；同会话重复不延长90秒期限。
+        # 经校验的新起始块可取代中断会话；同会话重复不延长装配期限。
         if seq==0 and (current is None or session>current['session']):
             current={'session':session,'crc':whole,'at':now,'blocks':[]};self.active[source]=current
-        if current is None or current['session']!=session or current['crc']!=whole or now-current['at']>=90:
+        if current is None or current['session']!=session or current['crc']!=whole or now-current['at']>=self.timeout_s:
             self.discard(source);raise ValueError('MIC_SESSION_OR_EXPIRY')
         if seq<len(current['blocks']):
             if current['blocks'][seq]!=data:

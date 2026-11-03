@@ -1,0 +1,39 @@
+{
+  "scope": "PARTIAL_FAILED_FIELD_NOT_300_SECOND_PASS",
+  "capture_native_exit": 1,
+  "cleanup_STOP_native_exit": 0,
+  "duration_of_B_observation_s": 240.719,
+  "B_RR_observations": [
+    {
+      "rpm": 18,
+      "valid": 1,
+      "reason": 0,
+      "count": 417
+    },
+    {
+      "rpm": 0,
+      "valid": 0,
+      "reason": 6,
+      "count": 66
+    }
+  ],
+  "invalid_RR_first_last_relative_s": [
+    101.938,
+    224.422
+  ],
+  "source_truth": "SOURCE_UNKNOWN",
+  "root_cause": "ROOT_CAUSE_UNRESOLVED",
+  "owner_NIBP": [
+    133,
+    83
+  ],
+  "owner_SpO2_PR_reference": [
+    97,
+    75
+  ],
+  "cloud_ASR_completed": false,
+  "owner_speech_confirmed": false,
+  "independent_ABC_cold_boot": false,
+  "manual_C_RESET": 1,
+  "old_results_modified": false
+}

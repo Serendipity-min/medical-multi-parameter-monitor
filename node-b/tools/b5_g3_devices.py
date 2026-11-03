@@ -22,7 +22,9 @@ C_READS.update({0xe000ed00:{4},0xe0042000:{4},0x40023c14:{4},0x1fff7a10:{12},0x1
 HOST_CANCELLATIONS={'G3_STOP_REQUESTED','G3_B_STOP','G3_B_SESSION_TIMEOUT','G3_B_CALL_BUDGET'}
 
 class BLink(b.Link):
-    def __init__(self,out,root,operator_wait_extra_s=0,host_cancel_cleanup_s=0,profile=None):
+    def __init__(self,out,root,operator_wait_extra_s=0,host_cancel_cleanup_s=0,profile=None,integration_window_s=0,debug_speed_khz=1000):
+        self.debug_speed_khz=debug_speed_khz
+        self.integration_window_s=integration_window_s
         self.root=root;self.final_close_verified=False;self.active_api=None;self.native_failed=False;self.host_cancel_close=False
         self.operator_wait_extra_s=operator_wait_extra_s;self.host_cancel_cleanup_s=host_cancel_cleanup_s
         self.allowed_reads={k:set(v) for k,v in READS.items()}
@@ -38,7 +40,8 @@ class BLink(b.Link):
         extra=getattr(self,'operator_wait_extra_s',0)
         cleanup=getattr(self,'host_cancel_cleanup_s',0) if self.host_cancel_close else 0
         deadline=(arm['monotonic']+422 if arm else self.started+g.CRITERIA['prearm_s']+extra)+cleanup
-        g.require(time.monotonic()<=deadline and time.monotonic()-self.started<=565+extra+cleanup,'G3_B_SESSION_TIMEOUT')
+        if self.integration_window_s:deadline=self.started+self.integration_window_s+cleanup
+        g.require(time.monotonic()<=deadline and time.monotonic()-self.started<=(self.integration_window_s or 565+extra)+cleanup,'G3_B_SESSION_TIMEOUT')
         g.require(not self.error,'G3_B_SDK_ERROR')
     def set_close_resume(self,enabled):
         if enabled and not self.final_close_verified:return
@@ -55,6 +58,7 @@ class BLink(b.Link):
             if args[:2] in ((0x08000000,1048576),(0x1fffc000,16)):
                 counts=getattr(self,'g3_read_counts',{});key=args[:2]
                 g.require(counts.get(key,0)==0,'G3_B_ONE_READ_LIMIT');counts[key]=1;self.g3_read_counts=counts
+        if name=='JLINKARM_SetSpeed':args=(self.debug_speed_khz,)
         self.sdk_calls+=1;self.gate();self.active_api=name
         deadline=time.monotonic()+timeout
         self.events.write(json.dumps({'operation':name,'active':True,'deadline_monotonic':deadline})+'\n');self.events.flush()
@@ -152,7 +156,7 @@ def b_worker(a,root,bundle,*,start_record_name='B-worker.used'):
     link=None;r={'status':'STOP','exit_code':1,'explicit_reset_halt_go_target_writes':0}
     try:
         profile=bundle.get('_B_profile')
-        link=BLink(out,root,a.get('operator_wait_extra_s',0),a.get('host_cancel_cleanup_s',0),profile);link.open();ident=raw.identity(link);raw.write_json(out/'identity-private.json',ident)
+        link=BLink(out,root,a.get('operator_wait_extra_s',0),a.get('host_cancel_cleanup_s',0),profile,a.get('integration_window_s',0),a.get('debug_speed_khz',1000));link.open();ident=raw.identity(link);raw.write_json(out/'identity-private.json',ident)
         g.require(ident==g.load(bundle['B_identity']['path']),'G3_B_IDENTITY')
         raw.write_json(out/'entry-sticky-private.json',{'DHCSR':link.u32(b.ro.SYSTEM['DHCSR'])})
         cpu=b.ro.snapshot(link);raw.write_json(out/'entry-cpu-private.json',cpu);b.ro.check_running(link,cpu)

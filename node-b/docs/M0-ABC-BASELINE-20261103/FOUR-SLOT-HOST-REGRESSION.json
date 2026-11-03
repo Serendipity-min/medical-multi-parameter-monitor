@@ -1,0 +1,77 @@
+{
+  "scope": "HOST_ONLY_NOT_FIELD_PASS",
+  "native_exit": 0,
+  "telemetry_slots": 3,
+  "audio_slots": 1,
+  "same_single_coreMQTT_client": true,
+  "medical_age_limit_ms": 5000,
+  "audio_admission_pending_or_queued_age_ms": 2500,
+  "cases": [
+    {
+      "case": "unified_transport",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "HOST_UNIFIED_SINGLE_MQTT_OWNER_PASS checks=599 callback_poll=6 hardware=NOT_RUN"
+    },
+    {
+      "case": "unified_audio",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "HOST_UNIFIED_AUDIO_PASS checks=1678 chunks=125 hash_slices=500 crc=2735321824 hardware=NOT_RUN"
+    },
+    {
+      "case": "unified_control",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "HOST_UNIFIED_CONTROL_PASS checks=27 CAN_CONTINUES_ON_NETWORK_FAULT hardware=NOT_RUN"
+    },
+    {
+      "case": "scheduler_fixed",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "UNIFIED_REAL_ROUTER_POST_ACK_AUDIO_SLOT_PASS queued=1 audio=1 hardware=NOT_RUN\r\nUNIFIED_HALF_FULL_BURST_ADMISSION_PASS stale_and_capacity_backpressure_preserved=1\r\nUNIFIED_AT_IDLE_SLOT_PASS opportunities=50 progress_calls=105 hardware=NOT_RUN"
+    },
+    {
+      "case": "scheduler_before",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "LEGACY_DOUBLE_POLL_STARVATION_REPRODUCED opportunities=0 progress_calls=199 hardware=NOT_RUN"
+    },
+    {
+      "case": "can_software_replay",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "C_ONLY_CAN_SOFTWARE_REPLAY_PASS checks=21 frames=4000 real_RX=0 real_TX=0 measurement_frames=0 hardware=NOT_RUN"
+    },
+    {
+      "case": "contention",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "HOST_REAL_COREMQTT_BC_CONTENTION_PASS ECG=75000 RESP=15000 HR=300 TEMP=300 SPO2=0 PR=0 audio=125 voice_ms=85142 high=7 scalar_coalesced=0 checks=58231 hardware=NOT_RUN",
+      "ABC_run_native_exit": 0,
+      "ABC_stdout": "HOST_REAL_COREMQTT_ABC_CONTENTION_PASS ECG=75000 RESP=15000 HR=300 TEMP=300 SPO2=300 PR=298 audio=125 voice_ms=91737 high=12 scalar_coalesced=2 checks=48968 hardware=NOT_RUN",
+      "payload_stress_native_exit": 0,
+      "payload_stress_stdout": "HOST_REAL_COREMQTT_ABC_CONTENTION_PASS ECG=75000 RESP=15000 HR=300 TEMP=300 SPO2=286 PR=250 audio=125 voice_ms=122039 high=12 scalar_coalesced=64 checks=32260 hardware=NOT_RUN"
+    },
+    {
+      "case": "queued_clock",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "HOST_QUEUED_IRQ_RESYNC_AND_WRAP_PASS freshness_unchanged=1"
+    },
+    {
+      "case": "format",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "HOST_I2S_FORMAT_PASS: signed24/PCM16/stereo-slot/padding/CRC; no hardware"
+    },
+    {
+      "case": "legacy_egress",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "ASYNC_REAL_COREMQTT_Q0_ADVANCES_DURING_Q1_ACK_WAIT\r\nSTRICT_WRONG_MISSING_PARTIAL_DUPLICATE_OLD_ACK_CASES_PASS\r\nTHREE_STALL_300S_PASS high=24 ECG=749 RESP=299 HR=299 TEMP=299 status_age=3151/3282 sizeof_router=35312\r\nOVERLOAD_NEGATIVE_REMAINS_EXPLICIT_HISTORY_AND_DROP_NOT_MOCK_PASS"
+    }
+  ],
+  "prior_two_telemetry_payload_stress_native_exit": 3,
+  "old_C44520_BIN_SHA256": "5f4690eca0a00334ff1a9b653be2a0b99cba034b869ae4592dd36a042a147442"
+}

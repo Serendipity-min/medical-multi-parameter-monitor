@@ -66,7 +66,7 @@ async def bounded_health(host,port,timeout=3):
     return await asyncio.wait_for(request(),timeout)
 
 
-async def observe(a,root,bundle,stop,shared,*,snapshot_validator=None,session_selector=None):
+async def observe(a,root,bundle,stop,shared,*,snapshot_validator=None,session_selector=None,health_interval_s=1):
     validate=snapshot_validator or g.assert_snapshot
     select_session=session_selector or current_b_session
     P=g.load(bundle['cloud_package']['path']);credentials=g.load(bundle['cloud_credentials']['path'])
@@ -91,7 +91,11 @@ async def observe(a,root,bundle,stop,shared,*,snapshot_validator=None,session_se
                 with socket.create_connection(('127.0.0.1',port),timeout=.1):break
             except OSError:await asyncio.sleep(.1)
         else:raise ValueError('G3_TUNNEL_NOT_READY')
-        client=prior.client('b5-observer',credentials['passwords']['b5-observer'],a['observer_client_id'])
+        local_broker=a.get('isolated_broker')
+        if local_broker:
+            client=prior.mqtt.Client(prior.mqtt.CallbackAPIVersion.VERSION2,client_id=a['observer_client_id'],reconnect_on_failure=False)
+            client.username_pw_set(local_broker['username'],local_broker['password'])
+        else:client=prior.client('b5-observer',credentials['passwords']['b5-observer'],a['observer_client_id'])
         def put(kind,data):
             try:rawq.put_nowait((kind,data))
             except queue.Full:shared['cloud_queue_overflow']=True
@@ -107,7 +111,7 @@ async def observe(a,root,bundle,stop,shared,*,snapshot_validator=None,session_se
             disconnects.append(event);put('OBSERVER_DISCONNECT',event)
             if not stop.is_set():shared['cloud_disconnected']=True
         client.on_connect=on_connect;client.on_subscribe=on_sub;client.on_message=on_message;client.on_disconnect=on_disconnect
-        await asyncio.to_thread(client.connect,host,8883,15);client.loop_start()
+        await asyncio.to_thread(client.connect,*(('127.0.0.1',local_broker['port'],15) if local_broker else (host,8883,15)));client.loop_start()
         await prior.until(connected.is_set,'G3_OBSERVER_CONNACK_TIMEOUT')
         g.require(con_reason==[0],'G3_OBSERVER_CONNECT_REJECTED')
         result,mid=client.subscribe('mpm/v1/GW-B5-001/#',qos=1);g.require(result==0,'G3_OBSERVER_SUBSCRIBE_CALL')
@@ -147,7 +151,7 @@ async def observe(a,root,bundle,stop,shared,*,snapshot_validator=None,session_se
                         elif (message['value']=='ONLINE' and message['validity']=='VALID' and message['source']=='MOCK'
                               and message['session_id'] not in pre_sessions and message['timestamp']>=arm['UTC_ms']-5000):
                             fresh_gateway=message['session_id']
-                if time.monotonic()-health_at>=1:
+                if health_interval_s is not None and time.monotonic()-health_at>=health_interval_s:
                     health=await health_query('PERIODIC');g.append(network_log,'BACKEND_HEALTH',health)
                     g.require(health.get('status')=='ok' and health.get('mqtt_connected') is True,'G3_BACKEND_DISCONNECTED')
                     health_at=time.monotonic()
@@ -166,7 +170,7 @@ async def observe(a,root,bundle,stop,shared,*,snapshot_validator=None,session_se
                     g.save(root/'CLOUD_COMMON.json',{'monotonic':time.monotonic(),'server_time':snap['server_time'],
                          'gateway_session':fresh_gateway,'B_session':session})
                     common=True
-            health=await health_query('AFTER',1);g.append(network_log,'BACKEND_HEALTH_AFTER',health)
+            health=await health_query('AFTER',5 if health_interval_s is None else 1);g.append(network_log,'BACKEND_HEALTH_AFTER',health)
             r.update(status='CLOUD_OBSERVATIONS_SAVED_REVIEW_PENDING',exit_code=0,
                      observer_CONNACK=con_reason,observer_SUBACK=sub_codes,WSS_authenticated=True)
     except BaseException as e:

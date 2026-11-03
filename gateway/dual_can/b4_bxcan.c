@@ -27,6 +27,7 @@ static uint8_t hw_clocks_ready, hw_stopped;
 volatile B4HwDiag b4_hw_diag[2];
 extern uint32_t b4_hw_time(void);
 #ifdef MP_FINAL_UNIFIED
+uint32_t b4_irq_entries[2];
 static bool replay_enabled;
 uint32_t b4_replayed[2];
 int b4_hw_set_replay(bool enabled) {
@@ -36,6 +37,9 @@ int b4_hw_set_replay(bool enabled) {
 #endif
 static CAN_TypeDef *controller(unsigned bus) { return bus ? CAN2 : CAN1; }
 static void irq(unsigned bus) {
+#ifdef MP_FINAL_UNIFIED
+    b4_irq_entries[bus]++;
+#endif
     CAN_TypeDef *can = controller(bus);
     for (unsigned budget = 0; budget < 3 && CAN_MessagePending(can, CAN_FIFO0); budget++) {
         CanRxMsg message; CAN_Receive(can, CAN_FIFO0, &message);
@@ -92,6 +96,10 @@ int b4_hw_init(void) {
     CAN1->FMR |= CAN_FMR_FINIT;
     CAN1->FA1R = 0; /* 此独立目标拥有两组全部过滤器；清除旧入口，随后一次配置两段。 */
     CAN_SlaveStartBank(B4_CAN2_FILTER_START);
+#if defined(MP_FINAL_UNIFIED) && !defined(B4_BXCAN_MMIO_TEST)
+    /* 固定四位抢占优先级，CAN 3高于MIC DMA 8；不依赖复位默认分组。 */
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
+#endif
     for (unsigned bus = 0; bus < 2; bus++) {
         CAN_FilterInitTypeDef filter = {0}; filter.CAN_FilterNumber = bus ? B4_CAN2_FILTER_START : 0;
         filter.CAN_FilterMode = CAN_FilterMode_IdMask; filter.CAN_FilterScale = CAN_FilterScale_32bit;
@@ -107,6 +115,9 @@ int b4_hw_init(void) {
         CAN_ITConfig(controller(bus), CAN_IT_FMP0 | CAN_IT_FOV0, ENABLE);
         NVIC_InitTypeDef nvic; nvic.NVIC_IRQChannel = bus ? CAN2_RX0_IRQn : CAN1_RX0_IRQn;
         nvic.NVIC_IRQChannelPreemptionPriority = 3; nvic.NVIC_IRQChannelSubPriority = bus;
+#ifdef MP_FINAL_UNIFIED
+        nvic.NVIC_IRQChannelSubPriority = 0;
+#endif
         nvic.NVIC_IRQChannelCmd = ENABLE;
 #ifdef MP_FINAL_UNIFIED
         if(!(final_can_mask&(1u<<bus)))nvic.NVIC_IRQChannelCmd=DISABLE;

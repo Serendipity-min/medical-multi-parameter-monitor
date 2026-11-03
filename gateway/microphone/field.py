@@ -22,38 +22,60 @@ sys.path.insert(0,str(Path(__file__).parent))
 from capture import analyze
 
 
+def serial_ack(raw,prefix):
+    # 控制回执可打断诊断行；原始字节照存，只为已知命令提取真实回执。
+    if prefix in (b'UNI RECORDING',b'UNI ID '):
+        at=raw.find(prefix)
+        if at>=0:return raw[at:]
+    return raw if raw.startswith(prefix) else None
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--job',type=Path,required=True)
-    p.add_argument('--unified',action='store_true',help='当前唯一C运行入口；保留B5新鲜SNTP，不设置UTC');p.add_argument('--port',required=True);p.add_argument('--action',choices=('connect','capture','retry','stop','load','fault','finish'),required=True);a=p.parse_args()
+    p.add_argument('--unified',action='store_true',help='当前唯一C运行入口；保留B5新鲜SNTP，不设置UTC');p.add_argument('--port',required=True);p.add_argument('--action',choices=('connect','capture','retry','stop','load','fault','finish'),required=True);p.add_argument('--topology',choices=('C','BC','ABC'),default='C');p.add_argument('--window-seconds',type=int,choices=(0,300),default=0);a=p.parse_args()
     if not a.unified and a.action in ('load','fault','finish'):p.error('该动作需要--unified')
     if a.unified and a.action=='retry':p.error('统一入口不支持旧U重传命令')
+    if (a.topology!='C' or a.window_seconds) and not a.unified:p.error('真实拓扑/窗口需要--unified')
+    if a.window_seconds and a.action!='capture':p.error('300秒窗口仅用于capture')
+    if a.window_seconds and (a.job/'STOP_BEFORE_CAPTURE').exists():
+        print('M0_HOST_CANCELLED_BEFORE_SERIAL_AND_RECORDING',flush=True);return 2
     stamp=time.strftime('%Y%m%dT%H%M%S',time.gmtime());out=a.job/('field-'+a.action+'-'+stamp);out.mkdir()
     if not out.stat().st_file_attributes&0x4000:raise ValueError('FIELD_OUTPUT_NOT_EFS')
     (out/'executed-field-tool.py').write_bytes(Path(__file__).read_bytes())
     result={'exit_code':1,'action':a.action,'scope':'C_UNIFIED_RUNTIME' if a.unified else 'C_ONLY_VOICE_NETWORK','MCU_RESET_commands':0,
             'B5START':0,'host_MQTT_application_publications':0,'formal_PI_signature_or_nonce_used':False}
     stream=(out/'serial-rx-private.bin').open('xb');events=[];tunnel=None;client=None;log=None;wire=None
-    session={};source_audio={};reply={};observer_ready=threading.Event();assembler=AudioAssembler()
+    session={};source_audio={};reply={};global_stop_seen=False;observer_ready=threading.Event();assembler=AudioAssembler(timeout_s=240 if a.unified and a.window_seconds else 90)
     s=serial.Serial(port=None,baudrate=115200,timeout=.1,write_timeout=2);s.dtr=False;s.rts=False;s.port=a.port
 
     def line(deadline):
         data=bytearray()
         while time.monotonic()<deadline:
             c=s.read(1);data.extend(c);stream.write(c)
-            if c==b'\n':stream.flush();return bytes(data)
+            if c==b'\n':
+                stream.flush()
+                with (out/'C-lines-private.jsonl').open('a',encoding='utf-8') as f:
+                    f.write(json.dumps({'monotonic':time.monotonic(),'UTC_ms':int(time.time()*1000),'data':data.decode('ascii',errors='replace').strip()})+'\n')
+                return bytes(data)
             if len(data)>32000:raise ValueError('FIELD_SERIAL_LINE_BOUND')
         raise TimeoutError('FIELD_SERIAL_TIMEOUT')
     def until(prefix,seconds):
+        nonlocal global_stop_seen
         deadline=time.monotonic()+seconds
         while True:
             b=line(deadline);text=b.decode('ascii',errors='replace').strip()
+            if text=='B5 STOPPED NO_AUTOREARM':
+                global_stop_seen=True
+                if a.action=='connect':raise ValueError('FIELD_CONNECT_TARGET_STOPPED')
+            if a.unified and a.action in ('connect','capture','retry') and not global_stop_seen and text=='GW CLOSE_UNSYNCED_MANUAL_POWER_REQUIRED':
+                raise ValueError('FIELD_NETWORK_UNSYNCED_REQUIRES_COLD_BOOT')
             if a.unified and text.startswith('UNI AUDIO '):
                 event={k:int(v) for k,v in (x.split('=') for x in text.split()[2:])}
                 event['event']='UNI_PHASE_'+str(event['phase']);events.append(event)
                 with (out/'C-events-live.jsonl').open('a',encoding='utf-8') as live:live.write(json.dumps(event)+'\n')
                 if event.get('session'):session['id']=event['session']
                 print(json.dumps({'C_phase':event['phase'],'session':event['session'],'chunk':event['chunk']}),flush=True)
-                if event['phase']==8 or event['stop_failed'] or event['tts_uart'] or event['tts_overflow']:
+                if a.action!='finish' and (event['phase']==8 or event['stop_failed'] or event['tts_uart'] or event['tts_overflow']):
                     raise ValueError('FIELD_UNIFIED_AUDIO_FAILED')
             if text.startswith('MIC_NET '):
                 pieces=text.split();event={'event':pieces[1],**{k:int(v) for k,v in (x.split('=') for x in pieces[2:])}}
@@ -63,7 +85,8 @@ def main():
                 if event['event'] in ('RECORDING','REUPLOAD_EXISTING_RECORD'):session['id']=event['session']
                 if event['event'] in ('CONNECT_FAILED','TTS_FAILED','CAPTURE_FAILED','UPLOAD_FAILED','NETWORK_FAILED','TURN_TIMEOUT'):
                     raise ValueError('FIELD_'+event['event'])
-            if b.startswith(prefix):return b
+            acknowledged=serial_ack(b,prefix)
+            if acknowledged is not None:return acknowledged
     def observe():
         nonlocal tunnel,client,log,wire
         with socket.socket() as free:free.bind(('127.0.0.1',0));port=free.getsockname()[1]
@@ -110,7 +133,7 @@ def main():
             if any(not x or len(x)>=n for x,n in zip(fields,sizes)):raise ValueError('FIELD_UNIFIED_CONFIG_LENGTH')
             body=b'MCF3'+b''.join(x.ljust(n,b'\0') for x,n in zip(fields,sizes))+struct.pack('<I',int(time.time()))
             s.write(b'F'+body+struct.pack('<I',zlib.crc32(body)));until(b'UNI CONFIG_OK',3)
-            s.write(b'UNISTART C\n');deadline=time.monotonic()+160;ready=False
+            s.write(('UNISTART '+a.topology+'\n').encode());deadline=time.monotonic()+160;ready=False
             while time.monotonic()<deadline:
                 s.write(b'Q')
                 try:until(b'UNI AUDIO ',3)
@@ -150,10 +173,13 @@ def main():
             if a.unified:
                 s.write(b'Q');until(b'UNI AUDIO ',3)
                 baseline_failures=events[-1]['failures'];baseline_done=events[-1]['tts_done']
+            window_start=time.monotonic();window_utc=int(time.time()*1000)
+            if a.window_seconds:
+                (out/'evaluation.json').write_text(json.dumps({'monotonic':window_start,'evaluation_UTC_ms':[window_utc,window_utc+300000],'duration_s':300})+'\n')
             s.write(b'R' if a.action=='capture' else b'U')
             until(b'UNI RECORDING' if a.unified else b'MIC_NET RECORDING ' if a.action=='capture' else b'MIC_NET REUPLOAD_EXISTING_RECORD ',3)
             if a.unified:
-                deadline=time.monotonic()+125
+                deadline=time.monotonic()+(305 if a.window_seconds else 125)
                 while True:
                     until(b'UNI AUDIO ',max(.1,deadline-time.monotonic()));last=events[-1]
                     if last['failures']>baseline_failures:raise ValueError('FIELD_UNIFIED_CAPTURE_FAILED')
@@ -167,7 +193,12 @@ def main():
             if 'pcm' not in source_audio or 'error' in source_audio or reply.get('session')!=session.get('id'):
                 raise ValueError('FIELD_BROKER_SOURCE_OR_REPLY_MISSING')
             if a.unified:
-                s.write(b'X');until(b'B5 STOPPED NO_AUTOREARM',5)
+                while time.monotonic()<window_start+a.window_seconds:
+                    s.write(b'Q');until(b'UNI AUDIO ',3)
+                    time.sleep(min(1,max(0,window_start+a.window_seconds-time.monotonic())))
+                    if events[-1]['failures']>baseline_failures:raise ValueError('FIELD_M0_POST_VOICE_FAILURE')
+                result.update(topology=a.topology,evaluation_seconds=a.window_seconds)
+                s.write(b'X');until(b'B5 STOPPED NO_AUTOREARM',12)
                 deadline=time.monotonic()+4
                 while True:
                     until(b'UNI AUDIO ',max(.1,deadline-time.monotonic()))
@@ -194,10 +225,15 @@ def main():
                           session=session['id'],source_proof=proof,broker_chunks=source_audio['chunks'],
                           source_cloud_PCM_SHA256=source_audio['PCM_SHA256'],actual_reply=reply,last_TTS=last)
         elif a.unified and a.action=='finish':
-            s.write(b'X');until(b'B5 STOPPED NO_AUTOREARM',6);deadline=time.monotonic()+5
+            prior_stop=any(json.loads(row)['data']=='B5 STOPPED NO_AUTOREARM'
+                for path in a.job.glob('field-*/C-lines-private.jsonl') for row in path.read_text(encoding='utf8').splitlines())
+            if not prior_stop:
+                s.write(b'X');until(b'B5 STOPPED NO_AUTOREARM',12)
+            s.write(b'Q');deadline=time.monotonic()+5
             while True:
                 until(b'UNI AUDIO ',max(.1,deadline-time.monotonic()))
                 e=events[-1]
+                if e['stop_failed'] or e['tts_uart'] or e['tts_overflow']:raise ValueError('FIELD_TTS_STOP_UNCONFIRMED')
                 if e['stop_ack'] and e['stop_query'] and e['stop_idle']:break
             result.update(exit_code=0,status='C_GLOBAL_STOP_ACK_QUERY_IDLE_VERIFIED_NO_REARM',last_state=e)
         elif a.unified and a.action=='load':

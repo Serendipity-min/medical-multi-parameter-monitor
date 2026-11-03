@@ -1,0 +1,16 @@
+{
+  "field_job": "BC-ECG60-20261103T114310157644Z",
+  "status": "NOT_PASS_INTERLEAVED_RECORD_ACK_TIMEOUT",
+  "capture_native_exit": 1,
+  "capture_error": "FIELD_SERIAL_TIMEOUT",
+  "B_close_native_exit": 0,
+  "C_STOP_cleanup_native_exit": 0,
+  "actual_recording_frames": 32000,
+  "full_300s_evaluation_completed": false,
+  "actual_record_ack": "UNI CAN water_a=0 water_b=8 mask=2 limit_ms=0 network_fault=0 replay_a=0 replUNI RECORDING",
+  "raw_next_fragment": "ay_b=0 can_poll_cycles_max=43537",
+  "host_fix": "extract actual known control ACK; reconstruct only adjoining diagnostic fragments for offline parsing, raw bytes and timestamps retained",
+  "C_changed_for_this_fix": false,
+  "entry_tests_native_exit": 0,
+  "entry_tests": 7
+}

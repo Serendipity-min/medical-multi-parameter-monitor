@@ -26,6 +26,11 @@ MpRouter *mock_router_probe;
 static unsigned char wire[2048], rx[1024], ack[12];
 static size_t wire_length, rx_length, rx_offset, ack_length;
 static uint32_t ack_at;
+#ifdef MP_FINAL_UNIFIED
+typedef struct {unsigned char data[12];size_t length;uint32_t at;} QueuedAck;
+static QueuedAck queued_ack[4];static unsigned ack_head,ack_count;
+void (*mock_published)(const unsigned char *,size_t);
+#endif
 
 void (*mock_poll_callback)(void);
 static int polling;
@@ -67,6 +72,9 @@ int at_command(const char *command, uint32_t timeout)
 void esp_mqtt_reset(void)
 {
     wire_length = rx_length = rx_offset = ack_length = 0;
+#ifdef MP_FINAL_UNIFIED
+    ack_head=ack_count=0;
+#endif
 }
 
 void mock_queue(const unsigned char *packet, size_t length)
@@ -92,6 +100,9 @@ static void sent_packet(void)
     memcpy(mock_packet, wire, wire_length);
     mock_packet_length = wire_length;
     unsigned type = wire[0] & 0xf0U;
+#ifdef MP_FINAL_UNIFIED
+    if(mock_published && type==0x30)mock_published(wire,wire_length);
+#endif
     if (type == 0x10)
     {
         unsigned char connack[] = {0x20, 2, 0, (unsigned char)mock_connack_code};
@@ -128,6 +139,12 @@ static void sent_packet(void)
             memcpy(ack, publish, sizeof(publish)); ack_length = sizeof(publish);
         }
         ack_at = g_uptime_ms + (uint32_t)mock_delay_ms;
+#ifdef MP_FINAL_UNIFIED
+        if(ack_length){
+            assert(ack_count<4);QueuedAck *q=&queued_ack[(ack_head+ack_count)%4];
+            memcpy(q->data,ack,ack_length);q->length=ack_length;q->at=ack_at;ack_count++;ack_length=0;
+        }
+#endif
     }
     wire_length = 0;
 }
@@ -163,6 +180,11 @@ int esp_mqtt_recv(unsigned char *data, int length, uint32_t timeout)
     platform_poll();
     if (mock_router_probe)
         assert(!mock_router_probe->ready_for_replay && !mock_router_probe->replayed);
+#ifdef MP_FINAL_UNIFIED
+    if(ack_count && (int32_t)(g_uptime_ms-queued_ack[ack_head].at)>=0){
+        QueuedAck *q=&queued_ack[ack_head];mock_queue(q->data,q->length);ack_head=(ack_head+1)%4;ack_count--;
+    }
+#endif
     if (ack_length && (int32_t)(g_uptime_ms - ack_at) >= 0)
     {
         mock_queue(ack, ack_length); ack_length = 0;
@@ -183,6 +205,9 @@ int esp_mqtt_recv(unsigned char *data, int length, uint32_t timeout)
 void mock_reset(void)
 {
     mock_poll_callback=NULL;
+#ifdef MP_FINAL_UNIFIED
+    mock_published=NULL;
+#endif
     g_uptime_ms = 100000;
     mock_ack_mode = ACK_MATCH;
     mock_delay_ms = mock_read_limit = mock_send_limit = 0;

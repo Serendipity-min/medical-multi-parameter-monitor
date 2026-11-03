@@ -1,0 +1,46 @@
+{
+  "compiled_working_source_matches_build_receipt": true,
+  "source_files_exact_in_Git_index": 33,
+  "unchanged_inputs_EOL_only": [
+    {
+      "path": "gateway/canopen/src/mp_od.c",
+      "working_SHA256": "687e3c58770a5f7ad0de96eeeda089515be44f4458fd854395811b852fb7c0fc",
+      "Git_blob_SHA256": "62f36bb59fc7bbbb1e86a4f22a88b422cb6a569c01114bd50e3731ed6a17b312",
+      "conversion": "LF_CRLF_ONLY_UNCHANGED_INPUT"
+    },
+    {
+      "path": "gateway/storage/router.c",
+      "working_SHA256": "4eaef689f7e685765dd14f6ae5f4f240353ea1e0339069506e21514bb099620f",
+      "Git_blob_SHA256": "40363178a6846c5903a2cd7a44eb11ac96575e9a8d72dfba799504d99153687e",
+      "conversion": "LF_CRLF_ONLY_UNCHANGED_INPUT"
+    },
+    {
+      "path": "gateway/mqtt/src/heap.c",
+      "working_SHA256": "20bf6b3b9c5ddc276ba4d85016ce14ae1425c18e24e5f020bea011d9168b2923",
+      "Git_blob_SHA256": "bdb5d77427981fec79d6d8f5db2be1bd25571eb69d43243e738cd593712b1c84",
+      "conversion": "LF_CRLF_ONLY_UNCHANGED_INPUT"
+    },
+    {
+      "path": "gateway/mqtt/src/gateway_assert.c",
+      "working_SHA256": "d29eb278706acf7a4249a2104b05f22cf859c61de5d924773c785228d7523d17",
+      "Git_blob_SHA256": "87dbe88014694a220f3e167afc19314aa3a1e96d2cbbd0619e6dbbd405b5dca3",
+      "conversion": "LF_CRLF_ONLY_UNCHANGED_INPUT"
+    },
+    {
+      "path": "gateway/esp_at_probe/src/syscalls.c",
+      "working_SHA256": "796e258d6c2e20e2d1f629c43d7d6ea17b32d3040c466055ae9a2a084caf9ead",
+      "Git_blob_SHA256": "deaead7c0589a041d64df8972f1febf2cc7257e52421bed4cd1089b70c5a8ff5",
+      "conversion": "LF_CRLF_ONLY_UNCHANGED_INPUT"
+    },
+    {
+      "path": "gateway/esp_at_probe/src/stm32f4xx_it.c",
+      "working_SHA256": "e9ec3ff1055ec03ff6b08cc69b9efba61cabc0d6694120e7e8303515ea443888",
+      "Git_blob_SHA256": "d5ac403ad36e76558475fad6c6e3060fde75948574d7bd7bb75269a10a0f7450",
+      "conversion": "LF_CRLF_ONLY_UNCHANGED_INPUT"
+    }
+  ],
+  "changed_compiled_files_byte_equal": true,
+  "selected_headers_and_host_tools_byte_equal": true,
+  "old_frozen_evaluators_modified": false,
+  "raw_ADC_audio_or_timestamps_normalized": false
+}

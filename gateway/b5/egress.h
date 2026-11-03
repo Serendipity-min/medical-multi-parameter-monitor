@@ -3,9 +3,62 @@
 #include "b5_policy.h"
 #include "gateway_transport.h"
 #include "../storage/router.h"
-typedef struct { MpFrame inflight,publishing;bool pending,deferred;uint32_t q0,q1,failed; } B5Publisher;
+#ifdef MP_FINAL_UNIFIED
+#include "../microphone/unified_audio.h"
+#endif
+typedef struct {
+#ifdef MP_FINAL_UNIFIED
+    MpFrame inflight[GATEWAY_TELEMETRY_SLOTS];uint16_t tickets[GATEWAY_TELEMETRY_SLOTS];
+#else
+    MpFrame inflight;
+#endif
+    MpFrame publishing;bool pending,deferred;
+#ifdef MP_FINAL_UNIFIED
+    bool audio_yield;
+#endif
+    uint32_t q0,q1,failed; } B5Publisher;
 /* 固件入口和TLS Host夹具调用同一个推进器；在途帧只在对应PUBACK后交Router成功。 */
+#ifdef MP_FINAL_UNIFIED
+static inline bool b5_audio_room(const MpRouter *r,uint64_t utc) {
+    if(r->ln>=MP_LIVE_CAPACITY-2)return false;
+    /* 留出医疗发送余量；不再把尚有空间的半满队列当作永久音频禁令。 */
+    for(unsigned i=0;i<r->ln;i++) {
+        const MpFrame *f=&r->live[(r->lh+i)%MP_LIVE_CAPACITY];
+        if(utc>f->timestamp && utc-f->timestamp>2500u)return false;
+    }
+    return true;
+}
+#endif
 static inline int b5_egress_step(MpRouter *r,B5Publisher *s,bool allow_new) {
+#ifdef MP_FINAL_UNIFIED
+    int progress=gateway_mqtt_progress();
+    if(b5_network_stopped())return 1;
+    if(progress==GW_FAILED){
+        for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(s->tickets[i]){mp_router_ack(r,&s->inflight[i],false);s->tickets[i]=0;}
+        s->pending=false;s->failed++;return 0;
+    }
+    for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(s->tickets[i] && gateway_mqtt_ticket_result(s->tickets[i])==GW_COMPLETE){
+        mp_router_ack(r,&s->inflight[i],true);s->tickets[i]=0;s->q1++;
+    }
+    s->pending=s->tickets[0] || s->tickets[1] || s->tickets[2];
+    if(!allow_new)return 1;
+    uint64_t utc=gateway_epoch_milliseconds();
+    bool medical_due=false;
+    for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(s->tickets[i] && utc>s->inflight[i].timestamp && utc-s->inflight[i].timestamp>2500u)medical_due=true;
+    if(!s->deferred && !s->audio_yield && !medical_due && b5_audio_room(r,utc) && unified_audio_send_due()){
+        unified_audio_step(true);if(gateway_audio_pending()){s->audio_yield=true;return 1;}
+    }
+    int admission=gateway_mqtt_admit();
+    if(admission==GW_FAILED){s->failed++;return 0;}if(admission==GW_DEFERRED)return 1;
+    if(s->deferred || mp_router_take_egress(r,&s->publishing,g_uptime_ms,utc,gateway_mqtt_slots_full())){
+        if(!s->deferred && !b5_prepare_publish(&s->publishing,utc))return 1;
+        int result=gateway_mqtt_begin(&s->publishing);s->deferred=result==GW_DEFERRED;
+        if(s->deferred || b5_network_stopped())return 1;
+        if(result==GW_PENDING){unsigned i=0;while(i<GATEWAY_TELEMETRY_SLOTS && s->tickets[i])i++;if(i==GATEWAY_TELEMETRY_SLOTS){s->failed++;return 0;}s->tickets[i]=gateway_mqtt_ticket();s->inflight[i]=s->publishing;s->pending=true;s->audio_yield=false;}
+        else{mp_router_ack(r,&s->publishing,result==GW_COMPLETE);if(result==GW_FAILED){s->failed++;return 0;}s->q0++;}
+    }
+    return 1;
+#else
     if(s->pending) {
         int result=gateway_mqtt_progress();
         if(b5_network_stopped())return 1;
@@ -32,5 +85,6 @@ static inline int b5_egress_step(MpRouter *r,B5Publisher *s,bool allow_new) {
 #endif
     /* 统一入口每轮已推进接收；空闲时保留AT空档交给低优先级音频。 */
     return 1;
+#endif
 }
 #endif

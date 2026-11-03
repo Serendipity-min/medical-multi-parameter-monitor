@@ -1,0 +1,45 @@
+{
+  "exit_code": 0,
+  "own_units": [
+    {
+      "unit": "mpm-m0-baseline-tls",
+      "stop_native_exit": 0,
+      "is_active_query_native_exit": 4,
+      "state": "inactive"
+    },
+    {
+      "unit": "mpm-m0-baseline-backend",
+      "stop_native_exit": 0,
+      "is_active_query_native_exit": 4,
+      "state": "inactive"
+    },
+    {
+      "unit": "mpm-unified-c-ingress-20261103",
+      "stop_native_exit": 0,
+      "is_active_query_native_exit": 4,
+      "state": "inactive"
+    },
+    {
+      "unit": "mpm-unified-c-worker-m0-240-20261103",
+      "stop_native_exit": 0,
+      "is_active_query_native_exit": 4,
+      "state": "inactive"
+    },
+    {
+      "unit": "mpm-unified-c-mqtt-20261103",
+      "stop_native_exit": 0,
+      "is_active_query_native_exit": 4,
+      "state": "inactive"
+    }
+  ],
+  "deployed_source_SHA256": {
+    "hub.py": "61933a2c51ce9b23ebe884e8bca8a6a9f0dda0ba223978296e165e346f6c8962",
+    "main.py": "7f60e9d76c2dbc2404b4a37ecf0c1f35afd687f2b602077f0c8f81c13372017a",
+    "mqtt_adapter.py": "4f523116332ca751c9b474ff2779521de89a5afca0ac6523cf4a20e9321b8ad7",
+    "voice/worker.py": "448279d2263d768ef0fcf07633086e66f22de0507eb72cc44d27f66da96ad3f8",
+    "voice/protocol.py": "6005e7bfee1226061fc24a942edc5f6f4c49cb998dd0733256c64182769e64d6"
+  },
+  "formal_service_changes": 0,
+  "formal_ACL_changes": 0,
+  "deployed_matches_current_source": true
+}

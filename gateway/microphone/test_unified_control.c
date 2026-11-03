@@ -4,7 +4,7 @@
 #undef main
 #include <stdlib.h>
 static unsigned checks,can_ticks,can_stops,audio_polls,audio_commands,audio_stops,configs;
-static int sync_bad;static uint8_t input[1024];static unsigned head,tail;
+static int sync_bad;static uint32_t uart_total;static uint8_t input[1024];static unsigned head,tail;
 uint32_t b4_replayed[2];
 int b4_hw_set_replay(bool enabled){(void)enabled;return !final_can_mask;}
 volatile B4HwDiag b4_hw_diag[2];volatile uint32_t g_uptime_ms;
@@ -27,7 +27,7 @@ void mp_router_online(MpRouter *r,bool online){r->online=online;}
 void mp_router_put(MpRouter *r,const MpFrame *f){(void)r;(void)f;}
 int platform_console_busy(void){return 0;}
 int platform_at_unsynced(void){return sync_bad;}
-uint32_t platform_uart_errors_total(void){return 0;}
+uint32_t platform_uart_errors_total(void){return uart_total;}
 void platform_io_snapshot(EspIoMetrics *out){memset(out,0,sizeof *out);}
 static void feed(const void *p,unsigned n) {
     CHECK(n<=sizeof input);memcpy(input,p,n);head=n;tail=0;
@@ -35,6 +35,10 @@ static void feed(const void *p,unsigned n) {
 }
 static void textline(const char *s){feed(s,(unsigned)strlen(s));}
 int main(void) {
+    uart_total=3;textline("UNISTART BC\n");g_uptime_ms=5;service();
+    CHECK(!network_fault && uart_total==3);
+    uart_total++;g_uptime_ms+=5;service();CHECK(network_fault && uart_total==4);
+    armed=false;network_fault=false;uart_total=uart_error_baseline=0;can_ticks=audio_polls=0;service_seen=false;
     textline("UNISTART C\n");CHECK(armed && !final_can_mask && !run_limit_ms);
     g_uptime_ms=1000000;armed_at=0;b5_hard_tick();CHECK(!stop_due && b5_business_remaining()>420000);
     armed=false;textline("UNISTART BC\n");CHECK(armed && final_can_mask==2);

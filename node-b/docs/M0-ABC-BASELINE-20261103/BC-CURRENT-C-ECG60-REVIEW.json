@@ -1,0 +1,143 @@
+{
+  "status": "M0_BC_ECG60_ENGINEERING_PASS",
+  "original_capture_native_exit": 0,
+  "post_STOP_completion_recovery": false,
+  "serial_control_interleavings_reconstructed": [],
+  "exit_code": 0,
+  "failures": [],
+  "evaluation_UTC_ms": [
+    1793711618047,
+    1793711918047
+  ],
+  "B": {
+    "failures": [],
+    "saved": 600,
+    "device_domain_SPS": 249.96661948887763,
+    "CAN_evaluation_increments": {
+      "offered": 74886,
+      "enqueued": 74886,
+      "sent_ecg": 74886,
+      "sent_resp": 14977,
+      "overflow": 0,
+      "expired": 0,
+      "comm_reset": 0,
+      "app_reset_rejected": 0,
+      "error": 0,
+      "discontinuities": 0
+    },
+    "ADC_evaluation_increments": {
+      "bad_status": 0,
+      "spi_errors": 0,
+      "queue_overflow": 0,
+      "init_errors": 0,
+      "long_gap_count": 0
+    },
+    "HR_values": {
+      "60": 600
+    },
+    "RR_reason_masks": {
+      "130": 600
+    },
+    "clipped_counter_increment": 0,
+    "temperature_errors": {
+      "overflow": 0,
+      "uart_errors": 0,
+      "checksum_errors": 0
+    },
+    "temperature_new_frames": 1372,
+    "profile": "ECG60"
+  },
+  "source_reconstruction": {
+    "blocks": 4805,
+    "raw_stable": 118380,
+    "CAN_stable": 118380,
+    "raw_unqualified_sequences": 69,
+    "CAN_unqualified_sequences": 70,
+    "raw_version_conflicts": 153,
+    "CAN_version_conflicts": 132
+  },
+  "source_points": {
+    "ECG": 74757,
+    "RESP": 14962
+  },
+  "mapping_errors": {},
+  "UART_source": {
+    "blocks": 1601,
+    "stable_bytes": 26056,
+    "unqualified_bytes": 36,
+    "valid_frames": 2170
+  },
+  "TEMP_messages": 297,
+  "TEMP_source_matches": 297,
+  "TEMP_max_WSS_age_ms": 3892,
+  "NIBP": [],
+  "webpage_simultaneous_readings": [],
+  "Broker_messages": 3139,
+  "Broker_duplicates": 0,
+  "Backend_delta": {
+    "accepted": 3139,
+    "rejected": 0,
+    "dropped": 0
+  },
+  "WSS_snapshots": 4007,
+  "C_CAN_delta": {
+    "B_CAN": {
+      "rx": 89622,
+      "txack": 617,
+      "txfail": 0,
+      "overflow": 0
+    },
+    "A_CAN": {
+      "rx": 0,
+      "txack": 0,
+      "txfail": 0,
+      "overflow": 0
+    }
+  },
+  "actual_IRQ_first_last": [
+    {
+      "group": 3,
+      "can_a": 0,
+      "can_b": 3,
+      "dma": 8,
+      "calls_a": 0,
+      "calls_b": 44640
+    },
+    {
+      "group": 3,
+      "can_a": 0,
+      "can_b": 3,
+      "dma": 8,
+      "calls_a": 0,
+      "calls_b": 134265
+    }
+  ],
+  "browser": {
+    "exit_code": 0,
+    "sensor_data_injected": false,
+    "TLS_errors_ignored": false,
+    "browser_context": "TASK_ONLY",
+    "observations": 446,
+    "NIBP_screenshot_taken": false
+  },
+  "old_results_modified": false,
+  "voice": {
+    "exit_code": 0,
+    "broker_chunks": 125,
+    "source_cloud_PCM_SHA256": "a58743a57ccea2e89fd01a5edcd7614aabf1518fae57fd5400d4419c7a07273f",
+    "STOP_ACK_query_IDLE": true,
+    "MCU_RESET_commands": 0,
+    "B5START": 0,
+    "owner_speaker_confirmation": true,
+    "owner_ASR_confirmation": true
+  },
+  "field_job": "BC-ECG60-20261103T131035262559Z",
+  "C_full_flash_SHA256": "fb15578d20d11676a8128b26f5b7b1473464e349adfed45ad0a2a4e2c780f5c5",
+  "C_code_SHA256": "118bb51ad837b24db5b52ee3e2f658c714eaade608d2dd4c20d653637a801042",
+  "capture_native_exit": 0,
+  "review_native_exit": 0,
+  "local_TEMP_screen_value": {
+    "degC": 30.2,
+    "phase": "POST_WINDOW_BEFORE_ABC_COLD_BOOT"
+  }
+}

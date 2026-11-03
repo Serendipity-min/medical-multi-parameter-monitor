@@ -1,0 +1,24 @@
+{
+  "status": "COUNTEREXAMPLE_CONFIRMED_PATCH_PENDING_FIELD",
+  "field": "BC-ECG60-20261103T085103745603Z",
+  "field_capture_native_exit": 0,
+  "review_native_exit": 3,
+  "remaining_failure": [
+    "PRIMARY_WSS_BATCH_MISSING"
+  ],
+  "source_raw_mapping": "PASS",
+  "ECG_points": 74839,
+  "RESP_points": 14948,
+  "TEMP_exact_matches": 297,
+  "missing_ECG_seq": 454,
+  "broker_arrival_gap_ms_to_next": 27,
+  "old_snapshot_period_ms": 100,
+  "old_subscriber_queue": 1,
+  "old_result": "seq454 overwritten by seq455 before snapshot",
+  "patch": "Task-only opt-in immediate wave snapshots with bounded queue8, slow clients close1013; schema/default/freshness/dedup unchanged",
+  "related_tests": 26,
+  "regression_native_exit": 0,
+  "deploy_native_exit": 0,
+  "formal_service_changes": 0,
+  "C_reflash": false
+}

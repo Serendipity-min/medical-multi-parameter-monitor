@@ -28,14 +28,14 @@ def save(path,value):
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--base',type=Path,required=True);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--base',type=Path,required=True);p.add_argument('--assembly-timeout-seconds',type=int,choices=(90,180,240),default=90);a=p.parse_args()
     base=a.base;runtime=base/'runs';runtime.mkdir(exist_ok=True,mode=0o700)
     settings=json.loads((base/'voice-runtime-credentials-private.json').read_text())
     os.environ['P6_REAL_BUDGET_DIR']=str(runtime/'model-usage');Path(os.environ['P6_REAL_BUDGET_DIR']).mkdir(exist_ok=True)
     os.environ.pop('CVOICE_MODEL_BUDGET_FILE',None)
     provider=Provider('DOUBAO')
     incoming=queue.Queue(maxsize=256);overflow=threading.Event();connected=threading.Event();subscribed=threading.Event()
-    assembler=AudioAssembler();counts={'packets':0,'rejected':0,'completed_C':0,'completed_HOST':0,'queue_overflow':0}
+    assembler=AudioAssembler(timeout_s=a.assembly_timeout_seconds);counts={'packets':0,'rejected':0,'completed_C':0,'completed_HOST':0,'queue_overflow':0}
     kwargs={'client_id':'mic-worker-20261102','protocol':mqtt.MQTTv311,'reconnect_on_failure':False}
     if hasattr(mqtt,'CallbackAPIVersion'):kwargs['callback_api_version']=mqtt.CallbackAPIVersion.VERSION2
     client=mqtt.Client(**kwargs);client.username_pw_set('mic-worker',settings['roles']['mic-worker'])
@@ -53,7 +53,7 @@ def main():
     client.connect('127.0.0.1',18885,keepalive=15);client.loop_start()
     if not connected.wait(5) or not subscribed.wait(5):raise RuntimeError('MIC_WORKER_MQTT_NOT_READY')
     save(base/'worker-ready.json',{'MQTT_connected':True,'exact_topics_subscribed':True,'ASR_model':'small-q5_1',
-                                 'source_scopes_separate':True,'formal_service_config_changes':0})
+                                 'source_scopes_separate':True,'formal_service_config_changes':0,'assembly_timeout_s':a.assembly_timeout_seconds})
     deadline=time.monotonic()+21600
     with (runtime/'mqtt-wire-private.jsonl').open('a',encoding='utf-8') as wire:
         try:

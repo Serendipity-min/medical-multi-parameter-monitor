@@ -13,8 +13,10 @@ volatile uint32_t g_uptime_ms;
 uint64_t gateway_epoch_milliseconds(void){return 1800000000000ULL+tick;}
 #define CHECK(x) do{if(!(x)){fprintf(stderr,"FAIL line=%d\n",__LINE__);exit(3);}checks++;}while(0)
 uint32_t b4_hw_time(void){return tick;}
-int main(void){
-    B4Gateway g;CHECK(b4_gateway_init(&g)==0);CHECK(b4_hw_init()==0);
+int main(int argc,char **argv){
+    (void)argv;B4Gateway g;CHECK(b4_gateway_init(&g)==0);
+    if(argc>1){b4_hw_poll(&g);CHECK(!b4_hw_diag[0].busoff && !b4_hw_diag[1].busoff);}
+    CHECK(b4_hw_init()==0);
     for(unsigned b=0;b<2;b++){b4_gateway_link(&g,b,false);CHECK(abc_mode[b]==CAN_Mode_Silent && !abc_irq_enabled[b]);}
     CHECK(b4_hw_set_replay(true));
     for(unsigned n=0;n<1000;n++){tick+=5;g_uptime_ms=tick;b4_gateway_tick(&g,tick);b4_hw_poll(&g);}
