@@ -1,0 +1,22 @@
+{
+  "exit_code": 0,
+  "status": "UNIFIED_C_INSTALL_FULL_VERIFY_PASS",
+  "board": "C",
+  "sectors": [
+    0,
+    4
+  ],
+  "full_flash_sha256": "b0107fd5b1bc4ffa38f82ae7ad584736887292277362fb54ccd356b28529c6a4",
+  "options_unchanged": true,
+  "all_other_sectors_unchanged": true,
+  "Close_completed": true,
+  "native_actions": {
+    "JLINKARM_Halt": 1,
+    "JLINKARM_BeginDownload": 1,
+    "JLINKARM_WriteMem": 2,
+    "JLINKARM_EndDownload": 1,
+    "JLINKARM_Reset": 1,
+    "JLINKARM_Go": 1
+  },
+  "revision": "R4"
+}

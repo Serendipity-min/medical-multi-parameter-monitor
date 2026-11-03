@@ -11,7 +11,7 @@
 unsigned final_can_mask;
 static uint32_t run_limit_ms=B5_WINDOW_MS;
 static bool network_fault;
-static uint32_t uart_error_baseline;
+static uint32_t uart_error_baseline,can_poll_cycles_max;
 static void local_control(void);
 #endif
 #if defined(MP_B5_EGRESS_FINAL) && defined(__arm__)
@@ -111,6 +111,7 @@ static void local_control(void) {
         if(armed || stopped) {
             if(c=='I')console("UNI ID V1 DUAL_CAN_MIC_MQTT_TTS CONFIG_RAM\r\n");
             else if(c=='X' && !stopped)stop();
+            else if(c=='L' || c=='l')console(b4_hw_set_replay(c=='L')?(c=='L'?"UNI C_ONLY_SOFTWARE_REPLAY_ON\r\n":"UNI C_ONLY_SOFTWARE_REPLAY_OFF\r\n"):"UNI REPLAY_REJECTED\r\n");
             else if(c=='R' && stopped)console("UNI RECORD_REJECTED_GATEWAY_STOPPED\r\n");
             else unified_audio_command(c,stopped);
             continue;
@@ -142,9 +143,10 @@ static void diagnostic(unsigned stage) {
         (unsigned long)mqtt_qos1_puback,(unsigned long)mqtt_failed_count,(unsigned)stopped);
     console(line);
 #ifdef MP_FINAL_UNIFIED
-    snprintf(line,sizeof line,"UNI CAN water_a=%lu water_b=%lu mask=%u limit_ms=%lu network_fault=%u\r\n",
+    snprintf(line,sizeof line,"UNI CAN water_a=%lu water_b=%lu mask=%u limit_ms=%lu network_fault=%u replay_a=%lu replay_b=%lu can_poll_cycles_max=%lu\r\n",
         (unsigned long)b4_hw_diag[0].high_water,(unsigned long)b4_hw_diag[1].high_water,
-        final_can_mask,(unsigned long)run_limit_ms,(unsigned)network_fault);console(line);
+        final_can_mask,(unsigned long)run_limit_ms,(unsigned)network_fault,
+        (unsigned long)b4_replayed[0],(unsigned long)b4_replayed[1],(unsigned long)can_poll_cycles_max);console(line);
 #endif
 #ifdef MP_ABC_TRI_CANDIDATE
     (void)snprintf(line,sizeof(line),"ABC A_CAN rx=%lu txack=%lu txfail=%lu overflow=%lu esr=%lu\r\n",
@@ -277,7 +279,15 @@ static void service(void) {
     /* 停机仍逐次检查；CAN IRQ保留原始到达时刻，每5ms批量推进CANopen。 */
     if (service_seen && (uint32_t)(g_uptime_ms - service_at) < B5_SERVICE_MS) return;
     service_seen = true; service_at = g_uptime_ms;
-    b4_gateway_tick(&gateway, g_uptime_ms); b4_hw_poll(&gateway);
+    b4_gateway_tick(&gateway, g_uptime_ms);
+#if defined(MP_FINAL_UNIFIED) && defined(__arm__)
+    uint32_t poll_began=*(volatile uint32_t *)0xe0001004;
+#endif
+    b4_hw_poll(&gateway);
+#if defined(MP_FINAL_UNIFIED) && defined(__arm__)
+    uint32_t cycles=*(volatile uint32_t *)0xe0001004-poll_began;
+    if(cycles>can_poll_cycles_max)can_poll_cycles_max=cycles;
+#endif
 #ifdef MP_FINAL_UNIFIED
     if(!network_fault && (platform_at_unsynced() || platform_uart_errors_total()!=uart_error_baseline)) {
         network_fault=true;network_open=mqtt_connected=false;

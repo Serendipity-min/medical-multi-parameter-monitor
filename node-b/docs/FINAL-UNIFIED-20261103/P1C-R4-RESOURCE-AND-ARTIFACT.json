@@ -1,0 +1,38 @@
+{
+  "scope": "CURRENT_R4_ELF_LINK_LAYOUT_RUNTIME_METRICS_SEPARATE",
+  "artifact_sha256": {
+    "ABC_UNIFIED_C_V1-boot.bin": "41883545f8d4c52f7135a94b54ace2479555685e0cf4fac8e276a2f4169b97d7",
+    "ABC_UNIFIED_C_V1-code.bin": "6df61120efc24c47328bd05d002e32bed844d2624123fb75b709669b24f9e2a0",
+    "ABC_UNIFIED_C_V1.elf": "fb79a7c3c31f4cfafa0895a3c5f79187ab7d79ed8f2f43158b65ec764b7706eb",
+    "ABC_UNIFIED_C_V1.hex": "d27d9b888fa48b70d14b73bf0e43306f588ec2fd5f8cb16d5498d00c946591ac"
+  },
+  "revision": "R4",
+  "image_bytes": 53888,
+  "sector4_code_bytes": 53496,
+  "sector4_free_bytes": 12040,
+  "SRAM_data_bss_bytes": 81540,
+  "heap_reserve_bytes": 24576,
+  "minimum_stack_reserve_bytes": 8192,
+  "additional_SRAM_slack_bytes": 16760,
+  "CCM_PCM_bytes": 64000,
+  "CCM_free_bytes": 1536,
+  "DMA_bytes": 2560,
+  "DMA_address": "0x2000567c",
+  "reset_PC": "0x801a7a5",
+  "MSP": "0x20020000",
+  "data_LMA": "0x801d090",
+  "data_VMA": "0x20000000",
+  "IRQ": {
+    "source_requested_CAN_preemption_priority": 3,
+    "source_DMA_encoded_priority": 8,
+    "actual_NVIC_grouping_and_physical_CAN_IRQ_timing": "NOT_MEASURED_C_ONLY_CONTROLLERS_DISABLED"
+  },
+  "owner_range_approval": "CURRENT_EXPLICIT_MESSAGE_INCLUDES_UPDATES_AND_RESTORE",
+  "preserve": [
+    "sector1-3",
+    "sector5-11",
+    "Options"
+  ],
+  "installed_C_only": true,
+  "B_C_and_ABC_authorization": "NOT_GRANTED_THIS_TURN"
+}

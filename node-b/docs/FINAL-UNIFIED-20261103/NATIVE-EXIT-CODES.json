@@ -55,5 +55,68 @@
   ],
   "hardware_SDK_Open_calls": 0,
   "hardware_Flash_writes": 0,
-  "cloud_changes": 0
+  "cloud_changes": 0,
+  "P1C_final": {
+    "all_four_C_install_parent_exits": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "final_loaded_voice_parent_exit": 0,
+    "final_ASR_process_exit": 0,
+    "targeted_Host_compile_and_execution": 0,
+    "targeted_Host_suites": 8,
+    "protocol_unittest_cases": 7,
+    "protocol_unittest_exit": 0,
+    "real_C_packet_causal_replay_assertions_exit": 0,
+    "protocol_fixed_real_ingress_fault_parent_exit": 0,
+    "isolated_protocol_deploy_exit": 0,
+    "own_services_cleanup_exit": 0,
+    "observer_tunnel_controlled_termination_exit": 1,
+    "observer_tunnel_exit_reason": "Windows TerminateProcess intentional cleanup, not natural exit0",
+    "default_C44520_COMPAT_BUILD_exit": 0,
+    "default_C44520_BIN_SHA256": "5f4690eca0a00334ff1a9b653be2a0b99cba034b869ae4592dd36a042a147442",
+    "Git_build_input_check_final_exit": 0
+  },
+  "P1C_preserved_additional_failures": [
+    {
+      "case": "R1 upload0",
+      "parent_exit": 1
+    },
+    {
+      "case": "R3 record request rejected",
+      "parent_exit": 1
+    },
+    {
+      "case": "R4 pre-protocol-fix new session125 rejected",
+      "parent_exit": 1
+    },
+    {
+      "case": "record while scalarACK before-code counterexample",
+      "run_exit": 3
+    },
+    {
+      "case": "unprivileged isolated service start",
+      "exit": 1
+    },
+    {
+      "case": "C-only replay fixture vendor unused arguments",
+      "compile_exit": 1
+    },
+    {
+      "case": "C-only replay fixture missing clock stubs",
+      "compile_exit": 1
+    },
+    {
+      "case": "C-only replay fixture missing ABC MMIO input recording macro",
+      "run_exit": 3
+    },
+    {
+      "case": "delivery raw Git byte assumption versus original CRLF checkout",
+      "exit": 1,
+      "hardware_or_code_failure": false,
+      "resolution": "all inputs compared exactly or with existing newline-only normalization; changed own inputs pinned exactly"
+    }
+  ]
 }

@@ -35,3 +35,9 @@
 发布型客户端原本仅配置出站QoS1表，直接订阅QoS1会被coreMQTT以`MQTTBadParameter`拒绝。语音适配层增加一条入站记录；`test_subscription.c`使用真实coreMQTT、真实adapter及实际订阅回调，覆盖分片SUBACK、降级/拒绝/错ID和入站QoS1及PUBACK。ESP返回为合成数据，只记Host回归；现场`MIC_VOICE_READY`才证明C的订阅及音量设置ACK。
 
 资料：[TDK INMP441，页8/10–12/15](https://product.tdk.com/system/files/dam/doc/product/sw_piezo/mic/mems-mic/data_sheet/inmp441.pdf)、[ST F407数据手册](https://www.st.com/resource/en/datasheet/stm32f407vg.pdf)、本机`E:/stm32/stm32文件/STM32F407_原理图.pdf`（6页）、本机RM0090及现有C启动源码。首次上电零输出时间按TDK的2^18个SCK处理：1.024MHz下约256ms，台架预留500ms。HSE与IRQ推导的采样率不是独立频率计测量。
+
+## 当前统一C运行入口（2026-11-03）
+
+独立MIC台架历史流程保持原用途。当前R4统一固件及C-only验收见[FINAL统一回执](../../node-b/docs/FINAL-UNIFIED-20261103/FINAL-UNIFIED-RESULTS.md)。使用`field.py --unified`，不向统一固件发送旧独立MIC的N/U或SSH UTC流程；B5新鲜SNTP与原配置区保留。C-only软件回放是接收队列/RPDO负载，不是实体CAN证据。fault动作只暂停本任务透传进程，必须恢复。
+
+本次已修复出口重复空轮询、录音入口对遥测ACK的过宽限制，以及旧不完整会话阻塞新会话的云重组缺陷。真实失败、原始音频及敏感信息留受限EFS，阶段摘要和SHA在上述回执。当前C已断电，A/B仍未进入本轮现场范围。

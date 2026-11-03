@@ -26,7 +26,11 @@ static inline int b5_egress_step(MpRouter *r,B5Publisher *s,bool allow_new) {
         if(result==GW_PENDING){s->inflight=s->publishing;s->pending=true;}
         else {mp_router_ack(r,&s->publishing,result==GW_COMPLETE);
             if(result==GW_FAILED){s->failed++;return 0;}s->q0++;}
-    } else if(!s->pending && gateway_mqtt_progress()==GW_FAILED){s->failed++;return 0;}
+    }
+#ifndef MP_FINAL_UNIFIED
+    else if(!s->pending && gateway_mqtt_progress()==GW_FAILED){s->failed++;return 0;}
+#endif
+    /* 统一入口每轮已推进接收；空闲时保留AT空档交给低优先级音频。 */
     return 1;
 }
 #endif

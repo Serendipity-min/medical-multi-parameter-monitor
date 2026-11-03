@@ -1,0 +1,33 @@
+{
+  "before": {
+    "scope": "REAL_C_BROKER_PACKET_REPLAY_NOT_NEW_FIELD_PASS",
+    "old_partial_packets": 9,
+    "new_packets": 125,
+    "before_rejected": 125,
+    "before_completed": 0,
+    "fresh_assembler_completed": true,
+    "new_session": 1793673616,
+    "PCM_SHA256": "1c7752c5c9ea8321b647da3c2202e42a7bfe5e9a51234fb4f5f5fced5ec6c2c3",
+    "whole_CRC32": 1347526124,
+    "native_exit": 0
+  },
+  "after": {
+    "native_exit": 0,
+    "after_rejected": 0,
+    "after_completed": 1,
+    "PCM_SHA256": "1c7752c5c9ea8321b647da3c2202e42a7bfe5e9a51234fb4f5f5fced5ec6c2c3",
+    "CRC32": 1347526124,
+    "same_real_C_input_packets": true,
+    "new_hardware_capture": false
+  },
+  "unit_tests": {
+    "cases": 7,
+    "native_exit": 0,
+    "protocol_SHA256": "d1fee189b304279e4f0492bcb6fb59b0cf13f04b7e4572a1bf9fdcf7c4dd3c58"
+  },
+  "deployed_only_to": "TASK_ISOLATED_WORKER",
+  "C_firmware_changed_for_this_fix": false,
+  "formal_service_changes": 0,
+  "same_session_duplicates_do_not_renew_90s_expiry": true,
+  "completed_replay_rejection_retained": true
+}

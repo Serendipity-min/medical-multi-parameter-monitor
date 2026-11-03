@@ -1,0 +1,36 @@
+{
+  "R1_capture": {
+    "native_exit": 1,
+    "session": 1793671642,
+    "uploaded_chunks": 0,
+    "DMA_errors": 0,
+    "overruns": 0,
+    "source_PCM_SHA256": "0d3de19cc77bf07c3f3e37958ae3b26f6ee6253b000d941f1e44518d12c7cffe",
+    "STOP_source_export_exit": 0,
+    "cause": "Redundant second receive progress starts an AT query before audio admission; reproduction0/100 slots, fixed50/100"
+  },
+  "R3_loaded_capture_request": {
+    "native_exit": 1,
+    "record_started": false,
+    "UART_response": "UNI RECORD_NOT_READY",
+    "RX_queue_high_water": [
+      2,
+      2
+    ],
+    "rx_overflow": 0,
+    "UART_errors": 0,
+    "cause": "Unnecessary requirement that no medical QoS1 ACK be pending before starting independent local MIC recording; directed before-code counterexample exited3"
+  },
+  "results": "PRESERVED_NOT_REWRITTEN_AS_PASS",
+  "R4_pre_protocol_fix": {
+    "native_exit": 1,
+    "session": 1793673616,
+    "device_and_broker_chunks": 125,
+    "cloud_ASR": "NOT_STARTED",
+    "rejected_by_worker": 125,
+    "old_partial_broker_blocks": 9,
+    "root_cause": "new valid seq0 was rejected when prior incomplete/expired session still existed",
+    "source_PCM_SHA256_recovered_from_real_C_packets": "1c7752c5c9ea8321b647da3c2202e42a7bfe5e9a51234fb4f5fced5ec6c2c3",
+    "C_stop_on_120s_reply_deadline": true
+  }
+}

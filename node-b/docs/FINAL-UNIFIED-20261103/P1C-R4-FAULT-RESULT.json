@@ -1,0 +1,66 @@
+{
+  "exit_code": 0,
+  "scope": "C_UNIFIED_RUNTIME",
+  "STOP_ACK_query_IDLE_observed_during_stall": true,
+  "own_ingress_signals": [
+    {
+      "signal": "STOP",
+      "native_exit": 0
+    },
+    {
+      "signal": "CONT",
+      "native_exit": 0
+    }
+  ],
+  "status": "C_UNIFIED_INGRESS_STALL_STOP_AND_FRESH_RECONNECT_OBSERVED",
+  "fault": "OWN_INGRESS_PROCESS_SUSPEND_REAL_TCP_ACK_STALL_NOT_WIFI_POWER_OFF",
+  "last_state": {
+    "phase": 1,
+    "session": 1793673288,
+    "crc": 3789460034,
+    "chunk": 8,
+    "online": 1,
+    "subscribed": 1,
+    "frames": 32000,
+    "dma": 0,
+    "overrun": 0,
+    "decode": 25014,
+    "turns": 1,
+    "acked": 8,
+    "failures": 0,
+    "tts_ack": 1,
+    "tts_done": 0,
+    "stop_ack": 1,
+    "stop_query": 1,
+    "stop_idle": 1,
+    "stop_failed": 0,
+    "tts_uart": 0,
+    "tts_overflow": 0,
+    "event": "UNI_PHASE_1"
+  },
+  "previous_active_session": 1793673288,
+  "incomplete_audio_expected": true,
+  "revision": "R4",
+  "physical_CAN_RX_TX": "ZERO_CONTROLLERS_SILENT",
+  "ADC_samples": 32000,
+  "DMA_errors": 0,
+  "overruns": 0,
+  "normal_voice_ASR_and_TTS": "PENDING_SEPARATE_WINDOW",
+  "actual_wifi_AP_disconnect": "NOT_TESTED",
+  "runtime_SDK_calls": 0,
+  "native_network_evidence": [
+    "B5 RAM stack_used_upper=2920",
+    "B5 SCHED service_gap=7 console_ms=28 rx_high=22",
+    "UNI CAN water_a=2 water_b=2 mask=0 limit_ms=0 network_fault=0 replay_a=192176 replay_b=192176 can_poll_cycles_max=22318",
+    "UNI CAN water_a=2 water_b=2 mask=0 limit_ms=0 network_fault=0 replay_a=194856 replay_b=194856 can_poll_cycles_max=22318",
+    "B5 RAM stack_used_upper=2920",
+    "B5 SCHED service_gap=7 console_ms=32 rx_high=22",
+    "UNI CAN water_a=2 water_b=2 mask=0 limit_ms=0 network_fault=0 replay_a=196154 replay_b=196154 can_poll_cycles_max=22318",
+    "B5 RAM stack_used_upper=2920",
+    "B5 SCHED service_gap=7 console_ms=32 rx_high=22",
+    "GW SNTP_SAMPLE rtt_ms=165 uncertainty_ms=82 epoch=1793673327 fraction=608 server_index=2",
+    "GW SNTP_VALID epoch=1793673327 uptime=560364",
+    "GW OK TLS",
+    "UNI CAN water_a=2 water_b=2 mask=0 limit_ms=0 network_fault=0 replay_a=209296 replay_b=209296 can_poll_cycles_max=22318"
+  ]
+}

@@ -1,77 +1,87 @@
-# FINAL 统一集成阶段回执
+# FINAL 三板语音统一集成回执
 
-当前阶段：**FINAL-P1B OFFLINE_READY**。从 `baccc7bc6ca2a14da6779664eead919a3240ccf4` 创建 `codex/final-unified-c-runtime`；已核对远端起点无更新。合同 SHA256 为 `e25b311d1f57fe9203446622e897c60d12d62072e7eb97cfb31d015c2bb779c8`。
+2026-11-03（Asia/Shanghai）。本次结论：**FINAL-P1C / C_UNIFIED_RUNTIME_PASS**，仅覆盖非人体C单板、真实MIC、隔离TLS/MQTT、真实ASR/AI工程短回复、实际喇叭、软件CAN接收入口负载及上行故障恢复。**不是B+C、ABC、监护事实问答或最终整机验收通过。**
 
-本次未打开SDK、连接UART、上电、烧录、RESET或修改云服务；C实装仍是最后核验的C44520。既有P0/独立STOP/历史两组链路直接复用，没有重新验收。MIC的100nF陶瓷电容和100kΩ电阻按负责人明确核实记录，不再重复辨认。
+分支 `codex/final-unified-c-runtime`，本阶段从 `5abd83443e42ad0aae3d94a91e1a814715502b88` 继续；本报告及制品绑定包含本文件的阶段提交，实际提交SHA在交付回执及Git记录给出。P1B起点为 `baccc7bc6ca2a14da6779664eead919a3240ccf4`。执行合同原件及SHA保留在EXECUTION-CONTRACT.md和历史P1B提交。
 
-## 实际整合
+## 实物、版本和安装
 
-- 保留 `gateway/b5/network_main.c` 为唯一main，原平台SysTick、ESP/TLS/coreMQTT为唯一owner；没有链接独立MIC网络main。
-- 复用MIC I²S3/DMA、原CRC/MC01/MR01协议、现有B5异步出口及TTS队列；CAN先推进，MIC在前台解码。128B增量CRC分500轮处理，音频每轮最多提交一块512B，最多一个QoS1在途。只有监护实时队列与发布者空闲时提交低优先级音频，不进入逐块5秒ACK等待循环。
-- 音频和监护共用消息ID/出站QoS1表；增加一个入站QoS1表。实际SUBACK授予QoS1后才能录音；音频PUBACK不计作监护标量成功。回复只在WAITING接收，绑定session/PCM CRC、非retain、指定主题、长度/UTF-8校验，保留60字节文字协议上限。
-- 复用现有TTS STOP→ACK→查询→IDLE与失败锁止；断网取消音频，CAN和本地停止仍可推进。已失同步的AT流不盲发恢复命令，报告人工恢复需求；这类原生异常的无重启恢复仍待现场验证。
-- `UNISTART C` / `UNISTART BC` / `UNISTART ABC` 分别启用0/2/3总线掩码，无420秒固定停机；旧 `B5START` 仍保持420秒。`R`录音、`S`停止音频、`Q`状态、`X`全局停止；全局停止后禁止R重启，D原音导出仅在停止后允许。
-- F帧沿用MCF3长度/CRC/字符串格式，只在未武装时应用RAM配置。固定B5身份、原Flash配置有效性、主机/证书和新鲜SNTP判据保留；忽略旧独立MIC的reference epoch，不以SSH时间替代SNTP。F帧内的X/R等字节不解释为控制命令。
-- 统一候选TLS默认1883，仅供后续任务隔离监听；原B5默认8883不变。本阶段没有启动监听或改Broker ACL。
+负责人已一次批准C的sector0（0x08000000–0x08003FFF）及sector4（0x08010000–0x0801FFFF）用于本合同内安装、必要更新及恢复。四个不同候选的受控安装全部退出0；实际SDK日志为2 ranges /81920B。每次均在身份/现状核对后下载，1MiB读回及Options/身份全部通过才启动。sector1–3、5–11及Options原字节保留；无整片擦除入口或保护位修改。回退仍使用已有C44520完整备份及同范围分段入口，新分段实板回退本轮未执行。
 
-## Flash与RAM（实际ELF）
+当前保留C **R4 / ABC_UNIFIED_C_V1**，未定版。最后一次安装全片SHA为 `b0107fd5b1bc4ffa38f82ae7ad584736887292277362fb54ccd356b28529c6a4`；本轮没有在运行后额外连接SDK重读。负责人已确认本次C喇叭及ASR内容相符，并按请求完成断电、拔电脑端USB；A/B保持断电、两段CAN隔离，板端MIC/TTS及J-Link接线保留。运行观察阶段SDK会话0。A/B固件未改，正式云服务/ACL/防火墙未改，main未合并。
 
-| 区域 | 新制品/占用 | 安装范围或余量 |
+| 当前制品/资源 | 实际数值 |
+|---|---|
+| ELF SHA256 | `fb79a7c3c31f4cfafa0895a3c5f79187ab7d79ed8f2f43158b65ec764b7706eb` |
+| HEX SHA256 | `d27d9b888fa48b70d14b73bf0e43306f588ec2fd5f8cb16d5498d00c946591ac` |
+| boot / code加载地址 | 0x08000000 / 0x08010000；禁止跨sector3平坦BIN |
+| boot+code | 53888B；sector4代码53496B，余12040B |
+| 普通SRAM | data+bss=81540B；预留24KiB堆、8KiB栈后另余16760B |
+| CCM / DMA | PCM64000B在CCM，余1536B；DMA2560B在普通SRAM |
+| 本上电周期栈水位上界 | 3084B，不能代替全部路径最坏栈证明 |
+| 隔离云重组器 SHA256 | `d1fee189b304279e4f0492bcb6fb59b0cf13f04b7e4572a1bf9fdcf7c4dd3c58` |
+
+ELF/HEX/map/链接脚本/分段BIN在 `candidate-r4/`；R1–R3历史制品保留。[构建回执](P1C-R4-BUILD-RECEIPT.json)和[SOURCE清单](SOURCE-SHA256.json)给出实际交付输入。三份源码沿用仓库原CRLF格式后重新构建，boot/code/ELF/HEX与实装R4逐字节相同，未重刷；原安装构建回执另留P1C-R4-INSTALL-BUILD-RECEIPT.json。另保留原仓库LF与Windows未改文件CRLF的输入对照；所有修改的自有源文件均逐字节绑定，旧文件仅行尾差异，不把原Git换行转换误报为代码漂移。原C44520源码目标再构建，BIN仍为 `5f4690eca0a00334ff1a9b653be2a0b99cba034b869ae4592dd36a042a147442`，ELF亦与原基线一致；未将它重新安装。
+
+## 最终同窗结果
+
+会话 `1793674218`，在当前R4和软件CAN负载下录音，且紧接真实上行故障恢复之后执行；该段之间没有重启C或worker，也未清空中断会话来绕过缺陷。
+
+| 层次 | 证据与裁定 |
+|---|---|
+| 本地录音完整性 | 32000样本/2秒/PCM16单声道；DMA错误0、覆盖0、截幅0；原IRQ/录块连续性校验通过 |
+| 实际C上行 | Broker实收125块/64000B；源导出与云端PCM逐字节相同，CRC32=2259289543 |
+| PCM SHA256 | `80cf4cb7b0cb806859e88114bd1ca5ef2747f517961e294dd0a8e6b78bdf5b94` |
+| 云端ASR/AI | ASR原生退出0，36.474秒；真实AI调用及回复PUBACK成立；负责人核对英语片段相符 |
+| TTS/停止 | 实际C喇叭播报“已确认收到”，负责人确认；ACK/DONE及全局STOP→ACK→查询→IDLE成立 |
+| 重组恢复 | 修复后的worker接收141块：前一故障会话16块不完整，随后新会话125块完成；拒绝0，完成C会话1，HOST会话0 |
+| 负载/资源 | 有效窗口日志首尾软件帧增量每路27628；队列高水位2/2，无溢出；CAN入口最大22318周期，按声明8MHz约2.790ms |
+| 服务间隔 | 业务运行中平台poll最大间隔7ms；全局STOP之后收尾累计16ms，原值保留，不包装为运行期7ms上界 |
+| 可用性/延迟 | 首音频包到回复包Host墙钟60.681秒；口耳全流程未独立计时，不宣传低延迟实时助手或统计可用率 |
+
+采样率约16000.001Hz、IRQ间隔约9.989–10.011ms是基于声明HSE与DWT的相对测量，非独立频率计绝对标定。累计音频失败计数1仍在，本有效窗口新失败0，没有复位清零来制造通过。TTS ACK累计2包含启动音量设置1次，实际文本完成1次。
+
+C-only软件负载复用两路原RX队列及真实CANopen/RPDO，每次5ms服务向每路送2个无有效测量值的PDO锚/质量帧。实体控制器静默、RX IRQ关闭，物理CAN RX/TX为0，不产生有效ECG/血压等测量值。该结果只证明软件处理入口与真MIC/网络/TTS共存，不能替代真实CAN IRQ、B250Hz/50Hz上行或三板并发。
+
+## 故障与最小修复
+
+| 失败原件 | 原因及处理 | 修复证据 |
 |---|---|---|
-| sector0向量 | 0x08000000–0x08000187，392B | 需擦写0x08000000–0x08003FFF |
-| sector4代码及初始化数据 | 0x08010000–0x0801CEA7，52904B | 需擦写0x08010000–0x0801FFFF；余12632B |
-| sector1/2/3、5–11、Options | 无镜像加载段 | 全部保持原字节；sector3含配置 |
-| 普通SRAM data+bss | 81516B | 含DMA，另4B对齐 |
-| 固定堆/最小栈预留 | 24576B / 8192B | 预留后另余16784B；堆末至MSP顶实际区域24976B |
-| CCM CPU PCM | 64000B，0x10000000 | 余1536B；禁止DMA访问 |
-| DMA双缓冲 | 2560B，普通SRAM | 实际地址见RESOURCE-LAYOUT.json；CAN IRQ3高于MIC IRQ8 |
+| R1，采集退出1，上传0块 | 出口空闲轮重复启动接收查询，占用低优先级音频AT空档；统一模式去掉第二次空轮询，原B5路径不变 | 定向100轮由0空档变50；R2实际125块及喇叭通过 |
+| R3，录音入口退出1，未开始采样 | 将任何遥测ACK在途作为拒绝本地录音条件；去掉这项多余限制，上传背压/ACK绑定不变 | 原代码反例退出3，修复后Host及R4负载录音通过 |
+| R4首次故障后正常录音退出1 | Broker收到125块，但worker被旧9块未完成会话卡住，新125块全部拒绝，ASR未启动；有效的新会话起始块可取代旧未完成会话 | 同一真实C数据回放：修复前拒绝125/完成0，后拒绝0/完成1，PCM不变；再实物“故障→新录音”完成125块 |
 
-新候选真实尝试48KiB链接失败，原生退出1，超3808B；没有删除状态校验来强行塞入。现在使用有地址的HEX和两个BIN，不生成跨sector3空洞的平坦BIN。实际MSP=0x20020000，Reset向量=0x0801A5DD，VTOR保持0x08000000；启动代码和ISR在sector4，104B初始化数据从0x0801CE40加载到0x20000000。CCM为NOLOAD，PCM只在录满后使用。资源表不代表实际栈/IRQ水位通过。
+云重组修复只动隔离worker的protocol模块；整包/分块/整音CRC、源隔离、序号/长度、90秒同会话期限及已完成重放拒绝保留，新起始块须先通过原校验且session较新。同会话重复起始块不延长期限。该修复后没有再烧录C。
 
-ELF、HEX、map、链接脚本、两个段及SHA清单位于 `candidate/`。HEX与BIN逐字节校验、向量检查及真实备份拼接的PLAN_ONLY执行退出0；未加载DLL。旧C44520构建BIN仍为 `5f4690eca0a00334ff1a9b653be2a0b99cba034b869ae4592dd36a042a147442`，与既有实装基线一致。
+两次本任务透传进程SIGSTOP/CONT制造真实上行ACK停顿，非关闭Wi-Fi；STOP/CONT原生退出均0。最新故障窗C确认15块、Broker实际保留16块，暂停期实见本地STOP ACK/查询/IDLE；恢复后新鲜SNTP、TLS、SUBACK重新完成，CAN软件回放继续、DMA/覆盖0，故障工具退出0。未测试实体AP掉线；新统一程序在实际发声中间打断未单独覆盖，不以此前单板STOP成绩冒称本轮已测。
 
-## 最小复现与真实退出码
+## 真实退出码、工具和清理
+
+- 最终采集父进程0、ASR0；R4安装/完整核对0；最新8组Host编译/执行0；7项云协议回归0。真实数据回放保留前后结果，不能当作新实板窗口。
+- 原48KiB溢出退出1、R1/R3/R4失败退出1、录音入口反例3、Host夹具早期编译/链接/宏错误及部署权限失败1均保留；没有改旧冻结评测器或RR阈值。
+- 自有SSH观察隧道由Windows TerminateProcess主动结束，原生退出1，按受控清理记录，未伪称自然退出0。任务三项隔离服务停止命令0，当前全部inactive；正式服务停止/重启0次。
+- 沿用唯一main/SysTick/ESP/TLS/coreMQTT owner、原MIC采集/格式/CRC、TTS队列及分段SDK工具；F配置只进RAM。B5新鲜SNTP/CA/主机名校验保留，旧独立MIC的SSH UTC方案没有进入统一运行。
+- `UNISTART C/BC/ABC`明确选择总线且无固定420秒停机；旧B5START仍保持420秒。软件回放默认关闭且仅C-only可启用，B+C/ABC拒绝开启。全局X停止后不自动重启。无PI签名/nonce/次数卡。
+
+复现入口：
 
 ```powershell
 python -X utf8 gateway/dual_can/build_arm.py --b5 --egress-final --tri --unified --split-flash
 python -X utf8 gateway/microphone/test_unified.py
 python -X utf8 gateway/microphone/test_unified_install.py
+python -X utf8 cloud/microphone/test_protocol.py
 ```
 
-最终ARM构建0；五组Host编译与执行均0；分段安装10项单元测试0。Host中的300秒为虚拟时间，不是实板持续采集。
+现场工具复用 `gateway/microphone/field.py --unified` 的connect/capture/load/fault/stop/finish，身份不符则不发旧MIC配置。原始Flash、UID、配置、音频和ASR正文仅在受限EFS；本地忽略的 `node-b/build/final-unified-current-pointer.json` 定位原件。公开摘要、必要固定指标日志及SHA见本目录JSON清单。下载核对依据[SEGGER扇区编程流程](https://kb.segger.com/J-Link_flash_programming)，实际以本次2 ranges日志和全片/Options核对为证。
 
-| 定向验证 | 结果 |
-|---|---|
-| 真实coreMQTT/adapter + ESP替身 | 414项检查；订阅、分片ACK、错/缺/半/旧ACK、音频/标量ACK归属、Q0继续推进、下行主题及retain拒绝 |
-| 真实音频状态机/CRC/原TTS队列 + DMA/端口替身 | 1288项检查；125块、500轮CRC、背压、不提前接受回复、网络中断STOP/查询/IDLE、禁止活动时阻塞导出 |
-| 真实main控制/服务函数 + 硬件替身 | 27项检查；C/BC/ABC、旧420秒、超长行、二进制F帧、断网CAN继续、X后R拒绝 |
-| 原I²S格式测试 | signed24、PCM16、左右槽和CRC通过 |
-| 原B5异步出口 | 三次停顿虚拟300秒回归通过；错误ACK、过载负例保留；原断言未放宽 |
-| 分段薄安装入口 + 合成NOR/SDK替身 | 精确0/4安装及恢复、保护区字节不变、错板/ROM/HALT/故障事前拒绝、短写/破坏后禁止启动、HEX篡改/越区/无批准不进入SDK等10项通过 |
+## 唯一阶段清单及后续边界
 
-初始构建/夹具失败未删除：48KiB容量退出1、两个缺声明/宏的夹具编译退出1、旧夹具漏宏退出3、控制夹具外部入口链接退出1、同时构建目录时间戳碰撞退出1。已各自修正并定向复测；详情见NATIVE-EXIT-CODES.json，原日志在受限EFS。`_heap_end`链接符号char/uint32声明警告为原有警告，旧C44520也存在，默认BIN保持一致；没有把它包装为新候选运行可靠性的证明。
+- [x] P1B真实统一C离线构建/分段布局、唯一网络owner和有界推进。
+- [x] P1C C-only实际MIC→Broker→ASR/AI工程短回复→TTS，软件CAN入口负载、STOP及指定上行停顿恢复。
+- [ ] B41516+C：真实ECG/RR/物体温度To、温度屏/UART4/CAN/MQTT/WSS同窗300秒，NOT_RUN。
+- [ ] A42608+B41516+C及基于同会话监护事实的语音问答，NOT_RUN。
+- [ ] 三板与语音30分钟、必要24小时、配套正式发布包/部署版本映射及main合并，NOT_RUN。
 
-## 安装和回退（尚未执行）
+本次许可仅C，下一步须另行取得B+C现场授权，不自行连接或上电A/B。C R4仅为受控候选，后续仍需核对真实CAN IRQ优先级编码/时序、物理总线及真实遥测与音频争用；本次源码请求CAN优先级3/DMA8不当作独立实测。保留实物PCB修订UNKNOWN、独立无探针冷启动/SDK隐式副作用未关闭、原链接符号类型警告及未覆盖路径栈风险。
 
-复用 `abc_board_backup` / `b4_swd_install` / `b4_recovery` / 原生监督器，新增薄入口 `gateway/microphone/unified_install.py`。默认仅PLAN_ONLY，`--execute`且负责人已明确批准sector4范围后才可调用原SDK；无PI签名/nonce/次数限制。
-
-1. 使用已有C双份完整备份、Options、身份回执；安装当次核对当前C身份、运行状态与实际Flash。未知HALT/ROM或字节漂移停止目标，继续离线排障，不强设PC/MSP。
-2. 仅写完整sector0和sector4块：原备份为底，覆盖两段；两个范围内未被新镜像占用的字节也保留。SDK同一次下载事务提交两个明确范围，禁止整块跨洞BIN、mass erase、解除保护及Options写入。
-3. 下载后完整读回对预期，单独核对Options和身份；全部一致才允许按真实向量Reset/Go。原生短写、验证失败、Close异常不自动反复重刷。
-4. 必要回退使用原C44520备份，将同样sector0/4恢复原字节；其他区域一律不写。回退工具离线通过，实板回退新布局尚NOT_RUN；SDK隐式副作用与掉电中断写入风险仍保留。
-
-具体CLI的备份路径/安装回执由本地忽略的 `node-b/build/final-unified-current-pointer.json` 指向受限作业目录；不将UID、配置或原始Flash提交。负责人一次确认范围覆盖本合同后续C候选必要更新及恢复，不对每次软件复测重新签发。
-
-## 唯一阶段清单
-
-- [x] 新真实统一C离线构建、分段ELF/HEX、配置保留及RAM/CCM/DMA布局：OFFLINE_READY。
-- [x] 一个主入口/网络owner、CAN优先和有界音频推进：实现及定向Host通过；实机时延尚NOT_RUN。
-- [ ] C-only真实录音/125块/ASR/TTS、统一运行STOP、网络故障、CAN入口负载与水位：NOT_RUN。
-- [ ] B41516+C真实300秒、B温度屏/源帧/CAN/云/WSS关联：NOT_RUN。
-- [ ] A42608+B41516+C新同窗、非人体NIBP与事实语音问答：NOT_RUN。
-- [ ] 确定性事实/简短回复接入隔离worker及负例：待P3；现有工程确认worker不冒充事实问答。
-- [ ] 并发/30分钟、必要24小时、三板版本包及正式部署映射：NOT_RUN，不提前定版。
-
-未关闭：真实CPU/栈/中断/DMA/队列水位、持续监护负载下音频能否及时获调度、热点新鲜SNTP及真实重连、SDK隐式副作用、MIC实物PCB修订与当前接线核对。RR24/30失败、RR15 SOURCE_UNKNOWN/ROOT_CAUSE_UNRESOLVED、旧TEMP180和绝对标定继续保留。GY641仍为物体温度To，NIBP为最近完成结果/90秒有效，非人体数据保留synthetic标签。中国家庭教学阈值按本合同冻结为SYS≥135或DIA≥85；不作单次诊断，不以低于阈值断言正常或偏低。
-
-下一步只申请一次C sector0/4精确范围确认；之后按当前接线确认进入C-only，再推进B+C和ABC。A/B源码未改；没有正式服务切换、main合并或最终发布声明。
+RR24/RR30失败、RR15 SOURCE_UNKNOWN/ROOT_CAUSE_UNRESOLVED、旧TEMP180末帧、绝对阻抗/体温/血压标定及正式云版本映射继续保留。GY641是物体温度To，NIBP为最近完成结果/90秒有效；非人体synthetic标签不改成真人LIVE。本轮AI只作工程短确认，未完成医疗监护事实问答；家庭演示阈值仍按合同冻结，不把本次语音通过当作临床判定或整机放行。

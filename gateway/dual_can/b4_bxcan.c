@@ -26,6 +26,14 @@ static volatile unsigned head[2], tail[2];
 static uint8_t hw_clocks_ready, hw_stopped;
 volatile B4HwDiag b4_hw_diag[2];
 extern uint32_t b4_hw_time(void);
+#ifdef MP_FINAL_UNIFIED
+static bool replay_enabled;
+uint32_t b4_replayed[2];
+int b4_hw_set_replay(bool enabled) {
+    if(final_can_mask || hw_stopped || !hw_clocks_ready)return 0;
+    replay_enabled=enabled;return 1;
+}
+#endif
 static CAN_TypeDef *controller(unsigned bus) { return bus ? CAN2 : CAN1; }
 static void irq(unsigned bus) {
     CAN_TypeDef *can = controller(bus);
@@ -162,6 +170,9 @@ void b4_hw_stop(void) {
      * 先禁止新软件请求，再禁止继续自动重传并取消全部邮箱；在途帧最多结束当前一次尝试。
      * 控制器仍可ACK对端，不因台架STOP额外制造B端无ACK/BOFF。此函数不自动重新武装。 */
     hw_stopped = 1;
+#ifdef MP_FINAL_UNIFIED
+    replay_enabled=false;
+#endif
     if (!hw_clocks_ready) return;
     for (unsigned bus = 0; bus < 2; bus++) {
         CAN_TypeDef *can = controller(bus);
@@ -179,6 +190,20 @@ void b4_hw_idle(void) {
 }
 void b4_hw_poll(B4Gateway *g) {
     if (hw_stopped) return;
+#ifdef MP_FINAL_UNIFIED
+    /* C-only显式软件负载：复用RX队列/RPDO入口；无有效值、无实体CAN帧。 */
+    if(replay_enabled)for(unsigned bus=0;bus<2;bus++)for(unsigned i=0;i<2;i++) {
+        unsigned next=(head[bus]+1)%96;
+        if(next==tail[bus]){b4_hw_diag[bus].overflow++;continue;}
+        Item *item=&rx[bus][head[bus]];item->tick=g->now;
+        item->frame.ident=(i?0x680u:0x480u)+bus+1;item->frame.dlc=8;
+        for(unsigned k=0;k<8;k++)item->frame.data[k]=0;
+        if(i){item->frame.data[3]=0x80;item->frame.data[4]=1;}
+        __DMB();head[bus]=next;
+        unsigned count=(next+96-tail[bus])%96;
+        if(count>b4_hw_diag[bus].high_water)b4_hw_diag[bus].high_water=count;
+    }
+#endif
     for (unsigned bus = 0; bus < 2; bus++) {
         CAN_TypeDef *can = controller(bus);
         b4_hw_diag[bus].esr = can->ESR;
@@ -196,6 +221,13 @@ void b4_hw_poll(B4Gateway *g) {
             b4_capture_emit(B4_CAP_RX,bus,item.frame.ident,item.frame.dlc,item.frame.data,item.tick,can->ESR);
 #endif
             if (up) b4_gateway_receive(g, bus, &item.frame, item.tick);
+#ifdef MP_FINAL_UNIFIED
+            else if(replay_enabled) {
+                b4_bus_online(bus,true);
+                b4_gateway_receive(g,bus,&item.frame,item.tick);
+                b4_bus_online(bus,false);b4_replayed[bus]++;
+            }
+#endif
         }
     }
 }

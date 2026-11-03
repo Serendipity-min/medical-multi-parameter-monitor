@@ -26,7 +26,8 @@ class AudioAssembler:
             raise ValueError('MIC_PACKET_FIELDS_OR_CRC')
         if (source,session) in self.completed:raise ValueError('MIC_COMPLETED_SESSION_REPLAY')
         current=self.active.get(source)
-        if seq==0 and current is None:
+        # 经校验的新起始块可取代中断会话；同会话重复不延长90秒期限。
+        if seq==0 and (current is None or session>current['session']):
             current={'session':session,'crc':whole,'at':now,'blocks':[]};self.active[source]=current
         if current is None or current['session']!=session or current['crc']!=whole or now-current['at']>=90:
             self.discard(source);raise ValueError('MIC_SESSION_OR_EXPIRY')

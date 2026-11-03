@@ -9,4 +9,8 @@ void b4_hw_stop(void);
 /* 等待台架START时只丢弃旧RX，不启动协议或重置控制器。 */
 void b4_hw_idle(void);
 void b4_hw_poll(B4Gateway *g);
+#ifdef MP_FINAL_UNIFIED
+int b4_hw_set_replay(bool enabled);
+extern uint32_t b4_replayed[2];
+#endif
 #endif

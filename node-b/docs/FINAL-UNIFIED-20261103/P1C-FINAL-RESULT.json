@@ -1,0 +1,93 @@
+{
+  "verdict": "C_UNIFIED_RUNTIME_PASS",
+  "scope": "NONHUMAN_C_ONLY_REAL_MIC_TLS_MQTT_ASR_AI_ACK_TTS_WITH_SOFTWARE_CAN_ENTRY_LOAD",
+  "revision": "R4",
+  "field_parent_native_exit": 0,
+  "session": 1793674218,
+  "audio": {
+    "rate_Hz": 16000,
+    "samples": 32000,
+    "bytes": 64000,
+    "chunks": 125,
+    "CRC32": 2259289543,
+    "PCM_SHA256": "80cf4cb7b0cb806859e88114bd1ca5ef2747f517961e294dd0a8e6b78bdf5b94",
+    "device_export_equals_broker_bytes": true,
+    "source_proof": {
+      "status": "MIC_RECORD_INTEGRITY_PASS_NOT_FULL_LOCAL_ACCEPTANCE",
+      "duration_s": 2.0,
+      "RMS_PCM16": 882.2919761195836,
+      "mean_PCM16": 340.252375,
+      "peak_PCM16": 2841,
+      "RMS_dBFS": -31.39675210690349,
+      "IRQ_rate_from_declared_HSE_Hz": 16000.001000000062,
+      "IRQ_gap_min_s": 0.009989,
+      "IRQ_gap_max_s": 0.010010875,
+      "clock_measurement": "REGISTER_AND_CYCLE_EVIDENCE_NOT_INDEPENDENT_FREQUENCY_METER",
+      "zero24_fraction": 0.0,
+      "clip24_count": 0,
+      "left_right_abs_ratio": 16225046.0,
+      "PCM_SHA256": "80cf4cb7b0cb806859e88114bd1ca5ef2747f517961e294dd0a8e6b78bdf5b94",
+      "acceptance": "REQUIRES_QUIET_TONE_SPEECH_COMPARISON_AND_OWNER_LISTENING"
+    }
+  },
+  "cloud": {
+    "ASR_native_exit": 0,
+    "ASR_elapsed_s": 36.4744151129853,
+    "AI_called": true,
+    "reply_published": true,
+    "counts_after_protocol_fix": {
+      "packets": 141,
+      "rejected": 0,
+      "completed_C": 1,
+      "completed_HOST": 0,
+      "queue_overflow": 0
+    },
+    "deployed_protocol_SHA256": "d1fee189b304279e4f0492bcb6fb59b0cf13f04b7e4572a1bf9fdcf7c4dd3c58",
+    "medical_facts_QA": false,
+    "language_tested": "English"
+  },
+  "timing": {
+    "first_audio_block_to_reply_host_wall_seconds": 60.6813342,
+    "port_to_ear_full_latency": "NOT_INDEPENDENTLY_TIMED_NOT_REALTIME_CLAIM"
+  },
+  "TTS": {
+    "new_done_count": 1,
+    "total_ack_count_includes_initial_volume_command": 2,
+    "owner_heard_actual_C_speaker": true,
+    "owner_verified_ASR_fragment": true,
+    "STOP_ACK_query_IDLE_after_global_stop": true,
+    "STOP_during_real_ingress_stall": "PASSED_SEPARATE_WINDOW",
+    "playback_mid_sentence_interrupt_under_load": "NOT_SEPARATELY_COVERED"
+  },
+  "runtime": {
+    "software_replay_cumulative_per_bus": {
+      "replay_a": 591198,
+      "replay_b": 591198
+    },
+    "software_replay_delta_between_visible_window_snapshots": {
+      "replay_a": 27628,
+      "replay_b": 27628
+    },
+    "RX_queue_high_water": {
+      "water_a": 2,
+      "water_b": 2
+    },
+    "CAN_poll_cycles_upper": 22318,
+    "CAN_poll_ms_from_declared_8MHz": 2.78975,
+    "platform_poll_gap_running_max_ms": 7,
+    "platform_poll_gap_after_stop_cumulative_max_ms": 16,
+    "stack_used_upper_bytes": 3084,
+    "native_physical_CAN_RX_TX": 0,
+    "ADC_DMA_errors": 0,
+    "ADC_overruns": 0,
+    "cumulative_audio_failures_preserved": 1,
+    "new_failures_in_accepted_voice_window": 0,
+    "runtime_SDK_sessions": 0
+  },
+  "owner_final_state": "POWER_OFF_COMPLETED_USB_DISCONNECT_REQUEST_COMPLETED",
+  "current_C_image_retained": true,
+  "formal_services_changed": false,
+  "A_B_firmware_changed": false,
+  "B_C_and_ABC": "NOT_RUN_NOT_AUTHORIZED_THIS_TURN",
+  "observer_ssh_tunnel_controlled_termination_native_exit": 1
+}

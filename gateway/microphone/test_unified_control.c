@@ -5,6 +5,8 @@
 #include <stdlib.h>
 static unsigned checks,can_ticks,can_stops,audio_polls,audio_commands,audio_stops,configs;
 static int sync_bad;static uint8_t input[1024];static unsigned head,tail;
+uint32_t b4_replayed[2];
+int b4_hw_set_replay(bool enabled){(void)enabled;return !final_can_mask;}
 volatile B4HwDiag b4_hw_diag[2];volatile uint32_t g_uptime_ms;
 #define CHECK(x) do{if(!(x)){fprintf(stderr,"FAIL line=%d\n",__LINE__);exit(3);}checks++;}while(0)
 int console_char(void){return tail<head?input[tail++]:-1;}

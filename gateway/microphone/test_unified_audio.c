@@ -50,7 +50,7 @@ int main(void) {
     uint32_t whole=mic_crc32(samples,sizeof samples),part=0xffffffffu;
     for(unsigned i=0;i<sizeof samples;i+=128)part=mic_crc32_update(part,(uint8_t *)samples+i,128);
     CHECK((part^0xffffffffu)==whole && mic_crc32("123456789",9)==0xcbf43926u);
-    prepare();unified_audio_command('R',false);CHECK(record_state==1);
+    prepare();result=GW_PENDING;unified_audio_command('R',false);CHECK(record_state==1);result=GW_DEFERRED;
     record_state=2;sample_count=MIC_SAMPLES;tick();
     for(steps=0;steps<500;steps++){unified_audio_step(false);tick();CHECK(submissions==0);}
     unified_audio_step(false);CHECK(submissions==0);

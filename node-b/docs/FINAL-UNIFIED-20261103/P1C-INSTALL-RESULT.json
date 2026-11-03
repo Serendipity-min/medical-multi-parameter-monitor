@@ -1,0 +1,32 @@
+{
+  "exit_code": 0,
+  "status": "UNIFIED_C_INSTALL_FULL_VERIFY_PASS",
+  "board": "C",
+  "sectors": [
+    0,
+    4
+  ],
+  "full_flash_sha256": "97d0738b82934f62decf416b4f0e5a47b28a10142b27d506c29007fd579f060e",
+  "options_unchanged": true,
+  "all_other_sectors_unchanged": true,
+  "Close_completed": true,
+  "native_actions": {
+    "JLINKARM_Halt": 1,
+    "JLINKARM_BeginDownload": 1,
+    "JLINKARM_WriteMem": 2,
+    "JLINKARM_EndDownload": 1,
+    "JLINKARM_Reset": 1,
+    "JLINKARM_Go": 1
+  },
+  "scope": "C_UNIFIED_CANDIDATE_INSTALL_NOT_VOICE_OR_CONCURRENCY_PASS",
+  "installed_candidate_commit": "5abd83443e42ad0aae3d94a91e1a814715502b88",
+  "owner_sector04_scope_approved": true,
+  "SDK_implicit_effects": "UNRESOLVED",
+  "download_ranges": 2,
+  "download_bytes": 81920,
+  "native_download_diagnostic": [
+    "J-Link: Flash download: Bank 0 @ 0x08000000: 2 ranges affected (81920 bytes)",
+    "J-Link: Flash download: Total: 4.744s (Prepare: 0.636s, Compare: 0.336s, Erase: 0.741s, Program: 2.133s, Verify: 0.331s, Restore: 0.565s)",
+    "J-Link: Flash download: Program & Verify speed: 32 KB/s"
+  ]
+}

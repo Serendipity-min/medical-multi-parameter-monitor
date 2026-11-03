@@ -24,11 +24,13 @@ from capture import analyze
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--job',type=Path,required=True)
-    p.add_argument('--port',required=True);p.add_argument('--action',choices=('connect','capture','retry','stop'),required=True);a=p.parse_args()
+    p.add_argument('--unified',action='store_true',help='当前唯一C运行入口；保留B5新鲜SNTP，不设置UTC');p.add_argument('--port',required=True);p.add_argument('--action',choices=('connect','capture','retry','stop','load','fault','finish'),required=True);a=p.parse_args()
+    if not a.unified and a.action in ('load','fault','finish'):p.error('该动作需要--unified')
+    if a.unified and a.action=='retry':p.error('统一入口不支持旧U重传命令')
     stamp=time.strftime('%Y%m%dT%H%M%S',time.gmtime());out=a.job/('field-'+a.action+'-'+stamp);out.mkdir()
     if not out.stat().st_file_attributes&0x4000:raise ValueError('FIELD_OUTPUT_NOT_EFS')
     (out/'executed-field-tool.py').write_bytes(Path(__file__).read_bytes())
-    result={'exit_code':1,'action':a.action,'scope':'C_ONLY_VOICE_NETWORK','MCU_RESET_commands':0,
+    result={'exit_code':1,'action':a.action,'scope':'C_UNIFIED_RUNTIME' if a.unified else 'C_ONLY_VOICE_NETWORK','MCU_RESET_commands':0,
             'B5START':0,'host_MQTT_application_publications':0,'formal_PI_signature_or_nonce_used':False}
     stream=(out/'serial-rx-private.bin').open('xb');events=[];tunnel=None;client=None;log=None;wire=None
     session={};source_audio={};reply={};observer_ready=threading.Event();assembler=AudioAssembler()
@@ -45,6 +47,14 @@ def main():
         deadline=time.monotonic()+seconds
         while True:
             b=line(deadline);text=b.decode('ascii',errors='replace').strip()
+            if a.unified and text.startswith('UNI AUDIO '):
+                event={k:int(v) for k,v in (x.split('=') for x in text.split()[2:])}
+                event['event']='UNI_PHASE_'+str(event['phase']);events.append(event)
+                with (out/'C-events-live.jsonl').open('a',encoding='utf-8') as live:live.write(json.dumps(event)+'\n')
+                if event.get('session'):session['id']=event['session']
+                print(json.dumps({'C_phase':event['phase'],'session':event['session'],'chunk':event['chunk']}),flush=True)
+                if event['phase']==8 or event['stop_failed'] or event['tts_uart'] or event['tts_overflow']:
+                    raise ValueError('FIELD_UNIFIED_AUDIO_FAILED')
             if text.startswith('MIC_NET '):
                 pieces=text.split();event={'event':pieces[1],**{k:int(v) for k,v in (x.split('=') for x in pieces[2:])}}
                 events.append(event)
@@ -88,10 +98,29 @@ def main():
         if not observer_ready.wait(7):raise RuntimeError('FIELD_OBSERVER_NOT_READY')
 
     try:
-        s.open();s.write(b'I');identity=until(b'MIC_NETWORK_ID ',3)
-        if identity.strip()!=b'MIC_NETWORK_ID PA4_PC10_PC12 TLS_PCM16_TTS_LOW_VOLUME WIFI_RAM_V4_STATE_SAFE':
+        s.open();s.write(b'I');identity=until(b'UNI ID ' if a.unified else b'MIC_NETWORK_ID ',3)
+        if identity.strip()!=(b'UNI ID V1 DUAL_CAN_MIC_MQTT_TTS CONFIG_RAM' if a.unified else b'MIC_NETWORK_ID PA4_PC10_PC12 TLS_PCM16_TTS_LOW_VOLUME WIFI_RAM_V4_STATE_SAFE'):
             raise ValueError('FIELD_WRONG_RUNTIME_CONFIG_VERSION')
-        if a.action=='connect':
+        if a.unified and a.action=='connect':
+            settings=json.loads((a.job/'voice-runtime-credentials-private.json').read_text())
+            wifi=json.loads((a.job/'host-hotspot-runtime-private.json').read_text())
+            fields=[b'b5-gateway',settings['roles']['b5-gateway'].encode('ascii'),b'b5-c-isolated',
+                    wifi['ssid'].encode('utf-8'),wifi['wifi_password'].encode('utf-8')]
+            sizes=[33,65,41,33,65]
+            if any(not x or len(x)>=n for x,n in zip(fields,sizes)):raise ValueError('FIELD_UNIFIED_CONFIG_LENGTH')
+            body=b'MCF3'+b''.join(x.ljust(n,b'\0') for x,n in zip(fields,sizes))+struct.pack('<I',int(time.time()))
+            s.write(b'F'+body+struct.pack('<I',zlib.crc32(body)));until(b'UNI CONFIG_OK',3)
+            s.write(b'UNISTART C\n');deadline=time.monotonic()+160;ready=False
+            while time.monotonic()<deadline:
+                s.write(b'Q')
+                try:until(b'UNI AUDIO ',3)
+                except TimeoutError:continue
+                e=events[-1]
+                if e['phase']==1 and e['online'] and e['subscribed'] and e['tts_ack']>=1:ready=True;break
+            if not ready:raise TimeoutError('FIELD_UNIFIED_CONNECT_NOT_READY')
+            result.update(exit_code=0,status='C_UNIFIED_TLS_SUBACK_TTS_READY_NOT_AUDIO_PASS',
+                          UTC_setting_commands=0,time_policy='B5_FRESH_SNTP_UNCHANGED',last_state=events[-1])
+        elif a.action=='connect':
             s.write(b'S');until(b'MIC_NET OWNER_STOP_STOP_ACK_NOT_ASSUMED',12);until(b'MIC_CONTROL_READY',3)
             settings=json.loads((a.job/'voice-runtime-credentials-private.json').read_text())
             user=b'mic-device';password=settings['roles']['mic-device'].encode('ascii');cid=('mic-c-'+stamp).encode('ascii')
@@ -117,15 +146,38 @@ def main():
             result.update(exit_code=0,status='C_TLS_MQTT_SUBACK_TTS_VOLUME_ACK_READY_NOT_AUDIO_UPLINK',
                           connect_cleanup_STOP_ACK_and_IDLE_proven=any(e['event']=='STOP_ACK_IDLE_CONFIRMED' for e in events))
         elif a.action in ('capture','retry'):
-            observe();s.write(b'R' if a.action=='capture' else b'U')
-            until(b'MIC_NET RECORDING ' if a.action=='capture' else b'MIC_NET REUPLOAD_EXISTING_RECORD ',3)
-            until(b'MIC_NET PLAYBACK_DONE_REQUIRES_OWNER_HEARING',125)
-            last=events[-1]
-            if last['ack']!=1 or last['done']!=1 or last['uart_errors'] or last['uart_overflow']:
+            observe()
+            if a.unified:
+                s.write(b'Q');until(b'UNI AUDIO ',3)
+                baseline_failures=events[-1]['failures'];baseline_done=events[-1]['tts_done']
+            s.write(b'R' if a.action=='capture' else b'U')
+            until(b'UNI RECORDING' if a.unified else b'MIC_NET RECORDING ' if a.action=='capture' else b'MIC_NET REUPLOAD_EXISTING_RECORD ',3)
+            if a.unified:
+                deadline=time.monotonic()+125
+                while True:
+                    until(b'UNI AUDIO ',max(.1,deadline-time.monotonic()));last=events[-1]
+                    if last['failures']>baseline_failures:raise ValueError('FIELD_UNIFIED_CAPTURE_FAILED')
+                    if last['phase']==1 and last['tts_done']>baseline_done:break
+                    if time.monotonic()>=deadline:raise TimeoutError('FIELD_UNIFIED_TURN_TIMEOUT')
+                last=dict(last,ack=last['tts_ack'],done=last['tts_done'],uart_errors=last['tts_uart'],uart_overflow=last['tts_overflow'])
+            else:until(b'MIC_NET PLAYBACK_DONE_REQUIRES_OWNER_HEARING',125);last=events[-1]
+            counts_bad=(last['ack']<1 or last['done']<1) if a.unified else (last['ack']!=1 or last['done']!=1)
+            if counts_bad or last['uart_errors'] or last['uart_overflow']:
                 raise ValueError('FIELD_TTS_ACK_DONE_OR_UART')
             if 'pcm' not in source_audio or 'error' in source_audio or reply.get('session')!=session.get('id'):
                 raise ValueError('FIELD_BROKER_SOURCE_OR_REPLY_MISSING')
-            s.write(b'D');meta=json.loads(line(time.monotonic()+4));data=bytearray();deadline=time.monotonic()+15
+            if a.unified:
+                s.write(b'X');until(b'B5 STOPPED NO_AUTOREARM',5)
+                deadline=time.monotonic()+4
+                while True:
+                    until(b'UNI AUDIO ',max(.1,deadline-time.monotonic()))
+                    if events[-1]['stop_ack'] and events[-1]['stop_query'] and events[-1]['stop_idle']:break
+                result['STOP_ACK_query_IDLE']=True
+            s.write(b'D')
+            while True:
+                b=line(time.monotonic()+4)
+                if b.startswith(b'{'):break
+            meta=json.loads(b);data=bytearray();deadline=time.monotonic()+15
             if meta['bytes']!=64000:raise ValueError('FIELD_SOURCE_LENGTH')
             while len(data)<64000 and time.monotonic()<deadline:
                 b=s.read(min(4096,64000-len(data)));data.extend(b);stream.write(b)
@@ -141,10 +193,68 @@ def main():
             result.update(exit_code=0,status='C_AUDIO_BROKER_BYTE_MATCH_AND_TTS_ACK_DONE_PENDING_ASR_REVIEW_OWNER_HEARING',
                           session=session['id'],source_proof=proof,broker_chunks=source_audio['chunks'],
                           source_cloud_PCM_SHA256=source_audio['PCM_SHA256'],actual_reply=reply,last_TTS=last)
+        elif a.unified and a.action=='finish':
+            s.write(b'X');until(b'B5 STOPPED NO_AUTOREARM',6);deadline=time.monotonic()+5
+            while True:
+                until(b'UNI AUDIO ',max(.1,deadline-time.monotonic()))
+                e=events[-1]
+                if e['stop_ack'] and e['stop_query'] and e['stop_idle']:break
+            result.update(exit_code=0,status='C_GLOBAL_STOP_ACK_QUERY_IDLE_VERIFIED_NO_REARM',last_state=e)
+        elif a.unified and a.action=='load':
+            s.write(b'L');until(b'UNI C_ONLY_SOFTWARE_REPLAY_ON',3)
+            result.update(exit_code=0,status='C_ONLY_SOFTWARE_CAN_REPLAY_ENABLED_NOT_PHYSICAL_CAN_PASS',
+                          synthetic_input='INVALID_PDO_ANCHOR_QUALITY_ONLY_NO_MEASUREMENTS')
+        elif a.unified and a.action=='fault':
+            # 只暂停本任务透传进程；finally必定恢复，不触及正式服务或热点。
+            unit='mpm-unified-c-ingress-20261103';suspended=False;native=[]
+            def signal(sig):
+                run=subprocess.run(['ssh','-o','BatchMode=yes','-o','StrictHostKeyChecking=yes','tencent-codex',
+                    'sudo','-n','systemctl','kill','--kill-whom=main','--signal='+sig,unit],capture_output=True,timeout=15)
+                native.append({'signal':sig,'native_exit':run.returncode})
+                (out/('own-ingress-'+sig+'-private.log')).write_bytes(run.stdout+run.stderr)
+                if run.returncode:raise RuntimeError('FIELD_OWN_INGRESS_SIGNAL_FAILED')
+            observe();s.write(b'R');until(b'UNI RECORDING',3)
+            deadline=time.monotonic()+25
+            while True:
+                until(b'UNI AUDIO ',max(.1,deadline-time.monotonic()))
+                if events[-1]['phase']==4 and 5<=events[-1]['chunk']<125:break
+            try:
+                suspended=True;signal('STOP');s.write(b'S');deadline=time.monotonic()+8
+                result['STOP_ACK_query_IDLE_observed_during_stall']=False
+                while time.monotonic()<deadline:
+                    s.write(b'Q')
+                    try:until(b'UNI AUDIO ',min(1,max(.1,deadline-time.monotonic())))
+                    except TimeoutError:continue
+                    e=events[-1]
+                    if e['phase']==1 and e['session']==session['id'] and e['stop_ack'] and e['stop_query'] and e['stop_idle']:
+                        result['STOP_ACK_query_IDLE_observed_during_stall']=True
+            finally:
+                if suspended:signal('CONT')
+                result['own_ingress_signals']=native
+            deadline=time.monotonic()+160
+            while time.monotonic()<deadline:
+                s.write(b'Q')
+                try:until(b'UNI AUDIO ',3)
+                except TimeoutError:continue
+                e=events[-1]
+                if e['phase']==1 and e['online'] and e['subscribed']:break
+            else:raise TimeoutError('FIELD_UNIFIED_RECOVERY_NOT_READY')
+            if not(e['stop_ack'] and e['stop_query'] and e['stop_idle']):raise ValueError('FIELD_FAULT_STOP_NOT_LATCHED')
+            if 'pcm' in source_audio or reply:raise ValueError('FIELD_FAULT_UNEXPECTED_COMPLETED_OR_REPLIED_AUDIO')
+            result.update(exit_code=0,status='C_UNIFIED_INGRESS_STALL_STOP_AND_FRESH_RECONNECT_OBSERVED',
+                          fault='OWN_INGRESS_PROCESS_SUSPEND_REAL_TCP_ACK_STALL_NOT_WIFI_POWER_OFF',last_state=e,
+                          previous_active_session=session['id'],incomplete_audio_expected=True)
         else:
-            s.write(b'S');until(b'MIC_NET OWNER_STOP_STOP_ACK_NOT_ASSUMED',12)
-            try:until(b'MIC_NET STOP_ACK_IDLE_CONFIRMED',3);stop_proven=True
-            except TimeoutError:stop_proven=False
+            s.write(b'S');stop_proven=False
+            if a.unified:
+                deadline=time.monotonic()+4
+                while time.monotonic()<deadline:
+                    until(b'UNI AUDIO ',max(.1,deadline-time.monotonic()))
+                    if events[-1]['stop_ack'] and events[-1]['stop_query'] and events[-1]['stop_idle']:stop_proven=True;break
+            else:
+                until(b'MIC_NET OWNER_STOP_STOP_ACK_NOT_ASSUMED',12)
+                try:until(b'MIC_NET STOP_ACK_IDLE_CONFIRMED',3);stop_proven=True
+                except TimeoutError:stop_proven=False
             result.update(exit_code=0,status='STOP_ATTEMPT_COMPLETED',STOP_ACK_and_IDLE_proven=stop_proven)
     except (OSError,RuntimeError,TimeoutError,ValueError,serial.SerialException) as error:
         result.update(error_type=type(error).__name__,reason=str(error) if isinstance(error,(ValueError,TimeoutError,RuntimeError)) else 'NATIVE_IO_ERROR')

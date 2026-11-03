@@ -86,7 +86,7 @@ void unified_audio_command(int c,bool export_allowed) {
         return;
     }
     if(c!='R')return;
-    if(state!=UA_IDLE || !online || !gateway_audio_ready() || gateway_mqtt_pending() ||
+    if(state!=UA_IDLE || !online || !gateway_audio_ready() ||
        speaker.stopping || speaker.stop_failed ||
        (!speaker.enabled && !tts_enable(&speaker,true,true)) ||
        (speaker.state!=TTS_IDLE && speaker.state!=TTS_DONE)) {

@@ -27,6 +27,12 @@ def main():
         'unified_control':(['-flto','-fwhole-program','-DMP_FINAL_UNIFIED','-DMP_ABC_TRI_CANDIDATE','-DMP_B5_EGRESS_FINAL',
             '-DMP_FRAME_MAX_SAMPLES=100','-DMP_LIVE_CAPACITY=24','-DMP_CACHE_CAPACITY=56','-DCO_MULTIPLE_OD'],
             ['gateway/microphone/test_unified_control.c',*shared]),
+        'scheduler_fixed':([*macros,'-DMP_FINAL_UNIFIED'],['gateway/microphone/test_unified_scheduler.c','gateway/storage/router.c','gateway/data_model/model.c','gateway/b5/b5_policy.c']),
+        'scheduler_before':(macros,['gateway/microphone/test_unified_scheduler.c','gateway/storage/router.c','gateway/data_model/model.c','gateway/b5/b5_policy.c']),
+        'can_software_replay':(['-Wno-unused-parameter',*macros,'-DMP_FINAL_UNIFIED','-DMP_ABC_TRI_CANDIDATE','-DB4_BXCAN_MMIO_TEST','-DABC_MMIO_INPUT','-DCO_MULTIPLE_OD'],
+            ['gateway/microphone/test_unified_replay.c','gateway/dual_can/b4_bxcan.c','gateway/dual_can/b4_bus.c','gateway/dual_can/b4_gateway.c',
+             'gateway/canopen/src/mp_od.c','gateway/data_model/model.c','gateway/storage/router.c',
+             'gateway/third_party/CANopenNode/CANopen.c',*[str(p.relative_to(ROOT)) for p in sorted((ROOT/'gateway/third_party/CANopenNode/301').glob('*.c'))]]),
         'format':([],['gateway/microphone/test_format.c','gateway/microphone/mic_format.c']),
         'legacy_egress':(macros,['gateway/b5/test_egress_async.c','gateway/mqtt/src/gateway_transport.c',*transport])}
     results=[]

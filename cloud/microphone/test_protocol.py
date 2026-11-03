@@ -45,6 +45,32 @@ class ProtocolChecks(unittest.TestCase):
                 with self.assertRaises(ValueError):a.feed('C',bad,1)
             else:a.feed('C',bad,1)
 
+    def test_new_start_replaces_interrupted_session_before_and_after_expiry(self):
+        for start in (10,100):
+            a=AudioAssembler();old=packets()
+            for p in old[:9]:a.feed('C',p,0)
+            result=None
+            for p in old:
+                fresh=bytearray(p);struct.pack_into('<I',fresh,4,8)
+                result=a.feed('C',fresh,start)
+            self.assertEqual(result['session'],8)
+            self.assertEqual(result['pcm'],bytes(range(256))*250)
+
+    def test_duplicate_does_not_renew_expiry_and_old_start_is_rejected(self):
+        p=packets();a=AudioAssembler();a.feed('C',p[0],0);a.feed('C',p[0],80)
+        with self.assertRaises(ValueError):a.feed('C',p[1],90)
+        a=AudioAssembler();fresh=bytearray(p[0]);struct.pack_into('<I',fresh,4,8)
+        a.feed('C',fresh,0)
+        with self.assertRaises(ValueError):a.feed('C',p[0],1)
+
+    def test_completed_replay_stays_rejected_after_partial_is_replaced(self):
+        a=AudioAssembler();old=packets()
+        for p in old:a.feed('C',p,0)
+        fresh=bytearray(old[0]);struct.pack_into('<I',fresh,4,8);a.feed('C',fresh,1)
+        newer=bytearray(old[0]);struct.pack_into('<I',newer,4,9);a.feed('C',newer,1)
+        with self.assertRaises(ValueError):a.feed('C',old[0],2)
+        self.assertEqual(a.active['C']['session'],9)
+
     def test_host_separate_and_reply(self):
         a=AudioAssembler();p=packets();a.feed('HOST',p[0],0)
         with self.assertRaises(ValueError):a.feed('C',p[1],1)
