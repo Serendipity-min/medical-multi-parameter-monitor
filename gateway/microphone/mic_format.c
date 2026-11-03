@@ -11,13 +11,15 @@ int16_t mic_pcm16(uint16_t high, uint16_t low) {
     return (int16_t)(v >= 0 ? v / 256 : -((-v + 255) / 256));
 }
 
-uint32_t mic_crc32(const void *data, unsigned bytes) {
+uint32_t mic_crc32_update(uint32_t crc, const void *data, unsigned bytes) {
     const uint8_t *p = data;
-    uint32_t crc = 0xffffffffu;
     for (unsigned i = 0; i < bytes; ++i) {
         crc ^= p[i];
         for (unsigned b = 0; b < 8; ++b)
             crc = (crc >> 1) ^ ((crc & 1u) ? 0xedb88320u : 0u);
     }
-    return crc ^ 0xffffffffu;
+    return crc;
+}
+uint32_t mic_crc32(const void *data, unsigned bytes) {
+    return mic_crc32_update(0xffffffffu, data, bytes) ^ 0xffffffffu;
 }

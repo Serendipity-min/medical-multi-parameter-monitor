@@ -187,6 +187,9 @@ void mic_record_begin(void) { start(); }
 unsigned mic_record_state(void) { return state; }
 const int16_t *mic_record_pcm(unsigned *count) { *count = frames; return pcm; }
 void mic_record_export(void) { dump(); }
+void mic_diagnostics(MicDiag *d) {
+    *d = (MicDiag){frames, blocks, dma_errors, overruns, decode_cycles_max};
+}
 void mic_record_cancel(void) { stop(); fault_flags |= 16u; state = 3; text("MIC_OWNER_STOP\r\n"); }
 void mic_record_poll(void) {
     if (state == 1) {

@@ -9,7 +9,10 @@
 #define B4_ECG_BATCH 100u
 /* 隔离台架的管理禁用优先于物理ESR正常；CAN1共享时钟不等于允许A段发送。 */
 static inline int b4_hw_protocol_link_up(unsigned bus,int physical_up) {
-#if defined(B4_CAPTURE_SERIAL) || (defined(MP_B5_CLOUD_CANDIDATE) && !defined(MP_ABC_TRI_CANDIDATE))
+#ifdef MP_FINAL_UNIFIED
+    extern unsigned final_can_mask;
+    return bus<2 && (final_can_mask&(1u<<bus)) && physical_up;
+#elif defined(B4_CAPTURE_SERIAL) || (defined(MP_B5_CLOUD_CANDIDATE) && !defined(MP_ABC_TRI_CANDIDATE))
     return bus==1 && physical_up;
 #else
     return bus<2 && physical_up;

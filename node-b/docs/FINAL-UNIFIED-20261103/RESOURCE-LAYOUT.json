@@ -1,0 +1,59 @@
+{
+  "scope": "ACTUAL_ELF_LINK_NOT_RUNTIME_MEASUREMENT",
+  "candidate": "ABC_UNIFIED_C_V1",
+  "native_build_exit": 0,
+  "flash": {
+    "boot_address": "0x08000000",
+    "boot_bytes": 392,
+    "code_address": "0x08010000",
+    "code_bytes": 52904,
+    "total_image_bytes": 53296,
+    "sector4_free_bytes": 12632,
+    "erase_write_ranges_inclusive": [
+      "0x08000000-0x08003FFF",
+      "0x08010000-0x0801FFFF"
+    ],
+    "owner_sector4_approval": "PENDING",
+    "all_other_sectors_and_Options": "PRESERVE",
+    "reset_vector": "0x0801A5DD",
+    "MSP": "0x20020000",
+    "VTOR": "0x08000000",
+    "data_LMA": "0x0801CE40",
+    "data_VMA": "0x20000000",
+    "data_bytes": 104
+  },
+  "normal_SRAM": {
+    "capacity_bytes": 131072,
+    "data_bss_bytes": 81516,
+    "alignment_bytes": 4,
+    "fixed_heap_reserve_bytes": 24576,
+    "minimum_stack_reserve_bytes": 8192,
+    "total_with_heap_and_min_stack": 114288,
+    "additional_slack_bytes": 16784,
+    "total_stack_region_above_heap_bytes": 24976,
+    "runtime_watermark": "NOT_RUN"
+  },
+  "CCM": {
+    "CPU_PCM_address": "0x10000000",
+    "CPU_PCM_bytes": 64000,
+    "free_bytes": 1536,
+    "DMA_access": "FORBIDDEN_BY_DESIGN"
+  },
+  "DMA": [
+    536893036,
+    2560
+  ],
+  "CAN_IRQ_priority": 3,
+  "MIC_DMA_IRQ_priority": 8,
+  "network_owner_count": 1,
+  "main_count": 1,
+  "SysTick_count": 1,
+  "capacity_48KiB_initial_native_exit": 1,
+  "capacity_48KiB_initial_overflow_bytes": 3808,
+  "default_C44520_rebuild": {
+    "native_exit": 0,
+    "BIN_SHA256": "5f4690eca0a00334ff1a9b653be2a0b99cba034b869ae4592dd36a042a147442",
+    "matches_historical": true
+  },
+  "preexisting_warning": "_heap_end char/uint32 linker-symbol declaration mismatch; also present in byte-identical C44520 build; not a new runtime proof"
+}

@@ -1,0 +1,59 @@
+{
+  "scope": "OFFLINE_ONLY_NO_DLL_NO_UART_NO_CLOUD",
+  "final": {
+    "unified_split_build": 0,
+    "legacy_C44520_build": 0,
+    "host_driver": 0,
+    "host_compile_exits": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "host_run_exits": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "segmented_install_unittest_10_cases": 0,
+    "segmented_real_artifact_plan_only": 0
+  },
+  "preserved_initial_failures": [
+    {
+      "case": "48KiB capacity",
+      "exit": 1,
+      "cause": "text overflow3808 bytes"
+    },
+    {
+      "case": "host transport fixture compile",
+      "exit": 1,
+      "cause": "missing declaration mock_poll_callback; fixed fixture"
+    },
+    {
+      "case": "host audio fixture compile",
+      "exit": 1,
+      "cause": "missing MP_CLOUD_VOICE macro; fixed fixture"
+    },
+    {
+      "case": "legacy fixture execution",
+      "exit": 3,
+      "cause": "driver omitted original MP_B5_CLOUD_CANDIDATE; restored macro, assertions unchanged"
+    },
+    {
+      "case": "control fixture link",
+      "exit": 1,
+      "cause": "unused renamed firmware entry still externally visible; fixed host whole-program optimization"
+    },
+    {
+      "case": "simultaneous default build",
+      "exit": 1,
+      "cause": "Windows clock timestamp directory collision; reran sequentially"
+    }
+  ],
+  "hardware_SDK_Open_calls": 0,
+  "hardware_Flash_writes": 0,
+  "cloud_changes": 0
+}

@@ -13,6 +13,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef MP_FINAL_UNIFIED
+#include "unified_audio.h"
+#include "mic_protocol.h"
+#include "b5_policy.h"
+static MQTTPubAckInfo_t incoming[1];
+static uint16_t audio_subscription;
+static uint32_t audio_subscription_at;
+static int audio_subscribed, audio_pending, audio_result;
+static GatewayConfig unified_config;
+#define AUDIO_INPUT "mpm/mic/v1/in"
+#define AUDIO_OUTPUT "mpm/mic/v1/out"
+#endif
 #ifdef MP_B5_CLOUD_CANDIDATE
 #include "b5_policy.h"
 #endif
@@ -123,6 +135,9 @@ static inline void secure_memzero(void *ptr, size_t len)
 
 static void mqtt_failed(void)
 {
+#ifdef MP_FINAL_UNIFIED
+    audio_pending=0;audio_result=GW_FAILED;audio_subscribed=0;
+#endif
     mqtt_online = 0;
     session_error = 1;
     acknowledged = 0;
@@ -134,6 +149,22 @@ static void mqtt_failed(void)
 static void mqtt_event(MQTTContext_t *context, MQTTPacketInfo_t *packet,
                        MQTTDeserializedInfo_t *decoded)
 {
+#ifdef MP_FINAL_UNIFIED
+    if(context==&client && decoded->deserializationResult==MQTTSuccess) {
+        if(packet->type==MQTT_PACKET_TYPE_SUBACK && decoded->packetIdentifier==audio_subscription) {
+            uint8_t *codes=NULL;size_t count=0;
+            audio_subscribed=MQTT_GetSubAckStatusCodes(packet,&codes,&count)==MQTTSuccess && count==1 && codes[0]==1?1:-1;
+            return;
+        }
+        if((packet->type&0xf0u)==MQTT_PACKET_TYPE_PUBLISH) {
+            MQTTPublishInfo_t *p=decoded->pPublishInfo;
+            if(p && p->qos==MQTTQoS1 && !p->retain && p->topicNameLength==sizeof(AUDIO_OUTPUT)-1 &&
+               !memcmp(p->pTopicName,AUDIO_OUTPUT,sizeof(AUDIO_OUTPUT)-1) && p->payloadLength<=76)
+                unified_audio_reply(p->pPayload,p->payloadLength);
+            return;
+        }
+    }
+#endif
     if (context != &client || (packet->type & 0xf0U) == MQTT_PACKET_TYPE_PUBLISH)
     {
 #ifdef MP_CAN_RX_IRQ
@@ -199,13 +230,22 @@ int gateway_mqtt_open(const MpFrame *will_frame)
     }
     session_error = acknowledged = partial_waiting = mqtt_online = 0;
     pending_id = 0;
+#ifdef MP_FINAL_UNIFIED
+    audio_pending=0;audio_result=GW_DEFERRED;audio_subscribed=0;audio_subscription=0;
+    memset(incoming,0,sizeof incoming);
+#endif
     memset(outgoing, 0, sizeof(outgoing));
     memset(rx_buffer, 0, sizeof(rx_buffer));
     TransportInterface_t transport = mqtt_adapter_interface(&network);
     MQTTFixedBuffer_t buffer = {rx_buffer, sizeof(rx_buffer)};
     MQTTStatus_t status = MQTT_Init(&client, &transport, mqtt_adapter_time, mqtt_event, &buffer);
     if (status == MQTTSuccess)
-        status = MQTT_InitStatefulQoS(&client, outgoing, 1, NULL, 0);
+        status = MQTT_InitStatefulQoS(&client, outgoing, 1,
+#ifdef MP_FINAL_UNIFIED
+                                     incoming, 1);
+#else
+                                     NULL, 0);
+#endif
     client.nextPacketId = next_packet_seed;
     MQTTConnectInfo_t options = {0};
     options.keepAliveSeconds = 15;
@@ -318,7 +358,12 @@ int gateway_mqtt_admit(void) {
 int gateway_mqtt_begin(const MpFrame *frame) {
     if(!mqtt_online || !network.connected)return GW_FAILED;
     bool qos1=!frame->rate || frame->replay;
-    if(qos1 && pending_id)return GW_FAILED;
+    if(qos1 && pending_id) {
+#ifdef MP_FINAL_UNIFIED
+        if(audio_pending)return GW_DEFERRED;
+#endif
+        return GW_FAILED;
+    }
     if(pending_id && (uint32_t)(g_uptime_ms-pending_started)>=5000u)return GW_FAILED;
     static char payload[2048];char topic[120];
     uint32_t json_at=g_uptime_ms;
@@ -356,11 +401,64 @@ int gateway_mqtt_progress(void) {
     if(!process_once()){mqtt_metrics.failed++;return GW_FAILED;}
     if(pending_id) {
         if((uint32_t)(g_uptime_ms-pending_started)>=5000u){mqtt_metrics.failed++;mqtt_failed();return GW_FAILED;}
-        if(!acknowledged)return GW_PENDING;
+        if(!acknowledged) {
+#ifdef MP_FINAL_UNIFIED
+            if(audio_pending)return GW_COMPLETE;
+#endif
+            return GW_PENDING;
+        }
         b5_latency_add(&mqtt_metrics.ack,g_uptime_ms-pending_started);
-        mqtt_metrics.q1_acked++;pending_id=0;acknowledged=0;
+#ifdef MP_FINAL_UNIFIED
+        if(audio_pending){audio_pending=0;audio_result=GW_COMPLETE;}
+        else {mqtt_metrics.q1_acked++;}
+#else
+        mqtt_metrics.q1_acked++;
+#endif
+        pending_id=0;acknowledged=0;
     }
     return GW_COMPLETE;
+}
+#endif
+
+#ifdef MP_FINAL_UNIFIED
+/* 仅统一候选使用易失副本；不改Flash配置/授时来源或原B5配置判据。 */
+int gateway_audio_configure(const uint8_t *p,size_t n) {
+    if(mqtt_online || !mic_config_packet_valid(p,n) || !gateway_config_valid())return 0;
+    if(p[36] || p[101] || p[142] || p[175] || p[240] ||
+       !b5_identity_allowed((const char *)p+102,(const char *)p+4))return 0;
+    unified_config=*config;
+    memcpy(unified_config.username,p+4,33);memcpy(unified_config.password,p+37,65);
+    memcpy(unified_config.client_id,p+102,41);memcpy(unified_config.ssid,p+143,33);
+    memcpy(unified_config.wifi_password,p+176,65);
+    config=&unified_config;return 1;
+}
+int gateway_audio_subscribe(void) {
+    if(!mqtt_online || pending_id)return GW_FAILED;
+    audio_subscription=MQTT_GetPacketId(&client);next_packet_seed=client.nextPacketId;
+    audio_subscription_at=g_uptime_ms;audio_subscribed=0;
+    MQTTSubscribeInfo_t s={MQTTQoS1,AUDIO_OUTPUT,sizeof(AUDIO_OUTPUT)-1};
+    mqtt_adapter_begin(&network,5000);
+    if(MQTT_Subscribe(&client,&s,1,audio_subscription)!=MQTTSuccess){audio_subscribed=-1;return GW_FAILED;}
+    return GW_PENDING;
+}
+int gateway_audio_ready(void) {
+    if(!mqtt_online || !network.connected)return 0;
+    if(!audio_subscribed && (uint32_t)(g_uptime_ms-audio_subscription_at)>=5000u)audio_subscribed=-1;
+    return audio_subscribed==1;
+}
+int gateway_audio_result(void) {return audio_result;}
+int gateway_audio_begin(const uint8_t packet[544]) {
+    if(!gateway_audio_ready())return GW_FAILED;
+    if(pending_id || !platform_send_admissible(544+sizeof(AUDIO_INPUT)+9,5000))return GW_DEFERRED;
+    MQTTPublishInfo_t p={0};p.qos=MQTTQoS1;p.pTopicName=AUDIO_INPUT;
+    p.topicNameLength=sizeof(AUDIO_INPUT)-1;p.pPayload=packet;p.payloadLength=544;
+    pending_id=MQTT_GetPacketId(&client);next_packet_seed=client.nextPacketId;
+    acknowledged=0;audio_pending=1;audio_result=GW_PENDING;pending_started=g_uptime_ms;
+    mqtt_adapter_begin(&network,5000);
+    if(MQTT_Publish(&client,&p,pending_id)!=MQTTSuccess || !network.connected || session_error) {
+        mqtt_failed();return GW_FAILED;
+    }
+    return GW_PENDING;
 }
 #endif
 

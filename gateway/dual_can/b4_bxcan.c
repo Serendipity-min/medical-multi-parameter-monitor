@@ -1,6 +1,9 @@
 /* 双bxCAN独立候选驱动；受限台架与正式H3的部署身份分别管理。 */
 #include "b4_bxcan.h"
 #include "b4_resources.h"
+#ifdef MP_FINAL_UNIFIED
+extern unsigned final_can_mask;
+#endif
 #if defined(B4_BXCAN_MMIO_TEST)
 #include "tests/bxcan_mmio_shim.h"
 #else
@@ -66,6 +69,9 @@ int b4_hw_init(void) {
         can.CAN_ABOM = ENABLE; can.CAN_NART = DISABLE; can.CAN_RFLM = ENABLE;
         can.CAN_TXFP = ENABLE; /* 同一COB-ID按请求次序，避免多邮箱并发造成倒序。 */
         can.CAN_Mode = CAN_Mode_Normal; can.CAN_SJW = CAN_SJW_1tq;
+#ifdef MP_FINAL_UNIFIED
+        if(!(final_can_mask&(1u<<bus)))can.CAN_Mode=CAN_Mode_Silent;
+#endif
 #if defined(MP_B5_CLOUD_CANDIDATE) && !defined(MP_ABC_TRI_CANDIDATE)
         /* CAN2仍需CAN1共享时钟；首轮A段只保留静默控制器，不收发/ACK A。 */
         if (!bus) can.CAN_Mode = CAN_Mode_Silent;
@@ -83,6 +89,9 @@ int b4_hw_init(void) {
         filter.CAN_FilterMode = CAN_FilterMode_IdMask; filter.CAN_FilterScale = CAN_FilterScale_32bit;
         filter.CAN_FilterMaskIdLow = 6; /* IDE=0、RTR=0，其余在协议入口按节点/总线过滤。 */
         filter.CAN_FilterFIFOAssignment = CAN_Filter_FIFO0; filter.CAN_FilterActivation = ENABLE;
+#ifdef MP_FINAL_UNIFIED
+        if(!(final_can_mask&(1u<<bus)))filter.CAN_FilterActivation=DISABLE;
+#endif
 #if defined(MP_B5_CLOUD_CANDIDATE) && !defined(MP_ABC_TRI_CANDIDATE)
         if (!bus) filter.CAN_FilterActivation = DISABLE;
 #endif
@@ -91,6 +100,9 @@ int b4_hw_init(void) {
         NVIC_InitTypeDef nvic; nvic.NVIC_IRQChannel = bus ? CAN2_RX0_IRQn : CAN1_RX0_IRQn;
         nvic.NVIC_IRQChannelPreemptionPriority = 3; nvic.NVIC_IRQChannelSubPriority = bus;
         nvic.NVIC_IRQChannelCmd = ENABLE;
+#ifdef MP_FINAL_UNIFIED
+        if(!(final_can_mask&(1u<<bus)))nvic.NVIC_IRQChannelCmd=DISABLE;
+#endif
 #if defined(MP_B5_CLOUD_CANDIDATE) && !defined(MP_ABC_TRI_CANDIDATE)
         if (!bus) nvic.NVIC_IRQChannelCmd = DISABLE;
 #endif
@@ -121,6 +133,9 @@ static void completed(unsigned bus) {
 }
 int b4_bus_transmit(unsigned bus, const MpCanFrame *frame) {
     if (hw_stopped || bus > 1 || frame->ident > 0x7ff || frame->dlc > 8) return 0;
+#ifdef MP_FINAL_UNIFIED
+    if(!(final_can_mask&(1u<<bus)))return 0;
+#endif
 #if defined(MP_B5_CLOUD_CANDIDATE) && !defined(MP_ABC_TRI_CANDIDATE)
     if (!bus) return 0;
 #endif

@@ -14,3 +14,20 @@ artifacts/ecg-source/g2s/** -text
 
 /gateway/mqtt/src/gateway_transport.c -text
 /gateway/mqtt/src/core_mqtt_config.h -text
+
+# FINAL统一候选的真实源码/回执字节固定。
+/gateway/dual_can/b4_bxcan.c -text
+/gateway/dual_can/b4_resources.h -text
+/gateway/dual_can/build_arm.py -text
+/gateway/microphone/bench_main.c -text
+/gateway/microphone/mic_api.h -text
+/gateway/microphone/mic_format.c -text
+/gateway/microphone/mic_format.h -text
+/gateway/microphone/unified_audio.c -text
+/gateway/microphone/unified_audio.h -text
+/gateway/microphone/unified_install.py -text
+/gateway/microphone/test_unified.py -text
+/gateway/microphone/test_unified_audio.c -text
+/gateway/microphone/test_unified_control.c -text
+/gateway/microphone/test_unified_install.py -text
+/gateway/microphone/test_unified_transport.c -text

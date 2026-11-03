@@ -5,6 +5,15 @@
 #include "esp_io_metrics.h"
 #include <string.h>
 #include <stdio.h>
+#ifdef MP_FINAL_UNIFIED
+#include "unified_audio.h"
+#include "mic_protocol.h"
+unsigned final_can_mask;
+static uint32_t run_limit_ms=B5_WINDOW_MS;
+static bool network_fault;
+static uint32_t uart_error_baseline;
+static void local_control(void);
+#endif
 #if defined(MP_B5_EGRESS_FINAL) && defined(__arm__)
 #include "ram_watermark.h"
 #endif
@@ -26,12 +35,23 @@ static volatile bool stop_due;
 static uint32_t stop_tick,stop_reason,stop_live,stop_cache;
 static EspIoMetrics stop_io;
 uint32_t b5_business_remaining(void) {
+#ifdef MP_FINAL_UNIFIED
+    if(!run_limit_ms)return 0x3fffffffu;
+    if(!armed)return run_limit_ms;
+    uint32_t used=g_uptime_ms-armed_at;return used>=run_limit_ms?0:run_limit_ms-used;
+#else
     if(!armed)return B5_WINDOW_MS;
     uint32_t used=g_uptime_ms-armed_at;return used>=B5_WINDOW_MS?0:B5_WINDOW_MS-used;
+#endif
 }
 void b5_hard_tick(void) {
     /* 中断只锁存截止和取证，不执行CAN库、AT、printf或关闭网络。 */
-    if(armed && !stopped && !stop_due && (uint32_t)(g_uptime_ms-armed_at)>=B5_WINDOW_MS) {
+    if(armed && !stopped && !stop_due &&
+#ifdef MP_FINAL_UNIFIED
+       run_limit_ms && (uint32_t)(g_uptime_ms-armed_at)>=run_limit_ms) {
+#else
+       (uint32_t)(g_uptime_ms-armed_at)>=B5_WINDOW_MS) {
+#endif
         stop_tick=g_uptime_ms;stop_reason=1;stop_live=gateway.router.ln;stop_cache=gateway.router.cn;
         platform_io_snapshot(&stop_io);stop_due=true;
     }
@@ -39,6 +59,9 @@ void b5_hard_tick(void) {
 #endif
 uint32_t b4_hw_time(void) { return g_uptime_ms; }
 int b5_network_stopped(void) { return stopped
+#ifdef MP_FINAL_UNIFIED
+    ||network_fault
+#endif
 #ifdef MP_B5_EGRESS_FINAL
     ||stop_due
 #endif
@@ -57,6 +80,9 @@ static void report_stop(void) {
     }
 }
 static void stop(void) {
+#ifdef MP_FINAL_UNIFIED
+    unified_audio_stop();
+#endif
 #ifdef MP_B5_EGRESS_FINAL
     if(!stop_due){stop_tick=g_uptime_ms;stop_live=gateway.router.ln;stop_cache=gateway.router.cn;platform_io_snapshot(&stop_io);
         stop_reason=stop_io.unsynced?2:b5_business_remaining()==0?1:3;}
@@ -65,6 +91,45 @@ static void stop(void) {
     mp_router_online(&gateway.router, false); b4_hw_stop();
     report_stop();
 }
+#ifdef MP_FINAL_UNIFIED
+static void local_control(void) {
+    static char line[32];static unsigned used,config_count;
+    static uint8_t config_packet[249];static uint32_t config_at;
+    if(config_count && (uint32_t)(g_uptime_ms-config_at)>=5000u) {
+        config_count=0;memset(config_packet,0,sizeof config_packet);console("UNI CONFIG_TIMEOUT\r\n");
+    }
+    for(unsigned budget=0;budget<16;budget++) {
+        int c=console_char();if(c<0)break;
+        if(config_count || (!used && c=='F')) {
+            if(!config_count){config_at=g_uptime_ms;mic_config_byte(config_packet,&config_count,'C');}
+            else if(mic_config_byte(config_packet,&config_count,(uint8_t)c)==2) {
+                int ok=!armed && gateway_audio_configure(config_packet,sizeof config_packet);
+                memset(config_packet,0,sizeof config_packet);console(ok?"UNI CONFIG_OK\r\n":"UNI CONFIG_REJECTED\r\n");
+            }
+            continue;
+        }
+        if(armed || stopped) {
+            if(c=='I')console("UNI ID V1 DUAL_CAN_MIC_MQTT_TTS CONFIG_RAM\r\n");
+            else if(c=='X' && !stopped)stop();
+            else if(c=='R' && stopped)console("UNI RECORD_REJECTED_GATEWAY_STOPPED\r\n");
+            else unified_audio_command(c,stopped);
+            continue;
+        }
+        if(c=='I' && !used){console("UNI ID V1 DUAL_CAN_MIC_MQTT_TTS CONFIG_RAM\r\n");continue;}
+        if(c=='\r')continue;
+        if(c=='\n') {
+            if(!strcmp(line,"UNISTART C")){final_can_mask=0;run_limit_ms=0;}
+            else if(!strcmp(line,"UNISTART BC")){final_can_mask=2;run_limit_ms=0;}
+            else if(!strcmp(line,"UNISTART ABC")){final_can_mask=3;run_limit_ms=0;}
+            else if(!strcmp(line,"B5START")){final_can_mask=3;run_limit_ms=B5_WINDOW_MS;}
+            else {used=0;memset(line,0,sizeof line);continue;}
+            if(gateway_config_valid())armed=true;
+            used=0;memset(line,0,sizeof line);
+        } else if(used<sizeof line-1)line[used++]=(char)c;
+        else used=sizeof line-1;
+    }
+}
+#endif
 static void diagnostic(unsigned stage) {
     char line[300];
     /* 仅固定计数/状态，无Topic、载荷、Wi-Fi或凭据；QoS0不命名为云端接收成功。 */
@@ -76,6 +141,11 @@ static void diagnostic(unsigned stage) {
         (unsigned long)gateway.router.dropped,(unsigned long)mqtt_qos0_transport_ok,
         (unsigned long)mqtt_qos1_puback,(unsigned long)mqtt_failed_count,(unsigned)stopped);
     console(line);
+#ifdef MP_FINAL_UNIFIED
+    snprintf(line,sizeof line,"UNI CAN water_a=%lu water_b=%lu mask=%u limit_ms=%lu network_fault=%u\r\n",
+        (unsigned long)b4_hw_diag[0].high_water,(unsigned long)b4_hw_diag[1].high_water,
+        final_can_mask,(unsigned long)run_limit_ms,(unsigned)network_fault);console(line);
+#endif
 #ifdef MP_ABC_TRI_CANDIDATE
     (void)snprintf(line,sizeof(line),"ABC A_CAN rx=%lu txack=%lu txfail=%lu overflow=%lu esr=%lu\r\n",
         (unsigned long)b4_hw_diag[0].received,(unsigned long)b4_hw_diag[0].tx_acked,
@@ -137,6 +207,9 @@ static void diagnostic(unsigned stage) {
 #endif
 }
 static void diagnostic_idle(void) {
+#ifdef MP_FINAL_UNIFIED
+    if(!unified_audio_quiet())return;
+#endif
     static unsigned stage=23;
     static uint32_t essential_at;
     static bool queue_due;
@@ -175,16 +248,28 @@ static void transaction_stop_trace(void) {
 }
 #endif
 static void service(void) {
+#ifdef MP_FINAL_UNIFIED
+    if(stopped || !armed){unified_audio_local_poll();local_control();b4_hw_idle();return;}
+#else
     if (stopped) { report_stop(); b4_hw_idle(); return; }
     /* 未武装时不推进CANopen/TIME，避免B尚断电时发心跳耗尽ACK并积累BOFF。 */
     if (!armed) { b4_hw_idle(); return; }
+#endif
 #ifdef MP_ABC_TRI_CANDIDATE
     if (b4_hw_diag[0].overflow || b4_hw_diag[0].busoff || b4_hw_diag[0].tx_failed) { stop(); return; }
 #endif
-    if (armed && ((uint32_t)(g_uptime_ms - armed_at) >= B5_WINDOW_MS ||
-        b4_hw_diag[1].overflow || b4_hw_diag[1].busoff || b4_hw_diag[1].tx_failed || platform_uart_errors_total()
+    if (armed && (
+#ifdef MP_FINAL_UNIFIED
+        (run_limit_ms && (uint32_t)(g_uptime_ms-armed_at)>=run_limit_ms) ||
+#else
+        (uint32_t)(g_uptime_ms - armed_at) >= B5_WINDOW_MS ||
+#endif
+        b4_hw_diag[1].overflow || b4_hw_diag[1].busoff || b4_hw_diag[1].tx_failed
+#ifndef MP_FINAL_UNIFIED
+        || platform_uart_errors_total()
 #ifdef MP_B5_EGRESS_FINAL
         || platform_at_unsynced()
+#endif
 #endif
         )) {
         stop(); return;
@@ -193,6 +278,13 @@ static void service(void) {
     if (service_seen && (uint32_t)(g_uptime_ms - service_at) < B5_SERVICE_MS) return;
     service_seen = true; service_at = g_uptime_ms;
     b4_gateway_tick(&gateway, g_uptime_ms); b4_hw_poll(&gateway);
+#ifdef MP_FINAL_UNIFIED
+    if(!network_fault && (platform_at_unsynced() || platform_uart_errors_total()!=uart_error_baseline)) {
+        network_fault=true;network_open=mqtt_connected=false;
+        mp_router_online(&gateway.router,false);unified_audio_network(false);
+    }
+    unified_audio_local_poll();local_control();
+#endif
     if (network_open && g_uptime_ms - last_sync >= 10000u) {
         b4_gateway_sync_ms(&gateway, gateway_epoch_milliseconds(), g_uptime_ms);
         last_sync = g_uptime_ms;
@@ -207,11 +299,22 @@ int main(void) {
 #if defined(MP_B5_EGRESS_FINAL) && defined(__arm__)
     b5_stack_watermark_init();
 #endif
-    if (b4_gateway_init(&gateway) || b4_hw_init()) while (1) {}
+    if (b4_gateway_init(&gateway)
+#ifndef MP_FINAL_UNIFIED
+        || b4_hw_init()
+#endif
+       ) while (1) {}
 #ifndef MP_ABC_TRI_CANDIDATE
     b4_gateway_link(&gateway, 0, false);
 #endif
     platform_set_poll(service);
+#ifdef MP_FINAL_UNIFIED
+    console("UNI DISARMED V1 C_BC_ABC NO_FLASH_WRITE\r\n");
+    while(!armed){platform_poll();local_control();}
+    unified_audio_init();
+    if(b4_hw_init())for(;;){}
+    for(unsigned bus=0;bus<2;bus++)b4_gateway_link(&gateway,bus,(final_can_mask&(1u<<bus))!=0);
+#else
 #ifdef MP_ABC_TRI_CANDIDATE
     console("B5 DISARMED MOCK ABC_DUAL_CAN NO_FLASH_WRITE\r\n");
 #else
@@ -228,15 +331,29 @@ int main(void) {
         /* 超长整行保持拒绝，不能把其尾部误识别成新的完整命令。 */
         else used = sizeof(command) - 1;
     }
+#endif
     armed_at = g_uptime_ms;
 #ifdef MP_B5_EGRESS_FINAL
     unsigned startup_ntp_retries=0;
 #endif
 #ifdef MP_ABC_TRI_CANDIDATE
+#ifdef MP_FINAL_UNIFIED
+    if(final_can_mask&1)
+#endif
     (void)b4_gateway_nmt(&gateway, 1, CO_NMT_ENTER_OPERATIONAL);
+#endif
+#ifdef MP_FINAL_UNIFIED
+    if(final_can_mask&2)
 #endif
     (void)b4_gateway_nmt(&gateway, 2, CO_NMT_ENTER_OPERATIONAL);
     while (!stopped) {
+#ifdef MP_FINAL_UNIFIED
+        if(network_fault) {
+            /* AT边界未知只停网络，CAN/本地STOP继续；不能盲目重发未知半帧。 */
+            if(!platform_at_synchronized()){platform_poll();continue;}
+            network_fault=false;uart_error_baseline=platform_uart_errors_total();
+        }
+#endif
 #ifdef MP_B5_EGRESS_FINAL
         if(b5_business_remaining()<=B5_DRAIN_MS){while(!stopped)platform_poll();break;}
         drained=false;
@@ -249,8 +366,12 @@ int main(void) {
                 console("GW SNTP_NEXT_ENDPOINT\r\n");
                 delay_ms(3000);continue;
             }
+#ifdef MP_FINAL_UNIFIED
+            unified_audio_network(false);gateway_network_close();delay_ms(2000);continue;
+#else
             if(!stopped)stop();
             gateway_network_close();break;
+#endif
 #else
             if (!stopped) delay_ms(3000); continue;
 #endif
@@ -263,19 +384,34 @@ int main(void) {
         will.boot = ++connection; will.seq = UINT32_MAX;
         if (stopped || !gateway_mqtt_open(&will)) {
 #ifdef MP_B5_EGRESS_FINAL
+#ifdef MP_FINAL_UNIFIED
+            unified_audio_network(false);gateway_network_close();delay_ms(2000);continue;
+#else
             if(!stopped)stop();
             gateway_network_close();break;
+#endif
 #else
             gateway_network_close(); continue;
 #endif
         }
         mp_router_online(&gateway.router, true); mqtt_connected = true;
+#ifdef MP_FINAL_UNIFIED
+        (void)gateway_audio_subscribe();unified_audio_network(true);
+#endif
         status_at = g_uptime_ms - 5000u;
-        while (!stopped) {
+        while (!stopped
+#ifdef MP_FINAL_UNIFIED
+               && !network_fault
+#endif
+              ) {
             platform_poll();
 #ifdef MP_B5_EGRESS_FINAL
             bool allow_new=b5_business_remaining()>B5_DRAIN_MS;
             int progress=b5_egress_step(&gateway.router,&publisher,allow_new);
+#ifdef MP_FINAL_UNIFIED
+            unified_audio_step(!publisher.pending && !publisher.deferred && !gateway.router.ln && allow_new);
+            if(platform_at_synchronized() && !platform_console_busy())unified_audio_report();
+#endif
             diagnostic_idle();
             mqtt_qos0_transport_ok=publisher.q0;mqtt_qos1_puback=publisher.q1;mqtt_failed_count=publisher.failed;
             if(!progress)break;
@@ -298,8 +434,14 @@ int main(void) {
         }
         network_open = mqtt_connected = false; mp_router_online(&gateway.router, false);
 #ifdef MP_B5_EGRESS_FINAL
+#ifdef MP_FINAL_UNIFIED
+        unified_audio_network(false);
+        if(!drained)gateway_network_close();
+        memset(&publisher,0,sizeof publisher);
+#else
         if(!stopped)stop();
         if(!drained)gateway_network_close();
+#endif
 #else
         gateway_network_close();
 #endif
@@ -310,5 +452,10 @@ int main(void) {
     transaction_stop_trace();
 #endif
     for(unsigned i=0;i<23;i++)diagnostic(i);
-    while (1) b4_hw_idle();
+    while (1) {
+#ifdef MP_FINAL_UNIFIED
+        unified_audio_local_poll();local_control();unified_audio_report();
+#endif
+        b4_hw_idle();
+    }
 }

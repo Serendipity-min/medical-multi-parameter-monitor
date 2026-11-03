@@ -8,4 +8,5 @@
 int32_t mic_sample24(uint16_t high, uint16_t low);
 int16_t mic_pcm16(uint16_t high, uint16_t low);
 uint32_t mic_crc32(const void *data, unsigned bytes);
+uint32_t mic_crc32_update(uint32_t crc, const void *data, unsigned bytes);
 #endif

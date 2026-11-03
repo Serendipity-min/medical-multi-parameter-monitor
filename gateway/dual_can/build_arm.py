@@ -21,9 +21,15 @@ def main():
     parser.add_argument('--egress-final', action='store_true', help='仅B5出口收尾候选，离线构建')
     parser.add_argument('--tri', action='store_true', help='A/B双CAN与B5云端集成候选，保护原48KiB分区')
     parser.add_argument('--audio-link', action='store_true', help='仅离线保留MIC/TTS完整API与CCM缓存，不启用录音或新增现场命令')
+    parser.add_argument('--unified', action='store_true', help='真实三板语音统一运行候选；不执行设备操作')
+    parser.add_argument('--split-flash', action='store_true', help='统一候选分段布局：sector0向量、sector4代码；只构建，写sector4另需负责人确认')
+    parser.add_argument('--tls-port',type=int,help='统一候选的隔离TLS入口，默认1883；不更改原B5的8883目标')
     args = parser.parse_args()
     if args.tri and not (args.b5 and args.egress_final):parser.error('--tri requires --b5 --egress-final')
     if args.audio_link and not args.tri:parser.error('--audio-link requires --tri')
+    if args.unified and (not args.tri or args.audio_link):parser.error('--unified requires --tri and excludes --audio-link')
+    if args.split_flash and not args.unified:parser.error('--split-flash requires --unified')
+    if args.tls_port is not None and (not args.unified or not 1<=args.tls_port<=65535):parser.error('--tls-port requires --unified and port1..65535')
     if args.egress_final and not args.b5:parser.error('--egress-final requires --b5')
     spec = importlib.util.spec_from_file_location('b4_sdk', ROOT / 'gateway/esp_at_probe/build.py')
     base = importlib.util.module_from_spec(spec); spec.loader.exec_module(base)
@@ -90,18 +96,26 @@ def main():
         flags += ['-DMP_H3_FRESH_SNTP', '-I' + str(transport), '-I' + str(probe),
                   '-I' + str(out / 'reference-h3/gateway/physical_can/src'),
                   '-I' + str(mqtt / 'source/include'), '-I' + str(mqtt / 'source/interface')]
-    if args.audio_link:
-        sources += [ROOT/'gateway/microphone'/n for n in ('bench_main.c','mic_format.c','link_probe.c')]
+    if args.audio_link or args.unified:
+        sources += [ROOT/'gateway/microphone'/n for n in ('bench_main.c','mic_format.c')]
+        sources += [ROOT/'gateway/microphone'/n for n in (('mic_protocol.c','unified_audio.c') if args.unified else ('link_probe.c',))]
         sources += [ROOT/'gateway/voice'/n for n in ('tts_frame.c','tts_queue.c','tts_uart_port.c')]
         flags += ['-DMIC_SHARED_RUNTIME','-DMIC_NETWORK_BENCH','-DMP_CLOUD_VOICE',
                   '-I'+str(ROOT/'gateway/microphone'),'-I'+str(ROOT/'gateway/voice')]
+        if args.unified:flags += ['-DMP_FINAL_UNIFIED',f'-DMP_MQTT_TLS_PORT={args.tls_port or 1883}']
     linker = ROOT/'gateway/b5/flash.ld' if args.b5 else (HERE/'bench_flash.ld' if args.bench else ROOT/'gateway/mqtt/STM32F407ZGT6_FLASH.ld')
-    if args.audio_link:
+    if args.audio_link or args.unified:
         template=linker.read_text()
         memory='  RAM (xrw)   : ORIGIN = 0x20000000, LENGTH = 128K'
         assert template.count(memory)==1 and template.count('  /DISCARD/')==1
         template=template.replace(memory,memory+'\n  CCM (rw)    : ORIGIN = 0x10000000, LENGTH = 64K')
-        template=template.replace('  /DISCARD/', '  .ccm_audio (NOLOAD) : { *(.ccm_audio) } > CCM\n\n  .audio_link_probe : { KEEP(*(.audio_link_probe)) } > FLASH\n\n  /DISCARD/')
+        template=template.replace('  /DISCARD/', '  .ccm_audio (NOLOAD) : { *(.ccm_audio) } > CCM\n\n'+
+                                  ('  .audio_link_probe : { KEEP(*(.audio_link_probe)) } > FLASH\n\n' if args.audio_link else '')+'  /DISCARD/')
+        if args.split_flash:
+            template=template.replace('  FLASH (rx)  : ORIGIN = 0x08000000, LENGTH = 48K',
+                '  FLASH (rx)  : ORIGIN = 0x08010000, LENGTH = 64K\n  BOOT (rx)   : ORIGIN = 0x08000000, LENGTH = 16K')
+            first=template.index('  } > FLASH');template=template[:first]+template[first:].replace('  } > FLASH','  } > BOOT',1)
+            template=template.replace('<=0x0800C000','<=0x08020000').replace('APPLICATION_OVERLAPS_CONFIG_SECTOR3','CODE_EXCEEDS_SECTOR4')
         linker=out/'audio-ccm-link.ld';linker.write_text(template)
     log = bytearray(); commands = []; audio_layout=None
 
@@ -119,22 +133,37 @@ def main():
             warnings = ['-Wextra', '-Werror'] if source.is_relative_to(HERE) else []
             run([base.GCC, *flags, *warnings, '-c', source, '-o', obj]); objects.append(obj)
         obj = out / 'startup.o'; run([base.GCC, *flags, '-c', base.STARTUP, '-o', obj]); objects.append(obj)
-        target = 'ABC_AUDIO_LINK_PROBE' if args.audio_link else 'ABC_TRI_CLOUD_CANDIDATE' if args.tri else 'B5_CLOUD_MOCK_GATEWAY' if args.b5 else ('B4_GATEWAY_BENCH' if args.bench else ('B4_GATEWAY_NETWORK_SOFTWARE' if args.network_link else 'B4_GATEWAY_LINK_ONLY'))
+        target = 'ABC_UNIFIED_C_V1' if args.unified else 'ABC_AUDIO_LINK_PROBE' if args.audio_link else 'ABC_TRI_CLOUD_CANDIDATE' if args.tri else 'B5_CLOUD_MOCK_GATEWAY' if args.b5 else ('B4_GATEWAY_BENCH' if args.bench else ('B4_GATEWAY_NETWORK_SOFTWARE' if args.network_link else 'B4_GATEWAY_LINK_ONLY'))
         elf = out / (target + '.elf')
         run([base.GCC, *flags, '-T', linker,
              '-Wl,--gc-sections', '-Wl,-Map=' + str(out / 'gateway.map'), '--specs=nano.specs', '--specs=nosys.specs',
              *objects, '-lm', '-o', elf])
-        run([base.SIZE, elf]); run([base.OBJCOPY, '-O', 'binary', elf, out / (target + '.bin')])
+        run([base.SIZE, elf])
+        if args.split_flash:
+            run([base.OBJCOPY,'-O','ihex',elf,out/(target+'.hex')])
+            raw=elf.read_bytes();off=struct.unpack_from('<I',raw,28)[0];step,count=struct.unpack_from('<HH',raw,42)
+            pieces=[]
+            for i in range(count):
+                typ,fileoff,_,pa,fs,_,_,_=struct.unpack_from('<8I',raw,off+i*step)
+                if typ==1 and fs:
+                    assert (0x08000000<=pa<pa+fs<=0x08004000) or (0x08010000<=pa<pa+fs<=0x08020000)
+                    pieces.append((pa,raw[fileoff:fileoff+fs]))
+            for name,lo,hi in (('boot',0x08000000,0x08004000),('code',0x08010000,0x08020000)):
+                selected=[(a,b) for a,b in pieces if lo<=a<hi];assert selected
+                end=max(a+len(b) for a,b in selected);data=bytearray(b'\xff'*(end-lo))
+                for a,b in selected:data[a-lo:a-lo+len(b)]=b
+                (out/(target+'-'+name+'.bin')).write_bytes(data)
+        else:run([base.OBJCOPY, '-O', 'binary', elf, out / (target + '.bin')])
         if args.b5:
             nm=base.GCC.with_name('arm-none-eabi-nm'+base.GCC.suffix)
             symbols=run([nm,elf]);(out/'symbols.txt').write_bytes(symbols)
             table={p[2]:(int(p[0],16),p[1]) for line in symbols.decode().splitlines() if len(p:=line.split())==3}
-            image=(out/(target+'.bin')).read_bytes()
+            image=(out/(target+('-boot.bin' if args.split_flash else '.bin'))).read_bytes()
             # F407 SDK: CAN2_RX0_IRQn=64，向量号=16+64；不能错用CAN2_TX的63。
             for name,index in (('CAN1_RX0_IRQHandler',36),('CAN2_RX0_IRQHandler',80),('USART3_IRQHandler',55)):
                 if table.get(name,(0,'W'))[1]!='T' or int.from_bytes(image[index*4:index*4+4],'little')!=(table[name][0]|1):
                     raise RuntimeError('B5实际中断向量未绑定:'+name)
-            if args.audio_link:
+            if args.audio_link or args.unified:
                 for name,index in (('DMA1_Stream0_IRQHandler',27),('USART2_IRQHandler',54),('SysTick_Handler',15)):
                     assert table.get(name,(0,'W'))[1]=='T' and int.from_bytes(image[index*4:index*4+4],'little')==table[name][0]|1
                 sizes=run([nm,'-S',elf]).decode()
@@ -147,10 +176,10 @@ def main():
                 for i in range(count):
                     typ,_,va,pa,fs,ms,_,_=struct.unpack_from('<8I',raw,off+i*step)
                     if typ!=1:continue
-                    assert not fs or 0x08000000<=pa<pa+fs<=0x0800c000
+                    assert not fs or 0x08000000<=pa<pa+fs<=0x0800c000 or (args.split_flash and 0x08010000<=pa<pa+fs<=0x08020000)
                     loads.append({'RAM_start':va,'load_start':pa,'load_bytes':fs,'memory_bytes':ms})
                 audio_layout={'load_segments':loads,'DMA':dma[0],'PCM':pcm[0],
-                              'audio_IRQ_priority':8,'CAN_IRQ_priority':3,'runtime_enabled':False}
+                              'audio_IRQ_priority':8,'CAN_IRQ_priority':3,'runtime_enabled':args.unified}
             if len(image)>49152 or any(n.encode() in symbols for n in ('FLASH_EraseSector','FLASH_ProgramWord')):
                 raise RuntimeError('B5应用越过sector2或包含Flash写入口')
             irq_vector_verified=True
@@ -176,6 +205,16 @@ def main():
                 # heap.c是既有纯内存分配封装，不含网络/配置；其余传输源不允许混入。
                 if any('gateway/mqtt/src' in p.as_posix() and p.name != 'heap.c' for p in sources):
                     raise RuntimeError('台架源白名单失败')
+        if args.split_flash:
+            def artifact(p):return {'file':p.name,'SHA256':hashlib.sha256(p.read_bytes()).hexdigest()}
+            layout={'schema':1,'target':target,'erase_sectors':[0,4],'sector4_owner_approval_required':True,
+                'images':[dict(address=a,bytes=(out/(target+'-'+n+'.bin')).stat().st_size,
+                    **artifact(out/(target+'-'+n+'.bin'))) for n,a in [('boot',0x08000000),('code',0x08010000)]],
+                'HEX':artifact(out/(target+'.hex')),'ELF':artifact(elf),'TLS_port':args.tls_port or 1883,
+                'time_policy':'B5_FRESH_SNTP_UNCHANGED',
+                'normal_runtime_limit':'UNISTART manual-stop; B5START retains420s',
+                'sector3_options_and_all_other_sectors':'PRESERVE'}
+            (out/'unified-layout.json').write_text(json.dumps(layout,indent=2)+'\n')
         status = 'PASS'
     except RuntimeError as error:
         log.extend(str(error).encode())
@@ -187,20 +226,21 @@ def main():
         headers += list((out / 'reference-h3').rglob('*.h'))
     if args.b5:
         headers += [*ROOT.glob('gateway/b5/*.h'),*ROOT.glob('gateway/mqtt/src/*.h')]
-    if args.audio_link:headers += [*ROOT.glob('gateway/microphone/*.h'),*ROOT.glob('gateway/voice/*.h')]
+    if args.audio_link or args.unified:headers += [*ROOT.glob('gateway/microphone/*.h'),*ROOT.glob('gateway/voice/*.h')]
     report = {'ABC_tri_candidate': args.tri, 'version': 'B5-001' if args.b5 else 'B4-0.2', 'status': status,
-              'scope': 'B5_CLOUD_MOCK_SOFTWARE_ONLY_NOT_DEPLOYED' if args.b5 else ('C_ISOLATED_BENCH_LOCAL_TEST_TIME_NOT_DEPLOYED' if args.bench else ('C_DUAL_CAN_ARM_NETWORK_SOFTWARE_BUILD_NOT_DEPLOYED' if args.network_link else 'C_DUAL_CAN_ARM_LINK_ONLY')),
+              'scope': 'FINAL_UNIFIED_C_REAL_RUNTIME_OFFLINE_NOT_DEPLOYED' if args.unified else 'B5_CLOUD_MOCK_SOFTWARE_ONLY_NOT_DEPLOYED' if args.b5 else ('C_ISOLATED_BENCH_LOCAL_TEST_TIME_NOT_DEPLOYED' if args.bench else ('C_DUAL_CAN_ARM_NETWORK_SOFTWARE_BUILD_NOT_DEPLOYED' if args.network_link else 'C_DUAL_CAN_ARM_LINK_ONLY')),
               'bench_time': 'LOCAL_TEST_EPOCH_NOT_UTC' if args.bench else None,
               'bench_window_limit_ms': 180000 if args.bench else None,
               'bench_forbidden_symbols_absent': bool(args.bench and status == 'PASS'),
               'bench_UART_IRQ_vector_verified':irq_vector_verified,
               'linker_sha256': hashlib.sha256(linker.read_bytes()).hexdigest(),
               'audio_link_probe':args.audio_link,'audio_layout':audio_layout,
+              'unified_runtime':args.unified,'split_flash_requires_owner_approval':args.split_flash,
               'hardware_eligible': False, 'network_transport': 'B5_H3_TRANSPORT_B4_RETRY_DRIVER_ARM_LINKED_NOT_EXECUTED' if args.b5 else ('H3_FROZEN_SOURCE_LINKED_NOT_EXECUTED' if args.network_link else 'NOT_LINKED_NOT_DEPLOYED'),
               'h3_reference_commit': 'a5cdd5b0b1ad48108fd631136e9de69e30582f2d', 'h3_reference_sha256': reference_sha, 'commands': commands,
               'log_sha256': hashlib.sha256(log).hexdigest(),
               'header_sha256': {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in headers},
-              'artifact_sha256': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in out.glob('*') if p.suffix in ('.bin', '.elf')},
+              'artifact_sha256': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in out.glob('*') if p.suffix in ('.bin', '.elf','.hex')},
               'source_sha256': {(str(p.relative_to(ROOT)) if p.is_relative_to(ROOT) else 'external-sdk/' + p.name):
                                 hashlib.sha256(p.read_bytes()).hexdigest() for p in sources}}
     (out / 'receipt.json').write_text(json.dumps(report, indent=2) + '\n')
