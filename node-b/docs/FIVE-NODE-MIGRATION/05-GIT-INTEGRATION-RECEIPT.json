@@ -286,9 +286,51 @@
   "known_limits": [
     "external_automation_and_untracked_script_branch_references_not_checked",
     "hardware_and_cloud_not_observed_this_turn",
-    "physical_unknowns_pending_owner"
+    "measurement_bus_combination_requires_field_identification",
+    "PCB_revision_transceiver_termination_and_CAN_length_unknown"
   ],
   "hardware_operations": "NOT_RUN",
   "security_scans": "NOT_RUN",
-  "original_worktree_changes": "PRESERVED"
+  "original_worktree_changes": "PRESERVED",
+  "owner_clarifications": {
+    "resistance_ohm": 41,
+    "resistance_measurement_ports": [
+      "C.CAN1",
+      "B.CAN1",
+      "E.CAN1"
+    ],
+    "connection_method": "BREADBOARD_PARALLEL",
+    "measurement_combination_differs_from_planned_bus_assignment": true,
+    "DE_ready": true,
+    "DE_board_family": "STM32F407_DEVELOPMENT_BOARD",
+    "DE_original_program_retention_required": false,
+    "DE_backup_required_by_owner": false,
+    "architecture": "D_TEMP_E_NIBP",
+    "classification_rules": "PENDING",
+    "CAN_trunk_length": "UNKNOWN"
+  },
+  "oximetry_source_review": {
+    "supported_architecture": "AFE4490_UNO_FRONTEND_TO_A_USART6_PC6_PC7_57600",
+    "library_version": "1.3.2",
+    "supplier_product_and_PCB_revision": "NOT_PHYSICALLY_VERIFIED",
+    "local_sources": [
+      {
+        "relative_to_owner_oximetry_folder": "使用教程.md",
+        "sha256": "8229fcb93133e410b0e58ca540b2da31e39c214b75145380a3e05687b164540c"
+      },
+      {
+        "relative_to_owner_oximetry_folder": "AFE4490_library/README.md",
+        "sha256": "c7ec3cff2cb975435db12cdffb292661a13479b2ca85ebfbff98a287f9841bda"
+      },
+      {
+        "relative_to_owner_oximetry_folder": "AFE4490_library/library.properties",
+        "sha256": "3b7d4ca246bccff937c79a504c39f323daf89fbe3bd02c13aa98fe1636588348"
+      }
+    ],
+    "code_sources": [
+      "node-a/STM32F407_HOSPITAL/USER/main.c",
+      "node-a/STM32F407_HOSPITAL/USER/merge_cfg.h",
+      "node-a/STM32F407_HOSPITAL/HARDWARE/UNO/uno.c"
+    ]
+  }
 }
