@@ -58,3 +58,17 @@ artifacts/ecg-source/g2s/** -text
 /node-b/tools/m0_review.py -text
 /node-b/tools/m0_stop_completion.py -text
 /node-b/tests/test_m0_entry.py -text
+
+# M1编译输入与交付制品按构建时字节保存，避免签出转换破坏清单哈希。
+/gateway/data_model/model.c -text
+/gateway/data_model/roles.h -text
+/gateway/dual_can/b4_gateway.h -text
+/gateway/storage/router.c -text
+/node-a/STM32F407_HOSPITAL/USER/main.c -text
+/node-a/STM32F407_HOSPITAL/USER/stm32f4xx_it.c -text
+/node-a/STM32F407_HOSPITAL/HARDWARE/CANopen/canopen_app.c -text
+/node-a/STM32F407_HOSPITAL/HARDWARE/app_bp.c -text
+/node-d/** -text
+/node-e/** -text
+/tools/build_five_node.py -text
+/node-b/docs/FIVE-NODE-MIGRATION/M1-20261104/** -text

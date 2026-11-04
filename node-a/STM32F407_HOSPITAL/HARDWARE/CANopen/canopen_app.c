@@ -56,6 +56,9 @@ static uint8_t stack_init(void) {
 
 uint8_t canopen_app_init(void) {
     /* CO_USE_GLOBALS 返回同一静态对象；不申请堆，也不复位传感器或显示状态。 */
+#ifdef MP_FIVE_NODE_A
+    OD_PERSIST_COMM.x1801_TPDOCommunicationParameter.COB_IDUsedByTPDO=0x80000281u;
+#endif
     g_CO=CO_new(NULL,NULL);
     return stack_init();
 }
@@ -83,6 +86,9 @@ void canopen_app_produce(void) {
     if(state!=ST_IDLE || (bp.valid && (uint32_t)(now-bp.valid_tick)>90000u))bp_blocked=1;
     uint8_t bp_ok=bp.valid && bp.result_generation && !bp_blocked && state==ST_IDLE && (uint32_t)(now-bp.valid_tick)<=90000u
         && bp.sys>0 && bp.sys<=400 && bp.dia>0 && bp.dia<=400;
+#ifdef MP_FIVE_NODE_A
+    bp_ok=0;
+#endif
     OD_RAM.x2120_vitals.SpO2=spo2_ok?(uint16_t)(measurement.spo2*100):0;
     OD_RAM.x2120_vitals.PR=pr_ok?(uint16_t)(measurement.pulse_rate*100):0;
     OD_RAM.x2120_vitals.NIBP_SYS=bp_ok?(uint16_t)(bp.sys*10):0;

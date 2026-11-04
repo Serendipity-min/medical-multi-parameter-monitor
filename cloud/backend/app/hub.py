@@ -2,7 +2,7 @@
 
 import asyncio
 import time
-from .models import Telemetry, CHANNELS
+from .models import Telemetry, CHANNELS, NODE_PROFILE
 
 
 class Hub:
@@ -122,6 +122,7 @@ class Hub:
         return {
             'type': 'snapshot',
             'schema_version': 1,
+            'node_profile': NODE_PROFILE,
             'gateway_id': gateway,
             'gateways': self.gateways,
             'gateway_state': gateway_state,

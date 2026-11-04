@@ -2,6 +2,7 @@
 import hashlib
 import json
 import math
+import os
 
 CHANNELS = {
     'HR': ('NODE-B', 'bpm', '心率', 0, 350),
@@ -11,6 +12,9 @@ CHANNELS = {
     'TEMP': ('NODE-B', 'degC', '体温', 0, 60),
     'NIBP': ('NODE-A', 'mmHg', '血压', 0, 400),
 }
+if os.environ.get('MPM_NODE_PROFILE', 'three') == 'five':
+    CHANNELS['TEMP'] = ('NODE-D', 'degC', '物体温度', 0, 60)
+    CHANNELS['NIBP'] = ('NODE-E', 'mmHg', '血压', 0, 400)
 KEYWORDS = {'心率': 'HR', '血氧': 'SPO2', '脉率': 'PR', '呼吸率': 'RR', '体温': 'TEMP', '血压': 'NIBP'}
 
 

@@ -1,9 +1,16 @@
 """MQTT 与浏览器共用的内部数据语义；时间戳统一为毫秒。"""
 
 from typing import Literal
+import os
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 CHANNELS = {'NODE-A': {'PPG', 'SPO2', 'PR', 'NIBP'}, 'NODE-B': {'ECG', 'HR', 'RESP', 'RR', 'TEMP'}}
+NODE_PROFILE = os.environ.get('MPM_NODE_PROFILE', 'three')
+if NODE_PROFILE not in ('three', 'five'):
+    raise ValueError('MPM_NODE_PROFILE must be three or five')
+if NODE_PROFILE == 'five':
+    CHANNELS = {'NODE-A': {'PPG', 'SPO2', 'PR'}, 'NODE-B': {'ECG', 'HR', 'RESP', 'RR'},
+                'NODE-D': {'TEMP'}, 'NODE-E': {'NIBP'}}
 WAVES = {'ECG', 'PPG', 'RESP'}
 UNITS = {
     'ECG': 'mV',
@@ -25,7 +32,7 @@ UNITS = {
 class Telemetry(BaseModel):
     model_config = ConfigDict(extra='forbid', allow_inf_nan=False, strict=True)
     gateway_id: str = Field(pattern=r'^[A-Za-z0-9-]{1,40}$')
-    node_id: str = Field(pattern=r'^(NODE-A|NODE-B|GATEWAY)$')
+    node_id: str = Field(pattern='^(' + '|'.join([*CHANNELS, 'GATEWAY']) + ')$')
     stream: str
     timestamp: int = Field(gt=0, le=2**53 - 1)
     seq: int = Field(ge=0, le=2**53 - 1)

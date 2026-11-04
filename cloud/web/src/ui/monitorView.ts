@@ -13,7 +13,7 @@ const icons: Record<Route | 'settings', string> = {
   ai: '<path d="M4 4h16v12H9l-5 4V4Z"/><path d="M8 8h8M8 12h5"/>',
   settings: '<path d="m12 2 3 3h4v4l3 3-3 3v4h-4l-3 3-3-3H5v-4l-3-3 3-3V5h4Z"/><circle cx="12" cy="12" r="3"/>',
 };
-const labels: Record<Route, string> = { overview: '监护总览', temp: '体温', ecg: '心电', spo2: '血氧', resp: '呼吸', nibp: '血压', ai: 'AI 助手' };
+const labels: Record<Route, string> = { overview: '监护总览', temp: '物体温度', ecg: '心电', spo2: '血氧', resp: '呼吸', nibp: '血压', ai: 'AI 助手' };
 const svg = (key: Route | 'settings') => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[key]}</svg>`;
 
 export function setupMonitorDOM(container: HTMLElement): void {
@@ -22,7 +22,7 @@ export function setupMonitorDOM(container: HTMLElement): void {
       <header class="app-header">
         <a class="brand" href="#/overview">${svg('ecg')}<span>多参数监护<small>工程样机 · 未接入患者身份</small></span></a>
         <div class="system-identity"><strong id="gateway-id">GW-DEV-001</strong><span id="connection">未连接</span><i id="connection-dot"></i></div>
-        <div class="nodes-status"><span id="gateway" class="node-chip">Gateway · OFFLINE</span><span id="node-a" class="node-chip">Node-A · OFFLINE</span><span id="node-b" class="node-chip">Node-B · OFFLINE</span></div>
+        <div class="nodes-status"><span id="gateway" class="node-chip">Gateway · OFFLINE</span><span id="node-a" class="node-chip">Node-A · OFFLINE</span><span id="node-b" class="node-chip">Node-B · OFFLINE</span><span id="node-d" class="node-chip" hidden>Node-D · OFFLINE</span><span id="node-e" class="node-chip" hidden>Node-E · OFFLINE</span></div>
         <strong id="source-banner" class="source-banner">等待数据源</strong>
         <div class="system-clock"><time id="clock">--:--:--</time><span id="today"></span></div>
         <button id="open-access" class="button-quiet">连接数据源</button>
@@ -61,8 +61,8 @@ function number(channel: ScalarChannel): string {
 
 function reading(p: Parameter): string {
   const unit = p.scalar === 'NIBP' ? 'mmHg' : p.scalar === 'TEMP' ? '°C' : p.scalar === 'SpO2' ? '%' : p.scalar === 'RR' ? '次/分' : 'bpm';
-  const title = { HR: '心率 HR', SpO2: '血氧 SpO₂', RR: '呼吸率 RR · 算法输出', NIBP: '无创血压 NIBP', TEMP: '红外体温 TEMP', PR: '脉率 PR' }[p.scalar];
-  return `<div class="reading"><div class="panel-heading"><strong>${title}</strong><span>${unit}</span></div>${number(p.scalar)}<div class="reading-meta"><span id="state-${p.scalar}">STALE · OFFLINE</span><span>${p.node}</span></div>${p.scalar === 'NIBP' ? '<span class="measurement-time">最近测量 <time id="bp-updated">--</time></span>' : ''}</div>${p.scalar === 'SpO2' ? '<div class="pr-reading"><span>脉率 PR <small>bpm</small></span><strong id="value-PR">--</strong><small id="state-PR">STALE · OFFLINE</small></div>' : ''}`;
+  const title = { HR: '心率 HR', SpO2: '血氧 SpO₂', RR: '呼吸率 RR · 算法输出', NIBP: '无创血压 NIBP', TEMP: '物体温度 TEMP', PR: '脉率 PR' }[p.scalar];
+  return `<div class="reading"><div class="panel-heading"><strong>${title}</strong><span>${unit}</span></div>${number(p.scalar)}<div class="reading-meta"><span id="state-${p.scalar}">STALE · OFFLINE</span><span id="source-${p.scalar}">${p.node}</span></div>${p.scalar === 'NIBP' ? '<span class="measurement-time">最近测量 <time id="bp-updated">--</time></span>' : ''}</div>${p.scalar === 'SpO2' ? '<div class="pr-reading"><span>脉率 PR <small>bpm</small></span><strong id="value-PR">--</strong><small id="state-PR">STALE · OFFLINE</small></div>' : ''}`;
 }
 
 function wave(channel: WaveChannel, route: Route, detail = false): string {
@@ -97,7 +97,7 @@ export function renderRoute(route: Route, container: HTMLElement): void {
       ${p.wave ? wave(p.wave, route, true) : ''}
       ${trend(p.scalar, p.scalar === 'NIBP' ? 'SYS / DIA · 离散测量记录' : `${p.scalar} · 本次会话趋势`)}
       <div class="detail-note"><span>${p.wave ? '波形采用相对幅值显示，不提供临床物理标定。' : '仅显示已接收测量结果。'}</span><span>有效性来自数据帧，不表示传感器自检通过。</span></div>
-    </div><aside class="detail-aside"><section class="device-panel"><div class="panel-heading"><strong>采集信息</strong><span>静态配置说明</span></div><dl>${p.facts.map(([key, value]) => `<div><dt>${key}</dt><dd>${value}</dd></div>`).join('')}</dl><p>节点在线只代表通信状态。</p></section>
+    </div><aside class="detail-aside"><section class="device-panel"><div class="panel-heading"><strong>采集信息</strong><span>静态配置说明</span></div><dl>${p.facts.map(([key, value]) => `<div><dt>${key}</dt><dd${key === '采集节点' ? ' id="detail-source"' : ''}>${value}</dd></div>`).join('')}</dl><p>节点在线只代表通信状态。</p></section>
       <section class="history-panel"><div class="panel-heading"><strong>最近记录</strong><span id="history-count">0 条</span></div><p class="history-caption">本次会话 · 断线保留 / 切换网关清空</p><div class="history-table-wrap"><table><thead><tr><th>采集时间</th><th>数值</th><th>有效性 / 来源</th></tr></thead><tbody id="history-rows"></tbody></table><p id="table-empty">尚未收到记录</p></div><button id="export-csv" disabled>导出本次会话 CSV</button><span id="export-status" role="status"></span></section>
     </aside></div>`;
 }

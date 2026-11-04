@@ -4,15 +4,23 @@
 #include "../storage/router.h"
 #include "b4_resources.h"
 typedef struct {
-    MpOD od; CO_config_t config; CO_t *co; B4Port port;
     uint32_t seen_at[5], generation, observed_boot, seq[MP_STREAMS], last_tick[2];
     uint32_t first_tick[2];
     bool seen[5], have_tick[2];
-    uint32_t nibp_tick;
+    uint32_t nibp_tick, nibp_generation;
     bool nibp_emitted;
-    bool link_up;
     bool status_sent, last_online;
     uint32_t status_at;
+} B4Remote;
+
+typedef struct {
+    MpOD od; CO_config_t config; CO_t *co; B4Port port;
+#ifdef MP_FIVE_NODE
+    B4Remote remote[2];
+#else
+    B4Remote remote[1];
+#endif
+    bool link_up;
     MpFrame wave[2];
 } B4Segment;
 typedef struct {

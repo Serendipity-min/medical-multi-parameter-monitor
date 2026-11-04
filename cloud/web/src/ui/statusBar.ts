@@ -16,6 +16,8 @@ export class StatusBar {
   private gatewayChip: HTMLElement;
   private nodeAChip: HTMLElement;
   private nodeBChip: HTMLElement;
+  private nodeDChip: HTMLElement;
+  private nodeEChip: HTMLElement;
   private connectionEl: HTMLElement;
   private connectionDot: HTMLElement;
   private sourceBanner: HTMLElement;
@@ -31,6 +33,8 @@ export class StatusBar {
     this.gatewayChip = document.querySelector<HTMLElement>('#gateway')!;
     this.nodeAChip = document.querySelector<HTMLElement>('#node-a')!;
     this.nodeBChip = document.querySelector<HTMLElement>('#node-b')!;
+    this.nodeDChip = document.querySelector<HTMLElement>('#node-d')!;
+    this.nodeEChip = document.querySelector<HTMLElement>('#node-e')!;
     this.connectionEl = document.querySelector<HTMLElement>('#connection')!;
     this.connectionDot = document.querySelector<HTMLElement>('#connection-dot')!;
     this.sourceBanner = document.querySelector<HTMLElement>('#source-banner')!;
@@ -116,6 +120,11 @@ export class StatusBar {
 
     this.nodeBChip.textContent = `Node-B · ${vm.nodeBState}`;
     this.nodeBChip.classList.toggle('online', vm.nodeBState === 'ONLINE');
+    for (const [chip, name, state] of [[this.nodeDChip, 'D', vm.nodeDState], [this.nodeEChip, 'E', vm.nodeEState]] as const) {
+      chip.hidden = !vm.fiveNode;
+      chip.textContent = `Node-${name} · ${state}`;
+      chip.classList.toggle('online', state === 'ONLINE');
+    }
 
     this.connectionEl.textContent = connectionText;
     this.connectionDot.classList.toggle('online', isConnected);

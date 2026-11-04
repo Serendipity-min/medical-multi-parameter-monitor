@@ -10,6 +10,19 @@ import type { Signal, Snapshot } from '../src/types';
 const signal = (overrides: Partial<Signal> = {}): Signal => ({ node_id: 'NODE-B', stream: 'RR', timestamp: Date.now(), seq: 1, session_id: 'test-session', validity: 'VALID', source: 'MOCK', synthetic: true, value: 15, samples: [], sample_rate: 0, unit: '次/分', ...overrides });
 const snapshot = (streams: Signal[], gateway = 'GW-DEV-001'): Snapshot => ({ type: 'snapshot', schema_version: 1, gateway_id: gateway, gateway_state: 'ONLINE', nodes: { 'NODE-A': 'ONLINE', 'NODE-B': 'ONLINE' }, streams, replay: null, event: null });
 
+test('五板快照以D/E显示温度血压来源，失效读数不显示旧值', () => {
+  const data = snapshot([signal({ node_id: 'NODE-D', stream: 'TEMP', value: 30.2 }), signal({ node_id: 'NODE-E', stream: 'NIBP', value: [120, 80] })]);
+  data.node_profile = 'five';
+  data.nodes['NODE-D'] = 'ONLINE'; data.nodes['NODE-E'] = 'ONLINE';
+  const vm = toMonitorViewModel(data);
+  assert.equal(vm.scalars.TEMP.nodeId, 'NODE-D'); assert.equal(vm.scalars.NIBP.nodeId, 'NODE-E');
+  assert.equal(vm.nodeDState, 'ONLINE'); assert.equal(vm.nodeEState, 'ONLINE'); assert.equal(vm.fiveNode, true);
+  data.nodes['NODE-D'] = 'OFFLINE'; data.streams[0].validity = 'OFFLINE'; data.streams[1].validity = 'STALE';
+  const expired = toMonitorViewModel(data);
+  assert.equal(expired.scalars.TEMP.formatted, '--'); assert.equal(expired.scalars.NIBP.formatted, '--');
+  assert.equal(expired.nodeBState, 'ONLINE');
+});
+
 for (const incompatible of [false, true]) {
   test(incompatible ? '数据格式不兼容不误报令牌错误' : '令牌拒绝停止重试并清空内存凭据', () => {
     const saved = ['WebSocket', 'location', 'window'].map((key) => [key, Object.getOwnPropertyDescriptor(globalThis, key)] as const);

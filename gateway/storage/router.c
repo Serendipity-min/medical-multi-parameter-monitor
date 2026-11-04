@@ -1,5 +1,6 @@
 /* 单线程队列：网络等待期间只允许生产，取出帧复制给发布者直到传输结果返回。 */
 #include "router.h"
+#include "../data_model/roles.h"
 #include <string.h>
 #ifdef MP_B5_EGRESS_FINAL
 extern volatile uint32_t g_uptime_ms;
@@ -53,7 +54,7 @@ void mp_router_put(MpRouter *r, const MpFrame *f)
 {
 #ifdef MP_B5_EGRESS_FINAL
     r->enqueued[f->stream]++;
-    if(f->node==2 && f->stream==MP_TEMP) {
+    if(f->node==mp_role_node(MP_TEMP) && f->stream==MP_TEMP) {
         if(r->temp_written-r->temp_reported>=8){r->temp_reported++;r->temp_trace_lost++;}
         r->temp_entry[r->temp_written++%8]=(B5TempEntry){f->timestamp,gateway_epoch_milliseconds(),f->seq,f->epoch,f->boot,f->values[0],f->valid};
     }
@@ -70,9 +71,10 @@ void mp_router_put(MpRouter *r, const MpFrame *f)
         if (pending->node == f->node && pending->stream == f->stream
 #ifdef MP_B5_CLOUD_CANDIDATE
             /* B5遥测按次FIFO；短突发不能把仍有实时队列空间的前项变成历史。 */
-            && !(f->node == 2 && !f->replay &&
+            && !(!f->replay &&
                  (f->stream == MP_ECG || f->stream == MP_RESP ||
-                  f->stream == MP_HR || f->stream == MP_RR || f->stream == MP_TEMP))
+                  f->stream == MP_HR || f->stream == MP_RR || f->stream == MP_TEMP) &&
+                  f->node == mp_role_node((MpStream)f->stream))
 #endif
            )
         {

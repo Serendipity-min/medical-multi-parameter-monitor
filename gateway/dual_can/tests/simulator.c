@@ -155,19 +155,19 @@ int main(int argc, char **argv) {
     assert(gateway.malformed == malformed + 2);
     /* 8ms真缺点与重复tick仍须清除部分批次，不能被±1ms量化容差放过。 */
     B4Segment *segment = &gateway.segments[1]; unsigned gaps = gateway.wave_gaps;
-    uint32_t next_tick = segment->last_tick[0] + 8u;
+    uint32_t next_tick = segment->remote[0].last_tick[0] + 8u;
     memcpy(data + 4, &next_tick, 4); inject(1, 0x182, 8, data);
     assert(gateway.wave_gaps == gaps + 1 && segment->wave[0].count == 1);
     inject(1, 0x182, 8, data);
     assert(gateway.wave_gaps == gaps + 2 && segment->wave[0].count == 1);
     /* EMCY是独立事件，不得解释成新的生命体征；缺少完整8B应拒绝。 */
-    unsigned faults = gateway.segments[1].seq[MP_FAULT];
+    unsigned faults = gateway.segments[1].remote[0].seq[MP_FAULT];
     data[0] = 0x10; data[1] = 0x81; inject(1, 0x82, 8, data);
-    assert(gateway.segments[1].seq[MP_FAULT] == faults + 1);
+    assert(gateway.segments[1].remote[0].seq[MP_FAULT] == faults + 1);
     /* 相同RAM generation=1的重启仍清空会话与部分波形，不能续接旧批次。 */
-    gateway.segments[1].wave[0].count = 12; unsigned boot = gateway.segments[1].observed_boot;
+    gateway.segments[1].wave[0].count = 12; unsigned boot = gateway.segments[1].remote[0].observed_boot;
     data[0] = 0; inject(1, 0x702, 1, data);
-    assert(gateway.segments[1].wave[0].count == 0 && gateway.segments[1].observed_boot == boot + 1);
+    assert(gateway.segments[1].wave[0].count == 0 && gateway.segments[1].remote[0].observed_boot == boot + 1);
     /* 总线2邮箱持续忙：总线1心跳继续，容量溢出显式计数且内存不增长。 */
     blocked[1] = 1; CO_CANtx_t tx = {0}; tx.ident = 0x602; tx.DLC = 8;
     for (unsigned i = 0; i < 200; i++) (void)CO_CANsend(gateway.segments[1].co->CANmodule, &tx);

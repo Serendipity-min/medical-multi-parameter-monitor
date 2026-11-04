@@ -45,12 +45,16 @@ export class SessionView {
     freeze.setAttribute('aria-pressed', String(frozen));
     freeze.querySelector('span')!.textContent = frozen ? '恢复显示' : '冻结显示';
     document.querySelectorAll('.window-start').forEach((label) => { label.textContent = `−${store.windowMs / 1000} 秒`; });
+    const vm = store.displayViewModel;
+    for (const reading of Object.values(vm.scalars)) text(`source-${reading.channel}`, reading.nodeId);
     // 第七页共用全局冻结状态，但不创建参数趋势或导出控件。
     if (this.route === 'overview' || this.route === 'ai') return;
     const p = parameters[this.route];
-    const vm = store.displayViewModel;
     const scalar = vm.scalars[p.scalar];
-    text('detail-node', `${p.node} · ${p.node === 'Node-A' ? vm.nodeAState : vm.nodeBState}`);
+    const node = scalar.nodeId.toUpperCase();
+    const state = node === 'NODE-A' ? vm.nodeAState : node === 'NODE-B' ? vm.nodeBState : node === 'NODE-D' ? vm.nodeDState : vm.nodeEState;
+    text('detail-node', `${scalar.nodeId} · ${state}`);
+    text('detail-source', scalar.nodeId);
     text('detail-updated', `最近采集：${scalar.updatedTime ?? '--'}`);
     const records = store.displayHistory(p.scalar);
     text('history-range', `本次会话 · ${records.length} 条`);

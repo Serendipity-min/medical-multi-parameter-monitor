@@ -22,6 +22,7 @@ export interface Signal {
 export interface Snapshot {
   type: 'snapshot';
   schema_version: 1;
+  node_profile?: 'three' | 'five';
   gateway_id: string;
   gateways?: string[];
   gateway_state: string;
@@ -68,6 +69,9 @@ export interface MonitorViewModel {
   gatewayState: string;
   nodeAState: string;
   nodeBState: string;
+  nodeDState: string;
+  nodeEState: string;
+  fiveNode: boolean;
   sources: string[];
   sourceBanner: string;
   sourceNote: string;

@@ -166,11 +166,16 @@ static void diagnostic(unsigned stage) {
         (unsigned long)b4_hw_diag[0].tx_failed,(unsigned long)b4_hw_diag[0].overflow,
         (unsigned long)b4_hw_diag[0].esr);console(line);
     B4Segment *a=&gateway.segments[0];
-    (void)snprintf(line,sizeof(line),"ABC A_STATE boot=%lu gen=%lu flags=%lu completion=%lu packed=%lu emitted=%u emitted_tick=%lu nibp_seq=%lu\r\n",
-        (unsigned long)a->observed_boot,(unsigned long)a->generation,
-        (unsigned long)mp_od_read(&a->od,0x3130,1),(unsigned long)mp_od_read(&a->od,0x3111,1),
-        (unsigned long)mp_od_read(&a->od,0x3111,2),(unsigned)a->nibp_emitted,
-        (unsigned long)a->nibp_tick,(unsigned long)a->seq[MP_NIBP]);console(line);
+#ifdef MP_FIVE_NODE
+    B4Remote *bp=&a->remote[1];unsigned bp_base=0x3200;const char *bp_label="E_STATE";
+#else
+    B4Remote *bp=&a->remote[0];unsigned bp_base=0x3100;const char *bp_label="A_STATE";
+#endif
+    (void)snprintf(line,sizeof(line),"ABC %s boot=%lu gen=%lu flags=%lu completion=%lu packed=%lu emitted=%u emitted_tick=%lu nibp_seq=%lu\r\n",
+        bp_label,(unsigned long)bp->observed_boot,(unsigned long)bp->generation,
+        (unsigned long)mp_od_read(&a->od,bp_base+0x30,1),(unsigned long)mp_od_read(&a->od,bp_base+0x11,1),
+        (unsigned long)mp_od_read(&a->od,bp_base+0x11,2),(unsigned)bp->nibp_emitted,
+        (unsigned long)bp->nibp_tick,(unsigned long)bp->seq[MP_NIBP]);console(line);
 #endif
     return;}
     if(stage==1){

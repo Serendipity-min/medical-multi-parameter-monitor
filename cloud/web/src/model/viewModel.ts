@@ -38,7 +38,7 @@ export function toMonitorViewModel(data: Snapshot): MonitorViewModel {
         unit,
         validity: signal?.validity ?? 'OFFLINE',
         source,
-        nodeId: nodeId || 'Node-A',
+        nodeId: nodeId || (data.node_profile === 'five' ? 'Node-E' : 'Node-A'),
         updatedTime: valid && signal ? new Date(signal.timestamp).toLocaleTimeString('zh-CN', { hour12: false }) : '—',
       };
     }
@@ -55,7 +55,7 @@ export function toMonitorViewModel(data: Snapshot): MonitorViewModel {
       unit,
       validity: signal?.validity ?? 'OFFLINE',
       source,
-      nodeId: nodeId || (channel === 'SpO2' || channel === 'PR' ? 'Node-A' : 'Node-B'),
+      nodeId: nodeId || (channel === 'SpO2' || channel === 'PR' ? 'Node-A' : channel === 'TEMP' && data.node_profile === 'five' ? 'Node-D' : 'Node-B'),
       updatedTime: signal ? new Date(signal.timestamp).toLocaleTimeString('zh-CN', { hour12: false }) : '--',
     };
   };
@@ -96,6 +96,9 @@ export function toMonitorViewModel(data: Snapshot): MonitorViewModel {
     gatewayState: data.gateway_state || 'OFFLINE',
     nodeAState: data.nodes['NODE-A'] || 'OFFLINE',
     nodeBState: data.nodes['NODE-B'] || 'OFFLINE',
+    nodeDState: data.nodes['NODE-D'] || 'OFFLINE',
+    nodeEState: data.nodes['NODE-E'] || 'OFFLINE',
+    fiveNode: data.node_profile === 'five',
     sources,
     sourceBanner,
     sourceNote,
@@ -126,6 +129,9 @@ export function getEmptyViewModel(reason = '等待数据'): MonitorViewModel {
     gatewayState: 'OFFLINE',
     nodeAState: 'OFFLINE',
     nodeBState: 'OFFLINE',
+    nodeDState: 'OFFLINE',
+    nodeEState: 'OFFLINE',
+    fiveNode: false,
     sources: [],
     sourceBanner: '等待数据源',
     sourceNote: '暂无有效数据',

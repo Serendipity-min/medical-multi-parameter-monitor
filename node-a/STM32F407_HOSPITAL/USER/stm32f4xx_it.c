@@ -112,6 +112,7 @@ void USART1_IRQHandler(void)
   * @brief  USART2 中断（血氧屏 SPO2，USART2(PA2/PA3)）。
   *         RXNE -> HMI_RxByte（dc_hmi 帧收集）。
   */
+#ifndef MP_FIVE_NODE_E
 void USART2_IRQHandler(void)
 {
     if (USART_GetITStatus(USART2, USART_IT_RXNE) != RESET) {
@@ -120,6 +121,8 @@ void USART2_IRQHandler(void)
         USART_ClearITPendingBit(USART2, USART_IT_RXNE);
     }
 }
+
+#endif
 
 /**
   * @brief  USART3 中断（血压屏 BP，USART3(PB10/11)）。

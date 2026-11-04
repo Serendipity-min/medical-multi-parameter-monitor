@@ -1,5 +1,6 @@
 /* 统一帧只存固定点整数；MQTT 边界统一缩放，避免不同入口重复拼装业务字段。 */
 #include "model.h"
+#include "roles.h"
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
@@ -139,13 +140,18 @@ int mp_json(const MpFrame *f, char *out, size_t size)
 int mp_topic(const MpFrame *f, char *out, size_t size)
 {
     int n;
+    char node = mp_node_letter(f->node);
+    if (f->stream >= MP_STREAMS || (f->stream != MP_GATEWAY_STATUS && !node)) return 0;
+#ifdef MP_FIVE_NODE
+    if (f->stream < MP_NODE_STATUS && f->node != mp_role_node((MpStream)f->stream)) return 0;
+#endif
     if (f->stream == MP_GATEWAY_STATUS)
         n = snprintf(out, size, "mpm/v1/" MP_MQTT_GATEWAY_ID "/status");
     else if (f->stream == MP_NODE_STATUS || (f->stream == MP_FAULT && !f->replay))
-        n = snprintf(out, size, "mpm/v1/" MP_MQTT_GATEWAY_ID "/NODE-%c/%s", f->node == 1 ? 'A' : 'B',
+        n = snprintf(out, size, "mpm/v1/" MP_MQTT_GATEWAY_ID "/NODE-%c/%s", node,
                      f->stream == MP_FAULT ? "event" : "status");
     else
-        n = snprintf(out, size, "mpm/v1/" MP_MQTT_GATEWAY_ID "/NODE-%c/%s/%s", f->node == 1 ? 'A' : 'B',
+        n = snprintf(out, size, "mpm/v1/" MP_MQTT_GATEWAY_ID "/NODE-%c/%s/%s", node,
                      f->replay ? "replay" : "telemetry", names[f->stream]);
     return n > 0 && (size_t)n < size ? n : 0;
 }

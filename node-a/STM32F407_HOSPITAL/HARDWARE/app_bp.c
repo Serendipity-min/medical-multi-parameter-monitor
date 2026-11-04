@@ -734,8 +734,10 @@ static void time_edit_commit(void)
     s_rtc_base_tick = g_tick;
     /* 血氧侧软 RTC 必须一起改，否则两块屏从此各走各的（能差几小时）；
      * 血压页改时间时秒置 0，与屏幕上的"年月日时分"语义一致。 */
+#ifndef MP_FIVE_NODE_E
     spo2_rtc_set(s_year, (uint8_t)s_month, (uint8_t)s_day,
                  s_tedit_hour, s_tedit_min, 0u);
+#endif
     clock_sync_rtc();             settings_show_time();         dbg_str(">>> TIME EDIT saved -> ");
     dbg_u32(s_year); dbg_str("-"); dbg_u32(s_month); dbg_str("-"); dbg_u32(s_day);
     dbg_str(" "); dbg_u32(s_tedit_hour); dbg_str(":"); dbg_u32(s_tedit_min);

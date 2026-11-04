@@ -86,8 +86,10 @@ int main(void)
     dbg_puts("UNO(SpO2 sensor) on USART6 @57600 ready\r\n");
 
     /* ---- 血压子系统：血压屏 USART3 @9600 (hmi_dacai) + 血压传感器 UART5 @115200 ---- */
+#ifndef MP_FIVE_NODE_A
     app_init();
     dbg_puts("HMI: BP screen on USART3 @9600 (hmi_dacai); HKB-08B+ on UART5 @115200\r\n");
+#endif
 
     /* ---- CANopen Node-A：bxCAN + 协议栈，上电自主进入 OPERATIONAL ---- */
     if (canopen_app_init() != 0u) {
@@ -109,11 +111,17 @@ int main(void)
      *   探测周期 1000ms / 响应超时 150ms / 失联阈值 3（可调）/ 离线蜂鸣报警。
      *   回调里的指令函数（hmi_get_screen/HMI_GetScreen 等）均为非阻塞组帧，安全可反复调用。 */
     screen_watch_init();
+#ifndef MP_FIVE_NODE_A
     screen_watch_register(SCREEN_ID_BP,   "BP",
                           hmi_get_screen, hmi_beep,  bp_resync);
+#endif
     screen_watch_register(SCREEN_ID_SPO2, "SPO2",
                           HMI_GetScreen,  HMI_Beep,  spo2_resync);
+#ifdef MP_FIVE_NODE_A
+    dbg_puts("ScreenWatch: SPO2 online-detect armed\r\n");
+#else
     dbg_puts("ScreenWatch: BP/SPO2 online-detect armed (probe=1000ms timeo=150ms miss=3)\r\n");
+#endif
 
     /* 统一诊断快照：上电自增 boot_id（须在 WDT/screen_watch 之后调用，确保 g_reset_reason 已定）。
      * 仅做一次；不影响任何既有逻辑，只是让 node_status_t.boot_id 可追溯启动代次。 */
@@ -216,7 +224,9 @@ int main(void)
         g_meas.monitor_sec = millis() / 1000;
 
         /* ===== 血压子系统（血压屏 + 血压传感器） ===== */
-        app_loop();             /* 处理传感器环形缓冲、软 RTC、血压屏刷新 */
+#ifndef MP_FIVE_NODE_A
+        app_loop();
+#endif
 
         /* ===== CANopen 协议栈周期处理 + TPDO 上报 Gateway-C ===== */
         canopen_app_process();

@@ -1,0 +1,334 @@
+{
+  "status": "M1_OFFLINE_CANDIDATE",
+  "hardware_status": "NOT_INSTALLED_NOT_FIELD_TESTED",
+  "baseline_tag": "baseline/abc-unified-pre-split-v1",
+  "baseline_commit": "26e695ffda43a7a76aa54d1c4e3a5631ac0dc42e",
+  "source_parent": "fc4dc4597c28832f6eba40fcac2ddce5ee0fb9e5",
+  "applications": {
+    "A": {
+      "node_id": 1,
+      "build_directory": "node-b/build/five-node-A-20261104T061827283812Z",
+      "artifacts": {
+        "FIVE_NODE_A.bin": {
+          "path": "artifacts/A/FIVE_NODE_A.bin",
+          "bytes": 33380,
+          "sha256": "065486c0633025d42cf7984844a7c3abe4eeda1626dffae7ce3ff8499db406c5"
+        },
+        "FIVE_NODE_A.axf": {
+          "path": "artifacts/A/FIVE_NODE_A.axf",
+          "bytes": 796316,
+          "sha256": "37bcb94b50788ed542d57387f7190ac1a4d891bf6a254de3ffc4a582ad35eb7d"
+        },
+        "FIVE_NODE_A.symbols.txt": {
+          "path": "artifacts/A/FIVE_NODE_A.symbols.txt",
+          "bytes": 107757,
+          "sha256": "7df70fcf75612d02981c73f275300e466b1ff77ee75bb3a158735c2b1dd87a41"
+        },
+        "FIVE_NODE_A.map": {
+          "path": "artifacts/A/FIVE_NODE_A.map",
+          "bytes": 332695,
+          "sha256": "a1f262545055b679dadb37a62fbe1c5496338d45c82fa4616549261cdfb604d2"
+        }
+      },
+      "build_scope": "OFFLINE_BUILD_NOT_INSTALLED",
+      "install_plan": [
+        {
+          "file": "FIVE_NODE_A.bin",
+          "address": "0x08000000",
+          "sectors": [
+            0,
+            1,
+            2
+          ],
+          "layout_status": "KEIL_PROJECT_APPLICATION_LAYOUT_ONLY_NOT_TARGET_VERIFIED"
+        }
+      ],
+      "resources": [
+        29988,
+        2896,
+        1512,
+        15584
+      ]
+    },
+    "B": {
+      "node_id": 2,
+      "build_directory": "node-b/build/b4-arm-20261104T061853415042Z",
+      "artifacts": {
+        "FIVE_NODE_B.bin": {
+          "path": "artifacts/B/FIVE_NODE_B.bin",
+          "bytes": 40032,
+          "sha256": "d0401d96a4a051f964b4d8dce17f7630095ddb5ee8469bc84c3020b828531cd6"
+        },
+        "FIVE_NODE_B.axf": {
+          "path": "artifacts/B/FIVE_NODE_B.axf",
+          "bytes": 773900,
+          "sha256": "51f6c6a644063b31cc38e411a26445c6985b23ec87e40aa31054d2494eab4b15"
+        },
+        "FIVE_NODE_B.symbols.txt": {
+          "path": "artifacts/B/FIVE_NODE_B.symbols.txt",
+          "bytes": 106267,
+          "sha256": "20593b926e3e4b79de973274f28f6460702c52a4af2606f39f608309bdbeb47d"
+        },
+        "FIVE_NODE_B.map": {
+          "path": "artifacts/B/FIVE_NODE_B.map",
+          "bytes": 275601,
+          "sha256": "acbf30a392f6a86c816dd7bb8a3d1f246ca119859a66164432a7823ffe11dd29"
+        }
+      },
+      "build_scope": "ARM_SOFTWARE_ONLY_NO_FLASH",
+      "install_plan": [
+        {
+          "file": "FIVE_NODE_B.bin",
+          "address": "0x08000000",
+          "sectors": [
+            0,
+            1,
+            2
+          ],
+          "layout_status": "KEIL_PROJECT_APPLICATION_LAYOUT_ONLY_NOT_TARGET_VERIFIED"
+        }
+      ],
+      "resources": [
+        36412,
+        3144,
+        1480,
+        18088
+      ]
+    },
+    "C": {
+      "node_id": 3,
+      "build_directory": "node-b/build/b4-c-arm-20261104T062445380363Z",
+      "artifacts": {
+        "FIVE_NODE_C-boot.bin": {
+          "path": "artifacts/C/FIVE_NODE_C-boot.bin",
+          "bytes": 392,
+          "sha256": "d8e3e970f00ea0a923384a1b443d48c9134ab67c388476301aede2115745a2b1"
+        },
+        "FIVE_NODE_C-code.bin": {
+          "path": "artifacts/C/FIVE_NODE_C-code.bin",
+          "bytes": 55332,
+          "sha256": "5d80acf134c2bf20fd911ab6ea06005940637397159da5b6af0801ae34391b5d"
+        },
+        "FIVE_NODE_C.elf": {
+          "path": "artifacts/C/FIVE_NODE_C.elf",
+          "bytes": 95976,
+          "sha256": "75af52c811d03d06f18b3de10abe095f76f9d7d9d4995070f4b59c6673f8d9f9"
+        },
+        "FIVE_NODE_C.hex": {
+          "path": "artifacts/C/FIVE_NODE_C.hex",
+          "bytes": 156834,
+          "sha256": "5bcc4903f93aa427f1a95ac916e7f7bbf51dfe6c99305c79e7331d6089f37fae"
+        },
+        "FIVE_NODE_C.map": {
+          "path": "artifacts/C/FIVE_NODE_C.map",
+          "bytes": 166979,
+          "sha256": "b50aed775153580e324ab274a6e6a108c7dd0e1cbb0a0db083ba93cfa5429a4a"
+        }
+      },
+      "build_scope": "FINAL_UNIFIED_C_REAL_RUNTIME_OFFLINE_NOT_DEPLOYED",
+      "resources": {
+        "flash_load_bytes": 55724,
+        "sector4_remaining_bytes": 10204,
+        "ordinary_SRAM_after_heap_stack_remaining": 15552,
+        "CCM_remaining": 1536
+      },
+      "install_plan": [
+        {
+          "file": "FIVE_NODE_C-boot.bin",
+          "address": "0x08000000",
+          "sectors": [
+            0
+          ]
+        },
+        {
+          "file": "FIVE_NODE_C-code.bin",
+          "address": "0x08010000",
+          "sectors": [
+            4
+          ]
+        }
+      ],
+      "baseline_resources": {
+        "flash_load_bytes": 54900,
+        "sector4_remaining_bytes": 11028,
+        "ordinary_SRAM_after_heap_stack_remaining": 15808,
+        "CCM_remaining": 1536
+      }
+    },
+    "D": {
+      "node_id": 4,
+      "build_directory": "node-b/build/five-node-D-20261104T061845347216Z",
+      "artifacts": {
+        "FIVE_NODE_D.bin": {
+          "path": "artifacts/D/FIVE_NODE_D.bin",
+          "bytes": 24544,
+          "sha256": "a9fb8437adfc5e2dd35e4941688fc84b632651d94bf39c98d42555701984500b"
+        },
+        "FIVE_NODE_D.axf": {
+          "path": "artifacts/D/FIVE_NODE_D.axf",
+          "bytes": 640620,
+          "sha256": "91b8e7746ca3b4327e5f8e457ddf459cf7b1fb6a990c492fc59b4714d1002f0c"
+        },
+        "FIVE_NODE_D.symbols.txt": {
+          "path": "artifacts/D/FIVE_NODE_D.symbols.txt",
+          "bytes": 61959,
+          "sha256": "2398a2f402c6b9eb9f0417b61bed0fefb0d503082fd21e2fa60e5e6b03333241"
+        },
+        "FIVE_NODE_D.map": {
+          "path": "artifacts/D/FIVE_NODE_D.map",
+          "bytes": 181001,
+          "sha256": "6dee187ff9db8397a18eeae81ade947067c517e82d8a762d90c5d1665ef52bd5"
+        }
+      },
+      "build_scope": "OFFLINE_BUILD_NOT_INSTALLED",
+      "install_plan": [
+        {
+          "file": "FIVE_NODE_D.bin",
+          "address": "0x08000000",
+          "sectors": [
+            0,
+            1
+          ],
+          "layout_status": "KEIL_PROJECT_APPLICATION_LAYOUT_ONLY_NOT_TARGET_VERIFIED"
+        }
+      ],
+      "resources": [
+        21480,
+        2624,
+        1244,
+        6476
+      ]
+    },
+    "E": {
+      "node_id": 5,
+      "build_directory": "node-b/build/five-node-E-20261104T061836066909Z",
+      "artifacts": {
+        "FIVE_NODE_E.bin": {
+          "path": "artifacts/E/FIVE_NODE_E.bin",
+          "bytes": 29416,
+          "sha256": "b141262059fad511bff9a05b7c682580fdacda19d954a74b80809f0b464a6867"
+        },
+        "FIVE_NODE_E.axf": {
+          "path": "artifacts/E/FIVE_NODE_E.axf",
+          "bytes": 752960,
+          "sha256": "0627d0e5db0604775d23469044cb2187ab9ecc71c1190623041d8c81660ae413"
+        },
+        "FIVE_NODE_E.symbols.txt": {
+          "path": "artifacts/E/FIVE_NODE_E.symbols.txt",
+          "bytes": 83976,
+          "sha256": "dd82f7d17270be848f93004f842a306c86256cf4691a5318e06485d28de54580"
+        },
+        "FIVE_NODE_E.map": {
+          "path": "artifacts/E/FIVE_NODE_E.map",
+          "bytes": 242280,
+          "sha256": "537811eb8206b1ec1e748b7f59c1fd76a812ac2a695baceb14ea90ee103fce77"
+        }
+      },
+      "build_scope": "OFFLINE_BUILD_NOT_INSTALLED",
+      "install_plan": [
+        {
+          "file": "FIVE_NODE_E.bin",
+          "address": "0x08000000",
+          "sectors": [
+            0,
+            1
+          ],
+          "layout_status": "KEIL_PROJECT_APPLICATION_LAYOUT_ONLY_NOT_TARGET_VERIFIED"
+        }
+      ],
+      "resources": [
+        26276,
+        2680,
+        1356,
+        7796
+      ]
+    }
+  },
+  "field_measurement": {
+    "source": "OWNER_REPORTED_20261104",
+    "individual_ohm": {
+      "C1": 120,
+      "C2": 120,
+      "A1": 120,
+      "B1": 120,
+      "D1": 120,
+      "E1": 120
+    },
+    "pair_ohm": {
+      "C1-A1": 60,
+      "C2-B1": 60
+    },
+    "earlier_41_ohm_combination": [
+      "C.CAN1",
+      "B.CAN1",
+      "D.CAN1"
+    ]
+  },
+  "installation_authorized": false,
+  "node_mapping": [
+    {
+      "role": "A",
+      "node_id": 1,
+      "segment": 1,
+      "identifiers": [
+        "0x701",
+        "0x81",
+        "0x601",
+        "0x581",
+        "0x181",
+        "0x381",
+        "0x481",
+        "0x681"
+      ],
+      "topic_prefix": "mpm/v1/GW-B5-001/NODE-A"
+    },
+    {
+      "role": "E",
+      "node_id": 5,
+      "segment": 1,
+      "identifiers": [
+        "0x705",
+        "0x85",
+        "0x605",
+        "0x585",
+        "0x285",
+        "0x385",
+        "0x485",
+        "0x685"
+      ],
+      "topic_prefix": "mpm/v1/GW-B5-001/NODE-E"
+    },
+    {
+      "role": "B",
+      "node_id": 2,
+      "segment": 2,
+      "identifiers": [
+        "0x702",
+        "0x82",
+        "0x602",
+        "0x582",
+        "0x182",
+        "0x282",
+        "0x382",
+        "0x482",
+        "0x682"
+      ],
+      "topic_prefix": "mpm/v1/GW-B5-001/NODE-B"
+    },
+    {
+      "role": "D",
+      "node_id": 4,
+      "segment": 2,
+      "identifiers": [
+        "0x704",
+        "0x84",
+        "0x604",
+        "0x584",
+        "0x384",
+        "0x484",
+        "0x684"
+      ],
+      "topic_prefix": "mpm/v1/GW-B5-001/NODE-D"
+    }
+  ]
+}
