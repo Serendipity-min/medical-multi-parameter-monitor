@@ -4,11 +4,13 @@
 
 **工程底座**　`baseline/abc-unified-pre-split-v1` 解引用到 `26e695ffda43a7a76aa54d1c4e3a5631ac0dc42e`。这是一枚附注标签，标签对象本身的 SHA 和提交 SHA 不同。M0 分支头也是这个提交，父提交 `c0b36430` 对应较早的 C 单板 R4。五板工作分支使用 `codex/five-node-single-module-v1`，以 M0 为父线，本轮交付内容为文档。[M0 提交](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/26e695ffda43a7a76aa54d1c4e3a5631ac0dc42e)
 
+**当前执行入口**　先读 [06 固定 120 Ω 接线及 M1 合同](06-CAN-Wiring-and-M1-Contract.md)。工作分支沿用现有入口；下一步从 M1 离线实现开始，实物按 06 的断电分测与接口选择推进。
+
 ## 给新开的 Codex 窗口
 
 可直接复制以下一段。后文的分支清单供需要追溯某个问题时查阅。
 
-> 在 Windows 工程 `E:/medical-monitor-node-b5-cloud` 接手五板迁移。先看工作树状态，保留现有本地更改。按本页的 PowerShell 命令定位远端工作分支和 M0 标签。阅读根 `AGENTS.md`、M0 原交接与本目录 `04-Five-Node-Contract.md`。三场 M0 均已通过。当前先做 M1 离线节点映射、D/E 构建与相关回归。并行整理两段 CAN 的断电测量表；现场报 41 Ω 的段先分测。现场联调收到当期指令后，再按实际板卡、供电、终端、写入范围和恢复入口成批执行。复用现成工具、按故障复测，不重复 M0 整套。板间规划为 C.CAN1 接 A 血氧和 E 血压，C.CAN2 接 B 心电/呼吸和 D 物体温度。阶段末交付按板区分的镜像及证据，`main` 合并留到最终验收。
+> 在 Windows 工程 `E:/medical-monitor-node-b5-cloud` 接手五板迁移。先看工作树状态，保留现有本地更改。按本页的 PowerShell 命令定位远端工作分支和 M0 标签。阅读根 `AGENTS.md`、M0 原交接及本目录的 04、05、06 文档，以 06 为当前执行入口。三场 M0 均已通过。当前先做 M1 离线节点映射、D/E 构建与相关回归。并行整理两段 CAN 的断电测量表；现场报 41 Ω 的段先分测。现场联调收到当期指令后，再按实际板卡、供电、终端、写入范围和恢复入口成批执行。复用现成工具、按故障复测，不重复 M0 整套。板间规划为 C.CAN1 接 A 血氧和 E 血压，C.CAN2 接 B 心电/呼吸和 D 物体温度。阶段末交付按板区分的镜像及证据，`main` 合并留到最终验收。
 
 | 先查什么 | 权威入口 | 现场意义 |
 |---|---|---|
