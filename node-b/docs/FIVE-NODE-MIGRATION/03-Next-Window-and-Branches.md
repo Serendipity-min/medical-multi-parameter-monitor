@@ -1,5 +1,7 @@
 # 新窗口接手页与 Git 分支清单
 
+**2026-11-04 更新：** 已按负责人本轮授权完成首批分支删名及本地入口整理；远端现为 34 个分支。M0 标签保持不变，当前 C 的 Flash 资源汇总有 8 字节勘误。执行结果、最新工作目录和未决项见 [接手与 Git 整合回执](05-Takeover-and-Git-Integration-20261104.md)。下文 36 分支表为发布前历史快照，不作为今日分支数量。
+
 **工程底座**　`baseline/abc-unified-pre-split-v1` 解引用到 `26e695ffda43a7a76aa54d1c4e3a5631ac0dc42e`。这是一枚附注标签，标签对象本身的 SHA 和提交 SHA 不同。M0 分支头也是这个提交，父提交 `c0b36430` 对应较早的 C 单板 R4。五板工作分支使用 `codex/five-node-single-module-v1`，以 M0 为父线，本轮交付内容为文档。[M0 提交](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/26e695ffda43a7a76aa54d1c4e3a5631ac0dc42e)
 
 ## 给新开的 Codex 窗口
