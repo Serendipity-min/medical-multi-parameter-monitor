@@ -81,6 +81,9 @@ int b4_hw_init(void) {
         can.CAN_ABOM = ENABLE; can.CAN_NART = DISABLE; can.CAN_RFLM = ENABLE;
         can.CAN_TXFP = ENABLE; /* 同一COB-ID按请求次序，避免多邮箱并发造成倒序。 */
         can.CAN_Mode = CAN_Mode_Normal; can.CAN_SJW = CAN_SJW_1tq;
+#ifdef B4_PHY_DIAGNOSTIC
+        if (!bus) can.CAN_Mode = CAN_Mode_Silent;
+#endif
 #ifdef MP_FINAL_UNIFIED
         if(!(final_can_mask&(1u<<bus)))can.CAN_Mode=CAN_Mode_Silent;
 #endif
@@ -105,6 +108,9 @@ int b4_hw_init(void) {
         filter.CAN_FilterMode = CAN_FilterMode_IdMask; filter.CAN_FilterScale = CAN_FilterScale_32bit;
         filter.CAN_FilterMaskIdLow = 6; /* IDE=0、RTR=0，其余在协议入口按节点/总线过滤。 */
         filter.CAN_FilterFIFOAssignment = CAN_Filter_FIFO0; filter.CAN_FilterActivation = ENABLE;
+#ifdef B4_PHY_DIAGNOSTIC
+        if (!bus) filter.CAN_FilterActivation = DISABLE;
+#endif
 #ifdef MP_FINAL_UNIFIED
         if(!(final_can_mask&(1u<<bus)))filter.CAN_FilterActivation=DISABLE;
 #endif
@@ -119,6 +125,9 @@ int b4_hw_init(void) {
         nvic.NVIC_IRQChannelSubPriority = 0;
 #endif
         nvic.NVIC_IRQChannelCmd = ENABLE;
+#ifdef B4_PHY_DIAGNOSTIC
+        if (!bus) nvic.NVIC_IRQChannelCmd = DISABLE;
+#endif
 #ifdef MP_FINAL_UNIFIED
         if(!(final_can_mask&(1u<<bus)))nvic.NVIC_IRQChannelCmd=DISABLE;
 #endif
@@ -152,6 +161,9 @@ static void completed(unsigned bus) {
 }
 int b4_bus_transmit(unsigned bus, const MpCanFrame *frame) {
     if (hw_stopped || bus > 1 || frame->ident > 0x7ff || frame->dlc > 8) return 0;
+#ifdef B4_PHY_DIAGNOSTIC
+    if (!bus) return 0;
+#endif
 #ifdef MP_FINAL_UNIFIED
     if(!(final_can_mask&(1u<<bus)))return 0;
 #endif

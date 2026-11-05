@@ -24,6 +24,9 @@ int main(void) {
     /* 未初始化便STOP不能触碰未开时钟的寄存器；随后显式初始化才能开始软件目标。 */
     b4_hw_stop();assert(!b4_test_clock_calls && !b4_test_can[0].TSR);
     assert(b4_hw_init()==0);assert(!(CAN1->MCR&CAN_MCR_NART) && !(CAN2->MCR&CAN_MCR_NART));
+#ifdef B4_PHY_DIAGNOSTIC
+    assert(!b4_bus_transmit(0,&heartbeat) && !b4_test_transmit_calls);
+#endif
     assert(b4_bus_transmit(1,&heartbeat));
     /* NART=0时首次仲裁失败不完成请求；真正ACK后才允许记为发送完成。 */
     CAN2->TSR=4u;tick++;b4_hw_poll(&g);assert(!acked && !failed);

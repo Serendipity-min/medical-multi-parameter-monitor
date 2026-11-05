@@ -23,14 +23,16 @@ def main():
     parser.add_argument('--audio-link', action='store_true', help='仅离线保留MIC/TTS完整API与CCM缓存，不启用录音或新增现场命令')
     parser.add_argument('--unified', action='store_true', help='真实三板语音统一运行候选；不执行设备操作')
     parser.add_argument('--five-node', action='store_true', help='五板静态来源候选；仅离线构建')
+    parser.add_argument('--bench-seconds', type=int, choices=(15,60), help='PHY隔离诊断单次硬时限；仅bench分段布局')
     parser.add_argument('--split-flash', action='store_true', help='统一候选分段布局：sector0向量、sector4代码；只构建，写sector4另需负责人确认')
     parser.add_argument('--tls-port',type=int,help='统一候选的隔离TLS入口，默认1883；不更改原B5的8883目标')
     args = parser.parse_args()
     if args.tri and not (args.b5 and args.egress_final):parser.error('--tri requires --b5 --egress-final')
     if args.audio_link and not args.tri:parser.error('--audio-link requires --tri')
     if args.unified and (not args.tri or args.audio_link):parser.error('--unified requires --tri and excludes --audio-link')
-    if args.split_flash and not args.unified:parser.error('--split-flash requires --unified')
-    if args.five_node and not (args.unified and args.split_flash):parser.error('--five-node requires --unified --split-flash')
+    if args.split_flash and not (args.unified or args.bench):parser.error('--split-flash requires --unified or --bench')
+    if args.five_node and not (args.split_flash and (args.unified or args.bench)):parser.error('--five-node requires split unified/bench')
+    if args.bench_seconds is not None and not (args.bench and args.split_flash and args.five_node):parser.error('--bench-seconds requires --bench --split-flash --five-node')
     if args.tls_port is not None and (not args.unified or not 1<=args.tls_port<=65535):parser.error('--tls-port requires --unified and port1..65535')
     if args.egress_final and not args.b5:parser.error('--egress-final requires --b5')
     spec = importlib.util.spec_from_file_location('b4_sdk', ROOT / 'gateway/esp_at_probe/build.py')
@@ -50,6 +52,7 @@ def main():
              *['-I' + str(p) for p in base.INCLUDES]]
     if args.tri:flags += ['-DMP_ABC_TRI_CANDIDATE', '-flto']
     if args.five_node:flags += ['-DMP_FIVE_NODE']
+    if args.bench_seconds is not None:flags += [f'-DB4_BENCH_LIMIT_MS={args.bench_seconds*1000}u', '-DB4_PHY_DIAGNOSTIC']
     reference_sha = {}
     if args.egress_final:
         # 总80个MpFrame槽不增：从历史划8槽给实时，配合可推进ACK和时效调度。
@@ -114,12 +117,13 @@ def main():
         template=template.replace(memory,memory+'\n  CCM (rw)    : ORIGIN = 0x10000000, LENGTH = 64K')
         template=template.replace('  /DISCARD/', '  .ccm_audio (NOLOAD) : { *(.ccm_audio) } > CCM\n\n'+
                                   ('  .audio_link_probe : { KEEP(*(.audio_link_probe)) } > FLASH\n\n' if args.audio_link else '')+'  /DISCARD/')
-        if args.split_flash:
-            template=template.replace('  FLASH (rx)  : ORIGIN = 0x08000000, LENGTH = 48K',
-                '  FLASH (rx)  : ORIGIN = 0x08010000, LENGTH = 64K\n  BOOT (rx)   : ORIGIN = 0x08000000, LENGTH = 16K')
-            first=template.index('  } > FLASH');template=template[:first]+template[first:].replace('  } > FLASH','  } > BOOT',1)
-            template=template.replace('<=0x0800C000','<=0x08020000').replace('APPLICATION_OVERLAPS_CONFIG_SECTOR3','CODE_EXCEEDS_SECTOR4')
         linker=out/'audio-ccm-link.ld';linker.write_text(template)
+    if args.split_flash:
+        template=linker.read_text(encoding='utf-8').replace('  FLASH (rx)  : ORIGIN = 0x08000000, LENGTH = 48K',
+            '  FLASH (rx)  : ORIGIN = 0x08010000, LENGTH = 64K\n  BOOT (rx)   : ORIGIN = 0x08000000, LENGTH = 16K')
+        first=template.index('  } > FLASH');template=template[:first]+template[first:].replace('  } > FLASH','  } > BOOT',1)
+        template=template.replace('<=0x0800C000','<=0x08020000').replace('APPLICATION_OVERLAPS_CONFIG_SECTOR3','CODE_EXCEEDS_SECTOR4')
+        linker=out/'split-link.ld';linker.write_text(template)
     log = bytearray(); commands = []; audio_layout=None
 
     def run(command):
@@ -196,9 +200,12 @@ def main():
                    if len(parts:=line.split())==3}
             handler=table.get('USART1_IRQHandler',(0,'W'))
             wake=table.get('b4_capture_uart_wake',(0,'W'))
-            image=(out/(target+'.bin')).read_bytes();vector=int.from_bytes(image[53*4:54*4],'little')
+            image=(out/(target+('-boot.bin' if args.split_flash else '.bin'))).read_bytes();vector=int.from_bytes(image[53*4:54*4],'little')
             if handler[1]!='T' or wake[1]!='T' or vector!=(handler[0]|1):
                 raise RuntimeError('台架USART1中断向量/唤醒入口未实际链接')
+            for name,index in (('CAN2_RX0_IRQHandler',80),('SysTick_Handler',15)):
+                if table.get(name,(0,'W'))[1]!='T' or int.from_bytes(image[index*4:index*4+4],'little')!=(table[name][0]|1):
+                    raise RuntimeError('台架实际中断向量未绑定:'+name)
             irq_vector_verified=True
             forbidden = ('gateway_network_open', 'gateway_mqtt_open', 'gateway_config_valid',
                          'h3_config_record_valid', 'FLASH_EraseSector', 'FLASH_ProgramWord')
@@ -213,9 +220,9 @@ def main():
             layout={'schema':1,'target':target,'erase_sectors':[0,4],'sector4_owner_approval_required':True,
                 'images':[dict(address=a,bytes=(out/(target+'-'+n+'.bin')).stat().st_size,
                     **artifact(out/(target+'-'+n+'.bin'))) for n,a in [('boot',0x08000000),('code',0x08010000)]],
-                'HEX':artifact(out/(target+'.hex')),'ELF':artifact(elf),'TLS_port':args.tls_port or 1883,
-                'time_policy':'B5_FRESH_SNTP_UNCHANGED',
-                'normal_runtime_limit':'UNISTART manual-stop; B5START retains420s',
+                'HEX':artifact(out/(target+'.hex')),'ELF':artifact(elf),'TLS_port':None if args.bench else args.tls_port or 1883,
+                'time_policy':'LOCAL_TEST_TIME_NEVER_CLOUD' if args.bench else 'B5_FRESH_SNTP_UNCHANGED',
+                'normal_runtime_limit':f'B4START one-shot {args.bench_seconds or 180}s' if args.bench else 'UNISTART manual-stop; B5START retains420s',
                 'sector3_options_and_all_other_sectors':'PRESERVE'}
             (out/'unified-layout.json').write_text(json.dumps(layout,indent=2)+'\n')
         status = 'PASS'
@@ -233,7 +240,7 @@ def main():
     report = {'ABC_tri_candidate': args.tri, 'version': 'B5-001' if args.b5 else 'B4-0.2', 'status': status,
               'scope': 'FINAL_UNIFIED_C_REAL_RUNTIME_OFFLINE_NOT_DEPLOYED' if args.unified else 'B5_CLOUD_MOCK_SOFTWARE_ONLY_NOT_DEPLOYED' if args.b5 else ('C_ISOLATED_BENCH_LOCAL_TEST_TIME_NOT_DEPLOYED' if args.bench else ('C_DUAL_CAN_ARM_NETWORK_SOFTWARE_BUILD_NOT_DEPLOYED' if args.network_link else 'C_DUAL_CAN_ARM_LINK_ONLY')),
               'bench_time': 'LOCAL_TEST_EPOCH_NOT_UTC' if args.bench else None,
-              'bench_window_limit_ms': 180000 if args.bench else None,
+              'bench_window_limit_ms': (args.bench_seconds or 180)*1000 if args.bench else None,
               'bench_forbidden_symbols_absent': bool(args.bench and status == 'PASS'),
               'bench_UART_IRQ_vector_verified':irq_vector_verified,
               'linker_sha256': hashlib.sha256(linker.read_bytes()).hexdigest(),

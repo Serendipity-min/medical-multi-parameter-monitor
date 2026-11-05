@@ -1,0 +1,67 @@
+{
+  "status": "TWO_NODE_60OHM_CAN_CAPTURE_PASS_B_SOURCE_REVIEW_REQUIRED",
+  "exit_code": 0,
+  "scope": "C_CAN2_B_NODE2_EXISTING_B_FIRMWARE_COMPATIBILITY_DIAGNOSTIC",
+  "resistance_owner_ohm": 60,
+  "B_ESR": "NOT_RUN_JLINK_ON_C",
+  "B_firmware_hash": "NOT_READ_THIS_WINDOW",
+  "D": "DISCONNECTED_OFF",
+  "cloud": "NOT_RUN",
+  "failures": [],
+  "raw_packet_count": 19758,
+  "sequence_errors": 0,
+  "CRC_errors": 0,
+  "discarded_bytes_after_BOOT": 0,
+  "capture_drops": 0,
+  "C_RX_overflow": 0,
+  "C_CAN2_peak_TEC": 0,
+  "C_CAN2_peak_REC": 0,
+  "evaluation_counts": {
+    "1:bus1:0x182": 8754,
+    "1:bus1:0x282": 1751,
+    "1:bus1:0x382": 35,
+    "1:bus1:0x482": 35,
+    "1:bus1:0x682": 35,
+    "1:bus1:0x702": 70,
+    "2:bus1:0x100": 4,
+    "2:bus1:0x703": 70,
+    "3:bus1:0x100": 4,
+    "3:bus1:0x703": 70
+  },
+  "model_value_time_checks_passed": 192,
+  "model_value_time_checks_failed": 0,
+  "model_valid_observations": {
+    "4:True": 87,
+    "5:True": 35,
+    "6:False": 35,
+    "7:False": 35,
+    "9:False": 21,
+    "9:True": 7
+  },
+  "HR_RR_simultaneous_engineering_pass": false,
+  "source_absolute_impedance_calibrated": false,
+  "flash_alias_verified_by_installation": true,
+  "startup_evidence": "INSTALL_RECEIPT_AND_RUNNING_DIAGNOSTICS_NO_BOOT_CAPTURE",
+  "window": {
+    "warmup_ms": 20000,
+    "evaluation_ms": 35000,
+    "CAN_limit_ms": 60000
+  },
+  "diagnostic_only": {
+    "last_quality_flags": 5,
+    "vitals_rows_in_evaluation": 35
+  },
+  "C_actual_CAN_RX": {
+    "0x382": 60,
+    "0x482": 60,
+    "0x682": 61,
+    "0x702": 120,
+    "0x182": 14966,
+    "0x282": 2993
+  },
+  "host_seconds": 62.125,
+  "start_commands_attempted": 1,
+  "abort_commands_attempted": 0,
+  "serial_closed": true,
+  "target_Reset_Go_Flash_commands": 0
+}

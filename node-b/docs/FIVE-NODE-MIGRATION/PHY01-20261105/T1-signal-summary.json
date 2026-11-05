@@ -1,0 +1,31 @@
+{
+  "scope": "RECEIVED_CAN_PDO_ECG_HR_CHARACTERIZATION_NOT_B_RAW_ADC_OR_ANALOG_CALIBRATION",
+  "evaluation_C_ms": [
+    20000,
+    55000
+  ],
+  "ECG_received_samples": 8754,
+  "source_tick_SPS": 250.09285979599417,
+  "ECG_source_tick_step_ms": {
+    "4": 8740,
+    "3": 13
+  },
+  "ECG_PDO_min_max": [
+    -147,
+    142
+  ],
+  "HR_bpm": {
+    "60.0": 35
+  },
+  "ECG_HR_quality_all_valid": true,
+  "RESP_RR_valid_claim": false,
+  "quality_flags": {
+    "5": 35
+  },
+  "C_TX_acked_final": 128,
+  "C_TX_failed_final": 0,
+  "C_busoff_count_final": 0,
+  "B_ADC_source_integrity": "NOT_RUN_NO_SIMULTANEOUS_B_RAW_CAPTURE",
+  "analog_CAN_eye_diagram": "NOT_RUN_NO_OSCILLOSCOPE_CAPTURE",
+  "absolute_1mV_amplitude_accuracy": "NOT_CALIBRATED"
+}

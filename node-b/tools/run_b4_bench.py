@@ -36,6 +36,12 @@ def main():
             '-DMP_CACHE_CAPACITY=64', '-I' + str(dual), '-I' + str(ROOT / 'gateway/canopen/src'),
             '-I' + str(vendor), *sources, '-o', exe]):
         run('bench-protocol', [exe])
+    phy=out/'phy60.exe'
+    if run('compile-phy60-host', ['C:/mingw64/bin/gcc.exe', '-std=c11', '-O2', '-Wall', '-Wextra',
+            '-Werror', '-Wno-unused-parameter', '-DCO_MULTIPLE_OD', '-DMP_FRAME_MAX_SAMPLES=100',
+            '-DMP_CACHE_CAPACITY=64', '-DMP_FIVE_NODE', '-DB4_BENCH_LIMIT_MS=60000u',
+            '-I'+str(dual), '-I'+str(ROOT/'gateway/canopen/src'), '-I'+str(vendor), *sources, '-o', phy]):
+        run('phy60-protocol-and-stop', [phy])
     run('recovery-nor-and-negative-cases', [sys.executable, '-X', 'utf8', ROOT / 'node-b/tests/test_b4_recovery.py'])
     run('bench-network-mutually-exclusive', [sys.executable, dual / 'build_arm.py', '--bench', '--network-link'], 2)
     # 实际取证负例要求独立UART服务模型和管理门禁，不能只模拟足够的平均线速。
@@ -56,7 +62,12 @@ def main():
             '-DMP_CACHE_CAPACITY=64', '-I' + str(ROOT / 'gateway/canopen/src'),
             '-I' + str(vendor), dual / 'b4_bxcan.c', dual / 'tests/bxcan_retransmit.c', '-o', mmio]):
         run('bxcan-retransmit-and-stop', [mmio])
-    report = {'status': 'PASS' if len(cases) == 14 and all(c['passed'] for c in cases) else 'FAIL',
+    if run('compile-phy-bxcan', [*flags, '-Wno-unused-parameter', '-DB4_BXCAN_MMIO_TEST=1',
+            '-DB4_CAPTURE_SERIAL=1', '-DB4_PHY_DIAGNOSTIC', '-DMP_FIVE_NODE', '-DCO_MULTIPLE_OD',
+            '-DMP_FRAME_MAX_SAMPLES=100', '-DMP_CACHE_CAPACITY=64', '-I'+str(ROOT/'gateway/canopen/src'),
+            '-I'+str(vendor), dual/'b4_bxcan.c', dual/'tests/bxcan_retransmit.c', '-o', mmio]):
+        run('phy-CAN1-isolation-and-stop', [mmio])
+    report = {'status': 'PASS' if len(cases) == 18 and all(c['passed'] for c in cases) else 'FAIL',
               'scope': 'OFFLINE_SYNTHETIC_NO_TARGET_IO', 'hardware_operations': 0, 'cases': cases,
               'source_sha256': {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in
                                 [*sources,dual/'b4_capture.c',dual/'b4_capture.h',dual/'tests/capture.c',

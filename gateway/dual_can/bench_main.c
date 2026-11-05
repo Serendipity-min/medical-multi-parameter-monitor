@@ -34,14 +34,29 @@ int main(void) {
     uint32_t diag_at=0; unsigned stop_recorded=0, armed=0;
 #endif
     unsigned hw_quiesced = 0;
-    /* 初始化失败即停留诊断，不切换网络/时钟/复位路径补救；成功也只运行180秒窗口。 */
+    /* 初始化失败即停留诊断，不切换网络/时钟/复位路径补救。 */
     while (1) {
         /* STOP报告前先取消尚在仲裁/重传的邮箱；不能只停应用队列却留下后台发送。 */
         if ((b4_bench_init_error || g_b4_bench.diag.stopped) && !hw_quiesced) {
             b4_hw_stop(); hw_quiesced = 1;
+#if defined(B4_CAPTURE_SERIAL)
+            diagnostic(1,CAN2->ESR,b4_hw_diag[1].received,b4_hw_diag[1].overflow);
+            diagnostic(5,b4_hw_diag[1].tx_acked,b4_hw_diag[1].tx_failed,b4_hw_diag[1].busoff);
+#endif
         }
 #if defined(B4_CAPTURE_SERIAL)
         b4_capture_uart_wake();
+#ifdef B4_PHY_DIAGNOSTIC
+        if (armed && !g_b4_bench.diag.stopped) {
+            int byte=b4_capture_uart_get();
+            if (byte=='X' || (CAN2->ESR & 0xffff0004u) || b4_hw_diag[1].overflow ||
+                b4_hw_diag[1].tx_failed || g_b4_capture.dropped) {
+                b4_bench_init_error=byte=='X'?0x201u:0x200u;
+                g_b4_bench.diag.stopped=1;
+                continue;
+            }
+        }
+#endif
         if (!armed && !g_b4_bench.diag.stopped && !b4_bench_init_error) {
             b4_hw_idle();
             for (unsigned budget=0;budget<8;budget++) {
@@ -67,6 +82,9 @@ int main(void) {
             diagnostic(2,g_b4_capture.dropped,g_b4_capture.high_water,b4_bench_init_error);
             diagnostic(3,g_b4_bench.diag.records,g_b4_bench.gateway.wave_gaps,g_b4_bench.diag.overwritten);
             diagnostic(4,SCB->VTOR,SCB->CFSR,SCB->HFSR);
+            diagnostic(5,b4_hw_diag[1].tx_acked,b4_hw_diag[1].tx_failed,b4_hw_diag[1].busoff);
+            diagnostic(6,b4_hw_diag[1].tx_busy,b4_hw_diag[1].high_water,b4_hw_diag[1].malformed);
+            diagnostic(7,B4_BENCH_LIMIT_MS,500000u,0);
         }
         if (g_b4_bench.diag.stopped && !stop_recorded) {
             uint8_t done[8];

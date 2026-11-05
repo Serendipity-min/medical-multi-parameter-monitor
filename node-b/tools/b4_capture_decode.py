@@ -44,7 +44,8 @@ def vector_diagnostic_ok(vtor,cfsr,hfsr,flash_alias_verified=False):
 
 
 def assess(rows,crc_errors=0,tail_bytes=0,discarded_after_boot=0,flash_alias_verified=False,
-           require_boot=True):
+           require_boot=True,*,window_ms=180000,warmup_ms=45000,evaluation_ms=90000):
+    if not 0<=warmup_ms<warmup_ms+evaluation_ms<=window_ms:raise ValueError('EVALUATION_WINDOW')
     errors=[];counts=Counter();eval_counts=Counter();models=Counter();valids=Counter()
     boot=None;start=None;stop=None;last_seq=None;sequence_errors=0;start_seq=None
     anchor=None;waves=defaultdict(list);wave_times=defaultdict(list);scalars=defaultdict(lambda:deque(maxlen=10))
@@ -66,7 +67,7 @@ def assess(rows,crc_errors=0,tail_bytes=0,discarded_after_boot=0,flash_alias_ver
             start=row;start_seq=row['seq']
             if row['flags']:errors.append('START_INIT_ERROR')
         elapsed=signed_delta(tick,start['tick']) if start else None
-        evaluate=elapsed is not None and 45000<=elapsed<135000
+        evaluate=elapsed is not None and warmup_ms<=elapsed<warmup_ms+evaluation_ms
         if kind==6:
             stop=row
             # 最后一条STOP也携带丢弃累计值，不能只相信上一个整秒的DIAG。
@@ -132,7 +133,7 @@ def assess(rows,crc_errors=0,tail_bytes=0,discarded_after_boot=0,flash_alias_ver
     if boot is None and require_boot:errors.append('BOOT_NOT_CAPTURED')
     if start is None:errors.append('START_NOT_CAPTURED')
     if stop is None:errors.append('STOP_NOT_CAPTURED')
-    elif int.from_bytes(bytes.fromhex(stop['data'])[:4],'little')!=180000 or stop['flags']:
+    elif int.from_bytes(bytes.fromhex(stop['data'])[:4],'little')!=window_ms or stop['flags']:
         errors.append('STOP_DURATION_OR_INIT_ERROR')
     if crc_errors:errors.append('SERIAL_CRC_ERROR')
     if discarded_after_boot:errors.append('SERIAL_RESYNC_AFTER_BOOT')
@@ -142,12 +143,13 @@ def assess(rows,crc_errors=0,tail_bytes=0,discarded_after_boot=0,flash_alias_ver
     if fifo_overflow:errors.append('C_CAN_RX_OVERFLOW')
     if unmatched:errors.append('MODEL_VALUE_OR_SAMPLE_TIME_MISMATCH')
     if matched<100:errors.append('MODEL_EVIDENCE_INSUFFICIENT')
-    for ident,low,high in ((0x182,22275,22725),(0x282,4455,4545)):
+    for ident,step in ((0x182,4),(0x282,20)):
+        expected=evaluation_ms/step;low=expected*.99;high=expected*1.01
         n=eval_counts[(1,1,ident)]
         if not low<=n<=high:errors.append('EVALUATION_COUNT_'+hex(ident))
     for ident in (0x382,0x482,0x682):
-        if eval_counts[(1,1,ident)]<85:errors.append('MISSING_PERIODIC_PDO_'+hex(ident))
-    if eval_counts[(1,1,0x702)]<170:errors.append('HEARTBEAT_INSUFFICIENT')
+        if eval_counts[(1,1,ident)]<evaluation_ms*85/90000:errors.append('MISSING_PERIODIC_PDO_'+hex(ident))
+    if eval_counts[(1,1,0x702)]<evaluation_ms*170/90000:errors.append('HEARTBEAT_INSUFFICIENT')
     if not counts[(3,1,0)]:errors.append('NMT_START_TX_ACK_NOT_PROVEN')
     if not counts[(3,1,0x100)]:errors.append('TIME_TX_ACK_NOT_PROVEN')
     for stream,step in ((4,4),(6,20)):
@@ -165,7 +167,7 @@ def assess(rows,crc_errors=0,tail_bytes=0,discarded_after_boot=0,flash_alias_ver
             'HR_RR_simultaneous_engineering_pass':False,'source_absolute_impedance_calibrated':False,
             'flash_alias_verified_by_installation':flash_alias_verified,
             'startup_evidence':'WIRE_BOOT' if require_boot else 'INSTALL_RECEIPT_AND_RUNNING_DIAGNOSTICS_NO_BOOT_CAPTURE',
-            'window':{'warmup_ms':45000,'evaluation_ms':90000,'CAN_limit_ms':180000},
+            'window':{'warmup_ms':warmup_ms,'evaluation_ms':evaluation_ms,'CAN_limit_ms':window_ms},
             'diagnostic_only':{'last_quality_flags':quality_last,'vitals_rows_in_evaluation':len(eval_hr)}}
 
 def main():

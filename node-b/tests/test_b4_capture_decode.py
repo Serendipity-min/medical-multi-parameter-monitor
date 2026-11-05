@@ -80,6 +80,16 @@ class Tests(unittest.TestCase):
         self.assertEqual(r['evaluation_counts']['1:bus1:0x182'],22500)
         self.assertEqual(r['evaluation_counts']['1:bus1:0x282'],4500)
         self.assertFalse(r['HR_RR_simultaneous_engineering_pass'])
+    def test_phy60_bound_and_evaluation(self):
+        rows=[r for r in fixture() if r['tick']<60000]
+        rows.append(dict(fixture()[-1],tick=60000,seq=rows[-1]['seq']+1,data=struct.pack('<II',60000,0).hex()))
+        self.assertIn('STOP_DURATION_OR_INIT_ERROR',d.assess(rows)['failures'])
+        r=d.assess(rows,window_ms=60000,warmup_ms=20000,evaluation_ms=35000)
+        self.assertEqual(r['failures'],[])
+        self.assertEqual(r['evaluation_counts']['1:bus1:0x182'],8750)
+        self.assertEqual(r['evaluation_counts']['1:bus1:0x282'],1750)
+        bad=rows[:-1]+[dict(rows[-1],data=struct.pack('<II',60001,0).hex())]
+        self.assertIn('STOP_DURATION_OR_INIT_ERROR',d.assess(bad,window_ms=60000,warmup_ms=20000,evaluation_ms=35000)['failures'])
     def test_sequence_gap(self):
         rows=fixture();r=d.assess(rows[:200]+rows[201:]);self.assertIn('SERIAL_SEQUENCE_GAP',r['failures'])
     def test_second_boot(self):

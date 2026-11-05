@@ -4,7 +4,9 @@
 
 /* 固定测试纪元仅服务隔离台架；不得标成真实UTC，也不进入MQTT/正式数据目录。 */
 #define B4_BENCH_EPOCH 1577836800u
+#ifndef B4_BENCH_LIMIT_MS
 #define B4_BENCH_LIMIT_MS 180000u
+#endif
 #define B4_BENCH_RING 16u
 typedef struct {
     uint32_t magic, test_time_only, elapsed_ms, stopped, records, overwritten;

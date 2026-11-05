@@ -59,6 +59,6 @@ int main(void) {
     assert(bench.diag.elapsed_ms == 10001 && !bench.diag.stopped && times == 2);
     assert(time_ms == 10000 && !tx[0]);
     b4_gateway_close(&bench.gateway);
-    puts("BENCH PASS: local TIME, B-only NMT/TIME, tick wrap, bounded RAM, 180s stop; synthetic only");
+    printf("BENCH PASS: local TIME, B-only NMT/TIME, tick wrap, bounded RAM, %us stop; synthetic only\n",B4_BENCH_LIMIT_MS/1000u);
     return 0;
 }
