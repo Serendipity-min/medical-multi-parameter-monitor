@@ -1,0 +1,20 @@
+{
+  "base": "e8804f8a8092a38a8a5ff9be2f7162dfbcd091e3",
+  "production_changes": [
+    "gateway/storage/router.c",
+    "gateway/b5/egress.h"
+  ],
+  "source_sha256": {
+    "gateway/storage/router.c": "a0708627e342fbf5983c0535875c6c5a325e04ee69cfc3da9040a192807686b9",
+    "gateway/b5/egress.h": "200311d49145101da5e2a8bc60afa501954a1cda5288c87965a61df12822d996",
+    "gateway/b5/test_five_node_p1.c": "da558e34a291a2f7a6f5d06a7503616bbab3d0ceab4185c4698ccb25841b1d27",
+    "gateway/b5/test_five_node_p1_bridge.c": "c71352a16d24789229ac3b52a0084d30fa4e313979878f082e1b95ad3b355b23",
+    "node-b/tools/five_node_p1_offline.py": "127f75710d7875fc68d266598c37a24b48a4b20db277b1b251b8af5a371fe9b3"
+  },
+  "raw_field_records_modified": false,
+  "actual_images_modified": false,
+  "new_hardware_or_network_operations": 0,
+  "commit_push_this_P1": false,
+  "next": "STOP_BARE_METAL_TUNING_HANDOFF_FREERTOS_NETWORK_ARCHITECTURE",
+  "evidence_scope": "COUNTER_BUDGET_AND_SURVIVOR_REPLAY_NOT_FULL_ORDERED_CAN_INGRESS"
+}

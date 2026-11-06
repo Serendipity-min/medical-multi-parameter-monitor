@@ -44,13 +44,14 @@ static inline int b5_egress_step(MpRouter *r,B5Publisher *s,bool allow_new) {
     if(!allow_new)return 1;
     uint64_t utc=gateway_epoch_milliseconds();
     bool medical_due=false;
-    for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(s->tickets[i] && utc>s->inflight[i].timestamp && utc-s->inflight[i].timestamp>2500u)medical_due=true;
+    for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(s->tickets[i] && !s->inflight[i].replay && utc>=s->inflight[i].timestamp && utc-s->inflight[i].timestamp>=2500u)medical_due=true;
     if(!s->deferred && !s->audio_yield && !medical_due && b5_audio_room(r,utc) && unified_audio_send_due()){
         unified_audio_step(true);if(gateway_audio_pending()){s->audio_yield=true;return 1;}
     }
     int admission=gateway_mqtt_admit();
     if(admission==GW_FAILED){s->failed++;return 0;}if(admission==GW_DEFERRED)return 1;
-    if(s->deferred || mp_router_take_egress(r,&s->publishing,g_uptime_ms,utc,gateway_mqtt_slots_full())){
+    /* 老实时事务优先收确认；此时仅允许不占QoS1槽的实时波形。 */
+    if(s->deferred || mp_router_take_egress(r,&s->publishing,g_uptime_ms,utc,gateway_mqtt_slots_full() || medical_due)){
         if(!s->deferred && !b5_prepare_publish(&s->publishing,utc))return 1;
         int result=gateway_mqtt_begin(&s->publishing);s->deferred=result==GW_DEFERRED;
         if(s->deferred || b5_network_stopped())return 1;

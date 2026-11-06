@@ -1,0 +1,28 @@
+{
+  "status": "PASS_SOURCE_REPORT_AND_INDEX_CONSISTENCY_ONLY",
+  "checked_utc": "2026-11-06T15:23:44+00:00",
+  "base": "e8804f8a8092a38a8a5ff9be2f7162dfbcd091e3",
+  "source_sha256": {
+    "gateway/storage/router.c": "a0708627e342fbf5983c0535875c6c5a325e04ee69cfc3da9040a192807686b9",
+    "gateway/b5/egress.h": "200311d49145101da5e2a8bc60afa501954a1cda5288c87965a61df12822d996",
+    "gateway/b5/test_five_node_p1.c": "da558e34a291a2f7a6f5d06a7503616bbab3d0ceab4185c4698ccb25841b1d27",
+    "gateway/b5/test_five_node_p1_bridge.c": "c71352a16d24789229ac3b52a0084d30fa4e313979878f082e1b95ad3b355b23",
+    "node-b/tools/five_node_p1_offline.py": "127f75710d7875fc68d266598c37a24b48a4b20db277b1b251b8af5a371fe9b3"
+  },
+  "source_matches_prior_validated_snapshot": true,
+  "production_source_matches_prior_ARM_inputs": true,
+  "prior_test_receipts_checked_not_rerun": true,
+  "prior_performance_arithmetic_consistent": true,
+  "prior_raw_evidence_hashes_match_frozen_index": true,
+  "actual_installed_manifest_unchanged": true,
+  "frozen_M0_and_R6_refs_unchanged": true,
+  "local_and_fixed_commit_links_checked": 52,
+  "new_test_runs": 0,
+  "new_builds": 0,
+  "hardware_operations": 0,
+  "FreeRTOS_started": false,
+  "performance_status": "CAPACITY_NOT_PASS",
+  "P1_installed": false,
+  "private_binary_or_raw_data_in_delivery": false,
+  "note": "Historical no-push/network=0 fields describe prior offline phase; current Git delivery is separately authorized."
+}

@@ -49,7 +49,7 @@ void mp_router_online(MpRouter *r, bool online)
         }
 }
 
-/* 同一节点/流仅保留最新待发项；替换内容时保留队列位置，避免慢流长期饥饿。 */
+/* 波形按次FIFO；允许合并的状态/标量保留队位，避免慢流长期饥饿。 */
 void mp_router_put(MpRouter *r, const MpFrame *f)
 {
 #ifdef MP_B5_EGRESS_FINAL
@@ -72,7 +72,7 @@ void mp_router_put(MpRouter *r, const MpFrame *f)
 #ifdef MP_B5_CLOUD_CANDIDATE
             /* B5遥测按次FIFO；短突发不能把仍有实时队列空间的前项变成历史。 */
             && !(!f->replay &&
-                 (f->stream == MP_ECG || f->stream == MP_RESP ||
+                 (f->stream == MP_ECG || f->stream == MP_RESP || f->stream == MP_PPG ||
                   f->stream == MP_HR || f->stream == MP_RR || f->stream == MP_TEMP) &&
                   f->node == mp_role_node((MpStream)f->stream))
 #endif
@@ -107,9 +107,26 @@ void mp_router_put(MpRouter *r, const MpFrame *f)
 #endif
 }
 
+static bool take_history(MpRouter *r,MpFrame *out,uint32_t now) {
+    bool turn=!r->ln || r->live_credit>=8;
+    uint32_t interval=r->ln?2000u:500u;
+    if(!turn || !r->ready_for_replay || !r->cn || (uint32_t)(now-r->last_replay)<interval)return false;
+    *out=r->cache[r->ch];out->replay=true;
+    r->ch=(r->ch+1)%MP_CACHE_CAPACITY;r->cn--;
+    r->last_replay=now;r->live_credit=0;
+    return true;
+}
+
 #ifdef MP_B5_EGRESS_FINAL
 bool mp_router_take_egress(MpRouter *r,MpFrame *out,uint32_t now,uint64_t utc,bool pending) {
     if(!r->online)return false;
+    /* 补传用原配额；给实时5秒期限留半窗余量，并保留两个突发槽。 */
+    bool replay_safe=!pending && r->ln<MP_LIVE_CAPACITY-2;
+    for(unsigned i=0;replay_safe && i<r->ln;i++) {
+        const MpFrame *f=&r->live[(r->lh+i)%MP_LIVE_CAPACITY];
+        if(utc>=f->timestamp && utc-f->timestamp>=2500u)replay_safe=false;
+    }
+    if(replay_safe && take_history(r,out,now)){r->taken[out->stream]++;return true;}
     unsigned chosen=MP_LIVE_CAPACITY;int best=100;
 #ifdef MP_ABC_TRI_CANDIDATE
     uint64_t oldest=UINT64_MAX;
@@ -146,10 +163,7 @@ bool mp_router_take_egress(MpRouter *r,MpFrame *out,uint32_t now,uint64_t utc,bo
         if(utc>out->timestamp && utc-out->timestamp>5000)r->expired++;
         return true;
     }
-    if(pending)return false;
-    bool result=mp_router_take(r,out,now);
-    if(result)r->taken[out->stream]++;
-    return result;
+    return false;
 }
 #endif
 
@@ -159,19 +173,8 @@ bool mp_router_take(MpRouter *r, MpFrame *out, uint32_t now)
     if (!r->online)
         return false;
     /* 实时优先采用有界配额，避免持续满载让历史永久饿死：忙时至少8条实时后补1条，且间隔>=2s。 */
-    bool history_turn = !r->ln || r->live_credit >= 8;
-    uint32_t interval = r->ln ? 2000U : 500U;
-    if (history_turn && r->ready_for_replay && r->cn &&
-        (uint32_t)(now - r->last_replay) >= interval)
-    {
-        *out = r->cache[r->ch];
-        out->replay = true;
-        r->ch = (r->ch + 1) % MP_CACHE_CAPACITY;
-        r->cn--;
-        r->last_replay = now;
-        r->live_credit = 0;
+    if (take_history(r,out,now))
         return true;
-    }
     if (r->ln)
     {
         *out = r->live[r->lh];

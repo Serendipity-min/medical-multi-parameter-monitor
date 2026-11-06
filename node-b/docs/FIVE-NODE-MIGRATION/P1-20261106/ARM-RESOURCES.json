@@ -1,0 +1,154 @@
+{
+  "status": "OFFLINE_ARM_BUILD_PASS_NOT_INSTALLED_NOT_FIELD_ELIGIBLE",
+  "compile_native_exit": 0,
+  "actual_installed_images": "../FIVE41-20261106/CURRENT-IMAGES.json",
+  "baseline": {
+    "schema": 1,
+    "target": "ABC_UNIFIED_C_V1",
+    "erase_sectors": [
+      0,
+      4
+    ],
+    "sector4_owner_approval_required": true,
+    "images": [
+      {
+        "address": 134217728,
+        "bytes": 392,
+        "file": "ABC_UNIFIED_C_V1-boot.bin",
+        "SHA256": "0ac74b0de14294f9cfc8f83e1dd22f22840ace744affb06cea63984dfceaa155"
+      },
+      {
+        "address": 134283264,
+        "bytes": 56072,
+        "file": "ABC_UNIFIED_C_V1-code.bin",
+        "SHA256": "b92a232d124947e07c129a238b4ff86a75432a6ad18bf4787729d13580ab217f"
+      }
+    ],
+    "HEX": {
+      "file": "ABC_UNIFIED_C_V1.hex",
+      "SHA256": "4cca5c3057c43f0f6636d4b3787d0c4d8641e9f39e2d69471b6e55e55f450b52"
+    },
+    "ELF": {
+      "file": "ABC_UNIFIED_C_V1.elf",
+      "SHA256": "0c3c46312b4c6f995132060a94e0f6bb8d71614a682f3a539f9bd9e6c77c2306"
+    },
+    "TLS_port": 1883,
+    "time_policy": "B5_FRESH_SNTP_UNCHANGED",
+    "normal_runtime_limit": "UNISTART manual-stop; B5START retains420s",
+    "sector3_options_and_all_other_sectors": "PRESERVE"
+  },
+  "offline_build": {
+    "schema": 1,
+    "target": "ABC_UNIFIED_C_V1",
+    "erase_sectors": [
+      0,
+      4
+    ],
+    "sector4_owner_approval_required": true,
+    "images": [
+      {
+        "address": 134217728,
+        "bytes": 392,
+        "file": "ABC_UNIFIED_C_V1-boot.bin",
+        "SHA256": "fd579c0d78340b7093764839bcd8b6349bd6ccb8d03fb56219899a86337090d7"
+      },
+      {
+        "address": 134283264,
+        "bytes": 56144,
+        "file": "ABC_UNIFIED_C_V1-code.bin",
+        "SHA256": "18841b4b859b7518cc6716ace6791592214957f205e31564dd7391404e491f34"
+      }
+    ],
+    "HEX": {
+      "file": "ABC_UNIFIED_C_V1.hex",
+      "SHA256": "3455cf3eb2fb2bd91ee15b318cd7b711feafcc42c6761f58a92543206c4d0684"
+    },
+    "ELF": {
+      "file": "ABC_UNIFIED_C_V1.elf",
+      "SHA256": "df719c8db8412e2607c0ad7b399131b867a9c2af1b5b04e5a55a55384d0a3027"
+    },
+    "TLS_port": 1883,
+    "time_policy": "B5_FRESH_SNTP_UNCHANGED",
+    "normal_runtime_limit": "UNISTART manual-stop; B5START retains420s",
+    "sector3_options_and_all_other_sectors": "PRESERVE"
+  },
+  "flash_total_load_before": 56464,
+  "flash_total_load_after": 56536,
+  "sector4_free_before": 9464,
+  "sector4_free_after": 9392,
+  "ELF_segments_before": [
+    {
+      "vaddr": 134217728,
+      "paddr": 134217728,
+      "load_bytes": 392,
+      "memory_bytes": 392
+    },
+    {
+      "vaddr": 134283264,
+      "paddr": 134283264,
+      "load_bytes": 55968,
+      "memory_bytes": 55968
+    },
+    {
+      "vaddr": 536870912,
+      "paddr": 134339232,
+      "load_bytes": 104,
+      "memory_bytes": 82948
+    },
+    {
+      "vaddr": 536953860,
+      "paddr": 134339336,
+      "load_bytes": 0,
+      "memory_bytes": 32772
+    },
+    {
+      "vaddr": 268435456,
+      "paddr": 268435456,
+      "load_bytes": 0,
+      "memory_bytes": 64000
+    }
+  ],
+  "ELF_segments_after": [
+    {
+      "vaddr": 134217728,
+      "paddr": 134217728,
+      "load_bytes": 392,
+      "memory_bytes": 392
+    },
+    {
+      "vaddr": 134283264,
+      "paddr": 134283264,
+      "load_bytes": 56040,
+      "memory_bytes": 56040
+    },
+    {
+      "vaddr": 536870912,
+      "paddr": 134339304,
+      "load_bytes": 104,
+      "memory_bytes": 82948
+    },
+    {
+      "vaddr": 536953860,
+      "paddr": 134339408,
+      "load_bytes": 0,
+      "memory_bytes": 32772
+    },
+    {
+      "vaddr": 268435456,
+      "paddr": 268435456,
+      "load_bytes": 0,
+      "memory_bytes": 64000
+    }
+  ],
+  "SRAM_memory_segments_before": 115720,
+  "SRAM_memory_segments_after": 115720,
+  "CCM_bytes_before": 64000,
+  "CCM_bytes_after": 64000,
+  "live_capacity": 24,
+  "history_capacity": 56,
+  "recording_seconds": 2,
+  "freshness_ms": 5000,
+  "NIBP_expiry_ms": 90000,
+  "device_window_max_ms": 420000,
+  "hardware_operations": 0
+}
