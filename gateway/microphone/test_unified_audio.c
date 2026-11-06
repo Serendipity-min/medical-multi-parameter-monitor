@@ -19,6 +19,7 @@ int mic_initialize(void){return 1;}
 void mic_record_begin(void){record_state=1;sample_count=0;}
 unsigned mic_record_state(void){return record_state;}
 void mic_record_poll(void){}
+void mic_record_finish(void){if(record_state==1)record_state=2;}
 void mic_record_cancel(void){record_state=3;}
 const int16_t *mic_record_pcm(unsigned *n){*n=sample_count;return samples;}
 void mic_record_export(void){exported++;}
@@ -32,13 +33,15 @@ int tts_uart_receive(void){if(ack_due){ack_due=0;return 0x41;}if(idle_due){idle_
 uint32_t tts_uart_errors(void){return 0;}
 uint32_t tts_uart_overflow(void){return 0;}
 void console(const char *s){(void)s;}
+void platform_last_send_timing(uint32_t *prompt,uint32_t *send_ok){*prompt=*send_ok=0;}
 uint64_t gateway_epoch_milliseconds(void){return 1800000000000ULL+g_uptime_ms;}
 int gateway_mqtt_pending(void){return result==GW_PENDING;}
 int gateway_audio_ready(void){return (int)ready;}
 int gateway_audio_begin(const uint8_t p[544]) {
     CHECK(!gateway_mqtt_pending());memcpy(last_packet,p,544);submissions++;result=GW_PENDING;return GW_PENDING;
 }
-int gateway_audio_result(void){return result;}
+uint16_t gateway_audio_ticket(void){return (uint16_t)submissions;}
+int gateway_audio_ticket_result(uint16_t id){CHECK(id==submissions);return result;}
 static void tick(void){g_uptime_ms++;unified_audio_local_poll();}
 static void drain(void){for(unsigned i=0;i<250;i++)tick();}
 static void prepare(void) {
@@ -61,7 +64,7 @@ int main(void) {
     CHECK(unified_audio_send_due());
     for(sent=0;sent<125;sent++) {
         unified_audio_step(true);CHECK(submissions==sent+1 && result==GW_PENDING);
-        CHECK(!unified_audio_send_due());
+        CHECK(unified_audio_send_due()==(sent<124));
         uint16_t seq;memcpy(&seq,last_packet+8,2);CHECK(seq==sent);
         CHECK(!memcmp(last_packet+32,(uint8_t *)samples+512*sent,512));
         memcpy(&accepted_session,last_packet+4,4);memcpy(&accepted_crc,last_packet+20,4);CHECK(accepted_crc==whole);
@@ -71,9 +74,9 @@ int main(void) {
             premature[12]=3;memcpy(premature+16,"OK!",3);
             unified_audio_reply(premature,19);CHECK(nbytes==previous);
         }
-        unsigned before=submissions;for(unsigned i=0;i<10;i++){unified_audio_step(true);tick();}CHECK(submissions==before);
+        unsigned before=submissions;for(unsigned i=0;i<10;i++){unified_audio_step(false);tick();}CHECK(submissions==before);
         result=GW_COMPLETE;unified_audio_step(false);
-        CHECK(!unified_audio_send_due());
+        CHECK(unified_audio_send_due()==(sent<124));
         if(sent<124){for(unsigned i=0;i<240;i++)tick();CHECK(unified_audio_send_due());}
     }
     CHECK(submissions==125);
@@ -100,6 +103,30 @@ int main(void) {
     g_uptime_ms=turn_start+270000u;unified_audio_local_poll();
     memcpy(reply+4,&accepted_session,4);memcpy(reply+8,&accepted_crc,4);
     previous=nbytes;unified_audio_reply(reply,sizeof reply);drain();CHECK(nbytes==previous+8);
-    printf("HOST_UNIFIED_AUDIO_PASS checks=%u chunks=%u hash_slices=%u crc=%lu hardware=NOT_RUN\n",checks,submissions,steps,(unsigned long)whole);
+    /* 同一真实状态机：消抖、极短取消、1.5秒提前结束及上传中按键不重入。 */
+    prepare();record_state=0;unsigned key_before=submissions;
+    unified_audio_key(true);g_uptime_ms+=29;unified_audio_key(true);CHECK(record_state==0);
+    g_uptime_ms++;unified_audio_key(true);CHECK(record_state==1);
+    unified_audio_key(false);g_uptime_ms+=30;unified_audio_key(false);
+    sample_count=8000;unified_audio_key(true);g_uptime_ms+=30;unified_audio_key(true);
+    CHECK(record_state==2 && submissions==key_before);
+    drain();ack_due=idle_due=1;tick();
+    unified_audio_key(false);g_uptime_ms+=30;unified_audio_key(false);
+    unified_audio_key(true);g_uptime_ms+=30;unified_audio_key(true);CHECK(record_state==1);
+    unified_audio_key(false);g_uptime_ms+=30;unified_audio_key(false);
+    sample_count=24000;unified_audio_key(true);g_uptime_ms+=30;unified_audio_key(true);tick();
+    for(unsigned i=0;i<375;i++){unified_audio_step(false);tick();}
+    unified_audio_step(true);CHECK(submissions==key_before+1 && !memcmp(last_packet,"MC02",4));
+    CHECK(last_packet[10]==94 && last_packet[11]==0);
+    unified_audio_key(false);g_uptime_ms+=30;unified_audio_key(false);
+    unified_audio_key(true);g_uptime_ms+=30;unified_audio_key(true);
+    CHECK(record_state==2 && submissions==key_before+1);
+    prepare();record_state=0;unified_audio_network(false);unsigned offline_before=submissions,voice_before=nbytes;
+    unified_audio_key(true);g_uptime_ms+=30;unified_audio_key(true);drain();
+    CHECK(record_state==0 && submissions==offline_before && nbytes>voice_before);
+    ack_due=idle_due=1;tick();unified_audio_network(true);
+    unified_audio_key(false);g_uptime_ms+=30;unified_audio_key(false);
+    unified_audio_key(true);g_uptime_ms+=30;unified_audio_key(true);CHECK(record_state==1);
+    printf("HOST_UNIFIED_AUDIO_PASS checks=%u chunks=%u hash_poll_calls=%u crc=%lu hardware=NOT_RUN\n",checks,submissions,steps,(unsigned long)whole);
     return 0;
 }

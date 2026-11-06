@@ -20,6 +20,10 @@ typedef struct {
     uint32_t now, epoch, utc_at, utc_fraction, time_sent, malformed, wrong_bus, resets, wave_gaps, unstamped;
     uint32_t session; /* B5由新鲜SNTP毫秒锚建立网关连接代次，不改节点原始boot字段。 */
     uint32_t quality_resets, partial_discarded;
+#ifdef MP_FINAL_UNIFIED
+    uint32_t flow_gaps[2][2],flow_quality[2][2],flow_discarded[2][2],unstamped_stream[MP_STREAMS];
+    uint32_t ppg_partial_batches,ppg_partial_samples;
+#endif
     bool utc_valid;
 } B4Gateway;
 int b4_gateway_init(B4Gateway *g);

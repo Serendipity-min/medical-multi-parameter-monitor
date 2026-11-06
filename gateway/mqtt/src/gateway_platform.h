@@ -10,6 +10,8 @@ void platform_init(void);
 void platform_set_poll(void (*callback)(void));
 /* 主循环、AT 等待和 JSON 序列化共用入口，内部提供重入保护。 */
 void platform_poll(void);
+/* 只报告主机侧已收字节，不开启新的AT接收事务。 */
+unsigned platform_mqtt_buffered(void);
 /* C网络诊断只读接口：累计UART错误不随重连清零，控制台忙时避免递归输出。 */
 uint32_t platform_uart_errors_total(void);
 int platform_console_busy(void);
@@ -24,5 +26,6 @@ uint32_t platform_uart_errors_total(void);
 int at_command(const char *command, uint32_t timeout_ms);
 const char *at_response(void);
 void delay_ms(uint32_t milliseconds);
+void platform_last_send_timing(uint32_t *prompt_ms,uint32_t *send_ok_ms);
 extern volatile uint32_t g_uptime_ms;
 #endif

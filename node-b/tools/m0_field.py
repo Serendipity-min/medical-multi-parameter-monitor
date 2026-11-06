@@ -67,7 +67,7 @@ def prepare(topology,profile,port):
     return job,a,bundle
 
 
-def run(job,a,bundle):
+def run(job,a,bundle,*,timing_only=False,reference_wav=None):
     root=Path(a['output']);root.mkdir();stop=threading.Event();shared={};workers=[];logs=[];tunnel=None
     result={'exit_code':1,'topology':a['topology'],'profile':a['channel_profile'],'B5START':0,'A_B_Flash_writes':0}
     def child(cmd,label):
@@ -77,13 +77,21 @@ def run(job,a,bundle):
         deadline=time.monotonic()+seconds
         while time.monotonic()<deadline:
             if any((root/n).exists() for n in ('B_FAULT.json','CLOUD_FAULT.json')):raise RuntimeError('M0_WORKER_FAILED')
+            if b:
+                heartbeat=root/'B/heartbeat-events.jsonl'
+                if heartbeat.exists():
+                    lines=heartbeat.read_text().splitlines()
+                    if lines:
+                        event=json.loads(lines[-1])
+                        if event.get('active') and time.monotonic()>event['deadline_monotonic']:
+                            b.kill();raise RuntimeError('ABC_B_NATIVE_TIMEOUT')
             if check():return
             time.sleep(.1)
         raise TimeoutError('M0_'+label)
     def field(action,extra=()):
         return child([sys.executable,'-X','utf8',str(ROOT/'gateway/microphone/field.py'),'--unified','--job',str(job),
                       '--port',a['COM'],'--topology',a['topology'],'--action',action,*extra],'field-'+action)
-    observer=None;b=None;capture=None
+    observer=None;b=None;capture=None;browser=None
     try:
         with socket.socket() as sock:sock.bind(('127.0.0.1',0));port=sock.getsockname()[1]
         tunnel=child(['ssh','-o','BatchMode=yes','-o','StrictHostKeyChecking=yes','-o','ExitOnForwardFailure=yes','-N',
@@ -114,13 +122,16 @@ def run(job,a,bundle):
         browser=child([sys.executable,'-X','utf8',str(ROOT/'node-b/tools/abc_webpage.py'),'--job',str(job)],'browser')
         common=g.load(root/'CLOUD_COMMON.json');wait_for(lambda:time.monotonic()>=common['monotonic']+45,50,'WARMUP')
         g.save(job/'VOICE_READY.json',{'monotonic':time.monotonic(),'warmup_s':45,'B_session':common['B_session']})
-        print(json.dumps({'event':'M0_READY_PLAY_AUDIO','evaluation_s':300}),flush=True)
-        wait_for(lambda:(job/'VOICE_GO').exists(),600,'OWNER_AUDIO_NOT_STARTED')
-        capture=field('capture',('--window-seconds','300'))
-        wait_for(lambda:any(job.glob('field-capture-*/evaluation.json')),8,'EVALUATION_START')
-        evaluation=next(job.glob('field-capture-*/evaluation.json'));e=g.load(evaluation)
+        print(json.dumps({'event':'ABC_TIMING_FIXED_AUDIO_READY' if timing_only else 'M0_READY_PLAY_AUDIO','maximum_s':300}),flush=True)
+        if not timing_only and reference_wav is None:wait_for(lambda:(job/'VOICE_GO').exists(),600,'OWNER_AUDIO_NOT_STARTED')
+        capture_args=('--timing-only',) if timing_only else ('--window-seconds','300')
+        if reference_wav is not None:capture_args+=('--reference-wav',str(reference_wav))
+        capture=field('capture',capture_args)
+        pattern='field-capture-*/timing-window-private.json' if timing_only else 'field-capture-*/evaluation.json'
+        wait_for(lambda:any(job.glob(pattern)),8,'EVALUATION_START')
+        evaluation=next(job.glob(pattern));e=g.load(evaluation)
         g.save(root/'T0.json',dict(e,B_session=common['B_session'],gateway_session=common['gateway_session'],common_monotonic=common['monotonic'],warmup_completed=True))
-        print(json.dumps({'event':'M0_EVALUATION_STARTED','evaluation_s':300,'manual_NIBP':a['topology']=='ABC'}),flush=True)
+        print(json.dumps({'event':'ABC_AUDIO_TIMING_STARTED' if timing_only else 'M0_EVALUATION_STARTED','maximum_s':300,'manual_NIBP':False if timing_only else a['topology']=='ABC'}),flush=True)
         wait_for(lambda:capture.poll() is not None,345,'CAPTURE_END_TIMEOUT')
         result['capture_native_exit']=capture.returncode;g.require(capture.returncode==0,'M0_CAPTURE_FAILED')
         (root/'END_B').write_text('');g.require(b.wait(timeout=15)==0,'M0_B_EXIT_FAILED')
@@ -128,7 +139,7 @@ def run(job,a,bundle):
         g.require(g.load(root/'cloud-receipt-private.json')['exit_code']==0,'M0_CLOUD_EXIT_FAILED')
         with (root/'C-lines-private.jsonl').open('xb') as merged:
             for path in sorted(job.glob('field-*/C-lines-private.jsonl')):merged.write(path.read_bytes())
-        result.update(exit_code=0,status='M0_CAPTURED_OFFLINE_REVIEW_AND_OWNER_HEARING_PENDING',B_native_exit=b.returncode)
+        result.update(exit_code=0,status='ABC_AUDIO_TIMING_CAPTURED_REVIEW_PENDING' if timing_only else 'M0_CAPTURED_OFFLINE_REVIEW_AND_OWNER_HEARING_PENDING',B_native_exit=b.returncode,timing_only=timing_only)
     except Exception as error:
         g.save(job/'failure-private.json',{'type':type(error).__name__,'reason':str(error)})
         result.update(error_type=type(error).__name__,error_sha256=g.sha(str(error).encode()))
@@ -137,6 +148,9 @@ def run(job,a,bundle):
             finish=field('finish');result['cleanup_STOP_native_exit']=finish.wait(timeout=30)
     finally:
         (root/'END_B').write_text('');(job/'STOP_BROWSER').write_text('');stop.set()
+        if browser and browser.poll() is None:
+            try:browser.wait(timeout=10)
+            except subprocess.TimeoutExpired:browser.terminate();browser.wait(timeout=5)
         if b and b.poll() is None:
             try:b.wait(timeout=65)
             except subprocess.TimeoutExpired:b.terminate();b.wait(timeout=5)

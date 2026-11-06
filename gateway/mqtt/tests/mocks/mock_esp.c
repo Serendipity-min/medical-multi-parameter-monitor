@@ -21,15 +21,19 @@ int mock_tls_started, mock_ping_count;
 uint16_t mock_last_id, mock_old_id;
 unsigned char mock_packet[2048];
 size_t mock_packet_length;
+unsigned mock_send_calls,mock_publish_count;
 const char *mock_fail_at;
 MpRouter *mock_router_probe;
 static unsigned char wire[2048], rx[1024], ack[12];
 static size_t wire_length, rx_length, rx_offset, ack_length;
+unsigned platform_mqtt_buffered(void){return (unsigned)(rx_length-rx_offset);}
 static uint32_t ack_at;
 #ifdef MP_FINAL_UNIFIED
 typedef struct {unsigned char data[12];size_t length;uint32_t at;} QueuedAck;
-static QueuedAck queued_ack[4];static unsigned ack_head,ack_count;
+enum { MOCK_ACK_SLOTS=GATEWAY_TELEMETRY_SLOTS+GATEWAY_AUDIO_SLOTS };
+static QueuedAck queued_ack[MOCK_ACK_SLOTS];static unsigned ack_head,ack_count;
 void (*mock_published)(const unsigned char *,size_t);
+void platform_last_send_timing(uint32_t *prompt_ms,uint32_t *send_ok_ms){*prompt_ms=*send_ok_ms=0;}
 #endif
 
 void (*mock_poll_callback)(void);
@@ -100,6 +104,7 @@ static void sent_packet(void)
     memcpy(mock_packet, wire, wire_length);
     mock_packet_length = wire_length;
     unsigned type = wire[0] & 0xf0U;
+    if(type==0x30)mock_publish_count++;
 #ifdef MP_FINAL_UNIFIED
     if(mock_published && type==0x30)mock_published(wire,wire_length);
 #endif
@@ -141,7 +146,7 @@ static void sent_packet(void)
         ack_at = g_uptime_ms + (uint32_t)mock_delay_ms;
 #ifdef MP_FINAL_UNIFIED
         if(ack_length){
-            assert(ack_count<4);QueuedAck *q=&queued_ack[(ack_head+ack_count)%4];
+            assert(ack_count<MOCK_ACK_SLOTS);QueuedAck *q=&queued_ack[(ack_head+ack_count)%MOCK_ACK_SLOTS];
             memcpy(q->data,ack,ack_length);q->length=ack_length;q->at=ack_at;ack_count++;ack_length=0;
         }
 #endif
@@ -152,6 +157,7 @@ static void sent_packet(void)
 int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout)
 {
     assert(timeout > 0);
+    mock_send_calls++;
     platform_poll();
     if(mock_send_stall_ms){g_uptime_ms+=mock_send_stall_ms;mock_send_stall_ms=0;platform_poll();}
     if(mock_send_base_ms || mock_emulate_uart){g_uptime_ms+=mock_send_base_ms+(mock_emulate_uart?(unsigned)(length*10000u+115199u)/115200u:0);platform_poll();}
@@ -165,11 +171,15 @@ int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout)
     {
         size_t remaining = 0, header = 1;
         /* 先等变长长度的最后一字节，短写中间不把报文当成完整。 */
-        while (header < wire_length && (wire[header] & 128U)) header++;
-        if (header < wire_length)
-        {
-            header = header_size(wire, &remaining);
-            if (wire_length == header + remaining) sent_packet();
+        while (wire_length>=2) {
+            header=1;while(header<wire_length && (wire[header]&128U))header++;
+            if(header>=wire_length)break;
+            header=header_size(wire,&remaining);
+            size_t packet_length=header+remaining;
+            if(wire_length<packet_length)break;
+            size_t trailing=wire_length-packet_length;
+            wire_length=packet_length;sent_packet();
+            memmove(wire,wire+packet_length,trailing);wire_length=trailing;
         }
     }
     return sent;
@@ -182,7 +192,7 @@ int esp_mqtt_recv(unsigned char *data, int length, uint32_t timeout)
         assert(!mock_router_probe->ready_for_replay && !mock_router_probe->replayed);
 #ifdef MP_FINAL_UNIFIED
     if(ack_count && (int32_t)(g_uptime_ms-queued_ack[ack_head].at)>=0){
-        QueuedAck *q=&queued_ack[ack_head];mock_queue(q->data,q->length);ack_head=(ack_head+1)%4;ack_count--;
+        QueuedAck *q=&queued_ack[ack_head];mock_queue(q->data,q->length);ack_head=(ack_head+1)%MOCK_ACK_SLOTS;ack_count--;
     }
 #endif
     if (ack_length && (int32_t)(g_uptime_ms - ack_at) >= 0)
@@ -221,6 +231,7 @@ void mock_reset(void)
     mock_fail_at = NULL;
     mock_router_probe = NULL;
     mock_packet_length = 0;
+    mock_send_calls=mock_publish_count=0;
     esp_mqtt_reset();
 }
 

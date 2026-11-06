@@ -22,6 +22,7 @@ def main():
     parser.add_argument('--tri', action='store_true', help='A/B双CAN与B5云端集成候选，保护原48KiB分区')
     parser.add_argument('--audio-link', action='store_true', help='仅离线保留MIC/TTS完整API与CCM缓存，不启用录音或新增现场命令')
     parser.add_argument('--unified', action='store_true', help='真实三板语音统一运行候选；不执行设备操作')
+    parser.add_argument('--appliance', action='store_true', help='三板自动启动、2秒语音样机候选；只构建不下载')
     parser.add_argument('--split-flash', action='store_true', help='统一候选分段布局：sector0向量、sector4代码；只构建，写sector4另需负责人确认')
     parser.add_argument('--tls-port',type=int,help='统一候选的隔离TLS入口，默认1883；不更改原B5的8883目标')
     args = parser.parse_args()
@@ -29,6 +30,7 @@ def main():
     if args.audio_link and not args.tri:parser.error('--audio-link requires --tri')
     if args.unified and (not args.tri or args.audio_link):parser.error('--unified requires --tri and excludes --audio-link')
     if args.split_flash and not args.unified:parser.error('--split-flash requires --unified')
+    if args.appliance and not (args.unified and args.split_flash):parser.error('--appliance requires --unified --split-flash')
     if args.tls_port is not None and (not args.unified or not 1<=args.tls_port<=65535):parser.error('--tls-port requires --unified and port1..65535')
     if args.egress_final and not args.b5:parser.error('--egress-final requires --b5')
     spec = importlib.util.spec_from_file_location('b4_sdk', ROOT / 'gateway/esp_at_probe/build.py')
@@ -47,6 +49,7 @@ def main():
              '-I' + str(ROOT / 'gateway/canopen/src'), '-I' + str(vendor),
              *['-I' + str(p) for p in base.INCLUDES]]
     if args.tri:flags += ['-DMP_ABC_TRI_CANDIDATE', '-flto']
+    if args.appliance:flags += ['-DMP_ABC_APPLIANCE']
     reference_sha = {}
     if args.egress_final:
         # 总80个MpFrame槽不增：从历史划8槽给实时，配合可推进ACK和时效调度。
@@ -133,7 +136,7 @@ def main():
             warnings = ['-Wextra', '-Werror'] if source.is_relative_to(HERE) else []
             run([base.GCC, *flags, *warnings, '-c', source, '-o', obj]); objects.append(obj)
         obj = out / 'startup.o'; run([base.GCC, *flags, '-c', base.STARTUP, '-o', obj]); objects.append(obj)
-        target = 'ABC_UNIFIED_C_V1' if args.unified else 'ABC_AUDIO_LINK_PROBE' if args.audio_link else 'ABC_TRI_CLOUD_CANDIDATE' if args.tri else 'B5_CLOUD_MOCK_GATEWAY' if args.b5 else ('B4_GATEWAY_BENCH' if args.bench else ('B4_GATEWAY_NETWORK_SOFTWARE' if args.network_link else 'B4_GATEWAY_LINK_ONLY'))
+        target = 'ABC_APPLIANCE_C_2S_V1' if args.appliance else 'ABC_UNIFIED_C_V1' if args.unified else 'ABC_AUDIO_LINK_PROBE' if args.audio_link else 'ABC_TRI_CLOUD_CANDIDATE' if args.tri else 'B5_CLOUD_MOCK_GATEWAY' if args.b5 else ('B4_GATEWAY_BENCH' if args.bench else ('B4_GATEWAY_NETWORK_SOFTWARE' if args.network_link else 'B4_GATEWAY_LINK_ONLY'))
         elf = out / (target + '.elf')
         run([base.GCC, *flags, '-T', linker,
              '-Wl,--gc-sections', '-Wl,-Map=' + str(out / 'gateway.map'), '--specs=nano.specs', '--specs=nosys.specs',
@@ -212,7 +215,7 @@ def main():
                     **artifact(out/(target+'-'+n+'.bin'))) for n,a in [('boot',0x08000000),('code',0x08010000)]],
                 'HEX':artifact(out/(target+'.hex')),'ELF':artifact(elf),'TLS_port':args.tls_port or 1883,
                 'time_policy':'B5_FRESH_SNTP_UNCHANGED',
-                'normal_runtime_limit':'UNISTART manual-stop; B5START retains420s',
+                'normal_runtime_limit':'ABC automatic; manual STOP; audio maximum2s' if args.appliance else 'UNISTART manual-stop; B5START retains420s',
                 'sector3_options_and_all_other_sectors':'PRESERVE'}
             (out/'unified-layout.json').write_text(json.dumps(layout,indent=2)+'\n')
         status = 'PASS'
@@ -235,7 +238,7 @@ def main():
               'bench_UART_IRQ_vector_verified':irq_vector_verified,
               'linker_sha256': hashlib.sha256(linker.read_bytes()).hexdigest(),
               'audio_link_probe':args.audio_link,'audio_layout':audio_layout,
-              'unified_runtime':args.unified,'split_flash_requires_owner_approval':args.split_flash,
+              'unified_runtime':args.unified,'appliance_auto_start':args.appliance,'audio_max_seconds':2 if args.appliance else None,'split_flash_requires_owner_approval':args.split_flash,
               'hardware_eligible': False, 'network_transport': 'B5_H3_TRANSPORT_B4_RETRY_DRIVER_ARM_LINKED_NOT_EXECUTED' if args.b5 else ('H3_FROZEN_SOURCE_LINKED_NOT_EXECUTED' if args.network_link else 'NOT_LINKED_NOT_DEPLOYED'),
               'h3_reference_commit': 'a5cdd5b0b1ad48108fd631136e9de69e30582f2d', 'h3_reference_sha256': reference_sha, 'commands': commands,
               'log_sha256': hashlib.sha256(log).hexdigest(),

@@ -24,6 +24,12 @@ static int closing_network;
 static EspIoMetrics io_metrics;
 #ifdef MP_B5_EGRESS_FINAL
 static int reply_boundary;
+#ifdef MP_FINAL_UNIFIED
+static uint32_t last_prompt_ms,last_send_ok_ms;
+void platform_last_send_timing(uint32_t *prompt_ms,uint32_t *send_ok_ms) {
+    *prompt_ms=last_prompt_ms;*send_ok_ms=last_send_ok_ms;
+}
+#endif
 static uint32_t serial_deadline;
 static void phase(unsigned p){
     EspAtEvent *e=&io_metrics.events[io_metrics.event_count++%4];
@@ -47,6 +53,7 @@ static volatile uint32_t uart_hw_total,uart_overflow_total;
 uint32_t platform_uart_errors_total(void) {return uart_hw_total+uart_overflow_total;}
 static unsigned char reply[4096], network_bytes[256];
 static unsigned int reply_length, network_length, network_offset;
+unsigned platform_mqtt_buffered(void){return network_length-network_offset;}
 static unsigned line_start,binary_left,binary_offset,binary_length,binary_seen;
 static int reply_closing;
 #ifdef MP_B5_EGRESS_FINAL
@@ -57,6 +64,9 @@ static int rx_step(void);
 static void (*poll_callback)(void);
 static int polling;
 static uint32_t poll_at;
+#ifdef MP_FINAL_UNIFIED
+static bool poll_started;
+#endif
 /* AT 内部单调计时独立于 MQTT 库和 SNTP epoch，不再导出 Paho Timer 类型。 */
 typedef struct
 {
@@ -66,6 +76,9 @@ typedef struct
 void platform_set_poll(void (*callback)(void))
 {
     poll_callback = callback;
+#ifdef MP_FINAL_UNIFIED
+    poll_started=false;
+#endif
 }
 
 void mp_model_poll(void)
@@ -78,6 +91,11 @@ void platform_poll(void)
     /* 回调只跑 CAN/采集/入队，不调用网络，重入保护覆盖控制台诊断。 */
     if (poll_callback && !polling)
     {
+#ifdef MP_FINAL_UNIFIED
+        /* CAN中断照常入队；同一毫秒不逐字节重复运行整套采集服务。 */
+        if(poll_started && g_uptime_ms==poll_at)return;
+        poll_started=true;
+#endif
 #ifdef MP_B5_EGRESS_FINAL
         uint32_t gap=g_uptime_ms-poll_at;
         if(poll_at && gap>io_metrics.service_gap_max)io_metrics.service_gap_max=gap;
@@ -335,6 +353,9 @@ int at_command(const char *command, uint32_t timeout)
     reply_closing=0;
 #ifdef MP_B5_EGRESS_FINAL
     b5_latency_add(prompt?&io_metrics.prompt:&io_metrics.command,g_uptime_ms-started);
+#ifdef MP_FINAL_UNIFIED
+    if(prompt)last_prompt_ms=g_uptime_ms-started;
+#endif
     if(!ok && !reply_boundary)unsync();
     else phase(ok&&prompt?ESP_AT_DATA:ok&&close?ESP_AT_CLOSED:ESP_AT_IDLE);
 #endif
@@ -417,7 +438,11 @@ int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout)
         return -1;
     }
 #ifdef MP_B5_EGRESS_FINAL
-    b5_latency_add(&io_metrics.send_ok,g_uptime_ms-io_metrics.phase_at);phase(ESP_AT_IDLE);
+    b5_latency_add(&io_metrics.send_ok,g_uptime_ms-io_metrics.phase_at);
+#ifdef MP_FINAL_UNIFIED
+    last_send_ok_ms=g_uptime_ms-io_metrics.phase_at;
+#endif
+    phase(ESP_AT_IDLE);
 #endif
 #ifdef MP_CAN_RX_IRQ
     /* SEND OK只证明ESP协议栈接受，不当作Broker接收或PUBACK。 */

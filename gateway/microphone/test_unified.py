@@ -10,7 +10,12 @@ ROOT=Path(__file__).resolve().parents[2]
 
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--payload-stress',action='store_true');args=parser.parse_args()
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--payload-stress',action='store_true')
+    parser.add_argument('--timing-envelope',action='store_true',help='追加55ms发送固定开销/400ms ACK的ABC正常及大载荷包络')
+    parser.add_argument('--field-envelope',action='store_true',help='追加9ms CRC切片/1400ms标量源龄的连续5秒新鲜度检查')
+    parser.add_argument('--case',action='append',help='只运行指定的现有定向用例，可重复')
+    parser.add_argument('--ppg-segments',action='store_true',help='追加短段PPG并发压力')
+    args=parser.parse_args()
     out=ROOT/'node-b/build'/('unified-host-'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ'))
     out.mkdir()
     inc=['gateway/microphone','gateway/voice','gateway/mqtt/src','gateway/b5',
@@ -23,7 +28,13 @@ def main():
         *[f'gateway/third_party/coreMQTT/source/{n}.c' for n in ('core_mqtt','core_mqtt_serializer','core_mqtt_state')]]
     macros=['-DGATEWAY_MQTT_HOST_TEST','-DMP_B5_CLOUD_CANDIDATE','-DMP_B5_EGRESS_FINAL','-DMP_FRAME_MAX_SAMPLES=100',
         '-DMP_LIVE_CAPACITY=24','-DMP_CACHE_CAPACITY=56','-DMOCK_USERNAME="b5-gateway"','-DMOCK_CLIENT_ID="b5-c-isolated"']
-    cases={'unified_transport':([*macros,'-DMP_FINAL_UNIFIED'],['gateway/microphone/test_unified_transport.c',*transport,*shared]),
+    cases={'unified_transport':([*macros,'-DMP_FINAL_UNIFIED','-DGATEWAY_TELEMETRY_SLOTS=3','-DGATEWAY_AUDIO_SLOTS=2'],['gateway/microphone/test_unified_transport.c',*transport,*shared]),
+        'unified_batch':([*macros,'-DMP_FINAL_UNIFIED'],['gateway/microphone/test_unified_batch.c',*transport,*shared]),
+        'platform_poll':(['-flto','-fwhole-program','-DPLATFORM_HOST_TEST','-DMP_CAN_RX_IRQ','-DMP_B5_CLOUD_CANDIDATE','-DMP_B5_EGRESS_FINAL','-DMP_FINAL_UNIFIED'],
+            ['gateway/microphone/test_unified_platform_poll.c','gateway/mqtt/src/platform.c']),
+        'appliance_startup':(['-flto','-fwhole-program','-DMP_FINAL_UNIFIED','-DMP_ABC_APPLIANCE','-DMP_ABC_TRI_CANDIDATE','-DMP_B5_EGRESS_FINAL',
+            '-DMP_FRAME_MAX_SAMPLES=100','-DMP_LIVE_CAPACITY=24','-DMP_CACHE_CAPACITY=56','-DCO_MULTIPLE_OD'],
+            ['gateway/microphone/test_appliance_startup.c','gateway/storage/router.c','gateway/data_model/model.c','gateway/b5/b5_policy.c',*shared]),
         'unified_audio':(['-DMP_B5_EGRESS_FINAL','-DMP_CLOUD_VOICE'],['gateway/microphone/test_unified_audio.c',
             'gateway/microphone/unified_audio.c','gateway/voice/tts_queue.c','gateway/voice/tts_frame.c',*shared]),
         'unified_control':(['-flto','-fwhole-program','-DMP_FINAL_UNIFIED','-DMP_ABC_TRI_CANDIDATE','-DMP_B5_EGRESS_FINAL',
@@ -35,12 +46,16 @@ def main():
             ['gateway/microphone/test_unified_replay.c','gateway/dual_can/b4_bxcan.c','gateway/dual_can/b4_bus.c','gateway/dual_can/b4_gateway.c',
              'gateway/canopen/src/mp_od.c','gateway/data_model/model.c','gateway/storage/router.c',
              'gateway/third_party/CANopenNode/CANopen.c',*[str(p.relative_to(ROOT)) for p in sorted((ROOT/'gateway/third_party/CANopenNode/301').glob('*.c'))]]),
+        'ppg_segments':([*macros,'-DMP_FINAL_UNIFIED','-DMP_ABC_TRI_CANDIDATE','-DCO_MULTIPLE_OD','-Wno-unused-parameter'],['gateway/microphone/test_unified_ppg.c','gateway/dual_can/b4_bus.c','gateway/dual_can/b4_gateway.c','gateway/canopen/src/mp_od.c','gateway/data_model/model.c','gateway/storage/router.c','gateway/third_party/coreMQTT/source/core_mqtt_serializer.c','gateway/third_party/CANopenNode/CANopen.c',*[str(p.relative_to(ROOT)) for p in sorted((ROOT/'gateway/third_party/CANopenNode/301').glob('*.c'))]]),
         'contention':([*macros,'-DMP_FINAL_UNIFIED','-DMP_ABC_TRI_CANDIDATE','-DMP_CLOUD_VOICE'],['gateway/microphone/test_unified_contention.c','gateway/mqtt/src/gateway_transport.c',*transport,*shared,'gateway/voice/tts_queue.c','gateway/voice/tts_frame.c']),
         'queued_clock':([*macros,'-flto','-fwhole-program','-DMP_FINAL_UNIFIED','-DCO_MULTIPLE_OD'],['gateway/microphone/test_unified_clock.c','gateway/canopen/src/mp_od.c','gateway/third_party/CANopenNode/301/CO_ODinterface.c']),
         'format':([],['gateway/microphone/test_format.c','gateway/microphone/mic_format.c']),
+        'protocol':([],['gateway/microphone/test_protocol.c',*shared]),
         'legacy_egress':(macros,['gateway/b5/test_egress_async.c','gateway/mqtt/src/gateway_transport.c',*transport])}
     results=[]
+    if args.case and set(args.case)-cases.keys():parser.error('unknown case')
     for name,(defines,files) in cases.items():
+        if args.case and name not in args.case:continue
         exe=out/(name+'.exe');cmd=[*flags,*defines,*[str(ROOT/p) for p in files],'-o',str(exe)]
         p=subprocess.run(cmd,capture_output=True);(out/(name+'-compile.log')).write_bytes(p.stdout+p.stderr)
         r={'case':name,'compile_native_exit':p.returncode,'commands':[cmd],
@@ -59,6 +74,22 @@ def main():
                     q=subprocess.run([str(exe),'ABC','large-payload-300ms-ACK'],capture_output=True,timeout=30)
                     (out/'contention-payload-stress-run.log').write_bytes(q.stdout+q.stderr)
                     r.update(payload_stress_native_exit=q.returncode,payload_stress_stdout=q.stdout.decode().strip())
+                    if q.returncode:p=q
+                if not p.returncode and args.timing_envelope:
+                    for label,mode in [('normal','normal-payload'),('large','large-payload-300ms-ACK')]:
+                        q=subprocess.run([str(exe),'ABC',mode,'55','400'],capture_output=True,timeout=30)
+                        (out/f'contention-envelope-{label}-run.log').write_bytes(q.stdout+q.stderr)
+                        r[f'envelope_{label}_native_exit']=q.returncode;r[f'envelope_{label}_stdout']=q.stdout.decode().strip()
+                        if q.returncode:p=q;break
+                if not p.returncode and args.field_envelope:
+                    q=subprocess.run([str(exe),'ABC','normal-payload','55','400','9','1400'],capture_output=True,timeout=30)
+                    (out/'contention-field-envelope-run.log').write_bytes(q.stdout+q.stderr)
+                    r['field_envelope_native_exit']=q.returncode;r['field_envelope_stdout']=q.stdout.decode().strip()
+                    if q.returncode:p=q
+                if not p.returncode and args.ppg_segments:
+                    q=subprocess.run([str(exe),'ABC','normal-payload','55','400','9','1400','segments'],capture_output=True,timeout=30)
+                    (out/'contention-ppg-segments-run.log').write_bytes(q.stdout+q.stderr)
+                    r['ppg_segments_native_exit']=q.returncode;r['ppg_segments_stdout']=q.stdout.decode().strip()
                     if q.returncode:p=q
         (out/'receipt.json').write_text(json.dumps({'scope':'HOST_ONLY_NOT_HARDWARE','results':results},indent=2)+'\n')
         print(json.dumps({k:v for k,v in r.items() if k not in ('commands','source_SHA256')}),flush=True)

@@ -1,0 +1,107 @@
+{
+  "scope": "HOST_ONLY_NOT_HARDWARE",
+  "results": [
+    {
+      "case": "unified_transport",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "HOST_UNIFIED_TWO_AUDIO_SINGLE_MQTT_OWNER_PASS checks=1379 callback_poll=6 hardware=NOT_RUN"
+    },
+    {
+      "case": "unified_batch",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "REAL_MQTT_BATCH_5_MEDICAL_2_WAVE_3_AUDIO_BUFFER_SHORT_WRITE_FAILURE_ACK_DEADLINE_WRAP_PASS hardware=NOT_RUN"
+    },
+    {
+      "case": "platform_poll",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "REAL_PLATFORM_1MS_SERVICE_REENTRY_AND_SYSTICK_WRAP_PASS hardware=NOT_RUN"
+    },
+    {
+      "case": "appliance_startup",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "HOST_APPLIANCE_STARTUP_PASS checks=66 config_missing_local_only=1 init_callback_safe=1 backoff_max_ms=30000 hardware=NOT_RUN"
+    },
+    {
+      "case": "unified_audio",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "HOST_UNIFIED_AUDIO_PASS checks=3514 chunks=251 hash_poll_calls=500 crc=2735321824 hardware=NOT_RUN"
+    },
+    {
+      "case": "unified_control",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "HOST_UNIFIED_CONTROL_PASS checks=31 CAN_CONTINUES_ON_NETWORK_FAULT hardware=NOT_RUN"
+    },
+    {
+      "case": "scheduler_fixed",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "UNIFIED_REAL_ROUTER_POST_ACK_AUDIO_SLOT_PASS queued=1 audio=1 hardware=NOT_RUN\r\nUNIFIED_HALF_FULL_BURST_ADMISSION_PASS stale_and_capacity_backpressure_preserved=1\r\nUNIFIED_PPG_FIFO_AND_AUDIO_FAIR_TURN_PASS\r\nUNIFIED_QOS0_RETURNS_AUDIO_TURN_PASS hardware=NOT_RUN\r\nUNIFIED_FULL_MEDICAL_ACK_WINDOW_AUDIO_PROGRESS_PASS stale_held_and_qos0_backpressure_preserved=1\r\nUNIFIED_AGED_MEASUREMENT_PRECEDES_FRESH_STATUS_PASS\r\nUNIFIED_AT_IDLE_SLOT_PASS opportunities=50 progress_calls=111 hardware=NOT_RUN"
+    },
+    {
+      "case": "scheduler_before",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "LEGACY_DOUBLE_POLL_STARVATION_REPRODUCED opportunities=0 progress_calls=199 hardware=NOT_RUN"
+    },
+    {
+      "case": "can_software_replay",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "C_ONLY_CAN_SOFTWARE_REPLAY_PASS checks=22 frames=4000 real_RX=0 real_TX=0 measurement_frames=0 hardware=NOT_RUN"
+    },
+    {
+      "case": "ppg_segments",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "{\"mode\":0,\"input_samples\":100,\"published_samples\":100,\"discarded_samples\":0,\"tail_samples\":0,\"gap_events\":0,\"quality_events\":0,\"hardware\":false}\r\n{\"mode\":1,\"input_samples\":99,\"published_samples\":99,\"discarded_samples\":0,\"tail_samples\":0,\"gap_events\":1,\"quality_events\":0,\"hardware\":false}\r\n{\"mode\":2,\"input_samples\":100,\"published_samples\":100,\"discarded_samples\":0,\"tail_samples\":0,\"gap_events\":0,\"quality_events\":2,\"hardware\":false}"
+    },
+    {
+      "case": "contention",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "HOST_WIRE base_ms=15 ack_ms=200 sends=1364 publishes=2602 enqueue_to_all_ack_ms=18171 broker_span_ms=17682 NIBP=0 wave_values_exact=1\r\nHOST_REAL_COREMQTT_BC_CONTENTION_PASS ECG=75000 RESP=15000 HR=300 TEMP=300 SPO2=0 PR=0 audio=125 voice_ms=56964 high=7 scalar_coalesced=0 checks=275204 hardware=NOT_RUN",
+      "ABC_run_native_exit": 0,
+      "ABC_stdout": "HOST_WIRE base_ms=15 ack_ms=200 sends=1669 publishes=3751 enqueue_to_all_ack_ms=22454 broker_span_ms=22009 NIBP=1 wave_values_exact=1\r\nHOST_REAL_COREMQTT_ABC_CONTENTION_PASS ECG=75000 RESP=15000 HR=300 TEMP=300 SPO2=300 PR=300 audio=125 voice_ms=61549 high=12 scalar_coalesced=0 checks=301836 hardware=NOT_RUN",
+      "payload_stress_native_exit": 0,
+      "payload_stress_stdout": "HOST_WIRE base_ms=25 ack_ms=300 sends=1652 publishes=3751 enqueue_to_all_ack_ms=36082 broker_span_ms=35499 NIBP=1 wave_values_exact=1\r\nHOST_REAL_COREMQTT_ABC_CONTENTION_PASS ECG=75000 RESP=15000 HR=300 TEMP=300 SPO2=300 PR=300 audio=125 voice_ms=75242 high=13 scalar_coalesced=0 checks=286700 hardware=NOT_RUN",
+      "envelope_normal_native_exit": 0,
+      "envelope_normal_stdout": "HOST_WIRE base_ms=55 ack_ms=400 sends=1815 publishes=3751 enqueue_to_all_ack_ms=81902 broker_span_ms=80842 NIBP=1 wave_values_exact=1\r\nHOST_REAL_COREMQTT_ABC_CONTENTION_PASS ECG=75000 RESP=15000 HR=300 TEMP=300 SPO2=300 PR=300 audio=125 voice_ms=120517 high=18 scalar_coalesced=0 checks=285842 hardware=NOT_RUN",
+      "envelope_large_native_exit": 0,
+      "envelope_large_stdout": "HOST_WIRE base_ms=55 ack_ms=400 sends=1942 publishes=3751 enqueue_to_all_ack_ms=168162 broker_span_ms=167433 NIBP=1 wave_values_exact=1\r\nHOST_REAL_COREMQTT_ABC_CONTENTION_PASS ECG=75000 RESP=15000 HR=300 TEMP=300 SPO2=300 PR=300 audio=125 voice_ms=207519 high=20 scalar_coalesced=0 checks=277288 hardware=NOT_RUN",
+      "field_envelope_native_exit": 0,
+      "field_envelope_stdout": "HOST_WIRE base_ms=55 ack_ms=400 sends=1795 publishes=3751 enqueue_to_all_ack_ms=80074 broker_span_ms=79233 NIBP=1 wave_values_exact=1\r\nHOST_REAL_COREMQTT_ABC_CONTENTION_PASS ECG=75000 RESP=15000 HR=300 TEMP=300 SPO2=300 PR=300 audio=125 voice_ms=121738 high=12 scalar_coalesced=0 checks=284391 hardware=NOT_RUN",
+      "ppg_segments_native_exit": 0,
+      "ppg_segments_stdout": "HOST_WIRE base_ms=55 ack_ms=400 sends=1841 publishes=4110 enqueue_to_all_ack_ms=80387 broker_span_ms=79230 NIBP=1 wave_values_exact=1\r\nHOST_REAL_COREMQTT_ABC_CONTENTION_PASS ECG=75000 RESP=15000 HR=300 TEMP=300 SPO2=300 PR=300 audio=125 voice_ms=121817 high=13 scalar_coalesced=0 checks=281345 hardware=NOT_RUN"
+    },
+    {
+      "case": "queued_clock",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "HOST_QUEUED_IRQ_RESYNC_AND_WRAP_PASS freshness_unchanged=1"
+    },
+    {
+      "case": "format",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "HOST_I2S_FORMAT_PASS: signed24/PCM16/stereo-slot/padding/CRC; no hardware"
+    },
+    {
+      "case": "protocol",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "HOST_MIC_PROTOCOL_PASS: credentials framing, reply binding, unsafe text, actual C chunk vector; no devices"
+    },
+    {
+      "case": "legacy_egress",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "stdout": "ASYNC_REAL_COREMQTT_Q0_ADVANCES_DURING_Q1_ACK_WAIT\r\nSTRICT_WRONG_MISSING_PARTIAL_DUPLICATE_OLD_ACK_CASES_PASS\r\nTHREE_STALL_300S_PASS high=24 ECG=749 RESP=299 HR=299 TEMP=299 status_age=3151/3282 sizeof_router=35312\r\nOVERLOAD_NEGATIVE_REMAINS_EXPLICIT_HISTORY_AND_DROP_NOT_MOCK_PASS"
+    }
+  ]
+}

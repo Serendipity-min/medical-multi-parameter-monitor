@@ -130,7 +130,12 @@ static void start(void) {
         DMA_SxCR_PSIZE_0 | DMA_SxCR_MSIZE_0 | DMA_SxCR_PL_1 |
         DMA_SxCR_TCIE | DMA_SxCR_TEIE | DMA_SxCR_DMEIE;
     (void)SPI3->DR; (void)SPI3->SR;
-    state = 1; GPIOF->BSRRH = GPIO_Pin_9;
+    state = 1;
+#ifdef MP_ABC_APPLIANCE
+    GPIOF->BSRRL = GPIO_Pin_9;
+#else
+    GPIOF->BSRRH = GPIO_Pin_9;
+#endif
     DMA1_Stream0->CR |= DMA_SxCR_EN; SPI3->CR2 = SPI_CR2_RXDMAEN;
     SPI3->I2SCFGR |= SPI_I2SCFGR_I2SE;
 }
@@ -145,6 +150,10 @@ static void consume(void) {
     if (generation != blocks || ((DMA1_Stream0->CR & DMA_SxCR_CT) ? 1 : 0) == index) ++overruns;
     pending = -1; __enable_irq();
     if (overruns || dma_errors || generation <= 50u) return;
+#ifdef MP_ABC_APPLIANCE
+    /* 预热期间不亮录音灯，灯亮后才开始保留PCM。 */
+    if(!frames)GPIOF->BSRRH = GPIO_Pin_9;
+#endif
     if (frames / MIC_BLOCK_FRAMES < 200u) recorded_blocks[frames / MIC_BLOCK_FRAMES] = (uint16_t)generation;
     for (unsigned i = 0; i < MIC_BLOCK_FRAMES && frames < MIC_SAMPLES; ++i) {
         const uint16_t *v = staging + 4u * i;
@@ -200,6 +209,11 @@ void mic_record_poll(void) {
                 stop(); state = 3; text("MIC_CAPTURE_ERROR\r\n");
             } else if (frames == MIC_SAMPLES) { stop(); state = 2; text("MIC_DONE\r\n"); }
     }
+}
+
+void mic_record_finish(void) {
+    mic_record_poll();
+    if(state==1){stop();state=2;}
 }
 
 #ifndef MIC_NETWORK_BENCH

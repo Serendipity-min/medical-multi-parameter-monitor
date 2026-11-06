@@ -36,6 +36,12 @@ int main(int argc,char **argv) {
     mic_chunk_packet(packet,7,0,8,data);assert(!memcmp(packet,"MC01",4) && packet[30]==1 && packet[31]==1);
     if(argc>1){FILE *f=fopen(argv[1],"wb");assert(f);assert(fwrite(packet,1,sizeof packet,f)==sizeof packet);assert(!fclose(f));}
     mic_chunk_packet(packet,7,124,8,data);assert(packet[30]==2);
+    mic_chunk_packet_sized(packet,7,93,48000,8,data);
+    assert(!memcmp(packet,"MC02",4) && packet[10]==94 && packet[30]==2);
+    assert(packet[28]==128 && packet[29]==1 && !memcmp(packet+32,data,384));
+    for(unsigned i=32+384;i<sizeof packet;i++)assert(packet[i]==0);
+    uint8_t legacy[544];mic_chunk_packet(legacy,7,124,8,data);
+    mic_chunk_packet_sized(packet,7,124,64000,8,data);assert(!memcmp(packet,legacy,sizeof packet));
     puts("HOST_MIC_PROTOCOL_PASS: credentials framing, reply binding, unsafe text, actual C chunk vector; no devices");
     return 0;
 }

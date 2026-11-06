@@ -89,8 +89,26 @@ static void emit(B4Gateway *g, B4Segment *s, MpFrame *f) {
 #endif
     f->seq = ++s->seq[f->stream];
     /* Backend拒绝0时间戳；未授时只计入本机诊断，绝不改成发送时刻伪装采集UTC。 */
-    if (!f->timestamp) { g->unstamped++; return; }
+    if (!f->timestamp) {
+        g->unstamped++;
+#ifdef MP_FINAL_UNIFIED
+        g->unstamped_stream[f->stream]++;
+#endif
+        return;
+    }
     mp_router_put(&g->router, f);
+}
+static void wave_boundary(B4Gateway *g, unsigned bus, unsigned pdo) {
+    B4Segment *s=&g->segments[bus];MpFrame *f=&s->wave[pdo];
+#ifdef MP_FINAL_UNIFIED
+    /* 短段保留原末点时间和质量；不跨真实间断拼接，也不补点。 */
+    if(bus==0 && f->count){
+        g->ppg_partial_batches++;g->ppg_partial_samples+=f->count;
+        emit(g,s,f);f->count=0;return;
+    }
+    g->flow_discarded[bus][pdo]+=f->count;
+#endif
+    g->partial_discarded+=f->count;f->count=0;
 }
 static void waveform(B4Gateway *g, unsigned bus, unsigned pdo, uint32_t arrival) {
     B4Segment *s = &g->segments[bus]; unsigned base = 0x3100 + bus * 0x100;
@@ -110,12 +128,19 @@ static void waveform(B4Gateway *g, unsigned bus, unsigned pdo, uint32_t arrival)
         /* 真实250SPS内部ADC时钟与整数毫秒域有3/4/5ms量化；不能当作缺帧。
          * 单步和整批相位均限±1ms，8ms丢点/重复/倒序仍清批，不伪造重采样点。 */
         if (delta < step - 1 || delta > step + 1 || (f->count && (phase < -1 || phase > 1))) {
-            g->partial_discarded+=f->count;
+            wave_boundary(g,bus,pdo);
+#ifdef MP_FINAL_UNIFIED
+            g->flow_gaps[bus][pdo]++;
+#endif
             f->count = 0; g->wave_gaps++;
         }
     }
     if (f->count && (f->valid != valid || f->synthetic != synthetic)) {
-        g->partial_discarded+=f->count;g->quality_resets++;f->count=0;
+        wave_boundary(g,bus,pdo);g->quality_resets++;
+#ifdef MP_FINAL_UNIFIED
+        g->flow_quality[bus][pdo]++;
+#endif
+        f->count=0;
     }
     s->have_tick[pdo] = true; s->last_tick[pdo] = tick;
     if (!f->count) s->first_tick[pdo] = tick;
@@ -216,6 +241,11 @@ void b4_gateway_tick(B4Gateway *g, uint32_t now) {
             emit(g, s, &f); s->status_sent = true; s->last_online = online; s->status_at = now;
         }
     }
+#ifdef MP_FINAL_UNIFIED
+    /* 输入静默时提交尾段，时间戳仍是最后一个真实点，不等下一批凑满。 */
+    if(g->segments[0].wave[0].count && now-g->segments[0].seen_at[0]>=100u)
+        wave_boundary(g,0,0);
+#endif
     if (g->utc_valid && now - g->utc_at > 30000u) g->utc_valid = false;
     if (g->utc_valid && now - g->time_sent >= 10000u) {
         uint64_t relative = (uint64_t)g->epoch * 1000 + g->utc_fraction + (uint32_t)(now - g->utc_at) - 441763200000ULL;

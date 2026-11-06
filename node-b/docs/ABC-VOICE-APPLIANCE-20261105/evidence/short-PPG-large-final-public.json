@@ -1,0 +1,5 @@
+{
+  "native_exit": 0,
+  "stdout": "HOST_WIRE base_ms=55 ack_ms=400 sends=1964 publishes=4110 enqueue_to_all_ack_ms=204603 broker_span_ms=203138 NIBP=1 wave_values_exact=1\r\nHOST_REAL_COREMQTT_ABC_CONTENTION_PASS ECG=75000 RESP=15000 HR=300 TEMP=300 SPO2=300 PR=300 audio=125 voice_ms=247833 high=14 scalar_coalesced=0 checks=270873 hardware=NOT_RUN\r\n",
+  "stderr": "COUNTS ECG=750 RESP=300 PPG=600 HR=300 TEMP=300 stale=0 gaps=0 voice=247833 upload=204603 blocks=125 dropped=0 expired=0 live_overflow=0 replaced=0\r\nCONTINUOUS_FRESHNESS stale_ticks=0 max_latest_age_ms=4027 hash_slice_ms=9 scalar_source_age_ms=1400\r\nA_STRESS SPO2=300 PR=300 PPG=600 max_gap_SPO2=1846 PR=1739 scalar_coalesced=0\r\nPPG_SEGMENT_PERFORMANCE target180_met=0 assembly240_met=1\r\n"
+}

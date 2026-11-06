@@ -20,9 +20,7 @@
 static MQTTPubAckInfo_t incoming[1];
 static uint16_t audio_subscription;
 static uint32_t audio_subscription_at;
-static int audio_subscribed, audio_pending, audio_result, audio_acknowledged;
-static uint16_t audio_packet_id;
-static uint32_t audio_started;
+static int audio_subscribed;
 static GatewayConfig unified_config;
 #define AUDIO_INPUT "mpm/mic/v1/in"
 #define AUDIO_OUTPUT "mpm/mic/v1/out"
@@ -42,14 +40,17 @@ static GatewayConfig unified_config;
 #include "sntp_sample.h"
 #endif
 
-/* 单一串行客户端；统一目标固定三遥测槽加一音频槽，默认目标仍一槽；不分配堆。 */
+/* 单一串行客户端；五个实时标量各有QoS1额度，另留两待发QoS0及三音频槽。 */
 static NetworkContext_t network;
 static MQTTContext_t client;
 #ifdef MP_FINAL_UNIFIED
-static MQTTPubAckInfo_t outgoing[GATEWAY_TELEMETRY_SLOTS+1];
-typedef struct {uint16_t id;uint32_t at;int result;unsigned ack;} TelemetryPending;
-static TelemetryPending telemetry[GATEWAY_TELEMETRY_SLOTS];
+static MQTTPubAckInfo_t outgoing[GATEWAY_TELEMETRY_SLOTS+GATEWAY_AUDIO_SLOTS];
+typedef struct {uint16_t id;uint32_t at;int result;unsigned ack;bool qos1,flushed;} TelemetryPending;
+static TelemetryPending telemetry[GATEWAY_PUBLISH_SLOTS];
+static TelemetryPending audio[GATEWAY_AUDIO_SLOTS];
 static uint16_t last_ticket;
+static uint16_t last_audio_ticket;
+static bool batch_enabled=true;
 #else
 static MQTTPubAckInfo_t outgoing[1];
 #endif
@@ -76,16 +77,20 @@ int gateway_network_retryable(void){return opening_ntp_retry;}
 void gateway_mqtt_metrics(GatewayMqttMetrics *out){*out=mqtt_metrics;}
 int gateway_mqtt_pending(void){
 #ifdef MP_FINAL_UNIFIED
-    return telemetry[0].id || telemetry[1].id || telemetry[2].id;
+    for(unsigned i=0;i<GATEWAY_PUBLISH_SLOTS;i++)if(telemetry[i].id)return 1;
+    return 0;
 #else
     return pending_id!=0;
 #endif
 }
 #ifdef MP_FINAL_UNIFIED
 uint16_t gateway_mqtt_ticket(void){return last_ticket;}
-int gateway_mqtt_slots_full(void){return telemetry[0].id && telemetry[1].id && telemetry[2].id;}
+int gateway_mqtt_slots_full(void){
+    for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(!telemetry[i].id)return 0;
+    return 1;
+}
 int gateway_mqtt_ticket_result(uint16_t id){
-    for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(telemetry[i].id==id && id){
+    for(unsigned i=0;i<GATEWAY_PUBLISH_SLOTS;i++)if(telemetry[i].id==id && id){
         int result=telemetry[i].result;if(result==GW_COMPLETE)telemetry[i].id=0;return result;
     }
     return GW_FAILED;
@@ -95,14 +100,16 @@ int gateway_mqtt_ticket_result(uint16_t id){
 static uint32_t send_budget(void) {
     uint32_t budget=5000u,age;
 #ifdef MP_FINAL_UNIFIED
-    for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(telemetry[i].id && telemetry[i].result==GW_PENDING){
+    for(unsigned i=0;i<GATEWAY_PUBLISH_SLOTS;i++)if(telemetry[i].id && telemetry[i].result==GW_PENDING){
         age=g_uptime_ms-telemetry[i].at;if(age>=5000u)return 0;if(5000u-age<budget)budget=5000u-age;
     }
 #else
     if(pending_id){age=g_uptime_ms-pending_started;if(age>=5000u)return 0;budget=5000u-age;}
 #endif
 #ifdef MP_FINAL_UNIFIED
-    if(audio_pending){age=g_uptime_ms-audio_started;if(age>=5000u)return 0;if(5000u-age<budget)budget=5000u-age;}
+    for(unsigned i=0;i<GATEWAY_AUDIO_SLOTS;i++)if(audio[i].id && audio[i].result==GW_PENDING){
+        age=g_uptime_ms-audio[i].at;if(age>=5000u)return 0;if(5000u-age<budget)budget=5000u-age;
+    }
 #endif
     return budget;
 }
@@ -177,7 +184,7 @@ static inline void secure_memzero(void *ptr, size_t len)
 static void mqtt_failed(void)
 {
 #ifdef MP_FINAL_UNIFIED
-    audio_pending=audio_acknowledged=0;audio_packet_id=0;audio_result=GW_FAILED;audio_subscribed=0;
+    memset(audio,0,sizeof audio);last_audio_ticket=0;audio_subscribed=0;
     memset(telemetry,0,sizeof telemetry);last_ticket=0;
 #endif
     mqtt_online = 0;
@@ -208,8 +215,9 @@ static void mqtt_event(MQTTContext_t *context, MQTTPacketInfo_t *packet,
     }
 #endif
 #ifdef MP_FINAL_UNIFIED
-    if(context==&client && packet->type==MQTT_PACKET_TYPE_PUBACK && decoded->deserializationResult==MQTTSuccess &&
-       audio_pending && decoded->packetIdentifier==audio_packet_id){audio_acknowledged=1;return;}
+    if(context==&client && packet->type==MQTT_PACKET_TYPE_PUBACK && decoded->deserializationResult==MQTTSuccess){
+        for(unsigned i=0;i<GATEWAY_AUDIO_SLOTS;i++)if(audio[i].id && decoded->packetIdentifier==audio[i].id){audio[i].ack=1;return;}
+    }
 #endif
     if (context != &client || (packet->type & 0xf0U) == MQTT_PACKET_TYPE_PUBLISH)
     {
@@ -221,7 +229,7 @@ static void mqtt_event(MQTTContext_t *context, MQTTPacketInfo_t *packet,
     }
 #ifdef MP_FINAL_UNIFIED
     if(packet->type==MQTT_PACKET_TYPE_PUBACK && decoded->deserializationResult==MQTTSuccess){
-        for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(telemetry[i].id && decoded->packetIdentifier==telemetry[i].id){telemetry[i].ack=1;return;}
+        for(unsigned i=0;i<GATEWAY_PUBLISH_SLOTS;i++)if(telemetry[i].id && telemetry[i].qos1 && decoded->packetIdentifier==telemetry[i].id){telemetry[i].ack=1;return;}
     }
 #ifdef MP_CAN_RX_IRQ
     mqtt_diagnostic(2,decoded->deserializationResult,packet->type);
@@ -287,7 +295,7 @@ int gateway_mqtt_open(const MpFrame *will_frame)
     session_error = acknowledged = partial_waiting = mqtt_online = 0;
     pending_id = 0;
 #ifdef MP_FINAL_UNIFIED
-    audio_pending=audio_acknowledged=0;audio_packet_id=0;audio_result=GW_DEFERRED;audio_subscribed=0;audio_subscription=0;
+    memset(audio,0,sizeof audio);last_audio_ticket=0;audio_subscribed=0;audio_subscription=0;
     memset(telemetry,0,sizeof telemetry);last_ticket=0;
     memset(incoming,0,sizeof incoming);
 #endif
@@ -432,8 +440,9 @@ int gateway_mqtt_begin(const MpFrame *frame) {
     if(!mqtt_online || !network.connected)return GW_FAILED;
     bool qos1=!frame->rate || frame->replay;
 #ifdef MP_FINAL_UNIFIED
-    unsigned slot=0;while(slot<GATEWAY_TELEMETRY_SLOTS && telemetry[slot].id)slot++;
-    if(qos1 && slot==GATEWAY_TELEMETRY_SLOTS)return GW_DEFERRED;
+    unsigned limit=qos1?GATEWAY_TELEMETRY_SLOTS:GATEWAY_PUBLISH_SLOTS;
+    unsigned slot=qos1?0:GATEWAY_TELEMETRY_SLOTS;while(slot<limit && telemetry[slot].id)slot++;
+    if((qos1 || batch_enabled) && slot==limit){network.flush_requested=true;return GW_DEFERRED;}
 #else
     if(qos1 && pending_id)return GW_FAILED;
 #endif
@@ -450,32 +459,34 @@ int gateway_mqtt_begin(const MpFrame *frame) {
     budget=send_budget();if(!budget)return GW_FAILED;
     /* coreMQTT调用前拒绝新事务；未发送不等于失败或已确认。 */
     if(!platform_send_admissible((unsigned)length+(unsigned)m.topicNameLength+9u,budget))return GW_DEFERRED;
-    if(qos1){
-        id=MQTT_GetPacketId(&client);next_packet_seed=client.nextPacketId;
+    if(batch_enabled && !mqtt_adapter_room(&network,(unsigned)length+(unsigned)m.topicNameLength+9u))return GW_DEFERRED;
+    if(qos1 || batch_enabled){
+        uint16_t ticket=MQTT_GetPacketId(&client);next_packet_seed=client.nextPacketId;
+        id=qos1?ticket:0;
 #ifdef MP_FINAL_UNIFIED
-        telemetry[slot]=(TelemetryPending){id,start,GW_PENDING,0};last_ticket=id;
+        telemetry[slot]=(TelemetryPending){ticket,start,GW_PENDING,0,qos1,!batch_enabled};last_ticket=ticket;
 #else
         acknowledged=0;pending_id=id;pending_started=start;
 #endif
     }
     platform_tx_context(m.qos,frame->stream,frame->seq,pending_id,pending_id?start-pending_started:0,budget);
     mqtt_adapter_begin(&network,budget);
+    network.collect=batch_enabled;
     MQTTStatus_t status=MQTT_Publish(&client,&m,id);
-    b5_latency_add(&mqtt_metrics.send,g_uptime_ms-start);
+    network.collect=false;
+    if(!batch_enabled)b5_latency_add(&mqtt_metrics.send,g_uptime_ms-start);
     if(status!=MQTTSuccess || !network.connected || session_error || (uint32_t)(g_uptime_ms-start)>=budget) {
         char diagnostic[48];(void)snprintf(diagnostic,sizeof(diagnostic),"GW PUBLISH_FAIL status=%u\r\n",(unsigned)status);console(diagnostic);
         mqtt_metrics.failed++;mqtt_failed();return GW_FAILED;
     }
-    if(qos1){mqtt_metrics.q1_sent++;return GW_PENDING;}
+    if(qos1){if(!batch_enabled)mqtt_metrics.q1_sent++;return GW_PENDING;}
+    if(batch_enabled)return GW_PENDING;
     mqtt_metrics.q0_sent++;return GW_COMPLETE;
 
 #else
     if(!mqtt_online || !network.connected)return GW_FAILED;
     bool qos1=!frame->rate || frame->replay;
     if(qos1 && pending_id) {
-#ifdef MP_FINAL_UNIFIED
-        if(audio_pending)return GW_DEFERRED;
-#endif
         return GW_FAILED;
     }
     if(pending_id && (uint32_t)(g_uptime_ms-pending_started)>=5000u)return GW_FAILED;
@@ -512,16 +523,38 @@ int gateway_mqtt_progress(void) {
     uint32_t budget=send_budget();
     if(!budget){mqtt_metrics.failed++;mqtt_failed();return GW_FAILED;}
     mqtt_adapter_begin(&network,budget);
+    if(network.queued){
+        /* 聚合满20ms即推进发送；容量/额度满时提前，不等待下一条医疗帧。 */
+        if(!network.flush_requested && (uint32_t)(g_uptime_ms-network.queued_at)<20u)return GW_COMPLETE;
+        uint32_t flush_at=g_uptime_ms;
+        if(!mqtt_adapter_flush(&network) || (uint32_t)(g_uptime_ms-flush_at)>=budget){mqtt_metrics.failed++;mqtt_failed();return GW_FAILED;}
+        b5_latency_add(&mqtt_metrics.send,g_uptime_ms-flush_at);
+        for(unsigned i=0;i<GATEWAY_PUBLISH_SLOTS;i++)if(telemetry[i].id && !telemetry[i].flushed){
+            telemetry[i].flushed=true;
+            if(telemetry[i].qos1)mqtt_metrics.q1_sent++;
+            else{telemetry[i].result=GW_COMPLETE;mqtt_metrics.q0_sent++;}
+        }
+        budget=send_budget();if(!budget){mqtt_metrics.failed++;mqtt_failed();return GW_FAILED;}
+        mqtt_adapter_begin(&network,budget);
+    }
     if(!process_once()){mqtt_metrics.failed++;return GW_FAILED;}
+    /* 一次被动接收可带回多个ACK；只排空已收缓冲，不为抢额度再开AT查询。 */
+    for(unsigned i=1;i<GATEWAY_TELEMETRY_SLOTS+GATEWAY_AUDIO_SLOTS;i++){
+        bool ack_buffered=client.index>=4 && rx_buffer[0]==MQTT_PACKET_TYPE_PUBACK && rx_buffer[1]==2;
+        if(!ack_buffered && !platform_mqtt_buffered())break;
+        network.buffered_receive_only=ack_buffered;
+        int ok=process_once();network.buffered_receive_only=false;
+        if(!ok){mqtt_metrics.failed++;return GW_FAILED;}
+    }
     if(!send_budget()){mqtt_metrics.failed++;mqtt_failed();return GW_FAILED;}
 #ifdef MP_FINAL_UNIFIED
-    if(audio_pending && audio_acknowledged) {
-        b5_latency_add(&mqtt_metrics.ack,g_uptime_ms-audio_started);
-        audio_pending=audio_acknowledged=0;audio_packet_id=0;audio_result=GW_COMPLETE;
+    for(unsigned i=0;i<GATEWAY_AUDIO_SLOTS;i++)if(audio[i].id && audio[i].result==GW_PENDING && audio[i].ack) {
+        b5_latency_add(&mqtt_metrics.ack,g_uptime_ms-audio[i].at);
+        audio[i].result=GW_COMPLETE;
     }
 #endif
 #ifdef MP_FINAL_UNIFIED
-    for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(telemetry[i].id && telemetry[i].result==GW_PENDING && telemetry[i].ack){
+    for(unsigned i=0;i<GATEWAY_PUBLISH_SLOTS;i++)if(telemetry[i].id && telemetry[i].result==GW_PENDING && telemetry[i].ack){
         b5_latency_add(&mqtt_metrics.ack,g_uptime_ms-telemetry[i].at);mqtt_metrics.q1_acked++;telemetry[i].result=GW_COMPLETE;
     }
 #else
@@ -545,18 +578,10 @@ int gateway_mqtt_progress(void) {
     if(pending_id) {
         if((uint32_t)(g_uptime_ms-pending_started)>=5000u){mqtt_metrics.failed++;mqtt_failed();return GW_FAILED;}
         if(!acknowledged) {
-#ifdef MP_FINAL_UNIFIED
-            if(audio_pending)return GW_COMPLETE;
-#endif
             return GW_PENDING;
         }
         b5_latency_add(&mqtt_metrics.ack,g_uptime_ms-pending_started);
-#ifdef MP_FINAL_UNIFIED
-        if(audio_pending){audio_pending=0;audio_result=GW_COMPLETE;}
-        else {mqtt_metrics.q1_acked++;}
-#else
         mqtt_metrics.q1_acked++;
-#endif
         pending_id=0;acknowledged=0;
     }
     return GW_COMPLETE;
@@ -591,19 +616,33 @@ int gateway_audio_ready(void) {
     if(!audio_subscribed && (uint32_t)(g_uptime_ms-audio_subscription_at)>=5000u)audio_subscribed=-1;
     return audio_subscribed==1;
 }
-int gateway_audio_result(void) {return audio_result;}
-int gateway_audio_pending(void) {return audio_pending;}
+uint16_t gateway_audio_ticket(void){return last_audio_ticket;}
+int gateway_audio_ticket_result(uint16_t id){
+    for(unsigned i=0;i<GATEWAY_AUDIO_SLOTS;i++)if(id && audio[i].id==id){
+        int result=audio[i].result;if(result==GW_COMPLETE)audio[i].id=0;return result;
+    }
+    return GW_FAILED;
+}
+int gateway_audio_pending(void) {
+    for(unsigned i=0;i<GATEWAY_AUDIO_SLOTS;i++)if(audio[i].id)return 1;
+    return 0;
+}
 int gateway_audio_begin(const uint8_t packet[544]) {
     if(!gateway_audio_ready())return GW_FAILED;
     uint32_t budget=send_budget();
     if(!budget)return GW_FAILED;
-    if(audio_pending || !platform_send_admissible(544+sizeof(AUDIO_INPUT)+9,budget))return GW_DEFERRED;
+    unsigned slot=0;while(slot<GATEWAY_AUDIO_SLOTS && audio[slot].id)slot++;
+    if(slot==GATEWAY_AUDIO_SLOTS || !platform_send_admissible(544+sizeof(AUDIO_INPUT)+9,budget))return GW_DEFERRED;
+    if(batch_enabled && !mqtt_adapter_room(&network,544+sizeof(AUDIO_INPUT)+9))return GW_DEFERRED;
     MQTTPublishInfo_t p={0};p.qos=MQTTQoS1;p.pTopicName=AUDIO_INPUT;
     p.topicNameLength=sizeof(AUDIO_INPUT)-1;p.pPayload=packet;p.payloadLength=544;
-    audio_packet_id=MQTT_GetPacketId(&client);next_packet_seed=client.nextPacketId;
-    audio_acknowledged=0;audio_pending=1;audio_result=GW_PENDING;audio_started=g_uptime_ms;
+    last_audio_ticket=MQTT_GetPacketId(&client);next_packet_seed=client.nextPacketId;
+    audio[slot]=(TelemetryPending){last_audio_ticket,g_uptime_ms,GW_PENDING,0,true,!batch_enabled};
     mqtt_adapter_begin(&network,budget);
-    if(MQTT_Publish(&client,&p,audio_packet_id)!=MQTTSuccess || !network.connected || session_error) {
+    network.collect=batch_enabled;
+    MQTTStatus_t status=MQTT_Publish(&client,&p,last_audio_ticket);
+    network.collect=false;
+    if(status!=MQTTSuccess || !network.connected || session_error) {
         mqtt_failed();return GW_FAILED;
     }
     return GW_PENDING;

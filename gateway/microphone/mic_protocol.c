@@ -38,6 +38,16 @@ void mic_chunk_packet(uint8_t p[544],uint32_t session,unsigned seq,uint32_t crc,
     store32(p+24,mic_crc32(data,512));store16(p+28,512);
     p[30]=(uint8_t)((seq==0?1:0)|(seq==124?2:0));p[31]=1;
 }
+void mic_chunk_packet_sized(uint8_t p[544],uint32_t session,unsigned seq,unsigned bytes,uint32_t crc,const uint8_t *data) {
+    if(bytes==64000u){mic_chunk_packet(p,session,seq,crc,data);return;}
+    unsigned total=(bytes+511u)/512u,length=bytes-seq*512u;
+    if(length>512u)length=512u;
+    memcpy(p,"MC02",4);store32(p+4,session);store16(p+8,seq);store16(p+10,total);
+    store32(p+12,MIC_RATE);store32(p+16,bytes);store32(p+20,crc);
+    memset(p+32,0,512);memcpy(p+32,data,length);
+    store32(p+24,mic_crc32(data,length));store16(p+28,length);
+    p[30]=(uint8_t)((seq==0?1:0)|(seq+1==total?2:0));p[31]=1;
+}
 int mic_reply_packet_valid(const uint8_t *p,size_t n,uint32_t session,uint32_t crc) {
     if(n<=16 || n>76 || memcmp(p,"MR01",4) || load32(p+4)!=session || load32(p+8)!=crc ||
        (unsigned)p[12]+16u!=n || p[13] || p[14] || p[15])return 0;

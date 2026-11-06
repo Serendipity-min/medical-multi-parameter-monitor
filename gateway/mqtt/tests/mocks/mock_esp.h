@@ -18,6 +18,8 @@ extern int mock_tls_started, mock_ping_count;
 extern uint16_t mock_last_id, mock_old_id;
 extern unsigned char mock_packet[2048];
 extern size_t mock_packet_length;
+extern unsigned mock_send_calls,mock_publish_count;
+extern unsigned mock_send_stall_ms;
 extern const char *mock_fail_at;
 extern MpRouter *mock_router_probe;
 void mock_reset(void);

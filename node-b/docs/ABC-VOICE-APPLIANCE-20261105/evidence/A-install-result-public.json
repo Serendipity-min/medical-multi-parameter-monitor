@@ -1,0 +1,31 @@
+{
+  "controller_native_exit": 0,
+  "receipt_exists": true,
+  "status": "ABC_A_APP012_FULL_VERIFY_BOOT_PASS",
+  "exit_code": 0,
+  "board": "A",
+  "automatic_reflash_or_rollback": false,
+  "phase": "install",
+  "sectors": [
+    0,
+    1,
+    2
+  ],
+  "full_flash_sha256": "4d1330c0924189600b5262e89996bca4a304334b52be017dd1e1a0d5eebdcbbb",
+  "options_unchanged": true,
+  "outside_affected_sectors_unchanged": true,
+  "reset_requests": 1,
+  "CAN_or_physiology_acceptance": false,
+  "Close_completed": true,
+  "native_actions": {
+    "JLINKARM_Halt": 1,
+    "JLINKARM_BeginDownload": 1,
+    "JLINKARM_WriteMem": 1,
+    "JLINKARM_EndDownload": 1,
+    "JLINKARM_Reset": 1,
+    "JLINKARM_Go": 1
+  },
+  "download_started": true,
+  "debug_IWDG_freeze_writes": 2,
+  "debug_IWDG_freeze_restored": true
+}

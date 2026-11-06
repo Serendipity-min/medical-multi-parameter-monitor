@@ -3,6 +3,7 @@
 #include "../dual_can/tests/bxcan_mmio_shim.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 CAN_TypeDef b4_test_can[2];
 uint32_t b4_test_clock=8000000u;
 unsigned b4_test_transmit_calls,b4_test_clock_calls;
@@ -28,6 +29,12 @@ int main(int argc,char **argv){
     CHECK(!b4_test_transmit_calls);
     for(unsigned k=MP_ECG;k<=MP_TEMP;k++)CHECK(!g.router.enqueued[k]);
     CHECK(b4_hw_set_replay(false));tick+=5;b4_hw_poll(&g);CHECK(b4_replayed[0]==2000);
+    uint32_t a_gaps=g.flow_gaps[0][0],b_gaps=g.flow_gaps[1][0];
+    b4_bus_online(1,true);
+    MpCanFrame frame={0};frame.ident=0x182;frame.dlc=8;uint32_t sample_tick=4;
+    memcpy(frame.data+4,&sample_tick,4);b4_gateway_receive(&g,1,&frame,g.now);
+    sample_tick=12;memcpy(frame.data+4,&sample_tick,4);b4_gateway_receive(&g,1,&frame,g.now);
+    CHECK(g.flow_gaps[1][0]==b_gaps+1 && g.flow_gaps[0][0]==a_gaps);
     final_can_mask=2;CHECK(!b4_hw_set_replay(true));final_can_mask=0;
     b4_hw_stop();CHECK(!b4_hw_set_replay(true));b4_gateway_close(&g);
     printf("C_ONLY_CAN_SOFTWARE_REPLAY_PASS checks=%u frames=4000 real_RX=0 real_TX=0 measurement_frames=0 hardware=NOT_RUN\n",checks);

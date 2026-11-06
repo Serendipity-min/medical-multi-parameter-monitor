@@ -73,6 +73,11 @@ void mp_router_put(MpRouter *r, const MpFrame *f)
             && !(f->node == 2 && !f->replay &&
                  (f->stream == MP_ECG || f->stream == MP_RESP ||
                   f->stream == MP_HR || f->stream == MP_RR || f->stream == MP_TEMP))
+#ifdef MP_FINAL_UNIFIED
+            /* A测量流也按次FIFO，避免替换时间戳让血氧标量反复排到B之后。 */
+            && !(f->node == 1 && !f->replay &&
+                 (f->stream == MP_PPG || f->stream == MP_SPO2 || f->stream == MP_PR))
+#endif
 #endif
            )
         {
@@ -109,7 +114,7 @@ void mp_router_put(MpRouter *r, const MpFrame *f)
 bool mp_router_take_egress(MpRouter *r,MpFrame *out,uint32_t now,uint64_t utc,bool pending) {
     if(!r->online)return false;
     unsigned chosen=MP_LIVE_CAPACITY;int best=100;
-#ifdef MP_ABC_TRI_CANDIDATE
+#if defined(MP_ABC_TRI_CANDIDATE) || defined(MP_FINAL_UNIFIED)
     uint64_t oldest=UINT64_MAX;
 #endif
     for(unsigned i=0;i<r->ln;i++) {
@@ -119,14 +124,18 @@ bool mp_router_take_egress(MpRouter *r,MpFrame *out,uint32_t now,uint64_t utc,bo
         /* 状态先行；标量/波形交替，组内FIFO，不能让快流或心跳饿死另一组。 */
         bool status=f->stream==MP_NODE_STATUS || f->stream==MP_GATEWAY_STATUS;
         int rank=status?0:wave==(r->fair_wave!=0)?1:2;
+#ifdef MP_FINAL_UNIFIED
+        /* 沿用2.5秒旧帧界线：临近时效的帧先于新心跳/轮转，不只阻挡音频。 */
+        if(!f->replay && utc>f->timestamp && utc-f->timestamp>2500u)rank=-1;
+#endif
         if(rank<best
-#ifdef MP_ABC_TRI_CANDIDATE
+#if defined(MP_ABC_TRI_CANDIDATE) || defined(MP_FINAL_UNIFIED)
            /* A最新值替换会保留队位；同级标量按原时间先后，避免新值越过老的B温度。 */
-           || (rank==best && !wave && f->timestamp<oldest)
+           || (rank==best && (!wave || rank<0) && f->timestamp<oldest)
 #endif
           ){
             best=rank;chosen=i;
-#ifdef MP_ABC_TRI_CANDIDATE
+#if defined(MP_ABC_TRI_CANDIDATE) || defined(MP_FINAL_UNIFIED)
             oldest=f->timestamp;
 #endif
         }

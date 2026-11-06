@@ -1,0 +1,29 @@
+{
+  "before_compile": 0,
+  "tests": [
+    {
+      "version": "before",
+      "mode": "--race-input",
+      "native_exit": 3,
+      "stdout": ""
+    },
+    {
+      "version": "after",
+      "mode": "--race-input",
+      "native_exit": 0,
+      "stdout": "A_REAL_APP_ISR_AGE_RACE_PASS mode=1 PPG=113 expired=0\r\n"
+    },
+    {
+      "version": "before",
+      "mode": "--race-measurement",
+      "native_exit": 3,
+      "stdout": ""
+    },
+    {
+      "version": "after",
+      "mode": "--race-measurement",
+      "native_exit": 0,
+      "stdout": "A_REAL_APP_ISR_AGE_RACE_PASS mode=2 PPG=199 expired=0\r\n"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-/* 唯一B5候选：手工武装、B段、非人体MOCK；默认不自动入网，不写配置。 */
+/* 实验构建保留手工武装；显式ABC样机构建自动启动，均不写配置。 */
 #include "b5_policy.h"
 #include "../dual_can/b4_bxcan.h"
 #include "gateway_transport.h"
@@ -10,12 +10,24 @@
 #include "mic_protocol.h"
 #ifdef __arm__
 #include "stm32f4xx.h"
+#include "stm32f4xx_gpio.h"
+#include "stm32f4xx_rcc.h"
 #endif
 unsigned final_can_mask;
 static uint32_t run_limit_ms=B5_WINDOW_MS;
 static bool network_fault;
 static uint32_t uart_error_baseline,can_poll_cycles_max;
 static void local_control(void);
+#ifdef MP_ABC_APPLIANCE
+static uint32_t retry_ms=2000;
+static void reconnect_delay(void) {
+    delay_ms(retry_ms);
+    if(retry_ms<30000u)retry_ms=retry_ms<15000u?retry_ms*2u:30000u;
+}
+#endif
+#endif
+#ifndef MP_ABC_APPLIANCE
+#define reconnect_delay() delay_ms(2000)
 #endif
 #if defined(MP_B5_EGRESS_FINAL) && defined(__arm__)
 #include "ram_watermark.h"
@@ -177,7 +189,16 @@ static void diagnostic(unsigned stage) {
     (void)snprintf(line,sizeof(line),"B5 WAVE gaps=%lu quality_resets=%lu partial_discarded=%lu unstamped=%lu\r\n",
         (unsigned long)gateway.wave_gaps,(unsigned long)gateway.quality_resets,
         (unsigned long)gateway.partial_discarded,(unsigned long)gateway.unstamped);
-    console(line);return;}
+    console(line);
+#ifdef MP_FINAL_UNIFIED
+    (void)snprintf(line,sizeof line,"UNI WAVE_FLOW ag=%lu bg0=%lu bg1=%lu aq=%lu bq0=%lu bq1=%lu ad=%lu bd0=%lu bd1=%lu us=%lu up=%lu ut=%lu\r\n",
+        (unsigned long)gateway.flow_gaps[0][0],(unsigned long)gateway.flow_gaps[1][0],(unsigned long)gateway.flow_gaps[1][1],
+        (unsigned long)gateway.flow_quality[0][0],(unsigned long)gateway.flow_quality[1][0],(unsigned long)gateway.flow_quality[1][1],
+        (unsigned long)gateway.flow_discarded[0][0],(unsigned long)gateway.flow_discarded[1][0],(unsigned long)gateway.flow_discarded[1][1],
+        (unsigned long)gateway.unstamped_stream[MP_SPO2],(unsigned long)gateway.unstamped_stream[MP_PR],(unsigned long)gateway.unstamped_stream[MP_TEMP]);console(line);
+    (void)snprintf(line,sizeof line,"UNI PPG_PARTIAL batches=%lu samples=%lu tail=%u\r\n",(unsigned long)gateway.ppg_partial_batches,(unsigned long)gateway.ppg_partial_samples,(unsigned)gateway.segments[0].wave[0].count);console(line);
+#endif
+    return;}
     EspIoMetrics io; platform_io_snapshot(&io);
     if(stage==2){
     (void)snprintf(line,sizeof(line),"B5 IO tx_calls=%lu tx_ok=%lu tx_ms=%lu rx_queries=%lu rx_empty=%lu rx_reads=%lu\r\n",
@@ -270,7 +291,11 @@ static void service(void) {
     if (!armed) { b4_hw_idle(); return; }
 #endif
 #ifdef MP_ABC_TRI_CANDIDATE
-    if (b4_hw_diag[0].overflow || b4_hw_diag[0].busoff || b4_hw_diag[0].tx_failed) { stop(); return; }
+    if (b4_hw_diag[0].overflow
+#ifndef MP_ABC_APPLIANCE
+        || b4_hw_diag[0].busoff || b4_hw_diag[0].tx_failed
+#endif
+       ) { stop(); return; }
 #endif
     if (armed && (
 #ifdef MP_FINAL_UNIFIED
@@ -278,7 +303,10 @@ static void service(void) {
 #else
         (uint32_t)(g_uptime_ms - armed_at) >= B5_WINDOW_MS ||
 #endif
-        b4_hw_diag[1].overflow || b4_hw_diag[1].busoff || b4_hw_diag[1].tx_failed
+        b4_hw_diag[1].overflow
+#ifndef MP_ABC_APPLIANCE
+        || b4_hw_diag[1].busoff || b4_hw_diag[1].tx_failed
+#endif
 #ifndef MP_FINAL_UNIFIED
         || platform_uart_errors_total()
 #ifdef MP_B5_EGRESS_FINAL
@@ -306,6 +334,9 @@ static void service(void) {
         mp_router_online(&gateway.router,false);unified_audio_network(false);
     }
     unified_audio_local_poll();local_control();
+#if defined(MP_ABC_APPLIANCE) && defined(__arm__)
+    unified_audio_key(!(GPIOE->IDR&(1u<<3)));
+#endif
 #endif
     if (network_open && g_uptime_ms - last_sync >= 10000u) {
         b4_gateway_sync_ms(&gateway, gateway_epoch_milliseconds(), g_uptime_ms);
@@ -331,11 +362,25 @@ int main(void) {
 #endif
     platform_set_poll(service);
 #ifdef MP_FINAL_UNIFIED
+#ifdef MP_ABC_APPLIANCE
+    final_can_mask=3;run_limit_ms=0;
+    uart_error_baseline=platform_uart_errors_total();
+    console("UNI AUTO ABC AUDIO_MAX2S NO_FLASH_WRITE\r\n");
+#else
     console("UNI DISARMED V1 C_BC_ABC NO_FLASH_WRITE\r\n");
     while(!armed){platform_poll();local_control();}
+#endif
     unified_audio_init();
+#if defined(MP_ABC_APPLIANCE) && defined(__arm__)
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOE,ENABLE);
+    GPIO_InitTypeDef key={0};key.GPIO_Pin=GPIO_Pin_3;key.GPIO_Mode=GPIO_Mode_IN;key.GPIO_PuPd=GPIO_PuPd_UP;
+    GPIO_Init(GPIOE,&key);
+#endif
     if(b4_hw_init())for(;;){}
     for(unsigned bus=0;bus<2;bus++)b4_gateway_link(&gateway,bus,(final_can_mask&(1u<<bus))!=0);
+#ifdef MP_ABC_APPLIANCE
+    armed=true;
+#endif
     char uart_start[96];
     snprintf(uart_start,sizeof uart_start,"UNI UART baseline=%lu total=%lu\r\n",
         (unsigned long)uart_error_baseline,(unsigned long)platform_uart_errors_total());console(uart_start);
@@ -371,7 +416,14 @@ int main(void) {
     if(final_can_mask&2)
 #endif
     (void)b4_gateway_nmt(&gateway, 2, CO_NMT_ENTER_OPERATIONAL);
+#ifdef MP_ABC_APPLIANCE
+    bool configured=gateway_config_valid();
+    if(!configured)console("UNI AUTO CONFIG_MISSING LOCAL_ONLY\r\n");
+#endif
     while (!stopped) {
+#ifdef MP_ABC_APPLIANCE
+        if(!configured){platform_poll();continue;}
+#endif
 #ifdef MP_FINAL_UNIFIED
         if(network_fault) {
             /* AT边界未知只停网络，CAN/本地STOP继续；不能盲目重发未知半帧。 */
@@ -392,7 +444,7 @@ int main(void) {
                 delay_ms(3000);continue;
             }
 #ifdef MP_FINAL_UNIFIED
-            unified_audio_network(false);gateway_network_close();delay_ms(2000);continue;
+            unified_audio_network(false);gateway_network_close();reconnect_delay();continue;
 #else
             if(!stopped)stop();
             gateway_network_close();break;
@@ -410,7 +462,7 @@ int main(void) {
         if (stopped || !gateway_mqtt_open(&will)) {
 #ifdef MP_B5_EGRESS_FINAL
 #ifdef MP_FINAL_UNIFIED
-            unified_audio_network(false);gateway_network_close();delay_ms(2000);continue;
+            unified_audio_network(false);gateway_network_close();reconnect_delay();continue;
 #else
             if(!stopped)stop();
             gateway_network_close();break;
@@ -422,6 +474,9 @@ int main(void) {
         mp_router_online(&gateway.router, true); mqtt_connected = true;
 #ifdef MP_FINAL_UNIFIED
         (void)gateway_audio_subscribe();unified_audio_network(true);
+#ifdef MP_ABC_APPLIANCE
+        retry_ms=2000;
+#endif
 #endif
         status_at = g_uptime_ms - 5000u;
         while (!stopped
@@ -434,7 +489,7 @@ int main(void) {
             bool allow_new=b5_business_remaining()>B5_DRAIN_MS;
             int progress=b5_egress_step(&gateway.router,&publisher,allow_new);
 #ifdef MP_FINAL_UNIFIED
-            unified_audio_step(!publisher.deferred && !gateway.router.ln && allow_new);
+            unified_audio_step(false);
             if(platform_at_synchronized() && !platform_console_busy())unified_audio_report();
 #endif
             diagnostic_idle();
@@ -470,7 +525,7 @@ int main(void) {
 #else
         gateway_network_close();
 #endif
-        if (!stopped) delay_ms(2000);
+        if (!stopped) reconnect_delay();
     }
     report_stop();
 #ifdef MP_B5_EGRESS_FINAL

@@ -8,7 +8,7 @@
 #endif
 typedef struct {
 #ifdef MP_FINAL_UNIFIED
-    MpFrame inflight[GATEWAY_TELEMETRY_SLOTS];uint16_t tickets[GATEWAY_TELEMETRY_SLOTS];
+    MpFrame inflight[GATEWAY_PUBLISH_SLOTS];uint16_t tickets[GATEWAY_PUBLISH_SLOTS];
 #else
     MpFrame inflight;
 #endif
@@ -34,19 +34,27 @@ static inline int b5_egress_step(MpRouter *r,B5Publisher *s,bool allow_new) {
     int progress=gateway_mqtt_progress();
     if(b5_network_stopped())return 1;
     if(progress==GW_FAILED){
-        for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(s->tickets[i]){mp_router_ack(r,&s->inflight[i],false);s->tickets[i]=0;}
+        for(unsigned i=0;i<GATEWAY_PUBLISH_SLOTS;i++)if(s->tickets[i]){mp_router_ack(r,&s->inflight[i],false);s->tickets[i]=0;}
         s->pending=false;s->failed++;return 0;
     }
-    for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(s->tickets[i] && gateway_mqtt_ticket_result(s->tickets[i])==GW_COMPLETE){
-        mp_router_ack(r,&s->inflight[i],true);s->tickets[i]=0;s->q1++;
+    for(unsigned i=0;i<GATEWAY_PUBLISH_SLOTS;i++)if(s->tickets[i] && gateway_mqtt_ticket_result(s->tickets[i])==GW_COMPLETE){
+        mp_router_ack(r,&s->inflight[i],true);s->tickets[i]=0;
+        if(s->inflight[i].rate && !s->inflight[i].replay)s->q0++;else s->q1++;
     }
-    s->pending=s->tickets[0] || s->tickets[1] || s->tickets[2];
+    s->pending=false;for(unsigned i=0;i<GATEWAY_PUBLISH_SLOTS;i++)if(s->tickets[i])s->pending=true;
     if(!allow_new)return 1;
     uint64_t utc=gateway_epoch_milliseconds();
     bool medical_due=false;
-    for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(s->tickets[i] && utc>s->inflight[i].timestamp && utc-s->inflight[i].timestamp>2500u)medical_due=true;
-    if(!s->deferred && !s->audio_yield && !medical_due && b5_audio_room(r,utc) && unified_audio_send_due()){
-        unified_audio_step(true);if(gateway_audio_pending()){s->audio_yield=true;return 1;}
+    for(unsigned i=0;i<GATEWAY_PUBLISH_SLOTS;i++)if(s->tickets[i] && utc>s->inflight[i].timestamp && utc-s->inflight[i].timestamp>2500u)medical_due=true;
+    if(s->deferred && utc>s->publishing.timestamp && utc-s->publishing.timestamp>2500u)medical_due=true;
+    bool q1_blocked=s->deferred && (!s->publishing.rate || s->publishing.replay) && gateway_mqtt_slots_full();
+    bool deferred_ready=s->deferred && !q1_blocked;
+    if(!r->ln && !deferred_ready)s->audio_yield=false;
+    bool room=b5_audio_room(r,utc),audio_due=unified_audio_send_due();
+    unified_audio_wait((deferred_ready || medical_due || !room?UA_BLOCK_MEDICAL:0u)|
+        (s->audio_yield?UA_BLOCK_YIELD:0u)|(!audio_due?UA_BLOCK_GAP:0u));
+    if(!deferred_ready && !s->audio_yield && !medical_due && room && audio_due){
+        if(unified_audio_step(true)){s->audio_yield=true;return 1;}
     }
     int admission=gateway_mqtt_admit();
     if(admission==GW_FAILED){s->failed++;return 0;}if(admission==GW_DEFERRED)return 1;
@@ -54,8 +62,8 @@ static inline int b5_egress_step(MpRouter *r,B5Publisher *s,bool allow_new) {
         if(!s->deferred && !b5_prepare_publish(&s->publishing,utc))return 1;
         int result=gateway_mqtt_begin(&s->publishing);s->deferred=result==GW_DEFERRED;
         if(s->deferred || b5_network_stopped())return 1;
-        if(result==GW_PENDING){unsigned i=0;while(i<GATEWAY_TELEMETRY_SLOTS && s->tickets[i])i++;if(i==GATEWAY_TELEMETRY_SLOTS){s->failed++;return 0;}s->tickets[i]=gateway_mqtt_ticket();s->inflight[i]=s->publishing;s->pending=true;s->audio_yield=false;}
-        else{mp_router_ack(r,&s->publishing,result==GW_COMPLETE);if(result==GW_FAILED){s->failed++;return 0;}s->q0++;}
+        if(result==GW_PENDING){unsigned i=0;while(i<GATEWAY_PUBLISH_SLOTS && s->tickets[i])i++;if(i==GATEWAY_PUBLISH_SLOTS){s->failed++;return 0;}s->tickets[i]=gateway_mqtt_ticket();s->inflight[i]=s->publishing;s->pending=true;s->audio_yield=false;}
+        else{mp_router_ack(r,&s->publishing,result==GW_COMPLETE);if(result==GW_FAILED){s->failed++;return 0;}s->q0++;s->audio_yield=false;}
     }
     return 1;
 #else

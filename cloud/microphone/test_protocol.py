@@ -12,6 +12,25 @@ def packets():
 
 
 class ProtocolChecks(unittest.TestCase):
+    def test_short_v2_partial_last_chunk_and_metadata_binding(self):
+        pcm=bytes(range(256))*187+bytes(range(128))
+        self.assertEqual(len(pcm),48000)
+        total=(len(pcm)+511)//512
+        packets_=[]
+        for n in range(total):
+            data=pcm[n*512:(n+1)*512]
+            packets_.append(HEADER.pack(b'MC02',11,n,total,16000,len(pcm),zlib.crc32(pcm),
+                zlib.crc32(data),len(data),(1 if n==0 else 0)|(2 if n+1==total else 0),1)+data.ljust(512,b'\0'))
+        a=AudioAssembler()
+        a.feed('C',packets_[0],0);a.feed('C',packets_[0],1)
+        for packet in packets_[1:]:result=a.feed('C',packet,2)
+        self.assertEqual(result['pcm'],pcm);self.assertEqual(result['chunks'],94)
+        bad=bytearray(packets_[-1]);bad[-1]=1
+        with self.assertRaises(ValueError):AudioAssembler().feed('C',bad,0)
+        a=AudioAssembler();a.feed('C',packets_[0],0)
+        bad=bytearray(packets_[1]);struct.pack_into('<I',bad,16,48002)
+        with self.assertRaises(ValueError):a.feed('C',bad,1)
+
     def test_exact_complete_and_duplicate(self):
         a=AudioAssembler();p=packets();self.assertIsNone(a.feed('C',p[0],0));self.assertIsNone(a.feed('C',p[0],1))
         for packet in p[1:]:result=a.feed('C',packet,2)

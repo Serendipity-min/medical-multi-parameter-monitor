@@ -26,16 +26,19 @@ static uint8_t hb_state;
 static uint8_t wire_mode;
 static uint8_t sdo_data[8];
 static NodeCanIrq irq_state;
+static unsigned age_race;
+extern volatile uint32_t node_a_can_wave_expired;
 static int wave_available;
 static uint32_t wave_tick;
 /* 与目标端相同的嵌套保存/恢复语义，测试调用前已经屏蔽的 IRQ。 */
 void node_can_lock(void) { node_irq_lock(&irq_state); }
 void node_can_unlock(void) { node_irq_unlock(&irq_state); }
-bp_last_t bp_last_get(void) { return bp; }
+bp_last_t bp_last_get(void) { if(age_race==2){uwTick++;g_meas.result_time_ms=uwTick;}return bp; }
 bp_state_t bp_state_get(void) { return bp_state; }
 uint32_t spo2_rtc_get_epoch(void) { return 1767225600; }
 uint16_t UNO_WaveTakeCAN(int32_t *w,uint32_t *t,uint16_t max) {
     if (!max || !wave_available) return 0;
+    if(age_race==1){uwTick++;wave_tick=uwTick;}
     wave_available=0; *w=(int32_t)(wave_tick % 1000)*100; *t=wave_tick; return 1;
 }
 uint16_t UNO_WavePendingCAN(void) { return wave_available; }
@@ -72,12 +75,20 @@ static void inject(uint16_t id,uint8_t dlc,const uint8_t *data) {
     for(unsigned i=0;i<module->rxSize;i++) { CO_CANrx_t *r=&module->rxArray[i];if(r->CANrx_callback && !((id^r->ident)&r->mask)) {r->CANrx_callback(r->object,&msg);return;} }
     assert(!"unregistered receive ID");
 }
-static void tick(void) { uwTick++; if(uwTick%8==0) { wave_available=1;wave_tick=uwTick; } g_meas.result_time_ms=uwTick;canopen_app_process(); }
+static void tick(void) { static unsigned calls;calls++;uwTick++; if((age_race==2?calls:uwTick)%8==0) { wave_available=1;wave_tick=uwTick; } g_meas.result_time_ms=uwTick;canopen_app_process(); }
 int main(int argc,char **argv) {
     wire_mode=argc>1 && !strcmp(argv[1],"--wire");
     g_meas.spo2=98;g_meas.pulse_rate=72;g_meas.result_valid=1;g_meas.probe_state=1;
     bp.valid=1;bp.sys=118;bp.dia=76;bp.result_generation=1;
     assert(canopen_app_init()==0);
+    if(argc>1 && (!strcmp(argv[1],"--race-input") || !strcmp(argv[1],"--race-measurement"))){
+        age_race=!strcmp(argv[1],"--race-input")?1u:2u;
+        assert(node_age_within(100,101,250));assert(!node_age_within(400,100,250));
+        assert(node_age_within(10,UINT32_MAX-9u,100));
+        for(unsigned i=0;i<2000;i++)tick();
+        assert(node_a_can_wave_expired==0 && ppg_count>50);
+        printf("A_REAL_APP_ISR_AGE_RACE_PASS mode=%u PPG=%u expired=%u\n",age_race,ppg_count,(unsigned)node_a_can_wave_expired);return 0;
+    }
     if(wire_mode) {
         uint64_t relative=1800000000000ULL-441763200000ULL;
         uint32_t ms=(uint32_t)(relative%86400000u);uint16_t days=(uint16_t)(relative/86400000u);uint8_t data[6];
