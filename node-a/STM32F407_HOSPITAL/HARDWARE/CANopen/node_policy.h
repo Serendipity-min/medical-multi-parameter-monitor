@@ -1,6 +1,10 @@
 #ifndef NODE_CAN_POLICY_H
 #define NODE_CAN_POLICY_H
 #include <stdint.h>
+/* ISR可在本轮now之后入环；有符号差避免把新点判成约49天旧。 */
+static inline uint8_t node_age_within(uint32_t now,uint32_t tick,uint32_t limit) {
+    return (int32_t)(now-tick)<=(int32_t)limit;
+}
 /* 本接口的 UTC 只能来自已同步 Gateway 的 CANopen TIME，不能读取屏幕软 RTC。 */
 typedef struct { uint32_t epoch, anchor, received; uint8_t valid; } NodeClock;
 static inline void node_clock_set(NodeClock *c,uint32_t ms,uint16_t days,uint32_t now) {

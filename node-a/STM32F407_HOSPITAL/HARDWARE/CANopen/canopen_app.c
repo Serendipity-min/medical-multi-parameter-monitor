@@ -66,16 +66,16 @@ uint8_t canopen_app_init(void) {
 void canopen_app_produce(void) {
     measurement_t measurement;
     NodeClock time;
-    uint32_t epoch,anchor,flags=0,now=uwTick;
+    uint32_t epoch,anchor,flags=0,now;
     bp_last_t bp=bp_last_get();
     bp_state_t state=bp_state_get();
     if (!running) return;
     /* ISR 写 UNO 快照/TIME；短临界段取得一致副本，并恢复原始 IRQ 状态。 */
-    node_can_lock();measurement=g_meas;time=clock_anchor;node_can_unlock();
+    node_can_lock();measurement=g_meas;time=clock_anchor;now=uwTick;node_can_unlock();
     node_clock_read(&time,now,&epoch,&anchor);
     OD_RAM.x2100_epoch_tick.epoch=epoch;OD_RAM.x2100_epoch_tick.tick=anchor;
     uint8_t fresh=(!g_paused && measurement.probe_state && measurement.result_valid
-                    && (uint32_t)(now-measurement.result_time_ms)<=4000u);
+                    && node_age_within(now,measurement.result_time_ms,4000u));
     uint8_t spo2_ok=fresh && measurement.spo2>0 && measurement.spo2<=100;
     /* PR 采用屏任务已做峰检/保持超时处理后的共享值，不依赖 DEBUG_PPG 诊断变量。 */
     uint8_t pr_ok=fresh && measurement.pulse_rate>0 && measurement.pulse_rate<=350;
@@ -100,12 +100,13 @@ void canopen_app_produce(void) {
     flags|=1u<<9; /* 完成时间扩展版本1；不是新的有效位，也不改变synthetic身份。 */
 
     if (!fresh) { memset(&wave,0,sizeof(wave));have_wave=0;UNO_WaveClearCAN(); }
-    else {
+    /* 发送槽未释放时保留UNO/重采样积压，不能覆盖尚未发出的点。 */
+    else if (!g_CO->TPDO[0].CANtxBuff->bufferFull) {
         int32_t value;uint32_t tick;
         /* 最多消费 32 个原始点且每轮只提交一个输出，不在一次 TPDO 处理前覆盖多点。 */
         for(unsigned budget=0;budget<32u;budget++) {
             if(node_wave_output(&wave,&value,&tick)) {
-                if((uint32_t)(now-tick)<=250u) {
+                if(node_age_within(now,tick,250u)) {
                     OD_RAM.x2110_ppg_waveform.ir_wave=(int32_t)((int64_t)value*1000000/4194304);
                     OD_RAM.x2110_ppg_waveform.sample_tick=tick;
                     CO_TPDOsendRequest(&g_CO->TPDO[0]);wave_request=1;have_wave=1;last_wave_tick=tick;
@@ -113,13 +114,13 @@ void canopen_app_produce(void) {
                 break;
             }
             if(!UNO_WaveTakeCAN(&value,&tick,1)) break;
-            if((uint32_t)(now-tick)>250u) { node_a_can_wave_expired++;wave.have=0;continue; }
+            if(!node_age_within(now,tick,250u)) { node_a_can_wave_expired++;wave.have=0;continue; }
             node_wave_input(&wave,value,tick);
         }
     }
     /* 未同步 UTC 不宣称有效 LIVE；bit8 明确当前 PPG 为接收时基的线性重采样。 */
     if(epoch) {
-        if(fresh && have_wave && (uint32_t)(now-last_wave_tick)<=100u) flags|=1u|(1u<<7)|(1u<<8);
+        if(fresh && have_wave && node_age_within(now,last_wave_tick,100u)) flags|=1u|(1u<<7)|(1u<<8);
         if(spo2_ok) flags|=1u<<1;
         if(pr_ok) flags|=1u<<2;
         if(bp_ok) flags|=1u<<3;

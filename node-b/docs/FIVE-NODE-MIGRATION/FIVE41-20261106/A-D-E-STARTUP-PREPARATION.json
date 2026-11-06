@@ -1,0 +1,269 @@
+{
+  "status": "ALL_FIVE_IMAGES_INSTALLED_VERIFIED_WAIT_E_CAN_RECONNECT",
+  "owner_all_off": false,
+  "observed": "B/D正常，A血氧屏界面正常但接传感器无反应",
+  "screen_input_root_cause": "ALONE_RECOVERS_INPUT_AND_MAIN_HEALTHY_ACTIVE_BUS_STARTUP_RACE_SUPPORTED_NOT_UNIQUELY_PROVEN",
+  "C_start_commands_since_new_B_install": 0,
+  "new_ECG_transaction_consumed": false,
+  "shared_defect": "IRQ_ENABLED_BEFORE_APPLICATION_RUNNING",
+  "A_original_driver_host_native_exit": 23,
+  "A_fixed_driver_host_native_exit": 0,
+  "A_fixed_pending_frames_delivered": 2,
+  "B_current": "STARTUP_FIX_40040_INSTALLED_FULL_VERIFY_AND_LOCAL_250SPS_PASS",
+  "C_current": "COUNTER_56072_INSTALLED_FULL_VERIFY_PASS",
+  "candidates": {
+    "A": {
+      "sha256": "b20bfdb877aa89576ee12abaabeb8b9b8ef425135b6061392475096bb2fbe5d0",
+      "bytes": 33444,
+      "installed": true
+    },
+    "D": {
+      "sha256": "ae4e6d11770c07bd941a3ffdee196e06cf1a82648d050f7e2429431afb348c6a",
+      "bytes": 24552,
+      "installed": true
+    },
+    "E": {
+      "sha256": "da890a5e9eb1b7a7f9f7fcb1338b338996f4bb5a5d52c4119dfb19c4882b64a8",
+      "bytes": 29424,
+      "installed": true
+    }
+  },
+  "comparisons": {
+    "A": {
+      "old_build": "five-node-A-20261106T032715128943Z",
+      "new_build": "five-node-A-20261106T094326290307Z",
+      "changed_sources": [
+        "HARDWARE/CANopen/CO_driver.c"
+      ],
+      "native_exit": 0,
+      "status": "PASS"
+    },
+    "D": {
+      "old_build": "five-node-D-20261104T061845347216Z",
+      "new_build": "five-node-D-20261106T094336178781Z",
+      "changed_sources": [
+        "B4/CO_driver.c"
+      ],
+      "native_exit": 0,
+      "status": "PASS"
+    },
+    "E": {
+      "old_build": "five-node-E-20261104T061836066909Z",
+      "new_build": "five-node-E-20261106T094344112173Z",
+      "changed_sources": [
+        "HARDWARE/CANopen/CO_driver.c",
+        "HARDWARE/CANopen/node_policy.h"
+      ],
+      "native_exit": 0,
+      "status": "PASS"
+    }
+  },
+  "install_offline_plans": {
+    "A": {
+      "status": "PLAN_ONLY",
+      "board": "A",
+      "candidate_bytes": 33444,
+      "sectors": [
+        0,
+        1,
+        2
+      ],
+      "config_preserved": true
+    },
+    "D": {
+      "status": "PLAN_ONLY",
+      "board": "D",
+      "sectors": [
+        0,
+        1
+      ],
+      "candidate_bytes": 24552,
+      "candidate_sha256": "ae4e6d11770c07bd941a3ffdee196e06cf1a82648d050f7e2429431afb348c6a",
+      "original_application_backup_required": false
+    },
+    "E": {
+      "status": "PLAN_ONLY_NO_PORT_OPENED",
+      "board": "E",
+      "bytes": 29424,
+      "sha256": "da890a5e9eb1b7a7f9f7fcb1338b338996f4bb5a5d52c4119dfb19c4882b64a8",
+      "sectors": [
+        0,
+        1
+      ],
+      "mass_erase": false,
+      "options_write": false
+    }
+  },
+  "relevant_installer_tests": {
+    "E": {
+      "passed": 4,
+      "native_exit": 0
+    },
+    "D": {
+      "passed": 5,
+      "native_exit": 0
+    }
+  },
+  "sensor_screen_firmware_changes": 0,
+  "acquisition_algorithm_or_timeout_changes": 0,
+  "automatic_field_retry": false,
+  "commit_push": false,
+  "tool_preparation_issue": "Windows concurrent timestamp directory collision occurred before old-A host test; unique suffix added, old-A negative test then exited23 as expected",
+  "current_physical_state": "ONLY_E_BOARD_POWERED_USB232BOOT_COM15_E_HL_REMOVED_PERIPHERALS_OFF",
+  "A_local_before_update": {
+    "native_exit": 0,
+    "receipt_exists": true,
+    "exit_code": 0,
+    "status": "A_ONLY_LOCAL_COUNTERS_CAPTURED_REVIEW_REQUIRED",
+    "scope": "A_ONLY_LOCAL_SOURCE_COUNTERS_5S_NO_C_ARM",
+    "explicit_Halt_Reset_Go_Flash_writes": 0,
+    "full_PPG_raw_point_integrity": "NOT_PROVEN",
+    "rows": 5,
+    "source_span_ms": 3988,
+    "UNO_rx_bytes_delta": 8157,
+    "UNO_frames_delta": 480,
+    "running_observed": [
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "last_SpO2": 96,
+    "last_PR": 71,
+    "last_probe_state": 1,
+    "last_result_valid": 1,
+    "last_fault_code": 0,
+    "CAN_assessment": "NOT_RUN_PEERS_OFF",
+    "Close_completed": true
+  },
+  "A_actual_install": {
+    "status": "ABC_A_APP012_FULL_VERIFY_BOOT_PASS",
+    "exit_code": 0,
+    "board": "A",
+    "sectors": [
+      0,
+      1,
+      2
+    ],
+    "full_flash_sha256": "47cde6b842ac3bb92f8e4771f62387fa4c316a8b8338920acd21afcab5726d1a",
+    "options_unchanged": true,
+    "outside_affected_sectors_unchanged": true,
+    "Close_completed": true,
+    "native_actions": {
+      "JLINKARM_Halt": 1,
+      "JLINKARM_BeginDownload": 1,
+      "JLINKARM_WriteMem": 1,
+      "JLINKARM_EndDownload": 1,
+      "JLINKARM_Reset": 1,
+      "JLINKARM_Go": 1
+    },
+    "debug_IWDG_freeze_writes": 2,
+    "debug_IWDG_freeze_restored": true,
+    "native_process_exit": 0,
+    "candidate_bytes": 33444,
+    "candidate_sha256": "b20bfdb877aa89576ee12abaabeb8b9b8ef425135b6061392475096bb2fbe5d0"
+  },
+  "A_local_after_update": {
+    "native_exit": 0,
+    "receipt_exists": true,
+    "exit_code": 0,
+    "status": "A_ONLY_LOCAL_COUNTERS_CAPTURED_REVIEW_REQUIRED",
+    "scope": "A_ONLY_LOCAL_SOURCE_COUNTERS_5S_NO_C_ARM",
+    "explicit_Halt_Reset_Go_Flash_writes": 0,
+    "full_PPG_raw_point_integrity": "NOT_PROVEN",
+    "rows": 5,
+    "source_span_ms": 3988,
+    "UNO_rx_bytes_delta": 8154,
+    "UNO_frames_delta": 480,
+    "running_observed": [
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "last_SpO2": 96,
+    "last_PR": 58,
+    "last_probe_state": 1,
+    "last_result_valid": 1,
+    "last_fault_code": 0,
+    "CAN_assessment": "NOT_RUN_PEERS_OFF",
+    "Close_completed": true
+  },
+  "D_actual_install": {
+    "status": "D_M1_SECTOR01_FULL_VERIFY_BOOT_PASS",
+    "exit_code": 0,
+    "board": "D",
+    "sectors": [
+      0,
+      1
+    ],
+    "candidate_bytes": 24552,
+    "candidate_sha256": "ae4e6d11770c07bd941a3ffdee196e06cf1a82648d050f7e2429431afb348c6a",
+    "full_flash_sha256": "993d7b742fde80feacdbaf57ad5fce6301bfb6bbe85ec94818569456e962c8f5",
+    "options_unchanged": true,
+    "outside_affected_sectors_unchanged": true,
+    "Close_completed": true,
+    "native_actions": {
+      "JLINKARM_Halt": 1,
+      "JLINKARM_BeginDownload": 1,
+      "JLINKARM_WriteMem": 1,
+      "JLINKARM_EndDownload": 1,
+      "JLINKARM_Reset": 1,
+      "JLINKARM_Go": 1
+    },
+    "native_process_exit": 0
+  },
+  "D_local_after_update": {
+    "native_exit": 0,
+    "receipt_exists": true,
+    "exit_code": 0,
+    "status": "D_NEW_IMAGE_LOCAL_TEMP_REFRESH_PASS",
+    "scope": "D_ONLY_LOCAL_TEMP_READONLY_3S",
+    "explicit_Halt_Reset_Go_Flash_writes": 0,
+    "CAN_assessment": "NOT_RUN_PEERS_OFF",
+    "frames_advanced": 10,
+    "object_temperature_c": 26.36,
+    "last_source_age_ms": 51,
+    "new_errors": 0,
+    "Close_completed": true
+  },
+  "E_actual_install": {
+    "status": "E_M1_SECTOR01_ROM_FULL_VERIFY_PASS",
+    "exit_code": 0,
+    "board": "E",
+    "sectors": [
+      0,
+      1
+    ],
+    "candidate_bytes": 29424,
+    "candidate_sha256": "da890a5e9eb1b7a7f9f7fcb1338b338996f4bb5a5d52c4119dfb19c4882b64a8",
+    "options_unchanged": true,
+    "outside_affected_sectors_unchanged": true,
+    "reset_to_flash_performed": true,
+    "application_running_status": "NOT_YET_OBSERVED",
+    "local_sensor_screen_status": "NOT_RUN",
+    "native_process_exit": 0,
+    "application_32KiB_byte_readback_match": true,
+    "outside_Flash_before_after_hash_match": true,
+    "exact_E_identity_checked_before_and_after": true,
+    "first_failed_attempt_preserved": true,
+    "no_mass_erase_or_unlock": true
+  },
+  "E_first_identify_failure": {
+    "status": "STOP_BEFORE_E_IDENTITY_NO_FLASH_CHANGE",
+    "native_exit": 1,
+    "error_type": "CommandError",
+    "ROM_command_phase": "GET_0x00_END_ACK",
+    "received_byte": "0xb9",
+    "expected_ACK": "0x79",
+    "identity_acquired": false,
+    "program_intent_created": false,
+    "erase_and_Flash_write_commands": 0,
+    "root_cause": "UNKNOWN",
+    "owner_requested_USB_reconnect_and_identify": true,
+    "reconnect_identify_native_exit": 0,
+    "reconnect_exact_E_identity_match": true
+  }
+}

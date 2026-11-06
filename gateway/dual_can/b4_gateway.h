@@ -11,6 +11,12 @@ typedef struct {
     bool nibp_emitted;
     bool status_sent, last_online;
     uint32_t status_at;
+#ifdef MP_FIVE_NODE
+    uint32_t rx_frames, heartbeat_count, heartbeat_tick, emcy_errors, pdo_count[5];
+    uint32_t wave_gaps[2];
+    uint16_t last_emcy_error;
+    uint8_t nmt_state;
+#endif
 } B4Remote;
 
 typedef struct {
@@ -28,6 +34,9 @@ typedef struct {
     uint32_t now, epoch, utc_at, utc_fraction, time_sent, malformed, wrong_bus, resets, wave_gaps, unstamped;
     uint32_t session; /* B5由新鲜SNTP毫秒锚建立网关连接代次，不改节点原始boot字段。 */
     uint32_t quality_resets, partial_discarded;
+#ifdef MP_FIVE_NODE
+    uint32_t ppg_partial_batches, ppg_partial_samples;
+#endif
     bool utc_valid;
 } B4Gateway;
 int b4_gateway_init(B4Gateway *g);

@@ -50,12 +50,14 @@ CO_CANsetConfigurationMode(void* CANptr) {
 }
 
 /* ============================================================================
- * 正常模式：置 CANnormal 标志（硬件已在 CO_CANmodule_init 中由 CAN_Init 进入正常模式）
+ * 正常模式：协议栈与应用入口就绪后，才开放 CAN 中断
  * ========================================================================== */
 void
 CO_CANsetNormalMode(CO_CANmodule_t* CANmodule) {
     if (CANmodule != NULL) {
         CANmodule->CANnormal = true;
+        /* 邻板可能早已发帧；初始化期间开放IRQ会在running=0处反复返回。 */
+        CAN_ITConfig(CAN1, CAN_IT_FMP0 | CAN_IT_TME | CAN_IT_ERR | CAN_IT_FOV0, ENABLE);
     }
 }
 
@@ -127,7 +129,11 @@ CO_CANmodule_init(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[],
     can.CAN_AWUM = ENABLE;            /* 自动唤醒 */
     can.CAN_NART = DISABLE;           /* 自动重传（CAN 要求可靠传输） */
     can.CAN_RFLM = DISABLE;           /* FIFO 满时覆盖（并记录溢出） */
-    can.CAN_TXFP = DISABLE;           /* 发送顺序按报文 ID 优先级 */
+#ifdef MP_FIVE_NODE_A
+    can.CAN_TXFP = ENABLE;            /* 同COB-ID按请求先后发送，避免邮箱索引造成倒序 */
+#else
+    can.CAN_TXFP = DISABLE;
+#endif
     can.CAN_Mode = CAN_Mode_Normal;
     can.CAN_SJW  = CAN_SJW_1tq;
     can.CAN_BS1  = CAN_BS1_11tq;
@@ -149,9 +155,6 @@ CO_CANmodule_init(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[],
     filter.CAN_FilterFIFOAssignment = CAN_Filter_FIFO0;
     filter.CAN_FilterActivation = ENABLE;
     CAN_FilterInit(&filter);
-
-    /* ---- 中断使能：FIFO0 接收 / 发送完成 / 错误(SCE) / FIFO0 溢出 ---- */
-    CAN_ITConfig(CAN1, CAN_IT_FMP0 | CAN_IT_TME | CAN_IT_ERR | CAN_IT_FOV0, ENABLE);
 
     /* NVIC：CAN 中断优先级设为 3（最低），确保不抢占 UART 接收中断
      *（UART 用于血氧/血压传感器高速流，时间关键）。 */

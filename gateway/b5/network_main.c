@@ -223,13 +223,40 @@ static void diagnostic(unsigned stage) {
 #endif
     if(stage==22){(void)snprintf(line,sizeof(line),"B5 SCHED service_gap=%lu console_ms=%lu rx_high=%lu\r\n",
         (unsigned long)io.service_gap_max,(unsigned long)io.console_max,(unsigned long)io.rx_high_water);console(line);}
+#ifdef MP_FIVE_NODE
+    if(stage==23){
+        (void)snprintf(line,sizeof(line),"FIVE STATE tick=%lu wrong_bus=%lu malformed=%lu resets=%lu partial_batches=%lu partial_samples=%lu\r\n",
+            (unsigned long)g_uptime_ms,(unsigned long)gateway.wrong_bus,(unsigned long)gateway.malformed,
+            (unsigned long)gateway.resets,(unsigned long)gateway.ppg_partial_batches,(unsigned long)gateway.ppg_partial_samples);
+        console(line);
+    }
+    if(stage>=24 && stage<28){
+        unsigned bus=(stage-24)/2,slot=(stage-24)%2;
+        unsigned node=slot?(bus?4u:5u):bus+1u;
+        B4Remote *r=&gateway.segments[bus].remote[slot];
+        (void)snprintf(line,sizeof(line),"FIVE RX node=%u bus=%u rx=%lu hb=%lu hb_age=%lu nmt=%u boot=%lu gen=%lu p0=%lu p1=%lu p2=%lu p3=%lu p4=%lu emcy=%lu code=%u gap0=%lu gap1=%lu\r\n",
+            node,bus,(unsigned long)r->rx_frames,(unsigned long)r->heartbeat_count,
+            (unsigned long)(g_uptime_ms-r->heartbeat_tick),(unsigned)r->nmt_state,
+            (unsigned long)r->observed_boot,(unsigned long)r->generation,
+            (unsigned long)r->pdo_count[0],(unsigned long)r->pdo_count[1],(unsigned long)r->pdo_count[2],
+            (unsigned long)r->pdo_count[3],(unsigned long)r->pdo_count[4],
+            (unsigned long)r->emcy_errors,(unsigned)r->last_emcy_error,
+            (unsigned long)r->wave_gaps[0],(unsigned long)r->wave_gaps[1]);
+        console(line);
+    }
+#endif
 #endif
 }
 static void diagnostic_idle(void) {
 #ifdef MP_FINAL_UNIFIED
     if(!unified_audio_quiet())return;
 #endif
-    static unsigned stage=23;
+#ifdef MP_FIVE_NODE
+    enum { DIAGNOSTIC_STAGES=28 };
+#else
+    enum { DIAGNOSTIC_STAGES=23 };
+#endif
+    static unsigned stage=DIAGNOSTIC_STAGES;
     static uint32_t essential_at;
     static bool queue_due;
     if(platform_console_busy())return;
@@ -246,7 +273,7 @@ static void diagnostic_idle(void) {
     if(elapsed>=5000u){essential_at+=elapsed/5000u*5000u;queue_due=true;diagnostic(0);return;}
     if(queue_due){queue_due=false;diagnostic(12);return;}
     if(gateway.router.temp_reported<gateway.router.temp_written){diagnostic(20);return;}
-    if(stage>=23){if(g_uptime_ms-diag_at<5000u)return;diag_at=g_uptime_ms;stage=1;}
+    if(stage>=DIAGNOSTIC_STAGES){if(g_uptime_ms-diag_at<5000u)return;diag_at=g_uptime_ms;stage=1;}
     if(stage==12 || stage==20)stage++;
     diagnostic(stage++);
 }

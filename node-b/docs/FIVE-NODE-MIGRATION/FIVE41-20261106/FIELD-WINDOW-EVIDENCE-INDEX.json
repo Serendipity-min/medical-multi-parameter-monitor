@@ -1,0 +1,166 @@
+{
+  "ECG60": {
+    "evaluation": {
+      "monotonic": 354016.703,
+      "UTC_ms": 1793960681010,
+      "duration_s": 300,
+      "common_monotonic": 353971.703,
+      "warmup_s": 45,
+      "channel_profile": "ECG60",
+      "electrical": "40_41_OHM_ENGINEERING_DIAGNOSTIC",
+      "formal_acceptance": false
+    },
+    "files": {
+      "T0.json": {
+        "bytes": 225,
+        "sha256": "27d921da7a0f45f86c6432cd57febdaa272379fd8258c204ed1215b98b2aefc6"
+      },
+      "owner-power-confirmation.json": {
+        "bytes": 525,
+        "sha256": "c320b71c22581242e2d5f588274d07b582a2782bb5a9b69a82c0347631e45ed6"
+      },
+      "owner-power-off-confirmation.json": {
+        "bytes": 181,
+        "sha256": "dcba319cc2f59ce17240cb673101bba5680df4e51b2175315a310e2f8ea3e220"
+      },
+      "native-process-exits.json": {
+        "bytes": 356,
+        "sha256": "b3ad7419af5c2386dee67901d6d4ba1d56c79c7a1d4b6b74fe75f3abf3da4f1d"
+      },
+      "C-observation/serial-rx-private.bin": {
+        "bytes": 275495,
+        "sha256": "f22480230b86373c5c25221e438ba1c71a8340ddeb2f8cdd93b0af52626672cd"
+      },
+      "C-observation/lines-private.jsonl": {
+        "bytes": 450452,
+        "sha256": "d428636aae406b0553e141f444e68bbde9ca7fdabf1f5a01a2f1ed5c1c9c3c5a"
+      },
+      "C-observation/receipt-public.json": {
+        "bytes": 1308,
+        "sha256": "aa66622921965e37b95c670a2cfc79b6797063f6007e05ffeb10def902ca0934"
+      },
+      "B/blocks-private.bin": {
+        "bytes": 32837148,
+        "sha256": "8a67fb5b2879fe42db3ccc23667089735801b51f90ae1e25e7f74dab4d9aeb76"
+      },
+      "B/blocks-private.jsonl": {
+        "bytes": 1402505,
+        "sha256": "c275371493457a2374dd58c0cb75fccbe1b14d8d0bc25e21336dd8df03dd29d0"
+      },
+      "B/diagnostics-private.jsonl": {
+        "bytes": 1248751,
+        "sha256": "63f16bb88b49b5cd31b4feeadd89821533ebf9aa14e1a9da38813078c53296ff"
+      },
+      "B/receipt-private.json": {
+        "bytes": 288,
+        "sha256": "e6d9c4f20a3e79a5b26437489cfd3e8ee68116cb143ad59e5544f4d28a496104"
+      },
+      "receiver/MQTT-private.jsonl": {
+        "bytes": 2725650,
+        "sha256": "d13d604bcfc885df9f00b042f2e85960fa86bb556c30d285506c3eda82e6ce24"
+      },
+      "receiver/browser-snapshots-private.jsonl": {
+        "bytes": 18224707,
+        "sha256": "eafe756de8594d4ca551e2bb2987f57c1929ae24e80fcc778027f13652348ab0"
+      },
+      "receiver/browser-display-private.jsonl": {
+        "bytes": 94492,
+        "sha256": "a4adbe50faabf64037b52af509f76c661234bdaf86dfadcd58b97b9ffec41168"
+      },
+      "receiver/receipt-public.json": {
+        "bytes": 396,
+        "sha256": "51f2aaef63b7a856b9f043188552ba472d864a73bf9e129d30de82ace3e35889"
+      },
+      "NIBP_RECEIVED.json": {
+        "bytes": 462,
+        "sha256": "81e33e6212f59b81ec9b06f3315305e26d65d0df2a8833c405ca276e2313f888"
+      },
+      "NIBP_WEB_VALID_THEN_STALE.json": {
+        "bytes": 803,
+        "sha256": "e44a2aa525664e5bb1e20439b4a3ad6e8025e6b24177eec90dded75237905e42"
+      }
+    }
+  },
+  "RR18": {
+    "evaluation": {
+      "monotonic": 355458.671,
+      "UTC_ms": 1793962122976,
+      "duration_s": 300,
+      "common_monotonic": 355413.671,
+      "warmup_s": 45,
+      "channel_profile": "RR",
+      "electrical": "40_41_OHM_ENGINEERING_DIAGNOSTIC",
+      "formal_acceptance": false
+    },
+    "files": {
+      "T0.json": {
+        "bytes": 222,
+        "sha256": "69e26bdb7dda170d7055ba1752db5f7487076cfe71e7eba1dceb66de34f65568"
+      },
+      "owner-power-confirmation.json": {
+        "bytes": 748,
+        "sha256": "2d75490bece85566e9437838d0f7bf56666fc3270102b96594d88639af03958f"
+      },
+      "owner-power-off-confirmation.json": {
+        "bytes": 204,
+        "sha256": "34d96f29bda655f1ad190b9e3b1bd88090096d86c162763910329d6cffa99506"
+      },
+      "native-process-exits.json": {
+        "bytes": 353,
+        "sha256": "769263adb739f76acdfcdc8bab7a76cf9ae3e0984334fa0b3266e15427c084d2"
+      },
+      "C-observation/serial-rx-private.bin": {
+        "bytes": 276788,
+        "sha256": "7d753711a93107c0fa8789ef8948a9fa7b4b6c4546877c9b4fd498c83a3e5ae1"
+      },
+      "C-observation/lines-private.jsonl": {
+        "bytes": 452474,
+        "sha256": "ba29188e95602d19a63ae174e2edfbceecad1c20d19c63e7a8e2f445a869a4aa"
+      },
+      "C-observation/receipt-public.json": {
+        "bytes": 1306,
+        "sha256": "0ba1838e64ec068f06359651ac9a59423b99b4a89936d3e832fb95e8c2964bc8"
+      },
+      "B/blocks-private.bin": {
+        "bytes": 32102880,
+        "sha256": "2e610669e52efbe5ee9110205d5a2b6ba05038244d113e04a044da4015672e2b"
+      },
+      "B/blocks-private.jsonl": {
+        "bytes": 1370186,
+        "sha256": "29441c55e3491382a7bf28ea22326c4d4cdb7dcd8d8b9b2174b31aa4c19046d2"
+      },
+      "B/diagnostics-private.jsonl": {
+        "bytes": 1216761,
+        "sha256": "3ec8d9fa212bd789d0ab7808f0bf4f4c3b10be4c6a51860a8fbd50a346468391"
+      },
+      "B/receipt-private.json": {
+        "bytes": 288,
+        "sha256": "fd6e7bfcd29699bc91b05a35e4ecb15a5e635605d8834da2638fb53312ce066e"
+      },
+      "receiver/MQTT-private.jsonl": {
+        "bytes": 2739981,
+        "sha256": "37ffd96179bbf8101ce701191692f5793b658e8234f4cc0f7b810f4366c81d52"
+      },
+      "receiver/browser-snapshots-private.jsonl": {
+        "bytes": 16029919,
+        "sha256": "d8abf4d9b03cac2e505441b604bfcb95a50594b5f3974d670264ff79234647aa"
+      },
+      "receiver/browser-display-private.jsonl": {
+        "bytes": 92750,
+        "sha256": "8df9ed219af2c96846b1c74603156350b73b5ec5c359bc7c6facf8bdc19126f7"
+      },
+      "receiver/receipt-public.json": {
+        "bytes": 396,
+        "sha256": "5268c60f9a8a45e0cdd832bf0103d67c78661f3a8e54b69499f584c1decc48a0"
+      },
+      "NIBP_RECEIVED.json": {
+        "bytes": 461,
+        "sha256": "804a4140f2bb1685155a4b1f8973fc190e69cfa1d74832d797bd04e4f5f56e29"
+      },
+      "NIBP_WEB_VALID_THEN_STALE.json": {
+        "bytes": 802,
+        "sha256": "65021f661b640691cf97713d1c994c846f3ee1efe6adab6a9b30ca87e5076d12"
+      }
+    }
+  }
+}

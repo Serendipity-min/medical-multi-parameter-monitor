@@ -1,0 +1,22 @@
+{
+  "status": "E_M1_SECTOR01_ROM_FULL_VERIFY_PASS",
+  "exit_code": 0,
+  "board": "E",
+  "sectors": [
+    0,
+    1
+  ],
+  "candidate_bytes": 29424,
+  "candidate_sha256": "da890a5e9eb1b7a7f9f7fcb1338b338996f4bb5a5d52c4119dfb19c4882b64a8",
+  "options_unchanged": true,
+  "outside_affected_sectors_unchanged": true,
+  "reset_to_flash_performed": true,
+  "application_running_status": "NOT_YET_OBSERVED",
+  "local_sensor_screen_status": "NOT_RUN",
+  "native_process_exit": 0,
+  "application_32KiB_byte_readback_match": true,
+  "outside_Flash_before_after_hash_match": true,
+  "exact_E_identity_checked_before_and_after": true,
+  "first_failed_attempt_preserved": true,
+  "no_mass_erase_or_unlock": true
+}

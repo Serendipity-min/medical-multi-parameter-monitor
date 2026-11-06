@@ -133,6 +133,17 @@ static void emit(B4Gateway *g, B4Remote *n, MpFrame *f) {
     if (!f->timestamp) { g->unstamped++; return; }
     mp_router_put(&g->router, f);
 }
+static void wave_boundary(B4Gateway *g, unsigned bus, unsigned pdo) {
+    MpFrame *f = &g->segments[bus].wave[pdo];
+#ifdef MP_FIVE_NODE
+    /* 只提交已有真实PPG点；不跨间断或质量边界拼接。 */
+    if (!bus && !pdo && f->count) {
+        g->ppg_partial_batches++; g->ppg_partial_samples += f->count;
+        emit(g, &g->segments[0].remote[0], f); f->count = 0; return;
+    }
+#endif
+    g->partial_discarded += f->count; f->count = 0;
+}
 static void waveform(B4Gateway *g, unsigned bus, unsigned slot, unsigned pdo, uint32_t arrival) {
     B4Segment *s=&g->segments[bus]; B4Remote *n=&s->remote[slot];
     unsigned node=remote_id(bus,slot),base=mirror_base(bus,slot);
@@ -152,12 +163,15 @@ static void waveform(B4Gateway *g, unsigned bus, unsigned slot, unsigned pdo, ui
         /* 真实250SPS内部ADC时钟与整数毫秒域有3/4/5ms量化；不能当作缺帧。
          * 单步和整批相位均限±1ms，8ms丢点/重复/倒序仍清批，不伪造重采样点。 */
         if (delta < step - 1 || delta > step + 1 || (f->count && (phase < -1 || phase > 1))) {
-            g->partial_discarded+=f->count;
+            wave_boundary(g, bus, pdo);
             f->count = 0; g->wave_gaps++;
+#ifdef MP_FIVE_NODE
+            n->wave_gaps[pdo]++;
+#endif
         }
     }
     if (f->count && (f->valid != valid || f->synthetic != synthetic)) {
-        g->partial_discarded+=f->count;g->quality_resets++;f->count=0;
+        wave_boundary(g, bus, pdo);g->quality_resets++;f->count=0;
     }
     n->have_tick[pdo] = true; n->last_tick[pdo] = tick;
     if (!f->count) n->first_tick[pdo] = tick;
@@ -219,10 +233,17 @@ void b4_gateway_receive(B4Gateway *g, unsigned bus, MpCanFrame *f, uint32_t arri
     B4Segment *s=&g->segments[bus];B4Remote *n=&s->remote[slot];int pdo=-1;
     if (f->ident == 0x700 + remote) {
         if (f->dlc != 1 || (f->data[0] != 0 && f->data[0] != 4 && f->data[0] != 5 && f->data[0] != 127)) { g->malformed++; return; }
+#ifdef MP_FIVE_NODE
+        n->heartbeat_count++; n->heartbeat_tick=arrival; n->nmt_state=f->data[0];
+#endif
         if (f->data[0] != 5) { invalidate(s,n); if(!f->data[0])n->generation=0; }
     }
     if (f->ident == 0x80 + remote) {
         if (f->dlc != 8) { g->malformed++; return; }
+#ifdef MP_FIVE_NODE
+        uint16_t code=(uint16_t)f->data[0]|((uint16_t)f->data[1]<<8);
+        if(code){n->emcy_errors++;n->last_emcy_error=code;}
+#endif
         MpFrame event = {0}; event.node = remote; event.stream = MP_FAULT; event.count = 1;
         event.values[0] = (int32_t)f->data[0] | ((int32_t)f->data[1] << 8);
         event.timestamp = g->utc_valid ? (uint64_t)g->epoch * 1000 + g->utc_fraction + (uint32_t)(arrival - g->utc_at) : 0;
@@ -248,7 +269,13 @@ void b4_gateway_receive(B4Gateway *g, unsigned bus, MpCanFrame *f, uint32_t arri
             if (generation != n->generation) { invalidate(s,n); n->generation = generation; }
         }
         n->seen[pdo] = true; n->seen_at[pdo] = arrival;
+#ifdef MP_FIVE_NODE
+        n->pdo_count[pdo]++;
+#endif
     }
+#ifdef MP_FIVE_NODE
+    n->rx_frames++;
+#endif
     /* 每帧交付后立即处理RPDO；否则多个样本会在CANopenNode单PDO槽内互相覆盖。 */
     b4_bus_receive(bus, f); CO_process_RPDO(s->co, false, 0, NULL);
     if ((remote==1 && pdo==0) || (remote==2 && (pdo==0 || pdo==1))) waveform(g,bus,slot,(unsigned)pdo,arrival);
@@ -278,6 +305,11 @@ void b4_gateway_tick(B4Gateway *g, uint32_t now) {
             }
         }
     }
+#ifdef MP_FIVE_NODE
+    /* 静默尾段保留最后真实点的采集时间，不等待下一批。 */
+    if (g->segments[0].wave[0].count && now - g->segments[0].remote[0].seen_at[0] >= 100u)
+        wave_boundary(g, 0, 0);
+#endif
     if (g->utc_valid && now - g->utc_at > 30000u) g->utc_valid = false;
     if (g->utc_valid && now - g->time_sent >= 10000u) {
         uint64_t relative = (uint64_t)g->epoch * 1000 + g->utc_fraction + (uint32_t)(now - g->utc_at) - 441763200000ULL;

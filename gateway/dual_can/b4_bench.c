@@ -14,9 +14,13 @@ static void record_model(const MpFrame *f,uint32_t tick) {
     for (unsigned i=0;i<4;i++) { data[i]=(uint8_t)(last>>(8*i)); data[i+4]=(uint8_t)(hash>>(8*i)); }
     uint32_t flags=f->node | ((uint32_t)f->valid<<8) | ((uint32_t)f->synthetic<<9)
                    | ((uint32_t)f->replay<<10) | ((uint32_t)f->count<<16);
-    b4_capture_emit(B4_CAP_MODEL,1,f->stream,8,data,tick,flags);
+    unsigned bus=1;
+#ifdef B4_FIVE_CAPTURE
+    bus=(f->node==1 || f->node==5)?0:1;
+#endif
+    b4_capture_emit(B4_CAP_MODEL,bus,f->stream,8,data,tick,flags);
     for (unsigned i=0;i<8;i++) data[i]=(uint8_t)(f->timestamp>>(8*i));
-    b4_capture_emit(B4_CAP_MODEL_TIME,1,f->stream,8,data,tick,f->seq);
+    b4_capture_emit(B4_CAP_MODEL_TIME,bus,f->stream,8,data,tick,f->seq);
 }
 #endif
 
@@ -25,13 +29,29 @@ int b4_bench_init(B4Bench *b, uint32_t tick) {
     if (b4_gateway_init(&b->gateway)) return -1;
     b->last_tick = tick; b->gateway.now = tick;
     b->diag.magic = 0x42344231u; b->diag.test_time_only = 1;
+#ifndef B4_FIVE_CAPTURE
     /* 首次联动仅B段。共享CAN1时钟仍保留，但A段协议发送被关闭，不广播NMT。 */
     b4_gateway_link(&b->gateway, 0, false);
+#else
+    const unsigned nodes[4]={1,2,4,5};
+    for(unsigned i=0;i<4;i++) if(b4_gateway_nmt(&b->gateway,nodes[i],CO_NMT_ENTER_OPERATIONAL)) {
+        b4_gateway_close(&b->gateway); return -1;
+    }
+#endif
     mp_router_online(&b->gateway.router, true); /* 此online仅启用本地消费者，不表示网络在线。 */
+#if defined(B4_PHY_SMALL_FRAMES)
+    /* 先抑制B的PDO，再发送TIME；短观察仅心跳和D的低频温度报文。 */
+    if (b4_gateway_nmt(&b->gateway, 2, CO_NMT_ENTER_PRE_OPERATIONAL) ||
+        b4_gateway_nmt(&b->gateway, 4, CO_NMT_ENTER_OPERATIONAL)) {
+        b4_gateway_close(&b->gateway); return -1;
+    }
+#endif
     b4_gateway_sync(&b->gateway, B4_BENCH_EPOCH, tick);
+#if !defined(B4_PHY_SMALL_FRAMES) && !defined(B4_FIVE_CAPTURE)
     if (b4_gateway_nmt(&b->gateway, 2, CO_NMT_ENTER_OPERATIONAL)) {
         b4_gateway_close(&b->gateway); return -1;
     }
+#endif
     return 0;
 }
 void b4_bench_step(B4Bench *b, uint32_t tick) {

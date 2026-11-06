@@ -1,0 +1,262 @@
+{
+  "scope": "FIELD01_A_D_60OHM_60S_POINT_TO_POINT",
+  "window_utc_ms": [
+    1793946831972,
+    1793946891972
+  ],
+  "owner_measured_ohms": {
+    "C1_A1": 61,
+    "C2_D1": 60.9
+  },
+  "owner_power_off_confirmed": true,
+  "owner_end_screen_heat_reset_observation": "NOT_REPORTED",
+  "controller_native_exit": 0,
+  "receiver_native_exit": 0,
+  "A_source_worker_native_exit": 1,
+  "streams": [
+    {
+      "node": "NODE-A",
+      "stream": "PPG",
+      "batches": 59,
+      "points": 2950,
+      "validity": {
+        "VALID": 59
+      },
+      "first_seq": 21,
+      "last_seq": 79,
+      "seq_deltas": {
+        "1": 58
+      },
+      "timestamp_delta_ms": {
+        "1000": 55,
+        "999": 1,
+        "1001": 1,
+        "1008": 1
+      },
+      "source": [
+        "MOCK"
+      ],
+      "value_range": null,
+      "first_source_utc_ms": 1793946833036,
+      "last_source_utc_ms": 1793946891044,
+      "first_arrival_utc_ms": 1793946833309,
+      "last_arrival_utc_ms": 1793946891275,
+      "browser_exact_matches": 59
+    },
+    {
+      "node": "NODE-A",
+      "stream": "PR",
+      "batches": 59,
+      "points": 0,
+      "validity": {
+        "VALID": 59
+      },
+      "first_seq": 23,
+      "last_seq": 81,
+      "seq_deltas": {
+        "1": 58
+      },
+      "timestamp_delta_ms": {
+        "1000": 58
+      },
+      "source": [
+        "MOCK"
+      ],
+      "value_range": [
+        71.0,
+        118.0
+      ],
+      "first_source_utc_ms": 1793946832000,
+      "last_source_utc_ms": 1793946890000,
+      "first_arrival_utc_ms": 1793946833426,
+      "last_arrival_utc_ms": 1793946891402,
+      "browser_exact_matches": 59
+    },
+    {
+      "node": "NODE-A",
+      "stream": "SPO2",
+      "batches": 59,
+      "points": 0,
+      "validity": {
+        "VALID": 59
+      },
+      "first_seq": 23,
+      "last_seq": 81,
+      "seq_deltas": {
+        "1": 58
+      },
+      "timestamp_delta_ms": {
+        "1000": 58
+      },
+      "source": [
+        "MOCK"
+      ],
+      "value_range": [
+        91.0,
+        98.0
+      ],
+      "first_source_utc_ms": 1793946832000,
+      "last_source_utc_ms": 1793946890000,
+      "first_arrival_utc_ms": 1793946833426,
+      "last_arrival_utc_ms": 1793946891338,
+      "browser_exact_matches": 59
+    },
+    {
+      "node": "NODE-D",
+      "stream": "TEMP",
+      "batches": 59,
+      "points": 0,
+      "validity": {
+        "VALID": 59
+      },
+      "first_seq": 23,
+      "last_seq": 81,
+      "seq_deltas": {
+        "1": 58
+      },
+      "timestamp_delta_ms": {
+        "1000": 58
+      },
+      "source": [
+        "MOCK"
+      ],
+      "value_range": [
+        26.36,
+        26.6
+      ],
+      "first_source_utc_ms": 1793946832000,
+      "last_source_utc_ms": 1793946890000,
+      "first_arrival_utc_ms": 1793946833138,
+      "last_arrival_utc_ms": 1793946891212,
+      "browser_exact_matches": 59
+    }
+  ],
+  "broker_decode_errors": 0,
+  "unique_broker_telemetry_in_arrival_window": 236,
+  "browser_exact_matches": 236,
+  "browser_missing": [],
+  "browser_mismatches": [],
+  "browser_source_age_ms": {
+    "min": 210,
+    "median": 1325.5,
+    "max": 1564
+  },
+  "all_observed_nodes_states": {
+    "NODE-A": [
+      "ONLINE",
+      "STALE"
+    ],
+    "NODE-B": [
+      "OFFLINE",
+      "STALE"
+    ],
+    "NODE-D": [
+      "OFFLINE",
+      "ONLINE"
+    ],
+    "NODE-E": [
+      "OFFLINE"
+    ]
+  },
+  "C_CAN": {
+    "B5 DIAG": {
+      "observations": 14,
+      "peak_TEC": 0,
+      "peak_REC": 0,
+      "max_tx_fail": 0,
+      "max_fifo_overflow": 0,
+      "last_rx": 406
+    },
+    "ABC A_CAN": {
+      "observations": 14,
+      "peak_TEC": 0,
+      "peak_REC": 0,
+      "max_tx_fail": 0,
+      "max_fifo_overflow": 0,
+      "last_rx": 4363
+    }
+  },
+  "router": {
+    "high": 3,
+    "overflow": 0,
+    "replaced": 0,
+    "expired": 0,
+    "unsynced": 0
+  },
+  "wave_diagnostic_first_last": [
+    {
+      "gaps": 0,
+      "quality_resets": 0,
+      "partial_discarded": 0,
+      "unstamped": 99
+    },
+    {
+      "gaps": 0,
+      "quality_resets": 1,
+      "partial_discarded": 0,
+      "unstamped": 104
+    }
+  ],
+  "replay_messages": 0,
+  "fault_messages": 0,
+  "A_source_observer": {
+    "native_worker_exit": 1,
+    "reason": "AD60_A_OBSERVATION_TOO_SHORT",
+    "cause": "HOST_STARTED_SOURCE_OBSERVER_LATE",
+    "observations": 7,
+    "first_T0_offset_s": 47.188,
+    "last_T0_offset_s": 59.25,
+    "observed_ESR_values": [
+      0
+    ],
+    "CAN_ring_drop_first_last": [
+      26079,
+      26079
+    ],
+    "wave_expired_first_last": [
+      255,
+      255
+    ],
+    "UNO_frames_delta": 1451,
+    "coherent_measurement_rows": 4,
+    "SpO2_range": [
+      93,
+      97
+    ],
+    "PR_range": [
+      76,
+      90
+    ],
+    "absolute_counter_origin": "UNKNOWN_NOT_SYNCHRONOUS_AT_T0",
+    "full_source_integrity": "NOT_PROVEN"
+  },
+  "C_STOP_banner": true,
+  "TTS_STOP_ACK_QUERY_IDLE": true,
+  "recording_commands": 0,
+  "pump_commands": 0,
+  "Flash_writes": 0,
+  "formal_five_board_300s": "NOT_RUN",
+  "layered": {
+    "A_D_POINT_TO_POINT_LINK": "SCOPED_60S_ENGINEERING_PASS",
+    "BROKER_BACKEND_BROWSER_DELIVERY": "236_OF_236_EXACT_MESSAGES_MATCHED",
+    "A_WHOLE_WINDOW_SOURCE_COUNTER_PROOF": "NOT_PASS_HOST_COVERAGE_TOO_SHORT",
+    "A_RAW_PPG_POINT_INTEGRITY": "NOT_PROVEN_NO_FULL_SOURCE_POINT_RECORD",
+    "D_SCREEN_CURRENT_REFRESH": "UNKNOWN_OWNER_NOT_REPORTED",
+    "E_LOCAL_POINT_TO_POINT": "NOT_RUN",
+    "FIVE_CAN_300S_PASS": "NOT_RUN",
+    "FIVE_CLOUD_300S_PASS": "NOT_RUN"
+  },
+  "evidence_sha256": {
+    "C-observation/serial-rx-private.bin": "b58a0d5611572a66f27d1e7dd074a34146ffe9b9b557ad4252edfe6b7af4ab1b",
+    "C-observation/lines-private.jsonl": "fe46f626345e60d55b39a8a1d943d422068eed33a072ea5947940545f0b23a0e",
+    "C-observation/executed-controller.py": "3a0a71dce81952a3a52fe287b178fd8294d1b820ee8b540c9943e2e494bfce4a",
+    "receiver/MQTT-private.jsonl": "b27f2340c2f2568a70cf8c47593e46b8f0dbcebdb50bc81709e4da5d3760386f",
+    "receiver/browser-snapshots-private.jsonl": "b7fb524b2d461683f58ce1f6d1fc00071e940e86605d95347e531c86dea882e0",
+    "receiver/executed-receiver.py": "983e833e4d220ad6a8e4d870f1e021ecf1cf2d0eef2e3e5c1b177cdce7e4966e",
+    "A-source-observation/source-private.jsonl": "404c3d4e50ca83cbbb1d0c9bb28d821c8faace1e37f729c25d853dda5deab19a",
+    "A-source-observation/executed-observer.py": "ccfbe27bbae1db7415cfbedfda34b257ea327351ac51637792e3fdd0777498b7"
+  },
+  "startup_node_state_transition_ms": 1056,
+  "startup_retained_status": "A_B_ABOUT_4_94_HOURS_OLD_MARKED_STALE_NOT_NEW_ONLINE",
+  "A_source_tool_followup": "OPTIONAL_SOURCE_WORKER_READY_BEFORE_T0_SYNTAX_CHECKED_NO_NEW_FIELD_RUN"
+}

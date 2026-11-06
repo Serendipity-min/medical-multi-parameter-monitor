@@ -42,14 +42,21 @@ int main(void) {
 #if defined(B4_CAPTURE_SERIAL)
             diagnostic(1,CAN2->ESR,b4_hw_diag[1].received,b4_hw_diag[1].overflow);
             diagnostic(5,b4_hw_diag[1].tx_acked,b4_hw_diag[1].tx_failed,b4_hw_diag[1].busoff);
+#ifdef B4_FIVE_CAPTURE
+            diagnostic(0,CAN1->ESR,b4_hw_diag[0].received,b4_hw_diag[0].overflow);
+            diagnostic(8,b4_hw_diag[0].tx_acked,b4_hw_diag[0].tx_failed,b4_hw_diag[0].busoff);
+#endif
 #endif
         }
 #if defined(B4_CAPTURE_SERIAL)
         b4_capture_uart_wake();
-#ifdef B4_PHY_DIAGNOSTIC
+#if defined(B4_PHY_DIAGNOSTIC) || defined(B4_FIVE_CAPTURE)
         if (armed && !g_b4_bench.diag.stopped) {
             int byte=b4_capture_uart_get();
             if (byte=='X' || (CAN2->ESR & 0xffff0004u) || b4_hw_diag[1].overflow ||
+#ifdef B4_FIVE_CAPTURE
+                (CAN1->ESR & 0xffff0004u) || b4_hw_diag[0].overflow || b4_hw_diag[0].tx_failed ||
+#endif
                 b4_hw_diag[1].tx_failed || g_b4_capture.dropped) {
                 b4_bench_init_error=byte=='X'?0x201u:0x200u;
                 g_b4_bench.diag.stopped=1;
@@ -84,7 +91,17 @@ int main(void) {
             diagnostic(4,SCB->VTOR,SCB->CFSR,SCB->HFSR);
             diagnostic(5,b4_hw_diag[1].tx_acked,b4_hw_diag[1].tx_failed,b4_hw_diag[1].busoff);
             diagnostic(6,b4_hw_diag[1].tx_busy,b4_hw_diag[1].high_water,b4_hw_diag[1].malformed);
+#if defined(B4_FIVE_CAPTURE)
+            diagnostic(8,b4_hw_diag[0].tx_acked,b4_hw_diag[0].tx_failed,b4_hw_diag[0].busoff);
+            diagnostic(9,b4_hw_diag[0].tx_busy,b4_hw_diag[0].high_water,b4_hw_diag[0].malformed);
+            diagnostic(10,g_b4_bench.gateway.malformed,g_b4_bench.gateway.wrong_bus,g_b4_bench.gateway.partial_discarded);
+            diagnostic(11,g_b4_bench.gateway.ppg_partial_batches,g_b4_bench.gateway.ppg_partial_samples,g_b4_bench.gateway.quality_resets);
+            diagnostic(7,B4_BENCH_LIMIT_MS,500000u,2);
+#elif defined(B4_PHY_SMALL_FRAMES)
+            diagnostic(7,B4_BENCH_LIMIT_MS,500000u,1);
+#else
             diagnostic(7,B4_BENCH_LIMIT_MS,500000u,0);
+#endif
         }
         if (g_b4_bench.diag.stopped && !stop_recorded) {
             uint8_t done[8];

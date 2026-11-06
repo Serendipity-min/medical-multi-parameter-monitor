@@ -1,0 +1,24 @@
+{
+  "status": "D_M1_SECTOR01_FULL_VERIFY_BOOT_PASS",
+  "exit_code": 0,
+  "board": "D",
+  "sectors": [
+    0,
+    1
+  ],
+  "candidate_bytes": 24552,
+  "candidate_sha256": "ae4e6d11770c07bd941a3ffdee196e06cf1a82648d050f7e2429431afb348c6a",
+  "full_flash_sha256": "993d7b742fde80feacdbaf57ad5fce6301bfb6bbe85ec94818569456e962c8f5",
+  "options_unchanged": true,
+  "outside_affected_sectors_unchanged": true,
+  "Close_completed": true,
+  "native_actions": {
+    "JLINKARM_Halt": 1,
+    "JLINKARM_BeginDownload": 1,
+    "JLINKARM_WriteMem": 1,
+    "JLINKARM_EndDownload": 1,
+    "JLINKARM_Reset": 1,
+    "JLINKARM_Go": 1
+  },
+  "native_process_exit": 0
+}

@@ -1,0 +1,11 @@
+{
+  "scope": "OFFLINE_REAL_ROUTER_SYNTHETIC_INPUT_NO_HARDWARE",
+  "compile_native_exit": 0,
+  "reproducer_native_exit": 0,
+  "status": "TWO_EXISTING_POLICY_DEFECTS_REPRODUCED_NOT_FIXED",
+  "router_source_sha256": "651ed6ad5f297b70f16e14cbc89e044651779eb7335894dd06e5c77ce5690666",
+  "firmware_source_changes": 0,
+  "target_operations": 0,
+  "run_log": "PPG_REPLACEMENT_WITH_FREE_FIFO_SPACE live=1 cache=1 live_replaced=1 reproduced=1\nHISTORY_QUOTA_BYPASSED live=25 replay=0 cached=1 credit=8 reproduced=1\n",
+  "interpretation": "REPRODUCES_EXISTING_UNFIXED_DEFECTS_NOT_A_FIX_PASS_NOT_HARDWARE_EVIDENCE"
+}

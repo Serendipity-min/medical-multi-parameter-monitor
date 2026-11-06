@@ -1,0 +1,710 @@
+{
+  "status": "E_101_67_POINT_TO_POINT_AND_90S_EXPIRY_SCOPED_PASS_TTS_OPEN_ALL_OFF",
+  "software_entry": "f3f4ac9b1cb89ac46bad29dccf7eb21017f96dba",
+  "worktree_head": "bd1ee2175c98fe20019f889596e8df40e57eec51",
+  "R6_preserved_ref": "12d3161b59fb88d9c9fed01b26d601df69c25b2a",
+  "whole_branch_merge": false,
+  "applications": {
+    "B": {
+      "node_id": 2,
+      "reused_from": "f3f4ac9",
+      "install_plan": [
+        {
+          "file": "FIVE_NODE_B.bin",
+          "address": "0x08000000",
+          "sectors": [
+            0,
+            1,
+            2
+          ],
+          "layout_status": "KEIL_PROJECT_APPLICATION_LAYOUT_ONLY_NOT_TARGET_VERIFIED"
+        }
+      ],
+      "artifacts": {
+        "FIVE_NODE_B.bin": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\M1-20261104\\artifacts\\B\\FIVE_NODE_B.bin",
+          "bytes": 40032,
+          "sha256": "d0401d96a4a051f964b4d8dce17f7630095ddb5ee8469bc84c3020b828531cd6"
+        },
+        "FIVE_NODE_B.axf": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\M1-20261104\\artifacts\\B\\FIVE_NODE_B.axf",
+          "bytes": 773900,
+          "sha256": "51f6c6a644063b31cc38e411a26445c6985b23ec87e40aa31054d2494eab4b15"
+        },
+        "FIVE_NODE_B.symbols.txt": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\M1-20261104\\artifacts\\B\\FIVE_NODE_B.symbols.txt",
+          "bytes": 106267,
+          "sha256": "20593b926e3e4b79de973274f28f6460702c52a4af2606f39f608309bdbeb47d"
+        },
+        "FIVE_NODE_B.map": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\M1-20261104\\artifacts\\B\\FIVE_NODE_B.map",
+          "bytes": 275601,
+          "sha256": "acbf30a392f6a86c816dd7bb8a3d1f246ca119859a66164432a7823ffe11dd29"
+        }
+      },
+      "current_target_install": {
+        "status": "ABC_B_APP012_FULL_VERIFY_BOOT_PASS",
+        "exit_code": 0,
+        "board": "B",
+        "automatic_reflash_or_rollback": false,
+        "phase": "install",
+        "sectors": [
+          0,
+          1,
+          2
+        ],
+        "full_flash_sha256": "1bae95119a71b3fbcd0ed3360017c22a65606e044b997b1c038d3267d982814f",
+        "options_unchanged": true,
+        "outside_affected_sectors_unchanged": true,
+        "reset_requests": 1,
+        "CAN_or_physiology_acceptance": false,
+        "Close_completed": true,
+        "native_actions": {
+          "JLINKARM_Halt": 1,
+          "JLINKARM_BeginDownload": 1,
+          "JLINKARM_WriteMem": 1,
+          "JLINKARM_EndDownload": 1,
+          "JLINKARM_Reset": 1,
+          "JLINKARM_Go": 1
+        },
+        "download_started": true,
+        "debug_IWDG_freeze_writes": 0,
+        "debug_IWDG_freeze_restored": true
+      }
+    },
+    "D": {
+      "node_id": 4,
+      "reused_from": "f3f4ac9",
+      "install_plan": [
+        {
+          "file": "FIVE_NODE_D.bin",
+          "address": "0x08000000",
+          "sectors": [
+            0,
+            1
+          ],
+          "layout_status": "KEIL_PROJECT_APPLICATION_LAYOUT_ONLY_NOT_TARGET_VERIFIED"
+        }
+      ],
+      "artifacts": {
+        "FIVE_NODE_D.bin": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\M1-20261104\\artifacts\\D\\FIVE_NODE_D.bin",
+          "bytes": 24544,
+          "sha256": "a9fb8437adfc5e2dd35e4941688fc84b632651d94bf39c98d42555701984500b"
+        },
+        "FIVE_NODE_D.axf": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\M1-20261104\\artifacts\\D\\FIVE_NODE_D.axf",
+          "bytes": 640620,
+          "sha256": "91b8e7746ca3b4327e5f8e457ddf459cf7b1fb6a990c492fc59b4714d1002f0c"
+        },
+        "FIVE_NODE_D.symbols.txt": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\M1-20261104\\artifacts\\D\\FIVE_NODE_D.symbols.txt",
+          "bytes": 61959,
+          "sha256": "2398a2f402c6b9eb9f0417b61bed0fefb0d503082fd21e2fa60e5e6b03333241"
+        },
+        "FIVE_NODE_D.map": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\M1-20261104\\artifacts\\D\\FIVE_NODE_D.map",
+          "bytes": 181001,
+          "sha256": "6dee187ff9db8397a18eeae81ade947067c517e82d8a762d90c5d1665ef52bd5"
+        }
+      },
+      "current_target_check": {
+        "board": "D",
+        "status": "D_EXISTING_M1_FULL_IMAGE_RUNNING_MATCH_PASS",
+        "exit_code": 0,
+        "flash_writes": 0,
+        "original_application_backup_saved": false,
+        "candidate_bytes": 24544,
+        "candidate_sha256": "a9fb8437adfc5e2dd35e4941688fc84b632651d94bf39c98d42555701984500b",
+        "full_flash_sha256": "431d155c7e56f449487e19cad24e09fc96de1557fc6c17aeb492d5316ae6497a",
+        "options_unchanged": true,
+        "full_reads": 1,
+        "explicit_halt_reset_go": 0,
+        "local_temperature_screen_status": "NOT_RUN",
+        "Close_completed": true
+      },
+      "local_source_check": {
+        "status": "D_LOCAL_GY641_FRESH_SOURCE_ENGINEERING_PASS",
+        "exit_code": 0,
+        "scope": "D_LOCAL_GY641_READONLY_C_B_OFF",
+        "target_Halt_Reset_Go_Flash_UART_writes": 0,
+        "screen_visual": "PENDING_OWNER",
+        "CAN_link": "NOT_RUN_NO_POWERED_PEER",
+        "observations": 30,
+        "qualified_observations": 30,
+        "valid_observations": 30,
+        "temperature_C_range": [
+          24.97,
+          25.14
+        ],
+        "expected_screen_values_C": [
+          "25.0",
+          "25.1"
+        ],
+        "GY641_new_frames": 67,
+        "new_errors": {
+          "overflow": 0,
+          "uart_errors": 0,
+          "checksum_errors": 0,
+          "header_errors": 0
+        },
+        "D_CAN1_ESR_isolated_no_peer": 8388659,
+        "Close_completed": true
+      }
+    },
+    "E": {
+      "node_id": 5,
+      "reused_from": "f3f4ac9",
+      "install_plan": [
+        {
+          "file": "FIVE_NODE_E.bin",
+          "address": "0x08000000",
+          "sectors": [
+            0,
+            1
+          ],
+          "layout_status": "KEIL_PROJECT_APPLICATION_LAYOUT_ONLY_NOT_TARGET_VERIFIED"
+        }
+      ],
+      "artifacts": {
+        "FIVE_NODE_E.bin": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\M1-20261104\\artifacts\\E\\FIVE_NODE_E.bin",
+          "bytes": 29416,
+          "sha256": "b141262059fad511bff9a05b7c682580fdacda19d954a74b80809f0b464a6867"
+        },
+        "FIVE_NODE_E.axf": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\M1-20261104\\artifacts\\E\\FIVE_NODE_E.axf",
+          "bytes": 752960,
+          "sha256": "0627d0e5db0604775d23469044cb2187ab9ecc71c1190623041d8c81660ae413"
+        },
+        "FIVE_NODE_E.symbols.txt": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\M1-20261104\\artifacts\\E\\FIVE_NODE_E.symbols.txt",
+          "bytes": 83976,
+          "sha256": "dd82f7d17270be848f93004f842a306c86256cf4691a5318e06485d28de54580"
+        },
+        "FIVE_NODE_E.map": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\M1-20261104\\artifacts\\E\\FIVE_NODE_E.map",
+          "bytes": 242280,
+          "sha256": "537811eb8206b1ec1e748b7f59c1fd76a812ac2a695baceb14ea90ee103fce77"
+        }
+      },
+      "current_target_install": {
+        "board": "E",
+        "status": "E_M1_SECTOR01_ROM_FULL_VERIFY_PASS",
+        "exit_code": 0,
+        "automatic_retry_or_restore": false,
+        "candidate_bytes": 29416,
+        "candidate_sha256": "b141262059fad511bff9a05b7c682580fdacda19d954a74b80809f0b464a6867",
+        "sectors": [
+          0,
+          1
+        ],
+        "outside_affected_sectors_unchanged": true,
+        "options_unchanged": true,
+        "local_sensor_screen_status": "NOT_RUN",
+        "reset_to_flash_performed": true,
+        "application_running_status": "NOT_YET_OBSERVED"
+      },
+      "local_point_to_point_status": "OWNER_101_67_C_BROKER_WEB_SAME_RESULT_ORIGINAL_90S_EXPIRY_SCOPED_PASS"
+    },
+    "A": {
+      "node_id": 1,
+      "reused_from": null,
+      "build_directory": "node-b\\build\\five-node-A-20261106T023502848648Z",
+      "artifacts": {
+        "FIVE_NODE_A.bin": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\FIELD01-20261106\\artifacts\\A-tx-fix\\FIVE_NODE_A.bin",
+          "bytes": 33436,
+          "sha256": "d9cec64e3947a25e43d74057d3c9229d7ed161f026e0b84fa532daf12905e670"
+        },
+        "FIVE_NODE_A.axf": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\FIELD01-20261106\\artifacts\\A-tx-fix\\FIVE_NODE_A.axf",
+          "bytes": 796928,
+          "sha256": "638bc491efd5efde9e42a98383e0ec234ff7273d8c73937493a59aaf79944971"
+        },
+        "FIVE_NODE_A.symbols.txt": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\FIELD01-20261106\\artifacts\\A-tx-fix\\FIVE_NODE_A.symbols.txt",
+          "bytes": 107902,
+          "sha256": "e6b36144a36ea8563d0880a0abbdd926e4fb3f92304a7191bff4e8346d89726e"
+        },
+        "FIVE_NODE_A.map": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\FIELD01-20261106\\artifacts\\A-tx-fix\\FIVE_NODE_A.map",
+          "bytes": 333172,
+          "sha256": "10c6a3e3c9f9b4d0553f18ed5f10c0660303e4599e0292f7965ce908cfafb9b5"
+        }
+      },
+      "sectors": [
+        0,
+        1,
+        2
+      ],
+      "current_target_install": {
+        "status": "ABC_A_APP012_FULL_VERIFY_BOOT_PASS",
+        "exit_code": 0,
+        "board": "A",
+        "automatic_reflash_or_rollback": false,
+        "phase": "install",
+        "sectors": [
+          0,
+          1,
+          2
+        ],
+        "full_flash_sha256": "8d03199f752aa7cb755fa4b8cb3909d9fd0854d3860a37d27df4f77016e804ea",
+        "options_unchanged": true,
+        "outside_affected_sectors_unchanged": true,
+        "reset_requests": 1,
+        "CAN_or_physiology_acceptance": false,
+        "Close_completed": true,
+        "native_actions": {
+          "JLINKARM_Halt": 1,
+          "JLINKARM_BeginDownload": 1,
+          "JLINKARM_WriteMem": 1,
+          "JLINKARM_EndDownload": 1,
+          "JLINKARM_Reset": 1,
+          "JLINKARM_Go": 1
+        },
+        "download_started": true,
+        "debug_IWDG_freeze_writes": 2,
+        "debug_IWDG_freeze_restored": true
+      },
+      "previous_candidate_artifacts": {
+        "FIVE_NODE_A.bin": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\FIELD01-20261106\\artifacts\\A\\FIVE_NODE_A.bin",
+          "bytes": 33396,
+          "sha256": "80276d05856c048351c0b5b1a43944b27cb8486cbe3564d232590de54d051848"
+        },
+        "FIVE_NODE_A.axf": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\FIELD01-20261106\\artifacts\\A\\FIVE_NODE_A.axf",
+          "bytes": 796924,
+          "sha256": "577c05d8a8273f52fe0ec88362d50772f3f7362b764960f43aec7ec8bfbac4c7"
+        },
+        "FIVE_NODE_A.map": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\FIELD01-20261106\\artifacts\\A\\FIVE_NODE_A.map",
+          "bytes": 333172,
+          "sha256": "9d5c9bee09efbed5e5fe62540a5f1d3a003898c0fa066ce63f8262d0633ae711"
+        },
+        "FIVE_NODE_A.symbols.txt": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\FIELD01-20261106\\artifacts\\A\\FIVE_NODE_A.symbols.txt",
+          "bytes": 107902,
+          "sha256": "3b45961a9adc080d1c9f42d8bae3df1d13c23d13ff8af6db622980912d3057a9"
+        }
+      }
+    },
+    "C": {
+      "node_id": 3,
+      "reused_from": null,
+      "build_directory": "node-b\\build\\b4-c-arm-20261106T023529212543Z",
+      "artifacts": {
+        "ABC_UNIFIED_C_V1-boot.bin": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\FIELD01-20261106\\artifacts\\C\\ABC_UNIFIED_C_V1-boot.bin",
+          "bytes": 392,
+          "sha256": "0d49c68c85f5a876a5ab970000d9609b2099dd4a06283565b0362b6d7feb1d4f"
+        },
+        "ABC_UNIFIED_C_V1-code.bin": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\FIELD01-20261106\\artifacts\\C\\ABC_UNIFIED_C_V1-code.bin",
+          "bytes": 55480,
+          "sha256": "27d3188e32acbbf8ab2f271be1ee12de88b0d340ae2ba57d680ca26f73293b0c"
+        },
+        "ABC_UNIFIED_C_V1.elf": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\FIELD01-20261106\\artifacts\\C\\ABC_UNIFIED_C_V1.elf",
+          "bytes": 96052,
+          "sha256": "466eedd700305c93d148e40f923e951c65dbbf4704d90b53f576416bfa8adca2"
+        },
+        "symbols.txt": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\FIELD01-20261106\\artifacts\\C\\symbols.txt",
+          "bytes": 13984,
+          "sha256": "97d550562c75c0ff577a621f62eb42d4663ee2770d524dbddef4d5e390c9eb11"
+        },
+        "unified-layout.json": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\FIELD01-20261106\\artifacts\\C\\unified-layout.json",
+          "bytes": 1017,
+          "sha256": "42a1a44e6cd73852cb2f810910e8de1accc3cf7d981606a1859d6e330fb8c58c"
+        },
+        "ABC_UNIFIED_C_V1.hex": {
+          "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\FIELD01-20261106\\artifacts\\C\\ABC_UNIFIED_C_V1.hex",
+          "bytes": 157247,
+          "sha256": "70693ad74594a57588a507f519d979b7dc082ced8205c52a7cb7845ffa1e728d"
+        }
+      },
+      "sectors": [
+        0,
+        4
+      ],
+      "current_target_install": {
+        "exit_code": 0,
+        "status": "UNIFIED_C_INSTALL_FULL_VERIFY_PASS",
+        "board": "C",
+        "sectors": [
+          0,
+          4
+        ],
+        "full_flash_sha256": "f3bfbfdb9d8a9b8d9477b35c9e13161369336edae17a4accdc73bdfdc244837e",
+        "options_unchanged": true,
+        "all_other_sectors_unchanged": true,
+        "Close_completed": true,
+        "native_actions": {
+          "JLINKARM_Halt": 1,
+          "JLINKARM_BeginDownload": 1,
+          "JLINKARM_WriteMem": 2,
+          "JLINKARM_EndDownload": 1,
+          "JLINKARM_Reset": 1,
+          "JLINKARM_Go": 1
+        }
+      },
+      "actual_current_image": "NORMAL_FIVE_NODE_M1_RESTORED"
+    }
+  },
+  "recovery_inventory": {
+    "A": {
+      "historical_recovery_available": true,
+      "flash_bytes": 1048576,
+      "full_sha256": "4d1330c0924189600b5262e89996bca4a304334b52be017dd1e1a0d5eebdcbbb",
+      "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+      "current_target_read": "PASS_MATCHED_HISTORICAL_R6_FULL_IMAGE"
+    },
+    "B": {
+      "historical_recovery_available": true,
+      "flash_bytes": 1048576,
+      "full_sha256": "4c276ce987e20c22d4768dd4a2eb090601e687f90d3577b7337b682b7556f9c8",
+      "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+      "current_target_read": "PASS_MATCHED_HISTORICAL_M0_FULL_IMAGE"
+    },
+    "C": {
+      "historical_recovery_available": true,
+      "flash_bytes": 1048576,
+      "full_sha256": "d142b4175b230ad7b1e3ab44f5316214b6f96d550a6f70c0717e7a70699d5ae5",
+      "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+      "current_target_read": "PASS_MATCHED_R6_BEFORE_INSTALL"
+    },
+    "D": {
+      "historical_recovery_available": true,
+      "flash_bytes": 1048576,
+      "full_sha256": "431d155c7e56f449487e19cad24e09fc96de1557fc6c17aeb492d5316ae6497a",
+      "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+      "current_target_read": "PASS_EXISTING_M1_MATCH_NO_REFLASH"
+    }
+  },
+  "selective_changes": [
+    "R6 PPG partial-segment retention adapted to five-node remote[0]",
+    "A signed sample age and coherent snapshot now",
+    "Windows linker temporary-file UTF-8 fix"
+  ],
+  "C_flash": {
+    "boot_bytes": 392,
+    "sector4_load_bytes": 55480,
+    "total_load_bytes": 55872,
+    "sector4_free_bytes": 10056
+  },
+  "validation": {
+    "five_node_real_gateway_host_exit": 0,
+    "counterfactual_original_gateway_exit": 3,
+    "counterfactual_expected_failure": "PPG partial batch missing at gap",
+    "E_USB_boundary_unittests_exit": 0,
+    "hardware_operations": 0,
+    "git_diff_check_exit": 0,
+    "C_split_install_offline_plan_exit": 0,
+    "D_readonly_script_syntax": "PASS",
+    "D_readonly_script_sha256": "a7c71cb90fc6719b597186efa23d20ba75338cb2a31040606213c47ef97ae2d4",
+    "D_local_GY641_readonly_15s_exit": 0
+  },
+  "physical": {
+    "termination_CAN1_ohms": [
+      40.9,
+      41.1
+    ],
+    "termination_CAN2_ohms": [
+      41,
+      41.2
+    ],
+    "owner_line_length_cm": 20,
+    "full_power_off_confirmation": "OWNER_CONFIRMED_BEFORE_E_ONLY_POWER",
+    "formal_five_300s": "NOT_RUN_REQUIRES_CORRECT_TERMINATION",
+    "point_to_point": "A_D_60S_COMPLETED_E_PENDING",
+    "short_41ohm_diagnostic": "OWNER_REQUESTED_FIRST_DEFER_POINT_TO_POINT",
+    "current": "ALL_POWER_OFF_C1_E1_61OHM_C2_D1_60_9OHM_USB_JLINK_PC_DISCONNECTED",
+    "D_screen_owner_observation": "READING_MATCHES_25.0_25.1_C_REFRESH_NOT_EXPLICIT",
+    "current_point_to_point_ohms": {
+      "C1_E1": 61,
+      "C2_D1": 60.9
+    }
+  },
+  "source_sha256": {
+    "gateway/dual_can/b4_gateway.c": "461498a5617e992d9cb30b2e8d2b7131861467a39b9cd6a7ba8a09a03294c5c5",
+    "gateway/dual_can/b4_gateway.h": "6d4500650096a6c499fb84513523140d282dd0a9b6ecfcb4e84e0f3159d4fccc",
+    "gateway/dual_can/build_arm.py": "d88a6bbf45cf6fef34fcb6700be31a9305a9695a1c85b65c3ddf1f09007efafa",
+    "gateway/dual_can/tests/five_node.c": "87bd0adf5a379e9b201cce5f37e4f8af646bfccec74b229954a919fe280788e6",
+    "node-a/STM32F407_HOSPITAL/HARDWARE/CANopen/canopen_app.c": "a434d49d0a299ef61e1af455ceb076f17f275bc02b688e1e434bbf6a29b69d94",
+    "node-a/STM32F407_HOSPITAL/HARDWARE/CANopen/node_policy.h": "2a3dc74dbf185fcb9be9c82cd765e73702a00c7674e5eee167bb060b9c20042a",
+    "node-b/tools/field01_e_usb.py": "d87c03a6348d0c2a36ade319d4785642017632be39c2d8f583eab0b908d440d6",
+    "node-b/tests/test_field01_e_usb.py": "53e7e78c8175c3d1161c0c9d23c6ef974eec8287ac96278883ecf3dd9a4e5e06",
+    "tools/test_five_node_host.py": "449856cf3d18f6f861ba17294f9fc7cc5b56acd4ea375a1967501e5de4950b4f"
+  },
+  "partition_install_authorized_by_owner": true,
+  "diagnostic_41ohm": {
+    "status": "NOT_PASS_SOURCE_A_CAN_TX_OVERFLOW_EARLY_ABORT",
+    "duration_ms": 60000,
+    "formal_acceptance": false,
+    "network_linked": false,
+    "microphone_linked": false,
+    "time_policy": "LOCAL_TEST_EPOCH_NOT_UTC",
+    "layout": {
+      "schema": 1,
+      "target": "B4_GATEWAY_BENCH",
+      "erase_sectors": [
+        0,
+        4
+      ],
+      "sector4_owner_approval_required": true,
+      "images": [
+        {
+          "address": 134217728,
+          "bytes": 392,
+          "file": "B4_GATEWAY_BENCH-boot.bin",
+          "SHA256": "ade15c4264baf3079a7bee8301c7ff648409717b8af8096b64556de912f117cd"
+        },
+        {
+          "address": 134283264,
+          "bytes": 25148,
+          "file": "B4_GATEWAY_BENCH-code.bin",
+          "SHA256": "61460e1b1ba727fe93748f860e2922660ce82e23f13ac2e2a01d67132d195aa7"
+        }
+      ],
+      "HEX": {
+        "file": "B4_GATEWAY_BENCH.hex",
+        "SHA256": "209f9797c07d7f16fb1a0d19492a3604412f273981649fa8d8dae4db0b744284"
+      },
+      "ELF": {
+        "file": "B4_GATEWAY_BENCH.elf",
+        "SHA256": "afed3e9dd38529e6551f926579d7feb96050a4e586d7b1c30d4e4b678d34852a"
+      },
+      "TLS_port": null,
+      "time_policy": "LOCAL_TEST_TIME_NEVER_CLOUD",
+      "normal_runtime_limit": "B4START one-shot 60s",
+      "sector3_options_and_all_other_sectors": "PRESERVE"
+    },
+    "artifacts": {
+      "B4_GATEWAY_BENCH-boot.bin": {
+        "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\FIELD01-20261106\\artifacts\\C-diagnostic\\B4_GATEWAY_BENCH-boot.bin",
+        "bytes": 392,
+        "sha256": "ade15c4264baf3079a7bee8301c7ff648409717b8af8096b64556de912f117cd"
+      },
+      "B4_GATEWAY_BENCH-code.bin": {
+        "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\FIELD01-20261106\\artifacts\\C-diagnostic\\B4_GATEWAY_BENCH-code.bin",
+        "bytes": 25148,
+        "sha256": "61460e1b1ba727fe93748f860e2922660ce82e23f13ac2e2a01d67132d195aa7"
+      },
+      "B4_GATEWAY_BENCH.hex": {
+        "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\FIELD01-20261106\\artifacts\\C-diagnostic\\B4_GATEWAY_BENCH.hex",
+        "bytes": 71948,
+        "sha256": "209f9797c07d7f16fb1a0d19492a3604412f273981649fa8d8dae4db0b744284"
+      },
+      "B4_GATEWAY_BENCH.elf": {
+        "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\FIELD01-20261106\\artifacts\\C-diagnostic\\B4_GATEWAY_BENCH.elf",
+        "bytes": 55156,
+        "sha256": "afed3e9dd38529e6551f926579d7feb96050a4e586d7b1c30d4e4b678d34852a"
+      },
+      "unified-layout.json": {
+        "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\FIELD01-20261106\\artifacts\\C-diagnostic\\unified-layout.json",
+        "bytes": 1000,
+        "sha256": "e1150eb29f4e650a7eb7238cbee9f08be51f870846e7abc52ebeb5db9f4c4f17"
+      },
+      "symbols.txt": {
+        "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\FIELD01-20261106\\artifacts\\C-diagnostic\\symbols.txt",
+        "bytes": 8361,
+        "sha256": "5cd08ec65112ec0a131590e68ea9f5450edbdf8360868426aa4565151c2cf5c3"
+      }
+    },
+    "source_sha256": {
+      "gateway/dual_can/build_arm.py": "45af9336348c957a1c79f631d0c77bcaede3e2ed6f65c742106757e399ccee9f",
+      "gateway/dual_can/bench_main.c": "c12bd8a0a17eb335b9723405091f6144804fd1a00adb8f66ee9a730ec21c46a2",
+      "gateway/dual_can/b4_bench.c": "1689cbbf804d2109c054eccd23a2124293e604690d7a5f92d9cd2ddb1f64094d",
+      "gateway/dual_can/b4_resources.h": "4509d5cc3eea82e1bdd443d3c7d9b67cf9e81e7907849da279173e45c6ac4588",
+      "gateway/dual_can/tests/five_capture.c": "b0f840a4a7131820cbb0c0efca1e38c338dd1acc6767fa6c765938e61c079694",
+      "gateway/dual_can/tests/link_policy.c": "0dc4b95d270315fc29bff36806f481983707daf7a3789dbed2b2709e61dd057b",
+      "node-b/tools/field01_can_capture.py": "1534825f02adf0944daecd61b5e0f067a6dbe45398f9a2a152e9e2efa4de7cc1",
+      "node-b/tests/test_field01_can_capture.py": "c21b7927d5123f3f5b6c0c59fb5bc4defa937a57e1b23a842ff2b762f7bac873"
+    },
+    "host_tests": "five-capture-full-streams-and-hard-stop plus both-link-policy PASS",
+    "capture_tests": "6 targeted tests PASS",
+    "current_C_install": {
+      "exit_code": 0,
+      "status": "UNIFIED_C_INSTALL_FULL_VERIFY_PASS",
+      "board": "C",
+      "sectors": [
+        0,
+        4
+      ],
+      "full_flash_sha256": "d53d14d911f96b672009bbdcfe969a8d6e62ee79eafa949d6e78ef7fdc36312f",
+      "options_unchanged": true,
+      "all_other_sectors_unchanged": true,
+      "Close_completed": true,
+      "native_actions": {
+        "JLINKARM_Halt": 1,
+        "JLINKARM_BeginDownload": 1,
+        "JLINKARM_WriteMem": 2,
+        "JLINKARM_EndDownload": 1,
+        "JLINKARM_Reset": 1,
+        "JLINKARM_Go": 1
+      }
+    },
+    "result": "CAN60-41OHM-result.json",
+    "normal_M1_restore": "FULL_VERIFY_BYTE_IDENTICAL_TO_PRE_DIAGNOSTIC_M1"
+  },
+  "A_TX_fix_candidate": {
+    "status": "INSTALLED_FULL_VERIFY_BOOT_PASS_FIELD_RETEST_NOT_RUN",
+    "build_directory": "node-b\\build\\five-node-A-20261106T032715128943Z",
+    "artifacts": {
+      "FIVE_NODE_A.bin": {
+        "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\FIELD01-20261106\\artifacts\\A-tx-fix\\FIVE_NODE_A.bin",
+        "bytes": 33436,
+        "sha256": "d9cec64e3947a25e43d74057d3c9229d7ed161f026e0b84fa532daf12905e670"
+      },
+      "FIVE_NODE_A.axf": {
+        "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\FIELD01-20261106\\artifacts\\A-tx-fix\\FIVE_NODE_A.axf",
+        "bytes": 796928,
+        "sha256": "638bc491efd5efde9e42a98383e0ec234ff7273d8c73937493a59aaf79944971"
+      },
+      "FIVE_NODE_A.symbols.txt": {
+        "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\FIELD01-20261106\\artifacts\\A-tx-fix\\FIVE_NODE_A.symbols.txt",
+        "bytes": 107902,
+        "sha256": "e6b36144a36ea8563d0880a0abbdd926e4fb3f92304a7191bff4e8346d89726e"
+      },
+      "FIVE_NODE_A.map": {
+        "path": "node-b\\docs\\FIVE-NODE-MIGRATION\\FIELD01-20261106\\artifacts\\A-tx-fix\\FIVE_NODE_A.map",
+        "bytes": 333172,
+        "sha256": "10c6a3e3c9f9b4d0553f18ed5f10c0660303e4599e0292f7965ce908cfafb9b5"
+      }
+    },
+    "source_changes": [
+      "retain UNO/resampler output while TPDO0 software send slot is occupied",
+      "MP_FIVE_NODE_A only: CAN TXFP request ordering"
+    ],
+    "no_sample_rate_or_timeout_change": true,
+    "before_test_native_exit": 3,
+    "after_test_native_exit": 0,
+    "install_plan_exit": 0,
+    "actual_field_cause_unique_proven": false,
+    "raw_input_invalid_gaps_still_open": true,
+    "installation": {
+      "status": "ABC_A_APP012_FULL_VERIFY_BOOT_PASS",
+      "exit_code": 0,
+      "board": "A",
+      "automatic_reflash_or_rollback": false,
+      "phase": "install",
+      "sectors": [
+        0,
+        1,
+        2
+      ],
+      "full_flash_sha256": "8d03199f752aa7cb755fa4b8cb3909d9fd0854d3860a37d27df4f77016e804ea",
+      "options_unchanged": true,
+      "outside_affected_sectors_unchanged": true,
+      "reset_requests": 1,
+      "CAN_or_physiology_acceptance": false,
+      "Close_completed": true,
+      "native_actions": {
+        "JLINKARM_Halt": 1,
+        "JLINKARM_BeginDownload": 1,
+        "JLINKARM_WriteMem": 1,
+        "JLINKARM_EndDownload": 1,
+        "JLINKARM_Reset": 1,
+        "JLINKARM_Go": 1
+      },
+      "download_started": true,
+      "debug_IWDG_freeze_writes": 2,
+      "debug_IWDG_freeze_restored": true
+    }
+  },
+  "pause": {
+    "owner_requested_pause": true,
+    "saved_at_Asia_Shanghai": "2026-11-06T11:38:49.608402+08:00",
+    "last_confirmed_physical_state": "ONLY_A_POWERED_JLINK_AT_A_OTHER_BOARDS_AND_PUMP_OFF_USB_DISCONNECTED",
+    "power_off_after_pause": "OWNER_CONFIRMED_BEFORE_AND_AFTER_AD60",
+    "rewire_to_60ohm_pairs": "OWNER_CONFIRMED_C1_A1_61OHM_C2_D1_60_9OHM",
+    "last_known_CAN_harness": "C1_A1_E1_ABOUT_41OHM_AND_C2_B1_D1_ABOUT_41OHM",
+    "pending_request": "C1_A1_AND_C2_D1_POWER_OFF_WIRING_AND_RESISTANCE_ONLY_NOT_EXECUTED_CONFIRMED",
+    "next_start_requires_new_owner_continue_message": true,
+    "resumed_by_owner": true
+  },
+  "AD_point_to_point_60s": {
+    "report": "AD60-POINT-TO-POINT-RESULTS.md",
+    "result": "AD60-POINT-TO-POINT-result.json",
+    "controller_exit": 0,
+    "receiver_exit": 0,
+    "A_observer_exit": 1,
+    "source_observer_reason": "HOST_LATE_START_COVERAGE_TOO_SHORT",
+    "PPG_batches": 59,
+    "PPG_points": 2950,
+    "web_exact_matches": 236,
+    "formal_five300": "NOT_RUN",
+    "owner_all_power_off": true
+  },
+  "DE_NIBP_point_to_point": {
+    "status": "FIRST_WINDOW_NO_COMPLETION_BEFORE_HOST_125S_STOP",
+    "report": "DE-NIBP-POINT-TO-POINT-PREPARATION.md",
+    "receiver_readiness": {
+      "native_exit": 0,
+      "receipt": {
+        "status": "RECEIVER_READINESS_PASS_NOT_DEVICE_ACCEPTANCE",
+        "exit_code": 0,
+        "node_profile": "five",
+        "hardware_operations": 0,
+        "MQTT_publications": 0,
+        "remote_service_changes": 0,
+        "MQTT_received": 5,
+        "browser_snapshots": 23,
+        "browser_errors": [],
+        "all_own_children_exited": true,
+        "tool_sha256": "b9a462144fb997e4b6f34a33a42a72b24f40ef688ca6fbb10f96d8dbb09638da"
+      }
+    },
+    "offline_NIBP_entry_checks": "3_TESTS_OK_OBSERVED",
+    "original_nibp_expiry_s": 90,
+    "new_flash_reset_or_pump_commands": 0,
+    "first_report": "DE-NIBP-FIRST-RESULTS.md",
+    "first_result": "DE-NIBP-FIRST-result.json",
+    "owner_screen_SYS_DIA_after_window": [
+      114,
+      79
+    ],
+    "E_first_measuring_observed_T0_s": 123.906,
+    "original_90s_expiry_field_result": "NOT_RUN",
+    "C_controller_native_exit": 1,
+    "receiver_native_exit": 0,
+    "owner_end_power_off": "OWNER_CONFIRMED_ALL_OFF"
+  },
+  "DE_waiting_fix": {
+    "report": "DE-NIBP-WAITING-FIX.md",
+    "offline_tests": 9,
+    "native_exit": 0,
+    "operator_wait_max_s": 150,
+    "completion_wait_after_measuring_observed_s": 120,
+    "after_result_observation_s": 95,
+    "original_C_hard_limit_s": 420,
+    "original_NIBP_expiry_s": 90,
+    "new_field_run": "E_101_67_SCOPED_RESULT_SAVED_CONTROLLER_NATIVE1_TTS_STOP_UNCONFIRMED",
+    "firmware_changes": 0
+  },
+  "E_valid_101_67_window": {
+    "report": "DE-NIBP-101-67-RESULTS.md",
+    "result": "DE-NIBP-101-67-result.json",
+    "SYS_DIA": [
+      101,
+      67
+    ],
+    "completion_tick": 157006,
+    "E_NIBP_publish_count": 1,
+    "first_web_stale_source_age_ms": 90074,
+    "first_DOM_stale_dash_source_age_ms": 90693,
+    "old_value_valid_revival": 0,
+    "NIBP_web_exact_matches": "1/1",
+    "D_temperature_web_VALID_matches": "145/146; first key received but startup STALE-masked",
+    "C_controller_native_exit": 1,
+    "receiver_native_exit": 0,
+    "C_STOP_banner": true,
+    "TTS_STOP_confirmed": false,
+    "owner_all_power_off": true,
+    "new_firmware_writes": 0,
+    "formal_five300": "NOT_RUN"
+  }
+}

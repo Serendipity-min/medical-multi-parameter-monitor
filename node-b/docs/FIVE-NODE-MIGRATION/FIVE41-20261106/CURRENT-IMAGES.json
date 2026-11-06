@@ -1,0 +1,78 @@
+{
+  "actual": {
+    "A": {
+      "bytes": 33444,
+      "installed": "STARTUP_FIX_FULL_VERIFY_PASS",
+      "role": "SpO2_PPG",
+      "verified_write_sectors": [
+        0,
+        1,
+        2
+      ],
+      "candidate_sha256": "b20bfdb877aa89576ee12abaabeb8b9b8ef425135b6061392475096bb2fbe5d0",
+      "install_receipt": "A-STARTUP-INSTALL-RESULT.json",
+      "full_flash_sha256": "47cde6b842ac3bb92f8e4771f62387fa4c316a8b8338920acd21afcab5726d1a"
+    },
+    "B": {
+      "bytes": 40040,
+      "installed": "STARTUP_FIX_FULL_VERIFY_PASS",
+      "role": "ECG_RESP",
+      "verified_write_sectors": [
+        0,
+        1,
+        2
+      ],
+      "candidate_sha256": "f2276540bb8ca92551d08b78aecfdf31346597d9e273783f456be90c67014991",
+      "install_receipt": "B-STARTUP-INSTALL-RESULT.json",
+      "full_flash_sha256": "328d48e3567e2fa18a2fee9b0cca831578cdb44364caf8ef575c1d5bbbef99ae"
+    },
+    "C": {
+      "boot_bytes": 392,
+      "code_bytes": 56072,
+      "installed": "FOUR_SOURCE_COUNTER_FULL_VERIFY_PASS",
+      "role": "DUAL_CAN_GATEWAY",
+      "verified_write_sectors": [
+        0,
+        4
+      ],
+      "full_flash_sha256": "02e45d16adf6cb2b9716fd9cede010b50c3c2b6643ef997ffbb55329f77ad3dc",
+      "boot_sha256": "0ac74b0de14294f9cfc8f83e1dd22f22840ace744affb06cea63984dfceaa155",
+      "code_sha256": "b92a232d124947e07c129a238b4ff86a75432a6ad18bf4787729d13580ab217f",
+      "install_receipt": "C-INSTALL-RESULT.json"
+    },
+    "D": {
+      "bytes": 24552,
+      "installed": "STARTUP_FIX_FULL_VERIFY_AND_LOCAL_TEMP_REFRESH_PASS",
+      "role": "TEMPERATURE",
+      "verified_write_sectors": [
+        0,
+        1
+      ],
+      "candidate_sha256": "ae4e6d11770c07bd941a3ffdee196e06cf1a82648d050f7e2429431afb348c6a",
+      "install_receipt": "D-STARTUP-INSTALL-RESULT.json",
+      "full_flash_sha256": "993d7b742fde80feacdbaf57ad5fce6301bfb6bbe85ec94818569456e962c8f5"
+    },
+    "E": {
+      "bytes": 29424,
+      "installed": "STARTUP_FIX_ROM_VERIFY_AND_E_RUNTIME_BOTH_WINDOWS_MATCH_EXPIRY_OBSERVED",
+      "role": "NIBP",
+      "verified_write_sectors": [
+        0,
+        1
+      ],
+      "candidate_sha256": "da890a5e9eb1b7a7f9f7fcb1338b338996f4bb5a5d52c4119dfb19c4882b64a8",
+      "install_receipt": "E-STARTUP-INSTALL-RESULT.json",
+      "application_32KiB_payload_sha256": "6beb30cd5ab50c380623c0141cefef946702f8b1bb87187512c2c75a62069432",
+      "outside_32KiB_pre_post_sha256": "5c4c51da9720e6b4377f3d218c0ebc8fc83508378cce588942e8d8c71f788638",
+      "full_flash_sha256": "NOT_RECORDED_AS_ONE_CONTIGUOUS_HASH"
+    }
+  },
+  "new_ECG_five_window": "COMPLETED_CAN_DIAG_NO_ERRORS_END_TO_END_NOT_PASS",
+  "RR_five_window": "COMPLETED_CAN_DIAG_NO_OBSERVED_ERRORS_END_TO_END_NOT_PASS",
+  "updated_utc": "2026-11-06T11:12:44+00:00",
+  "next": "WAIT_PI_REVIEW_NO_AUTOMATIC_TARGET_OR_CLOUD_ACTION",
+  "final_physical_state": "ALL_OFF_USB_JLINK_PC_UNPLUGGED_JLINK_BOARD_B_YELLOW_LL_FIVE_HARNESS_RETAINED",
+  "commit_push_at_field_capture": false,
+  "delivery_status": "PREPARED_FOR_AUTHORIZED_SINGLE_GIT_PUSH_WAIT_PI",
+  "delivery_note": "PI-REVIEW.md"
+}

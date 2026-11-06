@@ -39,7 +39,7 @@ class Link(install.InstallLink):
         return result
 
 
-def prepare(board,reference,image,expected_sha):
+def prepare(board,reference,image,expected_sha,current_install=None):
     reference=recovery.protected(reference,False)
     proof=json.loads((reference/'receipt-private.json').read_text())
     install.require(proof['board']==board and proof['exit_code']==0 and proof['independent_reads_match']
@@ -48,11 +48,23 @@ def prepare(board,reference,image,expected_sha):
     files=[recovery.read(probe/name,False) for name in
         ('flash-1-private.bin','flash-2-private.bin','options-1-private.bin','options-2-private.bin',
          'identity-private.json','identity-after-private.json')]
+    if current_install:
+        prior=json.loads(recovery.read(current_install/'receipt-private.json',False))
+        install.require(prior['board']==board and prior['exit_code']==0 and prior['Close_completed']
+                        and prior['outside_affected_sectors_unchanged'],'ABC_VERIFIED_CURRENT_INSTALL_REQUIRED')
+        before=recovery.read(current_install/'probe/after-full-private.bin',False)
+        options=recovery.read(current_install/'probe/after-options-private.bin',False)
+        identity=recovery.read(current_install/'probe/identity-after-private.json',False)
+        install.require(recovery.digest(before)==prior['full_flash_sha256'] and options==files[2]
+                        and json.loads(identity)==json.loads(files[4]),'ABC_CURRENT_INSTALL_DRIFT')
+        # 复用已验证实装原件作字节规划；execute仍现场核对完整before，不声称新做两次读取。
+        files=[before,before,options,options,identity,identity]
     candidate=image.read_bytes();install.require(recovery.digest(candidate)==expected_sha,'ABC_CANDIDATE_SHA')
     # A复用相同48KiB三扇区几何；原安装CLI的B/C授权范围保持不变。
     plan,payload=recovery.make_plan('B' if board=='A' else 'C',*files[:4],
         json.loads(files[4]),json.loads(files[5]),candidate,expected_sha)
     plan['board_role']=board;plan['scope']='ABC_OWNER_B_TEMP_SCREEN_APPLICATION_48K' if board=='B' else 'ABC_OWNER_RESTORE_APPLICATION_48K'
+    if current_install:plan['before_basis']='PRIOR_VERIFIED_INSTALL_PLUS_LIVE_PREWRITE_FULL_CHECK'
     end=plan['erase_end_exclusive']-0x08000000
     install.require((plan['sectors']==[0,1,2] or board=='C' and plan['sectors'] in ([0],[0,1]))
                     and payload['expected-full-private.bin'][end:]==files[0][end:],
@@ -61,7 +73,7 @@ def prepare(board,reference,image,expected_sha):
 
 
 def worker(a,out):
-    plan,payload=prepare(a.board,a.backup,a.image,a.image_sha256)
+    plan,payload=prepare(a.board,a.backup,a.image,a.image_sha256,a.current_install)
     out.mkdir();probe=out/'probe';probe.mkdir();link=None
     result={'status':'STOP','exit_code':1,'board':a.board,'automatic_reflash_or_rollback':False}
     install.raw.write_json(out/'image-plan-private.json',plan)
@@ -90,15 +102,17 @@ def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--board',choices=('A','B','C'),required=True)
     for name in ('backup','image','out'):p.add_argument('--'+name,type=Path,required=True)
     p.add_argument('--image-sha256',required=True);p.add_argument('--execute',action='store_true');p.add_argument('--worker',action='store_true')
+    p.add_argument('--current-install',type=Path,help='复用已完整核对的当前实装原件；写前仍现场匹配整片')
     a=p.parse_args();out=a.out.resolve()
     recovery.protected(out.parent,False);install.require(not out.exists(),'ABC_OUTPUT_EXISTS')
-    plan,payload=prepare(a.board,a.backup,a.image,a.image_sha256)
+    plan,payload=prepare(a.board,a.backup,a.image,a.image_sha256,a.current_install)
     if not(a.execute or a.worker):
         print(json.dumps({'status':'PLAN_ONLY','board':a.board,'candidate_bytes':plan['candidate_bytes'],
             'sectors':plan['sectors'],'config_preserved':True}));return 0
     if a.worker:return worker(a,out)
     cmd=[sys.executable,'-X','utf8',str(Path(__file__)),'--worker','--board',a.board,
          '--backup',str(a.backup),'--image',str(a.image),'--image-sha256',a.image_sha256,'--out',str(out)]
+    if a.current_install:cmd+=['--current-install',str(a.current_install)]
     return backup.supervise(cmd,out)
 
 

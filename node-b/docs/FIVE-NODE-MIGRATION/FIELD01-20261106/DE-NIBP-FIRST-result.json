@@ -1,0 +1,177 @@
+{
+  "scope": "FIELD01_E_NIBP_D_REFERENCE_60OHM_POINT_TO_POINT",
+  "status": "NOT_PASS_NO_NEW_E_MEASUREMENT_COMPLETION",
+  "native_process_exit_codes": {
+    "C_controller": 1,
+    "receiver": 0
+  },
+  "failure": {
+    "type": "TimeoutError",
+    "detail": "FIELD01_NO_NEW_E_COMPLETION_WITHIN_125S"
+  },
+  "window_T0_utc_ms": 1793948311834,
+  "owner_measured_ohms": {
+    "C1_E1": 61,
+    "C2_D1": 60.9
+  },
+  "E_hardware_screen_pretest": "OWNER_NO_ERROR",
+  "D_screen_pretest_C": 25.2,
+  "E_new_nibp_messages": 0,
+  "E_state_observations": 27,
+  "E_flags_observed": [
+    512,
+    544
+  ],
+  "E_completion_ticks": [
+    0
+  ],
+  "E_boot_ids": [
+    3
+  ],
+  "E_generation_values": [
+    1
+  ],
+  "E_measuring_flag_seen": true,
+  "E_valid_flag_seen": false,
+  "E_result_emitted": false,
+  "C_CAN": {
+    "B5 DIAG": {
+      "observations": 27,
+      "TEC_peak": 0,
+      "REC_peak": 0,
+      "tx_failed_max": 0,
+      "FIFO_overflow_max": 0
+    },
+    "ABC A_CAN": {
+      "observations": 27,
+      "TEC_peak": 0,
+      "REC_peak": 0,
+      "tx_failed_max": 0,
+      "FIFO_overflow_max": 0
+    }
+  },
+  "router": {
+    "high": 3,
+    "overflow": 0,
+    "expired": 0,
+    "replaced": 0,
+    "unsynced": 1
+  },
+  "MQTT_nonretained_topic_counts": {
+    "status": 26,
+    "NODE-D/telemetry/temp": 125,
+    "NODE-A/status": 25,
+    "NODE-B/status": 25,
+    "NODE-D/status": 25,
+    "NODE-E/status": 25
+  },
+  "D_valid_temperature_count": 125,
+  "D_temperature_C_range": [
+    25.57,
+    26.25
+  ],
+  "controller": {
+    "status": "STOP_REQUIRES_REVIEW",
+    "exit_code": 1,
+    "mode": "DE_NIBP",
+    "recording_commands": 0,
+    "pump_commands": 0,
+    "Flash_writes": 0,
+    "start_commands": 1,
+    "observe_seconds_bound": 220,
+    "armed_monotonic": 341630.234,
+    "error_type": "TimeoutError",
+    "global_stop_commands": 1,
+    "C_STOP_banner": true,
+    "TTS_STOP_ACK_QUERY_IDLE": false,
+    "serial_closed": true,
+    "diagnostic_rows": 135,
+    "last_audio": {
+      "phase": 8,
+      "session": 0,
+      "crc": 0,
+      "chunk": 0,
+      "online": 0,
+      "subscribed": 0,
+      "frames": 0,
+      "dma": 0,
+      "overrun": 0,
+      "decode": 0,
+      "turns": 0,
+      "acked": 0,
+      "failures": 1,
+      "tts_ack": 0,
+      "tts_done": 0,
+      "stop_ack": 0,
+      "stop_query": 0,
+      "stop_idle": 0,
+      "stop_failed": 1,
+      "tts_uart": 0,
+      "tts_overflow": 0
+    },
+    "tool_sha256": "9fb44ae050c31e12a04ca5368fcc6c9b7dd671a5a1fef37ca640f8449fd28368",
+    "ended_utc": "2026-11-06T07:00:51.847967+00:00"
+  },
+  "receiver": {
+    "status": "RECEIVER_STOPPED_REQUIRES_DATA_REVIEW",
+    "exit_code": 0,
+    "node_profile": "five",
+    "hardware_operations": 0,
+    "MQTT_publications": 0,
+    "remote_service_changes": 0,
+    "MQTT_received": 256,
+    "browser_snapshots": 1597,
+    "browser_errors": [],
+    "all_own_children_exited": true,
+    "tool_sha256": "b9a462144fb997e4b6f34a33a42a72b24f40ef688ca6fbb10f96d8dbb09638da"
+  },
+  "layered": {
+    "C_E_IDENTITY_AND_HEARTBEAT_LINK": "OBSERVED_ONLINE_AND_NODE5_PDOS_NO_CAN_ERROR_IN_C_DIAGNOSTICS",
+    "E_LOCAL_MANUAL_MEASUREMENT": "OWNER_REPORTED_SCREEN_114_79_AFTER_WINDOW_C_COMPLETION_NOT_CAPTURED",
+    "E_NEW_COMPLETION_PROPAGATION": "NOT_RUN_NO_NEW_COMPLETION",
+    "E_90S_EXPIRY": "NOT_RUN",
+    "TTS_INIT_AND_STOP_CONFIRMATION": "NOT_PASS_NO_ACK_STOP_FAILED",
+    "FORMAL_FIVE_300S": "NOT_RUN"
+  },
+  "power_off_after_window": "OWNER_CONFIRMED_ALL_OFF",
+  "no_automatic_retry": true,
+  "no_commit_push": true,
+  "evidence_sha256": {
+    "C-observation/executed-controller.py": "9fb44ae050c31e12a04ca5368fcc6c9b7dd671a5a1fef37ca640f8449fd28368",
+    "C-observation/serial-rx-private.bin": "447db09fe8fbc57625f783c99f9648b2941eba3e50c09c7e8a3418b01d96638a",
+    "C-observation/lines-private.jsonl": "271e87566bce1de5fa42b903d553fdedca0cf177ac8ed34c59bb2b5ec0fe72f5",
+    "receiver/executed-receiver.py": "b9a462144fb997e4b6f34a33a42a72b24f40ef688ca6fbb10f96d8dbb09638da",
+    "receiver/MQTT-private.jsonl": "a3ff732645fbd8bdb976224f3e3fd1a245ef9510e474a3bff8d29bd96b2857af",
+    "receiver/browser-snapshots-private.jsonl": "f3df75d0200af70098462daeaadf79e67140f074e95c66477f9efda175cd943d",
+    "receiver/browser-display-private.jsonl": "6cf3a476de7001bf1434a032469e801f3fb4fb7799b475dc59c4e36196be5785"
+  },
+  "owner_screen_result_after_window": {
+    "SYS": 114,
+    "DIA": 79,
+    "C_match": "NOT_CAPTURED"
+  },
+  "E_first_measuring_state": {
+    "offset_s": 123.906,
+    "boot": 3,
+    "gen": 1,
+    "flags": 544,
+    "completion": 0,
+    "packed": 0,
+    "emitted": 0,
+    "emitted_tick": 0,
+    "nibp_seq": 0
+  },
+  "E_last_observed_state": {
+    "offset_s": 125.14,
+    "boot": 3,
+    "gen": 1,
+    "flags": 544,
+    "completion": 0,
+    "packed": 0,
+    "emitted": 0,
+    "emitted_tick": 0,
+    "nibp_seq": 0
+  },
+  "timing_interpretation": "125S_HOST_BUDGET_STARTED_AT_NETWORK_T0_NOT_AT_MANUAL_MEASUREMENT_START_INSUFFICIENT_OPERATION_COORDINATION",
+  "owner_next_request": "SET_REASONABLE_WAITING_TIME"
+}

@@ -1,0 +1,495 @@
+{
+  "scope": "SUPERVISED_FIVE_NODE_DUAL_40_41_OHM_ECG60_ENGINEERING_DIAGNOSTIC",
+  "overall": "NOT_PASS_END_TO_END_COMPLETENESS",
+  "controller_and_capture": "PASS",
+  "normal_termination_acceptance": "NOT_RUN",
+  "measured_ohms": {
+    "CAN1": 41.0,
+    "CAN2": 40.9
+  },
+  "warmup_s": 45,
+  "evaluation_s": 300,
+  "C_receipt": {
+    "status": "FIVE_DIAG_CAPTURE_COMPLETE_REQUIRES_LAYERED_REVIEW",
+    "exit_code": 0,
+    "mode": "FIVE_DIAG",
+    "channel_profile": "ECG60",
+    "electrical_condition": "40_41_OHM_DIAGNOSTIC_NOT_NORMAL_TERMINATION",
+    "recording_commands": 0,
+    "pump_commands": 0,
+    "Flash_writes": 0,
+    "start_commands": 1,
+    "observe_seconds_bound": 395,
+    "armed_monotonic": 353950.75,
+    "T0": {
+      "monotonic": 353971.703,
+      "UTC_ms": 1793960636010,
+      "duration_bound_s": 395,
+      "scope": "FIVE_DIAG_POINT_TO_POINT_NOT_FIVE_BOARD_ACCEPTANCE"
+    },
+    "actual_observe_s": 345.01500000001397,
+    "global_stop_commands": 1,
+    "C_STOP_banner": true,
+    "TTS_STOP_ACK_QUERY_IDLE": true,
+    "serial_closed": true,
+    "diagnostic_rows": 354,
+    "last_audio": {
+      "phase": 1,
+      "session": 0,
+      "crc": 0,
+      "chunk": 0,
+      "online": 0,
+      "subscribed": 0,
+      "frames": 0,
+      "dma": 0,
+      "overrun": 0,
+      "decode": 0,
+      "turns": 0,
+      "acked": 0,
+      "failures": 0,
+      "tts_ack": 1,
+      "tts_done": 0,
+      "stop_ack": 1,
+      "stop_query": 1,
+      "stop_idle": 1,
+      "stop_failed": 0,
+      "tts_uart": 0,
+      "tts_overflow": 0
+    },
+    "tool_sha256": "6c9a3bdcb7bf0122d9bddf6056dbb4bc76b112890dcf189dc9a05a1b5dbc37f7",
+    "ended_utc": "2026-11-06T10:29:41.315545+00:00"
+  },
+  "native_exits": {
+    "exit_code": 0,
+    "profile": "ECG60",
+    "formal_acceptance": false,
+    "electrical": "40_41_OHM_DIAGNOSTIC",
+    "controller_native_exit": 0,
+    "status": "FIVE_DIAGNOSTIC_CAPTURED_LAYERED_REVIEW_REQUIRED",
+    "native_process_exit_codes": {
+      "receiver": 0,
+      "B-source": 0,
+      "C-controller": 0
+    },
+    "all_own_processes_exited": true
+  },
+  "nodes": {
+    "1": {
+      "observations": 59,
+      "bus": [
+        0
+      ],
+      "NMT": [
+        5
+      ],
+      "max_hb_age_ms": 502,
+      "max_emcy": 0,
+      "codes": [
+        0
+      ],
+      "boot_values": [
+        1
+      ],
+      "generation_values": [
+        1
+      ],
+      "first_gap0": 1,
+      "last_gap0": 5,
+      "first_gap1": 0,
+      "last_gap1": 0
+    },
+    "5": {
+      "observations": 59,
+      "bus": [
+        0
+      ],
+      "NMT": [
+        5
+      ],
+      "max_hb_age_ms": 497,
+      "max_emcy": 0,
+      "codes": [
+        0
+      ],
+      "boot_values": [
+        1
+      ],
+      "generation_values": [
+        1
+      ],
+      "first_gap0": 0,
+      "last_gap0": 0,
+      "first_gap1": 0,
+      "last_gap1": 0
+    },
+    "2": {
+      "observations": 59,
+      "bus": [
+        1
+      ],
+      "NMT": [
+        5
+      ],
+      "max_hb_age_ms": 499,
+      "max_emcy": 0,
+      "codes": [
+        0
+      ],
+      "boot_values": [
+        1
+      ],
+      "generation_values": [
+        1
+      ],
+      "first_gap0": 0,
+      "last_gap0": 0,
+      "first_gap1": 0,
+      "last_gap1": 0
+    },
+    "4": {
+      "observations": 59,
+      "bus": [
+        1
+      ],
+      "NMT": [
+        5
+      ],
+      "max_hb_age_ms": 503,
+      "max_emcy": 0,
+      "codes": [
+        0
+      ],
+      "boot_values": [
+        1
+      ],
+      "generation_values": [
+        1
+      ],
+      "first_gap0": 0,
+      "last_gap0": 0,
+      "first_gap1": 0,
+      "last_gap1": 0
+    }
+  },
+  "sampled_C_diagnostics": {
+    "CAN2": {
+      "observations": 60,
+      "first_eval_elapsed_s": 0.7650000000139698,
+      "last_eval_elapsed_s": 295.65600000001723,
+      "first": {
+        "tick": 190158,
+        "session": 2959271062,
+        "rx": 15088,
+        "txack": 140,
+        "txfail": 0,
+        "overflow": 0,
+        "esr": 0,
+        "uart_err": 0,
+        "live": 21,
+        "cache": 56,
+        "dropped": 30,
+        "q0_transport": 171,
+        "q1_puback": 219,
+        "mqtt_fail": 0,
+        "stop": 0
+      },
+      "last": {
+        "tick": 485057,
+        "session": 2959271062,
+        "rx": 106509,
+        "txack": 762,
+        "txfail": 0,
+        "overflow": 0,
+        "esr": 0,
+        "uart_err": 0,
+        "live": 21,
+        "cache": 56,
+        "dropped": 746,
+        "q0_transport": 1214,
+        "q1_puback": 1556,
+        "mqtt_fail": 0,
+        "stop": 0
+      },
+      "max": {
+        "txfail": 0,
+        "overflow": 0,
+        "esr": 0
+      }
+    },
+    "CAN1": {
+      "observations": 60,
+      "first_eval_elapsed_s": 0.7970000000204891,
+      "last_eval_elapsed_s": 295.68700000003446,
+      "first": {
+        "rx": 3969,
+        "txack": 140,
+        "txfail": 0,
+        "overflow": 0,
+        "esr": 0
+      },
+      "last": {
+        "rx": 21541,
+        "txack": 762,
+        "txfail": 0,
+        "overflow": 0,
+        "esr": 0
+      },
+      "max": {
+        "txfail": 0,
+        "overflow": 0,
+        "esr": 0
+      }
+    },
+    "queue": {
+      "observations": 60,
+      "first_eval_elapsed_s": 0.8900000000139698,
+      "last_eval_elapsed_s": 295.89000000001397,
+      "first": {
+        "high": 23,
+        "replaced": 87,
+        "overflow": 0,
+        "expired": 0,
+        "phase": 0,
+        "unsynced": 0,
+        "budget_refused": 0
+      },
+      "last": {
+        "high": 24,
+        "replaced": 754,
+        "overflow": 48,
+        "expired": 0,
+        "phase": 0,
+        "unsynced": 0,
+        "budget_refused": 0
+      }
+    },
+    "partials": {
+      "observations": 59,
+      "first_eval_elapsed_s": 1.937000000034459,
+      "last_eval_elapsed_s": 297.7179999999935,
+      "first": {
+        "tick": 191334,
+        "wrong_bus": 0,
+        "malformed": 0,
+        "resets": 0,
+        "partial_batches": 2,
+        "partial_samples": 53
+      },
+      "last": {
+        "tick": 487140,
+        "wrong_bus": 0,
+        "malformed": 0,
+        "resets": 0,
+        "partial_batches": 10,
+        "partial_samples": 104
+      }
+    }
+  },
+  "B_ADC_error_deltas": {
+    "long_gap_count": 0,
+    "queue_overflow": 0,
+    "bad_status": 0,
+    "spi_errors": 0,
+    "init_errors": 0
+  },
+  "B_CAN_error_deltas": {
+    "overflow": 0,
+    "discontinuities": 0,
+    "comm_reset": 0,
+    "error": 0
+  },
+  "B_source_capture_qualification": {
+    "blocks": 5769,
+    "raw_stable": 91722,
+    "CAN_stable": 91723,
+    "raw_unqualified_sequences": 37,
+    "CAN_unqualified_sequences": 36,
+    "raw_version_conflicts": 197,
+    "CAN_version_conflicts": 170
+  },
+  "B_valid_delivered_batch_points": {
+    "ECG": 69700,
+    "RESP": 0
+  },
+  "B_strict_in_window_matching_points": {
+    "ECG": 69633,
+    "RESP": 0
+  },
+  "B_batch_value_mismatches": [],
+  "waveform_valid_payload_point_occurrences": {
+    "PPG": 2913,
+    "ECG": 69700
+  },
+  "PPG_full_source_raw_integrity": "NOT_PROVEN",
+  "PPG_valid_packet_sequences": [
+    67,
+    72,
+    77,
+    82,
+    87,
+    97,
+    102,
+    107,
+    112,
+    117,
+    122,
+    126,
+    130,
+    135,
+    140,
+    144,
+    149,
+    154,
+    159,
+    163,
+    168,
+    173,
+    178,
+    183,
+    188,
+    193,
+    198,
+    203,
+    208,
+    213,
+    218,
+    223,
+    228,
+    233,
+    238,
+    243,
+    248,
+    253,
+    258,
+    263,
+    268,
+    273,
+    278,
+    283,
+    288,
+    293,
+    298,
+    302,
+    312,
+    317,
+    322,
+    327,
+    332,
+    337,
+    342,
+    347,
+    352,
+    356,
+    361
+  ],
+  "messages_by_source_validity": {
+    "GATEWAY/GATEWAY_STATUS/MOCK/VALID": 60,
+    "NODE-A/PPG/MOCK/VALID": 59,
+    "NODE-A/PR/MOCK/VALID": 76,
+    "NODE-D/TEMP/MOCK/VALID": 296,
+    "NODE-B/ECG/MOCK/VALID": 697,
+    "NODE-A/NODE_STATUS/MOCK/VALID": 60,
+    "NODE-B/NODE_STATUS/MOCK/VALID": 60,
+    "NODE-E/NODE_STATUS/MOCK/VALID": 60,
+    "NODE-B/HR/MOCK/VALID": 296,
+    "NODE-D/NODE_STATUS/MOCK/VALID": 60,
+    "NODE-B/RESP/MOCK/INVALID": 289,
+    "NODE-B/RR/MOCK/INVALID": 296,
+    "NODE-A/SPO2/MOCK/VALID": 77,
+    "NODE-A/PPG/MOCK/INVALID": 1,
+    "NODE-A/SPO2/MOCK/INVALID": 3,
+    "NODE-A/PR/MOCK/INVALID": 2,
+    "NODE-E/NIBP/MOCK/VALID": 1
+  },
+  "live_or_history_message_counts": {
+    "MOCK": 2393
+  },
+  "browser": {
+    "broker_unique_messages": 2393,
+    "broker_status_messages_aggregated": 300,
+    "browser_expected_telemetry_messages": 2093,
+    "browser_exact_matches": 1789,
+    "browser_only_masked": 304,
+    "browser_missing": [],
+    "browser_value_mismatches": [],
+    "first_seen_source_age_ms": {
+      "min": 391,
+      "max": 4998
+    }
+  },
+  "NIBP": {
+    "owner_SYS_DIA": [
+      106,
+      64
+    ],
+    "broker_value": [
+      106.0,
+      64.0
+    ],
+    "session": "can-2959271062-1",
+    "seq": 1,
+    "source_timestamp_ms": 1793960759782,
+    "C_matching_complete_states": [
+      {
+        "boot": 1,
+        "gen": 1,
+        "flags": 520,
+        "completion": 194890,
+        "packed": 41944100,
+        "emitted": 1,
+        "emitted_tick": 194890,
+        "nibp_seq": 1
+      },
+      {
+        "boot": 1,
+        "gen": 1,
+        "flags": 520,
+        "completion": 194890,
+        "packed": 41944100,
+        "emitted": 1,
+        "emitted_tick": 194890,
+        "nibp_seq": 1
+      }
+    ],
+    "first_valid_DOM": {
+      "arrival_unix_ns": 1793960763985244700,
+      "display": {
+        "pressure-sys": "106",
+        "pressure-dia": "64",
+        "state-NIBP": "VALID · MOCK",
+        "source-NIBP": "NODE-E",
+        "value-TEMP": "26.9",
+        "source-TEMP": "NODE-D",
+        "node-e": "Node-E · ONLINE",
+        "node-d": "Node-D · ONLINE"
+      }
+    },
+    "first_stale_DOM": {
+      "arrival_unix_ns": 1793960850008181800,
+      "display": {
+        "pressure-sys": "--",
+        "pressure-dia": "--",
+        "state-NIBP": "STALE · MOCK",
+        "source-NIBP": "NODE-E",
+        "value-TEMP": "27.0",
+        "source-TEMP": "NODE-D",
+        "node-e": "Node-E · ONLINE",
+        "node-d": "Node-D · ONLINE"
+      }
+    },
+    "first_stale_DOM_source_age_ms": 90226,
+    "source_node": "NODE-E",
+    "same_measurement_verified": true
+  },
+  "RESP_RR_physiology": "INVALID_DURING_ECG_MODE_NOT_SIMULTANEOUSLY_QUALIFIED",
+  "TTS_STOP": "ACK_QUERY_IDLE_CONFIRMED_NO_MICROPHONE_RECORDING",
+  "owner_all_off_confirmed": true,
+  "owner_heat_reset_screen_PPG_zero_details": "NOT_REPORTED",
+  "source_code_findings": {
+    "PPG_coalescing": "PPG_NOT_IN_PROTECTED_FIFO_STREAM_SET",
+    "historical_starvation": "LIVE_FIRST_EGRESS_BYPASSES_HISTORY_QUOTA_WHILE_LIVE_NONEMPTY",
+    "A_input_gap_cause": "UNKNOWN_NO_A_SAME_WINDOW_RAW_SOURCE",
+    "post_capture_code_changes": "OFFLINE_REVIEW_STATUS_AGGREGATION_AND_POINT_BOUNDARIES_ONLY"
+  },
+  "commit_push": false
+}

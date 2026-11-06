@@ -1,0 +1,27 @@
+{
+  "status": "STOPPED_BEFORE_C_ARM_B_BIO_NOT_ADVANCING",
+  "C_start_commands": 0,
+  "warmup_started": false,
+  "evaluation_started": false,
+  "formal_five_node_acceptance": "NOT_RUN",
+  "CAN_41ohm_transmission_verdict": "NOT_RUN",
+  "B_image_match": "d0401d96a4a051f964b4d8dce17f7630095ddb5ee8469bc84c3020b828531cd6",
+  "B_CPU_fault_registers_zero": true,
+  "B_entry_PC_symbols": [
+    "BCan_Interrupt+6",
+    "BCan_Interrupt",
+    "CAN1_RX0_IRQHandler+6"
+  ],
+  "B_prearm_error": "B4_RUNTIME_NO_SAMPLES",
+  "ADC_raw_capture_stopped": "NOT_PROVEN_FIRST_LAST_NOT_SAVED",
+  "native_process_exits": {
+    "receiver": 0,
+    "B-source": 1
+  },
+  "all_own_processes_exited": true,
+  "explicit_B_Halt_Reset_Go_Flash_writes": 0,
+  "B_Close_completed": true,
+  "owner_all_off_confirmed": true,
+  "owner_abnormality_report": "NOT_REPORTED",
+  "automatic_retry": false
+}

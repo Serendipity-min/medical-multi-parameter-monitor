@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "target": "B4_GATEWAY_BENCH",
+  "erase_sectors": [
+    0,
+    4
+  ],
+  "sector4_owner_approval_required": true,
+  "images": [
+    {
+      "address": 134217728,
+      "bytes": 392,
+      "file": "B4_GATEWAY_BENCH-boot.bin",
+      "SHA256": "ade15c4264baf3079a7bee8301c7ff648409717b8af8096b64556de912f117cd"
+    },
+    {
+      "address": 134283264,
+      "bytes": 25148,
+      "file": "B4_GATEWAY_BENCH-code.bin",
+      "SHA256": "61460e1b1ba727fe93748f860e2922660ce82e23f13ac2e2a01d67132d195aa7"
+    }
+  ],
+  "HEX": {
+    "file": "B4_GATEWAY_BENCH.hex",
+    "SHA256": "209f9797c07d7f16fb1a0d19492a3604412f273981649fa8d8dae4db0b744284"
+  },
+  "ELF": {
+    "file": "B4_GATEWAY_BENCH.elf",
+    "SHA256": "afed3e9dd38529e6551f926579d7feb96050a4e586d7b1c30d4e4b678d34852a"
+  },
+  "TLS_port": null,
+  "time_policy": "LOCAL_TEST_TIME_NEVER_CLOUD",
+  "normal_runtime_limit": "B4START one-shot 60s",
+  "sector3_options_and_all_other_sectors": "PRESERVE"
+}

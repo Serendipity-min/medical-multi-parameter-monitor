@@ -42,6 +42,13 @@ def main():
             '-DMP_CACHE_CAPACITY=64', '-DMP_FIVE_NODE', '-DB4_BENCH_LIMIT_MS=60000u',
             '-I'+str(dual), '-I'+str(ROOT/'gateway/canopen/src'), '-I'+str(vendor), *sources, '-o', phy]):
         run('phy60-protocol-and-stop', [phy])
+    small=out/'phy15-small.exe'
+    small_sources=[p for p in sources if p.name!='bench.c']+[dual/'tests/phy_small.c']
+    if run('compile-phy15-small', ['C:/mingw64/bin/gcc.exe','-std=c11','-O2','-Wall','-Wextra',
+            '-Werror','-Wno-unused-parameter','-DCO_MULTIPLE_OD','-DMP_FRAME_MAX_SAMPLES=100',
+            '-DMP_CACHE_CAPACITY=64','-DMP_FIVE_NODE','-DB4_BENCH_LIMIT_MS=15000u','-DB4_PHY_SMALL_FRAMES',
+            '-I'+str(dual),'-I'+str(ROOT/'gateway/canopen/src'),'-I'+str(vendor),*small_sources,'-o',small]):
+        run('phy15-small-controls-temp-and-stop',[small])
     run('recovery-nor-and-negative-cases', [sys.executable, '-X', 'utf8', ROOT / 'node-b/tests/test_b4_recovery.py'])
     run('bench-network-mutually-exclusive', [sys.executable, dual / 'build_arm.py', '--bench', '--network-link'], 2)
     # 实际取证负例要求独立UART服务模型和管理门禁，不能只模拟足够的平均线速。
@@ -67,7 +74,7 @@ def main():
             '-DMP_FRAME_MAX_SAMPLES=100', '-DMP_CACHE_CAPACITY=64', '-I'+str(ROOT/'gateway/canopen/src'),
             '-I'+str(vendor), dual/'b4_bxcan.c', dual/'tests/bxcan_retransmit.c', '-o', mmio]):
         run('phy-CAN1-isolation-and-stop', [mmio])
-    report = {'status': 'PASS' if len(cases) == 18 and all(c['passed'] for c in cases) else 'FAIL',
+    report = {'status': 'PASS' if len(cases) == 20 and all(c['passed'] for c in cases) else 'FAIL',
               'scope': 'OFFLINE_SYNTHETIC_NO_TARGET_IO', 'hardware_operations': 0, 'cases': cases,
               'source_sha256': {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in
                                 [*sources,dual/'b4_capture.c',dual/'b4_capture.h',dual/'tests/capture.c',

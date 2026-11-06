@@ -23,7 +23,9 @@ def main():
     parser.add_argument('--audio-link', action='store_true', help='仅离线保留MIC/TTS完整API与CCM缓存，不启用录音或新增现场命令')
     parser.add_argument('--unified', action='store_true', help='真实三板语音统一运行候选；不执行设备操作')
     parser.add_argument('--five-node', action='store_true', help='五板静态来源候选；仅离线构建')
-    parser.add_argument('--bench-seconds', type=int, choices=(15,60), help='PHY隔离诊断单次硬时限；仅bench分段布局')
+    parser.add_argument('--bench-seconds', type=int, choices=(15,60,300), help='PHY隔离诊断单次硬时限；仅bench分段布局')
+    parser.add_argument('--bench-small-frames', action='store_true', help='300秒候选仅保留B心跳与D温度；离线构建，不授权超规格上电')
+    parser.add_argument('--bench-five-segments', action='store_true', help='五板双段完整CAN取证，固定60秒，无网络/音频')
     parser.add_argument('--split-flash', action='store_true', help='统一候选分段布局：sector0向量、sector4代码；只构建，写sector4另需负责人确认')
     parser.add_argument('--tls-port',type=int,help='统一候选的隔离TLS入口，默认1883；不更改原B5的8883目标')
     args = parser.parse_args()
@@ -33,6 +35,9 @@ def main():
     if args.split_flash and not (args.unified or args.bench):parser.error('--split-flash requires --unified or --bench')
     if args.five_node and not (args.split_flash and (args.unified or args.bench)):parser.error('--five-node requires split unified/bench')
     if args.bench_seconds is not None and not (args.bench and args.split_flash and args.five_node):parser.error('--bench-seconds requires --bench --split-flash --five-node')
+    if args.bench_small_frames and args.bench_seconds!=300:parser.error('--bench-small-frames requires --bench-seconds 300; 15s already small')
+    if args.bench_five_segments and (args.bench_seconds!=60 or args.bench_small_frames):parser.error('--bench-five-segments requires 60s full-frame bench')
+    small_frames=args.bench_seconds==15 or args.bench_small_frames
     if args.tls_port is not None and (not args.unified or not 1<=args.tls_port<=65535):parser.error('--tls-port requires --unified and port1..65535')
     if args.egress_final and not args.b5:parser.error('--egress-final requires --b5')
     spec = importlib.util.spec_from_file_location('b4_sdk', ROOT / 'gateway/esp_at_probe/build.py')
@@ -52,7 +57,8 @@ def main():
              *['-I' + str(p) for p in base.INCLUDES]]
     if args.tri:flags += ['-DMP_ABC_TRI_CANDIDATE', '-flto']
     if args.five_node:flags += ['-DMP_FIVE_NODE']
-    if args.bench_seconds is not None:flags += [f'-DB4_BENCH_LIMIT_MS={args.bench_seconds*1000}u', '-DB4_PHY_DIAGNOSTIC']
+    if args.bench_seconds is not None:flags += [f'-DB4_BENCH_LIMIT_MS={args.bench_seconds*1000}u', '-DB4_FIVE_CAPTURE' if args.bench_five_segments else '-DB4_PHY_DIAGNOSTIC']
+    if small_frames:flags += ['-DB4_PHY_SMALL_FRAMES']
     reference_sha = {}
     if args.egress_final:
         # 总80个MpFrame槽不增：从历史划8槽给实时，配合可推进ACK和时效调度。
@@ -117,13 +123,13 @@ def main():
         template=template.replace(memory,memory+'\n  CCM (rw)    : ORIGIN = 0x10000000, LENGTH = 64K')
         template=template.replace('  /DISCARD/', '  .ccm_audio (NOLOAD) : { *(.ccm_audio) } > CCM\n\n'+
                                   ('  .audio_link_probe : { KEEP(*(.audio_link_probe)) } > FLASH\n\n' if args.audio_link else '')+'  /DISCARD/')
-        linker=out/'audio-ccm-link.ld';linker.write_text(template)
+        linker=out/'audio-ccm-link.ld';linker.write_text(template,encoding='utf-8')
     if args.split_flash:
         template=linker.read_text(encoding='utf-8').replace('  FLASH (rx)  : ORIGIN = 0x08000000, LENGTH = 48K',
             '  FLASH (rx)  : ORIGIN = 0x08010000, LENGTH = 64K\n  BOOT (rx)   : ORIGIN = 0x08000000, LENGTH = 16K')
         first=template.index('  } > FLASH');template=template[:first]+template[first:].replace('  } > FLASH','  } > BOOT',1)
         template=template.replace('<=0x0800C000','<=0x08020000').replace('APPLICATION_OVERLAPS_CONFIG_SECTOR3','CODE_EXCEEDS_SECTOR4')
-        linker=out/'split-link.ld';linker.write_text(template)
+        linker=out/'split-link.ld';linker.write_text(template,encoding='utf-8')
     log = bytearray(); commands = []; audio_layout=None
 
     def run(command):
@@ -241,6 +247,7 @@ def main():
               'scope': 'FINAL_UNIFIED_C_REAL_RUNTIME_OFFLINE_NOT_DEPLOYED' if args.unified else 'B5_CLOUD_MOCK_SOFTWARE_ONLY_NOT_DEPLOYED' if args.b5 else ('C_ISOLATED_BENCH_LOCAL_TEST_TIME_NOT_DEPLOYED' if args.bench else ('C_DUAL_CAN_ARM_NETWORK_SOFTWARE_BUILD_NOT_DEPLOYED' if args.network_link else 'C_DUAL_CAN_ARM_LINK_ONLY')),
               'bench_time': 'LOCAL_TEST_EPOCH_NOT_UTC' if args.bench else None,
               'bench_window_limit_ms': (args.bench_seconds or 180)*1000 if args.bench else None,
+              'bench_traffic_policy': 'NODE1_2_4_5_OP_BOTH_BUSES_FULL_WAVE' if args.bench_five_segments else 'NODE2_PREOP_NODE4_OP_NO_ECG' if small_frames else 'NODE2_OP' if args.bench else None,
               'bench_forbidden_symbols_absent': bool(args.bench and status == 'PASS'),
               'bench_UART_IRQ_vector_verified':irq_vector_verified,
               'linker_sha256': hashlib.sha256(linker.read_bytes()).hexdigest(),

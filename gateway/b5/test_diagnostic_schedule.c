@@ -14,6 +14,13 @@ volatile B4HwDiag b4_hw_diag[2];
 static unsigned counts[2], lines, temperature;
 static uint32_t last[2], gap[2], base_tick, console_ms, evaluation_start=45000;
 static int available=1;
+#ifdef MP_FIVE_NODE
+static unsigned five_state, five_nodes[6];
+#endif
+#ifdef MP_FINAL_UNIFIED
+uint32_t b4_replayed[2];
+bool unified_audio_quiet(void){return true;}
+#endif
 int platform_console_busy(void){return 0;}
 int platform_at_synchronized(void){return available;}
 uint32_t platform_uart_errors_total(void){return 0;}
@@ -24,6 +31,11 @@ uint32_t mp_od_read(MpOD *od,uint16_t index,uint8_t sub){(void)od;(void)index;(v
 #endif
 void console(const char *line){
     uint32_t at=g_uptime_ms-base_tick;
+#ifdef MP_FIVE_NODE
+    if(!strncmp(line,"FIVE STATE ",11))five_state++;
+    unsigned node;
+    if(sscanf(line,"FIVE RX node=%u",&node)==1){assert(node<6);five_nodes[node]++;}
+#endif
     if(!strncmp(line,"B5 TEMP_ENTRY ",14) && at>=evaluation_start && at<evaluation_start+300000u)temperature++;
     for(unsigned i=0;i<2;i++){
         const char *prefix=i?"B5 QUEUE ":"B5 DIAG ";
@@ -60,7 +72,11 @@ int main(int argc,char **argv){
         unsigned before=lines;
         diagnostic_idle();
 #ifdef MP_ABC_TRI_CANDIDATE
+#ifdef MP_FINAL_UNIFIED
+        assert(lines-before<=4);
+#else
         assert(lines-before<=3);
+#endif
         if(!available)assert(lines==before);
 #else
         assert(lines-before<=1);
@@ -78,5 +94,8 @@ int main(int argc,char **argv){
     assert(temperature>=295 && !gateway.router.temp_trace_lost);
 #endif
     assert(console_ms<=27);
+#ifdef MP_FIVE_NODE
+    assert(five_state && five_nodes[1] && five_nodes[2] && five_nodes[4] && five_nodes[5]);
+#endif
     return 0;
 }
