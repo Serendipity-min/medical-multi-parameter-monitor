@@ -52,8 +52,8 @@ def test_roles_and_node_local_offline():
     assert {x['stream']: x['node_id'] for x in snap['streams']} == {'TEMP': 'NODE-D', 'NIBP': 'NODE-E', 'HR': 'NODE-B'}
 
 
-@pytest.mark.parametrize('age, valid', [(89, True), (90, True), (90.001, False)])
-def test_completion_age_is_not_extended_by_duplicate(age, valid):
+@pytest.mark.parametrize('age, view_valid, speech_valid', [(89, True, True), (90, True, False), (90.001, False, False)])
+def test_completion_age_is_not_extended_by_duplicate(age, view_valid, speech_valid):
     hub, now = setup()
     now[0] += age
     for node in ('GATEWAY', 'NODE-E'):
@@ -61,9 +61,9 @@ def test_completion_age_is_not_extended_by_duplicate(age, valid):
     hub.ingest(frame('NODE-E', 'NIBP', [120.0, 80.0], START, seq=2))
     snap = hub.snapshot(GW)
     pressure = next(x for x in snap['streams'] if x['stream'] == 'NIBP')
-    assert (pressure['value'] is not None) == valid and pressure['timestamp'] == int(START * 1000)
+    assert (pressure['value'] is not None) == view_valid and pressure['timestamp'] == int(START * 1000)
     facts = extract(snap, GW, int(now[0] * 1000))
-    assert (next(x for x in facts if x['stream'] == 'NIBP')['value'] is not None) == valid
+    assert (next(x for x in facts if x['stream'] == 'NIBP')['value'] is not None) == speech_valid
 
 
 def test_reboot_replay_and_identical_new_completion():

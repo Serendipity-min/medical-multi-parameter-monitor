@@ -57,13 +57,16 @@ int mic_fact_reply_valid(const uint8_t *p,size_t n,uint32_t session,uint32_t crc
     static const char gateway[12]="GW-B5-001";
     if(n<=MIC_FACT_REPLY_HEADER || n>MIC_FACT_REPLY_MAX || memcmp(p,"MR02",4) ||
        load32(p+4)!=session || load32(p+8)!=crc || memcmp(p+52,gateway,12) ||
-       (unsigned)p[80]+((unsigned)p[81]<<8)+MIC_FACT_REPLY_HEADER!=n || p[50]>4 || p[51]>1)return 0;
+       (unsigned)p[80]+((unsigned)p[81]<<8)+MIC_FACT_REPLY_HEADER!=n || p[50]>MIC_REPLY_NO_FACT || p[51]>1)return 0;
     uint64_t issued=load64(p+12),expires=load64(p+20),stamp=load64(p+28);
     if(!now || issued>now+1000u || now>=expires || expires<=issued || expires-issued>15000u)return 0;
     unsigned nonzero=0;for(unsigned i=64;i<80;i++)nonzero|=p[i];if(!nonzero)return 0;
     unsigned stream=p[49],node=p[48];
     bool scalar=stream==MP_HR || stream==MP_RR || stream==MP_SPO2 || stream==MP_PR || stream==MP_TEMP || stream==MP_NIBP;
-    if(!scalar || node!=mp_role_node((MpStream)stream))return 0;
+    if(p[50]>=MIC_REPLY_ADVICE) {
+        if(stamp || load32(p+36) || load32(p+40) || load32(p+44) || node || stream || p[51] ||
+           n!=MIC_FACT_REPLY_HEADER+1 || p[MIC_FACT_REPLY_HEADER]!='!')return 0;
+    } else if(!scalar || node!=mp_role_node((MpStream)stream))return 0;
     if(!p[50]) {
         uint64_t ttl=stream==MP_NIBP?90000u:5000u;
         if(!stamp || stamp>now+1000u || (now>stamp && now-stamp>=ttl) ||

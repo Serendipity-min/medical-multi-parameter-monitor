@@ -10,6 +10,7 @@ int mic_reply_packet_valid(const uint8_t *p,size_t n,uint32_t session,uint32_t w
 #ifdef MP_FIVE_APPLIANCE
 #define MIC_FACT_REPLY_HEADER 82u
 #define MIC_FACT_REPLY_MAX (MIC_FACT_REPLY_HEADER+120u)
+enum { MIC_REPLY_ADVICE=5, MIC_REPLY_CLARIFY, MIC_REPLY_NO_FACT };
 typedef struct {
     uint64_t timestamp,expires;
     uint32_t seq,epoch,boot;

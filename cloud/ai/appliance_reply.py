@@ -5,13 +5,14 @@ import struct
 import time
 from cloud.microphone.protocol import AudioAssembler
 from .downlink import decode, encode
-from .facts import KEYWORDS, answer_facts, digest
+from .facts import answer_facts, digest, question_rule
 
 GATEWAY = 'GW-B5-001'
 HEADER = struct.Struct('<4sIIQQQIIIBBBB12s16sH')
 STREAM = {'SPO2': 1, 'PR': 2, 'NIBP': 3, 'HR': 5, 'RR': 7, 'TEMP': 8}
 ROLE = {'SPO2': 'NODE-A', 'PR': 'NODE-A', 'NIBP': 'NODE-E', 'HR': 'NODE-B', 'RR': 'NODE-B', 'TEMP': 'NODE-D'}
 STATE = {'VALID': 0, 'INVALID': 1, 'STALE': 2, 'OFFLINE': 3}
+UNAVAILABLE = '当前读数不可用'
 
 
 @dataclass(frozen=True)
@@ -25,9 +26,9 @@ def adapt_reply(payload: bytes, facts: list[dict], question: str, recording: Rec
     message = decode(payload, now)
     if now >= recording.deadline or message['fact_digest'] != digest(facts):
         raise ValueError('REPLY_CONTEXT_OR_DIGEST')
-    selected = {v for k, v in KEYWORDS.items() if k in question}
+    kind, selected = question_rule(question)
     chosen = [f for f in facts if f['stream'] in selected]
-    if len(selected) != 1 or len(chosen) != 1:
+    if kind != 'SINGLE_VALUE' or len(chosen) != 1:
         raise ValueError('ONE_FACT_REQUIRED')
     f = chosen[0]
     if f['gateway_id'] != GATEWAY or f['node_id'] != ROLE[f['stream']]:
@@ -38,7 +39,7 @@ def adapt_reply(payload: bytes, facts: list[dict], question: str, recording: Rec
         state = 2
     if message['text'] != answer_facts(facts, question).split('\n')[0]:
         raise ValueError('VOICE_MUST_EQUAL_TRUSTED_FACT_TEMPLATE')
-    text = message['text'] if state == 0 else '当前读数不可用'
+    text = message['text'] if state == 0 else UNAVAILABLE
     raw = text.encode('utf-8')
     if not 1 <= len(raw) <= 120:
         raise ValueError('REPLY_TEXT_SIZE')
@@ -80,8 +81,20 @@ class RecordingReplyAdapter:
         if self.recording is None:
             return 'NO_RECORDING_CONTEXT'
         context, self.recording = self.recording, None
-        text = answer_facts(facts, question).split('\n')[0]
-        payload = encode(turn_id, digest(facts), text, issued_ms)
-        packet = adapt_reply(payload, facts, question, context, self.clock_ms())
+        kind, _ = question_rule(question)
+        if kind != 'SINGLE_VALUE' or not facts:
+            status = 5 if kind == 'GENERAL_ADVICE' else 7 if kind == 'SINGLE_VALUE' else 6
+            now = self.clock_ms()
+            expires = min(issued_ms + 15000, context.deadline)
+            if not issued_ms <= now + 1000 or now >= expires or expires <= issued_ms:
+                raise ValueError('REPLY_CONTEXT_OR_DIGEST')
+            # 非数值指令用固定标记，播报文本由固件选择。事实身份字段留空。
+            packet = HEADER.pack(b'MR02', context.session, context.crc, issued_ms, expires,
+                                 0, 0, 0, 0, 0, 0, status, 0, GATEWAY.encode(),
+                                 bytes.fromhex(digest(facts)), 1) + b'!'
+        else:
+            text = answer_facts(facts, question).split('\n')[0]
+            payload = encode(turn_id, digest(facts), text, issued_ms)
+            packet = adapt_reply(payload, facts, question, context, self.clock_ms())
         await self.send('mpm/mic/v1/out', packet)
         return 'BROKER_PUBACK_ONLY_NOT_TTS_DONE'

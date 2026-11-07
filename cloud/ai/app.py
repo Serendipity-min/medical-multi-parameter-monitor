@@ -3,7 +3,6 @@ import asyncio
 from collections import OrderedDict, deque
 from dataclasses import dataclass
 import hmac
-import json
 import os
 import time
 import uuid
@@ -13,12 +12,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
-from .downlink import IsolatedPublisher, encode, short_text
-from .facts import extract, digest, answer_facts, KEYWORDS
+from .downlink import IsolatedPublisher, short_text
+from .facts import ADVICE_TEXT, CLARIFY_TEXT, extract, digest, answer_facts, question_rule
 from .providers import Provider
-from .usage import UsageBlocked
 from .snapshot import SnapshotReader
-from .appliance_reply import RecordingReplyAdapter
+from .appliance_reply import RecordingReplyAdapter, UNAVAILABLE
 from .facts import CHANNELS
 
 
@@ -112,20 +110,18 @@ def create_app(settings=None, reader=None, provider=None, publisher=None):
             if session['gateway'] != question.gateway_id:
                 session = {'gateway': question.gateway_id, 'history': []}
             async with asyncio.timeout(12):
-                snapshot = await reader.read(question.gateway_id)
-                facts = extract(snapshot, question.gateway_id, int(time.time() * 1000))
-                prompt_digest = digest(facts)
-                deterministic = any(k in question.question for k in KEYWORDS) and any(k in question.question for k in ('多少', '当前', '现在'))
-                explanation = '' if deterministic else await provider.explain(question.question, facts, session['history'])
-                model_evidence = getattr(explanation, 'evidence', None)
-                # 真实模型耗时可能超过快照寿命，重新只读取新快照，不能把旧时刻数值续活。
-                if int(time.time() * 1000) - snapshot['server_time'] > 4000:
+                kind, streams = question_rule(question.question)
+                facts = []
+                if streams:
                     snapshot = await reader.read(question.gateway_id)
-                # 模型耗时期间可能过期，返回和播报前重新独立核验时间与来源。
-                facts = extract(snapshot, question.gateway_id, int(time.time() * 1000))
-                answer = answer_facts(facts, question.question) + ('\n' + explanation if explanation else '')
+                    facts = [f for f in extract(snapshot, question.gateway_id, int(time.time() * 1000))
+                             if f['stream'] in streams]
+                answer = (ADVICE_TEXT if kind == 'GENERAL_ADVICE' else CLARIFY_TEXT if kind == 'CLARIFY'
+                          else answer_facts(facts, question.question))
                 turn_id, fact_digest = uuid.uuid4().hex, digest(facts)
-                voice_text = short_text(answer.split('\n')[0])
+                voice_text = (CLARIFY_TEXT if kind == 'MULTI_VALUE' else UNAVAILABLE
+                              if kind == 'SINGLE_VALUE' and (not facts or facts[0]['value'] is None)
+                              else short_text(answer.split('\n')[0]))
                 voice_status = 'PAUSED'
                 # 浏览器取消/关闭后禁止继续下发；已经交给 Broker 的消息无法本地撤回。
                 if await request.is_disconnected():
@@ -144,19 +140,12 @@ def create_app(settings=None, reader=None, provider=None, publisher=None):
                 while len(sessions) > 128:
                     sessions.popitem(last=False)
                 return dict(turn_id=turn_id, session_id=question.session_id, gateway_id=question.gateway_id,
-                            model_mode=settings.mode, answer_kind='DETERMINISTIC' if deterministic else 'VERIFIED_EXPLANATION',
+                            model_mode=settings.mode, answer_kind=kind,
                             answer=answer, facts=facts, fact_digest=fact_digest, voice_text=voice_text,
-                            model_evidence=model_evidence, model_input_fact_digest=prompt_digest,
-                            voice_status=voice_status, real_model='REAL_MODEL_BLOCKED' if settings.mode == 'MOCK' else 'REAL_REQUEST_USED' if not deterministic else 'NOT_CALLED')
+                            model_evidence=None, model_input_fact_digest=None,
+                            voice_status=voice_status, real_model='REAL_MODEL_BLOCKED' if settings.mode == 'MOCK' else 'NOT_CALLED')
         except (TimeoutError, httpx.TimeoutException):
             raise HTTPException(504, 'AI_TIMEOUT') from None
-        except UsageBlocked as exc:
-            # 只透传内部枚举状态，避免将上游错误正文/URL或凭据带回浏览器。
-            code = str(exc)
-            raise HTTPException(503 if code == 'MODEL_CIRCUIT_OPEN' else 429, code) from None
-        except httpx.HTTPStatusError as exc:
-            code = exc.response.status_code
-            raise HTTPException(503, 'MODEL_QUOTA_OR_RATE' if code == 429 else 'MODEL_AUTH_ERROR' if code in (401,403) else 'MODEL_UPSTREAM_ERROR') from None
         except HTTPException:
             raise
         except asyncio.CancelledError:

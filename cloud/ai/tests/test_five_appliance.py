@@ -209,19 +209,54 @@ def test_audio_authority(topic,qos,retain):
         RecordingReplyAdapter(None).feed_audio(topic,bytes(544),qos,retain,NOW)
 
 
-def test_api_model_wait_does_not_refresh_source_age(monkeypatch):
+def test_api_snapshot_delay_does_not_refresh_source_age(monkeypatch):
     clock=[NOW]; reads=[]
     monkeypatch.setattr(time,'time',lambda:clock[0]/1000)
     class FixedSource:
         async def read(self,gateway):
-            reads.append(1); data=copy.deepcopy(source);data['server_time']=clock[0];return data
-    class SlowModel:
-        async def explain(self,*args): clock[0]+=6000;return '一般解释'
+            reads.append(1); clock[0]+=5000; return copy.deepcopy(source)
     source=snapshot()
-    app=create_app(Settings('x'*32),reader=FixedSource(),provider=SlowModel())
+    app=create_app(Settings('x'*32),reader=FixedSource())
     with TestClient(app) as c:
-        data=request(c,question='请解释物体温度',voice=False).json()
-    assert len(reads)==2 and 'STALE' in data['answer'] and '36.5' not in data['answer']
+        data=request(c,question='物体温度',voice=False).json()
+    assert len(reads)==1 and 'STALE' in data['answer'] and '36.5' not in data['answer']
+
+
+@pytest.mark.parametrize('stream,ttl,question',[('TEMP',5000,'物体温度'),('NIBP',90000,'当前高压多少')])
+def test_delayed_reply_at_fact_expiry(native, stream, ttl, question):
+    fs=facts(); item=next(f for f in fs if f['stream']==stream)
+    item['timestamp']=NOW-ttl+50
+    issued=encode('a'*32,digest(fs),answer_facts(fs,question),NOW)
+    ctx=Recording(NOW//1000-1,1234,NOW+300000)
+    fresh=adapt_reply(issued,fs,question,ctx,NOW+49)
+    assert c_accept(native,fresh,NOW+49)[0]
+    assert not c_accept(native,fresh,NOW+50)[0]
+    refused=adapt_reply(issued,fs,question,ctx,NOW+50)
+    assert c_accept(native,refused,NOW+50)[1].status==2
+    assert refused[82:].decode()=='当前读数不可用'
+
+
+@pytest.mark.parametrize('question,kind,status',[
+    ('血压偏高怎么办','GENERAL_ADVICE',5),('心率和血压','MULTI_VALUE',6),('你好','CLARIFY',6),
+])
+def test_question_rules_and_control_parser(native, question, kind, status):
+    sent=[]
+    async def send(topic,payload):sent.append(payload)
+    replies=RecordingReplyAdapter(send)
+    replies.recording=Recording(NOW//1000-1,1234,int(time.time()*1000)+20000)
+    with client(replies) as c:
+        result=request(c,question=question).json()
+    assert result['answer_kind']==kind and result['model_evidence'] is None
+    if kind=='MULTI_VALUE':
+        assert {f['stream'] for f in result['facts']}=={'HR','NIBP'}
+        assert '72' in result['answer'] and '118' in result['answer']
+    else:
+        assert not result['facts'] and not any(c.isdigit() for c in result['answer'])
+    frame=bytearray(sent[0]); now=int(time.time()*1000)
+    ok, reply=c_accept(native,frame,now)
+    assert ok and reply.status==status and frame[82:]==b'!'
+    frame[36]=1
+    assert not c_accept(native,frame,now)[0]
 
 
 def test_backend_isolated_gateway_profile_and_wss(monkeypatch):

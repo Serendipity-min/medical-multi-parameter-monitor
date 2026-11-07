@@ -32,6 +32,10 @@ static void full_record(void){
     }
     CHECK(submissions==125 && accepted_crc==mic_crc32(samples,64000));
 }
+static void check_stop(void){
+    drain();ack_due=1;tick();drain();idle_due=1;tick();tick();
+    CHECK(!memcmp(tx+nbytes-8,(uint8_t[]){0xfd,0,1,2,0xfd,0,1,0x21},8));
+}
 int main(int argc,char **argv){
     for(unsigned i=0;i<MIC_SAMPLES;i++)samples[i]=(int16_t)(i*13u+7u);
     prepare();record_state=sample_count=0;
@@ -67,10 +71,17 @@ int main(int argc,char **argv){
     ack_due=1;tick();idle_due=1;tick();tick();
     full_record();length=reply(packet,0);before=nbytes;fact_current=false;
     unified_audio_reply(packet,length);drain();CHECK(nbytes==before);fact_current=true;
-    unified_audio_reply(packet,length);drain();ack_due=1;tick();g_uptime_ms+=1000;tick();drain();
-    ack_due=1;tick();drain();idle_due=1;tick();tick();
-    CHECK(!memcmp(tx+nbytes-8,(uint8_t[]){0xfd,0,1,2,0xfd,0,1,0x21},8));
+    unified_audio_reply(packet,length);drain();ack_due=1;tick();g_uptime_ms+=1000;tick();check_stop();
+    full_record();length=reply(packet,0);
+    unified_audio_reply(packet,length);drain();ack_due=1;tick();
+    fact_current=false;tick();check_stop();fact_current=true;
+    full_record();reply(packet,MIC_REPLY_ADVICE);before=nbytes;
+    memset(packet+28,0,22);packet[51]=0;packet[80]=1;packet[82]='!';
+    unified_audio_reply(packet,MIC_FACT_REPLY_HEADER+1);drain();
+    static const char advice[]="请核对设备和数据来源。有疑问可咨询医护人员。";
+    CHECK(nbytes==before+5+sizeof advice-1 && !memcmp(tx+before+5,advice,sizeof advice-1));
+    ack_due=1;tick();idle_due=1;tick();tick();
     prepare();unified_audio_command('R',false);unified_audio_command('S',false);CHECK(record_state==3);
-    printf("HOST_FIVE_KEY_AUDIO_PASS checks=%u short_samples=16160 short_chunks=64 full_samples=32000 full_chunks=125 refusal_fixed=1 expired_STOP_QUERY_IDLE=1 hardware=NOT_RUN\n",checks);
+    printf("HOST_FIVE_KEY_AUDIO_PASS checks=%u short_samples=16160 short_chunks=64 full_samples=32000 full_chunks=125 refusal_fixed=1 advice_fixed=1 expired_STOP_QUERY_IDLE=1 changed_STOP_QUERY_IDLE=1 hardware=NOT_RUN\n",checks);
     return 0;
 }

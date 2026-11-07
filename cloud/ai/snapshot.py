@@ -29,6 +29,8 @@ class SnapshotReader:
             raise ValueError('READONLY_MONITOR_CONFIG')
         # 每次请求有界获取一次服务端快照并关闭连接，避免旧缓存或订阅者泄漏。
         async with asyncio.timeout(3):
-            async with connect(uri, origin=os.environ.get('P6_MONITOR_ORIGIN'), max_size=65536, max_queue=1, open_timeout=2) as ws:
+            proxy = None if uri.startswith('ws://127.0.0.1:') else True
+            async with connect(uri, origin=os.environ.get('P6_MONITOR_ORIGIN'), proxy=proxy,
+                               max_size=65536, max_queue=1, open_timeout=2) as ws:
                 await ws.send(json.dumps({'token': token, 'gateway_id': gateway}))
                 return json.loads(await ws.recv())

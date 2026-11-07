@@ -17,6 +17,18 @@ if os.environ.get('MPM_NODE_PROFILE', 'three') == 'five':
     CHANNELS['NIBP'] = ('NODE-E', 'mmHg', '血压', 0, 400)
 KEYWORDS = {'心率': 'HR', '血氧': 'SPO2', '脉率': 'PR', '呼吸率': 'RR', '体温': 'TEMP',
             '温度': 'TEMP', '血压': 'NIBP', '高压': 'NIBP', '低压': 'NIBP'}
+ADVICE_TEXT = '请核对设备和数据来源。有疑问可咨询医护人员。'
+CLARIFY_TEXT = '请一次询问一项读数。'
+
+
+def question_rule(question: str) -> tuple[str, set[str]]:
+    streams = {stream for word, stream in KEYWORDS.items() if word in question}
+    if any(word in question for word in ('建议', '怎么办', '怎么做', '解释', '为什么', '正常', '异常',
+                                          '偏高', '偏低', '如何', '用药', '治疗', '参考范围')):
+        return 'GENERAL_ADVICE', set()
+    if len(streams) > 1:
+        return 'MULTI_VALUE', streams
+    return ('SINGLE_VALUE' if streams else 'CLARIFY'), streams
 
 
 def extract(snapshot: dict, gateway: str, now_ms: int) -> list[dict]:

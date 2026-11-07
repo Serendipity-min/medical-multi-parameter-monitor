@@ -79,6 +79,15 @@ void unified_audio_reply(const uint8_t *p,size_t n) {
     static const uint8_t unavailable[]="当前读数不可用";
     const uint8_t *text=reply.status?unavailable:reply.text;
     unsigned length=reply.status?sizeof unavailable-1:reply.length;
+    if(reply.status==MIC_REPLY_ADVICE) {
+        static const uint8_t advice[]="请核对设备和数据来源。有疑问可咨询医护人员。";
+        text=advice;
+        length=sizeof advice-1;
+    } else if(reply.status==MIC_REPLY_CLARIFY) {
+        static const uint8_t clarify[]="请一次询问一项读数。";
+        text=clarify;
+        length=sizeof clarify-1;
+    }
     if(tts_submit(&speaker,text,length,session,g_uptime_ms)) {
         voice_fact=reply;voice_fact.text=NULL;voice_deadline=reply.expires;phase(UA_PLAYING);
     }
