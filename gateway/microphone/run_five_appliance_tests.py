@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument('--field01', action='store_true', help='也运行 Issue #8 的 Host 探针边界测试')
     parser.add_argument('--out', type=Path, required=True)
     parser.add_argument('--cc', default=shutil.which('gcc') or 'gcc')
     args = parser.parse_args()
@@ -32,11 +33,15 @@ def main():
                     'gateway/microphone/unified_audio.c', 'gateway/microphone/mic_format.c',
                     'gateway/microphone/mic_protocol.c', 'gateway/voice/tts_queue.c', 'gateway/voice/tts_frame.c'],
     }
+    if args.field01:
+        cases['field01-probe'] = ['gateway/microphone/test_field01_probe.c']
     results = []
     for name, sources in cases.items():
         exe = args.out/(name+'.exe')
-        extra = ['-flto', '-fwhole-program', '-Wno-unused-function', '-Wno-return-type'] if name == 'startup' else []
+        extra = ['-flto', '-fwhole-program', '-Wno-unused-function', '-Wno-return-type'] if name in ('startup', 'field01-probe') else []
         case_flags = [f for f in flags if name != 'legacy-audio' or f != '-DMP_FIVE_APPLIANCE']
+        if name == 'field01-probe':
+            case_flags += ['-DMP_FIVE_FIELD01']
         command = case_flags+extra+[str(ROOT/p) for p in sources]+['-o', str(exe)]
         build = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, encoding='utf-8', errors='replace')
         (args.out/(name+'-build.log')).write_text(build.stdout+build.stderr, encoding='utf-8')

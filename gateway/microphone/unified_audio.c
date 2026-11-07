@@ -1,4 +1,7 @@
 #include "unified_audio.h"
+#ifdef MP_FIVE_FIELD01
+#include "../b5/field01_window.h"
+#endif
 #include "mic_api.h"
 #include "mic_format.h"
 #include "mic_protocol.h"
@@ -162,10 +165,21 @@ void unified_audio_key(bool pressed) {
     if(pressed!=key_raw){key_raw=pressed;key_changed_at=g_uptime_ms;return;}
     if(key_stable==key_raw || (uint32_t)(g_uptime_ms-key_changed_at)<30u)return;
     key_stable=key_raw;if(!key_stable)return;
-    if(state==UA_IDLE){unified_audio_command('R',false);return;}
+    if(state==UA_IDLE){
+#ifdef MP_FIVE_FIELD01
+        static bool requested;
+        if(requested)return;
+        requested=true;
+#endif
+        unified_audio_command('R',false);return;
+    }
     if(state!=UA_RECORDING)return;
     unsigned count;mic_record_pcm(&count);
+#ifdef MP_FIVE_FIELD01
+    if(count<FIELD01_MIN_SAMPLES)return;
+#else
     if(count<MIC_RATE){console("FIVE RECORD_TOO_SHORT_CONTINUE\r\n");return;}
+#endif
     mic_record_finish();
 }
 #endif

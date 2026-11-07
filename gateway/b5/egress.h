@@ -29,6 +29,10 @@ static inline bool b5_audio_room(const MpRouter *r,uint64_t utc) {
     return true;
 }
 #endif
+#ifdef MP_FIVE_FIELD01
+static void field01_published(const MpFrame *frame);
+static void field01_admission(void);
+#endif
 static inline int b5_egress_step(MpRouter *r,B5Publisher *s,bool allow_new) {
 #ifdef MP_FINAL_UNIFIED
     int progress=gateway_mqtt_progress();
@@ -39,6 +43,9 @@ static inline int b5_egress_step(MpRouter *r,B5Publisher *s,bool allow_new) {
     }
     for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(s->tickets[i] && gateway_mqtt_ticket_result(s->tickets[i])==GW_COMPLETE){
         mp_router_ack(r,&s->inflight[i],true);s->tickets[i]=0;s->q1++;
+#ifdef MP_FIVE_FIELD01
+        field01_published(&s->inflight[i]);
+#endif
     }
     s->pending=s->tickets[0] || s->tickets[1] || s->tickets[2];
     if(!allow_new)return 1;
@@ -49,14 +56,27 @@ static inline int b5_egress_step(MpRouter *r,B5Publisher *s,bool allow_new) {
         unified_audio_step(true);if(gateway_audio_pending()){s->audio_yield=true;return 1;}
     }
     int admission=gateway_mqtt_admit();
-    if(admission==GW_FAILED){s->failed++;return 0;}if(admission==GW_DEFERRED)return 1;
+    if(admission==GW_FAILED){s->failed++;return 0;}
+    if(admission==GW_DEFERRED){
+#ifdef MP_FIVE_FIELD01
+        field01_admission();
+#endif
+        return 1;
+    }
     /* 老实时事务优先收确认；此时仅允许不占QoS1槽的实时波形。 */
     if(s->deferred || mp_router_take_egress(r,&s->publishing,g_uptime_ms,utc,gateway_mqtt_slots_full() || medical_due)){
         if(!s->deferred && !b5_prepare_publish(&s->publishing,utc))return 1;
         int result=gateway_mqtt_begin(&s->publishing);s->deferred=result==GW_DEFERRED;
         if(s->deferred || b5_network_stopped())return 1;
         if(result==GW_PENDING){unsigned i=0;while(i<GATEWAY_TELEMETRY_SLOTS && s->tickets[i])i++;if(i==GATEWAY_TELEMETRY_SLOTS){s->failed++;return 0;}s->tickets[i]=gateway_mqtt_ticket();s->inflight[i]=s->publishing;s->pending=true;s->audio_yield=false;}
-        else{mp_router_ack(r,&s->publishing,result==GW_COMPLETE);if(result==GW_FAILED){s->failed++;return 0;}s->q0++;}
+        else{
+            mp_router_ack(r,&s->publishing,result==GW_COMPLETE);
+            if(result==GW_FAILED){s->failed++;return 0;}
+            s->q0++;
+#ifdef MP_FIVE_FIELD01
+            if(result==GW_COMPLETE)field01_published(&s->publishing);
+#endif
+        }
     }
     return 1;
 #else

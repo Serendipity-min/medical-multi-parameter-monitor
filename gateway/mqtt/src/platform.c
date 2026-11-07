@@ -25,7 +25,15 @@ static EspIoMetrics io_metrics;
 #ifdef MP_B5_EGRESS_FINAL
 static int reply_boundary;
 static uint32_t serial_deadline;
+#ifdef MP_FIVE_FIELD01
+static bool send_command;
+#endif
 static void phase(unsigned p){
+#ifdef MP_FIVE_FIELD01
+    uint32_t elapsed=g_uptime_ms-io_metrics.phase_at;
+    io_metrics.phase_ms[io_metrics.at_phase]+=elapsed;
+    if(send_command && io_metrics.at_phase==ESP_AT_COMMAND)io_metrics.send_command_ms+=elapsed;
+#endif
     EspAtEvent *e=&io_metrics.events[io_metrics.event_count++%4];
     *e=(EspAtEvent){g_uptime_ms,p,io_metrics.written,io_metrics.reply_bytes,io_metrics.wait_reason,io_metrics.reply_flags};
     io_metrics.at_phase=p;io_metrics.phase_at=g_uptime_ms;
@@ -36,7 +44,12 @@ int platform_at_synchronized(void){return !io_metrics.unsynced &&
 int platform_at_unsynced(void){return io_metrics.unsynced!=0;}
 #endif
 static unsigned console_depth;
-void platform_io_snapshot(EspIoMetrics *out) {*out=io_metrics;}
+void platform_io_snapshot(EspIoMetrics *out) {
+    *out=io_metrics;
+#ifdef MP_FIVE_FIELD01
+    out->phase_ms[out->at_phase]+=g_uptime_ms-out->phase_at;
+#endif
+}
 int platform_console_busy(void) {return console_depth!=0;}
 #endif
 #define CAPACITY 8192U
@@ -374,7 +387,14 @@ int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout)
     io_metrics.tx_calls++;io_metrics.tx_length=(uint32_t)length;io_metrics.tx_phase=1;
 #endif
     (void)snprintf(command, sizeof(command), "AT+CIPSEND=%d", length);
-    if (!at_command(command, (uint32_t)timeout))
+#ifdef MP_FIVE_FIELD01
+    send_command=true;
+#endif
+    int prompt=at_command(command, (uint32_t)timeout);
+#ifdef MP_FIVE_FIELD01
+    send_command=false;
+#endif
+    if (!prompt)
     {
 #ifdef MP_CAN_RX_IRQ
         io_metrics.tx_ms=g_uptime_ms-started;
@@ -421,6 +441,9 @@ int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout)
 #endif
 #ifdef MP_CAN_RX_IRQ
     /* SEND OK只证明ESP协议栈接受，不当作Broker接收或PUBACK。 */
+#ifdef MP_FIVE_FIELD01
+    io_metrics.tx_bytes_total+=(uint32_t)length;
+#endif
     io_metrics.tx_confirmed++;io_metrics.tx_ms=g_uptime_ms-started;io_metrics.tx_phase=3;
 #endif
     if (data[0] == 0x10U)
@@ -472,12 +495,19 @@ static int rx_step(void) {
         unsigned long n=strtoul(p+12,&end,10);
         if(*end!=',' && *end!='\r'){unsync();return -1;}
         io_metrics.rx_hint=(uint32_t)n;
+#ifdef MP_FIVE_FIELD01
+        if(n){io_metrics.rx_nonempty++;io_metrics.rx_nonempty_ms+=g_uptime_ms-io_metrics.phase_at;}
+        else io_metrics.rx_empty_ms+=g_uptime_ms-io_metrics.phase_at;
+#endif
         if(n){rx_begin(3);return 0;}
         io_metrics.rx_empty++;rx_retry_at=g_uptime_ms+5u;
     }else {
         if(!binary_seen){unsync();return -1;}
         memcpy(network_bytes,reply+binary_offset,binary_length);
         network_offset=0;network_length=binary_length;io_metrics.rx_reads++;
+#ifdef MP_FIVE_FIELD01
+        io_metrics.rx_read_ms+=g_uptime_ms-io_metrics.phase_at;
+#endif
     }
     rx_state=0;phase(ESP_AT_IDLE);return 1;
 }

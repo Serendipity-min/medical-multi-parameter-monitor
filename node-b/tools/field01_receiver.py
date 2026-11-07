@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import secrets
 import socket
+import struct
 import subprocess
 import sys
 import threading
@@ -14,6 +15,23 @@ import time
 import urllib.request
 
 ROOT = Path(__file__).resolve().parents[2]
+AUDIO_TOPICS = ('mpm/mic/v1/in', 'mpm/mic/v1/out')
+
+
+def audio_metadata(packet):
+    fields = {'wire_bytes': len(packet)}
+    if len(packet) == 544 and packet[:4] == b'MC01':
+        session, seq, total, rate, size, crc, chunk_crc, count, flags, version = struct.unpack_from(
+            '<IHHIIIIHBB', packet, 4)
+        fields.update(kind='MC01', session=session, seq=seq, total=total, sample_rate=rate,
+                      pcm_bytes=size, pcm_crc32=crc, chunk_crc32=chunk_crc,
+                      chunk_bytes=count, flags=flags, version=version)
+    elif 82 < len(packet) <= 202 and packet[:4] == b'MR02':
+        session, crc = struct.unpack_from('<II', packet, 4)
+        fields.update(kind='MR02', session=session, pcm_crc32=crc, status=packet[50])
+    else:
+        fields['kind'] = 'UNKNOWN'
+    return fields
 
 
 def save(path, value):
@@ -72,6 +90,9 @@ def run(args):
     browser_errors = []
     with contextlib.ExitStack() as stack:
         wire = stack.enter_context((out / 'MQTT-private.jsonl').open('x', encoding='utf-8'))
+        if args.audio_metadata:
+            audio = stack.enter_context((out / 'audio-metadata-private.jsonl').open('x', encoding='utf-8'))
+            counts['audio_metadata_received'] = 0
         snapshots = stack.enter_context((out / 'browser-snapshots-private.jsonl').open('x', encoding='utf-8'))
         dom_log = stack.enter_context((out / 'browser-display-private.jsonl').open('x', encoding='utf-8'))
         def child(command, name, **kw):
@@ -99,13 +120,23 @@ def run(args):
             client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2,
                                  client_id='field01-observer-' + secrets.token_hex(6), reconnect_on_failure=False)
             client.username_pw_set(config['username'], config['password'])
+            topics = [('mpm/v1/GW-B5-001/#', 1)]
+            if args.audio_metadata:
+                topics.extend((topic, 1) for topic in AUDIO_TOPICS)
+
             def connected(c, userdata, flags, reason, properties):
                 if not reason.is_failure:
-                    c.subscribe('mpm/v1/GW-B5-001/#', 1)
+                    c.subscribe(topics)
             def suback(c, userdata, mid, codes, properties):
-                if codes and all(not x.is_failure for x in codes):
+                if len(codes) == len(topics) and all(not x.is_failure for x in codes):
                     subscribed.set()
             def message(c, userdata, m):
+                if args.audio_metadata and m.topic in AUDIO_TOPICS:
+                    record = dict(arrival_unix_ns=time.time_ns(), topic=m.topic, qos=m.qos, retain=m.retain)
+                    audio.write(json.dumps({**record, **audio_metadata(m.payload)}) + '\n')
+                    audio.flush()
+                    counts['audio_metadata_received'] += 1
+                    return
                 counts['MQTT_received'] += 1
                 wire.write(json.dumps(dict(arrival_unix_ns=time.time_ns(), topic=m.topic,
                     qos=m.qos, retain=m.retain, payload_hex=bytes(m.payload).hex())) + '\n')
@@ -217,6 +248,7 @@ if __name__ == '__main__':
     parser.add_argument('--output', type=Path)
     parser.add_argument('--credentials', type=Path)
     parser.add_argument('--check', action='store_true')
+    parser.add_argument('--audio-metadata', action='store_true', help='另订阅 MC01/MR02，仅保存头部元数据')
     arguments = parser.parse_args()
     if arguments.backend:
         backend()

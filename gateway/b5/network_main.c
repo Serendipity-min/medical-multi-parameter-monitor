@@ -22,11 +22,13 @@ static uint32_t uart_error_baseline,can_poll_cycles_max;
 static void local_control(void);
 #ifdef MP_FIVE_APPLIANCE
 static bool runtime_ready;
+#ifndef MP_FIVE_FIELD01
 static uint32_t retry_ms=2000;
 static void reconnect_delay(void) {
     delay_ms(retry_ms);
     if(retry_ms<30000u)retry_ms=retry_ms<15000u?retry_ms*2u:30000u;
 }
+#endif
 #endif
 #endif
 #ifndef MP_FIVE_APPLIANCE
@@ -41,7 +43,10 @@ static MpFrame will;
 static MpFrame publishing;
 #endif
 static uint32_t armed_at, last_sync, status_at, connection, status_seq;
-static uint32_t diag_at, mqtt_qos0_transport_ok, mqtt_qos1_puback, mqtt_failed_count;
+#ifndef MP_FIVE_FIELD01
+static uint32_t diag_at;
+#endif
+static uint32_t mqtt_qos0_transport_ok, mqtt_qos1_puback, mqtt_failed_count;
 static uint32_t service_at;
 static volatile bool armed, stopped;
 #ifdef MP_FIVE_APPLIANCE
@@ -68,8 +73,13 @@ static bool drained;
 static volatile bool stop_due;
 static uint32_t stop_tick,stop_reason,stop_live,stop_cache;
 static EspIoMetrics stop_io;
+#ifdef MP_FIVE_FIELD01
+#include "field01_probe.inc"
+#endif
 uint32_t b5_business_remaining(void) {
-#ifdef MP_FINAL_UNIFIED
+#ifdef MP_FIVE_FIELD01
+    return field01_remaining(g_uptime_ms,field01_t0);
+#elif defined(MP_FINAL_UNIFIED)
     if(!run_limit_ms)return 0x3fffffffu;
     if(!armed)return run_limit_ms;
     uint32_t used=g_uptime_ms-armed_at;return used>=run_limit_ms?0:run_limit_ms-used;
@@ -80,6 +90,9 @@ uint32_t b5_business_remaining(void) {
 }
 void b5_hard_tick(void) {
     /* 中断只锁存截止和取证，不执行CAN库、AT、printf或关闭网络。 */
+#ifdef MP_FIVE_FIELD01
+    if(!b5_business_remaining())field01_latch(FIELD01_TIMER);
+#else
     if(armed && !stopped && !stop_due &&
 #ifdef MP_FINAL_UNIFIED
        run_limit_ms && (uint32_t)(g_uptime_ms-armed_at)>=run_limit_ms) {
@@ -89,6 +102,7 @@ void b5_hard_tick(void) {
         stop_tick=g_uptime_ms;stop_reason=1;stop_live=gateway.router.ln;stop_cache=gateway.router.cn;
         platform_io_snapshot(&stop_io);stop_due=true;
     }
+#endif
 }
 #endif
 uint32_t b4_hw_time(void) { return g_uptime_ms; }
@@ -114,6 +128,9 @@ static void report_stop(void) {
     }
 }
 static void stop(void) {
+#ifdef MP_FIVE_FIELD01
+    stopped=true;
+#endif
 #ifdef MP_FINAL_UNIFIED
     unified_audio_stop();
 #endif
@@ -127,6 +144,29 @@ static void stop(void) {
 }
 #ifdef MP_FINAL_UNIFIED
 static void local_control(void) {
+#ifdef MP_FIVE_FIELD01
+    static char command[16];
+    static unsigned length;
+    for(unsigned budget=0;budget<16;budget++){
+        int c=console_char();if(c<0)break;
+        if(c=='\r')continue;
+        if(c!='\n'){
+            if(length<sizeof command)command[length++]=(char)c;
+            continue;
+        }
+        if(length<sizeof command){
+            command[length]=0;
+            if(length==sizeof("FIELD01 STOP")-1 && !memcmp(command,"FIELD01 STOP",length) && !stopped)field01_latch(FIELD01_MANUAL);
+            if(length==sizeof("FIELD01 START")-1 && !memcmp(command,"FIELD01 START",length) && !armed && !stopped && !stop_due &&
+                b5_business_remaining() && gateway_config_valid()){
+                uart_error_baseline=platform_uart_errors_total();armed=true;
+            }
+            if(length==sizeof("FIELD01 KEY")-1 && !memcmp(command,"FIELD01 KEY",length) && field01_t0 &&
+                g_uptime_ms-field01_t0<FIELD01_AUDIO_AT_MS)field_key_approved=true;
+        }
+        length=0;
+    }
+#else
     static char line[32];static unsigned used,config_count;
     static uint8_t config_packet[249];static uint32_t config_at;
     if(config_count && (uint32_t)(g_uptime_ms-config_at)>=5000u) {
@@ -166,6 +206,7 @@ static void local_control(void) {
         } else if(used<sizeof line-1)line[used++]=(char)c;
         else used=sizeof line-1;
     }
+#endif
 }
 #endif
 static void diagnostic(unsigned stage) {
@@ -278,6 +319,7 @@ static void diagnostic(unsigned stage) {
 #endif
 #endif
 }
+#ifndef MP_FIVE_FIELD01
 static void diagnostic_idle(void) {
 #ifdef MP_FINAL_UNIFIED
     if(!unified_audio_quiet())return;
@@ -308,6 +350,7 @@ static void diagnostic_idle(void) {
     if(stage==12 || stage==20)stage++;
     diagnostic(stage++);
 }
+#endif
 #ifdef MP_B5_EGRESS_FINAL
 static void transaction_stop_trace(void) {
     char line[256];const EspIoMetrics *s=&stop_io;
@@ -330,6 +373,9 @@ static void service(void) {
     if(!runtime_ready){b4_hw_idle();return;}
 #endif
 #ifdef MP_FINAL_UNIFIED
+#ifdef MP_FIVE_FIELD01
+    if(stop_due && !stopped)stop();
+#endif
     if(stopped || !armed){unified_audio_local_poll();local_control();b4_hw_idle();return;}
 #else
     if (stopped) { report_stop(); b4_hw_idle(); return; }
@@ -378,13 +424,28 @@ static void service(void) {
     }
     unified_audio_local_poll();local_control();
 #if defined(MP_FIVE_APPLIANCE) && defined(__arm__)
+#ifdef MP_FIVE_FIELD01
+    static bool field_key_released;
+    bool down=!(GPIOE->IDR & GPIO_Pin_3);
+    uint32_t elapsed=g_uptime_ms-field01_t0;
+    if(field_key_approved && field01_t0 && !stop_due &&
+        elapsed>=FIELD01_AUDIO_AT_MS && elapsed<FIELD01_AUDIO_END_MS){
+        if(!down)field_key_released=true;
+        if(field_key_released)unified_audio_key(down);
+    }
+#else
     unified_audio_key(!(GPIOE->IDR & GPIO_Pin_3));
+#endif
 #endif
 #endif
     if (network_open && g_uptime_ms - last_sync >= 10000u) {
         b4_gateway_sync_ms(&gateway, gateway_epoch_milliseconds(), g_uptime_ms);
         last_sync = g_uptime_ms;
     }
+#ifdef MP_FIVE_FIELD01
+    field01_poll();
+    if(stop_due){stop();return;}
+#endif
     if (mqtt_connected && g_uptime_ms - status_at >= 5000u) {
         MpFrame status = will; status.valid = true; status.timestamp = gateway_epoch_milliseconds();
         status.seq = ++status_seq; mp_router_put(&gateway.router, &status); status_at = g_uptime_ms;
@@ -405,7 +466,13 @@ int main(void) {
 #endif
     platform_set_poll(service);
 #ifdef MP_FINAL_UNIFIED
-#ifdef MP_FIVE_APPLIANCE
+#if defined(MP_FIVE_FIELD01)
+    final_can_mask=3;run_limit_ms=0;
+    console("FIELD01 DISARMED C_ONLY_INSTALL TLS_28895 NO_AUTORETRY\r\n");
+    while(!armed && !stop_due){platform_poll();local_control();}
+    if(stop_due){stopped=true;report_stop();for(;;)b4_hw_idle();}
+    console("FIELD01 START_ACCEPTED\r\n");
+#elif defined(MP_FIVE_APPLIANCE)
     final_can_mask=3;run_limit_ms=0;
     uart_error_baseline=platform_uart_errors_total();
     console("FIVE AUTO LOCAL_CAN KEY1_AUDIO_MAX2S NO_FLASH_WRITE\r\n");
@@ -446,7 +513,7 @@ int main(void) {
     }
 #endif
     armed_at = g_uptime_ms;
-#ifdef MP_B5_EGRESS_FINAL
+#if defined(MP_B5_EGRESS_FINAL) && !defined(MP_FIVE_FIELD01)
     unsigned startup_ntp_retries=0;
 #endif
 #ifdef MP_ABC_TRI_CANDIDATE
@@ -481,7 +548,9 @@ int main(void) {
 #endif
         mp_router_online(&gateway.router, false); network_open = mqtt_connected = false;
         if (!gateway_network_open()) {
-#ifdef MP_B5_EGRESS_FINAL
+#ifdef MP_FIVE_FIELD01
+            field01_latch(FIELD01_LINK);if(!stopped)stop();gateway_network_close();break;
+#elif defined(MP_B5_EGRESS_FINAL)
             if(!stopped && gateway_network_retryable() && startup_ntp_retries<2u) {
                 startup_ntp_retries++;
                 console("GW SNTP_NEXT_ENDPOINT\r\n");
@@ -504,7 +573,9 @@ int main(void) {
         will.synthetic = true; will.timestamp = now; will.epoch = gateway.session;
         will.boot = ++connection; will.seq = UINT32_MAX;
         if (stopped || !gateway_mqtt_open(&will)) {
-#ifdef MP_B5_EGRESS_FINAL
+#ifdef MP_FIVE_FIELD01
+            field01_latch(FIELD01_LINK);if(!stopped)stop();gateway_network_close();break;
+#elif defined(MP_B5_EGRESS_FINAL)
 #ifdef MP_FINAL_UNIFIED
             unified_audio_network(false);gateway_network_close();reconnect_delay();continue;
 #else
@@ -516,7 +587,7 @@ int main(void) {
 #endif
         }
         mp_router_online(&gateway.router, true); mqtt_connected = true;
-#ifdef MP_FIVE_APPLIANCE
+#if defined(MP_FIVE_APPLIANCE) && !defined(MP_FIVE_FIELD01)
         retry_ms=2000;
 #endif
 #ifdef MP_FINAL_UNIFIED
@@ -536,14 +607,21 @@ int main(void) {
             unified_audio_step(!publisher.deferred && !gateway.router.ln && allow_new);
             if(platform_at_synchronized() && !platform_console_busy())unified_audio_report();
 #endif
+#ifdef MP_FIVE_FIELD01
+            if(progress && !b5_network_stopped())field01_begin();
+            field01_status();
+#else
             diagnostic_idle();
+#endif
             mqtt_qos0_transport_ok=publisher.q0;mqtt_qos1_puback=publisher.q1;mqtt_failed_count=publisher.failed;
             if(!progress)break;
             /* 预留1秒准备、5秒事务及2秒关闭；业务锁存仍在420秒。 */
+#ifndef MP_FIVE_FIELD01
             if(b5_business_remaining()<=B5_DRAIN_MS) {
                 if(!publisher.pending){network_open=mqtt_connected=false;gateway_network_close();drained=true;while(!stopped)platform_poll();}
                 continue;
             }
+#endif
 #else
             if (mp_router_take(&gateway.router, &publishing, g_uptime_ms)) {
                 if (!b5_prepare_publish(&publishing, gateway_epoch_milliseconds())) continue;
@@ -569,11 +647,18 @@ int main(void) {
 #else
         gateway_network_close();
 #endif
+#ifdef MP_FIVE_FIELD01
+        if(!stopped){field01_latch(FIELD01_LINK);stop();}
+#else
         if (!stopped) reconnect_delay();
+#endif
     }
     report_stop();
 #ifdef MP_B5_EGRESS_FINAL
     transaction_stop_trace();
+#ifdef MP_FIVE_FIELD01
+    if(field01_t0)field01_snapshot();
+#endif
 #endif
     for(unsigned i=0;i<23;i++)diagnostic(i);
     while (1) {

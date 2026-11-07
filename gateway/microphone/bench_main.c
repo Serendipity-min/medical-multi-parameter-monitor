@@ -29,6 +29,12 @@ static volatile uint32_t irq_cycles[300], blocks, dma_errors, overruns;
 static uint16_t recorded_blocks[200];
 static uint32_t decode_cycles_max;
 static volatile int pending = -1;
+#ifdef MP_FIVE_FIELD01
+#include "../b5/field01_window.h"
+#define MIC_CAPTURE_LIMIT FIELD01_PCM_SAMPLES
+#else
+#define MIC_CAPTURE_LIMIT MIC_SAMPLES
+#endif
 static unsigned frames, state; /* 0=空闲，1=采集，2=完成，3=错误 */
 static uint32_t began_at;
 static uint32_t left_abs, right_abs, right_nonzero, zero24, clip24, low24, fault_flags;
@@ -146,7 +152,7 @@ static void consume(void) {
     pending = -1; __enable_irq();
     if (overruns || dma_errors || generation <= 50u) return;
     if (frames / MIC_BLOCK_FRAMES < 200u) recorded_blocks[frames / MIC_BLOCK_FRAMES] = (uint16_t)generation;
-    for (unsigned i = 0; i < MIC_BLOCK_FRAMES && frames < MIC_SAMPLES; ++i) {
+    for (unsigned i = 0; i < MIC_BLOCK_FRAMES && frames < MIC_CAPTURE_LIMIT; ++i) {
         const uint16_t *v = staging + 4u * i;
         int32_t l = mic_sample24(v[0], v[1]);
         int16_t s = mic_pcm16(v[0], v[1]), r = mic_pcm16(v[2], v[3]);
@@ -204,7 +210,7 @@ void mic_record_poll(void) {
                 ((SPI3->SR & SPI_SR_OVR) ? 4u : 0u) | ((uptime - began_at > 3500u) ? 8u : 0u);
             if (fault_flags) {
                 stop(); state = 3; text("MIC_CAPTURE_ERROR\r\n");
-            } else if (frames == MIC_SAMPLES) { stop(); state = 2; text("MIC_DONE\r\n"); }
+            } else if (frames == MIC_CAPTURE_LIMIT) { stop(); state = 2; text("MIC_DONE\r\n"); }
     }
 }
 

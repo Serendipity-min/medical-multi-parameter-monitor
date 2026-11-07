@@ -19,6 +19,10 @@ typedef struct {
     uint32_t tx_id,tx_at,tx_budget,frame_seq,pending_age,pending_id,qos,stream,event_count;
     EspAtEvent events[4];
     B5Latency command,prompt,data,send_ok;
+#ifdef MP_FIVE_FIELD01
+    uint32_t phase_ms[8],send_command_ms,rx_empty_ms,rx_nonempty_ms,rx_read_ms;
+    uint32_t rx_nonempty,tx_bytes_total;
+#endif
 #endif
 } EspIoMetrics;
 void platform_io_snapshot(EspIoMetrics *out);

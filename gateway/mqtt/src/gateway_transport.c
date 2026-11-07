@@ -50,6 +50,12 @@ static MQTTPubAckInfo_t outgoing[GATEWAY_TELEMETRY_SLOTS+1];
 typedef struct {uint16_t id;uint32_t at;int result;unsigned ack;} TelemetryPending;
 static TelemetryPending telemetry[GATEWAY_TELEMETRY_SLOTS];
 static uint16_t last_ticket;
+#ifdef MP_FIVE_FIELD01
+static uint32_t ack_at[GATEWAY_TELEMETRY_SLOTS],reclaim_count,reclaim_total,reclaim_max;
+void field01_mqtt_reclaim(uint32_t *count,uint32_t *total,uint32_t *max){
+    *count=reclaim_count;*total=reclaim_total;*max=reclaim_max;
+}
+#endif
 #else
 static MQTTPubAckInfo_t outgoing[1];
 #endif
@@ -86,7 +92,16 @@ uint16_t gateway_mqtt_ticket(void){return last_ticket;}
 int gateway_mqtt_slots_full(void){return telemetry[0].id && telemetry[1].id && telemetry[2].id;}
 int gateway_mqtt_ticket_result(uint16_t id){
     for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(telemetry[i].id==id && id){
-        int result=telemetry[i].result;if(result==GW_COMPLETE)telemetry[i].id=0;return result;
+        int result=telemetry[i].result;
+        if(result==GW_COMPLETE){
+#ifdef MP_FIVE_FIELD01
+            uint32_t elapsed=g_uptime_ms-ack_at[i];
+            reclaim_count++;reclaim_total+=elapsed;
+            if(elapsed>reclaim_max)reclaim_max=elapsed;
+#endif
+            telemetry[i].id=0;
+        }
+        return result;
     }
     return GW_FAILED;
 }
@@ -227,7 +242,12 @@ static void mqtt_event(MQTTContext_t *context, MQTTPacketInfo_t *packet,
     }
 #ifdef MP_FINAL_UNIFIED
     if(packet->type==MQTT_PACKET_TYPE_PUBACK && decoded->deserializationResult==MQTTSuccess){
-        for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(telemetry[i].id && decoded->packetIdentifier==telemetry[i].id){telemetry[i].ack=1;return;}
+        for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(telemetry[i].id && decoded->packetIdentifier==telemetry[i].id){
+#ifdef MP_FIVE_FIELD01
+            if(!telemetry[i].ack)ack_at[i]=g_uptime_ms;
+#endif
+            telemetry[i].ack=1;return;
+        }
     }
 #ifdef MP_CAN_RX_IRQ
     mqtt_diagnostic(2,decoded->deserializationResult,packet->type);
@@ -448,6 +468,9 @@ int gateway_mqtt_begin(const MpFrame *frame) {
     uint32_t json_at=g_uptime_ms;
     int length=mp_json(frame,payload,sizeof(payload));
     if(!length || !mp_topic(frame,topic,sizeof(topic)))return GW_FAILED;
+#ifdef MP_FIVE_FIELD01
+    mqtt_metrics.field01_json_ms+=g_uptime_ms-json_at;
+#endif
     b5_latency_add(&mqtt_metrics.json,g_uptime_ms-json_at);
     MQTTPublishInfo_t m={0};m.qos=qos1?MQTTQoS1:MQTTQoS0;
     m.retain=frame->stream==MP_NODE_STATUS || frame->stream==MP_GATEWAY_STATUS;
@@ -489,6 +512,9 @@ int gateway_mqtt_begin(const MpFrame *frame) {
     uint32_t json_at=g_uptime_ms;
     int length=mp_json(frame,payload,sizeof(payload));
     if(!length || !mp_topic(frame,topic,sizeof(topic)))return GW_FAILED;
+#ifdef MP_FIVE_FIELD01
+    mqtt_metrics.field01_json_ms+=g_uptime_ms-json_at;
+#endif
     b5_latency_add(&mqtt_metrics.json,g_uptime_ms-json_at);
     MQTTPublishInfo_t m={0};m.qos=qos1?MQTTQoS1:MQTTQoS0;
     m.retain=frame->stream==MP_NODE_STATUS || frame->stream==MP_GATEWAY_STATUS;

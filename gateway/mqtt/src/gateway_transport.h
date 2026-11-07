@@ -25,7 +25,16 @@ uint16_t gateway_mqtt_ticket(void);
 int gateway_mqtt_slots_full(void);
 int gateway_mqtt_ticket_result(uint16_t id);
 #endif
-typedef struct { uint32_t q0_sent,q1_sent,q1_acked,failed; B5Latency json,send,ack; } GatewayMqttMetrics;
+typedef struct {
+    uint32_t q0_sent,q1_sent,q1_acked,failed;
+    B5Latency json,send,ack;
+#ifdef MP_FIVE_FIELD01
+    uint32_t field01_json_ms;
+#endif
+} GatewayMqttMetrics;
+#ifdef MP_FIVE_FIELD01
+void field01_mqtt_reclaim(uint32_t *count,uint32_t *total,uint32_t *max);
+#endif
 void gateway_mqtt_metrics(GatewayMqttMetrics *out);
 #endif
 #endif
