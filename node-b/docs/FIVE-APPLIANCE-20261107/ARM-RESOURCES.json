@@ -1,0 +1,42 @@
+{
+  "status": "ARM_LINK_PASS_NOT_INSTALLED",
+  "target": "FIVE_APPLIANCE_C_2S_V1",
+  "boot_bytes": 392,
+  "sector4_load_bytes": 57744,
+  "total_flash_load_bytes": 58136,
+  "sector4_free_bytes": 7792,
+  "sram_static_and_reserved_bytes": 115772,
+  "sram_free_outside_segments": 15300,
+  "ccm_bytes": 64000,
+  "ccm_free_bytes": 1536,
+  "dma": [
+    536949812,
+    2560
+  ],
+  "pcm": [
+    268435456,
+    64000
+  ],
+  "CAN_IRQ_priority": 3,
+  "audio_IRQ_priority": 8,
+  "TLS_port": 28895,
+  "images": [
+    {
+      "address": 134217728,
+      "bytes": 392,
+      "file": "FIVE_APPLIANCE_C_2S_V1-boot.bin",
+      "SHA256": "108cd9630ef3bdf455324f7eaabb52da347250fe15066361174c77585740e16b"
+    },
+    {
+      "address": 134283264,
+      "bytes": 57744,
+      "file": "FIVE_APPLIANCE_C_2S_V1-code.bin",
+      "SHA256": "5636eef604beb67bbda5060fd7a6cb7f15eb2144704f72ea0e443c882ac38a79"
+    }
+  ],
+  "hardware_eligible": false,
+  "device_operations": 0,
+  "stack_measurement": "NOT_RUN_STATIC_SEGMENTS_ONLY",
+  "sram_contiguous_tail_free_bytes": 15296,
+  "sram_alignment_gaps_bytes": 4
+}

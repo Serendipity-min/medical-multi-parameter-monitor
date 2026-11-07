@@ -1,0 +1,359 @@
+{
+  "scope": "ISOLATED_SYNTHETIC_NO_REAL_MQTT_NO_DEVICE",
+  "repo_revision": "f9bdff8a6d73993390baf59abc8a52bdc992f16c",
+  "reference_report": "REPORT.md",
+  "production_source_blobs": {
+    "src_snapshot/cloud/backend/app/models.py": "c3d7ed0b9983311dd6ea90393b1270dffc23fd82",
+    "src_snapshot/cloud/backend/app/hub.py": "3a660cb79d06ea0b4fb6c3be30dd4bbb78dd77a4",
+    "src_snapshot/cloud/ai/facts.py": "b0ad4de211335c65c9fe403adfc27224227c220a",
+    "src_snapshot/biov2/bio_v2.c": "59700058aa769f9706758c46caaf28e40c7ba58e",
+    "src_snapshot/biov2/bio_v2.h": "13259a94b802d072cf55ab5b928b98c051fd8e38"
+  },
+  "run": {
+    "duration_simulated_s": 300,
+    "A_PPG_batches": 300,
+    "B_ECG_batches": 750,
+    "B_RESP_batches": 300,
+    "B_native_samples": 75000,
+    "both_algorithm_valid_samples": 69729,
+    "first_both_valid_s": 21.084,
+    "B_final_HR": 60,
+    "B_final_RR": 18,
+    "synthetic_messages_backend_accepted": 3151,
+    "mock_message_events_after_replay_negative_test": 3152,
+    "per_stream_messages_including_1_REPLAY_NIBP_negative": {
+      "GATEWAY_STATUS": 60,
+      "NODE_STATUS": 240,
+      "ECG": 750,
+      "RESP": 300,
+      "PPG": 300,
+      "HR": 300,
+      "RR": 300,
+      "SPO2": 300,
+      "PR": 300,
+      "TEMP": 300,
+      "NIBP": 2
+    },
+    "demo_manual_BP": [
+      112,
+      74
+    ],
+    "BP_first_stale_test_t_s": 140.2
+  },
+  "tests": [
+    {
+      "test": "source_blob_sha:src_snapshot/cloud/backend/app/models.py",
+      "status": "PASS",
+      "scope": "PRODUCTION_LOGIC_HOST",
+      "detail": {
+        "expected": "c3d7ed0b9983311dd6ea90393b1270dffc23fd82",
+        "got": "c3d7ed0b9983311dd6ea90393b1270dffc23fd82"
+      }
+    },
+    {
+      "test": "source_blob_sha:src_snapshot/cloud/backend/app/hub.py",
+      "status": "PASS",
+      "scope": "PRODUCTION_LOGIC_HOST",
+      "detail": {
+        "expected": "3a660cb79d06ea0b4fb6c3be30dd4bbb78dd77a4",
+        "got": "3a660cb79d06ea0b4fb6c3be30dd4bbb78dd77a4"
+      }
+    },
+    {
+      "test": "source_blob_sha:src_snapshot/cloud/ai/facts.py",
+      "status": "PASS",
+      "scope": "PRODUCTION_LOGIC_HOST",
+      "detail": {
+        "expected": "b0ad4de211335c65c9fe403adfc27224227c220a",
+        "got": "b0ad4de211335c65c9fe403adfc27224227c220a"
+      }
+    },
+    {
+      "test": "source_blob_sha:src_snapshot/biov2/bio_v2.c",
+      "status": "PASS",
+      "scope": "PRODUCTION_LOGIC_HOST",
+      "detail": {
+        "expected": "59700058aa769f9706758c46caaf28e40c7ba58e",
+        "got": "59700058aa769f9706758c46caaf28e40c7ba58e"
+      }
+    },
+    {
+      "test": "source_blob_sha:src_snapshot/biov2/bio_v2.h",
+      "status": "PASS",
+      "scope": "PRODUCTION_LOGIC_HOST",
+      "detail": {
+        "expected": "13259a94b802d072cf55ab5b928b98c051fd8e38",
+        "got": "13259a94b802d072cf55ab5b928b98c051fd8e38"
+      }
+    },
+    {
+      "test": "native_BioV2_compilation",
+      "status": "PASS",
+      "scope": "PRODUCTION_LOGIC_HOST",
+      "detail": ""
+    },
+    {
+      "test": "ECG_and_RR_simultaneously_valid",
+      "status": "PASS",
+      "scope": "PRODUCTION_LOGIC_HOST",
+      "detail": {
+        "native_final_HR_bpm": 60,
+        "native_final_RR_bpm": 18,
+        "both_valid_samples_of_75000": 69729,
+        "first_both_valid_s": 21.084,
+        "HR_valid_samples": 72920,
+        "RR_valid_samples": 69729
+      }
+    },
+    {
+      "test": "BioV2_no_gap_or_clip",
+      "status": "PASS",
+      "scope": "PRODUCTION_LOGIC_HOST",
+      "detail": {
+        "samples": 75000,
+        "discontinuities": 0,
+        "clipped_samples": 0
+      }
+    },
+    {
+      "test": "five_node_profile_and_broker_ingest",
+      "status": "PASS",
+      "scope": "PRODUCTION_LOGIC_HOST",
+      "detail": {
+        "accepted": 3151,
+        "counts": {
+          "GATEWAY_STATUS": 60,
+          "NODE_STATUS": 240,
+          "ECG": 750,
+          "RESP": 300,
+          "PPG": 300,
+          "HR": 300,
+          "RR": 300,
+          "SPO2": 300,
+          "PR": 300,
+          "TEMP": 300,
+          "NIBP": 1
+        },
+        "profile": "five",
+        "gateway_id": "GW-B5-001"
+      }
+    },
+    {
+      "test": "ECG_RESP_batched_in_same_300s_window",
+      "status": "PASS",
+      "scope": "PRODUCTION_LOGIC_HOST",
+      "detail": {
+        "ECG_batches": 750,
+        "ECG_source_samples": 75000,
+        "RESP_batches": 300,
+        "RESP_source_samples": 15000,
+        "PPG_batches": 300
+      }
+    },
+    {
+      "test": "HR_RR_simultaneous_scalar_valid_in_one_snapshot",
+      "status": "PASS",
+      "scope": "PRODUCTION_LOGIC_HOST",
+      "detail": {
+        "HR": 60.0,
+        "RR": 18.0
+      }
+    },
+    {
+      "test": "NIBP_requires_manual_completion",
+      "status": "PASS",
+      "scope": "PRODUCTION_LOGIC_HOST",
+      "detail": {
+        "manual_button_ms": 40000,
+        "synthetic_completion_ms": 50000,
+        "NIBP_publishes": 1
+      }
+    },
+    {
+      "test": "NIBP_nodeE_value_and_90sec_stale",
+      "status": "PASS",
+      "scope": "PRODUCTION_LOGIC_HOST",
+      "detail": {
+        "at_50_2s": {
+          "gateway_id": "GW-B5-001",
+          "node_id": "NODE-E",
+          "stream": "NIBP",
+          "timestamp": 1800000050000,
+          "seq": 1,
+          "session_id": "sim-NODE-E-boot1",
+          "validity": "VALID",
+          "source": "MOCK",
+          "synthetic": true,
+          "value": [
+            112.0,
+            74.0
+          ],
+          "samples": [],
+          "sample_rate": 0,
+          "unit": "mmHg"
+        },
+        "at_140_2s": {
+          "gateway_id": "GW-B5-001",
+          "node_id": "NODE-E",
+          "stream": "NIBP",
+          "timestamp": 1800000050000,
+          "seq": 1,
+          "session_id": "sim-NODE-E-boot1",
+          "validity": "STALE",
+          "source": "MOCK",
+          "synthetic": true,
+          "value": null,
+          "samples": [],
+          "sample_rate": 0,
+          "unit": "mmHg"
+        }
+      }
+    },
+    {
+      "test": "Temp_is_nodeD_object_temperature",
+      "status": "PASS",
+      "scope": "PRODUCTION_LOGIC_HOST",
+      "detail": null
+    },
+    {
+      "test": "facts_snapshot_denies_real_human_claim",
+      "status": "PASS",
+      "scope": "PRODUCTION_LOGIC_HOST",
+      "detail": "血压：112/74 mmHg；模拟数据，非真人测量。"
+    },
+    {
+      "test": "AI_blood_pressure_selected_only",
+      "status": "PASS",
+      "scope": "PRODUCTION_LOGIC_HOST",
+      "detail": null
+    },
+    {
+      "test": "AI_HR_RR_selected_both",
+      "status": "PASS",
+      "scope": "PRODUCTION_LOGIC_HOST",
+      "detail": null
+    },
+    {
+      "test": "AI_高压_低压_定向选流",
+      "status": "KNOWN_GAP",
+      "scope": "NOT_IMPLEMENTED_OR_NOT_RUN",
+      "detail": "当前KEYWORDS不含高压/低压；实际返回了无关多流，需服务端修复后复测"
+    },
+    {
+      "test": "reject_wrong_node_role",
+      "status": "PASS",
+      "scope": "PRODUCTION_LOGIC_HOST",
+      "detail": null
+    },
+    {
+      "test": "reject_unauthorized_gateway",
+      "status": "PASS",
+      "scope": "PRODUCTION_LOGIC_HOST",
+      "detail": null
+    },
+    {
+      "test": "REPLAY_does_not_revalidate_old_NIBP",
+      "status": "PASS",
+      "scope": "PRODUCTION_LOGIC_HOST",
+      "detail": null
+    },
+    {
+      "test": "TEMP_5s_freshness_without_revivals",
+      "status": "PASS",
+      "scope": "PRODUCTION_LOGIC_HOST",
+      "detail": null
+    },
+    {
+      "test": "KEY1_model_two_press_control",
+      "status": "PASS",
+      "scope": "DESIGN_MODEL_ONLY",
+      "detail": [
+        "RECORD_START",
+        "RECORD_FINISH"
+      ]
+    },
+    {
+      "test": "KEY1_model_offline_notice_no_audio",
+      "status": "PASS",
+      "scope": "DESIGN_MODEL_ONLY",
+      "detail": null
+    },
+    {
+      "test": "KEY1_model_current_2s_auto_stop",
+      "status": "PASS",
+      "scope": "DESIGN_MODEL_ONLY",
+      "detail": null
+    },
+    {
+      "test": "KEY1_actual_five_C_firmware",
+      "status": "KNOWN_GAP",
+      "scope": "NOT_IMPLEMENTED_OR_NOT_RUN",
+      "detail": "当前五板实装没有K1/PE3控制入口；另一ABC分支有30ms去抖的候选但尚未移植"
+    },
+    {
+      "test": "KEY1_5_to_60_seconds",
+      "status": "KNOWN_GAP",
+      "scope": "NOT_IMPLEMENTED_OR_NOT_RUN",
+      "detail": "当前C 2秒固定64KB音频，与5–60秒原始PCM缓存/115200串口容量要求不兼容，需另外设计"
+    },
+    {
+      "test": "power_on_local_sampling_and_network_retry_model",
+      "status": "PASS",
+      "scope": "DESIGN_MODEL_ONLY",
+      "detail": {
+        "wifi_attempts": 3,
+        "local_sampling_while_wifi_down": true,
+        "BP_automatic": false
+      }
+    },
+    {
+      "test": "automatic_wifi_current_five_C_firmware",
+      "status": "KNOWN_GAP",
+      "scope": "NOT_IMPLEMENTED_OR_NOT_RUN",
+      "detail": "五板实装仍须串口UNISTART；自动联网构建仅ABC分支离线候选，未在五板实板验收"
+    },
+    {
+      "test": "deployed_AI_P6V1_to_C_MR01",
+      "status": "KNOWN_GAP",
+      "scope": "NOT_IMPLEMENTED_OR_NOT_RUN",
+      "detail": "旧H3网页AI P6V1与五板C MR01/MC01消息不同；正式下行P6_MQTT_MODE=DISABLED"
+    },
+    {
+      "test": "live_ASR_AI_TTS",
+      "status": "KNOWN_GAP",
+      "scope": "NOT_IMPLEMENTED_OR_NOT_RUN",
+      "detail": "未调用模型、Broker、语音 worker 或物理喇叭；文字答复仅运行原事实层 answer_facts"
+    },
+    {
+      "test": "real_five_board_human_validation",
+      "status": "KNOWN_GAP",
+      "scope": "NOT_IMPLEMENTED_OR_NOT_RUN",
+      "detail": "此次全部数据标MOCK，未接传感器/人体，也没有修改正式云端"
+    },
+    {
+      "test": "capacity_gap_detection",
+      "status": "PASS",
+      "scope": "MEASURED_EVIDENCE_ARITHMETIC",
+      "detail": {
+        "RR18_source_lb_frames_per_s": 10.4556,
+        "RR18_service_frames_per_s": 8.0789,
+        "minimum_300s_backlog_frames": 713,
+        "capacity_status": "NOT_PASS"
+      }
+    }
+  ],
+  "statuses": {
+    "PASS": 26,
+    "KNOWN_GAP": 7
+  },
+  "overall": "HOST_TEST_PASS_WITH_KNOWN_DEPLOYMENT_GAPS",
+  "not_claimed": [
+    "live sensor accuracy",
+    "live MQTT transport throughput",
+    "real firmware power-on",
+    "KEY1 physical trigger",
+    "cloud AI model call",
+    "speaker audible success",
+    "human-safe operation"
+  ]
+}

@@ -191,6 +191,12 @@ void mic_diagnostics(MicDiag *d) {
     *d = (MicDiag){frames, blocks, dma_errors, overruns, decode_cycles_max};
 }
 void mic_record_cancel(void) { stop(); fault_flags |= 16u; state = 3; text("MIC_OWNER_STOP\r\n"); }
+#ifdef MP_FIVE_APPLIANCE
+void mic_record_finish(void) {
+    mic_record_poll();
+    if(state==1){stop();state=2;}
+}
+#endif
 void mic_record_poll(void) {
     if (state == 1) {
             consume();

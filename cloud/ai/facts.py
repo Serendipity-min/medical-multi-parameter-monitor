@@ -15,7 +15,8 @@ CHANNELS = {
 if os.environ.get('MPM_NODE_PROFILE', 'three') == 'five':
     CHANNELS['TEMP'] = ('NODE-D', 'degC', '物体温度', 0, 60)
     CHANNELS['NIBP'] = ('NODE-E', 'mmHg', '血压', 0, 400)
-KEYWORDS = {'心率': 'HR', '血氧': 'SPO2', '脉率': 'PR', '呼吸率': 'RR', '体温': 'TEMP', '血压': 'NIBP'}
+KEYWORDS = {'心率': 'HR', '血氧': 'SPO2', '脉率': 'PR', '呼吸率': 'RR', '体温': 'TEMP',
+            '温度': 'TEMP', '血压': 'NIBP', '高压': 'NIBP', '低压': 'NIBP'}
 
 
 def extract(snapshot: dict, gateway: str, now_ms: int) -> list[dict]:
@@ -48,7 +49,7 @@ def extract(snapshot: dict, gateway: str, now_ms: int) -> list[dict]:
         state = snapshot.get('nodes', {}).get(node)
         if snapshot.get('gateway_state') != 'ONLINE' or not snapshot.get('broker_connected') or state != 'ONLINE':
             validity = 'OFFLINE' if state == 'OFFLINE' or snapshot.get('gateway_state') == 'OFFLINE' else 'STALE'
-        elif not isinstance(stamp, int) or not -1000 <= now_ms - stamp <= ttl:
+        elif not isinstance(stamp, int) or not -1000 <= now_ms - stamp < ttl:
             validity = 'STALE'
         value = item.get('value') if validity == 'VALID' and source != 'REPLAY' else None
         values = value if isinstance(value, list) else [value]
@@ -71,6 +72,8 @@ def digest(facts: list[dict]) -> str:
 
 def answer_facts(facts: list[dict], question: str) -> str:
     selected = {v for k, v in KEYWORDS.items() if k in question}
+    if not selected:
+        return '请明确指定心率、呼吸率、血氧、血压或物体温度。'
     lines = []
     for fact in facts:
         if selected and fact['stream'] not in selected:
@@ -79,9 +82,13 @@ def answer_facts(facts: list[dict], question: str) -> str:
         if fact['source'] == 'REPLAY':
             origin = '历史补传，不代表当前读数'
         value = fact['value']
+        label = fact['label']
+        if fact['stream'] == 'NIBP' and ('高压' in question) != ('低压' in question):
+            label = '血压高压' if '高压' in question else '血压低压'
+            if value is not None:value = value[0 if '高压' in question else 1]
         if value is None:
-            lines.append(f"{fact['label']}：{fact['validity']}，没有可用当前读数；{origin}。")
+            lines.append(f"{label}：{fact['validity']}，没有可用当前读数；{origin}。")
         else:
             reading = '/'.join(f'{v:g}' for v in value) if isinstance(value, list) else f'{value:g}'
-            lines.append(f"{fact['label']}：{reading} {fact['unit']}；{origin}。")
+            lines.append(f"{label}：{reading} {fact['unit']}；{origin}。")
     return '\n'.join(lines) or '没有可用的当前监护事实，请确认数据源连接与采集状态。'

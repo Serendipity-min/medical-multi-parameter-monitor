@@ -1,5 +1,6 @@
 // 仅静态模板进入 innerHTML；快照字段统一由组件写入 textContent。
 import { routes, type Route } from '../router/hashRouter';
+import { defaultGateway, fiveAppliance } from '../gatewayProfile';
 import { parameters, type Parameter } from './parameters';
 import type { ScalarChannel, WaveChannel } from '../types';
 
@@ -21,7 +22,7 @@ export function setupMonitorDOM(container: HTMLElement): void {
     <div class="app-shell">
       <header class="app-header">
         <a class="brand" href="#/overview">${svg('ecg')}<span>多参数监护<small>工程样机 · 未接入患者身份</small></span></a>
-        <div class="system-identity"><strong id="gateway-id">GW-DEV-001</strong><span id="connection">未连接</span><i id="connection-dot"></i></div>
+        <div class="system-identity"><strong id="gateway-id">${defaultGateway}</strong><span id="connection">未连接</span><i id="connection-dot"></i></div>
         <div class="nodes-status"><span id="gateway" class="node-chip">Gateway · OFFLINE</span><span id="node-a" class="node-chip">Node-A · OFFLINE</span><span id="node-b" class="node-chip">Node-B · OFFLINE</span><span id="node-d" class="node-chip" hidden>Node-D · OFFLINE</span><span id="node-e" class="node-chip" hidden>Node-E · OFFLINE</span></div>
         <strong id="source-banner" class="source-banner">等待数据源</strong>
         <div class="system-clock"><time id="clock">--:--:--</time><span id="today"></span></div>
@@ -39,7 +40,7 @@ export function setupMonitorDOM(container: HTMLElement): void {
     </div>
     <dialog id="access-dialog" aria-labelledby="access-title"><form id="access-form">
       <div class="dialog-heading"><h2 id="access-title">连接与本地显示设置</h2><button type="button" id="close-access" aria-label="关闭连接设置">×</button></div>
-      <label for="gateway-select">数据源网关</label><select id="gateway-select"><option value="GW-DEV-001">模拟网关 GW-DEV-001</option><option value="GW-C-001">真机网关 GW-C-001</option></select>
+      <label for="gateway-select">数据源网关</label><select id="gateway-select">${fiveAppliance ? '<option value="GW-B5-001">隔离五板网关 GW-B5-001</option>' : '<option value="GW-DEV-001">模拟网关 GW-DEV-001</option><option value="GW-C-001">真机网关 GW-C-001</option>'}</select>
       <label for="view-token">只读访问令牌</label><input id="view-token" type="password" autocomplete="off" placeholder="输入当前网关的访问令牌" required>
       <p id="access-message" role="status">令牌仅保存在当前浏览器内存中，刷新或断开后清除。</p>
       <div class="local-settings"><span>波形显示窗口</span><button type="button" data-window="8" aria-pressed="true">8 秒</button><button type="button" data-window="16" aria-pressed="false">16 秒</button><button type="button" id="fullscreen"><span>全屏显示</span></button></div>

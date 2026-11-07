@@ -9,7 +9,8 @@ try {
   // 状态与回执分别编译，复用现有工具链，不增加测试依赖。
   const files = ['state', 'ai'].map((name) => {
     const outfile = join(directory, `${name}.test.cjs`);
-    buildSync({ entryPoints: [`tests/${name}.test.ts`], bundle: true, platform: 'node', outfile });
+    buildSync({ entryPoints: [`tests/${name}.test.ts`], bundle: true, platform: 'node', outfile,
+      define: { 'import.meta.env.MODE': '"production"' } });
     return outfile;
   });
   const result = spawnSync(process.execPath, ['--test', ...files], { stdio: 'inherit' });

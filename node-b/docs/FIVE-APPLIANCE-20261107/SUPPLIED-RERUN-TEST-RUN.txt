@@ -1,0 +1,35 @@
+PASS         PRODUCTION_LOGIC_HOST         source_blob_sha:src_snapshot/cloud/backend/app/models.py
+PASS         PRODUCTION_LOGIC_HOST         source_blob_sha:src_snapshot/cloud/backend/app/hub.py
+PASS         PRODUCTION_LOGIC_HOST         source_blob_sha:src_snapshot/cloud/ai/facts.py
+PASS         PRODUCTION_LOGIC_HOST         source_blob_sha:src_snapshot/biov2/bio_v2.c
+PASS         PRODUCTION_LOGIC_HOST         source_blob_sha:src_snapshot/biov2/bio_v2.h
+PASS         PRODUCTION_LOGIC_HOST         native_BioV2_compilation
+PASS         PRODUCTION_LOGIC_HOST         ECG_and_RR_simultaneously_valid
+PASS         PRODUCTION_LOGIC_HOST         BioV2_no_gap_or_clip
+PASS         PRODUCTION_LOGIC_HOST         five_node_profile_and_broker_ingest
+PASS         PRODUCTION_LOGIC_HOST         ECG_RESP_batched_in_same_300s_window
+PASS         PRODUCTION_LOGIC_HOST         HR_RR_simultaneous_scalar_valid_in_one_snapshot
+PASS         PRODUCTION_LOGIC_HOST         NIBP_requires_manual_completion
+PASS         PRODUCTION_LOGIC_HOST         NIBP_nodeE_value_and_90sec_stale
+PASS         PRODUCTION_LOGIC_HOST         Temp_is_nodeD_object_temperature
+PASS         PRODUCTION_LOGIC_HOST         facts_snapshot_denies_real_human_claim
+PASS         PRODUCTION_LOGIC_HOST         AI_blood_pressure_selected_only
+PASS         PRODUCTION_LOGIC_HOST         AI_HR_RR_selected_both
+KNOWN_GAP    NOT_IMPLEMENTED_OR_NOT_RUN    AI_高压_低压_定向选流
+PASS         PRODUCTION_LOGIC_HOST         reject_wrong_node_role
+PASS         PRODUCTION_LOGIC_HOST         reject_unauthorized_gateway
+PASS         PRODUCTION_LOGIC_HOST         REPLAY_does_not_revalidate_old_NIBP
+PASS         PRODUCTION_LOGIC_HOST         TEMP_5s_freshness_without_revivals
+PASS         DESIGN_MODEL_ONLY             KEY1_model_two_press_control
+PASS         DESIGN_MODEL_ONLY             KEY1_model_offline_notice_no_audio
+PASS         DESIGN_MODEL_ONLY             KEY1_model_current_2s_auto_stop
+KNOWN_GAP    NOT_IMPLEMENTED_OR_NOT_RUN    KEY1_actual_five_C_firmware
+KNOWN_GAP    NOT_IMPLEMENTED_OR_NOT_RUN    KEY1_5_to_60_seconds
+PASS         DESIGN_MODEL_ONLY             power_on_local_sampling_and_network_retry_model
+KNOWN_GAP    NOT_IMPLEMENTED_OR_NOT_RUN    automatic_wifi_current_five_C_firmware
+KNOWN_GAP    NOT_IMPLEMENTED_OR_NOT_RUN    deployed_AI_P6V1_to_C_MR01
+KNOWN_GAP    NOT_IMPLEMENTED_OR_NOT_RUN    live_ASR_AI_TTS
+KNOWN_GAP    NOT_IMPLEMENTED_OR_NOT_RUN    real_five_board_human_validation
+PASS         MEASURED_EVIDENCE_ARITHMETIC  capacity_gap_detection
+SUMMARY {'PASS': 26, 'KNOWN_GAP': 7}
+OVERALL HOST_TEST_PASS_WITH_KNOWN_DEPLOYMENT_GAPS

@@ -2,6 +2,7 @@
 // 严禁在此堆砌 HTML 结构、网络状态机或波形算法。
 
 import './style.css';
+import { fiveAppliance, defaultGateway } from './gatewayProfile';
 import './ui/aiPanel.css';
 import { AccessDialog } from './ui/accessDialog';
 import { setupMonitorDOM, renderRoute } from './ui/monitorView';
@@ -94,7 +95,7 @@ const router = new HashRouter((route) => {
 });
 // 独立测试Gateway可由公开URL身份预选；令牌仍只走首帧，授权仍由Backend白名单决定。
 const initialGateway = new URLSearchParams(location.search).get('gateway');
-if (initialGateway && /^[A-Za-z0-9-]{1,40}$/.test(initialGateway)) {
+if (initialGateway && /^[A-Za-z0-9-]{1,40}$/.test(initialGateway) && (!fiveAppliance || initialGateway === defaultGateway)) {
   const select = document.querySelector<HTMLSelectElement>('#gateway-select')!;
   if (!Array.from(select.options).some((item) => item.value === initialGateway)) select.add(new Option(initialGateway, initialGateway));
   select.value = initialGateway;

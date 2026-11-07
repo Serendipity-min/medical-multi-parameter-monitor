@@ -1,4 +1,4 @@
-/* 唯一B5候选：手工武装、B段、非人体MOCK；默认不自动入网，不写配置。 */
+/* 默认保留手动入口；显式五板整机构建才自动启动，不写持久配置。 */
 #include "b5_policy.h"
 #include "../dual_can/b4_bxcan.h"
 #include "gateway_transport.h"
@@ -10,12 +10,27 @@
 #include "mic_protocol.h"
 #ifdef __arm__
 #include "stm32f4xx.h"
+#ifdef MP_FIVE_APPLIANCE
+#include "stm32f4xx_gpio.h"
+#include "stm32f4xx_rcc.h"
+#endif
 #endif
 unsigned final_can_mask;
 static uint32_t run_limit_ms=B5_WINDOW_MS;
 static bool network_fault;
 static uint32_t uart_error_baseline,can_poll_cycles_max;
 static void local_control(void);
+#ifdef MP_FIVE_APPLIANCE
+static bool runtime_ready;
+static uint32_t retry_ms=2000;
+static void reconnect_delay(void) {
+    delay_ms(retry_ms);
+    if(retry_ms<30000u)retry_ms=retry_ms<15000u?retry_ms*2u:30000u;
+}
+#endif
+#endif
+#ifndef MP_FIVE_APPLIANCE
+#define reconnect_delay() delay_ms(2000)
 #endif
 #if defined(MP_B5_EGRESS_FINAL) && defined(__arm__)
 #include "ram_watermark.h"
@@ -29,6 +44,22 @@ static uint32_t armed_at, last_sync, status_at, connection, status_seq;
 static uint32_t diag_at, mqtt_qos0_transport_ok, mqtt_qos1_puback, mqtt_failed_count;
 static uint32_t service_at;
 static volatile bool armed, stopped;
+#ifdef MP_FIVE_APPLIANCE
+bool unified_audio_fact_current(unsigned node,unsigned stream,uint32_t seq,uint32_t epoch,uint32_t boot) {
+    unsigned bus=node==1 || node==5?0:1,slot=node==4 || node==5?1:0;
+    B4Segment *s=&gateway.segments[bus];B4Remote *r=&s->remote[slot];
+    unsigned base=0x3100u+slot*0x100u;
+    unsigned bit=stream==MP_SPO2?1:stream==MP_PR || stream==MP_HR?2:stream==MP_TEMP?4:3;
+    uint32_t flags=mp_od_read(&s->od,base+0x30,1);
+    bool qualified=r->seen[4] && (uint32_t)(gateway.now-r->seen_at[4])<=1500u && (flags&(1u<<bit));
+    if(stream==MP_TEMP && mp_od_read(&s->od,base+0x20,4)>2500u)qualified=false;
+    if(stream==MP_NIBP && (!(flags&(1u<<9)) || !r->seen[1] ||
+       (uint32_t)(gateway.now-r->seen_at[1])>1500u))qualified=false;
+    /* B5 emit 的事实身份是网关会话＋观察代次，不能误用原PDO generation。 */
+    return qualified && gateway.utc_valid && b4_gateway_online(&gateway,node) && gateway.session==epoch &&
+        r->observed_boot==boot && seq && seq<=r->seq[stream] && (stream!=MP_NIBP || seq==r->seq[stream]);
+}
+#endif
 static bool network_open, mqtt_connected, service_seen, stop_reported;
 #ifdef MP_B5_EGRESS_FINAL
 #include "egress.h"
@@ -294,6 +325,10 @@ static void transaction_stop_trace(void) {
 }
 #endif
 static void service(void) {
+#ifdef MP_FIVE_APPLIANCE
+    /* 初始化中的AT/音频回调不能提前推进未就绪的CAN对象。 */
+    if(!runtime_ready){b4_hw_idle();return;}
+#endif
 #ifdef MP_FINAL_UNIFIED
     if(stopped || !armed){unified_audio_local_poll();local_control();b4_hw_idle();return;}
 #else
@@ -301,7 +336,7 @@ static void service(void) {
     /* 未武装时不推进CANopen/TIME，避免B尚断电时发心跳耗尽ACK并积累BOFF。 */
     if (!armed) { b4_hw_idle(); return; }
 #endif
-#ifdef MP_ABC_TRI_CANDIDATE
+#if defined(MP_ABC_TRI_CANDIDATE) && !defined(MP_FIVE_APPLIANCE)
     if (b4_hw_diag[0].overflow || b4_hw_diag[0].busoff || b4_hw_diag[0].tx_failed) { stop(); return; }
 #endif
     if (armed && (
@@ -310,7 +345,11 @@ static void service(void) {
 #else
         (uint32_t)(g_uptime_ms - armed_at) >= B5_WINDOW_MS ||
 #endif
+#ifndef MP_FIVE_APPLIANCE
         b4_hw_diag[1].overflow || b4_hw_diag[1].busoff || b4_hw_diag[1].tx_failed
+#else
+        false
+#endif
 #ifndef MP_FINAL_UNIFIED
         || platform_uart_errors_total()
 #ifdef MP_B5_EGRESS_FINAL
@@ -338,6 +377,9 @@ static void service(void) {
         mp_router_online(&gateway.router,false);unified_audio_network(false);
     }
     unified_audio_local_poll();local_control();
+#if defined(MP_FIVE_APPLIANCE) && defined(__arm__)
+    unified_audio_key(!(GPIOE->IDR & GPIO_Pin_3));
+#endif
 #endif
     if (network_open && g_uptime_ms - last_sync >= 10000u) {
         b4_gateway_sync_ms(&gateway, gateway_epoch_milliseconds(), g_uptime_ms);
@@ -363,11 +405,25 @@ int main(void) {
 #endif
     platform_set_poll(service);
 #ifdef MP_FINAL_UNIFIED
+#ifdef MP_FIVE_APPLIANCE
+    final_can_mask=3;run_limit_ms=0;
+    uart_error_baseline=platform_uart_errors_total();
+    console("FIVE AUTO LOCAL_CAN KEY1_AUDIO_MAX2S NO_FLASH_WRITE\r\n");
+#else
     console("UNI DISARMED V1 C_BC_ABC NO_FLASH_WRITE\r\n");
     while(!armed){platform_poll();local_control();}
+#endif
     unified_audio_init();
+#if defined(MP_FIVE_APPLIANCE) && defined(__arm__)
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOE,ENABLE);
+    GPIO_InitTypeDef key={0};key.GPIO_Pin=GPIO_Pin_3;key.GPIO_Mode=GPIO_Mode_IN;key.GPIO_PuPd=GPIO_PuPd_UP;
+    GPIO_Init(GPIOE,&key);
+#endif
     if(b4_hw_init())for(;;){}
     for(unsigned bus=0;bus<2;bus++)b4_gateway_link(&gateway,bus,(final_can_mask&(1u<<bus))!=0);
+#ifdef MP_FIVE_APPLIANCE
+    runtime_ready=true;armed=true;
+#endif
     char uart_start[96];
     snprintf(uart_start,sizeof uart_start,"UNI UART baseline=%lu total=%lu\r\n",
         (unsigned long)uart_error_baseline,(unsigned long)platform_uart_errors_total());console(uart_start);
@@ -403,7 +459,15 @@ int main(void) {
     if(final_can_mask&2)
 #endif
     (void)b4_gateway_nmt(&gateway, 2, CO_NMT_ENTER_OPERATIONAL);
+#ifdef MP_FIVE_APPLIANCE
+    (void)b4_gateway_nmt(&gateway, 4, CO_NMT_ENTER_OPERATIONAL);
+    (void)b4_gateway_nmt(&gateway, 5, CO_NMT_ENTER_OPERATIONAL);
+    if(!gateway_config_valid())console("FIVE AUTO CONFIG_MISSING LOCAL_ONLY\r\n");
+#endif
     while (!stopped) {
+#ifdef MP_FIVE_APPLIANCE
+        if(!gateway_config_valid()){platform_poll();continue;}
+#endif
 #ifdef MP_FINAL_UNIFIED
         if(network_fault) {
             /* AT边界未知只停网络，CAN/本地STOP继续；不能盲目重发未知半帧。 */
@@ -424,7 +488,7 @@ int main(void) {
                 delay_ms(3000);continue;
             }
 #ifdef MP_FINAL_UNIFIED
-            unified_audio_network(false);gateway_network_close();delay_ms(2000);continue;
+            unified_audio_network(false);gateway_network_close();reconnect_delay();continue;
 #else
             if(!stopped)stop();
             gateway_network_close();break;
@@ -442,7 +506,7 @@ int main(void) {
         if (stopped || !gateway_mqtt_open(&will)) {
 #ifdef MP_B5_EGRESS_FINAL
 #ifdef MP_FINAL_UNIFIED
-            unified_audio_network(false);gateway_network_close();delay_ms(2000);continue;
+            unified_audio_network(false);gateway_network_close();reconnect_delay();continue;
 #else
             if(!stopped)stop();
             gateway_network_close();break;
@@ -452,6 +516,9 @@ int main(void) {
 #endif
         }
         mp_router_online(&gateway.router, true); mqtt_connected = true;
+#ifdef MP_FIVE_APPLIANCE
+        retry_ms=2000;
+#endif
 #ifdef MP_FINAL_UNIFIED
         (void)gateway_audio_subscribe();unified_audio_network(true);
 #endif
@@ -502,7 +569,7 @@ int main(void) {
 #else
         gateway_network_close();
 #endif
-        if (!stopped) delay_ms(2000);
+        if (!stopped) reconnect_delay();
     }
     report_stop();
 #ifdef MP_B5_EGRESS_FINAL

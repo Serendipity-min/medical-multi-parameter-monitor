@@ -1,0 +1,42 @@
+{
+  "scope": "OFFLINE_ONLY_NO_FLASH_NO_SERVICE_NO_CREDENTIAL_CHANGE",
+  "base": "f9bdff8a6d73993390baf59abc8a52bdc992f16c",
+  "branch": "codex/five-appliance-integration-v1",
+  "preserved": {
+    "gateway/storage/router.c": {
+      "base_blob_preserved": true,
+      "worktree_sha256": "a0708627e342fbf5983c0535875c6c5a325e04ee69cfc3da9040a192807686b9"
+    },
+    "gateway/b5/egress.h": {
+      "base_blob_preserved": true,
+      "worktree_sha256": "200311d49145101da5e2a8bc60afa501954a1cda5288c87965a61df12822d996"
+    },
+    "node-a/STM32F407_HOSPITAL/USER/main.c": {
+      "base_blob_preserved": true,
+      "worktree_sha256": "d79a809586cbe604c03d6281a35f05a5bf1454220299e1caa1a7dfccfc89ed6c"
+    },
+    "node-b/firmware/biov2/\u5b9e\u9a8c\u56fa\u4ef6/HARDWARE/bio_v2.c": {
+      "base_blob_preserved": true,
+      "worktree_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7"
+    },
+    "node-d/main.c": {
+      "base_blob_preserved": true,
+      "worktree_sha256": "e5a47beae19d68b0c3e9a8d51ff2d2c43fa966f46ebdbd956925c65d79301112"
+    },
+    "node-e/main.c": {
+      "base_blob_preserved": true,
+      "worktree_sha256": "e369abbcb20d353c1cde4807245aadc0d26fce928dc2aaa4a0aea44ef0fc2d15"
+    },
+    "node-b/docs/FIVE-NODE-MIGRATION/FIVE41-20261106/CURRENT-IMAGES.json": {
+      "base_blob_preserved": true,
+      "worktree_sha256": "4fe80760b3286b1233c534bcdd06bfdf9106150817f906b280f28b37c86945dd"
+    }
+  },
+  "original_branch": "f9bdff8a6d73993390baf59abc8a52bdc992f16c",
+  "R6": "12d3161b59fb88d9c9fed01b26d601df69c25b2a",
+  "M0": "26e695ffda43a7a76aa54d1c4e3a5631ac0dc42e",
+  "capacity": "NOT_PASS",
+  "field": "NOT_RUN",
+  "FreeRTOS": "NOT_STARTED",
+  "commit_push": "NOT_RUN"
+}

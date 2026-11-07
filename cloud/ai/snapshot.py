@@ -17,9 +17,9 @@ class SnapshotReader:
             now = int(time.time() * 1000)
             values = {'HR': 72.0, 'SPO2': 98.0, 'PR': 71.0, 'RR': None, 'TEMP': 36.5, 'NIBP': [118.0, 76.0]}
             return dict(type='snapshot', schema_version=1, gateway_id=gateway, gateway_state='ONLINE', broker_connected=True,
-                        nodes={'NODE-A': 'ONLINE', 'NODE-B': 'ONLINE'}, server_time=now,
+                        nodes={spec[0]: 'ONLINE' for spec in CHANNELS.values()}, server_time=now,
                         streams=[dict(gateway_id=gateway, node_id=spec[0], stream=name, unit=spec[1],
-                                      timestamp=now, session_id='p6-synthetic-fixture', seq=1,
+                                      timestamp=now, session_id='can-123-1', seq=1,
                                       validity='INVALID' if value is None else 'VALID', source='MOCK', synthetic=True, value=value)
                                  for name, value in values.items() for spec in [CHANNELS[name]]])
         from websockets.asyncio.client import connect

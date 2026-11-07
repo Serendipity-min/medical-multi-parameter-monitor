@@ -1,6 +1,7 @@
 // 产品支持范围的静态配置，不代表运行时硬件自检结果。
 import type { ScalarChannel, WaveChannel } from '../types';
 import type { Route } from '../router/hashRouter';
+import { fiveAppliance } from '../gatewayProfile';
 
 export interface Parameter {
   route: Exclude<Route, 'overview' | 'ai'>;
@@ -8,7 +9,7 @@ export interface Parameter {
   english: string;
   scalar: ScalarChannel;
   wave?: WaveChannel;
-  node: 'Node-A' | 'Node-B';
+  node: 'Node-A' | 'Node-B' | 'Node-D' | 'Node-E';
   device: string;
   subtitle: string;
   facts: [string, string][];
@@ -22,3 +23,9 @@ export const parameters: Record<Exclude<Route, 'overview' | 'ai'>, Parameter> = 
   nibp: { route: 'nibp', title: '无创血压', english: 'NON-INVASIVE BLOOD PRESSURE', scalar: 'NIBP', node: 'Node-A', device: 'HKB-08B+' , subtitle: '间歇测量 · SYS / DIA', facts: [['测量模块', 'HKB-08B+'], ['采集节点', 'Node-A'], ['输出参数', 'SYS / DIA'], ['单位', 'mmHg'], ['测量类型', '间歇式'], ['最近测量时间', '见当前读数时间戳']] },
   temp: { route: 'temp', title: '物体温度', english: 'NON-CONTACT TEMPERATURE', scalar: 'TEMP', node: 'Node-B', device: 'GY641', subtitle: 'UART4 · 未标定物体温度 To', facts: [['传感器', 'GY641'], ['采集节点', 'Node-B'], ['接口配置', 'UART4 · 9600 baud'], ['测量方式', '物体表面温度 To'], ['精度状态', '绝对精度未标定'], ['温度来源', 'TEMP 标量']] },
 };
+if (fiveAppliance) {
+  for (const [key, node] of [['temp', 'Node-D'], ['nibp', 'Node-E']] as const) {
+    parameters[key].node = node;
+    parameters[key].facts = parameters[key].facts.map(([name, value]) => [name, name === '采集节点' ? node : value]);
+  }
+}

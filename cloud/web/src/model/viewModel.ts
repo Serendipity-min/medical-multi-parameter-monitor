@@ -2,6 +2,7 @@
 // 无测量值或非 VALID 时显示 '--'；波形与算法标量分别判定，不推断探头状态。
 
 import type { MonitorViewModel, ScalarChannel, ScalarReading, Signal, Snapshot } from '../types';
+import { defaultGateway } from '../gatewayProfile';
 
 const defaultUnits: Record<ScalarChannel, string> = {
   HR: 'bpm',
@@ -125,7 +126,7 @@ export function getEmptyViewModel(reason = '等待数据'): MonitorViewModel {
 
   return {
     waves: { ECG: { validity: 'STALE', source: 'OFFLINE' }, RESP: { validity: 'STALE', source: 'OFFLINE' }, PPG: { validity: 'STALE', source: 'OFFLINE' } },
-    gatewayId: 'GW-DEV-001',
+    gatewayId: defaultGateway,
     gatewayState: 'OFFLINE',
     nodeAState: 'OFFLINE',
     nodeBState: 'OFFLINE',

@@ -12,6 +12,10 @@ void unified_audio_local_poll(void);
 void unified_audio_step(bool telemetry_idle);
 void unified_audio_network(bool connected);
 void unified_audio_command(int byte, bool export_allowed);
+#ifdef MP_FIVE_APPLIANCE
+void unified_audio_key(bool pressed);
+bool unified_audio_fact_current(unsigned node,unsigned stream,uint32_t seq,uint32_t epoch,uint32_t boot);
+#endif
 void unified_audio_reply(const uint8_t *, size_t);
 void unified_audio_stop(void);
 bool unified_audio_quiet(void);

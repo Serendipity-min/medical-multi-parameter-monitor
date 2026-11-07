@@ -1,0 +1,109 @@
+{
+  "scope": "HOST_OFFLINE_NO_NETWORK_OR_DEVICE",
+  "at_utc": "2026-11-07T02:52:40.562611+00:00",
+  "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+  "dependencies": {
+    "fastapi": "0.141.1",
+    "pydantic": "2.12.5",
+    "pytest": "9.1.1",
+    "httpx": "0.28.1",
+    "paho-mqtt": "2.1.0",
+    "websockets": "16.0"
+  },
+  "checks": [
+    {
+      "case": "python-protocol-api",
+      "exit": 0,
+      "log": "python-protocol-api.txt",
+      "command": [
+        "python",
+        "-X",
+        "utf8",
+        "-m",
+        "pytest",
+        "cloud/ai/tests/test_five_appliance.py",
+        "cloud/microphone/test_protocol.py",
+        "-q",
+        "--tb=short"
+      ],
+      "passed": 53
+    },
+    {
+      "case": "web-profile",
+      "exit": 0,
+      "log": "web-profile.txt",
+      "command": [
+        "node",
+        "tests/five-appliance.mjs"
+      ]
+    },
+    {
+      "case": "web-related",
+      "exit": 0,
+      "log": "web-related.txt",
+      "command": [
+        "node",
+        "tests/run.mjs"
+      ]
+    },
+    {
+      "case": "typescript",
+      "exit": 0,
+      "log": "typescript.txt",
+      "command": [
+        "node",
+        "node_modules/typescript/bin/tsc",
+        "--noEmit"
+      ]
+    },
+    {
+      "case": "web-build",
+      "exit": 0,
+      "log": "web-build.txt",
+      "command": [
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "build",
+        "--mode",
+        "five-appliance"
+      ]
+    }
+  ],
+  "native": [
+    {
+      "case": "startup",
+      "exit": 0,
+      "output": "HOST_FIVE_APPLIANCE_STARTUP_PASS checks=36099 config_missing_local_only=1 init_callback_safe=1 backoff_max_ms=30000 hardware=NOT_RUN"
+    },
+    {
+      "case": "keys-short-audio",
+      "exit": 0,
+      "output": "HOST_FIVE_KEY_AUDIO_PASS checks=1494 short_samples=16160 short_chunks=64 full_samples=32000 full_chunks=125 refusal_fixed=1 expired_STOP_QUERY_IDLE=1 hardware=NOT_RUN"
+    },
+    {
+      "case": "legacy-audio",
+      "exit": 0,
+      "output": "HOST_UNIFIED_AUDIO_PASS checks=1947 chunks=250 hash_slices=500 crc=2735321824 hardware=NOT_RUN"
+    }
+  ],
+  "supplied_simulation": {
+    "exit": 0,
+    "result": "26_PASS_7_HISTORIC_KNOWN_GAP",
+    "same_window_HR_RR": true,
+    "physical_capacity": "NOT_TESTED"
+  },
+  "candidate_ARM": {
+    "exit": 0,
+    "path": "node-b/build/b4-c-arm-20261107T025348486628Z",
+    "IRQ_vectors_verified": true
+  },
+  "manual_ARM": {
+    "exit": 0,
+    "path": "node-b/build/b4-c-arm-20261107T024742131892Z",
+    "IRQ_vectors_verified": true
+  },
+  "real_ASR": "NOT_RUN",
+  "real_TTS": "NOT_RUN",
+  "field": "NOT_RUN",
+  "capacity": "NOT_PASS"
+}

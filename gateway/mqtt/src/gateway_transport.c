@@ -201,7 +201,13 @@ static void mqtt_event(MQTTContext_t *context, MQTTPacketInfo_t *packet,
         if((packet->type&0xf0u)==MQTT_PACKET_TYPE_PUBLISH) {
             MQTTPublishInfo_t *p=decoded->pPublishInfo;
             if(p && p->qos==MQTTQoS1 && !p->retain && p->topicNameLength==sizeof(AUDIO_OUTPUT)-1 &&
-               !memcmp(p->pTopicName,AUDIO_OUTPUT,sizeof(AUDIO_OUTPUT)-1) && p->payloadLength<=76)
+               !memcmp(p->pTopicName,AUDIO_OUTPUT,sizeof(AUDIO_OUTPUT)-1) && p->payloadLength<=
+#ifdef MP_FIVE_APPLIANCE
+               MIC_FACT_REPLY_MAX
+#else
+               76u
+#endif
+              )
                 unified_audio_reply(p->pPayload,p->payloadLength);
             return;
         }

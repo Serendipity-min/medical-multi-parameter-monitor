@@ -11,6 +11,8 @@ export interface AiResponse {
 export const voiceLabels: Record<string, string> = {
   PAUSED: '设备播报已暂停', DISABLED: '设备播报服务未启用',
   BROKER_PUBACK_ONLY: 'Broker 已接收下发 · 设备播放未验证',
+  BROKER_PUBACK_ONLY_NOT_TTS_DONE: 'Broker 已接收录音回复 · 设备播放未验证',
+  NO_RECORDING_CONTEXT: '请先在设备按 K1 录音 · 没有可回复的录音会话',
   RATE_LIMITED: '播报频率受限', DOWNLINK_FAILED: '播报下发失败',
 };
 export function modelLabel(data: AiResponse): string {

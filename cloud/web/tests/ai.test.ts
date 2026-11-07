@@ -24,8 +24,8 @@ test('回执严格匹配网关和会话，拒绝畸形事实', () => {
     assert.equal(validResponse(malformed, 'GW-DEV-001', 'test'), false);
   }
 });
-test('五种播报语义完整，Broker 回执明确设备播放未验证', () => {
-  assert.equal(Object.keys(voiceLabels).length, 5);
+test('播报及录音上下文语义完整，Broker 回执明确设备播放未验证', () => {
+  assert.equal(Object.keys(voiceLabels).length, 7);
   assert.match(voiceLabels.BROKER_PUBACK_ONLY, /设备播放未验证/);
   assert.ok(Object.values(voiceLabels).every((label) => !label.includes('已播放')));
 });

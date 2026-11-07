@@ -23,6 +23,7 @@ def main():
     parser.add_argument('--audio-link', action='store_true', help='仅离线保留MIC/TTS完整API与CCM缓存，不启用录音或新增现场命令')
     parser.add_argument('--unified', action='store_true', help='真实三板语音统一运行候选；不执行设备操作')
     parser.add_argument('--five-node', action='store_true', help='五板静态来源候选；仅离线构建')
+    parser.add_argument('--five-appliance', action='store_true', help='五板自动启动/KEY1/事实回复候选；仅离线构建，不部署')
     parser.add_argument('--bench-seconds', type=int, choices=(15,60,300), help='PHY隔离诊断单次硬时限；仅bench分段布局')
     parser.add_argument('--bench-small-frames', action='store_true', help='300秒候选仅保留B心跳与D温度；离线构建，不授权超规格上电')
     parser.add_argument('--bench-five-segments', action='store_true', help='五板双段完整CAN取证，固定60秒，无网络/音频')
@@ -34,6 +35,7 @@ def main():
     if args.unified and (not args.tri or args.audio_link):parser.error('--unified requires --tri and excludes --audio-link')
     if args.split_flash and not (args.unified or args.bench):parser.error('--split-flash requires --unified or --bench')
     if args.five_node and not (args.split_flash and (args.unified or args.bench)):parser.error('--five-node requires split unified/bench')
+    if args.five_appliance and not (args.five_node and args.unified):parser.error('--five-appliance requires --five-node --unified')
     if args.bench_seconds is not None and not (args.bench and args.split_flash and args.five_node):parser.error('--bench-seconds requires --bench --split-flash --five-node')
     if args.bench_small_frames and args.bench_seconds!=300:parser.error('--bench-small-frames requires --bench-seconds 300; 15s already small')
     if args.bench_five_segments and (args.bench_seconds!=60 or args.bench_small_frames):parser.error('--bench-five-segments requires 60s full-frame bench')
@@ -57,6 +59,7 @@ def main():
              *['-I' + str(p) for p in base.INCLUDES]]
     if args.tri:flags += ['-DMP_ABC_TRI_CANDIDATE', '-flto']
     if args.five_node:flags += ['-DMP_FIVE_NODE']
+    if args.five_appliance:flags += ['-DMP_FIVE_APPLIANCE']
     if args.bench_seconds is not None:flags += [f'-DB4_BENCH_LIMIT_MS={args.bench_seconds*1000}u', '-DB4_FIVE_CAPTURE' if args.bench_five_segments else '-DB4_PHY_DIAGNOSTIC']
     if small_frames:flags += ['-DB4_PHY_SMALL_FRAMES']
     reference_sha = {}
@@ -114,7 +117,7 @@ def main():
         sources += [ROOT/'gateway/voice'/n for n in ('tts_frame.c','tts_queue.c','tts_uart_port.c')]
         flags += ['-DMIC_SHARED_RUNTIME','-DMIC_NETWORK_BENCH','-DMP_CLOUD_VOICE',
                   '-I'+str(ROOT/'gateway/microphone'),'-I'+str(ROOT/'gateway/voice')]
-        if args.unified:flags += ['-DMP_FINAL_UNIFIED',f'-DMP_MQTT_TLS_PORT={args.tls_port or 1883}']
+        if args.unified:flags += ['-DMP_FINAL_UNIFIED',f'-DMP_MQTT_TLS_PORT={args.tls_port or (28895 if args.five_appliance else 1883)}']
     linker = ROOT/'gateway/b5/flash.ld' if args.b5 else (HERE/'bench_flash.ld' if args.bench else ROOT/'gateway/mqtt/STM32F407ZGT6_FLASH.ld')
     if args.audio_link or args.unified:
         template=linker.read_text(encoding='utf-8')
@@ -146,7 +149,7 @@ def main():
             warnings = ['-Wextra', '-Werror'] if source.is_relative_to(HERE) else []
             run([base.GCC, *flags, *warnings, '-c', source, '-o', obj]); objects.append(obj)
         obj = out / 'startup.o'; run([base.GCC, *flags, '-c', base.STARTUP, '-o', obj]); objects.append(obj)
-        target = 'ABC_UNIFIED_C_V1' if args.unified else 'ABC_AUDIO_LINK_PROBE' if args.audio_link else 'ABC_TRI_CLOUD_CANDIDATE' if args.tri else 'B5_CLOUD_MOCK_GATEWAY' if args.b5 else ('B4_GATEWAY_BENCH' if args.bench else ('B4_GATEWAY_NETWORK_SOFTWARE' if args.network_link else 'B4_GATEWAY_LINK_ONLY'))
+        target = 'FIVE_APPLIANCE_C_2S_V1' if args.five_appliance else 'ABC_UNIFIED_C_V1' if args.unified else 'ABC_AUDIO_LINK_PROBE' if args.audio_link else 'ABC_TRI_CLOUD_CANDIDATE' if args.tri else 'B5_CLOUD_MOCK_GATEWAY' if args.b5 else ('B4_GATEWAY_BENCH' if args.bench else ('B4_GATEWAY_NETWORK_SOFTWARE' if args.network_link else 'B4_GATEWAY_LINK_ONLY'))
         elf = out / (target + '.elf')
         run([base.GCC, *flags, '-T', linker,
              '-Wl,--gc-sections', '-Wl,-Map=' + str(out / 'gateway.map'), '--specs=nano.specs', '--specs=nosys.specs',
@@ -226,9 +229,9 @@ def main():
             layout={'schema':1,'target':target,'erase_sectors':[0,4],'sector4_owner_approval_required':True,
                 'images':[dict(address=a,bytes=(out/(target+'-'+n+'.bin')).stat().st_size,
                     **artifact(out/(target+'-'+n+'.bin'))) for n,a in [('boot',0x08000000),('code',0x08010000)]],
-                'HEX':artifact(out/(target+'.hex')),'ELF':artifact(elf),'TLS_port':None if args.bench else args.tls_port or 1883,
+                'HEX':artifact(out/(target+'.hex')),'ELF':artifact(elf),'TLS_port':None if args.bench else args.tls_port or (28895 if args.five_appliance else 1883),
                 'time_policy':'LOCAL_TEST_TIME_NEVER_CLOUD' if args.bench else 'B5_FRESH_SNTP_UNCHANGED',
-                'normal_runtime_limit':f'B4START one-shot {args.bench_seconds or 180}s' if args.bench else 'UNISTART manual-stop; B5START retains420s',
+                'normal_runtime_limit':f'B4START one-shot {args.bench_seconds or 180}s' if args.bench else 'FIVE automatic; explicit STOP; audio maximum2s' if args.five_appliance else 'UNISTART manual-stop; B5START retains420s',
                 'sector3_options_and_all_other_sectors':'PRESERVE'}
             (out/'unified-layout.json').write_text(json.dumps(layout,indent=2)+'\n')
         status = 'PASS'
@@ -252,7 +255,7 @@ def main():
               'bench_UART_IRQ_vector_verified':irq_vector_verified,
               'linker_sha256': hashlib.sha256(linker.read_bytes()).hexdigest(),
               'audio_link_probe':args.audio_link,'audio_layout':audio_layout,
-              'unified_runtime':args.unified,'five_node':args.five_node,'split_flash_requires_owner_approval':args.split_flash,
+              'unified_runtime':args.unified,'five_node':args.five_node,'five_appliance':args.five_appliance,'split_flash_requires_owner_approval':args.split_flash,
               'hardware_eligible': False, 'network_transport': 'B5_H3_TRANSPORT_B4_RETRY_DRIVER_ARM_LINKED_NOT_EXECUTED' if args.b5 else ('H3_FROZEN_SOURCE_LINKED_NOT_EXECUTED' if args.network_link else 'NOT_LINKED_NOT_DEPLOYED'),
               'h3_reference_commit': 'a5cdd5b0b1ad48108fd631136e9de69e30582f2d', 'h3_reference_sha256': reference_sha, 'commands': commands,
               'log_sha256': hashlib.sha256(log).hexdigest(),

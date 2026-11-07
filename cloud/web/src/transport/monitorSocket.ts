@@ -2,6 +2,7 @@
 // 严禁在此模块内引用 DOM 或执行任何 UI 样式与 Canvas 绘制。
 
 import type { Snapshot } from '../types';
+import { defaultGateway } from '../gatewayProfile';
 
 export interface TransportCallbacks {
   onSnapshot: (data: Snapshot) => void;
@@ -13,7 +14,7 @@ export interface TransportCallbacks {
 export class MonitorSocket {
   private socket: WebSocket | null = null;
   private token = '';
-  private gatewayId = 'GW-DEV-001';
+  private gatewayId = defaultGateway;
   private intentional = false;
   private retryCount = 0;
   private retryTimer = 0;
