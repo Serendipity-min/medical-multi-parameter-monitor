@@ -696,9 +696,33 @@ int gateway_mqtt_yield(void)
     return process_once();
 }
 
+#if defined(MP_PASS_LIFECYCLE) || defined(MP_TRANSPORT_BENCH)
+static int gateway_socket_absent(void){
+    const char *status=strstr(at_response(),"STATUS:");
+    return status && status[7] && strchr("245",status[7]) && status[8]=='\r' &&
+           !strstr(at_response(),"+CIPSTATUS:");
+}
+#endif
+
 void gateway_network_close(void)
 {
     mqtt_failed();
+#ifdef MP_PASS_LIFECYCLE
+    /* 复位已销毁旧会话，等下一次完整启动再写易失配置。 */
+    if(platform_passthrough_leave()!=PASS_EXIT_AT)return;
+    if(!at_command("AT+CIPCLOSE",2000)){
+        console("GW PASS_CLOSE_UNCONFIRMED\r\n");
+        if(platform_at_unsynced() || !platform_passthrough_status() || !gateway_socket_absent()){
+            console("GW PASS_SOCKET_UNCONFIRMED\r\n");
+            (void)platform_passthrough_recover();return;
+        }
+        console("GW PASS_SOCKET_ABSENT\r\n");
+    }
+    if(!platform_passthrough_normal()){
+        console("GW PASS_NORMAL_UNCONFIRMED\r\n");
+        (void)platform_passthrough_recover();
+    }
+#else
 #ifdef MP_ESP_PASSTHROUGH
     if(!platform_passthrough_leave()){console("GW PASS_MODE_UNKNOWN\r\n");return;}
 #endif
@@ -719,7 +743,22 @@ void gateway_network_close(void)
 #else
     (void)at_command("AT+CIPCLOSE", 2000);
 #endif
+#endif
 }
+
+#ifdef MP_PASS_LIFECYCLE
+int gateway_passthrough_retry(unsigned *reentries)
+{
+    if(b5_network_stopped() || !platform_at_synchronized())return 0;
+    if(*reentries>=3u){console("GW PASS_REENTRY_LIMIT\r\n");return 0;}
+    unsigned delay=2000u<<(*reentries)++;
+    console("GW PASS_REENTRY_BACKOFF\r\n");
+    delay_ms(delay);
+    if(b5_network_stopped())return 0;
+    console("GW PASS_REENTRY_ATTEMPT\r\n");
+    return 1;
+}
+#endif
 
 /* 固定顺序为 AT 配置、入网、可信时间、证书名称校验、TLS；任何失败由外层重试。 */
 #ifdef MP_H3_FRESH_SNTP
@@ -923,9 +962,7 @@ int gateway_bench_restore(void){
     if(!platform_at_synchronized() || gateway_uart_negotiation_failed())
         return production_restore_failure(label,"AT_STATE");
     if(!at_command("AT+CIPSTATUS",1000u))return production_restore_failure(label,"STATUS");
-    const char *status=strstr(at_response(),"STATUS:");
-    if(!status || !status[7] || !strchr("245",status[7]) || status[8]!='\r' || strstr(at_response(),"+CIPSTATUS:"))
-        return production_restore_failure(label,"STATUS");
+    if(!gateway_socket_absent())return production_restore_failure(label,"STATUS");
     if(!at_command("AT+CIPMODE?",1000u) || !strstr(at_response(),"+CIPMODE:0\r\n"))
         return production_restore_failure(label,"CIPMODE");
     PreUart current;
@@ -966,6 +1003,9 @@ int gateway_network_open(void)
     if (!step("AT", ESP_AT_SYNC, 2000) || !step("ECHO", ESP_AT_ECHO_OFF, 2000) ||
         !step("VOLATILE", ESP_AT_VOLATILE, 2000) || !step("STA", "AT+CWMODE=1", 3000))
         return 0;
+#endif
+#ifdef MP_PASS_LIFECYCLE
+    if(!step("PASS_NORMAL","AT+CIPMODE=0",2000u))return 0;
 #endif
 #ifdef MP_TRANSPORT_BENCH
         PreUart uart;

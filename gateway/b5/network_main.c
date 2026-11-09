@@ -26,11 +26,13 @@ static void local_control(void);
 #ifdef MP_FIVE_APPLIANCE
 static bool runtime_ready;
 #ifndef MP_FIVE_FIELD01
+#ifndef MP_PASS_LIFECYCLE
 static uint32_t retry_ms=2000;
 static void reconnect_delay(void) {
     delay_ms(retry_ms);
     if(retry_ms<30000u)retry_ms=retry_ms<15000u?retry_ms*2u:30000u;
 }
+#endif
 #endif
 #endif
 #endif
@@ -157,6 +159,22 @@ static void stop(void) {
     mp_router_online(&gateway.router, false); b4_hw_stop();
     report_stop();
 }
+#ifdef MP_PASS_LIFECYCLE
+static bool pass_reconnect(unsigned *reentries){
+    if(stop_due && !stopped)stop();
+    if(stopped)return false;
+    if(platform_at_synchronized()){
+        uart_error_baseline=platform_uart_errors_total();
+        network_fault=false;
+    }
+    if(gateway_passthrough_retry(reentries))return true;
+    if(!stopped){
+        if(!stop_due)console("GW FAIL LINK\r\n");
+        stop();
+    }
+    return false;
+}
+#endif
 #ifdef MP_FINAL_UNIFIED
 static void local_control(void) {
 #ifdef MP_FIVE_FIELD01
@@ -603,7 +621,9 @@ int main(void) {
     }
 #endif
     armed_at = g_uptime_ms;
-#if defined(MP_B5_EGRESS_FINAL) && !defined(MP_FIVE_FIELD01)
+#ifdef MP_PASS_LIFECYCLE
+    unsigned pass_reentries=0;
+#elif defined(MP_B5_EGRESS_FINAL) && !defined(MP_FIVE_FIELD01)
     unsigned startup_ntp_retries=0;
 #endif
 #ifdef MP_ABC_TRI_CANDIDATE
@@ -646,6 +666,10 @@ int main(void) {
 #endif
 #ifdef MP_FIVE_FIELD01
             field01_latch(FIELD01_LINK);if(!stopped)stop();gateway_network_close();break;
+#elif defined(MP_PASS_LIFECYCLE)
+            gateway_network_close();
+            if(!pass_reconnect(&pass_reentries))break;
+            continue;
 #elif defined(MP_B5_EGRESS_FINAL)
             if(!stopped && gateway_network_retryable() && startup_ntp_retries<2u) {
                 startup_ntp_retries++;
@@ -671,6 +695,10 @@ int main(void) {
         if (stopped || !gateway_mqtt_open(&will)) {
 #ifdef MP_FIVE_FIELD01
             field01_latch(FIELD01_LINK);if(!stopped)stop();gateway_network_close();break;
+#elif defined(MP_PASS_LIFECYCLE)
+            gateway_network_close();
+            if(!pass_reconnect(&pass_reentries))break;
+            continue;
 #elif defined(MP_B5_EGRESS_FINAL)
 #ifdef MP_FINAL_UNIFIED
             unified_audio_network(false);gateway_network_close();reconnect_delay();continue;
@@ -683,7 +711,10 @@ int main(void) {
 #endif
         }
         mp_router_online(&gateway.router, true); mqtt_connected = true;
-#if defined(MP_FIVE_APPLIANCE) && !defined(MP_FIVE_FIELD01)
+#ifdef MP_PASS_LIFECYCLE
+        if(pass_reentries)console("GW PASS_REENTRY_OK\r\n");
+#endif
+#if defined(MP_FIVE_APPLIANCE) && !defined(MP_FIVE_FIELD01) && !defined(MP_PASS_LIFECYCLE)
         retry_ms=2000;
 #endif
 #ifdef MP_FINAL_UNIFIED
@@ -740,6 +771,11 @@ int main(void) {
 #ifdef MP_B5_EGRESS_FINAL
 #ifdef MP_FINAL_UNIFIED
         unified_audio_network(false);
+#ifdef MP_PASS_LIFECYCLE
+        for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)
+            if(publisher.tickets[i])mp_router_ack(&gateway.router,&publisher.inflight[i],false);
+        if(publisher.deferred)mp_router_ack(&gateway.router,&publisher.publishing,false);
+#endif
         if(!drained)gateway_network_close();
         memset(&publisher,0,sizeof publisher);
 #else
@@ -751,6 +787,8 @@ int main(void) {
 #endif
 #ifdef MP_FIVE_FIELD01
         if(!stopped){field01_latch(FIELD01_LINK);stop();}
+#elif defined(MP_PASS_LIFECYCLE)
+        if(!pass_reconnect(&pass_reentries))break;
 #else
         if (!stopped) reconnect_delay();
 #endif

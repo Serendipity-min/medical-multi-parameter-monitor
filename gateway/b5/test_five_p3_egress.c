@@ -56,6 +56,12 @@ static unsigned peer_chunks,peer_chunk_max,peer_rx_max,peer_escape_count,peer_es
 static uint32_t peer_flush_at,peer_last_tx,peer_escape_at;
 static unsigned peer_entry_case,peer_tx_stop_after;
 static bool peer_stop;
+#ifdef MP_PASS_LIFECYCLE
+static unsigned peer_at_ignored,peer_at_count,peer_reset_count,peer_close_count;
+static uint32_t peer_stop_at,peer_hold_tc_until,peer_hold_txe_until;
+static bool peer_reset_available,peer_reset_silent,peer_cleanup_rx,peer_hold_escape,peer_hold_post,
+    peer_close_silent,peer_close_error,peer_socket_live,peer_normal_silent;
+#endif
 #endif
 
 int b5_network_stopped(void){
@@ -65,7 +71,12 @@ int b5_network_stopped(void){
     return 0;
 #endif
 }
-uint32_t b5_business_remaining(void){return 420000u;}
+uint32_t b5_business_remaining(void){
+#ifdef MP_PASS_LIFECYCLE
+    if(peer_stop)return 0;
+#endif
+    return 420000u;
+}
 int mic_initialize(void){return 1;}
 void mic_record_begin(void){mic_state=1;record_at=g_uptime_ms;}
 unsigned mic_record_state(void){return mic_state;}
@@ -204,9 +215,24 @@ static void peer_pass_tx(unsigned char byte){
     peer_last_tx=g_uptime_ms;
     if(byte=='+' && (gap>20u || peer_escape_bytes)){
         assert((peer_escape_bytes==0 && gap>20u) || gap<20u);
+#ifdef MP_PASS_LIFECYCLE
+        if(!peer_escape_bytes)assert(gap>=1000u);
+        if(peer_hold_escape){
+            peer_hold_escape=false;peer_hold_txe_until=g_uptime_ms+120u;
+            USART3->SR&=~USART_SR_TXE;
+            return;
+        }
+#endif
         if(++peer_escape_bytes==3){
             peer_escape_count++;peer_escape_bytes=0;
             peer_escape_at=g_uptime_ms;peer_stream=false;
+#ifdef MP_PASS_LIFECYCLE
+            if(peer_cleanup_rx)terminal("\r\nOK\r\n",150);
+            if(peer_hold_post){
+                peer_hold_post=false;peer_hold_tc_until=g_uptime_ms+120u;
+                USART3->SR&=~USART_SR_TC;
+            }
+#endif
         }
         return;
     }
@@ -240,6 +266,36 @@ static void peer_tx_byte(unsigned char byte){
     if(command_count<2 || command_bytes[command_count-2]!='\r' || byte!='\n')return;
     command_bytes[command_count]=0;command_count=0;
 #ifdef MP_ESP_PASSTHROUGH
+#ifdef MP_PASS_LIFECYCLE
+    if(!strcmp(command_bytes,"AT\r\n")){
+        peer_at_count++;
+        if(peer_at_ignored){peer_at_ignored--;return;}
+        if(reply_count!=reply_offset){
+            reply_offset=reply_count;
+            terminal("\r\nERROR\r\n\r\nOK\r\n",rx_ms);
+        }else terminal("\r\nOK\r\n",rx_ms);
+        return;
+    }
+    if(!strncmp(command_bytes,"+++",3)){
+        terminal("\r\nERROR\r\n",0);return;
+    }
+    if(!strcmp(command_bytes,"AT+CIPCLOSE\r\n")){
+        peer_close_count++;
+        if(peer_close_silent)return;
+        if(peer_close_error){terminal("\r\nERROR\r\n",rx_ms);return;}
+    }
+    if(!strcmp(command_bytes,"AT+CIPSTATUS\r\n")){
+        terminal(peer_socket_live?"\r\nSTATUS:3\r\nOK\r\n":"\r\nSTATUS:4\r\nOK\r\n",rx_ms);
+        return;
+    }
+    if(peer_normal_silent && !strcmp(command_bytes,"AT+CIPMODE=0\r\n"))return;
+    if(!strcmp(command_bytes,"AT+GMR\r\n")){
+        terminal("\r\nAT version:2.2.0.0\r\nOK\r\n",rx_ms);return;
+    }
+    if(!strcmp(command_bytes,"AT+SYSTIMESTAMP?\r\n")){
+        terminal("\r\n+SYSTIMESTAMP:1800000000\r\nOK\r\n",rx_ms);return;
+    }
+#endif
     if(!strcmp(command_bytes,"AT+CIPSEND\r\n")){
         if(peer_entry_case==1)terminal(">",prompt_ms);
         else if(peer_entry_case==2)terminal("\r\nERROR\r\n",prompt_ms);
@@ -332,6 +388,15 @@ static void tick(void){
 #else
     advance(25);
 #endif
+#ifdef MP_PASS_LIFECYCLE
+    if(peer_stop_at && g_uptime_ms>=peer_stop_at)peer_stop=true;
+    if(peer_hold_tc_until && g_uptime_ms>=peer_hold_tc_until){
+        USART3->SR|=USART_SR_TC;peer_hold_tc_until=0;
+    }
+    if(peer_hold_txe_until && g_uptime_ms>=peer_hold_txe_until){
+        USART3->SR|=USART_SR_TXE;peer_hold_txe_until=0;
+    }
+#endif
     if(reply_offset<reply_count && g_uptime_ms>=reply_at){
         USART3->DR=reply_bytes[reply_offset++];USART3->SR|=USART_SR_RXNE;
         USART3_IRQHandler();USART3->SR&=~USART_SR_RXNE;advance(wire_us+byte_cpu_us);
@@ -405,6 +470,109 @@ static void pass_case_reset(void){
     esp_mqtt_reset();
 }
 
+#ifdef MP_PASS_LIFECYCLE
+int platform_esp_hard_reset(void){
+    peer_reset_count++;
+    if(!peer_reset_available)return 0;
+    peer_stream=false;peer_escape_at=0;command_count=0;
+    if(!peer_reset_silent)terminal("\r\nready\r\n",100);
+    return 1;
+}
+
+static void lifecycle_case(void){
+    pass_case_reset();
+    command_count=peer_at_ignored=peer_at_count=peer_reset_count=peer_close_count=0;
+    peer_hold_tc_until=peer_hold_txe_until=0;USART3->SR|=USART_SR_TC|USART_SR_TXE;
+    peer_hold_escape=peer_hold_post=peer_close_silent=peer_close_error=peer_socket_live=peer_normal_silent=false;
+    peer_stop_at=0;peer_reset_available=peer_reset_silent=peer_cleanup_rx=false;
+    assert(platform_passthrough_enter());
+}
+
+static void lifecycle_cases(void){
+    lifecycle_case();
+    gateway_network_close();
+    assert(peer_escape_count==1 && peer_at_count==1 && peer_close_count==1 && platform_at_synchronized());
+    puts("PASS_LIFECYCLE_NORMAL_EXIT_NO_ESCAPE_ACK");
+    lifecycle_case();
+    peer_cleanup_rx=true;peer_at_ignored=1;
+    assert(platform_passthrough_leave()==1 && peer_at_count==2 && !peer_reset_count);
+    puts("PASS_LIFECYCLE_AT_TIMEOUT_RETRY_SUCCESS_STALE_RX_IGNORED");
+    lifecycle_case();
+    peer_at_ignored=2;
+    gateway_network_close();
+    unsigned at_count=peer_at_count,reentries=0;
+    assert(peer_reset_count==1 && !peer_close_count && pass_mode==PASS_LOCKED &&
+           !gateway_network_open() && !gateway_passthrough_retry(&reentries) &&
+           !at_command("AT",500) && !platform_passthrough_leave() &&
+           peer_reset_count==1 && peer_at_count==at_count);
+    puts("PASS_LIFECYCLE_RETRY_EXHAUSTED_HARD_RESET_UNAVAILABLE_COMMANDS_BLOCKED");
+    lifecycle_case();
+    peer_at_ignored=2;peer_reset_available=true;peer_reset_silent=true;
+    assert(!platform_passthrough_leave() && pass_mode==PASS_LOCKED && !at_command("AT",500));
+    puts("PASS_LIFECYCLE_RESET_WITHOUT_READY_COMMANDS_BLOCKED");
+    lifecycle_case();
+    peer_at_ignored=3;peer_reset_available=true;
+    assert(!platform_passthrough_leave() && pass_mode==PASS_LOCKED && !at_command("AT",500));
+    puts("PASS_LIFECYCLE_RESET_WITHOUT_AT_COMMANDS_BLOCKED");
+    lifecycle_case();
+    peer_at_ignored=2;peer_reset_available=true;
+    assert(platform_passthrough_leave()==2 && peer_reset_count==1 && platform_at_synchronized());
+    assert(gateway_passthrough_retry(&reentries) && gateway_network_open());
+    puts("PASS_LIFECYCLE_HARD_RESET_RESTART");
+    lifecycle_case();
+    terminal("\r\nCLOSED\r\n",0);
+    unsigned char bytes[4];
+    assert(esp_mqtt_recv(bytes,4,40)<0);
+    gateway_network_close();
+    MpFrame will={.node=3,.stream=MP_GATEWAY_STATUS,.synthetic=true};
+    assert(gateway_passthrough_retry(&reentries) && gateway_network_open() && gateway_mqtt_open(&will));
+    assert(gateway_passthrough_retry(&reentries) && !gateway_passthrough_retry(&reentries) && reentries==3);
+    puts("PASS_LIFECYCLE_CLOSED_TLS_MQTT_RECONNECT_AND_REENTRY_LIMIT");
+    lifecycle_case();
+    peer_stop_at=g_uptime_ms+500u;
+    gateway_network_close();
+    assert(peer_stop && platform_at_synchronized() && peer_close_count==1 &&
+           !gateway_passthrough_retry(&reentries) && esp_mqtt_send(bytes,4,500)<0);
+    puts("PASS_LIFECYCLE_STOP_DURING_EXIT_NO_REENTRY");
+    lifecycle_case();
+    peer_stream=false;
+    assert(platform_passthrough_leave()==PASS_EXIT_AT && peer_at_count==1 && !peer_reset_count);
+    puts("PASS_LIFECYCLE_ALREADY_COMMAND_CLEARS_ESCAPE_PREFIX_ON_RETRY");
+    lifecycle_case();
+    USART3->SR&=~USART_SR_TC;
+    assert(!platform_passthrough_leave() && !peer_escape_count && peer_reset_count==1);
+    puts("PASS_LIFECYCLE_PRE_GUARD_TIMEOUT_NO_ESCAPE");
+    lifecycle_case();
+    peer_hold_escape=true;
+    assert(platform_passthrough_leave()==PASS_EXIT_AT && peer_escape_count==1 && !peer_reset_count);
+    puts("PASS_LIFECYCLE_PARTIAL_ESCAPE_WRITE_RETRY");
+    lifecycle_case();
+    peer_hold_post=true;
+    assert(platform_passthrough_leave()==PASS_EXIT_AT && peer_at_count==1 && !peer_reset_count);
+    puts("PASS_LIFECYCLE_POST_GUARD_TIMEOUT_RETRY");
+    lifecycle_case();
+    peer_close_silent=true;
+    gateway_network_close();
+    assert(peer_close_count==1 && peer_reset_count==1 && !platform_at_synchronized());
+    puts("PASS_LIFECYCLE_CLOSE_TIMEOUT_COMMANDS_BLOCKED");
+    lifecycle_case();
+    peer_close_error=true;
+    gateway_network_close();
+    assert(peer_close_count==1 && !peer_reset_count && platform_at_synchronized());
+    puts("PASS_LIFECYCLE_CLOSE_ERROR_SOCKET_ABSENT");
+    lifecycle_case();
+    peer_close_error=peer_socket_live=true;
+    gateway_network_close();
+    assert(peer_close_count==1 && peer_reset_count==1 && !platform_at_synchronized());
+    puts("PASS_LIFECYCLE_CLOSE_ERROR_SOCKET_LIVE_COMMANDS_BLOCKED");
+    lifecycle_case();
+    peer_normal_silent=true;
+    gateway_network_close();
+    assert(peer_close_count==1 && peer_reset_count==1 && !platform_at_synchronized());
+    puts("PASS_LIFECYCLE_NORMAL_MODE_TIMEOUT_COMMANDS_BLOCKED");
+}
+#endif
+
 static void pass_fault_cases(void){
     uint8_t bytes[8];
     assert(platform_passthrough_enter() && pass_mode==PASS_STREAM);
@@ -458,6 +626,14 @@ static void pass_fault_cases(void){
 
 int main(int argc,char **argv){
 #ifdef MP_ESP_PASSTHROUGH
+#ifdef MP_PASS_LIFECYCLE
+    if(argc==1){
+        USART3->BRR=0x45;USART3->SR|=USART_SR_TC;
+        platform_set_poll(tick);lifecycle_cases();
+        assert(esp_uart_baud==115200u && USART3->BRR==0x45);
+        return 0;
+    }
+#endif
     if((argc==2 && !strcmp(argv[1],"--pass-check"))
 #if defined(MP_FIVE_FIELD01) && !defined(MP_ESP_UART_230400)
        || argc==1

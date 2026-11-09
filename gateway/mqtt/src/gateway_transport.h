@@ -23,6 +23,9 @@ int gateway_mqtt_open(const MpFrame *will);
 int gateway_mqtt_publish(const MpFrame *frame);
 int gateway_mqtt_yield(void);
 void gateway_network_close(void);
+#ifdef MP_PASS_LIFECYCLE
+int gateway_passthrough_retry(unsigned *reentries);
+#endif
 #ifdef MP_B5_EGRESS_FINAL
 #include "../../b5/egress_metrics.h"
 enum { GW_FAILED=-1,GW_PENDING=0,GW_COMPLETE=1,GW_DEFERRED=2 };

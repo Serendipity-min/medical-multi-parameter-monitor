@@ -25,7 +25,11 @@ static EspIoMetrics io_metrics;
 #ifdef MP_B5_EGRESS_FINAL
 static int reply_boundary;
 #ifdef MP_ESP_PASSTHROUGH
-static enum { PASS_COMMAND, PASS_STREAM, PASS_FAULT, PASS_UNKNOWN } pass_mode;
+static enum { PASS_COMMAND, PASS_STREAM, PASS_FAULT, PASS_UNKNOWN
+#ifdef MP_PASS_LIFECYCLE
+    , PASS_LOCKED
+#endif
+} pass_mode;
 static unsigned pass_remaining,pass_plus;
 static bool pass_length,pass_entry_ok;
 #endif
@@ -422,7 +426,11 @@ static int await_reply(uint32_t timeout, int prompt, int sent)
     return wait_end(0,10);
 }
 
+#ifdef MP_PASS_LIFECYCLE
+static int at_command_impl(const char *command, uint32_t timeout, bool cleanup)
+#else
 int at_command(const char *command, uint32_t timeout)
+#endif
 {
 #ifdef MP_ESP_PASSTHROUGH
     if(pass_mode!=PASS_COMMAND)return 0;
@@ -458,13 +466,21 @@ int at_command(const char *command, uint32_t timeout)
     }
     serial_deadline=started+timeout;phase(ESP_AT_COMMAND);
 #else
-    if(!close && b5_business_remaining()<timeout+B5_CLOSE_RESERVE_MS){io_metrics.budget_refused++;return 0;}
+    if(!close &&
+#ifdef MP_PASS_LIFECYCLE
+       !cleanup &&
+#endif
+       b5_business_remaining()<timeout+B5_CLOSE_RESERVE_MS){io_metrics.budget_refused++;return 0;}
     uint32_t started=g_uptime_ms;serial_deadline=started+timeout;phase(ESP_AT_COMMAND);
 #endif
 #endif
 #ifdef MP_B5_CLOUD_CANDIDATE
     /* 硬停禁止继续发业务，但仍允许唯一的有界CIPCLOSE清理TLS连接。 */
-    closing_network = b5_network_stopped() && !strcmp(command,"AT+CIPCLOSE");
+    closing_network =
+#ifdef MP_PASS_LIFECYCLE
+        cleanup ||
+#endif
+        (b5_network_stopped() && !strcmp(command,"AT+CIPCLOSE"));
 #endif
     if (NETWORK_STOPPED()) return 0;
     unsigned written=send_bytes((const unsigned char *)command, strlen(command));
@@ -508,6 +524,13 @@ int at_command(const char *command, uint32_t timeout)
 #endif
     return ok;
 }
+
+#ifdef MP_PASS_LIFECYCLE
+int at_command(const char *command, uint32_t timeout)
+{
+    return at_command_impl(command,timeout,false);
+}
+#endif
 
 const char *at_response(void)
 {
@@ -605,6 +628,121 @@ int platform_passthrough_enter(void){
     return 1;
 }
 
+#ifdef MP_PASS_LIFECYCLE
+enum { PASS_QUIET_MS=1001u, PASS_WRITE_MS=100u, PASS_READY_MS=3000u };
+
+#ifndef PLATFORM_HOST_TEST
+/* 未验证 C 板 RST/EN 接线。板级实现可覆盖此入口，仅在实际发出复位脉冲后返回成功。 */
+__attribute__((weak)) int platform_esp_hard_reset(void){return 0;}
+#endif
+
+static int pass_guard(uint32_t quiet){
+    uint32_t deadline=g_uptime_ms+PASS_WRITE_MS;
+    while(!(USART3->SR&USART_SR_TC)){
+        platform_poll();
+        if(errors || (int32_t)(g_uptime_ms-deadline)>=0)return 0;
+    }
+    deadline=g_uptime_ms+quiet;
+    do {
+        platform_poll();
+        if(errors)return 0;
+        (void)receive_byte();
+    }while((int32_t)(g_uptime_ms-deadline)<0);
+    return 1;
+}
+
+static int pass_probe(const char *command,const char *terminal,uint32_t timeout){
+    uint32_t deadline=g_uptime_ms+timeout;
+    if(command){
+        serial_deadline=g_uptime_ms+PASS_WRITE_MS;
+        unsigned length=(unsigned)strlen(command);
+        if(send_bytes((const unsigned char *)command,length)!=length)return 0;
+    }
+    reply_begin();
+    while((int32_t)(g_uptime_ms-deadline)<0){
+        platform_poll();
+        if(errors)return 0;
+        int byte=receive_byte();
+        if(byte<0)continue;
+        /* 只识别完整的同步终态行，其余残留按行丢弃。 */
+        if(reply_length==sizeof(reply)-1){
+            if(byte=='\n')reply_begin();
+            continue;
+        }
+        reply[reply_length++]=(unsigned char)byte;
+        if(byte=='\n'){
+            if(line_is(terminal))return 1;
+            reply_begin();
+        }
+    }
+    return 0;
+}
+
+static int pass_confirm_command(void){
+    pass_mode=PASS_COMMAND;
+    io_metrics.unsynced=0;
+    phase(ESP_AT_IDLE);
+    return 1;
+}
+
+int platform_passthrough_recover(void){
+    if(pass_mode==PASS_LOCKED)return 0;
+    pass_unknown();
+    pass_mode=PASS_LOCKED;
+    esp_mqtt_reset();
+    console("GW PASS_HARD_RESET\r\n");
+    if(!platform_esp_hard_reset()){
+        console("GW PASS_HARD_RESET_UNAVAILABLE\r\n");
+        return 0;
+    }
+    closing_network=1;
+    /* 启动时的 UART 噪声不作为 ready，必须收到完整 ready 行再探测 AT。 */
+    int ok=pass_probe(NULL,"ready",PASS_READY_MS) && pass_probe("AT\r\n","OK",PASS_PROBE_MS);
+    closing_network=0;
+    if(!ok){console("GW PASS_HARD_RESET_UNCONFIRMED\r\n");return 0;}
+    console("GW PASS_HARD_RESET_OK\r\n");
+    pass_confirm_command();
+    return PASS_EXIT_RESET;
+}
+
+int platform_passthrough_leave(void){
+    if(pass_mode==PASS_LOCKED)return 0;
+    if(pass_mode==PASS_COMMAND && platform_at_synchronized())return PASS_EXIT_AT;
+    if(pass_mode==PASS_COMMAND || errors)return platform_passthrough_recover();
+    pass_unknown();
+    closing_network=1;
+    for(unsigned attempt=0;attempt<2;attempt++){
+        if(attempt)console("GW PASS_ESCAPE_RETRY\r\n");
+        if(!pass_guard(PASS_QUIET_MS)){console("GW PASS_PRE_GUARD_FAIL\r\n");continue;}
+        serial_deadline=g_uptime_ms+PASS_WRITE_MS;
+        if(send_bytes((const unsigned char *)"+++",3)!=3){
+            console("GW PASS_ESCAPE_WRITE_FAIL\r\n");continue;
+        }
+        console("GW PASS_ESCAPE_SENT\r\n");
+        if(!pass_guard(PASS_QUIET_MS)){console("GW PASS_POST_GUARD_FAIL\r\n");continue;}
+        __disable_irq();
+        tail=head;
+        __enable_irq();
+        /* 重试时模块可能已退出，先结束可能残留的 +++ 命令行。 */
+        if(pass_probe(attempt?"\r\nAT\r\n":"AT\r\n","OK",PASS_PROBE_MS)){
+            closing_network=0;
+            console("GW PASS_AT_OK\r\n");
+            return pass_confirm_command();
+        }
+        console("GW PASS_AT_UNCONFIRMED\r\n");
+    }
+    closing_network=0;
+    return platform_passthrough_recover();
+}
+
+int platform_passthrough_normal(void){
+    return at_command_impl("AT+CIPMODE=0",PASS_NORMAL_MS,true) || pass_unknown();
+}
+
+int platform_passthrough_status(void){
+    return at_command_impl("AT+CIPSTATUS",1000u,true);
+}
+#else
 static int pass_guard(uint32_t deadline,uint32_t quiet,bool drain){
     uint32_t start=g_uptime_ms;
     do {
@@ -637,6 +775,7 @@ int platform_passthrough_leave(void){
 int platform_passthrough_normal(void){
     return at_command("AT+CIPMODE=0",PASS_NORMAL_MS) || pass_unknown();
 }
+#endif
 
 static int pass_send(const unsigned char *data,unsigned length,uint32_t timeout){
     if(pass_mode!=PASS_STREAM || NETWORK_STOPPED() || errors)return -1;
