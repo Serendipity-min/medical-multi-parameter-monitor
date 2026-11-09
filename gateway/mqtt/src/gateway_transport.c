@@ -866,6 +866,17 @@ static int fresh_sntp(void) {
         (unsigned long)rtt,(unsigned long)(rtt/2u),(unsigned long)epoch,(unsigned long)epoch_fraction,selected);console(line);
     return 1;
 }
+#if defined(MP_FIVE_FIELD01) && defined(MP_B5_EGRESS_FINAL)
+static int field01_fresh_sntp(void) {
+    if(fresh_sntp())return 1;
+    /* UDP 打开、取样、关闭各有上限，另留 TLS/MQTT 的启动时间。 */
+    if(!opening_ntp_retry || sntp_target_count<2 || b5_network_stopped() ||
+       b5_business_remaining()<5000u+1000u+2000u+B5_DRAIN_MS)return 0;
+    opening_ntp_retry=0;
+    console("GW SNTP_RETRY_NEXT_ENDPOINT\r\n");
+    return fresh_sntp();
+}
+#endif
 #endif
 
 #define ESP_AT_SYNC "AT"
@@ -1047,7 +1058,11 @@ int gateway_network_open(void)
     }
 #endif
 #ifdef MP_H3_FRESH_SNTP
+#if defined(MP_FIVE_FIELD01) && defined(MP_B5_EGRESS_FINAL)
+    if(!field01_fresh_sntp())return 0;
+#else
     if(!fresh_sntp())return 0;
+#endif
 #endif
 #ifdef MP_CAN_RX_IRQ
     (void)snprintf(command,sizeof(command),"GW SNTP_VALID epoch=%lu uptime=%lu\r\n",(unsigned long)epoch,(unsigned long)epoch_tick);console(command);

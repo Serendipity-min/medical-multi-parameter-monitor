@@ -57,6 +57,8 @@ def main():
         '-DMP_TRANSPORT_PROFILE','-DMP_ESP_UART_230400','-DMP_ESP_PASSTHROUGH'],field_files)
     cases['field01_uart_retime']=(['-flto','-fwhole-program','-DMP_FIVE_FIELD01','-DMP_CAN_RX_IRQ',
         '-DMP_B5_EGRESS_FINAL','-DMP_B5_CLOUD_CANDIDATE'],['gateway/mqtt/tests/test_field01_uart_retime.c'])
+    cases['field01_sntp_retry']=([*field01_at,'-DMP_H3_FRESH_SNTP','-DMP_B5_CLOUD_CANDIDATE'],
+        ['gateway/b5/test_sntp_retry.c',*transport[1:]])
     cases['production_uart']=(['-flto','-fwhole-program','-DGATEWAY_MQTT_HOST_TEST','-DMP_ESP_UART_230400',
         '-DMP_TRANSPORT_PROFILE','-DMP_B5_EGRESS_FINAL','-DMP_CAN_RX_IRQ','-DMP_B5_CLOUD_CANDIDATE'],
         ['gateway/mqtt/tests/test_production_uart.c'])
