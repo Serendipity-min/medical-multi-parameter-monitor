@@ -218,8 +218,10 @@ def main():
                               'audio_IRQ_priority':8,'CAN_IRQ_priority':3,'runtime_enabled':args.unified}
             if args.no_audio:
                 assert table.get('SysTick_Handler',(0,'W'))[1]=='T'
+                assert int.from_bytes(image[60:64],'little')==table['SysTick_Handler'][0]|1
                 assert all(table.get(n,(0,'W'))[1]!='T' for n in ('DMA1_Stream0_IRQHandler','USART2_IRQHandler'))
-                assert b'mpm/mic/v1/' not in image
+                code_image=(out/(target+'-code.bin')).read_bytes() if args.split_flash else image
+                assert b'mpm/mic/v1/' not in code_image
             if len(image)>49152 or any(n.encode() in symbols for n in ('FLASH_EraseSector','FLASH_ProgramWord')):
                 raise RuntimeError('B5应用越过sector2或包含Flash写入口')
             irq_vector_verified=True
@@ -257,6 +259,9 @@ def main():
                 'time_policy':'LOCAL_TEST_TIME_NEVER_CLOUD' if args.bench else 'B5_FRESH_SNTP_UNCHANGED',
                 'normal_runtime_limit':'FIELD01 PRE once up to 60s; START once; ready45s; window150s; hard210s; audio64chunks' if args.field01 else f'B4START one-shot {args.bench_seconds or 180}s' if args.bench else 'FIVE automatic; explicit STOP; audio maximum2s' if args.five_appliance else 'UNISTART manual-stop; B5START retains420s',
                 'sector3_options_and_all_other_sectors':'PRESERVE'}
+            if args.no_audio:
+                layout['audio_enabled']=False
+                layout['normal_runtime_limit']=layout['normal_runtime_limit'].replace('; audio64chunks','').replace('; audio maximum2s','')
             (out/'unified-layout.json').write_text(json.dumps(layout,indent=2)+'\n')
         status = 'PASS'
     except RuntimeError as error:
