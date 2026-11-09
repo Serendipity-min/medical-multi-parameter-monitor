@@ -440,8 +440,27 @@ int at_command(const char *command, uint32_t timeout)
     if(!platform_at_synchronized())return 0;
     reply[0]=0;
     bool close=!strcmp(command,"AT+CIPCLOSE");
+#ifdef MP_FIVE_FIELD01
+    static const char ssl_open[]="AT+CIPSTART=\"SSL\",";
+    bool tls=!strncmp(command,ssl_open,sizeof ssl_open-1);
+    uint32_t started=g_uptime_ms;
+    if(!close){
+        uint32_t remaining=b5_business_remaining();
+        if(remaining<timeout+B5_CLOSE_RESERVE_MS){
+            if(tls && remaining>B5_CLOSE_RESERVE_MS+B5_PREPARE_MS)
+                timeout=remaining-B5_CLOSE_RESERVE_MS;
+            else{
+                io_metrics.budget_refused++;
+                if(tls)console("GW TLS_AT NOT_SENT_BUDGET\r\n");
+                return 0;
+            }
+        }
+    }
+    serial_deadline=started+timeout;phase(ESP_AT_COMMAND);
+#else
     if(!close && b5_business_remaining()<timeout+B5_CLOSE_RESERVE_MS){io_metrics.budget_refused++;return 0;}
     uint32_t started=g_uptime_ms;serial_deadline=started+timeout;phase(ESP_AT_COMMAND);
+#endif
 #endif
 #ifdef MP_B5_CLOUD_CANDIDATE
     /* 硬停禁止继续发业务，但仍允许唯一的有界CIPCLOSE清理TLS连接。 */
@@ -474,6 +493,15 @@ int at_command(const char *command, uint32_t timeout)
     b5_latency_add(prompt?&io_metrics.prompt:&io_metrics.command,g_uptime_ms-started);
     if(!ok && !reply_boundary)unsync();
     else phase(ok&&prompt?ESP_AT_DATA:ok&&close?ESP_AT_CLOSED:ESP_AT_IDLE);
+#ifdef MP_FIVE_FIELD01
+    if(tls && !ok){
+        char line[96];
+        snprintf(line,sizeof line,"GW TLS_AT WAIT reason=%u flags=%u ms=%lu\r\n",
+            (unsigned)io_metrics.wait_reason,(unsigned)io_metrics.reply_flags,
+            (unsigned long)(g_uptime_ms-started));
+        console(line);
+    }
+#endif
 #endif
 #ifdef MP_B5_CLOUD_CANDIDATE
     closing_network=0;

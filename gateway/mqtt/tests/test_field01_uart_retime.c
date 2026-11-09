@@ -5,9 +5,13 @@
 TestUsart platform_usart[2];
 volatile uint32_t g_uptime_ms;
 static uint32_t inject_at,stop_at;
-uint32_t b5_business_remaining(void){return 10000;}
+static const char *tls_reply;
+static unsigned wire_bytes;
+uint32_t b5_business_remaining(void){
+    return stop_at?(g_uptime_ms<stop_at?stop_at-g_uptime_ms:0):10000;
+}
 int b5_network_stopped(void){return stop_at && g_uptime_ms>=stop_at;}
-void platform_test_tx(unsigned char byte){(void)byte;}
+void platform_test_tx(unsigned char byte){(void)byte;wire_bytes++;}
 
 static void tick(void) {
     ++g_uptime_ms;
@@ -16,6 +20,31 @@ static void tick(void) {
         USART3_IRQHandler();
         USART3->SR&=~USART_SR_RXNE;
     }
+    if(tls_reply && *tls_reply && wire_bytes && g_uptime_ms>=28000){
+        USART3->DR=(unsigned char)*tls_reply++;USART3->SR|=USART_SR_RXNE;
+        USART3_IRQHandler();USART3->SR&=~USART_SR_RXNE;
+    }
+}
+
+static void tls_budget(void) {
+    static const char ssl[]="AT+CIPSTART=\"SSL\",\"mqtt.example.invalid\",28895";
+    USART1->SR=USART_SR_TXE;
+    stop_at=45000;
+    g_uptime_ms=27360;
+    wire_bytes=0;
+    tls_reply="CONNECT\r\n\r\nOK\r\n";
+    assert(!at_command("AT+CIPSTART=\"TCP\",\"mqtt.example.invalid\",28895",30000));
+    assert(!wire_bytes);
+    assert(at_command(ssl,30000));
+    assert(wire_bytes==strlen(ssl)+2 && platform_at_synchronized());
+    g_uptime_ms=stop_at-B5_CLOSE_RESERVE_MS;
+    wire_bytes=0;
+    assert(!at_command(ssl,30000) && !wire_bytes && platform_at_synchronized());
+    g_uptime_ms=27360;
+    assert(!at_command(ssl,30000));
+    assert(wire_bytes==strlen(ssl)+2 && io_metrics.wait_reason==10 && platform_at_unsynced());
+    assert(g_uptime_ms==stop_at-B5_CLOSE_RESERVE_MS);
+    puts("FIELD01_TLS_REMAINING_BUDGET_PASS short/full command, close reserve, timeout");
 }
 
 int main(void) {
@@ -46,4 +75,5 @@ int main(void) {
     USART3->SR|=USART_SR_TC;
     assert(platform_preflight_esp_reset_seen() && platform_preflight_retime(115200,100)==PRE_RETIME_STOP);
     puts("FIELD01_PREFLIGHT_MMIO_PASS whitelist, RX quiet, TC, STOP, console deadline, reset");
+    tls_budget();
 }
