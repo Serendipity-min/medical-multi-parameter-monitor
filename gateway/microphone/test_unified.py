@@ -39,6 +39,9 @@ def main():
         'queued_clock':([*macros,'-flto','-fwhole-program','-DMP_FINAL_UNIFIED','-DCO_MULTIPLE_OD'],['gateway/microphone/test_unified_clock.c','gateway/canopen/src/mp_od.c','gateway/third_party/CANopenNode/301/CO_ODinterface.c']),
         'format':([],['gateway/microphone/test_format.c','gateway/microphone/mic_format.c']),
         'legacy_egress':(macros,['gateway/b5/test_egress_async.c','gateway/mqtt/src/gateway_transport.c',*transport])}
+    for name in ('unified_transport','scheduler_fixed'):
+        defines,files=cases[name]
+        cases[name+'_no_audio']=([*defines,'-DMP_AUDIO_DISABLED'],files)
     field01_at=['-flto','-fwhole-program','-DGATEWAY_MQTT_HOST_TEST','-DMP_FIVE_FIELD01',
                 '-DMP_B5_EGRESS_FINAL','-DMP_CAN_RX_IRQ']
     for case in ('wifi_failure','preflight'):

@@ -84,7 +84,7 @@ def field_data(path, reference):
     return stats,lengths
 
 
-def run_host(cc, out, *, cpu_scan=False):
+def run_host(cc, out, *, cpu_scan=False, pass_scan=False):
     g=ROOT/'gateway'
     vendor=g/'third_party/coreMQTT/source'
     mqtt=g/'mqtt/src'
@@ -97,6 +97,9 @@ def run_host(cc, out, *, cpu_scan=False):
            ('core_mqtt.c','core_mqtt_serializer.c','core_mqtt_state.c')],
            *[g/'microphone'/n for n in ('unified_audio.c','mic_format.c','mic_protocol.c')],
            g/'voice/tts_queue.c',g/'voice/tts_frame.c']
+    if pass_scan:
+        flags += ['MP_AUDIO_DISABLED','MP_ESP_PASSTHROUGH']
+        files=[p for p in files if p.name not in ('unified_audio.c','tts_queue.c','tts_frame.c')]
     exe=out/'p3-host.exe'
     cmd=[cc,'-std=c11','-O2','-Wall','-Wextra','-Werror','-Wno-unused-parameter','-D__USE_MINGW_ANSI_STDIO=1',
          *['-D'+x for x in flags],*['-I'+str(x) for x in (mqtt,g/'b5',vendor/'include',vendor/'interface',
@@ -113,12 +116,26 @@ def run_host(cc, out, *, cpu_scan=False):
         runs += [(blocks, terminal, 230400, 0) for blocks, terminal in baseline]
         runs += [(0, terminal, baud, cost) for terminal in (22,42)
                  for baud in (115200,230400) for cost in (30,60,120)]
+    if pass_scan:
+        check=subprocess.run([str(exe),'--pass-check'],capture_output=True,timeout=10)
+        (out/'pass-peer.log').write_bytes(check.stdout+check.stderr)
+        check.check_returncode()
+        runs=[(0,42,115200,0,'normal',55)]+[
+            (0,42,baud,cost,mode,ack) for baud in (115200,230400) for cost in (0,30,60,120)
+            for mode in ('normal','pass') for ack in (250,370)]
+    else:
+        runs=[(*run,None,None) for run in runs]
     cases={}
-    for blocks, terminal, baud, cost in runs:
+    for blocks, terminal, baud, cost, mode, ack in runs:
         key=f'{blocks}blocks-{terminal}ms'
         if cpu_scan:
             key+=f'-{baud}baud-{cost}us'
-        result=subprocess.run([str(exe),str(blocks),str(terminal),str(baud),str(cost)],
+        if pass_scan:
+            key=f'{mode}-{baud}baud-{cost}us-{ack}ack'
+        argv=[str(exe),str(blocks),str(terminal),str(baud),str(cost)]
+        if pass_scan:
+            argv += [mode,str(ack)]
+        result=subprocess.run(argv,
                               capture_output=True,timeout=35)
         log=result.stdout+result.stderr
         (out/(key+'.log')).write_bytes(log)
@@ -132,14 +149,14 @@ def run_host(cc, out, *, cpu_scan=False):
                 summary['streams'].append(fields)
             elif label=='lat':
                 summary['latency'][line.split()[1]]=fields
-            elif label in ('case','flow','owner','FAILED'):
+            elif label in ('case','flow','owner','slots','peer','FAILED'):
                 summary[label]=fields
         if result.returncode==0:
             f=summary['flow']
             summary['service_rate']=(f['q0']+f['q1']-f['replay'])*1000/summary['case']['elapsed_ms']
             summary['all_offered_waves_delivered_at_end']=summary['case']['offered_wave']==summary['case']['delivered_wave']
         cases[key]=summary
-    for baud in ((115200,230400) if cpu_scan else (115200,)):
+    for baud in (() if pass_scan else (115200,230400) if cpu_scan else (115200,)):
         suffix=f'-{baud}baud-0us' if cpu_scan else ''
         for terminal in (22,42):
             base=cases[f'0blocks-{terminal}ms{suffix}'].get('service_rate')
@@ -309,15 +326,16 @@ def main():
     source=parser.add_mutually_exclusive_group(required=True)
     source.add_argument('--paths',type=Path)
     source.add_argument('--cpu-scan',action='store_true',help='仅运行同输入 Host 波特率与每字节 CPU 扫描')
+    source.add_argument('--pass-scan',action='store_true',help='音频关闭的 R7 普通/透传 Host 对照')
     parser.add_argument('--out',type=Path,required=True)
     parser.add_argument('--cc',default='C:/mingw64/bin/gcc.exe')
     parser.add_argument('--host-results',type=Path,help='复用已完成的同源码 Host 回执')
     args=parser.parse_args()
-    if args.cpu_scan and args.host_results:
-        parser.error('--cpu-scan requires a fresh Host run')
+    if (args.cpu_scan or args.pass_scan) and args.host_results:
+        parser.error('scan modes require a fresh Host run')
     args.out.mkdir(parents=True,exist_ok=False)
-    if args.cpu_scan:
-        host=run_host(args.cc,args.out,cpu_scan=True)
+    if args.cpu_scan or args.pass_scan:
+        host=run_host(args.cc,args.out,cpu_scan=args.cpu_scan,pass_scan=args.pass_scan)
         result=dict(scope='HOST_ONLY_NOT_HARDWARE', cpu_model='serial line time plus CPU surcharge per TX/RX byte',
                     script_sha256=sha(Path(__file__)),host=host)
         (args.out/'results.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')

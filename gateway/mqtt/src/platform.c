@@ -24,6 +24,11 @@ static int closing_network;
 static EspIoMetrics io_metrics;
 #ifdef MP_B5_EGRESS_FINAL
 static int reply_boundary;
+#ifdef MP_ESP_PASSTHROUGH
+static enum { PASS_COMMAND, PASS_STREAM, PASS_FAULT, PASS_UNKNOWN } pass_mode;
+static unsigned pass_remaining,pass_plus;
+static bool pass_length,pass_entry_ok;
+#endif
 static uint32_t serial_deadline;
 #ifdef MP_FIVE_FIELD01
 static bool send_command;
@@ -339,6 +344,10 @@ static int reply_byte(int value,int prompt,int sent) {
         }else if(n>13 && (value<'0' || value>'9'))return -12;
         return 0;
     }
+#ifdef MP_ESP_PASSTHROUGH
+    if(prompt==2 && value=='>' && (n==1 || (n==2 && reply[line_start]==' ')))
+        return pass_entry_ok?2:-11;
+#endif
     if(prompt && value=='>' && (n==1 || (n==2 && reply[line_start]==' ')))return 2;
     if(value!='\n')return 0;
     unsigned flags=line_is("CLOSED")?1u:line_is("ready")?2u:
@@ -352,6 +361,9 @@ static int reply_byte(int value,int prompt,int sent) {
     /* 主动关闭仍须等末尾OK；只有本命令预期的CLOSED可作为中间URC。 */
     if(flags && !(flags==1u && reply_closing))return -11;
     if(line_is("ERROR") || line_is("FAIL") || line_is("SEND FAIL"))return -4;
+#ifdef MP_ESP_PASSTHROUGH
+    if(prompt==2 && line_is("OK"))pass_entry_ok=true;
+#endif
     if(sent?line_is("SEND OK"):!prompt && line_is("OK"))return sent?3:1;
     line_start=reply_length;
     return 0;
@@ -393,6 +405,11 @@ static int await_reply(uint32_t timeout, int prompt, int sent)
 
 int at_command(const char *command, uint32_t timeout)
 {
+#ifdef MP_ESP_PASSTHROUGH
+    if(pass_mode!=PASS_COMMAND)return 0;
+    const bool pass_entry=!strcmp(command,"AT+CIPSEND");
+    pass_entry_ok=false;
+#endif
 #ifdef MP_B5_EGRESS_FINAL
     if(rx_state && !strcmp(command,"AT+CIPCLOSE")) {
         uint32_t at=g_uptime_ms;
@@ -417,6 +434,9 @@ int at_command(const char *command, uint32_t timeout)
 #ifdef MP_B5_EGRESS_FINAL
     if(written!=strlen(command) || ending!=2){unsync();closing_network=0;return 0;}
     bool prompt=!strncmp(command,"AT+CIPSEND=",11);
+#ifdef MP_ESP_PASSTHROUGH
+    prompt|=pass_entry;
+#endif
     phase(prompt?ESP_AT_WAIT_PROMPT:ESP_AT_COMMAND);
     uint32_t elapsed=g_uptime_ms-started;
     if(elapsed>=timeout){unsync();closing_network=0;return 0;}
@@ -425,7 +445,11 @@ int at_command(const char *command, uint32_t timeout)
     (void)ending;
 #endif
     reply_closing=!strcmp(command,"AT+CIPCLOSE");
+#ifdef MP_ESP_PASSTHROUGH
+    int ok=await_reply(timeout,pass_entry?2:prompt,0);
+#else
     int ok=await_reply(timeout, strncmp(command, "AT+CIPSEND=", 11) == 0, 0);
+#endif
     reply_closing=0;
 #ifdef MP_B5_EGRESS_FINAL
     b5_latency_add(prompt?&io_metrics.prompt:&io_metrics.command,g_uptime_ms-started);
@@ -513,11 +537,123 @@ int platform_preflight_console(const char *message,uint32_t deadline) {
 }
 #endif
 
+#ifdef MP_ESP_PASSTHROUGH
+enum { PASS_PRE_GUARD_MS=25u, PASS_POST_GUARD_MS=1001u, PASS_PROBE_MS=500u };
+
+static int pass_unknown(void){
+    pass_mode=PASS_UNKNOWN;
+    unsync();
+    return 0;
+}
+
+int platform_passthrough_enter(void){
+    if(!at_command("AT+CIPSEND",2000u)){
+        if(io_metrics.unsynced || pass_entry_ok)return pass_unknown();
+        return 0;
+    }
+    pass_remaining=pass_plus=0;pass_length=false;
+    pass_mode=PASS_STREAM;
+    phase(ESP_AT_IDLE);
+    return 1;
+}
+
+static int pass_guard(uint32_t deadline,uint32_t quiet,bool drain){
+    uint32_t start=g_uptime_ms;
+    do {
+        platform_poll();
+        if(NETWORK_STOPPED() || errors || (int32_t)(g_uptime_ms-deadline)>=0)return 0;
+        if(drain)(void)receive_byte();
+    }while(!(USART3->SR&USART_SR_TC) || g_uptime_ms-start<quiet);
+    return 1;
+}
+
+int platform_passthrough_leave(void){
+    if(pass_mode==PASS_COMMAND)return 1;
+    if(pass_mode==PASS_UNKNOWN || b5_business_remaining()<1800u+B5_CLOSE_RESERVE_MS)
+        return pass_unknown();
+    uint32_t deadline=g_uptime_ms+1800u;
+    if(!pass_guard(deadline,0,false) || !pass_guard(deadline,PASS_PRE_GUARD_MS,false))
+        return pass_unknown();
+    serial_deadline=g_uptime_ms+19u;
+    if(send_bytes((const unsigned char *)"+++",3)!=3 ||
+       !pass_guard(deadline,0,false) || !pass_guard(deadline,PASS_POST_GUARD_MS,true))
+        return pass_unknown();
+    /* 丢弃退出前的下行残留，重新验证命令边界。 */
+    esp_mqtt_reset();
+    pass_mode=PASS_COMMAND;
+    if(!at_command("AT+CIPMODE?",PASS_PROBE_MS) || !strstr(at_response(),"+CIPMODE:1\r\n"))
+        return pass_unknown();
+    return 1;
+}
+
+int platform_passthrough_normal(void){
+    return at_command("AT+CIPMODE=0",2000u) || pass_unknown();
+}
+
+static int pass_send(const unsigned char *data,unsigned length,uint32_t timeout){
+    if(pass_mode!=PASS_STREAM || NETWORK_STOPPED() || errors)return -1;
+    if(timeout<platform_send_reserve(length) || b5_business_remaining()<timeout+B5_CLOSE_RESERVE_MS)
+        return -1;
+    /* 单个串口分片可能被模块解释为转义，不允许业务写出三连加号。 */
+    unsigned plus=pass_plus;
+    for(unsigned i=0;i<length;i++){
+        plus=data[i]=='+'?plus+1u:0u;
+        if(plus==3u)return -1;
+    }
+    const uint32_t start=g_uptime_ms;
+    io_metrics.tx_calls++;io_metrics.tx_length=length;io_metrics.tx_phase=2;
+    io_metrics.required=length;io_metrics.written=0;
+    serial_deadline=start+timeout;
+    phase(ESP_AT_DATA);
+    if(send_bytes(data,length)!=length || errors){
+        pass_unknown();return -1;
+    }
+    io_metrics.tx_ms=g_uptime_ms-start;
+    phase(ESP_AT_IDLE);
+    pass_plus=plus;
+    return (int)length;
+}
+
+static int pass_recv(unsigned char *data,int length,uint32_t timeout){
+    uint32_t deadline=g_uptime_ms+timeout;
+    int copied=0;
+    do {
+        if(pass_mode!=PASS_STREAM || NETWORK_STOPPED())return -1;
+        if(errors){pass_unknown();return -1;}
+        int byte=receive_byte();
+        if(byte<0){
+            if(copied)break;
+            platform_poll();continue;
+        }
+        if(pass_length){
+            if((unsigned)byte!=pass_remaining)goto fault;
+            pass_length=false;
+        }else if(pass_remaining){
+            pass_remaining--;
+        }else {
+            /* 无下行订阅，MQTT 3.1.1 只允许这三种 Broker 应答。 */
+            if(byte!=0x20 && byte!=0x40 && byte!=0xd0)goto fault;
+            pass_remaining=byte==0xd0?0u:2u;
+            pass_length=true;
+        }
+        data[copied++]=(unsigned char)byte;
+        io_metrics.rx_bytes++;
+    }while(copied<length && (int32_t)(g_uptime_ms-deadline)<0);
+    return copied;
+fault:
+    pass_mode=PASS_FAULT;
+    return -1;
+}
+#endif
+
 /* 先请求精确长度，再发送 MQTT 二进制并确认 ESP 结果；这不是 Broker 的 PUBACK。 */
 int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout)
 {
     if (length <= 0 || length > 2048)
         return -1;
+#ifdef MP_ESP_PASSTHROUGH
+    if(pass_mode!=PASS_COMMAND)return pass_send(data,(unsigned)length,timeout);
+#endif
     char command[40];
 #ifdef MP_B5_EGRESS_FINAL
     uint32_t transaction_budget=timeout;
@@ -605,9 +741,15 @@ int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout)
 #ifdef MP_B5_EGRESS_FINAL
 /* 准入下界包括串口8N1、提示/终态各1秒和ACK接收余量；不是ESP成功时延保证。 */
 uint32_t platform_send_reserve(unsigned bytes) {
+#ifdef MP_ESP_PASSTHROUGH
+    if(pass_mode!=PASS_COMMAND)return (bytes*10000u+esp_uart_baud-1u)/esp_uart_baud+20u;
+#endif
     return ((bytes+24u)*10000u+esp_uart_baud-1u)/esp_uart_baud+2100u;
 }
 int platform_send_admissible(unsigned bytes,uint32_t budget) {
+#ifdef MP_ESP_PASSTHROUGH
+    if(pass_mode!=PASS_COMMAND)return pass_mode==PASS_STREAM && !errors && budget>=platform_send_reserve(bytes);
+#endif
     return platform_at_synchronized() && !rx_state && budget>=platform_send_reserve(bytes);
 }
 void platform_tx_context(unsigned qos,unsigned stream,uint32_t seq,unsigned pending,uint32_t age,uint32_t budget) {
@@ -682,6 +824,9 @@ static int rx_step(void){
 /* 先消费上次剩余字节；SSL 被动读取分块到缓存，短读按实际字节数交给适配层。 */
 int esp_mqtt_recv(unsigned char *data, int length, uint32_t timeout)
 {
+#ifdef MP_ESP_PASSTHROUGH
+    if(pass_mode!=PASS_COMMAND)return length>0?pass_recv(data,length,timeout):0;
+#endif
 #ifdef MP_B5_EGRESS_FINAL
     uint32_t until=g_uptime_ms+timeout;int copied=0;
     while(copied<length) {

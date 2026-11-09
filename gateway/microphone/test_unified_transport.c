@@ -6,9 +6,32 @@
 #include "../mqtt/src/gateway_transport.c"
 #include <stdlib.h>
 
-static unsigned checks,replies,polls;
+static unsigned checks;
 extern void (*mock_poll_callback)(void);
 #define CHECK(x) do { if(!(x)){fprintf(stderr,"FAIL line=%d\n",__LINE__);exit(3);}++checks; } while(0)
+#ifdef MP_AUDIO_DISABLED
+int main(void){
+    mock_connect();mock_delay_ms=200;
+    MpFrame scalar=mock_frame(MP_TEMP,0,false),wave=mock_frame(MP_ECG,250,false);
+    for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++){
+        scalar.seq++;
+        CHECK(gateway_mqtt_begin(&scalar)==GW_PENDING);
+        CHECK(gateway_mqtt_ticket()!=0);
+    }
+    CHECK(gateway_mqtt_slots_full() && gateway_mqtt_begin(&scalar)==GW_DEFERRED);
+    CHECK(gateway_mqtt_begin(&wave)==GW_COMPLETE);
+    CHECK(!unified_audio_send_due());
+    /* 无订阅时收到未知下行业务，必须终止 MQTT 会话。 */
+    const uint8_t unsolicited[]={0x30,4,0,1,'x','!'};
+    mock_queue(unsolicited,sizeof unsolicited);
+    unsigned loops=0;
+    while(network.connected && loops++<100)gateway_mqtt_progress();
+    CHECK(!network.connected && session_error);
+    printf("UNIFIED_NO_AUDIO_EGRESS_PASS checks=%u\n",checks);
+    return 0;
+}
+#else
+static unsigned replies,polls;
 void unified_audio_reply(const uint8_t *p,size_t n){CHECK(n==19 && !memcmp(p,"MR01",4));replies++;}
 static void poll(void){polls++;}
 static void connect_subscribe(unsigned grant,unsigned fragment,int wrong) {
@@ -114,3 +137,4 @@ int main(void) {
     printf("HOST_UNIFIED_SINGLE_MQTT_OWNER_PASS checks=%u callback_poll=%u hardware=NOT_RUN\n",checks,polls);
     return 0;
 }
+#endif

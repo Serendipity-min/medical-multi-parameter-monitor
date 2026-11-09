@@ -36,8 +36,24 @@ static unsigned identity_errors, late, replay_count, duplicates;
 typedef struct {uint8_t data[5];unsigned count;uint32_t at;} PeerReply;
 static PeerReply peer[QUEUE_ACKS];
 static unsigned peer_head, peer_count;
+#ifdef MP_ESP_PASSTHROUGH
+enum { PEER_CAPACITY=2048, PEER_SEGMENT=1460, PEER_COALESCE_MS=20 };
+static bool peer_stream,peer_no_ack,peer_hold_timer;
+static uint8_t peer_serial[PEER_CAPACITY];
+static unsigned peer_serial_n,peer_frame_n,peer_frame_left,peer_frame_shift;
+static unsigned peer_chunks,peer_chunk_max,peer_rx_max,peer_escape_count,peer_escape_bytes;
+static uint32_t peer_flush_at,peer_last_tx,peer_escape_at;
+static unsigned peer_entry_case,peer_tx_stop_after;
+static bool peer_stop;
+#endif
 
-int b5_network_stopped(void){return 0;}
+int b5_network_stopped(void){
+#ifdef MP_ESP_PASSTHROUGH
+    return peer_stop;
+#else
+    return 0;
+#endif
+}
 uint32_t b5_business_remaining(void){return 420000u;}
 int mic_initialize(void){return 1;}
 void mic_record_begin(void){mic_state=1;record_at=g_uptime_ms;}
@@ -146,8 +162,60 @@ static void mqtt_packet(void){
         peer_reply((const uint8_t[]){0x40,2,wire_packet[pos],wire_packet[pos+1]},4,peer_ack_ms);
     }
 }
+#ifdef MP_ESP_PASSTHROUGH
+static void peer_tls_send(unsigned count){
+    assert(count<=PEER_SEGMENT && count<=peer_serial_n);
+    if(count>peer_chunk_max)peer_chunk_max=count;
+    peer_chunks++;
+    for(unsigned i=0;i<count;i++){
+        unsigned byte=peer_serial[i];
+        assert(peer_frame_n<sizeof wire_packet);
+        wire_packet[peer_frame_n++]=(uint8_t)byte;
+        if(peer_frame_n==1)continue;
+        if(peer_frame_shift!=UINT32_MAX){
+            peer_frame_left+=(byte&127u)<<peer_frame_shift;
+            assert(peer_frame_shift<21u);
+            if(byte&128u){peer_frame_shift+=7;continue;}
+            peer_frame_shift=UINT32_MAX;
+        }else peer_frame_left--;
+        if(!peer_frame_left){
+            serial_payload_bytes+=peer_frame_n;
+            outgoing_count=peer_frame_n;
+            mqtt_packet();peer_frame_n=peer_frame_shift=0;
+        }
+    }
+    peer_serial_n-=count;
+    memmove(peer_serial,peer_serial+count,peer_serial_n);
+}
+
+static void peer_pass_tx(unsigned char byte){
+    uint32_t gap=g_uptime_ms-peer_last_tx;
+    peer_last_tx=g_uptime_ms;
+    if(byte=='+' && (gap>20u || peer_escape_bytes)){
+        assert((peer_escape_bytes==0 && gap>20u) || gap<20u);
+        if(++peer_escape_bytes==3){
+            peer_escape_count++;peer_escape_bytes=0;
+            peer_escape_at=g_uptime_ms;peer_stream=false;
+        }
+        return;
+    }
+    assert(!peer_escape_bytes && peer_serial_n<PEER_CAPACITY);
+    if(!peer_serial_n)peer_flush_at=g_uptime_ms+PEER_COALESCE_MS;
+    peer_serial[peer_serial_n++]=byte;
+    if(peer_serial_n>peer_rx_max)peer_rx_max=peer_serial_n;
+    if(peer_serial_n>PEER_SEGMENT)peer_tls_send(PEER_SEGMENT);
+}
+#endif
 void platform_test_tx(unsigned char byte){
     advance(wire_us+byte_cpu_us);
+#ifdef MP_ESP_PASSTHROUGH
+    if(peer_stream){
+        peer_pass_tx(byte);
+        if(peer_tx_stop_after && !--peer_tx_stop_after)peer_stop=true;
+        return;
+    }
+    if(peer_escape_at)assert(g_uptime_ms-peer_escape_at>=1000u);
+#endif
     if(outgoing_length){
         assert(outgoing_count<sizeof wire_packet);
         wire_packet[outgoing_count++]=byte;
@@ -161,6 +229,23 @@ void platform_test_tx(unsigned char byte){
     command_bytes[command_count++]=(char)byte;
     if(command_count<2 || command_bytes[command_count-2]!='\r' || byte!='\n')return;
     command_bytes[command_count]=0;command_count=0;
+#ifdef MP_ESP_PASSTHROUGH
+    if(!strcmp(command_bytes,"AT+CIPSEND\r\n")){
+        if(peer_entry_case==1)terminal(">",prompt_ms);
+        else if(peer_entry_case==2)terminal("\r\nERROR\r\n",prompt_ms);
+        else if(peer_entry_case==3)terminal("\r\nOK\r\n",prompt_ms);
+        else {
+            terminal("\r\nOK\r\n>",prompt_ms);peer_stream=true;
+            peer_last_tx=g_uptime_ms;
+        }
+        return;
+    }
+    if(!strcmp(command_bytes,"AT+CIPMODE?\r\n")){
+        if(peer_no_ack)return;
+        assert(peer_escape_count==1);
+        terminal("\r\n+CIPMODE:1\r\nOK\r\n",rx_ms);return;
+    }
+#endif
     if(sscanf(command_bytes,"AT+CIPSEND=%u",&outgoing_length)==1){
         outgoing_count=0;terminal(">",prompt_ms);return;
     }
@@ -207,6 +292,16 @@ static void tick(void){
         USART3->DR=reply_bytes[reply_offset++];USART3->SR|=USART_SR_RXNE;
         USART3_IRQHandler();USART3->SR&=~USART_SR_RXNE;advance(wire_us+byte_cpu_us);
     }
+#ifdef MP_ESP_PASSTHROUGH
+    if(peer_stream){
+        if(!peer_hold_timer && peer_serial_n && g_uptime_ms>=peer_flush_at)peer_tls_send(peer_serial_n);
+        if(reply_offset==reply_count && peer_count && g_uptime_ms>=peer[peer_head].at){
+            PeerReply *p=&peer[peer_head];
+            uart_reply(p->data,p->count,0);
+            peer_head=(peer_head+1)%QUEUE_ACKS;peer_count--;
+        }
+    }
+#endif
     if(origin){
         while(produced<g_uptime_ms-origin && produced<WINDOW_MS){
             produced++;
@@ -256,7 +351,76 @@ static void latency(const char *name,const B5Latency *m){
     printf("lat %s n=%lu p50_upper=%lu p95_upper=%lu max=%lu\n",name,(unsigned long)m->count,
         (unsigned long)b5_latency_percentile(m,50),(unsigned long)b5_latency_percentile(m,95),(unsigned long)m->max);
 }
+#ifdef MP_ESP_PASSTHROUGH
+static void pass_case_reset(void){
+    peer_stream=peer_no_ack=peer_stop=false;peer_entry_case=peer_tx_stop_after=0;
+    peer_escape_at=peer_escape_count=peer_escape_bytes=0;
+    peer_serial_n=peer_frame_n=peer_frame_left=peer_frame_shift=0;
+    reply_count=reply_offset=peer_count=peer_head=0;
+    pass_mode=PASS_COMMAND;io_metrics=(EspIoMetrics){0};
+    esp_mqtt_reset();
+}
+
+static void pass_fault_cases(void){
+    uint8_t bytes[8];
+    assert(platform_passthrough_enter() && pass_mode==PASS_STREAM);
+    assert(!at_command("AT",1000));
+    const unsigned char ping[]={0xc0,0};
+    assert(esp_mqtt_send(ping,2,500)==2);
+    const uint32_t sent=g_uptime_ms;
+    assert(esp_mqtt_recv(bytes,2,5)==0);
+    int received; do {received=esp_mqtt_recv(bytes,1,5);assert(g_uptime_ms-sent<100u);}while(!received);
+    assert(received==1 && bytes[0]==0xd0 && g_uptime_ms>=peer_flush_at);
+    assert(esp_mqtt_recv(bytes+1,1,5)==1 && bytes[1]==0);
+    assert(!io_metrics.rx_queries && !io_metrics.tx_confirmed);
+    /* 大于 1460 的 MQTT 报文在 TLS 分片后仍交付完整。 */
+    uint8_t large[2048]={0xf0,0xfd,0x0f};
+    peer_hold_timer=true;
+    assert(esp_mqtt_send(large,sizeof large,800)==(int)sizeof large);
+    peer_hold_timer=false;
+    while(peer_serial_n)platform_poll();
+    assert(peer_chunks>=3 && peer_chunk_max==1460 && outgoing_count==sizeof large && !peer_frame_n);
+    assert(esp_mqtt_send((const unsigned char *)"+++",3,500)<0 && peer_escape_count==0);
+    const char *faults[]={"\r\nCLOSED\r\n","WIFI DISCONNECT\r\n","\x40\x05"};
+    for(unsigned i=0;i<3;i++){
+        if(i){pass_case_reset();assert(platform_passthrough_enter());}
+        terminal(faults[i],0);
+        int result=esp_mqtt_recv(bytes,8,5);
+        if(result>0)result=esp_mqtt_recv(bytes,8,5);
+        assert(result<0 && pass_mode==PASS_FAULT);
+        assert(esp_mqtt_send(ping,2,500)<0);
+        assert(platform_passthrough_leave() && peer_escape_count==1 && pass_mode==PASS_COMMAND);
+    }
+    pass_case_reset();assert(platform_passthrough_enter());
+    peer_no_ack=true;
+    assert(!platform_passthrough_leave() && peer_escape_count==1 && pass_mode==PASS_UNKNOWN);
+    assert(!platform_passthrough_leave() && peer_escape_count==1 && !at_command("AT",500));
+    pass_case_reset();assert(platform_passthrough_enter());
+    /* 注入 UART 损坏后既不续写 MQTT，也不猜测转义边界。 */
+    errors++;
+    assert(esp_mqtt_recv(bytes,1,5)<0 && !platform_passthrough_leave() && !peer_escape_count);
+    pass_case_reset();assert(platform_passthrough_enter());
+    peer_tx_stop_after=1;
+    assert(esp_mqtt_send(ping,2,500)<0 && io_metrics.written==1 && pass_mode==PASS_UNKNOWN);
+    assert(!platform_passthrough_leave() && !peer_escape_count && !at_command("AT",500));
+    for(unsigned scenario=1;scenario<=3;scenario++){
+        pass_case_reset();peer_entry_case=scenario;
+        assert(!platform_passthrough_enter());
+        assert(pass_mode==(scenario==2?PASS_COMMAND:PASS_UNKNOWN));
+    }
+    puts("PASS_PEER_HANDSHAKE_COALESCE_SEGMENT_DIRECT_URC_GUARDS");
+}
+#endif
+
 int main(int argc,char **argv){
+#ifdef MP_ESP_PASSTHROUGH
+    if(argc==2 && !strcmp(argv[1],"--pass-check")){
+        USART3->SR|=USART_SR_TC;platform_set_poll(tick);pass_fault_cases();return 0;
+    }
+    const bool transparent=argc>5 && !strcmp(argv[5],"pass");
+    if(argc>6)peer_ack_ms=(unsigned)atoi(argv[6]);
+    USART3->SR|=USART_SR_TC;
+#endif
     unsigned blocks=argc>1?(unsigned)atoi(argv[1]):0;
     assert(blocks==0 || blocks==64 || blocks==125);
     if(argc>2){terminal_ms=(unsigned)atoi(argv[2]);assert(terminal_ms<500);}
@@ -270,16 +434,22 @@ int main(int argc,char **argv){
     platform_set_poll(tick);mqtt_adapter_reset(&network);esp_mqtt_reset();
     epoch=1800000000;epoch_tick=g_uptime_ms;
     MpFrame will={0};will.node=3;will.stream=MP_GATEWAY_STATUS;will.synthetic=true;will.timestamp=gateway_epoch_milliseconds();
+#ifdef MP_ESP_PASSTHROUGH
+    if(transparent)assert(platform_passthrough_enter());
+#endif
     assert(gateway_mqtt_open(&will));
     client.appCallback=record_mqtt_event;
+#ifndef MP_AUDIO_DISABLED
     assert(gateway_audio_subscribe()==GW_PENDING);
     while(!gateway_audio_ready())assert(gateway_mqtt_progress()!=GW_FAILED);
+#endif
     mp_router_init(&router);mp_router_online(&router,true);
     unified_audio_init();unified_audio_network(true);
     B5Publisher publisher={0};
     origin=g_uptime_ms;epoch_tick=origin;
     memset(stage_us,0,sizeof stage_us);serial_payload_bytes=0;
     uint32_t first_queries=io_metrics.rx_queries, first_empty=io_metrics.rx_empty, first_reads=io_metrics.rx_reads;
+    unsigned slot_samples=0,slot_full_samples=0,slot_max=0;
     while(g_uptime_ms-origin<WINDOW_MS){
         platform_poll();
         if(blocks && !recording_started && produced>=10000){unified_audio_command('R',false);recording_started=1;assert(mic_state==1);}
@@ -288,9 +458,19 @@ int main(int argc,char **argv){
                 (unsigned long)io_metrics.at_phase,(unsigned long)publisher.q0,(unsigned long)publisher.q1,audio_blocks);
             return 3;
         }
+        unsigned used=0;
+        for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)used+=publisher.tickets[i]!=0;
+        if(used>slot_max)slot_max=used;
+        slot_samples++;slot_full_samples+=used==GATEWAY_TELEMETRY_SLOTS;
         unified_audio_step(!publisher.deferred && !router.ln);
     }
     stop_at=g_uptime_ms;
+    printf("slots limit=%u max=%u samples=%u full=%u ack_delay_ms=%u\n",
+        GATEWAY_TELEMETRY_SLOTS,slot_max,slot_samples,slot_full_samples,peer_ack_ms);
+#ifdef MP_ESP_PASSTHROUGH
+    printf("peer transparent=%u chunks=%u chunk_max=%u rx_max=%u send_ok=%lu\n",
+        (unsigned)transparent,peer_chunks,peer_chunk_max,peer_rx_max,(unsigned long)io_metrics.tx_confirmed);
+#endif
     printf("case blocks=%u terminal_ms=%u baud=%u cpu_us=%u wire_us=%u elapsed_ms=%u offered_wave=%u delivered_wave=%u\n",
         blocks,terminal_ms,(unsigned)esp_uart_baud,byte_cpu_us,wire_us,
         (unsigned)(stop_at-origin),seq[2][MP_ECG]+seq[2][MP_RESP]+seq[1][MP_PPG],
@@ -298,7 +478,12 @@ int main(int argc,char **argv){
     printf("flow q0=%lu q1=%lu published=%u replay=%u audio=%u audio_span_ms=%u audio_first_ms=%u audio_acked=%u queue_live=%u queue_history=%u inflight=%u high=%lu overflow=%lu replaced=%lu dropped=%lu expired=%lu late=%u identity_errors=%u duplicates=%u\n",
         (unsigned long)publisher.q0,(unsigned long)publisher.q1,medical_published,replay_count,audio_blocks,
         audio_blocks?(unsigned)(last_audio-first_audio):0,audio_blocks?(unsigned)(first_audio-origin):0,
-        audio_blocks-(gateway_audio_pending()?1u:0u),router.ln,router.cn,(unsigned)publisher.pending,
+#ifdef MP_AUDIO_DISABLED
+        0u,
+#else
+        audio_blocks-(gateway_audio_pending()?1u:0u),
+#endif
+        router.ln,router.cn,(unsigned)publisher.pending,
         (unsigned long)router.high_water,(unsigned long)router.live_overflow,(unsigned long)router.live_replaced,
         (unsigned long)router.dropped,(unsigned long)router.expired,late,identity_errors,duplicates);
     printf("owner idle_us=%" PRIu64 " command_us=%" PRIu64 " prompt_us=%" PRIu64 " data_us=%" PRIu64

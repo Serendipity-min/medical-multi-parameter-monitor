@@ -4,14 +4,18 @@
 #include <stdlib.h>
 static unsigned busy,progress_calls,checks;
 #ifdef MP_FINAL_UNIFIED
+#ifndef MP_AUDIO_DISABLED
 static unsigned audio_due,audio_started,audio_pending;
 bool unified_audio_send_due(void){return audio_due!=0;}
 void unified_audio_step(bool allowed){if(allowed){audio_started++;audio_pending=1;audio_due=0;}}
+#endif
 int gateway_mqtt_pending(void){return 0;}
 int gateway_mqtt_slots_full(void){return 0;}
 uint16_t gateway_mqtt_ticket(void){return 2;}
 int gateway_mqtt_ticket_result(uint16_t id){return id==1?GW_COMPLETE:id==2?GW_PENDING:GW_FAILED;}
+#ifndef MP_AUDIO_DISABLED
 int gateway_audio_pending(void){return audio_pending!=0;}
+#endif
 #endif
 volatile uint32_t g_uptime_ms;
 #define CHECK(x) do {if(!(x)){fprintf(stderr,"FAIL line=%d\n",__LINE__);exit(3);}checks++;}while(0)
@@ -25,6 +29,10 @@ int main(void){
     for(unsigned i=0;i<100;i++){CHECK(b5_egress_step(&r,&p,true));opportunities+=!busy;}
 #ifdef MP_FINAL_UNIFIED
     CHECK(opportunities==50 && progress_calls==100);
+#ifdef MP_AUDIO_DISABLED
+    CHECK(!unified_audio_send_due());
+    printf("UNIFIED_NO_AUDIO_SCHEDULER_PASS opportunities=%u progress_calls=%u\n",opportunities,progress_calls);
+#else
     /* 使用真实Router保留一个标量；回调必须位于已在途PUBACK释放后、下次取帧前。 */
     MpFrame f={0};f.node=2;f.stream=MP_HR;f.epoch=1800000000u;f.boot=1;f.seq=1;
     f.timestamp=1800000000000ULL;f.count=1;f.values[0]=6000;f.valid=f.synthetic=true;
@@ -52,6 +60,7 @@ int main(void){
     busy=0;CHECK(b5_egress_step(&r,&p,true));CHECK(audio_started==2);
     printf("UNIFIED_HALF_FULL_BURST_ADMISSION_PASS stale_and_capacity_backpressure_preserved=1\n");
     printf("UNIFIED_AT_IDLE_SLOT_PASS opportunities=%u progress_calls=%u hardware=NOT_RUN\n",opportunities,progress_calls);
+#endif
 #else
     CHECK(opportunities==0);
     printf("LEGACY_DOUBLE_POLL_STARVATION_REPRODUCED opportunities=%u progress_calls=%u hardware=NOT_RUN\n",opportunities,progress_calls);

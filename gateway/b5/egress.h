@@ -14,11 +14,14 @@ typedef struct {
 #endif
     MpFrame publishing;bool pending,deferred;
 #ifdef MP_FINAL_UNIFIED
+#ifndef MP_AUDIO_DISABLED
     bool audio_yield;
+#endif
 #endif
     uint32_t q0,q1,failed; } B5Publisher;
 /* 固件入口和TLS Host夹具调用同一个推进器；在途帧只在对应PUBACK后交Router成功。 */
 #ifdef MP_FINAL_UNIFIED
+#ifndef MP_AUDIO_DISABLED
 static inline bool b5_audio_room(const MpRouter *r,uint64_t utc) {
     if(r->ln>=MP_LIVE_CAPACITY-2)return false;
     /* 留出医疗发送余量；不再把尚有空间的半满队列当作永久音频禁令。 */
@@ -28,6 +31,7 @@ static inline bool b5_audio_room(const MpRouter *r,uint64_t utc) {
     }
     return true;
 }
+#endif
 #endif
 #ifdef MP_FIVE_FIELD01
 static void field01_published(const MpFrame *frame);
@@ -53,9 +57,11 @@ static inline int b5_egress_step(MpRouter *r,B5Publisher *s,bool allow_new) {
     bool medical_due=false;
     for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(s->tickets[i] && !s->inflight[i].replay &&
         mp_realtime_yield_due(utc,s->inflight[i].timestamp,true))medical_due=true;
+#ifndef MP_AUDIO_DISABLED
     if(!s->deferred && !s->audio_yield && !medical_due && b5_audio_room(r,utc) && unified_audio_send_due()){
         unified_audio_step(true);if(gateway_audio_pending()){s->audio_yield=true;return 1;}
     }
+#endif
     int admission=gateway_mqtt_admit();
     if(admission==GW_FAILED){s->failed++;return 0;}
     if(admission==GW_DEFERRED){
@@ -69,7 +75,11 @@ static inline int b5_egress_step(MpRouter *r,B5Publisher *s,bool allow_new) {
         if(!s->deferred && !b5_prepare_publish(&s->publishing,utc))return 1;
         int result=gateway_mqtt_begin(&s->publishing);s->deferred=result==GW_DEFERRED;
         if(s->deferred || b5_network_stopped())return 1;
-        if(result==GW_PENDING){unsigned i=0;while(i<GATEWAY_TELEMETRY_SLOTS && s->tickets[i])i++;if(i==GATEWAY_TELEMETRY_SLOTS){s->failed++;return 0;}s->tickets[i]=gateway_mqtt_ticket();s->inflight[i]=s->publishing;s->pending=true;s->audio_yield=false;}
+        if(result==GW_PENDING){unsigned i=0;while(i<GATEWAY_TELEMETRY_SLOTS && s->tickets[i])i++;if(i==GATEWAY_TELEMETRY_SLOTS){s->failed++;return 0;}s->tickets[i]=gateway_mqtt_ticket();s->inflight[i]=s->publishing;s->pending=true;
+#ifndef MP_AUDIO_DISABLED
+            s->audio_yield=false;
+#endif
+        }
         else{
             mp_router_ack(r,&s->publishing,result==GW_COMPLETE);
             if(result==GW_FAILED){s->failed++;return 0;}

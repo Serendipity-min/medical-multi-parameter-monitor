@@ -9,7 +9,10 @@ static uint32_t field_age_sum[MP_STREAMS];
 static uint32_t field_admit_deferred,field_idle_backlog,field_busy_backlog,field_sample_at,field_net_at;
 static uint32_t field_health_at,field_esr[2],field_wave_at[3],field_wave_count[3];
 static unsigned field_tec_rises[2],field_rec_rises[2];
+#ifndef MP_AUDIO_DISABLED
 static bool field_key_approved;
+#endif
+
 static unsigned field_queue_phase;
 static const unsigned field_waves[]={MP_ECG,MP_RESP,MP_PPG};
 

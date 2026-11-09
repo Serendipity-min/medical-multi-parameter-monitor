@@ -176,8 +176,10 @@ static void local_control(void) {
                 !pre_active() && pre_state!=PRE_DIRTY && b5_business_remaining() && gateway_config_valid()){
                 uart_error_baseline=platform_uart_errors_total();armed=true;
             }
+#ifndef MP_AUDIO_DISABLED
             if(length==sizeof("FIELD01 KEY")-1 && !memcmp(command,"FIELD01 KEY",length) && field01_t0 &&
                 g_uptime_ms-field01_t0<FIELD01_AUDIO_AT_MS)field_key_approved=true;
+#endif
             if(pre_state==PRE_UNUSED && !armed && !stopped && !stop_due &&
                 ((length==11 && !memcmp(command,"FIELD01 PRE",11)) ||
                  (length==15 && (!memcmp(command,"FIELD01 PRE 230",15) ||
@@ -480,7 +482,7 @@ static void service(void) {
         mp_router_online(&gateway.router,false);unified_audio_network(false);
     }
     unified_audio_local_poll();local_control();
-#if defined(MP_FIVE_APPLIANCE) && defined(__arm__)
+#if defined(MP_FIVE_APPLIANCE) && defined(__arm__) && !defined(MP_AUDIO_DISABLED)
 #ifdef MP_FIVE_FIELD01
     static bool field_key_released;
     bool down=!(GPIOE->IDR & GPIO_Pin_3);
@@ -548,7 +550,7 @@ int main(void) {
     while(!armed){platform_poll();local_control();}
 #endif
     unified_audio_init();
-#if defined(MP_FIVE_APPLIANCE) && defined(__arm__)
+#if defined(MP_FIVE_APPLIANCE) && defined(__arm__) && !defined(MP_AUDIO_DISABLED)
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOE,ENABLE);
     GPIO_InitTypeDef key={0};key.GPIO_Pin=GPIO_Pin_3;key.GPIO_Mode=GPIO_Mode_IN;key.GPIO_PuPd=GPIO_PuPd_UP;
     GPIO_Init(GPIOE,&key);
@@ -664,7 +666,10 @@ int main(void) {
         retry_ms=2000;
 #endif
 #ifdef MP_FINAL_UNIFIED
-        (void)gateway_audio_subscribe();unified_audio_network(true);
+#ifndef MP_AUDIO_DISABLED
+        (void)gateway_audio_subscribe();
+#endif
+        unified_audio_network(true);
 #endif
         status_at = g_uptime_ms - 5000u;
         while (!stopped

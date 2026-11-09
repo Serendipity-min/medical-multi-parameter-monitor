@@ -22,6 +22,8 @@ def main():
     parser.add_argument('--tri', action='store_true', help='A/B双CAN与B5云端集成候选，保护原48KiB分区')
     parser.add_argument('--audio-link', action='store_true', help='仅离线保留MIC/TTS完整API与CCM缓存，不启用录音或新增现场命令')
     parser.add_argument('--unified', action='store_true', help='真实三板语音统一运行候选；不执行设备操作')
+    parser.add_argument('--no-audio', action='store_true', help='统一候选关闭语音运行与主题')
+    parser.add_argument('--esp-passthrough', action='store_true', help='五板 SSL 透传离线候选，关闭语音')
     parser.add_argument('--five-node', action='store_true', help='五板静态来源候选；仅离线构建')
     parser.add_argument('--five-appliance', action='store_true', help='五板自动启动/KEY1/事实回复候选；仅离线构建，不部署')
     parser.add_argument('--field01', action='store_true', help='Issue #8 手动单窗网络探针，只构建')
@@ -33,6 +35,11 @@ def main():
     parser.add_argument('--split-flash', action='store_true', help='统一候选分段布局：sector0向量、sector4代码；只构建，写sector4另需负责人确认')
     parser.add_argument('--tls-port',type=int,help='统一候选的隔离TLS入口，默认1883；不更改原B5的8883目标')
     args = parser.parse_args()
+    if args.esp_passthrough and (not args.five_appliance or args.field01 or args.tls_port not in (None,28895)):
+        parser.error('--esp-passthrough requires --five-appliance, TLS port 28895, without FIELD01')
+    args.no_audio |= args.esp_passthrough
+    if args.no_audio and not args.unified:parser.error('--no-audio requires --unified')
+    audio = args.audio_link or (args.unified and not args.no_audio)
     if args.tri and not (args.b5 and args.egress_final):parser.error('--tri requires --b5 --egress-final')
     if args.audio_link and not args.tri:parser.error('--audio-link requires --tri')
     if args.unified and (not args.tri or args.audio_link):parser.error('--unified requires --tri and excludes --audio-link')
@@ -66,6 +73,7 @@ def main():
     if args.tri:flags += ['-DMP_ABC_TRI_CANDIDATE', '-flto']
     if args.five_node:flags += ['-DMP_FIVE_NODE']
     if args.field01:flags += ['-DMP_FIVE_FIELD01']
+    if args.esp_passthrough:flags += ['-DMP_ESP_PASSTHROUGH']
     if args.esp_230400:flags += ['-DMP_ESP_UART_230400']
     if args.transport_profile:flags += ['-DMP_TRANSPORT_PROFILE']
     if args.five_appliance:flags += ['-DMP_FIVE_APPLIANCE']
@@ -120,15 +128,18 @@ def main():
         flags += ['-DMP_H3_FRESH_SNTP', '-I' + str(transport), '-I' + str(probe),
                   '-I' + str(out / 'reference-h3/gateway/physical_can/src'),
                   '-I' + str(mqtt / 'source/include'), '-I' + str(mqtt / 'source/interface')]
-    if args.audio_link or args.unified:
+    if audio:
         sources += [ROOT/'gateway/microphone'/n for n in ('bench_main.c','mic_format.c')]
         sources += [ROOT/'gateway/microphone'/n for n in (('mic_protocol.c','unified_audio.c') if args.unified else ('link_probe.c',))]
         sources += [ROOT/'gateway/voice'/n for n in ('tts_frame.c','tts_queue.c','tts_uart_port.c')]
         flags += ['-DMIC_SHARED_RUNTIME','-DMIC_NETWORK_BENCH','-DMP_CLOUD_VOICE',
                   '-I'+str(ROOT/'gateway/microphone'),'-I'+str(ROOT/'gateway/voice')]
-        if args.unified:flags += ['-DMP_FINAL_UNIFIED',f'-DMP_MQTT_TLS_PORT={args.tls_port or (28895 if args.five_appliance else 1883)}']
+    if args.no_audio:
+        sources += [ROOT/'gateway/microphone'/n for n in ('mic_format.c','mic_protocol.c')]
+        flags += ['-DMP_AUDIO_DISABLED','-I'+str(ROOT/'gateway/microphone')]
+    if args.unified:flags += ['-DMP_FINAL_UNIFIED',f'-DMP_MQTT_TLS_PORT={args.tls_port or (28895 if args.five_appliance else 1883)}']
     linker = ROOT/'gateway/b5/flash.ld' if args.b5 else (HERE/'bench_flash.ld' if args.bench else ROOT/'gateway/mqtt/STM32F407ZGT6_FLASH.ld')
-    if args.audio_link or args.unified:
+    if audio:
         template=linker.read_text(encoding='utf-8')
         memory='  RAM (xrw)   : ORIGIN = 0x20000000, LENGTH = 128K'
         assert template.count(memory)==1 and template.count('  /DISCARD/')==1
@@ -188,7 +199,7 @@ def main():
             for name,index in (('CAN1_RX0_IRQHandler',36),('CAN2_RX0_IRQHandler',80),('USART3_IRQHandler',55)):
                 if table.get(name,(0,'W'))[1]!='T' or int.from_bytes(image[index*4:index*4+4],'little')!=(table[name][0]|1):
                     raise RuntimeError('B5实际中断向量未绑定:'+name)
-            if args.audio_link or args.unified:
+            if audio:
                 for name,index in (('DMA1_Stream0_IRQHandler',27),('USART2_IRQHandler',54),('SysTick_Handler',15)):
                     assert table.get(name,(0,'W'))[1]=='T' and int.from_bytes(image[index*4:index*4+4],'little')==table[name][0]|1
                 sizes=run([nm,'-S',elf]).decode()
@@ -205,6 +216,10 @@ def main():
                     loads.append({'RAM_start':va,'load_start':pa,'load_bytes':fs,'memory_bytes':ms})
                 audio_layout={'load_segments':loads,'DMA':dma[0],'PCM':pcm[0],
                               'audio_IRQ_priority':8,'CAN_IRQ_priority':3,'runtime_enabled':args.unified}
+            if args.no_audio:
+                assert table.get('SysTick_Handler',(0,'W'))[1]=='T'
+                assert all(table.get(n,(0,'W'))[1]!='T' for n in ('DMA1_Stream0_IRQHandler','USART2_IRQHandler'))
+                assert b'mpm/mic/v1/' not in image
             if len(image)>49152 or any(n.encode() in symbols for n in ('FLASH_EraseSector','FLASH_ProgramWord')):
                 raise RuntimeError('B5应用越过sector2或包含Flash写入口')
             irq_vector_verified=True

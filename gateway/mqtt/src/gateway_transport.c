@@ -17,15 +17,19 @@
 #include "unified_audio.h"
 #include "mic_protocol.h"
 #include "b5_policy.h"
+#ifndef MP_AUDIO_DISABLED
 static MQTTPubAckInfo_t incoming[1];
 static uint16_t audio_subscription;
 static uint32_t audio_subscription_at;
 static int audio_subscribed, audio_pending, audio_result, audio_acknowledged;
 static uint16_t audio_packet_id;
 static uint32_t audio_started;
+#endif
 static GatewayConfig unified_config;
+#ifndef MP_AUDIO_DISABLED
 #define AUDIO_INPUT "mpm/mic/v1/in"
 #define AUDIO_OUTPUT "mpm/mic/v1/out"
+#endif
 #endif
 #ifdef MP_B5_CLOUD_CANDIDATE
 #include "b5_policy.h"
@@ -119,7 +123,9 @@ static uint32_t send_budget(void) {
     if(pending_id){age=g_uptime_ms-pending_started;if(age>=5000u)return 0;budget=5000u-age;}
 #endif
 #ifdef MP_FINAL_UNIFIED
+#ifndef MP_AUDIO_DISABLED
     if(audio_pending){age=g_uptime_ms-audio_started;if(age>=5000u)return 0;if(5000u-age<budget)budget=5000u-age;}
+#endif
 #endif
     return budget;
 }
@@ -194,7 +200,9 @@ static inline void secure_memzero(void *ptr, size_t len)
 static void mqtt_failed(void)
 {
 #ifdef MP_FINAL_UNIFIED
+#ifndef MP_AUDIO_DISABLED
     audio_pending=audio_acknowledged=0;audio_packet_id=0;audio_result=GW_FAILED;audio_subscribed=0;
+#endif
     memset(telemetry,0,sizeof telemetry);last_ticket=0;
 #endif
     mqtt_online = 0;
@@ -208,7 +216,7 @@ static void mqtt_failed(void)
 static void mqtt_event(MQTTContext_t *context, MQTTPacketInfo_t *packet,
                        MQTTDeserializedInfo_t *decoded)
 {
-#ifdef MP_FINAL_UNIFIED
+#if defined(MP_FINAL_UNIFIED) && !defined(MP_AUDIO_DISABLED)
     if(context==&client && decoded->deserializationResult==MQTTSuccess) {
         if(packet->type==MQTT_PACKET_TYPE_SUBACK && decoded->packetIdentifier==audio_subscription) {
             uint8_t *codes=NULL;size_t count=0;
@@ -230,7 +238,7 @@ static void mqtt_event(MQTTContext_t *context, MQTTPacketInfo_t *packet,
         }
     }
 #endif
-#ifdef MP_FINAL_UNIFIED
+#if defined(MP_FINAL_UNIFIED) && !defined(MP_AUDIO_DISABLED)
     if(context==&client && packet->type==MQTT_PACKET_TYPE_PUBACK && decoded->deserializationResult==MQTTSuccess &&
        audio_pending && decoded->packetIdentifier==audio_packet_id){audio_acknowledged=1;return;}
 #endif
@@ -315,9 +323,13 @@ int gateway_mqtt_open(const MpFrame *will_frame)
     session_error = acknowledged = partial_waiting = mqtt_online = 0;
     pending_id = 0;
 #ifdef MP_FINAL_UNIFIED
+#ifndef MP_AUDIO_DISABLED
     audio_pending=audio_acknowledged=0;audio_packet_id=0;audio_result=GW_DEFERRED;audio_subscribed=0;audio_subscription=0;
+#endif
     memset(telemetry,0,sizeof telemetry);last_ticket=0;
+#ifndef MP_AUDIO_DISABLED
     memset(incoming,0,sizeof incoming);
+#endif
 #endif
     memset(outgoing, 0, sizeof(outgoing));
     memset(rx_buffer, 0, sizeof(rx_buffer));
@@ -326,7 +338,7 @@ int gateway_mqtt_open(const MpFrame *will_frame)
     MQTTStatus_t status = MQTT_Init(&client, &transport, mqtt_adapter_time, mqtt_event, &buffer);
     if (status == MQTTSuccess)
         status = MQTT_InitStatefulQoS(&client, outgoing, sizeof outgoing/sizeof outgoing[0],
-#ifdef MP_FINAL_UNIFIED
+#if defined(MP_FINAL_UNIFIED) && !defined(MP_AUDIO_DISABLED)
                                      incoming, 1);
 #else
                                      NULL, 0);
@@ -505,7 +517,9 @@ int gateway_mqtt_begin(const MpFrame *frame) {
     bool qos1=!frame->rate || frame->replay;
     if(qos1 && pending_id) {
 #ifdef MP_FINAL_UNIFIED
+#ifndef MP_AUDIO_DISABLED
         if(audio_pending)return GW_DEFERRED;
+#endif
 #endif
         return GW_FAILED;
     }
@@ -549,12 +563,12 @@ int gateway_mqtt_progress(void) {
     if(!process_once()){mqtt_metrics.failed++;return GW_FAILED;}
     if(!send_budget()){mqtt_metrics.failed++;mqtt_failed();return GW_FAILED;}
 #ifdef MP_FINAL_UNIFIED
+#ifndef MP_AUDIO_DISABLED
     if(audio_pending && audio_acknowledged) {
         b5_latency_add(&mqtt_metrics.ack,g_uptime_ms-audio_started);
         audio_pending=audio_acknowledged=0;audio_packet_id=0;audio_result=GW_COMPLETE;
     }
 #endif
-#ifdef MP_FINAL_UNIFIED
     for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(telemetry[i].id && telemetry[i].result==GW_PENDING && telemetry[i].ack){
         b5_latency_add(&mqtt_metrics.ack,g_uptime_ms-telemetry[i].at);mqtt_metrics.q1_acked++;telemetry[i].result=GW_COMPLETE;
     }
@@ -579,13 +593,13 @@ int gateway_mqtt_progress(void) {
     if(pending_id) {
         if((uint32_t)(g_uptime_ms-pending_started)>=5000u){mqtt_metrics.failed++;mqtt_failed();return GW_FAILED;}
         if(!acknowledged) {
-#ifdef MP_FINAL_UNIFIED
+#if defined(MP_FINAL_UNIFIED) && !defined(MP_AUDIO_DISABLED)
             if(audio_pending)return GW_COMPLETE;
 #endif
             return GW_PENDING;
         }
         b5_latency_add(&mqtt_metrics.ack,g_uptime_ms-pending_started);
-#ifdef MP_FINAL_UNIFIED
+#if defined(MP_FINAL_UNIFIED) && !defined(MP_AUDIO_DISABLED)
         if(audio_pending){audio_pending=0;audio_result=GW_COMPLETE;}
         else {mqtt_metrics.q1_acked++;}
 #else
@@ -611,6 +625,7 @@ int gateway_audio_configure(const uint8_t *p,size_t n) {
     memcpy(unified_config.wifi_password,p+176,65);
     config=&unified_config;return 1;
 }
+#ifndef MP_AUDIO_DISABLED
 int gateway_audio_subscribe(void) {
     if(!mqtt_online || pending_id)return GW_FAILED;
     audio_subscription=MQTT_GetPacketId(&client);next_packet_seed=client.nextPacketId;
@@ -643,6 +658,7 @@ int gateway_audio_begin(const uint8_t packet[544]) {
     return GW_PENDING;
 }
 #endif
+#endif
 
 /* 没有业务帧时仍处理 MQTT 保活和接收，避免空闲连接被 Broker 关闭。 */
 int gateway_mqtt_yield(void)
@@ -656,11 +672,18 @@ int gateway_mqtt_yield(void)
 void gateway_network_close(void)
 {
     mqtt_failed();
+#ifdef MP_ESP_PASSTHROUGH
+    if(!platform_passthrough_leave()){console("GW PASS_MODE_UNKNOWN\r\n");return;}
+#endif
 #ifdef MP_B5_EGRESS_FINAL
     if(platform_at_unsynced()){console("GW CLOSE_UNSYNCED_MANUAL_POWER_REQUIRED\r\n");return;}
 #endif
 #ifdef MP_B5_EGRESS_FINAL
     if(!at_command("AT+CIPCLOSE",2000))console("GW CLOSE_NOT_CONFIRMED_MANUAL_POWER_REQUIRED\r\n");
+#ifdef MP_ESP_PASSTHROUGH
+    if(!platform_at_unsynced() && !b5_network_stopped() && !platform_passthrough_normal())
+        console("GW PASS_MODE_UNKNOWN\r\n");
+#endif
 #else
     (void)at_command("AT+CIPCLOSE", 2000);
 #endif
@@ -858,6 +881,9 @@ int gateway_network_open(void)
     opening_ntp_retry=0;
 #endif
     mqtt_failed();
+#ifdef MP_ESP_PASSTHROUGH
+    if(platform_at_unsynced())return 0;
+#endif
     esp_mqtt_reset();
 #ifdef MP_ESP_UART_230400
     if(!production_uart_open(command,sizeof command) || !step("STA","AT+CWMODE=1",3000))return 0;
@@ -971,9 +997,18 @@ int gateway_network_open(void)
     secure_memzero(command, sizeof(command));
     if (!sni_ok)
         return 0;
+#ifdef MP_ESP_PASSTHROUGH
+    /* 在 MQTT 超时之外延迟模块自动重连，旧会话不能静默跨 SSL 连接。 */
+    if(!step("ACTIVE","AT+CIPRECVMODE=0",2000u) ||
+       !step("PASS_RECONNECT","AT+CIPRECONNINTV=36000",2000u) ||
+       !step("PASS_MODE","AT+CIPMODE=1",2000u))return 0;
+#endif
     (void)snprintf(command, sizeof(command), "AT+CIPSTART=\"SSL\",\"%s\",%u", config->host, (unsigned)MP_MQTT_TLS_PORT);
     int ok = step("TLS", command, 30000);
     secure_memzero(command, sizeof(command));
+#ifdef MP_ESP_PASSTHROUGH
+    if(ok && !platform_passthrough_enter()){console("GW FAIL PASS_ENTER\r\n");return 0;}
+#endif
     if (ok)
         mqtt_adapter_reset(&network);
     return ok;

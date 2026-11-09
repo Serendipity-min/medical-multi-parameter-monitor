@@ -21,6 +21,11 @@ int platform_preflight_esp_reset_seen(void);
 int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout_ms);
 int esp_mqtt_recv(unsigned char *data, int length, uint32_t timeout_ms);
 void esp_mqtt_reset(void);
+#ifdef MP_ESP_PASSTHROUGH
+int platform_passthrough_enter(void);
+int platform_passthrough_leave(void);
+int platform_passthrough_normal(void);
+#endif
 
 void platform_init(void);
 void platform_set_poll(void (*callback)(void));
