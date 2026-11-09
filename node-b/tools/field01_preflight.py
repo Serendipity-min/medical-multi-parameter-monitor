@@ -88,7 +88,7 @@ def complete(records, target):
     )
 
 
-def capture(job, device, target, image_sha256):
+def capture(job, device, target, image_sha256, *, no_banner=False):
     protected(job, False)
     if any(job.iterdir()):
         raise ValueError("PRE_NEW_TRANSACTION_REQUIRED")
@@ -96,14 +96,21 @@ def capture(job, device, target, image_sha256):
     records = {}
     raw_path = job / "C-uart-private.bin"
     reason, result = "POWER_NOT_CONFIRMED", "BLOCKED"
-    sent = False
+    sent, banner_seen, bound_by = False, False, None
     port = serial.Serial(port=None, baudrate=115200, timeout=.1, write_timeout=1)
     port.dtr = port.rts = False
     port.port = device
     raw = raw_path.open("xb")
     try:
         with raw:
-            mark(job, "HOST_READY", transaction_id=transaction, image_sha256=image_sha256, target=target)
+            # CFG-U 的 CH340 可能在 C 断电时已枚举。先尝试打开，以便记录复位横幅。
+            if no_banner:
+                try:
+                    port.open()
+                except serial.SerialException:
+                    pass
+            mark(job, "HOST_READY", transaction_id=transaction, image_sha256=image_sha256,
+                 target=target, no_banner=no_banner)
             gate = time.monotonic() + OPERATOR_READY_S
             while not (job / "POWER_ALLOWED").is_file():
                 if (job / "ABORT").exists() or time.monotonic() >= gate:
@@ -112,17 +119,41 @@ def capture(job, device, target, image_sha256):
             else:
                 power = time.monotonic()
                 ready, end = power + PREP_S, power + MAX_POWER_S
-                reason = "BOOT_NOT_CONFIRMED"
-                while not port.is_open and time.monotonic() < ready and not (job / "ABORT").exists():
+                reason = "PRE_NOT_ALLOWED" if no_banner else "BOOT_NOT_CONFIRMED"
+                open_deadline = end if no_banner else ready
+                while not port.is_open and time.monotonic() < open_deadline and not (job / "ABORT").exists():
                     try:
                         port.open()
                     except serial.SerialException:
                         time.sleep(.1)
                 partial, oversized = b"", False
-                while port.is_open and time.monotonic() < (end if sent else ready):
+                while port.is_open and time.monotonic() < (end if sent or no_banner else ready):
                     if (job / "ABORT").exists():
                         reason = "OPERATOR_ABORT"
                         break
+                    if not sent and ((job / "PRE_ALLOWED").is_file() if no_banner else banner_seen):
+                        if no_banner:
+                            queued = port.read_all()
+                            raw.write(queued)
+                            lines = (partial + queued).split(b"\n")[:-1]
+                            if oversized:
+                                lines = lines[1:]
+                            banner_seen |= any(line.rstrip(b"\r") == BOOT_BANNER.encode("ascii")
+                                               for line in lines)
+                            if any(line.startswith(b"B5 STOPPED") for line in lines):
+                                reason = "C_STOPPED"
+                                break
+                            port.reset_input_buffer()
+                            partial, oversized = b"", False
+                        if time.monotonic() >= (end if no_banner else ready) or (job / "ABORT").exists():
+                            break
+                        mark(job, "PRE_SENT", target=target)
+                        sent = True
+                        reason = "PRE_BEGIN_NOT_CONFIRMED" if no_banner else "PRE_END_NOT_CONFIRMED"
+                        command = COMMANDS[target]
+                        if port.write(command) != len(command):
+                            reason = "UART_SHORT_WRITE"
+                            break
                     part = port.read_until(expected=b"\n", size=512)
                     if not part:
                         continue
@@ -137,18 +168,12 @@ def capture(job, device, target, image_sha256):
                     line = "" if oversized else partial.rstrip(b"\r\n").decode("ascii", errors="replace")
                     partial, oversized = b"", False
                     if line == BOOT_BANNER:
+                        banner_seen = True
                         if sent:
                             reason = "UNEXPECTED_BOOT"
                             break
-                        if time.monotonic() >= ready or (job / "ABORT").exists():
-                            break
-                        mark(job, "PRE_SENT", target=target)
-                        sent = True
-                        reason = "PRE_END_NOT_CONFIRMED"
-                        command = COMMANDS[target]
-                        if port.write(command) != len(command):
-                            reason = "UART_SHORT_WRITE"
-                            break
+                        if not no_banner:
+                            bound_by = "BANNER"
                     elif sent and line.startswith("PRE "):
                         parsed = parse_line(line)
                         if not parsed or parsed[0] in records:
@@ -156,6 +181,16 @@ def capture(job, device, target, image_sha256):
                             break
                         tag, data = parsed
                         records[tag] = data
+                        if tag == "BEGIN":
+                            if data["target"] != target or data["boot_ms"] >= PREP_S * 1000:
+                                reason = "PRE_INVALID_RECEIPT"
+                                break
+                            if no_banner:
+                                bound_by = "BOOT_MS"
+                            reason = "PRE_END_NOT_CONFIRMED"
+                        elif no_banner and bound_by is None:
+                            reason = "PRE_INVALID_RECEIPT"
+                            break
                         if tag == "END":
                             if complete(records, target):
                                 result, reason = data["result"], data["reason"]
@@ -180,6 +215,7 @@ def capture(job, device, target, image_sha256):
                       boot_ms=records.get("BEGIN", {}).get("boot_ms"), records=records,
                       result=result, reason=reason, native_exit=code, sent=sent,
                       raw_sha256=digest, power_off="PENDING",
+                      banner_seen=banner_seen, bound_by=bound_by,
                       tool=dict(python=platform.python_version(), pyserial=serial.VERSION,
                                 script_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()))
         with (job / "PRE-RESULT-public.json").open("x", encoding="utf-8") as output:
@@ -194,13 +230,15 @@ def main():
     parser.add_argument("--port", default="COM15")
     parser.add_argument("--target", type=int, choices=COMMANDS, default=115200)
     parser.add_argument("--image-sha256", required=True)
+    parser.add_argument("--no-banner", action="store_true",
+                        help="after POWER_ALLOWED, wait for PRE_ALLOWED and bind to PRE BEGIN boot_ms")
     parser.add_argument("--execute", action="store_true")
     args = parser.parse_args()
     if not re.fullmatch("[0-9a-f]{64}", args.image_sha256):
         parser.error("--image-sha256 requires a lowercase SHA-256")
     if args.execute:
-        return capture(args.job, args.port, args.target, args.image_sha256)
-    print(json.dumps(dict(execute=False, target=args.target, max_power_s=MAX_POWER_S)))
+        return capture(args.job, args.port, args.target, args.image_sha256, no_banner=args.no_banner)
+    print(json.dumps(dict(execute=False, target=args.target, max_power_s=MAX_POWER_S, no_banner=args.no_banner)))
     return 0
 
 
