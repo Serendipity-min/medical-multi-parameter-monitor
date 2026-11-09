@@ -25,6 +25,7 @@ def main():
     parser.add_argument('--no-audio', action='store_true', help='统一候选关闭语音运行与主题')
     parser.add_argument('--transport-bench', action='store_true', help='R8 C单板合成传输台架，只构建')
     parser.add_argument('--esp-passthrough', action='store_true', help='五板 SSL 透传离线候选，关闭语音')
+    parser.add_argument('--pass-lifecycle', action='store_true', help='非 FIELD01 五板 115200 透传生命周期候选，只构建')
     parser.add_argument('--five-node', action='store_true', help='五板静态来源候选；仅离线构建')
     parser.add_argument('--five-appliance', action='store_true', help='五板自动启动/KEY1/事实回复候选；仅离线构建，不部署')
     parser.add_argument('--field01', action='store_true', help='Issue #8 手动单窗网络探针，只构建')
@@ -42,6 +43,9 @@ def main():
         parser.error('--transport-bench requires --unified --five-appliance --no-audio and TLS 28895; modes are selected at runtime')
     if args.esp_passthrough and (not args.five_appliance or args.tls_port not in (None,28895)):
         parser.error('--esp-passthrough requires --five-appliance and TLS port 28895')
+    if args.pass_lifecycle and (not (args.esp_passthrough and args.egress_final) or
+                               args.field01 or args.transport_bench or args.esp_230400):
+        parser.error('--pass-lifecycle requires non-FIELD01 five-appliance egress-final passthrough at 115200')
     if args.field01 and (args.transport_profile or args.esp_passthrough or args.esp_230400):
         if not (args.transport_profile and args.no_audio) or (args.esp_230400 and not args.esp_passthrough):
             parser.error('FIELD01 profiling requires --no-audio --transport-profile; 230400 requires passthrough')
@@ -82,6 +86,7 @@ def main():
     if args.five_node:flags += ['-DMP_FIVE_NODE']
     if args.field01:flags += ['-DMP_FIVE_FIELD01']
     if args.esp_passthrough:flags += ['-DMP_ESP_PASSTHROUGH']
+    if args.pass_lifecycle:flags += ['-DMP_PASS_LIFECYCLE']
     if args.esp_230400:flags += ['-DMP_ESP_UART_230400']
     if args.transport_profile or args.transport_bench:flags += ['-DMP_TRANSPORT_PROFILE']
     if args.transport_bench:flags += ['-DMP_TRANSPORT_BENCH','-DMP_ESP_PASSTHROUGH','-DMP_ESP_UART_230400']
