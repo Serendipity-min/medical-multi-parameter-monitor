@@ -43,8 +43,8 @@ def main():
     if args.esp_passthrough and (not args.five_appliance or args.tls_port not in (None,28895)):
         parser.error('--esp-passthrough requires --five-appliance and TLS port 28895')
     if args.field01 and (args.transport_profile or args.esp_passthrough or args.esp_230400):
-        if not (args.transport_profile and args.no_audio and args.esp_passthrough==args.esp_230400):
-            parser.error('FIELD01 profiling requires --no-audio --transport-profile; passthrough and 230400 must be selected together')
+        if not (args.transport_profile and args.no_audio) or (args.esp_230400 and not args.esp_passthrough):
+            parser.error('FIELD01 profiling requires --no-audio --transport-profile; 230400 requires passthrough')
     args.no_audio |= args.esp_passthrough
     if args.no_audio and not args.unified:parser.error('--no-audio requires --unified')
     audio = args.audio_link or (args.unified and not args.no_audio)

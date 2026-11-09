@@ -18,13 +18,27 @@ static unsigned pre_calls,pre_advance;
 static unsigned profile_resets;
 void platform_cpu_reset_service_max(void){profile_resets++;}
 #endif
+#ifdef FIELD01_WORK_CUT
+static EspCpuMetrics work_cpu;
+static unsigned work_records;
+void platform_cpu_snapshot(EspCpuMetrics *out){*out=work_cpu;}
+#endif
 static bool pre_restore_ok,pre_manual_stop;
 
 int console_char(void) {
     if(!remaining)return -1;
     remaining--;return *command++;
 }
-void console(const char *line){(void)line;}
+void console(const char *line){
+#ifdef FIELD01_WORK_CUT
+    if(!strncmp(line,"FIELD01 WORK_CUT ",17)){
+        assert(strstr(line,"elapsed=142001 enqueued=1500 base=2 high=4 overflow=0 replaced=0 drop=0 tx_cyc=900 tx_b=1"));
+        work_records++;
+    }
+#else
+    (void)line;
+#endif
+}
 uint32_t platform_uart_errors_total(void){return 0;}
 int platform_at_synchronized(void){return 1;}
 void platform_io_snapshot(EspIoMetrics *out){memset(out,0,sizeof *out);}
@@ -196,5 +210,19 @@ int main(void) {
     assert(field01_remaining(209999,80000)==1 && !field01_remaining(210000,80000));
     assert((FIELD01_PCM_SAMPLES*2u+511u)/512u==FIELD01_AUDIO_CHUNKS);
     assert((FIELD01_MIN_SAMPLES*2u+511u)/512u==FIELD01_AUDIO_CHUNKS);
+#ifdef FIELD01_WORK_CUT
+    reset_pre();
+    memset(gateway.router.enqueued,0,sizeof gateway.router.enqueued);
+    gateway.router.enqueued[0]=2;
+    work_cpu.tx_cycles=1000;work_cpu.tx_bytes=2;
+    field01_begin();
+    assert(field01_t0==1000);
+    g_uptime_ms=143001;
+    assert(b5_business_remaining()<B5_DRAIN_MS);
+    gateway.router.enqueued[0]=1500;gateway.router.high_water=4;
+    work_cpu.tx_cycles=1900;work_cpu.tx_bytes=3;
+    field01_work_cut();field01_work_cut();
+    assert(work_records==1);
+#endif
     puts("FIELD01_HOST_PASS PRE isolation, one-shot, dirty lock, deadlines, STOP, legacy START and T0");
 }

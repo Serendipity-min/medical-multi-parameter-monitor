@@ -55,6 +55,12 @@ def main():
     field_defines,field_files=cases['field01_control']
     cases['field01_profile_pair_control']=([*field_defines,'-DMP_AUDIO_DISABLED',
         '-DMP_TRANSPORT_PROFILE','-DMP_ESP_UART_230400','-DMP_ESP_PASSTHROUGH'],field_files)
+    cases['field01_pass115_control']=([*field_defines,'-DMP_AUDIO_DISABLED',
+        '-DMP_TRANSPORT_PROFILE','-DMP_ESP_PASSTHROUGH'],field_files)
+    cases['field01_pass115_peer']=([*field01_at,*macros,'-Wno-unused-parameter','-DPLATFORM_HOST_TEST',
+        '-DMP_FINAL_UNIFIED','-DMP_FIVE_NODE','-DMP_FIVE_APPLIANCE','-DMP_ABC_TRI_CANDIDATE',
+        '-DMP_AUDIO_DISABLED','-DMP_TRANSPORT_PROFILE','-DMP_ESP_PASSTHROUGH'],
+        ['gateway/b5/test_five_p3_egress.c',*transport[1:],*shared])
     cases['field01_uart_retime']=(['-flto','-fwhole-program','-DMP_FIVE_FIELD01','-DMP_CAN_RX_IRQ',
         '-DMP_B5_EGRESS_FINAL','-DMP_B5_CLOUD_CANDIDATE'],['gateway/mqtt/tests/test_field01_uart_retime.c'])
     cases['field01_sntp_retry']=([*field01_at,'-DMP_H3_FRESH_SNTP','-DMP_B5_CLOUD_CANDIDATE'],

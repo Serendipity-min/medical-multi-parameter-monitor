@@ -701,6 +701,9 @@ int main(void) {
             platform_poll();
 #ifdef MP_B5_EGRESS_FINAL
             bool allow_new=b5_business_remaining()>B5_DRAIN_MS;
+#ifdef FIELD01_WORK_CUT
+            if(!allow_new)field01_work_cut();
+#endif
             int progress=b5_egress_step(&gateway.router,&publisher,allow_new);
 #ifdef MP_FINAL_UNIFIED
             unified_audio_step(!publisher.deferred && !gateway.router.ln && allow_new);

@@ -16,6 +16,33 @@ static bool field_key_approved;
 static unsigned field_queue_phase;
 static const unsigned field_waves[]={MP_ECG,MP_RESP,MP_PPG};
 
+#if defined(MP_TRANSPORT_PROFILE) && defined(MP_ESP_PASSTHROUGH) && !defined(MP_ESP_UART_230400)
+#define FIELD01_WORK_CUT
+static uint32_t field_work_base;
+static uint32_t field_work_tx_cycles,field_work_tx_bytes;
+static bool field_work_cut_logged;
+
+static uint32_t field01_enqueued(void) {
+    uint32_t total=0;
+    for(unsigned i=0;i<MP_STREAMS;i++)total+=gateway.router.enqueued[i];
+    return total;
+}
+
+static void field01_work_cut(void) {
+    if(!field01_t0 || field_work_cut_logged)return;
+    field_work_cut_logged=true;
+    uint32_t tick=g_uptime_ms;
+    EspCpuMetrics cpu;platform_cpu_snapshot(&cpu);
+    char line[208];
+    snprintf(line,sizeof line,"FIELD01 WORK_CUT tick=%lu elapsed=%lu enqueued=%lu base=%lu high=%lu overflow=%lu replaced=%lu drop=%lu tx_cyc=%lu tx_b=%lu\r\n",
+        (unsigned long)tick,(unsigned long)(tick-field01_t0),(unsigned long)field01_enqueued(),(unsigned long)field_work_base,
+        (unsigned long)gateway.router.high_water,(unsigned long)gateway.router.live_overflow,(unsigned long)gateway.router.live_replaced,
+        (unsigned long)gateway.router.dropped,(unsigned long)(cpu.tx_cycles-field_work_tx_cycles),
+        (unsigned long)(cpu.tx_bytes-field_work_tx_bytes));
+    console(line);
+}
+#endif
+
 static void field01_latch(unsigned reason) {
 #ifdef __arm__
     uint32_t primask=__get_PRIMASK();__disable_irq();
@@ -90,6 +117,11 @@ static void field01_begin(void) {
     }
 #ifdef MP_TRANSPORT_PROFILE
     platform_cpu_reset_service_max();
+#endif
+#ifdef FIELD01_WORK_CUT
+    field_work_base=field01_enqueued();
+    EspCpuMetrics cpu;platform_cpu_snapshot(&cpu);
+    field_work_tx_cycles=cpu.tx_cycles;field_work_tx_bytes=cpu.tx_bytes;
 #endif
     field01_t0=now;
     console("FIELD01 T0\r\n");

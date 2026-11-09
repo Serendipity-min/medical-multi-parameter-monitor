@@ -11,6 +11,11 @@ static int measured_ticket(uint16_t id);
 #include <assert.h>
 #include <inttypes.h>
 
+#ifdef MP_FIVE_FIELD01
+static void field01_published(const MpFrame *frame){(void)frame;}
+static void field01_admission(void){}
+#endif
+
 enum { QUEUE_ACKS=8, SEQUENCES=751 };
 static unsigned window_ms=110000;
 const GatewayConfig gateway_test_config={GATEWAY_CONFIG_MAGIC,1700000000u,
@@ -453,8 +458,16 @@ static void pass_fault_cases(void){
 
 int main(int argc,char **argv){
 #ifdef MP_ESP_PASSTHROUGH
-    if(argc==2 && !strcmp(argv[1],"--pass-check")){
-        USART3->SR|=USART_SR_TC;platform_set_poll(tick);pass_fault_cases();return 0;
+    if((argc==2 && !strcmp(argv[1],"--pass-check"))
+#if defined(MP_FIVE_FIELD01) && !defined(MP_ESP_UART_230400)
+       || argc==1
+#endif
+    ){
+        assert(pass_mode==PASS_COMMAND && esp_uart_baud==115200u);
+        USART3->BRR=0x45;USART3->SR|=USART_SR_TC;
+        platform_set_poll(tick);pass_fault_cases();
+        assert(esp_uart_baud==115200u && USART3->BRR==0x45);
+        return 0;
     }
     const bool transparent=argc>5 && !strcmp(argv[5],"pass");
     if(argc>6)peer_ack_ms=(unsigned)atoi(argv[6]);
