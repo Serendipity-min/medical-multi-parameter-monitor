@@ -16,7 +16,13 @@ static void field01_published(const MpFrame *frame){(void)frame;}
 static void field01_admission(void){}
 #endif
 
-enum { QUEUE_ACKS=8, SEQUENCES=751 };
+enum { QUEUE_ACKS=8,
+#ifdef MP_P3_R15_SCAN
+       SEQUENCES=1801
+#else
+       SEQUENCES=751
+#endif
+};
 static unsigned window_ms=110000;
 const GatewayConfig gateway_test_config={GATEWAY_CONFIG_MAGIC,1700000000u,
     "synthetic-wifi","synthetic-password","mqtt.example.invalid","b5-gateway","synthetic-password","b5-c-isolated"};
@@ -25,6 +31,11 @@ TestUsart platform_usart[2]={{.SR=USART_SR_TXE},{.SR=USART_SR_TXE}};
 static MpRouter router;
 static uint64_t simulated_us;
 static unsigned wire_us=87,byte_cpu_us;
+#ifdef MP_P3_R15_SCAN
+static unsigned r15_rate,r15_tx_us,r15_ack_count,r15_tx_bytes,r15_can_fps,r15_service_us=2700u;
+static uint64_t r15_tx_us_total,r15_service_at,r15_service_us_total;
+static bool r15_fast_ack,r15_line_only,r15_can_proportional;
+#endif
 #ifdef MP_P3_SERVICE_MODEL
 static unsigned service_us;
 static uint32_t service_calls,dma_bytes;
@@ -181,7 +192,11 @@ static void mqtt_packet(void){
     observe_publish(pos,topic_length);
     if(wire_packet[0]&2u){
         pos+=topic_length;
-        peer_reply((const uint8_t[]){0x40,2,wire_packet[pos],wire_packet[pos+1]},4,peer_ack_ms);
+        unsigned delay=peer_ack_ms;
+#ifdef MP_P3_R15_SCAN
+        if(r15_rate && !r15_fast_ack && ++r15_ack_count%40u==0)delay=540;
+#endif
+        peer_reply((const uint8_t[]){0x40,2,wire_packet[pos],wire_packet[pos+1]},4,delay);
     }
 }
 #ifdef MP_ESP_PASSTHROUGH
@@ -337,7 +352,14 @@ static void peer_tx_byte(unsigned char byte){
 }
 
 void platform_test_tx(unsigned char byte){
-    advance(wire_us+byte_cpu_us);
+#ifdef MP_P3_R15_SCAN
+    if(r15_rate && io_metrics.at_phase==ESP_AT_DATA){
+        /* send_bytes 每字节先跑一次 5 us 的 tick，已包含在校准字节时间中。 */
+        r15_tx_bytes++;r15_tx_us_total+=r15_tx_us;
+        advance(r15_tx_us-5u);
+    }else
+#endif
+        advance(wire_us+byte_cpu_us);
     peer_tx_byte(byte);
 }
 
@@ -368,6 +390,9 @@ int platform_test_dma_payload(const unsigned char *data,unsigned size){
 static void put(unsigned node,unsigned stream,unsigned rate,unsigned count,int value){
     MpFrame f={0};f.node=node;f.stream=stream;f.rate=rate;f.count=count;
     f.synthetic=true;f.valid=true;f.timestamp=1800000000000ULL+produced;
+#ifdef MP_P3_R15_SCAN
+    if(r15_rate)f.timestamp=1800000000000ULL+(uint64_t)produced*10500u/r15_rate;
+#endif
     f.epoch=1712345678;f.boot=1;f.seq=++seq[node][stream];assert(f.seq<SEQUENCES);
     for(unsigned i=0;i<count;i++){
         f.values[i]=value;
@@ -386,7 +411,18 @@ static void tick(void){
     if(origin)service_calls++;
     advance(25u+service_us);
 #else
+#ifdef MP_P3_R15_SCAN
+    bool transmitting=r15_rate && io_metrics.at_phase==ESP_AT_DATA;
+    advance(transmitting?5u:25u);
+    if(r15_rate && origin && simulated_us>=r15_service_at){
+        r15_service_at+=5000u;
+        r15_service_us_total+=r15_service_us;
+        /* 字节耗时已含 TX 内的服务竞争，避免再把 54% 叠加到 TX。 */
+        if(!transmitting)advance(r15_service_us);
+    }
+#else
     advance(25);
+#endif
 #endif
 #ifdef MP_PASS_LIFECYCLE
     if(peer_stop_at && g_uptime_ms>=peer_stop_at)peer_stop=true;
@@ -412,8 +448,35 @@ static void tick(void){
     }
 #endif
     if(origin){
-        while(produced<g_uptime_ms-origin && produced<window_ms){
+        uint32_t input_ms=g_uptime_ms-origin,input_limit=window_ms;
+#ifdef MP_P3_R15_SCAN
+        if(r15_rate){
+            input_ms=(uint64_t)input_ms*r15_rate/10500u;
+            input_limit=(uint64_t)input_limit*r15_rate/10500u;
+        }
+#endif
+        while(produced<input_ms && produced<input_limit){
             produced++;
+#ifdef MP_P3_R15_SCAN
+            if(r15_rate){
+                if(produced%400==0)put(2,MP_ECG,250,100,11103);
+                unsigned phase=produced%1000u;
+                if(phase==20)put(2,MP_RESP,50,50,100000);
+                if(phase==140)put(1,MP_PPG,50,50,1230000);
+                if(phase==210)put(1,MP_SPO2,0,1,9750);
+                if(phase==330)put(1,MP_PR,0,1,7200);
+                if(phase==460)put(2,MP_HR,0,1,6000);
+                if(phase==580)put(2,MP_RR,0,1,1800);
+                if(phase==760)put(4,MP_TEMP,0,1,2450);
+                phase=produced%5000u;
+                if(phase==500)put(3,MP_GATEWAY_STATUS,0,1,1);
+                if(phase==1500)put(1,MP_NODE_STATUS,0,1,1);
+                if(phase==2500)put(2,MP_NODE_STATUS,0,1,1);
+                if(phase==3500)put(4,MP_NODE_STATUS,0,1,1);
+                if(phase==4500)put(5,MP_NODE_STATUS,0,1,1);
+                continue;
+            }
+#endif
             if(produced%400==0)put(2,MP_ECG,250,100,1103);
             if(produced%1000==0){
                 put(2,MP_RESP,50,50,10000);put(1,MP_PPG,50,50,1230000);
@@ -457,8 +520,9 @@ static int measured_ticket(uint16_t id){
 }
 
 static void latency(const char *name,const B5Latency *m){
-    printf("lat %s n=%lu p50_upper=%lu p95_upper=%lu max=%lu\n",name,(unsigned long)m->count,
-        (unsigned long)b5_latency_percentile(m,50),(unsigned long)b5_latency_percentile(m,95),(unsigned long)m->max);
+    printf("lat %s n=%lu p50_upper=%lu p95_upper=%lu p99_upper=%lu max=%lu\n",name,(unsigned long)m->count,
+        (unsigned long)b5_latency_percentile(m,50),(unsigned long)b5_latency_percentile(m,95),
+        (unsigned long)b5_latency_percentile(m,99),(unsigned long)m->max);
 }
 #ifdef MP_ESP_PASSTHROUGH
 static void pass_case_reset(void){
@@ -648,6 +712,17 @@ int main(int argc,char **argv){
     const bool transparent=argc>5 && !strcmp(argv[5],"pass");
     if(argc>6)peer_ack_ms=(unsigned)atoi(argv[6]);
     if(argc>7)window_ms=(unsigned)atoi(argv[7]);
+#ifdef MP_P3_R15_SCAN
+    if(argc>8){
+        r15_rate=(unsigned)atoi(argv[8]);
+        assert(transparent && r15_rate>=10500 && r15_rate<=24000 && argc==10);
+        r15_fast_ack=!strcmp(argv[9],"fast-ack");
+        r15_line_only=!strcmp(argv[9],"line-only");
+        r15_can_proportional=!strcmp(argv[9],"can-proportional");
+        assert(r15_fast_ack || r15_line_only || r15_can_proportional || !strcmp(argv[9],"calibrated"));
+        r15_can_fps=(370u*r15_rate+5250u)/10500u;
+    }
+#endif
 #ifdef MP_P3_SERVICE_MODEL
     dma_mode=argc>5 && !strcmp(argv[5],"dma");
     if(argc>8)service_us=(unsigned)atoi(argv[8]);
@@ -664,6 +739,14 @@ int main(int argc,char **argv){
     if(argc>4)byte_cpu_us=(unsigned)atoi(argv[4]);
     assert(byte_cpu_us<=120u);
     wire_us=(10000000u+esp_uart_baud/2u)/esp_uart_baud;
+#ifdef MP_P3_R15_SCAN
+    r15_tx_us=r15_line_only?wire_us:esp_uart_baud==115200u?118u:62u;
+    if(r15_can_proportional){
+        assert(r15_rate<=16000u);
+        r15_service_us=(r15_service_us*r15_rate+5250u)/10500u;
+        r15_tx_us=wire_us+((r15_tx_us-wire_us)*r15_rate+5250u)/10500u;
+    }
+#endif
     samples_wanted=blocks==64?16160:32000;
     for(unsigned i=0;i<MIC_SAMPLES;i++)pcm[i]=(int16_t)(i*13u+7u);
     platform_set_poll(tick);mqtt_adapter_reset(&network);esp_mqtt_reset();
@@ -685,6 +768,12 @@ int main(int argc,char **argv){
     memset(stage_us,0,sizeof stage_us);serial_payload_bytes=0;
     uint32_t first_queries=io_metrics.rx_queries, first_empty=io_metrics.rx_empty, first_reads=io_metrics.rx_reads;
     unsigned slot_samples=0,slot_full_samples=0,slot_max=0,next_sample=30000;
+#ifdef MP_P3_R15_SCAN
+    unsigned previous_slots=0;
+    uint64_t slot_at=simulated_us,slot_full_us=0,slot_sum_us=0;
+    r15_tx_bytes=0;r15_tx_us_total=0;
+    r15_service_at=simulated_us+5000u;
+#endif
     while(g_uptime_ms-origin<window_ms){
         platform_poll();
         if(blocks && !recording_started && produced>=10000){unified_audio_command('R',false);recording_started=1;assert(mic_state==1);}
@@ -695,6 +784,12 @@ int main(int argc,char **argv){
         }
         unsigned used=0;
         for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)used+=publisher.tickets[i]!=0;
+#ifdef MP_P3_R15_SCAN
+        uint64_t elapsed_us=simulated_us-slot_at;
+        slot_sum_us+=elapsed_us*previous_slots;
+        if(previous_slots==GATEWAY_TELEMETRY_SLOTS)slot_full_us+=elapsed_us;
+        previous_slots=used;slot_at=simulated_us;
+#endif
         if(used>slot_max)slot_max=used;
         slot_samples++;slot_full_samples+=used==GATEWAY_TELEMETRY_SLOTS;
         if(g_uptime_ms-origin>=next_sample){
@@ -716,6 +811,11 @@ int main(int argc,char **argv){
            total,(unsigned)sizeof publisher,(unsigned)sizeof telemetry[0],(unsigned)sizeof outgoing[0]);
     printf("slots limit=%u max=%u samples=%u full=%u ack_delay_ms=%u\n",
         GATEWAY_TELEMETRY_SLOTS,slot_max,slot_samples,slot_full_samples,peer_ack_ms);
+#ifdef MP_P3_R15_SCAN
+    printf("calibration offered_millihz=%u assumed_can_fps=%u tx_byte_us=%u tx_bytes=%u tx_us=%" PRIu64
+           " service_us=%" PRIu64 " slot_sum_us=%" PRIu64 " slot_full_us=%" PRIu64 "\n",
+           r15_rate,r15_can_fps,r15_tx_us,r15_tx_bytes,r15_tx_us_total,r15_service_us_total,slot_sum_us,slot_full_us);
+#endif
 #ifdef MP_ESP_PASSTHROUGH
     printf("peer transparent=%u chunks=%u chunk_max=%u rx_max=%u send_ok=%lu\n",
         (unsigned)transparent,peer_chunks,peer_chunk_max,peer_rx_max,(unsigned long)io_metrics.tx_confirmed);
