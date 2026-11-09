@@ -13,11 +13,17 @@
 | `send_bytes` | 每写 DR 前跑回调和截止/停止检查；TXE 未就绪时继续调用回调；DATA 段更新已写长度。 | 先量 `tx_cyc - txe_cyc` 与 `svc_cyc` 的关系。DMA 或受控 TXE IRQ 可移除逐字节前台投递，典型省数十个前台周期/字节；DMA 设置、短帧和 IRQ 抢占成本待测。 | 部分发送必须保留准确阶段和写入长度，禁止重送未知 MQTT 半帧。长帧必须继续推进 CAN，串口发送终态仍由 AT 和 TCP/MQTT 边界分别确认。 |
 | `rx_step` | TX 侧按 TXE 推送一字节；RX 侧从环取一字节并复用 `reply_byte`，终态还解析长度或搬运 ≤256 B，调用方每轮先跑服务。 | 先共享前缀锁存；按已有单 owner 用小块消费已有环字节，约可省一轮入口和服务派发，量级 15–45 周期/后续字节。终态解析与数据搬运按事务摊销。 | `CIPRECVLEN` 到 `CIPRECVDATA` 的状态、空读 5 ms 退让、字节预算、读写 owner 和出错后的 unsync 保持一致。 |
 
+### R7 WP-U 实施优先级
+
+1. **先锁存 AT 行类型，收益中等、风险低。** 在第 13 字节一次识别 `+CIPRECVDATA:`，换行与事务重置时清除锁存。保持现有坏分隔符、重复块和二进制长度规则。透传稳态不经过该解析器，收益限于普通模式和启动授时。
+2. **再减少可读字节的服务调度，收益可能更大、风险中等。** 在已有 RX 环数据时最多连续消费 4 字节或 100 µs，以先到者为准，每字节保留绝对截止、停止和 UART 错误判断，环空立即让路。普通模式覆盖 `await_reply` 和 `rx_step`。透传稳态的 RX 已直接消费原环，仍可针对 TXE 空等和 `send_bytes` 的逐字节 `platform_poll` 做同类限额验证。DWT 分别记录服务调用、最长让路间隔与双 CAN FIFO 余量。
+3. **再评估 USART3 TX DMA，收益待 DWT 归因、风险较高。** 收益集中在 TX 投递和空等，`SEND OK` 与 Broker 确认仍各自有边界。透传长帧同样可能受益。RX DMA 延后，先核对 IDLE/错误与环覆盖风险。WP-U 只记录方案。
+
 [DWT 插桩与 USART3 路径](../../../gateway/mqtt/src/platform.c) · [现有 CAN 与业务回调](../../../gateway/b5/network_main.c)
 
 ## USART3 TX DMA
 
-RM0090 的 DMA1 请求映射支持 USART3_TX 在 Stream3/Channel4。该方案可以和现有 SPI3/I2S3 RX 的 Stream0/Channel0 并存；同一 DMA 控制器仍共享仲裁和总线。Stream3/Channel0 的 SPI2_RX 和 Stream3/Channel3 的 I2S2_EXT_RX 都会与拟议 USART3_TX 争用同一流，若未来切换到这些音频方案，必须改资源分配或保留 IRQ 发送。 [STM32 RM0090 DMA1 请求映射](https://www.st.com/resource/en/reference_manual/rm0090-stm32f407-advanced-armbased-32-bit-mcus-stmicroelectronics.pdf)
+RM0090 Rev 21 表 43（PDF 第 310 页，共 1757 页）的 DMA1 请求映射支持 USART3_TX 在 Stream3/Channel4。该方案可以和现有 SPI3/I2S3 RX 的 Stream0/Channel0 并存；同一 DMA 控制器仍共享仲裁和总线。Stream3/Channel0 的 SPI2_RX 和 Stream3/Channel3 的 I2S2_EXT_RX 都会与拟议 USART3_TX 争用同一流，若未来切换到这些音频方案，必须改资源分配或保留 IRQ 发送。 [STM32 RM0090 DMA1 请求映射](https://www.st.com/resource/en/reference_manual/dm00031020-stm32f405-415-stm32f407-417-stm32f427-437-and-stm32f429-439-advanced-arm-based-32-bit-mcus-stmicroelectronics.pdf#page=310)
 
 | C 侧功能 | 当前实现 | 拟议占用及约束 |
 | --- | --- | --- |

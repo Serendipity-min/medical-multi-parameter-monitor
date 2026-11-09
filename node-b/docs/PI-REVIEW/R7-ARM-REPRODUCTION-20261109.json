@@ -1,0 +1,178 @@
+{
+  "scope": "OFFLINE_BUILD_ONLY",
+  "source_commit": "dba676d0b9055fa7a8a03ef6bae7daabc26de19d",
+  "arm_gnu": "14.2.1",
+  "vps_source_archive": {
+    "bytes": 932630,
+    "sha256": "e82341f668e864f01a3afa0c98cf96f3a03c0a6432746f5ffca1c6707c562cc2"
+  },
+  "reproduced": {
+    "no_audio": {
+      "sector4_B": 48924,
+      "sector4_remaining_B": 16612,
+      "sram_data_B": 104,
+      "sram_bss_B": 76220,
+      "ccm_audio_B": 0,
+      "flash_artifacts_sha256": {
+        "windows": {
+          "boot": "ac7f22f68a366a86922ee8c1fa4cffe27ffe8952184730a4f1641bc793383ee8",
+          "code": "42317e3218b22aec16bf70716dfdfee1c3d218948935160db8855a795aa9aeba",
+          "hex": "692da1380030c780a25e5ce1e6650035f46dfe99fd293868ff321712d536ef4d"
+        },
+        "vps": {
+          "hex": "692da1380030c780a25e5ce1e6650035f46dfe99fd293868ff321712d536ef4d",
+          "boot": "ac7f22f68a366a86922ee8c1fa4cffe27ffe8952184730a4f1641bc793383ee8",
+          "code": "42317e3218b22aec16bf70716dfdfee1c3d218948935160db8855a795aa9aeba"
+        }
+      }
+    },
+    "field_no_audio": {
+      "sector4_B": 53776,
+      "sector4_remaining_B": 11760,
+      "sram_data_B": 96,
+      "sram_bss_B": 76048,
+      "ccm_audio_B": 0,
+      "flash_artifacts_sha256": {
+        "windows": {
+          "boot": "56e2f7d609bbc3236333963d511837b8ce9058cb711b842fa2475ccadff37d83",
+          "code": "98ff4cc3d113a9f57fe629a8d39054d8d0e375e606a83fabe5de01f62b3cd8e9",
+          "hex": "e41c73e42e6c9e2ac78d6ca192014476e4cd7294467994982dc47cfb59e8248d"
+        },
+        "vps": {
+          "hex": "e41c73e42e6c9e2ac78d6ca192014476e4cd7294467994982dc47cfb59e8248d",
+          "boot": "56e2f7d609bbc3236333963d511837b8ce9058cb711b842fa2475ccadff37d83",
+          "code": "98ff4cc3d113a9f57fe629a8d39054d8d0e375e606a83fabe5de01f62b3cd8e9"
+        }
+      }
+    },
+    "pass115": {
+      "sector4_B": 50684,
+      "sector4_remaining_B": 14852,
+      "sram_data_B": 104,
+      "sram_bss_B": 76292,
+      "ccm_audio_B": 0,
+      "flash_artifacts_sha256": {
+        "windows": {
+          "boot": "30ab93aa7082c745b1238fafd409fba3e51ba13ac2bebc53ad3fbb440925f467",
+          "code": "f56daf68f9be642987eafe3c64babdf0ae179b2af237e873a84312c78ca78662",
+          "hex": "0a7b5b21bef1bea96d3f0d6646164dd9ff36173a467be9c15ff89b749a475075"
+        },
+        "vps": {
+          "hex": "0a7b5b21bef1bea96d3f0d6646164dd9ff36173a467be9c15ff89b749a475075",
+          "boot": "30ab93aa7082c745b1238fafd409fba3e51ba13ac2bebc53ad3fbb440925f467",
+          "code": "f56daf68f9be642987eafe3c64babdf0ae179b2af237e873a84312c78ca78662"
+        }
+      }
+    },
+    "pass230": {
+      "sector4_B": 51828,
+      "sector4_remaining_B": 13708,
+      "sram_data_B": 108,
+      "sram_bss_B": 76308,
+      "ccm_audio_B": 0,
+      "flash_artifacts_sha256": {
+        "windows": {
+          "boot": "e29b043403fa4971a0674d5fe211a8081c93be420985bdb9e558f60e6e43ee19",
+          "code": "653568ac39f85191b41d4e077b7696002fa14ef9a0a49b1e98461a33b23603f2",
+          "hex": "9598ac84a56a69dfbc5b53d55a322c8702f559faf38b901c75e5d9612b08a626"
+        },
+        "vps": {
+          "hex": "9598ac84a56a69dfbc5b53d55a322c8702f559faf38b901c75e5d9612b08a626",
+          "boot": "e29b043403fa4971a0674d5fe211a8081c93be420985bdb9e558f60e6e43ee19",
+          "code": "653568ac39f85191b41d4e077b7696002fa14ef9a0a49b1e98461a33b23603f2"
+        }
+      }
+    }
+  },
+  "legacy_unchanged": {
+    "unified": {
+      "before": {
+        "boot": "1dd0fa1ab7d4c47ebe91ab3dc4141e32acaed8b790dcc7c7cbe24493417e3adf",
+        "code": "07e7d81c4e35e91aecad7b68662388f5ea65f273ba829bf6a191c3e744e6cb7b",
+        "hex": "273920a0e418464052213675df27c3f59297e850fa08609f29d7017fee1eb4dc"
+      },
+      "after": {
+        "boot": "1dd0fa1ab7d4c47ebe91ab3dc4141e32acaed8b790dcc7c7cbe24493417e3adf",
+        "code": "07e7d81c4e35e91aecad7b68662388f5ea65f273ba829bf6a191c3e744e6cb7b",
+        "hex": "273920a0e418464052213675df27c3f59297e850fa08609f29d7017fee1eb4dc"
+      },
+      "baseline_commit": "fd7fa15"
+    },
+    "five": {
+      "before": {
+        "boot": "557904bfaef1c70a1096a3af2bb57baf8d46960ee9b2f048a8752fe9ea78a508",
+        "code": "46c19a03202b25073c7a721c0d5ecba073ba76e553fec8c41d244884ed57f775",
+        "hex": "274754628c780b66b4772733aaf69675f6d82d05b25efc7933597e409c7e8869"
+      },
+      "after": {
+        "boot": "557904bfaef1c70a1096a3af2bb57baf8d46960ee9b2f048a8752fe9ea78a508",
+        "code": "46c19a03202b25073c7a721c0d5ecba073ba76e553fec8c41d244884ed57f775",
+        "hex": "274754628c780b66b4772733aaf69675f6d82d05b25efc7933597e409c7e8869"
+      },
+      "baseline_commit": "fd7fa15"
+    },
+    "field": {
+      "before": {
+        "boot": "4bb7b2b9dff875d021ed4dfeba266c072ca29f351a3ad6e525580e53a0c597dd",
+        "code": "9d001fa3c14327853aedbc24806fdc9697edea86130a21d34b61240c3f3944ed",
+        "hex": "a5f7a69c25627a013fff0331aaa1e119c7b86ed1fca3314e4d72ffeed4ec8a1c"
+      },
+      "after": {
+        "boot": "4bb7b2b9dff875d021ed4dfeba266c072ca29f351a3ad6e525580e53a0c597dd",
+        "code": "9d001fa3c14327853aedbc24806fdc9697edea86130a21d34b61240c3f3944ed",
+        "hex": "a5f7a69c25627a013fff0331aaa1e119c7b86ed1fca3314e4d72ffeed4ec8a1c"
+      },
+      "baseline_commit": "fd7fa15"
+    },
+    "profile": {
+      "before": {
+        "boot": "80b42f7f91654e4adfde881e73deae216b906a77170ab4411f54ea02535bfcd2",
+        "code": "780bef3820e6efebf5e8bd5e497c539985eba89e38b98458a968e28c8a04516c",
+        "hex": "a33d31e7fd3278798b35789ddfaa80998da2c958535e77ec2361b0cd208f0b1a"
+      },
+      "after": {
+        "boot": "80b42f7f91654e4adfde881e73deae216b906a77170ab4411f54ea02535bfcd2",
+        "code": "780bef3820e6efebf5e8bd5e497c539985eba89e38b98458a968e28c8a04516c",
+        "hex": "a33d31e7fd3278798b35789ddfaa80998da2c958535e77ec2361b0cd208f0b1a"
+      },
+      "baseline_commit": "fd7fa15"
+    },
+    "production_after_wpv": {
+      "before": {
+        "boot": "e1f9f233f9fac1716264b4d7fcc3e8b4f22c21bdafed1019cd4a53384dac010b",
+        "code": "9a32ef36329ab57584ddc60b8ac9e7ae892b44f0d4322f66ccb99d12d391d2b7",
+        "hex": "9ec13c77b4cc7c7ac96e472cecc3b01325857e864a12490c04b92478549e78af"
+      },
+      "after": {
+        "boot": "e1f9f233f9fac1716264b4d7fcc3e8b4f22c21bdafed1019cd4a53384dac010b",
+        "code": "9a32ef36329ab57584ddc60b8ac9e7ae892b44f0d4322f66ccb99d12d391d2b7",
+        "hex": "9ec13c77b4cc7c7ac96e472cecc3b01325857e864a12490c04b92478549e78af"
+      },
+      "baseline_commit": "10b0124"
+    }
+  },
+  "legacy_audio_link": {
+    "before_exit": 1,
+    "after_exit": 1,
+    "flash_overflow_B": 256
+  },
+  "default_five_sizing": {
+    "sector4_B": 58048,
+    "sector4_remaining_B": 7488,
+    "sram_data_B": 108,
+    "sram_bss_B": 82896,
+    "ccm_audio_B": 64000
+  },
+  "default_field_sizing": {
+    "sector4_B": 61980,
+    "sector4_remaining_B": 3556,
+    "sram_data_B": 100,
+    "sram_bss_B": 82348,
+    "ccm_audio_B": 64000
+  },
+  "windows_final_build_check": {
+    "commit": "ef4466e",
+    "same_flash_artifacts_all_four": true,
+    "audio_topic_absence_checked_in_code_sector": true
+  }
+}

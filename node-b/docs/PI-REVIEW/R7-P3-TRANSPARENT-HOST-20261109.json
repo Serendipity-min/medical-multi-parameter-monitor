@@ -1,0 +1,1476 @@
+{
+  "scope": "HOST_ONLY_NOT_HARDWARE",
+  "source_commit": "dba676d0b9055fa7a8a03ef6bae7daabc26de19d",
+  "script_sha256": "ae5b486529069b571dcb5cd967368d851af55fb64815e74bf9177d01b9ff2967",
+  "source_sha256": {
+    "gateway/b5/test_five_p3_egress.c": "949562e3cfe05c45efd50835663bbc0ae3da4cfcf06e1e9beb05b9fcba7bf70b",
+    "gateway/mqtt/src/mqtt_transport_adapter.c": "8b7f798623f1fe8aa334abb563a70106f8440a887fe023c3dd9021bd1ffe0f56",
+    "gateway/storage/router.c": "610f6eb57d9804c62fa77f8c273f5d59a2a825d16aa51cc98ea7acf8f2c2d7b0",
+    "gateway/data_model/model.c": "eb436b2aa2dd904f88d24a6d0a848fb95dc38184806ff93a777fac6daf89a450",
+    "gateway/b5/b5_policy.c": "57895ad7f540f608a2978b1e845a2c270c167f8e5f8f2f4aea0f8592bde8a3f9",
+    "gateway/third_party/coreMQTT/source/core_mqtt.c": "98cfdd1651acd725296164e9a865c51d0cd137b531a54e2e0c937846c202de0c",
+    "gateway/third_party/coreMQTT/source/core_mqtt_serializer.c": "1e4bf5a2b307f37f3cbc83a898e9c6b89b873daf93968fddb81eac06bb113c0b",
+    "gateway/third_party/coreMQTT/source/core_mqtt_state.c": "af5c215f11692c7ced8a90b9d6f9c9c23d2476538ff77a38952945f642fbc8cf",
+    "gateway/microphone/mic_format.c": "64eab873b391f4647db6c5fbb24511a554b28e210d77084de589c4b345fe7162",
+    "gateway/microphone/mic_protocol.c": "8d036fe2dc6b9eb36e49e395eb64df28e00fe669e20b96531094a01556817703",
+    "gateway/mqtt/src/gateway_transport.c": "4613d0d72f3946790e4284c5e14104f8269a9d2d984eb8774534678bd8a79048",
+    "gateway/mqtt/src/platform.c": "1112958df446aa8b8e0cce79435e48b4c4ca945032fc96ececceb671a61c2cf2",
+    "gateway/b5/egress.h": "bc7c4976b5c4f1c06032c85548054c8f27a9f56a6db9e4280a79907f7901f6d7"
+  },
+  "full_local_results_sha256": "d0fe68bcd468befd364661cdd9225892134e6ae2083be3971a226434a1a93a3f",
+  "peer_boundary_result": "PASS_PEER_HANDSHAKE_COALESCE_SEGMENT_DIRECT_URC_GUARDS",
+  "cases": {
+    "normal-115200baud-0us-55ack": {
+      "batches_per_second": 8.046791,
+      "elapsed_ms": 110106,
+      "waves": [
+        392,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 87,
+          "max_gap_ms": 2044
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 217,
+          "max_gap_ms": 1523
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 88,
+          "max_gap_ms": 1803
+        }
+      ],
+      "q1": 515,
+      "live_backlog": 24,
+      "dropped": 168,
+      "replaced": 153,
+      "late": 0,
+      "slot_peak": 2,
+      "slot_full_samples": 0,
+      "slot_samples": 4199,
+      "uart_queries": 945,
+      "send_ok": 909,
+      "peer_chunks": 0,
+      "native_exit": 0,
+      "log_sha256": "26e19152f65e553596abad1dfd5cb00f59f83323db147e615105e787aea729fb"
+    },
+    "normal-115200baud-0us-250ack": {
+      "batches_per_second": 6.616077,
+      "elapsed_ms": 110035,
+      "waves": [
+        490,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1426
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 272,
+          "max_gap_ms": 1101
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1426
+        }
+      ],
+      "q1": 356,
+      "live_backlog": 24,
+      "dropped": 229,
+      "replaced": 173,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 374,
+      "slot_samples": 3626,
+      "uart_queries": 884,
+      "send_ok": 848,
+      "peer_chunks": 0,
+      "native_exit": 0,
+      "log_sha256": "00e6b6d26712ae62e5f7eb5bdc1bed9401d902e9765b86d5a1108cafd6754075"
+    },
+    "normal-115200baud-0us-370ack": {
+      "batches_per_second": 6.478697,
+      "elapsed_ms": 110053,
+      "waves": [
+        490,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1438
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 272,
+          "max_gap_ms": 989
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1425
+        }
+      ],
+      "q1": 351,
+      "live_backlog": 24,
+      "dropped": 233,
+      "replaced": 173,
+      "late": 5,
+      "slot_peak": 3,
+      "slot_full_samples": 573,
+      "slot_samples": 3701,
+      "uart_queries": 880,
+      "send_ok": 844,
+      "peer_chunks": 0,
+      "native_exit": 0,
+      "log_sha256": "013b759f7406ee0ebb88c10f19483248cebd823fd20194ae8a92994059af9f01"
+    },
+    "pass-115200baud-0us-250ack": {
+      "batches_per_second": 10.388926,
+      "elapsed_ms": 110021,
+      "waves": [
+        492,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1160
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 274,
+          "max_gap_ms": 478
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1185
+        }
+      ],
+      "q1": 651,
+      "live_backlog": 12,
+      "dropped": 0,
+      "replaced": 0,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 4625,
+      "slot_samples": 11677,
+      "uart_queries": 0,
+      "send_ok": 0,
+      "peer_chunks": 3202,
+      "native_exit": 0,
+      "log_sha256": "d087628cad1bd0d64263eb4180278ecf1c748fb7fc08de13181a5c57f3e4610b"
+    },
+    "pass-115200baud-0us-370ack": {
+      "batches_per_second": 10.379554,
+      "elapsed_ms": 110024,
+      "waves": [
+        492,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1180
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 274,
+          "max_gap_ms": 481
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1180
+        }
+      ],
+      "q1": 650,
+      "live_backlog": 12,
+      "dropped": 0,
+      "replaced": 0,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 7663,
+      "slot_samples": 11715,
+      "uart_queries": 0,
+      "send_ok": 0,
+      "peer_chunks": 3209,
+      "native_exit": 0,
+      "log_sha256": "0b46add138ba5b96bd9a533a4a73444787e9710c4e4bbafe612765bc3b47e58a"
+    },
+    "normal-115200baud-30us-250ack": {
+      "batches_per_second": 6.42684,
+      "elapsed_ms": 110163,
+      "waves": [
+        449,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 88,
+          "max_gap_ms": 2281
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 267,
+          "max_gap_ms": 1152
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 94,
+          "max_gap_ms": 2102
+        }
+      ],
+      "q1": 262,
+      "live_backlog": 24,
+      "dropped": 364,
+      "replaced": 164,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 418,
+      "slot_samples": 3556,
+      "uart_queries": 742,
+      "send_ok": 713,
+      "peer_chunks": 0,
+      "native_exit": 0,
+      "log_sha256": "f5319ffbee9b4948dbd5f6c56047921f03406e01f00e7eef140936df500c76e8"
+    },
+    "normal-115200baud-30us-370ack": {
+      "batches_per_second": 6.405306,
+      "elapsed_ms": 110065,
+      "waves": [
+        447,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 88,
+          "max_gap_ms": 2217
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 267,
+          "max_gap_ms": 1163
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 92,
+          "max_gap_ms": 2123
+        }
+      ],
+      "q1": 260,
+      "live_backlog": 24,
+      "dropped": 369,
+      "replaced": 163,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 752,
+      "slot_samples": 3686,
+      "uart_queries": 737,
+      "send_ok": 708,
+      "peer_chunks": 0,
+      "native_exit": 0,
+      "log_sha256": "f05b32e09dadd0437aeb9ef007a739a4038f72bdeb06f48b65fbb9cbe6c5d16e"
+    },
+    "pass-115200baud-30us-250ack": {
+      "batches_per_second": 10.38817,
+      "elapsed_ms": 110029,
+      "waves": [
+        492,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1278
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 274,
+          "max_gap_ms": 540
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1242
+        }
+      ],
+      "q1": 651,
+      "live_backlog": 12,
+      "dropped": 0,
+      "replaced": 0,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 2556,
+      "slot_samples": 8309,
+      "uart_queries": 0,
+      "send_ok": 0,
+      "peer_chunks": 3977,
+      "native_exit": 0,
+      "log_sha256": "179ff580100a9ee72837bed8ee92fadd6ef666ec06e0664d7418243cb0bc0042"
+    },
+    "pass-115200baud-30us-370ack": {
+      "batches_per_second": 10.379271,
+      "elapsed_ms": 110027,
+      "waves": [
+        492,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1217
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 274,
+          "max_gap_ms": 509
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1223
+        }
+      ],
+      "q1": 650,
+      "live_backlog": 12,
+      "dropped": 0,
+      "replaced": 0,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 5686,
+      "slot_samples": 8433,
+      "uart_queries": 0,
+      "send_ok": 0,
+      "peer_chunks": 3944,
+      "native_exit": 0,
+      "log_sha256": "584659c33e97f51c36ff2327122310b2d2e64902aa08feda890005f02e922ac5"
+    },
+    "normal-115200baud-60us-250ack": {
+      "batches_per_second": 5.98933,
+      "elapsed_ms": 110029,
+      "waves": [
+        371,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 71,
+          "max_gap_ms": 2997
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 216,
+          "max_gap_ms": 1031
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 84,
+          "max_gap_ms": 2702
+        }
+      ],
+      "q1": 289,
+      "live_backlog": 24,
+      "dropped": 415,
+      "replaced": 162,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 423,
+      "slot_samples": 3434,
+      "uart_queries": 688,
+      "send_ok": 662,
+      "peer_chunks": 0,
+      "native_exit": 0,
+      "log_sha256": "589886b6cd7ec9ccf095b2021e977527af7002f3d78aa479e6a25e45ae381e33"
+    },
+    "normal-115200baud-60us-370ack": {
+      "batches_per_second": 5.800074,
+      "elapsed_ms": 110171,
+      "waves": [
+        396,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 85,
+          "max_gap_ms": 2331
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 224,
+          "max_gap_ms": 1274
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 87,
+          "max_gap_ms": 2039
+        }
+      ],
+      "q1": 244,
+      "live_backlog": 24,
+      "dropped": 435,
+      "replaced": 158,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 456,
+      "slot_samples": 3302,
+      "uart_queries": 668,
+      "send_ok": 642,
+      "peer_chunks": 0,
+      "native_exit": 0,
+      "log_sha256": "eb5fa43ef2c47846b2d466bc3096c400aaa8dc0435a91d44faf1c5f77799ac1d"
+    },
+    "pass-115200baud-60us-250ack": {
+      "batches_per_second": 10.387698,
+      "elapsed_ms": 110034,
+      "waves": [
+        492,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1338
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 274,
+          "max_gap_ms": 663
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1258
+        }
+      ],
+      "q1": 651,
+      "live_backlog": 12,
+      "dropped": 0,
+      "replaced": 0,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 1439,
+      "slot_samples": 5239,
+      "uart_queries": 0,
+      "send_ok": 0,
+      "peer_chunks": 4681,
+      "native_exit": 0,
+      "log_sha256": "12b23f3a4f1decffefad5c19b28d8aacc9bcc78d34a69bd1698cf83e9e193914"
+    },
+    "pass-115200baud-60us-370ack": {
+      "batches_per_second": 10.085971,
+      "elapsed_ms": 110153,
+      "waves": [
+        492,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1266
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 274,
+          "max_gap_ms": 562
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1181
+        }
+      ],
+      "q1": 647,
+      "live_backlog": 13,
+      "dropped": 0,
+      "replaced": 29,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 4870,
+      "slot_samples": 5339,
+      "uart_queries": 0,
+      "send_ok": 0,
+      "peer_chunks": 4744,
+      "native_exit": 0,
+      "log_sha256": "3db239a7294b01bf6c34554a84b1bcdef3960663e597058e25a9071a16632ac8"
+    },
+    "normal-115200baud-120us-250ack": {
+      "batches_per_second": 5.108905,
+      "elapsed_ms": 110004,
+      "waves": [
+        247,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 14,
+          "max_gap_ms": 10341
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 185,
+          "max_gap_ms": 1691
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 48,
+          "max_gap_ms": 5275
+        }
+      ],
+      "q1": 318,
+      "live_backlog": 24,
+      "dropped": 510,
+      "replaced": 162,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 682,
+      "slot_samples": 3844,
+      "uart_queries": 588,
+      "send_ok": 567,
+      "peer_chunks": 0,
+      "native_exit": 0,
+      "log_sha256": "17988ac25d560ce218e3185af851dd052efa16cf83ac26305d55ca27fd995086"
+    },
+    "normal-115200baud-120us-370ack": {
+      "batches_per_second": 4.732234,
+      "elapsed_ms": 110096,
+      "waves": [
+        307,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 34,
+          "max_gap_ms": 9917
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 194,
+          "max_gap_ms": 1533
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 79,
+          "max_gap_ms": 2965
+        }
+      ],
+      "q1": 215,
+      "live_backlog": 24,
+      "dropped": 554,
+      "replaced": 160,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 526,
+      "slot_samples": 3283,
+      "uart_queries": 543,
+      "send_ok": 523,
+      "peer_chunks": 0,
+      "native_exit": 0,
+      "log_sha256": "05eba51d420265f9908da11f2157dd0d93867d231be8f178f332e0207e761990"
+    },
+    "pass-115200baud-120us-250ack": {
+      "batches_per_second": 6.549366,
+      "elapsed_ms": 110087,
+      "waves": [
+        489,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 108,
+          "max_gap_ms": 1281
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 272,
+          "max_gap_ms": 829
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1305
+        }
+      ],
+      "q1": 369,
+      "live_backlog": 24,
+      "dropped": 216,
+      "replaced": 174,
+      "late": 2,
+      "slot_peak": 3,
+      "slot_full_samples": 132,
+      "slot_samples": 984,
+      "uart_queries": 0,
+      "send_ok": 0,
+      "peer_chunks": 5457,
+      "native_exit": 0,
+      "log_sha256": "bf1410e617451388fb74b130665201eaf8d9d6579d8ab724a4b178a3b1fe5183"
+    },
+    "pass-115200baud-120us-370ack": {
+      "batches_per_second": 6.251647,
+      "elapsed_ms": 110051,
+      "waves": [
+        489,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 108,
+          "max_gap_ms": 1250
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 272,
+          "max_gap_ms": 824
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1282
+        }
+      ],
+      "q1": 364,
+      "live_backlog": 24,
+      "dropped": 220,
+      "replaced": 176,
+      "late": 14,
+      "slot_peak": 3,
+      "slot_full_samples": 187,
+      "slot_samples": 982,
+      "uart_queries": 0,
+      "send_ok": 0,
+      "peer_chunks": 5453,
+      "native_exit": 0,
+      "log_sha256": "4a5786f54f1685bf41395e593050868a661e6e037d2c62684bcb824f8c576b4f"
+    },
+    "normal-230400baud-0us-250ack": {
+      "batches_per_second": 9.742709,
+      "elapsed_ms": 110031,
+      "waves": [
+        492,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1476
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 274,
+          "max_gap_ms": 920
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1397
+        }
+      ],
+      "q1": 626,
+      "live_backlog": 16,
+      "dropped": 0,
+      "replaced": 66,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 1182,
+      "slot_samples": 4739,
+      "uart_queries": 1175,
+      "send_ok": 1121,
+      "peer_chunks": 0,
+      "native_exit": 0,
+      "log_sha256": "1c327885b4e158973d3a043b3b862865a12fae9af2ec6518b8d943385561de32"
+    },
+    "normal-230400baud-0us-370ack": {
+      "batches_per_second": 7.254414,
+      "elapsed_ms": 110002,
+      "waves": [
+        492,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1358
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 274,
+          "max_gap_ms": 751
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1292
+        }
+      ],
+      "q1": 440,
+      "live_backlog": 24,
+      "dropped": 143,
+      "replaced": 176,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 1753,
+      "slot_samples": 6905,
+      "uart_queries": 1906,
+      "send_ok": 934,
+      "peer_chunks": 0,
+      "native_exit": 0,
+      "log_sha256": "ef03df289cb0519dc71cef1b04a5ff6bf9ea06a3f4a7bcc12a0725ca55b6d242"
+    },
+    "pass-230400baud-0us-250ack": {
+      "batches_per_second": 10.389492,
+      "elapsed_ms": 110015,
+      "waves": [
+        492,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1106
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 274,
+          "max_gap_ms": 460
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1122
+        }
+      ],
+      "q1": 651,
+      "live_backlog": 12,
+      "dropped": 0,
+      "replaced": 0,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 6347,
+      "slot_samples": 16797,
+      "uart_queries": 0,
+      "send_ok": 0,
+      "peer_chunks": 2019,
+      "native_exit": 0,
+      "log_sha256": "df74a58eadd76c2cc4baf00625b8e9bd9778ca10b326a448d1333e457d177d72"
+    },
+    "pass-230400baud-0us-370ack": {
+      "batches_per_second": 10.389587,
+      "elapsed_ms": 110014,
+      "waves": [
+        492,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1121
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 274,
+          "max_gap_ms": 462
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1122
+        }
+      ],
+      "q1": 651,
+      "live_backlog": 12,
+      "dropped": 0,
+      "replaced": 0,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 10542,
+      "slot_samples": 16830,
+      "uart_queries": 0,
+      "send_ok": 0,
+      "peer_chunks": 2019,
+      "native_exit": 0,
+      "log_sha256": "7ec4468f41e1a39af21862c6338c25b0f28fc6a397df2dc4d567c35b4386bd94"
+    },
+    "normal-230400baud-30us-250ack": {
+      "batches_per_second": 6.664488,
+      "elapsed_ms": 110136,
+      "waves": [
+        493,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1569
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 275,
+          "max_gap_ms": 1037
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1395
+        }
+      ],
+      "q1": 409,
+      "live_backlog": 23,
+      "dropped": 174,
+      "replaced": 192,
+      "late": 3,
+      "slot_peak": 3,
+      "slot_full_samples": 333,
+      "slot_samples": 4340,
+      "uart_queries": 1044,
+      "send_ok": 904,
+      "peer_chunks": 0,
+      "native_exit": 0,
+      "log_sha256": "5d1f04168e7e91d30a699f618ab12351757aaa5361cb2ad00dcfacb0f4d9ddff"
+    },
+    "normal-230400baud-30us-370ack": {
+      "batches_per_second": 6.310208,
+      "elapsed_ms": 110139,
+      "waves": [
+        493,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1436
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 275,
+          "max_gap_ms": 853
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1395
+        }
+      ],
+      "q1": 399,
+      "live_backlog": 23,
+      "dropped": 184,
+      "replaced": 190,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 731,
+      "slot_samples": 4440,
+      "uart_queries": 1091,
+      "send_ok": 894,
+      "peer_chunks": 0,
+      "native_exit": 0,
+      "log_sha256": "23c37bba91b9495e47fae3b9a97c4d59520d5dd55d6359338e663637eb53c26b"
+    },
+    "pass-230400baud-30us-250ack": {
+      "batches_per_second": 10.389303,
+      "elapsed_ms": 110017,
+      "waves": [
+        492,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1135
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 274,
+          "max_gap_ms": 470
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1150
+        }
+      ],
+      "q1": 651,
+      "live_backlog": 12,
+      "dropped": 0,
+      "replaced": 0,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 4840,
+      "slot_samples": 13401,
+      "uart_queries": 0,
+      "send_ok": 0,
+      "peer_chunks": 2802,
+      "native_exit": 0,
+      "log_sha256": "fd070614fdf2ee59fa04340bbd3fccee9eb6dbe4846bc218df8325eaad1e59a3"
+    },
+    "pass-230400baud-30us-370ack": {
+      "batches_per_second": 10.388926,
+      "elapsed_ms": 110021,
+      "waves": [
+        492,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1149
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 274,
+          "max_gap_ms": 468
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1150
+        }
+      ],
+      "q1": 651,
+      "live_backlog": 12,
+      "dropped": 0,
+      "replaced": 0,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 8812,
+      "slot_samples": 13753,
+      "uart_queries": 0,
+      "send_ok": 0,
+      "peer_chunks": 2807,
+      "native_exit": 0,
+      "log_sha256": "7988697710d7a4cfbc7571e965c482891a9c7e1eb21a5b5650b59035b47b533a"
+    },
+    "normal-230400baud-60us-250ack": {
+      "batches_per_second": 6.892606,
+      "elapsed_ms": 110118,
+      "waves": [
+        489,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 108,
+          "max_gap_ms": 1624
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 272,
+          "max_gap_ms": 1067
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1462
+        }
+      ],
+      "q1": 280,
+      "live_backlog": 24,
+      "dropped": 307,
+      "replaced": 173,
+      "late": 7,
+      "slot_peak": 3,
+      "slot_full_samples": 327,
+      "slot_samples": 3172,
+      "uart_queries": 801,
+      "send_ok": 770,
+      "peer_chunks": 0,
+      "native_exit": 0,
+      "log_sha256": "66c6a472e76c96458ba9664f1032550faf68b63b5838a1a58cc16d8388ba9478"
+    },
+    "normal-230400baud-60us-370ack": {
+      "batches_per_second": 6.871978,
+      "elapsed_ms": 110012,
+      "waves": [
+        488,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 108,
+          "max_gap_ms": 1638
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 272,
+          "max_gap_ms": 1094
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 108,
+          "max_gap_ms": 1538
+        }
+      ],
+      "q1": 277,
+      "live_backlog": 24,
+      "dropped": 310,
+      "replaced": 173,
+      "late": 5,
+      "slot_peak": 3,
+      "slot_full_samples": 624,
+      "slot_samples": 3220,
+      "uart_queries": 798,
+      "send_ok": 767,
+      "peer_chunks": 0,
+      "native_exit": 0,
+      "log_sha256": "1e8b730a5eda1919143d095201262ddea2475a1b5de5baa9d7e160c293268028"
+    },
+    "pass-230400baud-60us-250ack": {
+      "batches_per_second": 10.388359,
+      "elapsed_ms": 110027,
+      "waves": [
+        492,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1225
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 274,
+          "max_gap_ms": 487
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1204
+        }
+      ],
+      "q1": 651,
+      "live_backlog": 12,
+      "dropped": 0,
+      "replaced": 0,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 3727,
+      "slot_samples": 9706,
+      "uart_queries": 0,
+      "send_ok": 0,
+      "peer_chunks": 3570,
+      "native_exit": 0,
+      "log_sha256": "38afc326028d5e3fe47b8b48ba3935a3d4e97bccdbe3b9e31aef59c4a4740bc2"
+    },
+    "pass-230400baud-60us-370ack": {
+      "batches_per_second": 10.379271,
+      "elapsed_ms": 110027,
+      "waves": [
+        492,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1186
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 274,
+          "max_gap_ms": 484
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1201
+        }
+      ],
+      "q1": 650,
+      "live_backlog": 12,
+      "dropped": 0,
+      "replaced": 0,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 6768,
+      "slot_samples": 10069,
+      "uart_queries": 0,
+      "send_ok": 0,
+      "peer_chunks": 3650,
+      "native_exit": 0,
+      "log_sha256": "55599c5005044af20ffe83393b4a6935af4dc51b889eda5f1f1ef46412b47038"
+    },
+    "normal-230400baud-120us-250ack": {
+      "batches_per_second": 5.759395,
+      "elapsed_ms": 110081,
+      "waves": [
+        307,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 24,
+          "max_gap_ms": 10108
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 210,
+          "max_gap_ms": 1394
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 73,
+          "max_gap_ms": 2820
+        }
+      ],
+      "q1": 334,
+      "live_backlog": 24,
+      "dropped": 434,
+      "replaced": 162,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 720,
+      "slot_samples": 3926,
+      "uart_queries": 667,
+      "send_ok": 643,
+      "peer_chunks": 0,
+      "native_exit": 0,
+      "log_sha256": "1681ff9a81c7baede08ef6b220d11cda0bba3be171841bc09a28432c8088b5f3"
+    },
+    "normal-230400baud-120us-370ack": {
+      "batches_per_second": 5.467508,
+      "elapsed_ms": 110105,
+      "waves": [
+        370,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 71,
+          "max_gap_ms": 3612
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 212,
+          "max_gap_ms": 1335
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 87,
+          "max_gap_ms": 1912
+        }
+      ],
+      "q1": 233,
+      "live_backlog": 24,
+      "dropped": 472,
+      "replaced": 159,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 486,
+      "slot_samples": 3302,
+      "uart_queries": 629,
+      "send_ok": 605,
+      "peer_chunks": 0,
+      "native_exit": 0,
+      "log_sha256": "70ec900e0f0287ef9a0b307064852453618e6c767945127f3ad827e7c1900be5"
+    },
+    "pass-230400baud-120us-250ack": {
+      "batches_per_second": 10.287355,
+      "elapsed_ms": 110038,
+      "waves": [
+        492,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1362
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 274,
+          "max_gap_ms": 669
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1280
+        }
+      ],
+      "q1": 650,
+      "live_backlog": 12,
+      "dropped": 0,
+      "replaced": 10,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 1149,
+      "slot_samples": 3376,
+      "uart_queries": 0,
+      "send_ok": 0,
+      "peer_chunks": 5058,
+      "native_exit": 0,
+      "log_sha256": "c18539fe2321a35ad8ed908fdfd1c559df353afba5c57703f075eba773ff87d2"
+    },
+    "pass-230400baud-120us-370ack": {
+      "batches_per_second": 9.576457,
+      "elapsed_ms": 110166,
+      "waves": [
+        492,
+        495
+      ],
+      "wave_streams": [
+        {
+          "node": 1,
+          "stream": 0,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1283
+        },
+        {
+          "node": 2,
+          "stream": 4,
+          "offered": 275,
+          "delivered": 274,
+          "max_gap_ms": 579
+        },
+        {
+          "node": 2,
+          "stream": 6,
+          "offered": 110,
+          "delivered": 109,
+          "max_gap_ms": 1219
+        }
+      ],
+      "q1": 609,
+      "live_backlog": 14,
+      "dropped": 0,
+      "replaced": 84,
+      "late": 0,
+      "slot_peak": 3,
+      "slot_full_samples": 2793,
+      "slot_samples": 3704,
+      "uart_queries": 0,
+      "send_ok": 0,
+      "peer_chunks": 4967,
+      "native_exit": 0,
+      "log_sha256": "a4fced69f69e181137cad4190a119c98a1ea699a6d41304d96068dee2ee437cd"
+    }
+  }
+}
