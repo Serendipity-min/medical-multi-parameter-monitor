@@ -679,11 +679,12 @@ void gateway_network_close(void)
     if(platform_at_unsynced()){console("GW CLOSE_UNSYNCED_MANUAL_POWER_REQUIRED\r\n");return;}
 #endif
 #ifdef MP_B5_EGRESS_FINAL
-    if(!at_command("AT+CIPCLOSE",2000))console("GW CLOSE_NOT_CONFIRMED_MANUAL_POWER_REQUIRED\r\n");
 #ifdef MP_ESP_PASSTHROUGH
-    if(!platform_at_unsynced() && !b5_network_stopped() && !platform_passthrough_normal())
-        console("GW PASS_MODE_UNKNOWN\r\n");
+    if(!b5_network_stopped() && !platform_passthrough_normal()){
+        console("GW PASS_MODE_UNKNOWN\r\n");return;
+    }
 #endif
+    if(!at_command("AT+CIPCLOSE",2000))console("GW CLOSE_NOT_CONFIRMED_MANUAL_POWER_REQUIRED\r\n");
 #else
     (void)at_command("AT+CIPCLOSE", 2000);
 #endif
@@ -1000,14 +1001,15 @@ int gateway_network_open(void)
 #ifdef MP_ESP_PASSTHROUGH
     /* 在 MQTT 超时之外延迟模块自动重连，旧会话不能静默跨 SSL 连接。 */
     if(!step("ACTIVE","AT+CIPRECVMODE=0",2000u) ||
-       !step("PASS_RECONNECT","AT+CIPRECONNINTV=36000",2000u) ||
-       !step("PASS_MODE","AT+CIPMODE=1",2000u))return 0;
+       !step("PASS_RECONNECT","AT+CIPRECONNINTV=36000",2000u))return 0;
 #endif
     (void)snprintf(command, sizeof(command), "AT+CIPSTART=\"SSL\",\"%s\",%u", config->host, (unsigned)MP_MQTT_TLS_PORT);
     int ok = step("TLS", command, 30000);
     secure_memzero(command, sizeof(command));
 #ifdef MP_ESP_PASSTHROUGH
-    if(ok && !platform_passthrough_enter()){console("GW FAIL PASS_ENTER\r\n");return 0;}
+    if(ok && (!step("PASS_MODE","AT+CIPMODE=1",2000u) || !platform_passthrough_enter())){
+        console("GW FAIL PASS_ENTER\r\n");return 0;
+    }
 #endif
     if (ok)
         mqtt_adapter_reset(&network);

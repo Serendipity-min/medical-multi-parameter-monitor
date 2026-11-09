@@ -538,7 +538,8 @@ int platform_preflight_console(const char *message,uint32_t deadline) {
 #endif
 
 #ifdef MP_ESP_PASSTHROUGH
-enum { PASS_PRE_GUARD_MS=25u, PASS_POST_GUARD_MS=1001u, PASS_PROBE_MS=500u };
+enum { PASS_PRE_GUARD_MS=25u, PASS_POST_GUARD_MS=1001u, PASS_PROBE_MS=500u,
+       PASS_ESCAPE_MS=1800u, PASS_NORMAL_MS=2000u };
 
 static int pass_unknown(void){
     pass_mode=PASS_UNKNOWN;
@@ -569,9 +570,9 @@ static int pass_guard(uint32_t deadline,uint32_t quiet,bool drain){
 
 int platform_passthrough_leave(void){
     if(pass_mode==PASS_COMMAND)return 1;
-    if(pass_mode==PASS_UNKNOWN || b5_business_remaining()<1800u+B5_CLOSE_RESERVE_MS)
+    if(pass_mode==PASS_UNKNOWN || b5_business_remaining()<PASS_ESCAPE_MS+PASS_NORMAL_MS+B5_CLOSE_RESERVE_MS)
         return pass_unknown();
-    uint32_t deadline=g_uptime_ms+1800u;
+    uint32_t deadline=g_uptime_ms+PASS_ESCAPE_MS;
     if(!pass_guard(deadline,0,false) || !pass_guard(deadline,PASS_PRE_GUARD_MS,false))
         return pass_unknown();
     serial_deadline=g_uptime_ms+19u;
@@ -587,7 +588,7 @@ int platform_passthrough_leave(void){
 }
 
 int platform_passthrough_normal(void){
-    return at_command("AT+CIPMODE=0",2000u) || pass_unknown();
+    return at_command("AT+CIPMODE=0",PASS_NORMAL_MS) || pass_unknown();
 }
 
 static int pass_send(const unsigned char *data,unsigned length,uint32_t timeout){

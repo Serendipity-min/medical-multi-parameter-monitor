@@ -544,7 +544,11 @@ int main(void) {
 #elif defined(MP_FIVE_APPLIANCE)
     final_can_mask=3;run_limit_ms=0;
     uart_error_baseline=platform_uart_errors_total();
+#ifdef MP_AUDIO_DISABLED
+    console("FIVE AUTO LOCAL_CAN AUDIO_OFF NO_FLASH_WRITE\r\n");
+#else
     console("FIVE AUTO LOCAL_CAN KEY1_AUDIO_MAX2S NO_FLASH_WRITE\r\n");
+#endif
 #else
     console("UNI DISARMED V1 C_BC_ABC NO_FLASH_WRITE\r\n");
     while(!armed){platform_poll();local_control();}
