@@ -7,6 +7,11 @@
 #ifndef MP_MQTT_GATEWAY_ID
 #define MP_MQTT_GATEWAY_ID "GW-C-001"
 #endif
+#ifdef MP_TRANSPORT_BENCH
+#define MP_TOPIC_ROOT "mpm/bench/v1/"
+#else
+#define MP_TOPIC_ROOT "mpm/v1/"
+#endif
 static const char *names[] = {"ppg",  "spo2", "pr",   "nibp",   "ecg",   "hr",
                               "resp", "rr",   "temp", "status", "fault", "status"};
 static const char *units[] = {"relative", "%",           "bpm",  "mmHg",  "mV",   "bpm",
@@ -82,8 +87,10 @@ int mp_json(const MpFrame *f, char *out, size_t size)
             "{\"timestamp\":%s,\"seq\":%lu,\"session_id\":\"can-%lu-%lu\",\"validity\":\"%s\",\"source\":\"%s\",\"synthetic\":%s,\"unit\":\"%s\",\"value\":",
             timestamp,
             (unsigned long)f->seq, (unsigned long)f->epoch, (unsigned long)f->boot, valid,
-            f->replay      ? "REPLAY"
-            : f->synthetic ? "MOCK"
+#ifndef MP_TRANSPORT_BENCH
+            f->replay      ? "REPLAY" :
+#endif
+            f->synthetic ? "MOCK"
                            : "LIVE",
             f->synthetic ? "true" : "false", units[k]))
         return 0;
@@ -146,12 +153,12 @@ int mp_topic(const MpFrame *f, char *out, size_t size)
     if (f->stream < MP_NODE_STATUS && f->node != mp_role_node((MpStream)f->stream)) return 0;
 #endif
     if (f->stream == MP_GATEWAY_STATUS)
-        n = snprintf(out, size, "mpm/v1/" MP_MQTT_GATEWAY_ID "/status");
+        n = snprintf(out, size, MP_TOPIC_ROOT MP_MQTT_GATEWAY_ID "/status");
     else if (f->stream == MP_NODE_STATUS || (f->stream == MP_FAULT && !f->replay))
-        n = snprintf(out, size, "mpm/v1/" MP_MQTT_GATEWAY_ID "/NODE-%c/%s", node,
+        n = snprintf(out, size, MP_TOPIC_ROOT MP_MQTT_GATEWAY_ID "/NODE-%c/%s", node,
                      f->stream == MP_FAULT ? "event" : "status");
     else
-        n = snprintf(out, size, "mpm/v1/" MP_MQTT_GATEWAY_ID "/NODE-%c/%s/%s", node,
+        n = snprintf(out, size, MP_TOPIC_ROOT MP_MQTT_GATEWAY_ID "/NODE-%c/%s/%s", node,
                      f->replay ? "replay" : "telemetry", names[f->stream]);
     return n > 0 && (size_t)n < size ? n : 0;
 }

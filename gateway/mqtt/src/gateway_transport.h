@@ -7,6 +7,11 @@ uint32_t gateway_epoch(void);
 /* 同一SNTP锚点的毫秒UTC，避免把uptime小数拼到秒级结果上造成未来时间。 */
 uint64_t gateway_epoch_milliseconds(void);
 int gateway_network_open(void);
+#ifdef MP_TRANSPORT_BENCH
+int transport_bench_fast(void);
+int transport_bench_passthrough(void);
+int gateway_bench_restore(void);
+#endif
 #ifdef MP_ESP_UART_230400
 int gateway_uart_negotiating(void);
 int gateway_uart_negotiation_failed(void);
@@ -27,7 +32,9 @@ int gateway_mqtt_progress(void);
 int gateway_mqtt_pending(void);
 int gateway_network_retryable(void);
 #ifdef MP_FINAL_UNIFIED
+#ifndef GATEWAY_TELEMETRY_SLOTS
 #define GATEWAY_TELEMETRY_SLOTS 3u
+#endif
 uint16_t gateway_mqtt_ticket(void);
 int gateway_mqtt_slots_full(void);
 int gateway_mqtt_ticket_result(uint16_t id);

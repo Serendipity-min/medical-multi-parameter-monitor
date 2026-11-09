@@ -11,7 +11,8 @@ static int measured_ticket(uint16_t id);
 #include <assert.h>
 #include <inttypes.h>
 
-enum { WINDOW_MS=110000, QUEUE_ACKS=8, SEQUENCES=300 };
+enum { QUEUE_ACKS=8, SEQUENCES=751 };
+static unsigned window_ms=110000;
 const GatewayConfig gateway_test_config={GATEWAY_CONFIG_MAGIC,1700000000u,
     "synthetic-wifi","synthetic-password","mqtt.example.invalid","b5-gateway","synthetic-password","b5-c-isolated"};
 volatile uint32_t g_uptime_ms;
@@ -303,7 +304,7 @@ static void tick(void){
     }
 #endif
     if(origin){
-        while(produced<g_uptime_ms-origin && produced<WINDOW_MS){
+        while(produced<g_uptime_ms-origin && produced<window_ms){
             produced++;
             if(produced%400==0)put(2,MP_ECG,250,100,1103);
             if(produced%1000==0){
@@ -419,6 +420,8 @@ int main(int argc,char **argv){
     }
     const bool transparent=argc>5 && !strcmp(argv[5],"pass");
     if(argc>6)peer_ack_ms=(unsigned)atoi(argv[6]);
+    if(argc>7)window_ms=(unsigned)atoi(argv[7]);
+    assert(window_ms==110000 || window_ms==300000);
     USART3->SR|=USART_SR_TC;
 #endif
     unsigned blocks=argc>1?(unsigned)atoi(argv[1]):0;
@@ -449,8 +452,8 @@ int main(int argc,char **argv){
     origin=g_uptime_ms;epoch_tick=origin;
     memset(stage_us,0,sizeof stage_us);serial_payload_bytes=0;
     uint32_t first_queries=io_metrics.rx_queries, first_empty=io_metrics.rx_empty, first_reads=io_metrics.rx_reads;
-    unsigned slot_samples=0,slot_full_samples=0,slot_max=0;
-    while(g_uptime_ms-origin<WINDOW_MS){
+    unsigned slot_samples=0,slot_full_samples=0,slot_max=0,next_sample=30000;
+    while(g_uptime_ms-origin<window_ms){
         platform_poll();
         if(blocks && !recording_started && produced>=10000){unified_audio_command('R',false);recording_started=1;assert(mic_state==1);}
         if(!b5_egress_step(&router,&publisher,true)){
@@ -462,9 +465,19 @@ int main(int argc,char **argv){
         for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)used+=publisher.tickets[i]!=0;
         if(used>slot_max)slot_max=used;
         slot_samples++;slot_full_samples+=used==GATEWAY_TELEMETRY_SLOTS;
+        if(g_uptime_ms-origin>=next_sample){
+            printf("queue tick=%u live=%u history=%u slots=%u dropped=%lu replaced=%lu\n",
+                   (unsigned)(g_uptime_ms-origin),router.ln,router.cn,used,
+                   (unsigned long)router.dropped,(unsigned long)router.live_replaced);
+            next_sample+=30000u;
+        }
         unified_audio_step(!publisher.deferred && !router.ln);
     }
     stop_at=g_uptime_ms;
+    unsigned total=0;
+    for(unsigned node=1;node<=5;node++)for(unsigned stream=0;stream<MP_STREAMS;stream++)total+=seq[node][stream];
+    printf("offered total=%u publisher_bytes=%u telemetry_slot_bytes=%u coremqtt_slot_bytes=%u\n",
+           total,(unsigned)sizeof publisher,(unsigned)sizeof telemetry[0],(unsigned)sizeof outgoing[0]);
     printf("slots limit=%u max=%u samples=%u full=%u ack_delay_ms=%u\n",
         GATEWAY_TELEMETRY_SLOTS,slot_max,slot_samples,slot_full_samples,peer_ack_ms);
 #ifdef MP_ESP_PASSTHROUGH

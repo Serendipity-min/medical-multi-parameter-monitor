@@ -51,7 +51,12 @@ static inline int b5_egress_step(MpRouter *r,B5Publisher *s,bool allow_new) {
         field01_published(&s->inflight[i]);
 #endif
     }
+#if GATEWAY_TELEMETRY_SLOTS == 3
     s->pending=s->tickets[0] || s->tickets[1] || s->tickets[2];
+#else
+    s->pending=false;
+    for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)s->pending|=s->tickets[i]!=0;
+#endif
     if(!allow_new)return 1;
     uint64_t utc=gateway_epoch_milliseconds();
     bool medical_due=false;

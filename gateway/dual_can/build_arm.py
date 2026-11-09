@@ -23,6 +23,7 @@ def main():
     parser.add_argument('--audio-link', action='store_true', help='仅离线保留MIC/TTS完整API与CCM缓存，不启用录音或新增现场命令')
     parser.add_argument('--unified', action='store_true', help='真实三板语音统一运行候选；不执行设备操作')
     parser.add_argument('--no-audio', action='store_true', help='统一候选关闭语音运行与主题')
+    parser.add_argument('--transport-bench', action='store_true', help='R8 C单板合成传输台架，只构建')
     parser.add_argument('--esp-passthrough', action='store_true', help='五板 SSL 透传离线候选，关闭语音')
     parser.add_argument('--five-node', action='store_true', help='五板静态来源候选；仅离线构建')
     parser.add_argument('--five-appliance', action='store_true', help='五板自动启动/KEY1/事实回复候选；仅离线构建，不部署')
@@ -35,6 +36,10 @@ def main():
     parser.add_argument('--split-flash', action='store_true', help='统一候选分段布局：sector0向量、sector4代码；只构建，写sector4另需负责人确认')
     parser.add_argument('--tls-port',type=int,help='统一候选的隔离TLS入口，默认1883；不更改原B5的8883目标')
     args = parser.parse_args()
+    if args.transport_bench and (not (args.unified and args.five_appliance and args.no_audio) or
+                                 args.field01 or args.esp_passthrough or args.esp_230400 or
+                                 args.tls_port not in (None,28895)):
+        parser.error('--transport-bench requires --unified --five-appliance --no-audio and TLS 28895; modes are selected at runtime')
     if args.esp_passthrough and (not args.five_appliance or args.field01 or args.tls_port not in (None,28895)):
         parser.error('--esp-passthrough requires --five-appliance, TLS port 28895, without FIELD01')
     args.no_audio |= args.esp_passthrough
@@ -75,7 +80,8 @@ def main():
     if args.field01:flags += ['-DMP_FIVE_FIELD01']
     if args.esp_passthrough:flags += ['-DMP_ESP_PASSTHROUGH']
     if args.esp_230400:flags += ['-DMP_ESP_UART_230400']
-    if args.transport_profile:flags += ['-DMP_TRANSPORT_PROFILE']
+    if args.transport_profile or args.transport_bench:flags += ['-DMP_TRANSPORT_PROFILE']
+    if args.transport_bench:flags += ['-DMP_TRANSPORT_BENCH','-DMP_ESP_PASSTHROUGH','-DMP_ESP_UART_230400']
     if args.five_appliance:flags += ['-DMP_FIVE_APPLIANCE']
     if args.bench_seconds is not None:flags += [f'-DB4_BENCH_LIMIT_MS={args.bench_seconds*1000}u', '-DB4_FIVE_CAPTURE' if args.bench_five_segments else '-DB4_PHY_DIAGNOSTIC']
     if small_frames:flags += ['-DB4_PHY_SMALL_FRAMES']
@@ -89,7 +95,7 @@ def main():
         transport = ROOT / 'gateway/mqtt/src'
         probe = ROOT / 'gateway/esp_at_probe/src'
         sources = [p for p in sources if p.name not in ('arm_link.c', 'syscalls.c', 'heap.c')]
-        sources += [ROOT / 'gateway/b5/network_main.c', ROOT / 'gateway/b5/b5_policy.c',
+        sources += [ROOT / 'gateway/b5' / ('transport_bench.c' if args.transport_bench else 'network_main.c'), ROOT / 'gateway/b5/b5_policy.c',
                     *[transport / n for n in ('gateway_transport.c','mqtt_transport_adapter.c','platform.c','heap.c','gateway_assert.c')],
                     probe / 'syscalls.c', probe / 'stm32f4xx_it.c',
                     base.LIBRARY / 'Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_usart.c']
@@ -99,6 +105,9 @@ def main():
                   '-DMP_H3_PERSISTENT_CONFIG', '-DMP_H3_WIFI_AWAKE', '-DMP_MQTT_GATEWAY_ID="GW-B5-001"',
                   '-I'+str(ROOT/'gateway/b5'), '-I'+str(transport), '-I'+str(probe),
                   '-I'+str(mqtt/'source/include'), '-I'+str(mqtt/'source/interface')]
+    if args.transport_bench:
+        excluded={'b4_bus.c','b4_gateway.c','b4_bxcan.c','mp_od.c','stm32f4xx_can.c'}
+        sources=[p for p in sources if p.name not in excluded and not p.is_relative_to(vendor)]
     if args.bench:
         # 白名单独立入口；不导入H3传输源/配置头，也不构建网络或麦克风驱动。
         sources = [p for p in sources if p.name != 'arm_link.c']
@@ -169,7 +178,7 @@ def main():
             warnings = ['-Wextra', '-Werror'] if source.is_relative_to(HERE) else []
             run([base.GCC, *flags, *warnings, '-c', source, '-o', obj]); objects.append(obj)
         obj = out / 'startup.o'; run([base.GCC, *flags, '-c', base.STARTUP, '-o', obj]); objects.append(obj)
-        target = 'FIVE_FIELD01_C' if args.field01 else 'FIVE_APPLIANCE_C_2S_V1' if args.five_appliance else 'ABC_UNIFIED_C_V1' if args.unified else 'ABC_AUDIO_LINK_PROBE' if args.audio_link else 'ABC_TRI_CLOUD_CANDIDATE' if args.tri else 'B5_CLOUD_MOCK_GATEWAY' if args.b5 else ('B4_GATEWAY_BENCH' if args.bench else ('B4_GATEWAY_NETWORK_SOFTWARE' if args.network_link else 'B4_GATEWAY_LINK_ONLY'))
+        target = 'C_TRANSPORT_BENCH' if args.transport_bench else 'FIVE_FIELD01_C' if args.field01 else 'FIVE_APPLIANCE_C_2S_V1' if args.five_appliance else 'ABC_UNIFIED_C_V1' if args.unified else 'ABC_AUDIO_LINK_PROBE' if args.audio_link else 'ABC_TRI_CLOUD_CANDIDATE' if args.tri else 'B5_CLOUD_MOCK_GATEWAY' if args.b5 else ('B4_GATEWAY_BENCH' if args.bench else ('B4_GATEWAY_NETWORK_SOFTWARE' if args.network_link else 'B4_GATEWAY_LINK_ONLY'))
         elf = out / (target + '.elf')
         run([base.GCC, *flags, '-T', linker,
              '-Wl,--gc-sections', '-Wl,-Map=' + str(out / 'gateway.map'), '--specs=nano.specs', '--specs=nosys.specs',
@@ -196,7 +205,13 @@ def main():
             table={p[2]:(int(p[0],16),p[1]) for line in symbols.decode().splitlines() if len(p:=line.split())==3}
             image=(out/(target+('-boot.bin' if args.split_flash else '.bin'))).read_bytes()
             # F407 SDK: CAN2_RX0_IRQn=64，向量号=16+64；不能错用CAN2_TX的63。
-            for name,index in (('CAN1_RX0_IRQHandler',36),('CAN2_RX0_IRQHandler',80),('USART3_IRQHandler',55)):
+            required=(('USART3_IRQHandler',55),)
+            if args.transport_bench:
+                assert all(table.get(n,(0,'W'))[1]!='T' for n in ('CAN1_RX0_IRQHandler','CAN2_RX0_IRQHandler'))
+                assert not {'CAN_Init','b4_hw_init','gateway_preflight'} & table.keys()
+            else:
+                required=(('CAN1_RX0_IRQHandler',36),('CAN2_RX0_IRQHandler',80),*required)
+            for name,index in required:
                 if table.get(name,(0,'W'))[1]!='T' or int.from_bytes(image[index*4:index*4+4],'little')!=(table[name][0]|1):
                     raise RuntimeError('B5实际中断向量未绑定:'+name)
             if audio:
@@ -259,6 +274,8 @@ def main():
                 'time_policy':'LOCAL_TEST_TIME_NEVER_CLOUD' if args.bench else 'B5_FRESH_SNTP_UNCHANGED',
                 'normal_runtime_limit':'FIELD01 PRE once up to 60s; START once; ready45s; window150s; hard210s; audio64chunks' if args.field01 else f'B4START one-shot {args.bench_seconds or 180}s' if args.bench else 'FIVE automatic; explicit STOP; audio maximum2s' if args.five_appliance else 'UNISTART manual-stop; B5START retains420s',
                 'sector3_options_and_all_other_sectors':'PRESERVE'}
+            if args.transport_bench:
+                layout['normal_runtime_limit']='BENCH once in first 45s; 120s MOCK source; hard 210s'
             if args.no_audio:
                 layout['audio_enabled']=False
                 layout['normal_runtime_limit']=layout['normal_runtime_limit'].replace('; audio64chunks','').replace('; audio maximum2s','')

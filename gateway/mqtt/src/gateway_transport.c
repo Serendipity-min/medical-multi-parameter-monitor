@@ -56,6 +56,10 @@ static MQTTPubAckInfo_t outgoing[GATEWAY_TELEMETRY_SLOTS+1];
 typedef struct {uint16_t id;uint32_t at;int result;unsigned ack;} TelemetryPending;
 static TelemetryPending telemetry[GATEWAY_TELEMETRY_SLOTS];
 static uint16_t last_ticket;
+#ifdef MP_TRANSPORT_BENCH
+typedef struct {uint32_t seq,at;uint8_t node,stream,replay;} BenchAck;
+static BenchAck bench_acks[GATEWAY_TELEMETRY_SLOTS];
+#endif
 #ifdef MP_FIVE_FIELD01
 static uint32_t ack_at[GATEWAY_TELEMETRY_SLOTS],reclaim_count,reclaim_total,reclaim_max;
 void field01_mqtt_reclaim(uint32_t *count,uint32_t *total,uint32_t *max){
@@ -88,14 +92,26 @@ int gateway_network_retryable(void){return opening_ntp_retry;}
 void gateway_mqtt_metrics(GatewayMqttMetrics *out){*out=mqtt_metrics;}
 int gateway_mqtt_pending(void){
 #ifdef MP_FINAL_UNIFIED
+#if GATEWAY_TELEMETRY_SLOTS == 3
     return telemetry[0].id || telemetry[1].id || telemetry[2].id;
+#else
+    for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(telemetry[i].id)return 1;
+    return 0;
+#endif
 #else
     return pending_id!=0;
 #endif
 }
 #ifdef MP_FINAL_UNIFIED
 uint16_t gateway_mqtt_ticket(void){return last_ticket;}
-int gateway_mqtt_slots_full(void){return telemetry[0].id && telemetry[1].id && telemetry[2].id;}
+int gateway_mqtt_slots_full(void){
+#if GATEWAY_TELEMETRY_SLOTS == 3
+    return telemetry[0].id && telemetry[1].id && telemetry[2].id;
+#else
+    for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(!telemetry[i].id)return 0;
+    return 1;
+#endif
+}
 int gateway_mqtt_ticket_result(uint16_t id){
     for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(telemetry[i].id==id && id){
         int result=telemetry[i].result;
@@ -255,6 +271,9 @@ static void mqtt_event(MQTTContext_t *context, MQTTPacketInfo_t *packet,
         for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(telemetry[i].id && decoded->packetIdentifier==telemetry[i].id){
 #ifdef MP_FIVE_FIELD01
             if(!telemetry[i].ack)ack_at[i]=g_uptime_ms;
+#endif
+#ifdef MP_TRANSPORT_BENCH
+            if(!telemetry[i].ack)bench_acks[i].at=g_uptime_ms;
 #endif
             telemetry[i].ack=1;return;
         }
@@ -497,6 +516,9 @@ int gateway_mqtt_begin(const MpFrame *frame) {
         id=MQTT_GetPacketId(&client);next_packet_seed=client.nextPacketId;
 #ifdef MP_FINAL_UNIFIED
         telemetry[slot]=(TelemetryPending){id,start,GW_PENDING,0};last_ticket=id;
+#ifdef MP_TRANSPORT_BENCH
+        bench_acks[slot]=(BenchAck){frame->seq,0,frame->node,frame->stream,frame->replay};
+#endif
 #else
         acknowledged=0;pending_id=id;pending_started=start;
 #endif
@@ -570,6 +592,11 @@ int gateway_mqtt_progress(void) {
     }
 #endif
     for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(telemetry[i].id && telemetry[i].result==GW_PENDING && telemetry[i].ack){
+#ifdef MP_TRANSPORT_BENCH
+        BenchAck a=bench_acks[i];char line[120];
+        snprintf(line,sizeof line,"BENCH ACK node=%u stream=%u seq=%lu replay=%u ms=%lu\r\n",
+            a.node,a.stream,(unsigned long)a.seq,a.replay,(unsigned long)(a.at-telemetry[i].at));console(line);
+#endif
         b5_latency_add(&mqtt_metrics.ack,g_uptime_ms-telemetry[i].at);mqtt_metrics.q1_acked++;telemetry[i].result=GW_COMPLETE;
     }
 #else
@@ -680,7 +707,11 @@ void gateway_network_close(void)
 #endif
 #ifdef MP_B5_EGRESS_FINAL
 #ifdef MP_ESP_PASSTHROUGH
-    if(!b5_network_stopped() && !platform_passthrough_normal()){
+    if(
+#ifdef MP_TRANSPORT_BENCH
+       transport_bench_passthrough() &&
+#endif
+       !b5_network_stopped() && !platform_passthrough_normal()){
         console("GW PASS_MODE_UNKNOWN\r\n");return;
     }
 #endif
@@ -875,6 +906,22 @@ static int esp_version(uint32_t timeout,char version[32]) {
 #include "production_uart.inc"
 #endif
 
+#ifdef MP_TRANSPORT_BENCH
+int gateway_bench_restore(void){
+    if(!platform_at_synchronized() || gateway_uart_negotiation_failed())return 0;
+    if(!at_command("AT+CIPSTATUS",1000u))return 0;
+    const char *status=strstr(at_response(),"STATUS:");
+    if(!status || !status[7] || !strchr("245",status[7]) || status[8]!='\r' || strstr(at_response(),"+CIPSTATUS:"))return 0;
+    if(!at_command("AT+CIPMODE?",1000u) || !strstr(at_response(),"+CIPMODE:0\r\n"))return 0;
+    PreUart current;
+    if(!production_uart_query(platform_esp_uart_baud(),&current))return 0;
+    if(platform_esp_uart_baud()!=ESP_UART_BAUD && !production_restore(current.flow,(char[64]){0},64))return 0;
+    uart_attempted=0;
+    return 1;
+}
+#endif
+
+
 int gateway_network_open(void)
 {
     char command[256];
@@ -887,11 +934,24 @@ int gateway_network_open(void)
 #endif
     esp_mqtt_reset();
 #ifdef MP_ESP_UART_230400
+#ifdef MP_TRANSPORT_BENCH
+    if(transport_bench_fast()){
+#endif
     if(!production_uart_open(command,sizeof command) || !step("STA","AT+CWMODE=1",3000))return 0;
-#else
+#ifdef MP_TRANSPORT_BENCH
+        if(platform_esp_uart_baud()!=PROD_UART_BAUD)return 0;
+    }else{
+#endif
+#endif
+#if !defined(MP_ESP_UART_230400) || defined(MP_TRANSPORT_BENCH)
     if (!step("AT", ESP_AT_SYNC, 2000) || !step("ECHO", ESP_AT_ECHO_OFF, 2000) ||
         !step("VOLATILE", ESP_AT_VOLATILE, 2000) || !step("STA", "AT+CWMODE=1", 3000))
         return 0;
+#endif
+#ifdef MP_TRANSPORT_BENCH
+        PreUart uart;
+        if(!production_uart_query(ESP_UART_BAUD,&uart))return 0;
+    }
 #endif
 #ifdef MP_CAN_RX_IRQ
     char version[32];
@@ -1000,14 +1060,22 @@ int gateway_network_open(void)
         return 0;
 #ifdef MP_ESP_PASSTHROUGH
     /* 在 MQTT 超时之外延迟模块自动重连，旧会话不能静默跨 SSL 连接。 */
-    if(!step("ACTIVE","AT+CIPRECVMODE=0",2000u) ||
-       !step("PASS_RECONNECT","AT+CIPRECONNINTV=36000",2000u))return 0;
+    if(
+#ifdef MP_TRANSPORT_BENCH
+       transport_bench_passthrough() &&
+#endif
+       (!step("ACTIVE","AT+CIPRECVMODE=0",2000u) ||
+        !step("PASS_RECONNECT","AT+CIPRECONNINTV=36000",2000u)))return 0;
 #endif
     (void)snprintf(command, sizeof(command), "AT+CIPSTART=\"SSL\",\"%s\",%u", config->host, (unsigned)MP_MQTT_TLS_PORT);
     int ok = step("TLS", command, 30000);
     secure_memzero(command, sizeof(command));
 #ifdef MP_ESP_PASSTHROUGH
-    if(ok && (!step("PASS_MODE","AT+CIPMODE=1",2000u) || !platform_passthrough_enter())){
+    if(ok &&
+#ifdef MP_TRANSPORT_BENCH
+       transport_bench_passthrough() &&
+#endif
+       (!step("PASS_MODE","AT+CIPMODE=1",2000u) || !platform_passthrough_enter())){
         console("GW FAIL PASS_ENTER\r\n");return 0;
     }
 #endif

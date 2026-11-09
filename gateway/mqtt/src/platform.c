@@ -621,6 +621,9 @@ static int pass_recv(unsigned char *data,int length,uint32_t timeout){
     do {
         if(pass_mode!=PASS_STREAM || NETWORK_STOPPED())return -1;
         if(errors){pass_unknown();return -1;}
+#if defined(MP_TRANSPORT_BENCH) && defined(ESP_CPU_MEASURE)
+        uint32_t began=CPU_NOW();
+#endif
         int byte=receive_byte();
         if(byte<0){
             if(copied)break;
@@ -639,6 +642,10 @@ static int pass_recv(unsigned char *data,int length,uint32_t timeout){
         }
         data[copied++]=(unsigned char)byte;
         io_metrics.rx_bytes++;
+#if defined(MP_TRANSPORT_BENCH) && defined(ESP_CPU_MEASURE)
+        cpu.rx_step_cycles+=CPU_NOW()-began;
+        cpu.rx_step_bytes++;
+#endif
     }while(copied<length && (int32_t)(g_uptime_ms-deadline)<0);
     return copied;
 fault:
