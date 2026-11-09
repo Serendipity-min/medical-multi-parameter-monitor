@@ -79,9 +79,10 @@ static int production_uart_setup(char *command,size_t size){
     if(baud==PROD_UART_BAUD || uart_attempted)return 1;
     uart_attempted=1;
     if(pre_uart_set(PROD_UART_AT_MS,PROD_UART_BAUD,initial.flow,command,size) &&
-       production_retime(PROD_UART_BAUD) && production_probe(PROD_UART_BAUD,&selected) &&
-       selected.flow==initial.flow)return 1;
-    if(!production_restore(initial.flow,command,size))return 0;
+       production_retime(PROD_UART_BAUD) && production_probe(PROD_UART_BAUD,&selected)){
+        if(selected.flow==initial.flow)return 1;
+        if(!production_restore_fast(initial.flow,command,size,"GW UART_RESTORE"))return 0;
+    }else if(!production_restore(initial.flow,command,size))return 0;
     console("GW UART_DEGRADED\r\n");
     return 1;
 }

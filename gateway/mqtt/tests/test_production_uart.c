@@ -10,7 +10,7 @@ const GatewayConfig gateway_test_config={0};
 TestUsart platform_usart[2];
 volatile uint32_t g_uptime_ms;
 enum { NORMAL, REJECT, NO_ACK_OLD, NO_ACK_FAST, GARBAGE_AFTER_ACK, FAST_NO_REPLY,
-       QUERY_MISSING, BAD_FLOW, SYSSTORE_REJECT, STOP_DURING_GUARD, H_JUNK, RESTORE_REJECT, RESTORE_NO_ACK, RESTORE_PROBE_FAIL };
+       QUERY_MISSING, BAD_FLOW, SYSSTORE_REJECT, STOP_DURING_GUARD, H_JUNK, RESTORE_REJECT, RESTORE_NO_ACK, RESTORE_PROBE_FAIL, FLOW_CHANGED_FAST };
 static unsigned scenario,peer_baud,peer_flow,setters,restore_setters,accepted;
 static int stopped,tx_wrong;
 static unsigned degraded,failed,wrong_commands,junk_pending,junk_errors,restore_step;
@@ -86,11 +86,11 @@ void platform_test_tx(unsigned char byte){
     unsigned rate=0,flow=9;
     int n=0;
     assert(sscanf(command,"AT+UART_CUR=%u,8,1,0,%u\r\n%n",&rate,&flow,&n)==2 && n && !command[n]);
-    assert(flow==peer_flow);
+    assert(flow==peer_flow || (scenario==FLOW_CHANGED_FAST && rate==115200 && flow==1));
     if(rate==115200){
         restore_setters++;
         if(scenario==RESTORE_REJECT){schedule("\r\nERROR\r\n");return;}
-        peer_baud=rate;
+        peer_baud=rate;peer_flow=flow;
         if(scenario!=RESTORE_NO_ACK)schedule("\r\nOK\r\n");
         return;
     }
@@ -99,6 +99,7 @@ void platform_test_tx(unsigned char byte){
     if(scenario==REJECT){schedule("\r\nERROR\r\n");return;}
     if(scenario==NO_ACK_OLD)return;
     peer_baud=rate;
+    if(scenario==FLOW_CHANGED_FAST)peer_flow=0;
     if(scenario==NO_ACK_FAST)return;
     schedule("\r\nOK\r\n");
     if(scenario==GARBAGE_AFTER_ACK)garbage_at=g_uptime_ms+9;
@@ -155,6 +156,9 @@ int main(int argc,char **argv){
         assert(restore_step==(i==1?1u:i==3?2u:0u));
         if(ok)assert(peer_baud==115200 && platform_esp_uart_baud()==115200);
     }
+    reset(FLOW_CHANGED_FAST,115200,1);
+    assert(open_uart() && degraded==1 && restore_setters==1 && !wrong_commands &&
+           peer_baud==115200 && peer_flow==1);
     puts("R9_H_JUNK_FIXED startup=PASS ambiguous=PASS known_restore_wrong_rate=0 setter_and_readback_cases=4");
 #endif
     const uint32_t slow_reserve=platform_send_reserve(600);
