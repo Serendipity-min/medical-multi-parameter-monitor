@@ -24,7 +24,7 @@ static inline bool b5_audio_room(const MpRouter *r,uint64_t utc) {
     /* 留出医疗发送余量；不再把尚有空间的半满队列当作永久音频禁令。 */
     for(unsigned i=0;i<r->ln;i++) {
         const MpFrame *f=&r->live[(r->lh+i)%MP_LIVE_CAPACITY];
-        if(utc>f->timestamp && utc-f->timestamp>2500u)return false;
+        if(mp_realtime_yield_due(utc,f->timestamp,false))return false;
     }
     return true;
 }
@@ -51,7 +51,8 @@ static inline int b5_egress_step(MpRouter *r,B5Publisher *s,bool allow_new) {
     if(!allow_new)return 1;
     uint64_t utc=gateway_epoch_milliseconds();
     bool medical_due=false;
-    for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(s->tickets[i] && !s->inflight[i].replay && utc>=s->inflight[i].timestamp && utc-s->inflight[i].timestamp>=2500u)medical_due=true;
+    for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(s->tickets[i] && !s->inflight[i].replay &&
+        mp_realtime_yield_due(utc,s->inflight[i].timestamp,true))medical_due=true;
     if(!s->deferred && !s->audio_yield && !medical_due && b5_audio_room(r,utc) && unified_audio_send_due()){
         unified_audio_step(true);if(gateway_audio_pending()){s->audio_yield=true;return 1;}
     }

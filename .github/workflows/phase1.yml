@@ -32,7 +32,7 @@ jobs:
         run: python -m pip install -r cloud/backend/requirements-dev.txt -c cloud/backend/requirements.lock
       - name: Backend and operations regressions
         run: python -m pytest cloud/backend/tests -q
-      - name: Paho vendor integrity and Gateway source allowlist
+      - name: Test-only Paho integrity and active Gateway sources
         if: env.P5_SCOPE != 'true'
         run: |
           python gateway/third_party/verify_paho_integrity.py

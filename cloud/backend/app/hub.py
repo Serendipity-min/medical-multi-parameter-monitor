@@ -111,8 +111,8 @@ class Hub:
                     # 只收紧输出，不改采集timestamp；同值的新测量必须凭当前会话重新到达。
                     data['validity'] = 'STALE'
                 elif (
-                    self.monotonic() - received > limit
-                    or self.clock() * 1000 - message.timestamp > limit * 1000
+                    self.monotonic() - received >= limit
+                    or self.clock() * 1000 - message.timestamp >= limit * 1000
                 ):
                     data['validity'] = 'STALE'
                 if data['validity'] != 'VALID':

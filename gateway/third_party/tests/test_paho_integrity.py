@@ -1,19 +1,16 @@
 """仅覆盖清单漂移与构建白名单的固定回归，不执行编译脚本或联网。"""
 
-import importlib.util
 import json
 from pathlib import Path
 import shutil
+import sys
 import tempfile
 import unittest
 
 
 THIRD_PARTY = Path(__file__).resolve().parents[1]
-spec = importlib.util.spec_from_file_location(
-    'paho_integrity', THIRD_PARTY / 'verify_paho_integrity.py'
-)
-integrity = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(integrity)
+sys.path.insert(0, str(THIRD_PARTY))
+import verify_paho_integrity as integrity
 
 
 class PahoIntegrityTests(unittest.TestCase):
@@ -64,24 +61,24 @@ class PahoIntegrityTests(unittest.TestCase):
         text = self.build.read_text(encoding='utf-8')
         self.build.write_text(
             text.replace(
-                "vendor / 'MQTTPacket/src/MQTTPacket.c',",
-                "vendor / 'MQTTPacket/src/MQTTFormat.c',",
+                '*mqtt_sources,',
+                "*mqtt_sources,\n    ROOT.parent / 'third_party/paho-embedded-c/MQTTPacket/src/MQTTFormat.c',",
             ),
             encoding='utf-8',
         )
-        with self.assertRaisesRegex(integrity.IntegrityError, 'MQTTFormat.c'):
+        with self.assertRaisesRegex(ValueError, 'Paho must not remain'):
             integrity.check_build_sources(self.build)
 
     def test_paho_glob_is_rejected(self):
         text = self.build.read_text(encoding='utf-8')
         self.build.write_text(
             text.replace(
-                "vendor / 'MQTTPacket/src/MQTTPacket.c',",
+                "vendor / 'source/core_mqtt.c',",
                 "*vendor.glob('MQTTPacket/src/*.c'),",
             ),
             encoding='utf-8',
         )
-        with self.assertRaisesRegex(integrity.IntegrityError, 'explicit vendor-relative literals'):
+        with self.assertRaisesRegex(ValueError, 'vendor-relative literal'):
             integrity.check_build_sources(self.build)
 
     def test_source_append_is_rejected(self):
@@ -90,13 +87,13 @@ class PahoIntegrityTests(unittest.TestCase):
             text + "\nsources.append(vendor / 'MQTTPacket/src/MQTTFormat.c')\n",
             encoding='utf-8',
         )
-        with self.assertRaisesRegex(integrity.IntegrityError, 'mutation methods'):
+        with self.assertRaisesRegex(ValueError, 'source list mutation'):
             integrity.check_build_sources(self.build)
 
     def test_checker_does_not_execute_build_script(self):
         text = self.build.read_text(encoding='utf-8')
         self.build.write_text("raise RuntimeError('must never execute')\n" + text, encoding='utf-8')
-        self.assertEqual(integrity.check_build_sources(self.build), integrity.PAHO_SOURCES)
+        integrity.check_build_sources(self.build)
 
 
 if __name__ == '__main__':

@@ -124,7 +124,7 @@ bool mp_router_take_egress(MpRouter *r,MpFrame *out,uint32_t now,uint64_t utc,bo
     bool replay_safe=!pending && r->ln<MP_LIVE_CAPACITY-2;
     for(unsigned i=0;replay_safe && i<r->ln;i++) {
         const MpFrame *f=&r->live[(r->lh+i)%MP_LIVE_CAPACITY];
-        if(utc>=f->timestamp && utc-f->timestamp>=2500u)replay_safe=false;
+        if(mp_realtime_yield_due(utc,f->timestamp,true))replay_safe=false;
     }
     if(replay_safe && take_history(r,out,now)){r->taken[out->stream]++;return true;}
     unsigned chosen=MP_LIVE_CAPACITY;int best=100;
@@ -160,7 +160,7 @@ bool mp_router_take_egress(MpRouter *r,MpFrame *out,uint32_t now,uint64_t utc,bo
         r->ln--;r->taken[out->stream]++;
         if(out->stream!=MP_NODE_STATUS && out->stream!=MP_GATEWAY_STATUS)r->fair_wave=!r->fair_wave;
         if(utc>=out->timestamp)b5_latency_add(&r->source_age,(uint32_t)(utc-out->timestamp));
-        if(utc>out->timestamp && utc-out->timestamp>5000)r->expired++;
+        if(utc>out->timestamp && utc-out->timestamp>MP_REALTIME_DEADLINE_MS)r->expired++;
         return true;
     }
     return false;

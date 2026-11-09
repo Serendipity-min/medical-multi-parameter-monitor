@@ -31,7 +31,7 @@ def setup():
 def nibp(snapshot):return next(item for item in snapshot['streams'] if item['stream']=='NIBP')
 
 
-@pytest.mark.parametrize('age,valid',[(89,True),(90,True),(90.001,False)])
+@pytest.mark.parametrize('age,valid',[(89.999,True),(90,False),(90.001,False)])
 def test_completion_boundary_with_repeated_seq_and_fresh_status(age,valid):
     hub,now=setup();now[0]+=age
     for node,stream in [('GATEWAY','GATEWAY_STATUS'),('NODE-A','NODE_STATUS')]:

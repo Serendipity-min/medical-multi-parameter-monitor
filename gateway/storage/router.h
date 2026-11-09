@@ -39,6 +39,14 @@ void mp_router_online(MpRouter *r, bool online);
 void mp_router_put(MpRouter *r, const MpFrame *f);
 bool mp_router_take(MpRouter *r, MpFrame *out, uint32_t now);
 #ifdef MP_B5_EGRESS_FINAL
+#define MP_REALTIME_DEADLINE_MS 5000u
+/* 实时期限的一半用于给积压的实时流让路。 */
+#define MP_REALTIME_YIELD_MS (MP_REALTIME_DEADLINE_MS / 2u)
+static inline bool mp_realtime_yield_due(uint64_t utc,uint64_t timestamp,bool include_boundary) {
+    const uint32_t minimum_age=MP_REALTIME_YIELD_MS+(include_boundary ? 0u : 1u);
+    return utc>=timestamp && utc-timestamp>=minimum_age;
+}
+
 /* QoS1在途时只取实时QoS0；队列内其余帧及原始身份不动。 */
 bool mp_router_take_egress(MpRouter *r,MpFrame *out,uint32_t now,uint64_t utc,bool qos1_pending);
 #endif

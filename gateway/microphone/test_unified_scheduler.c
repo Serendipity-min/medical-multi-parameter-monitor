@@ -38,10 +38,15 @@ int main(void){
     CHECK(r.ln==13);audio_due=1;audio_pending=0;busy=0;
     CHECK(b5_egress_step(&r,&p,true));CHECK(audio_started==2 && r.ln==13);
     p=(B5Publisher){0};audio_pending=0;audio_due=1;busy=0;
+    CHECK(b5_audio_room(&r,f.timestamp+2500));
+    CHECK(!b5_audio_room(&r,f.timestamp+2501));
+    CHECK(!mp_realtime_yield_due(f.timestamp+2499,f.timestamp,true));
+    CHECK(mp_realtime_yield_due(f.timestamp+2500,f.timestamp,true));
+    CHECK(!mp_realtime_yield_due(f.timestamp-1,f.timestamp,true));
     r.live[r.lh].timestamp-=2501;
     CHECK(b5_egress_step(&r,&p,true));CHECK(audio_started==2);
     r.live[r.lh].timestamp=f.timestamp;
-    p.tickets[0]=2;p.inflight[0]=f;p.inflight[0].timestamp-=2501;busy=0;
+    p.tickets[0]=2;p.inflight[0]=f;p.inflight[0].timestamp-=2500;busy=0;
     CHECK(b5_egress_step(&r,&p,true));CHECK(audio_started==2);p=(B5Publisher){0};
     while(r.ln<MP_LIVE_CAPACITY-2){f.seq++;mp_router_put(&r,&f);}
     busy=0;CHECK(b5_egress_step(&r,&p,true));CHECK(audio_started==2);

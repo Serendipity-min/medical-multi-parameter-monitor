@@ -1,10 +1,11 @@
-"""只读核验固定 Paho 上游、项目补丁和 Gateway 编译白名单，不导入构建脚本。"""
+"""只读核验测试用 Paho 固定源码，并确认 Gateway 仍编译 coreMQTT。"""
 
-import ast
 import hashlib
 import json
 from pathlib import Path
 import sys
+
+from verify_coremqtt_integrity import check_build_sources
 
 
 ROOT = Path(__file__).resolve().parent
@@ -26,74 +27,8 @@ PATCHED_FILES = frozenset(
         'MQTTPacket/src/MQTTUnsubscribeClient.c',
     )
 )
-PAHO_SOURCES = (
-    'MQTTClient-C/src/MQTTClient.c',
-    'MQTTPacket/src/MQTTConnectClient.c',
-    'MQTTPacket/src/MQTTDeserializePublish.c',
-    'MQTTPacket/src/MQTTPacket.c',
-    'MQTTPacket/src/MQTTSerializePublish.c',
-    'MQTTPacket/src/MQTTSubscribeClient.c',
-    'MQTTPacket/src/MQTTUnsubscribeClient.c',
-)
-
-
 class IntegrityError(ValueError):
     """固定元数据、补丁内容或构建范围与已评审基线不一致。"""
-
-
-def check_build_sources(build_path: Path = GATEWAY_BUILD) -> tuple[str, ...]:
-    """只解析 AST，避免 import build.py 触发编译或创建构建目录。"""
-    tree = ast.parse(build_path.read_text(encoding='utf-8'), filename='gateway/mqtt/build.py')
-    assignments = [
-        node
-        for node in tree.body
-        if isinstance(node, ast.Assign)
-        and any(isinstance(target, ast.Name) and target.id == 'sources' for target in node.targets)
-    ]
-    if len(assignments) != 1 or not isinstance(assignments[0].value, ast.List):
-        raise IntegrityError('Gateway sources must be one explicit list')
-    for node in ast.walk(tree):
-        # 白名单之后追加 sources 会绕过上面的字面量核对，因此也拒绝这种构建写法。
-        if (
-            isinstance(node, ast.AugAssign)
-            and isinstance(node.target, ast.Name)
-            and node.target.id == 'sources'
-        ):
-            raise IntegrityError('Gateway sources must not be extended after declaration')
-        if (
-            isinstance(node, ast.Call)
-            and isinstance(node.func, ast.Attribute)
-            and isinstance(node.func.value, ast.Name)
-            and node.func.value.id == 'sources'
-        ):
-            raise IntegrityError('Gateway sources must not use mutation methods')
-    if any(
-        isinstance(node, ast.Constant)
-        and isinstance(node.value, str)
-        and 'MQTTFormat.c' in node.value
-        for node in ast.walk(assignments[0].value)
-    ):
-        raise IntegrityError('MQTTFormat.c must not enter the Gateway source list')
-
-    paho_sources = []
-    for entry in assignments[0].value.elts:
-        if not any(isinstance(node, ast.Name) and node.id == 'vendor' for node in ast.walk(entry)):
-            continue
-        # 只接受 vendor / "固定相对路径"；不执行表达式，也不允许 Paho glob 扩大编译范围。
-        if not (
-            isinstance(entry, ast.BinOp)
-            and isinstance(entry.op, ast.Div)
-            and isinstance(entry.left, ast.Name)
-            and entry.left.id == 'vendor'
-            and isinstance(entry.right, ast.Constant)
-            and isinstance(entry.right.value, str)
-        ):
-            raise IntegrityError('Paho sources must use explicit vendor-relative literals')
-        paho_sources.append(entry.right.value)
-
-    if tuple(paho_sources) != PAHO_SOURCES:
-        raise IntegrityError('Gateway Paho source allowlist changed; MQTTFormat.c is not permitted')
-    return tuple(paho_sources)
 
 
 def verify_vendor(vendor: Path = VENDOR, build_path: Path = GATEWAY_BUILD) -> tuple[int, int]:
@@ -137,7 +72,7 @@ def main() -> int:
         return 1
     print(
         f'Paho integrity PASS: {pristine} pristine, {patched} patched; '
-        '7 allowed sources; MQTTFormat excluded'
+        'Paho excluded from Gateway build'
     )
     return 0
 
