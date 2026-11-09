@@ -10,6 +10,9 @@ int b5_identity_allowed(const char *client, const char *user);
 /* 过期遥测只能作为历史，旧状态直接丢弃；不能重写采集时间使其复活。 */
 int b5_prepare_publish(MpFrame *frame, uint64_t now);
 int b5_network_stopped(void);
+#ifdef MP_ESP_UART_230400
+void b5_uart_accept_baseline(void);
+#endif
 #ifdef MP_B5_EGRESS_FINAL
 uint32_t b5_business_remaining(void);
 void b5_hard_tick(void);

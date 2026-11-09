@@ -7,6 +7,10 @@ uint32_t gateway_epoch(void);
 /* 同一SNTP锚点的毫秒UTC，避免把uptime小数拼到秒级结果上造成未来时间。 */
 uint64_t gateway_epoch_milliseconds(void);
 int gateway_network_open(void);
+#ifdef MP_ESP_UART_230400
+int gateway_uart_negotiating(void);
+int gateway_uart_negotiation_failed(void);
+#endif
 #ifdef MP_FIVE_FIELD01
 int gateway_preflight(uint32_t target,uint32_t deadline);
 #endif

@@ -84,7 +84,7 @@ def field_data(path, reference):
     return stats,lengths
 
 
-def run_host(cc, out):
+def run_host(cc, out, *, cpu_scan=False):
     g=ROOT/'gateway'
     vendor=g/'third_party/coreMQTT/source'
     mqtt=g/'mqtt/src'
@@ -107,10 +107,19 @@ def run_host(cc, out):
     if build.returncode:
         print((build.stdout+build.stderr).decode(errors='replace'))
         raise RuntimeError('P3_HOST_BUILD')
+    baseline = ((0,22),(64,22),(125,22),(0,42),(125,42))
+    runs = [(blocks, terminal, 115200, 0) for blocks, terminal in baseline]
+    if cpu_scan:
+        runs += [(blocks, terminal, 230400, 0) for blocks, terminal in baseline]
+        runs += [(0, terminal, baud, cost) for terminal in (22,42)
+                 for baud in (115200,230400) for cost in (30,60,120)]
     cases={}
-    for blocks,terminal in ((0,22),(64,22),(125,22),(0,42),(125,42)):
+    for blocks, terminal, baud, cost in runs:
         key=f'{blocks}blocks-{terminal}ms'
-        result=subprocess.run([str(exe),str(blocks),str(terminal)],capture_output=True,timeout=35)
+        if cpu_scan:
+            key+=f'-{baud}baud-{cost}us'
+        result=subprocess.run([str(exe),str(blocks),str(terminal),str(baud),str(cost)],
+                              capture_output=True,timeout=35)
         log=result.stdout+result.stderr
         (out/(key+'.log')).write_bytes(log)
         text=log.decode(errors='replace')
@@ -130,12 +139,14 @@ def run_host(cc, out):
             summary['service_rate']=(f['q0']+f['q1']-f['replay'])*1000/summary['case']['elapsed_ms']
             summary['all_offered_waves_delivered_at_end']=summary['case']['offered_wave']==summary['case']['delivered_wave']
         cases[key]=summary
-    for terminal in (22,42):
-        base=cases[f'0blocks-{terminal}ms'].get('service_rate')
-        for blocks in (64,125):
-            sample=cases.get(f'{blocks}blocks-{terminal}ms')
-            if sample and base and 'service_rate' in sample:
-                sample['service_rate_delta_vs_no_audio']=sample['service_rate']-base
+    for baud in ((115200,230400) if cpu_scan else (115200,)):
+        suffix=f'-{baud}baud-0us' if cpu_scan else ''
+        for terminal in (22,42):
+            base=cases[f'0blocks-{terminal}ms{suffix}'].get('service_rate')
+            for blocks in (64,125):
+                sample=cases.get(f'{blocks}blocks-{terminal}ms{suffix}')
+                if sample and base and 'service_rate' in sample:
+                    sample['service_rate_delta_vs_no_audio']=sample['service_rate']-base
     return dict(scope='REAL_C_WITH_VIRTUAL_UART_PEER_NOT_FIELD', cases=cases,
                 source_sha256={p.relative_to(ROOT).as_posix():sha(p) for p in
                               [*files,mqtt/'gateway_transport.c',mqtt/'platform.c',g/'b5/egress.h']})
@@ -295,12 +306,22 @@ def model_cases(reference, distributions):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--paths',type=Path,required=True)
+    source=parser.add_mutually_exclusive_group(required=True)
+    source.add_argument('--paths',type=Path)
+    source.add_argument('--cpu-scan',action='store_true',help='仅运行同输入 Host 波特率与每字节 CPU 扫描')
     parser.add_argument('--out',type=Path,required=True)
     parser.add_argument('--cc',default='C:/mingw64/bin/gcc.exe')
     parser.add_argument('--host-results',type=Path,help='复用已完成的同源码 Host 回执')
     args=parser.parse_args()
+    if args.cpu_scan and args.host_results:
+        parser.error('--cpu-scan requires a fresh Host run')
     args.out.mkdir(parents=True,exist_ok=False)
+    if args.cpu_scan:
+        host=run_host(args.cc,args.out,cpu_scan=True)
+        result=dict(scope='HOST_ONLY_NOT_HARDWARE', cpu_model='serial line time plus CPU surcharge per TX/RX byte',
+                    script_sha256=sha(Path(__file__)),host=host)
+        (args.out/'results.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
+        return int(any(case['exit'] for case in host['cases'].values()))
     if args.host_results:
         host=json.loads(args.host_results.read_text())['host']
         for name,checksum in host['source_sha256'].items():
@@ -319,4 +340,4 @@ def main():
 
 
 if __name__=='__main__':
-    main()
+    raise SystemExit(main())

@@ -831,12 +831,24 @@ static int wifi_join(char *command,size_t size,uint32_t timeout) {
 
 #ifdef MP_CAN_RX_IRQ
 static int esp_version(uint32_t timeout,char version[32]) {
+#ifdef MP_TRANSPORT_PROFILE
+    if(!at_command(ESP_AT_GMR,timeout))return 0;
+    platform_cpu_note_gmr();
+    return gateway_at_version(at_response(),version);
+#else
     return at_command(ESP_AT_GMR,timeout) && gateway_at_version(at_response(),version);
+#endif
 }
 #endif
 
+#if defined(MP_FIVE_FIELD01) || defined(MP_ESP_UART_230400)
+#include "uart_negotiation.inc"
+#endif
 #ifdef MP_FIVE_FIELD01
 #include "field01_preflight.inc"
+#endif
+#ifdef MP_ESP_UART_230400
+#include "production_uart.inc"
 #endif
 
 int gateway_network_open(void)
@@ -847,9 +859,13 @@ int gateway_network_open(void)
 #endif
     mqtt_failed();
     esp_mqtt_reset();
+#ifdef MP_ESP_UART_230400
+    if(!production_uart_open(command,sizeof command) || !step("STA","AT+CWMODE=1",3000))return 0;
+#else
     if (!step("AT", ESP_AT_SYNC, 2000) || !step("ECHO", ESP_AT_ECHO_OFF, 2000) ||
         !step("VOLATILE", ESP_AT_VOLATILE, 2000) || !step("STA", "AT+CWMODE=1", 3000))
         return 0;
+#endif
 #ifdef MP_CAN_RX_IRQ
     char version[32];
     if(!esp_version(2000,version)) {

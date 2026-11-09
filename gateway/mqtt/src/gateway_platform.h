@@ -2,12 +2,17 @@
 #define GATEWAY_PLATFORM_H
 #include <stdint.h>
 #define ESP_UART_BAUD 115200u
-#ifdef MP_FIVE_FIELD01
+#if defined(MP_FIVE_FIELD01) || defined(MP_ESP_UART_230400)
 typedef enum {
     PRE_RETIME_OK, PRE_RETIME_TC, PRE_RETIME_RX_NOT_QUIET,
     PRE_RETIME_BRR, PRE_RETIME_STOP, PRE_RETIME_DEADLINE
 } PreRetime;
 PreRetime platform_preflight_retime(uint32_t baud,uint32_t deadline);
+#endif
+#ifdef MP_ESP_UART_230400
+uint32_t platform_esp_uart_baud(void);
+#endif
+#ifdef MP_FIVE_FIELD01
 int platform_preflight_console(const char *message,uint32_t deadline);
 uint32_t platform_preflight_high_water(uint32_t keep);
 int platform_preflight_esp_reset_seen(void);

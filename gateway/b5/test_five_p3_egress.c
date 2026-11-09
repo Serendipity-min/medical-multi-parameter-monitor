@@ -15,9 +15,10 @@ enum { WINDOW_MS=110000, QUEUE_ACKS=8, SEQUENCES=300 };
 const GatewayConfig gateway_test_config={GATEWAY_CONFIG_MAGIC,1700000000u,
     "synthetic-wifi","synthetic-password","mqtt.example.invalid","b5-gateway","synthetic-password","b5-c-isolated"};
 volatile uint32_t g_uptime_ms;
-TestUsart platform_usart[2]={{USART_SR_TXE,0},{USART_SR_TXE,0}};
+TestUsart platform_usart[2]={{.SR=USART_SR_TXE},{.SR=USART_SR_TXE}};
 static MpRouter router;
 static uint64_t simulated_us;
+static unsigned wire_us=87,byte_cpu_us;
 static uint32_t origin, produced, stop_at, record_at, first_audio, last_audio;
 static uint32_t telemetry_ack_at[GATEWAY_TELEMETRY_SLOTS], reclaim_max, prompt_ms=4, terminal_ms=22, rx_ms=9, peer_ack_ms=55;
 static unsigned mic_state, samples_wanted, audio_blocks, medical_published, recording_started;
@@ -146,7 +147,7 @@ static void mqtt_packet(void){
     }
 }
 void platform_test_tx(unsigned char byte){
-    advance(87);
+    advance(wire_us+byte_cpu_us);
     if(outgoing_length){
         assert(outgoing_count<sizeof wire_packet);
         wire_packet[outgoing_count++]=byte;
@@ -204,7 +205,7 @@ static void tick(void){
     advance(25);
     if(reply_offset<reply_count && g_uptime_ms>=reply_at){
         USART3->DR=reply_bytes[reply_offset++];USART3->SR|=USART_SR_RXNE;
-        USART3_IRQHandler();USART3->SR&=~USART_SR_RXNE;advance(87);
+        USART3_IRQHandler();USART3->SR&=~USART_SR_RXNE;advance(wire_us+byte_cpu_us);
     }
     if(origin){
         while(produced<g_uptime_ms-origin && produced<WINDOW_MS){
@@ -259,6 +260,11 @@ int main(int argc,char **argv){
     unsigned blocks=argc>1?(unsigned)atoi(argv[1]):0;
     assert(blocks==0 || blocks==64 || blocks==125);
     if(argc>2){terminal_ms=(unsigned)atoi(argv[2]);assert(terminal_ms<500);}
+    if(argc>3)esp_uart_baud=(unsigned)atoi(argv[3]);
+    assert(esp_uart_baud==115200u || esp_uart_baud==230400u);
+    if(argc>4)byte_cpu_us=(unsigned)atoi(argv[4]);
+    assert(byte_cpu_us<=120u);
+    wire_us=(10000000u+esp_uart_baud/2u)/esp_uart_baud;
     samples_wanted=blocks==64?16160:32000;
     for(unsigned i=0;i<MIC_SAMPLES;i++)pcm[i]=(int16_t)(i*13u+7u);
     platform_set_poll(tick);mqtt_adapter_reset(&network);esp_mqtt_reset();
@@ -285,7 +291,8 @@ int main(int argc,char **argv){
         unified_audio_step(!publisher.deferred && !router.ln);
     }
     stop_at=g_uptime_ms;
-    printf("case blocks=%u terminal_ms=%u elapsed_ms=%u offered_wave=%u delivered_wave=%u\n",blocks,terminal_ms,
+    printf("case blocks=%u terminal_ms=%u baud=%u cpu_us=%u wire_us=%u elapsed_ms=%u offered_wave=%u delivered_wave=%u\n",
+        blocks,terminal_ms,(unsigned)esp_uart_baud,byte_cpu_us,wire_us,
         (unsigned)(stop_at-origin),seq[2][MP_ECG]+seq[2][MP_RESP]+seq[1][MP_PPG],
         delivered[2][MP_ECG]+delivered[2][MP_RESP]+delivered[1][MP_PPG]);
     printf("flow q0=%lu q1=%lu published=%u replay=%u audio=%u audio_span_ms=%u audio_first_ms=%u audio_acked=%u queue_live=%u queue_history=%u inflight=%u high=%lu overflow=%lu replaced=%lu dropped=%lu expired=%lu late=%u identity_errors=%u duplicates=%u\n",

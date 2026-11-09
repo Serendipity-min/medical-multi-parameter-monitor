@@ -19,6 +19,9 @@ unsigned final_can_mask;
 static uint32_t run_limit_ms=B5_WINDOW_MS;
 static bool network_fault;
 static uint32_t uart_error_baseline,can_poll_cycles_max;
+#ifdef MP_ESP_UART_230400
+void b5_uart_accept_baseline(void){uart_error_baseline=platform_uart_errors_total();}
+#endif
 static void local_control(void);
 #ifdef MP_FIVE_APPLIANCE
 static bool runtime_ready;
@@ -233,15 +236,37 @@ static void local_control(void) {
 }
 #endif
 static void diagnostic(unsigned stage) {
+#ifdef MP_TRANSPORT_PROFILE
+    char line[600];
+#else
     char line[300];
+#endif
     /* 仅固定计数/状态，无Topic、载荷、Wi-Fi或凭据；QoS0不命名为云端接收成功。 */
     if(stage==0){
-    (void)snprintf(line,sizeof(line),"B5 DIAG tick=%lu session=%lu rx=%lu txack=%lu txfail=%lu overflow=%lu esr=%lu uart_err=%lu live=%u cache=%u dropped=%lu q0_transport=%lu q1_puback=%lu mqtt_fail=%lu stop=%u\r\n",
+    (void)snprintf(line,sizeof(line),"B5 DIAG tick=%lu session=%lu rx=%lu txack=%lu txfail=%lu overflow=%lu esr=%lu uart_err=%lu live=%u cache=%u dropped=%lu q0_transport=%lu q1_puback=%lu mqtt_fail=%lu stop=%u"
+#ifndef MP_TRANSPORT_PROFILE
+        "\r\n"
+#endif
+        ,
         (unsigned long)g_uptime_ms,(unsigned long)gateway.session,(unsigned long)b4_hw_diag[1].received,
         (unsigned long)b4_hw_diag[1].tx_acked,(unsigned long)b4_hw_diag[1].tx_failed,
         (unsigned long)b4_hw_diag[1].overflow,(unsigned long)b4_hw_diag[1].esr,(unsigned long)platform_uart_errors_total(),gateway.router.ln,gateway.router.cn,
         (unsigned long)gateway.router.dropped,(unsigned long)mqtt_qos0_transport_ok,
         (unsigned long)mqtt_qos1_puback,(unsigned long)mqtt_failed_count,(unsigned)stopped);
+#ifdef MP_TRANSPORT_PROFILE
+    EspCpuMetrics cpu;
+    platform_cpu_snapshot(&cpu);
+    size_t used=strlen(line);
+    (void)snprintf(line+used,sizeof(line)-used,
+        " svc_cyc=%lu svc_n=%lu tx_cyc=%lu tx_b=%lu txe_cyc=%lu await_cyc=%lu await_b=%lu"
+        " rxstep_cyc=%lu rxstep_b=%lu irq_cyc=%lu irq_n=%lu gmr_rx_b=%lu gmr_n=%lu\r\n",
+        (unsigned long)cpu.service_cycles,(unsigned long)cpu.service_calls,
+        (unsigned long)cpu.tx_cycles,(unsigned long)cpu.tx_bytes,(unsigned long)cpu.txe_cycles,
+        (unsigned long)cpu.await_cycles,(unsigned long)cpu.await_bytes,
+        (unsigned long)cpu.rx_step_cycles,(unsigned long)cpu.rx_step_bytes,
+        (unsigned long)cpu.irq_cycles,(unsigned long)cpu.irq_calls,
+        (unsigned long)cpu.gmr_rx_bytes,(unsigned long)cpu.gmr_calls);
+#endif
     console(line);
 #ifdef MP_FINAL_UNIFIED
     snprintf(line,sizeof line,"UNI CAN water_a=%lu water_b=%lu mask=%u limit_ms=%lu network_fault=%u replay_a=%lu replay_b=%lu can_poll_cycles_max=%lu\r\n",
@@ -446,7 +471,11 @@ static void service(void) {
     if(cycles>can_poll_cycles_max)can_poll_cycles_max=cycles;
 #endif
 #ifdef MP_FINAL_UNIFIED
-    if(!network_fault && (platform_at_unsynced() || platform_uart_errors_total()!=uart_error_baseline)) {
+    if(!network_fault &&
+#ifdef MP_ESP_UART_230400
+       !gateway_uart_negotiating() &&
+#endif
+       (platform_at_unsynced() || platform_uart_errors_total()!=uart_error_baseline)) {
         network_fault=true;network_open=mqtt_connected=false;
         mp_router_online(&gateway.router,false);unified_audio_network(false);
     }
@@ -586,6 +615,12 @@ int main(void) {
 #endif
         mp_router_online(&gateway.router, false); network_open = mqtt_connected = false;
         if (!gateway_network_open()) {
+#ifdef MP_ESP_UART_230400
+            if(gateway_uart_negotiation_failed()){
+                while(!stopped)platform_poll();
+                break;
+            }
+#endif
 #ifdef MP_FIVE_FIELD01
             field01_latch(FIELD01_LINK);if(!stopped)stop();gateway_network_close();break;
 #elif defined(MP_B5_EGRESS_FINAL)

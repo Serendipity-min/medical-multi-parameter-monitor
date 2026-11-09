@@ -44,6 +44,29 @@ int platform_at_synchronized(void){return !io_metrics.unsynced &&
     (io_metrics.at_phase==ESP_AT_IDLE || io_metrics.at_phase==ESP_AT_CLOSED);}
 int platform_at_unsynced(void){return io_metrics.unsynced!=0;}
 #endif
+#ifdef MP_TRANSPORT_PROFILE
+#ifdef PLATFORM_HOST_TEST
+void platform_cpu_snapshot(EspCpuMetrics *out){*out=(EspCpuMetrics){0};}
+void platform_cpu_note_gmr(void){}
+#else
+static EspCpuMetrics cpu;
+static volatile uint32_t irq_cycles,irq_calls;
+#define ESP_CPU_MEASURE 1
+#define CPU_NOW() (DWT->CYCCNT)
+void platform_cpu_snapshot(EspCpuMetrics *out){
+    *out=cpu;
+    uint32_t mask=__get_PRIMASK();
+    __disable_irq();
+    out->irq_cycles=irq_cycles;
+    out->irq_calls=irq_calls;
+    __set_PRIMASK(mask);
+}
+void platform_cpu_note_gmr(void){
+    cpu.gmr_rx_bytes+=io_metrics.reply_bytes;
+    cpu.gmr_calls++;
+}
+#endif
+#endif
 static unsigned console_depth;
 void platform_io_snapshot(EspIoMetrics *out) {
     *out=io_metrics;
@@ -52,6 +75,14 @@ void platform_io_snapshot(EspIoMetrics *out) {
 #endif
 }
 int platform_console_busy(void) {return console_depth!=0;}
+#endif
+#if defined(MP_FIVE_FIELD01) || defined(MP_ESP_UART_230400) || (defined(PLATFORM_HOST_TEST) && defined(MP_B5_EGRESS_FINAL))
+static uint32_t esp_uart_baud=ESP_UART_BAUD;
+#else
+#define esp_uart_baud ESP_UART_BAUD
+#endif
+#ifdef MP_ESP_UART_230400
+uint32_t platform_esp_uart_baud(void){return esp_uart_baud;}
 #endif
 #define CAPACITY 8192U
 static volatile unsigned char ring[CAPACITY];
@@ -100,7 +131,14 @@ void platform_poll(void)
         (void)poll_at;
 #endif
         polling = 1;
+#ifdef ESP_CPU_MEASURE
+        uint32_t began=CPU_NOW();
+#endif
         poll_callback();
+#ifdef ESP_CPU_MEASURE
+        cpu.service_cycles+=CPU_NOW()-began;
+        cpu.service_calls++;
+#endif
         polling = 0;
     }
 }
@@ -108,9 +146,16 @@ void platform_poll(void)
 /* 中断仅生产字节，主线程消费；满队列不覆盖未读数据，错误交给网络层触发重连。 */
 void USART3_IRQHandler(void)
 {
+#ifdef ESP_CPU_MEASURE
+    uint32_t began=CPU_NOW();
+#endif
     uint32_t status = USART3->SR;
     if (!(status & (USART_SR_RXNE | USART_SR_ORE | USART_SR_NE | USART_SR_FE)))
+#ifdef ESP_CPU_MEASURE
+        goto finish;
+#else
         return;
+#endif
     unsigned char value = (unsigned char)USART3->DR;
     if (status & (USART_SR_ORE | USART_SR_NE | USART_SR_FE)) {
         errors++;uart_hw_total++;
@@ -131,6 +176,11 @@ void USART3_IRQHandler(void)
 #endif
         }
     }
+#ifdef ESP_CPU_MEASURE
+finish:
+    irq_cycles+=CPU_NOW()-began;
+    irq_calls++;
+#endif
 }
 
 static int receive_byte(void)
@@ -144,21 +194,33 @@ static int receive_byte(void)
 
 static unsigned send_bytes(const unsigned char *data, unsigned int length)
 {
-    for (unsigned int i = 0; i < length; ++i)
+    unsigned int i=0;
+#ifdef ESP_CPU_MEASURE
+    uint32_t began=CPU_NOW();
+    uint32_t wait_started=0;
+    bool waiting=false;
+#endif
+    for (; i < length; ++i)
     {
         platform_poll();
-        if (NETWORK_STOPPED()) return i;
+        if (NETWORK_STOPPED()) goto finish;
 #ifdef MP_B5_EGRESS_FINAL
-        if((int32_t)(g_uptime_ms-serial_deadline)>=0)return i;
+        if((int32_t)(g_uptime_ms-serial_deadline)>=0)goto finish;
 #endif
         while (!(USART3->SR & USART_SR_TXE))
         {
+#ifdef ESP_CPU_MEASURE
+            if(!waiting){wait_started=CPU_NOW();waiting=true;}
+#endif
             platform_poll();
-            if (NETWORK_STOPPED()) return i;
+            if (NETWORK_STOPPED()) goto finish;
 #ifdef MP_B5_EGRESS_FINAL
-            if((int32_t)(g_uptime_ms-serial_deadline)>=0)return i;
+            if((int32_t)(g_uptime_ms-serial_deadline)>=0)goto finish;
 #endif
         }
+#ifdef ESP_CPU_MEASURE
+        if(waiting){cpu.txe_cycles+=CPU_NOW()-wait_started;waiting=false;}
+#endif
 #ifdef PLATFORM_HOST_TEST
         platform_test_tx(data[i]);
 #else
@@ -168,7 +230,13 @@ static unsigned send_bytes(const unsigned char *data, unsigned int length)
         if(io_metrics.at_phase==ESP_AT_DATA)io_metrics.written=i+1;
 #endif
     }
-    return length;
+finish:
+#ifdef ESP_CPU_MEASURE
+    if(waiting)cpu.txe_cycles+=CPU_NOW()-wait_started;
+    cpu.tx_cycles+=CPU_NOW()-began;
+    cpu.tx_bytes+=i;
+#endif
+    return i;
 }
 
 void console(const char *message)
@@ -304,6 +372,9 @@ static int await_reply(uint32_t timeout, int prompt, int sent)
     reply_begin();
     while (!TimerIsExpired(&timer))
     {
+#ifdef ESP_CPU_MEASURE
+        uint32_t began=CPU_NOW();
+#endif
         platform_poll();
         if (errors || NETWORK_STOPPED())
             return wait_end(0,errors?7:8);
@@ -311,6 +382,10 @@ static int await_reply(uint32_t timeout, int prompt, int sent)
         if (value < 0)
             continue;
         int result=reply_byte(value,prompt,sent);
+#ifdef ESP_CPU_MEASURE
+        cpu.await_cycles+=CPU_NOW()-began;
+        cpu.await_bytes++;
+#endif
         if(result)return reply_result(result);
     }
     return wait_end(0,10);
@@ -368,13 +443,15 @@ const char *at_response(void)
     return (const char *)reply;
 }
 
-#ifdef MP_FIVE_FIELD01
+#if defined(MP_FIVE_FIELD01) || defined(MP_ESP_UART_230400)
 #include "preflight_baud.h"
 #ifndef ESP_UART_SWITCH_GUARD_MS
 #define ESP_UART_SWITCH_GUARD_MS 20u
 #endif
 
+#ifdef MP_FIVE_FIELD01
 int platform_preflight_esp_reset_seen(void) {return pre_esp_reset;}
+#endif
 
 PreRetime platform_preflight_retime(uint32_t baud,uint32_t deadline) {
     uint32_t divider=preflight_brr(baud);
@@ -382,11 +459,14 @@ PreRetime platform_preflight_retime(uint32_t baud,uint32_t deadline) {
     if(rx_state)return PRE_RETIME_RX_NOT_QUIET;
     uint32_t start=g_uptime_ms,received=head;
     for(;;){
-        if(NETWORK_STOPPED() || pre_esp_reset)return PRE_RETIME_STOP;
+        if(NETWORK_STOPPED())return PRE_RETIME_STOP;
+#ifdef MP_FIVE_FIELD01
+        if(pre_esp_reset)return PRE_RETIME_STOP;
+#endif
         if(head!=received)return PRE_RETIME_RX_NOT_QUIET;
         int tc=(USART3->SR&USART_SR_TC)!=0;
         uint32_t now=g_uptime_ms;
-        if(now>=deadline)return tc?PRE_RETIME_DEADLINE:PRE_RETIME_TC;
+        if((int32_t)(now-deadline)>=0)return tc?PRE_RETIME_DEADLINE:PRE_RETIME_TC;
         if(tc && now-start>=ESP_UART_SWITCH_GUARD_MS)break;
         platform_poll();
     }
@@ -398,6 +478,7 @@ PreRetime platform_preflight_retime(uint32_t baud,uint32_t deadline) {
     }
     USART3->CR1&=~USART_CR1_UE;
     USART3->BRR=divider;
+    esp_uart_baud=baud;
     USART3->CR1|=USART_CR1_UE;
     tail=head;
     errors=0;
@@ -407,7 +488,9 @@ PreRetime platform_preflight_retime(uint32_t baud,uint32_t deadline) {
     __set_PRIMASK(mask);
     return PRE_RETIME_OK;
 }
+#endif
 
+#ifdef MP_FIVE_FIELD01
 uint32_t platform_preflight_high_water(uint32_t keep) {
     uint32_t mask=__get_PRIMASK();
     __disable_irq();
@@ -438,7 +521,7 @@ int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout)
     char command[40];
 #ifdef MP_B5_EGRESS_FINAL
     uint32_t transaction_budget=timeout;
-    if(timeout<=((unsigned)length+24u)*10000u/ESP_UART_BAUD){io_metrics.budget_refused++;return -1;}
+    if(timeout<=((unsigned)length+24u)*10000u/esp_uart_baud){io_metrics.budget_refused++;return -1;}
     /* keepalive可能在ProcessLoop内发出；先结束唯一在途接收，绝不交叉命令。 */
     uint32_t owner_at=g_uptime_ms;
     while(rx_state && (uint32_t)(g_uptime_ms-owner_at)<timeout) {
@@ -522,7 +605,7 @@ int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout)
 #ifdef MP_B5_EGRESS_FINAL
 /* 准入下界包括串口8N1、提示/终态各1秒和ACK接收余量；不是ESP成功时延保证。 */
 uint32_t platform_send_reserve(unsigned bytes) {
-    return ((bytes+24u)*10000u+ESP_UART_BAUD-1u)/ESP_UART_BAUD+2100u;
+    return ((bytes+24u)*10000u+esp_uart_baud-1u)/esp_uart_baud+2100u;
 }
 int platform_send_admissible(unsigned bytes,uint32_t budget) {
     return platform_at_synchronized() && !rx_state && budget>=platform_send_reserve(bytes);
@@ -538,7 +621,11 @@ static void rx_begin(unsigned state) {
     serial_deadline=rx_deadline;phase(ESP_AT_COMMAND);reply_begin();
     if(state==1)io_metrics.rx_queries++;
 }
+#ifdef ESP_CPU_MEASURE
+static int rx_step_impl(void) {
+#else
 static int rx_step(void) {
+#endif
     if(errors || NETWORK_STOPPED() || (int32_t)(g_uptime_ms-rx_deadline)>=0) {
         wait_end(0,errors?7:NETWORK_STOPPED()?8:10);unsync();return -1;
     }
@@ -579,6 +666,17 @@ static int rx_step(void) {
     }
     rx_state=0;phase(ESP_AT_IDLE);return 1;
 }
+#ifdef ESP_CPU_MEASURE
+static int rx_step(void){
+    uint32_t began=CPU_NOW(),before=tail;
+    int result=rx_step_impl();
+    if(tail!=before){
+        cpu.rx_step_cycles+=CPU_NOW()-began;
+        cpu.rx_step_bytes++;
+    }
+    return result;
+}
+#endif
 #endif
 
 /* 先消费上次剩余字节；SSL 被动读取分块到缓存，短读按实际字节数交给适配层。 */
@@ -726,6 +824,7 @@ static void init_uart(void)
     USART_StructInit(&uart);
     uart.USART_BaudRate = ESP_UART_BAUD;
     USART_Init(USART1, &uart);
+    uart.USART_BaudRate = esp_uart_baud;
     USART_Init(USART3, &uart);
     USART_Cmd(USART1, ENABLE);
     USART_Cmd(USART3, ENABLE);
@@ -739,6 +838,10 @@ void platform_init(void)
     /* USB ROM GO不保证VTOR指向应用；与H2R相同，在UART/SysTick中断前定位应用向量。
        这是C应用自身正常启动初始化，不对A手工改PC/MSP/VTOR。 */
     SCB->VTOR=0x08000000u;__DSB();__ISB();
+#endif
+#ifdef ESP_CPU_MEASURE
+    CoreDebug->DEMCR|=CoreDebug_DEMCR_TRCENA_Msk;
+    DWT->CTRL|=DWT_CTRL_CYCCNTENA_Msk;
 #endif
     init_uart();
 #ifdef MP_CAN_RX_IRQ

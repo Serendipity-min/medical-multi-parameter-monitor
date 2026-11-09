@@ -25,6 +25,8 @@ def main():
     parser.add_argument('--five-node', action='store_true', help='五板静态来源候选；仅离线构建')
     parser.add_argument('--five-appliance', action='store_true', help='五板自动启动/KEY1/事实回复候选；仅离线构建，不部署')
     parser.add_argument('--field01', action='store_true', help='Issue #8 手动单窗网络探针，只构建')
+    parser.add_argument('--esp-230400', action='store_true', help='五板生产路径的易失 230400 协商，只构建')
+    parser.add_argument('--transport-profile', action='store_true', help='在 B5 DIAG 附加 DWT 计数，只构建')
     parser.add_argument('--bench-seconds', type=int, choices=(15,60,300), help='PHY隔离诊断单次硬时限；仅bench分段布局')
     parser.add_argument('--bench-small-frames', action='store_true', help='300秒候选仅保留B心跳与D温度；离线构建，不授权超规格上电')
     parser.add_argument('--bench-five-segments', action='store_true', help='五板双段完整CAN取证，固定60秒，无网络/音频')
@@ -37,6 +39,8 @@ def main():
     if args.split_flash and not (args.unified or args.bench):parser.error('--split-flash requires --unified or --bench')
     if args.five_node and not (args.split_flash and (args.unified or args.bench)):parser.error('--five-node requires split unified/bench')
     if args.five_appliance and not (args.five_node and args.unified):parser.error('--five-appliance requires --five-node --unified')
+    if (args.esp_230400 or args.transport_profile) and (not args.egress_final or not args.five_appliance or args.field01):
+        parser.error('--esp-230400/--transport-profile require five-appliance egress-final without FIELD01')
     if args.field01 and (not args.five_appliance or args.tls_port not in (None,28895)):parser.error('--field01 requires --five-appliance and isolated TLS port 28895')
     if args.bench_seconds is not None and not (args.bench and args.split_flash and args.five_node):parser.error('--bench-seconds requires --bench --split-flash --five-node')
     if args.bench_small_frames and args.bench_seconds!=300:parser.error('--bench-small-frames requires --bench-seconds 300; 15s already small')
@@ -62,6 +66,8 @@ def main():
     if args.tri:flags += ['-DMP_ABC_TRI_CANDIDATE', '-flto']
     if args.five_node:flags += ['-DMP_FIVE_NODE']
     if args.field01:flags += ['-DMP_FIVE_FIELD01']
+    if args.esp_230400:flags += ['-DMP_ESP_UART_230400']
+    if args.transport_profile:flags += ['-DMP_TRANSPORT_PROFILE']
     if args.five_appliance:flags += ['-DMP_FIVE_APPLIANCE']
     if args.bench_seconds is not None:flags += [f'-DB4_BENCH_LIMIT_MS={args.bench_seconds*1000}u', '-DB4_FIVE_CAPTURE' if args.bench_five_segments else '-DB4_PHY_DIAGNOSTIC']
     if small_frames:flags += ['-DB4_PHY_SMALL_FRAMES']
