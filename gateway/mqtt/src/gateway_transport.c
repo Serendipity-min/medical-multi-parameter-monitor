@@ -32,8 +32,10 @@ static GatewayConfig unified_config;
 #endif
 #ifdef MP_CAN_RX_IRQ
 #include "at_version.h"
-#include "wifi_status.h"
 #include "esp_io_metrics.h"
+#endif
+#if defined(MP_CAN_RX_IRQ) || defined(MP_FIVE_FIELD01)
+#include "wifi_status.h"
 #endif
 #if defined(MP_B5_EGRESS_FINAL) && !defined(MP_CAN_RX_IRQ)
 #include "esp_io_metrics.h"
@@ -834,11 +836,21 @@ int gateway_network_open(void)
     (void)snprintf(command, sizeof(command), "AT+CWJAP=\"%.*s\",\"%.*s\"",
                    (int)sizeof(config->ssid) - 1, config->ssid,
                    (int)sizeof(config->wifi_password) - 1, config->wifi_password);
-    int wifi_ok = step("WIFI", command, 30000);
+    int wifi_ok = at_command(command, 30000);
     /* 先清除 SSID/口令再分支，Wi-Fi 失败及后续提前返回都不残留该命令。 */
     secure_memzero(command, sizeof(command));
-    if (!wifi_ok)
+    if (!wifi_ok) {
+#ifdef MP_FIVE_FIELD01
+        char code[2]={gateway_wifi_join_code(at_response()),'\0'};
+        (void)snprintf(command,sizeof(command),"GW FAIL WIFI code=%s uart_errors=%lu\r\n",
+            code[0]?code:"NONE",(unsigned long)platform_uart_errors_total());
+        console(command);
+#else
+        console("GW FAIL WIFI\r\n");
+#endif
         return 0;
+    }
+    console("GW OK WIFI\r\n");
 #ifdef MP_CAN_RX_IRQ
     /* 查询结果只报告信号/休眠枚举；SSID、BSSID和原始回复不写控制台。 */
     int channel,rssi;

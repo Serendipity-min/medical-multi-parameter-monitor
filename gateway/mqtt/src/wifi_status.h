@@ -4,6 +4,18 @@
 #include <stdlib.h>
 #include <string.h>
 
+static inline char gateway_wifi_join_code(const char *response)
+{
+    const char *tag=response;
+    while ((tag=strstr(tag,"+CWJAP:"))!=NULL) {
+        const char *code=tag+7;
+        if ((tag==response || tag[-1]=='\n') && code[0]>='1' && code[0]<='4' &&
+            (code[1]=='\r' || code[1]=='\n'))return code[0];
+        tag=code;
+    }
+    return '\0';
+}
+
 /* 原始查询含SSID/BSSID，仅提取固定范围数字，不复制或输出关联身份。 */
 static inline int gateway_sleep_mode(const char *response)
 {
