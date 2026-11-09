@@ -1,0 +1,941 @@
+{
+  "review": "f22a56d",
+  "candidate_source": "5d39062",
+  "release": "OWNER_SUBSTITUTED_PI",
+  "pi_post_review": "PENDING",
+  "ledger": {
+    "entries": 16,
+    "sha256": "4547b120101923c7906886c6a8f617be96c871c0cd85b0f7b6b32f75b138e7cc"
+  },
+  "field_scope": "C_ONLY_SYNTHETIC_NO_CAN",
+  "s0": {
+    "backup_double_read": true,
+    "r5_reference_match": true,
+    "install_full_readback_pass": true,
+    "sectors": [
+      0,
+      4
+    ],
+    "options_unchanged": true,
+    "sector3_unchanged": true
+  },
+  "broker": {
+    "tls12_hostname_verified": true,
+    "acl_observer_write_denied": true,
+    "loopback_observer_payload_probe_pass": true,
+    "runtime_cap_hours": 4,
+    "stopped": true,
+    "isolated_listener_count_after_stop": 0
+  },
+  "stages": {
+    "B1": {
+      "stage": "B1",
+      "mode": "N115",
+      "writes": 1,
+      "banner": false,
+      "raw_serial_sha256": "b14e465956d2218d7c7940d502f2ca9ebe32a8a5ddab7c5d574bcefa94404ddd",
+      "end": {
+        "result": "DONE",
+        "restore": "OK",
+        "tick": 147236
+      },
+      "t0_tick_ms": 25950,
+      "boot_count": 0,
+      "fault_lines": [],
+      "diagnostics_n": 113,
+      "diagnostic_uart_errors_first_last": [
+        222,
+        222
+      ],
+      "final_diagnostics": {
+        "tick": 147178,
+        "offered_ms": 120000,
+        "live": 0,
+        "history": 0,
+        "slots": 0,
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "sendok": 1263,
+        "empty": 953
+      },
+      "live_tail": [
+        9,
+        8,
+        7,
+        5,
+        3,
+        5,
+        3,
+        2,
+        0,
+        12,
+        0,
+        0
+      ],
+      "peak_slots": 3,
+      "dwt_window_delta": {
+        "await_cycles_per_byte": 503.87,
+        "tx_cycles_per_byte": 688.555,
+        "raw_rx_cycles_per_byte": 325.77,
+        "irq_cycles_per_call": 64.0
+      },
+      "puback_ms": {
+        "n": 721,
+        "p50": 189,
+        "p95": 299,
+        "max": 439
+      },
+      "peer_report_sha256": "b36756813684b2a01e3c74abb959fcd86df1040e30a35b04da0838a955470540",
+      "peer_capture_sha256": "dffd716f04691161e5a32732ed5f723962caa60bb5e2d55631d3aa5410ec7194",
+      "peer_payload_errors": 0,
+      "source_window_complete": true,
+      "peer_old_retained": 0,
+      "peer_streams": {
+        "2/ecg": {
+          "offered": 300,
+          "live": 300,
+          "replayed": 0,
+          "delivered_including_replay": 300,
+          "duplicates": 0,
+          "max_gap_ms": 914.98414,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 0,
+          "publisher_puback_max_ms": null
+        },
+        "2/resp": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1620.046959,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 0,
+          "publisher_puback_max_ms": null
+        },
+        "1/ppg": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1613.908815,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 0,
+          "publisher_puback_max_ms": null
+        },
+        "1/spo2": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1599.934721,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 120,
+          "publisher_puback_max_ms": 276
+        },
+        "1/pr": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1598.840686,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 120,
+          "publisher_puback_max_ms": 286
+        },
+        "2/hr": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1575.682575,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 120,
+          "publisher_puback_max_ms": 331
+        },
+        "2/rr": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1630.071937,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 120,
+          "publisher_puback_max_ms": 399
+        },
+        "4/temp": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1765.301066,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 120,
+          "publisher_puback_max_ms": 439
+        },
+        "3/status": {
+          "offered": 24,
+          "live": 24,
+          "replayed": 0,
+          "delivered_including_replay": 24,
+          "duplicates": 0,
+          "max_gap_ms": 5045.096147,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 24,
+          "publisher_puback_max_ms": 301
+        },
+        "1/status": {
+          "offered": 24,
+          "live": 24,
+          "replayed": 0,
+          "delivered_including_replay": 24,
+          "duplicates": 0,
+          "max_gap_ms": 5080.459996,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 24,
+          "publisher_puback_max_ms": 343
+        },
+        "2/status": {
+          "offered": 24,
+          "live": 24,
+          "replayed": 0,
+          "delivered_including_replay": 24,
+          "duplicates": 0,
+          "max_gap_ms": 5121.587163,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 24,
+          "publisher_puback_max_ms": 344
+        },
+        "4/status": {
+          "offered": 24,
+          "live": 24,
+          "replayed": 0,
+          "delivered_including_replay": 24,
+          "duplicates": 0,
+          "max_gap_ms": 5080.024124,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 24,
+          "publisher_puback_max_ms": 407
+        },
+        "5/status": {
+          "offered": 24,
+          "live": 24,
+          "replayed": 0,
+          "delivered_including_replay": 24,
+          "duplicates": 0,
+          "max_gap_ms": 5174.959324,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 24,
+          "publisher_puback_max_ms": 277
+        },
+        "5/nibp": {
+          "offered": 1,
+          "live": 1,
+          "replayed": 0,
+          "delivered_including_replay": 1,
+          "duplicates": 0,
+          "max_gap_ms": 0.0,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 1,
+          "publisher_puback_max_ms": 254
+        }
+      }
+    },
+    "B2": {
+      "stage": "B2",
+      "mode": "N230",
+      "writes": 1,
+      "banner": true,
+      "raw_serial_sha256": "8d57e398a42265890a3493e471926d36122ef8a9dc67d5c7fb0cf0a0440c260d",
+      "end": {
+        "result": "DONE",
+        "restore": "DIRTY",
+        "tick": 125956
+      },
+      "t0_tick_ms": 4567,
+      "boot_count": 1,
+      "fault_lines": [],
+      "diagnostics_n": 115,
+      "diagnostic_uart_errors_first_last": [
+        0,
+        0
+      ],
+      "final_diagnostics": {
+        "tick": 125363,
+        "offered_ms": 120000,
+        "live": 0,
+        "history": 0,
+        "slots": 0,
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "sendok": 1263,
+        "empty": 4447
+      },
+      "live_tail": [
+        0,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        6,
+        11,
+        0
+      ],
+      "peak_slots": 3,
+      "dwt_window_delta": {
+        "await_cycles_per_byte": 505.161,
+        "tx_cycles_per_byte": 348.726,
+        "raw_rx_cycles_per_byte": 345.948,
+        "irq_cycles_per_call": 64.0
+      },
+      "puback_ms": {
+        "n": 721,
+        "p50": 137,
+        "p95": 281,
+        "max": 375
+      },
+      "peer_report_sha256": "c5acb040d038d6c64085c8d3f375e8b403d16ca08d79319045d0f8149f0c0dfe",
+      "peer_capture_sha256": "3d0ab9190fa8776294dfa02cbe67c7f010824223cd19a921e3d7d36b0cd5c7d2",
+      "peer_payload_errors": 0,
+      "source_window_complete": true,
+      "peer_old_retained": 5,
+      "peer_streams": {
+        "2/ecg": {
+          "offered": 300,
+          "live": 300,
+          "replayed": 0,
+          "delivered_including_replay": 300,
+          "duplicates": 0,
+          "max_gap_ms": 744.994186,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 0,
+          "publisher_puback_max_ms": null
+        },
+        "2/resp": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1449.121238,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 0,
+          "publisher_puback_max_ms": null
+        },
+        "1/ppg": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1485.182264,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 0,
+          "publisher_puback_max_ms": null
+        },
+        "1/spo2": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1488.084388,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 120,
+          "publisher_puback_max_ms": 230
+        },
+        "1/pr": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1410.040422,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 120,
+          "publisher_puback_max_ms": 204
+        },
+        "2/hr": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1392.709574,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 120,
+          "publisher_puback_max_ms": 267
+        },
+        "2/rr": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1418.234,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 120,
+          "publisher_puback_max_ms": 352
+        },
+        "4/temp": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1502.098768,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 120,
+          "publisher_puback_max_ms": 375
+        },
+        "3/status": {
+          "offered": 24,
+          "live": 24,
+          "replayed": 0,
+          "delivered_including_replay": 24,
+          "duplicates": 0,
+          "max_gap_ms": 5057.904124,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 24,
+          "publisher_puback_max_ms": 119
+        },
+        "1/status": {
+          "offered": 24,
+          "live": 24,
+          "replayed": 0,
+          "delivered_including_replay": 24,
+          "duplicates": 0,
+          "max_gap_ms": 5059.087694,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 24,
+          "publisher_puback_max_ms": 252
+        },
+        "2/status": {
+          "offered": 24,
+          "live": 24,
+          "replayed": 0,
+          "delivered_including_replay": 24,
+          "duplicates": 0,
+          "max_gap_ms": 5082.999488,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 24,
+          "publisher_puback_max_ms": 325
+        },
+        "4/status": {
+          "offered": 24,
+          "live": 24,
+          "replayed": 0,
+          "delivered_including_replay": 24,
+          "duplicates": 0,
+          "max_gap_ms": 5037.891142,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 24,
+          "publisher_puback_max_ms": 313
+        },
+        "5/status": {
+          "offered": 24,
+          "live": 24,
+          "replayed": 0,
+          "delivered_including_replay": 24,
+          "duplicates": 0,
+          "max_gap_ms": 5108.132428,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 24,
+          "publisher_puback_max_ms": 252
+        },
+        "5/nibp": {
+          "offered": 1,
+          "live": 1,
+          "replayed": 0,
+          "delivered_including_replay": 1,
+          "duplicates": 0,
+          "max_gap_ms": 0.0,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 1,
+          "publisher_puback_max_ms": 347
+        }
+      }
+    },
+    "B3": {
+      "stage": "B3",
+      "mode": "P115",
+      "writes": 1,
+      "banner": false,
+      "raw_serial_sha256": "30c96edad3d1e6a1b99369fceb2e02cf7d0fdd85c90be318c2ca171f32325de3",
+      "end": {
+        "result": "DONE",
+        "restore": "OK",
+        "tick": 137935
+      },
+      "t0_tick_ms": 15935,
+      "boot_count": 0,
+      "fault_lines": [],
+      "diagnostics_n": 115,
+      "diagnostic_uart_errors_first_last": [
+        219,
+        219
+      ],
+      "final_diagnostics": {
+        "tick": 136843,
+        "offered_ms": 120000,
+        "live": 0,
+        "history": 0,
+        "slots": 0,
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "sendok": 1,
+        "empty": 3
+      },
+      "live_tail": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "peak_slots": 3,
+      "dwt_window_delta": {
+        "await_cycles_per_byte": null,
+        "tx_cycles_per_byte": 688.082,
+        "raw_rx_cycles_per_byte": 66.938,
+        "irq_cycles_per_call": 64.0
+      },
+      "puback_ms": {
+        "n": 721,
+        "p50": 206,
+        "p95": 393,
+        "max": 495
+      },
+      "peer_report_sha256": "28c7dee08fab1188384325910f1e4417b8e967076549e53e95197499644c12ec",
+      "peer_capture_sha256": "af592798cbf29dc39e0c6c46214a2931a051bae637fbd4e7750a1382dc941db9",
+      "peer_payload_errors": 0,
+      "source_window_complete": true,
+      "peer_old_retained": 5,
+      "peer_streams": {
+        "2/ecg": {
+          "offered": 300,
+          "live": 300,
+          "replayed": 0,
+          "delivered_including_replay": 300,
+          "duplicates": 0,
+          "max_gap_ms": 628.003815,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 0,
+          "publisher_puback_max_ms": null
+        },
+        "2/resp": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1319.975219,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 0,
+          "publisher_puback_max_ms": null
+        },
+        "1/ppg": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1260.012039,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 0,
+          "publisher_puback_max_ms": null
+        },
+        "1/spo2": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1644.037669,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 120,
+          "publisher_puback_max_ms": 395
+        },
+        "1/pr": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1469.53852,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 120,
+          "publisher_puback_max_ms": 362
+        },
+        "2/hr": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1544.012301,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 120,
+          "publisher_puback_max_ms": 376
+        },
+        "2/rr": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1400.013485,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 120,
+          "publisher_puback_max_ms": 495
+        },
+        "4/temp": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1567.704431,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 120,
+          "publisher_puback_max_ms": 490
+        },
+        "3/status": {
+          "offered": 24,
+          "live": 24,
+          "replayed": 0,
+          "delivered_including_replay": 24,
+          "duplicates": 0,
+          "max_gap_ms": 5069.163745,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 24,
+          "publisher_puback_max_ms": 236
+        },
+        "1/status": {
+          "offered": 24,
+          "live": 24,
+          "replayed": 0,
+          "delivered_including_replay": 24,
+          "duplicates": 0,
+          "max_gap_ms": 5069.164727,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 24,
+          "publisher_puback_max_ms": 313
+        },
+        "2/status": {
+          "offered": 24,
+          "live": 24,
+          "replayed": 0,
+          "delivered_including_replay": 24,
+          "duplicates": 0,
+          "max_gap_ms": 5069.165969,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 24,
+          "publisher_puback_max_ms": 315
+        },
+        "4/status": {
+          "offered": 24,
+          "live": 24,
+          "replayed": 0,
+          "delivered_including_replay": 24,
+          "duplicates": 0,
+          "max_gap_ms": 5149.909963,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 24,
+          "publisher_puback_max_ms": 356
+        },
+        "5/status": {
+          "offered": 24,
+          "live": 24,
+          "replayed": 0,
+          "delivered_including_replay": 24,
+          "duplicates": 0,
+          "max_gap_ms": 5190.703374,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 24,
+          "publisher_puback_max_ms": 353
+        },
+        "5/nibp": {
+          "offered": 1,
+          "live": 1,
+          "replayed": 0,
+          "delivered_including_replay": 1,
+          "duplicates": 0,
+          "max_gap_ms": 0.0,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 1,
+          "publisher_puback_max_ms": 88
+        }
+      }
+    },
+    "B4": {
+      "stage": "B4",
+      "mode": "P230",
+      "writes": 1,
+      "banner": true,
+      "raw_serial_sha256": "d9e7ba91776c59954f93bd9adeb9bdcbd4113d926019c780a2ff15b67433b873",
+      "end": {
+        "result": "DONE",
+        "restore": "DIRTY",
+        "tick": 127550
+      },
+      "t0_tick_ms": 4767,
+      "boot_count": 1,
+      "fault_lines": [],
+      "diagnostics_n": 117,
+      "diagnostic_uart_errors_first_last": [
+        0,
+        0
+      ],
+      "final_diagnostics": {
+        "tick": 125926,
+        "offered_ms": 120000,
+        "live": 0,
+        "history": 0,
+        "slots": 0,
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "sendok": 1,
+        "empty": 24
+      },
+      "live_tail": [
+        6,
+        1,
+        1,
+        0,
+        0,
+        3,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "peak_slots": 3,
+      "dwt_window_delta": {
+        "await_cycles_per_byte": null,
+        "tx_cycles_per_byte": 349.32,
+        "raw_rx_cycles_per_byte": 68.565,
+        "irq_cycles_per_call": 64.0
+      },
+      "puback_ms": {
+        "n": 721,
+        "p50": 241,
+        "p95": 368,
+        "max": 575
+      },
+      "peer_report_sha256": "a5057aa146b6d6f575e321e120403f704e1f365160c94060ab95444a82f763b6",
+      "peer_capture_sha256": "acdb1570c5f732535e8f542d12b17e219cd30a79821d818fe3d559fd84199b92",
+      "peer_payload_errors": 0,
+      "source_window_complete": true,
+      "peer_old_retained": 5,
+      "peer_streams": {
+        "2/ecg": {
+          "offered": 300,
+          "live": 300,
+          "replayed": 0,
+          "delivered_including_replay": 300,
+          "duplicates": 0,
+          "max_gap_ms": 619.987319,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 0,
+          "publisher_puback_max_ms": null
+        },
+        "2/resp": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1244.752198,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 0,
+          "publisher_puback_max_ms": null
+        },
+        "1/ppg": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1209.00476,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 0,
+          "publisher_puback_max_ms": null
+        },
+        "1/spo2": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1448.264267,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 120,
+          "publisher_puback_max_ms": 384
+        },
+        "1/pr": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1456.001992,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 120,
+          "publisher_puback_max_ms": 389
+        },
+        "2/hr": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1471.790697,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 120,
+          "publisher_puback_max_ms": 467
+        },
+        "2/rr": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1471.816946,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 120,
+          "publisher_puback_max_ms": 575
+        },
+        "4/temp": {
+          "offered": 120,
+          "live": 120,
+          "replayed": 0,
+          "delivered_including_replay": 120,
+          "duplicates": 0,
+          "max_gap_ms": 1444.915126,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 120,
+          "publisher_puback_max_ms": 527
+        },
+        "3/status": {
+          "offered": 24,
+          "live": 24,
+          "replayed": 0,
+          "delivered_including_replay": 24,
+          "duplicates": 0,
+          "max_gap_ms": 5147.917194,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 24,
+          "publisher_puback_max_ms": 295
+        },
+        "1/status": {
+          "offered": 24,
+          "live": 24,
+          "replayed": 0,
+          "delivered_including_replay": 24,
+          "duplicates": 0,
+          "max_gap_ms": 5147.911043,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 24,
+          "publisher_puback_max_ms": 365
+        },
+        "2/status": {
+          "offered": 24,
+          "live": 24,
+          "replayed": 0,
+          "delivered_including_replay": 24,
+          "duplicates": 0,
+          "max_gap_ms": 5170.011232,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 24,
+          "publisher_puback_max_ms": 366
+        },
+        "4/status": {
+          "offered": 24,
+          "live": 24,
+          "replayed": 0,
+          "delivered_including_replay": 24,
+          "duplicates": 0,
+          "max_gap_ms": 5062.587972,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 24,
+          "publisher_puback_max_ms": 264
+        },
+        "5/status": {
+          "offered": 24,
+          "live": 24,
+          "replayed": 0,
+          "delivered_including_replay": 24,
+          "duplicates": 0,
+          "max_gap_ms": 5113.973123,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 24,
+          "publisher_puback_max_ms": 388
+        },
+        "5/nibp": {
+          "offered": 1,
+          "live": 1,
+          "replayed": 0,
+          "delivered_including_replay": 1,
+          "duplicates": 0,
+          "max_gap_ms": 0.0,
+          "late_by_observer_utc": 0,
+          "publisher_puback_n": 1,
+          "publisher_puback_max_ms": 261
+        }
+      }
+    }
+  },
+  "F1": "NOT_RUN_B4_RESTORE_DIRTY",
+  "F2": "NOT_RUN_OPTIONAL",
+  "s9": {
+    "status": "STOP_TARGET",
+    "worker_native_exit": 1,
+    "error_type": "RuntimeError",
+    "session_closed": true,
+    "last_active_probe": "JLINKARM_Connect",
+    "com15_enumerated": false,
+    "download_started": false,
+    "flash_writes": 0,
+    "original_application_boot": "NOT_RUN",
+    "last_verified_image": "C_TRANSPORT_BENCH",
+    "native_receipt_sha256": "4afa2a77e9157a405ee46ea2c3002c4dfc7536a92446ae40f06093954916a2c5"
+  },
+  "budget": {
+    "power_ons": 5,
+    "pure_resets": 2,
+    "candidate_installs": 1,
+    "rollback_attempts": 1,
+    "rollback_writes": 0,
+    "bench_commands": 4
+  },
+  "final_site": {
+    "owner_off_confirmed": true,
+    "power_led_extinguished": true,
+    "hotspot_off": true,
+    "cfg_u_unchanged": true
+  }
+}
