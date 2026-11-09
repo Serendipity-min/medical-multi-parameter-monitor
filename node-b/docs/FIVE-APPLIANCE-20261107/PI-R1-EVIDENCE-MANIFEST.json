@@ -1,0 +1,914 @@
+{
+  "schema": 1,
+  "as_of": "2026-11-09",
+  "scope": "PI R1 WP-D: FIELD01 and explicitly referenced five-appliance builds, historical originals separate from new outputs",
+  "paths": "node-b/build paths in original groups are relative to the original Windows worktree, except the VPS group. EFS paths are logical labels. MISSING means unavailable on this Windows inventory.",
+  "old_evidence": [
+    {
+      "name": "FIELD01 Windows original",
+      "producer": "python -X utf8 gateway/dual_can/build_arm.py --b5 --egress-final --tri --unified --split-flash --five-node --five-appliance --field01",
+      "toolchain": "Python 3.11.9 / Arm GNU 14.2.Rel1 GCC 14.2.1 / Newlib 4.4.0 / STM32F4 SPL V1.4.0",
+      "files": [
+        {
+          "path": "node-b/build/b4-c-arm-20261107T082730582664Z/receipt.json",
+          "status": "PRESENT",
+          "bytes": 151281,
+          "sha256": "48a525e2c2b30e54789dac89081b1c7f1642e5b271b5021f77fa7a921ed9e595"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T082730582664Z/unified-layout.json",
+          "status": "PRESENT",
+          "bytes": 1032,
+          "sha256": "8af474d39a0bfc657ad5662aff8c92d6c57ca92b20535a980d4b2ab21ab1cb14"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T082730582664Z/gateway.map",
+          "status": "PRESENT",
+          "bytes": 172595,
+          "sha256": "eae5ccef7ed2b9fafe6666837ff7c242fd7a56f276fd77a3c2d013a83f8c9121"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T082730582664Z/build.log",
+          "status": "PRESENT",
+          "bytes": 35136,
+          "sha256": "561c388ec8046ca53408658e45fba2d8766e73832f53d29fe668be88c460cfd0"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T082730582664Z/split-link.ld",
+          "status": "PRESENT",
+          "bytes": 1795,
+          "sha256": "2af90ff65397f184d30be58228456db1a1e4557ca49eb0425423036ba8efd598"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T082730582664Z/FIVE_FIELD01_C.elf",
+          "status": "PRESENT",
+          "bytes": 101676,
+          "sha256": "4569cc95c4def304ac3611b937c1403538890df27f03e5dfc9b58854ae02c56c"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T082730582664Z/FIVE_FIELD01_C.hex",
+          "status": "PRESENT",
+          "bytes": 163195,
+          "sha256": "df640444f8ac3bc8981a4201e750011495ee9dbf360c9d39f4c0ca0528ef23f8"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T082730582664Z/FIVE_FIELD01_C-boot.bin",
+          "status": "PRESENT",
+          "bytes": 392,
+          "sha256": "107762c526e3529f7c4ff1eb910efe23a25af8a0064985903bcf26d8432ddc16"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T082730582664Z/FIVE_FIELD01_C-code.bin",
+          "status": "PRESENT",
+          "bytes": 57596,
+          "sha256": "74a985d56bd3d6605b0c1623167b49d4982e093ad5e95497deb3d497fb1b03ea"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T082730582664Z/FIVE_FIELD01_C.elf.ltrans0.ltrans.su",
+          "status": "PRESENT",
+          "bytes": 11362,
+          "sha256": "9e316ce37adfa9d6f4a3e875d9a7ba807879596ec5345721824d95deba2ac3c8"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T082730582664Z/FIVE_FIELD01_C.elf.ltrans1.ltrans.su",
+          "status": "PRESENT",
+          "bytes": 5780,
+          "sha256": "348cd760b8dc0cd7fbd17e363be54b7b6db32af761e62f4bfddd9fb086a6026e"
+        }
+      ]
+    },
+    {
+      "name": "FIVE_APPLIANCE_C_2S_V1 b4-c-arm-20261107T025348486628Z",
+      "producer": "构建入口：python -X utf8 gateway/dual_can/build_arm.py --b5 --egress-final --tri --unified --split-flash --five-node --five-appliance。准确逐步命令见该次 receipt.json",
+      "toolchain": "Python 3.11.9 / Arm GNU 14.2.Rel1 GCC 14.2.1 / Newlib 4.4.0 / STM32F4 SPL V1.4.0",
+      "files": [
+        {
+          "path": "node-b/build/b4-c-arm-20261107T025348486628Z/receipt.json",
+          "status": "PRESENT",
+          "bytes": 149890,
+          "sha256": "d59495031b7fc494a9100fdba94feffe923f23fe035db08f992ac4a8891ed1af"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T025348486628Z/unified-layout.json",
+          "status": "PRESENT",
+          "bytes": 1053,
+          "sha256": "0a98cb2bad4bb0f0f8f36899b585cca3b3a4db7a24f43484cef03252d408d258"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T025348486628Z/gateway.map",
+          "status": "PRESENT",
+          "bytes": 169590,
+          "sha256": "8a93814821490af95705291cbc3281d7439578c39a0f0a1e2d5b3e7a121fb1ff"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T025348486628Z/build.log",
+          "status": "PRESENT",
+          "bytes": 33928,
+          "sha256": "1752820639659695254c47f5bb55e0ce533a7261372530502c8095bc630ed227"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T025348486628Z/split-link.ld",
+          "status": "PRESENT",
+          "bytes": 1795,
+          "sha256": "2af90ff65397f184d30be58228456db1a1e4557ca49eb0425423036ba8efd598"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T025348486628Z/FIVE_APPLIANCE_C_2S_V1.elf",
+          "status": "PRESENT",
+          "bytes": 100984,
+          "sha256": "7b133bc8dd2d8edf7202dd61b85e0a0a897643c9a3483bd1a110f21d06004724"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T025348486628Z/FIVE_APPLIANCE_C_2S_V1.hex",
+          "status": "PRESENT",
+          "bytes": 163621,
+          "sha256": "35a2bc4e295c34f4d62523f735287fc3a1797d1575ccb6866fde7e9cda6ba323"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T025348486628Z/FIVE_APPLIANCE_C_2S_V1-boot.bin",
+          "status": "PRESENT",
+          "bytes": 392,
+          "sha256": "108cd9630ef3bdf455324f7eaabb52da347250fe15066361174c77585740e16b"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T025348486628Z/FIVE_APPLIANCE_C_2S_V1-code.bin",
+          "status": "PRESENT",
+          "bytes": 57744,
+          "sha256": "5636eef604beb67bbda5060fd7a6cb7f15eb2144704f72ea0e443c882ac38a79"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T025348486628Z/FIVE_APPLIANCE_C_2S_V1.elf.ltrans0.ltrans.su",
+          "status": "PRESENT",
+          "bytes": 11134,
+          "sha256": "3a1b2861245faac3cbbc07fe2a101ae8e33f22b2e6711029b87554957ed1a42d"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T025348486628Z/FIVE_APPLIANCE_C_2S_V1.elf.ltrans1.ltrans.su",
+          "status": "PRESENT",
+          "bytes": 6347,
+          "sha256": "413a52794193588e779b3e9fa6d5a93d99c4a0573562359a5254f1a5ef03e843"
+        }
+      ]
+    },
+    {
+      "name": "ABC_UNIFIED_C_V1 b4-c-arm-20261107T024742131892Z",
+      "producer": "构建入口：python -X utf8 gateway/dual_can/build_arm.py --b5 --egress-final --tri --unified --split-flash。准确逐步命令见该次 receipt.json",
+      "toolchain": "Python 3.11.9 / Arm GNU 14.2.Rel1 GCC 14.2.1 / Newlib 4.4.0 / STM32F4 SPL V1.4.0",
+      "files": [
+        {
+          "path": "node-b/build/b4-c-arm-20261107T024742131892Z/receipt.json",
+          "status": "PRESENT",
+          "bytes": 148172,
+          "sha256": "0d465c212f0bee1474fd6f6a638f2148d56e0bc2958defc2fd0bd3cd09c2736c"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T024742131892Z/unified-layout.json",
+          "status": "PRESENT",
+          "bytes": 1017,
+          "sha256": "c1a533d8a46280953990baa18ab6d3528cf51ba88a8b1bb7b2c6c56b90664374"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T024742131892Z/gateway.map",
+          "status": "PRESENT",
+          "bytes": 167479,
+          "sha256": "34e0517041a6ce59693046c0cd36600d397135bd1450d35fca578a4828342840"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T024742131892Z/build.log",
+          "status": "PRESENT",
+          "bytes": 33134,
+          "sha256": "653662d8fcc8c73a5f73dc60340f4e76b247e333103f2b21736f38a3ccf1cda8"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T024742131892Z/split-link.ld",
+          "status": "PRESENT",
+          "bytes": 1795,
+          "sha256": "2af90ff65397f184d30be58228456db1a1e4557ca49eb0425423036ba8efd598"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T024742131892Z/ABC_UNIFIED_C_V1.elf",
+          "status": "PRESENT",
+          "bytes": 96084,
+          "sha256": "4c34cb94e996977f7f51b821632a7b490ed580d559668b085eb556a89418a447"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T024742131892Z/ABC_UNIFIED_C_V1.hex",
+          "status": "PRESENT",
+          "bytes": 159227,
+          "sha256": "447212d6d64181682d5e9e7f8b9004904a1875983a62e9f71b89905b2ce7b24a"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T024742131892Z/ABC_UNIFIED_C_V1-boot.bin",
+          "status": "PRESENT",
+          "bytes": 392,
+          "sha256": "c1a8503248614ada8cf94b88ad1ff9e41b9270ab868365abd0e8f08fee65d404"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T024742131892Z/ABC_UNIFIED_C_V1-code.bin",
+          "status": "PRESENT",
+          "bytes": 56184,
+          "sha256": "74b454e5d617223f88e5d5c5634cf427c7321cac2c683dc120f6673376a31c3e"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T024742131892Z/ABC_UNIFIED_C_V1.elf.ltrans0.ltrans.su",
+          "status": "PRESENT",
+          "bytes": 12670,
+          "sha256": "1d39a85fed40f67d0e4c0dffe4240c07ce3c86175347b21fc5992375733c1dcf"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T024742131892Z/ABC_UNIFIED_C_V1.elf.ltrans1.ltrans.su",
+          "status": "PRESENT",
+          "bytes": 4202,
+          "sha256": "8a84fa6d6192376dadc0dd2d9d7b087888ecb90358d1f653f6e63072416c6289"
+        }
+      ]
+    },
+    {
+      "name": "FIVE_APPLIANCE_C_2S_V1 b4-c-arm-20261107T032612399566Z",
+      "producer": "构建入口：python -X utf8 gateway/dual_can/build_arm.py --b5 --egress-final --tri --unified --split-flash --five-node --five-appliance。准确逐步命令见该次 receipt.json",
+      "toolchain": "Python 3.11.9 / Arm GNU 14.2.Rel1 GCC 14.2.1 / Newlib 4.4.0 / STM32F4 SPL V1.4.0",
+      "files": [
+        {
+          "path": "node-b/build/b4-c-arm-20261107T032612399566Z/receipt.json",
+          "status": "PRESENT",
+          "bytes": 149890,
+          "sha256": "8b33caf7d920df8ee19edf1b5f7b4a0f857805ff27c42344a6cf2434df8e6a60"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T032612399566Z/unified-layout.json",
+          "status": "PRESENT",
+          "bytes": 1053,
+          "sha256": "39c6eba8ad442b585fc910924a3473337a3069a682c83ddf9c94e32b9130d77d"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T032612399566Z/gateway.map",
+          "status": "PRESENT",
+          "bytes": 169873,
+          "sha256": "008115aa779a5523625a2f906e43a26e70bce234ea3005d03a62efc395a306d7"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T032612399566Z/build.log",
+          "status": "PRESENT",
+          "bytes": 34032,
+          "sha256": "7c1b9141cb72103c1910b43091f25619916ebb1e17729154961f9cb90bdbfb2f"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T032612399566Z/split-link.ld",
+          "status": "PRESENT",
+          "bytes": 1795,
+          "sha256": "2af90ff65397f184d30be58228456db1a1e4557ca49eb0425423036ba8efd598"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T032612399566Z/FIVE_APPLIANCE_C_2S_V1.elf",
+          "status": "PRESENT",
+          "bytes": 101068,
+          "sha256": "3fadc260ad9f0e7fd01039c2b6f3961dfb2eb0486fee66fdc756559dd6b7d5b1"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T032612399566Z/FIVE_APPLIANCE_C_2S_V1.hex",
+          "status": "PRESENT",
+          "bytes": 164341,
+          "sha256": "f7782d7311f7dad046b794dcabc78d36ea402b680450ab2fb56d404bb514ca70"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T032612399566Z/FIVE_APPLIANCE_C_2S_V1-boot.bin",
+          "status": "PRESENT",
+          "bytes": 392,
+          "sha256": "8db7ea92486b5d79ed1266e9838c3c6fbb4dcedae5a3a3c49aeed4529a9622fa"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T032612399566Z/FIVE_APPLIANCE_C_2S_V1-code.bin",
+          "status": "PRESENT",
+          "bytes": 58000,
+          "sha256": "ed25d801be8c46d5ae95470d47738148f82aa45115907aa13b25d4e6f5897dc4"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T032612399566Z/FIVE_APPLIANCE_C_2S_V1.elf.ltrans0.ltrans.su",
+          "status": "PRESENT",
+          "bytes": 11134,
+          "sha256": "3a1b2861245faac3cbbc07fe2a101ae8e33f22b2e6711029b87554957ed1a42d"
+        },
+        {
+          "path": "node-b/build/b4-c-arm-20261107T032612399566Z/FIVE_APPLIANCE_C_2S_V1.elf.ltrans1.ltrans.su",
+          "status": "PRESENT",
+          "bytes": 6348,
+          "sha256": "84ec38de7d896680cc62b5ccb983c4aa704dd8765fcba856d2e45903fa06cc88"
+        }
+      ]
+    },
+    {
+      "name": "FIELD01 original Host",
+      "producer": "python gateway/microphone/run_five_appliance_tests.py --field01 --out <original-output>",
+      "toolchain": "Python 3.11.9 / MinGW-w64 GCC 8.1.0",
+      "files": [
+        {
+          "path": "node-b/build/field01-host-20261107/verified/field01-probe-build.log",
+          "status": "PRESENT",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "node-b/build/field01-host-20261107/verified/field01-probe-run.log",
+          "status": "PRESENT",
+          "bytes": 95,
+          "sha256": "ba5695b4740e9be55756e7b08360ee1cefa5952bdfe5e4de99e1db73aa675bc1"
+        },
+        {
+          "path": "node-b/build/field01-host-20261107/verified/field01-probe.exe",
+          "status": "PRESENT",
+          "bytes": 93138,
+          "sha256": "3d61ce9250a51d67a019e8931ec0cecbecc961fbc7b12186adf6127a8e21e456"
+        },
+        {
+          "path": "node-b/build/field01-host-20261107/verified/keys-short-audio-build.log",
+          "status": "PRESENT",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "node-b/build/field01-host-20261107/verified/keys-short-audio-run.log",
+          "status": "PRESENT",
+          "bytes": 209,
+          "sha256": "e0c49131f04c49e2c83f138a46fcb49f2b62048ac2fb1624e20a168e04e7c5a3"
+        },
+        {
+          "path": "node-b/build/field01-host-20261107/verified/keys-short-audio.exe",
+          "status": "PRESENT",
+          "bytes": 107897,
+          "sha256": "2c35251bd7d8732064d6cee023f56b46c5d7e28d751f1369dc2fcb56bbbb98b5"
+        },
+        {
+          "path": "node-b/build/field01-host-20261107/verified/legacy-audio-build.log",
+          "status": "PRESENT",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "node-b/build/field01-host-20261107/verified/legacy-audio-run.log",
+          "status": "PRESENT",
+          "bytes": 96,
+          "sha256": "7d9baf8b2ae7382505df42c252a7b0617f64e9724d899c3552f80a0bab043176"
+        },
+        {
+          "path": "node-b/build/field01-host-20261107/verified/legacy-audio.exe",
+          "status": "PRESENT",
+          "bytes": 100136,
+          "sha256": "98c78d61c649a4a02a32200e6c595df5f44b816e3c0c628c66cdf82bbe60591c"
+        },
+        {
+          "path": "node-b/build/field01-host-20261107/verified/mic-protocol.dll",
+          "status": "PRESENT",
+          "bytes": 52645,
+          "sha256": "6b83141841a24b80872486218d8cb3619114289a0cc6864d9b94b46f1e998133"
+        },
+        {
+          "path": "node-b/build/field01-host-20261107/verified/native-results.json",
+          "status": "PRESENT",
+          "bytes": 825,
+          "sha256": "2c9a74e566b0e54b0fb3a77dd4bff56b3ce7b03b1dbbd9e402fa35c7f59dc660"
+        },
+        {
+          "path": "node-b/build/field01-host-20261107/verified/protocol-build.log",
+          "status": "PRESENT",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "node-b/build/field01-host-20261107/verified/startup-build.log",
+          "status": "PRESENT",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "node-b/build/field01-host-20261107/verified/startup-run.log",
+          "status": "PRESENT",
+          "bytes": 134,
+          "sha256": "cbaee0acff3c6b157e5e7550fe37142df966408dfd264a3d85516cee9e66031a"
+        },
+        {
+          "path": "node-b/build/field01-host-20261107/verified/startup.exe",
+          "status": "PRESENT",
+          "bytes": 101107,
+          "sha256": "132d08aaeaa1395dccb31c7884e5f6790053cb08513fc12aa302432698f52ba3"
+        },
+        {
+          "path": "node-b/build/field01-host-20261107/verified/synthetic-mc01.bin",
+          "status": "PRESENT",
+          "bytes": 34816,
+          "sha256": "c168c1b634e54f857ad86186a599b690b5873e945ddc4ac27a882ffde12833ec"
+        }
+      ]
+    },
+    {
+      "name": "FIELD01 initial isolation and rollback proof",
+      "producer": "隔离监听只读查询、unified_install.prepare 离线拼装，原始完整命令 UNKNOWN",
+      "toolchain": "SSH 与 Python 的原始版本 UNKNOWN",
+      "files": [
+        {
+          "path": "node-b/build/field01-host-20261107/isolation-readonly-stdout.txt",
+          "status": "PRESENT",
+          "bytes": 38,
+          "sha256": "7f14108612bd2f115ef1a5cfe0181ad04a98a3e224943b51a2637ce3e14f7855"
+        },
+        {
+          "path": "node-b/build/field01-host-20261107/rollback-proof-public.json",
+          "status": "PRESENT",
+          "bytes": 667,
+          "sha256": "d56d4b6383caafe6098960b22894780d84c44814b1069b00bc18de8a7fc5bc73"
+        }
+      ]
+    },
+    {
+      "name": "FIELD01 isolation/readback/install/serial public receipts",
+      "producer": "既有授权事务：独立 TLS 预检、field01_receiver.py、abc_board_backup.py、unified_install.py、field01_short_window.py。完整私有参数留原档",
+      "toolchain": "源工具 SHA 见原回执，完整原生工具版本 UNKNOWN",
+      "files": [
+        {
+          "path": "node-b/build/field01-isolation-issue8/network-preflight-public.json",
+          "status": "PRESENT",
+          "bytes": 537,
+          "sha256": "5fac3a8fddc181cb6da47cd9e287097072d939911a7d964f646026f7f99e731c"
+        },
+        {
+          "path": "node-b/build/field01-isolation-issue8/isolated-service-public.txt",
+          "status": "PRESENT",
+          "bytes": 133,
+          "sha256": "c9b1a91c4e70aacd05cd5d181a0c2ccdcc1cc2d3d4d4c43b745d15d8e53a8df4"
+        },
+        {
+          "path": "node-b/build/field01-isolation-issue8/receiver-preflight-public.json",
+          "status": "PRESENT",
+          "bytes": 432,
+          "sha256": "a5bc78ae5350ccc48ea71f0dddd6a49aa5f60ef26206bf344cbc9d5aed8b8766"
+        },
+        {
+          "path": "node-b/build/field01-isolation-issue8/C-readonly-public.json",
+          "status": "PRESENT",
+          "bytes": 439,
+          "sha256": "b57c6edffacd6daa9f0759e354ced1765abd245f55fa8bdd7ab3256a85a3a292"
+        },
+        {
+          "path": "node-b/build/field01-isolation-issue8/C-probe-install-public.json",
+          "status": "PRESENT",
+          "bytes": 494,
+          "sha256": "0fd9cdff835e97ade7374b3ffec6210ac6152b54e490116dbb99df71aab9fe95"
+        },
+        {
+          "path": "node-b/build/field01-isolation-issue8/FIELD01-PRESTART-RECEIPT.json",
+          "status": "PRESENT",
+          "bytes": 1421,
+          "sha256": "3934a1fc9ca8fc01648e502b57d8a3ac83580d2c3e13a7efd862488ac01361a9"
+        },
+        {
+          "path": "node-b/build/field01-isolation-issue8/FIELD01-PREOPEN-RECEIPT.json",
+          "status": "PRESENT",
+          "bytes": 884,
+          "sha256": "a9f545f9c6838796568f8ea25269f5970ee2547fe21ea1ef5aa385136c8f3522"
+        },
+        {
+          "path": "node-b/build/field01-isolation-issue8/COM15-passive-power-check.json",
+          "status": "PRESENT",
+          "bytes": 165,
+          "sha256": "679327d64c510a79237d00bb4b32318b0d0ebf3639a9b53271e42c1abf9fe2f4"
+        },
+        {
+          "path": "node-b/build/field01-isolation-issue8/FIELD01-USB-POWER-RECEIPT.json",
+          "status": "PRESENT",
+          "bytes": 1204,
+          "sha256": "3e7076008f9aefc3aaf236ea9c14eb81ba002ba72343d783b2240952d18e4f0c"
+        },
+        {
+          "path": "node-b/build/field01-isolation-issue8/WIFI-CONFIG-COMPARISON.json",
+          "status": "PRESENT",
+          "bytes": 692,
+          "sha256": "d6ddb1221ba1a3186c80163fbe731ed3708b2109a0321bf2437ffab8e9623b88"
+        },
+        {
+          "path": "node-b/build/field01-isolation-issue8/COM15-recheck-public.json",
+          "status": "PRESENT",
+          "bytes": 268,
+          "sha256": "7d69dd2f54315cc95242d6ddb3ac34977b684bdb7142b3d294978c2ca9dc6ece"
+        }
+      ]
+    },
+    {
+      "name": "FIELD01 unique START archives, logical paths",
+      "producer": "field01_short_window.py + field01_receiver.py",
+      "toolchain": "工具 SHA 与退出码见 FIELD01-RECEIPT.json",
+      "files": [
+        {
+          "path": "EFS:FIELD01/unique-start/C-uart-private.jsonl",
+          "status": "PRESENT",
+          "bytes": 663,
+          "sha256": "83c46527c0438f64273d7d6c655310d732f20825cab8ed6a688e58afaf2da308",
+          "matches_tracked_receipt": true
+        },
+        {
+          "path": "EFS:FIELD01/unique-start/START_SENT.json",
+          "status": "PRESENT",
+          "bytes": 27,
+          "sha256": "c409c94a0c1a6deb7094b183948de0118ebe0597d9339d9f527edaa2adba73a6",
+          "matches_tracked_receipt": true
+        },
+        {
+          "path": "EFS:FIELD01/unique-start/HOST_ENDED.json",
+          "status": "PRESENT",
+          "bytes": 322,
+          "sha256": "d0c9ad678f495db0938fc12aa57a178099f4fe32de808534eb79925f7be0e576",
+          "matches_tracked_receipt": true
+        },
+        {
+          "path": "EFS:FIELD01/unique-start/process-exits-public.json",
+          "status": "PRESENT",
+          "bytes": 78,
+          "sha256": "9390a244d8d649e7c7a1db161f3b4cba2fc5f224521764fd1023ca5e89ad1b1c",
+          "matches_tracked_receipt": true
+        },
+        {
+          "path": "EFS:FIELD01/unique-start/receiver/receipt-public.json",
+          "status": "PRESENT",
+          "bytes": 425,
+          "sha256": "cbd778d125df291b30570019a4ff3a2e61ca946912b9485bfdb89d5ead0eda03",
+          "matches_tracked_receipt": true
+        }
+      ]
+    },
+    {
+      "name": "VPS archives, Windows availability only",
+      "producer": "python -X utf8 gateway/dual_can/build_arm.py --b5 --egress-final --tri --unified --split-flash --five-node --five-appliance --field01",
+      "toolchain": "VPS GCC 13.2.1 / Ubuntu Newlib 4.4.0 / STM32F4 SPL V1.4.0",
+      "files": [
+        {
+          "path": "node-b/build/firmware-handoff-20261109/verify-field01/node-b/build/b4-c-arm-20261109T014250124438Z/receipt.json",
+          "status": "MISSING"
+        },
+        {
+          "path": "node-b/build/firmware-handoff-20261109/verify-field01/node-b/build/b4-c-arm-20261109T014250124438Z/gateway.map",
+          "status": "MISSING"
+        },
+        {
+          "path": "node-b/build/firmware-handoff-20261109/vps-field01-build-newlib.log",
+          "status": "MISSING"
+        },
+        {
+          "path": "node-b/build/firmware-handoff-20261109/STM32F4xx_DSP_StdPeriph_Lib_V1.4.0.tar.gz",
+          "status": "MISSING"
+        },
+        {
+          "path": "node-b/build/firmware-handoff-20261109/ESP-AT-ESP8266-v2.3.0.0.pdf",
+          "status": "MISSING"
+        }
+      ],
+      "reported_at": "node-b/docs/FIVE-APPLIANCE-20261107/FIRMWARE-SDK-ESPAT-HANDOFF-20261109.md"
+    }
+  ],
+  "windows_field01_flags_from_original_receipt": {
+    "common": [
+      "-mcpu=cortex-m4",
+      "-mthumb",
+      "-mfpu=fpv4-sp-d16",
+      "-mfloat-abi=hard",
+      "-DSTM32F40_41xxx",
+      "-DUSE_STDPERIPH_DRIVER",
+      "-Os",
+      "-ffunction-sections",
+      "-fdata-sections",
+      "-Wall",
+      "-std=c11",
+      "-DCO_MULTIPLE_OD",
+      "-DMP_FRAME_MAX_SAMPLES=100",
+      "-DHSE_VALUE=8000000",
+      "-I$ROOT/gateway/dual_can",
+      "-I$ROOT/gateway/canopen/src",
+      "-I$ROOT/gateway/third_party/CANopenNode",
+      "-I$ROOT/gateway/esp_at_probe/src",
+      "-I$SDK/Libraries/CMSIS/Include",
+      "-I$SDK/Libraries/CMSIS/Device/ST/STM32F4xx/Include",
+      "-I$SDK/Libraries/STM32F4xx_StdPeriph_Driver/inc",
+      "-DMP_ABC_TRI_CANDIDATE",
+      "-flto",
+      "-DMP_FIVE_NODE",
+      "-DMP_FIVE_FIELD01",
+      "-DMP_FIVE_APPLIANCE",
+      "-DMP_B5_EGRESS_FINAL",
+      "-DMP_LIVE_CAPACITY=24",
+      "-DMP_CACHE_CAPACITY=56",
+      "-fstack-usage",
+      "-DMP_B5_CLOUD_CANDIDATE",
+      "-DMP_CAN_RX_IRQ",
+      "-DMP_H3_FRESH_SNTP",
+      "-DMP_H3_PERSISTENT_CONFIG",
+      "-DMP_H3_WIFI_AWAKE",
+      "-DMP_MQTT_GATEWAY_ID=\"GW-B5-001\"",
+      "-I$ROOT/gateway/b5",
+      "-I$ROOT/gateway/mqtt/src",
+      "-I$ROOT/gateway/esp_at_probe/src",
+      "-I$ROOT/gateway/third_party/coreMQTT/source/include",
+      "-I$ROOT/gateway/third_party/coreMQTT/source/interface",
+      "-DMIC_SHARED_RUNTIME",
+      "-DMIC_NETWORK_BENCH",
+      "-DMP_CLOUD_VOICE",
+      "-I$ROOT/gateway/microphone",
+      "-I$ROOT/gateway/voice",
+      "-DMP_FINAL_UNIFIED",
+      "-DMP_MQTT_TLS_PORT=28895"
+    ],
+    "compile": [
+      "-c",
+      "$SOURCE",
+      "-o",
+      "$OBJECT"
+    ],
+    "selected_project_c_files_add": [
+      "-Wextra",
+      "-Werror"
+    ],
+    "link_after_common": [
+      "-T",
+      "$OUT/split-link.ld",
+      "-Wl,--gc-sections",
+      "-Wl,-Map=$OUT/gateway.map",
+      "--specs=nano.specs",
+      "--specs=nosys.specs",
+      "$OUT/0.o",
+      "$OUT/1.o",
+      "$OUT/2.o",
+      "$OUT/3.o",
+      "$OUT/4.o",
+      "$OUT/5.o",
+      "$OUT/6.o",
+      "$OUT/7.o",
+      "$OUT/8.o",
+      "$OUT/9.o",
+      "$OUT/10.o",
+      "$OUT/11.o",
+      "$OUT/12.o",
+      "$OUT/13.o",
+      "$OUT/14.o",
+      "$OUT/15.o",
+      "$OUT/16.o",
+      "$OUT/17.o",
+      "$OUT/18.o",
+      "$OUT/19.o",
+      "$OUT/20.o",
+      "$OUT/21.o",
+      "$OUT/22.o",
+      "$OUT/23.o",
+      "$OUT/24.o",
+      "$OUT/25.o",
+      "$OUT/26.o",
+      "$OUT/27.o",
+      "$OUT/28.o",
+      "$OUT/29.o",
+      "$OUT/30.o",
+      "$OUT/31.o",
+      "$OUT/32.o",
+      "$OUT/33.o",
+      "$OUT/34.o",
+      "$OUT/35.o",
+      "$OUT/36.o",
+      "$OUT/37.o",
+      "$OUT/38.o",
+      "$OUT/39.o",
+      "$OUT/40.o",
+      "$OUT/41.o",
+      "$OUT/42.o",
+      "$OUT/43.o",
+      "$OUT/startup.o",
+      "-lm",
+      "-o",
+      "$OUT/FIVE_FIELD01_C.elf"
+    ],
+    "source_list": "gateway/dual_can/build_arm.py and original receipt.json",
+    "note": "Paths normalized only. VPS builder declares the same flags for this invocation; wrapper-expanded argv and map not archived on Windows."
+  },
+  "wp_validation": {
+    "wp_a": {
+      "commit": "7011961a40170b987732179932997ac4efb7bcf7",
+      "source_sha256_windows_checkout": [
+        {
+          "path": ".github/workflows/phase1.yml",
+          "status": "PRESENT",
+          "bytes": 2853,
+          "sha256": "c194ddb24b1e327940b123a0b21645870778f795213a756e71a16ccb5210fa3b"
+        },
+        {
+          "path": "cloud/backend/app/hub.py",
+          "status": "PRESENT",
+          "bytes": 7783,
+          "sha256": "affd1ef414d2bbac0a1331e6a6af51a62f8406143a3a53ed31971b497bb27334"
+        },
+        {
+          "path": "cloud/backend/tests/test_ac_nibp.py",
+          "status": "PRESENT",
+          "bytes": 4063,
+          "sha256": "7c9f4cdcaed8125abe59b1783227a4de301b730380384107155f4fe386d581e2"
+        },
+        {
+          "path": "gateway/b5/egress.h",
+          "status": "PRESENT",
+          "bytes": 4973,
+          "sha256": "5c88a4d3aac1c053e7abf558bf655b9cd286f4b7e4a1476c08135944bfd79b68"
+        },
+        {
+          "path": "gateway/microphone/test_unified_scheduler.c",
+          "status": "PRESENT",
+          "bytes": 3671,
+          "sha256": "24cdb511fa8229087dca01ef95edab7a58a4c5fa8ca3f6daea7fc2c7c9be0fd8"
+        },
+        {
+          "path": "gateway/storage/router.c",
+          "status": "PRESENT",
+          "bytes": 7292,
+          "sha256": "610f6eb57d9804c62fa77f8c273f5d59a2a825d16aa51cc98ea7acf8f2c2d7b0"
+        },
+        {
+          "path": "gateway/storage/router.h",
+          "status": "PRESENT",
+          "bytes": 2499,
+          "sha256": "9b7f899483ebfdc1b25ba67e8a98a78e2ccfe374a223ead3e1e2dc306070b27b"
+        },
+        {
+          "path": "gateway/third_party/tests/test_paho_integrity.py",
+          "status": "PRESENT",
+          "bytes": 4290,
+          "sha256": "9fbac36c8e50ebf6836322b242ae235e9a726be1fe9edc6f04b5bd7ae7f61eb6"
+        },
+        {
+          "path": "gateway/third_party/verify_paho_integrity.py",
+          "status": "PRESENT",
+          "bytes": 3580,
+          "sha256": "9159dc31a22f747f541c6ab5a70f17c59ffa99cd83bf390fcd54ad62430b094a"
+        }
+      ],
+      "python": "3.11.9",
+      "before": [
+        {
+          "command": "python -m pytest cloud/backend/tests -q",
+          "native_exit": 1,
+          "summary": "1 failed, 36 passed, 6 skipped"
+        },
+        {
+          "command": "python gateway/third_party/verify_paho_integrity.py",
+          "native_exit": 1
+        }
+      ],
+      "after": [
+        {
+          "command": "python -m pytest cloud/backend/tests -q",
+          "native_exit": 0,
+          "summary": "37 passed, 6 skipped"
+        },
+        {
+          "command": "python gateway/third_party/verify_paho_integrity.py",
+          "native_exit": 0
+        },
+        {
+          "command": "python -m unittest discover -s gateway/third_party/tests -p 'test_paho_integrity.py'",
+          "native_exit": 0,
+          "summary": "9 passed"
+        },
+        {
+          "command": "python gateway/third_party/verify_coremqtt_integrity.py",
+          "native_exit": 0
+        }
+      ]
+    },
+    "wp_b": {
+      "commit": "ad459b0ffef80a678321989785fe87315241e3a0",
+      "source_sha256_windows_checkout": [
+        {
+          "path": "gateway/mqtt/src/gateway_transport.c",
+          "status": "PRESENT",
+          "bytes": 41311,
+          "sha256": "271ea5ec175207d657465d7312908f8a42bef3fc7f2197d435466051d00dc7ec"
+        },
+        {
+          "path": "gateway/mqtt/src/wifi_status.h",
+          "status": "PRESENT",
+          "bytes": 1485,
+          "sha256": "26d80645d3a1af6ca9419b2845f700521260146749bbcfbfd9db1411597a7d86"
+        },
+        {
+          "path": "gateway/mqtt/tests/test_field01_wifi_failure.c",
+          "status": "PRESENT",
+          "bytes": 2380,
+          "sha256": "f2539a9941496c2ed4168daa9fc6b56830f49e24e5bde600ed9c6cdd19ae9df9"
+        }
+      ],
+      "test_cases": 9,
+      "sector4_bytes": 57776,
+      "sector4_remaining_bytes": 7760,
+      "irq_vectors_verified": true,
+      "hardware": "NOT_RUN"
+    },
+    "new_artifacts": [
+      {
+        "name": "WP-B Windows ARM (offline candidate)",
+        "producer": "python -X utf8 gateway/dual_can/build_arm.py --b5 --egress-final --tri --unified --split-flash --five-node --five-appliance --field01",
+        "toolchain": "Python 3.11.9 / Arm GNU 14.2.Rel1 GCC 14.2.1 / Newlib 4.4.0 / STM32F4 SPL V1.4.0",
+        "files": [
+          {
+            "path": "node-b/build/b4-c-arm-20261109T021131734192Z/receipt.json",
+            "status": "PRESENT",
+            "bytes": 145494,
+            "sha256": "a7689d575aca0b5a170f2b024e23a0f1d5eaf6327be0cbf3d6814ef7460c7bb7"
+          },
+          {
+            "path": "node-b/build/b4-c-arm-20261109T021131734192Z/unified-layout.json",
+            "status": "PRESENT",
+            "bytes": 1032,
+            "sha256": "b52fa4192c027c6062d4860ba80bb8c1e0ad7d3e31ec4bf65b1330027f747472"
+          },
+          {
+            "path": "node-b/build/b4-c-arm-20261109T021131734192Z/gateway.map",
+            "status": "PRESENT",
+            "bytes": 171984,
+            "sha256": "d8258a33042dec140f25fea7391316fbbef9af9162fe7974c6d7dce569399650"
+          },
+          {
+            "path": "node-b/build/b4-c-arm-20261109T021131734192Z/build.log",
+            "status": "PRESENT",
+            "bytes": 35100,
+            "sha256": "63e5c3c6298eadc2cd40b211e9b9f63670e1c8d69a25e87cc0ccec6e8a756a89"
+          },
+          {
+            "path": "node-b/build/b4-c-arm-20261109T021131734192Z/split-link.ld",
+            "status": "PRESENT",
+            "bytes": 1795,
+            "sha256": "2af90ff65397f184d30be58228456db1a1e4557ca49eb0425423036ba8efd598"
+          },
+          {
+            "path": "node-b/build/b4-c-arm-20261109T021131734192Z/FIVE_FIELD01_C.elf",
+            "status": "PRESENT",
+            "bytes": 101676,
+            "sha256": "56cccf50cbccbaa333285e13cbce9cf84d0975813fc94c6467b22c19d3da39ad"
+          },
+          {
+            "path": "node-b/build/b4-c-arm-20261109T021131734192Z/FIVE_FIELD01_C.hex",
+            "status": "PRESENT",
+            "bytes": 163698,
+            "sha256": "5e516bcbc52425c24828fd4c0ea0b3e1c26366ce6b3c188a0f6e410bd2604ac8"
+          },
+          {
+            "path": "node-b/build/b4-c-arm-20261109T021131734192Z/FIVE_FIELD01_C-boot.bin",
+            "status": "PRESENT",
+            "bytes": 392,
+            "sha256": "6055fa7f919e063b18cd4e8f26afbba527028b2202314c90056ec5e9c0d8a778"
+          },
+          {
+            "path": "node-b/build/b4-c-arm-20261109T021131734192Z/FIVE_FIELD01_C-code.bin",
+            "status": "PRESENT",
+            "bytes": 57776,
+            "sha256": "5e5091c10323a6e6d1600decaa5875b990bef8097d79f137be85cb543546a961"
+          },
+          {
+            "path": "node-b/build/b4-c-arm-20261109T021131734192Z/FIVE_FIELD01_C.elf.ltrans0.ltrans.su",
+            "status": "PRESENT",
+            "bytes": 10154,
+            "sha256": "3667f53c60d04eafc264472c1dadb3770cb52d972de6d622f1da31741547b649"
+          },
+          {
+            "path": "node-b/build/b4-c-arm-20261109T021131734192Z/FIVE_FIELD01_C.elf.ltrans1.ltrans.su",
+            "status": "PRESENT",
+            "bytes": 5531,
+            "sha256": "1afe500bb62cee34306266a7d1ae6e2188a460866ae84020cc3f9f0354fe1cc1"
+          }
+        ],
+        "producer_native_exit": 0
+      },
+      {
+        "name": "WP-A scheduler fixture",
+        "producer": "gcc -std=c11 -O1 -Wall -Wextra -Werror -DMP_FINAL_UNIFIED -DMP_B5_EGRESS_FINAL -DMP_B5_CLOUD_CANDIDATE -DMP_FRAME_MAX_SAMPLES=100 -DMP_LIVE_CAPACITY=24 -DMP_CACHE_CAPACITY=56 -Igateway/mqtt/src -Igateway/microphone -Igateway/b5 -Igateway/voice gateway/microphone/test_unified_scheduler.c gateway/storage/router.c gateway/data_model/model.c gateway/b5/b5_policy.c -o node-b/build/pi-r1-wp-a/scheduler.exe",
+        "toolchain": "Python 3.11.9 / MinGW-w64 GCC 8.1.0",
+        "files": [
+          {
+            "path": "node-b/build/pi-r1-wp-a/scheduler.exe",
+            "status": "PRESENT",
+            "bytes": 67454,
+            "sha256": "84c213deb18353a383d7f2fae031e45d0cca448548ef110f41d0fb3649ada9e8"
+          }
+        ],
+        "producer_native_exit": 0,
+        "run": "node-b/build/pi-r1-wp-a/scheduler.exe",
+        "run_native_exit": 0
+      },
+      {
+        "name": "WP-B Wi-Fi failure fixture",
+        "producer": "gcc -std=c11 -O1 -Wall -Wextra -Werror -flto -fwhole-program -DGATEWAY_MQTT_HOST_TEST -DMP_FIVE_FIELD01 -DMP_CAN_RX_IRQ -Igateway/mqtt/src -Igateway/b5 -Igateway/third_party/coreMQTT/source/include -Igateway/third_party/coreMQTT/source/interface gateway/mqtt/tests/test_field01_wifi_failure.c gateway/mqtt/src/gateway_transport.c gateway/mqtt/src/mqtt_transport_adapter.c -o node-b/build/pi-r1-wp-b/wifi-failure.exe",
+        "toolchain": "Python 3.11.9 / MinGW-w64 GCC 8.1.0",
+        "files": [
+          {
+            "path": "node-b/build/pi-r1-wp-b/wifi-failure.exe",
+            "status": "PRESENT",
+            "bytes": 65521,
+            "sha256": "15f322b6e6c990b29597f1d6b12d51a82fcac1ac588054cfbd0c90c8778e3d7b"
+          }
+        ],
+        "producer_native_exit": 0,
+        "run": "node-b/build/pi-r1-wp-b/wifi-failure.exe",
+        "run_native_exit": 0
+      }
+    ]
+  }
+}
