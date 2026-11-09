@@ -1,0 +1,2073 @@
+{
+  "scope": "OFFLINE_ONLY",
+  "review": "4bd9457",
+  "source_commit": "676558879ee006fd278dfe8e4481ba9c969f3dbb",
+  "arm_gnu": "14.2.1",
+  "source_archive": {
+    "bytes": 940169,
+    "sha256": "2e09824026c84d284afb5b1d479b245873d39e3184a42480a94fe7d07f027e68"
+  },
+  "field01_images": {
+    "F_N115": {
+      "sector4_bytes": 54480,
+      "sector4_remaining_bytes": 11056,
+      "sram_static_bytes": 76204,
+      "sram_linker_heap_stack_bytes": 32772,
+      "sram_unreserved_bytes": 22096,
+      "windows_sha256": {
+        "boot": "af61d59b47f9d2a8b4aae5831096ecab5b8793fb641a055ca94abe9eee49a6bc",
+        "code": "06b3e282376dfc735d565feedab0bffc4969b9b007af0097c315ded1bd04d77a",
+        "hex": "c37a5673a7b7d99a1d7b25591862955b102f670136e4852d8927fb29fd9bbe5d"
+      },
+      "vps_sha256": {
+        "hex": "c37a5673a7b7d99a1d7b25591862955b102f670136e4852d8927fb29fd9bbe5d",
+        "boot": "af61d59b47f9d2a8b4aae5831096ecab5b8793fb641a055ca94abe9eee49a6bc",
+        "code": "06b3e282376dfc735d565feedab0bffc4969b9b007af0097c315ded1bd04d77a"
+      }
+    },
+    "F_P230": {
+      "sector4_bytes": 56512,
+      "sector4_remaining_bytes": 9024,
+      "sram_static_bytes": 76240,
+      "sram_linker_heap_stack_bytes": 32768,
+      "sram_unreserved_bytes": 22064,
+      "windows_sha256": {
+        "boot": "e9e2c2eaabe2853209d78f5c1a0e84f8e065e6ba0191f36179a933f2a480ddef",
+        "code": "34bf3b4a54574a917b55f824430e813061e3dcf53fa8079477326bee24a82fcf",
+        "hex": "157171af7efa0d1cf91dfe1194e0a1b098b95b2b516f9d22dc9bd87234c1918b"
+      },
+      "vps_sha256": {
+        "hex": "157171af7efa0d1cf91dfe1194e0a1b098b95b2b516f9d22dc9bd87234c1918b",
+        "boot": "e9e2c2eaabe2853209d78f5c1a0e84f8e065e6ba0191f36179a933f2a480ddef",
+        "code": "34bf3b4a54574a917b55f824430e813061e3dcf53fa8079477326bee24a82fcf"
+      }
+    }
+  },
+  "unchanged_115200_flash_sha256": {
+    "unified": {
+      "boot": "1dd0fa1ab7d4c47ebe91ab3dc4141e32acaed8b790dcc7c7cbe24493417e3adf",
+      "code": "07e7d81c4e35e91aecad7b68662388f5ea65f273ba829bf6a191c3e744e6cb7b",
+      "hex": "273920a0e418464052213675df27c3f59297e850fa08609f29d7017fee1eb4dc"
+    },
+    "five": {
+      "boot": "557904bfaef1c70a1096a3af2bb57baf8d46960ee9b2f048a8752fe9ea78a508",
+      "code": "46c19a03202b25073c7a721c0d5ecba073ba76e553fec8c41d244884ed57f775",
+      "hex": "274754628c780b66b4772733aaf69675f6d82d05b25efc7933597e409c7e8869"
+    },
+    "field": {
+      "boot": "4bb7b2b9dff875d021ed4dfeba266c072ca29f351a3ad6e525580e53a0c597dd",
+      "code": "9d001fa3c14327853aedbc24806fdc9697edea86130a21d34b61240c3f3944ed",
+      "hex": "a5f7a69c25627a013fff0331aaa1e119c7b86ed1fca3314e4d72ffeed4ec8a1c"
+    },
+    "profile": {
+      "boot": "80b42f7f91654e4adfde881e73deae216b906a77170ab4411f54ea02535bfcd2",
+      "code": "780bef3820e6efebf5e8bd5e497c539985eba89e38b98458a968e28c8a04516c",
+      "hex": "a33d31e7fd3278798b35789ddfaa80998da2c958535e77ec2361b0cd208f0b1a"
+    },
+    "no_audio": {
+      "boot": "ac7f22f68a366a86922ee8c1fa4cffe27ffe8952184730a4f1641bc793383ee8",
+      "code": "42317e3218b22aec16bf70716dfdfee1c3d218948935160db8855a795aa9aeba",
+      "hex": "692da1380030c780a25e5ce1e6650035f46dfe99fd293868ff321712d536ef4d"
+    },
+    "field_no_audio": {
+      "boot": "56e2f7d609bbc3236333963d511837b8ce9058cb711b842fa2475ccadff37d83",
+      "code": "98ff4cc3d113a9f57fe629a8d39054d8d0e375e606a83fabe5de01f62b3cd8e9",
+      "hex": "e41c73e42e6c9e2ac78d6ca192014476e4cd7294467994982dc47cfb59e8248d"
+    },
+    "pass115": {
+      "boot": "30ab93aa7082c745b1238fafd409fba3e51ba13ac2bebc53ad3fbb440925f467",
+      "code": "f56daf68f9be642987eafe3c64babdf0ae179b2af237e873a84312c78ca78662",
+      "hex": "0a7b5b21bef1bea96d3f0d6646164dd9ff36173a467be9c15ff89b749a475075"
+    }
+  },
+  "bench_wp_aa_windows": {
+    "sector4_bytes": 30160,
+    "sector4_remaining_bytes": 35376,
+    "sram_static_bytes": 55968,
+    "sram_linker_heap_stack_bytes": 32772,
+    "sram_unreserved_bytes": 42332
+  },
+  "host_suite_count": 18,
+  "host_log_sha256": "0be36f6ea6c7d706348226d045ba0aacd9cd649b298c1d80c9e66bfb9cc7e7fb",
+  "python_result": "64 passed, 8 subtests passed",
+  "legacy_repro": "R9_H_JUNK_LEGACY_REPRODUCED startup=FAIL restore=FAIL wrong_rate=1 next_AT_ERROR=1",
+  "model": {
+    "fit": {
+      "target_batches_s": 8.07,
+      "service_us": 31,
+      "fit_rate": 8.06356305851765,
+      "send_ok_ms": 22,
+      "peer_ack_delay_ms": 55
+    },
+    "full_results_sha256": "76f5c44ca72cf31d177141ac6700491230ba5cd8730f13c69d0be33640d6ef25",
+    "tool_sha256": "e7b50cee055fa7cbeade26ad5615e513d828ed5542e0298a0a8b04d0c0fdcdeb",
+    "host_source_sha256": {
+      "gateway/b5/test_five_p3_egress.c": "6f20010ca66d7ab659f4b463560fe69cfdf2652002990cd0cbaa80b61d0cb752",
+      "gateway/mqtt/src/mqtt_transport_adapter.c": "8b7f798623f1fe8aa334abb563a70106f8440a887fe023c3dd9021bd1ffe0f56",
+      "gateway/storage/router.c": "610f6eb57d9804c62fa77f8c273f5d59a2a825d16aa51cc98ea7acf8f2c2d7b0",
+      "gateway/data_model/model.c": "a022e7d057ef70030c00c2c7e5b3cdf110f002c3b32567588d30781cc2197110",
+      "gateway/b5/b5_policy.c": "57895ad7f540f608a2978b1e845a2c270c167f8e5f8f2f4aea0f8592bde8a3f9",
+      "gateway/third_party/coreMQTT/source/core_mqtt.c": "98cfdd1651acd725296164e9a865c51d0cd137b531a54e2e0c937846c202de0c",
+      "gateway/third_party/coreMQTT/source/core_mqtt_serializer.c": "1e4bf5a2b307f37f3cbc83a898e9c6b89b873daf93968fddb81eac06bb113c0b",
+      "gateway/third_party/coreMQTT/source/core_mqtt_state.c": "af5c215f11692c7ced8a90b9d6f9c9c23d2476538ff77a38952945f642fbc8cf",
+      "gateway/microphone/mic_format.c": "64eab873b391f4647db6c5fbb24511a554b28e210d77084de589c4b345fe7162",
+      "gateway/microphone/mic_protocol.c": "8d036fe2dc6b9eb36e49e395eb64df28e00fe669e20b96531094a01556817703",
+      "gateway/mqtt/src/gateway_transport.c": "2fb3c6d06eab8461ac7c5221476367b0874c8e7ffb7b42b14edf052cd28c7186",
+      "gateway/mqtt/src/platform.c": "7b1425189c4a12f90c2dd5731543e9bd2efb7a9df98ca3e4958834deda388c3f",
+      "gateway/b5/egress.h": "418bc324df5748916245c79ce638321d30e24b3f3a4674a7e4e6c4b16375bcb2"
+    },
+    "cases": {
+      "normal-115200baud-0us-55ack-22sendok": {
+        "batches_s": 9.338408,
+        "offered_total": 1156,
+        "waves": [
+          462,
+          495
+        ],
+        "drop": 0,
+        "replace": 81,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 2333038,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "6576e49bf0a14295da7435bea6b4bb3c3009ca38322958efeced52b56e72ec9d"
+      },
+      "normal-115200baud-1us-55ack-22sendok": {
+        "batches_s": 9.298394,
+        "offered_total": 1156,
+        "waves": [
+          459,
+          495
+        ],
+        "drop": 4,
+        "replace": 83,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 2249082,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "85c310a7ca23632d85282c2850f97c6524da8b0150bae2e6edbf3bc4b38596bf"
+      },
+      "normal-115200baud-2us-55ack-22sendok": {
+        "batches_s": 9.250257,
+        "offered_total": 1156,
+        "waves": [
+          457,
+          495
+        ],
+        "drop": 10,
+        "replace": 86,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 2175026,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "ce2cb5a297550bced3f34cc6afcd333f407f88f9f2f61adca28bf441d2113350"
+      },
+      "normal-115200baud-3us-55ack-22sendok": {
+        "batches_s": 9.20884,
+        "offered_total": 1156,
+        "waves": [
+          454,
+          495
+        ],
+        "drop": 16,
+        "replace": 88,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 2109437,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "ef4b91db49c7b6ceb4870b309cb2b4a17ad36b01486e8ed8c4b4aeb35ccf1e02"
+      },
+      "normal-115200baud-4us-55ack-22sendok": {
+        "batches_s": 9.133126,
+        "offered_total": 1156,
+        "waves": [
+          450,
+          495
+        ],
+        "drop": 23,
+        "replace": 92,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 2051618,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "f0cfd322551c900eda630ade6e48c3841d4dd3a4e80b2b315ab90e1daca205d4"
+      },
+      "normal-115200baud-5us-55ack-22sendok": {
+        "batches_s": 9.063307,
+        "offered_total": 1156,
+        "waves": [
+          446,
+          495
+        ],
+        "drop": 31,
+        "replace": 96,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1997128,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "4b3d7a398b019584096f2159cc4bef6f682f7fdb91b89cab94f53c13f6419ead"
+      },
+      "normal-115200baud-6us-55ack-22sendok": {
+        "batches_s": 8.990746,
+        "offered_total": 1156,
+        "waves": [
+          442,
+          495
+        ],
+        "drop": 41,
+        "replace": 100,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1939878,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "5bbf960ddc2ae793af0c41373ed6eeec723b5c55b8238d6472708dba83f89f1a"
+      },
+      "normal-115200baud-7us-55ack-22sendok": {
+        "batches_s": 8.96103,
+        "offered_total": 1156,
+        "waves": [
+          441,
+          495
+        ],
+        "drop": 44,
+        "replace": 102,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1888734,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "f41af5f6538fe45b8dbea5e4c2f919cb713577b56b1257120aabd6dd8c30da3b"
+      },
+      "normal-115200baud-8us-55ack-22sendok": {
+        "batches_s": 8.933115,
+        "offered_total": 1156,
+        "waves": [
+          439,
+          495
+        ],
+        "drop": 48,
+        "replace": 103,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1834895,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "8ea03831f27087f740f6ac647876b50ae69c85750f37aef1f3fcde34fe1baae5"
+      },
+      "normal-115200baud-9us-55ack-22sendok": {
+        "batches_s": 8.880575,
+        "offered_total": 1156,
+        "waves": [
+          437,
+          495
+        ],
+        "drop": 50,
+        "replace": 106,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1795536,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "b256cb5945ae85c4471c4c01a7160377d613f75e59a61c6a6751cff206779934"
+      },
+      "normal-115200baud-10us-55ack-22sendok": {
+        "batches_s": 8.871356,
+        "offered_total": 1156,
+        "waves": [
+          436,
+          495
+        ],
+        "drop": 56,
+        "replace": 107,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1747877,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "b86b6868c1446f461df32132e8e99c7a18eedd8307e01051c69f91d353f04c6e"
+      },
+      "normal-115200baud-11us-55ack-22sendok": {
+        "batches_s": 8.866843,
+        "offered_total": 1156,
+        "waves": [
+          437,
+          495
+        ],
+        "drop": 58,
+        "replace": 108,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1701337,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "ab6badc74274dbe899b16097e96e4582e8bd43cc500b110a9142c482f6b3ffb0"
+      },
+      "normal-115200baud-12us-55ack-22sendok": {
+        "batches_s": 8.7744,
+        "offered_total": 1156,
+        "waves": [
+          432,
+          495
+        ],
+        "drop": 66,
+        "replace": 113,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1660945,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "146a53224f2af58fa454c0b5e68a920a84dc716927638a7e94a7a9f056a35651"
+      },
+      "normal-115200baud-13us-55ack-22sendok": {
+        "batches_s": 8.754722,
+        "offered_total": 1156,
+        "waves": [
+          431,
+          495
+        ],
+        "drop": 70,
+        "replace": 114,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1623357,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "de43870d8487b758f4a75ec7341676fa00eaec03393fa501d6ae004bcf1752d3"
+      },
+      "normal-115200baud-14us-55ack-22sendok": {
+        "batches_s": 8.683725,
+        "offered_total": 1156,
+        "waves": [
+          427,
+          495
+        ],
+        "drop": 80,
+        "replace": 118,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1590953,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "41dbf884d447af5603fb40a9996e503c5af76c13773ffd6549fbb35dd6fac1f7"
+      },
+      "normal-115200baud-15us-55ack-22sendok": {
+        "batches_s": 8.667684,
+        "offered_total": 1156,
+        "waves": [
+          426,
+          495
+        ],
+        "drop": 85,
+        "replace": 119,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1555791,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "84dcaa4159985d7df61df9567b8ea6ada5ec0bbf2b1eddd82224e7e53b12d402"
+      },
+      "normal-115200baud-16us-55ack-22sendok": {
+        "batches_s": 8.643254,
+        "offered_total": 1156,
+        "waves": [
+          424,
+          495
+        ],
+        "drop": 89,
+        "replace": 120,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1522581,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "ecb1ca30ac9ac048cf612989b6bc0e72d1f3224dff65dd96b79d8f8e1ddfd126"
+      },
+      "normal-115200baud-17us-55ack-22sendok": {
+        "batches_s": 8.628128,
+        "offered_total": 1156,
+        "waves": [
+          424,
+          495
+        ],
+        "drop": 91,
+        "replace": 121,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1490915,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "2a6f977aad35089da27a8fb4a718a05a3ff7f4fc472b731a544853edcc446f25"
+      },
+      "normal-115200baud-18us-55ack-22sendok": {
+        "batches_s": 8.625704,
+        "offered_total": 1156,
+        "waves": [
+          423,
+          495
+        ],
+        "drop": 94,
+        "replace": 121,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1457077,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "60327ca8ab4483bdac5af54b66d701d8be0abbbf22b2dda7cc3fdd66c46f31fa"
+      },
+      "normal-115200baud-19us-55ack-22sendok": {
+        "batches_s": 8.560446,
+        "offered_total": 1156,
+        "waves": [
+          420,
+          495
+        ],
+        "drop": 97,
+        "replace": 125,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1431569,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "eff3cef2b6fbab6a54c628313e09961ff9c5afa72874ca6a2d29271490fbdbad"
+      },
+      "normal-115200baud-20us-55ack-22sendok": {
+        "batches_s": 8.553068,
+        "offered_total": 1156,
+        "waves": [
+          419,
+          495
+        ],
+        "drop": 101,
+        "replace": 125,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1405284,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "e0583a6ea5bb94f904054889c752b2eb3968f454097f6c2027288f4b3fe537f3"
+      },
+      "normal-115200baud-21us-55ack-22sendok": {
+        "batches_s": 8.536375,
+        "offered_total": 1156,
+        "waves": [
+          419,
+          495
+        ],
+        "drop": 100,
+        "replace": 126,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1381416,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "a8996590599d1613f33a50cd57145132655a1c690d1fd64628404d29f3bb5bae"
+      },
+      "normal-115200baud-22us-55ack-22sendok": {
+        "batches_s": 8.465878,
+        "offered_total": 1156,
+        "waves": [
+          415,
+          495
+        ],
+        "drop": 115,
+        "replace": 130,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1362455,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "0d1f2cd81bbcf0f0e676e523811c4ce4e5a24562d31b9cb2f6ed69e49d691166"
+      },
+      "normal-115200baud-23us-55ack-22sendok": {
+        "batches_s": 8.25072,
+        "offered_total": 1156,
+        "waves": [
+          403,
+          495
+        ],
+        "drop": 138,
+        "replace": 142,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1345273,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "f78501caa4c3d46a8244bc39accfdd2f659e469bff9e9942c686c02ef01b4dc9"
+      },
+      "normal-115200baud-24us-55ack-22sendok": {
+        "batches_s": 8.199776,
+        "offered_total": 1156,
+        "waves": [
+          400,
+          495
+        ],
+        "drop": 145,
+        "replace": 145,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1329373,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "340d244d19c78ad5055b25ad753cc00bb32bea2132a14a4245dc34413ae9f90e"
+      },
+      "normal-115200baud-25us-55ack-22sendok": {
+        "batches_s": 8.171464,
+        "offered_total": 1156,
+        "waves": [
+          398,
+          495
+        ],
+        "drop": 149,
+        "replace": 146,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1310510,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "a6526bff586a2da132aab0fec6adefd511483dc8d177d5c45707fc93acae47e1"
+      },
+      "normal-115200baud-26us-55ack-22sendok": {
+        "batches_s": 8.132741,
+        "offered_total": 1156,
+        "waves": [
+          396,
+          495
+        ],
+        "drop": 148,
+        "replace": 148,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1288809,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "3b5d338b6a12715ef08e106276bb5fdd3fa99032037cbf572816320000d20db0"
+      },
+      "normal-115200baud-27us-55ack-22sendok": {
+        "batches_s": 8.126017,
+        "offered_total": 1156,
+        "waves": [
+          396,
+          495
+        ],
+        "drop": 153,
+        "replace": 149,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1266031,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "318a76803567f6bcbf133138e28cf738d7e15f430e6a1bb44fe56d29315a1dc4"
+      },
+      "normal-115200baud-28us-55ack-22sendok": {
+        "batches_s": 8.103124,
+        "offered_total": 1156,
+        "waves": [
+          395,
+          495
+        ],
+        "drop": 158,
+        "replace": 150,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1246621,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "422d5bc89bcb0681acb2ef518e990417bb3e33600329bb15cd582750a3d56d23"
+      },
+      "normal-115200baud-29us-55ack-22sendok": {
+        "batches_s": 8.102167,
+        "offered_total": 1156,
+        "waves": [
+          395,
+          495
+        ],
+        "drop": 163,
+        "replace": 150,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1226281,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "5b6574990289d2003f1c39fee90e99b62b7a3027aae01d1e14f4cea2c4b8523c"
+      },
+      "normal-115200baud-30us-55ack-22sendok": {
+        "batches_s": 8.023042,
+        "offered_total": 1156,
+        "waves": [
+          390,
+          495
+        ],
+        "drop": 168,
+        "replace": 154,
+        "late": 0,
+        "live_tail": 23,
+        "service_calls": 1208090,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "38a116576ba966c7e39500fd8af754fab68575e8309c02e3bd0bf539134cc0cc"
+      },
+      "normal-115200baud-31us-55ack-22sendok": {
+        "batches_s": 8.063563,
+        "offered_total": 1156,
+        "waves": [
+          392,
+          495
+        ],
+        "drop": 179,
+        "replace": 152,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1190374,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "d20366369907348718b9029f1aecec72567ccf79713353f8ef6b234e3b2389d4"
+      },
+      "normal-115200baud-32us-55ack-22sendok": {
+        "batches_s": 7.914944,
+        "offered_total": 1156,
+        "waves": [
+          384,
+          495
+        ],
+        "drop": 182,
+        "replace": 160,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1174036,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "83eaa818b09edd61050e6bc6567bb5d59d1afc77c948689fb3cccbf79380c724"
+      },
+      "normal-115200baud-33us-55ack-22sendok": {
+        "batches_s": 7.881094,
+        "offered_total": 1156,
+        "waves": [
+          383,
+          495
+        ],
+        "drop": 186,
+        "replace": 162,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1156268,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "b12f66f118cc83b42f0af276574edcfcafc4b5ff1c7786930f9d2590ef3c66e4"
+      },
+      "normal-115200baud-34us-55ack-22sendok": {
+        "batches_s": 7.81669,
+        "offered_total": 1156,
+        "waves": [
+          379,
+          495
+        ],
+        "drop": 193,
+        "replace": 166,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1137923,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "b38b2c5109a7b1dca0714692e6631aacdbaebc088a14273849f501859dd65458"
+      },
+      "normal-115200baud-35us-55ack-22sendok": {
+        "batches_s": 7.79596,
+        "offered_total": 1156,
+        "waves": [
+          378,
+          495
+        ],
+        "drop": 196,
+        "replace": 167,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1121752,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "7f166110c72e400546953be60e2b2da29606f7903eebd3b3664114396cae39e6"
+      },
+      "normal-115200baud-36us-55ack-22sendok": {
+        "batches_s": 7.769196,
+        "offered_total": 1156,
+        "waves": [
+          376,
+          495
+        ],
+        "drop": 200,
+        "replace": 167,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1106133,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "0b99e615f1b7dc9a370f7f5580cb792513e7b0d5c96b5ae27d4aaad8b2182f96"
+      },
+      "normal-115200baud-37us-55ack-22sendok": {
+        "batches_s": 7.739615,
+        "offered_total": 1156,
+        "waves": [
+          375,
+          495
+        ],
+        "drop": 203,
+        "replace": 168,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1091428,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "bc61a36887249ccdf277acbc01acc99895b498a224e66384b64ec3d138ba4c21"
+      },
+      "normal-115200baud-38us-55ack-22sendok": {
+        "batches_s": 7.734977,
+        "offered_total": 1156,
+        "waves": [
+          375,
+          495
+        ],
+        "drop": 205,
+        "replace": 168,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1076679,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "8c427cd62de49c84e43e80d77911f1748a9a7d5aa80a055da2e3fe76aba1fc09"
+      },
+      "normal-115200baud-39us-55ack-22sendok": {
+        "batches_s": 7.7,
+        "offered_total": 1156,
+        "waves": [
+          372,
+          495
+        ],
+        "drop": 207,
+        "replace": 169,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1062387,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "772539ef7e8f1cde002d3a8ca9bd068fe73574a32a2f0f69691e2e28b00fffd9"
+      },
+      "normal-115200baud-40us-55ack-22sendok": {
+        "batches_s": 7.679445,
+        "offered_total": 1156,
+        "waves": [
+          371,
+          495
+        ],
+        "drop": 210,
+        "replace": 170,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1050276,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "87418518e949f3e0201797a9e6c4a90ea8208368c400ae70f06cc846716bf892"
+      },
+      "normal-115200baud-41us-55ack-22sendok": {
+        "batches_s": 7.671751,
+        "offered_total": 1156,
+        "waves": [
+          371,
+          495
+        ],
+        "drop": 210,
+        "replace": 171,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1036232,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "9607f094b0f0f5ffc81fcfeb9e33864949209d100a203324bdc6759dd3b19667"
+      },
+      "normal-115200baud-42us-55ack-22sendok": {
+        "batches_s": 7.636086,
+        "offered_total": 1156,
+        "waves": [
+          369,
+          495
+        ],
+        "drop": 214,
+        "replace": 171,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1023149,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "dfa11cbcba7b06153079463bfa0bfd716c44f960ba8472e2beab6ce0f44c2289"
+      },
+      "normal-115200baud-43us-55ack-22sendok": {
+        "batches_s": 7.632755,
+        "offered_total": 1156,
+        "waves": [
+          369,
+          495
+        ],
+        "drop": 218,
+        "replace": 172,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1013783,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "efbb7ff451fec6059d38cac3caf6c5aa2b38cefc08acfaeb6dd1648bc0e2d601"
+      },
+      "normal-115200baud-44us-55ack-22sendok": {
+        "batches_s": 7.628527,
+        "offered_total": 1156,
+        "waves": [
+          369,
+          495
+        ],
+        "drop": 223,
+        "replace": 171,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 1002210,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "0dce5dcbec390820bffc2a04eca261b56b544f92130fc1a57c29c42368066963"
+      },
+      "normal-115200baud-45us-55ack-22sendok": {
+        "batches_s": 7.520846,
+        "offered_total": 1156,
+        "waves": [
+          363,
+          495
+        ],
+        "drop": 224,
+        "replace": 172,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 992519,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "428993a06c33a67f9bc8fbdb7a40940c8d252036c6328c939a7d5bb7723b44e8"
+      },
+      "normal-115200baud-46us-55ack-22sendok": {
+        "batches_s": 7.521529,
+        "offered_total": 1156,
+        "waves": [
+          363,
+          495
+        ],
+        "drop": 230,
+        "replace": 172,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 981931,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "90bf376716362fd07e1366526acccde881d609863d3eb474cf20f9ff7e758ec2"
+      },
+      "normal-115200baud-47us-55ack-22sendok": {
+        "batches_s": 7.519548,
+        "offered_total": 1156,
+        "waves": [
+          363,
+          495
+        ],
+        "drop": 233,
+        "replace": 171,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 969879,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "6795859b7a4ba9fcfa5341c1ca626954dad38f39b94428418b542a421699a4da"
+      },
+      "normal-115200baud-48us-55ack-22sendok": {
+        "batches_s": 7.481659,
+        "offered_total": 1156,
+        "waves": [
+          361,
+          495
+        ],
+        "drop": 235,
+        "replace": 171,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 959620,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "b10e4db04de018e40f134922d21362940a0873710d2a6205473350fcafc4b655"
+      },
+      "normal-115200baud-49us-55ack-22sendok": {
+        "batches_s": 7.461332,
+        "offered_total": 1156,
+        "waves": [
+          360,
+          495
+        ],
+        "drop": 238,
+        "replace": 171,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 948724,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "2c10a7d8d7d7aa709f56eb7f6cd3838eff239f479dc88e340925c38d964cfa4e"
+      },
+      "normal-115200baud-50us-55ack-22sendok": {
+        "batches_s": 7.445387,
+        "offered_total": 1156,
+        "waves": [
+          358,
+          495
+        ],
+        "drop": 242,
+        "replace": 169,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 936754,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "d9cc5e77e7ce52d4ace24cfd5796de28dd80d2cbe819f684c7d8f49ac355d020"
+      },
+      "normal-115200baud-51us-55ack-22sendok": {
+        "batches_s": 7.399933,
+        "offered_total": 1156,
+        "waves": [
+          356,
+          495
+        ],
+        "drop": 245,
+        "replace": 171,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 926501,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "fb0689e16ea4ae8fd84b2eab221760fc99cde76f4fc1ffc54f473cfc7e5ad7db"
+      },
+      "normal-115200baud-52us-55ack-22sendok": {
+        "batches_s": 7.409291,
+        "offered_total": 1156,
+        "waves": [
+          357,
+          495
+        ],
+        "drop": 250,
+        "replace": 168,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 917268,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "485113dfc21a68d03a5cba3d540e0f3a83d0aaf7bad7d38b5cd769f761794c17"
+      },
+      "normal-115200baud-53us-55ack-22sendok": {
+        "batches_s": 7.319487,
+        "offered_total": 1156,
+        "waves": [
+          352,
+          495
+        ],
+        "drop": 248,
+        "replace": 173,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 908909,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "66486ea6ea13c4696dd94e3b4841585e3d68c365f519d04ed7ca3dc63b6135a7"
+      },
+      "normal-115200baud-54us-55ack-22sendok": {
+        "batches_s": 7.302784,
+        "offered_total": 1156,
+        "waves": [
+          351,
+          495
+        ],
+        "drop": 257,
+        "replace": 171,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 897855,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "c3e4c96b8047792b23739d1d1dcd701593f0111576c605ec342e8440020f7a05"
+      },
+      "normal-115200baud-55us-55ack-22sendok": {
+        "batches_s": 7.320551,
+        "offered_total": 1156,
+        "waves": [
+          352,
+          495
+        ],
+        "drop": 257,
+        "replace": 172,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 889028,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "752e7276a167fa6b1853dc13a45fd545065f268a52fc603277e4e4aa36b2bf73"
+      },
+      "normal-115200baud-56us-55ack-22sendok": {
+        "batches_s": 7.253688,
+        "offered_total": 1156,
+        "waves": [
+          348,
+          495
+        ],
+        "drop": 264,
+        "replace": 171,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 878531,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "893cd4e7c46ff2ff44f84edd24b17920ba106dfab38094523c15b97d5055ec88"
+      },
+      "normal-115200baud-57us-55ack-22sendok": {
+        "batches_s": 7.235509,
+        "offered_total": 1156,
+        "waves": [
+          347,
+          495
+        ],
+        "drop": 267,
+        "replace": 171,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 870378,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "d0c60fde8ca391ad112ce1d9dacda21c3b22e2ce6dfc6222616e91221444e1a0"
+      },
+      "normal-115200baud-58us-55ack-22sendok": {
+        "batches_s": 7.228478,
+        "offered_total": 1156,
+        "waves": [
+          347,
+          495
+        ],
+        "drop": 269,
+        "replace": 173,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 862393,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "241a5a3ac2499a9f906c4c7119629fb8a4834570e3d1436f5e57bfc94707c3df"
+      },
+      "normal-115200baud-59us-55ack-22sendok": {
+        "batches_s": 7.159081,
+        "offered_total": 1156,
+        "waves": [
+          343,
+          495
+        ],
+        "drop": 275,
+        "replace": 174,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 853543,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "fb34bbf2bec66f426ad92b73ba30ac63844e4551dc92503e52002cc4d0e3d34d"
+      },
+      "normal-115200baud-60us-55ack-22sendok": {
+        "batches_s": 7.154725,
+        "offered_total": 1156,
+        "waves": [
+          343,
+          495
+        ],
+        "drop": 276,
+        "replace": 172,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 845528,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "ec8bb9eca6e78ff549ed70c89efb35113df085639168508c17136f4b1bca14f7"
+      },
+      "normal-115200baud-61us-55ack-22sendok": {
+        "batches_s": 7.137927,
+        "offered_total": 1156,
+        "waves": [
+          342,
+          495
+        ],
+        "drop": 281,
+        "replace": 174,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 836530,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "27079f37079c78ae9378bae8fc6221bed31aff70ca0e80fe8d3f5d509b8584c9"
+      },
+      "normal-115200baud-62us-55ack-22sendok": {
+        "batches_s": 7.119959,
+        "offered_total": 1156,
+        "waves": [
+          341,
+          495
+        ],
+        "drop": 288,
+        "replace": 174,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 828931,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "5c80a99572f477a5b88ebef14e432206c01684dc92fc67c9f03a8293cac74424"
+      },
+      "normal-115200baud-63us-55ack-22sendok": {
+        "batches_s": 7.068358,
+        "offered_total": 1156,
+        "waves": [
+          338,
+          495
+        ],
+        "drop": 291,
+        "replace": 174,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 821377,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "119c5e548c6bc41138089bf6c1db6d1e512736229c87463a376df73d252a99e1"
+      },
+      "normal-115200baud-64us-55ack-22sendok": {
+        "batches_s": 6.991039,
+        "offered_total": 1156,
+        "waves": [
+          334,
+          495
+        ],
+        "drop": 297,
+        "replace": 174,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 814049,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "bbe24f1080b4dc036cfe0d5120790b3240e91ff6c7b4f23ad785cfa00b79cb7e"
+      },
+      "normal-115200baud-65us-55ack-22sendok": {
+        "batches_s": 6.787084,
+        "offered_total": 1156,
+        "waves": [
+          322,
+          495
+        ],
+        "drop": 312,
+        "replace": 174,
+        "late": 0,
+        "live_tail": 23,
+        "service_calls": 805827,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "b59f35aa7bccb837cb9a00d583442c056e1e21f9c9601fe60df327363260891b"
+      },
+      "normal-115200baud-66us-55ack-22sendok": {
+        "batches_s": 6.777752,
+        "offered_total": 1156,
+        "waves": [
+          322,
+          495
+        ],
+        "drop": 313,
+        "replace": 174,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 799264,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "6812b9cff01c95823e83baf50670a8de342d48c17da5f52e805296186eccaafe"
+      },
+      "normal-115200baud-67us-55ack-22sendok": {
+        "batches_s": 6.794564,
+        "offered_total": 1156,
+        "waves": [
+          323,
+          495
+        ],
+        "drop": 313,
+        "replace": 174,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 793922,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "40e81e2bbb7d93b3a5c36f7f9cdea0e863ff11ae2531d4f6ac4f44d9aecc5203"
+      },
+      "normal-115200baud-68us-55ack-22sendok": {
+        "batches_s": 6.847511,
+        "offered_total": 1156,
+        "waves": [
+          326,
+          495
+        ],
+        "drop": 313,
+        "replace": 174,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 787383,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "98ee525e73f456f1bb0389e117666ab0530aff0051726c7c34c16bfd5b75c2bb"
+      },
+      "normal-115200baud-69us-55ack-22sendok": {
+        "batches_s": 6.737676,
+        "offered_total": 1156,
+        "waves": [
+          320,
+          495
+        ],
+        "drop": 319,
+        "replace": 174,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 780276,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "5729303100bd5e1a2bb389984946c48a2f06f7bd1a861583fcec9728ac798b52"
+      },
+      "normal-115200baud-70us-55ack-22sendok": {
+        "batches_s": 6.708908,
+        "offered_total": 1156,
+        "waves": [
+          318,
+          495
+        ],
+        "drop": 322,
+        "replace": 171,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 772710,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "6d71ce63d8d7f003b1cb1a8e2f3dc07a4046200df5b5cbac373be56d691b3ce4"
+      },
+      "normal-115200baud-71us-55ack-22sendok": {
+        "batches_s": 6.701415,
+        "offered_total": 1156,
+        "waves": [
+          318,
+          495
+        ],
+        "drop": 322,
+        "replace": 173,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 766132,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "1681ab10db4b974d8033e6aadb735788f1c9882e987c5258f181c6b4cbeb9265"
+      },
+      "normal-115200baud-72us-55ack-22sendok": {
+        "batches_s": 6.661759,
+        "offered_total": 1156,
+        "waves": [
+          315,
+          495
+        ],
+        "drop": 324,
+        "replace": 170,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 759552,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "3730dfc72b675df5140e87465be8e872ae00032578ae44bf0ae66524c72bb090"
+      },
+      "normal-115200baud-73us-55ack-22sendok": {
+        "batches_s": 6.627868,
+        "offered_total": 1156,
+        "waves": [
+          314,
+          495
+        ],
+        "drop": 327,
+        "replace": 171,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 754241,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "1ee7ab0174425597d1dc6d83329c6cd7989c820b83a7490a6a3e4a112724ad81"
+      },
+      "normal-115200baud-74us-55ack-22sendok": {
+        "batches_s": 6.607229,
+        "offered_total": 1156,
+        "waves": [
+          312,
+          495
+        ],
+        "drop": 329,
+        "replace": 167,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 747870,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "e21e3ed37930d51e29c1698c8d68913dfe87e877d99a8624e732991b194fca24"
+      },
+      "normal-115200baud-75us-55ack-22sendok": {
+        "batches_s": 6.545098,
+        "offered_total": 1156,
+        "waves": [
+          309,
+          495
+        ],
+        "drop": 333,
+        "replace": 164,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 741459,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "87150cad06492fb2c7a6e87ce818afd64a550de1c06f4cdecf354abd0ab501fc"
+      },
+      "normal-115200baud-76us-55ack-22sendok": {
+        "batches_s": 6.545217,
+        "offered_total": 1156,
+        "waves": [
+          309,
+          495
+        ],
+        "drop": 333,
+        "replace": 171,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 735397,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "1b389a6e4559653eb6de5065dfa695ce8b36819aa2f596dc1df846de0a98ad2e"
+      },
+      "normal-115200baud-77us-55ack-22sendok": {
+        "batches_s": 6.5448,
+        "offered_total": 1156,
+        "waves": [
+          309,
+          495
+        ],
+        "drop": 338,
+        "replace": 168,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 729656,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "c509e02eb897f13800e55156fac57f33c72a83127cd60831929b274d3fab148a"
+      },
+      "normal-115200baud-78us-55ack-22sendok": {
+        "batches_s": 6.540519,
+        "offered_total": 1156,
+        "waves": [
+          309,
+          495
+        ],
+        "drop": 342,
+        "replace": 169,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 724427,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "377243b1d874c7ae6cbfcfb3dcd1c57f5ecda8ef917aa44d18bc13617f5308e8"
+      },
+      "normal-115200baud-79us-55ack-22sendok": {
+        "batches_s": 6.538737,
+        "offered_total": 1156,
+        "waves": [
+          309,
+          495
+        ],
+        "drop": 346,
+        "replace": 167,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 718207,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "4c3b7ff7393bc0892bf823885f35a2029afc279434f999d20cd2e91cf6fee6f8"
+      },
+      "normal-115200baud-80us-55ack-22sendok": {
+        "batches_s": 6.454487,
+        "offered_total": 1156,
+        "waves": [
+          304,
+          495
+        ],
+        "drop": 350,
+        "replace": 165,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 712092,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "55e7faccb1ac64bbc90c0c5efe40c0ae7ff4bf1390a2c3d1ffcb25c33824707e"
+      },
+      "normal-115200baud-81us-55ack-22sendok": {
+        "batches_s": 6.521937,
+        "offered_total": 1156,
+        "waves": [
+          308,
+          495
+        ],
+        "drop": 353,
+        "replace": 164,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 706308,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "75658c72532e997ff4eb2c3a0083b7a8810186b9c6e8b19cb6679d0cd79e4d32"
+      },
+      "normal-115200baud-82us-55ack-22sendok": {
+        "batches_s": 6.426315,
+        "offered_total": 1156,
+        "waves": [
+          303,
+          495
+        ],
+        "drop": 355,
+        "replace": 168,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 702043,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "8f2b361331145d8a59a02b409d3a372efd1739c18ec6327c65bbcd044e1b8612"
+      },
+      "normal-115200baud-83us-55ack-22sendok": {
+        "batches_s": 6.42336,
+        "offered_total": 1156,
+        "waves": [
+          302,
+          495
+        ],
+        "drop": 360,
+        "replace": 167,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 695776,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "0ce5705bf40927feb692df0e7fa371e48c6797c2f4f266916b49891ce9cd60b1"
+      },
+      "normal-115200baud-84us-55ack-22sendok": {
+        "batches_s": 6.409091,
+        "offered_total": 1156,
+        "waves": [
+          301,
+          495
+        ],
+        "drop": 360,
+        "replace": 167,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 690162,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "64d0ec93bad8228f10b38ea8c8181850b1a39e4ab982579ccec87574b11ff963"
+      },
+      "normal-115200baud-85us-55ack-22sendok": {
+        "batches_s": 6.390793,
+        "offered_total": 1156,
+        "waves": [
+          300,
+          495
+        ],
+        "drop": 361,
+        "replace": 167,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 685242,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "6368cff53e97e0fdf085c092c104fcd5c0d0415481e766b7afac7f72e0bf7a40"
+      },
+      "normal-115200baud-86us-55ack-22sendok": {
+        "batches_s": 6.356529,
+        "offered_total": 1156,
+        "waves": [
+          299,
+          495
+        ],
+        "drop": 363,
+        "replace": 165,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 680605,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "ce964973bc7888fcbe73d30ee7004ad2538c66e7c533b1719816343f9f033654"
+      },
+      "normal-115200baud-87us-55ack-22sendok": {
+        "batches_s": 6.327215,
+        "offered_total": 1156,
+        "waves": [
+          297,
+          495
+        ],
+        "drop": 365,
+        "replace": 167,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 674612,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "306f5e8933ba15e04d7290d736955c72d9f0bdb09accc1a2609015baf572f810"
+      },
+      "normal-115200baud-88us-55ack-22sendok": {
+        "batches_s": 6.288679,
+        "offered_total": 1156,
+        "waves": [
+          295,
+          495
+        ],
+        "drop": 371,
+        "replace": 165,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 669906,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "a3387e88ae18bf98fc8e4c7a366550e15b9883e59eb77d9ba6a77403072d3675"
+      },
+      "normal-115200baud-89us-55ack-22sendok": {
+        "batches_s": 6.290738,
+        "offered_total": 1156,
+        "waves": [
+          295,
+          495
+        ],
+        "drop": 376,
+        "replace": 165,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 665121,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "139551366980b82d4dceb8d15376948aab9a5b4bbc63c9e34599102c107de490"
+      },
+      "normal-115200baud-90us-55ack-22sendok": {
+        "batches_s": 6.205255,
+        "offered_total": 1156,
+        "waves": [
+          290,
+          495
+        ],
+        "drop": 381,
+        "replace": 162,
+        "late": 0,
+        "live_tail": 23,
+        "service_calls": 661467,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "c269929cd616e45fa131b83c427f0659a44adb51f954fd72bed5eb93deaecf49"
+      },
+      "normal-115200baud-91us-55ack-22sendok": {
+        "batches_s": 6.16358,
+        "offered_total": 1156,
+        "waves": [
+          288,
+          495
+        ],
+        "drop": 380,
+        "replace": 162,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 656685,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "8c2cc5af64bdf6a52b1e68fa992ee7945c18fd85c971b8738367c2185468e8fd"
+      },
+      "normal-115200baud-92us-55ack-22sendok": {
+        "batches_s": 6.157814,
+        "offered_total": 1156,
+        "waves": [
+          288,
+          495
+        ],
+        "drop": 383,
+        "replace": 163,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 652115,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "2495dd2a53c35ede415e5d095a581cd53ec5ae08f193b4ddbcc5b0b9b26b3cdc"
+      },
+      "normal-115200baud-93us-55ack-22sendok": {
+        "batches_s": 6.16218,
+        "offered_total": 1156,
+        "waves": [
+          288,
+          495
+        ],
+        "drop": 384,
+        "replace": 164,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 647163,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "e8e1a062f03d6793e07c67074c59b191d98eb7a9b8e4dd0a0ace9484e1e1f0e2"
+      },
+      "normal-115200baud-94us-55ack-22sendok": {
+        "batches_s": 6.135527,
+        "offered_total": 1156,
+        "waves": [
+          286,
+          495
+        ],
+        "drop": 388,
+        "replace": 163,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 641869,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "97bcd1a4abd8e3d8a606e2504cdf9db8a59e7053eba41d8d9e15c57a3018bbc6"
+      },
+      "normal-115200baud-95us-55ack-22sendok": {
+        "batches_s": 6.141212,
+        "offered_total": 1156,
+        "waves": [
+          287,
+          495
+        ],
+        "drop": 389,
+        "replace": 164,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 638567,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "3ab46071d9ee1d55fcc2311f1cefbcb4dba234104bdee835a5dae84c6cbb45a0"
+      },
+      "normal-115200baud-96us-55ack-22sendok": {
+        "batches_s": 6.138312,
+        "offered_total": 1156,
+        "waves": [
+          287,
+          495
+        ],
+        "drop": 393,
+        "replace": 164,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 634611,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "326a0d2c51e6dd303a24ebe18f18eb8de0ce844f062e2dbbbbe494a0e3e1db7a"
+      },
+      "normal-115200baud-97us-55ack-22sendok": {
+        "batches_s": 6.138033,
+        "offered_total": 1156,
+        "waves": [
+          287,
+          495
+        ],
+        "drop": 396,
+        "replace": 164,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 630367,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "78b6610cfd6441e2b52ef1cb658ee449fc78a3ad44062302c29fc15186cc95cf"
+      },
+      "normal-115200baud-98us-55ack-22sendok": {
+        "batches_s": 6.135917,
+        "offered_total": 1156,
+        "waves": [
+          286,
+          495
+        ],
+        "drop": 398,
+        "replace": 163,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 625754,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "9167dba81aab3772f490b035924f3f8abfc7eb97f67bcd43fc71df1d7fb7d045"
+      },
+      "normal-115200baud-99us-55ack-22sendok": {
+        "batches_s": 6.080793,
+        "offered_total": 1156,
+        "waves": [
+          284,
+          495
+        ],
+        "drop": 400,
+        "replace": 164,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 623225,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "562ee50e87e72ad94e44d23129bfa874a5ba5b1658d65f3be3d92d10c832b68a"
+      },
+      "normal-115200baud-100us-55ack-22sendok": {
+        "batches_s": 6.044685,
+        "offered_total": 1156,
+        "waves": [
+          281,
+          495
+        ],
+        "drop": 403,
+        "replace": 163,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 618653,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "4c9521fbfe4d2c5337a9b5eb6f91b7cbc7af41afb97ae229ce57a013a576acf2"
+      },
+      "normal-115200baud-101us-55ack-22sendok": {
+        "batches_s": 5.988514,
+        "offered_total": 1156,
+        "waves": [
+          278,
+          495
+        ],
+        "drop": 407,
+        "replace": 163,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 614610,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "51910d5c01459fb18da99cee2008bcb0bb37037b37a5742d6a981fa75f9a0342"
+      },
+      "normal-115200baud-102us-55ack-22sendok": {
+        "batches_s": 5.945455,
+        "offered_total": 1156,
+        "waves": [
+          276,
+          495
+        ],
+        "drop": 409,
+        "replace": 163,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 610025,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "f3b49acfe646ce685b1e2aeced44999570ceb3bb1eb6a397a7e1ab96ad0a6344"
+      },
+      "normal-115200baud-103us-55ack-22sendok": {
+        "batches_s": 5.999891,
+        "offered_total": 1156,
+        "waves": [
+          279,
+          495
+        ],
+        "drop": 411,
+        "replace": 163,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 605959,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "f381a6b98e400a68bf683308e50d7410f21de474f4d7216d51fdfa713bf333f1"
+      },
+      "normal-115200baud-104us-55ack-22sendok": {
+        "batches_s": 5.908661,
+        "offered_total": 1156,
+        "waves": [
+          274,
+          495
+        ],
+        "drop": 413,
+        "replace": 162,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 602010,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "ef9c98bedef131dcff074851992bcf464be99c5d8600a422fa038f1a2717e487"
+      },
+      "normal-115200baud-105us-55ack-22sendok": {
+        "batches_s": 5.970448,
+        "offered_total": 1156,
+        "waves": [
+          277,
+          495
+        ],
+        "drop": 414,
+        "replace": 163,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 598629,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "754d3c67de1e9498a9296cc439d77f107e4b5ff59e28b4c03f634ac12a36a520"
+      },
+      "normal-115200baud-106us-55ack-22sendok": {
+        "batches_s": 5.9156,
+        "offered_total": 1156,
+        "waves": [
+          274,
+          495
+        ],
+        "drop": 417,
+        "replace": 163,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 594802,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "33ea2d371d2f1675c276ec678b083d1142c195beed0aa3b7f6f066df6910f0dc"
+      },
+      "normal-115200baud-107us-55ack-22sendok": {
+        "batches_s": 5.921997,
+        "offered_total": 1156,
+        "waves": [
+          275,
+          495
+        ],
+        "drop": 418,
+        "replace": 162,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 591423,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "aa516cd4f1c7f83948d82906536a8542f2402ff4b460b6104b079f61f5fe6a3b"
+      },
+      "normal-115200baud-108us-55ack-22sendok": {
+        "batches_s": 5.872674,
+        "offered_total": 1156,
+        "waves": [
+          272,
+          495
+        ],
+        "drop": 420,
+        "replace": 163,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 587159,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "5b299ff19b7915c3451e4b1f17a44afeaf169d9b8e2dcb47c024fbcc1ab2f634"
+      },
+      "normal-115200baud-109us-55ack-22sendok": {
+        "batches_s": 5.849175,
+        "offered_total": 1156,
+        "waves": [
+          271,
+          495
+        ],
+        "drop": 423,
+        "replace": 162,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 584051,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "21bd42baca56711fac8b8447c6dc131b6a0fb71f2b0684208fa4e29e72178470"
+      },
+      "normal-115200baud-110us-55ack-22sendok": {
+        "batches_s": 5.810153,
+        "offered_total": 1156,
+        "waves": [
+          269,
+          495
+        ],
+        "drop": 428,
+        "replace": 163,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 581329,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "ca7d07d96c36ee48f49e1775e5639a18899585b4cd2e7a6ab1f5cc0e39c994e9"
+      },
+      "normal-115200baud-111us-55ack-22sendok": {
+        "batches_s": 5.762641,
+        "offered_total": 1156,
+        "waves": [
+          266,
+          495
+        ],
+        "drop": 431,
+        "replace": 163,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 578285,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "f950c02e8d8b25d7038bc367a535156ac9cd1e8b48474d16491300ce88e6a704"
+      },
+      "normal-115200baud-112us-55ack-22sendok": {
+        "batches_s": 5.787069,
+        "offered_total": 1156,
+        "waves": [
+          267,
+          495
+        ],
+        "drop": 433,
+        "replace": 163,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 575433,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "80b81e3364cdedaa1403db5b9fbe48a7e4f897af3021ff3eb85dd1eb5975caf1"
+      },
+      "normal-115200baud-113us-55ack-22sendok": {
+        "batches_s": 5.738099,
+        "offered_total": 1156,
+        "waves": [
+          265,
+          495
+        ],
+        "drop": 436,
+        "replace": 162,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 572947,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "afa729f0f3b59662715e39413e74edf08555809ea4e6840fd9494acfb70b1977"
+      },
+      "normal-115200baud-114us-55ack-22sendok": {
+        "batches_s": 5.732663,
+        "offered_total": 1156,
+        "waves": [
+          264,
+          495
+        ],
+        "drop": 442,
+        "replace": 161,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 569873,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "de3e934f4a8ef587806ecb81a8f510dbba9decfc23c3ce63e59a25a3abddd2ae"
+      },
+      "normal-115200baud-115us-55ack-22sendok": {
+        "batches_s": 5.641711,
+        "offered_total": 1156,
+        "waves": [
+          259,
+          495
+        ],
+        "drop": 448,
+        "replace": 162,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 566860,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "28567d3d9b0ffa1c5404ce7757f166e7430ffe79d6c326510fe194d1382a4b80"
+      },
+      "normal-115200baud-116us-55ack-22sendok": {
+        "batches_s": 5.627104,
+        "offered_total": 1156,
+        "waves": [
+          259,
+          495
+        ],
+        "drop": 448,
+        "replace": 161,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 564418,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "d23b41c339b7f0ddb9d25d2b3b3ad78546639e7019a3e0736089f8be1bd417ec"
+      },
+      "normal-115200baud-117us-55ack-22sendok": {
+        "batches_s": 5.599847,
+        "offered_total": 1156,
+        "waves": [
+          257,
+          495
+        ],
+        "drop": 453,
+        "replace": 163,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 559656,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "893300ea5a00ad7287675abc11de4255c393e485401ebcda2a228d9dffd34a0c"
+      },
+      "normal-115200baud-118us-55ack-22sendok": {
+        "batches_s": 5.599847,
+        "offered_total": 1156,
+        "waves": [
+          257,
+          495
+        ],
+        "drop": 453,
+        "replace": 162,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 556404,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "2e98d4ef0101d942e49d965d6c5edafb5e89656f049f5e3ddde594e8313e7e31"
+      },
+      "normal-115200baud-119us-55ack-22sendok": {
+        "batches_s": 5.59827,
+        "offered_total": 1156,
+        "waves": [
+          257,
+          495
+        ],
+        "drop": 453,
+        "replace": 162,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 553438,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "ae85e4871cf926c56fd18d221da3a9f14ba6f4d871a9b9dd92624995941b9a16"
+      },
+      "normal-115200baud-120us-55ack-22sendok": {
+        "batches_s": 5.507889,
+        "offered_total": 1156,
+        "waves": [
+          252,
+          495
+        ],
+        "drop": 461,
+        "replace": 162,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 549957,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "c08194761deeb4cf8cda6cd5a7653840321cf9fd5d3206a1b7b6a95e176c1b2b"
+      },
+      "normal-115200baud-0us-55ack-42sendok": {
+        "batches_s": 8.046791,
+        "offered_total": 1156,
+        "waves": [
+          392,
+          495
+        ],
+        "drop": 168,
+        "replace": 153,
+        "late": 0,
+        "live_tail": 24,
+        "service_calls": 2670599,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "a0d10699ffdf1a3a16deec6f82ade36d7bd64be252f13757fa74643445e71bd1"
+      },
+      "normal-230400baud-31us-55ack-22sendok": {
+        "batches_s": 10.204731,
+        "offered_total": 1156,
+        "waves": [
+          492,
+          495
+        ],
+        "drop": 0,
+        "replace": 17,
+        "late": 0,
+        "live_tail": 15,
+        "service_calls": 1481673,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "6a142af21185fd0bfdf746fae72dab33c807a891805bc3b04cd9a61fd2859152"
+      },
+      "normal-230400baud-31us-370ack-22sendok": {
+        "batches_s": 8.490506,
+        "offered_total": 1156,
+        "waves": [
+          493,
+          495
+        ],
+        "drop": 62,
+        "replace": 137,
+        "late": 0,
+        "live_tail": 23,
+        "service_calls": 1494353,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "dc7fd72a5cb7f681216d0c8eb86e81039b445dac458b0cdd2ff660fa69114629"
+      },
+      "pass-115200baud-31us-55ack-22sendok": {
+        "batches_s": 10.388454,
+        "offered_total": 1156,
+        "waves": [
+          492,
+          495
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "live_tail": 12,
+        "service_calls": 1165511,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "9b7476a589a483954d1628ce7b1838640d0e8f4001a4c9558c420ee3606e90f7"
+      },
+      "pass-115200baud-31us-370ack-22sendok": {
+        "batches_s": 10.378988,
+        "offered_total": 1156,
+        "waves": [
+          492,
+          495
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "live_tail": 12,
+        "service_calls": 1165588,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "b51d1dbcc9b807dd6b8704e07cc606ceb39961fbf5ab001aee574a70048c892f"
+      },
+      "pass-230400baud-31us-55ack-22sendok": {
+        "batches_s": 10.38902,
+        "offered_total": 1156,
+        "waves": [
+          492,
+          495
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "live_tail": 12,
+        "service_calls": 1569616,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "2fcddffab6c8ac08fbdbb0a1847b2a5986568f5252efe99ccd7e2eb98f6c9063"
+      },
+      "pass-230400baud-31us-370ack-22sendok": {
+        "batches_s": 10.388926,
+        "offered_total": 1156,
+        "waves": [
+          492,
+          495
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "live_tail": 12,
+        "service_calls": 1569634,
+        "dma_payload_bytes": 0,
+        "native_log_sha256": "d70119443e6a22515baab8901444a0450d73b3fc66b691c2217ddfe34c9c2f8a"
+      },
+      "dma-115200baud-31us-55ack-22sendok": {
+        "batches_s": 9.999727,
+        "offered_total": 1156,
+        "waves": [
+          491,
+          495
+        ],
+        "drop": 0,
+        "replace": 38,
+        "late": 0,
+        "live_tail": 17,
+        "service_calls": 1033464,
+        "dma_payload_bytes": 509834,
+        "native_log_sha256": "8ef88411c84a83d1679cdd618b89b995f42edeadd09f15efd531ce4821dedfb4"
+      },
+      "dma-115200baud-31us-370ack-22sendok": {
+        "batches_s": 8.536685,
+        "offered_total": 1156,
+        "waves": [
+          493,
+          495
+        ],
+        "drop": 57,
+        "replace": 131,
+        "late": 0,
+        "live_tail": 23,
+        "service_calls": 1056257,
+        "dma_payload_bytes": 489025,
+        "native_log_sha256": "4001a3ddf80c01cab671b929051262a99ecffd2aa1eb3c60ad6835de09bdd04b"
+      }
+    }
+  },
+  "hardware": "NOT_RUN"
+}
