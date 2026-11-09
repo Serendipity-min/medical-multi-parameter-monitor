@@ -75,9 +75,20 @@ static uint32_t stop_tick,stop_reason,stop_live,stop_cache;
 static EspIoMetrics stop_io;
 #ifdef MP_FIVE_FIELD01
 #include "field01_probe.inc"
+enum { PRE_UNUSED, PRE_QUEUED, PRE_RUNNING, PRE_CLEAN, PRE_DIRTY };
+static volatile unsigned pre_state;
+static uint32_t pre_deadline,pre_target;
+
+static bool pre_active(void) {
+    return pre_state==PRE_QUEUED || pre_state==PRE_RUNNING;
+}
 #endif
 uint32_t b5_business_remaining(void) {
 #ifdef MP_FIVE_FIELD01
+    if(pre_active()){
+        uint32_t now=g_uptime_ms;
+        return now<pre_deadline?pre_deadline-now:0;
+    }
     return field01_remaining(g_uptime_ms,field01_t0);
 #elif defined(MP_FINAL_UNIFIED)
     if(!run_limit_ms)return 0x3fffffffu;
@@ -91,7 +102,8 @@ uint32_t b5_business_remaining(void) {
 void b5_hard_tick(void) {
     /* 中断只锁存截止和取证，不执行CAN库、AT、printf或关闭网络。 */
 #ifdef MP_FIVE_FIELD01
-    if(!b5_business_remaining())field01_latch(FIELD01_TIMER);
+    if(g_uptime_ms>=FIELD01_HARD_MS || (!pre_active() && !b5_business_remaining()))
+        field01_latch(FIELD01_TIMER);
 #else
     if(armed && !stopped && !stop_due &&
 #ifdef MP_FINAL_UNIFIED
@@ -158,11 +170,22 @@ static void local_control(void) {
             command[length]=0;
             if(length==sizeof("FIELD01 STOP")-1 && !memcmp(command,"FIELD01 STOP",length) && !stopped)field01_latch(FIELD01_MANUAL);
             if(length==sizeof("FIELD01 START")-1 && !memcmp(command,"FIELD01 START",length) && !armed && !stopped && !stop_due &&
-                b5_business_remaining() && gateway_config_valid()){
+                !pre_active() && pre_state!=PRE_DIRTY && b5_business_remaining() && gateway_config_valid()){
                 uart_error_baseline=platform_uart_errors_total();armed=true;
             }
             if(length==sizeof("FIELD01 KEY")-1 && !memcmp(command,"FIELD01 KEY",length) && field01_t0 &&
                 g_uptime_ms-field01_t0<FIELD01_AUDIO_AT_MS)field_key_approved=true;
+            if(pre_state==PRE_UNUSED && !armed && !stopped && !stop_due &&
+                ((length==11 && !memcmp(command,"FIELD01 PRE",11)) ||
+                 (length==15 && (!memcmp(command,"FIELD01 PRE 230",15) ||
+                                 !memcmp(command,"FIELD01 PRE 500",15))))) {
+                uint32_t now=g_uptime_ms;
+                if(now<FIELD01_READY_MS){
+                    pre_target=length==11?ESP_UART_BAUD:command[12]=='2'?230400u:500000u;
+                    pre_deadline=now+FIELD01_PRE_MS;
+                    pre_state=PRE_QUEUED;
+                }
+            }
         }
         length=0;
     }
@@ -370,7 +393,12 @@ static void transaction_stop_trace(void) {
 static void service(void) {
 #ifdef MP_FIVE_APPLIANCE
     /* 初始化中的AT/音频回调不能提前推进未就绪的CAN对象。 */
-    if(!runtime_ready){b4_hw_idle();return;}
+    if(!runtime_ready){
+#ifdef MP_FIVE_FIELD01
+        if(pre_active())local_control();
+#endif
+        b4_hw_idle();return;
+    }
 #endif
 #ifdef MP_FINAL_UNIFIED
 #ifdef MP_FIVE_FIELD01
@@ -451,6 +479,16 @@ static void service(void) {
         status.seq = ++status_seq; mp_router_put(&gateway.router, &status); status_at = g_uptime_ms;
     }
 }
+#ifdef MP_FIVE_FIELD01
+static void field01_disarmed_step(void) {
+    platform_poll();
+    local_control();
+    if(pre_state==PRE_QUEUED && !stop_due){
+        pre_state=PRE_RUNNING;
+        pre_state=gateway_preflight(pre_target,pre_deadline)?PRE_CLEAN:PRE_DIRTY;
+    }
+}
+#endif
 int main(void) {
     platform_init();
 #if defined(MP_B5_EGRESS_FINAL) && defined(__arm__)
@@ -469,7 +507,7 @@ int main(void) {
 #if defined(MP_FIVE_FIELD01)
     final_can_mask=3;run_limit_ms=0;
     console("FIELD01 DISARMED C_ONLY_INSTALL TLS_28895 NO_AUTORETRY\r\n");
-    while(!armed && !stop_due){platform_poll();local_control();}
+    while(!armed && !stop_due)field01_disarmed_step();
     if(stop_due){stopped=true;report_stop();for(;;)b4_hw_idle();}
     console("FIELD01 START_ACCEPTED\r\n");
 #elif defined(MP_FIVE_APPLIANCE)

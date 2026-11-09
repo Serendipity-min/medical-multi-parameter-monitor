@@ -10,6 +10,8 @@ static const unsigned char *command;
 static size_t remaining;
 static bool config_valid,subscribed,op;
 static MicDiag microphone;
+static unsigned pre_calls,pre_advance;
+static bool pre_restore_ok,pre_manual_stop;
 
 int console_char(void) {
     if(!remaining)return -1;
@@ -23,13 +25,81 @@ int gateway_config_valid(void){return config_valid;}
 int gateway_audio_ready(void){return subscribed;}
 bool b4_gateway_online(B4Gateway *g,unsigned node){(void)g;(void)node;return op;}
 void mic_diagnostics(MicDiag *out){*out=microphone;}
+void b4_hw_idle(void){}
+void b4_hw_stop(void){assert(0);}
+void unified_audio_stop(void){assert(0);}
+void mp_router_online(MpRouter *r,bool online){(void)r;(void)online;assert(0);}
+int platform_console_busy(void){return 0;}
+void platform_poll(void){service();}
 
 static void input(const char *line,size_t size) {
     command=(const unsigned char *)line;remaining=size;
     while(remaining)local_control();
 }
 #define INPUT(s) input(s,sizeof(s)-1)
+int gateway_preflight(uint32_t target,uint32_t deadline) {
+    assert(target==pre_target && deadline==pre_deadline && pre_state==PRE_RUNNING);
+    pre_calls++;
+    b4_hw_diag[0].overflow=1;
+    g_uptime_ms+=pre_advance;
+    b5_hard_tick();
+    platform_poll();
+    assert(!network_fault && !stop_due && !armed && !field01_t0 && !runtime_ready);
+    INPUT("FIELD01 START\nFIELD01 KEY\nFIELD01 PRE 500\n");
+    assert(pre_state==PRE_RUNNING && !armed && !field_key_approved);
+    if(pre_manual_stop){
+        static const unsigned char stop_input[]="FIELD01 STOP\n";
+        command=stop_input;remaining=sizeof stop_input-1;
+        platform_poll();
+        assert(stop_due && stop_reason==FIELD01_MANUAL);
+    }
+    b4_hw_diag[0].overflow=0;
+    return pre_restore_ok;
+}
+
+static void reset_pre(void) {
+    pre_state=PRE_UNUSED;stop_due=stopped=armed=false;field01_t0=0;field_key_approved=false;
+    g_uptime_ms=1000;
+    pre_advance=0;pre_restore_ok=true;pre_manual_stop=false;
+}
+
 int main(void) {
+    config_valid=true;
+    reset_pre();
+    INPUT("FIELD01 PRE 460\nFIELD01 PRE 500x\nFIELD01 PRE\0\n");
+    assert(pre_state==PRE_UNUSED);
+    INPUT("FIELD01 PRE 230\r\n");
+    assert(pre_state==PRE_QUEUED && pre_target==230400);
+    field01_disarmed_step();
+    assert(pre_state==PRE_CLEAN && pre_calls==1 && !stop_due);
+    INPUT("FIELD01 PRE 500\nFIELD01 START\n");
+    assert(pre_calls==1 && armed && uart_error_baseline==0 && !field01_t0);
+    reset_pre();
+    pre_restore_ok=false;
+    INPUT("FIELD01 PRE 500\n");
+    assert(pre_target==500000);
+    field01_disarmed_step();
+    INPUT("FIELD01 START\nFIELD01 PRE\n");
+    assert(pre_state==PRE_DIRTY && pre_calls==2 && !armed && !stop_due);
+    reset_pre();
+    pre_advance=60000;
+    INPUT("FIELD01 PRE\n");
+    field01_disarmed_step();
+    INPUT("FIELD01 START\n");
+    assert(!armed && !b5_business_remaining());
+    b5_hard_tick();
+    assert(stop_due && stop_reason==FIELD01_TIMER);
+    reset_pre();
+    pre_manual_stop=true;
+    INPUT("FIELD01 PRE\n");
+    field01_disarmed_step();
+    assert(stop_due && stop_reason==FIELD01_MANUAL && !armed);
+    reset_pre();
+    INPUT("FIELD01 PRE\n");
+    g_uptime_ms=210000;b5_hard_tick();
+    assert(stop_due && stop_reason==FIELD01_TIMER);
+    reset_pre();
+    config_valid=false;
     INPUT("FIELD01 START\n");
     assert(!armed);
     config_valid=true;
@@ -94,5 +164,5 @@ int main(void) {
     assert(field01_remaining(209999,80000)==1 && !field01_remaining(210000,80000));
     assert((FIELD01_PCM_SAMPLES*2u+511u)/512u==FIELD01_AUDIO_CHUNKS);
     assert((FIELD01_MIN_SAMPLES*2u+511u)/512u==FIELD01_AUDIO_CHUNKS);
-    puts("FIELD01_HOST_PASS exact commands, readiness, hard cutoff, STOP, source, DMA, CAN, MC01 length");
+    puts("FIELD01_HOST_PASS PRE isolation, one-shot, dirty lock, deadlines, STOP, legacy START and T0");
 }

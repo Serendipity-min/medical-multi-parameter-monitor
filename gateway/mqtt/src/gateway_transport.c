@@ -813,6 +813,32 @@ static int fresh_sntp(void) {
 }
 #endif
 
+#define ESP_AT_SYNC "AT"
+#define ESP_AT_ECHO_OFF "ATE0"
+#define ESP_AT_VOLATILE "AT+SYSSTORE=0"
+#define ESP_AT_GMR "AT+GMR"
+
+static int wifi_join(char *command,size_t size,uint32_t timeout) {
+    /* 对有效配置生成相同命令；显式字段边界也让 host 编译器证明不会跨字段读取。 */
+    (void)snprintf(command, size, "AT+CWJAP=\"%.*s\",\"%.*s\"",
+                   (int)sizeof(config->ssid) - 1, config->ssid,
+                   (int)sizeof(config->wifi_password) - 1, config->wifi_password);
+    int ok=at_command(command,timeout);
+    /* 先清除 SSID/口令再分支，Wi-Fi 失败及后续提前返回都不残留该命令。 */
+    secure_memzero(command,size);
+    return ok;
+}
+
+#ifdef MP_CAN_RX_IRQ
+static int esp_version(uint32_t timeout,char version[32]) {
+    return at_command(ESP_AT_GMR,timeout) && gateway_at_version(at_response(),version);
+}
+#endif
+
+#ifdef MP_FIVE_FIELD01
+#include "field01_preflight.inc"
+#endif
+
 int gateway_network_open(void)
 {
     char command[256];
@@ -821,24 +847,17 @@ int gateway_network_open(void)
 #endif
     mqtt_failed();
     esp_mqtt_reset();
-    if (!step("AT", "AT", 2000) || !step("ECHO", "ATE0", 2000) ||
-        !step("VOLATILE", "AT+SYSSTORE=0", 2000) || !step("STA", "AT+CWMODE=1", 3000))
+    if (!step("AT", ESP_AT_SYNC, 2000) || !step("ECHO", ESP_AT_ECHO_OFF, 2000) ||
+        !step("VOLATILE", ESP_AT_VOLATILE, 2000) || !step("STA", "AT+CWMODE=1", 3000))
         return 0;
 #ifdef MP_CAN_RX_IRQ
-    /* 官方只读GMR查询，不改变模块固件/Flash；原始回复不进控制台。 */
     char version[32];
-    if(!at_command("AT+GMR",2000) || !gateway_at_version(at_response(),version)) {
+    if(!esp_version(2000,version)) {
         console("GW FAIL AT_VERSION\r\n");return 0;
     }
     (void)snprintf(command,sizeof(command),"GW AT_VERSION value=%s\r\n",version);console(command);
 #endif
-    /* 对有效配置生成相同命令；显式字段边界也让 host 编译器证明不会跨字段读取。 */
-    (void)snprintf(command, sizeof(command), "AT+CWJAP=\"%.*s\",\"%.*s\"",
-                   (int)sizeof(config->ssid) - 1, config->ssid,
-                   (int)sizeof(config->wifi_password) - 1, config->wifi_password);
-    int wifi_ok = at_command(command, 30000);
-    /* 先清除 SSID/口令再分支，Wi-Fi 失败及后续提前返回都不残留该命令。 */
-    secure_memzero(command, sizeof(command));
+    int wifi_ok=wifi_join(command,sizeof command,30000);
     if (!wifi_ok) {
 #ifdef MP_FIVE_FIELD01
         char code[2]={gateway_wifi_join_code(at_response()),'\0'};

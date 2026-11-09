@@ -234,7 +234,7 @@ def main():
                     **artifact(out/(target+'-'+n+'.bin'))) for n,a in [('boot',0x08000000),('code',0x08010000)]],
                 'HEX':artifact(out/(target+'.hex')),'ELF':artifact(elf),'TLS_port':None if args.bench else args.tls_port or (28895 if args.five_appliance else 1883),
                 'time_policy':'LOCAL_TEST_TIME_NEVER_CLOUD' if args.bench else 'B5_FRESH_SNTP_UNCHANGED',
-                'normal_runtime_limit':'FIELD01 START once; ready45s; window150s; hard210s; audio64chunks' if args.field01 else f'B4START one-shot {args.bench_seconds or 180}s' if args.bench else 'FIVE automatic; explicit STOP; audio maximum2s' if args.five_appliance else 'UNISTART manual-stop; B5START retains420s',
+                'normal_runtime_limit':'FIELD01 PRE once up to 60s; START once; ready45s; window150s; hard210s; audio64chunks' if args.field01 else f'B4START one-shot {args.bench_seconds or 180}s' if args.bench else 'FIVE automatic; explicit STOP; audio maximum2s' if args.five_appliance else 'UNISTART manual-stop; B5START retains420s',
                 'sector3_options_and_all_other_sectors':'PRESERVE'}
             (out/'unified-layout.json').write_text(json.dumps(layout,indent=2)+'\n')
         status = 'PASS'
@@ -248,7 +248,7 @@ def main():
         headers += list((out / 'reference-h3').rglob('*.h'))
     if args.b5:
         headers += [*ROOT.glob('gateway/b5/*.h'),*ROOT.glob('gateway/mqtt/src/*.h')]
-    if args.field01:headers += [ROOT / 'gateway/b5/field01_probe.inc']
+    if args.field01:headers += [ROOT / 'gateway/b5/field01_probe.inc', ROOT / 'gateway/mqtt/src/field01_preflight.inc']
     if args.audio_link or args.unified:headers += [*ROOT.glob('gateway/microphone/*.h'),*ROOT.glob('gateway/voice/*.h')]
     report = {'ABC_tri_candidate': args.tri, 'version': 'B5-001' if args.b5 else 'B4-0.2', 'status': status,
               'scope': 'FINAL_UNIFIED_C_REAL_RUNTIME_OFFLINE_NOT_DEPLOYED' if args.unified else 'B5_CLOUD_MOCK_SOFTWARE_ONLY_NOT_DEPLOYED' if args.b5 else ('C_ISOLATED_BENCH_LOCAL_TEST_TIME_NOT_DEPLOYED' if args.bench else ('C_DUAL_CAN_ARM_NETWORK_SOFTWARE_BUILD_NOT_DEPLOYED' if args.network_link else 'C_DUAL_CAN_ARM_LINK_ONLY')),

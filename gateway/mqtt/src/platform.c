@@ -27,6 +27,7 @@ static int reply_boundary;
 static uint32_t serial_deadline;
 #ifdef MP_FIVE_FIELD01
 static bool send_command;
+static bool pre_esp_reset;
 #endif
 static void phase(unsigned p){
 #ifdef MP_FIVE_FIELD01
@@ -241,6 +242,7 @@ static int wait_end(int ok,unsigned reason) {
 
 static void reply_begin(void) {
     reply_length = 0;
+    reply[0] = 0;
     line_start=binary_left=binary_offset=binary_length=binary_seen=0;
 #ifdef MP_B5_EGRESS_FINAL
     reply_boundary=0;
@@ -275,6 +277,9 @@ static int reply_byte(int value,int prompt,int sent) {
         (line_is("busy p...") || line_is("busy s..."))?4u:0u;
 #ifdef MP_B5_EGRESS_FINAL
     io_metrics.reply_flags|=flags;
+#endif
+#ifdef MP_FIVE_FIELD01
+    if(flags&2u)pre_esp_reset=true;
 #endif
     /* 主动关闭仍须等末尾OK；只有本命令预期的CLOSED可作为中间URC。 */
     if(flags && !(flags==1u && reply_closing))return -11;
@@ -322,6 +327,7 @@ int at_command(const char *command, uint32_t timeout)
         timeout-=spent;
     }
     if(!platform_at_synchronized())return 0;
+    reply[0]=0;
     bool close=!strcmp(command,"AT+CIPCLOSE");
     if(!close && b5_business_remaining()<timeout+B5_CLOSE_RESERVE_MS){io_metrics.budget_refused++;return 0;}
     uint32_t started=g_uptime_ms;serial_deadline=started+timeout;phase(ESP_AT_COMMAND);
@@ -362,6 +368,63 @@ const char *at_response(void)
     return (const char *)reply;
 }
 
+#ifdef MP_FIVE_FIELD01
+#include "preflight_baud.h"
+#ifndef ESP_UART_SWITCH_GUARD_MS
+#define ESP_UART_SWITCH_GUARD_MS 20u
+#endif
+
+int platform_preflight_esp_reset_seen(void) {return pre_esp_reset;}
+
+int platform_preflight_retime(uint32_t baud,uint32_t deadline) {
+    uint32_t divider=preflight_brr(baud);
+    if(!divider || rx_state || pre_esp_reset)return 0;
+    uint32_t start=g_uptime_ms,received=head;
+    while(g_uptime_ms-start<ESP_UART_SWITCH_GUARD_MS || !(USART3->SR&USART_SR_TC)){
+        platform_poll();
+        if(NETWORK_STOPPED() || g_uptime_ms>=deadline || head!=received)return 0;
+    }
+    if(NETWORK_STOPPED() || g_uptime_ms>=deadline)return 0;
+    uint32_t mask=__get_PRIMASK();
+    __disable_irq();
+    if(head!=received || (USART3->SR&USART_SR_RXNE)){
+        __set_PRIMASK(mask);
+        return 0;
+    }
+    USART3->CR1&=~USART_CR1_UE;
+    USART3->BRR=divider;
+    USART3->CR1|=USART_CR1_UE;
+    tail=head;
+    errors=0;
+    reply_begin();
+    io_metrics.unsynced=0;
+    phase(ESP_AT_IDLE);
+    __set_PRIMASK(mask);
+    return 1;
+}
+
+uint32_t platform_preflight_high_water(uint32_t keep) {
+    uint32_t mask=__get_PRIMASK();
+    __disable_irq();
+    uint32_t peak=io_metrics.rx_high_water;
+    uint32_t used=(head+CAPACITY-tail)%CAPACITY;
+    io_metrics.rx_high_water=keep>used?keep:used;
+    __set_PRIMASK(mask);
+    return peak;
+}
+
+int platform_preflight_console(const char *message,uint32_t deadline) {
+    while(*message){
+        do {
+            platform_poll();
+            if(g_uptime_ms>=deadline)return 0;
+        } while(!(USART1->SR&USART_SR_TXE));
+        USART1->DR=(unsigned char)*message++;
+    }
+    return 1;
+}
+#endif
+
 /* 先请求精确长度，再发送 MQTT 二进制并确认 ESP 结果；这不是 Broker 的 PUBACK。 */
 int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout)
 {
@@ -370,7 +433,7 @@ int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout)
     char command[40];
 #ifdef MP_B5_EGRESS_FINAL
     uint32_t transaction_budget=timeout;
-    if(timeout<=((unsigned)length+24u)*10000u/115200u){io_metrics.budget_refused++;return -1;}
+    if(timeout<=((unsigned)length+24u)*10000u/ESP_UART_BAUD){io_metrics.budget_refused++;return -1;}
     /* keepalive可能在ProcessLoop内发出；先结束唯一在途接收，绝不交叉命令。 */
     uint32_t owner_at=g_uptime_ms;
     while(rx_state && (uint32_t)(g_uptime_ms-owner_at)<timeout) {
@@ -454,7 +517,7 @@ int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout)
 #ifdef MP_B5_EGRESS_FINAL
 /* 准入下界包括串口8N1、提示/终态各1秒和ACK接收余量；不是ESP成功时延保证。 */
 uint32_t platform_send_reserve(unsigned bytes) {
-    return ((bytes+24u)*10000u+115199u)/115200u+2100u;
+    return ((bytes+24u)*10000u+ESP_UART_BAUD-1u)/ESP_UART_BAUD+2100u;
 }
 int platform_send_admissible(unsigned bytes,uint32_t budget) {
     return platform_at_synchronized() && !rx_state && budget>=platform_send_reserve(bytes);
@@ -656,7 +719,7 @@ static void init_uart(void)
     GPIO_PinAFConfig(GPIOB, GPIO_PinSource11, GPIO_AF_USART3);
     GPIO_Init(GPIOB, &gpio);
     USART_StructInit(&uart);
-    uart.USART_BaudRate = 115200;
+    uart.USART_BaudRate = ESP_UART_BAUD;
     USART_Init(USART1, &uart);
     USART_Init(USART3, &uart);
     USART_Cmd(USART1, ENABLE);

@@ -39,6 +39,18 @@ def main():
         'queued_clock':([*macros,'-flto','-fwhole-program','-DMP_FINAL_UNIFIED','-DCO_MULTIPLE_OD'],['gateway/microphone/test_unified_clock.c','gateway/canopen/src/mp_od.c','gateway/third_party/CANopenNode/301/CO_ODinterface.c']),
         'format':([],['gateway/microphone/test_format.c','gateway/microphone/mic_format.c']),
         'legacy_egress':(macros,['gateway/b5/test_egress_async.c','gateway/mqtt/src/gateway_transport.c',*transport])}
+    field01_at=['-flto','-fwhole-program','-DGATEWAY_MQTT_HOST_TEST','-DMP_FIVE_FIELD01',
+                '-DMP_B5_EGRESS_FINAL','-DMP_CAN_RX_IRQ']
+    for case in ('wifi_failure','preflight'):
+        cases['field01_'+case]=(field01_at,[f'gateway/mqtt/tests/test_field01_{case}.c',
+            'gateway/mqtt/src/gateway_transport.c','gateway/mqtt/src/mqtt_transport_adapter.c'])
+    cases['field01_control']=(['-flto','-fwhole-program','-Wno-unused-function','-Wno-return-type',
+        '-DMP_FINAL_UNIFIED','-DMP_FIVE_APPLIANCE','-DMP_FIVE_NODE','-DMP_FIVE_FIELD01',
+        '-DMP_B5_EGRESS_FINAL','-DMP_B5_CLOUD_CANDIDATE','-DMP_ABC_TRI_CANDIDATE',
+        '-DMP_FRAME_MAX_SAMPLES=100','-DMP_LIVE_CAPACITY=24','-DMP_CACHE_CAPACITY=56','-DCO_MULTIPLE_OD'],
+        ['gateway/microphone/test_field01_probe.c'])
+    cases['field01_uart_retime']=(['-flto','-fwhole-program','-DMP_FIVE_FIELD01','-DMP_CAN_RX_IRQ',
+        '-DMP_B5_EGRESS_FINAL','-DMP_B5_CLOUD_CANDIDATE'],['gateway/mqtt/tests/test_field01_uart_retime.c'])
     results=[]
     for name,(defines,files) in cases.items():
         exe=out/(name+'.exe');cmd=[*flags,*defines,*[str(ROOT/p) for p in files],'-o',str(exe)]

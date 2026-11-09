@@ -1,6 +1,13 @@
 #ifndef GATEWAY_PLATFORM_H
 #define GATEWAY_PLATFORM_H
 #include <stdint.h>
+#define ESP_UART_BAUD 115200u
+#ifdef MP_FIVE_FIELD01
+int platform_preflight_retime(uint32_t baud,uint32_t deadline);
+int platform_preflight_console(const char *message,uint32_t deadline);
+uint32_t platform_preflight_high_water(uint32_t keep);
+int platform_preflight_esp_reset_seen(void);
+#endif
 /* 与 MQTT 库无关的 ESP 二进制接口；长度与实际读写结果不转换成布尔值。 */
 int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout_ms);
 int esp_mqtt_recv(unsigned char *data, int length, uint32_t timeout_ms);
