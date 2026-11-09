@@ -16,6 +16,7 @@ BASE = [
     b"PRE WIFI ok=1 code=NONE ms=200\n",
     b"PRE WIFI_SIGNAL channel=11 rssi=-29\n",
     b"PRE IPV4 ready=1\n",
+    b"PRE RETIME reason=OK\n",
     b"PRE NEGOTIATE target=230400 result=OK actual=230400\n",
     b"PRE STRESS rate=230400 n=50 fail=0 uart_err=0 rx_high=5 ms=500\n",
     b"PRE RESTORE result=OK\n",
@@ -101,3 +102,22 @@ def test_failures_are_one_shot(run_pre, lines, short, expected):
 
 def test_waits_for_operator(run_pre):
     assert run_pre([BANNER, *BASE], allow=False) == (2, [], "POWER_NOT_CONFIRMED")
+
+
+def test_uart_gate_is_clean(run_pre):
+    lines = [*BASE[:7], b"PRE NEGOTIATE target=230400 result=MISMATCH actual=115273\n",
+             b"PRE STRESS rate=115200 n=0 fail=0 uart_err=0 rx_high=0 ms=0\n",
+             b"PRE RESTORE result=OK\n", b"PRE END result=BLOCKED reason=UART_GATE uart_err=0\n"]
+    lines[3] = b"PRE UART_CUR baud=115273 data=8 stop=1 parity=0 flow=2\n"
+    assert run_pre([BANNER, *lines]) == (2, [b"FIELD01 PRE 230\n"], "UART_GATE")
+
+
+@pytest.mark.parametrize("reason", ["OK", "TC", "RX_NOT_QUIET", "BRR", "STOP", "DEADLINE"])
+def test_retime_parses_only_fixed_enum(reason):
+    line = f"PRE RETIME reason={reason}"
+    assert pre.parse_line(line) == ("RETIME", {"reason": reason})
+    assert pre.parse_line(line + " extra") is None
+
+
+def test_retime_required_for_candidate_success(run_pre):
+    assert run_pre([BANNER, *BASE[:7], *BASE[8:]]) == (2, [b"FIELD01 PRE 230\n"], "PRE_INVALID_RECEIPT")

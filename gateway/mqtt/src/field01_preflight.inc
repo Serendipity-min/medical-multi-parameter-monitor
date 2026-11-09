@@ -84,32 +84,33 @@ static int pre_uart_query(uint32_t limit,PreUart *out) {
 }
 
 static int pre_uart_matches(const PreUart *uart,uint32_t target) {
-    return uart->data==8 && uart->stop==1 && !uart->parity && !uart->flow &&
+    return uart->data==8 && uart->stop==1 && !uart->parity && uart->flow<=1 &&
            preflight_baud_matches(target,uart->baud);
 }
 
-static int pre_uart_set(uint32_t limit,uint32_t baud,char *buffer,size_t size) {
-    (void)snprintf(buffer,size,"AT+UART_CUR=%lu,8,1,0,0",(unsigned long)baud);
-    return pre_at(limit,buffer,1000u);
+static int pre_uart_set(uint32_t ms,uint32_t baud,uint32_t flow,char *buffer,size_t size) {
+    (void)snprintf(buffer,size,"AT+UART_CUR=%lu,8,1,0,%lu",(unsigned long)baud,(unsigned long)flow);
+    return at_command(buffer,ms);
 }
 
-static int pre_confirm(uint32_t limit,uint32_t baud) {
+static int pre_confirm(uint32_t limit,uint32_t baud,uint32_t flow) {
     PreUart reply_uart;
     return pre_at(limit,ESP_AT_SYNC,1000u) && pre_uart_query(limit,&reply_uart) &&
-           pre_uart_matches(&reply_uart,baud);
+           pre_uart_matches(&reply_uart,baud) && reply_uart.flow==flow;
 }
 
 /* 清理只在已知原速率上做一次，保留错误计数并要求完整的五元组。 */
-static int pre_restore(uint32_t limit,uint32_t rate,int candidate_seen,char *buffer,size_t size) {
+static int pre_restore(uint32_t limit,uint32_t rate,uint32_t flow,int candidate_seen,char *buffer,size_t size) {
     if(candidate_seen){
         if(!platform_at_synchronized() &&
-           (!platform_preflight_retime(rate,limit) || !pre_confirm(limit,rate)))return 0;
+           (platform_preflight_retime(rate,limit)!=PRE_RETIME_OK || !pre_confirm(limit,rate,flow)))return 0;
         /* ACK 可能在换速时丢失，实际回读才决定是否恢复。 */
-        (void)pre_uart_set(limit,ESP_UART_BAUD,buffer,size);
+        uint32_t ms=pre_timeout(limit,1000u);
+        if(ms)(void)pre_uart_set(ms,ESP_UART_BAUD,flow,buffer,size);
     }
     if((rate!=ESP_UART_BAUD || !platform_at_synchronized()) &&
-       !platform_preflight_retime(ESP_UART_BAUD,limit))return 0;
-    return pre_confirm(limit,ESP_UART_BAUD);
+       platform_preflight_retime(ESP_UART_BAUD,limit)!=PRE_RETIME_OK)return 0;
+    return pre_confirm(limit,ESP_UART_BAUD,flow);
 }
 
 int gateway_preflight(uint32_t target,uint32_t deadline) {
@@ -117,7 +118,8 @@ int gateway_preflight(uint32_t target,uint32_t deadline) {
     PreUart initial={0},selected={0};
     uint32_t limit=deadline-PRE_RESTORE_RESERVE_MS,restore_limit=deadline-PRE_REPORT_RESERVE_MS;
     uint32_t rate=ESP_UART_BAUD,actual=0,errors,n=0,fail=0,high=0;
-    int candidate_seen=0,restore=-1;
+    int candidate_seen=0,restore=1,rate_may_have_changed=0;
+    static const char *const retime_reasons[]={"OK","TC","RX_NOT_QUIET","BRR","STOP","DEADLINE"};
     const char *negotiation="NO_REPLY";
 #define PRE_OUT(...) do { \
     (void)snprintf(line,sizeof line,__VA_ARGS__); \
@@ -141,8 +143,8 @@ int gateway_preflight(uint32_t target,uint32_t deadline) {
     int wifi=0,ipv4=0;
     uint32_t wifi_ms=0;
     char code[2]={0};
-    if(echo && config_ok && pre_at(limit,ESP_AT_VOLATILE,1000u) &&
-       pre_at(limit,"AT+CWMODE=1,0",2000u)){
+    int volatile_ok=echo && config_ok && pre_at(limit,ESP_AT_VOLATILE,1000u);
+    if(volatile_ok && pre_at(limit,"AT+CWMODE=1,0",2000u)){
         uint32_t ms=pre_timeout(limit,20000u);
         if(ms){
             uint32_t start=g_uptime_ms;
@@ -163,18 +165,30 @@ int gateway_preflight(uint32_t target,uint32_t deadline) {
         negotiation="MISMATCH";actual=initial.baud;
     }else if(initial_valid && target==ESP_UART_BAUD && platform_at_synchronized()){
         negotiation="OK";actual=initial.baud;
-    }else if(initial_valid && preflight_brr(target) && pre_uart_set(limit,target,line,sizeof line)){
-        if(platform_preflight_retime(target,limit)){
-            rate=target;
-            candidate_seen=pre_at(limit,ESP_AT_SYNC,1000u);
-        }
-        if(candidate_seen){
-            int reported=pre_uart_query(limit,&selected);
-            actual=reported?selected.baud:0;
-            negotiation=reported && pre_uart_matches(&selected,target)?"OK":"MISMATCH";
-        }else{
-            restore=pre_restore(restore_limit,rate,0,line,sizeof line);
-            negotiation=restore?"NO_SWITCH":"RESYNC_FAIL";
+    }else if(initial_valid && target!=ESP_UART_BAUD && volatile_ok && preflight_brr(target)){
+        uint32_t ms=pre_timeout(limit,1000u);
+        if(ms){
+            int ack=pre_uart_set(ms,target,initial.flow,line,sizeof line);
+            /* 丢失回复边界时，ESP 可能已接受 setter。 */
+            rate_may_have_changed=ack || !platform_at_synchronized();
+            if(ack){
+                PreRetime retime=platform_preflight_retime(target,limit);
+                PRE_OUT("PRE RETIME reason=%s\r\n",retime_reasons[retime]);
+                if(retime==PRE_RETIME_OK){
+                    rate=target;
+                    candidate_seen=pre_at(limit,ESP_AT_SYNC,1000u);
+                }
+                if(candidate_seen){
+                    int reported=pre_uart_query(limit,&selected);
+                    actual=reported?selected.baud:0;
+                    negotiation=reported && pre_uart_matches(&selected,target) &&
+                                selected.flow==initial.flow?"OK":"MISMATCH";
+                }else{
+                    restore=pre_restore(restore_limit,rate,initial.flow,0,line,sizeof line);
+                    rate_may_have_changed=0;
+                    negotiation=restore?"NO_SWITCH":"RESYNC_FAIL";
+                }
+            }
         }
     }
     if(actual)PRE_OUT("PRE NEGOTIATE target=%lu result=%s actual=%lu\r\n",
@@ -196,10 +210,12 @@ int gateway_preflight(uint32_t target,uint32_t deadline) {
         (unsigned long)rate,(unsigned long)n,(unsigned long)fail,(unsigned long)uart_err,
         (unsigned long)high,(unsigned long)stress_ms);
     int after=rate==ESP_UART_BAUD || (n && pre_at(limit,ESP_AT_SYNC,1000u));
-    if(restore<0)restore=pre_restore(restore_limit,rate,candidate_seen,line,sizeof line);
+    if(rate_may_have_changed)
+        restore=pre_restore(restore_limit,rate,initial.flow,candidate_seen,line,sizeof line);
     PRE_OUT("PRE RESTORE result=%s\r\n",restore?"OK":"FAIL");
-    const char *reason=!restore?"NEED_POWER_CYCLE":b5_network_stopped()?"STOP":
-        timed_out?"TIMEOUT":
+    const char *reason=!restore?"NEED_POWER_CYCLE":
+        b5_network_stopped() || platform_preflight_esp_reset_seen()?"STOP":
+        uart && !initial_valid?"UART_GATE":timed_out?"TIMEOUT":
         !at || !echo?"AT":!gmr?"GMR":!uart?"UART_CUR":!config_ok?"CONFIG":
         strcmp(negotiation,"OK")?"NEGOTIATE":!wifi?"WIFI":!ipv4?"IPV4":
         n!=PRE_STRESS_COUNT || fail || uart_err || !after?"STRESS":"NONE";

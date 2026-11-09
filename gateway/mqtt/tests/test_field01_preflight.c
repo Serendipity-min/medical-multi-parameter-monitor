@@ -13,7 +13,8 @@ const GatewayConfig gateway_test_config={
 volatile uint32_t g_uptime_ms;
 enum {NORMAL, WIFI_1, WIFI_2, WIFI_3, WIFI_4, WIFI_NONE, WIFI_LONG, IP_ZERO, IP_ECHO,
       UART_MISSING, UART_BAD, NO_ACK, NO_CHANGE, MISMATCH, LOST_FAST, RESTORE_FAIL,
-      STRESS_ERROR, VOLATILE_FAIL, RESET, TIMEOUT};
+      STRESS_ERROR, VOLATILE_FAIL, RESET, TIMEOUT, NO_ACK_CHANGED, FLOW_CHANGED, RETIME_FAILED};
+static unsigned flow,parity,setters;
 static unsigned scenario,local_baud,esp_baud,target,gmr_calls,uart_queries,errors,peak;
 static int synced,reset_seen,volatile_set,sta_set,switched;
 static unsigned deadline;
@@ -34,12 +35,13 @@ int platform_preflight_console(const char *message,uint32_t end) {
     return 1;
 }
 
-int platform_preflight_retime(uint32_t baud,uint32_t end) {
+PreRetime platform_preflight_retime(uint32_t baud,uint32_t end) {
     assert(preflight_brr(baud) && end<=deadline);
     g_uptime_ms+=20;
+    if(scenario==RETIME_FAILED && baud!=ESP_UART_BAUD)return PRE_RETIME_RX_NOT_QUIET;
     local_baud=baud;
     synced=1;
-    return 1;
+    return PRE_RETIME_OK;
 }
 
 int at_command(const char *command,uint32_t timeout) {
@@ -60,8 +62,10 @@ int at_command(const char *command,uint32_t timeout) {
     if(!strcmp(command,"AT+UART_CUR?")){
         if(++uart_queries==1 && scenario==UART_MISSING)return 1;
         if(uart_queries==1 && scenario==UART_BAD){strcpy(reply,"+UART_CUR:115200,8,1,0,\r\n");return 1;}
-        unsigned reported=scenario==MISMATCH && local_baud!=ESP_UART_BAUD?111111u:esp_baud;
-        snprintf(reply,sizeof reply,"AT+UART_CUR?\r\n+UART_CUR:%u,8,1,0,0\r\nOK\r\n",reported);
+        unsigned reported=local_baud==ESP_UART_BAUD?115273u:esp_baud;
+        if(scenario==MISMATCH && local_baud!=ESP_UART_BAUD)reported=111111u;
+        unsigned reported_flow=scenario==FLOW_CHANGED && local_baud!=ESP_UART_BAUD?1-flow:flow;
+        snprintf(reply,sizeof reply,"AT+UART_CUR?\r\n+UART_CUR:%u,8,1,%u,%u\r\nOK\r\n",reported,parity,reported_flow);
         return 1;
     }
     if(!strcmp(command,"AT+SYSSTORE=0")){
@@ -91,21 +95,24 @@ int at_command(const char *command,uint32_t timeout) {
         snprintf(reply,sizeof reply,"%s\r\nOK\r\n",body);
         return 1;
     }
-    unsigned baud=0;
+    unsigned baud=0,set_flow=0;
     int consumed=0;
-    assert(sscanf(command,"AT+UART_CUR=%u,8,1,0,0%n",&baud,&consumed)==1 && consumed && !command[consumed]);
-    assert(baud==target || baud==ESP_UART_BAUD);
+    assert(sscanf(command,"AT+UART_CUR=%u,8,1,0,%u%n",&baud,&set_flow,&consumed)==2 && consumed && !command[consumed]);
+    assert(set_flow==flow && (baud==target || baud==ESP_UART_BAUD));
+    assert(volatile_set && flow<=1 && !parity && target!=ESP_UART_BAUD);
+    setters++;
     if(baud!=ESP_UART_BAUD){
         if(scenario==NO_ACK){synced=0;return 0;}
         switched=1;
-        if(scenario!=NO_CHANGE)esp_baud=baud;
+        if(scenario!=NO_CHANGE && scenario!=RETIME_FAILED)esp_baud=baud;
+        if(scenario==NO_ACK_CHANGED){synced=0;return 0;}
     }else if(scenario!=RESTORE_FAIL)esp_baud=baud;
     return 1;
 }
 
 static void check(unsigned mode,unsigned baud,const char *first,const char *second,int clean) {
     scenario=mode;target=baud;esp_baud=local_baud=ESP_UART_BAUD;
-    gmr_calls=uart_queries=errors=peak=0;
+    gmr_calls=uart_queries=errors=peak=setters=0;
     synced=1;reset_seen=volatile_set=sta_set=switched=0;
     g_uptime_ms=1000;deadline=61000;
     captured[0]=reply[0]=0;
@@ -116,6 +123,8 @@ static void check(unsigned mode,unsigned baud,const char *first,const char *seco
            !strstr(captured,"02:00:00:00:00:01") && !strstr(captured,"AT+"));
     if(clean)assert(esp_baud==ESP_UART_BAUD && local_baud==ESP_UART_BAUD);
     if(strstr(captured," n=50 "))assert(gmr_calls==51);
+    if(baud==ESP_UART_BAUD || flow>1 || parity || mode==VOLATILE_FAIL)assert(!setters);
+    if(mode==NORMAL && baud!=ESP_UART_BAUD && flow<=1 && !parity)assert(setters==2 && strstr(captured,"PRE RETIME reason=OK"));
 }
 
 int main(void) {
@@ -142,7 +151,18 @@ int main(void) {
     check(RESTORE_FAIL,500000,"PRE STRESS rate=500000 n=50 fail=0","reason=NEED_POWER_CYCLE",0);
     check(STRESS_ERROR,230400,"n=2 fail=1 uart_err=1","PRE END result=BLOCKED reason=STRESS",1);
     check(VOLATILE_FAIL,115200,"PRE WIFI ok=0 code=NONE","PRE END result=BLOCKED reason=WIFI",1);
-    check(RESET,115200,"PRE WIFI ok=0 code=NONE","reason=NEED_POWER_CYCLE",0);
+    check(RESET,115200,"PRE WIFI ok=0 code=NONE","reason=STOP",1);
     check(TIMEOUT,115200,"PRE WIFI ok=0 code=NONE ms=20000","PRE END result=BLOCKED reason=WIFI",1);
-    puts("FIELD01_PREFLIGHT_AT_PASS cases=22");
+    flow=1;
+    check(NORMAL,115200,"baud=115273 data=8 stop=1 parity=0 flow=1","PRE STRESS rate=115200 n=50 fail=0",1);
+    check(NORMAL,230400,"PRE NEGOTIATE target=230400 result=OK actual=230400","PRE STRESS rate=230400 n=50",1);
+    check(FLOW_CHANGED,230400,"result=MISMATCH actual=230400","reason=NEGOTIATE",1);
+    check(NO_ACK_CHANGED,230400,"result=NO_REPLY actual=NONE","reason=NEED_POWER_CYCLE",0);
+    check(RETIME_FAILED,230400,"PRE RETIME reason=RX_NOT_QUIET","result=NO_SWITCH actual=NONE",1);
+    check(VOLATILE_FAIL,230400,"result=NO_REPLY actual=NONE","reason=NEGOTIATE",1);
+    for(flow=2;flow<=3;flow++)
+        check(NORMAL,230400,"result=MISMATCH actual=115273","reason=UART_GATE",1);
+    flow=1;parity=1;
+    check(NORMAL,115200,"result=MISMATCH actual=115273","reason=UART_GATE",1);
+    puts("FIELD01_PREFLIGHT_AT_PASS cases=31");
 }

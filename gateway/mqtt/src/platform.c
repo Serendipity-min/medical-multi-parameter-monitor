@@ -376,20 +376,25 @@ const char *at_response(void)
 
 int platform_preflight_esp_reset_seen(void) {return pre_esp_reset;}
 
-int platform_preflight_retime(uint32_t baud,uint32_t deadline) {
+PreRetime platform_preflight_retime(uint32_t baud,uint32_t deadline) {
     uint32_t divider=preflight_brr(baud);
-    if(!divider || rx_state || pre_esp_reset)return 0;
+    if(!divider)return PRE_RETIME_BRR;
+    if(rx_state)return PRE_RETIME_RX_NOT_QUIET;
     uint32_t start=g_uptime_ms,received=head;
-    while(g_uptime_ms-start<ESP_UART_SWITCH_GUARD_MS || !(USART3->SR&USART_SR_TC)){
+    for(;;){
+        if(NETWORK_STOPPED() || pre_esp_reset)return PRE_RETIME_STOP;
+        if(head!=received)return PRE_RETIME_RX_NOT_QUIET;
+        int tc=(USART3->SR&USART_SR_TC)!=0;
+        uint32_t now=g_uptime_ms;
+        if(now>=deadline)return tc?PRE_RETIME_DEADLINE:PRE_RETIME_TC;
+        if(tc && now-start>=ESP_UART_SWITCH_GUARD_MS)break;
         platform_poll();
-        if(NETWORK_STOPPED() || g_uptime_ms>=deadline || head!=received)return 0;
     }
-    if(NETWORK_STOPPED() || g_uptime_ms>=deadline)return 0;
     uint32_t mask=__get_PRIMASK();
     __disable_irq();
     if(head!=received || (USART3->SR&USART_SR_RXNE)){
         __set_PRIMASK(mask);
-        return 0;
+        return PRE_RETIME_RX_NOT_QUIET;
     }
     USART3->CR1&=~USART_CR1_UE;
     USART3->BRR=divider;
@@ -400,7 +405,7 @@ int platform_preflight_retime(uint32_t baud,uint32_t deadline) {
     io_metrics.unsynced=0;
     phase(ESP_AT_IDLE);
     __set_PRIMASK(mask);
-    return 1;
+    return PRE_RETIME_OK;
 }
 
 uint32_t platform_preflight_high_water(uint32_t keep) {

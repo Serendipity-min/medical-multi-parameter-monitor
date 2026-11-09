@@ -27,10 +27,11 @@ FIELDS = [
     ("WIFI", rf"ok=(?P<ok>[01]) code=(?P<code>[1-4]|NONE) ms=(?P<ms>{UINT})"),
     ("WIFI_SIGNAL", r"channel=(?P<channel>[0-9]{1,2}) rssi=(?P<rssi>-?[0-9]{1,3})"),
     ("IPV4", r"ready=(?P<ready>[01])"),
+    ("RETIME", r"reason=(?P<reason>OK|TC|RX_NOT_QUIET|BRR|STOP|DEADLINE)"),
     ("NEGOTIATE", rf"target=(?P<target>{UINT}) result=(?P<result>OK|NO_REPLY|NO_SWITCH|MISMATCH|RESYNC_FAIL) actual=(?P<actual>{UINT}|NONE)"),
     ("STRESS", rf"rate=(?P<rate>{UINT}) n=(?P<n>{UINT}) fail=(?P<fail>{UINT}) uart_err=(?P<uart_err>{UINT}) rx_high=(?P<rx_high>{UINT}) ms=(?P<ms>{UINT})"),
     ("RESTORE", r"result=(?P<result>OK|FAIL)"),
-    ("END", rf"result=(?P<result>PASS|BLOCKED) reason=(?P<reason>NONE|NEED_POWER_CYCLE|STOP|TIMEOUT|AT|GMR|UART_CUR|CONFIG|NEGOTIATE|WIFI|IPV4|STRESS) uart_err=(?P<uart_err>{UINT})"),
+    ("END", rf"result=(?P<result>PASS|BLOCKED) reason=(?P<reason>NONE|NEED_POWER_CYCLE|STOP|TIMEOUT|AT|GMR|UART_CUR|UART_GATE|CONFIG|NEGOTIATE|WIFI|IPV4|STRESS) uart_err=(?P<uart_err>{UINT})"),
 ]
 PRE_LINES = {tag: re.compile(pattern) for tag, pattern in FIELDS}
 PRE_ORDER = [tag for tag, _ in FIELDS]
@@ -53,12 +54,13 @@ def parse_line(line):
 
 
 def complete(records, target):
-    order = [tag for tag in PRE_ORDER if tag != "WIFI_SIGNAL" or tag in records]
+    order = [tag for tag in PRE_ORDER if tag not in ("WIFI_SIGNAL", "RETIME") or tag in records]
     if list(records) != order:
         return False
     begin, wifi, neg, stress, restore, end = (
         records[tag] for tag in ("BEGIN", "WIFI", "NEGOTIATE", "STRESS", "RESTORE", "END")
     )
+    retime = records.get("RETIME")
     if (begin["target"] != target or neg["target"] != target or begin["boot_ms"] >= PREP_S * 1000
             or stress["rate"] not in COMMANDS or not 0 <= stress["fail"] <= stress["n"] <= 50
             or stress["rx_high"] > 8191 or stress["ms"] > 60000 or wifi["ms"] > 20000
@@ -67,6 +69,13 @@ def complete(records, target):
             or (neg["result"] == "OK" and (neg["actual"] == "NONE" or stress["rate"] != target))
             or (neg["result"] != "OK" and stress["n"])
             or (restore["result"] == "FAIL") != (end["reason"] == "NEED_POWER_CYCLE")
+            or (restore["result"] == "FAIL" and (target == 115200 or neg["result"] == "NO_SWITCH"))
+            or (retime and (target == 115200 or neg["result"] == "NO_REPLY"))
+            or (target != 115200 and neg["result"] in ("OK", "NO_SWITCH", "RESYNC_FAIL") and not retime)
+            or (retime and retime["reason"] != "OK" and neg["result"] not in ("NO_SWITCH", "RESYNC_FAIL"))
+            or (end["reason"] == "UART_GATE" and (
+                retime or neg["result"] != "MISMATCH" or neg["actual"] == "NONE"
+                or neg["actual"] != records["UART_CUR"]["baud"] or restore["result"] != "OK"))
             or (end["result"] == "PASS") != (end["reason"] == "NONE")):
         return False
     signal = records.get("WIFI_SIGNAL")
