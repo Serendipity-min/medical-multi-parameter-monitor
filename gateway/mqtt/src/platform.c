@@ -53,6 +53,9 @@ int platform_at_unsynced(void){return io_metrics.unsynced!=0;}
 #ifdef PLATFORM_HOST_TEST
 void platform_cpu_snapshot(EspCpuMetrics *out){*out=(EspCpuMetrics){0};}
 void platform_cpu_note_gmr(void){}
+#ifdef MP_FIVE_FIELD01
+void platform_cpu_reset_service_max(void){}
+#endif
 #else
 static EspCpuMetrics cpu;
 static volatile uint32_t irq_cycles,irq_calls;
@@ -66,6 +69,9 @@ void platform_cpu_snapshot(EspCpuMetrics *out){
     out->irq_calls=irq_calls;
     __set_PRIMASK(mask);
 }
+#ifdef MP_FIVE_FIELD01
+void platform_cpu_reset_service_max(void){cpu.service_cycles_max=0;}
+#endif
 void platform_cpu_note_gmr(void){
     cpu.gmr_rx_bytes+=io_metrics.reply_bytes;
     cpu.gmr_calls++;
@@ -141,7 +147,13 @@ void platform_poll(void)
 #endif
         poll_callback();
 #ifdef ESP_CPU_MEASURE
+#ifdef MP_FIVE_FIELD01
+        uint32_t elapsed=CPU_NOW()-began;
+        cpu.service_cycles+=elapsed;
+        if(elapsed>cpu.service_cycles_max)cpu.service_cycles_max=elapsed;
+#else
         cpu.service_cycles+=CPU_NOW()-began;
+#endif
         cpu.service_calls++;
 #endif
         polling = 0;
@@ -199,6 +211,13 @@ static int receive_byte(void)
 
 static unsigned send_bytes(const unsigned char *data, unsigned int length)
 {
+#ifdef MP_P3_SERVICE_MODEL
+    if(io_metrics.at_phase==ESP_AT_DATA){
+        extern int platform_test_dma_payload(const unsigned char *,unsigned);
+        int count=platform_test_dma_payload(data,length);
+        if(count>=0)return (unsigned)count;
+    }
+#endif
     unsigned int i=0;
 #ifdef ESP_CPU_MEASURE
     uint32_t began=CPU_NOW();
@@ -621,7 +640,7 @@ static int pass_recv(unsigned char *data,int length,uint32_t timeout){
     do {
         if(pass_mode!=PASS_STREAM || NETWORK_STOPPED())return -1;
         if(errors){pass_unknown();return -1;}
-#if defined(MP_TRANSPORT_BENCH) && defined(ESP_CPU_MEASURE)
+#if (defined(MP_TRANSPORT_BENCH) || defined(MP_FIVE_FIELD01)) && defined(ESP_CPU_MEASURE)
         uint32_t began=CPU_NOW();
 #endif
         int byte=receive_byte();
@@ -642,7 +661,7 @@ static int pass_recv(unsigned char *data,int length,uint32_t timeout){
         }
         data[copied++]=(unsigned char)byte;
         io_metrics.rx_bytes++;
-#if defined(MP_TRANSPORT_BENCH) && defined(ESP_CPU_MEASURE)
+#if (defined(MP_TRANSPORT_BENCH) || defined(MP_FIVE_FIELD01)) && defined(ESP_CPU_MEASURE)
         cpu.rx_step_cycles+=CPU_NOW()-began;
         cpu.rx_step_bytes++;
 #endif

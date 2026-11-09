@@ -52,6 +52,9 @@ def main():
         '-DMP_B5_EGRESS_FINAL','-DMP_B5_CLOUD_CANDIDATE','-DMP_ABC_TRI_CANDIDATE',
         '-DMP_FRAME_MAX_SAMPLES=100','-DMP_LIVE_CAPACITY=24','-DMP_CACHE_CAPACITY=56','-DCO_MULTIPLE_OD'],
         ['gateway/microphone/test_field01_probe.c'])
+    field_defines,field_files=cases['field01_control']
+    cases['field01_profile_pair_control']=([*field_defines,'-DMP_AUDIO_DISABLED',
+        '-DMP_TRANSPORT_PROFILE','-DMP_ESP_UART_230400','-DMP_ESP_PASSTHROUGH'],field_files)
     cases['field01_uart_retime']=(['-flto','-fwhole-program','-DMP_FIVE_FIELD01','-DMP_CAN_RX_IRQ',
         '-DMP_B5_EGRESS_FINAL','-DMP_B5_CLOUD_CANDIDATE'],['gateway/mqtt/tests/test_field01_uart_retime.c'])
     cases['production_uart']=(['-flto','-fwhole-program','-DGATEWAY_MQTT_HOST_TEST','-DMP_ESP_UART_230400',

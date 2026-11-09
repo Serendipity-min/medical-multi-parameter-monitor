@@ -908,14 +908,19 @@ static int esp_version(uint32_t timeout,char version[32]) {
 
 #ifdef MP_TRANSPORT_BENCH
 int gateway_bench_restore(void){
-    if(!platform_at_synchronized() || gateway_uart_negotiation_failed())return 0;
-    if(!at_command("AT+CIPSTATUS",1000u))return 0;
+    const char *label="BENCH RESTORE";
+    if(!platform_at_synchronized() || gateway_uart_negotiation_failed())
+        return production_restore_failure(label,"AT_STATE");
+    if(!at_command("AT+CIPSTATUS",1000u))return production_restore_failure(label,"STATUS");
     const char *status=strstr(at_response(),"STATUS:");
-    if(!status || !status[7] || !strchr("245",status[7]) || status[8]!='\r' || strstr(at_response(),"+CIPSTATUS:"))return 0;
-    if(!at_command("AT+CIPMODE?",1000u) || !strstr(at_response(),"+CIPMODE:0\r\n"))return 0;
+    if(!status || !status[7] || !strchr("245",status[7]) || status[8]!='\r' || strstr(at_response(),"+CIPSTATUS:"))
+        return production_restore_failure(label,"STATUS");
+    if(!at_command("AT+CIPMODE?",1000u) || !strstr(at_response(),"+CIPMODE:0\r\n"))
+        return production_restore_failure(label,"CIPMODE");
     PreUart current;
-    if(!production_uart_query(platform_esp_uart_baud(),&current))return 0;
-    if(platform_esp_uart_baud()!=ESP_UART_BAUD && !production_restore(current.flow,(char[64]){0},64))return 0;
+    uint32_t baud=platform_esp_uart_baud();
+    if(!production_uart_query(baud,&current))return production_restore_failure(label,"UART_CUR");
+    if(baud==PROD_UART_BAUD && !production_restore_fast(current.flow,(char[64]){0},64,label))return 0;
     uart_attempted=0;
     return 1;
 }
@@ -938,6 +943,9 @@ int gateway_network_open(void)
     if(transport_bench_fast()){
 #endif
     if(!production_uart_open(command,sizeof command) || !step("STA","AT+CWMODE=1",3000))return 0;
+#ifdef MP_FIVE_FIELD01
+    if(platform_esp_uart_baud()!=PROD_UART_BAUD){console("GW FAIL FIELD01_UART_RATE\r\n");return 0;}
+#endif
 #ifdef MP_TRANSPORT_BENCH
         if(platform_esp_uart_baud()!=PROD_UART_BAUD)return 0;
     }else{

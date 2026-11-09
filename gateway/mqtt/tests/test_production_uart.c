@@ -10,13 +10,15 @@ const GatewayConfig gateway_test_config={0};
 TestUsart platform_usart[2];
 volatile uint32_t g_uptime_ms;
 enum { NORMAL, REJECT, NO_ACK_OLD, NO_ACK_FAST, GARBAGE_AFTER_ACK, FAST_NO_REPLY,
-       QUERY_MISSING, BAD_FLOW, SYSSTORE_REJECT, STOP_DURING_GUARD };
+       QUERY_MISSING, BAD_FLOW, SYSSTORE_REJECT, STOP_DURING_GUARD, H_JUNK, RESTORE_REJECT, RESTORE_NO_ACK, RESTORE_PROBE_FAIL };
 static unsigned scenario,peer_baud,peer_flow,setters,restore_setters,accepted;
 static int stopped,tx_wrong;
-static unsigned degraded,failed;
+static unsigned degraded,failed,wrong_commands,junk_pending,junk_errors,restore_step;
 void production_test_console(const char *line){
     if(!strcmp(line,"GW UART_DEGRADED\r\n"))degraded++;
     if(!strcmp(line,"GW FAIL UART_NEGOTIATE\r\n"))failed++;
+    if(!strcmp(line,"BENCH RESTORE step=SETTER\r\n"))restore_step=1;
+    if(!strcmp(line,"BENCH RESTORE step=PROBE_BACK\r\n"))restore_step=2;
 }
 static uint32_t reply_at,garbage_at,stop_at;
 static char command[64],queued[80];
@@ -54,12 +56,18 @@ void platform_test_tx(unsigned char byte){
     if(byte!='\n')return;
     command[command_n]=0;command_n=0;
     if(tx_wrong){
-        tx_wrong=0;
+        tx_wrong=0;wrong_commands++;
+        if(scenario==H_JUNK)junk_pending=1;
         if(scenario==GARBAGE_AFTER_ACK)schedule("??\r\n");
         return;
     }
     if(!strcmp(command,"AT\r\n")){
-        if(scenario!=FAST_NO_REPLY || peer_baud!=230400)schedule("\r\nOK\r\n");
+        if(junk_pending){
+            junk_pending=0;junk_errors++;
+            schedule("\r\nERROR\r\n");return;
+        }
+        if((scenario!=FAST_NO_REPLY || peer_baud!=230400) &&
+           (scenario!=RESTORE_PROBE_FAIL || peer_baud!=115200))schedule("\r\nOK\r\n");
         return;
     }
     if(!strcmp(command,"ATE0\r\n")){
@@ -81,8 +89,9 @@ void platform_test_tx(unsigned char byte){
     assert(flow==peer_flow);
     if(rate==115200){
         restore_setters++;
+        if(scenario==RESTORE_REJECT){schedule("\r\nERROR\r\n");return;}
         peer_baud=rate;
-        schedule("\r\nOK\r\n");
+        if(scenario!=RESTORE_NO_ACK)schedule("\r\nOK\r\n");
         return;
     }
     assert(rate==230400 && peer_baud==115200);
@@ -98,6 +107,7 @@ void platform_test_tx(unsigned char byte){
 
 static void reset(unsigned mode,unsigned baud,unsigned flow){
     scenario=mode;peer_baud=baud;peer_flow=flow;
+    wrong_commands=junk_pending=junk_errors=restore_step=0;
     degraded=failed=setters=restore_setters=accepted=command_n=queued_i=queued_n=0;
     g_uptime_ms=garbage_at=stop_at=0;stopped=tx_wrong=0;
     uart_attempted=uart_starting=uart_failed=0;
@@ -113,7 +123,40 @@ static int open_uart(void){
     return production_uart_open(text,sizeof text);
 }
 
-int main(void){
+int main(int argc,char **argv){
+    if(argc==2 && !strcmp(argv[1],"--h-junk-legacy")){
+        reset(H_JUNK,230400,1);
+        assert(!open_uart() && junk_errors==1 && wrong_commands==1);
+        reset(H_JUNK,230400,1);
+        assert(production_retime(PROD_UART_BAUD));
+        uart_starting=1;
+        char line[64];
+        assert(!production_restore(1,line,sizeof line) && junk_errors==1 && wrong_commands==1 && !restore_setters);
+        puts("R9_H_JUNK_LEGACY_REPRODUCED startup=FAIL restore=FAIL wrong_rate=1 next_AT_ERROR=1");
+        return 0;
+    }
+#ifndef R9_LEGACY_REPLAY
+    reset(H_JUNK,230400,1);
+    assert(open_uart() && junk_errors==1 && wrong_commands==1 && !setters && !failed);
+    reset(H_JUNK,230400,1);
+    assert(production_retime(PROD_UART_BAUD));
+    uart_starting=1;
+    char fallback[64];
+    assert(production_restore(1,fallback,sizeof fallback) && junk_errors==1 && wrong_commands==1 && restore_setters==1);
+    const unsigned cases[]={H_JUNK,RESTORE_REJECT,RESTORE_NO_ACK,RESTORE_PROBE_FAIL};
+    for(unsigned i=0;i<sizeof cases/sizeof cases[0];i++){
+        reset(cases[i],230400,1);
+        assert(production_retime(PROD_UART_BAUD));
+        uart_starting=1;
+        char line[64];
+        int ok=production_restore_fast(1,line,sizeof line,"BENCH RESTORE");
+        assert(restore_setters==1 && !wrong_commands && !junk_errors);
+        assert(ok==(i==0 || i==2));
+        assert(restore_step==(i==1?1u:i==3?2u:0u));
+        if(ok)assert(peer_baud==115200 && platform_esp_uart_baud()==115200);
+    }
+    puts("R9_H_JUNK_FIXED startup=PASS ambiguous=PASS known_restore_wrong_rate=0 setter_and_readback_cases=4");
+#endif
     const uint32_t slow_reserve=platform_send_reserve(600);
     assert(preflight_brr(500000)==0);
     for(unsigned flow=0;flow<=1;flow++){

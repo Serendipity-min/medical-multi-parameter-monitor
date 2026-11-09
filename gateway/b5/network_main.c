@@ -238,13 +238,19 @@ static void local_control(void) {
 }
 #endif
 static void diagnostic(unsigned stage) {
-#ifdef MP_TRANSPORT_PROFILE
+#if defined(MP_TRANSPORT_PROFILE) && defined(MP_FIVE_FIELD01)
+    char line[704];
+#elif defined(MP_TRANSPORT_PROFILE)
     char line[600];
 #else
     char line[300];
 #endif
     /* 仅固定计数/状态，无Topic、载荷、Wi-Fi或凭据；QoS0不命名为云端接收成功。 */
-    if(stage==0){
+    if(stage==0
+#if defined(MP_TRANSPORT_PROFILE) && defined(MP_FIVE_FIELD01)
+       || stage==FIELD01_PROFILE_DIAG
+#endif
+    ){
     (void)snprintf(line,sizeof(line),"B5 DIAG tick=%lu session=%lu rx=%lu txack=%lu txfail=%lu overflow=%lu esr=%lu uart_err=%lu live=%u cache=%u dropped=%lu q0_transport=%lu q1_puback=%lu mqtt_fail=%lu stop=%u"
 #ifndef MP_TRANSPORT_PROFILE
         "\r\n"
@@ -261,15 +267,26 @@ static void diagnostic(unsigned stage) {
     size_t used=strlen(line);
     (void)snprintf(line+used,sizeof(line)-used,
         " svc_cyc=%lu svc_n=%lu tx_cyc=%lu tx_b=%lu txe_cyc=%lu await_cyc=%lu await_b=%lu"
-        " rxstep_cyc=%lu rxstep_b=%lu irq_cyc=%lu irq_n=%lu gmr_rx_b=%lu gmr_n=%lu\r\n",
+        " rxstep_cyc=%lu rxstep_b=%lu irq_cyc=%lu irq_n=%lu gmr_rx_b=%lu gmr_n=%lu"
+#ifdef MP_FIVE_FIELD01
+        " svc_max_cyc=%lu can_rx_a=%lu can_rx_b=%lu"
+#endif
+        "\r\n",
         (unsigned long)cpu.service_cycles,(unsigned long)cpu.service_calls,
         (unsigned long)cpu.tx_cycles,(unsigned long)cpu.tx_bytes,(unsigned long)cpu.txe_cycles,
         (unsigned long)cpu.await_cycles,(unsigned long)cpu.await_bytes,
         (unsigned long)cpu.rx_step_cycles,(unsigned long)cpu.rx_step_bytes,
         (unsigned long)cpu.irq_cycles,(unsigned long)cpu.irq_calls,
-        (unsigned long)cpu.gmr_rx_bytes,(unsigned long)cpu.gmr_calls);
+        (unsigned long)cpu.gmr_rx_bytes,(unsigned long)cpu.gmr_calls
+#ifdef MP_FIVE_FIELD01
+        ,(unsigned long)cpu.service_cycles_max,(unsigned long)b4_hw_diag[0].received,(unsigned long)b4_hw_diag[1].received
+#endif
+        );
 #endif
     console(line);
+#if defined(MP_TRANSPORT_PROFILE) && defined(MP_FIVE_FIELD01)
+    if(stage==FIELD01_PROFILE_DIAG)return;
+#endif
 #ifdef MP_FINAL_UNIFIED
     snprintf(line,sizeof line,"UNI CAN water_a=%lu water_b=%lu mask=%u limit_ms=%lu network_fault=%u replay_a=%lu replay_b=%lu can_poll_cycles_max=%lu\r\n",
         (unsigned long)b4_hw_diag[0].high_water,(unsigned long)b4_hw_diag[1].high_water,
@@ -621,7 +638,7 @@ int main(void) {
 #endif
         mp_router_online(&gateway.router, false); network_open = mqtt_connected = false;
         if (!gateway_network_open()) {
-#ifdef MP_ESP_UART_230400
+#if defined(MP_ESP_UART_230400) && !defined(MP_FIVE_FIELD01)
             if(gateway_uart_negotiation_failed()){
                 while(!stopped)platform_poll();
                 break;

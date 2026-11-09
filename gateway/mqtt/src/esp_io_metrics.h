@@ -29,10 +29,16 @@ void platform_io_snapshot(EspIoMetrics *out);
 #ifdef MP_TRANSPORT_PROFILE
 typedef struct {
     uint32_t service_cycles,service_calls,tx_cycles,tx_bytes,txe_cycles;
+#ifdef MP_FIVE_FIELD01
+    uint32_t service_cycles_max;
+#endif
     uint32_t await_cycles,await_bytes,rx_step_cycles,rx_step_bytes,irq_cycles,irq_calls;
     uint32_t gmr_rx_bytes,gmr_calls;
 } EspCpuMetrics;
 void platform_cpu_snapshot(EspCpuMetrics *out);
+#ifdef MP_FIVE_FIELD01
+void platform_cpu_reset_service_max(void);
+#endif
 void platform_cpu_note_gmr(void);
 #endif
 #ifdef MP_B5_EGRESS_FINAL

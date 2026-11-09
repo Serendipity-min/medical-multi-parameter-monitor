@@ -8,9 +8,16 @@ volatile uint32_t g_uptime_ms;
 volatile B4HwDiag b4_hw_diag[2];
 static const unsigned char *command;
 static size_t remaining;
-static bool config_valid,subscribed,op;
+static bool config_valid,op;
+#ifndef MP_AUDIO_DISABLED
+static bool subscribed;
 static MicDiag microphone;
+#endif
 static unsigned pre_calls,pre_advance;
+#ifdef MP_TRANSPORT_PROFILE
+static unsigned profile_resets;
+void platform_cpu_reset_service_max(void){profile_resets++;}
+#endif
 static bool pre_restore_ok,pre_manual_stop;
 
 int console_char(void) {
@@ -22,12 +29,21 @@ uint32_t platform_uart_errors_total(void){return 0;}
 int platform_at_synchronized(void){return 1;}
 void platform_io_snapshot(EspIoMetrics *out){memset(out,0,sizeof *out);}
 int gateway_config_valid(void){return config_valid;}
+#ifndef MP_AUDIO_DISABLED
 int gateway_audio_ready(void){return subscribed;}
+#endif
+#ifdef MP_ESP_UART_230400
+int gateway_uart_negotiating(void){return 0;}
+#endif
 bool b4_gateway_online(B4Gateway *g,unsigned node){(void)g;(void)node;return op;}
+#ifndef MP_AUDIO_DISABLED
 void mic_diagnostics(MicDiag *out){*out=microphone;}
+#endif
 void b4_hw_idle(void){}
 void b4_hw_stop(void){assert(0);}
+#ifndef MP_AUDIO_DISABLED
 void unified_audio_stop(void){assert(0);}
+#endif
 void mp_router_online(MpRouter *r,bool online){(void)r;(void)online;assert(0);}
 int platform_console_busy(void){return 0;}
 void platform_poll(void){service();}
@@ -46,7 +62,10 @@ int gateway_preflight(uint32_t target,uint32_t deadline) {
     platform_poll();
     assert(!network_fault && !stop_due && !armed && !field01_t0 && !runtime_ready);
     INPUT("FIELD01 START\nFIELD01 KEY\nFIELD01 PRE 500\n");
-    assert(pre_state==PRE_RUNNING && !armed && !field_key_approved);
+    assert(pre_state==PRE_RUNNING && !armed);
+#ifndef MP_AUDIO_DISABLED
+    assert(!field_key_approved);
+#endif
     if(pre_manual_stop){
         static const unsigned char stop_input[]="FIELD01 STOP\n";
         command=stop_input;remaining=sizeof stop_input-1;
@@ -58,7 +77,10 @@ int gateway_preflight(uint32_t target,uint32_t deadline) {
 }
 
 static void reset_pre(void) {
-    pre_state=PRE_UNUSED;stop_due=stopped=armed=false;field01_t0=0;field_key_approved=false;
+    pre_state=PRE_UNUSED;stop_due=stopped=armed=false;field01_t0=0;
+#ifndef MP_AUDIO_DISABLED
+    field_key_approved=false;
+#endif
     g_uptime_ms=1000;
     pre_advance=0;pre_restore_ok=true;pre_manual_stop=false;
 }
@@ -119,8 +141,11 @@ int main(void) {
     INPUT("FIELD01 START\r\n");
     assert(armed && !stop_due);
     INPUT("FIELD01 KEY\n");
+#ifndef MP_AUDIO_DISABLED
     assert(!field_key_approved);
-    gateway.utc_valid=true;subscribed=true;op=true;
+    subscribed=true;
+#endif
+    gateway.utc_valid=true;op=true;
     field01_begin();
     assert(!field01_t0);
     for(unsigned bus=0;bus<2;bus++)for(unsigned slot=0;slot<2;slot++)
@@ -128,11 +153,16 @@ int main(void) {
     field01_begin();
     assert(field01_t0==8000 && b5_business_remaining()==150000);
     INPUT("FIELD01 KEY\n");
+#ifndef MP_AUDIO_DISABLED
     assert(field_key_approved);
+#endif
     g_uptime_ms=8001;
     INPUT("FIELD01 START\n");
     field01_begin();
     assert(field01_t0==8000 && b5_business_remaining()==149999);
+#ifdef MP_TRANSPORT_PROFILE
+    assert(profile_resets==1);
+#endif
     g_uptime_ms=12999;
     field01_poll();
     assert(!stop_due);
@@ -142,10 +172,12 @@ int main(void) {
 
     stop_due=false;g_uptime_ms=13001;
     for(unsigned i=0;i<3;i++)gateway.router.enqueued[field_waves[i]]++;
+#ifndef MP_AUDIO_DISABLED
     microphone.overruns=1;
     field01_poll();
     assert(stop_due && stop_reason==FIELD01_DMA);
     microphone.overruns=0;stop_due=false;
+#endif
     for(unsigned i=1;i<=3;i++){
         g_uptime_ms+=100;
         b4_hw_diag[1].esr=i<<16;

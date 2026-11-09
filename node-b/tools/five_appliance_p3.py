@@ -84,7 +84,7 @@ def field_data(path, reference):
     return stats,lengths
 
 
-def run_host(cc, out, *, cpu_scan=False, pass_scan=False, r8_slots=None):
+def run_host(cc, out, *, cpu_scan=False, pass_scan=False, r8_slots=None, service_fit=False):
     g=ROOT/'gateway'
     vendor=g/'third_party/coreMQTT/source'
     mqtt=g/'mqtt/src'
@@ -100,6 +100,9 @@ def run_host(cc, out, *, cpu_scan=False, pass_scan=False, r8_slots=None):
     if r8_slots is not None:
         pass_scan=True
         flags += [f'GATEWAY_TELEMETRY_SLOTS={r8_slots}']
+    if service_fit:
+        pass_scan=True
+        flags += ['MP_P3_SERVICE_MODEL']
     if pass_scan:
         flags += ['MP_AUDIO_DISABLED','MP_ESP_PASSTHROUGH']
         files=[p for p in files if p.name not in ('unified_audio.c','tts_queue.c','tts_frame.c')]
@@ -136,15 +139,35 @@ def run_host(cc, out, *, cpu_scan=False, pass_scan=False, r8_slots=None):
     else:
         runs=[(*run,110000) for run in runs]
     cases={}
+    fit={}
+    def service_cases():
+        target=8.07
+        for cost in range(121):
+            yield (0,22,115200,cost,'normal',55,110000)
+        rows=[(abs(row['service_rate']-target),row['service']['cpu_us_per_poll'],row['service_rate'])
+              for row in cases.values() if 'service_rate' in row]
+        _,cost,rate=min(rows)
+        fit.update(target_batches_s=target,service_us=cost,fit_rate=rate,
+                   send_ok_ms=22,peer_ack_delay_ms=55)
+        yield (0,42,115200,0,'normal',55,110000)
+        for mode,baud in (('normal',230400),('pass',115200),('pass',230400),('dma',115200)):
+            for ack in (55,370):
+                yield (0,22,baud,cost,mode,ack,110000)
+    if service_fit:
+        runs=service_cases()
     for blocks, terminal, baud, cost, mode, ack, window in runs:
         key=f'{blocks}blocks-{terminal}ms'
         if cpu_scan:
             key+=f'-{baud}baud-{cost}us'
         if pass_scan:
             key=f'{mode}-{baud}baud-{cost}us-{ack}ack'
-        argv=[str(exe),str(blocks),str(terminal),str(baud),str(cost)]
+        if service_fit:
+            key+=f'-{terminal}sendok'
+        argv=[str(exe),str(blocks),str(terminal),str(baud),str(0 if service_fit else cost)]
         if pass_scan:
             argv += [mode,str(ack),str(window)]
+        if service_fit:
+            argv.append(str(cost))
         result=subprocess.run(argv,
                               capture_output=True,timeout=35)
         log=result.stdout+result.stderr
@@ -161,7 +184,7 @@ def run_host(cc, out, *, cpu_scan=False, pass_scan=False, r8_slots=None):
                 summary['queue_samples'].append(fields)
             elif label=='lat':
                 summary['latency'][line.split()[1]]=fields
-            elif label in ('case','flow','owner','slots','peer','offered','FAILED'):
+            elif label in ('case','flow','owner','slots','peer','offered','service','FAILED'):
                 summary[label]=fields
         if result.returncode==0:
             per_stream={f"{row['node']}/{row['stream']}":row['offered'] for row in summary['streams']}
@@ -180,6 +203,7 @@ def run_host(cc, out, *, cpu_scan=False, pass_scan=False, r8_slots=None):
                 if sample and base and 'service_rate' in sample:
                     sample['service_rate_delta_vs_no_audio']=sample['service_rate']-base
     return dict(scope='REAL_C_WITH_VIRTUAL_UART_PEER_NOT_FIELD', cases=cases,
+                **({'fit':fit} if service_fit else {}),
                 source_sha256={p.relative_to(ROOT).as_posix():sha(p) for p in
                               [*files,mqtt/'gateway_transport.c',mqtt/'platform.c',g/'b5/egress.h']})
 
@@ -341,15 +365,21 @@ def main():
     source=parser.add_mutually_exclusive_group(required=True)
     source.add_argument('--paths',type=Path)
     source.add_argument('--cpu-scan',action='store_true',help='仅运行同输入 Host 波特率与每字节 CPU 扫描')
+    source.add_argument('--service-fit',action='store_true',help='R9 按服务回调开销拟合 P1 实测完成率')
     source.add_argument('--r8-scan',action='store_true',help='R8 300秒对照与QoS1槽位扫描')
     source.add_argument('--pass-scan',action='store_true',help='音频关闭的 R7 普通/透传 Host 对照')
     parser.add_argument('--out',type=Path,required=True)
     parser.add_argument('--cc',default='C:/mingw64/bin/gcc.exe')
     parser.add_argument('--host-results',type=Path,help='复用已完成的同源码 Host 回执')
     args=parser.parse_args()
-    if (args.cpu_scan or args.pass_scan or args.r8_scan) and args.host_results:
+    if (args.cpu_scan or args.pass_scan or args.r8_scan or args.service_fit) and args.host_results:
         parser.error('scan modes require a fresh Host run')
     args.out.mkdir(parents=True,exist_ok=False)
+    if args.service_fit:
+        host=run_host(args.cc,args.out,service_fit=True)
+        result=dict(scope='HOST_MODEL_NOT_HARDWARE',script_sha256=sha(Path(__file__)),host=host)
+        (args.out/'results.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
+        return int(any(case['exit'] for case in host['cases'].values()))
     if args.r8_scan:
         hosts={}
         for slots in (3,4,6):

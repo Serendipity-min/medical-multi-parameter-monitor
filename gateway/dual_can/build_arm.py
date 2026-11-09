@@ -40,8 +40,11 @@ def main():
                                  args.field01 or args.esp_passthrough or args.esp_230400 or
                                  args.tls_port not in (None,28895)):
         parser.error('--transport-bench requires --unified --five-appliance --no-audio and TLS 28895; modes are selected at runtime')
-    if args.esp_passthrough and (not args.five_appliance or args.field01 or args.tls_port not in (None,28895)):
-        parser.error('--esp-passthrough requires --five-appliance, TLS port 28895, without FIELD01')
+    if args.esp_passthrough and (not args.five_appliance or args.tls_port not in (None,28895)):
+        parser.error('--esp-passthrough requires --five-appliance and TLS port 28895')
+    if args.field01 and (args.transport_profile or args.esp_passthrough or args.esp_230400):
+        if not (args.transport_profile and args.no_audio and args.esp_passthrough==args.esp_230400):
+            parser.error('FIELD01 profiling requires --no-audio --transport-profile; passthrough and 230400 must be selected together')
     args.no_audio |= args.esp_passthrough
     if args.no_audio and not args.unified:parser.error('--no-audio requires --unified')
     audio = args.audio_link or (args.unified and not args.no_audio)
@@ -51,8 +54,8 @@ def main():
     if args.split_flash and not (args.unified or args.bench):parser.error('--split-flash requires --unified or --bench')
     if args.five_node and not (args.split_flash and (args.unified or args.bench)):parser.error('--five-node requires split unified/bench')
     if args.five_appliance and not (args.five_node and args.unified):parser.error('--five-appliance requires --five-node --unified')
-    if (args.esp_230400 or args.transport_profile) and (not args.egress_final or not args.five_appliance or args.field01):
-        parser.error('--esp-230400/--transport-profile require five-appliance egress-final without FIELD01')
+    if (args.esp_230400 or args.transport_profile) and (not args.egress_final or not args.five_appliance):
+        parser.error('--esp-230400/--transport-profile require five-appliance egress-final')
     if args.field01 and (not args.five_appliance or args.tls_port not in (None,28895)):parser.error('--field01 requires --five-appliance and isolated TLS port 28895')
     if args.bench_seconds is not None and not (args.bench and args.split_flash and args.five_node):parser.error('--bench-seconds requires --bench --split-flash --five-node')
     if args.bench_small_frames and args.bench_seconds!=300:parser.error('--bench-small-frames requires --bench-seconds 300; 15s already small')

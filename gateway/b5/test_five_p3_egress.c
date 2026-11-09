@@ -20,6 +20,11 @@ TestUsart platform_usart[2]={{.SR=USART_SR_TXE},{.SR=USART_SR_TXE}};
 static MpRouter router;
 static uint64_t simulated_us;
 static unsigned wire_us=87,byte_cpu_us;
+#ifdef MP_P3_SERVICE_MODEL
+static unsigned service_us;
+static uint32_t service_calls,dma_bytes;
+static bool dma_mode;
+#endif
 static uint32_t origin, produced, stop_at, record_at, first_audio, last_audio;
 static uint32_t telemetry_ack_at[GATEWAY_TELEMETRY_SLOTS], reclaim_max, prompt_ms=4, terminal_ms=22, rx_ms=9, peer_ack_ms=55;
 static unsigned mic_state, samples_wanted, audio_blocks, medical_published, recording_started;
@@ -207,8 +212,7 @@ static void peer_pass_tx(unsigned char byte){
     if(peer_serial_n>PEER_SEGMENT)peer_tls_send(PEER_SEGMENT);
 }
 #endif
-void platform_test_tx(unsigned char byte){
-    advance(wire_us+byte_cpu_us);
+static void peer_tx_byte(unsigned char byte){
 #ifdef MP_ESP_PASSTHROUGH
     if(peer_stream){
         peer_pass_tx(byte);
@@ -271,6 +275,35 @@ void platform_test_tx(unsigned char byte){
     }else terminal("\r\nOK\r\n",rx_ms);
 }
 
+void platform_test_tx(unsigned char byte){
+    advance(wire_us+byte_cpu_us);
+    peer_tx_byte(byte);
+}
+
+#ifdef MP_P3_SERVICE_MODEL
+/* 仅模拟数据段的自主发送。串口按固定线速，主循环每毫秒并行服务一次。 */
+int platform_test_dma_payload(const unsigned char *data,unsigned size){
+    if(!dma_mode)return -1;
+    const uint64_t start=simulated_us;
+    uint64_t service_at=start+1000u;
+    unsigned i=0;
+    for(;i<size;i++){
+        uint64_t byte_at=start+(i+1u)*wire_us;
+        if(service_at<=byte_at){
+            if(simulated_us<service_at)advance((unsigned)(service_at-simulated_us));
+            platform_poll();
+            service_at+=1000u;
+        }
+        if(NETWORK_STOPPED() || (int32_t)(g_uptime_ms-serial_deadline)>=0)break;
+        if(simulated_us<byte_at)advance((unsigned)(byte_at-simulated_us));
+        peer_tx_byte(data[i]);
+        io_metrics.written=i+1u;
+    }
+    dma_bytes+=i;
+    return (int)i;
+}
+#endif
+
 static void put(unsigned node,unsigned stream,unsigned rate,unsigned count,int value){
     MpFrame f={0};f.node=node;f.stream=stream;f.rate=rate;f.count=count;
     f.synthetic=true;f.valid=true;f.timestamp=1800000000000ULL+produced;
@@ -288,7 +321,12 @@ static void put(unsigned node,unsigned stream,unsigned rate,unsigned count,int v
     f.replay=false;mp_router_put(&router,&f);
 }
 static void tick(void){
+#ifdef MP_P3_SERVICE_MODEL
+    if(origin)service_calls++;
+    advance(25u+service_us);
+#else
     advance(25);
+#endif
     if(reply_offset<reply_count && g_uptime_ms>=reply_at){
         USART3->DR=reply_bytes[reply_offset++];USART3->SR|=USART_SR_RXNE;
         USART3_IRQHandler();USART3->SR&=~USART_SR_RXNE;advance(wire_us+byte_cpu_us);
@@ -421,6 +459,11 @@ int main(int argc,char **argv){
     const bool transparent=argc>5 && !strcmp(argv[5],"pass");
     if(argc>6)peer_ack_ms=(unsigned)atoi(argv[6]);
     if(argc>7)window_ms=(unsigned)atoi(argv[7]);
+#ifdef MP_P3_SERVICE_MODEL
+    dma_mode=argc>5 && !strcmp(argv[5],"dma");
+    if(argc>8)service_us=(unsigned)atoi(argv[8]);
+    assert(service_us<=120u);
+#endif
     assert(window_ms==110000 || window_ms==300000);
     USART3->SR|=USART_SR_TC;
 #endif
@@ -474,6 +517,10 @@ int main(int argc,char **argv){
         unified_audio_step(!publisher.deferred && !router.ln);
     }
     stop_at=g_uptime_ms;
+#ifdef MP_P3_SERVICE_MODEL
+    printf("service cpu_us_per_poll=%u calls=%lu dma_bytes=%lu\n",
+        service_us,(unsigned long)service_calls,(unsigned long)dma_bytes);
+#endif
     unsigned total=0;
     for(unsigned node=1;node<=5;node++)for(unsigned stream=0;stream<MP_STREAMS;stream++)total+=seq[node][stream];
     printf("offered total=%u publisher_bytes=%u telemetry_slot_bytes=%u coremqtt_slot_bytes=%u\n",

@@ -88,6 +88,9 @@ static void field01_begin(void) {
     for(unsigned i=0;i<3;i++){
         field_wave_at[i]=now;field_wave_count[i]=gateway.router.enqueued[field_waves[i]];
     }
+#ifdef MP_TRANSPORT_PROFILE
+    platform_cpu_reset_service_max();
+#endif
     field01_t0=now;
     console("FIELD01 T0\r\n");
 }
@@ -129,11 +132,20 @@ static void field01_snapshot(void) {
     }
 #undef F
 }
+#ifdef MP_TRANSPORT_PROFILE
+#define FIELD01_PROFILE_DIAG 255u
+static void diagnostic(unsigned stage);
+#endif
+
 static void field01_status(void) {
     if(!field01_t0 || platform_console_busy() || !platform_at_synchronized() || !unified_audio_quiet())return;
     uint32_t elapsed=g_uptime_ms-field01_t0;
     /* 固定边界与10秒点独立记录；输出时使用实际单调时间。 */
     uint32_t slot=elapsed/10000u*2u+1u+(elapsed>=35000u && elapsed<40000u);
     if(slot==field_net_at)return;
-    field_net_at=slot;field01_snapshot();unified_audio_command('Q',false);unified_audio_report();
+    field_net_at=slot;field01_snapshot();
+#ifdef MP_TRANSPORT_PROFILE
+    diagnostic(FIELD01_PROFILE_DIAG);
+#endif
+    unified_audio_command('Q',false);unified_audio_report();
 }
