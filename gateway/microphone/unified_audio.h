@@ -16,6 +16,7 @@ static inline void unified_audio_command(int byte,bool allowed) {(void)byte;(voi
 static inline void unified_audio_stop(void) {}
 static inline bool unified_audio_quiet(void) {return true;}
 static inline bool unified_audio_send_due(void) {return false;}
+static inline int gateway_audio_ready(void) {return 1;}
 static inline void unified_audio_report(void) {}
 #else
 void unified_audio_init(void);

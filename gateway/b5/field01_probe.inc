@@ -76,8 +76,10 @@ static void field01_poll(void) {
         if(count!=field_wave_count[i]){field_wave_count[i]=count;field_wave_at[i]=now;}
         if(now-field_wave_at[i]>=5000u){field01_latch(FIELD01_SOURCE);return;}
     }
+#ifndef MP_AUDIO_DISABLED
     MicDiag mic;mic_diagnostics(&mic);
     if(mic.dma_errors || mic.overruns)field01_latch(FIELD01_DMA);
+#endif
 }
 static void field01_begin(void) {
     if(field01_t0 || !gateway.utc_valid || !gateway_audio_ready() || !field01_nodes_ready())return;
