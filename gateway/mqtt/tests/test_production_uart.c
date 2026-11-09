@@ -1,6 +1,8 @@
 /* 真实 AT 解析与 USART3 BRR 的 Host 对端。 */
 #define PLATFORM_HOST_TEST
+#define console production_test_console
 #include "../src/gateway_transport.c"
+#undef console
 #include "../src/platform.c"
 #include <assert.h>
 
@@ -11,6 +13,11 @@ enum { NORMAL, REJECT, NO_ACK_OLD, NO_ACK_FAST, GARBAGE_AFTER_ACK, FAST_NO_REPLY
        QUERY_MISSING, BAD_FLOW, SYSSTORE_REJECT, STOP_DURING_GUARD };
 static unsigned scenario,peer_baud,peer_flow,setters,restore_setters,accepted;
 static int stopped,tx_wrong;
+static unsigned degraded,failed;
+void production_test_console(const char *line){
+    if(!strcmp(line,"GW UART_DEGRADED\r\n"))degraded++;
+    if(!strcmp(line,"GW FAIL UART_NEGOTIATE\r\n"))failed++;
+}
 static uint32_t reply_at,garbage_at,stop_at;
 static char command[64],queued[80];
 static unsigned command_n,queued_i,queued_n;
@@ -91,7 +98,7 @@ void platform_test_tx(unsigned char byte){
 
 static void reset(unsigned mode,unsigned baud,unsigned flow){
     scenario=mode;peer_baud=baud;peer_flow=flow;
-    setters=restore_setters=accepted=command_n=queued_i=queued_n=0;
+    degraded=failed=setters=restore_setters=accepted=command_n=queued_i=queued_n=0;
     g_uptime_ms=garbage_at=stop_at=0;stopped=tx_wrong=0;
     uart_attempted=uart_starting=uart_failed=0;
     io_metrics=(EspIoMetrics){0};
@@ -113,24 +120,25 @@ int main(void){
         reset(NORMAL,115200,flow);
         assert(open_uart() && accepted==1 && setters==1 && peer_baud==230400);
         assert(platform_esp_uart_baud()==230400 && platform_send_reserve(600)<slow_reserve);
-        assert(open_uart() && accepted==2 && setters==1);
+        assert(open_uart() && accepted==2 && setters==1 && !degraded && !failed);
     }
     for(unsigned mode=REJECT;mode<=GARBAGE_AFTER_ACK;mode++){
         reset(mode,115200,1);
         assert(open_uart() && platform_esp_uart_baud()==115200 && peer_baud==115200 && setters==1);
         assert(restore_setters==(mode==NO_ACK_FAST || mode==GARBAGE_AFTER_ACK));
-        assert(open_uart() && setters==1 && platform_send_reserve(600)==slow_reserve);
+        assert(degraded==1 && !failed);
+        assert(open_uart() && setters==1 && degraded==1 && !failed && platform_send_reserve(600)==slow_reserve);
     }
     for(unsigned mode=FAST_NO_REPLY;mode<=STOP_DURING_GUARD;mode++){
         reset(mode,115200,mode==BAD_FLOW?2:1);
-        assert(!open_uart() && gateway_uart_negotiation_failed() && !gateway_uart_negotiating());
+        assert(!open_uart() && !degraded && failed==1 && gateway_uart_negotiation_failed() && !gateway_uart_negotiating());
         unsigned attempts=setters;
-        assert(!open_uart() && setters==attempts && !accepted);
+        assert(!open_uart() && !degraded && failed==1 && setters==attempts && !accepted);
         if(mode!=STOP_DURING_GUARD)assert(platform_esp_uart_baud()==115200);
         assert(setters==(mode==FAST_NO_REPLY || mode==STOP_DURING_GUARD));
     }
     reset(BAD_FLOW,115200,3);
-    assert(!open_uart() && !setters);
+    assert(!open_uart() && !degraded && failed==1 && !setters);
     reset(NORMAL,230400,1);
     assert(open_uart() && platform_esp_uart_baud()==230400 && !setters);
     EspCpuMetrics cpu;

@@ -47,7 +47,9 @@ static int production_uart_setup(char *command,size_t size){
     if(pre_uart_set(PROD_UART_AT_MS,PROD_UART_BAUD,initial.flow,command,size) &&
        production_retime(PROD_UART_BAUD) && production_probe(PROD_UART_BAUD,&selected) &&
        selected.flow==initial.flow)return 1;
-    return production_restore(initial.flow,command,size);
+    if(!production_restore(initial.flow,command,size))return 0;
+    console("GW UART_DEGRADED\r\n");
+    return 1;
 }
 
 static int production_uart_open(char *command,size_t size){
