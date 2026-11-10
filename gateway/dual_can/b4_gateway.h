@@ -44,6 +44,7 @@ typedef struct {
 #ifdef MP_OUTAGE_RETENTION
     int64_t utc_correction;
     uint64_t utc_floor;
+    uint32_t utc_expirations;
 #endif
 } B4Gateway;
 int b4_gateway_init(B4Gateway *g);

@@ -56,26 +56,30 @@ static void clock_holdover(void){
     assert(gateway.router.enqueued[MP_HR]==601 && gateway.unstamped==0);
     uint64_t before=b4_gateway_utc(&gateway,g_uptime_ms);
     assert(before==UTC0+600000);
-    b4_gateway_sync_ms(&gateway,before-500,g_uptime_ms);
+    b4_gateway_sync_ms(&gateway,before-1500,g_uptime_ms);
+    assert(gateway.utc_correction==-1500);
     assert(b4_gateway_utc(&gateway,g_uptime_ms)==before);
     uint64_t previous=before;
-    for(unsigned ms=1;ms<=50000;ms++){
+    for(unsigned ms=1;ms<=150000;ms++){
         uint64_t stamp=b4_gateway_utc(&gateway,g_uptime_ms+ms);
         assert(stamp>=previous && stamp<=previous+1);previous=stamp;
     }
-    assert(previous==before+49500);
+    assert(previous==before+148500);
     const uint32_t corrected_at=g_uptime_ms;
-    b4_gateway_sync_ms(&gateway,previous+750,corrected_at+50000);
-    assert(b4_gateway_utc(&gateway,corrected_at+50000)==previous);
-    assert(b4_gateway_utc(&gateway,corrected_at+125000)==previous+75750);
-    g_uptime_ms=corrected_at+50000+B4_UTC_HOLD_MS+1u;
+    b4_gateway_sync_ms(&gateway,previous+750,corrected_at+150000);
+    assert(b4_gateway_utc(&gateway,corrected_at+150000)==previous);
+    assert(b4_gateway_utc(&gateway,corrected_at+225000)==previous+75750);
+    g_uptime_ms=corrected_at+150000+B4_UTC_HOLD_MS+1u;
     assert(!b4_gateway_utc(&gateway,g_uptime_ms));
     b4_gateway_tick(&gateway,g_uptime_ms);
+    assert(gateway.utc_expirations==1);
     assert(time_frames[0]==61 && time_frames[1]==61);
-    uint32_t identity[2]={1800001260u,g_uptime_ms};
+    uint32_t identity[2]={1800001360u,g_uptime_ms};
     receive_b(0x702,&operational,1);receive_b(0x682,quality,8);
     receive_b(0x482,identity,8);receive_b(0x382,vitals,8);
     assert(gateway.unstamped>0 && gateway.router.enqueued[MP_HR]==601);
+    b4_gateway_tick(&gateway,g_uptime_ms+1);
+    assert(gateway.utc_expirations==1);
     b4_gateway_close(&gateway);
 }
 

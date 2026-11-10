@@ -49,10 +49,12 @@ static void retain(MpRetentionRing *q,MpRetainedEntry *entries,unsigned cap,cons
     q->count++;q->stored++;
 }
 
-static int take_scalar(MpRouter *r,MpFrame *out){
+static int take_scalar(MpRouter *r,MpFrame *out,uint64_t utc){
     if(r->scalar_pending)return 0;
     const MpRetainedEntry *e=&r->retention->scalars[r->scalar_history.head];
-    *out=(MpFrame){.timestamp=retained_utc(e),.seq=e->seq,.epoch=e->epoch,.boot=e->boot,
+    uint64_t timestamp=retained_utc(e);
+    if(timestamp>utc)return 0;
+    *out=(MpFrame){.timestamp=timestamp,.seq=e->seq,.epoch=e->epoch,.boot=e->boot,
         .values={e->values[0],e->values[1]},.count=e->tag>>6,.node=e->node,.stream=e->tag&15u,
         .valid=(e->tag&16u)!=0,.synthetic=(e->tag&32u)!=0,.replay=true};
     r->scalar_pending=true;r->taken[out->stream]++;
@@ -69,6 +71,7 @@ static bool scalar_claim(const MpRouter *r,const MpFrame *f){
 static void cache(MpRouter *r, const MpFrame *f)
 {
 #ifdef MP_OUTAGE_RETENTION
+    if(r->retention && !f->timestamp){r->dropped++;return;}
     if(r->retention && !f->rate){
         /* 历史状态仅在本地保留，现有协议拒绝状态补传。 */
         if(status_frame(f))retain(&r->status_history,r->retention->status,MP_RETAIN_STATUS,f,false);
@@ -184,14 +187,14 @@ bool mp_router_take_egress(MpRouter *r,MpFrame *out,uint32_t now,uint64_t utc,bo
     if(!r->online)return false;
 #ifdef MP_OUTAGE_RETENTION
     if(r->retention && r->scalar_history.count){
-        if(!pending && !r->ln && r->ready_for_replay && take_scalar(r,out))return true;
+        if(!pending && !r->ln && r->ready_for_replay && take_scalar(r,out,utc))return true;
     }else
 #endif
     {
     /* 补传用原配额；给实时5秒期限留半窗余量，并保留两个突发槽。 */
     bool replay_safe=!pending && r->ln<MP_LIVE_CAPACITY-2;
 #ifdef MP_OUTAGE_RETENTION
-    if(r->retention && r->ln)replay_safe=false;
+    if(r->retention && (r->ln || (r->cn && r->cache[r->ch].timestamp>utc)))replay_safe=false;
 #endif
     for(unsigned i=0;replay_safe && i<r->ln;i++) {
         const MpFrame *f=&r->live[(r->lh+i)%MP_LIVE_CAPACITY];

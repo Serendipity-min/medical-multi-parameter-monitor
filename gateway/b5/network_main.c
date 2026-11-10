@@ -51,6 +51,9 @@ static MpFrame will;
 static MpFrame publishing;
 #endif
 static uint32_t armed_at, last_sync, status_at, connection, status_seq;
+#ifdef MP_OUTAGE_RETENTION
+static int64_t fresh_sync_correction;
+#endif
 #ifndef MP_FIVE_FIELD01
 static uint32_t diag_at;
 #endif
@@ -459,7 +462,11 @@ static void diagnostic(unsigned stage) {
 }
 #ifdef MP_PRODUCTION_DIAG
 static void production_diagnostic(void){
+#ifdef MP_OUTAGE_RETENTION
+    char line[352];
+#else
     char line[280];
+#endif
     uint32_t now=g_uptime_ms,enqueued[MP_STREAMS],total_enqueued=0;
     uint32_t published[2]={0},acked[2]={0};
     GatewayProductionDiag d;
@@ -478,6 +485,11 @@ static void production_diagnostic(void){
 #ifdef MP_OUTAGE_RETENTION
     MpRetentionRing scalar=gateway.router.scalar_history,status=gateway.router.status_history;
     uint32_t scalar_replayed=gateway.router.scalar_replayed;
+    uint32_t anchor_age=connection?now-gateway.utc_at:0;
+    unsigned anchor_valid=b4_gateway_utc(&gateway,now)!=0;
+    uint32_t anchor_expirations=gateway.utc_expirations;
+    int64_t correction=fresh_sync_correction;
+    uint64_t magnitude=(uint64_t)(correction<0?-correction:correction);
 #endif
     (void)snprintf(line,sizeof(line),
         "B5 PROD tick=%lu enqueued=%lu published=%lu acked=%lu replay_published=%lu replay_acked=%lu slots=%u slot_used=%u slot_peak=%u slot_mean_milli=%lu slot_full_ms=%lu\r\n",
@@ -505,10 +517,12 @@ static void production_diagnostic(void){
         used+=(size_t)snprintf(line+used,sizeof(line)-used,"%s%lu",i?",":"",(unsigned long)(uint32_t)d.slot_ms[i]);
     (void)snprintf(line+used,sizeof(line)-used,"\r\n");console(line);
 #ifdef MP_OUTAGE_RETENTION
-    (void)snprintf(line,sizeof(line),"B5 RETENTION tick=%lu scalar=%u stored=%lu replayed=%lu expired=%lu pressure=%lu status_held=%u status_stored=%lu status_expired=%lu status_pressure=%lu\r\n",
+    (void)snprintf(line,sizeof(line),"B5 RETENTION tick=%lu scalar=%u stored=%lu replayed=%lu expired=%lu pressure=%lu status_held=%u status_stored=%lu status_expired=%lu status_pressure=%lu sync_ms=%s%lu%03lu anchor_age_ms=%lu anchor_valid=%u anchor_expirations=%lu\r\n",
         (unsigned long)now,scalar.count,(unsigned long)scalar.stored,(unsigned long)scalar_replayed,
         (unsigned long)scalar.expired,(unsigned long)scalar.pressure,status.count,
-        (unsigned long)status.stored,(unsigned long)status.expired,(unsigned long)status.pressure);console(line);
+        (unsigned long)status.stored,(unsigned long)status.expired,(unsigned long)status.pressure,
+        correction<0?"-":"+",(unsigned long)(magnitude/1000u),(unsigned long)(magnitude%1000u),
+        (unsigned long)anchor_age,anchor_valid,(unsigned long)anchor_expirations);console(line);
 #endif
 }
 #endif
@@ -832,6 +846,7 @@ int main(void) {
         uint64_t now = gateway_epoch_milliseconds();
         b4_gateway_sync_ms(&gateway, now, g_uptime_ms);
 #ifdef MP_OUTAGE_RETENTION
+        fresh_sync_correction=gateway.utc_correction;
         now=b5_data_utc();
 #endif
         gateway.session = (uint32_t)now;

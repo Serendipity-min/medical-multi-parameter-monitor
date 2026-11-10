@@ -60,6 +60,7 @@ static inline int b5_egress_step(MpRouter *r,B5Publisher *s,bool allow_new) {
     if(!allow_new)return 1;
 #ifdef MP_OUTAGE_RETENTION
     uint64_t utc=b5_data_utc();
+    if(!utc)return 1;
 #else
     uint64_t utc=gateway_epoch_milliseconds();
 #endif
@@ -93,6 +94,7 @@ static inline int b5_egress_step(MpRouter *r,B5Publisher *s,bool allow_new) {
     if(s->deferred && s->publishing.replay && (r->ln || replay_wait)){
         mp_router_retain_unsent(r,&s->publishing);s->deferred=false;
     }
+    if(s->deferred && s->publishing.replay && s->publishing.timestamp>utc)return 1;
     if(!s->deferred && !r->ln && replay_wait)return 1;
 #endif
     if(s->deferred || mp_router_take_egress(r,&s->publishing,g_uptime_ms,utc,gateway_mqtt_slots_full() || medical_due)){

@@ -28,7 +28,9 @@ const GatewayConfig gateway_test_config={GATEWAY_CONFIG_MAGIC,1700000000u,
     "synthetic-wifi","synthetic-password","mqtt.example.invalid","b5-gateway","synthetic-password","b5-c-isolated"};
 volatile uint32_t g_uptime_ms;
 #ifdef MP_OUTAGE_RETENTION
-uint64_t b5_data_utc(void){return gateway_epoch_milliseconds();}
+static bool override_data_utc;
+static uint64_t test_data_utc;
+uint64_t b5_data_utc(void){return override_data_utc?test_data_utc:gateway_epoch_milliseconds();}
 static MpRetention retention;
 #endif
 TestUsart platform_usart[2]={{.SR=USART_SR_TXE},{.SR=USART_SR_TXE}};
@@ -860,7 +862,9 @@ static void lifecycle_cases(void){
     uint64_t utc=b5_data_utc();
     MpFrame old={.node=2,.stream=MP_HR,.seq=1,.count=1,.valid=true,.timestamp=utc-180000u};
     mp_router_put(&router,&old);
-    old.seq=2;old.timestamp+=1000;mp_router_put(&router,&old);
+    MpFrame nibp={.node=5,.stream=MP_NIBP,.seq=1,.count=2,.valid=true,
+        .timestamp=utc-179000u,.values={1200,800}};
+    mp_router_put(&router,&nibp);
     MpFrame status={.node=2,.stream=MP_NODE_STATUS,.count=1,.timestamp=utc-179000u};
     mp_router_put(&router,&status);
     mp_router_online(&router,true);
@@ -881,13 +885,46 @@ static void lifecycle_cases(void){
     gateway_mqtt_production_diag(&after,g_uptime_ms);
     assert(after.used==GATEWAY_TELEMETRY_SLOTS-1u);
     peer_ack_ms=ack_delay;
+    override_data_utc=true;test_data_utc=old.timestamp-1501u;
+    while(publisher.pending){
+        platform_poll();assert(g_uptime_ms-started<5000u);
+        assert(b5_egress_step(&router,&publisher,true));
+    }
+    uint32_t taken=router.taken[MP_HR];
+    assert(b5_egress_step(&router,&publisher,true) && router.taken[MP_HR]==taken && !router.scalar_pending);
+    test_data_utc=0;
+    for(unsigned i=0;i<3;i++)
+        assert(b5_egress_step(&router,&publisher,true) && router.taken[MP_HR]==taken && !router.scalar_pending);
+    assert(router.scalar_history.count==2 && router.scalar_replayed==0);
+    test_data_utc=old.timestamp-1;
+    assert(b5_egress_step(&router,&publisher,true) && router.taken[MP_HR]==taken && !router.scalar_pending);
+    test_data_utc=old.timestamp;
+    assert(b5_egress_step(&router,&publisher,true) && router.taken[MP_HR]==taken+1 && router.scalar_pending);
+    assert(publisher.publishing.timestamp==old.timestamp);
+    test_data_utc=0;
+    while(publisher.pending){
+        platform_poll();assert(g_uptime_ms-started<5000u);
+        assert(b5_egress_step(&router,&publisher,true));
+    }
+    assert(router.scalar_replayed==1 && router.scalar_history.count==1 && !router.taken[MP_NIBP]);
+    override_data_utc=false;
+    puts("PASS_R25_REPLAY_WAITS_ON_CLOCK_REGRESSION_AND_EXPIRY_THEN_RESUMES");
     while(router.scalar_replayed!=2){
         platform_poll();assert(g_uptime_ms-started<5000u);
         assert(b5_egress_step(&router,&publisher,true));
     }
     gateway_mqtt_production_diag(&after,g_uptime_ms);
     assert(after.acked[0][MP_HR]-before.acked[0][MP_HR]==GATEWAY_TELEMETRY_SLOTS);
-    assert(after.acked[1][MP_HR]-before.acked[1][MP_HR]==2u);
+    assert(after.acked[1][MP_HR]-before.acked[1][MP_HR]==1u);
+    assert(after.acked[1][MP_NIBP]-before.acked[1][MP_NIBP]==1u);
+    assert(after.published[0][MP_NIBP]==before.published[0][MP_NIBP]);
+    assert(publisher.publishing.replay && publisher.publishing.timestamp==nibp.timestamp &&
+        b5_data_utc()-nibp.timestamp>90000u);
+    char topic[128],body[256];
+    assert(mp_topic(&publisher.publishing,topic,sizeof topic)>0 && strstr(topic,"/NODE-E/replay/nibp"));
+    assert(mp_json(&publisher.publishing,body,sizeof body)>0 && strstr(body,"\"source\":\"REPLAY\"") &&
+        strstr(body,"\"value\":[120.0,80.0]"));
+    puts("PASS_R25_NIBP_OLDER_THAN_90_SECONDS_PUBLISHED_AS_REPLAY");
     assert(after.published[0][MP_NODE_STATUS]==before.published[0][MP_NODE_STATUS]);
     assert(!router.scalar_history.count && router.status_history.count==1 && publisher.q1==GATEWAY_TELEMETRY_SLOTS+2u);
     puts("PASS_R24_EGRESS_REALTIME_THEN_SCALAR_PUBACK");

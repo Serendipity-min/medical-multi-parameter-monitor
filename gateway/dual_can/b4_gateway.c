@@ -334,6 +334,7 @@ void b4_gateway_tick(B4Gateway *g, uint32_t now) {
 #ifdef MP_OUTAGE_RETENTION
     if(g->utc_valid && now-g->utc_at>B4_UTC_HOLD_MS){
         g->utc_floor=utc_project(g,g->utc_at+B4_UTC_HOLD_MS);g->utc_valid=false;
+        g->utc_expirations++;
     }
 #endif
     for (unsigned bus = 0; bus < 2; bus++) {
