@@ -25,6 +25,7 @@ int gateway_mqtt_yield(void);
 void gateway_network_close(void);
 #ifdef MP_PASS_LIFECYCLE
 int gateway_passthrough_retry(unsigned *reentries);
+int gateway_passthrough_acquire(uint32_t *next_delay);
 #endif
 #ifdef MP_B5_EGRESS_FINAL
 #include "../../b5/egress_metrics.h"

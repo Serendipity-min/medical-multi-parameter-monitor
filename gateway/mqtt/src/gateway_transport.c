@@ -748,10 +748,16 @@ void gateway_network_close(void)
 
 #ifdef MP_PASS_LIFECYCLE
 #include "pass_recovery.h"
+int gateway_passthrough_acquire(uint32_t *next_delay){
+    console("GW PASS_ACQUIRE_BACKOFF\r\n");
+    delay_ms(pass_acquire_backoff(next_delay));
+    return !b5_network_stopped();
+}
+
 int gateway_passthrough_retry(unsigned *reentries)
 {
     if(b5_network_stopped() || !platform_at_synchronized())return 0;
-    if(*reentries>=PASS_REENTRY_MAX){console("GW PASS_REENTRY_LIMIT\r\n");return 0;}
+    if(pass_session_limit(reentries)){console("GW PASS_REENTRY_LIMIT\r\n");return 0;}
     unsigned delay=2000u<<(*reentries)++;
     console("GW PASS_REENTRY_BACKOFF\r\n");
     delay_ms(delay);

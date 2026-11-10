@@ -636,9 +636,11 @@ int platform_passthrough_enter(void){
 enum { PASS_QUIET_MS=1001u, PASS_WRITE_MS=100u, PASS_READY_MS=3000u };
 
 #ifndef PLATFORM_HOST_TEST
-/* 未验证 C 板 RST/EN 接线。板级实现可覆盖此入口，仅在实际发出复位脉冲后返回成功。 */
-__attribute__((weak)) int platform_esp_hard_reset(void){return 0;}
+#include "esp_pf6_reset.inc"
 #endif
+static bool pass_reset_held;
+
+int platform_passthrough_soft_reset_safe(void){return !pass_reset_held;}
 
 static int pass_guard(uint32_t quiet){
     uint32_t deadline=g_uptime_ms+PASS_WRITE_MS;
@@ -665,7 +667,12 @@ static int pass_probe(const char *command,const char *terminal,uint32_t timeout)
     reply_begin();
     while((int32_t)(g_uptime_ms-deadline)<0){
         platform_poll();
-        if(errors || NETWORK_STOPPED())return 0;
+        if(NETWORK_STOPPED())return 0;
+        if(errors){
+            if(command)return 0;
+            /* ROM 启动波特率与 AT 不同，ready 等待仍由原截止时间约束。 */
+            esp_mqtt_reset();reply_begin();continue;
+        }
         int byte=receive_byte();
         if(byte<0)continue;
         /* 只识别完整的同步终态行，其余残留按行丢弃。 */
@@ -695,8 +702,10 @@ int platform_passthrough_recover(void){
     pass_mode=PASS_LOCKED;
     esp_mqtt_reset();
     console("GW PASS_HARD_RESET\r\n");
-    if(!platform_esp_hard_reset()){
-        console("GW PASS_HARD_RESET_UNAVAILABLE\r\n");
+    int reset=platform_esp_hard_reset();
+    if(reset<=0){
+        pass_reset_held=reset<0;
+        console(pass_reset_held?"GW PASS_RST_STRAP_LOW_HOLD\r\n":"GW PASS_RST_STRAP_LOW_BLOCKED\r\n");
         return 0;
     }
     closing_network=1;
@@ -709,7 +718,7 @@ int platform_passthrough_recover(void){
     return PASS_EXIT_RESET;
 }
 
-static int pass_escape(bool startup){
+static int pass_escape(bool startup,unsigned *escape_sent){
     pass_unknown();
     closing_network=!startup;
     for(unsigned attempt=0;attempt<2;attempt++){
@@ -720,6 +729,7 @@ static int pass_escape(bool startup){
             console("GW PASS_ESCAPE_WRITE_FAIL\r\n");continue;
         }
         console("GW PASS_ESCAPE_SENT\r\n");
+        if(escape_sent)*escape_sent=1;
         if(!pass_guard(PASS_QUIET_MS)){console("GW PASS_POST_GUARD_FAIL\r\n");continue;}
         /* 分开排掉空行或 +++ 命令的响应，不能把它当作后续 AT 的确认。 */
         if(startup || attempt){
@@ -742,9 +752,9 @@ static int pass_escape(bool startup){
     return 0;
 }
 
-int platform_passthrough_startup(void){
+int platform_passthrough_startup(unsigned *escape_sent){
     console("GW PASS_BOOT_ESCAPE\r\n");
-    if(pass_escape(true)){console("GW PASS_BOOT_AT_OK\r\n");return 1;}
+    if(pass_escape(true,escape_sent)){console("GW PASS_BOOT_AT_OK\r\n");return 1;}
     pass_mode=PASS_LOCKED;
     console("GW PASS_BOOT_AT_UNCONFIRMED\r\n");
     return 0;
@@ -753,7 +763,7 @@ int platform_passthrough_startup(void){
 int platform_passthrough_leave(void){
     if(pass_mode==PASS_LOCKED || pass_mode==PASS_BOOT)return 0;
     if(pass_mode==PASS_COMMAND && platform_at_synchronized())return PASS_EXIT_AT;
-    if(pass_mode!=PASS_COMMAND && !errors && pass_escape(false))return PASS_EXIT_AT;
+    if(pass_mode!=PASS_COMMAND && !errors && pass_escape(false,NULL))return PASS_EXIT_AT;
     return platform_passthrough_recover();
 }
 

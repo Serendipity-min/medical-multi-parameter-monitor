@@ -164,27 +164,37 @@ static void stop(void) {
 }
 #ifdef MP_PASS_LIFECYCLE
 static volatile PassResume pass_resume __attribute__((section(".pass_resume")));
+static PassBootDiag pass_boot_diag;
 
 static bool pass_startup(PassRecovery *recovery){
     uint32_t reset_flags=RCC->CSR;
     RCC->CSR|=RCC_CSR_RMVF;
+    pass_boot_diag.reset_flags=reset_flags&0xfe000000u;
     bool warm=(reset_flags&RCC_CSR_SFTRSTF) && !(reset_flags&(RCC_CSR_PORRSTF|RCC_CSR_BORRSTF));
     if(!pass_resume_take(recovery,&pass_resume,warm)){
         console("GW PASS_BOOT_RESET_LOCKED\r\n");
         return false;
     }
+    pass_boot_diag.resumed=recovery->reset_used;
+    pass_boot_diag.reentries=recovery->reentries;
     if(recovery->reset_used)console("GW PASS_SOFT_RESET_RESUMED\r\n");
-    return !gateway_config_valid() || platform_passthrough_startup();
+    if(!gateway_config_valid())return true;
+    pass_boot_diag.at_ok=platform_passthrough_startup(&pass_boot_diag.escape_sent);
+    return pass_boot_diag.at_ok;
 }
 
-static bool pass_reconnect(PassRecovery *recovery){
+static bool pass_reconnect(PassRecovery *recovery,uint32_t *acquire_delay){
     if(stop_due && !stopped)stop();
     if(stopped)return false;
     if(platform_at_synchronized()){
         uart_error_baseline=platform_uart_errors_total();
         network_fault=false;
-        if(gateway_passthrough_retry(&recovery->reentries))return true;
-    }else if(pass_reset_allowed(recovery,stopped || stop_due,run_limit_ms!=0)){
+        if(acquire_delay?gateway_passthrough_acquire(acquire_delay):
+                         gateway_passthrough_retry(&recovery->reentries))return true;
+    }else if(!acquire_delay && pass_session_limit(&recovery->reentries)){
+        console("GW PASS_REENTRY_LIMIT\r\n");
+    }else if(platform_passthrough_soft_reset_safe() &&
+             pass_reset_allowed(recovery,stopped || stop_due,run_limit_ms!=0)){
         b4_hw_stop();
         console("GW PASS_SOFT_RESET_PENDING\r\n");
         local_control();
@@ -289,6 +299,8 @@ static void diagnostic(unsigned stage) {
     char line[704];
 #elif defined(MP_TRANSPORT_PROFILE)
     char line[600];
+#elif defined(MP_PASS_LIFECYCLE)
+    char line[384];
 #else
     char line[300];
 #endif
@@ -299,7 +311,7 @@ static void diagnostic(unsigned stage) {
 #endif
     ){
     (void)snprintf(line,sizeof(line),"B5 DIAG tick=%lu session=%lu rx=%lu txack=%lu txfail=%lu overflow=%lu esr=%lu uart_err=%lu live=%u cache=%u dropped=%lu q0_transport=%lu q1_puback=%lu mqtt_fail=%lu stop=%u"
-#ifndef MP_TRANSPORT_PROFILE
+#if !defined(MP_TRANSPORT_PROFILE) && !defined(MP_PASS_LIFECYCLE)
         "\r\n"
 #endif
         ,
@@ -318,7 +330,11 @@ static void diagnostic(unsigned stage) {
 #ifdef MP_FIVE_FIELD01
         " svc_max_cyc=%lu can_rx_a=%lu can_rx_b=%lu"
 #endif
+#ifndef MP_PASS_LIFECYCLE
         "\r\n",
+#else
+        ,
+#endif
         (unsigned long)cpu.service_cycles,(unsigned long)cpu.service_calls,
         (unsigned long)cpu.tx_cycles,(unsigned long)cpu.tx_bytes,(unsigned long)cpu.txe_cycles,
         (unsigned long)cpu.await_cycles,(unsigned long)cpu.await_bytes,
@@ -329,6 +345,10 @@ static void diagnostic(unsigned stage) {
         ,(unsigned long)cpu.service_cycles_max,(unsigned long)b4_hw_diag[0].received,(unsigned long)b4_hw_diag[1].received
 #endif
         );
+#endif
+#ifdef MP_PASS_LIFECYCLE
+    size_t diag_end=strlen(line);
+    pass_boot_diag_append(line+diag_end,sizeof(line)-diag_end,&pass_boot_diag);
 #endif
     console(line);
 #if defined(MP_TRANSPORT_PROFILE) && defined(MP_FIVE_FIELD01)
@@ -457,7 +477,14 @@ static void diagnostic_idle(void) {
 #endif
     /* 主诊断和队列按固定时隙优先，不能等完整细项轮转后才留证。 */
     uint32_t elapsed=g_uptime_ms-essential_at;
-    if(elapsed>=5000u){essential_at+=elapsed/5000u*5000u;queue_due=true;diagnostic(0);return;}
+    if(elapsed>=5000u){
+        essential_at+=elapsed/5000u*5000u;queue_due=true;
+#ifdef MP_PASS_LIFECYCLE
+        if(pass_boot_diag.done)
+#endif
+            diagnostic(0);
+        return;
+    }
     if(queue_due){queue_due=false;diagnostic(12);return;}
     if(gateway.router.temp_reported<gateway.router.temp_written){diagnostic(20);return;}
     if(stage>=DIAGNOSTIC_STAGES){if(g_uptime_ms-diag_at<5000u)return;diag_at=g_uptime_ms;stage=1;}
@@ -482,6 +509,9 @@ static void transaction_stop_trace(void) {
 }
 #endif
 static void service(void) {
+#ifdef MP_PASS_LIFECYCLE
+    if(!platform_console_busy() && pass_boot_diag_due(&pass_boot_diag,g_uptime_ms))diagnostic(0);
+#endif
 #ifdef MP_FIVE_APPLIANCE
     /* 初始化中的AT/音频回调不能提前推进未就绪的CAN对象。 */
     if(!runtime_ready){
@@ -611,6 +641,7 @@ int main(void) {
     final_can_mask=3;run_limit_ms=0;
 #ifdef MP_PASS_LIFECYCLE
     PassRecovery pass_recovery={0};
+    uint32_t pass_acquire_delay=2000u;
     armed=true;
     if(!pass_startup(&pass_recovery) || stopped){
         if(!stopped){console("GW FAIL LINK\r\n");stop();}
@@ -705,7 +736,7 @@ int main(void) {
             field01_latch(FIELD01_LINK);if(!stopped)stop();gateway_network_close();break;
 #elif defined(MP_PASS_LIFECYCLE)
             gateway_network_close();
-            if(!pass_reconnect(&pass_recovery))break;
+            if(!pass_reconnect(&pass_recovery,&pass_acquire_delay))break;
             continue;
 #elif defined(MP_B5_EGRESS_FINAL)
             if(!stopped && gateway_network_retryable() && startup_ntp_retries<2u) {
@@ -734,7 +765,7 @@ int main(void) {
             field01_latch(FIELD01_LINK);if(!stopped)stop();gateway_network_close();break;
 #elif defined(MP_PASS_LIFECYCLE)
             gateway_network_close();
-            if(!pass_reconnect(&pass_recovery))break;
+            if(!pass_reconnect(&pass_recovery,&pass_acquire_delay))break;
             continue;
 #elif defined(MP_B5_EGRESS_FINAL)
 #ifdef MP_FINAL_UNIFIED
@@ -750,6 +781,7 @@ int main(void) {
         mp_router_online(&gateway.router, true); mqtt_connected = true;
 #ifdef MP_PASS_LIFECYCLE
         uint32_t pass_online_at=g_uptime_ms;
+        pass_acquire_delay=2000u;
         if(pass_recovery.reentries)console("GW PASS_REENTRY_OK\r\n");
 #endif
 #if defined(MP_FIVE_APPLIANCE) && !defined(MP_FIVE_FIELD01) && !defined(MP_PASS_LIFECYCLE)
@@ -830,7 +862,7 @@ int main(void) {
 #ifdef MP_FIVE_FIELD01
         if(!stopped){field01_latch(FIELD01_LINK);stop();}
 #elif defined(MP_PASS_LIFECYCLE)
-        if(!pass_reconnect(&pass_recovery))break;
+        if(!pass_reconnect(&pass_recovery,NULL))break;
 #else
         if (!stopped) reconnect_delay();
 #endif
@@ -844,9 +876,13 @@ int main(void) {
 #endif
     for(unsigned i=0;i<23;i++)diagnostic(i);
     while (1) {
+#ifdef MP_PASS_LIFECYCLE
+        platform_poll();
+#else
 #ifdef MP_FINAL_UNIFIED
         unified_audio_local_poll();local_control();unified_audio_report();
 #endif
         b4_hw_idle();
+#endif
     }
 }

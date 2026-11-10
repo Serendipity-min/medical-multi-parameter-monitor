@@ -86,7 +86,7 @@ def main():
     if args.five_node:flags += ['-DMP_FIVE_NODE']
     if args.field01:flags += ['-DMP_FIVE_FIELD01']
     if args.esp_passthrough:flags += ['-DMP_ESP_PASSTHROUGH']
-    if args.pass_lifecycle:flags += ['-DMP_PASS_LIFECYCLE']
+    if args.pass_lifecycle:flags += ['-DMP_PASS_LIFECYCLE','-DGATEWAY_TELEMETRY_SLOTS=4u']
     if args.esp_230400:flags += ['-DMP_ESP_UART_230400']
     if args.transport_profile or args.transport_bench:flags += ['-DMP_TRANSPORT_PROFILE']
     if args.transport_bench:flags += ['-DMP_TRANSPORT_BENCH','-DMP_ESP_PASSTHROUGH','-DMP_ESP_UART_230400']

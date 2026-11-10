@@ -70,7 +70,8 @@ static unsigned peer_entry_case,peer_tx_stop_after;
 static bool peer_stop;
 #ifdef MP_PASS_LIFECYCLE
 static unsigned peer_at_ignored,peer_at_count,peer_reset_count,peer_close_count;
-static uint32_t peer_stop_at,peer_hold_tc_until,peer_hold_txe_until;
+static uint32_t peer_stop_at,peer_hold_tc_until,peer_hold_txe_until,peer_wifi_until;
+static bool peer_reset_held,peer_reset_noise;
 static bool peer_reset_available,peer_reset_silent,peer_cleanup_rx,peer_hold_escape,peer_hold_post,
     peer_close_silent,peer_close_error,peer_socket_live,peer_normal_silent;
 #endif
@@ -311,6 +312,9 @@ static void peer_tx_byte(unsigned char byte){
     if(!strcmp(command_bytes,"AT+SYSTIMESTAMP?\r\n")){
         terminal("\r\n+SYSTIMESTAMP:1800000000\r\nOK\r\n",rx_ms);return;
     }
+    if(!strncmp(command_bytes,"AT+CWJAP=",9) && (int32_t)(peer_wifi_until-g_uptime_ms)>0){
+        terminal("\r\nERROR\r\n",rx_ms);return;
+    }
 #endif
     if(!strcmp(command_bytes,"AT+CIPSEND\r\n")){
         if(peer_entry_case==1)terminal(">",prompt_ms);
@@ -542,8 +546,12 @@ static void pass_case_reset(void){
 #ifdef MP_PASS_LIFECYCLE
 int platform_esp_hard_reset(void){
     peer_reset_count++;
+    if(peer_reset_held)return -1;
     if(!peer_reset_available)return 0;
     peer_stream=false;peer_escape_at=0;command_count=0;
+    if(peer_reset_noise){
+        USART3->SR|=USART_SR_FE;USART3_IRQHandler();USART3->SR&=~USART_SR_FE;
+    }
     if(!peer_reset_silent)terminal("\r\nready\r\n",100);
     return 1;
 }
@@ -554,6 +562,7 @@ static void lifecycle_case(void){
     peer_hold_tc_until=peer_hold_txe_until=0;USART3->SR|=USART_SR_TC|USART_SR_TXE;
     peer_hold_escape=peer_hold_post=peer_close_silent=peer_close_error=peer_socket_live=peer_normal_silent=false;
     peer_stop_at=0;peer_reset_available=peer_reset_silent=peer_cleanup_rx=false;
+    peer_wifi_until=0;peer_reset_noise=peer_reset_held=pass_reset_held=false;
     assert(platform_passthrough_enter());
 }
 
@@ -584,7 +593,7 @@ static void lifecycle_cases(void){
     assert(!platform_passthrough_leave() && pass_mode==PASS_LOCKED && !at_command("AT",500));
     puts("PASS_LIFECYCLE_RESET_WITHOUT_AT_COMMANDS_BLOCKED");
     lifecycle_case();
-    peer_at_ignored=2;peer_reset_available=true;
+    peer_at_ignored=2;peer_reset_available=peer_reset_noise=true;
     assert(platform_passthrough_leave()==2 && peer_reset_count==1 && platform_at_synchronized());
     assert(gateway_passthrough_retry(&reentries) && gateway_network_open());
     puts("PASS_LIFECYCLE_HARD_RESET_RESTART");
@@ -595,7 +604,7 @@ static void lifecycle_cases(void){
     gateway_network_close();
     MpFrame will={.node=3,.stream=MP_GATEWAY_STATUS,.synthetic=true};
     assert(gateway_passthrough_retry(&reentries) && gateway_network_open() && gateway_mqtt_open(&will));
-    assert(gateway_passthrough_retry(&reentries) && !gateway_passthrough_retry(&reentries) && reentries==3);
+    assert(!gateway_passthrough_retry(&reentries) && reentries==3);
     puts("PASS_LIFECYCLE_CLOSED_TLS_MQTT_RECONNECT_AND_REENTRY_LIMIT");
     lifecycle_case();
     peer_stop_at=g_uptime_ms+500u;
@@ -653,25 +662,27 @@ static void lifecycle_cases(void){
     io_metrics=(EspIoMetrics){0};
     esp_mqtt_reset();
     assert(!at_command("AT",500) && !peer_at_count);
-    assert(platform_passthrough_startup() && peer_escape_count==1 && peer_at_count==1);
+    unsigned escape_sent=0;
+    assert(platform_passthrough_startup(&escape_sent) && escape_sent && peer_escape_count==1 && peer_at_count==1);
     assert(!gateway_passthrough_retry(&recovery.reentries));
     puts("PASS_AL_WARM_BOOT_ESCAPE_RETAINS_REENTRY_AND_RESET_BUDGET");
 
     lifecycle_case();
     peer_stream=false;
     pass_mode=PASS_BOOT;io_metrics=(EspIoMetrics){0};
-    assert(platform_passthrough_startup() && peer_at_count==1 && !peer_reset_count);
+    assert(platform_passthrough_startup(&escape_sent) && peer_at_count==1 && !peer_reset_count);
     puts("PASS_AL_COMMAND_BOOT_ESCAPE_THEN_AT");
 
     lifecycle_case();
     peer_stop_at=g_uptime_ms+500u;
-    assert(!platform_passthrough_startup() && peer_stop && !peer_escape_count &&
+    escape_sent=0;
+    assert(!platform_passthrough_startup(&escape_sent) && !escape_sent && peer_stop && !peer_escape_count &&
            !peer_at_count && !at_command("AT",500));
     puts("PASS_AL_STOP_DURING_STARTUP_NO_ESCAPE_OR_AT");
 
     lifecycle_case();
     peer_at_ignored=2;
-    assert(!platform_passthrough_startup() && pass_mode==PASS_LOCKED &&
+    assert(!platform_passthrough_startup(&escape_sent) && escape_sent && pass_mode==PASS_LOCKED &&
            !peer_reset_count && !at_command("AT",500));
     record=(PassResume){PASS_RESUME_TAG|1u,0};
     assert(!pass_resume_take(&recovery,&record,true));
@@ -684,6 +695,49 @@ static void lifecycle_cases(void){
     assert(pass_recovery_stable(&recovery,since+300000u,since));
     assert(!recovery.reentries && !recovery.reset_used && pass_reset_allowed(&recovery,false,false));
     puts("PASS_AL_STABLE_300_SECONDS_REPLENISHES_BUDGET_AFTER_TICK_WRAP");
+
+    lifecycle_case();
+    gateway_network_close();
+    peer_wifi_until=g_uptime_ms+300000u;
+    unsigned failed=0;
+    uint32_t backoff=2000u;
+    const uint32_t first_delays[]={2000u,4000u,8000u,16000u,30000u};
+    while(!gateway_network_open()){
+        gateway_network_close();
+        assert(platform_at_synchronized() && !peer_reset_count && failed<20u);
+        uint32_t began=g_uptime_ms;
+        assert(gateway_passthrough_acquire(&backoff));
+        assert(g_uptime_ms-began==first_delays[failed<5u?failed:4u]);
+        failed++;
+    }
+    assert(failed>PASS_REENTRY_MAX && g_uptime_ms>=peer_wifi_until &&
+           recovery.reentries==0 && gateway_mqtt_open(&will));
+    puts("PASS_AL2_300_SECOND_WIFI_OUTAGE_RECOVERS_WITHOUT_SESSION_BUDGET");
+    for(unsigned drop=1;drop<=PASS_REENTRY_MAX;drop++){
+        terminal("\r\nCLOSED\r\n",0);
+        assert(esp_mqtt_recv(bytes,4,40)<0);
+        gateway_network_close();
+        assert(gateway_passthrough_retry(&recovery.reentries)==(drop<PASS_REENTRY_MAX));
+        assert(recovery.reentries==drop);
+        if(drop<PASS_REENTRY_MAX)assert(gateway_network_open() && gateway_mqtt_open(&will));
+    }
+    puts("PASS_AL2_THIRD_SHORT_SESSION_DROP_LATCHES_LINK");
+
+    PassBootDiag summary={.reset_flags=0x10000000,.escape_sent=1,.at_ok=1,.resumed=1,.reentries=2};
+    char line[120]="B5 DIAG";
+    assert(pass_boot_diag_due(&summary,5000u) && !pass_boot_diag_due(&summary,5001u));
+    assert(pass_boot_diag_due(&summary,10000u));
+    pass_boot_diag_append(line+7,sizeof(line)-7,&summary);
+    assert(!strcmp(line,"B5 DIAG boot_rst=10000000 boot_escape=1 boot_at=1 boot_resume=1 boot_reentries=2\r\n"));
+    assert(pass_boot_diag_due(&summary,55000u) && !pass_boot_diag_due(&summary,60000u) &&
+           !pass_boot_diag_due(&summary,0));
+    puts("PASS_AL2_DIAG_WITHOUT_BOOT_BANNER");
+
+    lifecycle_case();
+    peer_at_ignored=2;peer_reset_held=true;
+    gateway_network_close();
+    assert(peer_reset_count==1 && !platform_passthrough_soft_reset_safe() && !at_command("AT",500));
+    puts("PASS_AN_LOW_STRAP_HOLD_BLOCKS_SOFT_RESET");
 }
 #endif
 
