@@ -31,6 +31,8 @@ class StopGate:
         if not line.startswith(("B5 DIAG ", "ABC A_CAN ")):
             return None
         data = {key: int(value) for key, value in re.findall(r"(\w+)=(\d+)\b", line)}
+        if data.get("stop"):
+            return "FIRMWARE_STOP"
         if line.startswith("B5 DIAG ") and "tick" in data:
             tick = data["tick"]
             if self.tick is not None and tick < self.tick:

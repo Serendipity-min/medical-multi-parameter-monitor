@@ -23,3 +23,9 @@ def test_recorder_retains_r18_stops():
     assert gate.observe("ABC A_CAN esr=4 overflow=0") == "CAN_BUSOFF_OR_OVERFLOW"
     assert gate.observe("B5 DIAG tick=5 uart_err=2 esr=0 overflow=0") is None
     assert gate.observe("B5 DIAG tick=9 uart_err=7 esr=0 overflow=0") == "UART_ERROR_GROWTH"
+
+
+def test_recorder_detects_boot_stop_without_banner():
+    assert StopGate().observe(
+        "B5 DIAG tick=5000 uart_err=225 stop=1 boot_escape=0 boot_at=0"
+    ) == "FIRMWARE_STOP"

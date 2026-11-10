@@ -688,6 +688,15 @@ static void lifecycle_cases(void){
     assert(!pass_resume_take(&recovery,&record,true));
     puts("PASS_AL_UNCONFIRMED_BOOT_OR_BAD_RECORD_LOCKS");
 
+    lifecycle_case();
+    pass_mode=PASS_BOOT;
+    uart_hw_total=errors=225u;
+    escape_sent=0;
+    assert(!platform_passthrough_startup(&escape_sent) && !escape_sent && !peer_at_count &&
+           !peer_escape_count && platform_uart_errors_total()==225u && !at_command("AT",500));
+    uart_hw_total=0;
+    puts("PASS_R18_BOOT_UART_ERROR_BEFORE_GUARD_REPRODUCES_UNSENT_ESCAPE");
+
     recovery=(PassRecovery){2,true};
     uint32_t since=UINT32_MAX-50u;
     assert(!pass_recovery_stable(&recovery,since+299999u,since));
