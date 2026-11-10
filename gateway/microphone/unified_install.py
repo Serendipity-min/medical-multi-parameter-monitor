@@ -98,7 +98,7 @@ class SegmentLink(engine.InstallLink):
         return engine.raw.Link.call(self,name,*args,timeout=timeout)
 
 
-def execute(link,out,payload,phase):
+def execute(link,out,payload,phase,cold_boot=False):
     ref=payload['identity'];link.open();seen=engine.raw.identity(link);engine.raw.check_identity(seen)
     engine.raw.write_json(out/'identity-before-private.json',seen);need(seen==ref,'WRONG_C_OR_PROTECTION')
     engine.raw.write_json(out/'entry-sticky-private.json',{'DHCSR':link.u32(engine.readonly.SYSTEM['DHCSR'])})
@@ -121,20 +121,29 @@ def execute(link,out,payload,phase):
         buf=(C.c_uint8*len(data)).from_buffer_copy(data)
         need(link.call('JLINKARM_WriteMem',address,len(data),buf)==len(data),'NATIVE_SEGMENT_SHORT_WRITE')
     need(link.call('JLINKARM_EndDownload',timeout=45)>=0,'NATIVE_LOADER_FAILED')
-    need(link.u32(engine.readonly.SYSTEM['DHCSR'])&engine.raw.HALT,'LOADER_NOT_HALTED')
+    after_loader=link.u32(engine.readonly.SYSTEM['DHCSR'])
+    need(after_loader&engine.raw.HALT,'LOADER_NOT_HALTED')
+    if cold_boot:
+        engine.raw.write_json(out/'loader-state-private.json',{'DHCSR':after_loader})
+        need(not (after_loader&(1<<25)),'LOADER_RESET_OBSERVED')
     actual=link.read(0x08000000,1048576);engine.save(out,'after-full-private.bin',actual)
     need(actual==payload['expected'],'FULL_VERIFY_FAILED')
     options=link.read(0x1fffc000,16);engine.save(out,'after-options-private.bin',options)
     need(options==payload['options'],'OPTIONS_CHANGED')
     seen=engine.raw.identity(link);engine.raw.write_json(out/'identity-after-private.json',seen);need(seen==ref,'POST_IDENTITY_DRIFT')
-    link.fully_verified=True;link.policy('SetResetType = 0');need(link.call('JLINKARM_Reset')==0,'RESET_FAILED')
-    core=engine.runtime.core_if_halted(link);engine.raw.write_json(out/'reset-core-private.json',core)
-    regs=core.get('registers',{});need((regs.get('R15',0)&~1)==(int.from_bytes(actual[4:8],'little')&~1)
-        and regs.get('MSP')==int.from_bytes(actual[:4],'little'),'RESET_VECTOR_MISMATCH')
-    link.call('JLINKARM_Go');time.sleep(1);link.u32(engine.readonly.SYSTEM['DHCSR'])
-    engine.readonly.check_running(link,engine.readonly.snapshot(link));link.set_close_resume(True)
+    link.fully_verified=True
+    if cold_boot:
+        link.stable_halt()
+    else:
+        link.policy('SetResetType = 0');need(link.call('JLINKARM_Reset')==0,'RESET_FAILED')
+        core=engine.runtime.core_if_halted(link);engine.raw.write_json(out/'reset-core-private.json',core)
+        regs=core.get('registers',{});need((regs.get('R15',0)&~1)==(int.from_bytes(actual[4:8],'little')&~1)
+            and regs.get('MSP')==int.from_bytes(actual[:4],'little'),'RESET_VECTOR_MISMATCH')
+        link.call('JLINKARM_Go');time.sleep(1);link.u32(engine.readonly.SYSTEM['DHCSR'])
+        engine.readonly.check_running(link,engine.readonly.snapshot(link));link.set_close_resume(True)
     return {'exit_code':0,'status':'UNIFIED_C_'+phase.upper()+'_FULL_VERIFY_PASS','board':'C',
-            'sectors':[0,4],'full_flash_sha256':sha(actual),'options_unchanged':True,'all_other_sectors_unchanged':True}
+            'sectors':[0,4],'full_flash_sha256':sha(actual),'options_unchanged':True,'all_other_sectors_unchanged':True,
+            **({'boot_mode':'PHYSICAL_COLD_BOOT_REQUIRED','loader_reset_observed':False} if cold_boot else {})}
 
 
 def main():
@@ -143,6 +152,7 @@ def main():
     p.add_argument('--backup',type=Path,required=True);p.add_argument('--current-install',type=Path)
     p.add_argument('--image-dir',type=Path);p.add_argument('--out',type=Path,required=True)
     p.add_argument('--execute',action='store_true');p.add_argument('--sector4-approved',action='store_true')
+    p.add_argument('--cold-boot',action='store_true',help='读回后保持 Halt，不发 Reset/Go，由现场断电冷启动')
     p.add_argument('--worker',action='store_true');a=p.parse_args();payload=prepare(a)
     recovery.protected(a.out.parent,False);need(not a.out.exists(),'NEW_OUTPUT_REQUIRED')
     if not(a.execute or a.worker):
@@ -154,7 +164,7 @@ def main():
         return backup.supervise(cmd,a.out)
     a.out.mkdir();out=a.out/'probe';out.mkdir();link=None;result={'exit_code':1,'status':'STOP','board':'C'}
     try:
-        link=SegmentLink(out,payload['blocks']);result.update(execute(link,out,payload,a.phase))
+        link=SegmentLink(out,payload['blocks']);result.update(execute(link,out,payload,a.phase,a.cold_boot))
     except (Exception,KeyboardInterrupt) as error:
         if link:link.verified_running_flash=False
         engine.raw.write_json(a.out/'failure-private.json',{'type':type(error).__name__,'reason':str(error)})

@@ -65,11 +65,32 @@ class UnifiedInstallTests(unittest.TestCase):
     def save_meta(self):(self.images/'unified-layout.json').write_text(json.dumps(self.meta))
     def prepare(self):
         with patch.object(u.recovery,'protected',side_effect=lambda p,s:Path(p)):return u.prepare(self.a)
-    def run_install(self,payload,fake):
+    def run_install(self,payload,fake,cold_boot=False):
         out=self.root/('run-'+str(len(list(self.root.glob('run-*')))));out.mkdir()
         expected=payload['expected'];core={'registers':{'R15':int.from_bytes(expected[4:8],'little'),'MSP':int.from_bytes(expected[:4],'little')}}
         with patch.object(u.time,'sleep'),patch.object(u.engine.runtime,'core_if_halted',return_value=core):
-            return u.execute(fake,out,payload,self.a.phase)
+            return u.execute(fake,out,payload,self.a.phase,cold_boot)
+
+    def test_cold_boot_verifies_without_reset_or_go(self):
+        f=SegmentedFake(self.orig,self.opts)
+        result=self.run_install(self.prepare(),f,cold_boot=True)
+        self.assertEqual(result['boot_mode'],'PHYSICAL_COLD_BOOT_REQUIRED')
+        self.assertNotIn('JLINKARM_Reset',f.counts)
+        self.assertNotIn('JLINKARM_Go',f.counts)
+        self.assertFalse(f.close_resume_enabled)
+
+    def test_cold_boot_stops_on_loader_reset_sticky(self):
+        class ResetAfterLoad(SegmentedFake):
+            def u32(self,address):
+                value=super().u32(address)
+                if address==u.engine.readonly.SYSTEM['DHCSR'] and self.counts.get('JLINKARM_EndDownload'):
+                    value|=1<<25
+                return value
+        f=ResetAfterLoad(self.orig,self.opts)
+        with self.assertRaisesRegex(ValueError,'LOADER_RESET_OBSERVED'):
+            self.run_install(self.prepare(),f,cold_boot=True)
+        self.assertNotIn('JLINKARM_Reset',f.counts)
+        self.assertNotIn('JLINKARM_Go',f.counts)
 
     def test_install_and_rollback_exact_full_original(self):
         payload=self.prepare();fake=SegmentedFake(self.orig,self.opts);r=self.run_install(payload,fake)
