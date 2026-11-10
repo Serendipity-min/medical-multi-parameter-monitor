@@ -53,7 +53,11 @@ static NetworkContext_t network;
 static MQTTContext_t client;
 #ifdef MP_FINAL_UNIFIED
 static MQTTPubAckInfo_t outgoing[GATEWAY_TELEMETRY_SLOTS+1];
-typedef struct {uint16_t id;uint32_t at;int result;unsigned ack;} TelemetryPending;
+typedef struct {uint16_t id;uint32_t at;int result;unsigned ack;
+#ifdef MP_PRODUCTION_DIAG
+    uint8_t stream;bool replay;
+#endif
+} TelemetryPending;
 static TelemetryPending telemetry[GATEWAY_TELEMETRY_SLOTS];
 static uint16_t last_ticket;
 #ifdef MP_TRANSPORT_BENCH
@@ -88,6 +92,21 @@ static uint32_t epoch, epoch_tick;
 static uint32_t pending_started;
 static int opening_ntp_retry;
 static GatewayMqttMetrics mqtt_metrics;
+#ifdef MP_PRODUCTION_DIAG
+static GatewayProductionDiag production_diag;
+static uint32_t production_slots_at;
+static void production_slots_update(uint32_t now,unsigned used){
+    production_diag.slot_ms[production_diag.used]+=(uint32_t)(now-production_slots_at);
+    production_slots_at=now;
+    production_diag.used=used;
+    if(used>production_diag.peak)production_diag.peak=used;
+}
+void gateway_mqtt_production_diag(GatewayProductionDiag *out,uint32_t now){
+    production_slots_update(now,production_diag.used);
+    *out=production_diag;
+    out->puback=mqtt_metrics.ack;
+}
+#endif
 int gateway_network_retryable(void){return opening_ntp_retry;}
 void gateway_mqtt_metrics(GatewayMqttMetrics *out){*out=mqtt_metrics;}
 int gateway_mqtt_pending(void){
@@ -122,6 +141,9 @@ int gateway_mqtt_ticket_result(uint16_t id){
             if(elapsed>reclaim_max)reclaim_max=elapsed;
 #endif
             telemetry[i].id=0;
+#ifdef MP_PRODUCTION_DIAG
+            production_slots_update(g_uptime_ms,production_diag.used-1u);
+#endif
         }
         return result;
     }
@@ -218,6 +240,9 @@ static void mqtt_failed(void)
 #ifdef MP_FINAL_UNIFIED
 #ifndef MP_AUDIO_DISABLED
     audio_pending=audio_acknowledged=0;audio_packet_id=0;audio_result=GW_FAILED;audio_subscribed=0;
+#endif
+#ifdef MP_PRODUCTION_DIAG
+    production_slots_update(g_uptime_ms,0);
 #endif
     memset(telemetry,0,sizeof telemetry);last_ticket=0;
 #endif
@@ -344,6 +369,9 @@ int gateway_mqtt_open(const MpFrame *will_frame)
 #ifdef MP_FINAL_UNIFIED
 #ifndef MP_AUDIO_DISABLED
     audio_pending=audio_acknowledged=0;audio_packet_id=0;audio_result=GW_DEFERRED;audio_subscribed=0;audio_subscription=0;
+#endif
+#ifdef MP_PRODUCTION_DIAG
+    production_slots_update(g_uptime_ms,0);
 #endif
     memset(telemetry,0,sizeof telemetry);last_ticket=0;
 #ifndef MP_AUDIO_DISABLED
@@ -515,7 +543,13 @@ int gateway_mqtt_begin(const MpFrame *frame) {
     if(qos1){
         id=MQTT_GetPacketId(&client);next_packet_seed=client.nextPacketId;
 #ifdef MP_FINAL_UNIFIED
+#ifdef MP_PRODUCTION_DIAG
+        telemetry[slot]=(TelemetryPending){id,start,GW_PENDING,0,frame->stream,frame->replay};
+        production_slots_update(start,production_diag.used+1u);
+        last_ticket=id;
+#else
         telemetry[slot]=(TelemetryPending){id,start,GW_PENDING,0};last_ticket=id;
+#endif
 #ifdef MP_TRANSPORT_BENCH
         bench_acks[slot]=(BenchAck){frame->seq,0,frame->node,frame->stream,frame->replay};
 #endif
@@ -531,6 +565,9 @@ int gateway_mqtt_begin(const MpFrame *frame) {
         char diagnostic[48];(void)snprintf(diagnostic,sizeof(diagnostic),"GW PUBLISH_FAIL status=%u\r\n",(unsigned)status);console(diagnostic);
         mqtt_metrics.failed++;mqtt_failed();return GW_FAILED;
     }
+#ifdef MP_PRODUCTION_DIAG
+    production_diag.published[frame->replay][frame->stream]++;
+#endif
     if(qos1){mqtt_metrics.q1_sent++;return GW_PENDING;}
     mqtt_metrics.q0_sent++;return GW_COMPLETE;
 
@@ -596,6 +633,9 @@ int gateway_mqtt_progress(void) {
         BenchAck a=bench_acks[i];char line[120];
         snprintf(line,sizeof line,"BENCH ACK node=%u stream=%u seq=%lu replay=%u ms=%lu\r\n",
             a.node,a.stream,(unsigned long)a.seq,a.replay,(unsigned long)(a.at-telemetry[i].at));console(line);
+#endif
+#ifdef MP_PRODUCTION_DIAG
+        production_diag.acked[telemetry[i].replay][telemetry[i].stream]++;
 #endif
         b5_latency_add(&mqtt_metrics.ack,g_uptime_ms-telemetry[i].at);mqtt_metrics.q1_acked++;telemetry[i].result=GW_COMPLETE;
     }

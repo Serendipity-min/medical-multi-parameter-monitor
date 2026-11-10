@@ -54,5 +54,14 @@ typedef struct {
 void field01_mqtt_reclaim(uint32_t *count,uint32_t *total,uint32_t *max);
 #endif
 void gateway_mqtt_metrics(GatewayMqttMetrics *out);
+#ifdef MP_PRODUCTION_DIAG
+typedef struct {
+    uint32_t published[2][MP_STREAMS],acked[2][MP_STREAMS];
+    uint64_t slot_ms[GATEWAY_TELEMETRY_SLOTS+1];
+    unsigned used,peak;
+    B5Latency puback;
+} GatewayProductionDiag;
+void gateway_mqtt_production_diag(GatewayProductionDiag *out,uint32_t now);
+#endif
 #endif
 #endif

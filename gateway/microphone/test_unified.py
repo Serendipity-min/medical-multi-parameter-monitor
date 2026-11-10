@@ -64,6 +64,7 @@ def main():
     peer_defines,peer_files=cases['field01_pass115_peer']
     cases['production_pass_lifecycle']=([flag for flag in peer_defines if flag!='-DMP_FIVE_FIELD01']+
         ['-DMP_PASS_LIFECYCLE','-DGATEWAY_TELEMETRY_SLOTS=4u'],peer_files)
+    cases['production_diag']=([*cases['production_pass_lifecycle'][0],'-DMP_PRODUCTION_DIAG'],peer_files)
     cases['production_esp_pf6_reset']=([],['gateway/mqtt/tests/test_esp_pf6_reset.c'])
     cases['pf6_diag_console']=([],['gateway/esp_at_probe/tests/test_pf6_diag.c'])
     cases['field01_uart_retime']=(['-flto','-fwhole-program','-DMP_FIVE_FIELD01','-DMP_CAN_RX_IRQ',

@@ -805,6 +805,49 @@ static void lifecycle_cases(void){
     gateway_network_close();
     assert(peer_reset_count==1 && !platform_passthrough_soft_reset_safe() && !at_command("AT",500));
     puts("PASS_AN_LOW_STRAP_HOLD_BLOCKS_SOFT_RESET");
+
+#ifdef MP_PRODUCTION_DIAG
+    lifecycle_case();
+    gateway_network_close();
+    assert(gateway_network_open() && gateway_mqtt_open(&will));
+    GatewayProductionDiag before,full,after;
+    gateway_mqtt_production_diag(&before,g_uptime_ms);
+    MpFrame wave={.node=2,.stream=MP_ECG,.rate=250,.count=1,.synthetic=true};
+    assert(gateway_mqtt_begin(&wave)==GW_COMPLETE);
+    uint16_t ids[GATEWAY_TELEMETRY_SLOTS];
+    for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++){
+        wave.replay=i==0;
+        if(!wave.replay){wave.stream=MP_HR;wave.rate=0;}
+        assert(gateway_mqtt_begin(&wave)==GW_PENDING);
+        ids[i]=gateway_mqtt_ticket();
+    }
+    gateway_mqtt_production_diag(&full,g_uptime_ms);
+    assert(full.used==GATEWAY_TELEMETRY_SLOTS && full.peak==GATEWAY_TELEMETRY_SLOTS);
+    assert(gateway_mqtt_begin(&wave)==GW_DEFERRED);
+    assert(full.published[0][MP_ECG]-before.published[0][MP_ECG]==1u);
+    assert(full.published[1][MP_ECG]-before.published[1][MP_ECG]==1u);
+    assert(full.published[0][MP_HR]-before.published[0][MP_HR]==GATEWAY_TELEMETRY_SLOTS-1u);
+    delay_ms(100);
+    gateway_mqtt_production_diag(&after,g_uptime_ms);
+    assert(after.slot_ms[GATEWAY_TELEMETRY_SLOTS]-full.slot_ms[GATEWAY_TELEMETRY_SLOTS]==100u);
+    for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++){
+        uint32_t began=g_uptime_ms;
+        do {assert(gateway_mqtt_progress()!=GW_FAILED && g_uptime_ms-began<1000u);}
+        while(gateway_mqtt_ticket_result(ids[i])!=GW_COMPLETE);
+    }
+    gateway_mqtt_production_diag(&after,g_uptime_ms);
+    assert(!after.used && after.puback.count-before.puback.count==GATEWAY_TELEMETRY_SLOTS);
+    assert(after.acked[0][MP_ECG]==before.acked[0][MP_ECG]);
+    assert(after.acked[1][MP_ECG]-before.acked[1][MP_ECG]==1u);
+    assert(after.acked[0][MP_HR]-before.acked[0][MP_HR]==GATEWAY_TELEMETRY_SLOTS-1u);
+    assert(gateway_mqtt_begin(&wave)==GW_PENDING);
+    gateway_network_close();
+    assert(gateway_network_open() && gateway_mqtt_open(&will));
+    gateway_mqtt_production_diag(&after,g_uptime_ms);
+    assert(!after.used && after.published[0][MP_HR]-before.published[0][MP_HR]==GATEWAY_TELEMETRY_SLOTS);
+    assert(after.acked[0][MP_HR]-before.acked[0][MP_HR]==GATEWAY_TELEMETRY_SLOTS-1u);
+    puts("PASS_AR_PRODUCTION_COUNTERS_QOS_REPLAY_SLOTS_AND_RECONNECT");
+#endif
 }
 #endif
 

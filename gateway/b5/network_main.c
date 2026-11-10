@@ -457,6 +457,51 @@ static void diagnostic(unsigned stage) {
 #endif
 #endif
 }
+#ifdef MP_PRODUCTION_DIAG
+static void production_diagnostic(void){
+    char line[280];
+    uint32_t now=g_uptime_ms,enqueued[MP_STREAMS],total_enqueued=0;
+    uint32_t published[2]={0},acked[2]={0};
+    GatewayProductionDiag d;
+    gateway_mqtt_production_diag(&d,now);
+    for(unsigned k=0;k<MP_STREAMS;k++){
+        enqueued[k]=gateway.router.enqueued[k];total_enqueued+=enqueued[k];
+        for(unsigned replay=0;replay<2;replay++){
+            published[replay]+=d.published[replay][k];acked[replay]+=d.acked[replay][k];
+        }
+    }
+    uint64_t elapsed=0,weighted=0;
+    for(unsigned i=0;i<=GATEWAY_TELEMETRY_SLOTS;i++){
+        elapsed+=d.slot_ms[i];weighted+=i*d.slot_ms[i];
+    }
+    unsigned long mean=elapsed?(unsigned long)(1000u*weighted/elapsed):0;
+    (void)snprintf(line,sizeof(line),
+        "B5 PROD tick=%lu enqueued=%lu published=%lu acked=%lu replay_published=%lu replay_acked=%lu slots=%u slot_used=%u slot_peak=%u slot_mean_milli=%lu slot_full_ms=%lu\r\n",
+        (unsigned long)now,(unsigned long)total_enqueued,(unsigned long)published[0],(unsigned long)acked[0],
+        (unsigned long)published[1],(unsigned long)acked[1],GATEWAY_TELEMETRY_SLOTS,d.used,d.peak,mean,
+        (unsigned long)(uint32_t)d.slot_ms[GATEWAY_TELEMETRY_SLOTS]);
+    console(line);
+    for(unsigned first=0;first<MP_STREAMS;first+=4){
+        size_t used=(size_t)snprintf(line,sizeof(line),"B5 PROD_FLOW tick=%lu first=%u counts=",(unsigned long)now,first);
+        for(unsigned k=first;k<first+4 && k<MP_STREAMS;k++){
+            used+=(size_t)snprintf(line+used,sizeof(line)-used,"%s%lu/%lu/%lu/%lu/%lu",k==first?"":",",
+                (unsigned long)enqueued[k],(unsigned long)d.published[0][k],(unsigned long)d.acked[0][k],
+                (unsigned long)d.published[1][k],(unsigned long)d.acked[1][k]);
+        }
+        (void)snprintf(line+used,sizeof(line)-used,"\r\n");console(line);
+    }
+    B5Latency *ack=&d.puback;
+    size_t used=(size_t)snprintf(line,sizeof(line),"B5 PROD_ACK tick=%lu n=%lu p50_upper=%lu p95_upper=%lu p99_upper=%lu max=%lu bins=",
+        (unsigned long)now,(unsigned long)ack->count,(unsigned long)b5_latency_percentile(ack,50),
+        (unsigned long)b5_latency_percentile(ack,95),(unsigned long)b5_latency_percentile(ack,99),(unsigned long)ack->max);
+    for(unsigned i=0;i<12;i++)used+=(size_t)snprintf(line+used,sizeof(line)-used,"%s%lu",i?",":"",(unsigned long)ack->bins[i]);
+    (void)snprintf(line+used,sizeof(line)-used,"\r\n");console(line);
+    used=(size_t)snprintf(line,sizeof(line),"B5 PROD_SLOTS tick=%lu ms=",(unsigned long)now);
+    for(unsigned i=0;i<=GATEWAY_TELEMETRY_SLOTS;i++)
+        used+=(size_t)snprintf(line+used,sizeof(line)-used,"%s%lu",i?",":"",(unsigned long)(uint32_t)d.slot_ms[i]);
+    (void)snprintf(line+used,sizeof(line)-used,"\r\n");console(line);
+}
+#endif
 #ifndef MP_FIVE_FIELD01
 static void diagnostic_idle(void) {
 #ifdef MP_FINAL_UNIFIED
@@ -487,6 +532,9 @@ static void diagnostic_idle(void) {
         if(pass_boot_diag.done)
 #endif
             diagnostic(0);
+#ifdef MP_PRODUCTION_DIAG
+        production_diagnostic();
+#endif
         return;
     }
     if(queue_due){queue_due=false;diagnostic(12);return;}
