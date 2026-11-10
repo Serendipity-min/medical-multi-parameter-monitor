@@ -524,6 +524,9 @@ static void production_diagnostic(void){
         correction<0?"-":"+",(unsigned long)(magnitude/1000u),(unsigned long)(magnitude%1000u),
         (unsigned long)anchor_age,anchor_valid,(unsigned long)anchor_expirations);console(line);
 #endif
+#ifdef MP_TX_INTEGRITY_DIAG
+    platform_txcheck_report(now);
+#endif
 }
 #endif
 #ifndef MP_FIVE_FIELD01

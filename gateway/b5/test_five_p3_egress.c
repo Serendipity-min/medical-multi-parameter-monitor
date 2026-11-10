@@ -73,6 +73,10 @@ static unsigned peer_serial_n,peer_frame_n,peer_frame_left,peer_frame_shift;
 static unsigned peer_chunks,peer_chunk_max,peer_rx_max,peer_escape_count,peer_escape_bytes;
 static uint32_t peer_flush_at,peer_last_tx,peer_escape_at;
 static unsigned peer_entry_case,peer_tx_stop_after;
+#ifdef MP_TX_INTEGRITY_DIAG
+static unsigned hold_tx_after,hold_tx_ms;
+static bool try_nested_tx;
+#endif
 static bool peer_stop;
 #ifdef MP_PASS_LIFECYCLE
 static unsigned peer_at_ignored,peer_at_count,peer_reset_count,peer_close_count;
@@ -377,6 +381,12 @@ void platform_test_tx(unsigned char byte){
 #endif
         advance(wire_us+byte_cpu_us);
     peer_tx_byte(byte);
+#ifdef MP_TX_INTEGRITY_DIAG
+    if(hold_tx_after && !--hold_tx_after){
+        USART3->SR&=~USART_SR_TXE;
+        peer_hold_txe_until=g_uptime_ms+hold_tx_ms;
+    }
+#endif
 }
 
 #ifdef MP_P3_SERVICE_MODEL
@@ -441,6 +451,13 @@ static void tick(void){
 #endif
 #endif
 #ifdef MP_PASS_LIFECYCLE
+#ifdef MP_TX_INTEGRITY_DIAG
+    if(try_nested_tx && txcheck_active){
+        const unsigned char ping[]={0xc0,0};
+        try_nested_tx=false;
+        assert(esp_mqtt_send(ping,sizeof ping,0)<0);
+    }
+#endif
     if(peer_stop_at && g_uptime_ms>=peer_stop_at)peer_stop=true;
     if(peer_boot_noise_at && g_uptime_ms>=peer_boot_noise_at){
         USART3->DR=0x9f;
@@ -928,6 +945,36 @@ static void lifecycle_cases(void){
     assert(after.published[0][MP_NODE_STATUS]==before.published[0][MP_NODE_STATUS]);
     assert(!router.scalar_history.count && router.status_history.count==1 && publisher.q1==GATEWAY_TELEMETRY_SLOTS+2u);
     puts("PASS_R24_EGRESS_REALTIME_THEN_SCALAR_PUBACK");
+#ifdef MP_TX_INTEGRITY_DIAG
+    assert(txcheck.ack_next==GATEWAY_TELEMETRY_SLOTS+2u && txcheck.ack_gap);
+    const TxCheckPacket *last=&txcheck.packets[(txcheck.packet_next-1)%TXCHECK_PACKETS];
+    const TxCheckAck *ack=&txcheck.acks[(txcheck.ack_next-1)%TXCHECK_ACKS];
+    assert(last->type==3 && last->stream==MP_NIBP && last->seq==nibp.seq && last->required==last->written);
+    assert(ack->at-txcheck.last_write==ack->delay && ack->delay>0 && ack->interval>0);
+    const unsigned char ping[]={0xc0,0};
+    lifecycle_case();
+    assert(!txcheck.ack_next && !txcheck.packet_next);
+    uint32_t before_bytes=txcheck.bytes,before_packets=txcheck.count;
+    try_nested_tx=true;hold_tx_after=1;hold_tx_ms=6;
+    assert(esp_mqtt_send(ping,sizeof ping,500)==(int)sizeof ping);
+    assert(txcheck.reentry==1 && txcheck.reentry_poll && txcheck.reentry_outer_stream==TXCHECK_CONTROL);
+    assert(txcheck.packets[0].gap>=6 && txcheck.bytes-before_bytes==2 && txcheck.count-before_packets==1);
+    hold_tx_after=1;hold_tx_ms=120;
+    assert(esp_mqtt_send(ping,sizeof ping,50)<0);
+    assert(txcheck.short_write==1 && txcheck.txe_timeout==1 && txcheck.packets[1].written==1);
+    assert(esp_mqtt_send(ping,sizeof ping,500)<0 && txcheck.count-before_packets==2 && txcheck.bytes-before_bytes==3);
+    char tx_line[224];txcheck_format(tx_line,sizeof tx_line,g_uptime_ms);
+    assert(strstr(tx_line,"short=1 txe_to=1") && strstr(tx_line,"req=2 wr=1\r\n"));
+    txcheck_exit();
+    txcheck_enter();
+    for(unsigned id=1;id<=TXCHECK_ACKS+4;id++){
+        advance(100000);
+        platform_txcheck_ack((uint16_t)id,g_uptime_ms-7);
+    }
+    assert(txcheck.acks[4].id==5 && txcheck.acks[3].id==TXCHECK_ACKS+4);
+    assert(txcheck.acks[3].delay==7 && txcheck.acks[3].interval==100);
+    puts("PASS_R29_TXCHECK_BYTES_GAP_REENTRY_SHORT_TXE_AND_PUBACK");
+#endif
 #endif
 }
 #endif

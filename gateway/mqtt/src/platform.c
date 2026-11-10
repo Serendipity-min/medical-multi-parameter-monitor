@@ -121,6 +121,9 @@ static int rx_step(void);
 static void (*poll_callback)(void);
 static int polling;
 static uint32_t poll_at;
+#ifdef MP_TX_INTEGRITY_DIAG
+#include "txcheck.inc"
+#endif
 /* AT 内部单调计时独立于 MQTT 库和 SNTP epoch，不再导出 Paho Timer 类型。 */
 typedef struct
 {
@@ -219,6 +222,9 @@ static int receive_byte(void)
 
 static unsigned send_bytes(const unsigned char *data, unsigned int length)
 {
+#ifdef MP_TX_INTEGRITY_DIAG
+    TxCheckFlight *flight=txcheck_active && txcheck_active->data==data?txcheck_active:NULL;
+#endif
 #ifdef MP_P3_SERVICE_MODEL
     if(io_metrics.at_phase==ESP_AT_DATA){
         extern int platform_test_dma_payload(const unsigned char *,unsigned);
@@ -247,7 +253,12 @@ static unsigned send_bytes(const unsigned char *data, unsigned int length)
             platform_poll();
             if (NETWORK_STOPPED()) goto finish;
 #ifdef MP_B5_EGRESS_FINAL
-            if((int32_t)(g_uptime_ms-serial_deadline)>=0)goto finish;
+            if((int32_t)(g_uptime_ms-serial_deadline)>=0){
+#ifdef MP_TX_INTEGRITY_DIAG
+                if(flight)flight->txe_timeout=true;
+#endif
+                goto finish;
+            }
 #endif
         }
 #ifdef ESP_CPU_MEASURE
@@ -257,6 +268,13 @@ static unsigned send_bytes(const unsigned char *data, unsigned int length)
         platform_test_tx(data[i]);
 #else
         USART3->DR = data[i];
+#endif
+#ifdef MP_TX_INTEGRITY_DIAG
+        if(flight){
+            uint32_t now=g_uptime_ms;
+            if(i && now-flight->last>flight->packet.gap)flight->packet.gap=now-flight->last;
+            flight->last=now;
+        }
 #endif
 #ifdef MP_B5_EGRESS_FINAL
         if(io_metrics.at_phase==ESP_AT_DATA)io_metrics.written=i+1;
@@ -628,6 +646,9 @@ int platform_passthrough_enter(void){
     }
     pass_remaining=pass_plus=0;pass_length=false;
     pass_mode=PASS_STREAM;
+#ifdef MP_TX_INTEGRITY_DIAG
+    txcheck_enter();
+#endif
     phase(ESP_AT_IDLE);
     return 1;
 }
@@ -802,6 +823,9 @@ int platform_passthrough_startup(unsigned *escape_sent,uint32_t *cold_uart_basel
 int platform_passthrough_leave(void){
     if(pass_mode==PASS_LOCKED || pass_mode==PASS_BOOT)return 0;
     if(pass_mode==PASS_COMMAND && platform_at_synchronized())return PASS_EXIT_AT;
+#ifdef MP_TX_INTEGRITY_DIAG
+    txcheck_exit();
+#endif
     if(pass_mode!=PASS_COMMAND && !errors && pass_escape(false,NULL))return PASS_EXIT_AT;
     return platform_passthrough_recover();
 }
@@ -849,6 +873,10 @@ int platform_passthrough_normal(void){
 #endif
 
 static int pass_send(const unsigned char *data,unsigned length,uint32_t timeout){
+#ifdef MP_TX_INTEGRITY_DIAG
+    unsigned type=data[0]>>4;
+    txcheck_note_reentry(type);
+#endif
     if(pass_mode!=PASS_STREAM || NETWORK_STOPPED() || errors)return -1;
     if(timeout<platform_send_reserve(length) || b5_business_remaining()<timeout+B5_CLOSE_RESERVE_MS)
         return -1;
@@ -863,7 +891,18 @@ static int pass_send(const unsigned char *data,unsigned length,uint32_t timeout)
     io_metrics.required=length;io_metrics.written=0;
     serial_deadline=start+timeout;
     phase(ESP_AT_DATA);
+#ifdef MP_TX_INTEGRITY_DIAG
+    TxCheckFlight flight={.packet={.at=start,.seq=type==3?io_metrics.frame_seq:0,.required=length,
+                                  .type=type,.stream=type==3?io_metrics.stream:TXCHECK_CONTROL},.data=data};
+    TxCheckFlight *parent=txcheck_active;
+    txcheck_active=&flight;
+    unsigned written=send_bytes(data,length);
+    txcheck_active=parent;
+    txcheck_finish(&flight,written);
+    if(written!=length || errors){
+#else
     if(send_bytes(data,length)!=length || errors){
+#endif
         pass_unknown();return -1;
     }
     io_metrics.tx_ms=g_uptime_ms-start;

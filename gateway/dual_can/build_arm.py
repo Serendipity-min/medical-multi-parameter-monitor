@@ -28,6 +28,7 @@ def main():
     parser.add_argument('--pass-lifecycle', action='store_true', help='非 FIELD01 五板 115200 透传生命周期候选，只构建')
     parser.add_argument('--production-diag', action='store_true', help='生产透传候选的同步计数和槽位诊断，只构建')
     parser.add_argument('--outage-retention', action='store_true', help='生产候选断网授时与分级保留，只构建')
+    parser.add_argument('--tx-integrity-diag', action='store_true', help='WP-AU 透传发送完整性诊断，只构建')
     parser.add_argument('--five-node', action='store_true', help='五板静态来源候选；仅离线构建')
     parser.add_argument('--five-appliance', action='store_true', help='五板自动启动/KEY1/事实回复候选；仅离线构建，不部署')
     parser.add_argument('--field01', action='store_true', help='Issue #8 手动单窗网络探针，只构建')
@@ -52,6 +53,8 @@ def main():
         parser.error('--production-diag requires --pass-lifecycle')
     if args.outage_retention and not args.production_diag:
         parser.error('--outage-retention requires --production-diag')
+    if args.tx_integrity_diag and not args.outage_retention:
+        parser.error('--tx-integrity-diag requires --outage-retention')
     if args.field01 and (args.transport_profile or args.esp_passthrough or args.esp_230400):
         if not (args.transport_profile and args.no_audio) or (args.esp_230400 and not args.esp_passthrough):
             parser.error('FIELD01 profiling requires --no-audio --transport-profile; 230400 requires passthrough')
@@ -95,6 +98,7 @@ def main():
     if args.pass_lifecycle:flags += ['-DMP_PASS_LIFECYCLE','-DGATEWAY_TELEMETRY_SLOTS=4u']
     if args.production_diag:flags += ['-DMP_PRODUCTION_DIAG']
     if args.outage_retention:flags += ['-DMP_OUTAGE_RETENTION']
+    if args.tx_integrity_diag:flags += ['-DMP_TX_INTEGRITY_DIAG']
     if args.esp_230400:flags += ['-DMP_ESP_UART_230400']
     if args.transport_profile or args.transport_bench:flags += ['-DMP_TRANSPORT_PROFILE']
     if args.transport_bench:flags += ['-DMP_TRANSPORT_BENCH','-DMP_ESP_PASSTHROUGH','-DMP_ESP_UART_230400']
@@ -320,6 +324,7 @@ def main():
     if args.b5:
         headers += [*ROOT.glob('gateway/b5/*.h'),*ROOT.glob('gateway/mqtt/src/*.h')]
     if args.field01:headers += [ROOT / 'gateway/b5/field01_probe.inc', ROOT / 'gateway/mqtt/src/field01_preflight.inc']
+    if args.tx_integrity_diag:headers += [ROOT / 'gateway/mqtt/src/txcheck.inc']
     if args.audio_link or args.unified:headers += [*ROOT.glob('gateway/microphone/*.h'),*ROOT.glob('gateway/voice/*.h')]
     report = {'ABC_tri_candidate': args.tri, 'version': 'B5-001' if args.b5 else 'B4-0.2', 'status': status,
               'scope': 'FINAL_UNIFIED_C_REAL_RUNTIME_OFFLINE_NOT_DEPLOYED' if args.unified else 'B5_CLOUD_MOCK_SOFTWARE_ONLY_NOT_DEPLOYED' if args.b5 else ('C_ISOLATED_BENCH_LOCAL_TEST_TIME_NOT_DEPLOYED' if args.bench else ('C_DUAL_CAN_ARM_NETWORK_SOFTWARE_BUILD_NOT_DEPLOYED' if args.network_link else 'C_DUAL_CAN_ARM_LINK_ONLY')),

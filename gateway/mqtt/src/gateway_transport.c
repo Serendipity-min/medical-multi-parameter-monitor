@@ -57,6 +57,9 @@ typedef struct {uint16_t id;uint32_t at;int result;unsigned ack;
 #ifdef MP_PRODUCTION_DIAG
     uint8_t stream;bool replay;
 #endif
+#ifdef MP_TX_INTEGRITY_DIAG
+    uint32_t written_at;
+#endif
 } TelemetryPending;
 static TelemetryPending telemetry[GATEWAY_TELEMETRY_SLOTS];
 static uint16_t last_ticket;
@@ -299,6 +302,9 @@ static void mqtt_event(MQTTContext_t *context, MQTTPacketInfo_t *packet,
 #endif
 #ifdef MP_TRANSPORT_BENCH
             if(!telemetry[i].ack)bench_acks[i].at=g_uptime_ms;
+#endif
+#ifdef MP_TX_INTEGRITY_DIAG
+            if(!telemetry[i].ack)platform_txcheck_ack(telemetry[i].id,telemetry[i].written_at);
 #endif
             telemetry[i].ack=1;return;
         }
@@ -544,7 +550,11 @@ int gateway_mqtt_begin(const MpFrame *frame) {
         id=MQTT_GetPacketId(&client);next_packet_seed=client.nextPacketId;
 #ifdef MP_FINAL_UNIFIED
 #ifdef MP_PRODUCTION_DIAG
-        telemetry[slot]=(TelemetryPending){id,start,GW_PENDING,0,frame->stream,frame->replay};
+        telemetry[slot]=(TelemetryPending){id,start,GW_PENDING,0,frame->stream,frame->replay
+#ifdef MP_TX_INTEGRITY_DIAG
+            ,0
+#endif
+        };
         production_slots_update(start,production_diag.used+1u);
         last_ticket=id;
 #else
@@ -560,6 +570,9 @@ int gateway_mqtt_begin(const MpFrame *frame) {
     platform_tx_context(m.qos,frame->stream,frame->seq,pending_id,pending_id?start-pending_started:0,budget);
     mqtt_adapter_begin(&network,budget);
     MQTTStatus_t status=MQTT_Publish(&client,&m,id);
+#ifdef MP_TX_INTEGRITY_DIAG
+    if(qos1 && status==MQTTSuccess)telemetry[slot].written_at=platform_txcheck_written_at();
+#endif
     b5_latency_add(&mqtt_metrics.send,g_uptime_ms-start);
     if(status!=MQTTSuccess || !network.connected || session_error || (uint32_t)(g_uptime_ms-start)>=budget) {
         char diagnostic[48];(void)snprintf(diagnostic,sizeof(diagnostic),"GW PUBLISH_FAIL status=%u\r\n",(unsigned)status);console(diagnostic);

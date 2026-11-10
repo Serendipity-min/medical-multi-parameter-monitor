@@ -21,6 +21,11 @@ int platform_preflight_esp_reset_seen(void);
 int esp_mqtt_send(const unsigned char *data, int length, uint32_t timeout_ms);
 int esp_mqtt_recv(unsigned char *data, int length, uint32_t timeout_ms);
 void esp_mqtt_reset(void);
+#ifdef MP_TX_INTEGRITY_DIAG
+uint32_t platform_txcheck_written_at(void);
+void platform_txcheck_ack(uint16_t id,uint32_t written_at);
+void platform_txcheck_report(uint32_t now);
+#endif
 #ifdef MP_ESP_PASSTHROUGH
 int platform_passthrough_enter(void);
 int platform_passthrough_leave(void);
