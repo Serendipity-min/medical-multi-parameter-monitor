@@ -3,6 +3,9 @@
 #include "../dual_can/b4_bxcan.h"
 #include "gateway_transport.h"
 #include "esp_io_metrics.h"
+#ifdef MP_PASS_LIFECYCLE
+#include "pass_recovery.h"
+#endif
 #include <string.h>
 #include <stdio.h>
 #ifdef MP_FINAL_UNIFIED
@@ -160,14 +163,40 @@ static void stop(void) {
     report_stop();
 }
 #ifdef MP_PASS_LIFECYCLE
-static bool pass_reconnect(unsigned *reentries){
+static volatile PassResume pass_resume __attribute__((section(".pass_resume")));
+
+static bool pass_startup(PassRecovery *recovery){
+    uint32_t reset_flags=RCC->CSR;
+    RCC->CSR|=RCC_CSR_RMVF;
+    bool warm=(reset_flags&RCC_CSR_SFTRSTF) && !(reset_flags&(RCC_CSR_PORRSTF|RCC_CSR_BORRSTF));
+    if(!pass_resume_take(recovery,&pass_resume,warm)){
+        console("GW PASS_BOOT_RESET_LOCKED\r\n");
+        return false;
+    }
+    if(recovery->reset_used)console("GW PASS_SOFT_RESET_RESUMED\r\n");
+    return !gateway_config_valid() || platform_passthrough_startup();
+}
+
+static bool pass_reconnect(PassRecovery *recovery){
     if(stop_due && !stopped)stop();
     if(stopped)return false;
     if(platform_at_synchronized()){
         uart_error_baseline=platform_uart_errors_total();
         network_fault=false;
+        if(gateway_passthrough_retry(&recovery->reentries))return true;
+    }else if(pass_reset_allowed(recovery,stopped || stop_due,run_limit_ms!=0)){
+        b4_hw_stop();
+        console("GW PASS_SOFT_RESET_PENDING\r\n");
+        local_control();
+        __disable_irq();
+        if(!stopped && !stop_due){
+            pass_resume_save(recovery,&pass_resume);
+            NVIC_SystemReset();
+        }
+        __enable_irq();
+    }else{
+        console("GW PASS_SOFT_RESET_BLOCKED\r\n");
     }
-    if(gateway_passthrough_retry(reentries))return true;
     if(!stopped){
         if(!stop_due)console("GW FAIL LINK\r\n");
         stop();
@@ -458,6 +487,8 @@ static void service(void) {
     if(!runtime_ready){
 #ifdef MP_FIVE_FIELD01
         if(pre_active())local_control();
+#elif defined(MP_PASS_LIFECYCLE)
+        local_control();
 #endif
         b4_hw_idle();return;
     }
@@ -578,6 +609,14 @@ int main(void) {
     console("FIELD01 START_ACCEPTED\r\n");
 #elif defined(MP_FIVE_APPLIANCE)
     final_can_mask=3;run_limit_ms=0;
+#ifdef MP_PASS_LIFECYCLE
+    PassRecovery pass_recovery={0};
+    armed=true;
+    if(!pass_startup(&pass_recovery) || stopped){
+        if(!stopped){console("GW FAIL LINK\r\n");stop();}
+        for(;;)platform_poll();
+    }
+#endif
     uart_error_baseline=platform_uart_errors_total();
 #ifdef MP_AUDIO_DISABLED
     console("FIVE AUTO LOCAL_CAN AUDIO_OFF NO_FLASH_WRITE\r\n");
@@ -621,9 +660,7 @@ int main(void) {
     }
 #endif
     armed_at = g_uptime_ms;
-#ifdef MP_PASS_LIFECYCLE
-    unsigned pass_reentries=0;
-#elif defined(MP_B5_EGRESS_FINAL) && !defined(MP_FIVE_FIELD01)
+#if defined(MP_B5_EGRESS_FINAL) && !defined(MP_FIVE_FIELD01) && !defined(MP_PASS_LIFECYCLE)
     unsigned startup_ntp_retries=0;
 #endif
 #ifdef MP_ABC_TRI_CANDIDATE
@@ -668,7 +705,7 @@ int main(void) {
             field01_latch(FIELD01_LINK);if(!stopped)stop();gateway_network_close();break;
 #elif defined(MP_PASS_LIFECYCLE)
             gateway_network_close();
-            if(!pass_reconnect(&pass_reentries))break;
+            if(!pass_reconnect(&pass_recovery))break;
             continue;
 #elif defined(MP_B5_EGRESS_FINAL)
             if(!stopped && gateway_network_retryable() && startup_ntp_retries<2u) {
@@ -697,7 +734,7 @@ int main(void) {
             field01_latch(FIELD01_LINK);if(!stopped)stop();gateway_network_close();break;
 #elif defined(MP_PASS_LIFECYCLE)
             gateway_network_close();
-            if(!pass_reconnect(&pass_reentries))break;
+            if(!pass_reconnect(&pass_recovery))break;
             continue;
 #elif defined(MP_B5_EGRESS_FINAL)
 #ifdef MP_FINAL_UNIFIED
@@ -712,7 +749,8 @@ int main(void) {
         }
         mp_router_online(&gateway.router, true); mqtt_connected = true;
 #ifdef MP_PASS_LIFECYCLE
-        if(pass_reentries)console("GW PASS_REENTRY_OK\r\n");
+        uint32_t pass_online_at=g_uptime_ms;
+        if(pass_recovery.reentries)console("GW PASS_REENTRY_OK\r\n");
 #endif
 #if defined(MP_FIVE_APPLIANCE) && !defined(MP_FIVE_FIELD01) && !defined(MP_PASS_LIFECYCLE)
         retry_ms=2000;
@@ -748,6 +786,10 @@ int main(void) {
 #endif
             mqtt_qos0_transport_ok=publisher.q0;mqtt_qos1_puback=publisher.q1;mqtt_failed_count=publisher.failed;
             if(!progress)break;
+#ifdef MP_PASS_LIFECYCLE
+            if(!b5_network_stopped() && pass_recovery_stable(&pass_recovery,g_uptime_ms,pass_online_at))
+                console("GW PASS_REENTRY_STABLE_RESET\r\n");
+#endif
             /* 预留1秒准备、5秒事务及2秒关闭；业务锁存仍在420秒。 */
 #ifndef MP_FIVE_FIELD01
             if(b5_business_remaining()<=B5_DRAIN_MS) {
@@ -788,7 +830,7 @@ int main(void) {
 #ifdef MP_FIVE_FIELD01
         if(!stopped){field01_latch(FIELD01_LINK);stop();}
 #elif defined(MP_PASS_LIFECYCLE)
-        if(!pass_reconnect(&pass_reentries))break;
+        if(!pass_reconnect(&pass_recovery))break;
 #else
         if (!stopped) reconnect_delay();
 #endif

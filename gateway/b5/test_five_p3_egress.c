@@ -18,7 +18,7 @@ static void field01_admission(void){}
 
 enum { QUEUE_ACKS=8,
 #ifdef MP_P3_R15_SCAN
-       SEQUENCES=1801
+       SEQUENCES=16001
 #else
        SEQUENCES=751
 #endif
@@ -35,6 +35,7 @@ static unsigned wire_us=87,byte_cpu_us;
 static unsigned r15_rate,r15_tx_us,r15_ack_count,r15_tx_bytes,r15_can_fps,r15_service_us=2700u;
 static uint64_t r15_tx_us_total,r15_service_at,r15_service_us_total;
 static bool r15_fast_ack,r15_line_only,r15_can_proportional;
+static bool r16_upper,r16_ppg_edge;
 #endif
 #ifdef MP_P3_SERVICE_MODEL
 static unsigned service_us;
@@ -391,7 +392,7 @@ static void put(unsigned node,unsigned stream,unsigned rate,unsigned count,int v
     MpFrame f={0};f.node=node;f.stream=stream;f.rate=rate;f.count=count;
     f.synthetic=true;f.valid=true;f.timestamp=1800000000000ULL+produced;
 #ifdef MP_P3_R15_SCAN
-    if(r15_rate)f.timestamp=1800000000000ULL+(uint64_t)produced*10500u/r15_rate;
+    if(r15_rate && !r16_upper)f.timestamp=1800000000000ULL+(uint64_t)produced*10500u/r15_rate;
 #endif
     f.epoch=1712345678;f.boot=1;f.seq=++seq[node][stream];assert(f.seq<SEQUENCES);
     for(unsigned i=0;i<count;i++){
@@ -451,8 +452,9 @@ static void tick(void){
         uint32_t input_ms=g_uptime_ms-origin,input_limit=window_ms;
 #ifdef MP_P3_R15_SCAN
         if(r15_rate){
-            input_ms=(uint64_t)input_ms*r15_rate/10500u;
-            input_limit=(uint64_t)input_limit*r15_rate/10500u;
+            unsigned scale=r16_upper?10500u:r15_rate;
+            input_ms=(uint64_t)input_ms*scale/10500u;
+            input_limit=(uint64_t)input_limit*scale/10500u;
         }
 #endif
         while(produced<input_ms && produced<input_limit){
@@ -462,12 +464,15 @@ static void tick(void){
                 if(produced%400==0)put(2,MP_ECG,250,100,11103);
                 unsigned phase=produced%1000u;
                 if(phase==20)put(2,MP_RESP,50,50,100000);
-                if(phase==140)put(1,MP_PPG,50,50,1230000);
+                if(r16_ppg_edge){
+                    if(produced%20u==0)put(1,MP_PPG,50,1,1230000);
+                }else if(phase==140)put(1,MP_PPG,50,50,1230000);
                 if(phase==210)put(1,MP_SPO2,0,1,9750);
                 if(phase==330)put(1,MP_PR,0,1,7200);
                 if(phase==460)put(2,MP_HR,0,1,6000);
                 if(phase==580)put(2,MP_RR,0,1,1800);
                 if(phase==760)put(4,MP_TEMP,0,1,2450);
+                if(r16_upper && phase==940)put(5,MP_NIBP,0,2,1180);
                 phase=produced%5000u;
                 if(phase==500)put(3,MP_GATEWAY_STATUS,0,1,1);
                 if(phase==1500)put(1,MP_NODE_STATUS,0,1,1);
@@ -634,6 +639,51 @@ static void lifecycle_cases(void){
     gateway_network_close();
     assert(peer_close_count==1 && peer_reset_count==1 && !platform_at_synchronized());
     puts("PASS_LIFECYCLE_NORMAL_MODE_TIMEOUT_COMMANDS_BLOCKED");
+
+    lifecycle_case();
+    PassRecovery recovery={2,false};
+    volatile PassResume record={0};
+    assert(pass_reset_allowed(&recovery,false,false));
+    assert(!pass_reset_allowed(&recovery,true,false) && !pass_reset_allowed(&recovery,false,true));
+    pass_resume_save(&recovery,&record);
+    recovery=(PassRecovery){0};
+    assert(pass_resume_take(&recovery,&record,true) && recovery.reentries==3 && recovery.reset_used);
+    assert(!pass_reset_allowed(&recovery,false,false) && !pass_resume_take(&recovery,&record,true));
+    pass_mode=PASS_BOOT; /* STM32 重新初始化，ESP 仍停在数据态。 */
+    io_metrics=(EspIoMetrics){0};
+    esp_mqtt_reset();
+    assert(!at_command("AT",500) && !peer_at_count);
+    assert(platform_passthrough_startup() && peer_escape_count==1 && peer_at_count==1);
+    assert(!gateway_passthrough_retry(&recovery.reentries));
+    puts("PASS_AL_WARM_BOOT_ESCAPE_RETAINS_REENTRY_AND_RESET_BUDGET");
+
+    lifecycle_case();
+    peer_stream=false;
+    pass_mode=PASS_BOOT;io_metrics=(EspIoMetrics){0};
+    assert(platform_passthrough_startup() && peer_at_count==1 && !peer_reset_count);
+    puts("PASS_AL_COMMAND_BOOT_ESCAPE_THEN_AT");
+
+    lifecycle_case();
+    peer_stop_at=g_uptime_ms+500u;
+    assert(!platform_passthrough_startup() && peer_stop && !peer_escape_count &&
+           !peer_at_count && !at_command("AT",500));
+    puts("PASS_AL_STOP_DURING_STARTUP_NO_ESCAPE_OR_AT");
+
+    lifecycle_case();
+    peer_at_ignored=2;
+    assert(!platform_passthrough_startup() && pass_mode==PASS_LOCKED &&
+           !peer_reset_count && !at_command("AT",500));
+    record=(PassResume){PASS_RESUME_TAG|1u,0};
+    assert(!pass_resume_take(&recovery,&record,true));
+    puts("PASS_AL_UNCONFIRMED_BOOT_OR_BAD_RECORD_LOCKS");
+
+    recovery=(PassRecovery){2,true};
+    uint32_t since=UINT32_MAX-50u;
+    assert(!pass_recovery_stable(&recovery,since+299999u,since));
+    assert(recovery.reentries==2 && recovery.reset_used);
+    assert(pass_recovery_stable(&recovery,since+300000u,since));
+    assert(!recovery.reentries && !recovery.reset_used && pass_reset_allowed(&recovery,false,false));
+    puts("PASS_AL_STABLE_300_SECONDS_REPLENISHES_BUDGET_AFTER_TICK_WRAP");
 }
 #endif
 
@@ -715,12 +765,15 @@ int main(int argc,char **argv){
 #ifdef MP_P3_R15_SCAN
     if(argc>8){
         r15_rate=(unsigned)atoi(argv[8]);
-        assert(transparent && r15_rate>=10500 && r15_rate<=24000 && argc==10);
+        assert(transparent && argc==10);
+        r16_ppg_edge=!strcmp(argv[9],"ppg-edge");
+        r16_upper=r16_ppg_edge || !strcmp(argv[9],"upper");
+        assert((r15_rate>=10500 && r15_rate<=24000) || (r16_ppg_edge && r15_rate==60500));
         r15_fast_ack=!strcmp(argv[9],"fast-ack");
         r15_line_only=!strcmp(argv[9],"line-only");
         r15_can_proportional=!strcmp(argv[9],"can-proportional");
-        assert(r15_fast_ack || r15_line_only || r15_can_proportional || !strcmp(argv[9],"calibrated"));
-        r15_can_fps=(370u*r15_rate+5250u)/10500u;
+        assert(r15_fast_ack || r15_line_only || r15_can_proportional || r16_upper || !strcmp(argv[9],"calibrated"));
+        r15_can_fps=r16_upper?370u:(370u*r15_rate+5250u)/10500u;
     }
 #endif
 #ifdef MP_P3_SERVICE_MODEL

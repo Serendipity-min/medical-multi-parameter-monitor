@@ -27,9 +27,13 @@ static int reply_boundary;
 #ifdef MP_ESP_PASSTHROUGH
 static enum { PASS_COMMAND, PASS_STREAM, PASS_FAULT, PASS_UNKNOWN
 #ifdef MP_PASS_LIFECYCLE
-    , PASS_LOCKED
+    , PASS_LOCKED, PASS_BOOT
 #endif
-} pass_mode;
+} pass_mode
+#ifdef MP_PASS_LIFECYCLE
+    =PASS_BOOT
+#endif
+;
 static unsigned pass_remaining,pass_plus;
 static bool pass_length,pass_entry_ok;
 #endif
@@ -640,12 +644,12 @@ static int pass_guard(uint32_t quiet){
     uint32_t deadline=g_uptime_ms+PASS_WRITE_MS;
     while(!(USART3->SR&USART_SR_TC)){
         platform_poll();
-        if(errors || (int32_t)(g_uptime_ms-deadline)>=0)return 0;
+        if(errors || NETWORK_STOPPED() || (int32_t)(g_uptime_ms-deadline)>=0)return 0;
     }
     deadline=g_uptime_ms+quiet;
     do {
         platform_poll();
-        if(errors)return 0;
+        if(errors || NETWORK_STOPPED())return 0;
         (void)receive_byte();
     }while((int32_t)(g_uptime_ms-deadline)<0);
     return 1;
@@ -661,7 +665,7 @@ static int pass_probe(const char *command,const char *terminal,uint32_t timeout)
     reply_begin();
     while((int32_t)(g_uptime_ms-deadline)<0){
         platform_poll();
-        if(errors)return 0;
+        if(errors || NETWORK_STOPPED())return 0;
         int byte=receive_byte();
         if(byte<0)continue;
         /* 只识别完整的同步终态行，其余残留按行丢弃。 */
@@ -705,12 +709,9 @@ int platform_passthrough_recover(void){
     return PASS_EXIT_RESET;
 }
 
-int platform_passthrough_leave(void){
-    if(pass_mode==PASS_LOCKED)return 0;
-    if(pass_mode==PASS_COMMAND && platform_at_synchronized())return PASS_EXIT_AT;
-    if(pass_mode==PASS_COMMAND || errors)return platform_passthrough_recover();
+static int pass_escape(bool startup){
     pass_unknown();
-    closing_network=1;
+    closing_network=!startup;
     for(unsigned attempt=0;attempt<2;attempt++){
         if(attempt)console("GW PASS_ESCAPE_RETRY\r\n");
         if(!pass_guard(PASS_QUIET_MS)){console("GW PASS_PRE_GUARD_FAIL\r\n");continue;}
@@ -720,11 +721,17 @@ int platform_passthrough_leave(void){
         }
         console("GW PASS_ESCAPE_SENT\r\n");
         if(!pass_guard(PASS_QUIET_MS)){console("GW PASS_POST_GUARD_FAIL\r\n");continue;}
+        /* 分开排掉空行或 +++ 命令的响应，不能把它当作后续 AT 的确认。 */
+        if(startup || attempt){
+            serial_deadline=g_uptime_ms+PASS_WRITE_MS;
+            if(send_bytes((const unsigned char *)"\r\n",2)!=2 || !pass_guard(PASS_WRITE_MS)){
+                console("GW PASS_PREFIX_FAIL\r\n");continue;
+            }
+        }
         __disable_irq();
         tail=head;
         __enable_irq();
-        /* 重试时模块可能已退出，先结束可能残留的 +++ 命令行。 */
-        if(pass_probe(attempt?"\r\nAT\r\n":"AT\r\n","OK",PASS_PROBE_MS)){
+        if(pass_probe("AT\r\n","OK",PASS_PROBE_MS)){
             closing_network=0;
             console("GW PASS_AT_OK\r\n");
             return pass_confirm_command();
@@ -732,6 +739,21 @@ int platform_passthrough_leave(void){
         console("GW PASS_AT_UNCONFIRMED\r\n");
     }
     closing_network=0;
+    return 0;
+}
+
+int platform_passthrough_startup(void){
+    console("GW PASS_BOOT_ESCAPE\r\n");
+    if(pass_escape(true)){console("GW PASS_BOOT_AT_OK\r\n");return 1;}
+    pass_mode=PASS_LOCKED;
+    console("GW PASS_BOOT_AT_UNCONFIRMED\r\n");
+    return 0;
+}
+
+int platform_passthrough_leave(void){
+    if(pass_mode==PASS_LOCKED || pass_mode==PASS_BOOT)return 0;
+    if(pass_mode==PASS_COMMAND && platform_at_synchronized())return PASS_EXIT_AT;
+    if(pass_mode!=PASS_COMMAND && !errors && pass_escape(false))return PASS_EXIT_AT;
     return platform_passthrough_recover();
 }
 

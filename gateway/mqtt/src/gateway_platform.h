@@ -28,6 +28,7 @@ int platform_passthrough_normal(void);
 #ifdef MP_PASS_LIFECYCLE
 enum { PASS_EXIT_AT=1, PASS_EXIT_RESET=2 };
 int platform_passthrough_recover(void);
+int platform_passthrough_startup(void);
 int platform_passthrough_status(void);
 int platform_esp_hard_reset(void);
 #endif

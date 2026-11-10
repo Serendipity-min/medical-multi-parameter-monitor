@@ -747,10 +747,11 @@ void gateway_network_close(void)
 }
 
 #ifdef MP_PASS_LIFECYCLE
+#include "pass_recovery.h"
 int gateway_passthrough_retry(unsigned *reentries)
 {
     if(b5_network_stopped() || !platform_at_synchronized())return 0;
-    if(*reentries>=3u){console("GW PASS_REENTRY_LIMIT\r\n");return 0;}
+    if(*reentries>=PASS_REENTRY_MAX){console("GW PASS_REENTRY_LIMIT\r\n");return 0;}
     unsigned delay=2000u<<(*reentries)++;
     console("GW PASS_REENTRY_BACKOFF\r\n");
     delay_ms(delay);
@@ -1005,6 +1006,11 @@ int gateway_network_open(void)
         return 0;
 #endif
 #ifdef MP_PASS_LIFECYCLE
+    /* 启动转义可能留下上一代 SSL；先核对关闭再改传输模式。 */
+    if(!at_command("AT+CIPCLOSE",2000u) &&
+       (!at_command("AT+CIPSTATUS",1000u) || !gateway_socket_absent())){
+        console("GW PASS_BOOT_SOCKET_UNCONFIRMED\r\n");return 0;
+    }
     if(!step("PASS_NORMAL","AT+CIPMODE=0",2000u))return 0;
 #endif
 #ifdef MP_TRANSPORT_BENCH
@@ -1049,7 +1055,9 @@ int gateway_network_open(void)
 #endif
     (void)snprintf(command,sizeof(command),"GW WIFI_SLEEP before=%d after=%d\r\n",sleep_before,sleep_after);console(command);
 #endif
+#ifndef MP_PASS_LIFECYCLE
     (void)at_command("AT+CIPCLOSE", 2000);
+#endif
     if (!step("SINGLE", "AT+CIPMUX=0", 2000) || !step("PASSIVE", "AT+CIPRECVMODE=1", 2000))
         return 0;
     /* 模块时间必须有效；不能用过时的编译时间冒充采集时间。 */

@@ -84,7 +84,8 @@ def field_data(path, reference):
     return stats,lengths
 
 
-def run_host(cc, out, *, cpu_scan=False, pass_scan=False, r8_slots=None, service_fit=False, r15_scan=False):
+def run_host(cc, out, *, cpu_scan=False, pass_scan=False, r8_slots=None, service_fit=False, r15_scan=False,
+             r16_upper=False):
     g=ROOT/'gateway'
     vendor=g/'third_party/coreMQTT/source'
     mqtt=g/'mqtt/src'
@@ -103,6 +104,7 @@ def run_host(cc, out, *, cpu_scan=False, pass_scan=False, r8_slots=None, service
     if service_fit:
         pass_scan=True
         flags += ['MP_P3_SERVICE_MODEL']
+    r15_scan |= r16_upper
     if r15_scan:
         pass_scan=True
         flags += ['MP_P3_R15_SCAN']
@@ -158,7 +160,11 @@ def run_host(cc, out, *, cpu_scan=False, pass_scan=False, r8_slots=None, service
                 yield (0,22,baud,cost,mode,ack,110000)
     if service_fit:
         runs=service_cases()
-    if r15_scan:
+    if r16_upper:
+        runs=[(0,42,baud,0,'pass',270,300000,rate,mode)
+              for baud,edge in ((115200,14250),(230400,16250))
+              for rate,mode in ((11500,'upper'),(edge,'calibrated'),(60500,'ppg-edge'))]
+    elif r15_scan:
         mandatory=(10500,12000,14000,16000)
         rates={115200:(12500,13000,13500,14250,14500,14750,15000),
                230400:(15000,15250,15500,15750,16250,16500,17000)}
@@ -391,14 +397,24 @@ def main():
     source.add_argument('--service-fit',action='store_true',help='R9 按服务回调开销拟合 P1 实测完成率')
     source.add_argument('--r8-scan',action='store_true',help='R8 300秒对照与QoS1槽位扫描')
     source.add_argument('--r15-scan',action='store_true',help='R15 五板透传离线入队速率扫描')
+    source.add_argument('--r16-upper',action='store_true',help='R16 生产上界及三槽、四槽离线对照')
     source.add_argument('--pass-scan',action='store_true',help='音频关闭的 R7 普通/透传 Host 对照')
     parser.add_argument('--out',type=Path,required=True)
     parser.add_argument('--cc',default='C:/mingw64/bin/gcc.exe')
     parser.add_argument('--host-results',type=Path,help='复用已完成的同源码 Host 回执')
     args=parser.parse_args()
-    if (args.cpu_scan or args.pass_scan or args.r8_scan or args.service_fit or args.r15_scan) and args.host_results:
+    if args.host_results and not args.paths:
         parser.error('scan modes require a fresh Host run')
     args.out.mkdir(parents=True,exist_ok=False)
+    if args.r16_upper:
+        hosts={}
+        for slots in (3,4):
+            directory=args.out/f'slots-{slots}'
+            directory.mkdir()
+            hosts[str(slots)]=run_host(args.cc,directory,r8_slots=slots,r16_upper=True)
+        result=dict(scope='HOST_MODEL_NOT_HARDWARE',script_sha256=sha(Path(__file__)),slots=hosts)
+        (args.out/'results.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
+        return int(any(case['exit'] for host in hosts.values() for case in host['cases'].values()))
     if args.r15_scan:
         host=run_host(args.cc,args.out,r15_scan=True)
         result=dict(scope='HOST_MODEL_NOT_HARDWARE',script_sha256=sha(Path(__file__)),host=host)

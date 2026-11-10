@@ -170,6 +170,11 @@ def main():
         first=template.index('  } > FLASH');template=template[:first]+template[first:].replace('  } > FLASH','  } > BOOT',1)
         template=template.replace('<=0x0800C000','<=0x08020000').replace('APPLICATION_OVERLAPS_CONFIG_SECTOR3','CODE_EXCEEDS_SECTOR4')
         linker=out/'split-link.ld';linker.write_text(template,encoding='utf-8')
+    if args.pass_lifecycle:
+        template=linker.read_text(encoding='utf-8')
+        assert template.count('  /* CANopenNode')==1
+        template=template.replace('  /* CANopenNode', '  .pass_resume (NOLOAD) : ALIGN(4) { KEEP(*(.pass_resume)) } > RAM\n\n  /* CANopenNode', 1)
+        linker=out/'pass-lifecycle-link.ld';linker.write_text(template,encoding='utf-8')
     log = bytearray(); commands = []; audio_layout=None
 
     def run(command):
