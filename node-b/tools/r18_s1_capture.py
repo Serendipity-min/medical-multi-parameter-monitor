@@ -15,11 +15,13 @@ from field01_short_window import mark
 class StopGate:
     def __init__(self):
         self.tick = self.uart = None
+        self.uart_limit = 5
         self.can = {}
         self.hard_failed = 0
 
     def observe(self, line):
         if line.startswith(("GW PASS_BOOT_AT_UNCONFIRMED", "GW PASS_BOOT_RESET_LOCKED",
+                            "GW PASS_BOOT_UART_STORM", "GW PASS_BOOT_RX_TIMEOUT",
                             "GW PASS_RST_STRAP_LOW_HOLD", "GW FAIL LINK", "B5 STOPPED")):
             return "FIRMWARE_STOP"
         if line.startswith(("GW PASS_HARD_RESET_UNAVAILABLE", "GW PASS_HARD_RESET_UNCONFIRMED")):
@@ -38,10 +40,12 @@ class StopGate:
             if self.tick is not None and tick < self.tick:
                 return "UNEXPECTED_RESET"
             self.tick = tick
-            if "uart_err" in data:
+            if "uart_err" in data and ("boot_uart_err0" not in data or data.get("boot_at")):
                 if self.uart is None:
-                    self.uart = data["uart_err"]
-                elif data["uart_err"] - self.uart >= 5:
+                    self.uart = data.get("boot_uart_err0", data["uart_err"])
+                    if "boot_uart_err0" in data:
+                        self.uart_limit = 1
+                if data["uart_err"] - self.uart >= self.uart_limit:
                     return "UART_ERROR_GROWTH"
         if data.get("overflow") or data.get("esr", 0) & 4:
             return "CAN_BUSOFF_OR_OVERFLOW"

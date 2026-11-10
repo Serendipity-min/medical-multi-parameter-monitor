@@ -71,6 +71,8 @@ static bool peer_stop;
 #ifdef MP_PASS_LIFECYCLE
 static unsigned peer_at_ignored,peer_at_count,peer_reset_count,peer_close_count;
 static uint32_t peer_stop_at,peer_hold_tc_until,peer_hold_txe_until,peer_wifi_until;
+static uint32_t peer_boot_noise_at,peer_boot_noise_period,peer_boot_first_tx;
+static unsigned peer_boot_noise_count;
 static bool peer_reset_held,peer_reset_noise;
 static bool peer_reset_available,peer_reset_silent,peer_cleanup_rx,peer_hold_escape,peer_hold_post,
     peer_close_silent,peer_close_error,peer_socket_live,peer_normal_silent;
@@ -357,6 +359,9 @@ static void peer_tx_byte(unsigned char byte){
 }
 
 void platform_test_tx(unsigned char byte){
+#ifdef MP_PASS_LIFECYCLE
+    if(!peer_boot_first_tx)peer_boot_first_tx=g_uptime_ms;
+#endif
 #ifdef MP_P3_R15_SCAN
     if(r15_rate && io_metrics.at_phase==ESP_AT_DATA){
         /* send_bytes 每字节先跑一次 5 us 的 tick，已包含在校准字节时间中。 */
@@ -431,6 +436,13 @@ static void tick(void){
 #endif
 #ifdef MP_PASS_LIFECYCLE
     if(peer_stop_at && g_uptime_ms>=peer_stop_at)peer_stop=true;
+    if(peer_boot_noise_at && g_uptime_ms>=peer_boot_noise_at){
+        USART3->DR=0x9f;
+        USART3->SR|=USART_SR_FE|USART_SR_RXNE;
+        for(unsigned i=0;i<peer_boot_noise_count;i++)USART3_IRQHandler();
+        USART3->SR&=~(USART_SR_FE|USART_SR_RXNE);
+        peer_boot_noise_at=peer_boot_noise_period?g_uptime_ms+peer_boot_noise_period:0;
+    }
     if(peer_hold_tc_until && g_uptime_ms>=peer_hold_tc_until){
         USART3->SR|=USART_SR_TC;peer_hold_tc_until=0;
     }
@@ -564,6 +576,8 @@ static void lifecycle_case(void){
     peer_stop_at=0;peer_reset_available=peer_reset_silent=peer_cleanup_rx=false;
     peer_wifi_until=0;peer_reset_noise=peer_reset_held=pass_reset_held=false;
     assert(platform_passthrough_enter());
+    peer_boot_noise_at=peer_boot_noise_period=peer_boot_first_tx=0;
+    uart_hw_total=uart_overflow_total=0;
 }
 
 static void lifecycle_cases(void){
@@ -663,26 +677,26 @@ static void lifecycle_cases(void){
     esp_mqtt_reset();
     assert(!at_command("AT",500) && !peer_at_count);
     unsigned escape_sent=0;
-    assert(platform_passthrough_startup(&escape_sent) && escape_sent && peer_escape_count==1 && peer_at_count==1);
+    assert(platform_passthrough_startup(&escape_sent,NULL) && escape_sent && peer_escape_count==1 && peer_at_count==1);
     assert(!gateway_passthrough_retry(&recovery.reentries));
     puts("PASS_AL_WARM_BOOT_ESCAPE_RETAINS_REENTRY_AND_RESET_BUDGET");
 
     lifecycle_case();
     peer_stream=false;
     pass_mode=PASS_BOOT;io_metrics=(EspIoMetrics){0};
-    assert(platform_passthrough_startup(&escape_sent) && peer_at_count==1 && !peer_reset_count);
+    assert(platform_passthrough_startup(&escape_sent,NULL) && peer_at_count==1 && !peer_reset_count);
     puts("PASS_AL_COMMAND_BOOT_ESCAPE_THEN_AT");
 
     lifecycle_case();
     peer_stop_at=g_uptime_ms+500u;
     escape_sent=0;
-    assert(!platform_passthrough_startup(&escape_sent) && !escape_sent && peer_stop && !peer_escape_count &&
+    assert(!platform_passthrough_startup(&escape_sent,NULL) && !escape_sent && peer_stop && !peer_escape_count &&
            !peer_at_count && !at_command("AT",500));
     puts("PASS_AL_STOP_DURING_STARTUP_NO_ESCAPE_OR_AT");
 
     lifecycle_case();
     peer_at_ignored=2;
-    assert(!platform_passthrough_startup(&escape_sent) && escape_sent && pass_mode==PASS_LOCKED &&
+    assert(!platform_passthrough_startup(&escape_sent,NULL) && escape_sent && pass_mode==PASS_LOCKED &&
            !peer_reset_count && !at_command("AT",500));
     record=(PassResume){PASS_RESUME_TAG|1u,0};
     assert(!pass_resume_take(&recovery,&record,true));
@@ -692,10 +706,54 @@ static void lifecycle_cases(void){
     pass_mode=PASS_BOOT;
     uart_hw_total=errors=225u;
     escape_sent=0;
-    assert(!platform_passthrough_startup(&escape_sent) && !escape_sent && !peer_at_count &&
+    assert(!platform_passthrough_startup(&escape_sent,NULL) && !escape_sent && !peer_at_count &&
            !peer_escape_count && platform_uart_errors_total()==225u && !at_command("AT",500));
-    uart_hw_total=0;
-    puts("PASS_R18_BOOT_UART_ERROR_BEFORE_GUARD_REPRODUCES_UNSENT_ESCAPE");
+    puts("PASS_AQ_WARM_BOOT_DOES_NOT_REBASE_ERRORS");
+
+    lifecycle_case();
+    uint32_t boot_baseline=0,boot_at=g_uptime_ms;
+    peer_boot_noise_at=boot_at+100u;peer_boot_noise_count=225u;
+    terminal("\r\nready\r\n",175);
+    assert(platform_passthrough_startup(&escape_sent,&boot_baseline) && escape_sent && peer_at_count==1);
+    assert(boot_baseline==225u && platform_uart_errors_total()==225u && !errors);
+    assert(peer_boot_first_tx-boot_at>=1176u && peer_boot_first_tx-boot_at<1301u);
+    puts("PASS_AQ_COLD_FRAMING_ERRORS_THEN_READY");
+
+    lifecycle_case();
+    boot_baseline=0;escape_sent=0;
+    uart_hw_total=errors=225u;
+    terminal("\r\nready\r\n",100);
+    peer_boot_noise_at=g_uptime_ms+400u;peer_boot_noise_count=1;
+    assert(!platform_passthrough_startup(&escape_sent,&boot_baseline) && !escape_sent && !peer_boot_first_tx);
+    assert(boot_baseline==225u && platform_uart_errors_total()==226u && errors==1 && pass_mode==PASS_LOCKED);
+    puts("PASS_AQ_ERROR_AFTER_BASELINE_LOCKS");
+
+    lifecycle_case();
+    boot_baseline=0;
+    peer_boot_noise_at=g_uptime_ms+100u;peer_boot_noise_count=1025u;
+    assert(!platform_passthrough_startup(&escape_sent,&boot_baseline) && !peer_boot_first_tx);
+    assert(!boot_baseline && platform_uart_errors_total()==1025u && pass_mode==PASS_LOCKED);
+    puts("PASS_AQ_UART_STORM_LOCKS_WITHOUT_REBASE");
+
+    lifecycle_case();
+    boot_baseline=0;boot_at=g_uptime_ms;
+    peer_boot_noise_at=boot_at+100u;peer_boot_noise_count=1;
+    assert(platform_passthrough_startup(&escape_sent,&boot_baseline) && peer_at_count==1 && boot_baseline==1u);
+    assert(peer_boot_first_tx-boot_at>=1301u);
+    puts("PASS_AQ_QUIET_WITHOUT_READY_STILL_REQUIRES_AT");
+
+    lifecycle_case();
+    peer_at_ignored=2;
+    assert(!platform_passthrough_startup(&escape_sent,&boot_baseline) && escape_sent && peer_at_count==2);
+    assert(!boot_baseline && pass_mode==PASS_LOCKED && !at_command("AT",500));
+    puts("PASS_AQ_NO_READY_OR_AT_LOCKS");
+
+    lifecycle_case();
+    boot_at=g_uptime_ms;
+    peer_boot_noise_at=boot_at+100u;peer_boot_noise_count=1;peer_boot_noise_period=100;
+    assert(!platform_passthrough_startup(&escape_sent,&boot_baseline) && !peer_boot_first_tx);
+    assert(g_uptime_ms-boot_at==3000u && !boot_baseline && pass_mode==PASS_LOCKED);
+    puts("PASS_AQ_NO_QUIET_WITHIN_DEADLINE_LOCKS");
 
     recovery=(PassRecovery){2,true};
     uint32_t since=UINT32_MAX-50u;
@@ -732,12 +790,12 @@ static void lifecycle_cases(void){
     }
     puts("PASS_AL2_THIRD_SHORT_SESSION_DROP_LATCHES_LINK");
 
-    PassBootDiag summary={.reset_flags=0x10000000,.escape_sent=1,.at_ok=1,.resumed=1,.reentries=2};
+    PassBootDiag summary={.reset_flags=0x10000000,.escape_sent=1,.at_ok=1,.resumed=1,.reentries=2,.uart_err0=225};
     char line[120]="B5 DIAG";
     assert(pass_boot_diag_due(&summary,5000u) && !pass_boot_diag_due(&summary,5001u));
     assert(pass_boot_diag_due(&summary,10000u));
     pass_boot_diag_append(line+7,sizeof(line)-7,&summary);
-    assert(!strcmp(line,"B5 DIAG boot_rst=10000000 boot_escape=1 boot_at=1 boot_resume=1 boot_reentries=2\r\n"));
+    assert(!strcmp(line,"B5 DIAG boot_rst=10000000 boot_escape=1 boot_at=1 boot_resume=1 boot_reentries=2 boot_uart_err0=225\r\n"));
     assert(pass_boot_diag_due(&summary,55000u) && !pass_boot_diag_due(&summary,60000u) &&
            !pass_boot_diag_due(&summary,0));
     puts("PASS_AL2_DIAG_WITHOUT_BOOT_BANNER");

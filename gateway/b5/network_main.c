@@ -178,8 +178,12 @@ static bool pass_startup(PassRecovery *recovery){
     pass_boot_diag.resumed=recovery->reset_used;
     pass_boot_diag.reentries=recovery->reentries;
     if(recovery->reset_used)console("GW PASS_SOFT_RESET_RESUMED\r\n");
-    if(!gateway_config_valid())return true;
-    pass_boot_diag.at_ok=platform_passthrough_startup(&pass_boot_diag.escape_sent);
+    if(!gateway_config_valid()){
+        uart_error_baseline=platform_uart_errors_total();
+        return true;
+    }
+    pass_boot_diag.at_ok=platform_passthrough_startup(&pass_boot_diag.escape_sent,warm?NULL:&uart_error_baseline);
+    pass_boot_diag.uart_err0=uart_error_baseline;
     return pass_boot_diag.at_ok;
 }
 
@@ -647,8 +651,9 @@ int main(void) {
         if(!stopped){console("GW FAIL LINK\r\n");stop();}
         for(;;)platform_poll();
     }
-#endif
+#else
     uart_error_baseline=platform_uart_errors_total();
+#endif
 #ifdef MP_AUDIO_DISABLED
     console("FIVE AUTO LOCAL_CAN AUDIO_OFF NO_FLASH_WRITE\r\n");
 #else

@@ -633,7 +633,8 @@ int platform_passthrough_enter(void){
 }
 
 #ifdef MP_PASS_LIFECYCLE
-enum { PASS_QUIET_MS=1001u, PASS_WRITE_MS=100u, PASS_READY_MS=3000u };
+enum { PASS_QUIET_MS=1001u, PASS_WRITE_MS=100u, PASS_READY_MS=3000u,
+       PASS_BOOT_QUIET_MS=200u, PASS_BOOT_ERROR_MAX=1024u };
 
 #ifndef PLATFORM_HOST_TEST
 #include "esp_pf6_reset.inc"
@@ -657,6 +658,52 @@ static int pass_guard(uint32_t quiet){
     return 1;
 }
 
+/* 只识别完整的同步终态行，其余残留按行丢弃。 */
+static int pass_terminal_byte(int byte,const char *terminal){
+    if(reply_length<sizeof(reply)-1)reply[reply_length++]=(unsigned char)byte;
+    if(byte!='\n')return 0;
+    if(line_is(terminal))return 1;
+    reply_begin();
+    return 0;
+}
+
+static int pass_boot_settle(uint32_t *baseline){
+    tail=head;
+    reply_begin();
+    uint32_t last_rx=g_uptime_ms,deadline=last_rx+PASS_READY_MS;
+    uint32_t observed=errors;
+    while((int32_t)(g_uptime_ms-deadline)<0){
+        platform_poll();
+        if(NETWORK_STOPPED())return 0;
+        if((int32_t)(g_uptime_ms-deadline)>=0)break;
+        uint32_t current=errors;
+        if(current>PASS_BOOT_ERROR_MAX){console("GW PASS_BOOT_UART_STORM\r\n");return 0;}
+        if(current!=observed){
+            last_rx=g_uptime_ms;
+            observed=current;
+            reply_length=sizeof(reply)-1;
+        }
+        int byte=receive_byte();
+        if(byte>=0)last_rx=g_uptime_ms;
+        bool ready=byte>=0 && pass_terminal_byte(byte,"ready");
+        if(!ready && g_uptime_ms-last_rx<PASS_BOOT_QUIET_MS)continue;
+
+        /* 同一临界区确认静默、留存累计值并清活动错误。后续错误仍参与转义门控。 */
+        uint32_t mask=__get_PRIMASK();
+        __disable_irq();
+        bool settled=errors==observed && (ready || head==tail);
+        if(settled){
+            *baseline=platform_uart_errors_total();
+            tail=head;
+            errors=0;
+        }
+        __set_PRIMASK(mask);
+        if(settled)return 1;
+    }
+    console("GW PASS_BOOT_RX_TIMEOUT\r\n");
+    return 0;
+}
+
 static int pass_probe(const char *command,const char *terminal,uint32_t timeout){
     uint32_t deadline=g_uptime_ms+timeout;
     if(command){
@@ -674,17 +721,7 @@ static int pass_probe(const char *command,const char *terminal,uint32_t timeout)
             esp_mqtt_reset();reply_begin();continue;
         }
         int byte=receive_byte();
-        if(byte<0)continue;
-        /* 只识别完整的同步终态行，其余残留按行丢弃。 */
-        if(reply_length==sizeof(reply)-1){
-            if(byte=='\n')reply_begin();
-            continue;
-        }
-        reply[reply_length++]=(unsigned char)byte;
-        if(byte=='\n'){
-            if(line_is(terminal))return 1;
-            reply_begin();
-        }
+        if(byte>=0 && pass_terminal_byte(byte,terminal))return 1;
     }
     return 0;
 }
@@ -752,9 +789,11 @@ static int pass_escape(bool startup,unsigned *escape_sent){
     return 0;
 }
 
-int platform_passthrough_startup(unsigned *escape_sent){
-    console("GW PASS_BOOT_ESCAPE\r\n");
-    if(pass_escape(true,escape_sent)){console("GW PASS_BOOT_AT_OK\r\n");return 1;}
+int platform_passthrough_startup(unsigned *escape_sent,uint32_t *cold_uart_baseline){
+    if(!cold_uart_baseline || pass_boot_settle(cold_uart_baseline)){
+        console("GW PASS_BOOT_ESCAPE\r\n");
+        if(pass_escape(true,escape_sent) && !errors){console("GW PASS_BOOT_AT_OK\r\n");return 1;}
+    }
     pass_mode=PASS_LOCKED;
     console("GW PASS_BOOT_AT_UNCONFIRMED\r\n");
     return 0;

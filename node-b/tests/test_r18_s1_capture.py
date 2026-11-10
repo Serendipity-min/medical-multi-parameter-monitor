@@ -29,3 +29,15 @@ def test_recorder_detects_boot_stop_without_banner():
     assert StopGate().observe(
         "B5 DIAG tick=5000 uart_err=225 stop=1 boot_escape=0 boot_at=0"
     ) == "FIRMWARE_STOP"
+
+
+def test_recorder_uses_confirmed_r19_boot_baseline_after_summary_expires():
+    gate = StopGate()
+    assert gate.observe("B5 DIAG tick=0 uart_err=8 boot_at=0 boot_uart_err0=0") is None
+    assert gate.observe("B5 DIAG tick=5000 uart_err=225 boot_at=1 boot_uart_err0=225") is None
+    assert gate.observe("B5 DIAG tick=60000 uart_err=226") == "UART_ERROR_GROWTH"
+    assert StopGate().observe(
+        "B5 DIAG tick=5000 uart_err=226 boot_at=1 boot_uart_err0=225"
+    ) == "UART_ERROR_GROWTH"
+    assert StopGate().observe("GW PASS_BOOT_UART_STORM") == "FIRMWARE_STOP"
+    assert StopGate().observe("GW PASS_BOOT_RX_TIMEOUT") == "FIRMWARE_STOP"

@@ -10,7 +10,7 @@ enum { PASS_REENTRY_MAX=3, PASS_STABLE_MS=300000 };
 typedef struct { uint32_t tag, inverse; } PassResume;
 typedef struct { unsigned reentries; bool reset_used; } PassRecovery;
 typedef struct {
-    uint32_t reset_flags,next_at;
+    uint32_t reset_flags,next_at,uart_err0;
     unsigned escape_sent,at_ok,resumed,reentries;
     bool done;
 } PassBootDiag;
@@ -31,8 +31,9 @@ static inline bool pass_boot_diag_due(PassBootDiag *diag,uint32_t now){
 
 static inline void pass_boot_diag_append(char *out,size_t size,const PassBootDiag *diag){
     if(diag->done){(void)snprintf(out,size,"\r\n");return;}
-    (void)snprintf(out,size," boot_rst=%lx boot_escape=%u boot_at=%u boot_resume=%u boot_reentries=%u\r\n",
-        (unsigned long)diag->reset_flags,diag->escape_sent,diag->at_ok,diag->resumed,diag->reentries);
+    (void)snprintf(out,size," boot_rst=%lx boot_escape=%u boot_at=%u boot_resume=%u boot_reentries=%u boot_uart_err0=%lu\r\n",
+        (unsigned long)diag->reset_flags,diag->escape_sent,diag->at_ok,diag->resumed,diag->reentries,
+        (unsigned long)diag->uart_err0);
 }
 
 static inline bool pass_resume_take(PassRecovery *state,volatile PassResume *record,bool software_reset){
