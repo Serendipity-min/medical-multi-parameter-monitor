@@ -65,6 +65,10 @@ def main():
     cases['production_pass_lifecycle']=([flag for flag in peer_defines if flag!='-DMP_FIVE_FIELD01']+
         ['-DMP_PASS_LIFECYCLE','-DGATEWAY_TELEMETRY_SLOTS=4u'],peer_files)
     cases['production_diag']=([*cases['production_pass_lifecycle'][0],'-DMP_PRODUCTION_DIAG'],peer_files)
+    cases['production_outage_egress']=([*cases['production_diag'][0],'-DMP_OUTAGE_RETENTION'],peer_files)
+    can_files=cases['can_software_replay'][1][2:]
+    cases['outage_retention']=([*macros,'-Wno-unused-parameter','-DMP_FINAL_UNIFIED','-DMP_FIVE_NODE',
+        '-DCO_MULTIPLE_OD','-DMP_OUTAGE_RETENTION'],['gateway/b5/test_outage_retention.c',*can_files])
     cases['production_esp_pf6_reset']=([],['gateway/mqtt/tests/test_esp_pf6_reset.c'])
     cases['pf6_diag_console']=([],['gateway/esp_at_probe/tests/test_pf6_diag.c'])
     cases['field01_uart_retime']=(['-flto','-fwhole-program','-DMP_FIVE_FIELD01','-DMP_CAN_RX_IRQ',

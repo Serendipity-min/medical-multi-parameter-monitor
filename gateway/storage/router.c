@@ -12,8 +12,70 @@ void mp_router_init(MpRouter *r)
     memset(r, 0, sizeof(*r));
 }
 
+#ifdef MP_OUTAGE_RETENTION
+_Static_assert(sizeof(MpRetainedEntry)==28,"retention entry size");
+
+void mp_router_attach_retention(MpRouter *r,MpRetention *retention){r->retention=retention;}
+
+static bool status_frame(const MpFrame *f){
+    return f->stream==MP_NODE_STATUS || f->stream==MP_GATEWAY_STATUS;
+}
+
+static uint64_t retained_utc(const MpRetainedEntry *e){return (uint64_t)e->seconds*1000u+e->millis;}
+
+static bool retained_before(const MpFrame *f,const MpRetainedEntry *e){
+    uint64_t time=retained_utc(e);
+    if(f->timestamp!=time)return f->timestamp<time;
+    return f->node==e->node && f->stream==(e->tag&15u) && f->epoch==e->epoch && f->boot==e->boot && f->seq<e->seq;
+}
+
+static void retain(MpRetentionRing *q,MpRetainedEntry *entries,unsigned cap,const MpFrame *f,bool pending){
+    unsigned pinned=pending?1u:0u;
+    if(q->count==cap){
+        unsigned oldest=(q->head+pinned)%cap;
+        if(f->timestamp<=retained_utc(&entries[oldest])+MP_RETAIN_MS){q->pressure++;return;}
+        if(pending)entries[oldest]=entries[q->head];
+        q->head=(q->head+1u)%cap;q->count--;q->expired++;
+    }
+    unsigned i=q->count;
+    /* 断线时重新入队的在途帧可能早于已经转入历史的实时队列。 */
+    while(i>pinned && retained_before(f,&entries[(q->head+i-1u)%cap])){
+        entries[(q->head+i)%cap]=entries[(q->head+i-1u)%cap];i--;
+    }
+    MpRetainedEntry *e=&entries[(q->head+i)%cap];
+    *e=(MpRetainedEntry){(uint32_t)(f->timestamp/1000u),f->seq,f->epoch,f->boot,
+        {f->values[0],f->values[1]},(uint16_t)(f->timestamp%1000u),f->node,
+        (uint8_t)(f->stream|(f->valid?16u:0u)|(f->synthetic?32u:0u)|(f->count<<6))};
+    q->count++;q->stored++;
+}
+
+static int take_scalar(MpRouter *r,MpFrame *out){
+    if(r->scalar_pending)return 0;
+    const MpRetainedEntry *e=&r->retention->scalars[r->scalar_history.head];
+    *out=(MpFrame){.timestamp=retained_utc(e),.seq=e->seq,.epoch=e->epoch,.boot=e->boot,
+        .values={e->values[0],e->values[1]},.count=e->tag>>6,.node=e->node,.stream=e->tag&15u,
+        .valid=(e->tag&16u)!=0,.synthetic=(e->tag&32u)!=0,.replay=true};
+    r->scalar_pending=true;r->taken[out->stream]++;
+    return 1;
+}
+
+static bool scalar_claim(const MpRouter *r,const MpFrame *f){
+    if(!r->scalar_pending || !f->replay || f->rate)return false;
+    const MpRetainedEntry *e=&r->retention->scalars[r->scalar_history.head];
+    return e->seq==f->seq && e->node==f->node && (e->tag&15u)==f->stream && e->epoch==f->epoch && e->boot==f->boot;
+}
+#endif
+
 static void cache(MpRouter *r, const MpFrame *f)
 {
+#ifdef MP_OUTAGE_RETENTION
+    if(r->retention && !f->rate){
+        /* 历史状态仅在本地保留，现有协议拒绝状态补传。 */
+        if(status_frame(f))retain(&r->status_history,r->retention->status,MP_RETAIN_STATUS,f,false);
+        else retain(&r->scalar_history,r->retention->scalars,MP_RETAIN_SCALARS,f,r->scalar_pending);
+        return;
+    }
+#endif
     /* 状态只保留当下语义，不能补传旧 ONLINE/OFFLINE 覆盖当前状态。 */
     if (f->stream == MP_NODE_STATUS || f->stream == MP_GATEWAY_STATUS)
         return;
@@ -120,13 +182,23 @@ static bool take_history(MpRouter *r,MpFrame *out,uint32_t now) {
 #ifdef MP_B5_EGRESS_FINAL
 bool mp_router_take_egress(MpRouter *r,MpFrame *out,uint32_t now,uint64_t utc,bool pending) {
     if(!r->online)return false;
+#ifdef MP_OUTAGE_RETENTION
+    if(r->retention && r->scalar_history.count){
+        if(!pending && !r->ln && r->ready_for_replay && take_scalar(r,out))return true;
+    }else
+#endif
+    {
     /* 补传用原配额；给实时5秒期限留半窗余量，并保留两个突发槽。 */
     bool replay_safe=!pending && r->ln<MP_LIVE_CAPACITY-2;
+#ifdef MP_OUTAGE_RETENTION
+    if(r->retention && r->ln)replay_safe=false;
+#endif
     for(unsigned i=0;replay_safe && i<r->ln;i++) {
         const MpFrame *f=&r->live[(r->lh+i)%MP_LIVE_CAPACITY];
         if(mp_realtime_yield_due(utc,f->timestamp,true))replay_safe=false;
     }
     if(replay_safe && take_history(r,out,now)){r->taken[out->stream]++;return true;}
+    }
     unsigned chosen=MP_LIVE_CAPACITY;int best=100;
 #ifdef MP_ABC_TRI_CANDIDATE
     uint64_t oldest=UINT64_MAX;
@@ -187,6 +259,17 @@ bool mp_router_take(MpRouter *r, MpFrame *out, uint32_t now)
 
 void mp_router_ack(MpRouter *r, const MpFrame *f, bool success)
 {
+#ifdef MP_OUTAGE_RETENTION
+    if(scalar_claim(r,f)){
+        r->scalar_pending=false;
+        if(success){
+            MpRetentionRing *q=&r->scalar_history;
+            q->head=(q->head+1u)%MP_RETAIN_SCALARS;q->count--;
+            r->scalar_replayed++;r->replayed++;
+        }else mp_router_online(r,false);
+        return;
+    }
+#endif
     /* 刚重连且实时队列暂时为空，也必须先成功发出新实时帧，才能开始历史补传。 */
     if (success)
     {
@@ -204,3 +287,10 @@ void mp_router_ack(MpRouter *r, const MpFrame *f, bool success)
     cache(r, f);
     mp_router_online(r, false);
 }
+
+#ifdef MP_OUTAGE_RETENTION
+void mp_router_retain_unsent(MpRouter *r,const MpFrame *f){
+    if(scalar_claim(r,f))r->scalar_pending=false;
+    else cache(r,f);
+}
+#endif

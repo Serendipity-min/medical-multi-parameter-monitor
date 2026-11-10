@@ -11,6 +11,9 @@ typedef struct {
     bool nibp_emitted;
     bool status_sent, last_online;
     uint32_t status_at;
+#ifdef MP_OUTAGE_RETENTION
+    uint64_t last_utc[MP_STREAMS];
+#endif
 #ifdef MP_FIVE_NODE
     uint32_t rx_frames, heartbeat_count, heartbeat_tick, emcy_errors, pdo_count[5];
     uint32_t wave_gaps[2];
@@ -38,6 +41,10 @@ typedef struct {
     uint32_t ppg_partial_batches, ppg_partial_samples;
 #endif
     bool utc_valid;
+#ifdef MP_OUTAGE_RETENTION
+    int64_t utc_correction;
+    uint64_t utc_floor;
+#endif
 } B4Gateway;
 int b4_gateway_init(B4Gateway *g);
 void b4_gateway_close(B4Gateway *g);
@@ -45,6 +52,11 @@ void b4_gateway_tick(B4Gateway *g, uint32_t now);
 void b4_gateway_receive(B4Gateway *g, unsigned bus, MpCanFrame *f, uint32_t arrival);
 void b4_gateway_sync(B4Gateway *g, uint32_t epoch, uint32_t now);
 void b4_gateway_sync_ms(B4Gateway *g, uint64_t utc_ms, uint32_t now);
+#ifdef MP_OUTAGE_RETENTION
+/* 最后一次在线锚更新可能早于断网近 10 秒。 */
+#define B4_UTC_HOLD_MS 610000u
+uint64_t b4_gateway_utc(const B4Gateway *g,uint32_t now);
+#endif
 int b4_gateway_nmt(B4Gateway *g, unsigned node, CO_NMT_command_t command);
 bool b4_gateway_online(B4Gateway *g, unsigned node);
 void b4_gateway_link(B4Gateway *g, unsigned bus, bool online);

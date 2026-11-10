@@ -75,6 +75,37 @@ int b4_gateway_init(B4Gateway *g) {
 fail:
     b4_gateway_close(g); return -1;
 }
+#ifdef MP_OUTAGE_RETENTION
+static uint64_t utc_project(const B4Gateway *g,uint32_t now){
+    int32_t elapsed=(int32_t)(now-g->utc_at);
+    /* 每 100 ms 最多修正 1 ms，避免校时阶跃。 */
+    int64_t step=elapsed>0?elapsed/100:0;
+    int64_t correction=g->utc_correction;
+    if(correction>step)correction=step;
+    if(correction<-step)correction=-step;
+    return (uint64_t)((int64_t)g->epoch*1000+g->utc_fraction+elapsed+correction);
+}
+
+uint64_t b4_gateway_utc(const B4Gateway *g,uint32_t now){
+    return g->utc_valid && (int32_t)(now-g->utc_at)<=(int32_t)B4_UTC_HOLD_MS?utc_project(g,now):0;
+}
+
+void b4_gateway_sync_ms(B4Gateway *g,uint64_t utc_ms,uint32_t now){
+    if(utc_ms<1577836800000ULL || utc_ms>4102444800999ULL)return;
+    uint64_t base=g->utc_valid?utc_project(g,now):g->utc_floor;
+    if(!g->utc_valid){
+        if(utc_ms>base)base=utc_ms;
+        g->time_sent=now-10000u;
+    }
+    g->utc_correction=(int64_t)utc_ms-(int64_t)base;
+    g->epoch=(uint32_t)(base/1000u);g->utc_fraction=(uint32_t)(base%1000u);
+    g->utc_at=now;g->utc_valid=true;
+}
+
+void b4_gateway_sync(B4Gateway *g,uint32_t epoch,uint32_t now){
+    b4_gateway_sync_ms(g,(uint64_t)epoch*1000u,now);
+}
+#else
 void b4_gateway_sync(B4Gateway *g, uint32_t epoch, uint32_t now) {
     g->epoch = epoch; g->utc_at = now; g->utc_valid = epoch >= 1577836800u && epoch <= 4102444800u;
     g->time_sent = now - 10000u;
@@ -84,6 +115,7 @@ void b4_gateway_sync_ms(B4Gateway *g, uint64_t utc_ms, uint32_t now) {
     b4_gateway_sync(g, (uint32_t)(utc_ms / 1000u), now);
     g->utc_fraction = (uint32_t)(utc_ms % 1000u);
 }
+#endif
 bool b4_gateway_online(B4Gateway *g, unsigned node) {
     unsigned bus,slot;
     if(!locate(node,&bus,&slot) || !g->segments[bus].link_up) return false;
@@ -108,12 +140,18 @@ static bool fresh(B4Remote *n, unsigned pdo, uint32_t now) {
     return n->seen[pdo] && (uint32_t)(now - n->seen_at[pdo]) <= 1500u;
 }
 static uint64_t sample_utc(B4Gateway *g, B4Segment *s, B4Remote *n, unsigned base, uint32_t tick, uint32_t arrival) {
+#ifdef MP_OUTAGE_RETENTION
+    if(!g->utc_valid || !fresh(n,3,g->now))return 0;
+#else
     if (!g->utc_valid || (uint32_t)(g->now - g->utc_at) > 30000u || !fresh(n, 3, g->now)) return 0;
+#endif
     uint32_t epoch = mp_od_read(&s->od, base, 1), anchor = mp_od_read(&s->od, base, 2);
     int32_t delta = (int32_t)(tick - anchor);
     if (!epoch || delta < -2000 || delta > 2000) return 0;
     int64_t utc = (int64_t)epoch * 1000 + delta;
-#ifdef MP_FINAL_UNIFIED
+#ifdef MP_OUTAGE_RETENTION
+    int64_t current=(int64_t)utc_project(g,arrival);
+#elif defined(MP_FINAL_UNIFIED)
     /* IRQ帧可早于新校时锚点；保留有符号时间差，避免绕回约49天。 */
     int64_t current = (int64_t)g->epoch * 1000 + g->utc_fraction + (int32_t)(arrival - g->utc_at);
 #else
@@ -131,6 +169,10 @@ static void emit(B4Gateway *g, B4Remote *n, MpFrame *f) {
     f->seq = ++n->seq[f->stream];
     /* Backend拒绝0时间戳；未授时只计入本机诊断，绝不改成发送时刻伪装采集UTC。 */
     if (!f->timestamp) { g->unstamped++; return; }
+#ifdef MP_OUTAGE_RETENTION
+    if(f->timestamp<n->last_utc[f->stream])f->timestamp=n->last_utc[f->stream];
+    n->last_utc[f->stream]=f->timestamp;
+#endif
     mp_router_put(&g->router, f);
 }
 static void wave_boundary(B4Gateway *g, unsigned bus, unsigned pdo) {
@@ -246,7 +288,11 @@ void b4_gateway_receive(B4Gateway *g, unsigned bus, MpCanFrame *f, uint32_t arri
 #endif
         MpFrame event = {0}; event.node = remote; event.stream = MP_FAULT; event.count = 1;
         event.values[0] = (int32_t)f->data[0] | ((int32_t)f->data[1] << 8);
+#ifdef MP_OUTAGE_RETENTION
+        event.timestamp = b4_gateway_utc(g,arrival);
+#else
         event.timestamp = g->utc_valid ? (uint64_t)g->epoch * 1000 + g->utc_fraction + (uint32_t)(arrival - g->utc_at) : 0;
+#endif
         event.valid = g->utc_valid; event.epoch = n->observed_boot; event.boot = n->generation;
         event.synthetic = mp_od_read(&s->od, mirror_base(bus,slot)+0x30, 1) >> 31;
         emit(g, n, &event);
@@ -285,6 +331,11 @@ void b4_gateway_receive(B4Gateway *g, unsigned bus, MpCanFrame *f, uint32_t arri
 }
 void b4_gateway_tick(B4Gateway *g, uint32_t now) {
     uint32_t elapsed = now - g->now; g->now = now;
+#ifdef MP_OUTAGE_RETENTION
+    if(g->utc_valid && now-g->utc_at>B4_UTC_HOLD_MS){
+        g->utc_floor=utc_project(g,g->utc_at+B4_UTC_HOLD_MS);g->utc_valid=false;
+    }
+#endif
     for (unsigned bus = 0; bus < 2; bus++) {
         B4Segment *s = &g->segments[bus];
         if (CO_process(s->co,false,elapsed>1000?1000000:elapsed*1000,NULL)!=CO_RESET_NOT) {
@@ -299,7 +350,11 @@ void b4_gateway_tick(B4Gateway *g, uint32_t now) {
             if(!n->status_sent || online!=n->last_online || now-n->status_at>=5000u) {
                 MpFrame f={0};f.node=node;f.stream=MP_NODE_STATUS;f.count=1;
                 f.valid=online;f.epoch=n->observed_boot;f.boot=n->generation;
+#ifdef MP_OUTAGE_RETENTION
+                f.timestamp=b4_gateway_utc(g,now);
+#else
                 f.timestamp=g->utc_valid?(uint64_t)g->epoch*1000+g->utc_fraction+(uint32_t)(now-g->utc_at):0;
+#endif
                 f.synthetic=mp_od_read(&s->od,mirror_base(bus,slot)+0x30,1)>>31;
                 emit(g,n,&f);n->status_sent=true;n->last_online=online;n->status_at=now;
             }
@@ -310,9 +365,15 @@ void b4_gateway_tick(B4Gateway *g, uint32_t now) {
     if (g->segments[0].wave[0].count && now - g->segments[0].remote[0].seen_at[0] >= 100u)
         wave_boundary(g, 0, 0);
 #endif
+#ifndef MP_OUTAGE_RETENTION
     if (g->utc_valid && now - g->utc_at > 30000u) g->utc_valid = false;
+#endif
     if (g->utc_valid && now - g->time_sent >= 10000u) {
+#ifdef MP_OUTAGE_RETENTION
+        uint64_t relative=utc_project(g,now)-441763200000ULL;
+#else
         uint64_t relative = (uint64_t)g->epoch * 1000 + g->utc_fraction + (uint32_t)(now - g->utc_at) - 441763200000ULL;
+#endif
         uint32_t ms = relative % 86400000u; uint16_t days = relative / 86400000u;
         for (unsigned bus = 0; bus < 2; bus++) {
             CO_CANtx_t tx = {0}; tx.ident = 0x100; tx.DLC = 6;

@@ -13,6 +13,22 @@ typedef struct { uint64_t report_utc,arrival_utc;uint32_t seq,epoch,boot;int32_t
 #define MP_CACHE_CAPACITY 32
 #endif
 
+#ifdef MP_OUTAGE_RETENTION
+#define MP_RETAIN_MS 240000u
+#define MP_RETAIN_SCALARS 1472u
+#define MP_RETAIN_STATUS 736u
+typedef struct {
+    uint32_t seconds,seq,epoch,boot;
+    int32_t values[2];
+    uint16_t millis;
+    uint8_t node,tag;
+} MpRetainedEntry;
+typedef struct {
+    MpRetainedEntry scalars[MP_RETAIN_SCALARS],status[MP_RETAIN_STATUS];
+} MpRetention;
+typedef struct { unsigned head,count; uint32_t stored,expired,pressure; } MpRetentionRing;
+#endif
+
 typedef struct
 {
     /* 两个环形队列均按帧计容量，不能直接等同于可缓存的秒数。 */
@@ -24,6 +40,12 @@ typedef struct
     bool online, ready_for_replay;
     /* 饱和至 8 的实时成功配额，给持续负载下的历史帧保留发送机会。 */
     uint8_t live_credit;
+#ifdef MP_OUTAGE_RETENTION
+    MpRetention *retention;
+    MpRetentionRing scalar_history,status_history;
+    uint32_t scalar_replayed;
+    bool scalar_pending;
+#endif
 #ifdef MP_B5_EGRESS_FINAL
     uint32_t enqueued[MP_STREAMS], taken[MP_STREAMS], historized[MP_STREAMS];
     uint32_t live_replaced, live_overflow, expired, high_water;
@@ -37,6 +59,10 @@ typedef struct
 void mp_router_init(MpRouter *r);
 void mp_router_online(MpRouter *r, bool online);
 void mp_router_put(MpRouter *r, const MpFrame *f);
+#ifdef MP_OUTAGE_RETENTION
+void mp_router_attach_retention(MpRouter *r,MpRetention *retention);
+void mp_router_retain_unsent(MpRouter *r,const MpFrame *f);
+#endif
 bool mp_router_take(MpRouter *r, MpFrame *out, uint32_t now);
 #ifdef MP_B5_EGRESS_FINAL
 #define MP_REALTIME_DEADLINE_MS 5000u

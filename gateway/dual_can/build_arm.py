@@ -27,6 +27,7 @@ def main():
     parser.add_argument('--esp-passthrough', action='store_true', help='五板 SSL 透传离线候选，关闭语音')
     parser.add_argument('--pass-lifecycle', action='store_true', help='非 FIELD01 五板 115200 透传生命周期候选，只构建')
     parser.add_argument('--production-diag', action='store_true', help='生产透传候选的同步计数和槽位诊断，只构建')
+    parser.add_argument('--outage-retention', action='store_true', help='生产候选断网授时与分级保留，只构建')
     parser.add_argument('--five-node', action='store_true', help='五板静态来源候选；仅离线构建')
     parser.add_argument('--five-appliance', action='store_true', help='五板自动启动/KEY1/事实回复候选；仅离线构建，不部署')
     parser.add_argument('--field01', action='store_true', help='Issue #8 手动单窗网络探针，只构建')
@@ -49,6 +50,8 @@ def main():
         parser.error('--pass-lifecycle requires non-FIELD01 five-appliance egress-final passthrough at 115200')
     if args.production_diag and not args.pass_lifecycle:
         parser.error('--production-diag requires --pass-lifecycle')
+    if args.outage_retention and not args.production_diag:
+        parser.error('--outage-retention requires --production-diag')
     if args.field01 and (args.transport_profile or args.esp_passthrough or args.esp_230400):
         if not (args.transport_profile and args.no_audio) or (args.esp_230400 and not args.esp_passthrough):
             parser.error('FIELD01 profiling requires --no-audio --transport-profile; 230400 requires passthrough')
@@ -91,6 +94,7 @@ def main():
     if args.esp_passthrough:flags += ['-DMP_ESP_PASSTHROUGH']
     if args.pass_lifecycle:flags += ['-DMP_PASS_LIFECYCLE','-DGATEWAY_TELEMETRY_SLOTS=4u']
     if args.production_diag:flags += ['-DMP_PRODUCTION_DIAG']
+    if args.outage_retention:flags += ['-DMP_OUTAGE_RETENTION']
     if args.esp_230400:flags += ['-DMP_ESP_UART_230400']
     if args.transport_profile or args.transport_bench:flags += ['-DMP_TRANSPORT_PROFILE']
     if args.transport_bench:flags += ['-DMP_TRANSPORT_BENCH','-DMP_ESP_PASSTHROUGH','-DMP_ESP_UART_230400']
@@ -179,6 +183,13 @@ def main():
         assert template.count('  /* CANopenNode')==1
         template=template.replace('  /* CANopenNode', '  .pass_resume (NOLOAD) : ALIGN(4) { KEEP(*(.pass_resume)) } > RAM\n\n  /* CANopenNode', 1)
         linker=out/'pass-lifecycle-link.ld';linker.write_text(template,encoding='utf-8')
+    if args.outage_retention:
+        template=linker.read_text(encoding='utf-8')
+        memory='  RAM (xrw)   : ORIGIN = 0x20000000, LENGTH = 128K'
+        assert template.count(memory)==1 and template.count('  /DISCARD/')==1
+        template=template.replace(memory,memory+'\n  CCM (rw)    : ORIGIN = 0x10000000, LENGTH = 64K')
+        template=template.replace('  /DISCARD/', '  .ccm_retention (NOLOAD) : { *(.ccm_retention) } > CCM\n\n  /DISCARD/')
+        linker=out/'outage-retention-link.ld';linker.write_text(template,encoding='utf-8')
     log = bytearray(); commands = []; audio_layout=None
 
     def run(command):

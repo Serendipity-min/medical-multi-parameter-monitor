@@ -475,6 +475,10 @@ static void production_diagnostic(void){
         elapsed+=d.slot_ms[i];weighted+=i*d.slot_ms[i];
     }
     unsigned long mean=elapsed?(unsigned long)(1000u*weighted/elapsed):0;
+#ifdef MP_OUTAGE_RETENTION
+    MpRetentionRing scalar=gateway.router.scalar_history,status=gateway.router.status_history;
+    uint32_t scalar_replayed=gateway.router.scalar_replayed;
+#endif
     (void)snprintf(line,sizeof(line),
         "B5 PROD tick=%lu enqueued=%lu published=%lu acked=%lu replay_published=%lu replay_acked=%lu slots=%u slot_used=%u slot_peak=%u slot_mean_milli=%lu slot_full_ms=%lu\r\n",
         (unsigned long)now,(unsigned long)total_enqueued,(unsigned long)published[0],(unsigned long)acked[0],
@@ -500,6 +504,12 @@ static void production_diagnostic(void){
     for(unsigned i=0;i<=GATEWAY_TELEMETRY_SLOTS;i++)
         used+=(size_t)snprintf(line+used,sizeof(line)-used,"%s%lu",i?",":"",(unsigned long)(uint32_t)d.slot_ms[i]);
     (void)snprintf(line+used,sizeof(line)-used,"\r\n");console(line);
+#ifdef MP_OUTAGE_RETENTION
+    (void)snprintf(line,sizeof(line),"B5 RETENTION tick=%lu scalar=%u stored=%lu replayed=%lu expired=%lu pressure=%lu status_held=%u status_stored=%lu status_expired=%lu status_pressure=%lu\r\n",
+        (unsigned long)now,scalar.count,(unsigned long)scalar.stored,(unsigned long)scalar_replayed,
+        (unsigned long)scalar.expired,(unsigned long)scalar.pressure,status.count,
+        (unsigned long)status.stored,(unsigned long)status.expired,(unsigned long)status.pressure);console(line);
+#endif
 }
 #endif
 #ifndef MP_FIVE_FIELD01
@@ -653,8 +663,13 @@ static void service(void) {
     field01_poll();
     if(stop_due){stop();return;}
 #endif
+#ifdef MP_OUTAGE_RETENTION
+    if ((mqtt_connected || (connection && gateway.utc_valid)) && g_uptime_ms-status_at>=5000u) {
+        MpFrame status=will;status.valid=mqtt_connected;status.timestamp=b5_data_utc();
+#else
     if (mqtt_connected && g_uptime_ms - status_at >= 5000u) {
         MpFrame status = will; status.valid = true; status.timestamp = gateway_epoch_milliseconds();
+#endif
         status.seq = ++status_seq; mp_router_put(&gateway.router, &status); status_at = g_uptime_ms;
     }
 }
@@ -668,6 +683,10 @@ static void field01_disarmed_step(void) {
     }
 }
 #endif
+#ifdef MP_OUTAGE_RETENTION
+static MpRetention retention __attribute__((section(".ccm_retention")));
+uint64_t b5_data_utc(void){return b4_gateway_utc(&gateway,g_uptime_ms);}
+#endif
 int main(void) {
     platform_init();
 #if defined(MP_B5_EGRESS_FINAL) && defined(__arm__)
@@ -678,6 +697,9 @@ int main(void) {
         || b4_hw_init()
 #endif
        ) while (1) {}
+#ifdef MP_OUTAGE_RETENTION
+    mp_router_attach_retention(&gateway.router,&retention);
+#endif
 #ifndef MP_ABC_TRI_CANDIDATE
     b4_gateway_link(&gateway, 0, false);
 #endif
@@ -808,7 +830,11 @@ int main(void) {
 #endif
         }
         uint64_t now = gateway_epoch_milliseconds();
-        b4_gateway_sync_ms(&gateway, now, g_uptime_ms); gateway.session = (uint32_t)now;
+        b4_gateway_sync_ms(&gateway, now, g_uptime_ms);
+#ifdef MP_OUTAGE_RETENTION
+        now=b5_data_utc();
+#endif
+        gateway.session = (uint32_t)now;
         network_open = true; last_sync = g_uptime_ms;
         memset(&will, 0, sizeof(will)); will.node = 3; will.stream = MP_GATEWAY_STATUS;
         will.synthetic = true; will.timestamp = now; will.epoch = gateway.session;

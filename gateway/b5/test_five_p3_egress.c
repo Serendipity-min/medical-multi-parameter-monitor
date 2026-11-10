@@ -27,6 +27,10 @@ static unsigned window_ms=110000;
 const GatewayConfig gateway_test_config={GATEWAY_CONFIG_MAGIC,1700000000u,
     "synthetic-wifi","synthetic-password","mqtt.example.invalid","b5-gateway","synthetic-password","b5-c-isolated"};
 volatile uint32_t g_uptime_ms;
+#ifdef MP_OUTAGE_RETENTION
+uint64_t b5_data_utc(void){return gateway_epoch_milliseconds();}
+static MpRetention retention;
+#endif
 TestUsart platform_usart[2]={{.SR=USART_SR_TXE},{.SR=USART_SR_TXE}};
 static MpRouter router;
 static uint64_t simulated_us;
@@ -848,6 +852,46 @@ static void lifecycle_cases(void){
     assert(after.acked[0][MP_HR]-before.acked[0][MP_HR]==GATEWAY_TELEMETRY_SLOTS-1u);
     puts("PASS_AR_PRODUCTION_COUNTERS_QOS_REPLAY_SLOTS_AND_RECONNECT");
 #endif
+#ifdef MP_OUTAGE_RETENTION
+    B5Publisher publisher={0};
+    client.appCallback=record_mqtt_event;
+    mp_router_init(&router);mp_router_attach_retention(&router,&retention);
+    uint32_t started=g_uptime_ms;
+    uint64_t utc=b5_data_utc();
+    MpFrame old={.node=2,.stream=MP_HR,.seq=1,.count=1,.valid=true,.timestamp=utc-180000u};
+    mp_router_put(&router,&old);
+    old.seq=2;old.timestamp+=1000;mp_router_put(&router,&old);
+    MpFrame status={.node=2,.stream=MP_NODE_STATUS,.count=1,.timestamp=utc-179000u};
+    mp_router_put(&router,&status);
+    mp_router_online(&router,true);
+    MpFrame live=old;live.seq=3;live.timestamp=utc;mp_router_put(&router,&live);
+    gateway_mqtt_production_diag(&before,g_uptime_ms);
+    assert(b5_egress_step(&router,&publisher,true));
+    assert(publisher.pending && !router.scalar_pending);
+    while(!router.ready_for_replay){
+        platform_poll();assert(g_uptime_ms-started<5000u);
+        assert(b5_egress_step(&router,&publisher,false));
+    }
+    unsigned ack_delay=peer_ack_ms;peer_ack_ms=500;
+    for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS-1;i++){
+        live.seq++;live.timestamp=b5_data_utc();mp_router_put(&router,&live);
+    }
+    while(router.ln)assert(b5_egress_step(&router,&publisher,true) && g_uptime_ms-started<5000u);
+    assert(b5_egress_step(&router,&publisher,true) && !router.scalar_pending);
+    gateway_mqtt_production_diag(&after,g_uptime_ms);
+    assert(after.used==GATEWAY_TELEMETRY_SLOTS-1u);
+    peer_ack_ms=ack_delay;
+    while(router.scalar_replayed!=2){
+        platform_poll();assert(g_uptime_ms-started<5000u);
+        assert(b5_egress_step(&router,&publisher,true));
+    }
+    gateway_mqtt_production_diag(&after,g_uptime_ms);
+    assert(after.acked[0][MP_HR]-before.acked[0][MP_HR]==GATEWAY_TELEMETRY_SLOTS);
+    assert(after.acked[1][MP_HR]-before.acked[1][MP_HR]==2u);
+    assert(after.published[0][MP_NODE_STATUS]==before.published[0][MP_NODE_STATUS]);
+    assert(!router.scalar_history.count && router.status_history.count==1 && publisher.q1==GATEWAY_TELEMETRY_SLOTS+2u);
+    puts("PASS_R24_EGRESS_REALTIME_THEN_SCALAR_PUBACK");
+#endif
 }
 #endif
 
@@ -970,7 +1014,13 @@ int main(int argc,char **argv){
     epoch=1800000000;epoch_tick=g_uptime_ms;
     MpFrame will={0};will.node=3;will.stream=MP_GATEWAY_STATUS;will.synthetic=true;will.timestamp=gateway_epoch_milliseconds();
 #ifdef MP_ESP_PASSTHROUGH
-    if(transparent)assert(platform_passthrough_enter());
+    if(transparent){
+#ifdef MP_PASS_LIFECYCLE
+        lifecycle_case();
+#else
+        assert(platform_passthrough_enter());
+#endif
+    }
 #endif
     assert(gateway_mqtt_open(&will));
     client.appCallback=record_mqtt_event;
@@ -979,6 +1029,9 @@ int main(int argc,char **argv){
     while(!gateway_audio_ready())assert(gateway_mqtt_progress()!=GW_FAILED);
 #endif
     mp_router_init(&router);mp_router_online(&router,true);
+#ifdef MP_OUTAGE_RETENTION
+    mp_router_attach_retention(&router,&retention);
+#endif
     unified_audio_init();unified_audio_network(true);
     B5Publisher publisher={0};
     origin=g_uptime_ms;epoch_tick=origin;

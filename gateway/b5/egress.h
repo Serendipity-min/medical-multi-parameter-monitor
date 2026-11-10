@@ -58,10 +58,21 @@ static inline int b5_egress_step(MpRouter *r,B5Publisher *s,bool allow_new) {
     for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)s->pending|=s->tickets[i]!=0;
 #endif
     if(!allow_new)return 1;
+#ifdef MP_OUTAGE_RETENTION
+    uint64_t utc=b5_data_utc();
+#else
     uint64_t utc=gateway_epoch_milliseconds();
+#endif
     bool medical_due=false;
-    for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(s->tickets[i] && !s->inflight[i].replay &&
-        mp_realtime_yield_due(utc,s->inflight[i].timestamp,true))medical_due=true;
+#ifdef MP_OUTAGE_RETENTION
+    unsigned used=0;
+#endif
+    for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(s->tickets[i]){
+#ifdef MP_OUTAGE_RETENTION
+        used++;
+#endif
+        if(!s->inflight[i].replay && mp_realtime_yield_due(utc,s->inflight[i].timestamp,true))medical_due=true;
+    }
 #ifndef MP_AUDIO_DISABLED
     if(!s->deferred && !s->audio_yield && !medical_due && b5_audio_room(r,utc) && unified_audio_send_due()){
         unified_audio_step(true);if(gateway_audio_pending()){s->audio_yield=true;return 1;}
@@ -76,8 +87,29 @@ static inline int b5_egress_step(MpRouter *r,B5Publisher *s,bool allow_new) {
         return 1;
     }
     /* 老实时事务优先收确认；此时仅允许不占QoS1槽的实时波形。 */
+#ifdef MP_OUTAGE_RETENTION
+    /* 补传至少给下一条实时 QoS1 留一个槽。 */
+    bool replay_wait=used>=GATEWAY_TELEMETRY_SLOTS-1u;
+    if(s->deferred && s->publishing.replay && (r->ln || replay_wait)){
+        mp_router_retain_unsent(r,&s->publishing);s->deferred=false;
+    }
+    if(!s->deferred && !r->ln && replay_wait)return 1;
+#endif
     if(s->deferred || mp_router_take_egress(r,&s->publishing,g_uptime_ms,utc,gateway_mqtt_slots_full() || medical_due)){
-        if(!s->deferred && !b5_prepare_publish(&s->publishing,utc))return 1;
+#ifdef MP_OUTAGE_RETENTION
+        bool was_replay=s->publishing.replay;
+#endif
+        if(!s->deferred && !b5_prepare_publish(&s->publishing,utc)){
+#ifdef MP_OUTAGE_RETENTION
+            mp_router_retain_unsent(r,&s->publishing);
+#endif
+            return 1;
+        }
+#ifdef MP_OUTAGE_RETENTION
+        if(!was_replay && s->publishing.replay && !s->publishing.rate){
+            mp_router_retain_unsent(r,&s->publishing);return 1;
+        }
+#endif
         int result=gateway_mqtt_begin(&s->publishing);s->deferred=result==GW_DEFERRED;
         if(s->deferred || b5_network_stopped())return 1;
         if(result==GW_PENDING){unsigned i=0;while(i<GATEWAY_TELEMETRY_SLOTS && s->tickets[i])i++;if(i==GATEWAY_TELEMETRY_SLOTS){s->failed++;return 0;}s->tickets[i]=gateway_mqtt_ticket();s->inflight[i]=s->publishing;s->pending=true;
