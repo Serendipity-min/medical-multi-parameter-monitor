@@ -86,7 +86,10 @@ def main() -> int:
         '--network-probe', action='store_true', help='构建只读分区与指定 SSID 查询固件'
     )
     parser.add_argument('--bridge', action='store_true', help='构建本机证书配置诊断桥')
+    parser.add_argument('--pf6-diag', action='store_true', help='仅构建 R18 C 单板 PF6 诊断镜像')
     args = parser.parse_args()
+    if args.pf6_diag and (args.bridge or args.network_probe):
+        parser.error('--pf6-diag is an isolated target')
     sources = list(SOURCES)
     if args.network_probe:
         sources[0] = PROJECT / 'src' / 'network_probe.c'
@@ -94,16 +97,26 @@ def main() -> int:
     if args.bridge:
         sources[0] = PROJECT / 'src' / 'bridge.c'
         target = 'esp_diagnostic_bridge'
+    if args.pf6_diag:
+        sources[0] = PROJECT / 'src' / 'pf6_diag.c'
+        target = 'esp_pf6_diag'
     if not GCC.is_file():
         raise FileNotFoundError(f"未找到 ARM GCC：{GCC}")
     if not STARTUP.is_file() or not LIBRARY.is_dir():
         raise FileNotFoundError("未找到 STM32F4 标准外设库或启动文件")
 
-    BUILD.mkdir(exist_ok=True)
+    out=BUILD/'pf6-diag' if args.pf6_diag else BUILD
+    out.mkdir(parents=True,exist_ok=True)
+    linker=PROJECT/'STM32F407ZGT6_FLASH.ld'
+    if args.pf6_diag:
+        layout=linker.read_text(encoding='utf-8')
+        assert layout.count('LENGTH = 1024K')==1
+        linker=out/'sector0.ld'
+        linker.write_text(layout.replace('LENGTH = 1024K','LENGTH = 16K'),encoding='utf-8')
     include_flags = [f"-I{path}" for path in INCLUDES]
     objects: list[Path] = []
     for source in sources:
-        object_file = BUILD / f"{source.stem}.o"
+        object_file = out / f"{source.stem}.o"
         # 仅将 -Werror 施加到本项目源码；不为兼容新编译器而改写用户提供的旧版 ST 库。
         warnings = PROJECT_WARNING_FLAGS if source.is_relative_to(PROJECT) else []
         run(
@@ -120,18 +133,18 @@ def main() -> int:
         )
         objects.append(object_file)
 
-    startup_object = BUILD / "startup.o"
+    startup_object = out / "startup.o"
     run([str(GCC), *COMMON_FLAGS, "-c", str(STARTUP), "-o", str(startup_object)])
     objects.append(startup_object)
 
-    elf = BUILD / (target + ".elf")
-    binary = BUILD / (target + ".bin")
+    elf = out / (target + ".elf")
+    binary = out / (target + ".bin")
     run(
         [
             str(GCC),
             *COMMON_FLAGS,
             "-T",
-            str(PROJECT / "STM32F407ZGT6_FLASH.ld"),
+            str(linker),
             "-Wl,--gc-sections",
             "--specs=nano.specs",
             "--specs=nosys.specs",
@@ -141,6 +154,8 @@ def main() -> int:
         ]
     )
     run([str(OBJCOPY), "-O", "binary", str(elf), str(binary)])
+    if args.pf6_diag:
+        run([str(OBJCOPY), "-O", "ihex", str(elf), str(out/(target+".hex"))])
     run([str(SIZE), str(elf)])
     print(f"构建完成：{binary}")
     return 0

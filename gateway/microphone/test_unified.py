@@ -65,6 +65,7 @@ def main():
     cases['production_pass_lifecycle']=([flag for flag in peer_defines if flag!='-DMP_FIVE_FIELD01']+
         ['-DMP_PASS_LIFECYCLE','-DGATEWAY_TELEMETRY_SLOTS=4u'],peer_files)
     cases['production_esp_pf6_reset']=([],['gateway/mqtt/tests/test_esp_pf6_reset.c'])
+    cases['pf6_diag_console']=([],['gateway/esp_at_probe/tests/test_pf6_diag.c'])
     cases['field01_uart_retime']=(['-flto','-fwhole-program','-DMP_FIVE_FIELD01','-DMP_CAN_RX_IRQ',
         '-DMP_B5_EGRESS_FINAL','-DMP_B5_CLOUD_CANDIDATE'],['gateway/mqtt/tests/test_field01_uart_retime.c'])
     cases['field01_sntp_retry']=([*field01_at,'-DMP_H3_FRESH_SNTP','-DMP_B5_CLOUD_CANDIDATE'],
