@@ -170,6 +170,28 @@ static volatile PassResume pass_resume __attribute__((section(".pass_resume")));
 static PassBootDiag pass_boot_diag;
 #ifdef MP_LINK_RESILIENCE
 static PassLinkDrops pass_link_drops;
+
+void b5_uart_rebase_after_reset(uint32_t before,uint32_t after){
+    if(stopped || before!=uart_error_baseline)return;
+    uart_error_baseline=after;
+    char line[96];
+    snprintf(line,sizeof line,"GW PASS_RESET_UART_REBASE before=%lu after=%lu\r\n",
+        (unsigned long)before,(unsigned long)after);
+    console(line);
+}
+
+static bool pass_stop_on_uart_fault(void){
+    if(platform_uart_errors_total()==uart_error_baseline)return false;
+    EspUartErrors uart;
+    platform_uart_error_snapshot(&uart);
+    char line[160];
+    snprintf(line,sizeof line,"GW PASS_LOCAL_FAULT baseline=%lu total=%lu ore=%lu ne=%lu fe=%lu overflow=%lu\r\n",
+        (unsigned long)uart_error_baseline,(unsigned long)uart.total,(unsigned long)uart.ore,
+        (unsigned long)uart.ne,(unsigned long)uart.fe,(unsigned long)uart.overflow);
+    console(line);
+    stop();
+    return true;
+}
 #endif
 
 static bool pass_startup(PassRecovery *recovery){
@@ -197,12 +219,12 @@ static bool pass_reconnect(PassRecovery *recovery,uint32_t *acquire_delay){
     if(stop_due && !stopped)stop();
     if(stopped)return false;
 #ifdef MP_LINK_RESILIENCE
-    if(platform_uart_errors_total()!=uart_error_baseline){
-        console("GW PASS_LOCAL_FAULT\r\n");stop();return false;
-    }
+    if(pass_stop_on_uart_fault())return false;
 #endif
     if(platform_at_synchronized()){
+#ifndef MP_LINK_RESILIENCE
         uart_error_baseline=platform_uart_errors_total();
+#endif
         network_fault=false;
         if(acquire_delay?gateway_passthrough_acquire(acquire_delay):
 #ifdef MP_LINK_RESILIENCE
@@ -833,8 +855,14 @@ int main(void) {
 #ifdef MP_FINAL_UNIFIED
         if(network_fault) {
             /* AT边界未知只停网络，CAN/本地STOP继续；不能盲目重发未知半帧。 */
+#ifdef MP_LINK_RESILIENCE
+            if(pass_stop_on_uart_fault())break;
+#endif
             if(!platform_at_synchronized()){platform_poll();continue;}
-            network_fault=false;uart_error_baseline=platform_uart_errors_total();
+            network_fault=false;
+#ifndef MP_LINK_RESILIENCE
+            uart_error_baseline=platform_uart_errors_total();
+#endif
         }
 #endif
 #ifdef MP_B5_EGRESS_FINAL

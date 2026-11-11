@@ -46,6 +46,10 @@ void platform_set_poll(void (*callback)(void));
 void platform_poll(void);
 /* C网络诊断只读接口：累计UART错误不随重连清零，控制台忙时避免递归输出。 */
 uint32_t platform_uart_errors_total(void);
+#ifdef MP_LINK_RESILIENCE
+typedef struct {uint32_t total,ore,ne,fe,overflow;} EspUartErrors;
+void platform_uart_error_snapshot(EspUartErrors *out);
+#endif
 int platform_console_busy(void);
 void console(const char *message);
 #ifdef MP_CAN_RX_IRQ

@@ -16,6 +16,9 @@ uint64_t b5_data_utc(void);
 #ifdef MP_ESP_UART_230400
 void b5_uart_accept_baseline(void);
 #endif
+#ifdef MP_LINK_RESILIENCE
+void b5_uart_rebase_after_reset(uint32_t before,uint32_t after);
+#endif
 #ifdef MP_B5_EGRESS_FINAL
 uint32_t b5_business_remaining(void);
 void b5_hard_tick(void);

@@ -24,8 +24,11 @@ static uint32_t uart_total;
 static unsigned retries,acquisitions,stops,local_only_notices,opens;
 static unsigned heartbeats[2],time_frames[2];
 static bool config_ok=true;
+static char last_uart_fault[160];
 void console(const char *s){
     if(!strcmp(s,"FIVE AUTO CONFIG_MISSING LOCAL_ONLY\r\n"))local_only_notices++;
+    if(!strncmp(s,"GW PASS_LOCAL_FAULT ",sizeof("GW PASS_LOCAL_FAULT ")-1))
+        snprintf(last_uart_fault,sizeof last_uart_fault,"%s",s);
 }
 void platform_init(void){}
 void platform_set_poll(void (*callback)(void)){poller=callback;}
@@ -46,6 +49,7 @@ void platform_io_snapshot(EspIoMetrics *out){memset(out,0,sizeof *out);}
 void platform_cpu_snapshot(EspCpuMetrics *out){memset(out,0,sizeof *out);}
 void platform_txcheck_report(uint32_t now){(void)now;}
 uint32_t platform_uart_errors_total(void){return uart_total;}
+void platform_uart_error_snapshot(EspUartErrors *out){*out=(EspUartErrors){uart_total,1,2,3,4};}
 int platform_at_unsynced(void){return 0;}
 int platform_at_synchronized(void){return 1;}
 int platform_passthrough_soft_reset_safe(void){return 0;}
@@ -99,8 +103,17 @@ int main(void){
     for(unsigned i=0;i<20;i++)assert(pass_reconnect(&recovery,NULL) && !stopped);
     for(unsigned i=0;i<20;i++)assert(pass_reconnect(&recovery,&delay) && !stopped);
     assert(retries==20 && acquisitions==20);
-    uart_total=1025;assert(!pass_reconnect(&recovery,NULL) && stopped && retries==20);
-    stopped=stop_reported=false;uart_total=0;
+    uart_error_baseline=222;uart_total=223;
+    b5_uart_rebase_after_reset(222,223);
+    assert(uart_error_baseline==223 && pass_reconnect(&recovery,&delay) && !stopped && acquisitions==21);
+    uart_total=224;
+    assert(!pass_reconnect(&recovery,NULL) && stopped && retries==20);
+    assert(!strcmp(last_uart_fault,"GW PASS_LOCAL_FAULT baseline=223 total=224 ore=1 ne=2 fe=3 overflow=4\r\n"));
+    stopped=stop_reported=false;
+    uart_total=225;b5_uart_rebase_after_reset(224,225);
+    assert(uart_error_baseline==223 && !pass_reconnect(&recovery,&delay) && stopped && acquisitions==21);
+    puts("PASS_AX_REBASE_RESUMES_ACQUIRE_AND_STEADY_OR_PRE_RESET_ERRORS_STILL_STOP");
+    stopped=stop_reported=false;uart_error_baseline=uart_total=0;
     stop_due=true;
     assert(!pass_reconnect(&recovery,NULL) && stopped && retries==20);
     puts("PASS_AW_PRODUCTION_RECONNECT_NETWORK_RETRIES_LOCAL_UART_STOP_LATCH");

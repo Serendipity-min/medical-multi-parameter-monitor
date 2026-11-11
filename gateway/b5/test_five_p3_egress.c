@@ -82,8 +82,14 @@ static bool peer_stop;
 static unsigned peer_at_ignored,peer_at_count,peer_reset_count,peer_close_count;
 #ifdef MP_LINK_RESILIENCE
 static const char *peer_fail_command;
+static const char *peer_status_reply;
+static unsigned uart_rebases;
+static uint32_t uart_rebase_before,uart_rebase_after;
 static uint32_t stall_cut_at;
 static unsigned stall_qos0_bytes;
+void b5_uart_rebase_after_reset(uint32_t before,uint32_t after){
+    uart_rebases++;uart_rebase_before=before;uart_rebase_after=after;
+}
 #endif
 static uint32_t peer_stop_at,peer_hold_tc_until,peer_hold_txe_until,peer_wifi_until;
 static uint32_t peer_boot_noise_at,peer_boot_noise_period,peer_boot_first_tx;
@@ -327,6 +333,9 @@ static void peer_tx_byte(unsigned char byte){
         if(peer_close_error){terminal("\r\nERROR\r\n",rx_ms);return;}
     }
     if(!strcmp(command_bytes,"AT+CIPSTATUS\r\n")){
+#ifdef MP_LINK_RESILIENCE
+        if(peer_status_reply){terminal(peer_status_reply,rx_ms);return;}
+#endif
         terminal(peer_socket_live?"\r\nSTATUS:3\r\nOK\r\n":"\r\nSTATUS:4\r\nOK\r\n",rx_ms);
         return;
     }
@@ -614,6 +623,10 @@ static void lifecycle_case(void){
     assert(platform_passthrough_enter());
     peer_boot_noise_at=peer_boot_noise_period=peer_boot_first_tx=0;
     uart_hw_total=uart_overflow_total=0;
+#ifdef MP_LINK_RESILIENCE
+    peer_status_reply=NULL;uart_rebases=0;
+    uart_ore_total=uart_ne_total=uart_fe_total=0;
+#endif
 }
 
 static void lifecycle_cases(void){
@@ -993,6 +1006,44 @@ static void lifecycle_cases(void){
 #endif
 
 #ifdef MP_LINK_RESILIENCE
+static void cold_recovery_cases(void){
+    const char *no_socket[]={"\r\nSTATUS:0\r\nOK\r\n","\r\nSTATUS:1\r\nOK\r\n"};
+    for(unsigned i=0;i<2;i++){
+        lifecycle_case();peer_stream=false;pass_mode=PASS_BOOT;
+        uint32_t baseline=0;unsigned escape_sent=0;
+        uart_hw_total=errors=222;
+        terminal("\r\nready\r\n",100);
+        assert(platform_passthrough_startup(&escape_sent,&baseline) && baseline==222);
+        peer_close_error=true;peer_status_reply=no_socket[i];
+        assert(gateway_network_open() && peer_close_count==1 && !peer_reset_count && !uart_rebases);
+    }
+    puts("PASS_AX_STATUS_0_1_COLD_BOOT_WITHOUT_HARD_RESET");
+
+    const char *socket[]={"\r\nSTATUS:3\r\nOK\r\n",
+        "\r\nSTATUS:1\r\n+CIPSTATUS:0,\"TCP\",\"192.0.2.1\",1,2,0\r\nOK\r\n"};
+    for(unsigned i=0;i<2;i++){
+        lifecycle_case();peer_stream=false;pass_mode=PASS_COMMAND;
+        uart_hw_total=222;peer_close_error=true;peer_status_reply=socket[i];
+        assert(!gateway_network_open() && !peer_reset_count);
+        peer_reset_available=peer_reset_noise=true;
+        gateway_network_close();
+        assert(peer_reset_count==1 && platform_at_synchronized() && !errors);
+        assert(uart_rebases==1 && uart_rebase_before==222 && uart_rebase_after==223);
+        EspUartErrors uart;
+        platform_uart_error_snapshot(&uart);
+        assert(uart.total==223 && uart.fe==1 && !uart.ore && !uart.ne && !uart.overflow);
+    }
+    puts("PASS_AX_ACTIVE_SOCKET_RESETS_AND_READY_AT_REBASES_FRAMING_ERROR");
+
+    for(unsigned i=0;i<2;i++){
+        lifecycle_case();peer_reset_available=peer_reset_noise=true;
+        peer_reset_silent=i==0;peer_at_ignored=i==1;
+        assert(!platform_passthrough_recover() && peer_reset_count==1 && !uart_rebases);
+        assert(platform_uart_errors_total()==1 && !platform_at_synchronized());
+    }
+    puts("PASS_AX_MISSING_READY_OR_AT_NEVER_REBASES");
+}
+
 static void link_resilience_cases(void){
     lifecycle_case();
     gateway_network_close();
@@ -1147,7 +1198,7 @@ int main(int argc,char **argv){
         USART3->BRR=0x45;USART3->SR|=USART_SR_TC;
         platform_set_poll(tick);lifecycle_cases();
 #ifdef MP_LINK_RESILIENCE
-        link_resilience_cases();
+        link_resilience_cases();cold_recovery_cases();
 #endif
         assert(esp_uart_baud==115200u && USART3->BRR==0x45);
         return 0;

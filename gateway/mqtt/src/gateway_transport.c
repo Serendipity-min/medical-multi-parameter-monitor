@@ -793,7 +793,21 @@ int gateway_mqtt_yield(void)
     return process_once();
 }
 
-#if defined(MP_PASS_LIFECYCLE) || defined(MP_TRANSPORT_BENCH)
+#ifdef MP_LINK_RESILIENCE
+static int gateway_socket_absent(int queried,const char *unconfirmed){
+    const char *reply=queried?at_response():NULL;
+    const char *status=reply?strstr(reply,"STATUS:"):NULL;
+    int digit=-1;
+    if(status && (status==reply || status[-1]=='\n') && status[7]>='0' && status[7]<='9' && status[8]=='\r')
+        digit=status[7]-'0';
+    if(digit>=0 && digit<=5 && digit!=3 && !strstr(reply,"+CIPSTATUS:"))return 1;
+    char line[80];
+    if(digit>=0)snprintf(line,sizeof line,"GW %s status=%d\r\n",unconfirmed,digit);
+    else snprintf(line,sizeof line,"GW %s status=%s\r\n",unconfirmed,queried?"UNKNOWN":"QUERY_FAILED");
+    console(line);
+    return 0;
+}
+#elif defined(MP_PASS_LIFECYCLE) || defined(MP_TRANSPORT_BENCH)
 static int gateway_socket_absent(void){
     const char *status=strstr(at_response(),"STATUS:");
     return status && status[7] && strchr("245",status[7]) && status[8]=='\r' &&
@@ -809,8 +823,12 @@ void gateway_network_close(void)
     if(platform_passthrough_leave()!=PASS_EXIT_AT)return;
     if(!at_command("AT+CIPCLOSE",2000)){
         console("GW PASS_CLOSE_UNCONFIRMED\r\n");
+#ifdef MP_LINK_RESILIENCE
+        if(!gateway_socket_absent(!platform_at_unsynced() && platform_passthrough_status(),"PASS_SOCKET_UNCONFIRMED")){
+#else
         if(platform_at_unsynced() || !platform_passthrough_status() || !gateway_socket_absent()){
             console("GW PASS_SOCKET_UNCONFIRMED\r\n");
+#endif
             (void)platform_passthrough_recover();return;
         }
         console("GW PASS_SOCKET_ABSENT\r\n");
@@ -1122,10 +1140,15 @@ int gateway_network_open(void)
 #endif
 #ifdef MP_PASS_LIFECYCLE
     /* 启动转义可能留下上一代 SSL；先核对关闭再改传输模式。 */
+#ifdef MP_LINK_RESILIENCE
+    if(!at_command("AT+CIPCLOSE",2000u) &&
+       !gateway_socket_absent(at_command("AT+CIPSTATUS",1000u),"PASS_BOOT_SOCKET_UNCONFIRMED"))return 0;
+#else
     if(!at_command("AT+CIPCLOSE",2000u) &&
        (!at_command("AT+CIPSTATUS",1000u) || !gateway_socket_absent())){
         console("GW PASS_BOOT_SOCKET_UNCONFIRMED\r\n");return 0;
     }
+#endif
     if(!step("PASS_NORMAL","AT+CIPMODE=0",2000u))return 0;
 #endif
 #ifdef MP_TRANSPORT_BENCH

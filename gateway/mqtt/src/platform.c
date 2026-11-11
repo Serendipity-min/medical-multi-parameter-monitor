@@ -109,6 +109,15 @@ static volatile uint32_t head, tail, errors;
 /* 重连可清当前错误门禁，但累计诊断绝不随之清零。 */
 static volatile uint32_t uart_hw_total,uart_overflow_total;
 uint32_t platform_uart_errors_total(void) {return uart_hw_total+uart_overflow_total;}
+#ifdef MP_LINK_RESILIENCE
+static volatile uint32_t uart_ore_total,uart_ne_total,uart_fe_total;
+void platform_uart_error_snapshot(EspUartErrors *out){
+    uint32_t mask=__get_PRIMASK();
+    __disable_irq();
+    *out=(EspUartErrors){platform_uart_errors_total(),uart_ore_total,uart_ne_total,uart_fe_total,uart_overflow_total};
+    __set_PRIMASK(mask);
+}
+#endif
 static unsigned char reply[4096], network_bytes[256];
 static unsigned int reply_length, network_length, network_offset;
 static unsigned line_start,binary_left,binary_offset,binary_length,binary_seen;
@@ -187,6 +196,11 @@ void USART3_IRQHandler(void)
     unsigned char value = (unsigned char)USART3->DR;
     if (status & (USART_SR_ORE | USART_SR_NE | USART_SR_FE)) {
         errors++;uart_hw_total++;
+#ifdef MP_LINK_RESILIENCE
+        uart_ore_total+=(status&USART_SR_ORE)!=0;
+        uart_ne_total+=(status&USART_SR_NE)!=0;
+        uart_fe_total+=(status&USART_SR_FE)!=0;
+#endif
     }
     if (status & USART_SR_RXNE)
     {
@@ -760,6 +774,9 @@ int platform_passthrough_recover(void){
     pass_mode=PASS_LOCKED;
     esp_mqtt_reset();
     console("GW PASS_HARD_RESET\r\n");
+#ifdef MP_LINK_RESILIENCE
+    uint32_t uart_before=platform_uart_errors_total();
+#endif
     int reset=platform_esp_hard_reset();
     if(reset<=0){
         pass_reset_held=reset<0;
@@ -768,9 +785,19 @@ int platform_passthrough_recover(void){
     }
     closing_network=1;
     /* 启动时的 UART 噪声不作为 ready，必须收到完整 ready 行再探测 AT。 */
+#ifdef MP_LINK_RESILIENCE
+    int ready=pass_probe(NULL,"ready",PASS_READY_MS);
+    uint32_t uart_ready=platform_uart_errors_total();
+    int ok=ready && pass_probe("AT\r\n","OK",PASS_PROBE_MS);
+#else
     int ok=pass_probe(NULL,"ready",PASS_READY_MS) && pass_probe("AT\r\n","OK",PASS_PROBE_MS);
+#endif
     closing_network=0;
     if(!ok){console("GW PASS_HARD_RESET_UNCONFIRMED\r\n");return 0;}
+#ifdef MP_LINK_RESILIENCE
+    /* 确认 AT 后只接纳复位到 ready 的错误，之后的增量仍参与停机。 */
+    b5_uart_rebase_after_reset(uart_before,uart_ready);
+#endif
     console("GW PASS_HARD_RESET_OK\r\n");
     pass_confirm_command();
     return PASS_EXIT_RESET;
