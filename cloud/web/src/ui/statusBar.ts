@@ -1,141 +1,71 @@
-// 顶部系统状态栏组件：管理网关身份、节点在线指示、走纸窗口调节、时钟及全屏。
+// 顶栏：连接状态、演示数据标识、时钟、报警区与报警灯；底栏按键中的全屏与波形时长。
 
+import { highestPriority, type Alarm } from '../model/alarms';
 import type { MonitorViewModel } from '../types';
 
 export interface StatusBarCallbacks {
-  onGatewayChange: (gatewayId: string) => void;
   onWindowChange: (windowSeconds: number) => void;
   onOpenAccess: () => void;
   onCloseAccess: () => void;
   onDisplayError: (message: string) => void;
 }
 
+const LINK_LABEL: Record<string, string> = { on: '已连接', off: '未连接', wait: '连接中' };
+
 export class StatusBar {
-  private gatewaySelect: HTMLSelectElement;
-  private gatewayIdEl: HTMLElement;
-  private gatewayChip: HTMLElement;
-  private nodeAChip: HTMLElement;
-  private nodeBChip: HTMLElement;
-  private nodeDChip: HTMLElement;
-  private nodeEChip: HTMLElement;
-  private connectionEl: HTMLElement;
-  private connectionDot: HTMLElement;
-  private sourceBanner: HTMLElement;
-  private modeEl: HTMLElement;
-  private clockEl: HTMLElement;
-  private todayEl: HTMLElement;
-  private openAccessBtn: HTMLButtonElement;
-  private fullscreenBtn: HTMLButtonElement;
+  private fullscreenBtn = document.querySelector<HTMLButtonElement>('#fullscreen')!;
+  private openAccessBtn = document.querySelector<HTMLButtonElement>('#open-access')!;
 
   constructor(callbacks: StatusBarCallbacks) {
-    this.gatewaySelect = document.querySelector<HTMLSelectElement>('#gateway-select')!;
-    this.gatewayIdEl = document.querySelector<HTMLElement>('#gateway-id')!;
-    this.gatewayChip = document.querySelector<HTMLElement>('#gateway')!;
-    this.nodeAChip = document.querySelector<HTMLElement>('#node-a')!;
-    this.nodeBChip = document.querySelector<HTMLElement>('#node-b')!;
-    this.nodeDChip = document.querySelector<HTMLElement>('#node-d')!;
-    this.nodeEChip = document.querySelector<HTMLElement>('#node-e')!;
-    this.connectionEl = document.querySelector<HTMLElement>('#connection')!;
-    this.connectionDot = document.querySelector<HTMLElement>('#connection-dot')!;
-    this.sourceBanner = document.querySelector<HTMLElement>('#source-banner')!;
-    this.modeEl = document.querySelector<HTMLElement>('#mode')!;
-    this.clockEl = document.querySelector<HTMLElement>('#clock')!;
-    this.todayEl = document.querySelector<HTMLElement>('#today')!;
-    this.openAccessBtn = document.querySelector<HTMLButtonElement>('#open-access')!;
-    this.fullscreenBtn = document.querySelector<HTMLButtonElement>('#fullscreen')!;
-
-    // 绑定事件
-    this.gatewaySelect.onchange = () => {
-      callbacks.onGatewayChange(this.gatewaySelect.value);
-    };
-
-    this.openAccessBtn.onclick = () => {
-      callbacks.onOpenAccess();
-    };
+    this.openAccessBtn.onclick = () => callbacks.onOpenAccess();
 
     this.fullscreenBtn.onclick = async () => {
-      // 先撤下模态层再进入全屏，否则根元素会盖住弹窗，但弹窗仍拦截主界面点击。
-      // 关闭必须同步发生，保留此次真实点击授予的全屏权限。
+      // 先同步关闭模态层，保留本次点击授予的全屏权限。
       callbacks.onCloseAccess();
-      this.fullscreenBtn.disabled = true;
       try {
-        if (document.fullscreenElement) {
-          await document.exitFullscreen();
-        } else {
-          await document.documentElement.requestFullscreen();
-        }
+        if (document.fullscreenElement) await document.exitFullscreen();
+        else await document.documentElement.requestFullscreen();
       } catch {
-        // 显示设置错误留在弹窗里，避免下一帧连接状态刷新后提示立即消失。
-        callbacks.onDisplayError('浏览器未允许切换全屏，可使用浏览器的全屏菜单或按 F11。');
-      } finally {
-        this.fullscreenBtn.disabled = false;
+        callbacks.onDisplayError('浏览器未允许全屏，可按 F11 或使用浏览器菜单。');
       }
     };
-
     document.addEventListener('fullscreenchange', () => {
       this.fullscreenBtn.setAttribute('aria-pressed', String(Boolean(document.fullscreenElement)));
-      const span = this.fullscreenBtn.querySelector('span');
-      if (span) {
-        span.textContent = document.fullscreenElement ? '退出全屏' : '全屏显示';
-      }
+      this.fullscreenBtn.textContent = document.fullscreenElement ? '退出全屏' : '全屏';
     });
 
     document.querySelectorAll<HTMLButtonElement>('[data-window]').forEach((btn) => {
       btn.onclick = () => {
-        const sec = Number(btn.dataset.window);
-        callbacks.onWindowChange(sec);
-        document.querySelectorAll<HTMLButtonElement>('[data-window]').forEach((item) => {
-          item.setAttribute('aria-pressed', String(item === btn));
-        });
-        document.querySelectorAll('.window-start').forEach((label) => {
-          label.textContent = `−${sec} 秒`;
-        });
+        callbacks.onWindowChange(Number(btn.dataset.window));
+        document.querySelectorAll<HTMLButtonElement>('[data-window]').forEach((item) => item.setAttribute('aria-pressed', String(item === btn)));
       };
     });
   }
 
   public updateTime(): void {
     const now = new Date();
-    this.clockEl.textContent = now.toLocaleTimeString('zh-CN', { hour12: false });
-    this.todayEl.textContent = now.toLocaleDateString('zh-CN', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    });
+    document.getElementById('clock')!.textContent = now.toLocaleTimeString('zh-CN', { hour12: false });
+    document.getElementById('today')!.textContent = now.toLocaleDateString('zh-CN', { month: '2-digit', day: '2-digit', weekday: 'short' });
   }
 
-  public update(vm: MonitorViewModel, isConnected: boolean, connectionText: string): void {
-    this.gatewayIdEl.textContent = vm.gatewayId;
-    if (this.gatewaySelect.value !== vm.gatewayId) {
-      // 若下拉框存在对应选项则同步
-      const opt = Array.from(this.gatewaySelect.options).find((o) => o.value === vm.gatewayId);
-      if (opt) this.gatewaySelect.value = vm.gatewayId;
+  public update(vm: MonitorViewModel, isConnected: boolean, connectionText: string, alarms: readonly Alarm[], frozen: boolean): void {
+    const state = isConnected ? 'on' : connectionText === '正在连接' || connectionText.includes('重连') ? 'wait' : 'off';
+    const link = document.getElementById('link-state')!;
+    link.dataset.state = state;
+    document.getElementById('connection')!.textContent = isConnected ? LINK_LABEL.on : connectionText || LINK_LABEL[state];
+    // 合成数据只用固定标识提示，不在每个参数上重复来源。
+    document.getElementById('demo-badge')!.hidden = !vm.sources.includes('MOCK');
+    document.getElementById('frozen-badge')!.hidden = !frozen;
+    this.openAccessBtn.textContent = isConnected ? '连接设置' : '连接';
+
+    const phys = alarms.filter((alarm) => !alarm.technical);
+    const tech = alarms.filter((alarm) => alarm.technical);
+    for (const [id, list] of [['alarm-phys', phys], ['alarm-tech', tech]] as const) {
+      const box = document.getElementById(id)!;
+      box.dataset.priority = highestPriority(list);
+      // 报警区同时最多显示两条，其余以计数提示，避免顶栏溢出。
+      box.textContent = list.length ? list.slice(0, 2).map((alarm) => alarm.text).join('  ·  ') + (list.length > 2 ? `  +${list.length - 2}` : '') : '';
     }
-
-    this.gatewayChip.textContent = `Gateway · ${vm.gatewayState}`;
-    this.gatewayChip.classList.toggle('online', vm.gatewayState === 'ONLINE');
-
-    this.nodeAChip.textContent = `Node-A · ${vm.nodeAState}`;
-    this.nodeAChip.classList.toggle('online', vm.nodeAState === 'ONLINE');
-
-    this.nodeBChip.textContent = `Node-B · ${vm.nodeBState}`;
-    this.nodeBChip.classList.toggle('online', vm.nodeBState === 'ONLINE');
-    for (const [chip, name, state] of [[this.nodeDChip, 'D', vm.nodeDState], [this.nodeEChip, 'E', vm.nodeEState]] as const) {
-      chip.hidden = !vm.fiveNode;
-      chip.textContent = `Node-${name} · ${state}`;
-      chip.classList.toggle('online', state === 'ONLINE');
-    }
-
-    this.connectionEl.textContent = connectionText;
-    this.connectionDot.classList.toggle('online', isConnected);
-
-    this.sourceBanner.textContent = vm.sourceBanner;
-    this.modeEl.textContent = vm.modeText;
-
-    this.openAccessBtn.textContent = isConnected ? '连接设置' : '连接数据源';
-  }
-
-  public getSelectedGatewayId(): string {
-    return this.gatewaySelect.value;
+    document.getElementById('alarm-light')!.dataset.priority = highestPriority(alarms);
   }
 }

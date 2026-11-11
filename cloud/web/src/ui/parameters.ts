@@ -1,27 +1,24 @@
 // 产品支持范围的静态配置，不代表运行时硬件自检结果。
 import type { ScalarChannel, WaveChannel } from '../types';
-import type { Route } from '../router/hashRouter';
 import { fiveAppliance } from '../gatewayProfile';
 
+export type ParameterKey = 'ecg' | 'spo2' | 'resp' | 'nibp' | 'temp';
+
 export interface Parameter {
-  route: Exclude<Route, 'overview' | 'ai'>;
   title: string;
-  english: string;
   scalar: ScalarChannel;
   wave?: WaveChannel;
   node: 'Node-A' | 'Node-B' | 'Node-D' | 'Node-E';
   device: string;
-  subtitle: string;
   facts: [string, string][];
 }
 
-// AI 是只读交互页，不进入参数配置或趋势索引。
-export const parameters: Record<Exclude<Route, 'overview' | 'ai'>, Parameter> = {
-  ecg: { route: 'ecg', title: '心电监测', english: 'ELECTROCARDIOGRAM', scalar: 'HR', wave: 'ECG', node: 'Node-B', device: 'ADS1292R', subtitle: '单导联 RA–LA · 250 Hz', facts: [['采集模块', 'ADS1292R'], ['采集节点', 'Node-B'], ['导联配置', 'RA / LA / RL（静态配置）'], ['采样率', '250 Hz'], ['滤波配置', '由 Node-B 固件定义'], ['电极状态', '当前协议未提供']] },
-  spo2: { route: 'spo2', title: '血氧与脉率', english: 'PULSE OXIMETRY', scalar: 'SpO2', wave: 'PPG', node: 'Node-A', device: 'AFE4490', subtitle: '红光 / 红外光采集 · 50 Hz', facts: [['采集模块', 'AFE4490'], ['采集节点', 'Node-A'], ['光路配置', '红光 / 红外光'], ['PPG 采样率', '50 Hz'], ['波形单位', '相对幅值'], ['探头状态', '当前协议未提供']] },
-  resp: { route: 'resp', title: '呼吸监测', english: 'IMPEDANCE RESPIRATION', scalar: 'RR', wave: 'RESP', node: 'Node-B', device: 'ADS1292R', subtitle: '阻抗呼吸 · 50 Hz · RR 算法输出', facts: [['采集模块', 'ADS1292R'], ['采集节点', 'Node-B'], ['测量方式', '阻抗呼吸'], ['采样率', '50 Hz'], ['波形单位', '相对幅值'], ['呼吸率来源', 'RR 标量 / 算法输出']] },
-  nibp: { route: 'nibp', title: '无创血压', english: 'NON-INVASIVE BLOOD PRESSURE', scalar: 'NIBP', node: 'Node-A', device: 'HKB-08B+' , subtitle: '间歇测量 · SYS / DIA', facts: [['测量模块', 'HKB-08B+'], ['采集节点', 'Node-A'], ['输出参数', 'SYS / DIA'], ['单位', 'mmHg'], ['测量类型', '间歇式'], ['最近测量时间', '见当前读数时间戳']] },
-  temp: { route: 'temp', title: '物体温度', english: 'NON-CONTACT TEMPERATURE', scalar: 'TEMP', node: 'Node-B', device: 'GY641', subtitle: 'UART4 · 未标定物体温度 To', facts: [['传感器', 'GY641'], ['采集节点', 'Node-B'], ['接口配置', 'UART4 · 9600 baud'], ['测量方式', '物体表面温度 To'], ['精度状态', '绝对精度未标定'], ['温度来源', 'TEMP 标量']] },
+export const parameters: Record<ParameterKey, Parameter> = {
+  ecg: { title: '心电', scalar: 'HR', wave: 'ECG', node: 'Node-B', device: 'ADS1292R', facts: [['采集模块', 'ADS1292R'], ['采集节点', 'Node-B'], ['导联', 'RA–LA 单导联'], ['采样率', '250 Hz']] },
+  spo2: { title: '血氧', scalar: 'SpO2', wave: 'PPG', node: 'Node-A', device: 'AFE4490', facts: [['采集模块', 'AFE4490'], ['采集节点', 'Node-A'], ['光路', '红光 / 红外光'], ['采样率', '50 Hz']] },
+  resp: { title: '呼吸', scalar: 'RR', wave: 'RESP', node: 'Node-B', device: 'ADS1292R', facts: [['采集模块', 'ADS1292R'], ['采集节点', 'Node-B'], ['方式', '阻抗呼吸'], ['采样率', '50 Hz']] },
+  nibp: { title: '无创血压', scalar: 'NIBP', node: 'Node-A', device: 'HKB-08B+', facts: [['测量模块', 'HKB-08B+'], ['采集节点', 'Node-A'], ['方式', '示波法 · 间歇测量'], ['单位', 'mmHg']] },
+  temp: { title: '体表温度', scalar: 'TEMP', node: 'Node-B', device: 'GY641', facts: [['传感器', 'GY641 红外'], ['采集节点', 'Node-B'], ['测量对象', '体表温度（非体温）'], ['标定', '绝对精度未标定']] },
 };
 if (fiveAppliance) {
   for (const [key, node] of [['temp', 'Node-D'], ['nibp', 'Node-E']] as const) {
@@ -29,3 +26,24 @@ if (fiveAppliance) {
     parameters[key].facts = parameters[key].facts.map(([name, value]) => [name, name === '采集节点' ? node : value]);
   }
 }
+
+// 趋势页按参数逐一查看；颜色与监护主界面同一通道一致。
+export interface TrendChannel {
+  channel: ScalarChannel;
+  label: string;
+  unit: string;
+  color: string;
+}
+
+export const CHANNEL_COLORS: Record<ScalarChannel, string> = {
+  HR: '#2ee66b', PR: '#24d3f2', SpO2: '#24d3f2', RR: '#ffd23f', NIBP: '#f2f2f2', TEMP: '#e8e8e8',
+};
+
+export const trendChannels: TrendChannel[] = [
+  { channel: 'HR', label: '心率 HR', unit: 'bpm', color: CHANNEL_COLORS.HR },
+  { channel: 'SpO2', label: '血氧 SpO₂', unit: '%', color: CHANNEL_COLORS.SpO2 },
+  { channel: 'PR', label: '脉率 PR', unit: 'bpm', color: CHANNEL_COLORS.PR },
+  { channel: 'RR', label: '呼吸率 RR', unit: 'rpm', color: CHANNEL_COLORS.RR },
+  { channel: 'NIBP', label: '无创血压 NIBP', unit: 'mmHg', color: CHANNEL_COLORS.NIBP },
+  { channel: 'TEMP', label: '体表温度 T', unit: '°C', color: CHANNEL_COLORS.TEMP },
+];

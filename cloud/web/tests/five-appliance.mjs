@@ -17,9 +17,9 @@ for (const mode of ['production', 'five-appliance']) {
   assert.equal(new m.MonitorSocket({}).getGatewayId(), gateway);
   assert.equal(m.getEmptyViewModel().gatewayId, gateway);
   const container = { innerHTML: '' }; m.setupMonitorDOM(container);
-  const options = container.innerHTML.match(/<select id="gateway-select">(.*?)<\/select>/s)[1];
-  assert.equal(options.includes('GW-B5-001'), mode === 'five-appliance');
-  assert.equal(options.includes('GW-C-001'), mode === 'production');
+  // 网关由构建配置或 URL 决定，界面不再提供模拟/真机网关切换。
+  assert.ok(!container.innerHTML.includes('gateway-select'));
+  assert.ok(!/模拟网关|真机网关/.test(container.innerHTML));
   assert.equal(m.parameters.temp.node, mode === 'five-appliance' ? 'Node-D' : 'Node-B');
   assert.equal(m.parameters.nibp.node, mode === 'five-appliance' ? 'Node-E' : 'Node-A');
   assert.equal(m.parameters.temp.facts.find(([name])=>name==='采集节点')[1], m.parameters.temp.node);
