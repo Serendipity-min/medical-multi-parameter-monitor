@@ -197,7 +197,7 @@ static bool pass_reconnect(PassRecovery *recovery,uint32_t *acquire_delay){
     if(stop_due && !stopped)stop();
     if(stopped)return false;
 #ifdef MP_LINK_RESILIENCE
-    if(platform_uart_errors_total()!=uart_error_baseline || !gateway_config_valid()){
+    if(platform_uart_errors_total()!=uart_error_baseline){
         console("GW PASS_LOCAL_FAULT\r\n");stop();return false;
     }
 #endif
@@ -828,13 +828,7 @@ int main(void) {
 #endif
     while (!stopped) {
 #ifdef MP_FIVE_APPLIANCE
-        if(!gateway_config_valid()){
-#ifdef MP_LINK_RESILIENCE
-            console("GW PASS_LOCAL_CONFIG\r\n");stop();break;
-#else
-            platform_poll();continue;
-#endif
-        }
+        if(!gateway_config_valid()){platform_poll();continue;}
 #endif
 #ifdef MP_FINAL_UNIFIED
         if(network_fault) {
