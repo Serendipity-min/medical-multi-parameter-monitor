@@ -48,13 +48,14 @@ export class StatusBar {
     document.getElementById('today')!.textContent = now.toLocaleDateString('zh-CN', { month: '2-digit', day: '2-digit', weekday: 'short' });
   }
 
-  public update(vm: MonitorViewModel, isConnected: boolean, connectionText: string, alarms: readonly Alarm[], frozen: boolean): void {
+  public update(vm: MonitorViewModel, isConnected: boolean, connectionText: string, alarms: readonly Alarm[], frozen: boolean, demo: boolean): void {
     const state = isConnected ? 'on' : connectionText === '正在连接' || connectionText.includes('重连') ? 'wait' : 'off';
     const link = document.getElementById('link-state')!;
     link.dataset.state = state;
     document.getElementById('connection')!.textContent = isConnected ? LINK_LABEL.on : connectionText || LINK_LABEL[state];
-    // 合成数据只用固定标识提示，不在每个参数上重复来源。
-    document.getElementById('demo-badge')!.hidden = !vm.sources.includes('MOCK');
+    // 本地演示用醒目标识；服务器数据帧的 MOCK 标记只用灰色小标签提示，不在每个参数上重复。
+    document.getElementById('demo-badge')!.hidden = !demo;
+    document.getElementById('mock-badge')!.hidden = demo || !vm.sources.includes('MOCK');
     document.getElementById('frozen-badge')!.hidden = !frozen;
     this.openAccessBtn.textContent = isConnected ? '连接设置' : '连接';
 

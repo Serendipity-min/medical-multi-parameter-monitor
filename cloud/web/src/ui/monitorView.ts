@@ -23,7 +23,8 @@ export function setupMonitorDOM(container: HTMLElement): void {
           <div id="alarm-tech" class="alarm-box tech" data-priority="none" role="status" aria-live="polite"></div>
         </div>
         <div class="sys-info">
-          <span id="demo-badge" class="demo-badge" hidden>演示数据</span>
+          <span id="demo-badge" class="demo-badge" hidden>演示模式 · 非真实数据</span>
+          <span id="mock-badge" class="mock-badge" hidden title="数据帧标记为合成来源（当前网关固件对所有数据标记 MOCK）">MOCK 标记</span>
           <span id="frozen-badge" class="frozen-badge" hidden>已冻结</span>
           <span id="link-state" class="link-state" data-state="off"><i></i><span id="connection">未连接</span></span>
           <span class="clock"><time id="clock">--:--:--</time><span id="today"></span></span>
@@ -39,6 +40,7 @@ export function setupMonitorDOM(container: HTMLElement): void {
         </nav>
         <div class="keys">
           <button id="freeze" aria-pressed="false">冻结</button>
+          <button id="demo-toggle" aria-pressed="false">演示</button>
           <button id="open-access">连接</button>
           <button id="fullscreen" aria-pressed="false">全屏</button>
         </div>
@@ -48,9 +50,10 @@ export function setupMonitorDOM(container: HTMLElement): void {
     <dialog id="access-dialog" aria-labelledby="access-title"><form id="access-form">
       <div class="dialog-heading"><h2 id="access-title">连接监护数据</h2><button type="button" id="close-access" aria-label="关闭">×</button></div>
       <label for="view-token">访问令牌</label><input id="view-token" type="password" autocomplete="off" placeholder="输入只读访问令牌" required>
+      <label class="check"><input id="remember-device" type="checkbox">记住此设备（仅在专用监护大屏上勾选）</label>
       <p id="access-message" role="status">令牌仅保存在当前页面内存中，刷新或断开后清除。</p>
       <div class="local-settings"><span>波形时长</span><button type="button" data-window="8" aria-pressed="true">8 秒</button><button type="button" data-window="16" aria-pressed="false">16 秒</button></div>
-      <div class="dialog-actions"><button type="button" id="disconnect">断开</button><button type="submit" class="primary">连接</button></div>
+      <div class="dialog-actions"><button type="button" id="forget-device" hidden>忘记此设备</button><button type="button" id="disconnect">断开</button><button type="submit" class="primary">连接</button></div>
     </form></dialog>
     <dialog id="connection-error-dialog" class="connection-error" role="alertdialog" aria-labelledby="connection-error-title" aria-describedby="connection-error-message">
       <div class="dialog-heading"><h2 id="connection-error-title">连接失败</h2><button type="button" id="close-connection-error" aria-label="关闭">×</button></div>
@@ -98,6 +101,10 @@ export function renderRoute(route: Route, container: HTMLElement): void {
   }
   const sys = NIBP_LIMITS.sys, dia = NIBP_LIMITS.dia;
   container.innerHTML = `<div class="overview">
+    <div id="standby" class="standby" hidden><div class="standby-box">
+      <strong id="standby-title">未连接</strong><span id="standby-text"></span>
+      <div class="standby-actions"><button type="button" id="standby-connect" class="primary">连接</button><button type="button" id="standby-demo">演示模式</button></div>
+    </div></div>
     <div class="waves">
       ${waveRow('ECG', 'ECG I', 'RA–LA')}
       ${waveRow('PPG', 'Pleth', 'SpO₂')}
