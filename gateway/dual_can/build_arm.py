@@ -29,6 +29,7 @@ def main():
     parser.add_argument('--production-diag', action='store_true', help='生产透传候选的同步计数和槽位诊断，只构建')
     parser.add_argument('--outage-retention', action='store_true', help='生产候选断网授时与分级保留，只构建')
     parser.add_argument('--tx-integrity-diag', action='store_true', help='WP-AU 透传发送完整性诊断，只构建')
+    parser.add_argument('--link-resilience', action='store_true', help='WP-AW 网络长退避与 QoS0 停滞节流，只构建')
     parser.add_argument('--five-node', action='store_true', help='五板静态来源候选；仅离线构建')
     parser.add_argument('--five-appliance', action='store_true', help='五板自动启动/KEY1/事实回复候选；仅离线构建，不部署')
     parser.add_argument('--field01', action='store_true', help='Issue #8 手动单窗网络探针，只构建')
@@ -55,6 +56,8 @@ def main():
         parser.error('--outage-retention requires --production-diag')
     if args.tx_integrity_diag and not args.outage_retention:
         parser.error('--tx-integrity-diag requires --outage-retention')
+    if args.link_resilience and not args.tx_integrity_diag:
+        parser.error('--link-resilience requires --tx-integrity-diag')
     if args.field01 and (args.transport_profile or args.esp_passthrough or args.esp_230400):
         if not (args.transport_profile and args.no_audio) or (args.esp_230400 and not args.esp_passthrough):
             parser.error('FIELD01 profiling requires --no-audio --transport-profile; 230400 requires passthrough')
@@ -99,6 +102,7 @@ def main():
     if args.production_diag:flags += ['-DMP_PRODUCTION_DIAG']
     if args.outage_retention:flags += ['-DMP_OUTAGE_RETENTION']
     if args.tx_integrity_diag:flags += ['-DMP_TX_INTEGRITY_DIAG']
+    if args.link_resilience:flags += ['-DMP_LINK_RESILIENCE']
     if args.esp_230400:flags += ['-DMP_ESP_UART_230400']
     if args.transport_profile or args.transport_bench:flags += ['-DMP_TRANSPORT_PROFILE']
     if args.transport_bench:flags += ['-DMP_TRANSPORT_BENCH','-DMP_ESP_PASSTHROUGH','-DMP_ESP_UART_230400']
@@ -335,7 +339,7 @@ def main():
               'bench_UART_IRQ_vector_verified':irq_vector_verified,
               'linker_sha256': hashlib.sha256(linker.read_bytes()).hexdigest(),
               'audio_link_probe':args.audio_link,'audio_layout':audio_layout,
-              'field01':args.field01,'unified_runtime':args.unified,'five_node':args.five_node,'five_appliance':args.five_appliance,'split_flash_requires_owner_approval':args.split_flash,
+              'field01':args.field01,'unified_runtime':args.unified,'five_node':args.five_node,'five_appliance':args.five_appliance,'link_resilience':args.link_resilience,'split_flash_requires_owner_approval':args.split_flash,
               'hardware_eligible': False, 'network_transport': 'B5_H3_TRANSPORT_B4_RETRY_DRIVER_ARM_LINKED_NOT_EXECUTED' if args.b5 else ('H3_FROZEN_SOURCE_LINKED_NOT_EXECUTED' if args.network_link else 'NOT_LINKED_NOT_DEPLOYED'),
               'h3_reference_commit': 'a5cdd5b0b1ad48108fd631136e9de69e30582f2d', 'h3_reference_sha256': reference_sha, 'commands': commands,
               'log_sha256': hashlib.sha256(log).hexdigest(),

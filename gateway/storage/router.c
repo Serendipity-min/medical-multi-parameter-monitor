@@ -12,6 +12,21 @@ void mp_router_init(MpRouter *r)
     memset(r, 0, sizeof(*r));
 }
 
+#ifdef MP_LINK_RESILIENCE
+static void held_wave(MpRouter *r,const MpFrame *f){
+    if(!f->rate || f->replay)return;
+    r->held_packets++;
+    /* 含主题和 MQTT 头的序列化上界；避免暂停期间重复格式化并触发 poll。 */
+    r->held_bytes_upper+=384u+12u*f->count;
+}
+
+void mp_router_pause_wave(MpRouter *r,bool paused){
+    if(paused && !r->wave_paused)
+        for(unsigned i=0;i<r->ln;i++)held_wave(r,&r->live[(r->lh+i)%MP_LIVE_CAPACITY]);
+    r->wave_paused=paused;
+}
+#endif
+
 #ifdef MP_OUTAGE_RETENTION
 _Static_assert(sizeof(MpRetainedEntry)==28,"retention entry size");
 
@@ -96,6 +111,17 @@ static void cache(MpRouter *r, const MpFrame *f)
     r->stored++;
 }
 
+#ifdef MP_LINK_RESILIENCE
+void mp_router_return_wave(MpRouter *r,const MpFrame *f){
+    held_wave(r,f);
+    if(r->ln==MP_LIVE_CAPACITY){r->live_overflow++;cache(r,f);return;}
+    /* 被拒绝的波形尚未写出，放回波形组最前，不能挡住后续标量。 */
+    r->lh=(r->lh+MP_LIVE_CAPACITY-1u)%MP_LIVE_CAPACITY;
+    r->live[r->lh]=*f;r->put_tick[r->lh]=g_uptime_ms;
+    if(++r->ln>r->high_water)r->high_water=r->ln;
+}
+#endif
+
 /* 断连时把待发遥测迁入历史；每次新连接都需先成功发送实时帧再开放补传。 */
 void mp_router_online(MpRouter *r, bool online)
 {
@@ -105,6 +131,9 @@ void mp_router_online(MpRouter *r, bool online)
         r->live_credit = 0;
     }
     r->online = online;
+#ifdef MP_LINK_RESILIENCE
+    if(!online)r->wave_paused=false;
+#endif
     if (!online)
         while (r->ln)
         {
@@ -129,6 +158,9 @@ void mp_router_put(MpRouter *r, const MpFrame *f)
         cache(r, f);
         return;
     }
+#ifdef MP_LINK_RESILIENCE
+    if(r->wave_paused)held_wave(r,f);
+#endif
     /* 每流保留最新待发帧并保持排队位置，防止高频波形反复挤走标量/状态。 */
     for (unsigned i = 0; i < r->ln; i++)
     {
@@ -209,6 +241,9 @@ bool mp_router_take_egress(MpRouter *r,MpFrame *out,uint32_t now,uint64_t utc,bo
     for(unsigned i=0;i<r->ln;i++) {
         MpFrame *f=&r->live[(r->lh+i)%MP_LIVE_CAPACITY];
         bool wave=f->rate && !f->replay;
+#ifdef MP_LINK_RESILIENCE
+        if(r->wave_paused && wave)continue;
+#endif
         if(pending && !wave)continue;
         /* 状态先行；标量/波形交替，组内FIFO，不能让快流或心跳饿死另一组。 */
         bool status=f->stream==MP_NODE_STATUS || f->stream==MP_GATEWAY_STATUS;

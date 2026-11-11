@@ -41,6 +41,12 @@ static inline int b5_egress_step(MpRouter *r,B5Publisher *s,bool allow_new) {
 #ifdef MP_FINAL_UNIFIED
     int progress=gateway_mqtt_progress();
     if(b5_network_stopped())return 1;
+#ifdef MP_LINK_RESILIENCE
+    mp_router_pause_wave(r,gateway_link_wave_paused());
+    if(r->wave_paused && s->deferred && s->publishing.rate && !s->publishing.replay){
+        mp_router_return_wave(r,&s->publishing);s->deferred=false;
+    }
+#endif
     if(progress==GW_FAILED){
         for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(s->tickets[i]){mp_router_ack(r,&s->inflight[i],false);s->tickets[i]=0;}
         s->pending=false;s->failed++;return 0;

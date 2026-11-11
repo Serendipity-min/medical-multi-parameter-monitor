@@ -26,6 +26,13 @@ void gateway_network_close(void);
 #ifdef MP_PASS_LIFECYCLE
 int gateway_passthrough_retry(unsigned *reentries);
 int gateway_passthrough_acquire(uint32_t *next_delay);
+#ifdef MP_LINK_RESILIENCE
+#include "../../b5/pass_recovery.h"
+int gateway_link_retry(PassLinkDrops *drops,unsigned *reentries);
+typedef struct { uint32_t triggers,paused_ms; } GatewayLinkDiag;
+bool gateway_link_wave_paused(void);
+void gateway_link_diag(GatewayLinkDiag *out);
+#endif
 #endif
 #ifdef MP_B5_EGRESS_FINAL
 #include "../../b5/egress_metrics.h"

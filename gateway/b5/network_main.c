@@ -168,6 +168,9 @@ static void stop(void) {
 #ifdef MP_PASS_LIFECYCLE
 static volatile PassResume pass_resume __attribute__((section(".pass_resume")));
 static PassBootDiag pass_boot_diag;
+#ifdef MP_LINK_RESILIENCE
+static PassLinkDrops pass_link_drops;
+#endif
 
 static bool pass_startup(PassRecovery *recovery){
     uint32_t reset_flags=RCC->CSR;
@@ -193,14 +196,29 @@ static bool pass_startup(PassRecovery *recovery){
 static bool pass_reconnect(PassRecovery *recovery,uint32_t *acquire_delay){
     if(stop_due && !stopped)stop();
     if(stopped)return false;
+#ifdef MP_LINK_RESILIENCE
+    if(platform_uart_errors_total()!=uart_error_baseline || !gateway_config_valid()){
+        console("GW PASS_LOCAL_FAULT\r\n");stop();return false;
+    }
+#endif
     if(platform_at_synchronized()){
         uart_error_baseline=platform_uart_errors_total();
         network_fault=false;
         if(acquire_delay?gateway_passthrough_acquire(acquire_delay):
+#ifdef MP_LINK_RESILIENCE
+                         gateway_link_retry(&pass_link_drops,&recovery->reentries))return true;
+#else
                          gateway_passthrough_retry(&recovery->reentries))return true;
+#endif
+#ifndef MP_LINK_RESILIENCE
     }else if(!acquire_delay && pass_session_limit(&recovery->reentries)){
         console("GW PASS_REENTRY_LIMIT\r\n");
-    }else if(platform_passthrough_soft_reset_safe() &&
+#endif
+    }else if(
+#ifdef MP_LINK_RESILIENCE
+             (acquire_delay || recovery->reentries<PASS_REENTRY_MAX-1u) &&
+#endif
+             platform_passthrough_soft_reset_safe() &&
              pass_reset_allowed(recovery,stopped || stop_due,run_limit_ms!=0)){
         b4_hw_stop();
         console("GW PASS_SOFT_RESET_PENDING\r\n");
@@ -527,6 +545,13 @@ static void production_diagnostic(void){
 #ifdef MP_TX_INTEGRITY_DIAG
     platform_txcheck_report(now);
 #endif
+#ifdef MP_LINK_RESILIENCE
+    GatewayLinkDiag link;gateway_link_diag(&link);
+    (void)snprintf(line,sizeof(line),"B5 LINKRES tick=%lu triggers=%lu paused_ms=%lu held_packets=%lu held_bytes_upper=%lu consecutive_drops=%lu total_drops=%lu\r\n",
+        (unsigned long)now,(unsigned long)link.triggers,(unsigned long)link.paused_ms,
+        (unsigned long)gateway.router.held_packets,(unsigned long)gateway.router.held_bytes_upper,
+        (unsigned long)pass_link_drops.consecutive,(unsigned long)pass_link_drops.total);console(line);
+#endif
 }
 #endif
 #ifndef MP_FIVE_FIELD01
@@ -803,7 +828,13 @@ int main(void) {
 #endif
     while (!stopped) {
 #ifdef MP_FIVE_APPLIANCE
-        if(!gateway_config_valid()){platform_poll();continue;}
+        if(!gateway_config_valid()){
+#ifdef MP_LINK_RESILIENCE
+            console("GW PASS_LOCAL_CONFIG\r\n");stop();break;
+#else
+            platform_poll();continue;
+#endif
+        }
 #endif
 #ifdef MP_FINAL_UNIFIED
         if(network_fault) {
@@ -916,8 +947,12 @@ int main(void) {
             mqtt_qos0_transport_ok=publisher.q0;mqtt_qos1_puback=publisher.q1;mqtt_failed_count=publisher.failed;
             if(!progress)break;
 #ifdef MP_PASS_LIFECYCLE
-            if(!b5_network_stopped() && pass_recovery_stable(&pass_recovery,g_uptime_ms,pass_online_at))
+            if(!b5_network_stopped() && pass_recovery_stable(&pass_recovery,g_uptime_ms,pass_online_at)){
+#ifdef MP_LINK_RESILIENCE
+                pass_link_drops.consecutive=0;
+#endif
                 console("GW PASS_REENTRY_STABLE_RESET\r\n");
+            }
 #endif
             /* 预留1秒准备、5秒事务及2秒关闭；业务锁存仍在420秒。 */
 #ifndef MP_FIVE_FIELD01

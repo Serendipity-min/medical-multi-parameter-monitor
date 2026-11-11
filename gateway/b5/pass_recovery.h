@@ -9,6 +9,13 @@ enum { PASS_REENTRY_MAX=3, PASS_STABLE_MS=300000 };
 
 typedef struct { uint32_t tag, inverse; } PassResume;
 typedef struct { unsigned reentries; bool reset_used; } PassRecovery;
+#ifdef MP_LINK_RESILIENCE
+typedef struct { uint32_t consecutive,total; } PassLinkDrops;
+static inline uint32_t pass_link_drop(PassLinkDrops *drops){
+    drops->consecutive++;drops->total++;
+    return drops->consecutive<5u?2000u<<(drops->consecutive-1u):30000u;
+}
+#endif
 typedef struct {
     uint32_t reset_flags,next_at,uart_err0;
     unsigned escape_sent,at_ok,resumed,reentries;

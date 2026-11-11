@@ -80,6 +80,11 @@ static bool try_nested_tx;
 static bool peer_stop;
 #ifdef MP_PASS_LIFECYCLE
 static unsigned peer_at_ignored,peer_at_count,peer_reset_count,peer_close_count;
+#ifdef MP_LINK_RESILIENCE
+static const char *peer_fail_command;
+static uint32_t stall_cut_at;
+static unsigned stall_qos0_bytes;
+#endif
 static uint32_t peer_stop_at,peer_hold_tc_until,peer_hold_txe_until,peer_wifi_until;
 static uint32_t peer_boot_noise_at,peer_boot_noise_period,peer_boot_first_tx;
 static unsigned peer_boot_noise_count;
@@ -275,6 +280,9 @@ static void peer_pass_tx(unsigned char byte){
 static void peer_tx_byte(unsigned char byte){
 #ifdef MP_ESP_PASSTHROUGH
     if(peer_stream){
+#ifdef MP_LINK_RESILIENCE
+        if(stall_cut_at && g_uptime_ms>=stall_cut_at && !io_metrics.qos)stall_qos0_bytes++;
+#endif
         peer_pass_tx(byte);
         if(peer_tx_stop_after && !--peer_tx_stop_after)peer_stop=true;
         return;
@@ -296,6 +304,11 @@ static void peer_tx_byte(unsigned char byte){
     command_bytes[command_count]=0;command_count=0;
 #ifdef MP_ESP_PASSTHROUGH
 #ifdef MP_PASS_LIFECYCLE
+#ifdef MP_LINK_RESILIENCE
+    if(peer_fail_command && !strncmp(command_bytes,peer_fail_command,strlen(peer_fail_command))){
+        terminal("\r\nERROR\r\n",rx_ms);return;
+    }
+#endif
     if(!strcmp(command_bytes,"AT\r\n")){
         peer_at_count++;
         if(peer_at_ignored){peer_at_ignored--;return;}
@@ -979,6 +992,103 @@ static void lifecycle_cases(void){
 }
 #endif
 
+#ifdef MP_LINK_RESILIENCE
+static void link_resilience_cases(void){
+    lifecycle_case();
+    gateway_network_close();
+    MpFrame will={.node=3,.stream=MP_GATEWAY_STATUS,.synthetic=true};
+    assert(gateway_network_open() && gateway_mqtt_open(&will));
+    PassLinkDrops drops={0};unsigned reentries=0;
+    const uint32_t delays[]={2000u,4000u,8000u,16000u,30000u};
+    for(unsigned i=0;i<20;i++){
+        if(i%5u==0){
+            MQTTPacketInfo_t packet={.type=MQTT_PACKET_TYPE_PUBACK};
+            MQTTDeserializedInfo_t decoded={.packetIdentifier=42,.deserializationResult=MQTTSuccess};
+            mqtt_event(&client,&packet,&decoded);
+            assert(gateway_mqtt_progress()==GW_FAILED);
+        }else{
+            terminal(i%2?"\r\nWIFI DISCONNECT\r\n":"\r\nCLOSED\r\n",0);
+            uint8_t byte;assert(esp_mqtt_recv(&byte,1,40)<0);
+        }
+        gateway_network_close();
+        uint32_t start=g_uptime_ms;
+        assert(gateway_link_retry(&drops,&reentries));
+        assert(g_uptime_ms-start==delays[i<5?i:4]);
+        assert(drops.total==i+1 && drops.consecutive==i+1 && reentries<=2);
+        if(i%5u==2u || i%5u==3u){
+            peer_fail_command=i%5u==2u?"AT+CIPSNTPCFG":"AT+CIPSTART";
+            assert(!gateway_network_open());gateway_network_close();
+            uint32_t acquire=2000;assert(gateway_passthrough_acquire(&acquire));
+            assert(drops.total==i+1 && drops.consecutive==i+1);
+            peer_fail_command=NULL;
+        }
+        assert(gateway_network_open() && gateway_mqtt_open(&will));
+    }
+    puts("PASS_AW_20_NETWORK_DROPS_CONTINUE_WITH_30_SECOND_CAP");
+    PassRecovery recovery={reentries,false};
+    assert(!pass_recovery_stable(&recovery,299999,0));
+    assert(pass_recovery_stable(&recovery,300000,0));
+    drops.consecutive=0;assert(drops.total==20 && pass_link_drop(&drops)==2000u && drops.total==21);
+    peer_stop=true;assert(!gateway_link_retry(&drops,&reentries));peer_stop=false;
+    puts("PASS_AW_STABLE_RESET_PRESERVES_TOTAL_AND_STOP_BLOCKS_RETRY");
+
+    gateway_network_close();
+    assert(gateway_network_open() && gateway_mqtt_open(&will));
+    client.appCallback=record_mqtt_event;
+    mp_router_init(&router);mp_router_online(&router,true);
+    B5Publisher publisher={0};
+    uint64_t utc=b5_data_utc();
+    MpFrame scalar={.node=2,.stream=MP_HR,.count=1,.valid=true,.synthetic=true,.timestamp=utc};
+    MpFrame wave={.node=2,.stream=MP_ECG,.rate=250,.count=50,.valid=true,.synthetic=true,.timestamp=utc};
+    peer_ack_ms=2500;
+    mp_router_put(&router,&scalar);
+    assert(b5_egress_step(&router,&publisher,true));
+    uint32_t began=g_uptime_ms;
+    stall_cut_at=telemetry[0].at+LINK_PUBACK_STALL_MS+1u;stall_qos0_bytes=0;
+    while(stall_cut_at-g_uptime_ms>10u){
+        tick();assert(b5_egress_step(&router,&publisher,true));
+    }
+    assert(gateway_mqtt_begin(&wave)==GW_COMPLETE);
+    assert(gateway_link_wave_paused());
+    assert(stall_qos0_bytes>0 && stall_qos0_bytes<=1024);
+    printf("PASS_AW_PACKET_CROSSING_THRESHOLD_QOS0_BYTES=%u\n",stall_qos0_bytes);
+    stall_cut_at=0;
+    uint32_t start_bytes=txcheck.bytes;
+    publisher.deferred=true;publisher.publishing=wave;publisher.publishing.seq=1;
+    for(unsigned i=2;i<=3;i++){
+        wave.seq=i;wave.timestamp=b5_data_utc();mp_router_put(&router,&wave);
+        assert(b5_egress_step(&router,&publisher,true));
+    }
+    assert(router.ln==3 && txcheck.bytes==start_bytes);
+    scalar.seq=1;scalar.timestamp=b5_data_utc();mp_router_put(&router,&scalar);
+    assert(b5_egress_step(&router,&publisher,true));
+    assert(publisher.tickets[1] && router.ln==3);
+    assert(router.held_packets==3 && router.held_bytes_upper==3u*(384u+12u*wave.count));
+    unsigned held_bytes=txcheck.bytes-start_bytes;
+    while(gateway_link_wave_paused()){
+        tick();assert(b5_egress_step(&router,&publisher,true));
+        assert(g_uptime_ms-began<4000u);
+    }
+    assert(txcheck.bytes>start_bytes && held_bytes<1024);
+    while(publisher.pending || router.ln){tick();assert(b5_egress_step(&router,&publisher,true));}
+    assert(publisher.q0==3 && publisher.q1==2 && !router.dropped);
+    printf("PASS_AW_STALL_QOS0_BYTES=0 QOS1_DURING_PAUSE=%u RESUME_NO_DUPLICATE scalar_acked=2\n",held_bytes);
+
+    gateway_network_close();assert(gateway_network_open() && gateway_mqtt_open(&will));
+    peer_ack_ms=55;delay_ms(10000);
+    assert(gateway_mqtt_begin(&scalar)==GW_PENDING && !gateway_link_wave_paused());
+    uint16_t id=gateway_mqtt_ticket();
+    while(gateway_mqtt_ticket_result(id)!=GW_COMPLETE){assert(gateway_mqtt_progress()!=GW_FAILED);tick();}
+    puts("PASS_AW_IDLE_WITHOUT_PENDING_IS_NOT_A_STALL");
+
+    peer_no_ack=true;assert(gateway_mqtt_begin(&scalar)==GW_PENDING);
+    uint32_t deadline=g_uptime_ms;
+    do {tick();}while(g_uptime_ms-deadline<5000u);
+    assert(gateway_mqtt_progress()==GW_FAILED);
+    puts("PASS_AW_ORIGINAL_5_SECOND_DEADLINE_PRESERVED");
+}
+#endif
+
 static void pass_fault_cases(void){
     uint8_t bytes[8];
     assert(platform_passthrough_enter() && pass_mode==PASS_STREAM);
@@ -1036,6 +1146,9 @@ int main(int argc,char **argv){
     if(argc==1){
         USART3->BRR=0x45;USART3->SR|=USART_SR_TC;
         platform_set_poll(tick);lifecycle_cases();
+#ifdef MP_LINK_RESILIENCE
+        link_resilience_cases();
+#endif
         assert(esp_uart_baud==115200u && USART3->BRR==0x45);
         return 0;
     }
@@ -1202,5 +1315,11 @@ int main(int argc,char **argv){
     }
     latency("json",&mqtt_metrics.json);latency("send",&mqtt_metrics.send);latency("puback",&mqtt_metrics.ack);
     latency("residence",&router.residence);latency("source_age",&router.source_age);
+#ifdef MP_LINK_RESILIENCE
+    GatewayLinkDiag link;gateway_link_diag(&link);
+    printf("link_res triggers=%lu paused_ms=%lu held_packets=%lu held_bytes_upper=%lu\n",
+        (unsigned long)link.triggers,(unsigned long)link.paused_ms,
+        (unsigned long)router.held_packets,(unsigned long)router.held_bytes_upper);
+#endif
     return identity_errors || duplicates || publisher.failed || platform_at_unsynced()?3:0;
 }

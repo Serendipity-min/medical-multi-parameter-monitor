@@ -40,6 +40,10 @@ typedef struct
     bool online, ready_for_replay;
     /* 饱和至 8 的实时成功配额，给持续负载下的历史帧保留发送机会。 */
     uint8_t live_credit;
+#ifdef MP_LINK_RESILIENCE
+    bool wave_paused;
+    uint32_t held_packets,held_bytes_upper;
+#endif
 #ifdef MP_OUTAGE_RETENTION
     MpRetention *retention;
     MpRetentionRing scalar_history,status_history;
@@ -59,6 +63,10 @@ typedef struct
 void mp_router_init(MpRouter *r);
 void mp_router_online(MpRouter *r, bool online);
 void mp_router_put(MpRouter *r, const MpFrame *f);
+#ifdef MP_LINK_RESILIENCE
+void mp_router_pause_wave(MpRouter *r,bool paused);
+void mp_router_return_wave(MpRouter *r,const MpFrame *f);
+#endif
 #ifdef MP_OUTAGE_RETENTION
 void mp_router_attach_retention(MpRouter *r,MpRetention *retention);
 void mp_router_retain_unsent(MpRouter *r,const MpFrame *f);

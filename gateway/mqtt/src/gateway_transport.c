@@ -62,6 +62,38 @@ typedef struct {uint16_t id;uint32_t at;int result;unsigned ack;
 #endif
 } TelemetryPending;
 static TelemetryPending telemetry[GATEWAY_TELEMETRY_SLOTS];
+#ifdef MP_LINK_RESILIENCE
+enum { LINK_PUBACK_STALL_MS=1500u };
+static GatewayLinkDiag link_diag;
+static uint32_t link_last_ack,link_pause_at;
+static bool link_paused;
+
+static void link_pause_update(bool paused){
+    if(paused==link_paused)return;
+    if(link_paused)link_diag.paused_ms+=g_uptime_ms-link_pause_at;
+    else link_diag.triggers++;
+    link_pause_at=g_uptime_ms;link_paused=paused;
+}
+
+bool gateway_link_wave_paused(void){
+    uint32_t oldest=0;
+    for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)
+        if(telemetry[i].id && !telemetry[i].ack && telemetry[i].result==GW_PENDING){
+            uint32_t age=g_uptime_ms-telemetry[i].at;
+            if(age>oldest)oldest=age;
+        }
+    uint32_t since_ack=g_uptime_ms-link_last_ack;
+    /* 空闲后新起的在途区间从事务起点算起，不能把空闲时间算成停滞。 */
+    bool paused=network.connected && oldest>LINK_PUBACK_STALL_MS && since_ack>LINK_PUBACK_STALL_MS;
+    link_pause_update(paused);
+    return paused;
+}
+
+void gateway_link_diag(GatewayLinkDiag *out){
+    *out=link_diag;
+    if(link_paused)out->paused_ms+=g_uptime_ms-link_pause_at;
+}
+#endif
 static uint16_t last_ticket;
 #ifdef MP_TRANSPORT_BENCH
 typedef struct {uint32_t seq,at;uint8_t node,stream,replay;} BenchAck;
@@ -240,6 +272,9 @@ static inline void secure_memzero(void *ptr, size_t len)
 
 static void mqtt_failed(void)
 {
+#ifdef MP_LINK_RESILIENCE
+    link_pause_update(false);
+#endif
 #ifdef MP_FINAL_UNIFIED
 #ifndef MP_AUDIO_DISABLED
     audio_pending=audio_acknowledged=0;audio_packet_id=0;audio_result=GW_FAILED;audio_subscribed=0;
@@ -297,6 +332,9 @@ static void mqtt_event(MQTTContext_t *context, MQTTPacketInfo_t *packet,
 #ifdef MP_FINAL_UNIFIED
     if(packet->type==MQTT_PACKET_TYPE_PUBACK && decoded->deserializationResult==MQTTSuccess){
         for(unsigned i=0;i<GATEWAY_TELEMETRY_SLOTS;i++)if(telemetry[i].id && decoded->packetIdentifier==telemetry[i].id){
+#ifdef MP_LINK_RESILIENCE
+            if(!telemetry[i].ack){link_last_ack=g_uptime_ms;link_pause_update(false);}
+#endif
 #ifdef MP_FIVE_FIELD01
             if(!telemetry[i].ack)ack_at[i]=g_uptime_ms;
 #endif
@@ -524,6 +562,9 @@ int gateway_mqtt_begin(const MpFrame *frame) {
 #ifdef MP_FINAL_UNIFIED
     if(!mqtt_online || !network.connected)return GW_FAILED;
     bool qos1=!frame->rate || frame->replay;
+#ifdef MP_LINK_RESILIENCE
+    if(!qos1 && gateway_link_wave_paused())return GW_DEFERRED;
+#endif
 #ifdef MP_FINAL_UNIFIED
     unsigned slot=0;while(slot<GATEWAY_TELEMETRY_SLOTS && telemetry[slot].id)slot++;
     if(qos1 && slot==GATEWAY_TELEMETRY_SLOTS)return GW_DEFERRED;
@@ -546,6 +587,9 @@ int gateway_mqtt_begin(const MpFrame *frame) {
     budget=send_budget();if(!budget)return GW_FAILED;
     /* coreMQTT调用前拒绝新事务；未发送不等于失败或已确认。 */
     if(!platform_send_admissible((unsigned)length+(unsigned)m.topicNameLength+9u,budget))return GW_DEFERRED;
+#ifdef MP_LINK_RESILIENCE
+    if(!qos1 && gateway_link_wave_paused())return GW_DEFERRED;
+#endif
     if(qos1){
         id=MQTT_GetPacketId(&client);next_packet_seed=client.nextPacketId;
 #ifdef MP_FINAL_UNIFIED
@@ -806,6 +850,18 @@ int gateway_passthrough_acquire(uint32_t *next_delay){
     delay_ms(pass_acquire_backoff(next_delay));
     return !b5_network_stopped();
 }
+
+#ifdef MP_LINK_RESILIENCE
+int gateway_link_retry(PassLinkDrops *drops,unsigned *reentries){
+    if(b5_network_stopped() || !platform_at_synchronized())return 0;
+    uint32_t delay=pass_link_drop(drops);
+    /* 保留既有软复位预算；网络断链累计次数另行统计。 */
+    if(*reentries<PASS_REENTRY_MAX-1u)(*reentries)++;
+    console("GW PASS_REENTRY_BACKOFF\r\n");delay_ms(delay);
+    if(b5_network_stopped())return 0;
+    console("GW PASS_REENTRY_ATTEMPT\r\n");return 1;
+}
+#endif
 
 int gateway_passthrough_retry(unsigned *reentries)
 {
