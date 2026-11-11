@@ -12,7 +12,7 @@ for (const mode of ['production', 'five-appliance']) {
     bundle: true, format: 'esm', platform: 'node', write: false,
     define: { 'import.meta.env.MODE': JSON.stringify(mode) } });
   const m = await import('data:text/javascript;base64,' + Buffer.from(bundle.outputFiles[0].text).toString('base64'));
-  const gateway = mode === 'five-appliance' ? 'GW-B5-001' : 'GW-DEV-001';
+  const gateway = mode === 'five-appliance' ? 'GW-B5-001' : 'GW-C-001';
   assert.equal(m.defaultGateway, gateway);
   assert.equal(new m.MonitorSocket({}).getGatewayId(), gateway);
   assert.equal(m.getEmptyViewModel().gatewayId, gateway);
