@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "target": "FIVE_APPLIANCE_C_2S_V1",
+  "erase_sectors": [
+    0,
+    4
+  ],
+  "sector4_owner_approval_required": true,
+  "images": [
+    {
+      "address": 134217728,
+      "bytes": 392,
+      "file": "FIVE_APPLIANCE_C_2S_V1-boot.bin",
+      "SHA256": "1692cd7fe7a84e99bce8ae4708ad2a7c7d88280a9e6d2a4a42836a1dea5461bb"
+    },
+    {
+      "address": 134283264,
+      "bytes": 58480,
+      "file": "FIVE_APPLIANCE_C_2S_V1-code.bin",
+      "SHA256": "0fa2e77469ba02d213541118219f15cd285536edfe45575cf3518f42d2aab922"
+    }
+  ],
+  "HEX": {
+    "file": "FIVE_APPLIANCE_C_2S_V1.hex",
+    "SHA256": "ea8a6a8cee368ad2d5ac39328dcd6e2e0d213f743678236365117237d114fbc7"
+  },
+  "sector3_options_and_all_other_sectors": "PRESERVE",
+  "audio_enabled": false
+}
