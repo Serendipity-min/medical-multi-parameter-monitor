@@ -14,6 +14,8 @@ export class WaveformRenderer {
   private animFrameId = 0;
   // 幅值范围平滑跟随，避免每帧自动缩放造成波形跳动。
   private ranges: Partial<Record<WaveChannel, { low: number; high: number }>> = {};
+  // 扫描起点取该通道首个采样时刻，使第一轮从屏幕左端开始写，而不是从中间。
+  private origins: Partial<Record<WaveChannel, number>> = {};
 
   constructor(private store: MonitorStore) {}
 
@@ -58,7 +60,8 @@ export class WaveformRenderer {
       if (!prepared) continue;
       const { ctx, width, height } = prepared;
       const points = this.store.displayBuffer(channel).filter((p) => now - p.t <= windowMs && Number.isFinite(p.y));
-      if (!points.length) { delete this.ranges[channel]; continue; }
+      if (!points.length) { delete this.ranges[channel]; delete this.origins[channel]; continue; }
+      const origin = this.origins[channel] === undefined || points[0].t < this.origins[channel]! ? (this.origins[channel] = points[0].t) : this.origins[channel]!;
       let low = Infinity, high = -Infinity;
       for (const p of points) { if (p.y < low) low = p.y; if (p.y > high) high = p.y; }
       const range = this.ranges[channel];
@@ -70,14 +73,14 @@ export class WaveformRenderer {
       }
       const { low: lo, high: hi } = this.ranges[channel]!;
       const span = hi - lo || 1;
-      const cursor = (now % windowMs) / windowMs;
+      const cursor = ((now - origin) % windowMs) / windowMs;
       ctx.strokeStyle = WAVE_COLORS[channel];
       ctx.lineWidth = channel === 'ECG' ? 2.2 : 2;
       ctx.lineJoin = 'round';
       ctx.beginPath();
       let lastX = -1;
       for (const point of points) {
-        const position = (point.t % windowMs) / windowMs;
+        const position = ((point.t - origin) % windowMs) / windowMs;
         // 擦除间隙内是上一轮扫描的旧数据，不绘制。
         const ahead = (position - cursor + 1) % 1;
         if (ahead > 0 && ahead < ERASE_FRACTION) { lastX = -1; continue; }

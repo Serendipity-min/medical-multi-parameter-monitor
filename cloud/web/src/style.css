@@ -137,8 +137,9 @@ button[aria-pressed="true"] { background: #e8e8e8; color: #000; border-color: #e
 
 /* 趋势页 */
 .trends { height: 100%; display: grid; grid-template-columns: 15em minmax(0, 1fr) 30em; }
-.trend-tabs { display: flex; flex-direction: column; gap: .3em; padding: 1em; border-right: 1px solid var(--line); }
-.trend-tabs button { text-align: left; padding: .8em 1em; font-size: 1.1em; border-left: .3em solid var(--c); background: #0e1013; }
+/* 六个参数按钮均分整列高度 */
+.trend-tabs { display: grid; grid-template-rows: repeat(6, minmax(0, 1fr)); gap: .5em; padding: 1em; border-right: 1px solid var(--line); min-height: 0; }
+.trend-tabs button { text-align: left; padding: .8em 1.2em; font-size: 1.35em; font-weight: 500; border-left: .3em solid var(--c); background: #0e1013; }
 .trend-tabs button[aria-pressed="true"] { background: #1c1f24; color: var(--c); border-color: #2a2e35; border-left-color: var(--c); }
 .trend-chart, .trend-table { display: flex; flex-direction: column; min-height: 0; padding: 1em 1.2em; }
 .trend-table { border-left: 1px solid var(--line); }
