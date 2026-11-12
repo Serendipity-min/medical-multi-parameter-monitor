@@ -36,6 +36,7 @@ def create_app() -> FastAPI:
         if len(view_token) < 32:
             raise RuntimeError('Configure a view token of at least 32 characters')
         app.state.tokens = {'view': view_token}
+        app.state.public_view = os.environ.get('MONITOR_PUBLIC_VIEW') == '1'
         app.state.origins = set(
             os.environ.get('MONITOR_ALLOWED_ORIGINS', 'http://127.0.0.1:5173').split(',')
         )
@@ -90,16 +91,17 @@ def create_app() -> FastAPI:
             return False
         await ws.accept()
         try:
-            # 首帧鉴权避免 Token 出现在 URL、Nginx 日志及浏览器历史中。
+            # 公开查看仍要求受限的 JSON 首帧，令牌仅在私有查看时比对。
             raw = await asyncio.wait_for(receive_text_frame(ws), 5)
+            if len(raw) > 4096:
+                raise ValueError('authentication rejected')
             data = json.loads(raw)
-            token = data.get('token', '') if isinstance(data, dict) else ''
-            if (
-                len(raw) > 4096
-                or not isinstance(token, str)
-                or not token.isascii()
-                or not secrets.compare_digest(token, app.state.tokens[role])
-            ):
+            if not isinstance(data, dict):
+                raise ValueError('authentication rejected')
+            token = data.get('token', '')
+            public_view = role == 'view' and app.state.public_view
+            if (not isinstance(token, str) or not token.isascii()
+                    or (not public_view and not secrets.compare_digest(token, app.state.tokens[role]))):
                 raise ValueError('authentication rejected')
             gateway = data.get('gateway_id', app.state.hub.gateways[0])
             if gateway not in app.state.hub.gateways:

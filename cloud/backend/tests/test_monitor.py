@@ -222,7 +222,12 @@ def test_wave_overload_is_bounded_and_explicitly_disconnects():
     assert queue.qsize()==1 and queue.get_nowait() is None
 
 
-def test_browser_auth_and_no_device_ingest(monkeypatch):
+@pytest.mark.parametrize('public_flag', [None, '0'])
+def test_browser_auth_and_no_device_ingest(monkeypatch, public_flag):
+    if public_flag is None:
+        monkeypatch.delenv('MONITOR_PUBLIC_VIEW', raising=False)
+    else:
+        monkeypatch.setenv('MONITOR_PUBLIC_VIEW', public_flag)
     monkeypatch.setenv('MONITOR_TESTING', '1')
     monkeypatch.delenv('MONITOR_MQTT_CONFIG', raising=False)
     monkeypatch.setenv('MONITOR_VIEW_TOKEN', 'unit-test-view-token-not-production-123')
@@ -241,9 +246,62 @@ def test_browser_auth_and_no_device_ingest(monkeypatch):
             )
             assert ws.receive_json()['gateway_id'] == 'GW-C-001'
         assert not app.state.hub.subscribers
-        with pytest.raises(WebSocketDisconnect):
-            with client.websocket_connect(
-                '/ws/v1/monitor', headers={'origin': 'http://testserver'}
-            ) as ws:
-                ws.send_json({'token': 'wrong'})
-                ws.receive_json()
+        for hello in ({'token': 'wrong'}, {'gateway_id': 'GW-C-001'}):
+            with pytest.raises(WebSocketDisconnect) as closed:
+                with client.websocket_connect(
+                    '/ws/v1/monitor', headers={'origin': 'http://testserver'}
+                ) as ws:
+                    ws.send_json(hello)
+                    ws.receive_json()
+            assert closed.value.code == 1008
+
+
+@pytest.fixture
+def public_view_client(monkeypatch):
+    monkeypatch.setenv('MONITOR_TESTING', '1')
+    monkeypatch.delenv('MONITOR_MQTT_CONFIG', raising=False)
+    monkeypatch.setenv('MONITOR_VIEW_TOKEN', 'synthetic-public-view-test-token-12345')
+    monkeypatch.setenv('MONITOR_PUBLIC_VIEW', '1')
+    monkeypatch.setenv('MONITOR_ALLOWED_ORIGINS', 'http://testserver')
+    monkeypatch.setenv('MONITOR_GATEWAY_IDS', 'GW-C-001')
+    with TestClient(create_app()) as client:
+        yield client
+
+
+@pytest.mark.parametrize('hello', [{}, {'token': ''}, {'token': 'wrong'}])
+def test_public_view_accepts_missing_empty_or_wrong_token(public_view_client, hello):
+    with public_view_client.websocket_connect('/ws/v1/monitor', headers={'origin': 'http://testserver'}) as ws:
+        ws.send_json({**hello, 'gateway_id': 'GW-C-001'})
+        assert ws.receive_json()['gateway_id'] == 'GW-C-001'
+
+
+@pytest.mark.parametrize('headers', [{}, {'origin': 'http://unlisted.invalid'}])
+def test_public_view_requires_allowed_origin(public_view_client, headers):
+    with pytest.raises(WebSocketDisconnect) as closed:
+        with public_view_client.websocket_connect('/ws/v1/monitor', headers=headers):
+            pytest.fail('Origin should be rejected before accept')
+    assert closed.value.code == 1008
+
+
+@pytest.mark.parametrize('hello', [{'gateway_id': 'GW-DEV-001'}, [], {'token': None}, {'token': '非ASCII'}])
+def test_public_view_rejects_unlisted_gateway_or_invalid_hello(public_view_client, hello):
+    with public_view_client.websocket_connect('/ws/v1/monitor', headers={'origin': 'http://testserver'}) as ws:
+        ws.send_json(hello)
+        with pytest.raises(WebSocketDisconnect) as closed:
+            ws.receive_json()
+        assert closed.value.code == 1008
+
+
+def test_public_view_still_requires_first_frame(public_view_client):
+    with public_view_client.websocket_connect('/ws/v1/monitor', headers={'origin': 'http://testserver'}) as ws:
+        with pytest.raises(WebSocketDisconnect) as closed:
+            ws.receive_json()
+        assert closed.value.code == 1008
+
+
+def test_public_view_keeps_startup_token_requirement(monkeypatch):
+    monkeypatch.setenv('MONITOR_PUBLIC_VIEW', '1')
+    monkeypatch.delenv('MONITOR_VIEW_TOKEN', raising=False)
+    with pytest.raises(RuntimeError, match='Configure a view token'):
+        with TestClient(create_app()):
+            pytest.fail('Startup should require a configured token')
