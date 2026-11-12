@@ -13,6 +13,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef MP_TTS_BROADCAST
+#include "tts_broadcast.h"
+static MQTTPubAckInfo_t broadcast_incoming[1];
+static uint16_t broadcast_subscription;
+static bool broadcast_subscribed;
+#endif
 #ifdef MP_FINAL_UNIFIED
 #include "unified_audio.h"
 #include "mic_protocol.h"
@@ -295,6 +301,30 @@ static void mqtt_failed(void)
 static void mqtt_event(MQTTContext_t *context, MQTTPacketInfo_t *packet,
                        MQTTDeserializedInfo_t *decoded)
 {
+#ifdef MP_TTS_BROADCAST
+    if (context == &client) {
+        if (packet->type == MQTT_PACKET_TYPE_SUBACK && broadcast_subscription &&
+            decoded->packetIdentifier == broadcast_subscription) {
+            uint8_t *codes = NULL;
+            size_t count = 0;
+            broadcast_subscribed = decoded->deserializationResult == MQTTSuccess &&
+                                   MQTT_GetSubAckStatusCodes(packet, &codes, &count) == MQTTSuccess &&
+                                   count == 1 && codes[0] == MQTTQoS1;
+            broadcast_subscription = 0;
+            return;
+        }
+        if (decoded->deserializationResult == MQTTSuccess &&
+            (packet->type & 0xf0u) == MQTT_PACKET_TYPE_PUBLISH) {
+            MQTTPublishInfo_t *p = decoded->pPublishInfo;
+            if (p && p->topicNameLength == sizeof(TTS_BROADCAST_TOPIC) - 1u &&
+                !memcmp(p->pTopicName, TTS_BROADCAST_TOPIC, sizeof(TTS_BROADCAST_TOPIC) - 1u)) {
+                if (broadcast_subscribed && p->qos == MQTTQoS1 && !p->retain)
+                    (void)tts_broadcast_offer(p->pPayload, p->payloadLength, b5_data_utc());
+                return;
+            }
+        }
+    }
+#endif
 #if defined(MP_FINAL_UNIFIED) && !defined(MP_AUDIO_DISABLED)
     if(context==&client && decoded->deserializationResult==MQTTSuccess) {
         if(packet->type==MQTT_PACKET_TYPE_SUBACK && decoded->packetIdentifier==audio_subscription) {
@@ -410,6 +440,11 @@ int gateway_mqtt_open(const MpFrame *will_frame)
     }
     session_error = acknowledged = partial_waiting = mqtt_online = 0;
     pending_id = 0;
+#ifdef MP_TTS_BROADCAST
+    broadcast_subscription = 0;
+    broadcast_subscribed = false;
+    memset(broadcast_incoming, 0, sizeof broadcast_incoming);
+#endif
 #ifdef MP_FINAL_UNIFIED
 #ifndef MP_AUDIO_DISABLED
     audio_pending=audio_acknowledged=0;audio_packet_id=0;audio_result=GW_DEFERRED;audio_subscribed=0;audio_subscription=0;
@@ -431,6 +466,8 @@ int gateway_mqtt_open(const MpFrame *will_frame)
         status = MQTT_InitStatefulQoS(&client, outgoing, sizeof outgoing/sizeof outgoing[0],
 #if defined(MP_FINAL_UNIFIED) && !defined(MP_AUDIO_DISABLED)
                                      incoming, 1);
+#elif defined(MP_TTS_BROADCAST)
+                                     broadcast_incoming, 1);
 #else
                                      NULL, 0);
 #endif
@@ -467,6 +504,17 @@ int gateway_mqtt_open(const MpFrame *will_frame)
     console(ok ? "GW MQTT_CONNECTED\r\n" : "GW FAIL MQTT_CONNECT\r\n");
     return ok;
 }
+
+#ifdef MP_TTS_BROADCAST
+void gateway_tts_broadcast_subscribe(void)
+{
+    MQTTSubscribeInfo_t subscription = {MQTTQoS1, TTS_BROADCAST_TOPIC, sizeof(TTS_BROADCAST_TOPIC) - 1u};
+    broadcast_subscription = MQTT_GetPacketId(&client);
+    next_packet_seed = client.nextPacketId;
+    mqtt_adapter_begin(&network, 5000u);
+    if (MQTT_Subscribe(&client, &subscription, 1, broadcast_subscription) != MQTTSuccess) mqtt_failed();
+}
+#endif
 
 /* 序列化失败直接返回给 Router 回存；不能把截断的 JSON 当作成功消息发送。 */
 int gateway_mqtt_publish(const MpFrame *frame)

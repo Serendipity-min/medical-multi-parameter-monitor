@@ -1,5 +1,5 @@
 #include "tts_uart_port.h"
-#if defined(MP_TTS_BENCH) || defined(MP_CLOUD_VOICE)
+#if defined(MP_TTS_BENCH) || defined(MP_CLOUD_VOICE) || defined(MP_TTS_BROADCAST)
 #include "stm32f4xx.h"
 #include "stm32f4xx_gpio.h"
 #include "stm32f4xx_rcc.h"

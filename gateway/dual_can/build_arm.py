@@ -31,6 +31,7 @@ def main():
     parser.add_argument('--tx-integrity-diag', action='store_true', help='WP-AU 透传发送完整性诊断，只构建')
     parser.add_argument('--link-resilience', action='store_true', help='WP-AW 网络长退避与 QoS0 停滞节流，只构建')
     parser.add_argument('--formal-cloud', action='store_true', help='WP-AY0 五板正式云身份、TLS 8883 与 LIVE 遥测，只构建')
+    parser.add_argument('--tts-broadcast', action='store_true', help='WP-AZ 正式云透传与 USART2 喇叭播报，只构建')
     parser.add_argument('--five-node', action='store_true', help='五板静态来源候选；仅离线构建')
     parser.add_argument('--five-appliance', action='store_true', help='五板自动启动/KEY1/事实回复候选；仅离线构建，不部署')
     parser.add_argument('--field01', action='store_true', help='Issue #8 手动单窗网络探针，只构建')
@@ -42,6 +43,8 @@ def main():
     parser.add_argument('--split-flash', action='store_true', help='统一候选分段布局：sector0向量、sector4代码；只构建，写sector4另需负责人确认')
     parser.add_argument('--tls-port',type=int,help='统一候选的隔离TLS入口，默认1883；不更改原B5的8883目标')
     args = parser.parse_args()
+    if args.tts_broadcast and not (args.formal_cloud and args.esp_passthrough):
+        parser.error('--tts-broadcast requires --formal-cloud and --esp-passthrough')
     if args.formal_cloud and (not (args.five_appliance and args.link_resilience) or
                               args.tls_port not in (None,8883)):
         parser.error('--formal-cloud requires five-appliance WP-AX and TLS port 8883')
@@ -178,6 +181,9 @@ def main():
     if args.no_audio:
         sources += [ROOT/'gateway/microphone'/n for n in ('mic_format.c','mic_protocol.c')]
         flags += ['-DMP_AUDIO_DISABLED','-I'+str(ROOT/'gateway/microphone')]
+    if args.tts_broadcast:
+        sources += [ROOT/'gateway/voice'/n for n in ('tts_frame.c','tts_queue.c','tts_uart_port.c','tts_broadcast.c')]
+        flags += ['-DMP_TTS_BROADCAST','-I'+str(ROOT/'gateway/voice')]
     if args.unified:flags += ['-DMP_FINAL_UNIFIED',f'-DMP_MQTT_TLS_PORT={tls_port}']
     linker = ROOT/'gateway/b5/flash.ld' if args.b5 else (HERE/'bench_flash.ld' if args.bench else ROOT/'gateway/mqtt/STM32F407ZGT6_FLASH.ld')
     if audio:
@@ -278,7 +284,15 @@ def main():
             if args.no_audio:
                 assert table.get('SysTick_Handler',(0,'W'))[1]=='T'
                 assert int.from_bytes(image[60:64],'little')==table['SysTick_Handler'][0]|1
-                assert all(table.get(n,(0,'W'))[1]!='T' for n in ('DMA1_Stream0_IRQHandler','USART2_IRQHandler'))
+                assert table.get('DMA1_Stream0_IRQHandler',(0,'W'))[1]!='T'
+                if args.tts_broadcast:
+                    assert table.get('USART2_IRQHandler',(0,'W'))[1]=='T'
+                    assert int.from_bytes(image[216:220],'little')==table['USART2_IRQHandler'][0]|1
+                    assert {n for n,(_,kind) in table.items() if kind=='T' and n.endswith('_IRQHandler')} == {
+                        'CAN1_RX0_IRQHandler','CAN2_RX0_IRQHandler','USART3_IRQHandler','USART2_IRQHandler'}
+                    assert not any(n.startswith(('I2S_', 'mic_capture', 'mic_bench', 'dma_words')) for n in table)
+                else:
+                    assert table.get('USART2_IRQHandler',(0,'W'))[1]!='T'
                 code_image=(out/(target+'-code.bin')).read_bytes() if args.split_flash else image
                 assert b'mpm/mic/v1/' not in code_image
             if len(image)>49152 or any(n.encode() in symbols for n in ('FLASH_EraseSector','FLASH_ProgramWord')):
@@ -326,6 +340,8 @@ def main():
             if args.formal_cloud:
                 layout['formal_cloud'] = True
                 layout['gateway_id'] = gateway_id
+            if args.tts_broadcast:
+                layout['tts_broadcast'] = True
             (out/'unified-layout.json').write_text(json.dumps(layout,indent=2)+'\n')
         status = 'PASS'
     except RuntimeError as error:

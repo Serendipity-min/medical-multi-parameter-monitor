@@ -51,7 +51,8 @@ def create_app() -> FastAPI:
         # 单元测试可显式关闭网络；正式启动缺少配置立即失败，避免假健康。
         if not config and os.environ.get('MONITOR_TESTING') != '1':
             raise RuntimeError('MONITOR_MQTT_CONFIG is required')
-        adapter = MqttAdapter(app.state.hub, config) if config else None
+        adapter = MqttAdapter(app.state.hub, config,
+                              broadcast_device=os.environ.get('MONITOR_BROADCAST_DEVICE') == '1') if config else None
         app.state.adapter = adapter
         mqtt_task = asyncio.create_task(adapter.run()) if adapter else None
 

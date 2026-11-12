@@ -1,15 +1,18 @@
 """用合成采集序列验证播报门禁、时钟和快照契约。"""
 
 import sys
+import json
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 from fastapi.testclient import TestClient
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from app.broadcast import DISCLAIMER, GATEWAY, blood_pressure
+from app.broadcast import DEVICE_TOPIC, DISCLAIMER, GATEWAY, blood_pressure, device_frame
 from app.hub import Hub
 from app.main import create_app
+from app.mqtt_adapter import MqttAdapter
 from app.models import CHANNELS, NODE_PROFILE, UNITS, Telemetry
 
 EPOCH = 1_700_000_000
@@ -61,6 +64,83 @@ class Feed:
 ])
 def test_blood_pressure_thresholds(sys, dia, label, level):
     assert blood_pressure(sys, dia) == (label, level)
+
+
+@pytest.mark.parametrize('stream,value,speech', [
+    ('TEMP', 31.3, '体表温度约31.3摄氏度'),
+    ('NIBP', [108, 71], '血压，收缩压108，舒张压71，毫米汞柱，在一般参考范围内，建议静坐5分钟后复测'),
+    ('SPO2', 85.0, '请检查指夹佩戴后复测血氧'),
+    ('PR', 45.0, '请静坐后复测脉率'),
+    ('HR', 120.0, '请静坐后复测心率'),
+])
+def test_device_speech_table(stream, value, speech):
+    feed = Feed(hr=True)
+    for t in range({'NIBP': 1, 'TEMP': 61}.get(stream, 181)):
+        feed.t = t
+        feed.send(stream, value)
+    item = feed.snapshot()['broadcast']
+    assert item['speech'] == speech and len(speech.encode('utf-8')) <= 200
+    assert DISCLAIMER not in speech and item['disclaimer'] == DISCLAIMER
+
+
+def test_device_frame_golden_bytes():
+    assert device_frame(0x0102030405060708, '测') == bytes.fromhex(
+        '4d504231 01 0102030405060708 00003a98 0003 e6b58b'
+    )
+    with pytest.raises(ValueError):
+        device_frame(1, '测' * 67)
+
+
+def device_adapter(feed, tmp_path, monkeypatch, publish, **options):
+    path = tmp_path / 'mqtt.json'
+    path.write_text(json.dumps({'client_id': 'synthetic'}), encoding='utf-8')
+    monkeypatch.setattr('app.mqtt_adapter.configured_client', lambda *_: SimpleNamespace(publish=publish))
+    adapter = MqttAdapter(feed.hub, str(path), **options)
+    adapter.connected = True
+    return adapter
+
+
+def test_device_default_off_and_same_millisecond_ordering(tmp_path, monkeypatch):
+    sent = []
+
+    def publish(topic, payload, **flags):
+        sent.append((topic, payload, flags))
+        return SimpleNamespace(rc=0)
+
+    feed = Feed()
+    device_adapter(feed, tmp_path, monkeypatch, publish)
+    assert feed.send('NIBP', [108, 71]) and feed.snapshot()['broadcast']
+    assert sent == []
+
+    feed = Feed()
+    adapter = device_adapter(feed, tmp_path, monkeypatch, publish, broadcast_device=True)
+    for t in range(61):
+        feed.t = t
+        feed.send('TEMP', 31.3)
+    feed.send('NIBP', [108, 71])
+    feed.send('NIBP', [108, 71])  # 重复采集时刻不再生成播报。
+    adapter.publish_broadcast((EPOCH + 59) * 1000, '测试')
+    assert len(sent) == 3
+    assert all(topic == DEVICE_TOPIC and flags == {'qos': 1, 'retain': False} for topic, _, flags in sent)
+    assert [int.from_bytes(payload[5:13], 'big') for _, payload, _ in sent] == [
+        (EPOCH + 60) * 1000 + i for i in range(3)
+    ]
+
+
+@pytest.mark.parametrize('raises', [False, True])
+def test_device_publish_failure_does_not_break_ingest(tmp_path, monkeypatch, raises):
+    def publish(*args, **kwargs):
+        if raises:
+            raise OSError('synthetic publish failure')
+        return SimpleNamespace(rc=4)
+
+    feed = Feed()
+    adapter = device_adapter(feed, tmp_path, monkeypatch, publish, broadcast_device=True)
+    logs = []
+    monkeypatch.setattr(adapter.log, 'emit', lambda *event: logs.append(event))
+    assert feed.send('NIBP', [108, 71])
+    assert feed.snapshot()['broadcast']['param'] == 'NIBP'
+    assert logs == [('mqtt_broadcast_failed', 'warning')]
 
 
 @pytest.mark.parametrize('age_ms,emits', [(89_999, True), (90_000, False), (90_001, False)])

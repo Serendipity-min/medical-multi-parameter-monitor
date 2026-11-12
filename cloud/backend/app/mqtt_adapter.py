@@ -8,6 +8,7 @@ import ssl
 from pathlib import Path
 import paho.mqtt.client as mqtt
 from .adapters import decode_mqtt
+from .broadcast import DEVICE_TOPIC, device_frame
 from .diagnostics import EventLog
 
 
@@ -34,7 +35,7 @@ def configured_client(config: dict, client_id: str):
 
 
 class MqttAdapter:
-    def __init__(self, hub, config_path: str):
+    def __init__(self, hub, config_path: str, *, broadcast_device=False):
         self.hub = hub
         self.config = json.loads(Path(config_path).read_text(encoding='utf-8-sig'))
         self.pending = queue.Queue(maxsize=256)
@@ -48,6 +49,22 @@ class MqttAdapter:
         self.client.on_message = self.on_message
         self.client.on_subscribe = self.on_subscribe
         self.client.on_connect_fail = self.on_connect_fail
+        self.last_issued_ms = 0
+        if broadcast_device and hub.broadcast is not None:
+            hub.broadcast.on_emit = self.publish_broadcast
+
+    def publish_broadcast(self, now_ms, speech):
+        issued_ms = max(now_ms, self.last_issued_ms + 1)
+        try:
+            if self.connected:
+                self.last_issued_ms = issued_ms
+                if self.client.publish(DEVICE_TOPIC, device_frame(issued_ms, speech),
+                                       qos=1, retain=False).rc == mqtt.MQTT_ERR_SUCCESS:
+                    return
+        except Exception:
+            # 播报支路故障不能中断遥测摄入；日志不带载荷或异常详情。
+            pass
+        self.log.emit('mqtt_broadcast_failed', 'warning')
 
     def on_connect_fail(self, client, userdata):
         self.attempts += 1

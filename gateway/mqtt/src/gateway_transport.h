@@ -20,6 +20,9 @@ int gateway_uart_negotiation_failed(void);
 int gateway_preflight(uint32_t target,uint32_t deadline);
 #endif
 int gateway_mqtt_open(const MpFrame *will);
+#ifdef MP_TTS_BROADCAST
+void gateway_tts_broadcast_subscribe(void);
+#endif
 int gateway_mqtt_publish(const MpFrame *frame);
 int gateway_mqtt_yield(void);
 void gateway_network_close(void);

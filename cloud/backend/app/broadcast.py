@@ -4,6 +4,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from itertools import count
 from statistics import median
+from struct import Struct
 
 from .models import Telemetry
 
@@ -24,6 +25,17 @@ SYS_HIGH, DIA_HIGH = 140, 90
 SPO2_LOW = 90
 PULSE_LOW, PULSE_HIGH = 60, 100
 IDS = count(1)
+DEVICE_TOPIC = f'mpm/v1/{GATEWAY}/voice/broadcast'
+DEVICE_TTL_MS = 15_000
+DEVICE_TEXT_MAX = 200
+DEVICE_HEADER = Struct('>4sBQIH')
+
+
+def device_frame(issued_ms: int, speech: str) -> bytes:
+    text = speech.encode('utf-8')
+    if not 0 < len(text) <= DEVICE_TEXT_MAX:
+        raise ValueError('broadcast speech length')
+    return DEVICE_HEADER.pack(b'MPB1', 1, issued_ms, DEVICE_TTL_MS, len(text)) + text
 
 
 def blood_pressure(systolic: float, diastolic: float) -> tuple[str, str]:
@@ -58,6 +70,7 @@ class BroadcastEngine:
         self.last_nibp: tuple[str, int] | None = None
         self.gateway_session: str | None = None
         self.online_since: int | None = None
+        self.on_emit = None
 
     def sync_gateway(self, online: Telemetry | None):
         if online is None or online.session_id != self.gateway_session:
@@ -86,7 +99,7 @@ class BroadcastEngine:
                 sys, dia = message.value
                 label, level = blood_pressure(sys, dia)
                 self.emit(param, level, f'本次血压约 {sys:g}/{dia:g} mmHg，{label}。建议静坐 5 分钟后复测。',
-                          now, now_ms)
+                          f'血压，收缩压{sys:g}，舒张压{dia:g}，毫米汞柱，{label}，建议静坐5分钟后复测', now, now_ms)
             return
         if age_ms >= SCALAR_MAX_AGE_MS or message.validity in ('STALE', 'OFFLINE'):
             self.windows.clear()
@@ -106,7 +119,7 @@ class BroadcastEngine:
         if param == 'TEMP':
             if now - window.started >= TEMP_READY_S:
                 self.emit(param, 'info', f'当前体表温度约 {message.value:.1f} °C（体表温度低于体温，不作判断）。',
-                          now, now_ms)
+                          f'体表温度约{message.value:.1f}摄氏度', now, now_ms)
             return
 
         window.samples.append((now, message.value))
@@ -122,15 +135,18 @@ class BroadcastEngine:
             window.outside_since = now
         elif now - window.outside_since >= SUSTAINED_S:
             text = {'SPO2': '请检查指夹佩戴后复测。', 'PR': '请静坐后复测脉率。', 'HR': '请静坐后复测心率。'}
-            self.emit(param, 'notice', text[param], now, now_ms)
+            speech = '请检查指夹佩戴后复测血氧' if param == 'SPO2' else text[param].removesuffix('。')
+            self.emit(param, 'notice', text[param], speech, now, now_ms)
 
-    def emit(self, param, level, text, now, now_ms):
+    def emit(self, param, level, text, speech, now, now_ms):
         if param != 'NIBP':
             if now - self.emitted_at.get(param, float('-inf')) < REPEAT_INTERVAL_S:
                 return
             self.emitted_at[param] = now
         self.history.appendleft({'id': str(next(IDS)), 'ts': now_ms, 'param': param, 'level': level,
-                                 'text': text, 'disclaimer': DISCLAIMER})
+                                 'text': text, 'disclaimer': DISCLAIMER, 'speech': speech})
+        if self.on_emit is not None:
+            self.on_emit(now_ms, speech)
 
     def fields(self, now_ms: int) -> dict:
         self.expire_windows(self.monotonic(), now_ms)

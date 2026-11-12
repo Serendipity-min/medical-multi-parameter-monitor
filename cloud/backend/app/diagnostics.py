@@ -29,6 +29,7 @@ EVENTS = {
     'mqtt_subscribed',
     'mqtt_connect_failed',
     'mqtt_metrics',
+    'mqtt_broadcast_failed',
     'backend_stopped',
 }
 FIELDS = {

@@ -130,11 +130,25 @@ bool unified_audio_fact_current(unsigned node,unsigned stream,uint32_t seq_no,ui
 void tts_uart_init(void){}
 static unsigned tts_queued;
 static bool tts_tx_completed;
+#ifdef MP_TTS_BROADCAST
+static bool az_poll;
+static unsigned az_status, az_written, az_pubacks;
+static uint8_t az_uart[TTS_FRAME_MAX], az_suback_grant=1;
+static int az_write(void *ctx,uint8_t byte){
+    (void)ctx;assert(az_written<sizeof az_uart);az_uart[az_written++]=byte;return 1;
+}
+static bool az_idle(void *ctx){(void)ctx;return true;}
+#endif
 static int tts_write(void *ctx,uint8_t byte){(void)ctx;(void)byte;tts_queued++;return 1;}
 static bool tts_idle(void *ctx){(void)ctx;tts_tx_completed=true;return true;}
 static void tts_abort(void *ctx){(void)ctx;}
 TtsIo tts_uart_io(void){return (TtsIo){NULL,tts_write,tts_idle,tts_abort};}
-int tts_uart_receive(void){if(tts_queued==9 && tts_tx_completed){tts_queued=0;return 0x41;}return -1;}
+int tts_uart_receive(void){
+#ifdef MP_TTS_BROADCAST
+    if(az_status)return --az_status?0x41:0x4f;
+#endif
+    if(tts_queued==9 && tts_tx_completed){tts_queued=0;return 0x41;}return -1;
+}
 uint32_t tts_uart_errors(void){return 0;}
 uint32_t tts_uart_overflow(void){return 0;}
 
@@ -211,7 +225,16 @@ static void mqtt_packet(void){
     if(type==12){peer_reply((const uint8_t[]){0xd0,0},2,0);return;}
     unsigned pos=1;
     while(wire_packet[pos++]&128u){}
-    if(type==8){peer_reply((const uint8_t[]){0x90,3,wire_packet[pos],wire_packet[pos+1],1},5,0);return;}
+#ifdef MP_TTS_BROADCAST
+    if(type==4 && az_poll){assert(wire_packet[pos]==0 && wire_packet[pos+1]==77);az_pubacks++;return;}
+#endif
+    if(type==8){
+        uint8_t grant=1;
+#ifdef MP_TTS_BROADCAST
+        grant=az_suback_grant;
+#endif
+        peer_reply((const uint8_t[]){0x90,3,wire_packet[pos],wire_packet[pos+1],grant},5,0);return;
+    }
     if(type!=3)return;
     unsigned topic_length=256u*wire_packet[pos]+wire_packet[pos+1];pos+=2;
     observe_publish(pos,topic_length);
@@ -455,6 +478,9 @@ static void put(unsigned node,unsigned stream,unsigned rate,unsigned count,int v
     f.replay=false;mp_router_put(&router,&f);
 }
 static void tick(void){
+#ifdef MP_TTS_BROADCAST
+    if(az_poll){unsigned before=az_written;tts_broadcast_poll(g_uptime_ms);assert(az_written-before<=1);}
+#endif
 #ifdef MP_P3_SERVICE_MODEL
     if(origin)service_calls++;
     advance(25u+service_us);
@@ -1191,7 +1217,100 @@ static void pass_fault_cases(void){
 }
 #endif
 
+#ifdef MP_TTS_BROADCAST
+static void az_frame(uint8_t frame[22],uint64_t issued)
+{
+    const uint8_t golden[]={0x4d,0x50,0x42,0x31,1,0,0,0,0,0,0,0,0,0,0,0x3a,0x98,0,3,0xe6,0xb5,0x8b};
+    memcpy(frame,golden,sizeof golden);
+    for(unsigned i=0;i<8;i++)frame[12-i]=(uint8_t)(issued>>(8u*i));
+}
+
+static void tts_broadcast_cases(void)
+{
+    uint8_t frame[22],too_long[220]={0};
+    uint64_t utc=1800000000000ULL;
+    TtsIo io={NULL,az_write,az_idle,tts_abort};
+    tts_broadcast_init(io);
+    az_frame(frame,utc);
+    assert(!tts_broadcast_offer(frame,sizeof frame,0));
+    assert(!tts_broadcast_offer(frame,sizeof frame,utc+15000u));
+    assert(!tts_broadcast_offer(too_long,sizeof too_long,utc));
+    az_frame(frame,UINT64_MAX);assert(!tts_broadcast_offer(frame,sizeof frame,utc));az_frame(frame,utc);
+    frame[0]='X';assert(!tts_broadcast_offer(frame,sizeof frame,utc));frame[0]='M';
+    frame[4]=2;assert(!tts_broadcast_offer(frame,sizeof frame,utc));frame[4]=1;
+    frame[18]=4;assert(!tts_broadcast_offer(frame,sizeof frame,utc));frame[18]=3;
+    assert(tts_broadcast_offer(frame,sizeof frame,utc));
+    assert(!tts_broadcast_offer(frame,sizeof frame,utc));
+    az_frame(frame,utc-1);assert(!tts_broadcast_offer(frame,sizeof frame,utc));
+    for(unsigned i=1;i<=3;i++){
+        az_frame(frame,utc+i);
+        assert(tts_broadcast_offer(frame,sizeof frame,utc+i)==(i<3));
+    }
+    override_data_utc=true;test_data_utc=utc+15003u;
+    for(unsigned i=0;i<4;i++)tts_broadcast_poll(0);
+    assert(!az_written && tts_broadcast_offer(frame,sizeof frame,utc+15002u));
+    puts("PASS_AZ_FRAME_EXPIRY_REPLAY_CLOCK_AND_FULL_QUEUE");
+
+    tts_broadcast_init(io);az_frame(frame,utc);test_data_utc=utc;
+    assert(tts_broadcast_offer(frame,sizeof frame,utc));
+    for(unsigned i=0;i<10;i++)tts_broadcast_poll(0);
+    az_status=2;tts_broadcast_poll(1);
+    az_frame(frame,utc+1);assert(tts_broadcast_offer(frame,sizeof frame,utc+1));
+    for(unsigned i=0;i<10;i++)tts_broadcast_poll(4999);
+    assert(az_written==8);
+    for(unsigned i=0;i<10;i++)tts_broadcast_poll(5000);
+    assert(az_written==16);
+    puts("PASS_AZ_TTS_FIVE_SECOND_INTERVAL");
+
+    override_data_utc=false;az_written=0;tts_broadcast_init(io);
+    lifecycle_case();mqtt_adapter_reset(&network);
+    epoch=1800000000u;epoch_tick=g_uptime_ms;
+    MpFrame will={.node=3,.stream=MP_GATEWAY_STATUS,.synthetic=true,.timestamp=b5_data_utc()};
+    assert(gateway_mqtt_open(&will));client.appCallback=record_mqtt_event;
+    az_suback_grant=0x80;gateway_tts_broadcast_subscribe();
+    uint32_t start=g_uptime_ms;
+    while(broadcast_subscription)assert(gateway_mqtt_progress()!=GW_FAILED && g_uptime_ms-start<500u);
+    assert(!broadcast_subscribed && mqtt_online);
+    az_suback_grant=1;gateway_tts_broadcast_subscribe();start=g_uptime_ms;
+    while(!broadcast_subscribed){
+        int progress=gateway_mqtt_progress();
+        if(progress==GW_FAILED || g_uptime_ms-start>=500u)
+            fprintf(stderr,"AZ SUBACK failed elapsed=%lu progress=%d online=%d connected=%d id=%u tx=%02x peer=%u rx=%u/%u\n",
+                (unsigned long)(g_uptime_ms-start),progress,mqtt_online,network.connected,broadcast_subscription,
+                wire_packet[0],peer_count,reply_offset,reply_count);
+        assert(progress!=GW_FAILED && g_uptime_ms-start<500u);
+    }
+
+    const char topic[]=TTS_BROADCAST_TOPIC;
+    enum { REMAINING=4+sizeof topic-1+19+200 };
+    uint8_t packet[3+REMAINING]={0x32,(REMAINING&127u)|128u,REMAINING>>7,0,sizeof topic-1};
+    memcpy(packet+5,topic,sizeof topic-1);
+    size_t pos=5+sizeof topic-1;
+    packet[pos++]=0;packet[pos++]=77;
+    az_frame(frame,b5_data_utc());frame[18]=200;
+    memcpy(packet+pos,frame,19);memset(packet+pos+19,'A',200);
+    uart_reply(packet,sizeof packet,0);
+    mp_router_init(&router);mp_router_online(&router,true);
+    MpFrame scalar={.node=2,.stream=MP_HR,.count=1,.valid=true,.synthetic=true,.timestamp=b5_data_utc(),.values={75}};
+    MpFrame wave={.node=2,.stream=MP_ECG,.rate=250,.count=50,.valid=true,.synthetic=true,.timestamp=b5_data_utc()};
+    mp_router_put(&router,&scalar);mp_router_put(&router,&wave);
+    B5Publisher publisher={0};
+    az_poll=true;start=g_uptime_ms;
+    while(publisher.q0!=1 || publisher.q1!=1 || az_written!=205 || az_pubacks!=1){
+        platform_poll();assert(b5_egress_step(&router,&publisher,true));assert(g_uptime_ms-start<2000u);
+    }
+    assert(!memcmp(az_uart,(uint8_t[]){0xfd,0,202,1,4},5));
+    assert(!memcmp(az_uart+5,packet+pos+19,200));
+    assert(!publisher.failed && !session_error && pass_mode==PASS_STREAM);
+    puts("PASS_AZ_PASSTHROUGH_MPB1_PUBACK_AND_TELEMETRY_SCHEDULING");
+}
+#endif
+
 int main(int argc,char **argv){
+#ifdef MP_TTS_BROADCAST
+    USART3->BRR=0x45;USART3->SR|=USART_SR_TC;
+    platform_set_poll(tick);tts_broadcast_cases();return 0;
+#endif
 #ifdef MP_ESP_PASSTHROUGH
 #ifdef MP_PASS_LIFECYCLE
     if(argc==1){

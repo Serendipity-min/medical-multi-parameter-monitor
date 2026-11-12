@@ -36,6 +36,9 @@ static enum { PASS_COMMAND, PASS_STREAM, PASS_FAULT, PASS_UNKNOWN
 ;
 static unsigned pass_remaining,pass_plus;
 static bool pass_length,pass_entry_ok;
+#ifdef MP_TTS_BROADCAST
+static uint8_t pass_variable_length;
+#endif
 #endif
 static uint32_t serial_deadline;
 #ifdef MP_FIVE_FIELD01
@@ -659,6 +662,9 @@ int platform_passthrough_enter(void){
         return 0;
     }
     pass_remaining=pass_plus=0;pass_length=false;
+#ifdef MP_TTS_BROADCAST
+    pass_variable_length=0;
+#endif
     pass_mode=PASS_STREAM;
 #ifdef MP_TX_INTEGRITY_DIAG
     txcheck_enter();
@@ -952,16 +958,40 @@ static int pass_recv(unsigned char *data,int length,uint32_t timeout){
             if(copied)break;
             platform_poll();continue;
         }
+#ifdef MP_TTS_BROADCAST
+        if(pass_variable_length){
+            if(pass_variable_length==1 && (byte&0x80)){
+                pass_remaining=(unsigned)byte&0x7fu;
+                pass_variable_length=2;
+            }else{
+                if(byte&0x80 || (pass_variable_length==2 && !byte))goto fault;
+                pass_remaining|=(unsigned)byte<<(pass_variable_length==2?7u:0u);
+                /* coreMQTT 的 512 B RX 缓冲还要容纳固定头和两字节长度。 */
+                if(pass_remaining<5u || pass_remaining>509u)goto fault;
+                pass_variable_length=0;
+            }
+        }else
+#endif
         if(pass_length){
             if((unsigned)byte!=pass_remaining)goto fault;
             pass_length=false;
         }else if(pass_remaining){
             pass_remaining--;
         }else {
-            /* 无下行订阅，MQTT 3.1.1 只允许这三种 Broker 应答。 */
-            if(byte!=0x20 && byte!=0x40 && byte!=0xd0)goto fault;
-            pass_remaining=byte==0xd0?0u:2u;
-            pass_length=true;
+#ifdef MP_TTS_BROADCAST
+            if((byte&0xf6)==0x32){
+                pass_variable_length=1;
+                pass_remaining=0;
+            }else if(byte==0x90){
+                pass_remaining=3;
+                pass_length=true;
+            }else
+#endif
+            {
+                if(byte!=0x20 && byte!=0x40 && byte!=0xd0)goto fault;
+                pass_remaining=byte==0xd0?0u:2u;
+                pass_length=true;
+            }
         }
         data[copied++]=(unsigned char)byte;
         io_metrics.rx_bytes++;

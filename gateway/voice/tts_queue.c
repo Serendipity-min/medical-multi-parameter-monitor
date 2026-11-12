@@ -16,10 +16,15 @@ bool tts_enable(TtsQueue *q, bool power, bool protocol)
     return true;
 }
 
-static bool available(TtsQueue *q)
+static bool available(const TtsQueue *q)
 {
     return q->enabled && q->power_good && q->protocol_confirmed && !q->stopping &&
         (q->state == TTS_IDLE || q->state == TTS_DONE);
+}
+
+bool tts_ready(const TtsQueue *q, uint32_t now)
+{
+    return available(q) && (!q->submitted || (uint32_t)(now - q->last_submit) >= 5000u);
 }
 
 static void start(TtsQueue *q, size_t n, uint32_t now)
@@ -29,7 +34,7 @@ static void start(TtsQueue *q, size_t n, uint32_t now)
 
 bool tts_submit(TtsQueue *q, const uint8_t *s, size_t n, uint32_t id, uint32_t now)
 {
-    if (!available(q) || !id || (q->submitted && (id <= q->last_id || (uint32_t)(now - q->last_submit) < 5000))) return false;
+    if (!tts_ready(q, now) || !id || (q->submitted && id <= q->last_id)) return false;
     size_t length = tts_text_frame(q->frame, sizeof(q->frame), s, n);
     if (!length) return false;
     q->admin_command = false;

@@ -68,6 +68,8 @@ def main():
     cases['production_outage_egress']=([*cases['production_diag'][0],'-DMP_OUTAGE_RETENTION'],peer_files)
     cases['production_txcheck']=([*cases['production_outage_egress'][0],'-DMP_TX_INTEGRITY_DIAG'],peer_files)
     cases['production_link_resilience']=([*cases['production_txcheck'][0],'-DMP_LINK_RESILIENCE'],peer_files)
+    cases['tts_broadcast']=([*cases['production_link_resilience'][0],'-DMP_TTS_BROADCAST'],
+        [*peer_files, *[f'gateway/voice/{n}.c' for n in ('tts_broadcast','tts_queue','tts_frame')]])
     can_files=cases['can_software_replay'][1][2:]
     cases['production_link_control']=([*cases['production_link_resilience'][0],'-DCO_MULTIPLE_OD','-Wno-unused-function','-Wno-return-type'],
         ['gateway/b5/test_link_control.c','gateway/b5/b5_policy.c',*can_files])

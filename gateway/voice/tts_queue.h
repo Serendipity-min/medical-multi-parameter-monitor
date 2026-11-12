@@ -26,6 +26,7 @@ typedef struct {
 /* 全部队列方法只由主循环调用；ISR只操作独立UART接收队列。 */
 void tts_init(TtsQueue *, TtsIo);
 bool tts_enable(TtsQueue *, bool power_good, bool protocol_confirmed);
+bool tts_ready(const TtsQueue *, uint32_t now);
 bool tts_submit(TtsQueue *, const uint8_t *, size_t, uint32_t id, uint32_t now);
 bool tts_bench_volume(TtsQueue *, unsigned volume, uint32_t now);
 void tts_poll(TtsQueue *, uint32_t now);

@@ -3,7 +3,7 @@
 #include "tts_queue.h"
 
 /* 普通H3不启用USART2；离线或独立云语音候选必须显式选择。 */
-#if defined(MP_TTS_BENCH) || defined(MP_CLOUD_VOICE)
+#if defined(MP_TTS_BENCH) || defined(MP_CLOUD_VOICE) || defined(MP_TTS_BROADCAST)
 void tts_uart_init(void);
 TtsIo tts_uart_io(void);
 int tts_uart_receive(void);

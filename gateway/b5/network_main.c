@@ -3,6 +3,10 @@
 #include "../dual_can/b4_bxcan.h"
 #include "gateway_transport.h"
 #include "esp_io_metrics.h"
+#ifdef MP_TTS_BROADCAST
+#include "tts_broadcast.h"
+#include "tts_uart_port.h"
+#endif
 #ifdef MP_PASS_LIFECYCLE
 #include "pass_recovery.h"
 #endif
@@ -156,6 +160,9 @@ static void stop(void) {
 #endif
 #ifdef MP_FINAL_UNIFIED
     unified_audio_stop();
+#ifdef MP_TTS_BROADCAST
+    tts_broadcast_stop(g_uptime_ms);
+#endif
 #endif
 #ifdef MP_B5_EGRESS_FINAL
     if(!stop_due){stop_tick=g_uptime_ms;stop_live=gateway.router.ln;stop_cache=gateway.router.cn;platform_io_snapshot(&stop_io);
@@ -653,7 +660,12 @@ static void service(void) {
 #ifdef MP_FIVE_FIELD01
     if(stop_due && !stopped)stop();
 #endif
-    if(stopped || !armed){unified_audio_local_poll();local_control();b4_hw_idle();return;}
+    if(stopped || !armed){
+#ifdef MP_TTS_BROADCAST
+        if (stopped) tts_broadcast_poll(g_uptime_ms);
+#endif
+        unified_audio_local_poll();local_control();b4_hw_idle();return;
+    }
 #else
     if (stopped) { report_stop(); b4_hw_idle(); return; }
     /* 未武装时不推进CANopen/TIME，避免B尚断电时发心跳耗尽ACK并积累BOFF。 */
@@ -682,6 +694,10 @@ static void service(void) {
         )) {
         stop(); return;
     }
+#ifdef MP_TTS_BROADCAST
+    /* USART2 每次只试写一字节，不能放在 5 ms CAN 节流门后。 */
+    tts_broadcast_poll(g_uptime_ms);
+#endif
     /* 停机仍逐次检查；CAN IRQ保留原始到达时刻，每5ms批量推进CANopen。 */
     if (service_seen && (uint32_t)(g_uptime_ms - service_at) < B5_SERVICE_MS) return;
     service_seen = true; service_at = g_uptime_ms;
@@ -798,6 +814,10 @@ int main(void) {
     while(!armed){platform_poll();local_control();}
 #endif
     unified_audio_init();
+#ifdef MP_TTS_BROADCAST
+    tts_uart_init();
+    tts_broadcast_init(tts_uart_io());
+#endif
 #if defined(MP_FIVE_APPLIANCE) && defined(__arm__) && !defined(MP_AUDIO_DISABLED)
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOE,ENABLE);
     GPIO_InitTypeDef key={0};key.GPIO_Pin=GPIO_Pin_3;key.GPIO_Mode=GPIO_Mode_IN;key.GPIO_PuPd=GPIO_PuPd_UP;
@@ -940,6 +960,8 @@ int main(void) {
 #ifdef MP_FINAL_UNIFIED
 #ifndef MP_AUDIO_DISABLED
         (void)gateway_audio_subscribe();
+#elif defined(MP_TTS_BROADCAST)
+        gateway_tts_broadcast_subscribe();
 #endif
         unified_audio_network(true);
 #endif
