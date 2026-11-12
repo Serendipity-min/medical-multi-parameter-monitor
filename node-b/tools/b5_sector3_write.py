@@ -11,12 +11,17 @@ import b4_recovery as recovery
 import b5_g2ro as ro
 import b5_sector3_package as packager
 import b5_sector3_plan as planner
-from b5_sector3_write_protocol import DapBridge, Engine, require, BASE, END, COMMIT, ACR, KEYR, SR, CR
+from b5_sector3_write_protocol import (DapBridge, Engine, require, BASE, END, COMMIT, COMMIT_VALUE,
+                                       ACR, KEYR, SR, CR, FULL_FLASH_BYTES, FULL_READ_S, BUDGET_FACTOR)
 
 ROOT = Path(__file__).resolve().parents[2]
 PROVISION = 'B5_G2B_SECTOR3_CONNECTED_CONTEXT_ESP_PRESENT'
 RESTORE = 'B5_R_CFG_SECTOR3_CONNECTED_CONTEXT_ESP_PRESENT'
 FORMAL = 'WP_AY0_FORMAL_SECTOR3_PROVISION'
+FORMAL_RESUME = 'WP_AY0_FORMAL_SECTOR3_COMMIT_RESUME'
+R49_MANIFEST_SHA = '3489afc17a6415422c33bd3b4a9cdefd946d40468d09fb5527e466209209443c'
+R49_STOP_RECEIPT_SHA = '97a0d55335a2083010032e4a535cc72011c240c0f3b2d892f17412285617f9ed'
+R48_PROVISION_CARD_SHA = '43bb0919876f315db69fa4f6a64ec0cf15ffbc64ec089f4167976aa80843fadc'
 FORMAL_SCHEMA = 'WP_AY0_FORMAL_SECTOR3_OFFLINE_V1'
 FORMAL_FILES = {'sector3-original-private.bin', 'sector3-uncommitted-private.bin', 'sector3-committed-private.bin',
                 'expected-full-uncommitted-private.bin', 'expected-full-committed-private.bin'}
@@ -48,13 +53,25 @@ def bindings(formal_cloud=False):
     return {name: sha((ROOT/'node-b/tools'/name).read_bytes()) for name in names}
 
 
-def plan(formal_cloud=False):
+def plan(formal_cloud=False, commit_resume=False):
+    if commit_resume:
+        return {'enabled': False, 'owner_approved': False, 'scope': FORMAL_RESUME, 'phase': 'commit_resume',
+                'schema': FORMAL_SCHEMA, 'tools_sha256': bindings(True), 'DLL_sha256': ro.raw.DLL_SHA,
+                'package_manifest_sha256': R49_MANIFEST_SHA, 'stop_receipt_sha256': R49_STOP_RECEIPT_SHA,
+                'session_timeout_s': 180, 'probe_sessions': 1, 'retries': 0, 'halt_max': 1,
+                'erase_start_max': 0, 'stage1_word_max': 0, 'commit_write_max': 1,
+                'commit_word': {'address': COMMIT, 'value': COMMIT_VALUE}, 'reset_max': 0, 'Go_max': 0,
+                'full_uncommitted_double_readback_required': True, 'halted_sector3_readback_required': True,
+                'full_committed_double_readback_required': True,
+                'site_record_scope_required': FORMAL_RESUME,
+                'full_read_budget_floor_s': FULL_READ_S, 'budget_factor': BUDGET_FACTOR}
     if formal_cloud:
         return {'enabled': False, 'owner_approved': False, 'scope': FORMAL, 'schema': FORMAL_SCHEMA,
                 'tools_sha256': bindings(True), 'DLL_sha256': ro.raw.DLL_SHA,
                 'sector_range': [BASE, END], 'session_timeout_s': 180, 'probe_sessions': 1,
                 'erase_start_max': 1, 'commit_write_max': 1, 'halt_max': 1, 'reset_max': 0, 'Go_max': 0,
-                'before_full_sha_from_manifest_required': True, 'full_committed_readback_required': True}
+                'before_full_sha_from_manifest_required': True, 'full_committed_readback_required': True,
+                'halted_sector3_readback_required': True, 'prewrite_budget_required': True}
     return {'enabled': False, 'owner_approved': False, 'scopes': [PROVISION, RESTORE],
             'tools_sha256': bindings(), 'DLL_sha256': ro.raw.DLL_SHA,
             'sector_range': [BASE, END], 'session_timeout_s': 180, 'probe_sessions': 1,
@@ -67,7 +84,7 @@ def plan(formal_cloud=False):
             'AP_index_derivation': 'ADI_WORD_INDEX_CSW0_TAR1_DRW3_DP_SELECT2_AP0_BANK0_IDR_BANKF0_REG3',
             'raw_bridge_readonly_crosscheck_before_any_FLASH_unlock': True,
             'independent_before_flash_and_options_reads': 2, 'independent_after_flash_and_options_reads': 2,
-            'commit_remaining_session_reserve_s': 110,
+            'prewrite_budget_required': True,
             'SELECT_policy': 'NEVER_READ_DP2_RESEND_CANONICAL_AP0_BANK0_ON_EXIT_RESTORE_READABLE_CSW_TAR',
             'entry_runtime_state_hex': {'provision': ['00000000'], 'restore_config': ['00000000', '00000101']},
             'post_reset_runtime_state_hex': '00000000',
@@ -148,17 +165,22 @@ def load_formal_package(folder, expected_manifest_sha):
 
 class FormalEngine(Engine):
     def validate_transition(self, phase, before, after):
-        old, old_epoch, original = planner.parse_record(before)
         new, new_epoch, fields = planner.parse_record(after)
+        if phase == 'commit_resume':
+            require((fields['username'], fields['client_id']) ==
+                    tuple(x.encode() for x in planner.FORMAL_IDENTITY[1:]), 'S3_FORMAL_TRANSITION')
+            return
+        old, old_epoch, original = planner.parse_record(before)
         require(phase == 'provision' and new == old + 1 and old_epoch == new_epoch
                 and (original['username'], original['client_id']) == tuple(x.encode() for x in planner.ISOLATED_IDENTITY[1:])
                 and (fields['username'], fields['client_id']) == tuple(x.encode() for x in planner.FORMAL_IDENTITY[1:])
                 and all(original[k] == fields[k] for k in ('ssid', 'wifi_password')), 'S3_FORMAL_TRANSITION')
 
 
-def authorize_formal(a, out):
-    require(a.get('enabled') is True and a.get('owner_approved') is True and a.get('scope') == FORMAL
-            and a.get('board') == 'C' and a.get('phase') == 'provision', 'S3_FORMAL_OWNER_AUTH_REQUIRED')
+def authorize_formal(a, out, commit_resume=False):
+    scope, phase = (FORMAL_RESUME, 'commit_resume') if commit_resume else (FORMAL, 'provision')
+    require(a.get('enabled') is True and a.get('owner_approved') is True and a.get('scope') == scope
+            and a.get('board') == 'C' and a.get('phase') == phase, 'S3_FORMAL_OWNER_AUTH_REQUIRED')
     require(a.get('tools_sha256') == bindings(True) and a.get('DLL_sha256') == ro.raw.DLL_SHA
             and time.time() < a.get('expires_unix', 0), 'S3_FORMAL_TOOL_OR_EXPIRY')
     require(sha(recovery.read(Path(a['card']), False)) == a.get('card_sha256'), 'S3_FORMAL_CARD_SHA')
@@ -170,8 +192,16 @@ def authorize_formal(a, out):
     require(site.get('JLink_target') == 'C' and all(site.get(k) is True for k in
             ('latest_power_state_checked', 'other_boards_off', 'no_human', 'C_power_ready',
              'hotspot_off', 'USB_and_CAN_state_frozen', 'BOOT_and_RESET_untouched')), 'S3_FORMAL_SITE_NOT_READY')
-    manifest, blobs, before, after = load_formal_package(a['package'], a['package_manifest_sha256'])
-    require(a.get('before_full_sha256') == manifest['source_full_sha256']
+    if commit_resume:
+        require(a['card_sha256'] != R48_PROVISION_CARD_SHA and site.get('scope') == FORMAL_RESUME,
+                'S3_RESUME_NEW_CARD_AND_SITE_REQUIRED')
+        require(a.get('package_manifest_sha256') == R49_MANIFEST_SHA, 'S3_RESUME_R49_MANIFEST_SHA')
+        require(a.get('stop_receipt_sha256') == R49_STOP_RECEIPT_SHA and
+                sha(recovery.read(Path(a['stop_receipt']), False)) == R49_STOP_RECEIPT_SHA,
+                'S3_RESUME_R49_STOP_RECEIPT_SHA')
+    manifest, blobs, original, after = load_formal_package(a['package'], a['package_manifest_sha256'])
+    before = blobs['expected-full-uncommitted-private.bin'] if commit_resume else original
+    require(a.get('before_full_sha256') == sha(before)
             and a.get('after_full_sha256') == sha(after), 'S3_FORMAL_AUTH_IMAGES')
     backup = Path(a['backup'])
     proof = json.loads(recovery.read(backup/'receipt-private.json', False))
@@ -179,7 +209,7 @@ def authorize_formal(a, out):
             and proof.get('independent_reads_match') is True
             and proof.get('full_sha256') == manifest['source_full_sha256'], 'S3_FORMAL_BACKUP_RECEIPT')
     probe = backup/'probe'
-    require(all(recovery.read(probe/f'flash-{i}-private.bin', False) == before for i in (1, 2)),
+    require(all(recovery.read(probe/f'flash-{i}-private.bin', False) == original for i in (1, 2)),
             'S3_FORMAL_BACKUP_SOURCE_SHA')
     options = recovery.read(probe/'options-1-private.bin', False)
     require(len(options) == 16 and sha(options) == proof.get('options_sha256')
@@ -193,9 +223,10 @@ def authorize_formal(a, out):
     return manifest, {**blobs, 'options-private.bin': options}, identity, before, after, blobs['sector3-uncommitted-private.bin']
 
 
-def authorize(a, out, formal_cloud=False):
+def authorize(a, out, formal_cloud=False, commit_resume=False):
+    require(not commit_resume or formal_cloud, 'S3_RESUME_REQUIRES_FORMAL_CLOUD')
     if formal_cloud:
-        return authorize_formal(a, out)
+        return authorize_formal(a, out, commit_resume)
     require(a.get('enabled') is True and a.get('owner_approved') is True and a.get('scope') in (PROVISION, RESTORE),
             'S3_OWNER_AUTH_REQUIRED')
     require(a.get('tools_sha256') == bindings() and a.get('DLL_sha256') == ro.raw.DLL_SHA, 'S3_TOOL_OR_DLL_DRIFT')
@@ -371,22 +402,23 @@ def save(out, name, data):
 
 def execute(link, out, auth, loaded, engine_type=None):
     manifest, blobs, reference, before, after, stage = loaded
-    formal = auth.get('scope') == FORMAL
+    scope = auth.get('scope')
+    commit_resume = scope == FORMAL_RESUME
+    formal = scope in (FORMAL, FORMAL_RESUME)
     expected_runtime = None if formal else entry_runtime_state(auth)
     link.open(); seen = ro.raw.identity(link); recovery.identity_check(seen)
     require(seen == reference, 'S3_WRONG_UID_OR_PROTECTION'); ro.raw.write_json(out/'identity-before-private.json', seen)
     ro.raw.write_json(out/'entry-sticky-private.json', {'DHCSR': link.u32(ro.SYSTEM['DHCSR'])})
     state = ro.old.snapshot(link); ro.raw.write_json(out/'entry-private.json', state); ro.old.check_running(link, state)
-    pairs = []
+    full_read_s = FULL_READ_S
     for index in (1, 2):
-        actual, options = link.read(0x08000000, 1048576), link.read(0x1fffc000, 16)
+        read_started = time.monotonic()
+        actual = link.read(0x08000000, FULL_FLASH_BYTES)
+        full_read_s = max(full_read_s, time.monotonic() - read_started)
+        options = link.read(0x1fffc000, 16)
         save(out, f'before-full-{index}-private.bin', actual); save(out, f'before-options-{index}-private.bin', options)
         require(actual == before and options == blobs['options-private.bin'], 'S3_CURRENT_FULL_OR_OPTIONS_DRIFT')
-        pairs.append((actual, options))
-    require(pairs[0] == pairs[1], 'S3_BEFORE_DOUBLE_READ_MISMATCH')
-    if formal:
-        require(sha(actual) == manifest['source_full_sha256'], 'S3_FORMAL_LIVE_SOURCE_SHA')
-    else:
+    if not formal:
         require(sha(actual[:planner.APP_BYTES]) == planner.APP_SHA and link.read(RAM_STATE, 4) == expected_runtime,
                 'S3_ENTRY_RUNTIME_STATE_MISMATCH')
     require(link.u32(RCC_CR) & (1 << 17) and link.u32(RCC_CFGR) & 0xfc == 4, 'S3_HCLK_NOT_FROZEN_HSE8_DIV1')
@@ -397,8 +429,9 @@ def execute(link, out, auth, loaded, engine_type=None):
     require(link.u32(ro.SYSTEM['DHCSR']) & ro.raw.HALT, 'S3_HALT_NOT_CONFIRMED'); link.u32(ro.SYSTEM['DHCSR']); link.stable_halt()
     link.verified_running_flash = False
     if formal:
-        require(sha(link.read(0x08000000, 1048576)) == manifest['source_full_sha256'],
-                'S3_FORMAL_SOURCE_CHANGED_AFTER_HALT')
+        sector = link.read(BASE, END-BASE)
+        save(out, 'halted-sector3-private.bin', sector)
+        require(sector == before[planner.START:planner.END], 'S3_FORMAL_SOURCE_CHANGED_AFTER_HALT')
     else:
         require(link.read(RAM_STATE, 4) == expected_runtime, 'S3_ARMED_CHANGED_AFTER_HALT')
     require(link.u32(RCC_CR) & (1 << 17) and link.u32(RCC_CFGR) & 0xfc == 4, 'S3_HCLK_CHANGED_AFTER_HALT')
@@ -413,7 +446,7 @@ def execute(link, out, auth, loaded, engine_type=None):
     ro.raw.write_json(out/'raw-bridge-preflight-private.json', result)
     selected_engine = FormalEngine if formal else engine_type or Engine
     engine = selected_engine(NativeIO(link, bridge), before, after, stage, options, auth['phase'],
-                             started_monotonic=link.started)
+                             started_monotonic=link.started, full_read_s=full_read_s)
     link.active_engine = engine
     result = engine.run(actual, options)
     actual, options = engine.verified_full, engine.verified_options
@@ -427,7 +460,8 @@ def execute(link, out, auth, loaded, engine_type=None):
     link.post_verified = True
     if formal:
         link.stable_halt()
-        result.update(status='FORMAL_SECTOR3_FULL_VERIFY_PASS', exit_code=0, actions=link.actions,
+        status = 'FORMAL_SECTOR3_COMMIT_RESUME_VERIFY_PASS' if commit_resume else 'FORMAL_SECTOR3_FULL_VERIFY_PASS'
+        result.update(status=status, exit_code=0, actions=link.actions, live_before_full_sha256=sha(before),
                       source_full_sha256=manifest['source_full_sha256'], boot_mode='PHYSICAL_COLD_BOOT_REQUIRED')
         return result
     link.policy('SetResetType = 0')
@@ -447,9 +481,9 @@ def execute(link, out, auth, loaded, engine_type=None):
     return result
 
 
-def worker(authorization, out, formal_cloud=False):
+def worker(authorization, out, formal_cloud=False, commit_resume=False):
     auth_raw = recovery.read(authorization, False); auth = json.loads(auth_raw)
-    loaded = authorize(auth, out, True) if formal_cloud else authorize(auth, out)
+    loaded = authorize(auth, out, formal_cloud, commit_resume)
     mark = json.loads(recovery.read(authorization.with_suffix('.used'), False))
     require(mark.get('authorization_sha256') == sha(auth_raw), 'S3_SUPERVISOR_MARKER')
     require(type(mark.get('started_monotonic')) in (int, float) and mark['started_monotonic'] <= time.monotonic(),
@@ -457,16 +491,22 @@ def worker(authorization, out, formal_cloud=False):
     out.mkdir(exist_ok=False); recovery.protected(out, False)
     link = None; result = {'status': 'STOP', 'exit_code': 1, 'automatic_retry_or_rollback': False}
     try:
-        stage = loaded[-1]; count = sum(stage[i:i+4] != b'\xff'*4 for i in range(0, 16384, 4) if i != 20)
+        stage = loaded[-1]
+        count = 0 if commit_resume else sum(stage[i:i+4] != b'\xff'*4 for i in range(0, END-BASE, 4)
+                                            if i != COMMIT-BASE)
         link = NativeLink(out, count); link.started = min(link.started, mark['started_monotonic'])
         result = execute(link, out, auth, loaded)
     except BaseException as error:
         result.update(status='STOP', exit_code=1, error_type=type(error).__name__)
         if link: link.verified_running_flash = False
         if link and getattr(link, 'active_engine', None): result['failure_engine_phase'] = link.active_engine.phase
-        text = str(error); ro.raw.write_json(out/'failure-private.json', {'error_type': type(error).__name__,
-            'reason': text if text.startswith(('S3_', 'SECTOR3_', 'DAP_', 'C_RO_')) and text.replace('_', '').isalnum() else 'ERROR_TEXT_SUPPRESSED',
-            'error_text_sha256': sha(text.encode())})
+        text = str(error)
+        known_code = text in ('SESSION_TIMEOUT', 'OWNER_STOP', 'SDK_ERROR_SEE_PRIVATE_LOG') or text.startswith(
+            ('S3_', 'SECTOR3_', 'DAP_', 'C_RO_'))
+        stop_reason = text if known_code and text.isascii() and text.replace('_', '').isalnum() else 'ERROR_TEXT_SUPPRESSED'
+        result['stop_reason'] = stop_reason
+        ro.raw.write_json(out/'failure-private.json', {'error_type': type(error).__name__, 'reason': stop_reason,
+                                                     'error_text_sha256': sha(text.encode())})
         if (link and getattr(link, 'active_engine', None) and not link.post_verified
                 and not getattr(link, 'raw_failed', False) and not link.error):
             try:
@@ -490,6 +530,7 @@ def worker(authorization, out, formal_cloud=False):
                 result.update(erase_start_attempts=engine.erases, stage1_word_attempts=len(engine.words),
                               commit_word_attempts=engine.commits, ordinary_KEYR_attempts=len(engine.keys),
                               ACR_control_attempts=len(engine.acr_history), final_engine_phase=engine.phase,
+                              prewrite_budget=engine.prewrite_budget,
                               failure_did_not_authorize_retry_or_rollback=True)
         ro.raw.write_json(out/'receipt-private.json', result)
         for path in out.iterdir():
@@ -501,12 +542,16 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--plan', action='store_true'); parser.add_argument('--worker', action='store_true')
     parser.add_argument('--formal-cloud', action='store_true')
+    parser.add_argument('--commit-resume', action='store_true')
     parser.add_argument('--authorization', type=Path); parser.add_argument('--out', type=Path)
     args = parser.parse_args()
-    if args.plan or not args.worker: print(json.dumps(plan(args.formal_cloud), indent=2)); return 0
+    if args.commit_resume and not args.formal_cloud:
+        parser.error('--commit-resume requires --formal-cloud')
+    if args.plan or not args.worker:
+        print(json.dumps(plan(args.formal_cloud, args.commit_resume), indent=2)); return 0
     try:
         require(args.authorization is not None and args.out is not None, 'S3_USE_SUPERVISOR')
-        return worker(args.authorization, args.out, args.formal_cloud)
+        return worker(args.authorization, args.out, args.formal_cloud, args.commit_resume)
     except BaseException as error:
         print(json.dumps({'status': 'STOP_BEFORE_NATIVE', 'error_type': type(error).__name__, 'exit_code': 1})); return 1
 

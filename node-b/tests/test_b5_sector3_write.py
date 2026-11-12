@@ -128,6 +128,8 @@ class FakeLink:
             self.full_reads+=1;data=self.after if self.after is not None else self.before
             bad=(self.before_second_bad and self.full_reads==2) or (self.after_second_bad and self.full_reads==4)
             return data[:-1]+bytes([data[-1]^1]) if bad else data
+        if address == p.BASE and size == p.END-p.BASE:
+            return self.before[planner.START:planner.END]
         if address in (0,0x08000000) and size==64:return self.before[:64]
         return self.u32(address).to_bytes(size,'little')
     def call(self,name,*args,**kwargs):
@@ -196,6 +198,34 @@ class Tests(unittest.TestCase):
         with patch.object(writer.recovery, 'protected', side_effect=lambda path, _: Path(path)):
             self.assertEqual(writer.authorize(auth, out, True)[3:5], (before, after))
             self.assertEqual(writer.load_formal_package(pkg, writer.sha(raw)), (manifest, blobs, before, after))
+            staged = blobs['expected-full-uncommitted-private.bin']
+            stop = self.out/'r49-stop'; stop.write_bytes(b'SYNTHETIC_STOP')
+            resume_site = self.out/'resume-site'
+            resume_site.write_bytes(writer.recovery.encoded({**json.loads(site.read_bytes()), 'scope': writer.FORMAL_RESUME}))
+            resume = {**auth, 'scope': writer.FORMAL_RESUME, 'phase': 'commit_resume',
+                      'site_record': str(resume_site), 'site_record_sha256': writer.sha(resume_site.read_bytes()),
+                      'stop_receipt': str(stop), 'stop_receipt_sha256': writer.sha(stop.read_bytes()),
+                      'before_full_sha256': writer.sha(staged)}
+            with patch.object(writer, 'R49_MANIFEST_SHA', writer.sha(raw)), patch.object(
+                    writer, 'R49_STOP_RECEIPT_SHA', resume['stop_receipt_sha256']):
+                self.assertEqual(writer.authorize(resume, out, True, True)[3:5], (staged, after))
+                for invalid, flags, code in (
+                    (auth, (True, True), 'FORMAL_OWNER_AUTH_REQUIRED'),
+                    (resume, (True, False), 'FORMAL_OWNER_AUTH_REQUIRED'),
+                    (resume, (False, True), 'RESUME_REQUIRES_FORMAL_CLOUD'),
+                    ({**resume, 'site_record': str(site), 'site_record_sha256': auth['site_record_sha256']},
+                     (True, True), 'RESUME_NEW_CARD_AND_SITE_REQUIRED'),
+                    ({**resume, 'before_full_sha256': writer.sha(before)}, (True, True), 'FORMAL_AUTH_IMAGES'),
+                    ({**resume, 'package_manifest_sha256': '0'*64}, (True, True), 'RESUME_R49_MANIFEST_SHA'),
+                ):
+                    with self.subTest(code=code), self.assertRaisesRegex(ValueError, code):
+                        writer.authorize(invalid, out, *flags)
+                with patch.object(writer, 'R48_PROVISION_CARD_SHA', auth['card_sha256']), self.assertRaisesRegex(
+                        ValueError, 'RESUME_NEW_CARD_AND_SITE_REQUIRED'):
+                    writer.authorize(resume, out, True, True)
+                stop.write_bytes(b'SYNTHETIC_WRONG_STOP')
+                with self.assertRaisesRegex(ValueError, 'RESUME_R49_STOP_RECEIPT_SHA'):
+                    writer.authorize(resume, out, True, True)
             manifest_path = pkg/'manifest-private.json'
             for changed in (writer.recovery.encoded({**manifest, 'host': 'other.example.invalid'}), raw + b' '):
                 manifest_path.write_bytes(changed)
@@ -221,7 +251,7 @@ class Tests(unittest.TestCase):
             original = link.read
             def read(address, size):
                 result = original(address, size)
-                if size == 1048576 and (phase == 'before' or link.halted):
+                if (size == 1048576 and phase == 'before') or (address == p.BASE and link.halted):
                     return result[:-1]+b'\x00'
                 return result
             link.read = read
@@ -261,6 +291,131 @@ class Tests(unittest.TestCase):
             self.assertNotIn('JLINKARM_Reset', link.actions)
             self.assertNotIn('JLINKARM_Go', link.actions)
 
+    def timed_formal_execute(self, scope, actual_before, full_read_times, expected_stop=None,
+                             after_second_bad=False, halted_sector_bad=False):
+        manifest, blobs, original, after, stage = self.formal_fixture()
+        resume = scope == writer.FORMAL_RESUME
+        before = blobs['expected-full-uncommitted-private.bin'] if resume else original
+        loaded = (manifest, {**blobs, 'options-private.bin': self.options}, self.identity, before, after, stage)
+        out = Path(tempfile.mkdtemp(dir=self.out))
+        link = FakeLink(out, actual_before, self.options, self.identity)
+        link.started = 0.0
+        mem = NorIO(actual_before, self.options)
+        clock = types.SimpleNamespace(now=0.5)
+        reads = []
+        timings = iter(full_read_times)
+
+        def timed_read(address, size, actual_read):
+            reads.append((address, size, link.halted))
+            if size == p.FULL_FLASH_BYTES:
+                clock.now += next(timings)
+            elif address == p.BASE and size == p.END-p.BASE:
+                clock.now += 26.0 * size / p.FULL_FLASH_BYTES
+            return actual_read(address, size)
+
+        link_read, mem_read, mem_write = link.read, mem.read, mem.write32
+
+        def read_link(address, size):
+            if mem.guard is not None and mem.engine.phase == 'DONE':
+                link.after = bytes(mem.flash)
+            value = timed_read(address, size, link_read)
+            if (halted_sector_bad and address == p.BASE and size == p.END-p.BASE
+                    or after_second_bad and size == p.FULL_FLASH_BYTES and link.after is not None):
+                return value[:-1] + bytes([value[-1] ^ 1])
+            return value
+
+        def write_mem(address, value):
+            clock.now += 0.005
+            mem_write(address, value)
+
+        link.read = read_link
+        mem.read = lambda address, size: timed_read(address, size, mem_read)
+        mem.write32 = write_mem
+        bridge = Mock()
+        bridge.read32.side_effect = link.u32
+        bridge.probe.return_value = {'synthetic': True}
+        auth = {'scope': scope, 'phase': 'commit_resume' if resume else 'provision'}
+        with patch.object(p.time, 'monotonic', side_effect=lambda: clock.now), patch.object(
+                writer.recovery, 'protected', side_effect=lambda path, _: Path(path)), patch.object(
+                writer, 'DapBridge', return_value=bridge), patch.object(writer, 'NativeIO', return_value=mem):
+            if expected_stop:
+                with self.assertRaisesRegex(ValueError, expected_stop):
+                    writer.execute(link, out, auth, loaded)
+                result = None
+            else:
+                result = writer.execute(link, out, auth, loaded)
+        return result, link, mem, reads, clock.now
+
+    def test_resume_at_26_seconds_per_mib_writes_only_commit_and_double_verifies(self):
+        _, blobs, _, after, _ = self.formal_fixture()
+        stage = blobs['expected-full-uncommitted-private.bin']
+        result, link, mem, reads, elapsed = self.timed_formal_execute(writer.FORMAL_RESUME, stage, [26.0]*4)
+        self.assertEqual(result['status'], 'FORMAL_SECTOR3_COMMIT_RESUME_VERIFY_PASS')
+        self.assertEqual((result['erase_start_commands'], result['stage1_program_words'], result['commit_word_writes']),
+                         (0, 0, 1))
+        nvm = [(a, v) for a, v, _ in mem.writes if 0x08000000 <= a < 0x08100000]
+        self.assertEqual(nvm, [(p.COMMIT, p.COMMIT_VALUE)])
+        self.assertEqual(bytes(mem.flash), after)
+        self.assertEqual([h for _, s, h in reads if s == p.FULL_FLASH_BYTES], [False, False, True, True])
+        self.assertEqual([h for a, s, h in reads if a == p.BASE and s == p.END-p.BASE], [True])
+        self.assertEqual([(link.out/f'after-full-{i}-private.bin').read_bytes() for i in (1, 2)], [after, after])
+        self.assertEqual((mem.reg[p.CR], mem.reg[p.ACR]), (p.LOCK, 0x600))
+        self.assertEqual(link.actions, {'JLINKARM_Halt': 1, 'JLINKARM_IsConnected': 1})
+        self.assertTrue(link.halted)
+        self.assertFalse(link.close_resume_enabled)
+        self.assertLess(elapsed, 180)
+        self.assertGreater(180 - elapsed, 60)
+
+    def test_r49_full_write_timing_stops_before_erase_even_with_short_halted_read(self):
+        _, _, before, _, _ = self.formal_fixture()
+        # R49 两次整片读分别在 26.500 s 和 52.469 s 完成，修订后的 Halt 读只计 16 KiB。
+        _, _, mem, reads, _ = self.timed_formal_execute(
+            writer.FORMAL, before, [26.0, 25.969], 'PREWRITE_BUDGET_INSUFFICIENT')
+        self.assertEqual([h for _, s, h in reads if s == p.FULL_FLASH_BYTES], [False, False])
+        self.assertEqual([h for a, s, h in reads if a == p.BASE and s == p.END-p.BASE], [True])
+        self.assertGreaterEqual(mem.engine.prewrite_budget['full_read_s'], 26.5)
+        self.assertGreater(mem.engine.prewrite_budget['required_s'], mem.engine.prewrite_budget['remaining_s'])
+        self.assertEqual(mem.writes, [])
+
+    def test_resume_rejects_wrong_state_and_post_halt_drift_without_any_write(self):
+        _, blobs, _, after, _ = self.formal_fixture()
+        stage = blobs['expected-full-uncommitted-private.bin']
+        for name, image in (
+            ('already_committed', after),
+            ('sector_erased', stage[:planner.START]+b'\xff'*(p.END-p.BASE)+stage[planner.END:]),
+            ('data_changed', stage[:planner.START+25]+bytes([stage[planner.START+25] ^ 1])+stage[planner.START+26:]),
+        ):
+            with self.subTest(state=name):
+                _, link, mem, _, _ = self.timed_formal_execute(
+                    writer.FORMAL_RESUME, image, [26.0]*2, 'CURRENT_FULL_OR_OPTIONS_DRIFT')
+                self.assertEqual(mem.writes, [])
+                self.assertFalse(link.halted)
+        _, link, mem, _, _ = self.timed_formal_execute(
+            writer.FORMAL_RESUME, stage, [26.0]*2, 'FORMAL_SOURCE_CHANGED_AFTER_HALT', halted_sector_bad=True)
+        self.assertTrue(link.halted)
+        self.assertEqual(mem.writes, [])
+
+    def test_resume_slow_reads_refuse_writes_and_second_read_mismatch_never_resets(self):
+        _, blobs, _, _, _ = self.formal_fixture()
+        stage = blobs['expected-full-uncommitted-private.bin']
+        _, _, mem, _, _ = self.timed_formal_execute(
+            writer.FORMAL_RESUME, stage, [26.0, 42.0], 'PREWRITE_BUDGET_INSUFFICIENT')
+        self.assertEqual(mem.engine.prewrite_budget['full_read_s'], 42.0)
+        self.assertEqual(mem.writes, [])
+        _, link, mem, _, _ = self.timed_formal_execute(
+            writer.FORMAL_RESUME, stage, [26.0]*4, 'AFTER_DOUBLE_READ_MISMATCH', after_second_bad=True)
+        self.assertEqual((mem.erase_count, mem.engine.commits), (0, 1))
+        self.assertNotIn('JLINKARM_Reset', link.actions)
+        self.assertNotIn('JLINKARM_Go', link.actions)
+
+    def test_supervisor_reports_budget_stop_separately_from_timeout(self):
+        budget = supervisor.describe_stop({'reason': None}, {'stop_reason': 'SECTOR3_PREWRITE_BUDGET_INSUFFICIENT'})
+        timeout = supervisor.describe_stop({'reason': 'SESSION_TIMEOUT'}, {})
+        self.assertEqual(budget['stop_code'], 'SECTOR3_PREWRITE_BUDGET_INSUFFICIENT')
+        self.assertIn('尚未擦除或编程', budget['operator_message'])
+        self.assertEqual(timeout['stop_code'], 'SESSION_TIMEOUT')
+        self.assertNotIn('尚未擦除或编程', timeout['operator_message'])
+
     def test_one_erase_stage1_verified_before_single_commit_and_caches_off(self):
         engine,mem=self.engine();result=engine.run(engine.before,self.options)
         self.assertEqual((mem.erase_count,engine.erases,engine.commits),(1,1,1));self.assertEqual(bytes(mem.flash),engine.after)
@@ -291,10 +446,12 @@ class Tests(unittest.TestCase):
             self.assertEqual(engine.commits,0)
             engine.failure_lock();self.assertEqual(mem.reg[p.CR],p.LOCK);self.assertEqual(mem.reg[p.ACR],0x600)
 
-    def test_no_commit_without_final_read_time_reserve(self):
+    def test_insufficient_session_budget_stops_before_any_write(self):
         engine,mem=self.engine(timeout_s=109)
-        with self.assertRaisesRegex(ValueError,'SESSION_TIMEOUT'):engine.run(engine.before,self.options)
-        self.assertEqual(engine.commits,0)
+        with self.assertRaisesRegex(ValueError,'PREWRITE_BUDGET_INSUFFICIENT'):
+            engine.run(engine.before,self.options)
+        self.assertEqual(mem.writes, [])
+        self.assertEqual((mem.erase_count, engine.commits), (0, 0))
 
     def test_second_erase_early_repeat_or_wrong_commit_and_outside_writes_denied(self):
         engine,mem=self.engine();engine.run(engine.before,self.options)
@@ -496,6 +653,14 @@ class Tests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'OWNER_AUTH_REQUIRED'):writer.authorize({},self.out/'capture')
             with patch.object(sys,'argv',['writer']),patch('sys.stdout',io.StringIO()):self.assertEqual(writer.main(),0)
             with patch.object(sys,'argv',['supervisor']),patch('sys.stdout',io.StringIO()):self.assertEqual(supervisor.main(),0)
+            for main in (writer.main, supervisor.main):
+                with patch.object(sys, 'argv', ['writer', '--formal-cloud', '--commit-resume']), patch(
+                        'sys.stdout', io.StringIO()) as stdout:
+                    self.assertEqual(main(), 0)
+                    plan = json.loads(stdout.getvalue())
+                    self.assertEqual(plan['scope'], writer.FORMAL_RESUME)
+                    self.assertEqual(plan['commit_word'], {'address': p.COMMIT, 'value': p.COMMIT_VALUE})
+                    self.assertEqual((plan['enabled'], plan['erase_start_max'], plan['stage1_word_max']), (False, 0, 0))
             native.assert_not_called()
 
     def sleeping_child(self):
