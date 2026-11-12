@@ -67,6 +67,49 @@ for (const incompatible of [false, true]) {
   });
 }
 
+test('公开查看无令牌：断网自动重连，服务器要求令牌时停止并提示', () => {
+  const saved = ['WebSocket', 'location', 'window'].map((key) => [key, Object.getOwnPropertyDescriptor(globalThis, key)] as const);
+  let active: FakeSocket;
+  let retries = 0;
+  const sent: string[] = [];
+  const errors: string[] = [];
+  class FakeSocket {
+    onopen: (() => void) | null = null;
+    onmessage: ((event: { data: string }) => void) | null = null;
+    onclose: ((event: { code: number }) => void) | null = null;
+    onerror = null;
+    constructor() { active = this; }
+    send(data: string) { sent.push(data); }
+    close(code = 1000) { this.onclose?.({ code }); }
+  }
+  try {
+    Object.defineProperty(globalThis, 'WebSocket', { value: FakeSocket, configurable: true });
+    Object.defineProperty(globalThis, 'location', { value: { protocol: 'http:', host: 'localhost' }, configurable: true });
+    Object.defineProperty(globalThis, 'window', { value: { setTimeout: () => { retries++; return 1; } }, configurable: true });
+    const transport = new MonitorSocket({
+      onSnapshot: () => {}, onStatusChange: () => {}, onDisconnected: () => {},
+      onConnectionFailed: (title, reason) => errors.push(title, reason),
+    });
+    transport.connect('', 'GW-C-001');
+    active!.onopen?.();
+    assert.deepEqual(JSON.parse(sent[0]), { token: '', gateway_id: 'GW-C-001' });
+    active!.close(1006);
+    assert.equal(retries, 1);
+    assert.equal(transport.isActive(), true);
+    transport.connect('', 'GW-C-001');
+    active!.close(1008);
+    assert.equal(retries, 1);
+    assert.equal(transport.isActive(), false);
+    assert.equal(errors[0], '访问验证失败');
+    assert.match(errors[1], /未开放公开查看/);
+  } finally {
+    for (const [key, descriptor] of saved) {
+      if (descriptor) Object.defineProperty(globalThis, key, descriptor);
+      else Reflect.deleteProperty(globalThis, key);
+    }
+  }
+});
+
 test('历史从空开始，重复快照、同序列和倒退时间不生成伪历史', () => {
   const history = new SessionHistory();
   const item = signal();

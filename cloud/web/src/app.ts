@@ -119,11 +119,13 @@ export function createApp(): { store: MonitorStore; socket: MonitorSocket; demo:
     standby.hidden = demo.active || live();
     if (standby.hidden) return;
     const connected = store.isConnected;
-    text('standby-title', connected ? '等待设备上电' : linkExpected ? '正在连接…' : '未连接');
+    text('standby-title', connected ? '等待设备上电' : linkExpected ? '正在连接云端…' : '未连接');
     text('standby-text', connected
       ? 'C 板上电并联网后，实时数据会自动显示，无需操作。'
-      : '点“连接”输入只读令牌。专用监护大屏可勾选“记住此设备”，以后打开页面自动连接。');
-    (document.getElementById('standby-connect') as HTMLElement).hidden = connected;
+      : linkExpected
+        ? '与云端的连接中断时会自动重试，无需操作。'
+        : '服务器要求只读令牌时，点“连接”输入。专用监护大屏可勾选“记住此设备”。');
+    (document.getElementById('standby-connect') as HTMLElement).hidden = connected || linkExpected;
   };
 
   const updateView = () => {
@@ -162,17 +164,15 @@ export function createApp(): { store: MonitorStore; socket: MonitorSocket; demo:
     // 已连接但连续 5 秒没有服务器快照，判定为网络半开：用同一令牌重新连接。
     if (store.isConnected && serverAt && performance.now() - serverAt > 5000) {
       serverAt = 0;
-      const token = socket.getToken();
       if (!demo.active) store.clearLive('连接超时');
-      if (token) socket.connect(token, gateway);
+      if (socket.isActive()) socket.connect(socket.getToken(), gateway);
       else socket.disconnect();
     }
   }, 500);
   statusBar.updateTime();
 
-  // 专用大屏记住了令牌时，打开页面即自动连接。
-  const remembered = rememberedToken();
-  if (remembered) connect(remembered);
+  // 打开页面即连接：公开查看不需要令牌；服务器要求令牌时，沿用本机记住的令牌，被拒绝再弹出令牌框。
+  connect(rememberedToken());
 
   return { store, socket, demo };
 }
