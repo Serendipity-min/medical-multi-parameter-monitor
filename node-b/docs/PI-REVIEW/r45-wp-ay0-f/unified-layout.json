@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "target": "FIVE_APPLIANCE_C_2S_V1",
+  "erase_sectors": [
+    0,
+    4
+  ],
+  "sector4_owner_approval_required": true,
+  "images": [
+    {
+      "address": 134217728,
+      "bytes": 392,
+      "file": "FIVE_APPLIANCE_C_2S_V1-boot.bin",
+      "SHA256": "c9caa44fad7c2eb2c2a05f0ba7c927e9b3e5ad37b773d16d908d0bd8478b1f19"
+    },
+    {
+      "address": 134283264,
+      "bytes": 58480,
+      "file": "FIVE_APPLIANCE_C_2S_V1-code.bin",
+      "SHA256": "125c4b61a48a72dc2348aacb868ce31f8b5bd79cc3c26286b2508fac317c85d2"
+    }
+  ],
+  "HEX": {
+    "file": "FIVE_APPLIANCE_C_2S_V1.hex",
+    "SHA256": "fed83d655a92ae7c47bad9f3568c381857dac4daf9a3b441cd243ab5b2e96277"
+  },
+  "TLS_port": 8883,
+  "time_policy": "B5_FRESH_SNTP_UNCHANGED",
+  "normal_runtime_limit": "FIVE automatic; explicit STOP",
+  "sector3_options_and_all_other_sectors": "PRESERVE",
+  "audio_enabled": false,
+  "formal_cloud": true,
+  "gateway_id": "GW-C-001"
+}
