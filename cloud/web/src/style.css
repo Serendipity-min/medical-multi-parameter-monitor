@@ -69,7 +69,8 @@ button[aria-pressed="true"] { background: #e8e8e8; color: #000; border-color: #e
 
 /* 主界面：波形与对应参数同行，底部为血压与体温 */
 .route-view { min-height: 0; overflow: hidden; }
-.overview { position: relative; height: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 24.5em; grid-template-rows: minmax(0, 1fr) 12em; }
+.overview { position: relative; height: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 24.5em; grid-template-rows: auto minmax(0, 1fr) 12em; }
+.waves, .params { grid-row: 2; }
 .waves, .params { display: grid; grid-template-rows: 1.3fr 1fr 1fr; min-height: 0; }
 .params { border-left: 1px solid var(--line); }
 .wave, .param { position: relative; min-height: 0; border-bottom: 1px solid var(--line); }
@@ -110,7 +111,7 @@ button[aria-pressed="true"] { background: #e8e8e8; color: #000; border-color: #e
 @keyframes flash-high { 50% { background: transparent; color: var(--alarm-high); } }
 @keyframes flash-medium { 50% { background: transparent; color: var(--alarm-medium); } }
 
-.bottom { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr) 24.5em; min-height: 0; }
+.bottom { grid-row: 3; grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr) 24.5em; min-height: 0; }
 .bottom > section { border-bottom: 0; border-right: 1px solid var(--line); }
 .bottom > section:last-child { border-right: 0; }
 .param.nibp { grid-template-columns: auto 1fr; }
@@ -186,3 +187,17 @@ button.primary { background: #e8e8e8; color: #000; border-color: #e8e8e8; }
 .check { display: flex; align-items: center; gap: .5em; color: var(--text) !important; }
 .check input { width: 1.1em; height: 1.1em; accent-color: #e8e8e8; }
 @media (max-width: 1400px) { .standby { right: 20em; } }
+
+/* 云端播报条：提示性信息，不使用报警色，也不进入报警区。 */
+.broadcast { --note: #b9a3ff; grid-row: 1; grid-column: 1 / -1; position: relative; z-index: 3; display: flex; align-items: center; gap: 1em; padding: .45em 1em; background: #0e0f13; border-bottom: 1px solid var(--line); border-left: .3em solid #3a3e45; }
+.broadcast[data-level="notice"] { border-left-color: var(--note); }
+.broadcast > b { font-weight: 600; color: var(--muted); white-space: nowrap; }
+.broadcast[data-level="notice"] > b { color: var(--note); }
+.broadcast time { font-family: var(--num); color: var(--muted); }
+.broadcast p { flex: 1; min-width: 0; margin: 0; font-size: 1.1em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.broadcast p small { margin-left: .8em; font-size: .85em; color: var(--muted); }
+.broadcast details summary { cursor: pointer; color: var(--muted); }
+.broadcast details[open] ol { position: absolute; right: 0; top: 100%; width: min(48em, 100%); max-height: 24em; overflow: auto; margin: 0; padding: .6em 1em; list-style: none; background: #101216; border: 1px solid #2a2e35; }
+.broadcast ol li { padding: .45em 0; border-bottom: 1px solid #1a1d22; line-height: 1.5; }
+.broadcast ol li time { margin-right: .8em; }
+.broadcast ol li span { display: block; font-size: .85em; color: var(--muted); }

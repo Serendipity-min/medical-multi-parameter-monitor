@@ -41,6 +41,7 @@ export function setupMonitorDOM(container: HTMLElement): void {
         <div class="keys">
           <button id="freeze" aria-pressed="false">冻结</button>
           <button id="demo-toggle" aria-pressed="false">演示</button>
+          <button id="speak-toggle" aria-pressed="false" hidden title="用浏览器朗读云端播报，默认关闭">朗读播报</button>
           <button id="open-access">连接</button>
           <button id="fullscreen" aria-pressed="false">全屏</button>
         </div>
@@ -105,6 +106,11 @@ export function renderRoute(route: Route, container: HTMLElement): void {
       <strong id="standby-title">未连接</strong><span id="standby-text"></span>
       <div class="standby-actions"><button type="button" id="standby-connect" class="primary">连接</button><button type="button" id="standby-demo">演示模式</button></div>
     </div></div>
+    <section id="broadcast" class="broadcast" data-level="info" hidden aria-label="AI 播报">
+      <b>AI 播报</b><time id="broadcast-time">--</time>
+      <p id="broadcast-text" role="status" aria-live="polite"></p>
+      <details id="broadcast-more"><summary>历史</summary><ol id="broadcast-history"></ol></details>
+    </section>
     <div class="waves">
       ${waveRow('ECG', 'ECG I', 'RA–LA')}
       ${waveRow('PPG', 'Pleth', 'SpO₂')}

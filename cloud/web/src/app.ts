@@ -19,6 +19,7 @@ import { MonitorStore } from './state/monitorStore';
 import { MonitorSocket } from './transport/monitorSocket';
 import { WaveformRenderer } from './waveform/renderer';
 import { AiPanel } from './ui/aiPanel';
+import { BroadcastBar } from './ui/broadcastBar';
 import { AlarmMonitor, type Alarm } from './model/alarms';
 import { DemoFeed, deviceLive } from './demo/demoFeed';
 import type { Snapshot } from './types';
@@ -42,6 +43,7 @@ export function createApp(): { store: MonitorStore; socket: MonitorSocket; demo:
   const renderer = new WaveformRenderer(store);
   const numerics = new NumericsView();
   const sessionView = new SessionView(store);
+  const broadcastBar = new BroadcastBar();
   const alarmMonitor = new AlarmMonitor();
   const demo = new DemoFeed(store);
   const gateway = initialGateway();
@@ -134,6 +136,7 @@ export function createApp(): { store: MonitorStore; socket: MonitorSocket; demo:
     statusBar.update(store.currentViewModel, store.isConnected, store.connectionText, alarms, !!store.frozenAt, demo.active);
     updateStandby();
     sessionView.update();
+    broadcastBar.update(store.latestSnapshot);
     aiPanel.update();
   };
 
@@ -141,6 +144,7 @@ export function createApp(): { store: MonitorStore; socket: MonitorSocket; demo:
     // 离开 AI 只取消待回答；连接、缓冲和问答实例继续由根部持有。
     aiPanel.leave();
     renderRoute(route, document.getElementById('route-view')!);
+    broadcastBar.reset();
     if (route === 'ai') aiPanel.mount(document.getElementById('route-view')!);
     if (route === 'overview') {
       document.getElementById('standby-connect')!.onclick = () => accessDialog.show();
