@@ -16,6 +16,7 @@ import zlib
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT/'node-b/tools'))
 import b5_sector3_plan as planner
+import b5_sector3_package as package
 import b5_sector3_write as writer
 import b5_sector3_write_protocol as p
 import b5_sector3_write_supervisor as supervisor
@@ -154,6 +155,104 @@ class Tests(unittest.TestCase):
     def run_execute(self,link,**patches):
         with patch.object(writer.recovery,'protected',side_effect=lambda path,_:Path(path)),patch.object(planner,'APP_SHA',planner.sha(self.before[:42552])):
             return writer.execute(link,self.out,{'phase':'provision','entry_runtime_state_hex':'00000000'},self.loaded())
+
+    def formal_fixture(self):
+        before = self.files['expected-full-B5-new-config-private.bin']
+        mqtt = {'gateway_id': 'GW-C-001', 'username': 'gateway-c', 'client_id': 'gw-c-001', 'port': 8883,
+                'host': 'formal.example.invalid', 'password': 'SYNTHETIC_FORMAL_ONLY'}
+        manifest, blobs = package.formal_plan(before, mqtt)
+        after = blobs['expected-full-committed-private.bin']
+        stage = blobs['sector3-uncommitted-private.bin']
+        return manifest, blobs, before, after, stage
+
+    def test_formal_manifest_and_fresh_backup_bind_authorization(self):
+        manifest, blobs, before, after, _ = self.formal_fixture()
+        pkg = self.out/'formal-package'; pkg.mkdir()
+        raw = writer.recovery.encoded(manifest)
+        for name, blob in {**blobs, 'manifest-private.json': raw}.items():
+            (pkg/name).write_bytes(blob)
+        backup = self.out/'backup'; probe = backup/'probe'; probe.mkdir(parents=True)
+        proof = {'board': 'C', 'exit_code': 0, 'Close_completed': True, 'independent_reads_match': True,
+                 'full_sha256': writer.sha(before), 'options_sha256': writer.sha(self.options)}
+        (backup/'receipt-private.json').write_bytes(writer.recovery.encoded(proof))
+        for i in (1, 2):
+            (probe/f'flash-{i}-private.bin').write_bytes(before)
+            (probe/f'options-{i}-private.bin').write_bytes(self.options)
+        for f in ('identity-private.json', 'identity-after-private.json'):
+            (probe/f).write_bytes(writer.recovery.encoded(self.identity))
+        card = self.out/'card'; card.write_bytes(b'SYNTHETIC_CARD')
+        site = self.out/'site'
+        site.write_bytes(writer.recovery.encoded({'JLink_target': 'C', **dict.fromkeys(
+            ('latest_power_state_checked', 'other_boards_off', 'no_human', 'C_power_ready',
+             'hotspot_off', 'USB_and_CAN_state_frozen', 'BOOT_and_RESET_untouched'), True)}))
+        out = self.out/'capture'
+        auth = {'enabled': True, 'owner_approved': True, 'scope': writer.FORMAL, 'board': 'C', 'phase': 'provision',
+                'tools_sha256': writer.bindings(True), 'DLL_sha256': writer.ro.raw.DLL_SHA,
+                'expires_unix': time.time()+60, 'card': str(card), 'card_sha256': writer.sha(card.read_bytes()),
+                'session_timeout_s': 180, 'probe_sessions': 1, 'retries': 0, 'output': str(out),
+                'site_record': str(site), 'site_record_sha256': writer.sha(site.read_bytes()),
+                'package': str(pkg), 'package_manifest_sha256': writer.sha(raw), 'backup': str(backup),
+                'before_full_sha256': writer.sha(before), 'after_full_sha256': writer.sha(after)}
+        with patch.object(writer.recovery, 'protected', side_effect=lambda path, _: Path(path)):
+            self.assertEqual(writer.authorize(auth, out, True)[3:5], (before, after))
+            with self.assertRaisesRegex(ValueError, 'OWNER_AUTH_REQUIRED'):
+                writer.authorize(auth, out)
+            (probe/'flash-2-private.bin').write_bytes(before[:-1]+b'\x00')
+            with self.assertRaisesRegex(ValueError, 'FORMAL_BACKUP_SOURCE_SHA'):
+                writer.authorize(auth, out, True)
+            tampered = pkg/'sector3-uncommitted-private.bin'
+            tampered.write_bytes(tampered.read_bytes()[:-1]+b'\x00')
+            with self.assertRaisesRegex(ValueError, 'FORMAL_REBUILT_PACKAGE_DRIFT'):
+                writer.load_formal_package(pkg, writer.sha(raw))
+
+    def test_formal_live_sha_drift_before_and_after_halt_never_reaches_flash_engine(self):
+        manifest, blobs, before, after, stage = self.formal_fixture()
+        loaded = (manifest, {**blobs, 'options-private.bin': self.options}, self.identity, before, after, stage)
+        for phase in ('before', 'halted'):
+            out = self.out/phase; out.mkdir()
+            link = FakeLink(out, before, self.options, self.identity)
+            original = link.read
+            def read(address, size):
+                result = original(address, size)
+                if size == 1048576 and (phase == 'before' or link.halted):
+                    return result[:-1]+b'\x00'
+                return result
+            link.read = read
+            with patch.object(writer.recovery, 'protected', side_effect=lambda path, _: Path(path)):
+                with patch.object(writer, 'NativeIO') as native, self.assertRaisesRegex(
+                    ValueError, 'CURRENT_FULL_OR_OPTIONS_DRIFT' if phase == 'before' else 'FORMAL_SOURCE_CHANGED_AFTER_HALT'):
+                    writer.execute(link, out, {'scope': writer.FORMAL, 'phase': 'provision'}, loaded)
+                native.assert_not_called()
+            self.assertNotIn('JLINKARM_Reset', link.actions)
+
+    def test_formal_executes_only_sector3_and_requires_exact_committed_full_readback(self):
+        manifest, blobs, before, after, stage = self.formal_fixture()
+        loaded = (manifest, {**blobs, 'options-private.bin': self.options}, self.identity, before, after, stage)
+        for corrupt in (False, True):
+            out = self.out/str(corrupt); out.mkdir()
+            link = FakeLink(out, before, self.options, self.identity)
+            mem = NorIO(before, self.options); mem.corrupt_final = corrupt
+            original = link.read
+            def read(address, size):
+                if mem.guard is not None and mem.engine.phase == 'DONE':
+                    link.after = bytes(mem.flash)
+                return original(address, size)
+            link.read = read
+            bridge = Mock(); bridge.read32.side_effect = link.u32; bridge.probe.return_value = {'synthetic': True}
+            with patch.object(writer.recovery, 'protected', side_effect=lambda path, _: Path(path)), \
+                    patch.object(writer, 'DapBridge', return_value=bridge), patch.object(writer, 'NativeIO', return_value=mem):
+                if corrupt:
+                    with self.assertRaisesRegex(ValueError, 'FINAL_FULL_OR_OPTIONS_DRIFT'):
+                        writer.execute(link, out, {'scope': writer.FORMAL, 'phase': 'provision'}, loaded)
+                else:
+                    result = writer.execute(link, out, {'scope': writer.FORMAL, 'phase': 'provision'}, loaded)
+                    self.assertEqual(result['status'], 'FORMAL_SECTOR3_FULL_VERIFY_PASS')
+                    self.assertEqual((out/'after-full-2-private.bin').read_bytes(), after)
+            self.assertEqual(bytes(mem.flash), after)
+            self.assertEqual(mem.erase_count, 1)
+            self.assertEqual([a for a, _, _ in mem.writes if 0x08000000 <= a < p.BASE or p.END <= a < 0x08100000], [])
+            self.assertNotIn('JLINKARM_Reset', link.actions)
+            self.assertNotIn('JLINKARM_Go', link.actions)
 
     def test_one_erase_stage1_verified_before_single_commit_and_caches_off(self):
         engine,mem=self.engine();result=engine.run(engine.before,self.options)

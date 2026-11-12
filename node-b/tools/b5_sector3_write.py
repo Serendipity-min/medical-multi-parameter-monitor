@@ -9,12 +9,17 @@ import time
 
 import b4_recovery as recovery
 import b5_g2ro as ro
+import b5_sector3_package as packager
 import b5_sector3_plan as planner
 from b5_sector3_write_protocol import DapBridge, Engine, require, BASE, END, COMMIT, ACR, KEYR, SR, CR
 
 ROOT = Path(__file__).resolve().parents[2]
 PROVISION = 'B5_G2B_SECTOR3_CONNECTED_CONTEXT_ESP_PRESENT'
 RESTORE = 'B5_R_CFG_SECTOR3_CONNECTED_CONTEXT_ESP_PRESENT'
+FORMAL = 'WP_AY0_FORMAL_SECTOR3_PROVISION'
+FORMAL_SCHEMA = 'WP_AY0_FORMAL_SECTOR3_OFFLINE_V1'
+FORMAL_FILES = {'sector3-original-private.bin', 'sector3-uncommitted-private.bin', 'sector3-committed-private.bin',
+                'expected-full-uncommitted-private.bin', 'expected-full-committed-private.bin'}
 CARDS = {'provision': 'AUTH-B5-G2B-SECTOR3-001-R3.md', 'restore_config': 'AUTH-B5-R-CFG-001-R3.md'}
 ELF_SHA = '3c726f61f76eadac4909826203ca84dee65521aec448ad477ddca0c3c58795d8'
 SYMBOL_SHA = 'fbf88b80076b6b508cc49b225067e9daf775d9c1c9ffeaeb559f9100ac365716'
@@ -34,14 +39,22 @@ DAP_CALLS = {'JLINKARM_CORESIGHT_Configure', 'JLINKARM_CORESIGHT_ReadAPDPReg', '
 def sha(blob): return hashlib.sha256(blob).hexdigest()
 
 
-def bindings():
+def bindings(formal_cloud=False):
     names = ('b5_sector3_write.py', 'b5_sector3_write_protocol.py', 'b5_sector3_write_supervisor.py',
              'b5_sector3_plan.py', 'b5_g2ro.py', 'b5_g2ro_supervisor.py', 'c_b4_closeout_readonly.py',
              'readback_b.py', 'runtime_state_b.py', 'live_state_b.py', 'resp_exploratory.py', 'b4_recovery.py')
+    if formal_cloud:
+        names += ('b5_sector3_package.py',)
     return {name: sha((ROOT/'node-b/tools'/name).read_bytes()) for name in names}
 
 
-def plan():
+def plan(formal_cloud=False):
+    if formal_cloud:
+        return {'enabled': False, 'owner_approved': False, 'scope': FORMAL, 'schema': FORMAL_SCHEMA,
+                'tools_sha256': bindings(True), 'DLL_sha256': ro.raw.DLL_SHA,
+                'sector_range': [BASE, END], 'session_timeout_s': 180, 'probe_sessions': 1,
+                'erase_start_max': 1, 'commit_write_max': 1, 'halt_max': 1, 'reset_max': 0, 'Go_max': 0,
+                'before_full_sha_from_manifest_required': True, 'full_committed_readback_required': True}
     return {'enabled': False, 'owner_approved': False, 'scopes': [PROVISION, RESTORE],
             'tools_sha256': bindings(), 'DLL_sha256': ro.raw.DLL_SHA,
             'sector_range': [BASE, END], 'session_timeout_s': 180, 'probe_sessions': 1,
@@ -111,7 +124,79 @@ def entry_runtime_state(a):
     return bytes.fromhex(value)
 
 
-def authorize(a, out):
+def load_formal_package(folder, expected_manifest_sha):
+    folder = recovery.protected(Path(folder), False)
+    raw = recovery.read(folder/'manifest-private.json', False)
+    require(sha(raw) == expected_manifest_sha, 'S3_FORMAL_MANIFEST_SHA')
+    manifest = json.loads(raw)
+    require(manifest.get('schema') == FORMAL_SCHEMA and set(manifest.get('files', {})) == FORMAL_FILES
+            and {p.name for p in folder.iterdir()} == FORMAL_FILES | {'manifest-private.json'},
+            'S3_FORMAL_SCHEMA_OR_FILES')
+    blobs = {name: recovery.read(folder/name, False) for name in FORMAL_FILES}
+    start, end = planner.START, planner.END
+    after = blobs['expected-full-committed-private.bin']
+    before = after[:start] + blobs['sector3-original-private.bin'] + after[end:]
+    require(sha(before) == manifest.get('source_full_sha256'), 'S3_FORMAL_PACKAGE_SOURCE_SHA')
+    _, _, fields = planner.parse_record(after[start:start+planner.RECORD_BYTES])
+    mqtt = {'gateway_id': planner.FORMAL_IDENTITY[0], 'username': fields['username'],
+            'client_id': fields['client_id'], 'host': fields['host'], 'password': fields['password'], 'port': 8883}
+    mqtt['username'] = mqtt['username'].decode('ascii')
+    mqtt['client_id'] = mqtt['client_id'].decode('ascii')
+    rebuilt_manifest, rebuilt = packager.formal_plan(before, mqtt)
+    require(manifest == rebuilt_manifest and blobs == rebuilt, 'S3_FORMAL_REBUILT_PACKAGE_DRIFT')
+    return manifest, blobs, before, after
+
+
+class FormalEngine(Engine):
+    def validate_transition(self, phase, before, after):
+        old, old_epoch, original = planner.parse_record(before)
+        new, new_epoch, fields = planner.parse_record(after)
+        require(phase == 'provision' and new == old + 1 and old_epoch == new_epoch
+                and (original['username'], original['client_id']) == tuple(x.encode() for x in planner.ISOLATED_IDENTITY[1:])
+                and (fields['username'], fields['client_id']) == tuple(x.encode() for x in planner.FORMAL_IDENTITY[1:])
+                and all(original[k] == fields[k] for k in ('ssid', 'wifi_password')), 'S3_FORMAL_TRANSITION')
+
+
+def authorize_formal(a, out):
+    require(a.get('enabled') is True and a.get('owner_approved') is True and a.get('scope') == FORMAL
+            and a.get('board') == 'C' and a.get('phase') == 'provision', 'S3_FORMAL_OWNER_AUTH_REQUIRED')
+    require(a.get('tools_sha256') == bindings(True) and a.get('DLL_sha256') == ro.raw.DLL_SHA
+            and time.time() < a.get('expires_unix', 0), 'S3_FORMAL_TOOL_OR_EXPIRY')
+    require(sha(recovery.read(Path(a['card']), False)) == a.get('card_sha256'), 'S3_FORMAL_CARD_SHA')
+    require(a.get('session_timeout_s') == 180 and a.get('probe_sessions') == 1 and a.get('retries') == 0
+            and Path(a.get('output', '')).resolve() == Path(out).resolve(), 'S3_FORMAL_SESSION_BOUND')
+    site_raw = recovery.read(Path(a['site_record']), False)
+    require(sha(site_raw) == a.get('site_record_sha256'), 'S3_FORMAL_SITE_SHA')
+    site = json.loads(site_raw)
+    require(site.get('JLink_target') == 'C' and all(site.get(k) is True for k in
+            ('latest_power_state_checked', 'other_boards_off', 'no_human', 'C_power_ready',
+             'hotspot_off', 'USB_and_CAN_state_frozen', 'BOOT_and_RESET_untouched')), 'S3_FORMAL_SITE_NOT_READY')
+    manifest, blobs, before, after = load_formal_package(a['package'], a['package_manifest_sha256'])
+    require(a.get('before_full_sha256') == manifest['source_full_sha256']
+            and a.get('after_full_sha256') == sha(after), 'S3_FORMAL_AUTH_IMAGES')
+    backup = Path(a['backup'])
+    proof = json.loads(recovery.read(backup/'receipt-private.json', False))
+    require(proof.get('board') == 'C' and proof.get('exit_code') == 0 and proof.get('Close_completed') is True
+            and proof.get('independent_reads_match') is True
+            and proof.get('full_sha256') == manifest['source_full_sha256'], 'S3_FORMAL_BACKUP_RECEIPT')
+    probe = backup/'probe'
+    require(all(recovery.read(probe/f'flash-{i}-private.bin', False) == before for i in (1, 2)),
+            'S3_FORMAL_BACKUP_SOURCE_SHA')
+    options = recovery.read(probe/'options-1-private.bin', False)
+    require(len(options) == 16 and sha(options) == proof.get('options_sha256')
+            and options == recovery.read(probe/'options-2-private.bin', False),
+            'S3_FORMAL_BACKUP_OPTIONS')
+    identity = json.loads(recovery.read(probe/'identity-private.json', False))
+    recovery.identity_check(identity)
+    require(identity == json.loads(recovery.read(probe/'identity-after-private.json', False))
+            and identity['optcr'] & (1 << 19), 'S3_FORMAL_BACKUP_IDENTITY_OR_PROTECTION')
+    recovery.protected(Path(out).parent, False)
+    return manifest, {**blobs, 'options-private.bin': options}, identity, before, after, blobs['sector3-uncommitted-private.bin']
+
+
+def authorize(a, out, formal_cloud=False):
+    if formal_cloud:
+        return authorize_formal(a, out)
     require(a.get('enabled') is True and a.get('owner_approved') is True and a.get('scope') in (PROVISION, RESTORE),
             'S3_OWNER_AUTH_REQUIRED')
     require(a.get('tools_sha256') == bindings() and a.get('DLL_sha256') == ro.raw.DLL_SHA, 'S3_TOOL_OR_DLL_DRIFT')
@@ -286,8 +371,9 @@ def save(out, name, data):
 
 
 def execute(link, out, auth, loaded, engine_type=None):
-    _, blobs, reference, before, after, stage = loaded
-    expected_runtime = entry_runtime_state(auth)
+    manifest, blobs, reference, before, after, stage = loaded
+    formal = auth.get('scope') == FORMAL
+    expected_runtime = None if formal else entry_runtime_state(auth)
     link.open(); seen = ro.raw.identity(link); recovery.identity_check(seen)
     require(seen == reference, 'S3_WRONG_UID_OR_PROTECTION'); ro.raw.write_json(out/'identity-before-private.json', seen)
     ro.raw.write_json(out/'entry-sticky-private.json', {'DHCSR': link.u32(ro.SYSTEM['DHCSR'])})
@@ -299,8 +385,11 @@ def execute(link, out, auth, loaded, engine_type=None):
         require(actual == before and options == blobs['options-private.bin'], 'S3_CURRENT_FULL_OR_OPTIONS_DRIFT')
         pairs.append((actual, options))
     require(pairs[0] == pairs[1], 'S3_BEFORE_DOUBLE_READ_MISMATCH')
-    require(sha(actual[:planner.APP_BYTES]) == planner.APP_SHA and link.read(RAM_STATE, 4) == expected_runtime,
-            'S3_ENTRY_RUNTIME_STATE_MISMATCH')
+    if formal:
+        require(sha(actual) == manifest['source_full_sha256'], 'S3_FORMAL_LIVE_SOURCE_SHA')
+    else:
+        require(sha(actual[:planner.APP_BYTES]) == planner.APP_SHA and link.read(RAM_STATE, 4) == expected_runtime,
+                'S3_ENTRY_RUNTIME_STATE_MISMATCH')
     require(link.u32(RCC_CR) & (1 << 17) and link.u32(RCC_CFGR) & 0xfc == 4, 'S3_HCLK_NOT_FROZEN_HSE8_DIV1')
     probe = json.loads((out/'probe-status-private.json').read_text('utf8'))
     require(3000 <= probe['voltage_mv'] <= 3600, 'S3_VOLTAGE_FOR_PSIZE32')
@@ -308,7 +397,11 @@ def execute(link, out, auth, loaded, engine_type=None):
     link.set_close_resume(False); require(link.call('JLINKARM_Halt', timeout=3) == 0, 'S3_HALT_FAILED')
     require(link.u32(ro.SYSTEM['DHCSR']) & ro.raw.HALT, 'S3_HALT_NOT_CONFIRMED'); link.u32(ro.SYSTEM['DHCSR']); link.stable_halt()
     link.verified_running_flash = False
-    require(link.read(RAM_STATE, 4) == expected_runtime, 'S3_ARMED_CHANGED_AFTER_HALT')
+    if formal:
+        require(sha(link.read(0x08000000, 1048576)) == manifest['source_full_sha256'],
+                'S3_FORMAL_SOURCE_CHANGED_AFTER_HALT')
+    else:
+        require(link.read(RAM_STATE, 4) == expected_runtime, 'S3_ARMED_CHANGED_AFTER_HALT')
     require(link.u32(RCC_CR) & (1 << 17) and link.u32(RCC_CFGR) & 0xfc == 4, 'S3_HCLK_CHANGED_AFTER_HALT')
     link.policy('DisableFlashDL'); link.policy('DisableFlashBPs')
     require(link.call('JLINKARM_IsConnected') == 1, 'S3_SDK_NOT_CONNECTED')
@@ -319,7 +412,9 @@ def execute(link, out, auth, loaded, engine_type=None):
             link.read(0x08000000, 64) == actual[:64] and link.u32(CR) == bridge.read32(CR),
             'S3_RAW_SDK_MIXED_READ_CROSSCHECK')
     ro.raw.write_json(out/'raw-bridge-preflight-private.json', result)
-    engine = (Engine if engine_type is None else engine_type)(NativeIO(link, bridge), before, after, stage, options, auth['phase'], started_monotonic=link.started)
+    selected_engine = FormalEngine if formal else engine_type or Engine
+    engine = selected_engine(NativeIO(link, bridge), before, after, stage, options, auth['phase'],
+                             started_monotonic=link.started)
     link.active_engine = engine
     result = engine.run(actual, options)
     actual, options = engine.verified_full, engine.verified_options
@@ -330,7 +425,13 @@ def execute(link, out, auth, loaded, engine_type=None):
     require(second_full == actual and second_options == options, 'S3_AFTER_DOUBLE_READ_MISMATCH')
     seen = ro.raw.identity(link); recovery.identity_check(seen); ro.raw.write_json(out/'identity-after-private.json', seen)
     require(seen == reference, 'S3_POST_IDENTITY_DRIFT')
-    link.post_verified = True; link.policy('SetResetType = 0')
+    link.post_verified = True
+    if formal:
+        link.stable_halt()
+        result.update(status='FORMAL_SECTOR3_FULL_VERIFY_PASS', exit_code=0, actions=link.actions,
+                      source_full_sha256=manifest['source_full_sha256'], boot_mode='PHYSICAL_COLD_BOOT_REQUIRED')
+        return result
+    link.policy('SetResetType = 0')
     require(link.call('JLINKARM_Reset') == 0, 'S3_NORMAL_RESET_FAILED')
     core = ro.old.runtime.core_if_halted(link); ro.raw.write_json(out/'reset-core-private.json', core)
     registers = core.get('registers', {})
@@ -347,8 +448,9 @@ def execute(link, out, auth, loaded, engine_type=None):
     return result
 
 
-def worker(authorization, out):
-    auth_raw = recovery.read(authorization, False); auth = json.loads(auth_raw); loaded = authorize(auth, out)
+def worker(authorization, out, formal_cloud=False):
+    auth_raw = recovery.read(authorization, False); auth = json.loads(auth_raw)
+    loaded = authorize(auth, out, True) if formal_cloud else authorize(auth, out)
     mark = json.loads(recovery.read(authorization.with_suffix('.used'), False))
     require(mark.get('authorization_sha256') == sha(auth_raw), 'S3_SUPERVISOR_MARKER')
     require(type(mark.get('started_monotonic')) in (int, float) and mark['started_monotonic'] <= time.monotonic(),
@@ -399,12 +501,13 @@ def worker(authorization, out):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--plan', action='store_true'); parser.add_argument('--worker', action='store_true')
+    parser.add_argument('--formal-cloud', action='store_true')
     parser.add_argument('--authorization', type=Path); parser.add_argument('--out', type=Path)
     args = parser.parse_args()
-    if args.plan or not args.worker: print(json.dumps(plan(), indent=2)); return 0
+    if args.plan or not args.worker: print(json.dumps(plan(args.formal_cloud), indent=2)); return 0
     try:
         require(args.authorization is not None and args.out is not None, 'S3_USE_SUPERVISOR')
-        return worker(args.authorization, args.out)
+        return worker(args.authorization, args.out, args.formal_cloud)
     except BaseException as error:
         print(json.dumps({'status': 'STOP_BEFORE_NATIVE', 'error_type': type(error).__name__, 'exit_code': 1})); return 1
 

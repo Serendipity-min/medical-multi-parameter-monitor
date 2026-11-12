@@ -29,10 +29,12 @@ def watch(child, out, timeout_s=180, started_monotonic=None):
             'automatic_retry_or_recovery': False}
 
 
-def supervise(authorization, out, backend=writer):
+def supervise(authorization, out, backend=writer, formal_cloud=False):
     writer=backend
     raw = writer.recovery.read(authorization, False); auth = json.loads(raw)
-    writer.authorize(auth, out); writer.require(not out.exists(), 'S3_OUTPUT_EXISTS')
+    if formal_cloud: writer.authorize(auth, out, True)
+    else: writer.authorize(auth, out)
+    writer.require(not out.exists(), 'S3_OUTPUT_EXISTS')
     used = authorization.with_suffix('.used')
     started = time.monotonic()
     writer.ro.raw.write_json(used, {'scope': auth['scope'], 'authorization_sha256': writer.sha(raw),
@@ -40,6 +42,7 @@ def supervise(authorization, out, backend=writer):
     writer.recovery.protected(used, False)
     command = [sys.executable, '-X', 'utf8', str(Path(writer.__file__).resolve()), '--worker',
                '--authorization', str(authorization), '--out', str(out)]
+    if formal_cloud: command.append('--formal-cloud')
     with out.with_name(out.name+'-worker-private.log').open('xb') as log:
         writer.recovery.protected(out.with_name(out.name+'-worker-private.log'), False)
         child = subprocess.Popen(command, stdout=log, stderr=subprocess.STDOUT)
@@ -59,12 +62,13 @@ def supervise(authorization, out, backend=writer):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--plan', action='store_true'); parser.add_argument('--execute', action='store_true')
+    parser.add_argument('--formal-cloud', action='store_true')
     parser.add_argument('--authorization', type=Path); parser.add_argument('--out', type=Path)
     args = parser.parse_args()
-    if args.plan or not args.execute: print(json.dumps(writer.plan(), indent=2)); return 0
+    if args.plan or not args.execute: print(json.dumps(writer.plan(args.formal_cloud), indent=2)); return 0
     try:
         writer.require(args.authorization is not None and args.out is not None, 'S3_AUTH_AND_OUTPUT_REQUIRED')
-        return supervise(args.authorization, args.out)
+        return supervise(args.authorization, args.out, formal_cloud=args.formal_cloud)
     except BaseException as error:
         print(json.dumps({'status': 'STOP_BEFORE_NATIVE', 'error_type': type(error).__name__, 'exit_code': 1})); return 1
 
