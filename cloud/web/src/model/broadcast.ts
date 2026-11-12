@@ -38,23 +38,34 @@ export const broadcastKey = (item: Broadcast): string => `${item.id}:${item.ts}`
 export const spokenText = (item: Broadcast): string =>
   item.disclaimer ? `${item.text.replace(/[。.]?$/, '。')}${item.disclaimer}` : item.text;
 
+export type SpeechStatus = 'off' | 'on' | 'speaking' | 'no-voice' | 'failed';
+
 // 朗读默认关闭。每条播报只读一次；开启前已出现的播报不补读。
+// 状态回调用于在软键上直接显示“无中文语音 / 朗读失败”，现场不必猜测为什么没声音。
 export class BroadcastSpeaker {
   public enabled = false;
   private seen = new Set<string>();
 
-  constructor(private synth: SpeechSynthesis | undefined = globalThis.speechSynthesis) {}
+  constructor(
+    private synth: SpeechSynthesis | undefined = globalThis.speechSynthesis,
+    private onStatus: (status: SpeechStatus) => void = () => {},
+  ) {}
 
   public get available(): boolean {
     return !!this.synth && typeof SpeechSynthesisUtterance !== 'undefined';
   }
 
   // 必须在用户点击中调用：浏览器只在用户手势后允许页面发声，这里先读一句确认语解锁。
+  // 开启时不调用 cancel()：Chrome 中 cancel 后立即 speak 可能丢掉这一句。
   public setEnabled(on: boolean): void {
     if (!this.available) return;
     this.enabled = on;
-    this.synth!.cancel();
-    if (on) this.say('播报朗读已开启');
+    if (on) {
+      this.say('播报朗读已开启');
+    } else {
+      this.synth!.cancel();
+      this.onStatus('off');
+    }
   }
 
   public offer(item: Broadcast | null): void {
@@ -66,6 +77,14 @@ export class BroadcastSpeaker {
   private say(text: string): void {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'zh-CN';
+    // 指定中文语音；系统没有中文语音时浏览器可能静默不读，需明确提示。
+    const voice = this.synth!.getVoices?.().find((item) => /^zh([-_]CN)?/i.test(item.lang));
+    if (voice) utterance.voice = voice;
+    else if (this.synth!.getVoices?.().length) this.onStatus('no-voice');
+    utterance.onstart = () => this.onStatus('speaking');
+    utterance.onend = () => { if (this.enabled) this.onStatus('on'); };
+    utterance.onerror = (event) => { if (event.error !== 'interrupted' && event.error !== 'canceled') this.onStatus('failed'); };
+    this.synth!.resume?.();
     this.synth!.speak(utterance);
   }
 }

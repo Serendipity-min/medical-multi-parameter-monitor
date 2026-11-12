@@ -1,19 +1,24 @@
 // 监护总览的 AI 播报条与“朗读播报”软键。播报文本只写入 textContent。
 
-import { BroadcastSpeaker, broadcastKey, readBroadcast } from '../model/broadcast';
+import { BroadcastSpeaker, broadcastKey, readBroadcast, type SpeechStatus } from '../model/broadcast';
 import type { Broadcast, Snapshot } from '../types';
 
 const time = (ts: number) => new Date(ts).toLocaleTimeString('zh-CN', { hour12: false });
 
+const SPEECH_LABEL: Record<SpeechStatus, string> = {
+  off: '朗读播报', on: '朗读：开', speaking: '朗读中…', 'no-voice': '无中文语音', failed: '朗读失败',
+};
+
 export class BroadcastBar {
-  private speaker = new BroadcastSpeaker();
   private key = document.querySelector<HTMLButtonElement>('#speak-toggle')!;
+  private speaker = new BroadcastSpeaker(globalThis.speechSynthesis, (status) => { this.key.textContent = SPEECH_LABEL[status]; });
   private rendered = '';
 
   constructor() {
     this.key.onclick = () => {
       this.speaker.setEnabled(!this.speaker.enabled);
       this.key.setAttribute('aria-pressed', String(this.speaker.enabled));
+      if (this.speaker.enabled && this.key.textContent === SPEECH_LABEL.off) this.key.textContent = SPEECH_LABEL.on;
     };
   }
 

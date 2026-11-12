@@ -53,7 +53,7 @@ test('朗读默认关闭；开启后每条只读一次，开启前已出现的�
     assert.equal(spokenText(item({ text: '请检查指夹佩戴后复测。' })), '请检查指夹佩戴后复测。仅供参考，不构成医疗建议，如有不适请咨询医生');
     speaker.setEnabled(false);
     speaker.offer(item({ id: 'later' }));
-    assert.equal(spoken.length, 3); assert.equal(cancelled, 2);
+    assert.equal(spoken.length, 3); assert.equal(cancelled, 1);
   } finally {
     if (saved) Object.defineProperty(globalThis, 'SpeechSynthesisUtterance', saved);
     else delete (globalThis as Record<string, unknown>).SpeechSynthesisUtterance;
@@ -65,4 +65,28 @@ test('浏览器不支持朗读时开关无效', () => {
   assert.equal(speaker.available, false);
   speaker.setEnabled(true);
   assert.equal(speaker.enabled, false);
+});
+
+test('没有中文语音或朗读出错时给出状态，有中文语音时指定该语音', () => {
+  const saved = Object.getOwnPropertyDescriptor(globalThis, 'SpeechSynthesisUtterance');
+  type Fake = { text: string; voice?: { lang: string }; onerror?: (event: { error: string }) => void };
+  const made: Fake[] = [];
+  Object.defineProperty(globalThis, 'SpeechSynthesisUtterance', { value: class { lang = ''; constructor(public text: string) { made.push(this as unknown as Fake); } }, configurable: true });
+  try {
+    for (const [voices, expected] of [[[{ lang: 'en-US' }], 'no-voice'], [[{ lang: 'en-US' }, { lang: 'zh-CN' }], null]] as const) {
+      const statuses: string[] = [];
+      const synth = { speak: () => {}, cancel: () => {}, getVoices: () => voices } as unknown as SpeechSynthesis;
+      new BroadcastSpeaker(synth, (status) => statuses.push(status)).setEnabled(true);
+      assert.equal(statuses.includes('no-voice'), expected === 'no-voice');
+      if (!expected) assert.equal(made.at(-1)!.voice?.lang, 'zh-CN');
+    }
+    const statuses: string[] = [];
+    new BroadcastSpeaker({ speak: () => {}, cancel: () => {}, getVoices: () => [] } as unknown as SpeechSynthesis, (status) => statuses.push(status)).setEnabled(true);
+    made.at(-1)!.onerror!({ error: 'not-allowed' });
+    made.at(-1)!.onerror!({ error: 'interrupted' });
+    assert.deepEqual(statuses, ['failed']);
+  } finally {
+    if (saved) Object.defineProperty(globalThis, 'SpeechSynthesisUtterance', saved);
+    else delete (globalThis as Record<string, unknown>).SpeechSynthesisUtterance;
+  }
 });
