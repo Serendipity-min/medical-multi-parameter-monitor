@@ -50,6 +50,7 @@ test('朗读默认关闭；开启后每条只读一次，开启前已出现的�
     speaker.offer(item({ id: 'new', ts: 2_000_000 }));
     assert.deepEqual(spoken, ['播报朗读已开启', spokenText(item({ id: 'new' })), spokenText(item({ id: 'new' }))]);
     assert.match(spoken[1], /体表温度.*仅供参考/);
+    assert.equal(spokenText(item({ text: '请检查指夹佩戴后复测。' })), '请检查指夹佩戴后复测。仅供参考，不构成医疗建议，如有不适请咨询医生');
     speaker.setEnabled(false);
     speaker.offer(item({ id: 'later' }));
     assert.equal(spoken.length, 3); assert.equal(cancelled, 2);

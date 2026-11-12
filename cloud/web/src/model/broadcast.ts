@@ -34,7 +34,9 @@ export function readBroadcast(snapshot: Snapshot | null): BroadcastState {
 // 后端重启后 id 从 1 重新编号，去重键须带上时间。
 export const broadcastKey = (item: Broadcast): string => `${item.id}:${item.ts}`;
 
-export const spokenText = (item: Broadcast): string => `${item.text}${item.disclaimer ? `。${item.disclaimer}` : ''}`;
+// 后端文本已以句号结尾，拼接免责声明时不重复标点。
+export const spokenText = (item: Broadcast): string =>
+  item.disclaimer ? `${item.text.replace(/[。.]?$/, '。')}${item.disclaimer}` : item.text;
 
 // 朗读默认关闭。每条播报只读一次；开启前已出现的播报不补读。
 export class BroadcastSpeaker {
