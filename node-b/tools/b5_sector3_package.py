@@ -4,6 +4,8 @@ from datetime import datetime, timezone
 import hashlib
 import json
 from pathlib import Path
+import re
+import socket
 import time
 
 import b4_recovery as recovery
@@ -96,12 +98,25 @@ def prepare(out):
         'builder_sha256': binding['builder_sha256'], 'exit_code': 0}
 
 
+def formal_host(host):
+    label_pattern = r'[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?'
+    planner.require(isinstance(host, str) and 0 < len(host) <= 64
+                    and all(re.fullmatch(label_pattern, label) for label in host.split('.'))
+                    and host.rsplit('.', 1)[-1].lower() != 'localhost', 'FORMAL_HOST_NAME')
+    try:
+        socket.inet_aton(host)
+    except OSError:
+        return host
+    raise ValueError('FORMAL_HOST_NAME')
+
+
 def formal_plan(current, mqtt):
     planner.require(len(current) == 1048576, 'FULL_SIZE')
     start, end = planner.START, planner.END
     original = current[start:end]
     record, uncommitted, old, new = planner.make_record(
         original[:planner.RECORD_BYTES], mqtt, formal_cloud=True)
+    host = formal_host(mqtt['host'])
     tail = original[planner.RECORD_BYTES:]
     before, after = current[:start], current[end:]
     files = {'sector3-original-private.bin': original,
@@ -113,7 +128,7 @@ def formal_plan(current, mqtt):
     manifest = {'schema': 'WP_AY0_FORMAL_SECTOR3_OFFLINE_V1',
                 'source_full_sha256': sha(current), 'source_board_readback_verified': False,
                 'gateway_id': gateway_id, 'username': username, 'client_id': client_id,
-                'tls_port': 8883, 'sector_range': [0x0800c000, 0x08010000],
+                'host': host, 'tls_port': 8883, 'sector_range': [0x0800c000, 0x08010000],
                 'generation_from': old, 'generation_to': new, 'commit_offset': 20,
                 'preserved_tail_bytes': len(tail), 'hardware_execution_enabled': False,
                 'target_writes': 0, 'files': {name: {'bytes': len(blob), 'sha256': sha(blob)}

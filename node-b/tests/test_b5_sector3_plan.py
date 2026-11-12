@@ -76,13 +76,27 @@ class Tests(unittest.TestCase):
         uncommitted = files['sector3-uncommitted-private.bin']
         self.assertEqual(uncommitted, committed[:20] + b'\xff'*4 + committed[24:])
         self.assertFalse(manifest['hardware_execution_enabled'])
-        self.assertNotIn(mqtt['password'], json.dumps(manifest))
+        self.assertEqual(manifest['host'], mqtt['host'])
+        self.assertEqual(fields['host'], mqtt['host'].encode('ascii'))
+        manifest_text = json.dumps(manifest)
+        for secret in (mqtt['password'], fields['wifi_password'].decode('ascii')):
+            self.assertNotIn(secret, manifest_text)
         with self.assertRaisesRegex(ValueError, 'B5_IDENTITY'):
             plan.make_record(old_record(), mqtt)
         with self.assertRaisesRegex(ValueError, 'B5_FORMAL_IDENTITY'):
             package.formal_plan(self.installed, self.mqtt)
         with self.assertRaisesRegex(ValueError, 'B5_TLS_PORT'):
             package.formal_plan(self.installed, {**mqtt, 'port': 28895})
+
+    def test_formal_package_rejects_invalid_hosts(self):
+        mqtt = {**self.mqtt, 'gateway_id': 'GW-C-001', 'username': 'gateway-c', 'client_id': 'gw-c-001'}
+        for host in ('', None, 'b5.example.invalid:8883', 'https://b5.example.invalid',
+                     'localhost', 'LOCALHOST', 'b5.localhost', '127.0.0.1', '127.1',
+                     '2130706433', '0x7f000001', '::1', '[::1]', ' b5.example.invalid',
+                     'b5.example.invalid.', 'b5..invalid', '-b5.invalid', 'b5_.invalid',
+                     '中文.invalid', 'a'*64, 'a'*62+'.bc'):
+            with self.subTest(host=host), self.assertRaises(ValueError):
+                package.formal_plan(self.installed, {**mqtt, 'host': host})
 
     def test_generation_zero_and_overflow_refused(self):
         for generation in (0,0xffffffff):

@@ -138,12 +138,11 @@ def load_formal_package(folder, expected_manifest_sha):
     before = after[:start] + blobs['sector3-original-private.bin'] + after[end:]
     require(sha(before) == manifest.get('source_full_sha256'), 'S3_FORMAL_PACKAGE_SOURCE_SHA')
     _, _, fields = planner.parse_record(after[start:start+planner.RECORD_BYTES])
-    mqtt = {'gateway_id': planner.FORMAL_IDENTITY[0], 'username': fields['username'],
-            'client_id': fields['client_id'], 'host': fields['host'], 'password': fields['password'], 'port': 8883}
-    mqtt['username'] = mqtt['username'].decode('ascii')
-    mqtt['client_id'] = mqtt['client_id'].decode('ascii')
+    mqtt = {'gateway_id': planner.FORMAL_IDENTITY[0], 'username': fields['username'].decode('ascii'),
+            'client_id': fields['client_id'].decode('ascii'), 'host': fields['host'].decode('ascii'),
+            'password': fields['password'], 'port': 8883}
     rebuilt_manifest, rebuilt = packager.formal_plan(before, mqtt)
-    require(manifest == rebuilt_manifest and blobs == rebuilt, 'S3_FORMAL_REBUILT_PACKAGE_DRIFT')
+    require(raw == recovery.encoded(rebuilt_manifest) and blobs == rebuilt, 'S3_FORMAL_REBUILT_PACKAGE_DRIFT')
     return manifest, blobs, before, after
 
 

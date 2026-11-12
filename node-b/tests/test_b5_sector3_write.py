@@ -195,6 +195,13 @@ class Tests(unittest.TestCase):
                 'before_full_sha256': writer.sha(before), 'after_full_sha256': writer.sha(after)}
         with patch.object(writer.recovery, 'protected', side_effect=lambda path, _: Path(path)):
             self.assertEqual(writer.authorize(auth, out, True)[3:5], (before, after))
+            self.assertEqual(writer.load_formal_package(pkg, writer.sha(raw)), (manifest, blobs, before, after))
+            manifest_path = pkg/'manifest-private.json'
+            for changed in (writer.recovery.encoded({**manifest, 'host': 'other.example.invalid'}), raw + b' '):
+                manifest_path.write_bytes(changed)
+                with self.assertRaisesRegex(ValueError, 'FORMAL_REBUILT_PACKAGE_DRIFT'):
+                    writer.load_formal_package(pkg, writer.sha(changed))
+            manifest_path.write_bytes(raw)
             with self.assertRaisesRegex(ValueError, 'OWNER_AUTH_REQUIRED'):
                 writer.authorize(auth, out)
             (probe/'flash-2-private.bin').write_bytes(before[:-1]+b'\x00')
