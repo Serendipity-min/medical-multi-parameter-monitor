@@ -96,11 +96,62 @@ def prepare(out):
         'builder_sha256': binding['builder_sha256'], 'exit_code': 0}
 
 
+def formal_plan(current, mqtt):
+    planner.require(len(current) == 1048576, 'FULL_SIZE')
+    start, end = planner.START, planner.END
+    original = current[start:end]
+    record, uncommitted, old, new = planner.make_record(
+        original[:planner.RECORD_BYTES], mqtt, formal_cloud=True)
+    tail = original[planner.RECORD_BYTES:]
+    before, after = current[:start], current[end:]
+    files = {'sector3-original-private.bin': original,
+             'sector3-uncommitted-private.bin': uncommitted + tail,
+             'sector3-committed-private.bin': record + tail,
+             'expected-full-uncommitted-private.bin': before + uncommitted + tail + after,
+             'expected-full-committed-private.bin': before + record + tail + after}
+    gateway_id, username, client_id = planner.FORMAL_IDENTITY
+    manifest = {'schema': 'WP_AY0_FORMAL_SECTOR3_OFFLINE_V1',
+                'source_full_sha256': sha(current), 'source_board_readback_verified': False,
+                'gateway_id': gateway_id, 'username': username, 'client_id': client_id,
+                'tls_port': 8883, 'sector_range': [0x0800c000, 0x08010000],
+                'generation_from': old, 'generation_to': new, 'commit_offset': 20,
+                'preserved_tail_bytes': len(tail), 'hardware_execution_enabled': False,
+                'target_writes': 0, 'files': {name: {'bytes': len(blob), 'sha256': sha(blob)}
+                                              for name, blob in files.items()}}
+    return manifest, files
+
+
+def prepare_formal(out, current_full, mqtt_private_json):
+    recovery.protected(out.parent, False)
+    current = recovery.read(current_full, False)
+    mqtt = json.loads(recovery.read(mqtt_private_json, False))
+    manifest, files = formal_plan(current, mqtt)
+    files['manifest-private.json'] = recovery.encoded(manifest)
+    out.mkdir(exist_ok=False)
+    for name, data in files.items():
+        path = out / name
+        with path.open('xb') as stream:
+            stream.write(data)
+        recovery.require(recovery.read(path, False) == data, 'OUTPUT_DISK_VERIFY')
+    return {'status': 'FORMAL_OFFLINE_PLAN_ONLY', 'manifest_sha256': sha(files['manifest-private.json']),
+            'target_writes': 0, 'DLL_loaded': False, 'exit_code': 0}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', required=True, type=Path)
+    parser.add_argument('--formal-cloud', action='store_true')
+    parser.add_argument('--current-full', type=Path)
+    parser.add_argument('--mqtt-private-json', type=Path)
     args = parser.parse_args()
-    try: result = prepare(args.out)
+    if args.formal_cloud:
+        if not (args.current_full and args.mqtt_private_json):
+            parser.error('--formal-cloud requires --current-full and --mqtt-private-json')
+    elif args.current_full or args.mqtt_private_json:
+        parser.error('--current-full and --mqtt-private-json require --formal-cloud')
+    try:
+        result = (prepare_formal(args.out, args.current_full, args.mqtt_private_json)
+                  if args.formal_cloud else prepare(args.out))
     except Exception as error:
         result = {'status': 'STOP_OFFLINE_PREPARATION', 'error_type': type(error).__name__,
                   'target_writes': 0, 'DLL_loaded': False, 'exit_code': 1}

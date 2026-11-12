@@ -161,8 +161,12 @@ static uint64_t sample_utc(B4Gateway *g, B4Segment *s, B4Remote *n, unsigned bas
 }
 static void emit(B4Gateway *g, B4Remote *n, MpFrame *f) {
 #ifdef MP_B5_CLOUD_CANDIDATE
-    /* SKX原始质量位未标合成；B5在出口强制来源，不改原CAN帧/有效位/时间。 */
+    /* 出口来源由构建档位决定，保留 CAN 的有效位和采集时间。 */
+#ifdef MP_FORMAL_CLOUD
+    f->synthetic = f->stream >= MP_NODE_STATUS;
+#else
     f->synthetic = true;
+#endif
     f->epoch = g->session;
     f->boot = n->observed_boot;
 #endif

@@ -12,6 +12,8 @@ CURRENT_FULL_SHA = 'b460d917e1d454fdb0882d1f837d91c606363179b817a3896a1df6897b2d
 APP_BYTES = 42552
 APP_SHA = 'd5b9624b3da1129b4e045d3b2f669c00d2d93cb7379b15293ff143fe9f130683'
 START, END, RECORD_BYTES = 49152, 65536, 336
+ISOLATED_IDENTITY = ('GW-B5-001', 'b5-gateway', 'b5-c-isolated')
+FORMAL_IDENTITY = ('GW-C-001', 'gateway-c', 'gw-c-001')
 FIELDS = (('ssid', 8, 33), ('wifi_password', 41, 65), ('host', 106, 65),
           ('username', 171, 33), ('password', 204, 65), ('client_id', 269, 41))
 
@@ -52,12 +54,13 @@ def parse_record(record):
     return generation, minimum_epoch, values
 
 
-def make_record(original_record, mqtt, minimum_epoch=None):
+def make_record(original_record, mqtt, minimum_epoch=None, *, formal_cloud=False):
     old_generation, old_epoch, old = parse_record(original_record)
     require(old_generation < 0xffffffff, 'GENERATION_OVERFLOW')
     require(isinstance(mqtt, dict), 'MQTT_OBJECT')
-    require(mqtt.get('gateway_id') == 'GW-B5-001' and mqtt.get('username') == 'b5-gateway'
-            and mqtt.get('client_id') == 'b5-c-isolated', 'B5_IDENTITY')
+    expected = FORMAL_IDENTITY if formal_cloud else ISOLATED_IDENTITY
+    require(tuple(mqtt.get(key) for key in ('gateway_id', 'username', 'client_id')) == expected,
+            'B5_FORMAL_IDENTITY' if formal_cloud else 'B5_IDENTITY')
     require(type(mqtt.get('port')) is int and mqtt['port'] == 8883, 'B5_TLS_PORT')
     require(mqtt.get('tls_insecure', False) is False and mqtt.get('validate_certificate', True) is True,
             'B5_TLS_VALIDATION_REQUIRED')

@@ -1,12 +1,21 @@
 /* 仅模拟端口报文输入，CANopenNode、OD、有效性、队列与序列化均为生产实现。 */
 #include "b4_gateway.h"
+#ifdef MP_FORMAL_CLOUD
+#include "../../b5/b5_policy.h"
+#endif
 #include "../../../node-a/STM32F407_HOSPITAL/HARDWARE/CANopen/node_policy.h"
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
 
 static B4Gateway g;
+#ifdef MP_B5_EGRESS_FINAL
+volatile uint32_t g_uptime_ms=1000;
+uint64_t gateway_epoch_milliseconds(void){return 1800000000000ULL+g_uptime_ms;}
+#define now g_uptime_ms
+#else
 static uint32_t now=1000;
+#endif
 static unsigned valid[6][MP_STREAMS];
 static MpFrame latest[6][MP_STREAMS];
 static MpFrame ppg[8];
@@ -17,6 +26,16 @@ static void drain(void){
     while(mp_router_take(&g.router,&f,now)){
         assert(f.node==1 || f.node==2 || f.node==4 || f.node==5);
         assert(mp_topic(&f,topic,sizeof(topic))>0 && mp_json(&f,json,sizeof(json))>0);
+#ifdef MP_FORMAL_CLOUD
+        assert(!strncmp(topic,"mpm/v1/GW-C-001/",sizeof("mpm/v1/GW-C-001/")-1));
+        if (f.stream<MP_NODE_STATUS) {
+            assert(!f.synthetic);
+            f.synthetic=true;
+            assert(b5_prepare_publish(&f,f.timestamp) && !f.synthetic);
+            assert(mp_json(&f,json,sizeof(json))>0 && strstr(json,"\"source\":\"LIVE\"") &&
+                   strstr(json,"\"synthetic\":false"));
+        }
+#endif
         if (f.stream==MP_PPG) { assert(ppg_count<8); ppg[ppg_count++]=f; }
         if(!f.replay){latest[f.node][f.stream]=f;if(f.valid)valid[f.node][f.stream]++;}
         mp_router_ack(&g.router,&f,true);
@@ -60,6 +79,25 @@ static void partial_ppg(void){
     b4_gateway_close(&g);memset(valid,0,sizeof(valid));now=1000;
 }
 int main(void){
+#ifdef MP_FORMAL_CLOUD
+    assert(b5_identity_allowed("gw-c-001","gateway-c"));
+    assert(!b5_identity_allowed("b5-c-isolated","b5-gateway"));
+    assert(!b5_identity_allowed("b5-c-isolated","gateway-c"));
+    assert(!b5_identity_allowed("gw-c-001","b5-gateway"));
+    MpFrame replay={.node=4,.stream=MP_TEMP,.timestamp=1800000000000ULL,.synthetic=true};
+    char formal_topic[128],formal_json[256];
+    assert(b5_prepare_publish(&replay,replay.timestamp+5001) && replay.replay && !replay.synthetic);
+    assert(mp_topic(&replay,formal_topic,sizeof(formal_topic))>0 &&
+           !strcmp(formal_topic,"mpm/v1/GW-C-001/NODE-D/replay/temp"));
+    assert(mp_json(&replay,formal_json,sizeof(formal_json))>0 && strstr(formal_json,"\"source\":\"REPLAY\""));
+    MpFrame status={.node=3,.stream=MP_GATEWAY_STATUS,.timestamp=replay.timestamp,.synthetic=true};
+    assert(b5_prepare_publish(&status,status.timestamp) && status.synthetic);
+    assert(mp_topic(&status,formal_topic,sizeof(formal_topic))>0 &&
+           !strcmp(formal_topic,"mpm/v1/GW-C-001/status"));
+    assert(mp_json(&status,formal_json,sizeof(formal_json))>0 && strstr(formal_json,"\"source\":\"MOCK\"") &&
+           strstr(formal_json,"\"value\":\"OFFLINE\""));
+    puts("PASS_AY0_FORMAL_IDENTITY_TOPIC_REPLAY_STATUS");
+#endif
     assert(node_age_within(1000,1001,250) && node_age_within(1000,750,250));
     assert(!node_age_within(1000,749,250) && node_age_within(5,0xfffffff0u,250));
     partial_ppg();

@@ -11,6 +11,7 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT/'node-b/tools'))
 import b5_sector3_plan as plan
+import b5_sector3_package as package
 
 
 def old_record(generation=9):
@@ -60,6 +61,28 @@ class Tests(unittest.TestCase):
     def test_wrong_identity_and_TLS_refused(self):
         for key,value in [('gateway_id','GW-C-001'),('username','SYNTHETIC_OTHER'),('client_id','SYNTHETIC_OTHER'),('port',8884),('tls_insecure',True),('validate_certificate',False)]:
             with self.subTest(key=key),self.assertRaises(ValueError):plan.make_record(old_record(),{**self.mqtt,key:value})
+
+    def test_formal_package_preserves_wifi_tail_and_all_other_sectors(self):
+        mqtt = {**self.mqtt, 'gateway_id': 'GW-C-001', 'username': 'gateway-c', 'client_id': 'gw-c-001'}
+        manifest, files = package.formal_plan(self.installed, mqtt)
+        committed = files['sector3-committed-private.bin']
+        generation, epoch, fields = plan.parse_record(committed[:plan.RECORD_BYTES])
+        self.assertEqual((generation, epoch), (10, 1700000000))
+        self.assertEqual((fields['username'], fields['client_id']), (b'gateway-c', b'gw-c-001'))
+        self.assertEqual((fields['ssid'], fields['wifi_password']), (b'SYNTHETIC_WIFI', b'SYNTHETIC_WIFI_KEY'))
+        self.assertEqual(files['expected-full-committed-private.bin'],
+                         self.installed[:plan.START] + committed + self.installed[plan.END:])
+        self.assertEqual(committed[plan.RECORD_BYTES:], self.installed[plan.START+plan.RECORD_BYTES:plan.END])
+        uncommitted = files['sector3-uncommitted-private.bin']
+        self.assertEqual(uncommitted, committed[:20] + b'\xff'*4 + committed[24:])
+        self.assertFalse(manifest['hardware_execution_enabled'])
+        self.assertNotIn(mqtt['password'], json.dumps(manifest))
+        with self.assertRaisesRegex(ValueError, 'B5_IDENTITY'):
+            plan.make_record(old_record(), mqtt)
+        with self.assertRaisesRegex(ValueError, 'B5_FORMAL_IDENTITY'):
+            package.formal_plan(self.installed, self.mqtt)
+        with self.assertRaisesRegex(ValueError, 'B5_TLS_PORT'):
+            package.formal_plan(self.installed, {**mqtt, 'port': 28895})
 
     def test_generation_zero_and_overflow_refused(self):
         for generation in (0,0xffffffff):

@@ -30,6 +30,7 @@ def main():
     parser.add_argument('--outage-retention', action='store_true', help='生产候选断网授时与分级保留，只构建')
     parser.add_argument('--tx-integrity-diag', action='store_true', help='WP-AU 透传发送完整性诊断，只构建')
     parser.add_argument('--link-resilience', action='store_true', help='WP-AW 网络长退避与 QoS0 停滞节流，只构建')
+    parser.add_argument('--formal-cloud', action='store_true', help='WP-AY0 五板正式云身份、TLS 8883 与 LIVE 遥测，只构建')
     parser.add_argument('--five-node', action='store_true', help='五板静态来源候选；仅离线构建')
     parser.add_argument('--five-appliance', action='store_true', help='五板自动启动/KEY1/事实回复候选；仅离线构建，不部署')
     parser.add_argument('--field01', action='store_true', help='Issue #8 手动单窗网络探针，只构建')
@@ -41,12 +42,16 @@ def main():
     parser.add_argument('--split-flash', action='store_true', help='统一候选分段布局：sector0向量、sector4代码；只构建，写sector4另需负责人确认')
     parser.add_argument('--tls-port',type=int,help='统一候选的隔离TLS入口，默认1883；不更改原B5的8883目标')
     args = parser.parse_args()
+    if args.formal_cloud and (not (args.five_appliance and args.link_resilience) or
+                              args.tls_port not in (None,8883)):
+        parser.error('--formal-cloud requires five-appliance WP-AX and TLS port 8883')
     if args.transport_bench and (not (args.unified and args.five_appliance and args.no_audio) or
                                  args.field01 or args.esp_passthrough or args.esp_230400 or
                                  args.tls_port not in (None,28895)):
         parser.error('--transport-bench requires --unified --five-appliance --no-audio and TLS 28895; modes are selected at runtime')
-    if args.esp_passthrough and (not args.five_appliance or args.tls_port not in (None,28895)):
-        parser.error('--esp-passthrough requires --five-appliance and TLS port 28895')
+    passthrough_port = 8883 if args.formal_cloud else 28895
+    if args.esp_passthrough and (not args.five_appliance or args.tls_port not in (None,passthrough_port)):
+        parser.error(f'--esp-passthrough requires --five-appliance and TLS port {passthrough_port}')
     if args.pass_lifecycle and (not (args.esp_passthrough and args.egress_final) or
                                args.field01 or args.transport_bench or args.esp_230400):
         parser.error('--pass-lifecycle requires non-FIELD01 five-appliance egress-final passthrough at 115200')
@@ -79,6 +84,7 @@ def main():
     small_frames=args.bench_seconds==15 or args.bench_small_frames
     if args.tls_port is not None and (not args.unified or not 1<=args.tls_port<=65535):parser.error('--tls-port requires --unified and port1..65535')
     if args.egress_final and not args.b5:parser.error('--egress-final requires --b5')
+    tls_port = args.tls_port or (passthrough_port if args.five_appliance else 1883)
     spec = importlib.util.spec_from_file_location('b4_sdk', ROOT / 'gateway/esp_at_probe/build.py')
     base = importlib.util.module_from_spec(spec); spec.loader.exec_module(base)
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
@@ -103,6 +109,7 @@ def main():
     if args.outage_retention:flags += ['-DMP_OUTAGE_RETENTION']
     if args.tx_integrity_diag:flags += ['-DMP_TX_INTEGRITY_DIAG']
     if args.link_resilience:flags += ['-DMP_LINK_RESILIENCE']
+    if args.formal_cloud:flags += ['-DMP_FORMAL_CLOUD']
     if args.esp_230400:flags += ['-DMP_ESP_UART_230400']
     if args.transport_profile or args.transport_bench:flags += ['-DMP_TRANSPORT_PROFILE']
     if args.transport_bench:flags += ['-DMP_TRANSPORT_BENCH','-DMP_ESP_PASSTHROUGH','-DMP_ESP_UART_230400']
@@ -125,8 +132,9 @@ def main():
                     base.LIBRARY / 'Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_usart.c']
         mqtt = ROOT / 'gateway/third_party/coreMQTT'
         sources += [mqtt/'source'/n for n in ('core_mqtt.c','core_mqtt_serializer.c','core_mqtt_state.c')]
+        gateway_id = 'GW-C-001' if args.formal_cloud else 'GW-B5-001'
         flags += ['-DMP_B5_CLOUD_CANDIDATE', '-DMP_CAN_RX_IRQ', '-DMP_H3_FRESH_SNTP',
-                  '-DMP_H3_PERSISTENT_CONFIG', '-DMP_H3_WIFI_AWAKE', '-DMP_MQTT_GATEWAY_ID="GW-B5-001"',
+                  '-DMP_H3_PERSISTENT_CONFIG', '-DMP_H3_WIFI_AWAKE', f'-DMP_MQTT_GATEWAY_ID="{gateway_id}"',
                   '-I'+str(ROOT/'gateway/b5'), '-I'+str(transport), '-I'+str(probe),
                   '-I'+str(mqtt/'source/include'), '-I'+str(mqtt/'source/interface')]
     if args.transport_bench:
@@ -170,7 +178,7 @@ def main():
     if args.no_audio:
         sources += [ROOT/'gateway/microphone'/n for n in ('mic_format.c','mic_protocol.c')]
         flags += ['-DMP_AUDIO_DISABLED','-I'+str(ROOT/'gateway/microphone')]
-    if args.unified:flags += ['-DMP_FINAL_UNIFIED',f'-DMP_MQTT_TLS_PORT={args.tls_port or (28895 if args.five_appliance else 1883)}']
+    if args.unified:flags += ['-DMP_FINAL_UNIFIED',f'-DMP_MQTT_TLS_PORT={tls_port}']
     linker = ROOT/'gateway/b5/flash.ld' if args.b5 else (HERE/'bench_flash.ld' if args.bench else ROOT/'gateway/mqtt/STM32F407ZGT6_FLASH.ld')
     if audio:
         template=linker.read_text(encoding='utf-8')
@@ -306,7 +314,7 @@ def main():
             layout={'schema':1,'target':target,'erase_sectors':[0,4],'sector4_owner_approval_required':True,
                 'images':[dict(address=a,bytes=(out/(target+'-'+n+'.bin')).stat().st_size,
                     **artifact(out/(target+'-'+n+'.bin'))) for n,a in [('boot',0x08000000),('code',0x08010000)]],
-                'HEX':artifact(out/(target+'.hex')),'ELF':artifact(elf),'TLS_port':None if args.bench else args.tls_port or (28895 if args.five_appliance else 1883),
+                'HEX':artifact(out/(target+'.hex')),'ELF':artifact(elf),'TLS_port':None if args.bench else tls_port,
                 'time_policy':'LOCAL_TEST_TIME_NEVER_CLOUD' if args.bench else 'B5_FRESH_SNTP_UNCHANGED',
                 'normal_runtime_limit':'FIELD01 PRE once up to 60s; START once; ready45s; window150s; hard210s; audio64chunks' if args.field01 else f'B4START one-shot {args.bench_seconds or 180}s' if args.bench else 'FIVE automatic; explicit STOP; audio maximum2s' if args.five_appliance else 'UNISTART manual-stop; B5START retains420s',
                 'sector3_options_and_all_other_sectors':'PRESERVE'}
@@ -315,6 +323,9 @@ def main():
             if args.no_audio:
                 layout['audio_enabled']=False
                 layout['normal_runtime_limit']=layout['normal_runtime_limit'].replace('; audio64chunks','').replace('; audio maximum2s','')
+            if args.formal_cloud:
+                layout['formal_cloud'] = True
+                layout['gateway_id'] = gateway_id
             (out/'unified-layout.json').write_text(json.dumps(layout,indent=2)+'\n')
         status = 'PASS'
     except RuntimeError as error:
