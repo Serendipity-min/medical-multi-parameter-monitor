@@ -31,9 +31,12 @@ export function readBroadcast(snapshot: Snapshot | null): BroadcastState {
   return { supported: true, latest, history };
 }
 
+// 后端重启后 id 从 1 重新编号，去重键须带上时间。
+export const broadcastKey = (item: Broadcast): string => `${item.id}:${item.ts}`;
+
 export const spokenText = (item: Broadcast): string => `${item.text}${item.disclaimer ? `。${item.disclaimer}` : ''}`;
 
-// 朗读默认关闭。每条播报按 id 只读一次；开启前已出现的播报不补读。
+// 朗读默认关闭。每条播报只读一次；开启前已出现的播报不补读。
 export class BroadcastSpeaker {
   public enabled = false;
   private seen = new Set<string>();
@@ -53,8 +56,8 @@ export class BroadcastSpeaker {
   }
 
   public offer(item: Broadcast | null): void {
-    if (!item || this.seen.has(item.id)) return;
-    this.seen.add(item.id);
+    if (!item || this.seen.has(broadcastKey(item))) return;
+    this.seen.add(broadcastKey(item));
     if (this.enabled && this.available) this.say(spokenText(item));
   }
 

@@ -1,6 +1,6 @@
 // 监护总览的 AI 播报条与“朗读播报”软键。播报文本只写入 textContent。
 
-import { BroadcastSpeaker, readBroadcast } from '../model/broadcast';
+import { BroadcastSpeaker, broadcastKey, readBroadcast } from '../model/broadcast';
 import type { Broadcast, Snapshot } from '../types';
 
 const time = (ts: number) => new Date(ts).toLocaleTimeString('zh-CN', { hour12: false });
@@ -26,7 +26,7 @@ export class BroadcastBar {
     if (!bar) return;
     bar.hidden = !state.supported || (!state.latest && !state.history.length);
     // 仅在内容变化时重绘，避免每 500 ms 刷新时收起已展开的历史。
-    const signature = JSON.stringify([state.latest?.id ?? null, state.history.map((item) => item.id)]);
+    const signature = JSON.stringify([state.latest && broadcastKey(state.latest), state.history.map(broadcastKey)]);
     if (bar.hidden || signature === this.rendered) return;
     this.rendered = signature;
 

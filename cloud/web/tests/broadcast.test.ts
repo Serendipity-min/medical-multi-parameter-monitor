@@ -32,7 +32,7 @@ test('畸形播报被丢弃，不影响快照其余部分', () => {
   assert.deepEqual(state.history.map((entry) => entry.id), ['b1']);
 });
 
-test('朗读默认关闭；开启后每条只读一次，开启前已出现的不补读，关闭即停止', () => {
+test('朗读默认关闭；开启后每条只读一次，开启前已出现的不补读，后端重启后同 id 新播报照读，关闭即停止', () => {
   const spoken: string[] = [];
   let cancelled = 0;
   const saved = Object.getOwnPropertyDescriptor(globalThis, 'SpeechSynthesisUtterance');
@@ -47,11 +47,12 @@ test('朗读默认关闭；开启后每条只读一次，开启前已出现的�
     speaker.offer(item({ id: 'old' }));
     speaker.offer(item({ id: 'new' }));
     speaker.offer(item({ id: 'new' }));
-    assert.deepEqual(spoken, ['播报朗读已开启', spokenText(item({ id: 'new' }))]);
+    speaker.offer(item({ id: 'new', ts: 2_000_000 }));
+    assert.deepEqual(spoken, ['播报朗读已开启', spokenText(item({ id: 'new' })), spokenText(item({ id: 'new' }))]);
     assert.match(spoken[1], /体表温度.*仅供参考/);
     speaker.setEnabled(false);
     speaker.offer(item({ id: 'later' }));
-    assert.equal(spoken.length, 2); assert.equal(cancelled, 2);
+    assert.equal(spoken.length, 3); assert.equal(cancelled, 2);
   } finally {
     if (saved) Object.defineProperty(globalThis, 'SpeechSynthesisUtterance', saved);
     else delete (globalThis as Record<string, unknown>).SpeechSynthesisUtterance;
