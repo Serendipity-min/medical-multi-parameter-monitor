@@ -59,7 +59,7 @@ def test_restart_cannot_reactivate_previous_measurement(restarted):
     assert nibp(hub.snapshot(GW))['value']==[117,77]
 
 
-def test_actual_wss_does_not_publish_previous_boot_nibp(monkeypatch):
+def test_actual_wss_does_not_publish_previous_boot_nibp(monkeypatch, monitor_snapshot):
     token='ac-local-synthetic-readonly-'+'x'*32
     monkeypatch.setenv('MONITOR_TESTING','1');monkeypatch.delenv('MONITOR_MQTT_CONFIG',raising=False)
     monkeypatch.setenv('MONITOR_VIEW_TOKEN',token);monkeypatch.setenv('MONITOR_ALLOWED_ORIGINS','http://testserver')
@@ -67,6 +67,5 @@ def test_actual_wss_does_not_publish_previous_boot_nibp(monkeypatch):
     with TestClient(app) as client:
         hub,now=setup();now[0]+=1
         hub.ingest(frame('NODE-A','NODE_STATUS',now[0],session='ac-new-boot',value='ONLINE'));app.state.hub=hub
-        with client.websocket_connect('/ws/v1/monitor',headers={'origin':'http://testserver'}) as ws:
-            ws.send_json({'token':token,'gateway_id':GW});snap=ws.receive_json()
-            assert nibp(snap)['value'] is None and snap['nodes']['NODE-B']=='OFFLINE'
+        snap = monitor_snapshot(client, {'token': token, 'gateway_id': GW})
+        assert nibp(snap)['value'] is None and snap['nodes']['NODE-B'] == 'OFFLINE'

@@ -78,7 +78,7 @@ def test_reboot_replay_and_identical_new_completion():
     assert pressure()['value'] == [120.0, 80.0] and pressure()['timestamp'] == int(now[0] * 1000)
 
 
-def test_real_wss_snapshot_contains_independent_DE(monkeypatch):
+def test_real_wss_snapshot_contains_independent_DE(monkeypatch, monitor_snapshot):
     monkeypatch.setenv('MONITOR_TESTING', '1')
     monkeypatch.setenv('MONITOR_VIEW_TOKEN', 'synthetic-five-node-readonly-' + 'x' * 32)
     monkeypatch.setenv('MONITOR_ALLOWED_ORIGINS', 'http://testserver')
@@ -86,7 +86,5 @@ def test_real_wss_snapshot_contains_independent_DE(monkeypatch):
     app = create_app()
     with TestClient(app) as client:
         app.state.hub, _ = setup()
-        with client.websocket_connect('/ws/v1/monitor', headers={'origin': 'http://testserver'}) as ws:
-            ws.send_json({'token': 'synthetic-five-node-readonly-' + 'x' * 32, 'gateway_id': GW})
-            snap = ws.receive_json()
-            assert snap['node_profile'] == 'five' and snap['nodes']['NODE-D'] == snap['nodes']['NODE-E'] == 'ONLINE'
+        snap = monitor_snapshot(client, {'token': 'synthetic-five-node-readonly-' + 'x' * 32, 'gateway_id': GW})
+        assert snap['node_profile'] == 'five' and snap['nodes']['NODE-D'] == snap['nodes']['NODE-E'] == 'ONLINE'

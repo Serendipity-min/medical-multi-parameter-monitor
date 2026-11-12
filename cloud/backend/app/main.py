@@ -41,7 +41,12 @@ def create_app() -> FastAPI:
             os.environ.get('MONITOR_ALLOWED_ORIGINS', 'http://127.0.0.1:5173').split(',')
         )
         gateways = os.environ.get('MONITOR_GATEWAY_IDS', 'GW-DEV-001,GW-C-001').split(',')
-        app.state.hub = Hub(gateways, wave_batches=os.environ.get('MONITOR_WAVE_BATCH_DELIVERY') == '1')
+        app.state.hub = Hub(
+            gateways,
+            wave_batches=os.environ.get('MONITOR_WAVE_BATCH_DELIVERY') == '1',
+            broadcast=os.environ.get('MONITOR_BROADCAST') == '1',
+            broadcast_hr=os.environ.get('MONITOR_BROADCAST_HR') == '1',
+        )
         config = os.environ.get('MONITOR_MQTT_CONFIG')
         # 单元测试可显式关闭网络；正式启动缺少配置立即失败，避免假健康。
         if not config and os.environ.get('MONITOR_TESTING') != '1':

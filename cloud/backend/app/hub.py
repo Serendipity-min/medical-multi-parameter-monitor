@@ -3,11 +3,13 @@
 import asyncio
 import time
 from .models import Telemetry, CHANNELS, NODE_PROFILE
+from .broadcast import BroadcastEngine, GATEWAY as BROADCAST_GATEWAY
 
 
 class Hub:
     # Hub 只由 asyncio 事件循环读写；注入两种时钟便于独立验证采集时间与接收过期。
-    def __init__(self, gateways: list[str], clock=time.time, monotonic=time.monotonic, *, wave_batches=False):
+    def __init__(self, gateways: list[str], clock=time.time, monotonic=time.monotonic, *,
+                 wave_batches=False, broadcast=False, broadcast_hr=False):
         self.wave_batches = wave_batches
         self.gateways = gateways
         self.clock, self.monotonic = clock, monotonic
@@ -19,8 +21,32 @@ class Hub:
         self.replays: dict[str, Telemetry] = {}
         self.events: dict[str, Telemetry] = {}
         self.subscribers: dict[asyncio.Queue, str] = {}
-        self.broker_connected = False
+        self._broker_connected = False
+        self.broadcast = BroadcastEngine(clock, monotonic, hr=broadcast_hr) if broadcast else None
         self.accepted = self.rejected = 0
+
+    @property
+    def broker_connected(self):
+        return self._broker_connected
+
+    @broker_connected.setter
+    def broker_connected(self, connected):
+        if self._broker_connected and not connected and self.broadcast is not None:
+            self.broadcast.sync_gateway(None)
+        self._broker_connected = connected
+
+    def _sync_broadcast_gateway(self, heartbeat=None):
+        if self._state(BROADCAST_GATEWAY, 'GATEWAY') != 'ONLINE':
+            self.broadcast.sync_gateway(None)
+        elif heartbeat is not None:
+            # MQTT 重连后须等新心跳，缓存的 ONLINE 不恢复播报。
+            self.broadcast.sync_gateway(heartbeat)
+
+    def _current_session(self, key, message):
+        gateway, node, _ = key
+        status = self.current.get((gateway, node, 'NODE_STATUS'))
+        return (self.current_generation.get(key, 0) == self.gateway_generation.get(gateway, 0)
+                and (status is None or message.session_id == status[0].session_id))
 
     def ingest(self, message: Telemetry) -> bool:
         if (
@@ -57,11 +83,28 @@ class Hub:
                     or (message.session_id == old.session_id and message.seq <= old.seq)
                 ):
                     return False
+            broadcast = self.broadcast if message.gateway_id == BROADCAST_GATEWAY else None
+            if broadcast is not None and message.stream == 'GATEWAY_STATUS':
+                # 先观察旧心跳是否过期，避免新 ONLINE 延续断档前的窗口。
+                self._sync_broadcast_gateway()
             if (message.stream == 'GATEWAY_STATUS' and previous
                     and message.session_id != previous[0].session_id):
                 self.gateway_generation[message.gateway_id] = self.gateway_generation.get(message.gateway_id, 0) + 1
             self.current[key] = (message, self.monotonic())
             self.current_generation[key] = self.gateway_generation.get(message.gateway_id, 0)
+            if broadcast is not None:
+                if message.stream == 'GATEWAY_STATUS':
+                    self._sync_broadcast_gateway(message)
+                elif message.stream == 'NODE_STATUS':
+                    if (self._state(message.gateway_id, message.node_id) != 'ONLINE'
+                            or previous and message.session_id != previous[0].session_id):
+                        if broadcast.windows.keys() & CHANNELS[message.node_id]:
+                            broadcast.windows.clear()
+                elif message.stream in broadcast.params:
+                    self._sync_broadcast_gateway()
+                    if (self._state(message.gateway_id, message.node_id) == 'ONLINE'
+                            and self._current_session(key, message)):
+                        broadcast.ingest(message)
         self.accepted += 1
         if self.wave_batches and message.source != 'REPLAY' and message.stream in ('ECG', 'RESP', 'PPG'):
             self.publish(message.gateway_id)
@@ -102,11 +145,7 @@ class Hub:
                 limit = 90 if name == 'NIBP' else 5
                 if state != 'ONLINE':
                     data['validity'] = 'OFFLINE' if state == 'OFFLINE' else 'STALE'
-                elif (
-                    self.current_generation.get((gateway, node, name), 0) != self.gateway_generation.get(gateway, 0)
-                    or (status := self.current.get((gateway, node, 'NODE_STATUS')))
-                    and message.session_id != status[0].session_id
-                ):
+                elif not self._current_session((gateway, node, name), message):
                     # 节点新Boot-up已反映到状态流后，旧会话高seq/延迟帧也不能借新ONLINE续活。
                     # 只收紧输出，不改采集timestamp；同值的新测量必须凭当前会话重新到达。
                     data['validity'] = 'STALE'
@@ -119,7 +158,7 @@ class Hub:
                     data['value'], data['samples'] = None, []
                 streams.append(data)
         replay, event = self.replays.get(gateway), self.events.get(gateway)
-        return {
+        snapshot = {
             'type': 'snapshot',
             'schema_version': 1,
             'node_profile': NODE_PROFILE,
@@ -133,6 +172,13 @@ class Hub:
             'replay': replay.model_dump() if replay else None,
             'event': event.model_dump() if event else None,
         }
+        if self.broadcast is not None:
+            if gateway == BROADCAST_GATEWAY:
+                self._sync_broadcast_gateway()
+                snapshot.update(self.broadcast.fields(snapshot['server_time']))
+            else:
+                snapshot.update(broadcast=None, broadcast_history=[])
+        return snapshot
 
     def publish(self, only_gateway=None):
         snapshots = {}

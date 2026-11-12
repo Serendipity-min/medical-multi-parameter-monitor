@@ -223,7 +223,7 @@ def test_wave_overload_is_bounded_and_explicitly_disconnects():
 
 
 @pytest.mark.parametrize('public_flag', [None, '0'])
-def test_browser_auth_and_no_device_ingest(monkeypatch, public_flag):
+def test_browser_auth_and_no_device_ingest(monkeypatch, public_flag, monitor_snapshot):
     if public_flag is None:
         monkeypatch.delenv('MONITOR_PUBLIC_VIEW', raising=False)
     else:
@@ -238,13 +238,9 @@ def test_browser_auth_and_no_device_ingest(monkeypatch, public_flag):
         with pytest.raises(WebSocketDisconnect):
             with client.websocket_connect('/device/v1/ingest'):
                 pass
-        with client.websocket_connect(
-            '/ws/v1/monitor', headers={'origin': 'http://testserver'}
-        ) as ws:
-            ws.send_json(
-                {'token': 'unit-test-view-token-not-production-123', 'gateway_id': 'GW-C-001'}
-            )
-            assert ws.receive_json()['gateway_id'] == 'GW-C-001'
+        snap = monitor_snapshot(client, {'token': 'unit-test-view-token-not-production-123',
+                                         'gateway_id': 'GW-C-001'})
+        assert snap['gateway_id'] == 'GW-C-001'
         assert not app.state.hub.subscribers
         for hello in ({'token': 'wrong'}, {'gateway_id': 'GW-C-001'}):
             with pytest.raises(WebSocketDisconnect) as closed:
@@ -269,10 +265,9 @@ def public_view_client(monkeypatch):
 
 
 @pytest.mark.parametrize('hello', [{}, {'token': ''}, {'token': 'wrong'}])
-def test_public_view_accepts_missing_empty_or_wrong_token(public_view_client, hello):
-    with public_view_client.websocket_connect('/ws/v1/monitor', headers={'origin': 'http://testserver'}) as ws:
-        ws.send_json({**hello, 'gateway_id': 'GW-C-001'})
-        assert ws.receive_json()['gateway_id'] == 'GW-C-001'
+def test_public_view_accepts_missing_empty_or_wrong_token(public_view_client, hello, monitor_snapshot):
+    snap = monitor_snapshot(public_view_client, {**hello, 'gateway_id': 'GW-C-001'})
+    assert snap['gateway_id'] == 'GW-C-001'
 
 
 @pytest.mark.parametrize('headers', [{}, {'origin': 'http://unlisted.invalid'}])
