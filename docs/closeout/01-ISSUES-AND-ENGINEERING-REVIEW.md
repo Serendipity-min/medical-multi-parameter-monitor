@@ -147,10 +147,14 @@ R65冻结的 C 镜像为 WP-AZ，源码 `2c97094`，boot 392 B，code 61,228 B�
 | 正式WebAI网关被请求模型拒绝 | 即使Settings允许GW-C，`Question`模型仍固定GW-B5，正式请求返回422 | 语法支持已知GW-C/GW-B5，实际授权继续由白名单控制；增加`P6_GATEWAY_IDS`，默认仍只隔离GW-B5 | 进程内合成LIVE快照验证正式D温度/E血压、拒绝其他网关；未部署，不能宣称修复了现网故障 |
 | five模式旧NIBP测试期待恰好90s仍有效 | 定向回归64过/1失败，与已有严格边界相矛盾 | 仅把90s预期改为无效，不改生产逻辑 | 修复后65过；不以改门槛掩盖实现问题 |
 | Security Gate工作流上下文非法 | `jobs.gate.env`使用`runner.temp`；历史失败运行jobs=0 | 将路径初始化移至step，使用`RUNNER_TEMP`写入`GITHUB_ENV` | YAML/触发条件/权限/原步骤静态核对通过；未dispatch、未运行扫描，不能写Security Gate PASS |
+| 默认分支与普通CI仍引用早期阶段 | main落后于实际固件和Claude成果，部分CI路径沿用旧Paho/分支判断 | 统一main，普通CI改用当前coreMQTT入口，加入five与正式WebAI回归 | [PR #9普通CI通过][ci9]；不把历史P4实验当作当前产品 |
+| WebSocket依赖缺少消息分片数量上限，自动升级未同步锁文件 | 上游17.4修复旧版recv分片内存耗尽问题；原PR只改requirements，安装与旧constraint冲突 | requirements与lock同步为17.4，其他锁定运行依赖不变 | 独立安装、108/6默认回归、67项five/AI、6项本机真实连接验证及[PR #20 CI][ci20]通过；未部署生产 |
 
 正式WebAI重部署时需要显式配置`MPM_NODE_PROFILE=five`与`P6_GATEWAY_IDS=GW-C-001`，并沿用已有只读WSS和鉴权配置。历史线上曾保留正式app/reader、仅替换facts.py，因此“线上可以用”和“仓库整包能复建”此前并不完全一致。[修复前app][ai-before]、[S2部署范围][r48]
 
 工作流错误属于**配置没有成功进入作业运行**，不能说“安全扫描发现漏洞”或“安全扫描已经通过”。[历史失败运行][workflow-run]
+
+WebSocket 17.4为`recv()`加入默认4,096分片上限；当前SnapshotReader和Uvicorn所用实现存在相关接收路径，因此本轮采用该修复。此判断依据上游公告和仓库调用方式，不代表线上已发生攻击。17.x要求Python至少3.11，本仓已在Python3.12验证；生产服务仍需另行部署验证。[上游变更说明][websockets-changelog]、[PR #20][pr20]
 
 ---
 
@@ -218,6 +222,7 @@ R65冻结的 C 镜像为 WP-AZ，源码 `2c97094`，boot 392 B，code 61,228 B�
 5. **重播规则保持现状。** 离线不清同参数5min重播计时，因此复电后TEMP可能约92s才播；负责人已选择保持。后端重启会清内存历史并重新计时，可能新生成一次播报。[R65][r65]
 6. **正式gateway-c写ACL仍较宽。** 收窄草案没有完整上线验证，本轮不改生产ACL；它属于尚未实施的加固项。[R64][az3]
 7. **sector3的180s主写入流程仍有预算限制。** 最后提交字恢复通过，不等于今后每次完整擦写都能在同样时限完成。[R50][flash-fix]、[R51][flash-recover]
+8. **WebAI快照异常关闭耗时有额外边界。** 本轮17.4局部合成验证中，把公开分片阈值降至4；超限且仍有帧排队时，输入被拒绝、对端收到1009，但`max_queue=1`下关闭清理约10秒后返回TimeoutError，现有AI入口映射504。不能宣传“所有失败都在3秒内返回”。这与已修复的历史测试CancelledError是不同事项。[验证记录](VALIDATION.json)
 
 ---
 
@@ -390,8 +395,13 @@ R65将“断电≤20s清空”由执行回执的UNKNOWN改为基于上界推定�
 | AI网关受影响路径 | **2 passed / 48 deselected** | 显式正式配置与默认隔离授权，进程内合成数据 |
 | 既有普通CI入口 | coreMQTT42项、完整性6项、EMCY5项、CAN12+11+17项均通过；canonical41条/11种流 | 固定输入下主机协议及跨语言解析，不等于新增实板验收 |
 | Security工作流 | 静态配置检查通过 | YAML、上下文位置、原触发/权限/步骤保留；没有执行扫描 |
+| 整合PR #9的GitHub普通CI | **SUCCESS**，run `43350234553` | coreMQTT、CAN、后端、five、正式网关与前端入口在GitHub环境通过 |
+| WebSocket17.4最小升级 | **安装与pip check通过；108 passed/6 skipped；67 passed；6项真实loopback检查通过** | 锁文件兼容、实际本地连接/分片/释放；限量测试仅使用低阈值小输入，未做外部负载测试 |
+| 依赖PR #20的GitHub普通CI | **SUCCESS**，run `43351874834`，head `ed078c0` | 同步锁文件后的正式PR检查；不把原安装失败隐藏为业务测试已执行 |
 
 本轮Host环境为GCC14.2.0、Python3.12.14；前端Node24.22.1，后端运行依赖按锁文件安装。ARM位级复现、真人窗口、现场声音和云部署均引用历史记录，不冒称本轮重新执行。原始真人数据不被复制到结项报告。
+
+GitHub普通CI使用其配置的Python3.12与Node22，与上述本地主机版本分别记录。各组测试存在覆盖重叠、计数单位也不同，不能累加成“几百项独立端到端验证”。[整合CI][ci9]、[依赖CI][ci20]
 
 本轮没有重新运行全部历史测试、长期浸泡、硬件故障注入、烧录、生产部署或Security Gate。判断重点是当前集成对象与明确风险；这既保留了现有硬件基线，也避免把无关旧实验作为新验收重复计算。
 
@@ -406,7 +416,18 @@ R65将“断电≤20s清空”由执行回执的UNKNOWN改为基于上界推定�
 本轮候选以 `codex/field01-preflight@7c94cc1` 为运行代码基底，真正合入 Claude UI 与 Claude PI 的独立提交。原41条分支中，**33条可达于集成候选，8条为独立历史路线**。后8条不把旧代码强行混入当前固件；其所有提交通过逐分支归档标签保留。
 
 <!-- GOVERNANCE_RESULT_START -->
-**远端执行状态：本地审查和合并候选已完成，正在执行PR合并与归档清理。** 最终状态会在本节及[执行回执](CLEANUP-RECEIPT.json)更新；当前文字不代表远端删除已经完成。
+**远端整理已完成：复核时只剩main一条分支，开放PR为0。** 当前维护代码经两个PR合入，后续提交仅补齐本节与两份结项文档：
+
+| 合并对象 | 结果 | 验证 |
+| --- | --- | --- |
+| [PR #9][pr9]：Codex五板主线、Claude UI、Claude PI及本轮复建/CI修复 | 合并提交 `5ea4587fbad66c2f9d3f61990cfa9094ec5f02e7` | [普通CI成功][ci9] |
+| [PR #20][pr20]：WebSocket17.4及同步锁文件 | 合并提交 `a5c6dd5f2d2509e5259986e29248076a3ce187ac` | [普通CI成功][ci20]、本地真实连接回归 |
+
+首次[归档清理运行](https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43350483624)验证43个新标签，删除42条分支（原40条非main分支、整合临时分支、该次操作分支）。它完整保留新增的11条Dependabot分支并报告PARTIAL，随后进行了第10.6节的逐项审查。
+
+第二次[依赖归档清理运行](https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43352994957)验证16个标签，删除10条延期依赖分支和操作分支；#20来源分支在合并后已自动消失，仍单独归档其提交，**不计作脚本删除**。10个延期PR在归档确认后附理由关闭，已合并PR保持合并状态。两次清理共实际删除53条分支，加上#20已自动删除的1条，本轮新旧非main分支共移除54条。
+
+最终共61个标签：原有2个、第一批43个、第二批16个；逐一核对61/61，无错误和意外标签。原41分支的归档映射全部一致，原始496个提交的完整集合仍可从这些归档到达。当前运行代码以第二个合并提交为基线，文档发布提交不会改变该运行代码；详细SHA、计数和时间见[完整执行回执](CLEANUP-RECEIPT.json)。
 <!-- GOVERNANCE_RESULT_END -->
 
 归档名统一为 `archive/20261112/<原分支名>`，包括原main。先建立并取回核对所有归档引用，再删除已核对的分支；删除使用每条分支的精确SHA约束和原子推送。若分支被其他人更新、仓库保护拒绝，或出现未盘点的新分支，保留相应内容并报告，不关闭保护、不强行覆盖。已有两个标签保持不变。
@@ -417,47 +438,47 @@ R65将“断电≤20s清空”由执行回执的UNKNOWN改为基于上界推定�
 
 | 原分支 | 原始提交 | 整理决定 |
 | --- | --- | --- |
-| `A` | [3fa14b00](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/3fa14b00a0823d2855e9dd8bd1c6c8545abb8dc5) | 独立历史归档；不合旧运行代码，归档后删除原分支 |
-| `B` | [f8c99433](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/f8c99433561b2e110c04ba9fb33c30235910a3e9) | 成果已纳入主线；归档后删除原分支 |
-| `B2` | [2ca744d2](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/2ca744d2f06d49711863968aeef15b64891edd18) | 成果已纳入主线；归档后删除原分支 |
-| `P4` | [67f5f57b](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/67f5f57bd82c6e326e9e78ec9540481c80105e5f) | 成果已纳入主线；归档后删除原分支 |
-| `P5-coremqtt-baremetal` | [88a993cb](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/88a993cb2dad828d2d13438445a67324e10f71d0) | 成果已纳入主线；归档后删除原分支 |
-| `audit/b5-r5qc-r6p0-20261030` | [8954c8ea](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/8954c8ea96af1eda99f00b927f19fecab3cc3215) | 成果已纳入主线；归档后删除原分支 |
-| `audit/b5-r6-p0b-20261030` | [64d07ff3](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/64d07ff33e2fddb46a4a0570d9abfa83adbc3e02) | 成果已纳入主线；归档后删除原分支 |
-| `audit/b5-r6-rr15-offline-causal-20261030` | [b9b17a76](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/b9b17a7657f101e8901a24115da8538becc420d0) | 成果已纳入主线；归档后删除原分支 |
-| `audit/codex-b5-r6-p1b0-20261030` | [98bd1f86](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/98bd1f86d8e1cbf3b764a0876142a888b8837343) | 成果已纳入主线；归档后删除原分支 |
-| `audit/codex-b5-r6-takeover-20261030` | [9f5a6641](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/9f5a6641fec2bcdb575f5f9ff549b8e9b0223820) | 成果已纳入主线；归档后删除原分支 |
-| `claude/cloud-ui-v2` | [1945c9cc](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/1945c9cc7273e352a5f3d219c8d7a3fdc99d5e19) | 成果已纳入主线；归档后删除原分支 |
-| `claude/project-review-v1` | [01df885e](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/01df885ebdb3ee1ac874a562a60ac301a4eb3b04) | 成果已纳入主线；归档后删除原分支 |
-| `codex/abc-two-group-integration-20261031` | [e1274b33](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/e1274b337e2b8393b315409cc5d030a83658b129) | 成果已纳入主线；归档后删除原分支 |
-| `codex/abc-voice-appliance-v1` | [12d3161b](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/12d3161b59fb88d9c9fed01b26d601df69c25b2a) | 独立历史归档；不合旧运行代码，归档后删除原分支 |
-| `codex/b5-m1-ecg60-stop-gate-20261031` | [cba0bcfe](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/cba0bcfeead7c0c0c38dd4046538b82ddf151722) | 成果已纳入主线；归档后删除原分支 |
-| `codex/b5-m1-rr-batch15-owner-20261031` | [010706e2](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/010706e2b196b59e489c2dfde557301dae0d0337) | 成果已纳入主线；归档后删除原分支 |
-| `codex/b5-r6-ecg-temp-20261030` | [e24e9705](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/e24e9705a31ed9c2237ed38dd6bc843b6ffaa45c) | 成果已纳入主线；归档后删除原分支 |
-| `codex/b5-r6-rr15-causal-candidate-20261030` | [eda6e24a](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/eda6e24a8eedcfe0b50416390022db0c187550af) | 成果已纳入主线；归档后删除原分支 |
-| `codex/b5-rr15-source-truth-a0-20261030` | [6669a855](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0) | 成果已纳入主线；归档后删除原分支 |
-| `codex/c-inmp441-voice-20261102` | [be552179](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/be552179d77b21132d0027ff757e5db60959713f) | 成果已纳入主线；归档后删除原分支 |
-| `codex/c-voice-cloud-20261022` | [ba61ae2c](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/ba61ae2c97204f240d8fa6f316eb700aff70d29e) | 独立历史归档；不合旧运行代码，归档后删除原分支 |
-| `codex/field01-egress-probe` | [84e4791d](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/84e4791d9e4273d9bf0abe3982dd7addacb6165e) | 成果已纳入主线；归档后删除原分支 |
-| `codex/field01-preflight` | [7c94cc1c](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/7c94cc1ceb83b1f00097272563e30f6b17a9b616) | 成果已纳入主线；归档后删除原分支 |
-| `codex/final-system-20261102` | [baccc7bc](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/baccc7bc6ca2a14da6779664eead919a3240ccf4) | 成果已纳入主线；归档后删除原分支 |
-| `codex/final-unified-c-runtime` | [c0b36430](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/c0b36430cb8262147b2249d18d889892d3c7b0fa) | 成果已纳入主线；归档后删除原分支 |
-| `codex/five-appliance-integration-v1` | [4616c30f](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/4616c30f03b00ad6bf47527a525b6f029de2143d) | 成果已纳入主线；归档后删除原分支 |
-| `codex/five-node-single-module-v1` | [f9bdff8a](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/f9bdff8a6d73993390baf59abc8a52bdc992f16c) | 成果已纳入主线；归档后删除原分支 |
-| `codex/m0-abc-unified-baseline-20261103` | [26e695ff](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/26e695ffda43a7a76aa54d1c4e3a5631ac0dc42e) | 成果已纳入主线；归档后删除原分支 |
-| `codex/node-b-bio-v2-field-20261022` | [bb9bc8e0](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/bb9bc8e00860ff4f61fa3c4f315edfb76815a59b) | 成果已纳入主线；归档后删除原分支 |
-| `codex/node-b-bio-v2-test-20261022` | [c0617b9f](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/c0617b9fc0ee1f1c6b2f3c4ece90b36db7a78740) | 成果已纳入主线；归档后删除原分支 |
-| `codex/node-b-precan-closeout-20261023` | [9988d37c](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/9988d37cd5470d6857bb535aab1d821cf2581302) | 成果已纳入主线；归档后删除原分支 |
-| `codex/node-b4-dualbus-software-20261023` | [ffa440b3](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/ffa440b31b8b4993967f0e9aef1b3071a0d1dcfe) | 成果已纳入主线；归档后删除原分支 |
-| `codex/node-b5-cloud-integration-20261026` | [2854d358](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/2854d3581658a91d65c1aa30d827ff489ff0f081) | 成果已纳入主线；归档后删除原分支 |
-| `codex/p5-c3a-diagnostic` | [38ccef7f](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/38ccef7fd7e265b848880dd2ca1015ca3f3a7099) | 独立历史归档；不合旧运行代码，归档后删除原分支 |
-| `codex/pi-r1-offline-fixes` | [78a6d00f](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/78a6d00f53ecd6e442c9ea76165a74cfb042289f) | 成果已纳入主线；归档后删除原分支 |
-| `dev/h3-nodea-cloud-ai-integration` | [a5cdd5b0](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/a5cdd5b0b1ad48108fd631136e9de69e30582f2d) | 独立历史归档；不合旧运行代码，归档后删除原分支 |
-| `dev/node-a-v07` | [dab0b3de](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/dab0b3de78a8c76efb48593eb8a164a13663e422) | 独立历史归档；不合旧运行代码，归档后删除原分支 |
-| `dev/node-b-v07` | [ce84b33b](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/ce84b33b705403775790d4723978d586aeb877a4) | 独立历史归档；不合旧运行代码，归档后删除原分支 |
-| `dev/p6-cloud-ai-text-tts-v1` | [1a5d7d16](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/1a5d7d16a1df00a1195a6754c35d33f4380324a6) | 独立历史归档；不合旧运行代码，归档后删除原分支 |
+| `A` | [3fa14b00](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/3fa14b00a0823d2855e9dd8bd1c6c8545abb8dc5) | 独立历史归档；未合旧运行代码，原分支已删除 |
+| `B` | [f8c99433](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/f8c99433561b2e110c04ba9fb33c30235910a3e9) | 成果已纳入主线；原分支已归档并删除 |
+| `B2` | [2ca744d2](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/2ca744d2f06d49711863968aeef15b64891edd18) | 成果已纳入主线；原分支已归档并删除 |
+| `P4` | [67f5f57b](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/67f5f57bd82c6e326e9e78ec9540481c80105e5f) | 成果已纳入主线；原分支已归档并删除 |
+| `P5-coremqtt-baremetal` | [88a993cb](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/88a993cb2dad828d2d13438445a67324e10f71d0) | 成果已纳入主线；原分支已归档并删除 |
+| `audit/b5-r5qc-r6p0-20261030` | [8954c8ea](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/8954c8ea96af1eda99f00b927f19fecab3cc3215) | 成果已纳入主线；原分支已归档并删除 |
+| `audit/b5-r6-p0b-20261030` | [64d07ff3](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/64d07ff33e2fddb46a4a0570d9abfa83adbc3e02) | 成果已纳入主线；原分支已归档并删除 |
+| `audit/b5-r6-rr15-offline-causal-20261030` | [b9b17a76](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/b9b17a7657f101e8901a24115da8538becc420d0) | 成果已纳入主线；原分支已归档并删除 |
+| `audit/codex-b5-r6-p1b0-20261030` | [98bd1f86](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/98bd1f86d8e1cbf3b764a0876142a888b8837343) | 成果已纳入主线；原分支已归档并删除 |
+| `audit/codex-b5-r6-takeover-20261030` | [9f5a6641](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/9f5a6641fec2bcdb575f5f9ff549b8e9b0223820) | 成果已纳入主线；原分支已归档并删除 |
+| `claude/cloud-ui-v2` | [1945c9cc](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/1945c9cc7273e352a5f3d219c8d7a3fdc99d5e19) | 成果已纳入主线；原分支已归档并删除 |
+| `claude/project-review-v1` | [01df885e](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/01df885ebdb3ee1ac874a562a60ac301a4eb3b04) | 成果已纳入主线；原分支已归档并删除 |
+| `codex/abc-two-group-integration-20261031` | [e1274b33](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/e1274b337e2b8393b315409cc5d030a83658b129) | 成果已纳入主线；原分支已归档并删除 |
+| `codex/abc-voice-appliance-v1` | [12d3161b](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/12d3161b59fb88d9c9fed01b26d601df69c25b2a) | 独立历史归档；未合旧运行代码，原分支已删除 |
+| `codex/b5-m1-ecg60-stop-gate-20261031` | [cba0bcfe](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/cba0bcfeead7c0c0c38dd4046538b82ddf151722) | 成果已纳入主线；原分支已归档并删除 |
+| `codex/b5-m1-rr-batch15-owner-20261031` | [010706e2](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/010706e2b196b59e489c2dfde557301dae0d0337) | 成果已纳入主线；原分支已归档并删除 |
+| `codex/b5-r6-ecg-temp-20261030` | [e24e9705](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/e24e9705a31ed9c2237ed38dd6bc843b6ffaa45c) | 成果已纳入主线；原分支已归档并删除 |
+| `codex/b5-r6-rr15-causal-candidate-20261030` | [eda6e24a](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/eda6e24a8eedcfe0b50416390022db0c187550af) | 成果已纳入主线；原分支已归档并删除 |
+| `codex/b5-rr15-source-truth-a0-20261030` | [6669a855](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0) | 成果已纳入主线；原分支已归档并删除 |
+| `codex/c-inmp441-voice-20261102` | [be552179](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/be552179d77b21132d0027ff757e5db60959713f) | 成果已纳入主线；原分支已归档并删除 |
+| `codex/c-voice-cloud-20261022` | [ba61ae2c](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/ba61ae2c97204f240d8fa6f316eb700aff70d29e) | 独立历史归档；未合旧运行代码，原分支已删除 |
+| `codex/field01-egress-probe` | [84e4791d](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/84e4791d9e4273d9bf0abe3982dd7addacb6165e) | 成果已纳入主线；原分支已归档并删除 |
+| `codex/field01-preflight` | [7c94cc1c](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/7c94cc1ceb83b1f00097272563e30f6b17a9b616) | 成果已纳入主线；原分支已归档并删除 |
+| `codex/final-system-20261102` | [baccc7bc](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/baccc7bc6ca2a14da6779664eead919a3240ccf4) | 成果已纳入主线；原分支已归档并删除 |
+| `codex/final-unified-c-runtime` | [c0b36430](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/c0b36430cb8262147b2249d18d889892d3c7b0fa) | 成果已纳入主线；原分支已归档并删除 |
+| `codex/five-appliance-integration-v1` | [4616c30f](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/4616c30f03b00ad6bf47527a525b6f029de2143d) | 成果已纳入主线；原分支已归档并删除 |
+| `codex/five-node-single-module-v1` | [f9bdff8a](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/f9bdff8a6d73993390baf59abc8a52bdc992f16c) | 成果已纳入主线；原分支已归档并删除 |
+| `codex/m0-abc-unified-baseline-20261103` | [26e695ff](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/26e695ffda43a7a76aa54d1c4e3a5631ac0dc42e) | 成果已纳入主线；原分支已归档并删除 |
+| `codex/node-b-bio-v2-field-20261022` | [bb9bc8e0](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/bb9bc8e00860ff4f61fa3c4f315edfb76815a59b) | 成果已纳入主线；原分支已归档并删除 |
+| `codex/node-b-bio-v2-test-20261022` | [c0617b9f](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/c0617b9fc0ee1f1c6b2f3c4ece90b36db7a78740) | 成果已纳入主线；原分支已归档并删除 |
+| `codex/node-b-precan-closeout-20261023` | [9988d37c](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/9988d37cd5470d6857bb535aab1d821cf2581302) | 成果已纳入主线；原分支已归档并删除 |
+| `codex/node-b4-dualbus-software-20261023` | [ffa440b3](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/ffa440b31b8b4993967f0e9aef1b3071a0d1dcfe) | 成果已纳入主线；原分支已归档并删除 |
+| `codex/node-b5-cloud-integration-20261026` | [2854d358](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/2854d3581658a91d65c1aa30d827ff489ff0f081) | 成果已纳入主线；原分支已归档并删除 |
+| `codex/p5-c3a-diagnostic` | [38ccef7f](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/38ccef7fd7e265b848880dd2ca1015ca3f3a7099) | 独立历史归档；未合旧运行代码，原分支已删除 |
+| `codex/pi-r1-offline-fixes` | [78a6d00f](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/78a6d00f53ecd6e442c9ea76165a74cfb042289f) | 成果已纳入主线；原分支已归档并删除 |
+| `dev/h3-nodea-cloud-ai-integration` | [a5cdd5b0](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/a5cdd5b0b1ad48108fd631136e9de69e30582f2d) | 独立历史归档；未合旧运行代码，原分支已删除 |
+| `dev/node-a-v07` | [dab0b3de](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/dab0b3de78a8c76efb48593eb8a164a13663e422) | 独立历史归档；未合旧运行代码，原分支已删除 |
+| `dev/node-b-v07` | [ce84b33b](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/ce84b33b705403775790d4723978d586aeb877a4) | 独立历史归档；未合旧运行代码，原分支已删除 |
+| `dev/p6-cloud-ai-text-tts-v1` | [1a5d7d16](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/1a5d7d16a1df00a1195a6754c35d33f4380324a6) | 独立历史归档；未合旧运行代码，原分支已删除 |
 | `main` | [50699048](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/50699048010c57ba10f8573461844c525b022a07) | 保留为唯一主入口；旧头另行归档 |
-| `patch/b5-r6-patch01-20261030` | [01864fb4](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/01864fb4c1ea35c9da38aa98b1e85790d2ed5415) | 成果已纳入主线；归档后删除原分支 |
+| `patch/b5-r6-patch01-20261030` | [01864fb4](https://github.com/Serendipity-min/medical-multi-parameter-monitor/commit/01864fb4c1ea35c9da38aa98b1e85790d2ed5415) | 成果已纳入主线；原分支已归档并删除 |
 
 ### 10.3 八条独立历史路线为何不继续占用活跃分支
 
@@ -480,6 +501,7 @@ R65将“断电≤20s清空”由执行回执的UNKNOWN改为基于上界推定�
 - [NIBP测试](../../cloud/backend/tests/test_five_node.py)：精确90s应过期，测试跟随已有生产逻辑。
 - [普通CI](../../.github/workflows/phase1.yml)：push/PR对齐main、使用当前coreMQTT普通回归，加入five档与正式网关定向检查。
 - [Security工作流](../../.github/workflows/security-gate.yml)：仅修非法上下文位置，保留人工触发和授权检查；没有启动扫描。
+- [后端依赖](../../cloud/backend/requirements.lock)：WebSocket17.4与清单同步，其他锁定运行依赖不变；普通CI及本机真实连接验证通过。
 - [根README](../../README.md)：以最终五板、三路由、实际固件技术为入口；历史章节只增加阶段标识，不抹去旧证据。
 
 本轮[离线验证记录](VALIDATION.json)与GitHub PR/工作流共同记录代码验证；设备和线上服务仍以R65历史部署身份为准。
@@ -493,15 +515,47 @@ git switch -c restore-field01 archive/20261112/codex/field01-preflight
 
 其他分支同理替换为清单中的标签。恢复本地分支只用于阅读或继续开发，不自动授权旧固件烧录、服务器替换或安全扫描。
 
-### 10.6 Issue与安全状态
+### 10.6 默认分支统一后新增的11个依赖PR
 
-初始开放Issue有两条：#8是早期FIELD01诊断任务，后续已发展为R1–R65工作链，应按后续证据标记阶段收尾，并保留原音频分项等未执行边界；#7记录的六项精确Gitleaks误报接受已在2026-11-08到期，本轮不续期、不将过期例外宣称为当前安全通过，该事项保留待维护。仓库结构整理完成不代表全项目Security Gate或医疗安全验收完成。
+main更新后，仓库原有每周Dependabot配置自动创建了11个PR。首次清理脚本识别出这些不在原41分支清单内的新分支，**完整保留并报告PARTIAL**；随后对它们逐项审查，避免为了减少分支数而遗漏新增修复。处理结果如下，精确头SHA、归档标签与CI地址另见[执行回执](CLEANUP-RECEIPT.json)。
+
+| PR与目标版本 | 实际普通CI结果 | 本轮裁定与理由 |
+| --- | --- | --- |
+| [#10](https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/10) setup-python 7.1 | [通过](https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43350488911) | 延期，归档后关闭；setup-python跨主版本，普通CI已通过；同时触及未执行的人工Security Gate，延期为独立工具链维护。 |
+| [#11](https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/11) setup-node 7.1 | [通过](https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43350493081) | 延期，归档后关闭；setup-node跨主版本，当前Node22使用方式已通过普通CI；本次保留已验证的结项工具链，后续单独迁移。 |
+| [#12](https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/12) checkout 7.0.1 | [通过](https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43350497538) | 延期，归档后关闭；checkout升级含针对pull_request_target/workflow_run检出fork的安全防护；当前流程未使用这两种触发方式。普通CI已通过，保留为优先维护项，不宣称旧版本全局安全。 |
+| [#13](https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/13) upload-artifact 7.0.2 | [通过](https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43350508330) | 延期，归档后关闭；upload-artifact仅patch更新，修改的是人工Security Gate上传步骤；普通CI通过但未覆盖该步骤。429重试等改进延期维护，不把它描述为跨主版本或业务故障。 |
+| [#14](https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/14) TypeScript 7.0.2 | [通过](https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43350511336) | 延期，归档后关闭；TypeScript5.9到7.0跨两主版本，Linux/Node22的测试和构建通过；平台包与tsserver入口变化另做工具链迁移。本次保留结项编译基线。 |
+| [#15](https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/15) Pydantic 2.14.3 | [安装约束冲突，未执行测试](https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43350516701) | 延期，归档后关闭；requirements与lock冲突，业务测试未执行。已核对两项Pydantic公告：一项不覆盖2.12.5，另一项所需aliased TypedDict/dataclass+extra allow路径未见于本仓当前BaseModel/extra forbid入口。延期同步core与lock维护，不表示库全局无漏洞。 |
+| [#16](https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/16) FastAPI 0.162.2 | [安装约束冲突，未执行测试](https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43350518802) | 延期，归档后关闭；requirements与lock冲突，业务测试未执行；FastAPI跨多个minor，需独立兼容性维护。已审阅的PR摘要未给出本项目明确紧急修复，不能据此断言整个版本跨度无安全变化。 |
+| [#17](https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/17) paho-mqtt 2.2.0 | [安装约束冲突，未执行测试](https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43350519694) | 延期，归档后关闭；requirements与lock冲突，业务测试未执行。paho-mqtt发布说明包含畸形包、keepalive与QoS加固，列后续维护；不能当成固件coreMQTT断链根因已解决。 |
+| [#18](https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/18) Vite 8.3.7 | [测试入口缺esbuild](https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43350522838) | 延期，归档后关闭；Vite8的npm ci成功，但npm test因tests/run.mjs直接导入未显式声明的esbuild而ERR_MODULE_NOT_FOUND，构建步骤未执行。必须补显式开发依赖或迁移测试入口后再验证，当前不合入。 |
+| [#19](https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/19) pytest 9.2.0 | [通过](https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43350526673) | 延期，归档后关闭；pytest9.2普通CI已通过；开发测试工具常规升级，延期以保持本次结项已验证基线，不描述为失败升级。 |
+| [#20](https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/20) websockets 17.4 | [修lock后通过](https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43351874834) | 已合并；已同步websockets17.4的requirements与lock，其他锁定运行依赖不变；适用的分片上限安全修复经独立安装、默认与five回归、6项loopback和GitHub CI通过后合并。 |
+
+Pydantic的具体范围来自[GHSA-qpmf-fgh3-ff25](https://github.com/pydantic/pydantic/security/advisories/GHSA-qpmf-fgh3-ff25)与[GHSA-3r8g-cqwr-jr29](https://github.com/pydantic/pydantic/security/advisories/GHSA-3r8g-cqwr-jr29)。前者不覆盖当前2.12.5，后者覆盖库版本但明确区分TypedDict/dataclass与BaseModel；对本仓入口的延期判断基于当前可达模型，不能推广成旧库不存在任何风险。
+
+原#15/#16/#17/#20的失败均发生在安装阶段：requirements声明新版本，自定义requirements.lock仍将同一包精确限制为旧版本。后续应完善这两个文件的联动维护；本次只为已采用的#20完成同步。Vite 8是另一类问题：npm安装已成功，但测试使用了未直接声明的esbuild；应显式声明开发依赖或迁移测试入口后再验，不能归为锁文件未更新。
+
+合并#20后，Dependabot又将#15/#16/#17重基至新main。精确SHA预检实际拦截了这次变化，旧清单未被直接用于删除。重新核对的三个提交仍各只修改requirements中的同一条版本；新的[#15 CI](https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43352252478)、[#16 CI](https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43352252341)、[#17 CI](https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43352256487)也均在依赖安装步骤失败。表格保留初轮CI，新旧SHA与结果同时记入回执，重基前提交另用`archive/20261112/previous/<分支名>`保存。
+
+延期关闭不代表升级无价值，也不代表已经完成升级。当前代码与工具链保持已验证结项版本，后续依赖维护优先处理checkout防护、paho解析加固，以及Pydantic/FastAPI联动更新；TypeScript/Vite按工具链迁移组织验证。**原每周Dependabot配置、告警机制和仓库保护均未关闭或放宽**，未来出现新的升级PR属于正常维护，因此“只剩main”仅描述本次复核时的远端状态。
+
+### 10.7 Issue与安全状态
+
+初始开放Issue有两条：[\#8](https://github.com/Serendipity-min/medical-multi-parameter-monitor/issues/8)是早期FIELD01诊断任务，本轮已补充后续R1–R65证据并关闭为阶段收尾，保留原音频分项等未执行边界，不追认全部子项通过；[\#7](https://github.com/Serendipity-min/medical-multi-parameter-monitor/issues/7)记录的六项精确Gitleaks误报接受已在2026-11-08到期，本轮不续期、不将过期例外宣称为当前安全通过，该事项继续开放。仓库结构整理完成不代表全项目Security Gate或医疗安全验收完成。
 
 ---
 
 ## 证据索引
 
-以下链接固定到审查时的完整提交，不因删除旧分支而改变指向。第10节应补充本轮最终整合提交和归档映射。
+以下历史证据链接固定到审查时的完整提交，不因删除旧分支而改变指向。本轮整合PR、CI与归档映射见第10节和执行回执；main文件链接用于当前维护入口，固定SHA用于历史复核。
+
+[pr9]: https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/9
+[pr20]: https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/20
+[ci9]: https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43350234553
+[ci20]: https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43351874834
+[websockets-changelog]: https://websockets.readthedocs.io/en/stable/project/changelog.html
 
 [age]: https://github.com/Serendipity-min/medical-multi-parameter-monitor/blob/7c94cc1ceb83b1f00097272563e30f6b17a9b616/node-a/STM32F407_HOSPITAL/HARDWARE/CANopen/node_policy.h
 [ai-before]: https://github.com/Serendipity-min/medical-multi-parameter-monitor/blob/7c94cc1ceb83b1f00097272563e30f6b17a9b616/cloud/ai/app.py

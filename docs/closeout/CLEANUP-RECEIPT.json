@@ -1,9 +1,442 @@
 {
-  "status": "PENDING_REMOTE_INTEGRATION_AND_CLEANUP",
-  "original_branches": 41,
-  "original_reachable_commits": 496,
-  "integrated_original_branch_heads": 33,
-  "archive_only_original_branch_heads": 8,
-  "security_gate_executed": false,
-  "production_deployed": false
+  "status": "COMPLETE",
+  "observed_at_utc": "2026-11-13 02:35:54 UTC",
+  "report_date": "2026-11-12",
+  "report_timezone": "America/Chicago",
+  "repository": "Serendipity-min/medical-multi-parameter-monitor",
+  "scope": "Review all original branches, integrate current work, archive history before deleting redundant refs, review late Dependabot PRs, publish two Markdown closeout reports.",
+  "initial_inventory": {
+    "remote_branches": 41,
+    "reachable_commits": 496,
+    "tags": 2,
+    "open_pull_requests": 0,
+    "original_main": "50699048010c57ba10f8573461844c525b022a07"
+  },
+  "integration": {
+    "original_branch_heads_integrated": 33,
+    "archive_only_original_branch_heads": 8,
+    "source_commit": "b2b00c2f65669f25ebc21dc382ce7153f93f8560",
+    "merged_prs": [
+      {
+        "number": 9,
+        "url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/9",
+        "head": "b2b00c2f65669f25ebc21dc382ce7153f93f8560",
+        "merge": "5ea4587fbad66c2f9d3f61990cfa9094ec5f02e7",
+        "ci": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43350234553",
+        "result": "success"
+      },
+      {
+        "number": 20,
+        "url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/20",
+        "head": "ed078c097ecbb097ae76f4aeb7e9b75235dfa4ca",
+        "merge": "a5c6dd5f2d2509e5259986e29248076a3ce187ac",
+        "ci": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43351874834",
+        "result": "success"
+      }
+    ]
+  },
+  "code_baseline_after_merges": "a5c6dd5f2d2509e5259986e29248076a3ce187ac",
+  "publication_note": "This receipt and the final reports are published in a subsequent documentation-only commit whose parent is the code baseline above. The report does not claim the main ref still equals that parent after document publication.",
+  "original_history_verification": {
+    "branch_archive_mappings_verified": 41,
+    "unique_original_commits": 496,
+    "unique_commits_reachable_from_original_branch_archive_tags": 496,
+    "all_original_commits_preserved": true,
+    "original_tags_preserved": {
+      "baseline/abc-unified-pre-split-v1": "3fe9944d469089721be5dd1fa33f005bdc4282d4",
+      "h3-ac-mock-eng-20261021-r1": "8a9265146a293f8a020df39863943e9de4adce68"
+    }
+  },
+  "cleanup_operations": [
+    {
+      "run": 43350483624,
+      "job": 131640074656,
+      "url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43350483624",
+      "operation_commit": "eb3f01981e4565ee002d352de901d3ef310ce68a",
+      "result": {
+        "deleted_this_run": 42,
+        "main": "5ea4587fbad66c2f9d3f61990cfa9094ec5f02e7",
+        "original_branches": 41,
+        "remaining_branches": {
+          "dependabot/github_actions/actions/checkout-7.0.1": "823cdf096ecf93d294514da2bb727edfdef69340",
+          "dependabot/github_actions/actions/setup-node-7.1.0": "35e22fd0a592d0ec94e00779e33f1fd6c2588823",
+          "dependabot/github_actions/actions/setup-python-7.1.0": "58cfbe5fe82d6ff33fe5dc207da867e7ee436ed9",
+          "dependabot/github_actions/actions/upload-artifact-7.0.2": "bfa1f018bb74ee59763d31e55e19efedb192004b",
+          "dependabot/npm_and_yarn/cloud/web/typescript-7.0.2": "c42e2a7fb2024cd44265952920754e68ae9c4d7a",
+          "dependabot/npm_and_yarn/cloud/web/vite-8.3.7": "8a38a4ba0dfb49f1edcd83d01e794ddead748404",
+          "dependabot/pip/cloud/backend/fastapi-0.162.2": "1e8537936edbfb13b166cc23f904de91a495db36",
+          "dependabot/pip/cloud/backend/paho-mqtt-2.2.0": "c8496a1bb231a298f843ddbe2bf06b715176ce41",
+          "dependabot/pip/cloud/backend/pydantic-2.14.3": "4dbfca8249e3d8cb336b82acdd759da14b10dc15",
+          "dependabot/pip/cloud/backend/pytest-9.2.0": "058c7988f394ece1100c224ff95d911bb1c92864",
+          "dependabot/pip/cloud/backend/websockets-17.4": "cee1d6798613f770cfc2076a02c1f9d70432ec4f",
+          "main": "5ea4587fbad66c2f9d3f61990cfa9094ec5f02e7"
+        },
+        "repository": "Serendipity-min/medical-multi-parameter-monitor",
+        "status": "PARTIAL_UNKNOWN_BRANCHES_PRESERVED",
+        "verified_tags": 43
+      }
+    },
+    {
+      "run": 43352994957,
+      "job": 131648274332,
+      "url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43352994957",
+      "operation_commit": "0acf38c59b2e32ddf45506175554cd806ebd4b2f",
+      "preflight": "One read-only preflight stopped on changed Dependabot tips; three rebased commits were re-reviewed, old and new tips archived. Static/syntax checks and 21 safety scenarios passed.",
+      "result": {
+        "absent_before_delete": [
+          "dependabot/pip/cloud/backend/websockets-17.4"
+        ],
+        "already_absent_at_start": [
+          "dependabot/pip/cloud/backend/websockets-17.4"
+        ],
+        "archive_push_outcome": "VERIFIED",
+        "archive_tags": {
+          "archive/20261112/codex/repository-cleanup-dependencies-20261112": "0acf38c59b2e32ddf45506175554cd806ebd4b2f",
+          "archive/20261112/dependabot/github_actions/actions/checkout-7.0.1": "823cdf096ecf93d294514da2bb727edfdef69340",
+          "archive/20261112/dependabot/github_actions/actions/setup-node-7.1.0": "35e22fd0a592d0ec94e00779e33f1fd6c2588823",
+          "archive/20261112/dependabot/github_actions/actions/setup-python-7.1.0": "58cfbe5fe82d6ff33fe5dc207da867e7ee436ed9",
+          "archive/20261112/dependabot/github_actions/actions/upload-artifact-7.0.2": "bfa1f018bb74ee59763d31e55e19efedb192004b",
+          "archive/20261112/dependabot/npm_and_yarn/cloud/web/typescript-7.0.2": "c42e2a7fb2024cd44265952920754e68ae9c4d7a",
+          "archive/20261112/dependabot/npm_and_yarn/cloud/web/vite-8.3.7": "8a38a4ba0dfb49f1edcd83d01e794ddead748404",
+          "archive/20261112/dependabot/pip/cloud/backend/fastapi-0.162.2": "8a0a01cd37e828d57933be6562a95dbd7539cf81",
+          "archive/20261112/dependabot/pip/cloud/backend/paho-mqtt-2.2.0": "bd83eebbde220ce3457e2f33fb2a2aaeeb751763",
+          "archive/20261112/dependabot/pip/cloud/backend/pydantic-2.14.3": "86958fedaba9b29244f781469985716d04aa3194",
+          "archive/20261112/dependabot/pip/cloud/backend/pytest-9.2.0": "058c7988f394ece1100c224ff95d911bb1c92864",
+          "archive/20261112/dependabot/pip/cloud/backend/websockets-17.4": "ed078c097ecbb097ae76f4aeb7e9b75235dfa4ca",
+          "archive/20261112/previous/dependabot/pip/cloud/backend/fastapi-0.162.2": "1e8537936edbfb13b166cc23f904de91a495db36",
+          "archive/20261112/previous/dependabot/pip/cloud/backend/paho-mqtt-2.2.0": "c8496a1bb231a298f843ddbe2bf06b715176ce41",
+          "archive/20261112/previous/dependabot/pip/cloud/backend/pydantic-2.14.3": "4dbfca8249e3d8cb336b82acdd759da14b10dc15",
+          "closeout/20261112-dependencies": "a5c6dd5f2d2509e5259986e29248076a3ce187ac"
+        },
+        "attempted_delete_branches": {
+          "codex/repository-cleanup-dependencies-20261112": "0acf38c59b2e32ddf45506175554cd806ebd4b2f",
+          "dependabot/github_actions/actions/checkout-7.0.1": "823cdf096ecf93d294514da2bb727edfdef69340",
+          "dependabot/github_actions/actions/setup-node-7.1.0": "35e22fd0a592d0ec94e00779e33f1fd6c2588823",
+          "dependabot/github_actions/actions/setup-python-7.1.0": "58cfbe5fe82d6ff33fe5dc207da867e7ee436ed9",
+          "dependabot/github_actions/actions/upload-artifact-7.0.2": "bfa1f018bb74ee59763d31e55e19efedb192004b",
+          "dependabot/npm_and_yarn/cloud/web/typescript-7.0.2": "c42e2a7fb2024cd44265952920754e68ae9c4d7a",
+          "dependabot/npm_and_yarn/cloud/web/vite-8.3.7": "8a38a4ba0dfb49f1edcd83d01e794ddead748404",
+          "dependabot/pip/cloud/backend/fastapi-0.162.2": "8a0a01cd37e828d57933be6562a95dbd7539cf81",
+          "dependabot/pip/cloud/backend/paho-mqtt-2.2.0": "bd83eebbde220ce3457e2f33fb2a2aaeeb751763",
+          "dependabot/pip/cloud/backend/pydantic-2.14.3": "86958fedaba9b29244f781469985716d04aa3194",
+          "dependabot/pip/cloud/backend/pytest-9.2.0": "058c7988f394ece1100c224ff95d911bb1c92864"
+        },
+        "deleted_branches": [
+          "codex/repository-cleanup-dependencies-20261112",
+          "dependabot/github_actions/actions/checkout-7.0.1",
+          "dependabot/github_actions/actions/setup-node-7.1.0",
+          "dependabot/github_actions/actions/setup-python-7.1.0",
+          "dependabot/github_actions/actions/upload-artifact-7.0.2",
+          "dependabot/npm_and_yarn/cloud/web/typescript-7.0.2",
+          "dependabot/npm_and_yarn/cloud/web/vite-8.3.7",
+          "dependabot/pip/cloud/backend/fastapi-0.162.2",
+          "dependabot/pip/cloud/backend/paho-mqtt-2.2.0",
+          "dependabot/pip/cloud/backend/pydantic-2.14.3",
+          "dependabot/pip/cloud/backend/pytest-9.2.0"
+        ],
+        "deleted_dependencies_this_run": 10,
+        "deleted_operation_branch": true,
+        "deleted_this_run": 11,
+        "deletion_push_outcome": "VERIFIED",
+        "disappeared_before_delete": [],
+        "execution": true,
+        "expected_main": "a5c6dd5f2d2509e5259986e29248076a3ce187ac",
+        "manifest_sha256": "122d72887d90c2044e018001faa422431783172493a15be1a60ac7f2d9fcd459",
+        "phase": "complete",
+        "planned_delete_branches": {
+          "codex/repository-cleanup-dependencies-20261112": "0acf38c59b2e32ddf45506175554cd806ebd4b2f",
+          "dependabot/github_actions/actions/checkout-7.0.1": "823cdf096ecf93d294514da2bb727edfdef69340",
+          "dependabot/github_actions/actions/setup-node-7.1.0": "35e22fd0a592d0ec94e00779e33f1fd6c2588823",
+          "dependabot/github_actions/actions/setup-python-7.1.0": "58cfbe5fe82d6ff33fe5dc207da867e7ee436ed9",
+          "dependabot/github_actions/actions/upload-artifact-7.0.2": "bfa1f018bb74ee59763d31e55e19efedb192004b",
+          "dependabot/npm_and_yarn/cloud/web/typescript-7.0.2": "c42e2a7fb2024cd44265952920754e68ae9c4d7a",
+          "dependabot/npm_and_yarn/cloud/web/vite-8.3.7": "8a38a4ba0dfb49f1edcd83d01e794ddead748404",
+          "dependabot/pip/cloud/backend/fastapi-0.162.2": "8a0a01cd37e828d57933be6562a95dbd7539cf81",
+          "dependabot/pip/cloud/backend/paho-mqtt-2.2.0": "bd83eebbde220ce3457e2f33fb2a2aaeeb751763",
+          "dependabot/pip/cloud/backend/pydantic-2.14.3": "86958fedaba9b29244f781469985716d04aa3194",
+          "dependabot/pip/cloud/backend/pytest-9.2.0": "058c7988f394ece1100c224ff95d911bb1c92864"
+        },
+        "preserved_unknown_branches": {},
+        "previous_manifest_sha256": "262ef630b16440f2fe7a5edbdd87d13ae1b7fae9758ac614f65a2f8ec30fed64",
+        "previous_tip_archives": {
+          "dependabot/pip/cloud/backend/fastapi-0.162.2": {
+            "current_head": "8a0a01cd37e828d57933be6562a95dbd7539cf81",
+            "head": "1e8537936edbfb13b166cc23f904de91a495db36",
+            "tag": "archive/20261112/previous/dependabot/pip/cloud/backend/fastapi-0.162.2"
+          },
+          "dependabot/pip/cloud/backend/paho-mqtt-2.2.0": {
+            "current_head": "bd83eebbde220ce3457e2f33fb2a2aaeeb751763",
+            "head": "c8496a1bb231a298f843ddbe2bf06b715176ce41",
+            "tag": "archive/20261112/previous/dependabot/pip/cloud/backend/paho-mqtt-2.2.0"
+          },
+          "dependabot/pip/cloud/backend/pydantic-2.14.3": {
+            "current_head": "86958fedaba9b29244f781469985716d04aa3194",
+            "head": "4dbfca8249e3d8cb336b82acdd759da14b10dc15",
+            "tag": "archive/20261112/previous/dependabot/pip/cloud/backend/pydantic-2.14.3"
+          }
+        },
+        "protected_original_closeout": "5ea4587fbad66c2f9d3f61990cfa9094ec5f02e7",
+        "protected_original_closeout_unchanged": true,
+        "remaining_branches": {
+          "main": "a5c6dd5f2d2509e5259986e29248076a3ce187ac"
+        },
+        "repository": "Serendipity-min/medical-multi-parameter-monitor",
+        "reviewed_dependency_branches": 11,
+        "status": "COMPLETE",
+        "unknown_branches_at_start": {},
+        "verified_archive_tags": 16
+      }
+    }
+  ],
+  "removals": {
+    "original_non_main_branches": 40,
+    "integration_temporary_branch": 1,
+    "cleanup_operation_branches": 2,
+    "dependency_branches_deleted_by_cleanup": 10,
+    "dependency_branch_already_absent_after_merge": 1,
+    "total_deleted_by_cleanup_workflows": 53,
+    "total_non_main_branches_removed_including_preexisting_auto_deletion": 54
+  },
+  "late_dependency_prs": [
+    {
+      "pr": 10,
+      "ci": "success",
+      "run": 43350488911,
+      "reason": "setup-python跨主版本，普通CI已通过；同时触及未执行的人工Security Gate，延期为独立工具链维护。",
+      "title": "Bump actions/setup-python from 5.6.0 to 7.1.0",
+      "url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/10",
+      "branch": "dependabot/github_actions/actions/setup-python-7.1.0",
+      "initial_head": "58cfbe5fe82d6ff33fe5dc207da867e7ee436ed9",
+      "reviewed_head": "58cfbe5fe82d6ff33fe5dc207da867e7ee436ed9",
+      "archive_tag": "archive/20261112/dependabot/github_actions/actions/setup-python-7.1.0",
+      "decision": "DEFERRED_AND_ARCHIVED",
+      "ci_url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43350488911"
+    },
+    {
+      "pr": 11,
+      "ci": "success",
+      "run": 43350493081,
+      "reason": "setup-node跨主版本，当前Node22使用方式已通过普通CI；本次保留已验证的结项工具链，后续单独迁移。",
+      "title": "Bump actions/setup-node from 4.4.0 to 7.1.0",
+      "url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/11",
+      "branch": "dependabot/github_actions/actions/setup-node-7.1.0",
+      "initial_head": "35e22fd0a592d0ec94e00779e33f1fd6c2588823",
+      "reviewed_head": "35e22fd0a592d0ec94e00779e33f1fd6c2588823",
+      "archive_tag": "archive/20261112/dependabot/github_actions/actions/setup-node-7.1.0",
+      "decision": "DEFERRED_AND_ARCHIVED",
+      "ci_url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43350493081"
+    },
+    {
+      "pr": 12,
+      "ci": "success",
+      "run": 43350497538,
+      "reason": "checkout升级含针对pull_request_target/workflow_run检出fork的安全防护；当前流程未使用这两种触发方式。普通CI已通过，保留为优先维护项，不宣称旧版本全局安全。",
+      "title": "Bump actions/checkout from 4.4.0 to 7.0.1",
+      "url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/12",
+      "branch": "dependabot/github_actions/actions/checkout-7.0.1",
+      "initial_head": "823cdf096ecf93d294514da2bb727edfdef69340",
+      "reviewed_head": "823cdf096ecf93d294514da2bb727edfdef69340",
+      "archive_tag": "archive/20261112/dependabot/github_actions/actions/checkout-7.0.1",
+      "decision": "DEFERRED_AND_ARCHIVED",
+      "ci_url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43350497538"
+    },
+    {
+      "pr": 13,
+      "ci": "success",
+      "run": 43350508330,
+      "reason": "upload-artifact仅patch更新，修改的是人工Security Gate上传步骤；普通CI通过但未覆盖该步骤。429重试等改进延期维护，不把它描述为跨主版本或业务故障。",
+      "title": "Bump actions/upload-artifact from 7.0.1 to 7.0.2",
+      "url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/13",
+      "branch": "dependabot/github_actions/actions/upload-artifact-7.0.2",
+      "initial_head": "bfa1f018bb74ee59763d31e55e19efedb192004b",
+      "reviewed_head": "bfa1f018bb74ee59763d31e55e19efedb192004b",
+      "archive_tag": "archive/20261112/dependabot/github_actions/actions/upload-artifact-7.0.2",
+      "decision": "DEFERRED_AND_ARCHIVED",
+      "ci_url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43350508330"
+    },
+    {
+      "pr": 14,
+      "ci": "success",
+      "run": 43350511336,
+      "reason": "TypeScript5.9到7.0跨两主版本，Linux/Node22的测试和构建通过；平台包与tsserver入口变化另做工具链迁移。本次保留结项编译基线。",
+      "title": "Bump typescript from 5.9.3 to 7.0.2 in /cloud/web",
+      "url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/14",
+      "branch": "dependabot/npm_and_yarn/cloud/web/typescript-7.0.2",
+      "initial_head": "c42e2a7fb2024cd44265952920754e68ae9c4d7a",
+      "reviewed_head": "c42e2a7fb2024cd44265952920754e68ae9c4d7a",
+      "archive_tag": "archive/20261112/dependabot/npm_and_yarn/cloud/web/typescript-7.0.2",
+      "decision": "DEFERRED_AND_ARCHIVED",
+      "ci_url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43350511336"
+    },
+    {
+      "pr": 15,
+      "ci": "failure_install_constraints",
+      "run": 43350516701,
+      "reason": "requirements与lock冲突，业务测试未执行。已核对两项Pydantic公告：一项不覆盖2.12.5，另一项所需aliased TypedDict/dataclass+extra allow路径未见于本仓当前BaseModel/extra forbid入口。延期同步core与lock维护，不表示库全局无漏洞。",
+      "title": "Bump pydantic from 2.12.5 to 2.14.3 in /cloud/backend",
+      "url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/15",
+      "branch": "dependabot/pip/cloud/backend/pydantic-2.14.3",
+      "initial_head": "4dbfca8249e3d8cb336b82acdd759da14b10dc15",
+      "reviewed_head": "86958fedaba9b29244f781469985716d04aa3194",
+      "archive_tag": "archive/20261112/dependabot/pip/cloud/backend/pydantic-2.14.3",
+      "decision": "DEFERRED_AND_ARCHIVED",
+      "ci_url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43350516701",
+      "previous_reviewed_head": "4dbfca8249e3d8cb336b82acdd759da14b10dc15",
+      "previous_archive_tag": "archive/20261112/previous/dependabot/pip/cloud/backend/pydantic-2.14.3",
+      "rebase_review": "Exact new commit has the same single requirements.txt version change, rebased on a5c6dd5.",
+      "latest_rebased_ci": {
+        "run": 43352252478,
+        "conclusion": "failure",
+        "failures": [
+          {
+            "job": 131645861080,
+            "step": "Install locked test dependencies"
+          }
+        ],
+        "url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43352252478"
+      }
+    },
+    {
+      "pr": 16,
+      "ci": "failure_install_constraints",
+      "run": 43350518802,
+      "reason": "requirements与lock冲突，业务测试未执行；FastAPI跨多个minor，需独立兼容性维护。已审阅的PR摘要未给出本项目明确紧急修复，不能据此断言整个版本跨度无安全变化。",
+      "title": "Bump fastapi from 0.135.1 to 0.162.2 in /cloud/backend",
+      "url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/16",
+      "branch": "dependabot/pip/cloud/backend/fastapi-0.162.2",
+      "initial_head": "1e8537936edbfb13b166cc23f904de91a495db36",
+      "reviewed_head": "8a0a01cd37e828d57933be6562a95dbd7539cf81",
+      "archive_tag": "archive/20261112/dependabot/pip/cloud/backend/fastapi-0.162.2",
+      "decision": "DEFERRED_AND_ARCHIVED",
+      "ci_url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43350518802",
+      "previous_reviewed_head": "1e8537936edbfb13b166cc23f904de91a495db36",
+      "previous_archive_tag": "archive/20261112/previous/dependabot/pip/cloud/backend/fastapi-0.162.2",
+      "rebase_review": "Exact new commit has the same single requirements.txt version change, rebased on a5c6dd5.",
+      "latest_rebased_ci": {
+        "run": 43352252341,
+        "conclusion": "failure",
+        "failures": [
+          {
+            "job": 131645860921,
+            "step": "Install locked test dependencies"
+          }
+        ],
+        "url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43352252341"
+      }
+    },
+    {
+      "pr": 17,
+      "ci": "failure_install_constraints",
+      "run": 43350519694,
+      "reason": "requirements与lock冲突，业务测试未执行。paho-mqtt发布说明包含畸形包、keepalive与QoS加固，列后续维护；不能当成固件coreMQTT断链根因已解决。",
+      "title": "Bump paho-mqtt from 2.1.0 to 2.2.0 in /cloud/backend",
+      "url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/17",
+      "branch": "dependabot/pip/cloud/backend/paho-mqtt-2.2.0",
+      "initial_head": "c8496a1bb231a298f843ddbe2bf06b715176ce41",
+      "reviewed_head": "bd83eebbde220ce3457e2f33fb2a2aaeeb751763",
+      "archive_tag": "archive/20261112/dependabot/pip/cloud/backend/paho-mqtt-2.2.0",
+      "decision": "DEFERRED_AND_ARCHIVED",
+      "ci_url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43350519694",
+      "previous_reviewed_head": "c8496a1bb231a298f843ddbe2bf06b715176ce41",
+      "previous_archive_tag": "archive/20261112/previous/dependabot/pip/cloud/backend/paho-mqtt-2.2.0",
+      "rebase_review": "Exact new commit has the same single requirements.txt version change, rebased on a5c6dd5.",
+      "latest_rebased_ci": {
+        "run": 43352256487,
+        "conclusion": "failure",
+        "failures": [
+          {
+            "job": 131645873872,
+            "step": "Install locked test dependencies"
+          }
+        ],
+        "url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43352256487"
+      }
+    },
+    {
+      "pr": 18,
+      "ci": "failure_missing_esbuild",
+      "run": 43350522838,
+      "reason": "Vite8的npm ci成功，但npm test因tests/run.mjs直接导入未显式声明的esbuild而ERR_MODULE_NOT_FOUND，构建步骤未执行。必须补显式开发依赖或迁移测试入口后再验证，当前不合入。",
+      "title": "Bump vite from 7.3.5 to 8.3.7 in /cloud/web",
+      "url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/18",
+      "branch": "dependabot/npm_and_yarn/cloud/web/vite-8.3.7",
+      "initial_head": "8a38a4ba0dfb49f1edcd83d01e794ddead748404",
+      "reviewed_head": "8a38a4ba0dfb49f1edcd83d01e794ddead748404",
+      "archive_tag": "archive/20261112/dependabot/npm_and_yarn/cloud/web/vite-8.3.7",
+      "decision": "DEFERRED_AND_ARCHIVED",
+      "ci_url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43350522838"
+    },
+    {
+      "pr": 19,
+      "ci": "success",
+      "run": 43350526673,
+      "reason": "pytest9.2普通CI已通过；开发测试工具常规升级，延期以保持本次结项已验证基线，不描述为失败升级。",
+      "title": "Bump pytest from 9.1.1 to 9.2.0 in /cloud/backend",
+      "url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/19",
+      "branch": "dependabot/pip/cloud/backend/pytest-9.2.0",
+      "initial_head": "058c7988f394ece1100c224ff95d911bb1c92864",
+      "reviewed_head": "058c7988f394ece1100c224ff95d911bb1c92864",
+      "archive_tag": "archive/20261112/dependabot/pip/cloud/backend/pytest-9.2.0",
+      "decision": "DEFERRED_AND_ARCHIVED",
+      "ci_url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43350526673"
+    },
+    {
+      "pr": 20,
+      "ci": "success_after_lock_fix",
+      "run": 43351874834,
+      "reason": "已同步websockets17.4的requirements与lock，其他锁定运行依赖不变；适用的分片上限安全修复经独立安装、默认与five回归、6项loopback和GitHub CI通过后合并。",
+      "merge_commit": "a5c6dd5f2d2509e5259986e29248076a3ce187ac",
+      "original_failed_run": 43350533453,
+      "title": "Bump websockets from 16.0 to 17.4 in /cloud/backend",
+      "url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/pull/20",
+      "branch": "dependabot/pip/cloud/backend/websockets-17.4",
+      "initial_head": "cee1d6798613f770cfc2076a02c1f9d70432ec4f",
+      "reviewed_head": "ed078c097ecbb097ae76f4aeb7e9b75235dfa4ca",
+      "archive_tag": "archive/20261112/dependabot/pip/cloud/backend/websockets-17.4",
+      "decision": "MERGED",
+      "ci_url": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/actions/runs/43351874834"
+    }
+  ],
+  "final_repository_state": {
+    "remote_branches": [
+      "main"
+    ],
+    "open_pull_requests": [],
+    "open_issue_numbers": [
+      7
+    ],
+    "closed_issue_numbers_this_turn": [
+      8
+    ],
+    "remote_tags": 61,
+    "expected_tags_verified": 61,
+    "tag_mapping_errors": [],
+    "unexpected_tags": [],
+    "code_baseline": "a5c6dd5f2d2509e5259986e29248076a3ce187ac"
+  },
+  "safeguards": {
+    "archive_before_delete": true,
+    "exact_sha_leases": true,
+    "atomic_ref_transactions": true,
+    "unrecognized_new_branches_preserved": true,
+    "repository_protection_changed": false,
+    "dependabot_disabled": false,
+    "security_alerts_dismissed": false,
+    "expired_issue_7_exception_extended": false
+  },
+  "not_executed": [
+    "Hardware writes or new physical acceptance tests",
+    "ARM firmware rebuild",
+    "Production deployment",
+    "Paid model requests",
+    "Manual Security Gate or scanning",
+    "Clinical accuracy certification"
+  ],
+  "document_validation": {
+    "fixed_git_object_targets_checked": 122,
+    "relative_file_targets_checked": 12,
+    "missing_targets": 0,
+    "mermaid_blocks_in_architecture_document": 5,
+    "code_fences_balanced": true
+  }
 }
