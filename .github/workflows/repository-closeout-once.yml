@@ -1,0 +1,33 @@
+name: One-time reviewed repository cleanup
+on:
+  push:
+    branches: [codex/repository-cleanup-20261112]
+    paths:
+      - .github/workflows/repository-closeout-once.yml
+      - .github/scripts/repository_closeout_once.py
+permissions:
+  contents: write
+concurrency:
+  group: repository-closeout-20261112
+  cancel-in-progress: false
+jobs:
+  archive-and-prune:
+    if: github.repository == 'Serendipity-min/medical-multi-parameter-monitor' && github.ref == 'refs/heads/codex/repository-cleanup-20261112'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Fetch all reviewed history
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Archive, verify and delete exact reviewed refs
+        env:
+          EXPECTED_MAIN: 5ea4587fbad66c2f9d3f61990cfa9094ec5f02e7
+          EXPECTED_INTEGRATION: b2b00c2f65669f25ebc21dc382ce7153f93f8560
+        run: |
+          python3 .github/scripts/repository_closeout_once.py \
+            --manifest docs/closeout/BRANCH-INVENTORY.json \
+            --expected-main "$EXPECTED_MAIN" \
+            --expected-integration "$EXPECTED_INTEGRATION" \
+            --execute
