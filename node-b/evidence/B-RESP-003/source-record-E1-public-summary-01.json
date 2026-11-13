@@ -1,0 +1,27 @@
+{
+  "schema": "RESP_SOURCE_PUBLIC_SUMMARY_1_NOT_RUNTIME",
+  "runtime_source_sha256": "f284fbaab787cc9b336e881add8bf2bd6f17a7287e0d6446ed1364a412022527",
+  "source_type": "RESP_EXPLORATORY",
+  "data_source": "ENGINEERING_NONHUMAN",
+  "mode": "INDEPENDENT_RESPIRATION",
+  "menu": {
+    "mode_literal": "呼吸波形",
+    "rate_literal": "15bpm",
+    "amplitude_literal": "1.5R",
+    "apnea_literal": "未找到（未更改）"
+  },
+  "nominal_rpm": 15,
+  "Z0_ohm": null,
+  "delta_Zpp_ohm": null,
+  "dynamic_pair": "UNVERIFIED",
+  "impedance_calibration": "NOT_CALIBRATED",
+  "leads": {
+    "R_red": "RA",
+    "L_yellow": "LA",
+    "F_green": "RL"
+  },
+  "battery_only": true,
+  "usb_disconnected": true,
+  "safety_record_sha256": "f1a58e00850a88e64b4d8d1d2716fddd14e3e2fc871c3c3d704a6829262b3065",
+  "private_original_not_published": true
+}

@@ -1,0 +1,36 @@
+{
+  "total_findings": 114,
+  "by_tool": {
+    "clang-tidy": 106,
+    "gitleaks": 6,
+    "trivy": 1,
+    "npm-audit": 1,
+    "pip-audit": 0,
+    "semgrep": 0
+  },
+  "by_severity": {
+    "CRITICAL": 6,
+    "MEDIUM": 106,
+    "LOW": 2
+  },
+  "disposition": {
+    "gitleaks_accepted_false_positive": 6,
+    "esbuild_dev_dependency_low": 2,
+    "clang_tidy_medium_project": 38,
+    "clang_tidy_medium_coremqtt_vendor": 68
+  },
+  "gemini_new_findings": [
+    {
+      "id": "GEMINI-P5-001",
+      "classification": "HIGH_CONFIDENCE_RISK",
+      "source": "P4_INHERITED",
+      "file": "gateway/mqtt/src/main.c",
+      "lines": [60, 62],
+      "trigger_condition": "Debug console input 'E' when node 0 (stack.nodes[0]) allocation has failed or instance was stopped (stack.nodes[0].co == NULL)",
+      "reachability": "CONDITIONAL",
+      "impact": "NULL pointer dereference (stack.nodes[0].co->em) causing HardFault in debug character handler",
+      "status_in_codex": "NOT_REPORTED",
+      "suggested_fix": "Add NULL check before dereferencing stack.nodes[0].co in service() command 'E' handler"
+    }
+  ]
+}

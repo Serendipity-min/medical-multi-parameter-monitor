@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-15 Asia/Shanghai",
+  "scope": "OFF_OPERATOR_PHOTO_REVIEW_PENDING_POWER_TIMING",
+  "operator_DMM_V": {
+    "PA4_GND": 0.19,
+    "PA5_GND": 0.29
+  },
+  "DMM_supply_state": "WAITING_OPERATOR_CONFIRMATION",
+  "scope_photo_observed_settings": {
+    "coupling": "DC",
+    "probe_ratio": "X1",
+    "vertical": "1V/div",
+    "horizontal": "200ms/div",
+    "acquisition": "RUN",
+    "trigger": "AUTO"
+  },
+  "scope_screen_automatic_readouts": {
+    "frequency_Hz": 9.62,
+    "period_ms": 104.0,
+    "Vmax_mV": 80.0,
+    "Vmin_mV": -80.0,
+    "Vpp_mV": 160.0,
+    "Vavg_mV": 0.0
+  },
+  "interpretation": "Near-horizontal trace; automatic frequency is not accepted as a source waveform rate. Power timing and exact probe placement need confirmation.",
+  "powered_OFF_admission": "NOT_YET_CONFIRMED",
+  "BIAS_started": false,
+  "USB_disconnect_explanation": "Main supply removed only if USB is sole power path; wait for rail discharge and check 5V/3V3 before jumper work. Coin-cell VBAT/RTC is separate and remains energized."
+}

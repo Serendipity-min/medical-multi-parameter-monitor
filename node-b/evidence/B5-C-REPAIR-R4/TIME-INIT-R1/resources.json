@@ -1,0 +1,74 @@
+{
+  "BIN_bytes": 49132,
+  "application_limit": 49152,
+  "bss_bytes": 74180,
+  "data_bytes": 92,
+  "flash_remaining": 20,
+  "gap_above_heap_and_reserved_stack": 24024,
+  "heap_bytes": 24576,
+  "largest_static_frames": [
+    {
+      "bytes": 1096,
+      "function": "diagnostic",
+      "kind": "static"
+    },
+    {
+      "bytes": 928,
+      "function": "gateway_mqtt_publish",
+      "kind": "static"
+    },
+    {
+      "bytes": 872,
+      "function": "gateway_network_open",
+      "kind": "static"
+    },
+    {
+      "bytes": 768,
+      "function": "gateway_mqtt_open",
+      "kind": "static"
+    },
+    {
+      "bytes": 504,
+      "function": "b4_gateway_receive",
+      "kind": "static"
+    },
+    {
+      "bytes": 496,
+      "function": "scalars",
+      "kind": "static"
+    },
+    {
+      "bytes": 480,
+      "function": "b4_gateway_tick",
+      "kind": "static"
+    },
+    {
+      "bytes": 456,
+      "function": "service.part.0",
+      "kind": "static"
+    },
+    {
+      "bytes": 320,
+      "function": "transaction_stop_trace",
+      "kind": "static"
+    },
+    {
+      "bytes": 288,
+      "function": "report_stop",
+      "kind": "static"
+    },
+    {
+      "bytes": 288,
+      "function": "mp_od_init",
+      "kind": "static"
+    },
+    {
+      "bytes": 272,
+      "function": "esp_mqtt_send",
+      "kind": "static"
+    }
+  ],
+  "runtime_high_water": "NOT_RUN_NEW_CANDIDATE",
+  "stack_reserved_bytes": 8192,
+  "static_frame_is_not_transitive_stack_proof": true
+}

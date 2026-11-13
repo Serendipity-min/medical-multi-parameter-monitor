@@ -1,0 +1,186 @@
+{
+  "status": "ABC_RR18_NOT_PASS",
+  "exit_code": 3,
+  "profile": "RR18",
+  "failures": [
+    "WSS_PRIMARY_NOT_READY"
+  ],
+  "evaluation_UTC_ms": [
+    1793435569987,
+    1793435869987
+  ],
+  "B": {
+    "failures": [],
+    "saved": 600,
+    "device_domain_SPS": 249.9866452991453,
+    "CAN_evaluation_increments": {
+      "offered": 74876,
+      "enqueued": 74876,
+      "sent_ecg": 74876,
+      "sent_resp": 14975,
+      "overflow": 0,
+      "expired": 0,
+      "comm_reset": 0,
+      "app_reset_rejected": 0,
+      "error": 0,
+      "discontinuities": 0
+    },
+    "ADC_evaluation_increments": {
+      "bad_status": 0,
+      "spi_errors": 0,
+      "queue_overflow": 0,
+      "init_errors": 0,
+      "long_gap_count": 0
+    },
+    "HR_values": {
+      "0": 596,
+      "47": 3,
+      "46": 1
+    },
+    "RR_reason_masks": {
+      "0": 600
+    },
+    "clipped_counter_increment": 0,
+    "temperature_errors": {
+      "overflow": 0,
+      "uart_errors": 0,
+      "checksum_errors": 0
+    },
+    "temperature_new_frames": 1375,
+    "profile": "TEMP_OBJECT"
+  },
+  "source_reconstruction": {
+    "blocks": 2625,
+    "raw_stable": 113213,
+    "CAN_stable": 113214,
+    "raw_unqualified_sequences": 97,
+    "CAN_unqualified_sequences": 95,
+    "raw_version_conflicts": 296,
+    "CAN_version_conflicts": 169
+  },
+  "ECG_source_points": 74987,
+  "RESP_source_points": 15000,
+  "mapping_errors": {},
+  "UART_source": {
+    "blocks": 875,
+    "stable_bytes": 24952,
+    "unqualified_bytes": 60,
+    "valid_frames": 2078
+  },
+  "TEMP_Broker_count": 300,
+  "TEMP_source_matched": 300,
+  "NIBP": [
+    {
+      "session_id": "can-2434159406-1",
+      "seq": 1,
+      "timestamp": 1793435598206,
+      "value": [
+        106.0,
+        69.0
+      ],
+      "source_states_matched": 17,
+      "WSS_seen": true,
+      "expiry_states_observed": {
+        "STALE": 2259,
+        "OFFLINE": 278
+      }
+    }
+  ],
+  "Broker_messages": 3489,
+  "Broker_duplicates": 0,
+  "Backend_delta": {
+    "accepted": 3489,
+    "rejected": 0,
+    "dropped": 0
+  },
+  "WSS_snapshots": 2967,
+  "WSS_both_nodes_online": 2967,
+  "primary_batches_WSS_seen": 301,
+  "node_sessions": {
+    "NODE-A": [
+      "can-2434159406-1"
+    ],
+    "NODE-B": [
+      "can-2434159406-1"
+    ]
+  },
+  "C_counter_increments": {
+    "B_CAN": {
+      "rx": 89966,
+      "txack": 616,
+      "txfail": 0,
+      "overflow": 0
+    },
+    "A_CAN": {
+      "rx": 16238,
+      "txack": 617,
+      "txfail": 0,
+      "overflow": 0
+    }
+  },
+  "prior_session_masked_snapshots": 308,
+  "history_messages": 0,
+  "max_MQTT_JSON_bytes": 829,
+  "actual_webpage_observations": 452,
+  "actual_child_exit_codes": {
+    "B/receipt-private.json": 0,
+    "cloud-receipt-private.json": 0
+  },
+  "webpage_simultaneous_readings": [
+    {
+      "NIBP_seq": 1,
+      "UTC_ms": 1793435602637,
+      "values": {
+        "value-HR": "--",
+        "state-HR": "INVALID · MOCK",
+        "value-RR": "18",
+        "state-RR": "VALID · MOCK",
+        "value-TEMP": "24.9",
+        "state-TEMP": "VALID · MOCK",
+        "pressure-sys": "106",
+        "pressure-dia": "69",
+        "state-NIBP": "VALID · MOCK",
+        "bp-updated": "16:33:18",
+        "value-SpO2": "91",
+        "state-SpO2": "VALID · MOCK",
+        "value-PR": "80",
+        "state-PR": "VALID · MOCK",
+        "gateway": "Gateway · ONLINE",
+        "node-a": "Node-A · ONLINE",
+        "node-b": "Node-B · ONLINE",
+        "connection": "监护通道已连接",
+        "received-at": "最后通信：16:33:22 · 已收 1485 帧",
+        "source-banner": "MOCK 模拟数据",
+        "source-note": "含合成数据，用于系统联调",
+        "quality-ECG": "INVALID · MOCK",
+        "quality-RESP": "VALID · MOCK",
+        "quality-PPG": "VALID · MOCK"
+      }
+    }
+  ],
+  "owner_screen_comparison": {
+    "owner_report": "106 69",
+    "SYS_mmHg": 106,
+    "DIA_mmHg": 69,
+    "received_UTC_ms": 1793435614535,
+    "SpO2_reference_percent": 97,
+    "PR_reference_bpm": 86,
+    "reference_limit": "SpO2/PR vary; owner provides reference only, not synchronized calibration"
+  },
+  "source_STOP": {
+    "tick": 420676,
+    "armed_at": 676,
+    "reason": 1,
+    "phase": 7,
+    "required": 199,
+    "written": 199,
+    "unsynced": 0,
+    "pending": 0,
+    "live": 24,
+    "cache": 56,
+    "business_elapsed_ms": 420000
+  },
+  "absolute_BP_TEMP_accuracy": "NOT_CALIBRATED_REQUIRES_OWNER_SCREEN_COMPARISON",
+  "RR_HR_source_truth": "SOURCE_UNKNOWN_ROOT_CAUSE_UNRESOLVED",
+  "old_verdicts_rewritten": false
+}

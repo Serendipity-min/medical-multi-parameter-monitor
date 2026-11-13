@@ -1,0 +1,548 @@
+{
+  "scope": "M0_THREE_BOARD_BASELINE_ONLY",
+  "source_base": "c0b36430cb8262147b2249d18d889892d3c7b0fa",
+  "source_branch": "codex/m0-abc-unified-baseline-20261103",
+  "five_node_design": "DEFERRED_BY_OWNER",
+  "hardware_windows": {
+    "BC_clock_previous": "ENGINEERING_PASS_WITH_STOP_COMPLETION_RECOVERY_PREVIOUS_C",
+    "ABC_ECG60_clock_previous": "ENGINEERING_PASS_PREVIOUS_C",
+    "ABC_RR18_clock_previous": "NOT_PASS",
+    "BC_current_C": "ENGINEERING_PASS_CURRENT_C_300S",
+    "ABC_current_C": "ECG60_ENGINEERING_PASS_300S_AFTER_M0_REVIEW_FIX",
+    "BC_four_slot_240": "NOT_PASS_B_SOURCE_HR_INVALID_8_7S",
+    "ABC_RR18_four_slot_240": "NOT_PASS_AUDIO_192_9S_EXCEEDS_ASSEMBLY_180S_AND_B_RR_INVALID",
+    "ABC_current_C_RR18": "ENGINEERING_PASS_CURRENT_C_300S",
+    "ABC_current_C_ECG60": "ENGINEERING_PASS_300S_M0_ADAPTER_CORRECTED_ORIGINAL_EXIT3_PRESERVED"
+  },
+  "applications": {
+    "A42608": {
+      "file": "A42608.bin",
+      "bytes": 42608,
+      "sha256": "953c6acc23dcbfcd5a30f138b03f8a6de9430637b0da5477afb2f09b3f431eeb",
+      "firmware_changed_this_stage": false
+    },
+    "B41516": {
+      "file": "B41516.bin",
+      "bytes": 41516,
+      "sha256": "e452c2eafd07868c642c530c09c7ec31b07f919cb41886c849fe84b817644fcd",
+      "firmware_changed_this_stage": false
+    },
+    "C_M0_IRQ": {
+      "artifacts": {
+        "ABC_UNIFIED_C_V1-boot.bin": {
+          "bytes": 392,
+          "sha256": "c5ea60dfcad2ae2bc6469653d7952fdcda9af504b199a9b6084dbd20a59f5fc7"
+        },
+        "ABC_UNIFIED_C_V1-code.bin": {
+          "bytes": 53664,
+          "sha256": "b35301e6063cea0563272e760f99d44e1a6cc8f1500ec2cf7771d3111874c9fb"
+        },
+        "ABC_UNIFIED_C_V1.elf": {
+          "bytes": 95392,
+          "sha256": "6b8a8899e2e8f9dd436a9ea0dc040a79b1a48b8d3aa451c83afbd904411bfa7e"
+        },
+        "ABC_UNIFIED_C_V1.hex": {
+          "bytes": 152146,
+          "sha256": "cf11db5d4065c3fd2a1d84979725e68cef5665806de3c86c3269b806993dc7d2"
+        }
+      },
+      "flash_sectors": [
+        0,
+        4
+      ],
+      "install": {
+        "exit_code": 0,
+        "status": "UNIFIED_C_INSTALL_FULL_VERIFY_PASS",
+        "board": "C",
+        "sectors": [
+          0,
+          4
+        ],
+        "full_flash_sha256": "495d505f3bac9efcae514be5b2ef9370a1fdf7324c330b30d28113f7e9a53749",
+        "options_unchanged": true,
+        "all_other_sectors_unchanged": true,
+        "Close_completed": true,
+        "native_actions": {
+          "JLINKARM_Halt": 1,
+          "JLINKARM_BeginDownload": 1,
+          "JLINKARM_WriteMem": 2,
+          "JLINKARM_EndDownload": 1,
+          "JLINKARM_Reset": 1,
+          "JLINKARM_Go": 1
+        }
+      },
+      "field_result": "AUDIO_CONTENTION_NOT_PASS"
+    },
+    "C_M0_FAIR_CANDIDATE": {
+      "artifacts": {
+        "ABC_UNIFIED_C_V1-boot.bin": {
+          "bytes": 392,
+          "sha256": "9df6f2ad4ea5bc88133cbf153eb4d51f70b41917f7305cb2f85bca43fe30808b"
+        },
+        "ABC_UNIFIED_C_V1-code.bin": {
+          "bytes": 53768,
+          "sha256": "aa2cdcc7a2dc6c8a62e7682595b92ffac9b761d7c5a8436029df7bf8e82d2b61"
+        },
+        "ABC_UNIFIED_C_V1.elf": {
+          "bytes": 95476,
+          "sha256": "d6d4c35427d435982ed1cc5747a6b51824aadaf2af71cae1cabcbe1dbff85c48"
+        },
+        "ABC_UNIFIED_C_V1.hex": {
+          "bytes": 152432,
+          "sha256": "3bace4ff6fb8e74cdbfe7ef9b098d5c9e5fe4682019d839ced5a66c7df3b8b0d"
+        }
+      },
+      "install": {
+        "exit_code": 0,
+        "status": "UNIFIED_C_INSTALL_FULL_VERIFY_PASS",
+        "board": "C",
+        "sectors": [
+          0,
+          4
+        ],
+        "full_flash_sha256": "e5abdf17df10e1e2505f8e16838d50ac297fd1693b7b735e82db59a5898868c8",
+        "options_unchanged": true,
+        "all_other_sectors_unchanged": true,
+        "Close_completed": true,
+        "native_actions": {
+          "JLINKARM_Halt": 1,
+          "JLINKARM_BeginDownload": 1,
+          "JLINKARM_WriteMem": 2,
+          "JLINKARM_EndDownload": 1,
+          "JLINKARM_Reset": 1,
+          "JLINKARM_Go": 1
+        }
+      },
+      "flash_sectors": [
+        0,
+        4
+      ],
+      "field_result": "NOT_PASS_AUDIO_112_OF_125"
+    },
+    "C_M0_MERGED": {
+      "artifacts": {
+        "ABC_UNIFIED_C_V1-boot.bin": {
+          "bytes": 392,
+          "sha256": "835ffe8df1abd704c1f17fde672f5a2e99a51e18be651e7e5c1abb527c303516"
+        },
+        "ABC_UNIFIED_C_V1-code.bin": {
+          "bytes": 53764,
+          "sha256": "be1072d8db72854664f60d51af5d3b6a986c1742b32d516e564a9dbf5dfb3a5c"
+        },
+        "ABC_UNIFIED_C_V1.elf": {
+          "bytes": 95476,
+          "sha256": "f153b282a66ade1695cc8a514e1b59ec775a78f612945fa6c5061d510e6a423b"
+        },
+        "ABC_UNIFIED_C_V1.hex": {
+          "bytes": 152424,
+          "sha256": "f742f46a7af2b7634ce455fe62fe2f3d804f967494addf0192358e8349633065"
+        }
+      },
+      "install": {
+        "exit_code": 0,
+        "status": "UNIFIED_C_INSTALL_FULL_VERIFY_PASS",
+        "board": "C",
+        "sectors": [
+          0,
+          4
+        ],
+        "full_flash_sha256": "12b270c2f8c0542144b0de1e6b977d3b10fd09de2d1cb24bd7d6b215ac682541",
+        "options_unchanged": true,
+        "all_other_sectors_unchanged": true,
+        "Close_completed": true,
+        "native_actions": {
+          "JLINKARM_Halt": 1,
+          "JLINKARM_BeginDownload": 1,
+          "JLINKARM_WriteMem": 2,
+          "JLINKARM_EndDownload": 1,
+          "JLINKARM_Reset": 1,
+          "JLINKARM_Go": 1
+        }
+      },
+      "flash_sectors": [
+        0,
+        4
+      ],
+      "field_result": "IN_PROGRESS"
+    },
+    "C_M0_BOUNDED_VOICE": {
+      "artifacts": {
+        "ABC_UNIFIED_C_V1-boot.bin": {
+          "bytes": 392,
+          "sha256": "a7e87fb255a27514c2eb16d5b897dc10b4f315a13876841066936c08813c06df"
+        },
+        "ABC_UNIFIED_C_V1-code.bin": {
+          "bytes": 54000,
+          "sha256": "b5240e42c2a8d4015cf55c9fdd9a00d50679e1c19dbc50b59fb3bc1fb1c8d415"
+        },
+        "ABC_UNIFIED_C_V1.elf": {
+          "bytes": 95784,
+          "sha256": "159ccfad05e492e627e0b495787aeb7875f23c96f66884f4f1229d9b37382ef5"
+        },
+        "ABC_UNIFIED_C_V1.hex": {
+          "bytes": 153091,
+          "sha256": "570f1868fda075ab7a3d20b5ae29d63d648bb9c9eaa0965f333d8590fd55f771"
+        }
+      },
+      "install": {
+        "exit_code": 0,
+        "status": "UNIFIED_C_INSTALL_FULL_VERIFY_PASS",
+        "board": "C",
+        "sectors": [
+          0,
+          4
+        ],
+        "full_flash_sha256": "c256552637cd649d12155b31b0940ec6a379d817a00d372b2308eba4d3c17bc5",
+        "options_unchanged": true,
+        "all_other_sectors_unchanged": true,
+        "Close_completed": true,
+        "native_actions": {
+          "JLINKARM_Halt": 1,
+          "JLINKARM_BeginDownload": 1,
+          "JLINKARM_WriteMem": 2,
+          "JLINKARM_EndDownload": 1,
+          "JLINKARM_Reset": 1,
+          "JLINKARM_Go": 1
+        }
+      },
+      "flash_sectors": [
+        0,
+        4
+      ],
+      "field_result": "IN_PROGRESS",
+      "telemetry_slots": 2,
+      "audio_slots": 1,
+      "voice_turn_limit_s": 240,
+      "audio_assembly_limit_s": 180
+    },
+    "C_M0_CLOCK_CANDIDATE": {
+      "artifacts": {
+        "ABC_UNIFIED_C_V1-boot.bin": {
+          "bytes": 392,
+          "sha256": "a7e87fb255a27514c2eb16d5b897dc10b4f315a13876841066936c08813c06df"
+        },
+        "ABC_UNIFIED_C_V1-code.bin": {
+          "bytes": 54000,
+          "sha256": "609b06a0be443edb92f5a7be1cae5e01d5ad6682a563a6eacee2a548e6fc2900"
+        },
+        "ABC_UNIFIED_C_V1.elf": {
+          "bytes": 95784,
+          "sha256": "4e22a0247682a832a226227a663cb1ce665f34f2317c49bd9e9cbe61ddfbd0e0"
+        },
+        "ABC_UNIFIED_C_V1.hex": {
+          "bytes": 153091,
+          "sha256": "2172037f817e25e1028895c5b642eec139f0e2b3403d66754c9670cc4c7cd8ea"
+        }
+      },
+      "install": {
+        "exit_code": 0,
+        "status": "UNIFIED_C_INSTALL_FULL_VERIFY_PASS",
+        "board": "C",
+        "sectors": [
+          0,
+          4
+        ],
+        "full_flash_sha256": "c720968d844dd0da901473158e0e3ea3c7723404fdfb6ff00aa0487bef710a3f",
+        "options_unchanged": true,
+        "all_other_sectors_unchanged": true,
+        "Close_completed": true,
+        "native_actions": {
+          "JLINKARM_Halt": 1,
+          "JLINKARM_BeginDownload": 1,
+          "JLINKARM_WriteMem": 2,
+          "JLINKARM_EndDownload": 1,
+          "JLINKARM_Reset": 1,
+          "JLINKARM_Go": 1
+        }
+      },
+      "field_result": "NOT_RUN"
+    },
+    "C_M0_HEADROOM_CANDIDATE": {
+      "install": {
+        "exit_code": 0,
+        "status": "UNIFIED_C_INSTALL_FULL_VERIFY_PASS",
+        "board": "C",
+        "sectors": [
+          0,
+          4
+        ],
+        "full_flash_sha256": "6b656c49fc283255894ed968197d83f57a0344979c2e9352d20ce28946aa9878",
+        "options_unchanged": true,
+        "all_other_sectors_unchanged": true,
+        "Close_completed": true,
+        "native_actions": {
+          "JLINKARM_Halt": 1,
+          "JLINKARM_BeginDownload": 1,
+          "JLINKARM_WriteMem": 2,
+          "JLINKARM_EndDownload": 1,
+          "JLINKARM_Reset": 1,
+          "JLINKARM_Go": 1
+        }
+      },
+      "artifact_directory": "candidate-c-headroom",
+      "field_result": "NOT_RUN",
+      "flash_total_bytes": 54472,
+      "sector4_remaining_bytes": 11456,
+      "ordinary_SRAM_after_heap_stack_free_bytes": 16264,
+      "CCM_free_bytes": 1536
+    },
+    "C_M0_FOUR_SLOT_CANDIDATE": {
+      "artifact_directory": "candidate-c-four-slot",
+      "artifacts": {
+        "ABC_UNIFIED_C_V1-boot.bin": {
+          "bytes": 392,
+          "sha256": "80dbce8c2231c9383117f822a5089614345ce7bf0e3a3e7a765ebcc46c53085c"
+        },
+        "ABC_UNIFIED_C_V1-code.bin": {
+          "bytes": 54240,
+          "sha256": "148eb9b81f92af7a09b619b3e25d9080dca1e225e33af382dc2188ac22b70db1"
+        },
+        "ABC_UNIFIED_C_V1.elf": {
+          "bytes": 95784,
+          "sha256": "899126066d0cf1570905b8cf966fda45d8bab8967b6a06e93cff0ea0435619a2"
+        },
+        "ABC_UNIFIED_C_V1.hex": {
+          "bytes": 153766,
+          "sha256": "48b206e59c5f3206fefad9601b78706115a3840f1b1a45559ea93e2210a78085"
+        }
+      },
+      "install": {
+        "exit_code": 0,
+        "status": "UNIFIED_C_INSTALL_FULL_VERIFY_PASS",
+        "board": "C",
+        "sectors": [
+          0,
+          4
+        ],
+        "full_flash_sha256": "a7ed7bd3ee6a8db094d97a978f3694ba999a3e46d4a2858d89c252f704a258e3",
+        "options_unchanged": true,
+        "all_other_sectors_unchanged": true,
+        "Close_completed": true,
+        "native_actions": {
+          "JLINKARM_Halt": 1,
+          "JLINKARM_BeginDownload": 1,
+          "JLINKARM_WriteMem": 2,
+          "JLINKARM_EndDownload": 1,
+          "JLINKARM_Reset": 1,
+          "JLINKARM_Go": 1
+        }
+      },
+      "resources": {
+        "flash_total_bytes": 54632,
+        "sector4_remaining_bytes": 11296,
+        "ordinary_SRAM_after_heap_stack_free_bytes": 15808,
+        "CCM_free_bytes": 1536
+      },
+      "field_result": "NOT_RUN"
+    },
+    "C_M0_FOUR_SLOT_300S": {
+      "directory": "candidate-c-four-slot-300s",
+      "artifacts": {
+        "ABC_UNIFIED_C_V1-boot.bin": {
+          "bytes": 392,
+          "sha256": "80dbce8c2231c9383117f822a5089614345ce7bf0e3a3e7a765ebcc46c53085c"
+        },
+        "ABC_UNIFIED_C_V1-code.bin": {
+          "bytes": 54240,
+          "sha256": "3a777e21354f3a8085a302a1ad99c454695d226252622164457075ca47391869"
+        },
+        "ABC_UNIFIED_C_V1.elf": {
+          "bytes": 95784,
+          "sha256": "a6096f1a900eaea29f61e6abb0d9094916b4faeca47cd214642e4b9694c42c45"
+        },
+        "ABC_UNIFIED_C_V1.hex": {
+          "bytes": 153766,
+          "sha256": "d7f3e8ea2afffe9d598a8fe957860697c032cf9e3e996a1c082097518b25ea34"
+        }
+      },
+      "flash_sectors": [
+        0,
+        4
+      ],
+      "install": {
+        "exit_code": 0,
+        "status": "UNIFIED_C_INSTALL_FULL_VERIFY_PASS",
+        "board": "C",
+        "sectors": [
+          0,
+          4
+        ],
+        "full_flash_sha256": "a9302b0aafd2a9e1f2bff8cae29fb1ce4cba496a28f1d90442b6bca361709c3b",
+        "options_unchanged": true,
+        "all_other_sectors_unchanged": true,
+        "Close_completed": true,
+        "native_actions": {
+          "JLINKARM_Halt": 1,
+          "JLINKARM_BeginDownload": 1,
+          "JLINKARM_WriteMem": 2,
+          "JLINKARM_EndDownload": 1,
+          "JLINKARM_Reset": 1,
+          "JLINKARM_Go": 1
+        }
+      },
+      "field_result": "CURRENT_C_RETEST_PENDING",
+      "resources": {
+        "flash_total_load_bytes": 54632,
+        "sector4_free_bytes": 11296,
+        "ordinary_SRAM_free_after_reserved_stack_heap_bytes": 15808,
+        "CCM_free_bytes": 1536
+      },
+      "budgets": {
+        "medical_freshness_ms": 5000,
+        "NIBP_expiry_ms": 90000,
+        "audio_assembly_seconds": 240,
+        "C_voice_turn_seconds": 300,
+        "M0_evaluation_seconds": 300
+      }
+    },
+    "C_M0_UART_BASELINE": {
+      "directory": "candidate-c-UART-baseline",
+      "artifacts": {
+        "ABC_UNIFIED_C_V1-boot.bin": {
+          "bytes": 392,
+          "sha256": "01911145c55143c63d613ea6eaec573c37ddee3979a935d67ca4952df1bb71c4"
+        },
+        "ABC_UNIFIED_C_V1-code.bin": {
+          "bytes": 54500,
+          "sha256": "3d5740290e489c161487a8a11019f8a81e5f06118fb21d6e1ebf4fe81d7e2574"
+        },
+        "ABC_UNIFIED_C_V1.elf": {
+          "bytes": 95828,
+          "sha256": "59a2c8a76aa35ca4601dfedeb78f01fd8fb415a1cf22a99fcd0a9033e0319576"
+        },
+        "ABC_UNIFIED_C_V1.hex": {
+          "bytes": 154494,
+          "sha256": "dc9c1a04780b74f0b59f171551aaa590add069796ffff6f3f31e81c4cb15b527"
+        }
+      },
+      "flash_sectors": [
+        0,
+        4
+      ],
+      "install": {
+        "exit_code": 0,
+        "status": "UNIFIED_C_INSTALL_FULL_VERIFY_PASS",
+        "board": "C",
+        "sectors": [
+          0,
+          4
+        ],
+        "full_flash_sha256": "245ace31315509f7c5c1117f013b1c13f8befbc5d4bed34289d0db3ae6caf596",
+        "options_unchanged": true,
+        "all_other_sectors_unchanged": true,
+        "Close_completed": true,
+        "native_actions": {
+          "JLINKARM_Halt": 1,
+          "JLINKARM_BeginDownload": 1,
+          "JLINKARM_WriteMem": 2,
+          "JLINKARM_EndDownload": 1,
+          "JLINKARM_Reset": 1,
+          "JLINKARM_Go": 1
+        }
+      },
+      "field_result": "NOT_RUN_PREMATURE_CAN_SERVICE_FROM_STARTUP_LOG",
+      "resources": {
+        "Flash_load_bytes": 54892,
+        "sector4_free_bytes": 11036,
+        "ordinary_SRAM_free_after_reserved_stack_heap_bytes": 15808,
+        "CCM_free_bytes": 1536
+      },
+      "budgets": {
+        "medical_freshness_ms": 5000,
+        "NIBP_expiry_ms": 90000,
+        "audio_assembly_seconds": 240,
+        "C_voice_turn_seconds": 300,
+        "M0_evaluation_seconds": 300
+      }
+    },
+    "C_M0_STARTUP_ORDER": {
+      "directory": "candidate-c-startup-order",
+      "artifacts": {
+        "ABC_UNIFIED_C_V1-boot.bin": {
+          "bytes": 392,
+          "sha256": "52ae0854a4418446a548c193e1465ba85f7fb59544b0ff486c0f443101c2d3f5"
+        },
+        "ABC_UNIFIED_C_V1-code.bin": {
+          "bytes": 54508,
+          "sha256": "118bb51ad837b24db5b52ee3e2f658c714eaade608d2dd4c20d653637a801042"
+        },
+        "ABC_UNIFIED_C_V1.elf": {
+          "bytes": 95828,
+          "sha256": "4e124697d927c1b6643483c0aed9b743c4f974951dfc131a627f0a88c812c5c8"
+        },
+        "ABC_UNIFIED_C_V1.hex": {
+          "bytes": 154523,
+          "sha256": "dccbcf820fc018376435caeddafb62b84a57b19510d381f599124eee9144bb23"
+        }
+      },
+      "flash_sectors": [
+        0,
+        4
+      ],
+      "install": {
+        "exit_code": 0,
+        "status": "UNIFIED_C_INSTALL_FULL_VERIFY_PASS",
+        "board": "C",
+        "sectors": [
+          0,
+          4
+        ],
+        "full_flash_sha256": "fb15578d20d11676a8128b26f5b7b1473464e349adfed45ad0a2a4e2c780f5c5",
+        "options_unchanged": true,
+        "all_other_sectors_unchanged": true,
+        "Close_completed": true,
+        "native_actions": {
+          "JLINKARM_Halt": 1,
+          "JLINKARM_BeginDownload": 1,
+          "JLINKARM_WriteMem": 2,
+          "JLINKARM_EndDownload": 1,
+          "JLINKARM_Reset": 1,
+          "JLINKARM_Go": 1
+        }
+      },
+      "field_result": "BC_ECG60_ABC_ECG60_ABC_RR18_ENGINEERING_PASS",
+      "resources": {
+        "Flash_load_bytes": 54892,
+        "sector4_free_bytes": 11036,
+        "ordinary_SRAM_free_after_reserved_stack_heap_bytes": 15808,
+        "CCM_free_bytes": 1536
+      },
+      "budgets": {
+        "medical_freshness_ms": 5000,
+        "NIBP_expiry_ms": 90000,
+        "audio_assembly_seconds": 240,
+        "C_voice_turn_seconds": 300,
+        "M0_evaluation_seconds": 300
+      }
+    }
+  },
+  "selected_C_candidate": "C_M0_STARTUP_ORDER",
+  "baseline_tag": "baseline/abc-unified-pre-split-v1",
+  "final_product_release": false,
+  "status": "M0_THREE_BOARD_ENGINEERING_BASELINE_PASS",
+  "physical_final_state": {
+    "owner_confirmed_all_ABC_modules_off": true,
+    "PC_USB_unplugged": true,
+    "JLink_board": "B",
+    "CAN_segments": "BOTH_RETAINED",
+    "L": "LL",
+    "last_profile": "RR18",
+    "hotspot_final_switch": "UNKNOWN",
+    "SKX_final_switch": "UNKNOWN"
+  },
+  "own_task_cloud_services": "FIVE_STOPPED_NATIVE_EXIT0_FORMAL_SERVICES_UNCHANGED",
+  "source_identity": "RESOLVE_ANNOTATED_BASELINE_TAG_TO_COMMIT",
+  "handoff": "../MPM-M0-ABC-BASELINE-CONTEXT-HANDOFF-20261103.md",
+  "unclosed": [
+    "VOICE_MARGIN_SMALL_ABC_ECG60_6_9_SECONDS",
+    "A_LATEST_VALUE_COALESCING_AND_HISTORY_OVERWRITE",
+    "RR15_SOURCE_UNKNOWN_ROOT_CAUSE_UNRESOLVED",
+    "RR24_RR30_HISTORICAL_FAILURES",
+    "TEMP180_LAST_FRAME_ANOMALY",
+    "SDK_NATIVE_OPEN_CLOSE_EFFECTS",
+    "CPU_ROM_ROOT_CAUSE",
+    "ABSOLUTE_BP_TEMP_SPO2_ACCURACY",
+    "FACT_BASED_MEDICAL_AI",
+    "24H_STABILITY"
+  ]
+}

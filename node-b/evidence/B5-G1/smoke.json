@@ -1,0 +1,39 @@
+{
+  "A_segment_OFFLINE": true,
+  "B5START_sent": 0,
+  "Backend_accepted_delta": 6,
+  "Backend_rejected_delta": 0,
+  "Broker_payloads_matched": 6,
+  "CONNECT_SUBACK_observed": true,
+  "WSS_Cloud_TLS_via_SSH_tunnel": true,
+  "WSS_HR_VALID_RR_TEMP_INVALID": true,
+  "WSS_MOCK_synthetic_only": true,
+  "exit_code": 0,
+  "formal_namespace_messages_sent": 0,
+  "hardware_access": false,
+  "negative_MQTTv5": [
+    {
+      "PUBACK_reason": 135,
+      "denied": true,
+      "namespace": "mpm/v1/GW-B5-DENY-001/NODE-B/telemetry/hr",
+      "protocol": "MQTTv5",
+      "role": "b5-gateway"
+    },
+    {
+      "PUBACK_reason": 135,
+      "denied": true,
+      "namespace": "mpm/v1/GW-B5-DENY-001/NODE-B/telemetry/hr",
+      "protocol": "MQTTv5",
+      "role": "b5-observer"
+    }
+  ],
+  "negative_subscription_test": "NOT_RUN_STATIC_ACL_NO_READ_GRANT",
+  "package_sha256": "dcee1658be5ce4db2531975069441444a0f50078828321a3e978a8352b520db0",
+  "raw_events_sha256": "b67fdaffc48b68ca6b60f88b15478542ff8e4cbb49e384cca20a8c7cbcff2911",
+  "real_tls_MQTTv311_positive": true,
+  "source": "G1_GENERATED_MOCK_FIXTURES_NOT_DEVICE_ADC",
+  "status": "PASS",
+  "test_clients_cleanly_disconnected": true,
+  "tool_sha256": "007bd964a505156e3d9d4c71e00e34d40e159e4f9e46531b719c7b00a2dc8f73",
+  "tx": "g1a-1ceb665360"
+}

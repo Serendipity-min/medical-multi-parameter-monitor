@@ -1,0 +1,88 @@
+{
+  "groups": [
+    {
+      "group": "ECG60",
+      "result": "ABC_ECG60_ENGINEERING_PASS",
+      "review_exit": 0,
+      "native_worker_exit": 0,
+      "source_points": 74993,
+      "TEMP_messages_matched": 300,
+      "temperature_range_C": [
+        24.51,
+        30.29
+      ],
+      "ADC_SPS": 249.97495475158453,
+      "NIBP_SYS_DIA": [
+        111.0,
+        72.0
+      ],
+      "Broker_messages": 3496,
+      "Backend_delta": {
+        "accepted": 3496,
+        "rejected": 0,
+        "dropped": 0
+      },
+      "WSS_snapshots": 2967,
+      "STOP": {
+        "tick": 420601,
+        "armed_at": 601,
+        "reason": 1,
+        "phase": 7,
+        "required": 194,
+        "written": 194,
+        "unsynced": 0,
+        "pending": 0,
+        "live": 24,
+        "cache": 56,
+        "business_elapsed_ms": 420000
+      },
+      "input_B_bytes": 41012,
+      "input_C_bytes": 44520,
+      "input_A_bytes": 42608
+    },
+    {
+      "group": "RR18",
+      "result": "ABC_RR18_ENGINEERING_PASS",
+      "review_exit": 0,
+      "native_worker_exit": 0,
+      "source_points": 15000,
+      "TEMP_messages_matched": 300,
+      "temperature_range_C": [
+        24.54,
+        30.98
+      ],
+      "ADC_SPS": 249.98747791939786,
+      "NIBP_SYS_DIA": [
+        100.0,
+        58.0
+      ],
+      "Broker_messages": 3561,
+      "Backend_delta": {
+        "accepted": 3561,
+        "rejected": 0,
+        "dropped": 0
+      },
+      "WSS_snapshots": 2967,
+      "STOP": {
+        "tick": 420665,
+        "armed_at": 665,
+        "reason": 1,
+        "phase": 7,
+        "required": 856,
+        "written": 856,
+        "unsynced": 0,
+        "pending": 0,
+        "live": 24,
+        "cache": 56,
+        "business_elapsed_ms": 420000
+      },
+      "input_B_bytes": 41012,
+      "input_C_bytes": 44520,
+      "input_A_bytes": 42608
+    }
+  ],
+  "two_group_pass": true,
+  "B_updated_after_main_groups": true,
+  "current_B_bytes": 41516,
+  "new_B_full_CAN_cloud_retest": "NOT_RUN"
+}

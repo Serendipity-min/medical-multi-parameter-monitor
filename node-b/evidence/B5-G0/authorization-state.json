@@ -1,0 +1,59 @@
+{
+  "contract": "MPM-B5-002_G0_ONLY",
+  "all_later_stages_disabled": true,
+  "cards": [
+    {
+      "path": "node-b/docs/AUTH-B5-G1-CLOUD-001-R1.md",
+      "enabled": false,
+      "owner_approved": false,
+      "executions": 0,
+      "requires_new_private_transaction_binding": true
+    },
+    {
+      "path": "node-b/docs/AUTH-B5-G2-READBACK-001-R1.md",
+      "enabled": false,
+      "owner_approved": false,
+      "executions": 0,
+      "requires_new_private_transaction_binding": true
+    },
+    {
+      "path": "node-b/docs/AUTH-B5-G2A-APPLICATION-001-R1.md",
+      "enabled": false,
+      "owner_approved": false,
+      "executions": 0,
+      "requires_new_private_transaction_binding": true
+    },
+    {
+      "path": "node-b/docs/AUTH-B5-G2B-SECTOR3-001-R1.md",
+      "enabled": false,
+      "owner_approved": false,
+      "executions": 0,
+      "requires_new_private_transaction_binding": true
+    },
+    {
+      "path": "node-b/docs/AUTH-B5-G3-CLOUD-WINDOW-001-R1.md",
+      "enabled": false,
+      "owner_approved": false,
+      "executions": 0,
+      "requires_new_private_transaction_binding": true
+    },
+    {
+      "path": "node-b/docs/AUTH-B5-HW0-VISUAL-READONLY-001-R1.md",
+      "enabled": false,
+      "owner_approved": false,
+      "executions": 0,
+      "requires_new_private_transaction_binding": true
+    },
+    {
+      "path": "node-b/docs/AUTH-B5-ROLLBACK-SEPARATE-001-R1.md",
+      "enabled": false,
+      "owner_approved": false,
+      "executions": 0,
+      "requires_new_private_transaction_binding": true
+    }
+  ],
+  "rollback_each_subcard_needs_separate_approval": true,
+  "G2_RO_new_scope_tool": "NOT_FROZEN_NOT_EXECUTABLE",
+  "G2_B_config_writer": "NOT_FROZEN_NOT_EXECUTABLE",
+  "historical_H3_and_C24104_install_cards_reusable_for_42552": false
+}

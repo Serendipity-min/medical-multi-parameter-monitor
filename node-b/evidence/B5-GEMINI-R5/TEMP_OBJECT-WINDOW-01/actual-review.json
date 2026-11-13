@@ -1,0 +1,44 @@
+{
+  "status": "B5_SEPARATE_TEMP_OBJECT_NOT_PASS",
+  "exit_code": 3,
+  "profile": "TEMP_OBJECT",
+  "failures": [
+    "B_TEMP_FRESH_SOURCE"
+  ],
+  "Broker_messages": 2793,
+  "Broker_duplicates": 0,
+  "Backend_delta": {
+    "accepted": 2793,
+    "rejected": 0,
+    "dropped": 0
+  },
+  "WSS_snapshots": 2974,
+  "UART_source": {
+    "blocks": 1029,
+    "stable_bytes": 28648,
+    "unqualified_bytes": 48,
+    "valid_frames": 2386
+  },
+  "temperature_message_candidate_counts_summary": {
+    "min": 1,
+    "max": 7,
+    "total_evaluated": 300,
+    "all_matched": true
+  },
+  "C_error_delta": {
+    "rx": 89922,
+    "txack": 622,
+    "txfail": 0,
+    "overflow": 0,
+    "uart_err": 0,
+    "dropped": 0,
+    "mqtt_fail": 0
+  },
+  "C_diagnostic_count": 60,
+  "C_diagnostic_max_gap_s": 5.2810000001918525,
+  "STOP_observed_offset_s": 420.0460000000894,
+  "evaluation_UTC_ms": [
+    1793324114463,
+    1793324414463
+  ]
+}

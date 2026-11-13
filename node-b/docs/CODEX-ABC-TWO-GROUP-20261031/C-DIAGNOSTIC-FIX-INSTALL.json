@@ -1,0 +1,18 @@
+{
+  "status": "ABC_C_APP012_FULL_VERIFY_BOOT_PASS",
+  "exit_code": 0,
+  "board": "C",
+  "full_flash_sha256": "95ff4554a70a94c8d3c3401657e551a664caecc2f92a57deecbf5a7e7c3a12cb",
+  "outside_affected_sectors_unchanged": true,
+  "Close_completed": true,
+  "native_actions": {
+    "JLINKARM_Halt": 1,
+    "JLINKARM_BeginDownload": 1,
+    "JLINKARM_WriteMem": 1,
+    "JLINKARM_EndDownload": 1,
+    "JLINKARM_Reset": 1,
+    "JLINKARM_Go": 1
+  },
+  "candidate_BIN_sha256": "2eaa5fc184b5e6117c931671203208037ea244afaaf49ea10e25e8aeb9ed4584",
+  "candidate_BIN_bytes": 44400
+}

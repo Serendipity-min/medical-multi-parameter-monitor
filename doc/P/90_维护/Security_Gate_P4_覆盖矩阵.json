@@ -1,0 +1,202 @@
+{
+  "steps": [
+    {
+      "tool": "doctor",
+      "status": "OK",
+      "mandatory": true
+    },
+    {
+      "tool": "semgrep-pro-validation",
+      "status": "OK",
+      "exit_code": 0,
+      "duration_seconds": 3.778,
+      "mandatory": true
+    },
+    {
+      "tool": "semgrep",
+      "status": "OK",
+      "exit_code": 0,
+      "duration_seconds": 16.757,
+      "mandatory": true,
+      "coverage": {
+        "scanned": 50,
+        "scanned_files": [
+          "cloud/backend/README.md",
+          "cloud/backend/app/__init__.py",
+          "cloud/backend/app/adapters.py",
+          "cloud/backend/app/diagnostics.py",
+          "cloud/backend/app/hub.py",
+          "cloud/backend/app/main.py",
+          "cloud/backend/app/models.py",
+          "cloud/backend/app/mqtt_adapter.py",
+          "cloud/backend/requirements-dev.txt",
+          "cloud/backend/requirements.lock",
+          "cloud/backend/requirements.txt",
+          "cloud/web/src/main.ts",
+          "cloud/web/src/model/viewModel.ts",
+          "cloud/web/src/state/monitorStore.ts",
+          "cloud/web/src/style.css",
+          "cloud/web/src/transport/monitorSocket.ts",
+          "cloud/web/src/types.ts",
+          "cloud/web/src/ui/accessDialog.ts",
+          "cloud/web/src/ui/monitorView.ts",
+          "cloud/web/src/ui/numerics.ts",
+          "cloud/web/src/ui/statusBar.ts",
+          "cloud/web/src/waveform/renderer.ts",
+          "gateway/canopen/src/CO_driver_target.h",
+          "gateway/canopen/src/mp_adapter.c",
+          "gateway/canopen/src/mp_adapter.h",
+          "gateway/canopen/src/mp_can_driver.c",
+          "gateway/canopen/src/mp_can_driver.h",
+          "gateway/canopen/src/mp_od.c",
+          "gateway/canopen/src/mp_od.h",
+          "gateway/canopen/src/mp_stack.c",
+          "gateway/canopen/src/mp_stack.h",
+          "gateway/data_model/model.c",
+          "gateway/data_model/model.h",
+          "gateway/esp_at_probe/src/bridge.c",
+          "gateway/esp_at_probe/src/main.c",
+          "gateway/esp_at_probe/src/main.h",
+          "gateway/esp_at_probe/src/network_probe.c",
+          "gateway/esp_at_probe/src/stm32f4xx_conf.h",
+          "gateway/esp_at_probe/src/stm32f4xx_it.c",
+          "gateway/esp_at_probe/src/syscalls.c",
+          "gateway/esp_at_probe/src/system_stm32f4xx.c",
+          "gateway/mqtt/src/gateway_config.h",
+          "gateway/mqtt/src/gateway_platform.h",
+          "gateway/mqtt/src/gateway_transport.c",
+          "gateway/mqtt/src/gateway_transport.h",
+          "gateway/mqtt/src/heap.c",
+          "gateway/mqtt/src/main.c",
+          "gateway/mqtt/src/platform.c",
+          "gateway/storage/router.c",
+          "gateway/storage/router.h"
+        ],
+        "skipped": 0,
+        "errors": 0
+      }
+    },
+    {
+      "tool": "gitleaks",
+      "status": "OK",
+      "exit_code": 0,
+      "duration_seconds": 1.222,
+      "mandatory": true,
+      "coverage": {
+        "findings": 0
+      }
+    },
+    {
+      "tool": "trivy",
+      "status": "OK",
+      "exit_code": 0,
+      "duration_seconds": 10.194,
+      "mandatory": true,
+      "coverage": {
+        "targets": 3,
+        "licenses": 65
+      }
+    },
+    {
+      "tool": "pip-audit-0",
+      "status": "OK",
+      "exit_code": 0,
+      "duration_seconds": 3.829,
+      "mandatory": true,
+      "coverage": {
+        "dependencies": 16
+      }
+    },
+    {
+      "tool": "npm-audit-0",
+      "status": "OK",
+      "exit_code": 1,
+      "duration_seconds": 1.574,
+      "mandatory": true,
+      "coverage": {
+        "dependencies": {
+          "prod": 1,
+          "dev": 65,
+          "optional": 53,
+          "peer": 1,
+          "peerOptional": 0,
+          "total": 65
+        }
+      }
+    },
+    {
+      "tool": "clang-tidy",
+      "status": "OK",
+      "mandatory": true,
+      "coverage": {
+        "files": 6,
+        "expected": 16
+      }
+    },
+    {
+      "tool": "npm-ci-0",
+      "status": "OK",
+      "exit_code": 0,
+      "duration_seconds": 1.573,
+      "mandatory": true
+    },
+    {
+      "tool": "sanitizer-fixed",
+      "status": "MISSING",
+      "mandatory": true
+    },
+    {
+      "tool": "backend-tests",
+      "status": "OK",
+      "exit_code": 0,
+      "duration_seconds": 6.636,
+      "mandatory": true
+    },
+    {
+      "tool": "canopen-host-tests",
+      "status": "OK",
+      "exit_code": 0,
+      "duration_seconds": 9.695,
+      "mandatory": true
+    },
+    {
+      "tool": "c-backend-test",
+      "status": "OK",
+      "exit_code": 0,
+      "duration_seconds": 0.773,
+      "mandatory": true
+    },
+    {
+      "tool": "paho-integrity",
+      "status": "MISSING",
+      "mandatory": true
+    },
+    {
+      "tool": "web-build",
+      "status": "OK",
+      "exit_code": 0,
+      "duration_seconds": 2.375,
+      "mandatory": true
+    },
+    {
+      "tool": "gateway-build",
+      "status": "COVERAGE_GAP",
+      "exit_code": 1,
+      "duration_seconds": 0.171,
+      "mandatory": false
+    }
+  ],
+  "gaps": [
+    "clang-tidy:no-compilation-command:gateway/esp_at_probe/src/bridge.c",
+    "clang-tidy:no-compilation-command:gateway/esp_at_probe/src/main.c",
+    "clang-tidy:no-compilation-command:gateway/esp_at_probe/src/network_probe.c",
+    "clang-tidy:no-compilation-command:gateway/esp_at_probe/src/stm32f4xx_it.c",
+    "clang-tidy:no-compilation-command:gateway/esp_at_probe/src/syscalls.c",
+    "clang-tidy:no-compilation-command:gateway/esp_at_probe/src/system_stm32f4xx.c",
+    "clang-tidy:no-compilation-command:gateway/mqtt/src/gateway_transport.c",
+    "clang-tidy:no-compilation-command:gateway/mqtt/src/heap.c",
+    "clang-tidy:no-compilation-command:gateway/mqtt/src/main.c",
+    "clang-tidy:no-compilation-command:gateway/mqtt/src/platform.c",
+    "ARM-only units absent from host compile database are explicit coverage gaps; no compiler flags are discarded"
+  ]
+}

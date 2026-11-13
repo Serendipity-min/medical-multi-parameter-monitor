@@ -1,0 +1,46 @@
+{
+  "B_receipt": {
+    "blocks": 3174,
+    "close_resume": true,
+    "exit_code": 0,
+    "explicit_reset_halt_go_target_writes": 0,
+    "sdk_calls": 23311,
+    "status": "B_G3_READONLY_CAPTURED_REVIEW_PENDING"
+  },
+  "MCU_business_stop_exact_time": "NOT_PROVEN_BY_CONSOLE_LATENCY",
+  "business_hard_s": 420,
+  "frozen_deadline_s": 422,
+  "frozen_review": {
+    "error_text_sha256": "3ff56607b2957ed19257ff16b641169448c949ab5491f962319af7b2cf951237",
+    "error_type": "FileNotFoundError",
+    "exit_code": 1,
+    "status": "G3_REVIEW_STOP"
+  },
+  "frozen_review_caller": {
+    "exit_code": 1
+  },
+  "late_offline_WSS": {
+    "exit_code": 0,
+    "last_gateway": "OFFLINE",
+    "last_nodeB": "OFFLINE",
+    "new_START": 0,
+    "publications": 0,
+    "status": "CLOUD_OBSERVATIONS_SAVED_REVIEW_PENDING"
+  },
+  "no_fabricated_joint_receipt_or_retroactive_PASS": true,
+  "parsed_STOP_event_saved": false,
+  "raw_STOP_banner_in_tail": true,
+  "raw_STOP_banner_occurrences": 1,
+  "raw_banner_has_separate_original_arrival_timestamp": false,
+  "raw_serial_sha256": "1513dba357d4c4e0dd0d62200b550d1241b0d3807c61cda46959d620250fb82f",
+  "terminal_diag": "B5 DIAG tick=434513 session=2156383307 rx=127542 txack=885 txfail=0 overflow=0 esr=0 uart_err=0 live=0 cache=64 dropped=1690 q0_transport=349 q1_puback=845 mqtt_fail=1 stop=1",
+  "terminal_diag_host_offset_s": 422.125,
+  "worker_and_supervisor": {
+    "G3_B5START_attempted": true,
+    "automatic_retry_or_recovery": false,
+    "process_tree_killed_is_not_MCU_stop": true,
+    "supervisor_exit_code": 1,
+    "supervisor_reason": "MCU_STOP_NOT_CONFIRMED_MANUAL_ISOLATE",
+    "worker_exit_code": 1
+  }
+}

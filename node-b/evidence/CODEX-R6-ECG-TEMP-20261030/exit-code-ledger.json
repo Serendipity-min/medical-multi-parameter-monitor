@@ -1,0 +1,66 @@
+{
+  "scope": "Current ECG/TEMP request only",
+  "runs": [
+    {
+      "operation": "prepare attempt1",
+      "exit_code": 1,
+      "target_calls": 0,
+      "reason": "Build pointer incorrectly read using EFS-only reader; corrected pointer loader"
+    },
+    {
+      "operation": "prepare attempt2",
+      "exit_code": 1,
+      "target_calls": 0,
+      "reason": "Serialized JSON lists differ from in-memory tuples; corrected canonical comparison"
+    },
+    {
+      "operation": "prepare attempt3 plus existing-cloud read-only check",
+      "exit_code": 0,
+      "SSH_exit_code": 0,
+      "target_calls": 0
+    },
+    {
+      "operation": "ECG60 collector and supervisor",
+      "worker_exit_code": 0,
+      "supervisor_exit_code": 0
+    },
+    {
+      "operation": "ECG60 frozen formal review once",
+      "process_exit_code": 0
+    },
+    {
+      "operation": "temperature observation pre-fix fixture01",
+      "exit_code": 1,
+      "tests": 2,
+      "failures": 2,
+      "note": "One real -20ms skew reproduction plus stale-fixture boundary assertion error"
+    },
+    {
+      "operation": "temperature observation pre-fix fixture02",
+      "exit_code": 1,
+      "tests": 2,
+      "failures": 1,
+      "note": "Corrected stale fixture; only -20ms skew failure remains"
+    },
+    {
+      "operation": "temperature host-fix guarded Mock",
+      "exit_code": 0,
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "native_target_calls": 0
+    },
+    {
+      "operation": "TEMP_OBJECT collector and supervisor",
+      "worker_exit_code": 0,
+      "supervisor_exit_code": 0
+    },
+    {
+      "operation": "TEMP_OBJECT frozen formal review once",
+      "process_exit_code": 0
+    }
+  ],
+  "old_R5_replay": "NOT_RUN",
+  "old_151_test_matrix": "NOT_RUN",
+  "additional_RR_or_ECG_retest": "NOT_RUN"
+}

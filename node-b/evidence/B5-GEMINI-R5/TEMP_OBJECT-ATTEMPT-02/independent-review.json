@@ -1,0 +1,13 @@
+{
+  "audit_type": "GEMINI_INDEPENDENT_CALCULATION_PATH",
+  "window_id": "owner-observed-TEMP_OBJECT-R5-cff28389",
+  "scope": "B5_FINAL_TEMP_OBJECT_R5",
+  "findings": {
+    "hardware_state": "SAFE_STOPPED_ZERO_FLASH_WRITES",
+    "sntp_issue_resolved": "Cold USB cycle completely cleared ESP32 stale RTC. SNTP synchronized at 09:25:12 CST (+288ms match).",
+    "channel_health": "Temperature data acquisition was active and 100% valid (7 consecutive frames 26.51C - 26.57C, 0 errors).",
+    "reboot_event": "Gateway-C issued second reset banner (monotonic 1057571.531, 09:25:24.441 CST, exactly 37.19s after initial reset).",
+    "supervisor_protection": "G3 supervisor strictly halted under G3_C_UNEXPECTED_REBOOT to guarantee zero corrupted windows.",
+    "verdict": "INCOMPLETE_CAPTURE_WARMUP_REBOOT_SAFETY_HALT"
+  }
+}

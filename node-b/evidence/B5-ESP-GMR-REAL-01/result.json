@@ -1,0 +1,67 @@
+{
+  "status": "ESP_GMR_STOP_BEFORE_UART_C_RUNNING_ROM",
+  "exit_code": 1,
+  "receipt": {
+    "status": "STOP",
+    "exit_code": 1,
+    "B5START": 0,
+    "Flash_options_config_writes": 0,
+    "halt_go_reset": 0,
+    "baud_register_writes": 0,
+    "error_type": "ValueError",
+    "reason": "C_RO_ROM_STOP",
+    "error_text_sha256": "e4a85ed40ed316b5d34956678926f9692b2df153fbff8a425394e8d2a20c51b4",
+    "errno": null,
+    "TLS_verify_code": null,
+    "failure_exit_check_error_type": "ValueError",
+    "UART_byte_permissions_consumed": 0,
+    "UART_native_write_attempts": 0,
+    "SDK_calls": 56
+  },
+  "entry": {
+    "DHCSR": 16842753,
+    "VTOR": 536805376,
+    "CFSR": 0,
+    "HFSR": 0,
+    "RCC_CSR": 234881024,
+    "DWT_PCSR": 536819358,
+    "RCC_APB2ENR": 16,
+    "SYSCFG_MEMRMP": 0,
+    "FLASH_CR": 2147483648,
+    "FLASH_SR": 0,
+    "pc_samples": [
+      536819358,
+      536819380,
+      536819358
+    ]
+  },
+  "failure_cleanup_state": {
+    "DHCSR": 16842753,
+    "VTOR": 536805376,
+    "CFSR": 0,
+    "HFSR": 0,
+    "RCC_CSR": 234881024,
+    "DWT_PCSR": 536819640,
+    "RCC_APB2ENR": 16,
+    "SYSCFG_MEMRMP": 0,
+    "FLASH_CR": 2147483648,
+    "FLASH_SR": 0,
+    "pc_samples": [
+      536819640,
+      536819782,
+      536819400
+    ]
+  },
+  "tool_sha256": "fcf6cadcbd67891d54d8f71cb4fc38f86b2adbb05b101b836ce15bc186972a34",
+  "old_source_preserved_EFS": true,
+  "UART_bytes_actually_attempted": 0,
+  "AT_GMR_sent": false,
+  "actual_current_AT_version": "UNKNOWN",
+  "reset_halt_go_Flash_config_GPIO_writes": 0,
+  "raw_files_EFS": 9,
+  "raw_manifest_sha256": "32628fdf7e968fb9b8b5fc444d26b2cdc8052121a88e69657cb59140b43398a7",
+  "cleanup_note": "R1 made an extra readonly snapshot after entry ROM; both ROM; no second connection or recovery; R2 will Close directly on ROM",
+  "G3_restarted": false,
+  "CPU_ROM_ROOT_CAUSE": "UNRESOLVED",
+  "full_Flash_read_this_attempt": false
+}

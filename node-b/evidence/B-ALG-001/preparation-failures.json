@@ -1,0 +1,23 @@
+{
+  "failures": [
+    {
+      "operation": "Empty private directory ACL initialization",
+      "exit_code": 1,
+      "cause": "Numeric SID lacked icacls leading star; no private files written before failure",
+      "resolution": "Correct SID syntax; ACL confirmed before lease/input manifest"
+    },
+    {
+      "operation": "Exploratory ARM layout extraction",
+      "exit_code": 1,
+      "compiler_exit_code": 0,
+      "cause": "Parser included VFE header DCD before bio_layout; 32 instead of31 words",
+      "resolution": "Restrict extraction to exported bio_layout symbol; all31 constants equal Host; firmware unchanged"
+    },
+    {
+      "operation": "PDF text extraction",
+      "exit_code": 0,
+      "limitation": "Broken Chinese Unicode mapping; text not used as evidence",
+      "resolution": "All12 rendered pages visually reviewed"
+    }
+  ]
+}

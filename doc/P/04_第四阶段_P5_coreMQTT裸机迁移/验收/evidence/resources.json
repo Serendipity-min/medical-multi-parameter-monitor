@@ -1,0 +1,73 @@
+{
+  "generated_at": "2026-10-08T02:50:54.520749+00:00",
+  "code_commit": "505be8a9977997328e816761a3ca51cf9b7ce171",
+  "baseline_commit": "8dee339491cfd4edc468bb9451511d421f26db5e",
+  "P4": {
+    "sections": {
+      ".isr_vector": 392,
+      ".text": 29676,
+      ".init": 4,
+      ".fini": 4,
+      ".ARM": 8,
+      ".data": 88,
+      ".bss": 87300,
+      "._user_heap_stack": 32772,
+      ".ARM.attributes": 48,
+      ".comment": 69,
+      ".debug_line_str": 457,
+      ".debug_frame": 2132
+    },
+    "static_ram": 87388,
+    "ram_with_reservation": 120160,
+    "elf_sha256": "1b3d646fdf72603cb3455be4a9f34b04b9b5c9ea35902740a856a59ea490a5b7",
+    "bin_sha256": "5fd386b8bfe0bcf54d4f53ffb1ec6483d086a1c3287b4fe6c37a3ddeacd90547",
+    "bin_bytes": 30180,
+    "buffer_symbols": [
+      "20001260 00000044 b client",
+      "200012a4 00000008 b network",
+      "20000860 00000200 b rx_buffer",
+      "20000a60 00000800 b tx_buffer"
+    ]
+  },
+  "P5": {
+    "sections": {
+      ".isr_vector": 392,
+      ".text": 37564,
+      ".init": 4,
+      ".fini": 4,
+      ".ARM": 8,
+      ".data": 100,
+      ".bss": 87344,
+      "._user_heap_stack": 32768,
+      ".ARM.attributes": 48,
+      ".comment": 69,
+      ".debug_line_str": 457,
+      ".debug_frame": 3604
+    },
+    "static_ram": 87444,
+    "ram_with_reservation": 120212,
+    "elf_sha256": "f32d378e9cedb64688c8154f81665003c84605ca53cb2e4a10e69b8cb15bc66b",
+    "bin_sha256": "cce04ed3ca05b06aa02548023ebc618ab1e782a312f82227dff3c0a23a05d218",
+    "bin_bytes": 38080,
+    "buffer_symbols": [
+      "20000a8c 00000050 b client",
+      "20000adc 00000808 b network",
+      "20000a86 00000004 b outgoing",
+      "20000886 00000200 b rx_buffer"
+    ]
+  },
+  "delta_static_ram": 56,
+  "delta_ram_with_reservation": 52,
+  "static_ram_review_threshold": 2048,
+  "required_core_symbols": [
+    "MQTT_Init",
+    "MQTT_InitStatefulQoS",
+    "MQTT_Publish",
+    "MQTT_ProcessLoop"
+  ],
+  "protected_code_changed": false,
+  "cpu": "NOT_MEASURED",
+  "stack_high_water": "NOT_MEASURED",
+  "can_cooperative_latency": "NOT_MEASURED",
+  "tls_reconnect_latency": "NOT_MEASURED"
+}

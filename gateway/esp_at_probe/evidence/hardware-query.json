@@ -1,0 +1,70 @@
+{
+  "completed": true,
+  "queries": [
+    {
+      "command": "AT",
+      "bytes": 11,
+      "receive_errors": 0,
+      "overflow": 0,
+      "result": "OK"
+    },
+    {
+      "command": "AT+GMR",
+      "bytes": 119,
+      "receive_errors": 0,
+      "overflow": 0,
+      "result": "OK",
+      "version_lines": [
+        "AT version:1.1.0.0(May 11 2016 18:09:56)",
+        "SDK version:1.5.4(baaeaebb)",
+        "compile time:May 20 2016 15:08:19"
+      ]
+    },
+    {
+      "command": "AT+UART_CUR?",
+      "bytes": 24,
+      "receive_errors": 0,
+      "overflow": 0,
+      "result": "ERROR"
+    },
+    {
+      "command": "AT+CIPSSLCCONF?",
+      "bytes": 27,
+      "receive_errors": 0,
+      "overflow": 0,
+      "result": "ERROR"
+    },
+    {
+      "command": "AT+CIPSSLCCN?",
+      "bytes": 25,
+      "receive_errors": 0,
+      "overflow": 0,
+      "result": "ERROR"
+    },
+    {
+      "command": "AT+CIPSSLCSNI?",
+      "bytes": 26,
+      "receive_errors": 0,
+      "overflow": 0,
+      "result": "ERROR"
+    },
+    {
+      "command": "AT+CIPRECVMODE?",
+      "bytes": 27,
+      "receive_errors": 0,
+      "overflow": 0,
+      "result": "ERROR"
+    }
+  ],
+  "date": "2026-09-20",
+  "target": "STM32F407ZG",
+  "chip_id": "0x413",
+  "flash_kib": 1024,
+  "jlink_vtref_volts": 3.3,
+  "original_flash_sha256": "852d7618f8fc46c80cbe035ebd41f4e21e4d5a76a26cf10a39e0600f7a89ffb8",
+  "backup_double_read_match": true,
+  "original_flash_full_restore_verified": true,
+  "original_dma_adc_resumed": true,
+  "esp_firmware_changed": false,
+  "server_changed": false
+}

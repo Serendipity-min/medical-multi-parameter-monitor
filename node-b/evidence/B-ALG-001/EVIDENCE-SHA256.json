@@ -1,0 +1,173 @@
+{
+  "utc": "2026-10-22T07:29:15.637292+00:00",
+  "files": {
+    "B0-source-tool-sha256.json": {
+      "bytes": 20659,
+      "sha256": "2b95866b143ca1ad1571efee3188f8d939b7cf7d8fcb8ad0b4ec8a77ad4c6ddf"
+    },
+    "commands-and-environment.json": {
+      "bytes": 1385,
+      "sha256": "5b6740091eb76142352a22480d685744a6134e520641c1677b768e02032f575a"
+    },
+    "format-check-raw.log": {
+      "bytes": 109022,
+      "sha256": "b72a836dcb8efe1991be7718a6e8ade9c5b9cde48f801abd04bcce217c0f09f2"
+    },
+    "format-check.json": {
+      "bytes": 569,
+      "sha256": "94457480aa76972091cb30c4ef97ee9f9333f3dd9201b7e04847f99ce9742e46"
+    },
+    "historical-input-integrity.json": {
+      "bytes": 505,
+      "sha256": "59efbc92116310d674d4c585775ab717b83ab35b729f40e9c7f292a31a1c4b5b"
+    },
+    "manual-review.json": {
+      "bytes": 586,
+      "sha256": "c7d26db11e14f3114df750f706cf97fb48a9649a45d4c604325646a1993ed849"
+    },
+    "original-protection.json": {
+      "bytes": 167,
+      "sha256": "0f4863c42181a13039da01e7008cc0f69774408ef6961ab4a1dce114602b8cf7"
+    },
+    "preparation-failures.json": {
+      "bytes": 879,
+      "sha256": "df768338de82729ea543dbf548b55b25bb4939cd3fe4c80cc4e35300b443d4ea"
+    },
+    "abi/compile.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "abi/layout.c": {
+      "bytes": 1153,
+      "sha256": "5fb86f9a09347f3813518d4f50f25e8bb4899ed2c83d98f5c613d2ef501c6ebf"
+    },
+    "abi/layout.s": {
+      "bytes": 1873,
+      "sha256": "84902e26ccc7e62d084ddd1361f938f1382446d3cf2f4c2ac9c15cb87036f0cc"
+    },
+    "abi/receipt.json": {
+      "bytes": 3527,
+      "sha256": "4dad799799be5031c4f12132ecbf713a95b3b64d4a77719ec5d7422ffab9b8ae"
+    },
+    "abi-initial/compile.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "abi-initial/layout.c": {
+      "bytes": 1147,
+      "sha256": "432ac51fb7752f7a27ce818ce38204472442c64b4ea8b0759fa21dae3ceee908"
+    },
+    "abi-initial/layout.s": {
+      "bytes": 1873,
+      "sha256": "84902e26ccc7e62d084ddd1361f938f1382446d3cf2f4c2ac9c15cb87036f0cc"
+    },
+    "abi-initial/parser-failure.log": {
+      "bytes": 355,
+      "sha256": "d2ee2fdbaa5f4ec69a376a034ab5ad99ddadf4c350e648d05dc2f48cdbc99ac4"
+    },
+    "arm/build.log": {
+      "bytes": 1082,
+      "sha256": "193aee44e83c3f656e0d3b22495c70b4afc15ef5392f65a1ea10382010d0c8ec"
+    },
+    "arm/fromelf-bin.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "arm/fromelf-txt.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "arm/launcher.log": {
+      "bytes": 250,
+      "sha256": "2dedd8477fce121a5048423b24f027f7a6cb4195353af16fc0869a006bb95f06"
+    },
+    "arm/receipt.json": {
+      "bytes": 999,
+      "sha256": "8961862584c6ae7a13a39f6d0fbc4c615cecdb5ced8ca96394d962d6f263ab79"
+    },
+    "arm/symbols.txt": {
+      "bytes": 91767,
+      "sha256": "62d191709b0eec491cf66f4accd6c96ddc8701f86ad2c05c6dd8a7feb38bf6dc"
+    },
+    "host/acquisition.log": {
+      "bytes": 3133,
+      "sha256": "01140a45920df941fa908c7b4b8eb8af76656c47cf84cb3ce60ebc1e47b36310"
+    },
+    "host/algorithm.log": {
+      "bytes": 74,
+      "sha256": "56ad99c0fa0d8d159cc9a694e8b7895b3c850dd73effe530525e636027db0248"
+    },
+    "host/bias-monitor.log": {
+      "bytes": 1044,
+      "sha256": "08af4318032ef9e00d9f988c0f382cbf2db635e9624117e037e1c695994d76a8"
+    },
+    "host/channel-isolation.log": {
+      "bytes": 50,
+      "sha256": "c627f89a58bb6cb8e503fe38853addef83d706170dd412a14183691edcb41ad4"
+    },
+    "host/queue.log": {
+      "bytes": 24,
+      "sha256": "e93f83053cede8063e2544db2ed12ab3cf0ad908122b7ffa506e60822774c1ea"
+    },
+    "host/receipt.json": {
+      "bytes": 2006,
+      "sha256": "6fe3e6ee8af2eba4345614283a02c09c30412f6e7a9ef2c39e917292d0f97216"
+    },
+    "host/source-console.log": {
+      "bytes": 47,
+      "sha256": "28fb8c580ca7ab6858c89711bdf404fe6307ddf9b80362b977b1841b5ac47037"
+    },
+    "host/source-rom-model.log": {
+      "bytes": 1884,
+      "sha256": "c4cdf9f83338d1b302c7fad05c65c5beb488752ecd04317ce54fe464fe1f4bfe"
+    },
+    "host/usb-console-host-20261022T072107524187Z.json": {
+      "bytes": 3333,
+      "sha256": "0304e13612869e9c2424adeb72928544bd164515e043ef8936afe5af2866ca1d"
+    },
+    "host/usb-rom-host-20261022T072109061199Z.json": {
+      "bytes": 127,
+      "sha256": "6e66ebbccf0a7cd7043df476420e9459617f9db72a5d1eb1c29be5ca55966529"
+    },
+    "host/algorithm/host_compile.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "host/algorithm/host_compile.stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "host/algorithm/host_receipt.json": {
+      "bytes": 20352,
+      "sha256": "6c53d8c5017f6c3284ebc24c3b7dd7791bb16a7540467d9205564c973c69745f"
+    },
+    "host/channel-isolation/after.compile.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "host/channel-isolation/before.compile.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "host/channel-isolation/receipt.json": {
+      "bytes": 3857,
+      "sha256": "c46266b750737abfb6ccdafba925285b7bb73ea8f4547a810da50da838226d81"
+    },
+    "host/queue/compile.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "pretest/before.compile.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "pretest/current.compile.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "pretest/receipt.json": {
+      "bytes": 2586,
+      "sha256": "d0c3e6090e61f805f44282330406c130e29985d3a0263f90a809e172bb5d8f9d"
+    }
+  }
+}

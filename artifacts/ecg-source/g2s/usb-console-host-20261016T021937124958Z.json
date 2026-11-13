@@ -1,0 +1,152 @@
+{
+  "scope": "ORDINARY_HOST_NO_HARDWARE",
+  "checks": [
+    {
+      "name": "boot_OFF_no_unsolicited_output",
+      "pass": true
+    },
+    {
+      "name": "exact_mode_bias",
+      "pass": true
+    },
+    {
+      "name": "exact_mode_sine",
+      "pass": true
+    },
+    {
+      "name": "exact_mode_ecg60",
+      "pass": true
+    },
+    {
+      "name": "exact_mode_ecg90",
+      "pass": true
+    },
+    {
+      "name": "exact_mode_off",
+      "pass": true
+    },
+    {
+      "name": "status_read_only",
+      "pass": true
+    },
+    {
+      "name": "info_identifies_USB_variant",
+      "pass": true
+    },
+    {
+      "name": "partial_command_no_action",
+      "pass": true
+    },
+    {
+      "name": "fragmented_command_complete",
+      "pass": true
+    },
+    {
+      "name": "same_mode_does_not_restart",
+      "pass": true
+    },
+    {
+      "name": "unknown_rejected_45434736300a",
+      "pass": true
+    },
+    {
+      "name": "unknown_rejected_65636736302065787472610a",
+      "pass": true
+    },
+    {
+      "name": "unknown_rejected_0a",
+      "pass": true
+    },
+    {
+      "name": "unknown_rejected_206d6f64653d340a",
+      "pass": true
+    },
+    {
+      "name": "unknown_rejected_307832303030303030300a",
+      "pass": true
+    },
+    {
+      "name": "multiple_explicit_lines",
+      "pass": true
+    },
+    {
+      "name": "overflow_discards_until_LF",
+      "pass": true
+    },
+    {
+      "name": "overflow_reports_once",
+      "pass": true
+    },
+    {
+      "name": "after_resync_explicit_restart",
+      "pass": true
+    },
+    {
+      "name": "binary_rejected_OFF_0",
+      "pass": true
+    },
+    {
+      "name": "binary_suffix_not_command_0",
+      "pass": true
+    },
+    {
+      "name": "binary_rejected_OFF_1",
+      "pass": true
+    },
+    {
+      "name": "binary_suffix_not_command_1",
+      "pass": true
+    },
+    {
+      "name": "binary_rejected_OFF_127",
+      "pass": true
+    },
+    {
+      "name": "binary_suffix_not_command_127",
+      "pass": true
+    },
+    {
+      "name": "binary_rejected_OFF_255",
+      "pass": true
+    },
+    {
+      "name": "binary_suffix_not_command_255",
+      "pass": true
+    },
+    {
+      "name": "transport_error_OFF",
+      "pass": true
+    },
+    {
+      "name": "transport_discards_partial",
+      "pass": true
+    },
+    {
+      "name": "real_shared_DMA_statistics",
+      "pass": true
+    },
+    {
+      "name": "G1_fault_cannot_be_restarted_by_console",
+      "pass": true
+    },
+    {
+      "name": "OFF_keeps_G1_fault_and_history",
+      "pass": true
+    },
+    {
+      "name": "max_counters_fit_reply",
+      "pass": true
+    }
+  ],
+  "input_sha256": {
+    "src/source_driver.c": "017cfdc0a392f96fde29a43062843d688ffedef0906a049a45bf6a3d5a9a3bec",
+    "src/source_waveform.c": "02c9342a22864953977cd3f655caf616e59c1295b6c005d78a779f75ff172c19",
+    "src/waveform_tables.c": "a53ede926685ff4385ad9d583f5f9e62dd3b952c9f5ccf7d07972ab955cdd682",
+    "tests/mmio_mock.c": "d785fe50490d68e8df6021ca87d45ca05747ef503431e1464c5bc555799f8e56",
+    "g2s-usb/console.c": "8013c1496aceacc14de90da959afa681b70c14af3b2468c9b802834b67812961"
+  },
+  "compile_exit": 0,
+  "status": "PASS",
+  "passed": 34,
+  "total": 34
+}

@@ -1,0 +1,71 @@
+{
+  "status": "B5_TEMP_OBJECT_WARMUP_ABORTED_UNEXPECTED_REBOOT",
+  "exit_code": 1,
+  "profile": "TEMP_OBJECT",
+  "criteria_preserved": {
+    "profile": "TEMP_OBJECT",
+    "temperature_quantity": "NONHUMAN_OBJECT_SURFACE",
+    "temperature_reference": null,
+    "temperature_accuracy": "NOT_CALIBRATED",
+    "temperature_wire_time": "NODE_SCALAR_REPORT_UTC_SECONDS",
+    "temperature_frame_age_max_ms": 2500,
+    "scalar_min_messages": 295,
+    "warmup_s": 45,
+    "evaluation_s": 300,
+    "tail_s": 15,
+    "arm_hard_s": 420
+  },
+  "failures": [
+    "G3_C_UNEXPECTED_REBOOT"
+  ],
+  "positive_telemetry_before_reboot": {
+    "SNTP_sync": "PASS_with_endpoint_rotation_delta_288ms",
+    "TLS_MQTT": "CONNECTED",
+    "T0_established_UTC_ms": 1793323519234,
+    "temperature_samples_captured": 7,
+    "temperature_values_centi": [
+      2657,
+      2651,
+      2657,
+      2651,
+      2651,
+      2651,
+      2654
+    ],
+    "temperature_values_celsius": [
+      26.57,
+      26.51,
+      26.57,
+      26.51,
+      26.51,
+      26.51,
+      26.54
+    ],
+    "temperature_valid_flags": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "lost_counts": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "source_age_max_ms": 2282,
+    "wifi_rssi_dbm": -54,
+    "rx_frames": 2340,
+    "tx_acks": 72,
+    "can_overflow": 0,
+    "uart_errors": 0
+  },
+  "c_flash_writes": 0,
+  "repeated_b5start_attempts": 0
+}

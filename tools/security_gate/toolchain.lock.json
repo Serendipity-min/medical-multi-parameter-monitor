@@ -1,0 +1,167 @@
+{
+  "schema_version": 1,
+  "tools": {
+    "trivy": {
+      "version": "0.74.0",
+      "installation_source": "https://github.com/aquasecurity/trivy/releases/download/v0.74.0/trivy_0.74.0_Linux-64bit.tar.gz",
+      "archive_sha256": "2ae6fe3ee734b7fdf11335663e18c75ea12dccc76062f09f164a3b0f8be4371a",
+      "sha256": "d89bcc6510a267f11b773398cbf1be5520ce39f9e8b6633178c4487f05b7d791",
+      "installed_at": "2026-09-20T15:36:51.439829+00:00"
+    },
+    "gitleaks": {
+      "version": "8.30.1",
+      "installation_source": "https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz",
+      "archive_sha256": "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb",
+      "sha256": "88f91962aa2f93ac6ab281d553b9e125f5197bbbce38f9f2437f7299c32e5509",
+      "installed_at": "2026-09-20T15:36:57.652517+00:00"
+    },
+    "pip-audit": {
+      "version": "2.10.1",
+      "installation_source": "https://pypi.org/project/pip-audit/",
+      "sha256": "a09ac9810a4e64f1139fa71e37353e65024d138690244388fc569df90afeed6f",
+      "installed_at": "2026-09-20T15:38:49.412933+00:00",
+      "dependency_versions": [
+        "attrs==26.1.0",
+        "boolean.py==5.0",
+        "CacheControl==0.14.4",
+        "certifi==2026.7.22",
+        "charset-normalizer==3.5.1",
+        "cyclonedx-python-lib==11.12.0",
+        "defusedxml==0.7.1",
+        "filelock==4.0.1",
+        "idna==3.20",
+        "jsonschema==4.26.0",
+        "jsonschema-specifications==2025.9.1",
+        "license-expression==30.4.4",
+        "markdown-it-py==4.2.0",
+        "mdurl==0.1.2",
+        "msgpack==1.2.2",
+        "packageurl-python==0.17.6",
+        "packaging==26.3",
+        "pip-requirements-parser==32.0.1",
+        "pip_api==0.0.35",
+        "pip_audit==2.10.1",
+        "platformdirs==4.11.11",
+        "py-serializable==2.1.0",
+        "Pygments==2.21.0",
+        "pyparsing==3.3.2",
+        "PyYAML==6.0.3",
+        "referencing==0.37.0",
+        "requests==2.34.2",
+        "rich==15.0.0",
+        "rpds-py==2026.6.3",
+        "sortedcontainers==2.4.0",
+        "tomli==2.4.1",
+        "tomli_w==1.2.0",
+        "urllib3==2.8.0"
+      ],
+      "download_hashes": {
+        "pip_audit": "99ef3f600a317c1945f1e89e227ef26e1c2d618429b8bd3fa6f4f7c440c4611a",
+        "cyclonedx-python-lib": "0e807521a921a5c3cb8ce1153f8a61d29eedfe76a46aac2796b7c6b573391a54",
+        "license-expression": "421788fdcadb41f049d2dc934ce666626265aeccefddd25e162a26f23bcbf8a4",
+        "packageurl-python": "31a85c2717bc41dd818f3c62908685ff9eebcb68588213745b14a6ee9e7df7c9",
+        "py-serializable": "b56d5d686b5a03ba4f4db5e769dc32336e142fc3bd4d68a8c25579ebb0a67304",
+        "defusedxml": "a352e7e428770286cc899e2542b6cdaedb2b4953ff269a210103ec58f6198a61",
+        "sortedcontainers": "a163dcaede0f1c021485e957a39245190e74249897e2ae4b2aa38595db237ee0",
+        "PyYAML": "0f29edc409a6392443abf94b9cf89ce99889a1dd5376d94316ae5145dfedd5d6",
+        "jsonschema": "d489f15263b8d200f8387e64b4c3a75f06629559fb73deb8fdfb525f2dab50ce",
+        "attrs": "c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309",
+        "boolean.py": "ef28a70bd43115208441b53a045d1549e2f0ec6e3d08a9d142cbc41c1938e8d9",
+        "CacheControl": "b7ac014ff72ee199b5f8af1de29d60239954f223e948196fa3d84adaffc71d2b",
+        "msgpack": "d24b38a825bcca41bb956de50eb98451ef291304a8607fad99e619043d3e79b9",
+        "filelock": "481a321a27bef441e23c53371c6abc8d7d16e26b97090074ba44f7538a3fd55a",
+        "jsonschema-specifications": "98802fee3a11ee76ecaca44429fda8a41bff98b00a0f2838151b113f210cc6fe",
+        "packaging": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c",
+        "pip_api": "66990d0da25378555cbb538db79384bab92d4617c6350dfd7a2126ba2a3a9894",
+        "pip-requirements-parser": "4659bc2a667783e7a15d190f6fccf8b2486685b6dba4c19c3876314769c57526",
+        "platformdirs": "972ea6b2b387155a536226a0750e46923d731d459a387c4a255c583ed2f64547",
+        "referencing": "381329a9f99628c9069361716891d34ad94af76e461dcb0335825aecc7692231",
+        "requests": "2a0d60c172f83ac6ab31e4554906c0f3b3588d37b5cb939b1c061f4907e278e0",
+        "charset-normalizer": "62b55f6722735a6c472f88361cde6640608773d9443cebdbb51abf436a1fcdd3",
+        "idna": "ab7ae7122974553370f0bdb919e1a960b2cd1bc1ef0276416d896db81c14582c",
+        "urllib3": "0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3",
+        "certifi": "62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775",
+        "rich": "33bd4ef74232fb73fe9279a257718407f169c09b78a87ad3d296f548e27de0bb",
+        "Pygments": "2363c69b61c4a97c838da3b130dcd6468f4848992b21a82f2a63ec34377137d9",
+        "markdown-it-py": "9f7ebbcd14fe59494226453aed97c1070d83f8d24b6fc3a3bcf9a38092641c4a",
+        "mdurl": "84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8",
+        "rpds-py": "acac386b453c2516111b50985d60ce46e7fadb5ea71ae7b25f4c946935bf27cf",
+        "tomli": "f3c6818a1a86dd6dca7ddcaaf76947d5ba31aecc28cb1b67009a5877c9a64f3f",
+        "tomli_w": "188306098d013b691fcadc011abd66727d3c414c571bb01b1a174ba8c983cf90",
+        "pyparsing": "850ba148bd908d7e2411587e247a1e4f0327839c40e2e5e6d05a007ecc69911d"
+      }
+    },
+    "semgrep": {
+      "version": "1.175.0",
+      "installation_source": "existing installation",
+      "sha256": "418846853224d55bc0b3049db10b562b7c83e27c28892c4721dc66f4c69ebf4b",
+      "installed_at": "2026-09-20T15:38:51.227918+00:00"
+    },
+    "clang": {
+      "version": "Debian clang version 19.1.7 (3+b1)",
+      "installation_source": "Debian signed package archive",
+      "sha256": "0a3c55936ac43954fbe4914e6e73b577ca9e35e75d89ef13d3e28c187f41ca1a",
+      "installed_at": "2026-09-20T15:38:51.259233+00:00"
+    },
+    "clang-tidy": {
+      "version": "Debian LLVM version 19.1.7",
+      "installation_source": "Debian signed package archive",
+      "sha256": "9ebd2c4f2a123c058f4744e9a02a8000ab9ba22f9b835958dfda7c4d7de2527c",
+      "installed_at": "2026-09-20T15:38:51.294942+00:00"
+    },
+    "gcc": {
+      "version": "gcc (Debian 14.2.0-19) 14.2.0",
+      "installation_source": "Debian signed package archive",
+      "sha256": "a23ecab8ff08f09ad8c80602c2c5df7f49e09c25905cb8975902e101bf72635f",
+      "installed_at": "2026-09-20T15:38:51.306438+00:00"
+    },
+    "node": {
+      "version": "v20.19.2",
+      "installation_source": "Debian signed package archive",
+      "sha256": "ca0728526aa1cc4e3056decec848ecc6d2c5391cecdd4e21a0ebd221d665c84e",
+      "installed_at": "2026-09-20T15:38:51.332611+00:00"
+    },
+    "npm": {
+      "version": "9.2.0",
+      "installation_source": "Debian signed package archive",
+      "sha256": "8e5f6f3429f8cdbe693cdc29904e9d5a7b127a494bd15c804bd54c7403bfcbe7",
+      "installed_at": "2026-09-20T15:38:51.595372+00:00"
+    },
+    "bear": {
+      "version": "bear 3.1.6",
+      "installation_source": "Debian signed package archive",
+      "sha256": "869bb690de1f8d046948978e65c504e5b72618aaf7f0aa8b2ab7a87a4cdeb196",
+      "installed_at": "2026-09-20T15:38:51.609366+00:00"
+    },
+    "docker": {
+      "version": null,
+      "installation_source": "not installed",
+      "sha256": null,
+      "installed_at": null,
+      "status": "UNAVAILABLE"
+    },
+    "zap": {
+      "version": "stable-resolved",
+      "digest": "sha256:781a2bdaea47324e7bab583e2263f21d257b0aee61ed51521a5be45f5f5081ef",
+      "sha256": "781a2bdaea47324e7bab583e2263f21d257b0aee61ed51521a5be45f5f5081ef",
+      "installation_source": "ghcr.io/zaproxy/zaproxy:stable",
+      "installed_at": null,
+      "resolved_at": "2026-09-20T15:58:39.352215+00:00",
+      "status": "METADATA_PINNED; Docker daemon/image preparation required"
+    }
+  },
+  "updated_at": "2026-09-20T15:38:51.670953+00:00",
+  "rules": {
+    "semgrep-security-audit": {
+      "source": "https://semgrep.dev/c/p/security-audit",
+      "sha256": "b109a039df712f30c6d3e25e1e8358053fd0f1c91b92d0e8d2871cd141fe602f",
+      "rules": 225
+    }
+  },
+  "actions": {
+    "actions/checkout": "d23441a48e516b6c34aea4fa41551a30e30af803",
+    "actions/setup-python": "ece7cb06caefa5fff74198d8649806c4678c61a1",
+    "actions/setup-node": "249970729cb0ef3589644e2896645e5dc5ba9c38",
+    "actions/upload-artifact": "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a"
+  }
+}

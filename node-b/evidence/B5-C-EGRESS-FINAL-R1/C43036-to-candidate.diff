@@ -1,0 +1,797 @@
+--- C43036/gateway/storage/router.c
++++ candidate/gateway/storage/router.c
+@@ -1,6 +1,10 @@
+ /* 单线程队列：网络等待期间只允许生产，取出帧复制给发布者直到传输结果返回。 */
+ #include "router.h"
+ #include <string.h>
++#ifdef MP_B5_EGRESS_FINAL
++extern volatile uint32_t g_uptime_ms;
++extern uint64_t gateway_epoch_milliseconds(void);
++#endif
+ 
+ void mp_router_init(MpRouter *r)
+ {
+@@ -12,6 +16,9 @@
+     /* 状态只保留当下语义，不能补传旧 ONLINE/OFFLINE 覆盖当前状态。 */
+     if (f->stream == MP_NODE_STATUS || f->stream == MP_GATEWAY_STATUS)
+         return;
++#ifdef MP_B5_EGRESS_FINAL
++    r->historized[f->stream]++;
++#endif
+     if (r->cn == MP_CACHE_CAPACITY)
+     {
+         r->ch = (r->ch + 1) % MP_CACHE_CAPACITY;
+@@ -44,6 +51,13 @@
+ /* 同一节点/流仅保留最新待发项；替换内容时保留队列位置，避免慢流长期饥饿。 */
+ void mp_router_put(MpRouter *r, const MpFrame *f)
+ {
++#ifdef MP_B5_EGRESS_FINAL
++    r->enqueued[f->stream]++;
++    if(f->node==2 && f->stream==MP_TEMP) {
++        if(r->temp_written-r->temp_reported>=8){r->temp_reported++;r->temp_trace_lost++;}
++        r->temp_entry[r->temp_written++%8]=(B5TempEntry){f->timestamp,gateway_epoch_milliseconds(),f->seq,f->epoch,f->boot,f->values[0],f->valid};
++    }
++#endif
+     if (!r->online)
+     {
+         cache(r, f);
+@@ -62,6 +76,11 @@
+ #endif
+            )
+         {
++#ifdef MP_B5_EGRESS_FINAL
++            if(f->stream==MP_NODE_STATUS || f->stream==MP_GATEWAY_STATUS)r->status_coalesced++;
++            else r->live_replaced++;
++            r->put_tick[(r->lh+i)%MP_LIVE_CAPACITY]=g_uptime_ms;
++#endif
+             cache(r, pending);
+             *pending = *f;
+             return;
+@@ -69,13 +88,55 @@
+     }
+     if (r->ln == MP_LIVE_CAPACITY)
+     {
++#ifdef MP_B5_EGRESS_FINAL
++        r->live_overflow++;
++#endif
+         cache(r, &r->live[r->lh]);
+         r->lh = (r->lh + 1) % MP_LIVE_CAPACITY;
+         r->ln--;
+     }
+     r->live[(r->lh + r->ln) % MP_LIVE_CAPACITY] = *f;
++#ifdef MP_B5_EGRESS_FINAL
++    r->put_tick[(r->lh+r->ln)%MP_LIVE_CAPACITY]=g_uptime_ms;
++#endif
+     r->ln++;
++#ifdef MP_B5_EGRESS_FINAL
++    if(r->ln>r->high_water)r->high_water=r->ln;
++#endif
+ }
++
++#ifdef MP_B5_EGRESS_FINAL
++bool mp_router_take_egress(MpRouter *r,MpFrame *out,uint32_t now,uint64_t utc,bool pending) {
++    if(!r->online)return false;
++    unsigned chosen=MP_LIVE_CAPACITY;int best=100;
++    for(unsigned i=0;i<r->ln;i++) {
++        MpFrame *f=&r->live[(r->lh+i)%MP_LIVE_CAPACITY];
++        bool wave=f->rate && !f->replay;
++        if(pending && !wave)continue;
++        /* 状态先行；标量/波形交替，组内FIFO，不能让快流或心跳饿死另一组。 */
++        bool status=f->stream==MP_NODE_STATUS || f->stream==MP_GATEWAY_STATUS;
++        int rank=status?0:wave==(r->fair_wave!=0)?1:2;
++        if(rank<best){best=rank;chosen=i;}
++    }
++    if(chosen!=MP_LIVE_CAPACITY) {
++        *out=r->live[(r->lh+chosen)%MP_LIVE_CAPACITY];
++        b5_latency_add(&r->residence,(uint32_t)(now-r->put_tick[(r->lh+chosen)%MP_LIVE_CAPACITY]));
++        for(unsigned i=chosen;i+1<r->ln;i++) {
++            r->live[(r->lh+i)%MP_LIVE_CAPACITY]=r->live[(r->lh+i+1)%MP_LIVE_CAPACITY];
++            r->put_tick[(r->lh+i)%MP_LIVE_CAPACITY]=r->put_tick[(r->lh+i+1)%MP_LIVE_CAPACITY];
++        }
++        r->ln--;r->taken[out->stream]++;
++        if(out->stream!=MP_NODE_STATUS && out->stream!=MP_GATEWAY_STATUS)r->fair_wave=!r->fair_wave;
++        if(utc>=out->timestamp)b5_latency_add(&r->source_age,(uint32_t)(utc-out->timestamp));
++        if(utc>out->timestamp && utc-out->timestamp>5000)r->expired++;
++        return true;
++    }
++    if(pending)return false;
++    bool result=mp_router_take(r,out,now);
++    if(result)r->taken[out->stream]++;
++    return result;
++}
++#endif
+ 
+ /* now 使用单调毫秒计数，与帧的采集时间独立；历史出队只改变副本的 replay 标记。 */
+ bool mp_router_take(MpRouter *r, MpFrame *out, uint32_t now)
+--- C43036/gateway/b5/network_main.c
++++ candidate/gateway/b5/network_main.c
+@@ -5,21 +5,62 @@
+ #include "esp_io_metrics.h"
+ #include <string.h>
+ #include <stdio.h>
++#if defined(MP_B5_EGRESS_FINAL) && defined(__arm__)
++#include "ram_watermark.h"
++#endif
+ static B4Gateway gateway;
+-static MpFrame publishing, will;
++static MpFrame will;
++#ifndef MP_B5_EGRESS_FINAL
++static MpFrame publishing;
++#endif
+ static uint32_t armed_at, last_sync, status_at, connection, status_seq;
+ static uint32_t diag_at, mqtt_qos0_transport_ok, mqtt_qos1_puback, mqtt_failed_count;
+ static uint32_t service_at;
+-static bool armed, stopped, network_open, mqtt_connected, service_seen, stop_reported;
++static volatile bool armed, stopped;
++static bool network_open, mqtt_connected, service_seen, stop_reported;
++#ifdef MP_B5_EGRESS_FINAL
++#include "egress.h"
++static B5Publisher publisher;
++static bool drained;
++static volatile bool stop_due;
++static uint32_t stop_tick,stop_reason,stop_live,stop_cache;
++static EspIoMetrics stop_io;
++uint32_t b5_business_remaining(void) {
++    if(!armed)return B5_WINDOW_MS;
++    uint32_t used=g_uptime_ms-armed_at;return used>=B5_WINDOW_MS?0:B5_WINDOW_MS-used;
++}
++void b5_hard_tick(void) {
++    /* 中断只锁存截止和取证，不执行CAN库、AT、printf或关闭网络。 */
++    if(armed && !stopped && !stop_due && (uint32_t)(g_uptime_ms-armed_at)>=B5_WINDOW_MS) {
++        stop_tick=g_uptime_ms;stop_reason=1;stop_live=gateway.router.ln;stop_cache=gateway.router.cn;
++        platform_io_snapshot(&stop_io);stop_due=true;
++    }
++}
++#endif
+ uint32_t b4_hw_time(void) { return g_uptime_ms; }
+-int b5_network_stopped(void) { return stopped; }
++int b5_network_stopped(void) { return stopped
++#ifdef MP_B5_EGRESS_FINAL
++    ||stop_due
++#endif
++    ; }
+ static void report_stop(void) {
+     if (!stop_reported && !platform_console_busy()) {
+         stop_reported = true;
+         console("B5 STOPPED NO_AUTOREARM\r\n");
++#ifdef MP_B5_EGRESS_FINAL
++        char line[240];
++        (void)snprintf(line,sizeof(line),"B5 STOP_STATE tick=%lu armed_at=%lu reason=%lu phase=%lu required=%lu written=%lu unsynced=%lu pending=%u live=%lu cache=%lu\r\n",
++            (unsigned long)stop_tick,(unsigned long)armed_at,(unsigned long)stop_reason,(unsigned long)stop_io.at_phase,
++            (unsigned long)stop_io.required,(unsigned long)stop_io.written,(unsigned long)stop_io.unsynced,
++            (unsigned)publisher.pending,(unsigned long)stop_live,(unsigned long)stop_cache);console(line);
++#endif
+     }
+ }
+ static void stop(void) {
++#ifdef MP_B5_EGRESS_FINAL
++    if(!stop_due){stop_tick=g_uptime_ms;stop_live=gateway.router.ln;stop_cache=gateway.router.cn;platform_io_snapshot(&stop_io);
++        stop_reason=stop_io.unsynced?2:b5_business_remaining()==0?1:3;}
++#endif
+     stopped = true; gateway.utc_valid = false;
+     mp_router_online(&gateway.router, false); b4_hw_stop();
+     report_stop();
+@@ -43,13 +84,47 @@
+         (unsigned long)io.tx_calls,(unsigned long)io.tx_confirmed,(unsigned long)io.tx_ms,
+         (unsigned long)io.rx_queries,(unsigned long)io.rx_empty,(unsigned long)io.rx_reads);
+     console(line);
++#ifdef MP_B5_EGRESS_FINAL
++    GatewayMqttMetrics mq;gateway_mqtt_metrics(&mq);
++    const B5Latency *lat[]={&io.command,&io.prompt,&io.data,&io.send_ok,&mq.json,&mq.send,&mq.ack,&gateway.router.residence,&gateway.router.source_age};
++    for(unsigned i=0;i<9;i++) {
++        const B5Latency *s=lat[i];
++        (void)snprintf(line,sizeof(line),"B5 LAT stage=%u n=%lu p50_upper=%lu p95_upper=%lu p99_upper=%lu max=%lu\r\n",i,
++            (unsigned long)s->count,(unsigned long)b5_latency_percentile(s,50),(unsigned long)b5_latency_percentile(s,95),
++            (unsigned long)b5_latency_percentile(s,99),(unsigned long)s->max);console(line);
++    }
++    (void)snprintf(line,sizeof(line),"B5 QUEUE high=%lu replaced=%lu overflow=%lu expired=%lu phase=%lu unsynced=%lu budget_refused=%lu\r\n",
++        (unsigned long)gateway.router.high_water,(unsigned long)gateway.router.live_replaced,
++        (unsigned long)gateway.router.live_overflow,(unsigned long)gateway.router.expired,
++        (unsigned long)io.at_phase,(unsigned long)io.unsynced,(unsigned long)io.budget_refused);console(line);
++    const unsigned streams[]={MP_ECG,MP_RESP,MP_HR,MP_RR,MP_TEMP,MP_NODE_STATUS,MP_GATEWAY_STATUS};
++    for(unsigned i=0;i<7;i++){
++        unsigned k=streams[i];(void)snprintf(line,sizeof(line),"B5 FLOW stream=%u put=%lu take=%lu history=%lu\r\n",k,
++            (unsigned long)gateway.router.enqueued[k],(unsigned long)gateway.router.taken[k],
++            (unsigned long)gateway.router.historized[k]);console(line);
++    }
++    for(unsigned i=0;i<8 && gateway.router.temp_reported<gateway.router.temp_written;i++) {
++        B5TempEntry t=gateway.router.temp_entry[gateway.router.temp_reported++%8];
++        (void)snprintf(line,sizeof(line),"B5 TEMP_ENTRY seq=%lu epoch=%lu boot=%lu report_utc=%lu%03lu arrival_utc=%lu%03lu centi=%ld valid=%lu lost=%lu\r\n",
++            (unsigned long)t.seq,(unsigned long)t.epoch,(unsigned long)t.boot,(unsigned long)(t.report_utc/1000u),(unsigned long)(t.report_utc%1000u),
++            (unsigned long)(t.arrival_utc/1000u),(unsigned long)(t.arrival_utc%1000u),(long)t.centi,(unsigned long)t.valid,
++            (unsigned long)gateway.router.temp_trace_lost);console(line);
++    }
++#ifdef __arm__
++    (void)snprintf(line,sizeof(line),"B5 RAM stack_used_upper=%lu\r\n",(unsigned long)b5_stack_used_upper());console(line);
++#endif
++#endif
+ }
+ static void service(void) {
+     if (stopped) { report_stop(); b4_hw_idle(); return; }
+     /* 未武装时不推进CANopen/TIME，避免B尚断电时发心跳耗尽ACK并积累BOFF。 */
+     if (!armed) { b4_hw_idle(); return; }
+     if (armed && ((uint32_t)(g_uptime_ms - armed_at) >= B5_WINDOW_MS ||
+-        b4_hw_diag[1].overflow || b4_hw_diag[1].busoff || b4_hw_diag[1].tx_failed || platform_uart_errors_total())) {
++        b4_hw_diag[1].overflow || b4_hw_diag[1].busoff || b4_hw_diag[1].tx_failed || platform_uart_errors_total()
++#ifdef MP_B5_EGRESS_FINAL
++        || platform_at_unsynced()
++#endif
++        )) {
+         stop(); return;
+     }
+     /* 停机仍逐次检查；CAN IRQ保留原始到达时刻，每5ms批量推进CANopen。 */
+@@ -68,6 +143,9 @@
+ }
+ int main(void) {
+     platform_init();
++#if defined(MP_B5_EGRESS_FINAL) && defined(__arm__)
++    b5_stack_watermark_init();
++#endif
+     if (b4_gateway_init(&gateway) || b4_hw_init()) while (1) {}
+     b4_gateway_link(&gateway, 0, false); platform_set_poll(service);
+     console("B5 DISARMED MOCK B_ONLY NO_FLASH_WRITE\r\n");
+@@ -85,19 +163,48 @@
+     armed_at = g_uptime_ms;
+     (void)b4_gateway_nmt(&gateway, 2, CO_NMT_ENTER_OPERATIONAL);
+     while (!stopped) {
++#ifdef MP_B5_EGRESS_FINAL
++        if(b5_business_remaining()<=B5_DRAIN_MS){while(!stopped)platform_poll();break;}
++        drained=false;
++#endif
+         mp_router_online(&gateway.router, false); network_open = mqtt_connected = false;
+-        if (!gateway_network_open()) { if (!stopped) delay_ms(3000); continue; }
++        if (!gateway_network_open()) {
++#ifdef MP_B5_EGRESS_FINAL
++            if(!stopped)stop();
++            gateway_network_close();break;
++#else
++            if (!stopped) delay_ms(3000); continue;
++#endif
++        }
+         uint64_t now = gateway_epoch_milliseconds();
+         b4_gateway_sync_ms(&gateway, now, g_uptime_ms); gateway.session = (uint32_t)now;
+         network_open = true; last_sync = g_uptime_ms;
+         memset(&will, 0, sizeof(will)); will.node = 3; will.stream = MP_GATEWAY_STATUS;
+         will.synthetic = true; will.timestamp = now; will.epoch = gateway.session;
+         will.boot = ++connection; will.seq = UINT32_MAX;
+-        if (stopped || !gateway_mqtt_open(&will)) { gateway_network_close(); continue; }
++        if (stopped || !gateway_mqtt_open(&will)) {
++#ifdef MP_B5_EGRESS_FINAL
++            if(!stopped)stop();
++            gateway_network_close();break;
++#else
++            gateway_network_close(); continue;
++#endif
++        }
+         mp_router_online(&gateway.router, true); mqtt_connected = true;
+         status_at = g_uptime_ms - 5000u;
+         while (!stopped) {
+             platform_poll();
++#ifdef MP_B5_EGRESS_FINAL
++            bool allow_new=b5_business_remaining()>B5_DRAIN_MS;
++            int progress=b5_egress_step(&gateway.router,&publisher,allow_new);
++            mqtt_qos0_transport_ok=publisher.q0;mqtt_qos1_puback=publisher.q1;mqtt_failed_count=publisher.failed;
++            if(!progress)break;
++            /* 预留1秒准备、5秒事务及2秒关闭；业务锁存仍在420秒。 */
++            if(b5_business_remaining()<=B5_DRAIN_MS) {
++                if(!publisher.pending){network_open=mqtt_connected=false;gateway_network_close();drained=true;while(!stopped)platform_poll();}
++                continue;
++            }
++#else
+             if (mp_router_take(&gateway.router, &publishing, g_uptime_ms)) {
+                 if (!b5_prepare_publish(&publishing, gateway_epoch_milliseconds())) continue;
+                 bool sent = gateway_mqtt_publish(&publishing);
+@@ -107,9 +214,16 @@
+                 else mqtt_qos1_puback++;
+                 mp_router_ack(&gateway.router, &publishing, sent); if (!sent) break;
+             } else if (!gateway_mqtt_yield()) break;
++#endif
+         }
+         network_open = mqtt_connected = false; mp_router_online(&gateway.router, false);
+-        gateway_network_close(); if (!stopped) delay_ms(2000);
++#ifdef MP_B5_EGRESS_FINAL
++        if(!stopped)stop();
++        if(!drained)gateway_network_close();
++#else
++        gateway_network_close();
++#endif
++        if (!stopped) delay_ms(2000);
+     }
+     report_stop();diagnostic();
+     while (1) b4_hw_idle();
+--- C43036/gateway/mqtt/src/gateway_transport.c
++++ candidate/gateway/mqtt/src/gateway_transport.c
+@@ -21,6 +21,9 @@
+ #include "wifi_status.h"
+ #include "esp_io_metrics.h"
+ #endif
++#if defined(MP_B5_EGRESS_FINAL) && !defined(MP_CAN_RX_IRQ)
++#include "esp_io_metrics.h"
++#endif
+ #ifdef MP_H3_FRESH_SNTP
+ #include "sntp_sample.h"
+ #endif
+@@ -44,6 +47,12 @@
+ #endif
+ static uint32_t partial_since;
+ static uint32_t epoch, epoch_tick;
++#ifdef MP_B5_EGRESS_FINAL
++static uint32_t pending_started;
++static GatewayMqttMetrics mqtt_metrics;
++void gateway_mqtt_metrics(GatewayMqttMetrics *out){*out=mqtt_metrics;}
++int gateway_mqtt_pending(void){return pending_id!=0;}
++#endif
+ #ifdef MP_H3_FRESH_SNTP
+ /* 新鲜SNTP样本保留小数秒；仅独立H3候选启用，旧目标时间公式不变。 */
+ static uint32_t epoch_fraction;
+@@ -297,6 +306,51 @@
+     return ok;
+ }
+ 
++#ifdef MP_B5_EGRESS_FINAL
++int gateway_mqtt_begin(const MpFrame *frame) {
++    if(!mqtt_online || !network.connected)return GW_FAILED;
++    bool qos1=!frame->rate || frame->replay;
++    if(qos1 && pending_id)return GW_FAILED;
++    if(pending_id && (uint32_t)(g_uptime_ms-pending_started)>=5000u)return GW_FAILED;
++    static char payload[2048];char topic[120];
++    uint32_t json_at=g_uptime_ms;
++    int length=mp_json(frame,payload,sizeof(payload));
++    if(!length || !mp_topic(frame,topic,sizeof(topic)))return GW_FAILED;
++    b5_latency_add(&mqtt_metrics.json,g_uptime_ms-json_at);
++    MQTTPublishInfo_t m={0};m.qos=qos1?MQTTQoS1:MQTTQoS0;
++    m.retain=frame->stream==MP_NODE_STATUS || frame->stream==MP_GATEWAY_STATUS;
++    m.pTopicName=topic;m.topicNameLength=(uint16_t)strlen(topic);m.pPayload=payload;m.payloadLength=(size_t)length;
++    uint16_t id=0;uint32_t start=g_uptime_ms,budget=5000;
++    if(pending_id && (uint32_t)(start-pending_started)>=5000u)return GW_FAILED;
++    if(qos1){acknowledged=0;pending_id=id=MQTT_GetPacketId(&client);next_packet_seed=client.nextPacketId;pending_started=start;}
++    else if(pending_id)budget=5000u-(uint32_t)(start-pending_started);
++    mqtt_adapter_begin(&network,budget);
++    MQTTStatus_t status=MQTT_Publish(&client,&m,id);
++    b5_latency_add(&mqtt_metrics.send,g_uptime_ms-start);
++    if(status!=MQTTSuccess || !network.connected || session_error || (uint32_t)(g_uptime_ms-start)>=budget) {
++        mqtt_metrics.failed++;mqtt_failed();return GW_FAILED;
++    }
++    if(qos1){mqtt_metrics.q1_sent++;return GW_PENDING;}
++    mqtt_metrics.q0_sent++;return GW_COMPLETE;
++}
++int gateway_mqtt_progress(void) {
++    if(!mqtt_online || !network.connected)return GW_FAILED;
++    if(pending_id && (uint32_t)(g_uptime_ms-pending_started)>=5000u) {
++        mqtt_metrics.failed++;mqtt_failed();return GW_FAILED;
++    }
++    uint32_t budget=pending_id?5000u-(uint32_t)(g_uptime_ms-pending_started):5u;
++    mqtt_adapter_begin(&network,budget);
++    if(!process_once()){mqtt_metrics.failed++;return GW_FAILED;}
++    if(pending_id) {
++        if((uint32_t)(g_uptime_ms-pending_started)>=5000u){mqtt_metrics.failed++;mqtt_failed();return GW_FAILED;}
++        if(!acknowledged)return GW_PENDING;
++        b5_latency_add(&mqtt_metrics.ack,g_uptime_ms-pending_started);
++        mqtt_metrics.q1_acked++;pending_id=0;acknowledged=0;
++    }
++    return GW_COMPLETE;
++}
++#endif
++
+ /* 没有业务帧时仍处理 MQTT 保活和接收，避免空闲连接被 Broker 关闭。 */
+ int gateway_mqtt_yield(void)
+ {
+@@ -309,7 +363,14 @@
+ void gateway_network_close(void)
+ {
+     mqtt_failed();
++#ifdef MP_B5_EGRESS_FINAL
++    if(!platform_at_synchronized()){console("GW CLOSE_UNSYNCED_MANUAL_POWER_REQUIRED\r\n");return;}
++#endif
++#ifdef MP_B5_EGRESS_FINAL
++    if(!at_command("AT+CIPCLOSE",2000))console("GW CLOSE_NOT_CONFIRMED_MANUAL_POWER_REQUIRED\r\n");
++#else
+     (void)at_command("AT+CIPCLOSE", 2000);
++#endif
+ }
+ 
+ /* 固定顺序为 AT 配置、入网、可信时间、证书名称校验、TLS；任何失败由外层重试。 */
+--- C43036/gateway/mqtt/src/platform.c
++++ candidate/gateway/mqtt/src/platform.c
+@@ -1,12 +1,17 @@
+ /* UART3 中断接收、主循环同步 AT；敏感命令和原始回复不写入控制台。 */
+ #include "gateway_platform.h"
++#ifdef PLATFORM_HOST_TEST
++#include "../tests/mocks/platform_mmio.h"
++#else
+ #include "stm32f4xx.h"
+ #include "stm32f4xx_gpio.h"
+ #include "stm32f4xx_rcc.h"
+ #include "stm32f4xx_usart.h"
++#endif
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
++#include <stdbool.h>
+ #ifdef MP_B5_CLOUD_CANDIDATE
+ #include "b5_policy.h"
+ static int closing_network;
+@@ -17,6 +22,15 @@
+ #ifdef MP_CAN_RX_IRQ
+ #include "esp_io_metrics.h"
+ static EspIoMetrics io_metrics;
++#ifdef MP_B5_EGRESS_FINAL
++static int reply_boundary;
++static uint32_t serial_deadline;
++static void phase(unsigned p){io_metrics.at_phase=p;io_metrics.phase_at=g_uptime_ms;}
++static void unsync(void){io_metrics.unsynced=1;phase(ESP_AT_UNSYNCED);}
++int platform_at_synchronized(void){return !io_metrics.unsynced &&
++    (io_metrics.at_phase==ESP_AT_IDLE || io_metrics.at_phase==ESP_AT_CLOSED);}
++int platform_at_unsynced(void){return io_metrics.unsynced!=0;}
++#endif
+ static unsigned console_depth;
+ void platform_io_snapshot(EspIoMetrics *out) {*out=io_metrics;}
+ int platform_console_busy(void) {return console_depth!=0;}
+@@ -91,19 +105,33 @@
+     return value;
+ }
+ 
+-static void send_bytes(const unsigned char *data, unsigned int length)
++static unsigned send_bytes(const unsigned char *data, unsigned int length)
+ {
+     for (unsigned int i = 0; i < length; ++i)
+     {
+         platform_poll();
+-        if (NETWORK_STOPPED()) return;
++        if (NETWORK_STOPPED()) return i;
++#ifdef MP_B5_EGRESS_FINAL
++        if((int32_t)(g_uptime_ms-serial_deadline)>=0)return i;
++#endif
+         while (!(USART3->SR & USART_SR_TXE))
+         {
+             platform_poll();
+-            if (NETWORK_STOPPED()) return;
+-        }
++            if (NETWORK_STOPPED()) return i;
++#ifdef MP_B5_EGRESS_FINAL
++            if((int32_t)(g_uptime_ms-serial_deadline)>=0)return i;
++#endif
++        }
++#ifdef PLATFORM_HOST_TEST
++        platform_test_tx(data[i]);
++#else
+         USART3->DR = data[i];
+-    }
++#endif
++#ifdef MP_B5_EGRESS_FINAL
++        if(io_metrics.at_phase==ESP_AT_DATA)io_metrics.written=i+1;
++#endif
++    }
++    return length;
+ }
+ 
+ void console(const char *message)
+@@ -164,6 +192,9 @@
+     Timer timer;
+     TimerCountdownMS(&timer, timeout);
+     reply_length = 0;
++#ifdef MP_B5_EGRESS_FINAL
++    reply_boundary=0;
++#endif
+     while (!TimerIsExpired(&timer))
+     {
+         platform_poll();
+@@ -177,24 +208,53 @@
+         reply[reply_length++] = (unsigned char)value;
+         reply[reply_length] = 0;
+         /* 尾部按长度判断，不能用 strlen 解析含 NUL 的 MQTT 二进制回复。 */
+-        if (ends_with("\r\nERROR\r\n") || ends_with("\r\nFAIL\r\n") || ends_with("SEND FAIL\r\n"))
++        if (ends_with("\r\nERROR\r\n") || ends_with("\r\nFAIL\r\n") || ends_with("SEND FAIL\r\n")) {
++#ifdef MP_B5_EGRESS_FINAL
++            reply_boundary=1;
++#endif
+             return 0;
+-        if (prompt ? value == '>' : sent ? ends_with("SEND OK\r\n") : ends_with("\r\nOK\r\n"))
++        }
++        if (prompt ? value == '>' : sent ? ends_with("SEND OK\r\n") : ends_with("\r\nOK\r\n")) {
++#ifdef MP_B5_EGRESS_FINAL
++            reply_boundary=1;
++#endif
+             return 1;
++        }
+     }
+     return 0;
+ }
+ 
+ int at_command(const char *command, uint32_t timeout)
+ {
++#ifdef MP_B5_EGRESS_FINAL
++    if(!platform_at_synchronized())return 0;
++    bool close=!strcmp(command,"AT+CIPCLOSE");
++    if(!close && b5_business_remaining()<timeout+B5_CLOSE_RESERVE_MS){io_metrics.budget_refused++;return 0;}
++    uint32_t started=g_uptime_ms;serial_deadline=started+timeout;phase(ESP_AT_COMMAND);
++#endif
+ #ifdef MP_B5_CLOUD_CANDIDATE
+     /* 硬停禁止继续发业务，但仍允许唯一的有界CIPCLOSE清理TLS连接。 */
+     closing_network = b5_network_stopped() && !strcmp(command,"AT+CIPCLOSE");
+ #endif
+     if (NETWORK_STOPPED()) return 0;
+-    send_bytes((const unsigned char *)command, strlen(command));
+-    send_bytes((const unsigned char *)"\r\n", 2);
++    unsigned written=send_bytes((const unsigned char *)command, strlen(command));
++    unsigned ending=written==strlen(command)?send_bytes((const unsigned char *)"\r\n", 2):0;
++#ifdef MP_B5_EGRESS_FINAL
++    if(written!=strlen(command) || ending!=2){unsync();closing_network=0;return 0;}
++    bool prompt=!strncmp(command,"AT+CIPSEND=",11);
++    phase(prompt?ESP_AT_WAIT_PROMPT:ESP_AT_COMMAND);
++    uint32_t elapsed=g_uptime_ms-started;
++    if(elapsed>=timeout){unsync();closing_network=0;return 0;}
++    timeout-=elapsed;
++#else
++    (void)ending;
++#endif
+     int ok=await_reply(timeout, strncmp(command, "AT+CIPSEND=", 11) == 0, 0);
++#ifdef MP_B5_EGRESS_FINAL
++    b5_latency_add(prompt?&io_metrics.prompt:&io_metrics.command,g_uptime_ms-started);
++    if(!ok && !reply_boundary)unsync();
++    else phase(ok&&prompt?ESP_AT_DATA:ok&&close?ESP_AT_CLOSED:ESP_AT_IDLE);
++#endif
+ #ifdef MP_B5_CLOUD_CANDIDATE
+     closing_network=0;
+ #endif
+@@ -212,6 +272,10 @@
+     if (length <= 0 || length > 2048)
+         return -1;
+     char command[40];
++#ifdef MP_B5_EGRESS_FINAL
++    if(!platform_at_synchronized() || b5_business_remaining()<timeout+B5_CLOSE_RESERVE_MS){io_metrics.budget_refused++;return -1;}
++    io_metrics.required=(uint32_t)length;io_metrics.written=0;
++#endif
+ #ifdef MP_CAN_RX_IRQ
+     uint32_t started=g_uptime_ms;
+     io_metrics.tx_calls++;io_metrics.tx_length=(uint32_t)length;io_metrics.tx_phase=1;
+@@ -225,18 +289,37 @@
+         console("GW WRITE_PROMPT_FAIL\r\n");
+         return -1;
+     }
+-    send_bytes(data, (unsigned int)length);
++#ifdef MP_B5_EGRESS_FINAL
++    serial_deadline=started+timeout;
++#endif
++    unsigned written=send_bytes(data, (unsigned int)length);
++#ifdef MP_B5_EGRESS_FINAL
++    io_metrics.written=written;b5_latency_add(&io_metrics.data,g_uptime_ms-io_metrics.phase_at);
++    if(written!=(unsigned)length){unsync();return -1;}
++    phase(ESP_AT_WAIT_SEND_OK);
++    uint32_t elapsed=g_uptime_ms-started;
++    if(elapsed>=timeout){unsync();return -1;}
++    timeout-=elapsed;
++#else
++    (void)written;
++#endif
+ #ifdef MP_CAN_RX_IRQ
+     io_metrics.tx_phase=2;
+ #endif
+     if (!await_reply((uint32_t)timeout, 0, 1))
+     {
++#ifdef MP_B5_EGRESS_FINAL
++        if(!reply_boundary)unsync();else phase(ESP_AT_IDLE);
++#endif
+ #ifdef MP_CAN_RX_IRQ
+         io_metrics.tx_ms=g_uptime_ms-started;
+ #endif
+         console("GW WRITE_SEND_FAIL\r\n");
+         return -1;
+     }
++#ifdef MP_B5_EGRESS_FINAL
++    b5_latency_add(&io_metrics.send_ok,g_uptime_ms-io_metrics.phase_at);phase(ESP_AT_IDLE);
++#endif
+ #ifdef MP_CAN_RX_IRQ
+     /* SEND OK只证明ESP协议栈接受，不当作Broker接收或PUBACK。 */
+     io_metrics.tx_confirmed++;io_metrics.tx_ms=g_uptime_ms-started;io_metrics.tx_phase=3;
+@@ -347,6 +430,7 @@
+ }
+ 
+ 
++#ifndef PLATFORM_HOST_TEST
+ static void init_uart(void)
+ {
+     GPIO_InitTypeDef gpio;
+@@ -396,3 +480,4 @@
+         {
+         }
+ }
++#endif
+--- C43036/gateway/esp_at_probe/src/stm32f4xx_it.c
++++ candidate/gateway/esp_at_probe/src/stm32f4xx_it.c
+@@ -1,4 +1,7 @@
+ #include "main.h"
++#ifdef MP_B5_EGRESS_FINAL
++#include "b5_policy.h"
++#endif
+ 
+ /* 系统节拍仅累加运行时间；不在中断中执行串口解析，避免命令输入阻塞实时性。 */
+ volatile uint32_t g_uptime_ms;
+@@ -6,4 +9,7 @@
+ void SysTick_Handler(void)
+ {
+     g_uptime_ms++;
++#ifdef MP_B5_EGRESS_FINAL
++    b5_hard_tick();
++#endif
+ }
+--- C43036/gateway/dual_can/b4_resources.h
++++ candidate/gateway/dual_can/b4_resources.h
+@@ -18,7 +18,11 @@
+ #if !defined(MP_FRAME_MAX_SAMPLES) || MP_FRAME_MAX_SAMPLES != 100
+ #error B4_MODEL_REQUIRES_100_SAMPLE_ABI
+ #endif
+-#if !defined(MP_CACHE_CAPACITY) || MP_CACHE_CAPACITY != 64
++#ifdef MP_B5_EGRESS_FINAL
++#if MP_LIVE_CAPACITY != 24 || MP_CACHE_CAPACITY != 56
++#error B5_EGRESS_REQUIRES_24_LIVE_56_HISTORY_SAME_80_FRAME_BUDGET
++#endif
++#elif !defined(MP_CACHE_CAPACITY) || MP_CACHE_CAPACITY != 64
+ #error B4_ROUTER_REQUIRES_64_CACHE_SLOTS
+ #endif
+ #endif
+--- C43036/gateway/storage/router.h
++++ candidate/gateway/storage/router.h
+@@ -1,6 +1,10 @@
+ #ifndef MP_ROUTER_H
+ #define MP_ROUTER_H
+ #include "../data_model/model.h"
++#ifdef MP_B5_EGRESS_FINAL
++#include "../b5/egress_metrics.h"
++typedef struct { uint64_t report_utc,arrival_utc;uint32_t seq,epoch,boot;int32_t centi;uint32_t valid; } B5TempEntry;
++#endif
+ /* 旧目标容量不变；B4以100点帧节省RAM后可独立扩大历史队列。 */
+ #ifndef MP_LIVE_CAPACITY
+ #define MP_LIVE_CAPACITY 16
+@@ -20,12 +24,24 @@
+     bool online, ready_for_replay;
+     /* 饱和至 8 的实时成功配额，给持续负载下的历史帧保留发送机会。 */
+     uint8_t live_credit;
++#ifdef MP_B5_EGRESS_FINAL
++    uint32_t enqueued[MP_STREAMS], taken[MP_STREAMS], historized[MP_STREAMS];
++    uint32_t live_replaced, live_overflow, expired, high_water;
++    uint32_t status_coalesced,put_tick[MP_LIVE_CAPACITY];
++    uint8_t fair_wave;
++    B5Latency residence,source_age;
++    B5TempEntry temp_entry[8];uint32_t temp_written,temp_reported,temp_trace_lost;
++#endif
+ } MpRouter;
+ 
+ void mp_router_init(MpRouter *r);
+ void mp_router_online(MpRouter *r, bool online);
+ void mp_router_put(MpRouter *r, const MpFrame *f);
+ bool mp_router_take(MpRouter *r, MpFrame *out, uint32_t now);
++#ifdef MP_B5_EGRESS_FINAL
++/* QoS1在途时只取实时QoS0；队列内其余帧及原始身份不动。 */
++bool mp_router_take_egress(MpRouter *r,MpFrame *out,uint32_t now,uint64_t utc,bool qos1_pending);
++#endif
+ /* success 是 MQTT 传输层结果，QoS0 成功不等同于 Broker 或 Backend 已处理。 */
+ void mp_router_ack(MpRouter *r, const MpFrame *f, bool success);
+ #endif
+--- C43036/gateway/b5/b5_policy.h
++++ candidate/gateway/b5/b5_policy.h
+@@ -10,4 +10,12 @@
+ /* 过期遥测只能作为历史，旧状态直接丢弃；不能重写采集时间使其复活。 */
+ int b5_prepare_publish(MpFrame *frame, uint64_t now);
+ int b5_network_stopped(void);
++#ifdef MP_B5_EGRESS_FINAL
++uint32_t b5_business_remaining(void);
++void b5_hard_tick(void);
++#define B5_CLOSE_RESERVE_MS 2000u
++#define B5_TRANSACTION_MS 5000u
++#define B5_PREPARE_MS 1000u
++#define B5_DRAIN_MS (B5_TRANSACTION_MS+B5_CLOSE_RESERVE_MS+B5_PREPARE_MS)
+ #endif
++#endif
+--- C43036/gateway/b5/egress.h
++++ candidate/gateway/b5/egress.h
+@@ -0,0 +1,27 @@
++#ifndef B5_EGRESS_H
++#define B5_EGRESS_H
++#include "b5_policy.h"
++#include "gateway_transport.h"
++#include "../storage/router.h"
++typedef struct { MpFrame inflight,publishing;bool pending;uint32_t q0,q1,failed; } B5Publisher;
++/* 固件入口和TLS Host夹具调用同一个推进器；在途帧只在对应PUBACK后交Router成功。 */
++static inline int b5_egress_step(MpRouter *r,B5Publisher *s,bool allow_new) {
++    if(s->pending) {
++        int result=gateway_mqtt_progress();
++        if(b5_network_stopped())return 1;
++        if(result==GW_FAILED){mp_router_ack(r,&s->inflight,false);s->pending=false;s->failed++;return 0;}
++        if(result==GW_COMPLETE){mp_router_ack(r,&s->inflight,true);s->pending=false;s->q1++;}
++    }
++    if(!allow_new)return 1;
++    uint64_t utc=gateway_epoch_milliseconds();
++    if(mp_router_take_egress(r,&s->publishing,g_uptime_ms,utc,s->pending)) {
++        if(!b5_prepare_publish(&s->publishing,utc))return 1;
++        int result=gateway_mqtt_begin(&s->publishing);
++        if(b5_network_stopped())return 1;
++        if(result==GW_PENDING){s->inflight=s->publishing;s->pending=true;}
++        else {mp_router_ack(r,&s->publishing,result==GW_COMPLETE);
++            if(result==GW_FAILED){s->failed++;return 0;}s->q0++;}
++    } else if(!s->pending && gateway_mqtt_progress()==GW_FAILED){s->failed++;return 0;}
++    return 1;
++}
++#endif
+--- C43036/gateway/b5/egress_metrics.h
++++ candidate/gateway/b5/egress_metrics.h
+@@ -0,0 +1,18 @@
++#ifndef B5_EGRESS_METRICS_H
++#define B5_EGRESS_METRICS_H
++#include <stdint.h>
++/* 桶内只声明上界；不能把周期采样的最后耗时当p99。 */
++typedef struct { uint32_t count, max, bins[12]; } B5Latency;
++static inline void b5_latency_add(B5Latency *s,uint32_t ms) {
++    static const uint16_t bounds[]={1,5,10,25,50,100,250,500,1000,1500,2516};
++    unsigned i=0;while(i<11 && ms>bounds[i])i++;
++    s->count++;s->bins[i]++;if(ms>s->max)s->max=ms;
++}
++static inline uint32_t b5_latency_percentile(const B5Latency *s,unsigned percent) {
++    static const uint16_t bounds[]={1,5,10,25,50,100,250,500,1000,1500,2516};
++    uint32_t total=0,target=(s->count*percent+99)/100;
++    if(!target)return 0;
++    for(unsigned i=0;i<12;i++){total+=s->bins[i];if(total>=target)return i==11?s->max:bounds[i];}
++    return s->max;
++}
++#endif
+--- C43036/gateway/b5/ram_watermark.h
++++ candidate/gateway/b5/ram_watermark.h
+@@ -0,0 +1,15 @@
++#ifndef B5_RAM_WATERMARK_H
++#define B5_RAM_WATERMARK_H
++#include <stdint.h>
++/* 只填充链接堆末尾到当前MSP下256B的未用区；不改活动栈或CANopen堆。 */
++static inline void b5_stack_watermark_init(void) {
++    extern uint32_t _heap_end;uint32_t sp;
++    __asm volatile("mrs %0,msp":"=r"(sp));
++    for(volatile uint32_t *p=&_heap_end;(uintptr_t)p+256u<sp;p++)*p=0xa55a3cc3u;
++}
++static inline uint32_t b5_stack_used_upper(void) {
++    extern uint32_t _heap_end,_estack;volatile uint32_t *p=&_heap_end;
++    while(p<&_estack && *p==0xa55a3cc3u)p++;
++    return (uint32_t)((uintptr_t)&_estack-(uintptr_t)p);
++}
++#endif
+--- C43036/gateway/mqtt/src/esp_io_metrics.h
++++ candidate/gateway/mqtt/src/esp_io_metrics.h
+@@ -1,11 +1,24 @@
+ #ifndef GATEWAY_ESP_IO_METRICS_H
+ #define GATEWAY_ESP_IO_METRICS_H
+ #include <stdint.h>
++#ifdef MP_B5_EGRESS_FINAL
++#include "../../b5/egress_metrics.h"
++enum { ESP_AT_IDLE,ESP_AT_COMMAND,ESP_AT_WAIT_PROMPT,ESP_AT_DATA,
++       ESP_AT_WAIT_SEND_OK,ESP_AT_WAIT_PUBACK,ESP_AT_UNSYNCED,ESP_AT_CLOSED };
++#endif
+ 
+ /* 仅IRQ候选收集AT边界数字；不保存命令、MQTT载荷或外部连接配置。累计不随重连清零。 */
+ typedef struct {
+     uint32_t tx_calls,tx_confirmed,tx_length,tx_ms,tx_phase;
+     uint32_t rx_queries,rx_empty,rx_hint,rx_bytes,rx_reads;
++#ifdef MP_B5_EGRESS_FINAL
++    volatile uint32_t at_phase,phase_at,required,written,unsynced,budget_refused;
++    B5Latency command,prompt,data,send_ok;
++#endif
+ } EspIoMetrics;
+ void platform_io_snapshot(EspIoMetrics *out);
++#ifdef MP_B5_EGRESS_FINAL
++int platform_at_synchronized(void);
++int platform_at_unsynced(void);
+ #endif
++#endif
+--- C43036/gateway/mqtt/src/gateway_transport.h
++++ candidate/gateway/mqtt/src/gateway_transport.h
+@@ -11,4 +11,13 @@
+ int gateway_mqtt_publish(const MpFrame *frame);
+ int gateway_mqtt_yield(void);
+ void gateway_network_close(void);
++#ifdef MP_B5_EGRESS_FINAL
++#include "../../b5/egress_metrics.h"
++enum { GW_FAILED=-1,GW_PENDING=0,GW_COMPLETE=1 };
++int gateway_mqtt_begin(const MpFrame *frame);
++int gateway_mqtt_progress(void);
++int gateway_mqtt_pending(void);
++typedef struct { uint32_t q0_sent,q1_sent,q1_acked,failed; B5Latency json,send,ack; } GatewayMqttMetrics;
++void gateway_mqtt_metrics(GatewayMqttMetrics *out);
+ #endif
++#endif

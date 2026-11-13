@@ -1,0 +1,110 @@
+{
+  "status": "PASS",
+  "scope": "FINAL_UNIFIED_C_REAL_RUNTIME_OFFLINE_NOT_DEPLOYED",
+  "linker_sha256": "2af90ff65397f184d30be58228456db1a1e4557ca49eb0425423036ba8efd598",
+  "audio_layout": {
+    "load_segments": [
+      {
+        "RAM_start": 134217728,
+        "load_start": 134217728,
+        "load_bytes": 392,
+        "memory_bytes": 392
+      },
+      {
+        "RAM_start": 134283264,
+        "load_start": 134283264,
+        "load_bytes": 54404,
+        "memory_bytes": 54404
+      },
+      {
+        "RAM_start": 536870912,
+        "load_start": 134337668,
+        "load_bytes": 104,
+        "memory_bytes": 82492
+      },
+      {
+        "RAM_start": 536953404,
+        "load_start": 134337772,
+        "load_bytes": 0,
+        "memory_bytes": 32772
+      },
+      {
+        "RAM_start": 268435456,
+        "load_start": 268435456,
+        "load_bytes": 0,
+        "memory_bytes": 64000
+      }
+    ],
+    "DMA": [
+      536891744,
+      2560
+    ],
+    "PCM": [
+      268435456,
+      64000
+    ],
+    "audio_IRQ_priority": 8,
+    "CAN_IRQ_priority": 3,
+    "runtime_enabled": true
+  },
+  "artifact_sha256": {
+    "ABC_UNIFIED_C_V1-boot.bin": "52ae0854a4418446a548c193e1465ba85f7fb59544b0ff486c0f443101c2d3f5",
+    "ABC_UNIFIED_C_V1-code.bin": "118bb51ad837b24db5b52ee3e2f658c714eaade608d2dd4c20d653637a801042",
+    "ABC_UNIFIED_C_V1.elf": "4e124697d927c1b6643483c0aed9b743c4f974951dfc131a627f0a88c812c5c8",
+    "ABC_UNIFIED_C_V1.hex": "dccbcf820fc018376435caeddafb62b84a57b19510d381f599124eee9144bb23"
+  },
+  "source_sha256": {
+    "gateway\\dual_can\\system_hse.c": "5192e6351edae0ce2b5ad90e1dced3e38af944ae50645131a54e75fba22a04db",
+    "gateway\\dual_can\\b4_bus.c": "1c53e14f3264d6202e5bcf0e83f1f269f2696c997e0077caa81449560c66ed60",
+    "gateway\\dual_can\\b4_gateway.c": "86180405b37c657833e75fd18842478a5dc3799b0bc46db9923407e6c8cd2d7a",
+    "gateway\\dual_can\\b4_bxcan.c": "912621c84ebf55f295946073c697ec0bef72bf1a1a7d85888fc9856c74fc75f7",
+    "gateway\\canopen\\src\\mp_od.c": "687e3c58770a5f7ad0de96eeeda089515be44f4458fd854395811b852fb7c0fc",
+    "gateway\\data_model\\model.c": "29b54ab85700864169b9bf891626cdd5e816478be9ac79ac42c558518d5cc494",
+    "gateway\\storage\\router.c": "4eaef689f7e685765dd14f6ae5f4f240353ea1e0339069506e21514bb099620f",
+    "gateway\\third_party\\CANopenNode\\CANopen.c": "880ce212a88b13d00d88cc3ad2bd0361e8eff904645f8d67c85f215805a9b658",
+    "gateway\\third_party\\CANopenNode\\301\\CO_Emergency.c": "be85a4515c3b5b0c0da37e9025a4f60d8eae4fef739d7b4df463c16705bb06cb",
+    "gateway\\third_party\\CANopenNode\\301\\CO_fifo.c": "f7bd28caa6af90bd243fddf500058113dd9cf0a22e46638c4b6f0c331fb6c3fc",
+    "gateway\\third_party\\CANopenNode\\301\\CO_HBconsumer.c": "8507404f1fcf5e66680699cb3f698ea805d337a6f5c01e7688a780ac54ca0a8e",
+    "gateway\\third_party\\CANopenNode\\301\\CO_NMT_Heartbeat.c": "2ad2b2f92ea1198de0ca3b28465d50039a8de09f6f33587ee9735c7b63e2589d",
+    "gateway\\third_party\\CANopenNode\\301\\CO_Node_Guarding.c": "08549daae43832074b2c5e9f454d7d5793666621f69d37c27ebc6497cd9b9922",
+    "gateway\\third_party\\CANopenNode\\301\\CO_ODinterface.c": "af3672c73c8b2e6141fb59a21d0f8b757240fc77dc25720b446a21a96fc1dd75",
+    "gateway\\third_party\\CANopenNode\\301\\CO_PDO.c": "4791d3acaa044fbe4c05b3b9cd4cbe76c07d9534b04adda3f3df12fdc71a2252",
+    "gateway\\third_party\\CANopenNode\\301\\CO_SDOclient.c": "2c5a779e4ec9e65215e3ebd119dfddcee98bac4d6ea59574e6f6d90d1f3b5529",
+    "gateway\\third_party\\CANopenNode\\301\\CO_SDOserver.c": "27d3e86c519bd99e388f57f5b44192a44d75aaf3247aae9e00db13a17fddd00b",
+    "gateway\\third_party\\CANopenNode\\301\\CO_SYNC.c": "f140a45ea032cbf360a2fb8429ed7498a37c1e9ecedcb2b5d6dc387ea21c78a9",
+    "gateway\\third_party\\CANopenNode\\301\\CO_TIME.c": "bea365c4d56bcd83182018c54fa4c2bf921dd835d10f3332ef191a148ff17bdc",
+    "gateway\\third_party\\CANopenNode\\301\\crc16-ccitt.c": "bc9a9278008276eefd264e6724b906230f7f8b3c32183c50443201c4ff4f25b8",
+    "external-sdk/stm32f4xx_rcc.c": "4169568c167d701fada6c2366d2537c62d194dbe9a311e513fc9ff80061dc998",
+    "external-sdk/stm32f4xx_gpio.c": "3043fe9e52501fad9cea9afa95e741f0697d658471d930610447623784e80bf8",
+    "external-sdk/stm32f4xx_can.c": "ee493be61736abf05c1adfc2d0fdfa9a17d01cc8301bf3536a039e8731a5d09f",
+    "external-sdk/misc.c": "4d0b131e42b44e8ad0de1630acf5dccfa7800d2bd952933ea639d79faf3f08c9",
+    "gateway\\b5\\network_main.c": "85ff51ccd51816489a70ef717152b1469e941d7e2a4a6aa8641828d282584031",
+    "gateway\\b5\\b5_policy.c": "7125b9a29990acc62625beaa394ce2aa9759a36d7e0fff7c851dfa528bb01249",
+    "gateway\\mqtt\\src\\gateway_transport.c": "6f8b73c0ebdf3e7f440bfb4e164621863d8114c67fc7d3761afe7478e70b3067",
+    "gateway\\mqtt\\src\\mqtt_transport_adapter.c": "0d1b16e59b8c929ca84c992be1d3f23c9e4103b6152910aa254d6cf578c94e96",
+    "gateway\\mqtt\\src\\platform.c": "4bc08c174b8a564859fe6cbf48be3a07c8f67dd6f8b8146ee6e9ef91e6e82926",
+    "gateway\\mqtt\\src\\heap.c": "20bf6b3b9c5ddc276ba4d85016ce14ae1425c18e24e5f020bea011d9168b2923",
+    "gateway\\mqtt\\src\\gateway_assert.c": "d29eb278706acf7a4249a2104b05f22cf859c61de5d924773c785228d7523d17",
+    "gateway\\esp_at_probe\\src\\syscalls.c": "796e258d6c2e20e2d1f629c43d7d6ea17b32d3040c466055ae9a2a084caf9ead",
+    "gateway\\esp_at_probe\\src\\stm32f4xx_it.c": "e9ec3ff1055ec03ff6b08cc69b9efba61cabc0d6694120e7e8303515ea443888",
+    "external-sdk/stm32f4xx_usart.c": "f76877834c69e6f44f6a5daa61191ae06c17ef19c80318b3e05542f7bd6d869c",
+    "gateway\\third_party\\coreMQTT\\source\\core_mqtt.c": "98cfdd1651acd725296164e9a865c51d0cd137b531a54e2e0c937846c202de0c",
+    "gateway\\third_party\\coreMQTT\\source\\core_mqtt_serializer.c": "1e4bf5a2b307f37f3cbc83a898e9c6b89b873daf93968fddb81eac06bb113c0b",
+    "gateway\\third_party\\coreMQTT\\source\\core_mqtt_state.c": "af5c215f11692c7ced8a90b9d6f9c9c23d2476538ff77a38952945f642fbc8cf",
+    "gateway\\microphone\\bench_main.c": "346b0c1a5fe436fc8cab4a9dd5beb7ef08a843f02280cfd2ce78bed3f8f19599",
+    "gateway\\microphone\\mic_format.c": "64eab873b391f4647db6c5fbb24511a554b28e210d77084de589c4b345fe7162",
+    "gateway\\microphone\\mic_protocol.c": "1d3f1bdd47687d2dd435a9d42d350a6329f46323d2e0677b01df80cede6e8461",
+    "gateway\\microphone\\unified_audio.c": "3b9f5739850680cc12f1f7250832b31554bb948f247e9d674ee8185e63099f38",
+    "gateway\\voice\\tts_frame.c": "81e76cc50aedad7de1d558f970255e4b5e32635fbb8994cf8b50537c62c8fde9",
+    "gateway\\voice\\tts_queue.c": "8aa90e26a962b29376522c3992031dc3978d1d9f21c7a0f77d9cec00adab1496",
+    "gateway\\voice\\tts_uart_port.c": "90f23fcdeb94d64cf1c5158c26c344cf439be5ce29cf70b12bc4d433aa4df1c2"
+  },
+  "header_sha256": {
+    "gateway/microphone/unified_audio.h": "22f9ea01f8ccc2c60e3f6251f1b23f5068b997df5c98cbabb8e26619b35322bf",
+    "gateway/b5/egress.h": "65ab03390a4ee8daff07b009096ed070338c91d0cb0ba315b7baf65cd05fa229",
+    "gateway/mqtt/src/gateway_transport.h": "c07a1ce96dbeb872c94b9fd6a62eb0b435816e5d9c25faacd8f69765636698f1",
+    "gateway/dual_can/b4_gateway.h": "2f253ca1f46b2d65f2d0e1aa1b8b92588689d3f70c41506100bb6ca129e65498",
+    "gateway/storage/router.h": "9306d1289f4763764fffec7fc007e6eebc2b4b266d6da683b7fa35682e39bfc7",
+    "gateway/data_model/model.h": "74a63b8af6e29e56795182ed1b121cdb144cc72530c96cef4b546ee79f10cd6a"
+  }
+}

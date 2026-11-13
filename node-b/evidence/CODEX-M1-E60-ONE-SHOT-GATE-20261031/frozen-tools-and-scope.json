@@ -1,0 +1,222 @@
+{
+  "reviewed_base": "37630aee2ef0af5bee9b13b827d21b38351d2445",
+  "tools_sha256": {
+    "node-b/tools/b5_m1_review.py": "98559f8948be4fed7a862baf06173d8f8327f54f3cd4ad24d71e9ae24d917e52",
+    "node-b/tools/b5_m1_entry.py": "032b921b129fcac223c44f18d88e65ecbee536e772b1715e92fc13dadbd3eb86",
+    "node-b/tools/runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+    "node-b/tools/resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+    "node-b/tools/readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+    "node-b/tools/b5_g3_contract.py": "7e4b4d94c9a97b78e26b51465f07364fe2ea814cd14c24ecc0a4528ff6755453",
+    "node-b/tools/b5_channel_profiles.py": "548e9b14ad5db5b16b288d117f25bb2f5aa75d99c51c07f4f83567632e5e86a7",
+    "node-b/tools/b5_b_temp_readonly.py": "ad39e45103544b717de6a349034fcfbf63f18e485e06d0610033e6c9a1c67399",
+    "node-b/tools/live_state_b.py": "bdf04c16f74e93028a55a7db244f0a2b6f683dfb987e61d41470f2bf3debde6c",
+    "node-b/tools/b5_sector3_write_supervisor.py": "9b4a25a2eaaba0fa76e3491cdf587e9cb5c3b42da8a4604e184ef8e2822d4646",
+    "node-b/tools/b5_sector3_write.py": "56b033a56da2c37562a43d48d1cbf4e7f677ae8f6a97333586006aeee176c644",
+    "node-b/tools/b5_sector3_write_protocol.py": "5ba52cb575781b1ad8709d53385aad1ff90c620c910b8e36848c132b1145dbaf",
+    "node-b/tools/b5_sector3_plan.py": "ff9118d3b6303bc8bd15b64cd5203339c8abff778d33e4d19cfe69e2d0962ef1",
+    "node-b/tools/b4_recovery.py": "fa93222b833f2f010d068b0cac97c73db7430c7eb68316d84441d60539c76213",
+    "node-b/tools/b5_g2ro.py": "e37944f04d35e24496215ac23021355811ef6af8e9fb7a4e4c6c15c4ae1ed0d3",
+    "node-b/tools/c_b4_closeout_readonly.py": "407102391e3319d4bddf5d6d34a5a0a1a69ddc4a4490096865bd06e6dd2eaaf7",
+    "node-b/tools/b4_runtime.py": "66adde98790da1bca713b68607474f8fe7222914ab503e3d61bb6d88b216c66f",
+    "node-b/tools/c_b4_readonly.py": "614d23736ea8569d4098d33e26fe762fcb00c1be646c0e0ea4ba1f9ad40afb09",
+    "node-b/tools/b5_b_temp_update.py": "951514063c9258db1cc24d83879e03babcf946ed69174cb24f3ddef622f55e5d",
+    "node-b/tools/b4_swd_install.py": "e290cbcd334140d93d4c1008ef351fe45ecffa0eb0069e330581057adf08a456",
+    "node-b/tools/b5_c_app_update.py": "4ae2e9028bfa0af03e48d694c1825173a6b815e3270e00122bd96093b6c29e5e",
+    "node-b/tools/b5_gen5_writer.py": "2140c15dae59fd912756b92bc903e73703dd999a75a7a67fa8ba0dd0f84ed4c2",
+    "node-b/tools/b5_gen5_plan.py": "6f64347466d54ba401f36a76dd38c727907fcd7c446caecb4be9576564054499",
+    "node-b/tools/b5_g0_readonly.py": "27e743f943e22eb7997c39de4c732f5281552f7717421e43b3173bc42eda58c2",
+    "node-b/tools/b5_g3_devices.py": "f5e94fd2c27390020cc0e1cc8ac43b88cee3d08067b6110a1b2842aef5dcf64e",
+    "node-b/tools/b5_g2_site.py": "44751b86728c5fb75c6960135c99470d5297d3b83a60d468ec53aafee14a949c",
+    "node-b/tools/b5_rr15_causal_replay.py": "b384e549a7fe935def77689c2f81796c8104b2708bbb31890560bc7a6f34ed1b"
+  },
+  "unchanged_dependency_checks": [
+    {
+      "path": "node-b/tools/b5_m1_review.py",
+      "disk_sha256": "98559f8948be4fed7a862baf06173d8f8327f54f3cd4ad24d71e9ae24d917e52",
+      "base_blob_sha256": "98559f8948be4fed7a862baf06173d8f8327f54f3cd4ad24d71e9ae24d917e52",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/runtime_state_b.py",
+      "disk_sha256": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+      "base_blob_sha256": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/resp_exploratory.py",
+      "disk_sha256": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+      "base_blob_sha256": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/readback_b.py",
+      "disk_sha256": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+      "base_blob_sha256": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/b5_g3_contract.py",
+      "disk_sha256": "7e4b4d94c9a97b78e26b51465f07364fe2ea814cd14c24ecc0a4528ff6755453",
+      "base_blob_sha256": "7e4b4d94c9a97b78e26b51465f07364fe2ea814cd14c24ecc0a4528ff6755453",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/b5_channel_profiles.py",
+      "disk_sha256": "548e9b14ad5db5b16b288d117f25bb2f5aa75d99c51c07f4f83567632e5e86a7",
+      "base_blob_sha256": "548e9b14ad5db5b16b288d117f25bb2f5aa75d99c51c07f4f83567632e5e86a7",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/b5_b_temp_readonly.py",
+      "disk_sha256": "ad39e45103544b717de6a349034fcfbf63f18e485e06d0610033e6c9a1c67399",
+      "base_blob_sha256": "ad39e45103544b717de6a349034fcfbf63f18e485e06d0610033e6c9a1c67399",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/live_state_b.py",
+      "disk_sha256": "bdf04c16f74e93028a55a7db244f0a2b6f683dfb987e61d41470f2bf3debde6c",
+      "base_blob_sha256": "bdf04c16f74e93028a55a7db244f0a2b6f683dfb987e61d41470f2bf3debde6c",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/b5_sector3_write_supervisor.py",
+      "disk_sha256": "9b4a25a2eaaba0fa76e3491cdf587e9cb5c3b42da8a4604e184ef8e2822d4646",
+      "base_blob_sha256": "9b4a25a2eaaba0fa76e3491cdf587e9cb5c3b42da8a4604e184ef8e2822d4646",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/b5_sector3_write.py",
+      "disk_sha256": "56b033a56da2c37562a43d48d1cbf4e7f677ae8f6a97333586006aeee176c644",
+      "base_blob_sha256": "56b033a56da2c37562a43d48d1cbf4e7f677ae8f6a97333586006aeee176c644",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/b5_sector3_write_protocol.py",
+      "disk_sha256": "5ba52cb575781b1ad8709d53385aad1ff90c620c910b8e36848c132b1145dbaf",
+      "base_blob_sha256": "5ba52cb575781b1ad8709d53385aad1ff90c620c910b8e36848c132b1145dbaf",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/b5_sector3_plan.py",
+      "disk_sha256": "ff9118d3b6303bc8bd15b64cd5203339c8abff778d33e4d19cfe69e2d0962ef1",
+      "base_blob_sha256": "ff9118d3b6303bc8bd15b64cd5203339c8abff778d33e4d19cfe69e2d0962ef1",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/b4_recovery.py",
+      "disk_sha256": "fa93222b833f2f010d068b0cac97c73db7430c7eb68316d84441d60539c76213",
+      "base_blob_sha256": "fa93222b833f2f010d068b0cac97c73db7430c7eb68316d84441d60539c76213",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/b5_g2ro.py",
+      "disk_sha256": "e37944f04d35e24496215ac23021355811ef6af8e9fb7a4e4c6c15c4ae1ed0d3",
+      "base_blob_sha256": "e37944f04d35e24496215ac23021355811ef6af8e9fb7a4e4c6c15c4ae1ed0d3",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/c_b4_closeout_readonly.py",
+      "disk_sha256": "407102391e3319d4bddf5d6d34a5a0a1a69ddc4a4490096865bd06e6dd2eaaf7",
+      "base_blob_sha256": "407102391e3319d4bddf5d6d34a5a0a1a69ddc4a4490096865bd06e6dd2eaaf7",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/b4_runtime.py",
+      "disk_sha256": "66adde98790da1bca713b68607474f8fe7222914ab503e3d61bb6d88b216c66f",
+      "base_blob_sha256": "66adde98790da1bca713b68607474f8fe7222914ab503e3d61bb6d88b216c66f",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/c_b4_readonly.py",
+      "disk_sha256": "614d23736ea8569d4098d33e26fe762fcb00c1be646c0e0ea4ba1f9ad40afb09",
+      "base_blob_sha256": "614d23736ea8569d4098d33e26fe762fcb00c1be646c0e0ea4ba1f9ad40afb09",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/b5_b_temp_update.py",
+      "disk_sha256": "951514063c9258db1cc24d83879e03babcf946ed69174cb24f3ddef622f55e5d",
+      "base_blob_sha256": "951514063c9258db1cc24d83879e03babcf946ed69174cb24f3ddef622f55e5d",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/b4_swd_install.py",
+      "disk_sha256": "e290cbcd334140d93d4c1008ef351fe45ecffa0eb0069e330581057adf08a456",
+      "base_blob_sha256": "e290cbcd334140d93d4c1008ef351fe45ecffa0eb0069e330581057adf08a456",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/b5_c_app_update.py",
+      "disk_sha256": "4ae2e9028bfa0af03e48d694c1825173a6b815e3270e00122bd96093b6c29e5e",
+      "base_blob_sha256": "4ae2e9028bfa0af03e48d694c1825173a6b815e3270e00122bd96093b6c29e5e",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/b5_gen5_writer.py",
+      "disk_sha256": "2140c15dae59fd912756b92bc903e73703dd999a75a7a67fa8ba0dd0f84ed4c2",
+      "base_blob_sha256": "2140c15dae59fd912756b92bc903e73703dd999a75a7a67fa8ba0dd0f84ed4c2",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/b5_gen5_plan.py",
+      "disk_sha256": "6f64347466d54ba401f36a76dd38c727907fcd7c446caecb4be9576564054499",
+      "base_blob_sha256": "6f64347466d54ba401f36a76dd38c727907fcd7c446caecb4be9576564054499",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/b5_g0_readonly.py",
+      "disk_sha256": "27e743f943e22eb7997c39de4c732f5281552f7717421e43b3173bc42eda58c2",
+      "base_blob_sha256": "27e743f943e22eb7997c39de4c732f5281552f7717421e43b3173bc42eda58c2",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/b5_g3_devices.py",
+      "disk_sha256": "f5e94fd2c27390020cc0e1cc8ac43b88cee3d08067b6110a1b2842aef5dcf64e",
+      "base_blob_sha256": "f5e94fd2c27390020cc0e1cc8ac43b88cee3d08067b6110a1b2842aef5dcf64e",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/b5_g2_site.py",
+      "disk_sha256": "44751b86728c5fb75c6960135c99470d5297d3b83a60d468ec53aafee14a949c",
+      "base_blob_sha256": "44751b86728c5fb75c6960135c99470d5297d3b83a60d468ec53aafee14a949c",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    },
+    {
+      "path": "node-b/tools/b5_rr15_causal_replay.py",
+      "disk_sha256": "b384e549a7fe935def77689c2f81796c8104b2708bbb31890560bc7a6f34ed1b",
+      "base_blob_sha256": "b384e549a7fe935def77689c2f81796c8104b2708bbb31890560bc7a6f34ed1b",
+      "same_bytes": true,
+      "normalized_text_unchanged": true
+    }
+  ],
+  "reviewer_and_harness_unchanged": true,
+  "timing_criteria_and_data_ABI_unchanged": true,
+  "PI_root_configured": false,
+  "PI_signature_created": false,
+  "field_authorized_sessions": 0,
+  "other_23_sessions_authorized": 0
+}

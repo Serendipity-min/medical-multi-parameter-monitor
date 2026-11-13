@@ -1,0 +1,35 @@
+{
+  "passed": 15,
+  "checks": [
+    "Authentication and WebSocket connection established",
+    "Four core modules, TEMP, and explicit MOCK banner rendered",
+    "ECG Canvas renders clinical green trace pixels",
+    "RR numeric and 120-second trend Canvas render properly",
+    "NIBP SYS/DIA pair renders accurately without fake waveform",
+    "Waveform sweep window scales smoothly between 8s and 16s",
+    "1920x1080 bedside monitor zero-scroll guarantee verified",
+    "Node-A offline UI isolation and dimming",
+    "Node-B offline UI isolation and dimming",
+    "RESP waveform present while RR is INVALID (renders \"--\" and status message)",
+    "REPLAY reaches dedicated card and live scalars clear",
+    "Gateway switching clears readings and isolates streams",
+    "1366x768 responsive layout fits without vertical scroll",
+    "Mobile 390x844 stacked read-only layout without horizontal overflow",
+    "Fullscreen monitor view captured"
+  ],
+  "evidence_dir": "cloud/evidence/ui-v07",
+  "scenarios_tested": [
+    "Gateway Online/Offline",
+    "Node-A Offline Isolation",
+    "Node-B Offline Isolation",
+    "ECG/PPG/RESP Waveform Render",
+    "RR Invalid with RESP Waveform",
+    "REPLAY Independent Display",
+    "1920x1080 Zero Scroll",
+    "1366x768 Zero Scroll",
+    "Mobile 390x844 No Horizontal Overflow",
+    "Gateway Switching Data Isolation",
+    "Canvas 2D Color & DPR Verification"
+  ],
+  "timestamp": "2026-09-20T11:55:23Z"
+}

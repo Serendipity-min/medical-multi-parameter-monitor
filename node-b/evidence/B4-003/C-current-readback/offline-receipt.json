@@ -1,0 +1,56 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "name": "c-readonly-fakes",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "passed": true,
+      "log_sha256": "820049c4ca13859146c3bdd042ae16565c28cb15114ab5a34234587397c9191f"
+    },
+    {
+      "name": "sync-criteria-fakes",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "passed": true,
+      "log_sha256": "71b667909204c388fc776dadb536dd92839ccc7c0f5bfe2b02d6c6fbc4811f0f"
+    },
+    {
+      "name": "c-disabled-plan",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "passed": true,
+      "log_sha256": "c0282665d9bd40c2ea6ba3a6b92b3aa9d164decedc9e536b6f841b677b4b02f1"
+    },
+    {
+      "name": "c-no-authorization-negative",
+      "exit_code": 1,
+      "expected_exit": 1,
+      "passed": true,
+      "log_sha256": "8d299a712b29cad8f3a2e744f6e47bbb121175f8e0adbcbb8e8301ea20bf1baf"
+    },
+    {
+      "name": "sync-disabled-plan",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "passed": true,
+      "log_sha256": "165ca625b6c2b68244b91da5ba5ab48e28e4468395988b4a5335325501b9be39"
+    },
+    {
+      "name": "sync-no-authorization-negative",
+      "exit_code": 1,
+      "expected_exit": 1,
+      "passed": true,
+      "log_sha256": "8d299a712b29cad8f3a2e744f6e47bbb121175f8e0adbcbb8e8301ea20bf1baf"
+    }
+  ],
+  "scope": "B4_03_SOFTWARE_ONLY_NO_HARDWARE",
+  "hardware_operations": 0,
+  "source_sha256": {
+    "node-b/tools/c_b4_readonly.py": "614d23736ea8569d4098d33e26fe762fcb00c1be646c0e0ea4ba1f9ad40afb09",
+    "node-b/tools/b4_sync.py": "737d0c2407f7ef0e83a5ea67b1b5b14717379e1237c2235ab75a8c54403578ba",
+    "node-b/tests/test_c_b4_readonly.py": "a65f0a3dcf950e061b1180c0069c20588e934180f43a6b35bc0a924838f8f899",
+    "node-b/tests/test_b4_sync.py": "f0f1c22813bd7636a75f4670eea535297c1f71d0f0276c91d847bad45bdac0a1",
+    "node-b/tools/run_b4_03.py": "1a52554f2edecc9941f88c13a80f9302e821dad08c68d7f3a904d06bdc5bc92e"
+  }
+}

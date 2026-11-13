@@ -1,0 +1,188 @@
+{
+  "status": "M0_ABC_ECG60_ENGINEERING_PASS",
+  "original_capture_native_exit": 0,
+  "post_STOP_completion_recovery": false,
+  "serial_control_interleavings_reconstructed": [],
+  "exit_code": 0,
+  "failures": [],
+  "evaluation_UTC_ms": [
+    1793712231523,
+    1793712531523
+  ],
+  "B": {
+    "failures": [],
+    "saved": 600,
+    "device_domain_SPS": 249.96911447012118,
+    "CAN_evaluation_increments": {
+      "offered": 74864,
+      "enqueued": 74864,
+      "sent_ecg": 74864,
+      "sent_resp": 14973,
+      "overflow": 0,
+      "expired": 0,
+      "comm_reset": 0,
+      "app_reset_rejected": 0,
+      "error": 0,
+      "discontinuities": 0
+    },
+    "ADC_evaluation_increments": {
+      "bad_status": 0,
+      "spi_errors": 0,
+      "queue_overflow": 0,
+      "init_errors": 0,
+      "long_gap_count": 0
+    },
+    "HR_values": {
+      "60": 600
+    },
+    "RR_reason_masks": {
+      "130": 568,
+      "2": 20,
+      "10": 12
+    },
+    "clipped_counter_increment": 0,
+    "temperature_errors": {
+      "overflow": 0,
+      "uart_errors": 0,
+      "checksum_errors": 0
+    },
+    "temperature_new_frames": 1371,
+    "profile": "ECG60"
+  },
+  "source_reconstruction": {
+    "blocks": 4349,
+    "raw_stable": 103663,
+    "CAN_stable": 103666,
+    "raw_unqualified_sequences": 76,
+    "CAN_unqualified_sequences": 70,
+    "raw_version_conflicts": 161,
+    "CAN_version_conflicts": 114
+  },
+  "source_points": {
+    "ECG": 74615,
+    "RESP": 14879
+  },
+  "mapping_errors": {},
+  "UART_source": {
+    "blocks": 1449,
+    "stable_bytes": 22816,
+    "unqualified_bytes": 36,
+    "valid_frames": 1900
+  },
+  "TEMP_messages": 297,
+  "TEMP_source_matches": 297,
+  "TEMP_max_WSS_age_ms": 4819,
+  "NIBP": [
+    {
+      "value": [
+        127.0,
+        64.0
+      ],
+      "timestamp": 1793712330299,
+      "source_matches": 3,
+      "expiry_observed": false,
+      "superseded_before_expiry": true,
+      "successor_first_seen_UTC_ms": 1793712385585,
+      "resurrected": false,
+      "WSS_seen": true
+    },
+    {
+      "value": [
+        101.0,
+        64.0
+      ],
+      "timestamp": 1793712382793,
+      "source_matches": 18,
+      "expiry_observed": true,
+      "superseded_before_expiry": false,
+      "successor_first_seen_UTC_ms": null,
+      "resurrected": false,
+      "WSS_seen": true
+    }
+  ],
+  "webpage_simultaneous_readings": [
+    {
+      "UTC_ms": 1793712334336,
+      "NIBP": [
+        127.0,
+        64.0
+      ]
+    }
+  ],
+  "Broker_messages": 3333,
+  "Broker_duplicates": 0,
+  "Backend_delta": {
+    "accepted": 3333,
+    "rejected": 0,
+    "dropped": 0
+  },
+  "WSS_snapshots": 4092,
+  "C_CAN_delta": {
+    "B_CAN": {
+      "rx": 89970,
+      "txack": 619,
+      "txfail": 0,
+      "overflow": 0
+    },
+    "A_CAN": {
+      "rx": 12740,
+      "txack": 619,
+      "txfail": 0,
+      "overflow": 0
+    }
+  },
+  "actual_IRQ_first_last": [
+    {
+      "group": 3,
+      "can_a": 3,
+      "can_b": 3,
+      "dma": 8,
+      "calls_a": 672,
+      "calls_b": 29975
+    },
+    {
+      "group": 3,
+      "can_a": 3,
+      "can_b": 3,
+      "dma": 8,
+      "calls_a": 13412,
+      "calls_b": 119946
+    }
+  ],
+  "browser": {
+    "exit_code": 0,
+    "sensor_data_injected": false,
+    "TLS_errors_ignored": false,
+    "browser_context": "TASK_ONLY",
+    "observations": 400,
+    "NIBP_screenshot_taken": true
+  },
+  "old_results_modified": false,
+  "voice": {
+    "exit_code": 0,
+    "broker_chunks": 125,
+    "source_cloud_PCM_SHA256": "c6e2e5dc2b4ff91ed8f6eab0cd66f168458502fdb61c9637a4bb35748c7d19a3",
+    "STOP_ACK_query_IDLE": true,
+    "MCU_RESET_commands": 0,
+    "B5START": 0,
+    "owner_speaker_confirmation": true,
+    "owner_ASR_confirmation": true,
+    "audio_first_last_arrival_seconds": 234.4631762
+  },
+  "field_job": "ABC-ECG60-20261103T132147149024Z",
+  "C_full_flash_SHA256": "fb15578d20d11676a8128b26f5b7b1473464e349adfed45ad0a2a4e2c780f5c5",
+  "C_code_SHA256": "118bb51ad837b24db5b52ee3e2f658c714eaade608d2dd4c20d653637a801042",
+  "capture_native_exit": 0,
+  "original_review_native_exit": 3,
+  "corrected_review_native_exit": 0,
+  "owner_NIBP_screen": [
+    101,
+    64
+  ],
+  "owner_SpO2_PR_reference": {
+    "SpO2_percent": 96,
+    "PR_bpm": 88,
+    "accuracy": "NOT_CALIBRATED"
+  },
+  "actual_manual_NIBP_start_count": "UNKNOWN_OWNER_DID_NOT_ANSWER"
+}

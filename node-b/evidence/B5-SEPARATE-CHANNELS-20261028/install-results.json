@@ -1,0 +1,82 @@
+{
+  "installs": [
+    {
+      "board": "B",
+      "status": "B_TEMP_INSTALL_FULL_VERIFY_AND_FLASH_BOOT_PASS",
+      "exit_code": 0,
+      "sectors": [
+        0,
+        1,
+        2
+      ],
+      "full_flash_sha256": "ceebec5a91835aed3cb70c683fd8de5142e5ba59a2163a1968cec182018b48ae",
+      "double_full_options": true,
+      "options_unchanged": true,
+      "outside_affected_sectors_unchanged": true,
+      "Close_completed": true,
+      "actions": {
+        "JLINKARM_Halt": 1,
+        "JLINKARM_BeginDownload": 1,
+        "JLINKARM_WriteMem": 1,
+        "JLINKARM_EndDownload": 1,
+        "JLINKARM_Reset": 1,
+        "JLINKARM_Go": 1
+      },
+      "BIN_bytes": 40928,
+      "BIN_sha256": "a1cf57648ca3787de30c1ad7055634c278fbbde538bb0bc562961bd212182ed2",
+      "before_full_sha256": "a1abed50a4c4dbab142a2319d61c047bc43b6816dd62754a080e3f7e12415091",
+      "tools_sha256": {
+        "b4_swd_install.py": "f8d5a213129f881044c07bb78202f919d2d29feb52adea16abd66b274b155f1f",
+        "b4_recovery.py": "fa93222b833f2f010d068b0cac97c73db7430c7eb68316d84441d60539c76213",
+        "c_b4_readonly.py": "614d23736ea8569d4098d33e26fe762fcb00c1be646c0e0ea4ba1f9ad40afb09",
+        "readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+        "runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+        "live_state_b.py": "bdf04c16f74e93028a55a7db244f0a2b6f683dfb987e61d41470f2bf3debde6c",
+        "resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+        "b5_b_temp_update.py": "951514063c9258db1cc24d83879e03babcf946ed69174cb24f3ddef622f55e5d",
+        "b5_sector3_write_supervisor.py": "9b4a25a2eaaba0fa76e3491cdf587e9cb5c3b42da8a4604e184ef8e2822d4646"
+      }
+    },
+    {
+      "board": "C",
+      "status": "C_EGRESS_INSTALL_FULL_VERIFY_DISARMED_PASS",
+      "exit_code": 0,
+      "sectors": [
+        0,
+        1,
+        2
+      ],
+      "full_flash_sha256": "3369c5de14c2f81b37a2ca3a684ac80c65a2b50c63aba9e3ee892a074bb84fbd",
+      "double_full_options": true,
+      "options_unchanged": true,
+      "outside_affected_sectors_unchanged": true,
+      "Close_completed": true,
+      "actions": {
+        "JLINKARM_Halt": 1,
+        "JLINKARM_BeginDownload": 1,
+        "JLINKARM_WriteMem": 1,
+        "JLINKARM_EndDownload": 1,
+        "JLINKARM_Reset": 1,
+        "JLINKARM_Go": 1
+      },
+      "BIN_bytes": 43036,
+      "BIN_sha256": "28af9628f428403cc479293adf748e57b68c82a8444458a5ca8de43f311f36d4",
+      "before_full_sha256": "45274e8ab217777986f666c0a386926d532c5fde2199d86ccd7ffaaed202fc9c",
+      "tools_sha256": {
+        "b4_swd_install.py": "f8d5a213129f881044c07bb78202f919d2d29feb52adea16abd66b274b155f1f",
+        "b4_recovery.py": "fa93222b833f2f010d068b0cac97c73db7430c7eb68316d84441d60539c76213",
+        "c_b4_readonly.py": "614d23736ea8569d4098d33e26fe762fcb00c1be646c0e0ea4ba1f9ad40afb09",
+        "readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+        "runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+        "live_state_b.py": "bdf04c16f74e93028a55a7db244f0a2b6f683dfb987e61d41470f2bf3debde6c",
+        "resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+        "b5_c_app_update.py": "3d6a764db3d07135ef3242487379e97488feac4d35382126adf93519a9a4846b",
+        "b5_g2ro.py": "e37944f04d35e24496215ac23021355811ef6af8e9fb7a4e4c6c15c4ae1ed0d3",
+        "b5_sector3_write_supervisor.py": "9b4a25a2eaaba0fa76e3491cdf587e9cb5c3b42da8a4604e184ef8e2822d4646"
+      }
+    }
+  ],
+  "sector3_writes_this_extension": 0,
+  "restores_executed": 0,
+  "C24104_restored": false
+}

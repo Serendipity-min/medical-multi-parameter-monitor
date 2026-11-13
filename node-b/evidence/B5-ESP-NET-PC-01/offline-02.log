@@ -1,0 +1,34 @@
+test_ROM_stops_before_UART_and_network_peer (test_b5_esp_net_pc.Tests.test_ROM_stops_before_UART_and_network_peer) ... ok
+test_bind_failure_never_becomes_ready (test_b5_esp_net_pc.Tests.test_bind_failure_never_becomes_ready) ... ok
+test_default_disabled (test_b5_esp_net_pc.Tests.test_default_disabled) ... ok
+test_each_exception_must_be_explicit (test_b5_esp_net_pc.Tests.test_each_exception_must_be_explicit) ... ok
+test_fixed_single_plan_without_time_settings (test_b5_esp_net_pc.Tests.test_fixed_single_plan_without_time_settings) ... ok
+test_partial_frame_never_masquerades_as_complete_reply (test_b5_esp_net_pc.Tests.test_partial_frame_never_masquerades_as_complete_reply) ... ok
+test_pc_socket_is_exclusive_connected_and_sends_once (test_b5_esp_net_pc.Tests.test_pc_socket_is_exclusive_connected_and_sends_once) ... ok
+test_remote_and_local_socket_ports_are_both_checked (test_b5_esp_net_pc.Tests.test_remote_and_local_socket_ports_are_both_checked) ... ok
+test_reply_matches_nonce_but_is_not_time_authority (test_b5_esp_net_pc.Tests.test_reply_matches_nonce_but_is_not_time_authority) ... ok
+test_station_route_must_be_local_other_host (test_b5_esp_net_pc.Tests.test_station_route_must_be_local_other_host) ... ok
+test_supervisor_hard_limit_kills_workers_without_retry (test_b5_esp_net_pc.Tests.test_supervisor_hard_limit_kills_workers_without_retry) ... ERROR
+test_wait_never_ignores_stop (test_b5_esp_net_pc.Tests.test_wait_never_ignores_stop) ... ok
+test_wrong_peer_length_or_replay_never_gets_reply (test_b5_esp_net_pc.Tests.test_wrong_peer_length_or_replay_never_gets_reply) ... ok
+test_wrong_request_closes_without_sending (test_b5_esp_net_pc.Tests.test_wrong_request_closes_without_sending) ... ok
+
+======================================================================
+ERROR: test_supervisor_hard_limit_kills_workers_without_retry (test_b5_esp_net_pc.Tests.test_supervisor_hard_limit_kills_workers_without_retry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\medical-monitor-node-b5-cloud\node-b\tests\test_b5_esp_net_pc.py", line 118, in test_supervisor_hard_limit_kills_workers_without_retry
+    receipt=json.loads((out/'supervisor-private.json').read_text())
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\SEREND~1\\AppData\\Local\\Temp\\tmpt4avhhj2\\run\\supervisor-private.json'
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.099s
+
+FAILED (errors=1)

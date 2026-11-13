@@ -1,0 +1,138 @@
+{
+  "B_firmware_changed_this_contract": false,
+  "Security_Gate_runs": 0,
+  "formal_cloud_writes": 0,
+  "physical_power_off": "NOT_CONFIRMED",
+  "raw_records_retained_in_EFS": true,
+  "sector3_writes": 0,
+  "transactions": [
+    {
+      "Close_completed": true,
+      "actions": {
+        "JLINKARM_BeginDownload": 1,
+        "JLINKARM_EndDownload": 1,
+        "JLINKARM_Go": 1,
+        "JLINKARM_Halt": 1,
+        "JLINKARM_Reset": 1,
+        "JLINKARM_WriteMem": 1
+      },
+      "double_full_options": true,
+      "exit_code": 0,
+      "full_flash_sha256": "b9e7518ec2af1b780534a97e769054630e19b6a4600800a6db2dea98b8f675ea",
+      "label": "R1_C46456_install",
+      "receipt_sha256": "972a83550fc41837f5f98b3d4ee8e9a5a9bec762a291e472dd40704e0098eb8d",
+      "status": "C_EGRESS_INSTALL_FULL_VERIFY_DISARMED_PASS"
+    },
+    {
+      "Close_completed": true,
+      "actions": {
+        "JLINKARM_BeginDownload": 1,
+        "JLINKARM_EndDownload": 1,
+        "JLINKARM_Go": 1,
+        "JLINKARM_Halt": 1,
+        "JLINKARM_Reset": 1,
+        "JLINKARM_WriteMem": 1
+      },
+      "double_full_options": true,
+      "exit_code": 0,
+      "full_flash_sha256": "707d88987431cb4cdf4580d8f627ba58eea4980429d95fc6dcde6ceb8718ca4a",
+      "label": "R2_C46584_install",
+      "receipt_sha256": "98f4e4f10bc56149ee8d05095a1e6c3b5422c2a131b1be28c5deed56729ecdb3",
+      "status": "C_EGRESS_INSTALL_FULL_VERIFY_DISARMED_PASS"
+    },
+    {
+      "STARTs": 1,
+      "cloud_receipt_present": true,
+      "exit_code": 1,
+      "label": "R1_initial_TIME",
+      "reason": "G3_C_NETWORK_STEP_FAILED",
+      "receipt_sha256": "b65c08b2d7fba3be77808f6ce3af2b02ec0ef566d7ca6073412dc9968028c36e",
+      "source_STOP": {
+        "armed_at": 525,
+        "business_elapsed_ms": 17996,
+        "cache": 0,
+        "live": 0,
+        "pending": 0,
+        "phase": 0,
+        "reason": 3,
+        "required": 0,
+        "tick": 18521,
+        "unsynced": 0,
+        "written": 0
+      },
+      "status": "STOP"
+    },
+    {
+      "STARTs": 1,
+      "cause_annotation": "OWNER_REPORTED_ACCIDENTAL_MANUAL_RESET_NOT_PROVEN_SOFTWARE_RESET",
+      "cloud_receipt_present": true,
+      "exit_code": 1,
+      "label": "R1_owner_accidental_RESET",
+      "reason": "G3_C_UNEXPECTED_REBOOT",
+      "receipt_sha256": "7013327f1108152d706052d9679800c860064be5e5e64817de33a2b18e535f3c",
+      "status": "STOP"
+    },
+    {
+      "STARTs": 1,
+      "cloud_receipt_present": true,
+      "exit_code": 1,
+      "label": "R1_fresh_NTP_reject",
+      "reason": "G3_C_NETWORK_STEP_FAILED",
+      "receipt_sha256": "b65c08b2d7fba3be77808f6ce3af2b02ec0ef566d7ca6073412dc9968028c36e",
+      "source_STOP": {
+        "armed_at": 582,
+        "business_elapsed_ms": 2369,
+        "cache": 0,
+        "live": 0,
+        "pending": 0,
+        "phase": 7,
+        "reason": 3,
+        "required": 48,
+        "tick": 2951,
+        "unsynced": 0,
+        "written": 48
+      },
+      "status": "STOP"
+    },
+    {
+      "STARTs": 0,
+      "cloud_receipt_present": false,
+      "exit_code": 1,
+      "label": "R2_COM_absent_START0",
+      "reason": "PRIVATE_ERROR_SUPPRESSED",
+      "receipt_sha256": "c1a307f14e798f7102e1a379fcf953aef5a9e0a5bf04a5dbc848226a0cd95427",
+      "status": "STOP"
+    },
+    {
+      "STARTs": 0,
+      "cloud_receipt_present": true,
+      "exit_code": 1,
+      "label": "R2_observer_disconnect_START0",
+      "reason": "G3_CHILD_FAILURE",
+      "receipt_sha256": "ab39ecdfd1077198ffa8206fa0a3345972a624bff5b147010afa9ef5fd033efb",
+      "status": "STOP"
+    },
+    {
+      "STARTs": 1,
+      "cloud_receipt_present": false,
+      "exit_code": 1,
+      "label": "R2_C_SEND_OK_UNCONFIRMED",
+      "reason": "G3_C_STOPPED_BEFORE_EVALUATION_END",
+      "receipt_sha256": "f941634c9154f5d890ff3a01941895e23e89fb520c4d9d0dad1261ded22ee95d",
+      "source_STOP": {
+        "armed_at": 581,
+        "business_elapsed_ms": 53919,
+        "cache": 7,
+        "live": 24,
+        "pending": 1,
+        "phase": 6,
+        "reason": 2,
+        "required": 854,
+        "tick": 54500,
+        "unsynced": 1,
+        "written": 854
+      },
+      "status": "STOP"
+    }
+  ]
+}

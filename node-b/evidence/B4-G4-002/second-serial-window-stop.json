@@ -1,0 +1,30 @@
+{
+  "status": "STOP_USB_SERIAL_HANDLE_ERROR_BEFORE_START",
+  "exit_code": 1,
+  "exception_type": "SerialException",
+  "reason": "GetOverlappedResult failed (PermissionError(13, '拒绝访问。', None, 5))",
+  "raw_bytes": 13152,
+  "raw_sha256": "953f9b87d2a86380d86ece812292b334a6c8dc3ad95170bc0598853b696c1db8",
+  "packets": 411,
+  "post_reset_packets": 221,
+  "last_post_reset_tick_ms": 44001,
+  "CRC_errors": 0,
+  "post_reset_sequence_gaps": 0,
+  "C_post_reset_BOOT_packets": 1,
+  "START_commands": 0,
+  "CAN_RX_records": 0,
+  "C_POST_RESET_VTOR_values": [
+    0
+  ],
+  "Fault_nonzero": false,
+  "B_readonly_launch": {
+    "exit_code": 1,
+    "reason": "SERIAL_ALREADY_STOPPED_NO_B_ATTACH",
+    "SDK_connections": 0,
+    "reset_halt_go_writes": 0
+  },
+  "COM15_still_OS_enumerated_after_error": true,
+  "automatic_retry": false,
+  "CAN_180s_acceptance": false,
+  "CPU_root_cause_inference": "NOT_ESTABLISHED_BY_SERIAL_EXCEPTION"
+}

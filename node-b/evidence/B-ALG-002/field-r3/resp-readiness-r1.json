@@ -1,0 +1,98 @@
+{
+  "schema": "BIO_V2_RESP_READINESS_1",
+  "date": "2026-10-22",
+  "status": "BLOCKED_ELECTRODE_PAIR_AND_REFERENCE",
+  "preparation_status": "DOCUMENT_REVIEW_AND_EXACT_PILOT_DRAFT_COMPLETE_NOT_EXECUTABLE",
+  "basis_commit": "1e81e6acafc4ebdf67c2a32c469380867e2b9a8f",
+  "ecg_stage": "B2_ECG_HR_ENGINEERING_RATE_PASS_FOR_TESTED_SETUP",
+  "ecg_six_window_summary_sha256": "334cdd073e0de04a370d19e6a3da34b0ac2a7b66ff2cb6e446449b2581cb2133",
+  "hardware_actions_this_turn": {
+    "probe_open": 0,
+    "board_read": 0,
+    "wire_change": 0,
+    "source_menu_change": 0,
+    "capture": 0,
+    "reset": 0,
+    "halt": 0,
+    "go": 0,
+    "flash_write": 0
+  },
+  "sources": {
+    "skx": {
+      "sha256": "27fe9e4a37a761ab7df939bf49693942dbf3e5692f09e2e10311106053503cc8",
+      "bytes": 629590,
+      "pages": 12,
+      "source": "Owner-provided SKX2000D+ manual, all 12 pages visually reviewed; key pages 1,5,6,11"
+    },
+    "schematic": {
+      "sha256": "dd8a66e9019d4a958adb0dc83741261daf8cd45a0a46faea93cb9dbdca14c069",
+      "bytes": 358092,
+      "pages": 1,
+      "source": "Owner V4.1 copy, V2.0 2020.09 schematic, sheet 1"
+    },
+    "ti_local": {
+      "sha256": "61b75558717059aa2866c2bb65cf9faae99deb09592c3d9adf616d13e25742ab",
+      "bytes": 3020097,
+      "pages": 82
+    },
+    "ti_revc": {
+      "url": "https://www.ti.com/lit/ds/symlink/ads1292r.pdf",
+      "sha256": "f15a7d1fabcff9ad0ed66bc00a7da0822c813a5a61c32d186a22846f3cdeead2",
+      "bytes": 2451500,
+      "pages": 83,
+      "sections": [
+        "8.3.10.4",
+        "8.6.1.10",
+        "8.6.1.11",
+        "9.2"
+      ]
+    },
+    "chinese_guide": {
+      "sha256": "6fa807fb738a5861a3d2b68de234794b0bb7d2859b2c0c565fc4e5d163194cf5",
+      "authority": "DERIVATIVE_WITH_PIN_AND_PHASE_INCONSISTENCIES_NOT_HARDWARE_AUTHORITY"
+    }
+  },
+  "design_required_pair": [
+    "RA",
+    "LA"
+  ],
+  "simulator_dynamic_pair": "NOT_SPECIFIED_IN_SUPPLIED_MANUAL",
+  "amplitude_definition": "NOT_SPECIFIED_IN_SUPPLIED_MANUAL",
+  "manual_baseline_ohm": 1000,
+  "manual_amplitude_range_literal": "0.3R-3.0R",
+  "manual_default_amplitude_literal": "1.5R",
+  "manual_resp_rate_range_rpm": [
+    5,
+    120
+  ],
+  "manual_resp_default_rate_rpm": 15,
+  "manual_resp_mode_HR_bpm": 60,
+  "config_static": {
+    "RESP1_hex": "EA",
+    "RESP2_hex": "03",
+    "modulation_khz_nominal": 32,
+    "phase_degrees": 112.5,
+    "CH1_gain": 4
+  },
+  "gates": {
+    "S1": "BLOCKED_SOURCE_PAIR",
+    "S2": "BLOCKED_AMPLITUDE_DEFINITION",
+    "S3": "BLOCKED_32KHZ_RLD_COMPATIBILITY",
+    "S4": "BLOCKED_MATCHED_SOURCE_MENU_REFERENCE",
+    "T1": "NOT_IMPLEMENTED_RESP_SOURCE_GATE",
+    "T2": "NOT_IMPLEMENTED_RESP_DIAGNOSTICS_AND_EVALUATION",
+    "A1": "NOT_AUTHORIZED_R2_NOT_ISSUED"
+  },
+  "alternate_evidence_route": "S5 separate instrument characterization plan, no hardware authorized",
+  "artifacts_sha256": {
+    "node-b/docs/B-ALG-002-RESP-READINESS-R1.md": "3bcaa7860f340df2dfa42fde1621f3f968d15210f480c26f3ea008dec2b9d4ba",
+    "node-b/docs/B-ALG-002-RESP-INFORMATION-CHECKLIST-R1.md": "91a3e92fc0ada35bca9a5b3c3440a9117e92c20aa9b01185b002c65be74e181d",
+    "node-b/docs/AUTH-B-RESP-PILOT-001-R1.md": "97cba06aaa8f2154f38b3fd7bf32c88fa6b5d330de9c23e2533e794d3eb3ad9f",
+    "node-b/acquisition/field-biov2/resp-plan.offline.json": "2186ec52cf5d7e69a7a784324abe2d077c88f901c558cc9fd9ea532d7b70a8df"
+  },
+  "code_changes": false,
+  "firmware_changes": false,
+  "hardware_authorization_requested": false,
+  "current_source_state": "UNCHANGED_LAST_OWNER_CONFIRMED_ORDINARY_ECG120",
+  "next": "Resolve S1-S4 and offline T1/T2, then issue frozen R2 for review; no trial wiring or collection now"
+}

@@ -1,0 +1,7 @@
+# 格式工具仅用于开发，不增加服务器或固件运行依赖。
+[tool.black]
+line-length = 100
+target-version = ['py311']
+skip-string-normalization = true
+include = '^/(cloud|gateway)/.*\.py$'
+extend-exclude = '/(third_party|build|evidence|node_modules)/'

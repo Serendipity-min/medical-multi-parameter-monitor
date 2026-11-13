@@ -1,0 +1,25 @@
+{
+  "release": "mqtt-v07-review1-20260920-01",
+  "mqtt_connected": true,
+  "logs": {
+    "broker": {
+      "persisted": true,
+      "events": [
+        "broker_notice",
+        "broker_started",
+        "broker_warning"
+      ],
+      "mode": "0o640"
+    },
+    "backend": {
+      "persisted": true,
+      "events": [
+        "mqtt_connected",
+        "mqtt_metrics",
+        "mqtt_subscribed"
+      ],
+      "mode": "0o600"
+    }
+  },
+  "hup_forwarded": true
+}

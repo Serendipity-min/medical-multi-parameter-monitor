@@ -1,0 +1,55 @@
+{
+  "timestamp": "2026-09-20T08:26:57.529481+00:00",
+  "original_stm32_sha256": "852d7618f8fc46c80cbe035ebd41f4e21e4d5a76a26cf10a39e0600f7a89ffb8",
+  "full_1mib_restore_verified": true,
+  "firmware_sha256": "9ed7ada071faeae9cb3a9e44245759b8f3d234e87c9eebe858fac4e2e46f5a6f",
+  "esp_at_firmware_replaced": false,
+  "project_ca_retained": true,
+  "original_ca_double_backup_equal": true,
+  "tls_positive": {
+    "echo_disabled": true,
+    "volatile_settings": true,
+    "ca_written_and_verified": true,
+    "station_mode": true,
+    "wifi_join": true,
+    "single_connection": true,
+    "passive_receive": true,
+    "time_set": true,
+    "verify_server_certificate": true,
+    "verify_certificate_name": true,
+    "tls_sni": true,
+    "tls_connect": true,
+    "ssl_connected": true,
+    "tls_auth_reset": true,
+    "mode_restored": true,
+    "storage_restored": true,
+    "echo_restored": true
+  },
+  "tls_wrong_name_and_sni": {
+    "auth_mode_2_reported": true,
+    "wrong_name_stored": true,
+    "wrong_sni_stored": true,
+    "tls_error_returned": true,
+    "tls_connect_returned": false,
+    "ok_returned": false
+  },
+  "tls_untrusted_ca": {
+    "original_untrusted_ca_rejected": true,
+    "project_ca_restored_and_verified": true
+  },
+  "cleanup": {
+    "echo_off": true,
+    "volatile": true,
+    "close": true,
+    "wifi_disconnected": true,
+    "auth_default": true,
+    "name_clear": true,
+    "sni_clear": true,
+    "active_receive": true,
+    "mode_restored": true,
+    "storage_restored": true,
+    "echo_restored": true,
+    "project_ca_readback_verified": true
+  },
+  "ccn_only_negative_rejected": false
+}

@@ -1,0 +1,23 @@
+test_ROM_stops_runtime_before_UART_packet (test_b5_esp_udp_ntp.Tests.test_ROM_stops_runtime_before_UART_packet) ... ok
+test_active_and_both_passive_binary_formats_preserve_NUL (test_b5_esp_udp_ntp.Tests.test_active_and_both_passive_binary_formats_preserve_NUL) ... ok
+test_binary_OK_ERROR_and_nested_header_do_not_finish_AT (test_b5_esp_udp_ntp.Tests.test_binary_OK_ERROR_and_nested_header_do_not_finish_AT) ... ok
+test_controller_sends_once_and_closes_with_or_without_reply (test_b5_esp_udp_ntp.Tests.test_controller_sends_once_and_closes_with_or_without_reply) ... ok
+test_default_never_executes (test_b5_esp_udp_ntp.Tests.test_default_never_executes) ... ok
+test_dinfo_false_is_zero_without_a_setting_command (test_b5_esp_udp_ntp.Tests.test_dinfo_false_is_zero_without_a_setting_command) ... ok
+test_disabled_authorization_stops_before_file_access (test_b5_esp_udp_ntp.Tests.test_disabled_authorization_stops_before_file_access) ... ok
+test_native_and_high_level_uid_flash_options_reads_are_denied (test_b5_esp_udp_ntp.Tests.test_native_and_high_level_uid_flash_options_reads_are_denied) ... ok
+test_no_socket_requires_IP_ready_and_no_connection_rows (test_b5_esp_udp_ntp.Tests.test_no_socket_requires_IP_ready_and_no_connection_rows) ... ok
+test_non_IP_or_non_48B_packet_denied (test_b5_esp_udp_ntp.Tests.test_non_IP_or_non_48B_packet_denied) ... ok
+test_nonce_LI_version_mode_KOD_and_receive_timestamp_checks (test_b5_esp_udp_ntp.Tests.test_nonce_LI_version_mode_KOD_and_receive_timestamp_checks) ... ok
+test_packet_marker_is_exclusive_even_across_execution_records (test_b5_esp_udp_ntp.Tests.test_packet_marker_is_exclusive_even_across_execution_records) ... ok
+test_partial_and_oversize_frames_not_accepted (test_b5_esp_udp_ntp.Tests.test_partial_and_oversize_frames_not_accepted) ... ok
+test_plan_has_exactly_one_payload_and_no_identity_or_time_setting (test_b5_esp_udp_ntp.Tests.test_plan_has_exactly_one_payload_and_no_identity_or_time_setting) ... ok
+test_prompt_and_send_ok_are_distinct (test_b5_esp_udp_ntp.Tests.test_prompt_and_send_ok_are_distinct) ... ok
+test_raw_DAP_cannot_read_identity_or_vectors (test_b5_esp_udp_ntp.Tests.test_raw_DAP_cannot_read_identity_or_vectors) ... ok
+test_target_writes_other_than_exact_UART_bytes_are_denied (test_b5_esp_udp_ntp.Tests.test_target_writes_other_than_exact_UART_bytes_are_denied) ... ok
+test_valid_nonce_reply_and_g3_rtt_not_claimed (test_b5_esp_udp_ntp.Tests.test_valid_nonce_reply_and_g3_rtt_not_claimed) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.039s
+
+OK

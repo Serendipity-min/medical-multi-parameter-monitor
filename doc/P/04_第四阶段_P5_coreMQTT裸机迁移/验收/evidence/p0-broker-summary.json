@@ -1,0 +1,339 @@
+{
+  "started_at": "2026-10-08T03:59:39.836819+00:00",
+  "code_commit": "e598fc63719acdf49a99c6da46c656dc8c607782",
+  "broker": "Mosquitto 2.0.21 Debian 2.0.21-1",
+  "transport": "POSIX TCP loopback; ESP/TLS NOT_RUN",
+  "physical_nodes": false,
+  "real_patient_data": false,
+  "security_gate": "NOT_AUTHORIZED/NOT_RUN",
+  "baseline": "8dee339491cfd4edc468bb9451511d421f26db5e",
+  "checks": [
+    {
+      "check": "P4_broker_auth_rejects_wrong_password",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "P4_online_qos1",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "P4_retained_online_new_subscriber",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "P4_scalar_broker_delivery",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "P4_scalar_matching_puback",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "P4_wave_broker_delivery",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "P4_replay_broker_delivery",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "P4_replay_matching_puback",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "P4_real_keepalive_pingreq",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "P4_abrupt_disconnect_lwt",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "P4_retained_offline_after_lwt",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "P5_broker_auth_rejects_wrong_password",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "P5_online_qos1",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "P5_retained_online_new_subscriber",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "P5_scalar_broker_delivery",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "P5_scalar_matching_puback",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "P5_wave_broker_delivery",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "P5_replay_broker_delivery",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "P5_replay_matching_puback",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "P5_real_keepalive_pingreq",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "P5_abrupt_disconnect_lwt",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "P5_retained_offline_after_lwt",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "p4_p5_normal_payload_and_will_equivalence",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "p5_delay_broker_already_received_frame",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "p5_delay_no_early_router_success",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "p5_real_delayed_puback_success",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "p5_drop_broker_already_received_frame",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "p5_real_missing_puback_failure",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "p5_real_missing_puback_router_cache",
+      "result": "PASS",
+      "notes": ""
+    },
+    {
+      "check": "all_owned_isolated_brokers_stopped",
+      "result": "PASS",
+      "notes": ""
+    }
+  ],
+  "variants": {
+    "P4": {
+      "online": {
+        "timestamp": 1800000000123,
+        "seq": 17,
+        "session_id": "can-1800000000-1",
+        "validity": "VALID",
+        "source": "MOCK",
+        "synthetic": true,
+        "unit": "state",
+        "value": "ONLINE"
+      },
+      "scalar": {
+        "timestamp": 1800000000123,
+        "seq": 17,
+        "session_id": "can-1800000000-1",
+        "validity": "VALID",
+        "source": "MOCK",
+        "synthetic": true,
+        "unit": "%",
+        "value": 98.0
+      },
+      "wave": {
+        "timestamp": 1800000000123,
+        "seq": 17,
+        "session_id": "can-1800000000-1",
+        "validity": "VALID",
+        "source": "MOCK",
+        "synthetic": true,
+        "unit": "mV",
+        "value": null,
+        "sample_rate": 250,
+        "samples": [
+          120.0,
+          -120.0,
+          0.0,
+          50.0
+        ]
+      },
+      "replay": {
+        "timestamp": 1800000000123,
+        "seq": 17,
+        "session_id": "can-1800000000-1",
+        "validity": "VALID",
+        "source": "REPLAY",
+        "synthetic": true,
+        "unit": "mV",
+        "value": null,
+        "sample_rate": 250,
+        "samples": [
+          120.0,
+          -120.0,
+          0.0,
+          50.0
+        ]
+      },
+      "will": {
+        "timestamp": 1800000000123,
+        "seq": 17,
+        "session_id": "can-1800000000-1",
+        "validity": "OFFLINE",
+        "source": "MOCK",
+        "synthetic": true,
+        "unit": "state",
+        "value": "OFFLINE"
+      }
+    },
+    "P5": {
+      "online": {
+        "timestamp": 1800000000123,
+        "seq": 17,
+        "session_id": "can-1800000000-1",
+        "validity": "VALID",
+        "source": "MOCK",
+        "synthetic": true,
+        "unit": "state",
+        "value": "ONLINE"
+      },
+      "scalar": {
+        "timestamp": 1800000000123,
+        "seq": 17,
+        "session_id": "can-1800000000-1",
+        "validity": "VALID",
+        "source": "MOCK",
+        "synthetic": true,
+        "unit": "%",
+        "value": 98.0
+      },
+      "wave": {
+        "timestamp": 1800000000123,
+        "seq": 17,
+        "session_id": "can-1800000000-1",
+        "validity": "VALID",
+        "source": "MOCK",
+        "synthetic": true,
+        "unit": "mV",
+        "value": null,
+        "sample_rate": 250,
+        "samples": [
+          120.0,
+          -120.0,
+          0.0,
+          50.0
+        ]
+      },
+      "replay": {
+        "timestamp": 1800000000123,
+        "seq": 17,
+        "session_id": "can-1800000000-1",
+        "validity": "VALID",
+        "source": "REPLAY",
+        "synthetic": true,
+        "unit": "mV",
+        "value": null,
+        "sample_rate": 250,
+        "samples": [
+          120.0,
+          -120.0,
+          0.0,
+          50.0
+        ]
+      },
+      "will": {
+        "timestamp": 1800000000123,
+        "seq": 17,
+        "session_id": "can-1800000000-1",
+        "validity": "OFFLINE",
+        "source": "MOCK",
+        "synthetic": true,
+        "unit": "state",
+        "value": "OFFLINE"
+      }
+    }
+  },
+  "broker_cleanup": [
+    {
+      "pid": 350,
+      "stopped": true
+    },
+    {
+      "pid": 356,
+      "stopped": true
+    },
+    {
+      "pid": 359,
+      "stopped": true
+    },
+    {
+      "pid": 364,
+      "stopped": true
+    }
+  ],
+  "source_sha256": {
+    "gateway/mqtt/tests/broker_gateway.c": "498ebc6d7ead6281db91b3b179765e751d31413f79199f886a402950ff1b3149",
+    "gateway/mqtt/tests/run_broker_integration.py": "0ca038bb4fc6fd8c21ce8e3a1ee60b02dec0a7d20d43a399a1568d98954a0b87",
+    "gateway/mqtt/tests/mocks/p4_platform_for_broker.h": "5d8321fbe5732f6ea962b554ac62bdaa5b1b6a1e8a45c1655090cda5a8c4f660",
+    "gateway/mqtt/src/gateway_transport.c": "bbcd9d2b08870b72b4e107073a14f11975a10dbb9b52039f7bc6573d47d1a406",
+    "gateway/mqtt/src/mqtt_transport_adapter.c": "e9ea41b21ced0c9faa1cea8646562c69aa8e63e0506dfd4fa9f66f7bdf795028",
+    "gateway/data_model/model.c": "bfebbc230ef5fdd5f2448b820eb6c0e53f8c40e546a46392aa9199e325234cd9",
+    "gateway/storage/router.c": "66565a7cd649f8bcad0c3d8ccda20aa08dbb79cc5d29b3143e8dd09688227462",
+    "gateway/third_party/coreMQTT/upstream.json": "6bd79091c82cfa9b53c75f9f9a04ba63f71cbe40a0850ad41c9a7bfd01b940d9",
+    "gateway/third_party/paho-embedded-c/patched.json": "fc825b058b012d81b45930308ce3412c10a73490809748f43edf34599194c1c9"
+  },
+  "p4_source_identity": {
+    "commit": "8dee339491cfd4edc468bb9451511d421f26db5e",
+    "original_sha256": "8201f244ce3f4bc6cb856f8a5d6958949ca48530ce6cfa8274370d433ad38c3a",
+    "shim_sha256": "88cde0959806d8eddf276ab63f5b5f8ee03881525636121b8bf6bc0a5a86f1ce",
+    "shim": "synthetic_config_pointer_only"
+  },
+  "broker_version_actual": "mosquitto version 2.0.21",
+  "host_binary_sha256": {
+    "P4": "56f9b9d5ab84d076f8e988cbe02f1afcf2c5d02afd3c30663271684a83a6ef2a",
+    "P5": "1e6a4d75f79762ff0b10b043cc6f69b75d32be2ff3275ee14aafbdef093c8d0a"
+  },
+  "result": "PASS",
+  "completed_at": "2026-10-08T04:00:24.812631+00:00",
+  "passed": 30
+}

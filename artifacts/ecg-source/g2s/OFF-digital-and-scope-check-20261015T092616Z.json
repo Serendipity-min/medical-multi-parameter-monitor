@@ -1,0 +1,39 @@
+{
+  "scope": "OFF_INSTRUMENT_BASELINE_CHECK_NO_MODE_CHANGE",
+  "date": "2026-10-15 Asia/Shanghai",
+  "source_digital_observation": {
+    "time_utc": "2026-10-15T09:26:16.722081+00:00",
+    "command": "info",
+    "reply": {
+      "ok": true,
+      "fw": "ecg-source-usb-1",
+      "mode": 0,
+      "state": 0,
+      "faults": 0,
+      "console_errors": 0,
+      "core_hz": 168000000,
+      "timer_hz": 84000000,
+      "psc": 0,
+      "arr": 0,
+      "table_length": 0,
+      "completed_tables": 0,
+      "completed_dma_samples": 0,
+      "last_dma_flags": 0,
+      "last_dac_flags": 0
+    }
+  },
+  "prior_serial_handle_event": {
+    "command": "status",
+    "exception": "SerialException WriteFile PermissionError",
+    "OFF_acknowledgement_on_old_handle": "FAILED_NOT_CLAIMED",
+    "cause": "NOT_INDEPENDENTLY_CONFIRMED"
+  },
+  "new_connection": "PASS_IDENTITY_OFF_NO_FAULT",
+  "BIAS_started": false,
+  "required_before_BIAS": [
+    "Probe contact photograph",
+    "Scope red/black leads detached from source then shorted together for zero input observation"
+  ],
+  "scope_numeric_interpretation": "Displayed max/min versus average/RMS cannot be used together as a quantitative acceptance result. No hardware cause assigned.",
+  "historical_data_preserved": true
+}

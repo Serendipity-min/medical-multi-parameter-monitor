@@ -1,0 +1,24 @@
+{
+  "status": "B4_INSTALL_FULL_VERIFY_AND_FLASH_BOOT_PASS",
+  "exit_code": 0,
+  "Close_completed": true,
+  "full_flash_sha256": "091653722f2115523c55e252344ff5b5e28a07de849d6fbd55b7fa4acdaa33e7",
+  "native_actions": {
+    "JLINKARM_Halt": 1,
+    "JLINKARM_BeginDownload": 1,
+    "JLINKARM_WriteMem": 1,
+    "JLINKARM_EndDownload": 1,
+    "JLINKARM_Reset": 1,
+    "JLINKARM_Go": 1
+  },
+  "BIN_SHA256": "c5ec887b3586c3dbcddcada4e079e91f89652e183a704bce2d692829567682b1",
+  "sectors": [
+    0,
+    1
+  ],
+  "SDK_implicit_side_effects": "UNRESOLVED",
+  "cloud_audio_uplink": "NOT_RUN",
+  "roundtrip": "NOT_RUN",
+  "options_unchanged": true,
+  "outside_affected_sectors_unchanged": true
+}

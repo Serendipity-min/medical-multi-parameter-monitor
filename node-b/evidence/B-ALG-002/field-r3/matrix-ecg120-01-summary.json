@@ -1,0 +1,69 @@
+{
+  "profile_sha256": "4e298cf97e55ea8c7d01aa9509b54ef682256fcad6c9ba30cca835ec1cde1a7f",
+  "card_sha256": "09ac5988df14d1e64f4b253f7bf413497eed69f6c4923be1ab52401ded606584",
+  "source_record_sha256": "a03b54f12ef9487d1eebac9936cce9fa3a5c65f891a528bfd6e67ad2f53badbe",
+  "window_elapsed_s": 92.04699999996228,
+  "export": {
+    "stable_frames": 23105,
+    "first_sequence": 99390,
+    "last_sequence": 122494,
+    "source_missing_within_span": 0,
+    "pending": 26,
+    "multi_repeat_conflicts": 0,
+    "paused_conflicts": 0,
+    "boot_count": 1,
+    "ch2_near_rail_fraction": 0.0,
+    "ch1_near_rail_fraction": 0.0,
+    "input_accuracy": "NOT_EVALUATED",
+    "peak_events": "NOT_LIVE_PER_BEAT_OFFLINE_REPLAY_REQUIRED"
+  },
+  "halt_requests": 1,
+  "go_requests": 2,
+  "reset_requests": 0,
+  "flash_write_requests": 0,
+  "tail_halt_confirmed": true,
+  "resume_confirmed": true,
+  "target_end_state": "RUNNING_BEFORE_CLOSE",
+  "window": "matrix-ecg120-r3-01",
+  "capture_receipt_sha256": "c916c93ba569d102c6e1de6df4389e15120e6de94f5296dfbc1db211e4b1ff1d",
+  "analysis_receipt_sha256": "6353a894f95dfce5e4355dff31f8b9e39c881a78e8fa173fb74bb7e416685327",
+  "capture_status": "CAPTURE_FILES_SAVED",
+  "raw_csv_sha256": "95d2675bb8caf5cfe89b6595579e2bab743b6112a4cc891b1c6248941b629a9e",
+  "formal": {
+    "status": "ENGINEERING_RATE_WINDOW_PASS",
+    "failures": [],
+    "nominal_reference_bpm": 120,
+    "tolerance_bpm": 2,
+    "raw_steady_frames": 14997,
+    "live_steady_observations": 76,
+    "live_steady_hr_values": [
+      120
+    ],
+    "replay_steady_hr_values": [
+      120
+    ],
+    "observed_host_sps": 249.96584120809703,
+    "warmup_ms": 30000,
+    "analysis_interval_ms": [
+      30000,
+      90000
+    ],
+    "anchor_device_ms": 407748,
+    "scope": "Nominal simulator rate agreement; no clinical accuracy or per-beat sensitivity"
+  },
+  "adc_error_max": {
+    "init_errors": 0,
+    "spi_errors": 0,
+    "bad_status": 0,
+    "queue_overflow": 0
+  },
+  "bio_source_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+  "host_replay_dll_sha256": "0395baef3b1272f18b21981ce192f97af03af440b974c200c1d20cb7b3d0292c",
+  "rr_acceptance": "NOT_EVALUATED",
+  "startup_observation": {
+    "first_hr": 0,
+    "first_valid": 0,
+    "first_observed_valid120_offset_ms": 2388,
+    "interpretation": "Offset from first saved diagnostic, not synchronized source-switch latency"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "result": "PASS_EXISTING_LOCAL_FILES_ONLY",
+  "installed_chain": "b4-arm-20261030T062335164483Z",
+  "checks": [
+    {
+      "role": "BIN",
+      "sha256": "1dbbf27177caa429f037ac72c43581a519e8ff70ac6224411c9c4ffe9529432d",
+      "bytes": 41012
+    },
+    {
+      "role": "AXF",
+      "sha256": "e11219c4de3718fc0832a6e6863ec9645836300197f36503cc13d8e8bd9923b7",
+      "bytes": 811816
+    },
+    {
+      "role": "symbols",
+      "sha256": "07e2166e9a145bcbdbb592b475b789cf55553ee38cf97c1dd5fcf9aebe7853f8",
+      "bytes": 108998
+    },
+    {
+      "role": "identity_historical_reference",
+      "sha256": "9d7023af7d76ac45a9ab6cd3070102ea1c55036ed77f626d27b17f65519694a3",
+      "bytes": 156,
+      "fresh_target_read": false
+    },
+    {
+      "role": "full_historical_reference",
+      "sha256": "9ff8133d06330a4b05cb15d26bfb51b6f7e1197014692c5267d178d744f4287d",
+      "bytes": 1048576,
+      "fresh_target_read": false
+    },
+    {
+      "role": "options_historical_reference",
+      "sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+      "bytes": 16,
+      "fresh_target_read": false
+    }
+  ],
+  "new_target_reads": 0,
+  "identity_before_after_historical_install_equal": true,
+  "full_and_options_expected_match": true,
+  "EFS_reference_copies": true
+}

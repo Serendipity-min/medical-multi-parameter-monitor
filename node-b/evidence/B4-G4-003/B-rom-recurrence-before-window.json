@@ -1,0 +1,21 @@
+{
+  "status": "B_ROM_RECURRENCE_AFTER_C_INSTALL_AND_JLINK_ROUNDTRIP",
+  "exit_code": 1,
+  "SDK_calls": 45,
+  "reset_halt_go_writes": 0,
+  "identity_and_B39948_SHA_verified": true,
+  "state": {
+    "VTOR": 536805376,
+    "DHCSR": 16842753,
+    "CFSR": 0,
+    "HFSR": 0,
+    "RCC_CSR": 234881024,
+    "pc_samples": [
+      536818414,
+      536818414,
+      536818412
+    ]
+  },
+  "mechanism": "UNRESOLVED; sequence association does not prove trigger",
+  "new_C_installed_and_restore_verified": true
+}

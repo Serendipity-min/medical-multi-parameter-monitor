@@ -1,0 +1,11 @@
+{
+  "audit_type": "GEMINI_INDEPENDENT_CALCULATION_PATH",
+  "window_id": "owner-observed-TEMP_OBJECT-R5-f75b446e",
+  "scope": "B5_FINAL_TEMP_OBJECT_R5",
+  "findings": {
+    "hardware_state": "SAFE_STOPPED_ZERO_FLASH_WRITES",
+    "root_cause_confirmed": "Pressing only STM32 physical RESET leaves ESP32 continuously powered on. ESP32 retains stale software RTC. When STM32 boots and queries AT+SYSTIMESTAMP?, ESP32 immediately replies with stale timestamp, which fails sntp_time_consistent against fresh NTP packet (reason=10).",
+    "proven_mitigation": "Cold USB unplug/replug resets both STM32 and ESP32 simultaneously, guaranteeing 100% clean cold SNTP sync as observed in Attempt 2.",
+    "verdict": "INCOMPLETE_CAPTURE_PRE_EVALUATION_SNTP_MISMATCH"
+  }
+}

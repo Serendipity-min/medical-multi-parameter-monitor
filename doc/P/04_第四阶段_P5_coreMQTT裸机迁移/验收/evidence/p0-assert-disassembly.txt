@@ -1,0 +1,32 @@
+
+<P5 gateway_mqtt.elf>:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+08000280 <__assert_func>:
+ 8000280:	4b09      	ldr	r3, [pc, #36]	@ (80002a8 <__assert_func+0x28>)
+ 8000282:	2201      	movs	r2, #1
+ 8000284:	601a      	str	r2, [r3, #0]
+ 8000286:	b672      	cpsid	i
+ 8000288:	4908      	ldr	r1, [pc, #32]	@ (80002ac <__assert_func+0x2c>)
+ 800028a:	4809      	ldr	r0, [pc, #36]	@ (80002b0 <__assert_func+0x30>)
+ 800028c:	f811 2b01 	ldrb.w	r2, [r1], #1
+ 8000290:	b132      	cbz	r2, 80002a0 <__assert_func+0x20>
+ 8000292:	f44f 5300 	mov.w	r3, #8192	@ 0x2000
+ 8000296:	8804      	ldrh	r4, [r0, #0]
+ 8000298:	0624      	lsls	r4, r4, #24
+ 800029a:	d403      	bmi.n	80002a4 <__assert_func+0x24>
+ 800029c:	3b01      	subs	r3, #1
+ 800029e:	d1fa      	bne.n	8000296 <__assert_func+0x16>
+ 80002a0:	bf30      	wfi
+ 80002a2:	e7fd      	b.n	80002a0 <__assert_func+0x20>
+ 80002a4:	8082      	strh	r2, [r0, #4]
+ 80002a6:	e7f1      	b.n	800028c <__assert_func+0xc>
+ 80002a8:	20000058 	.word	0x20000058
+ 80002ac:	08007c8c 	.word	0x08007c8c
+ 80002b0:	40011000 	.word	0x40011000
+
+Disassembly of section .init:
+
+Disassembly of section .fini:

@@ -1,0 +1,23 @@
+..............................EE...............
+======================================================================
+ERROR: test_host_cancel_close_does_not_resume_HALT_ROM_or_native_failures (test_b5_g3_joint.Tests.test_host_cancel_close_does_not_resume_HALT_ROM_or_native_failures)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\medical-monitor-node-b5-cloud\node-b\tests\test_b5_g3_joint.py", line 189, in test_host_cancel_close_does_not_resume_HALT_ROM_or_native_failures
+    link.final_close_verified=False;link.set_close_resume=Mock()
+                                                          ^^^^
+NameError: name 'Mock' is not defined
+
+======================================================================
+ERROR: test_host_cancel_close_requires_fresh_running_state_and_never_Go (test_b5_g3_joint.Tests.test_host_cancel_close_requires_fresh_running_state_and_never_Go)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\medical-monitor-node-b5-cloud\node-b\tests\test_b5_g3_joint.py", line 180, in test_host_cancel_close_requires_fresh_running_state_and_never_Go
+    link.final_close_verified=False;link.set_close_resume=Mock()
+                                                          ^^^^
+NameError: name 'Mock' is not defined
+
+----------------------------------------------------------------------
+Ran 47 tests in 16.107s
+
+FAILED (errors=2)

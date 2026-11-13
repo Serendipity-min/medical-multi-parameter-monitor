@@ -1,0 +1,113 @@
+--- deployed46584/gateway/mqtt/src/gateway_transport.c
++++ diagnostic47120/gateway/mqtt/src/gateway_transport.c
+@@ -330,6 +330,10 @@
+     MQTTStatus_t status=MQTT_Publish(&client,&m,id);
+     b5_latency_add(&mqtt_metrics.send,g_uptime_ms-start);
+     if(status!=MQTTSuccess || !network.connected || session_error || (uint32_t)(g_uptime_ms-start)>=budget) {
++        char diagnostic[160];(void)snprintf(diagnostic,sizeof(diagnostic),"GW SEND_CONTEXT qos=%u stream=%u seq=%lu pending=%u pending_age=%lu budget=%lu elapsed=%lu status=%u\r\n",
++            (unsigned)m.qos,frame->stream,(unsigned long)frame->seq,pending_id,
++            (unsigned long)(pending_id?g_uptime_ms-pending_started:0),(unsigned long)budget,
++            (unsigned long)(g_uptime_ms-start),(unsigned)status);console(diagnostic);
+         mqtt_metrics.failed++;mqtt_failed();return GW_FAILED;
+     }
+     if(qos1){mqtt_metrics.q1_sent++;return GW_PENDING;}
+--- deployed46584/gateway/mqtt/src/platform.c
++++ diagnostic47120/gateway/mqtt/src/platform.c
+@@ -186,6 +186,15 @@
+     return reply_length >= length && memcmp(reply + reply_length - length, suffix, length) == 0;
+ }
+ 
++static int wait_end(int ok,unsigned reason) {
++#ifdef MP_B5_EGRESS_FINAL
++    io_metrics.wait_reason=reason;io_metrics.reply_bytes=reply_length;
++#else
++    (void)reason;
++#endif
++    return ok;
++}
++
+ /* 按当前命令等待 OK、发送提示或 SEND OK；容量/串口错误立即失败，等待仍轮询 CAN。 */
+ static int await_reply(uint32_t timeout, int prompt, int sent)
+ {
+@@ -194,34 +203,43 @@
+     reply_length = 0;
+ #ifdef MP_B5_EGRESS_FINAL
+     reply_boundary=0;
++    io_metrics.wait_reason=0;io_metrics.reply_bytes=0;io_metrics.reply_flags=0;
+ #endif
+     while (!TimerIsExpired(&timer))
+     {
+         platform_poll();
+         if (errors || NETWORK_STOPPED())
+-            return 0;
++            return wait_end(0,errors?7:8);
+         int value = receive_byte();
+         if (value < 0)
+             continue;
+         if (reply_length >= sizeof(reply) - 1U)
+-            return 0;
++            return wait_end(0,9);
+         reply[reply_length++] = (unsigned char)value;
+         reply[reply_length] = 0;
++#ifdef MP_B5_EGRESS_FINAL
++        /* 仅记录发送确认阶段的URC特征；这些标志不改变命令边界判断。 */
++        if(sent) {
++            if(ends_with("\r\nCLOSED\r\n"))io_metrics.reply_flags|=1u;
++            if(ends_with("\r\nready\r\n"))io_metrics.reply_flags|=2u;
++            if(ends_with("busy p...\r\n") || ends_with("busy s...\r\n"))io_metrics.reply_flags|=4u;
++        }
++#endif
+         /* 尾部按长度判断，不能用 strlen 解析含 NUL 的 MQTT 二进制回复。 */
+         if (ends_with("\r\nERROR\r\n") || ends_with("\r\nFAIL\r\n") || ends_with("SEND FAIL\r\n")) {
+ #ifdef MP_B5_EGRESS_FINAL
+             reply_boundary=1;
+ #endif
+-            return 0;
++            return wait_end(0,4);
+         }
+         if (prompt ? value == '>' : sent ? ends_with("SEND OK\r\n") : ends_with("\r\nOK\r\n")) {
+ #ifdef MP_B5_EGRESS_FINAL
+             reply_boundary=1;
+ #endif
+-            return 1;
+-        }
+-    }
+-    return 0;
++            return wait_end(1,prompt?2:sent?3:1);
++        }
++    }
++    return wait_end(0,10);
+ }
+ 
+ int at_command(const char *command, uint32_t timeout)
+@@ -273,6 +291,7 @@
+         return -1;
+     char command[40];
+ #ifdef MP_B5_EGRESS_FINAL
++    uint32_t transaction_budget=timeout;
+     if(!platform_at_synchronized() || b5_business_remaining()<timeout+B5_CLOSE_RESERVE_MS){io_metrics.budget_refused++;return -1;}
+     io_metrics.required=(uint32_t)length;io_metrics.written=0;
+ #endif
+@@ -313,6 +332,12 @@
+ #endif
+ #ifdef MP_CAN_RX_IRQ
+         io_metrics.tx_ms=g_uptime_ms-started;
++#endif
++#ifdef MP_B5_EGRESS_FINAL
++        char detail[160];(void)snprintf(detail,sizeof(detail),"GW WRITE_DETAIL reason=%lu reply_n=%lu flags=%lu budget=%lu elapsed=%lu written=%lu required=%lu\r\n",
++            (unsigned long)io_metrics.wait_reason,(unsigned long)io_metrics.reply_bytes,(unsigned long)io_metrics.reply_flags,
++            (unsigned long)transaction_budget,(unsigned long)(g_uptime_ms-started),(unsigned long)written,(unsigned long)length);
++        console(detail);
+ #endif
+         console("GW WRITE_SEND_FAIL\r\n");
+         return -1;
+--- deployed46584/gateway/mqtt/src/esp_io_metrics.h
++++ diagnostic47120/gateway/mqtt/src/esp_io_metrics.h
+@@ -13,6 +13,7 @@
+     uint32_t rx_queries,rx_empty,rx_hint,rx_bytes,rx_reads;
+ #ifdef MP_B5_EGRESS_FINAL
+     volatile uint32_t at_phase,phase_at,required,written,unsynced,budget_refused;
++    uint32_t wait_reason,reply_bytes,reply_flags;
+     B5Latency command,prompt,data,send_ok;
+ #endif
+ } EspIoMetrics;

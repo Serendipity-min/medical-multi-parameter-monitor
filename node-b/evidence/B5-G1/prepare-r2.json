@@ -1,0 +1,47 @@
+{
+  "HUP_sent": 0,
+  "actual_paths_private_only": true,
+  "board_operations": 0,
+  "cloud_write_operations": 0,
+  "config_sha256": {
+    "backend.env": "ec800e6d9b8b731ddba70af91a533600d6c4b51072daab4fa99fd607f09777da",
+    "backend.json": "78557c821a66f5b1b3d281f98b4c4b0cc794c3cd68db32f971e407b729f51350",
+    "backend.service": "83476853febba64e6d0e5420b8fda7f3f2a3d0d73dcdfd5ac38090c42c804217",
+    "nginx.conf": "5a92f5acf78734f9d21e7525b20597d7d6b73b7eb63c808b9ea6ac540317f088",
+    "tls.service": "23d92b14aa5392d9d26cd665b163977e9df08bf6c898401338d37e158725001c"
+  },
+  "exit_code": 0,
+  "formal_config_and_ACL_match_G0": true,
+  "formal_services_match_G0": true,
+  "loopback_port_free": true,
+  "minimal_patch": {
+    "ACL_append_sha256": "b76104c9a83a2fc149068ed63cc990515fec272a16c09e268bd2566ab6db913a",
+    "new_ACL_sha256": "71a311363832b2f656137aed64bc929c543bc07b653991538d7a9b4f9d7ac4c3",
+    "new_password_file_sha256": "e9452f93f47acba6216df5986936286b7b4030d94d45cc12b8b9ff0f5e9ce15b"
+  },
+  "new_OS_role": "b5-monitor_SYSTEM_LOCKED_NO_LOGIN",
+  "nginx_all_temp_and_lock_paths_isolated": true,
+  "package_revision": 2,
+  "package_sha256": "dcee1658be5ce4db2531975069441444a0f50078828321a3e978a8352b520db0",
+  "prior_immutable_package_preserved": true,
+  "prior_package_sha256": "41863ff09a8be929dade73529de392d1bc7ca11dbe10d86e9de83173a8e0711a",
+  "revision_reason": "OFFLINE_REVIEW_NGINX_DEFAULT_TEMP_PATH_SHARED_RESOURCE_RISK_NO_LIVE_RUN",
+  "scope": "B5_G1A_ONE_CLOUD_NAMESPACE_AND_LOOPBACK_TLS_NO_FORMAL_RESTART",
+  "source_files_sha256": {
+    "backend/app/__init__.py": "44b7a1dd200886674507e014193cd2823f56a89d0dc88ad37535ce43f9596882",
+    "backend/app/adapters.py": "b4b9993d234741edffa420b81f49478fb32dbab7d8ae156e53cae793083afcde",
+    "backend/app/diagnostics.py": "5789b398732231f6c228b033da7023eb8e1909d5bbc92ed4e61b5c2a9644a461",
+    "backend/app/hub.py": "5b17215626721ae524b9508ec3a40bb7d369f2b71f61f6cfb53bfbcb9b1b4ba1",
+    "backend/app/main.py": "3796a4ee4b3db9e96b02e8d3da783104d3bfaa8590779788de27a2beb4b51c37",
+    "backend/app/models.py": "827e89fd552b99a06d7634cbe07caff4588fc8902d054a264abec1171843c52c",
+    "backend/app/mqtt_adapter.py": "9c213fd3fc6cc2070d5eb087b544e67cd1e3da385a1aca8c55540ad0eba3e17f",
+    "web/dist/assets/index-BDB-ne_c.js": "bcd8ed879fc36cf788a4b31abd43a06cba30a174e8bf03ee7e6968a2109d751c",
+    "web/dist/assets/index-DlwcF99u.css": "b55e3faca578225f6bed7dfad57a2a930564eb5011019ad44d25cc6977583d47",
+    "web/dist/index.html": "a174771d38a6bbcb681c63f87a7139fb616d5c13a9a5ec2b82f4033211e7ce92"
+  },
+  "status": "PREPARED_NOT_EXECUTED",
+  "test_service_lifetime_seconds": 21600,
+  "tx": "g1a-1ceb665360",
+  "versions_match_frozen_B5": true,
+  "wrapper_sha256": "e9f215332b5d6822984f4bf7f19d3b97a242eb897e5c97fe7ba9ea48608b1340"
+}

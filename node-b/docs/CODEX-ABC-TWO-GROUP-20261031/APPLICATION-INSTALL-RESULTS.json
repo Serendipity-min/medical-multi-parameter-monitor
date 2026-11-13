@@ -1,0 +1,60 @@
+{
+  "A": {
+    "status": "ABC_A_APP012_FULL_VERIFY_BOOT_PASS",
+    "exit_code": 0,
+    "board": "A",
+    "automatic_reflash_or_rollback": false,
+    "phase": "install",
+    "sectors": [
+      0,
+      1,
+      2
+    ],
+    "full_flash_sha256": "f31d7dfed10249d89ff221fa6984aa3a8709282b906b0dca1c655c46c68b43cb",
+    "options_unchanged": true,
+    "outside_affected_sectors_unchanged": true,
+    "reset_requests": 1,
+    "CAN_or_physiology_acceptance": false,
+    "Close_completed": true,
+    "native_actions": {
+      "JLINKARM_Halt": 1,
+      "JLINKARM_BeginDownload": 1,
+      "JLINKARM_WriteMem": 1,
+      "JLINKARM_EndDownload": 1,
+      "JLINKARM_Reset": 1,
+      "JLINKARM_Go": 1
+    },
+    "download_started": true,
+    "debug_IWDG_freeze_writes": 2,
+    "debug_IWDG_freeze_restored": true
+  },
+  "C": {
+    "status": "ABC_C_APP012_FULL_VERIFY_BOOT_PASS",
+    "exit_code": 0,
+    "board": "C",
+    "automatic_reflash_or_rollback": false,
+    "phase": "install",
+    "sectors": [
+      0,
+      1,
+      2
+    ],
+    "full_flash_sha256": "a10d36f99849891f43d4ff3b339c5266939236263ee7d38ac36887c29b5421d6",
+    "options_unchanged": true,
+    "outside_affected_sectors_unchanged": true,
+    "reset_requests": 1,
+    "CAN_or_physiology_acceptance": false,
+    "Close_completed": true,
+    "native_actions": {
+      "JLINKARM_Halt": 1,
+      "JLINKARM_BeginDownload": 1,
+      "JLINKARM_WriteMem": 1,
+      "JLINKARM_EndDownload": 1,
+      "JLINKARM_Reset": 1,
+      "JLINKARM_Go": 1
+    },
+    "download_started": true,
+    "debug_IWDG_freeze_writes": 0,
+    "debug_IWDG_freeze_restored": true
+  }
+}

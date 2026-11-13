@@ -1,0 +1,17 @@
+{
+  "raw_check_exit_code": 2,
+  "raw_diagnostic_paths": [
+    "node-b/evidence/B-ALG-001/arm/build.log",
+    "node-b/evidence/B-ALG-001/arm/symbols.txt"
+  ],
+  "diagnostics": 789,
+  "reason": "Unmodified compiler outputs retain trailing spaces/EOF blank line; original SHA preserved",
+  "focused_authored_check_exit_code": 0,
+  "focused_paths": [
+    "node-b/docs/B0-base-and-risk.md",
+    "node-b/docs/B-ALG-001-FINAL-HANDOFF.md",
+    "node-b/tests/run_pretest.py",
+    "node-b/tools/audit_biov2_identity.py"
+  ],
+  "raw_files_not_normalized": true
+}

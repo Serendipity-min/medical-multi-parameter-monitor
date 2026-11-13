@@ -1,0 +1,30 @@
+{
+  "scope": "G2S_SOURCE_S_POWERED_OFF_RECONNECTED",
+  "date": "2026-10-15 Asia/Shanghai",
+  "operator_power_ready_confirmed": true,
+  "UART_observation": {
+    "time_utc": "2026-10-15T09:16:26.277060+00:00",
+    "command": "info",
+    "reply": {
+      "ok": true,
+      "fw": "ecg-source-usb-1",
+      "mode": 0,
+      "state": 0,
+      "faults": 0,
+      "console_errors": 0,
+      "core_hz": 168000000,
+      "timer_hz": 84000000,
+      "psc": 0,
+      "arr": 0,
+      "table_length": 0,
+      "completed_tables": 0,
+      "completed_dma_samples": 0,
+      "last_dma_flags": 0,
+      "last_dac_flags": 0
+    }
+  },
+  "previous_session_exit": "OFF request on stale handle returned SerialException after operator USB disconnect; not counted as a firmware fault or confirmed OFF command",
+  "powered_OFF_analog": "WAITING_OPERATOR_NEW_READINGS_AND_SCOPE_PHOTO",
+  "BIAS_started": false,
+  "new_connection_required_after_USB_unplug": true
+}

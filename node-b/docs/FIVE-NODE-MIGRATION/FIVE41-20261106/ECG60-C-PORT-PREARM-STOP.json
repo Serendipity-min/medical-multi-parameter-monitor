@@ -1,0 +1,29 @@
+{
+  "status": "STOPPED_BEFORE_C_ARM_COM15_NOT_ENUMERATED",
+  "C_start_commands": 0,
+  "C_serial_received_bytes": 0,
+  "warmup_started": false,
+  "evaluation_started": false,
+  "host_present_serial_ports": [],
+  "B_prearm": "PASS",
+  "B_actual_image_bytes": 40040,
+  "B_actual_image_sha256": "f2276540bb8ca92551d08b78aecfdf31346597d9e273783f456be90c67014991",
+  "B_sample_delta": 638,
+  "B_device_span_ms": 2551,
+  "B_device_sps": 250.09800078400627,
+  "B_ADC_long_gap_delta": 0,
+  "B_ADC_queue_overflow_delta": 0,
+  "B_hardware_CAN_TEC": 0,
+  "B_hardware_CAN_REC": 0,
+  "B_blocks_captured": 5,
+  "native_process_exits": {
+    "receiver": 0,
+    "B-source": 0,
+    "C-controller": 1
+  },
+  "all_own_processes_exited": true,
+  "formal_five_node_result": "NOT_RUN",
+  "CAN_41ohm_transmission_result": "NOT_RUN",
+  "owner_power_off_confirmation": "PENDING",
+  "automatic_retry": false
+}

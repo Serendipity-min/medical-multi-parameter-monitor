@@ -1,0 +1,47 @@
+{
+  "source_changed": [
+    "B4/CO_driver.c"
+  ],
+  "source_unchanged_count": 146,
+  "B_BIN_bytes": 40040,
+  "B_BIN_sha256": "f2276540bb8ca92551d08b78aecfdf31346597d9e273783f456be90c67014991",
+  "static_RAM_ABI_match": true,
+  "ABI": {
+    "s_stats": {
+      "address": "0x20000608",
+      "bytes": 48
+    },
+    "slots": {
+      "address": "0x20002160",
+      "bytes": 3072
+    },
+    "queue": {
+      "address": "0x20002d60",
+      "bytes": 2560
+    },
+    "clock_anchor": {
+      "address": "0x20003760",
+      "bytes": 16
+    },
+    "g_ads_readback": {
+      "address": "0x20000638",
+      "bytes": 12
+    },
+    "g_bio_v2": {
+      "address": "0x20001d14",
+      "bytes": 120
+    },
+    "g_b_can": {
+      "address": "0x20003770",
+      "bytes": 44
+    }
+  },
+  "ARM_native_exit": 0,
+  "ARM_status": "PASS",
+  "resources": [
+    36420,
+    3144,
+    1480,
+    18088
+  ]
+}

@@ -1,0 +1,569 @@
+{
+  "status": "RESTRICTED_LOCAL_ARCHIVE_INDEX_NO_RAW_CONTENT",
+  "archive_classes": {
+    "L1": "Candidate BIN",
+    "L2": "Preinstall and installed full Flash/options separately named",
+    "L3": "New raw CPU snapshots/RAM/SDK/owner records"
+  },
+  "private_files": [
+    {
+      "file": "archive-initial-receipt.json",
+      "bytes": 609,
+      "sha256": "f32e1dc28503f25a86247aea9eece419300cc08c31bd81ec70b047199c129f31",
+      "efs_encrypted": true
+    },
+    {
+      "file": "archive-role-clarification.json",
+      "bytes": 457,
+      "sha256": "52182db3a77faeb13471a7ef815f343e9b3fe7f1d1f9a4225895ca04d27c44ba",
+      "efs_encrypted": true
+    },
+    {
+      "file": "baseline-verification.json",
+      "bytes": 238,
+      "sha256": "b9bc2f9ef1f0adf3bb32a70297655ef007e462e6a2056c2aa594284c2feb0745",
+      "efs_encrypted": true
+    },
+    {
+      "file": "board-schematic-page1.txt",
+      "bytes": 584,
+      "sha256": "e1b4a6e93b9ebaca6d14cbc5afbf0ee6ecd445c4070ad9e0a384e9f3e54197c4",
+      "efs_encrypted": true
+    },
+    {
+      "file": "board-schematic-page2.txt",
+      "bytes": 334,
+      "sha256": "aa2805af3e95baeffcbccea07869e54a9ab1e5294b1f71e1f788a2bfcc1baab2",
+      "efs_encrypted": true
+    },
+    {
+      "file": "board-schematic-page3.png",
+      "bytes": 130374,
+      "sha256": "c3f91d822bb19e6422cf03078467659276cb1936a82f6f145d1cf272b751640b",
+      "efs_encrypted": true
+    },
+    {
+      "file": "board-schematic-page3.txt",
+      "bytes": 1291,
+      "sha256": "3e2343c8e7639fa3d1b0fe50904cec50d3c34fd7694d30d2866c3f56513dbfa2",
+      "efs_encrypted": true
+    },
+    {
+      "file": "board-schematic-page4.png",
+      "bytes": 495824,
+      "sha256": "271f79bc42c2feac942f0f94ab8f53d7e2641118f8882bb6fa57b94f7a0b74ea",
+      "efs_encrypted": true
+    },
+    {
+      "file": "board-schematic-page4.txt",
+      "bytes": 11476,
+      "sha256": "11afaab074d214f61dff20f6e2eea23af42788c9f17d1e1fc8188bf98da4b55e",
+      "efs_encrypted": true
+    },
+    {
+      "file": "board-schematic-page5.png",
+      "bytes": 345001,
+      "sha256": "c003b58e5741fd07e2132ba9cd915246c95013a795a37c0576ef778471248e7f",
+      "efs_encrypted": true
+    },
+    {
+      "file": "board-schematic-page5.txt",
+      "bytes": 3313,
+      "sha256": "ac06957065fb3cde25cc5868b1b74889b4d1e2f02f7728254d0ce4d5469b7d81",
+      "efs_encrypted": true
+    },
+    {
+      "file": "board-schematic-page6.txt",
+      "bytes": 2501,
+      "sha256": "e99745fe25cada5bfeaa4548de11dab7ce1f7766498292bae8f191f662a80158",
+      "efs_encrypted": true
+    },
+    {
+      "file": "candidate-disassembly.txt",
+      "bytes": 686340,
+      "sha256": "b7ca0a4af907f59fecd3cacd5033ca52a3bf0e4b5d1b0adae2e911f16d1b15f7",
+      "efs_encrypted": true
+    },
+    {
+      "file": "fromelf-invocation.json",
+      "bytes": 337,
+      "sha256": "05a5791921d16b415a6b00866872bac739709a7ae84971a83bdbc213ced920f6",
+      "efs_encrypted": true
+    },
+    {
+      "file": "frozen-archive/L1-BIO_V2.bin",
+      "bytes": 25284,
+      "sha256": "438a8120f6df06ce219cdc30c0e5b697ac0e993f98d5a80521b10361536ae3ae",
+      "efs_encrypted": true
+    },
+    {
+      "file": "frozen-archive/L2-full-flash.bin",
+      "bytes": 1048576,
+      "sha256": "69d9efb0ce0a9228138ea3cc21adbb09c09a15a8b6dbf0d9a1d1ff861a32fc2a",
+      "efs_encrypted": true
+    },
+    {
+      "file": "frozen-archive/L2-installed-baseline-full.bin",
+      "bytes": 1048576,
+      "sha256": "f713277a50a5ec8d8a93317f412d5ab1b754e5d619918e57e9efe9dceef24cbb",
+      "efs_encrypted": true
+    },
+    {
+      "file": "frozen-archive/L2-options.bin",
+      "bytes": 16,
+      "sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+      "efs_encrypted": true
+    },
+    {
+      "file": "github-branch-search-receipt.json",
+      "bytes": 235,
+      "sha256": "cb6eeb3cb45e375c5ec1ccdb53632d836a7b7f365fd1eb45d6ec8e34132c21c1",
+      "efs_encrypted": true
+    },
+    {
+      "file": "historical-sdk-audit-private.json",
+      "bytes": 1557206,
+      "sha256": "fe194d1b4e1f89d6fabed7ca2ee030c8f2f0465f4aeef9b2856fb8a484f73ab5",
+      "efs_encrypted": true
+    },
+    {
+      "file": "HMI-command-v51-page17.txt",
+      "bytes": 2796,
+      "sha256": "f2de92e3c8ef31932feb7f32187e37cbd5c708aadf29fcbfaf6bc1750ef7db98",
+      "efs_encrypted": true
+    },
+    {
+      "file": "HMI-command-v51-page41.txt",
+      "bytes": 1795,
+      "sha256": "a02e1b602b0752394d3ea8d7be2d3d65d99d513c22e31516e4048b4197edfb07",
+      "efs_encrypted": true
+    },
+    {
+      "file": "HMI-command-v51-review.json",
+      "bytes": 387,
+      "sha256": "02a43f494f383839593f04c7a6d3eb6a3e32af2f66e68a96a5fe8339bf1327ae",
+      "efs_encrypted": true
+    },
+    {
+      "file": "HMI-PD2-photo-review.json",
+      "bytes": 1670,
+      "sha256": "8147bce8fa862c9250296381a77aef25bdb0c215eb4f7aae767364bd4ce0cde4",
+      "efs_encrypted": true
+    },
+    {
+      "file": "HMI-route-latest-site-facts.json",
+      "bytes": 2115,
+      "sha256": "7f14a1200b8b7c0159cc4c60a399cdc3b299556a4e810ee7b04132ba70491b7e",
+      "efs_encrypted": true
+    },
+    {
+      "file": "offline-checks/disabled-invoker-receipt.json",
+      "bytes": 757,
+      "sha256": "b1bf2eb436d3cadf89fe1079d8cae4cce0a2964714e76848c0746558d9158487",
+      "efs_encrypted": true
+    },
+    {
+      "file": "offline-checks/disabled.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "efs_encrypted": true
+    },
+    {
+      "file": "offline-checks/disabled.stdout.log",
+      "bytes": 153,
+      "sha256": "4d201cc10e04d25245f72696c9bee9e8907d0773b53ecb7ff8a3ecb2f8a68646",
+      "efs_encrypted": true
+    },
+    {
+      "file": "offline-checks/tests-receipt.json",
+      "bytes": 272,
+      "sha256": "0c9c8a1fffc73ed6ffd0d7b5c216bb18a1c1b4fbccb20c86823e2522dcc0f0c6",
+      "efs_encrypted": true
+    },
+    {
+      "file": "offline-checks/tests.stderr.log",
+      "bytes": 1313,
+      "sha256": "ff378bfbf1fc803ea33185396825dfea479fd2e39ff143493601cc86fccf72d6",
+      "efs_encrypted": true
+    },
+    {
+      "file": "offline-checks/tests.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "efs_encrypted": true
+    },
+    {
+      "file": "owner-current-state-after-M0.json",
+      "bytes": 499,
+      "sha256": "2cbf4ef2233a33c7231d9e4aa07d8df2b01c62c6d9d172a867b20f934599fc5c",
+      "efs_encrypted": true
+    },
+    {
+      "file": "owner-current-state.json",
+      "bytes": 383,
+      "sha256": "66e1ce6fb4ecf802160a2b951bab25c1ead46abd3967966005e2e954162a7b17",
+      "efs_encrypted": true
+    },
+    {
+      "file": "owner-current-state.txt",
+      "bytes": 192,
+      "sha256": "2f890d29640d732499ab4e015fee1b6d463f3756711f66452c5776b4170a7c1f",
+      "efs_encrypted": true
+    },
+    {
+      "file": "owner-d0-authorization-context.json",
+      "bytes": 325,
+      "sha256": "97d366e7ea23d06c9486aa102bb82f04f315f6543e5056f87d285dafce968397",
+      "efs_encrypted": true
+    },
+    {
+      "file": "owner-d0-authorization.txt",
+      "bytes": 22,
+      "sha256": "0e375b540a91053cb9935d2db16ea9f05a6803840b3c3350e58c8bf579c3d126",
+      "efs_encrypted": true
+    },
+    {
+      "file": "owner-d0-observation.txt",
+      "bytes": 153,
+      "sha256": "67617dae6feac2c19b5347ae81d55087f66a68206dc430320685cd1b189df675",
+      "efs_encrypted": true
+    },
+    {
+      "file": "owner-HMI-crosswire-and-JTAG-reconnected.txt",
+      "bytes": 277,
+      "sha256": "c6c4c73f454cbe9f65cb23f1990948b27a255c64e4b170b5e18a84503320ab58",
+      "efs_encrypted": true
+    },
+    {
+      "file": "owner-HMI-schematic-attachments/168b8df5a86b8400f984c9ed7eb425f7.jpg",
+      "bytes": 582120,
+      "sha256": "e54d19a3ae4557c5bf9b8dd513e3767a3ec705e9c875f414ed0c56c19913174b",
+      "efs_encrypted": true
+    },
+    {
+      "file": "owner-HMI-schematic-attachments/639e1c764cff2ba24c652461915272a5.png",
+      "bytes": 7190,
+      "sha256": "5c7f8e740c6cd5b22933a389f092c56fd4d12c9e8ba62dae7e936964c38c2448",
+      "efs_encrypted": true
+    },
+    {
+      "file": "owner-HMI-schematic-attachments/bf4a06fddebf7341076d7fb8ad9aba42.png",
+      "bytes": 81252,
+      "sha256": "fb0f150263814186ec66e26ed7c381521925124b200cab127ba2057d3ecf63a0",
+      "efs_encrypted": true
+    },
+    {
+      "file": "owner-m0-authorization-context.json",
+      "bytes": 312,
+      "sha256": "ac3260c0b40271eb43db9763e0ac3984e3d0ba37d5481bc82b84c6d46b9d44d5",
+      "efs_encrypted": true
+    },
+    {
+      "file": "owner-m0-authorization.txt",
+      "bytes": 44,
+      "sha256": "d972c637de5968c2f39d18f25ec2c045355f04d2b929064ccd7de249a22c5fae",
+      "efs_encrypted": true
+    },
+    {
+      "file": "owner-m0-observation-and-HMI-wiring.txt",
+      "bytes": 250,
+      "sha256": "1f1b45620d169fb1b37bd5818e303243d086899947fef53eac5400e538726964",
+      "efs_encrypted": true
+    },
+    {
+      "file": "owner-P7-and-photo-assignment.txt",
+      "bytes": 157,
+      "sha256": "558c38108c4a3d409614ebcae6d9dd0b8fe908820971631b0027e01ad0134f70",
+      "efs_encrypted": true
+    },
+    {
+      "file": "owner-PD2-confirmation.txt",
+      "bytes": 26,
+      "sha256": "ff81816a394f0da95c581823932f203d1a1cad95dbafdd853259114af18192c4",
+      "efs_encrypted": true
+    },
+    {
+      "file": "owner-s0-authorization-context.json",
+      "bytes": 282,
+      "sha256": "129ff32c362a9e4241a280ce4f53ddf304841228d75e0fff7aace0061f108090",
+      "efs_encrypted": true
+    },
+    {
+      "file": "owner-s0-authorization.txt",
+      "bytes": 26,
+      "sha256": "034da45a326120f72a1b75bffe2edb4c8e58ebece893b7a06632cb723f106218",
+      "efs_encrypted": true
+    },
+    {
+      "file": "remote-final-verification.json",
+      "bytes": 4672,
+      "sha256": "f5b53a864aaa082dfe645407de7ab8c451edf9bf5e2135127f338ba307903e79",
+      "efs_encrypted": true
+    },
+    {
+      "file": "remote-heads-after-payload.txt",
+      "bytes": 1084,
+      "sha256": "d8d1aecf4181fd959c01a8817695502e3e012c7753f3be7dabbc34e0d9836e8c",
+      "efs_encrypted": true
+    },
+    {
+      "file": "remote-heads-before.txt",
+      "bytes": 979,
+      "sha256": "77de4076129d04bb409febd03b71595c6425af978df1930eb9e1fd1970f0976a",
+      "efs_encrypted": true
+    },
+    {
+      "file": "remote-heads-final.txt",
+      "bytes": 1084,
+      "sha256": "c4ebb73487cbdc89887e60218efecf31fc68548924886d422bf1be7fe9739442",
+      "efs_encrypted": true
+    },
+    {
+      "file": "remote-payload-verification.json",
+      "bytes": 4660,
+      "sha256": "ccd7124faf9c72385e1cc4b3963004357941c117026f652fcb3be3c6d973790c",
+      "efs_encrypted": true
+    },
+    {
+      "file": "RM0090-page211.txt",
+      "bytes": 2514,
+      "sha256": "e6925fb8adfb4f47159708e2298a9219694c48b01d617f8a75412285d711b76c",
+      "efs_encrypted": true
+    },
+    {
+      "file": "RM0090-page268.txt",
+      "bytes": 2375,
+      "sha256": "3d9cbc26209b83519eb3a031b298f258f24f42a05fe4e3a3ed80f7a53365e67b",
+      "efs_encrypted": true
+    },
+    {
+      "file": "RM0090-page70.txt",
+      "bytes": 2930,
+      "sha256": "13317e6202cd6188e8f083e19d4a192cd4fa01bb7df5f68ec816c22caddb8ef7",
+      "efs_encrypted": true
+    },
+    {
+      "file": "SKX-manual-page11.txt",
+      "bytes": 1358,
+      "sha256": "1ef4a4bcb050188ddb548bb0626dfe7879e1e1f827c9df82f4cab2f671076a86",
+      "efs_encrypted": true
+    },
+    {
+      "file": "SKX-manual-page20.txt",
+      "bytes": 541,
+      "sha256": "d1bb539b0b12ed372701263a280a3fd00e3a91bb4b87936a8a892b1d3b094921",
+      "efs_encrypted": true
+    },
+    {
+      "file": "SKX-manual-page6.txt",
+      "bytes": 1390,
+      "sha256": "e50ebab0a380bdb6405366f7dac9840f0fe739f59bf4b8207424a5dbc1c37b14",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/after-image-diag.bin",
+      "bytes": 120,
+      "sha256": "c39d2f2df4e6016801a97cb2e291c080f947bf4e24875ade48f09f9edc98996c",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/after-image-rreg-cache.bin",
+      "bytes": 12,
+      "sha256": "becdae9831207614cebf6d5305874e47c670dd2f82bc5c15eca123558f5e3730",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/after-image-snapshot-private.json",
+      "bytes": 955,
+      "sha256": "ee8ef20512e58e5d3a61b106a98df36592555c593d60c5118ccfc9dccd707f26",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/after-image-stats.bin",
+      "bytes": 48,
+      "sha256": "c1da35402cd8e87f58228fb14f7a1e144bfd53456ce576bb27ee5542e40e7f96",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/alias-vectors-private.bin",
+      "bytes": 64,
+      "sha256": "24f838ffd9cddd5e4e4c9964544e21be1d04e241e86958958a6834db3288c2b4",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/attach-entry-diag.bin",
+      "bytes": 120,
+      "sha256": "c39d2f2df4e6016801a97cb2e291c080f947bf4e24875ade48f09f9edc98996c",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/attach-entry-rreg-cache.bin",
+      "bytes": 12,
+      "sha256": "becdae9831207614cebf6d5305874e47c670dd2f82bc5c15eca123558f5e3730",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/attach-entry-snapshot-private.json",
+      "bytes": 956,
+      "sha256": "7507501b02770942c1e36bf9e31d953fa78b580b887b978b455a3df4febf5c7d",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/attach-entry-stats.bin",
+      "bytes": 48,
+      "sha256": "c1da35402cd8e87f58228fb14f7a1e144bfd53456ce576bb27ee5542e40e7f96",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/before-close-diag.bin",
+      "bytes": 120,
+      "sha256": "c39d2f2df4e6016801a97cb2e291c080f947bf4e24875ade48f09f9edc98996c",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/before-close-rreg-cache.bin",
+      "bytes": 12,
+      "sha256": "becdae9831207614cebf6d5305874e47c670dd2f82bc5c15eca123558f5e3730",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/before-close-snapshot-private.json",
+      "bytes": 956,
+      "sha256": "3f952196e973079b63a68668281cdd5b15cbda5ceb889fb2ca71851d7e6af3c6",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/before-close-stats.bin",
+      "bytes": 48,
+      "sha256": "c1da35402cd8e87f58228fb14f7a1e144bfd53456ce576bb27ee5542e40e7f96",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/full-flash-private.bin",
+      "bytes": 1048576,
+      "sha256": "f713277a50a5ec8d8a93317f412d5ab1b754e5d619918e57e9efe9dceef24cbb",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/heartbeat-events.jsonl",
+      "bytes": 15567,
+      "sha256": "b06fd213d298e4b6c96236fef756a28f26534ff07363f1c59f2ce41d8c2547dc",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/identity-private.json",
+      "bytes": 156,
+      "sha256": "6807dc3c928c11b5ba3d2185286f2a7e18bc526485d7ac84edace59728dc0323",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/io-private.jsonl",
+      "bytes": 6957,
+      "sha256": "f91679144bd926a7a6e97174c458aafe7c571c048daae7343e4738054f131fae",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/options-private.bin",
+      "bytes": 16,
+      "sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/probe-status-private.json",
+      "bytes": 25,
+      "sha256": "fecdafeae802ada818477c71d4f7213c1c9e717ac6355a4540ea1095cb513491",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/ram-128k-private.bin",
+      "bytes": 131072,
+      "sha256": "a5744e97cb97f690c37ddd1ba3a1b12d0875c920347961f83f6f4e4b2722cc98",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/receipt-private.json",
+      "bytes": 5970,
+      "sha256": "d4f41347bc4919a808cdd04132dfa46ffcf7dbe3d330fd238a344e692aa284c4",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/rom-vectors-private.bin",
+      "bytes": 64,
+      "sha256": "a5bd2c784f5e6c837837202014191a4b79ce35d788e3d1f6e05f8d0c44250ccf",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/sdk-call-journal-private.jsonl",
+      "bytes": 31391,
+      "sha256": "c01424a7e13b7e693e2b5ead2f86c505c9d4abc1c090084fdd7ea1803397c058",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/sdk-private.log",
+      "bytes": 1025,
+      "sha256": "cfd95ecaae31ab329ad9364db07cd843863da623db6d117f71f5983eb1a12919",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01/supervisor-receipt-private.json",
+      "bytes": 162,
+      "sha256": "354a491a314bc0a23f4f1c9a0b7a039c7ea013434920c5c3b8a5da6922a443bf",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-01-worker-output.log",
+      "bytes": 117,
+      "sha256": "34fda55ab77780d00af800615d4704b24e8cc93edbf07860d34fd21d4cc758d9",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-disabled-final/supervisor-receipt-private.json",
+      "bytes": 164,
+      "sha256": "3ac02b68ca28f7b4e686b3e78094c0ff2b0e41a0dfdb5c06be0f6c31a6db37c3",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-disabled-final-worker-output.log",
+      "bytes": 834,
+      "sha256": "fa383e194b380f098fe05ad8eab6842bf99b81f1f46eb1713ec3766a55574d7c",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-invoker-receipt.json",
+      "bytes": 865,
+      "sha256": "93513f75d2edd178ff55e751f405a7c32c5b56bec51afb015aacde52d968d1d4",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-invoker-started.json",
+      "bytes": 866,
+      "sha256": "74abb8e43b9abf78cf83e0c4d5c957ba312961b012cee30e4cda1e075c7e9950",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-invoker.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-invoker.stdout.log",
+      "bytes": 151,
+      "sha256": "1e64fbca04c465618b961ceaa14b00db8373d79300377da5fb3040e4bf2f6746",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-manifest-prepared.json",
+      "bytes": 2515,
+      "sha256": "8c2f827aa3e3c600535dba2cf37ddac1de10a02fb4b533095d3d4129b4bf4ad0",
+      "efs_encrypted": true
+    },
+    {
+      "file": "state-s0-manifest-ready.json",
+      "bytes": 2676,
+      "sha256": "77ccd1391cddec87bc26fd953efb146a2f6a3155fe1675a9fa6721d127d33503",
+      "efs_encrypted": true
+    }
+  ],
+  "index_scope": "Experiment/owner/verification records at this snapshot; excludes remote-verify.git transport cache"
+}

@@ -1,0 +1,17 @@
+test_callback_fingerprint_has_API_time_no_plaintext (test_b5_sector3_connected.Tests.test_callback_fingerprint_has_API_time_no_plaintext) ... ok
+test_configure_never_reaches_DLL (test_b5_sector3_connected.Tests.test_configure_never_reaches_DLL) ... ok
+test_connected_real_engine_commits_last_preserves_other_bytes_and_dual_reads (test_b5_sector3_connected.Tests.test_connected_real_engine_commits_last_preserves_other_bytes_and_dual_reads) ... ok
+test_default_and_old_scope_cannot_enable_native (test_b5_sector3_connected.Tests.test_default_and_old_scope_cannot_enable_native) ... ok
+test_disconnected_context_stops_before_any_raw_or_unlock (test_b5_sector3_connected.Tests.test_disconnected_context_stops_before_any_raw_or_unlock) ... ok
+test_native_negative_return_saved_before_error_callback_gate (test_b5_sector3_connected.Tests.test_native_negative_return_saved_before_error_callback_gate) ... ok
+test_negative_and_positive_short_reads_are_distinguished_and_logged (test_b5_sector3_connected.Tests.test_negative_and_positive_short_reads_are_distinguished_and_logged) ... ok
+test_posthalt_armed_change_stops_without_unlock (test_b5_sector3_connected.Tests.test_posthalt_armed_change_stops_without_unlock) ... ok
+test_raw_error_latches_and_prevents_finally_AP_cleanup (test_b5_sector3_connected.Tests.test_raw_error_latches_and_prevents_finally_AP_cleanup) ... ok
+test_raw_identity_mismatch_stops_before_KEYR (test_b5_sector3_connected.Tests.test_raw_identity_mismatch_stops_before_KEYR) ... ok
+test_sdk_second_backup_drift_stops_before_halt (test_b5_sector3_connected.Tests.test_sdk_second_backup_drift_stops_before_halt) ... ok
+test_separate_RCFG_restores_original_config_only (test_b5_sector3_connected.Tests.test_separate_RCFG_restores_original_config_only) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 1.384s
+
+OK

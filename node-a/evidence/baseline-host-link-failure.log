@@ -1,0 +1,5 @@
+C:\Users\SEREND~1\AppData\Local\Temp\ccfQQ5Qd.o: In function `CO_LSSinit':
+E:/medical-monitor-node-a/node-a/STM32F407_HOSPITAL/HARDWARE/CANopen/CANopen.c:953: undefined reference to `CO_LSSslave_init'
+C:\Users\SEREND~1\AppData\Local\Temp\ccfQQ5Qd.o: In function `CO_process':
+E:/medical-monitor-node-a/node-a/STM32F407_HOSPITAL/HARDWARE/CANopen/CANopen.c:1322: undefined reference to `CO_LSSslave_process'
+collect2.exe: error: ld returned 1 exit status

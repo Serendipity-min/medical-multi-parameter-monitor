@@ -1,0 +1,6235 @@
+{
+  "scope": "OFFLINE_ONLY",
+  "source_commit": "5d39062e829c859280914308059c833271f75e7d",
+  "arm_gnu": "14.2.1",
+  "source_archive": {
+    "bytes": 942664,
+    "sha256": "504c8c6363e37efcccbce760a5c2f5f0abedc50cd33772a6a6c377806f68f46a"
+  },
+  "arm": {
+    "windows": {
+      "C_TRANSPORT_BENCH-boot.bin": "43081dbf1639a9728aff44d6281e534c178fd293fe6dc53cf9f0247c99aef030",
+      "C_TRANSPORT_BENCH-code.bin": "ea5444bcb7d1cd0790984f574ae233e53aec64a5d6f6063817e94805cde5085b",
+      "C_TRANSPORT_BENCH.hex": "a867fee19e81d36dfbaaf93b462a3550f5bf9c7dab4c4570640fa39bca69351c"
+    },
+    "vps": {
+      "C_TRANSPORT_BENCH.hex": "a867fee19e81d36dfbaaf93b462a3550f5bf9c7dab4c4570640fa39bca69351c",
+      "C_TRANSPORT_BENCH-boot.bin": "43081dbf1639a9728aff44d6281e534c178fd293fe6dc53cf9f0247c99aef030",
+      "C_TRANSPORT_BENCH-code.bin": "ea5444bcb7d1cd0790984f574ae233e53aec64a5d6f6063817e94805cde5085b"
+    },
+    "sector4_bytes": 29804,
+    "sector4_remaining_bytes": 35732,
+    "data_bytes": 100,
+    "bss_bytes": 55868,
+    "r7_pass230_unchanged": {
+      "FIVE_APPLIANCE_C_2S_V1-boot.bin": "e29b043403fa4971a0674d5fe211a8081c93be420985bdb9e558f60e6e43ee19",
+      "FIVE_APPLIANCE_C_2S_V1-code.bin": "653568ac39f85191b41d4e077b7696002fa14ef9a0a49b1e98461a33b23603f2",
+      "FIVE_APPLIANCE_C_2S_V1.hex": "9598ac84a56a69dfbc5b53d55a322c8702f559faf38b901c75e5d9612b08a626"
+    }
+  },
+  "peer": {
+    "vps": "VPS_PEER_VERIFY_PASS frames=1261 streams=14 corruption_detected=1 live_network=NOT_RUN",
+    "source_sha256": "e085041cd7c669b266d1c526196cefd2329436a8c7d9562221b1b2ecedf1d125"
+  },
+  "host": {
+    "full_results_sha256": "a41daf4dc10f5fbb1a14cc6a9ad04aad33188586c9b014e574cf5ffe9deefcbc",
+    "source_sha256": {
+      "gateway/b5/test_five_p3_egress.c": "efdd29c9303ee8840d6f9018b64a3d876b859af2220400631162687131ffcf9f",
+      "gateway/mqtt/src/mqtt_transport_adapter.c": "8b7f798623f1fe8aa334abb563a70106f8440a887fe023c3dd9021bd1ffe0f56",
+      "gateway/storage/router.c": "610f6eb57d9804c62fa77f8c273f5d59a2a825d16aa51cc98ea7acf8f2c2d7b0",
+      "gateway/data_model/model.c": "a022e7d057ef70030c00c2c7e5b3cdf110f002c3b32567588d30781cc2197110",
+      "gateway/b5/b5_policy.c": "57895ad7f540f608a2978b1e845a2c270c167f8e5f8f2f4aea0f8592bde8a3f9",
+      "gateway/third_party/coreMQTT/source/core_mqtt.c": "98cfdd1651acd725296164e9a865c51d0cd137b531a54e2e0c937846c202de0c",
+      "gateway/third_party/coreMQTT/source/core_mqtt_serializer.c": "1e4bf5a2b307f37f3cbc83a898e9c6b89b873daf93968fddb81eac06bb113c0b",
+      "gateway/third_party/coreMQTT/source/core_mqtt_state.c": "af5c215f11692c7ced8a90b9d6f9c9c23d2476538ff77a38952945f642fbc8cf",
+      "gateway/microphone/mic_format.c": "64eab873b391f4647db6c5fbb24511a554b28e210d77084de589c4b345fe7162",
+      "gateway/microphone/mic_protocol.c": "8d036fe2dc6b9eb36e49e395eb64df28e00fe669e20b96531094a01556817703",
+      "gateway/mqtt/src/gateway_transport.c": "e2b901f52ebe2043da828c51d2e059d49322869668b24f0276f02c46cae70fcf",
+      "gateway/mqtt/src/platform.c": "3f21b61b0711e25a4c63674a39d7f7bb02fc61a9cc3c8ee384067257a1641638",
+      "gateway/b5/egress.h": "418bc324df5748916245c79ce638321d30e24b3f3a4674a7e4e6c4b16375bcb2"
+    },
+    "p3_script_sha256": "a4f095a06bb28862596c679ef162949df89d6a32d49a8ec3ee8227eea846f8bf",
+    "cases": {
+      "3/pass-230400baud-0us-250ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1106
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1311
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1461
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 460
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1420
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1122
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1311
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1511
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          }
+        ],
+        "live_delivered_total": 3138,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "replay": 0,
+        "queue_samples": [
+          {
+            "tick": 30012,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 60015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 90012,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 120015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 150012,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 180015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 210012,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 240015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 270012,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 300015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          }
+        ],
+        "slots": {
+          "limit": 3,
+          "max": 3,
+          "samples": 45757,
+          "full": 17465,
+          "ack_delay_ms": 250
+        },
+        "log_sha256": "53281e33df1835e42ed6f84298d156eac279d61f10e13bb5ccb8c7820393179c"
+      },
+      "3/pass-230400baud-0us-370ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1121
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1490
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1700
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 462
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1724
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1122
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1495
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1700
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5064
+          }
+        ],
+        "live_delivered_total": 3138,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "replay": 0,
+        "queue_samples": [
+          {
+            "tick": 30016,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 60014,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 90012,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 120015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 150013,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 180016,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 210014,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 240012,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 270015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 300013,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          }
+        ],
+        "slots": {
+          "limit": 3,
+          "max": 3,
+          "samples": 45826,
+          "full": 29018,
+          "ack_delay_ms": 370
+        },
+        "log_sha256": "a0df4e0bf54f7d50e937531a1c3e4221232004ca4627f4e20b82ea3ba3f3aa4d"
+      },
+      "3/pass-230400baud-0us-500ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1086
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 33,
+            "max_gap_ms": 4382
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 27,
+            "max_gap_ms": 3922
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5424
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 423
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 262,
+            "max_gap_ms": 3242
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1086
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 183,
+            "max_gap_ms": 3880
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5422
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5423
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 51,
+            "max_gap_ms": 2758
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5404
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5464
+          }
+        ],
+        "live_delivered_total": 2199,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 497,
+        "replace": 490,
+        "late": 0,
+        "replay": 375,
+        "queue_samples": [
+          {
+            "tick": 30065,
+            "live": 14,
+            "history": 8,
+            "slots": 3,
+            "dropped": 0,
+            "replaced": 18
+          },
+          {
+            "tick": 60065,
+            "live": 23,
+            "history": 40,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 58
+          },
+          {
+            "tick": 90065,
+            "live": 23,
+            "history": 56,
+            "slots": 1,
+            "dropped": 48,
+            "replaced": 112
+          },
+          {
+            "tick": 120065,
+            "live": 23,
+            "history": 56,
+            "slots": 1,
+            "dropped": 112,
+            "replaced": 166
+          },
+          {
+            "tick": 150065,
+            "live": 23,
+            "history": 56,
+            "slots": 1,
+            "dropped": 176,
+            "replaced": 220
+          },
+          {
+            "tick": 180063,
+            "live": 23,
+            "history": 56,
+            "slots": 1,
+            "dropped": 241,
+            "replaced": 274
+          },
+          {
+            "tick": 210065,
+            "live": 23,
+            "history": 56,
+            "slots": 1,
+            "dropped": 305,
+            "replaced": 328
+          },
+          {
+            "tick": 240065,
+            "live": 23,
+            "history": 56,
+            "slots": 1,
+            "dropped": 369,
+            "replaced": 382
+          },
+          {
+            "tick": 270065,
+            "live": 23,
+            "history": 56,
+            "slots": 1,
+            "dropped": 433,
+            "replaced": 436
+          },
+          {
+            "tick": 300065,
+            "live": 23,
+            "history": 56,
+            "slots": 1,
+            "dropped": 497,
+            "replaced": 490
+          }
+        ],
+        "slots": {
+          "limit": 3,
+          "max": 3,
+          "samples": 44838,
+          "full": 23076,
+          "ack_delay_ms": 500
+        },
+        "log_sha256": "ed33721d33fb4ea8a794286e0c4d53fc230808075913e9d794151d20ffa2f0b7"
+      },
+      "3/pass-230400baud-0us-700ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1083
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 4,
+            "max_gap_ms": 1440
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 4,
+            "max_gap_ms": 1440
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5441
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 440
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 236,
+            "max_gap_ms": 3776
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1081
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 34,
+            "max_gap_ms": 10001
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5441
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5441
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 4,
+            "max_gap_ms": 3601
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5441
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5501
+          }
+        ],
+        "live_delivered_total": 1925,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 622,
+        "replace": 503,
+        "late": 57,
+        "replay": 524,
+        "queue_samples": [
+          {
+            "tick": 30064,
+            "live": 23,
+            "history": 56,
+            "slots": 3,
+            "dropped": 1,
+            "replaced": 44
+          },
+          {
+            "tick": 60061,
+            "live": 23,
+            "history": 56,
+            "slots": 3,
+            "dropped": 70,
+            "replaced": 95
+          },
+          {
+            "tick": 90061,
+            "live": 23,
+            "history": 56,
+            "slots": 3,
+            "dropped": 139,
+            "replaced": 146
+          },
+          {
+            "tick": 120061,
+            "live": 23,
+            "history": 56,
+            "slots": 3,
+            "dropped": 208,
+            "replaced": 197
+          },
+          {
+            "tick": 150061,
+            "live": 23,
+            "history": 56,
+            "slots": 3,
+            "dropped": 277,
+            "replaced": 248
+          },
+          {
+            "tick": 180061,
+            "live": 23,
+            "history": 56,
+            "slots": 3,
+            "dropped": 346,
+            "replaced": 299
+          },
+          {
+            "tick": 210061,
+            "live": 23,
+            "history": 56,
+            "slots": 3,
+            "dropped": 415,
+            "replaced": 350
+          },
+          {
+            "tick": 240061,
+            "live": 23,
+            "history": 56,
+            "slots": 3,
+            "dropped": 484,
+            "replaced": 401
+          },
+          {
+            "tick": 270061,
+            "live": 23,
+            "history": 56,
+            "slots": 3,
+            "dropped": 553,
+            "replaced": 452
+          },
+          {
+            "tick": 300061,
+            "live": 23,
+            "history": 56,
+            "slots": 3,
+            "dropped": 622,
+            "replaced": 503
+          }
+        ],
+        "slots": {
+          "limit": 3,
+          "max": 3,
+          "samples": 45005,
+          "full": 37741,
+          "ack_delay_ms": 700
+        },
+        "log_sha256": "4d07498f42c57465feb971f52233c8891f747d042cc99575884af02bf9d34eb8"
+      },
+      "3/pass-230400baud-60us-250ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1225
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1469
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1566
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 487
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1486
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1204
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1519
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1497
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5100
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5100
+          }
+        ],
+        "live_delivered_total": 3138,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "replay": 0,
+        "queue_samples": [
+          {
+            "tick": 30026,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 60024,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 90027,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 120027,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 150024,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 180024,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 210027,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 240026,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 270024,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 300026,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          }
+        ],
+        "slots": {
+          "limit": 3,
+          "max": 3,
+          "samples": 26263,
+          "full": 10151,
+          "ack_delay_ms": 250
+        },
+        "log_sha256": "eb8e42a95613b668b69b2b88ce98bb5f6e51b6c4d2a7522fa165ddc68b453444"
+      },
+      "3/pass-230400baud-60us-370ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1186
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1573
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1800
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5003
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 484
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1709
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1201
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1574
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5078
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5003
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1800
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5098
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5116
+          }
+        ],
+        "live_delivered_total": 3138,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "replay": 0,
+        "queue_samples": [
+          {
+            "tick": 30027,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 60027,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 90024,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 120027,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 150027,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 180027,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 210027,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 240027,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 270027,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 300027,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          }
+        ],
+        "slots": {
+          "limit": 3,
+          "max": 3,
+          "samples": 27264,
+          "full": 18567,
+          "ack_delay_ms": 370
+        },
+        "log_sha256": "1d30486d967edabb779f3b4a4d0675c70605a1183b03ef42be2c83dbd3f17684"
+      },
+      "3/pass-230400baud-60us-500ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1201
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 8,
+            "max_gap_ms": 1862
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 7,
+            "max_gap_ms": 2625
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5326
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 481
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 266,
+            "max_gap_ms": 2541
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1182
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 97,
+            "max_gap_ms": 4006
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5459
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5267
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 10,
+            "max_gap_ms": 2537
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5380
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5383
+          }
+        ],
+        "live_delivered_total": 2031,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 610,
+        "replace": 499,
+        "late": 0,
+        "replay": 430,
+        "queue_samples": [
+          {
+            "tick": 30115,
+            "live": 23,
+            "history": 45,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 40
+          },
+          {
+            "tick": 60115,
+            "live": 23,
+            "history": 56,
+            "slots": 2,
+            "dropped": 58,
+            "replaced": 91
+          },
+          {
+            "tick": 90115,
+            "live": 23,
+            "history": 56,
+            "slots": 2,
+            "dropped": 127,
+            "replaced": 142
+          },
+          {
+            "tick": 120116,
+            "live": 23,
+            "history": 56,
+            "slots": 2,
+            "dropped": 196,
+            "replaced": 193
+          },
+          {
+            "tick": 150116,
+            "live": 23,
+            "history": 56,
+            "slots": 2,
+            "dropped": 265,
+            "replaced": 244
+          },
+          {
+            "tick": 180115,
+            "live": 23,
+            "history": 56,
+            "slots": 2,
+            "dropped": 334,
+            "replaced": 295
+          },
+          {
+            "tick": 210115,
+            "live": 23,
+            "history": 56,
+            "slots": 2,
+            "dropped": 403,
+            "replaced": 346
+          },
+          {
+            "tick": 240116,
+            "live": 23,
+            "history": 56,
+            "slots": 2,
+            "dropped": 472,
+            "replaced": 397
+          },
+          {
+            "tick": 270116,
+            "live": 23,
+            "history": 56,
+            "slots": 2,
+            "dropped": 541,
+            "replaced": 448
+          },
+          {
+            "tick": 300116,
+            "live": 23,
+            "history": 56,
+            "slots": 2,
+            "dropped": 610,
+            "replaced": 499
+          }
+        ],
+        "slots": {
+          "limit": 3,
+          "max": 3,
+          "samples": 28644,
+          "full": 16222,
+          "ack_delay_ms": 500
+        },
+        "log_sha256": "d18c77426fecd9af38974f4fbc50b2fbb24e1cd9fbbc503b66859c76bcec6c59"
+      },
+      "3/pass-230400baud-60us-700ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1185
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 3,
+            "max_gap_ms": 1580
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 3,
+            "max_gap_ms": 2444
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5380
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 482
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 152,
+            "max_gap_ms": 5458
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1164
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 5,
+            "max_gap_ms": 2821
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5380
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5380
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 4,
+            "max_gap_ms": 3199
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5380
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5400
+          }
+        ],
+        "live_delivered_total": 1810,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 647,
+        "replace": 517,
+        "late": 12,
+        "replay": 614,
+        "queue_samples": [
+          {
+            "tick": 30114,
+            "live": 23,
+            "history": 56,
+            "slots": 2,
+            "dropped": 5,
+            "replaced": 47
+          },
+          {
+            "tick": 60115,
+            "live": 23,
+            "history": 56,
+            "slots": 3,
+            "dropped": 76,
+            "replaced": 99
+          },
+          {
+            "tick": 90118,
+            "live": 23,
+            "history": 56,
+            "slots": 3,
+            "dropped": 148,
+            "replaced": 151
+          },
+          {
+            "tick": 120117,
+            "live": 23,
+            "history": 56,
+            "slots": 3,
+            "dropped": 220,
+            "replaced": 203
+          },
+          {
+            "tick": 150114,
+            "live": 23,
+            "history": 56,
+            "slots": 3,
+            "dropped": 290,
+            "replaced": 256
+          },
+          {
+            "tick": 180118,
+            "live": 23,
+            "history": 56,
+            "slots": 2,
+            "dropped": 362,
+            "replaced": 308
+          },
+          {
+            "tick": 210115,
+            "live": 23,
+            "history": 56,
+            "slots": 3,
+            "dropped": 433,
+            "replaced": 360
+          },
+          {
+            "tick": 240115,
+            "live": 23,
+            "history": 56,
+            "slots": 3,
+            "dropped": 505,
+            "replaced": 412
+          },
+          {
+            "tick": 270113,
+            "live": 23,
+            "history": 56,
+            "slots": 3,
+            "dropped": 577,
+            "replaced": 464
+          },
+          {
+            "tick": 300117,
+            "live": 23,
+            "history": 56,
+            "slots": 3,
+            "dropped": 647,
+            "replaced": 517
+          }
+        ],
+        "slots": {
+          "limit": 3,
+          "max": 3,
+          "samples": 28886,
+          "full": 25005,
+          "ack_delay_ms": 700
+        },
+        "log_sha256": "71725af04ed4f0170a6d1d28581b2e32bf800b2e75c0daa2f5e754a4c65e731d"
+      },
+      "3/pass-115200baud-0us-370ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1180
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1548
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1813
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 481
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1738
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1180
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1548
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1813
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5096
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5098
+          }
+        ],
+        "live_delivered_total": 3138,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "replay": 0,
+        "queue_samples": [
+          {
+            "tick": 30024,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 60021,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 90020,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 120023,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 150022,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 180020,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 210024,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 240022,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 270021,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 300024,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          }
+        ],
+        "slots": {
+          "limit": 3,
+          "max": 3,
+          "samples": 31638,
+          "full": 20941,
+          "ack_delay_ms": 370
+        },
+        "log_sha256": "99320f7ddae1dc892a42b2d76669dcd55bf8b75229ec94634b87be4bad9d8b3f"
+      },
+      "3/pass-115200baud-30us-370ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1222
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1505
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1783
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5003
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 509
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1703
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1223
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1695
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5104
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5003
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1803
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5010
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5010
+          }
+        ],
+        "live_delivered_total": 3138,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "replay": 0,
+        "queue_samples": [
+          {
+            "tick": 30027,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 60027,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 90028,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 120026,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 150029,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 180027,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 210029,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 240028,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 270027,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 300028,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          }
+        ],
+        "slots": {
+          "limit": 3,
+          "max": 3,
+          "samples": 22759,
+          "full": 15612,
+          "ack_delay_ms": 370
+        },
+        "log_sha256": "b42af59b8df0d407b4216a09357febe4a581dee07e5cf50d99faa23c2d0505c5"
+      },
+      "3/pass-115200baud-60us-370ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1266
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 216,
+            "max_gap_ms": 8001
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 189,
+            "max_gap_ms": 8001
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5184
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 562
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 298,
+            "max_gap_ms": 2046
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1181
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 298,
+            "max_gap_ms": 1952
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5210
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5282
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 298,
+            "max_gap_ms": 1983
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5200
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5200
+          }
+        ],
+        "live_delivered_total": 2942,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 17,
+        "replace": 192,
+        "late": 0,
+        "replay": 119,
+        "queue_samples": [
+          {
+            "tick": 30151,
+            "live": 13,
+            "history": 0,
+            "slots": 3,
+            "dropped": 0,
+            "replaced": 5
+          },
+          {
+            "tick": 60151,
+            "live": 13,
+            "history": 0,
+            "slots": 3,
+            "dropped": 0,
+            "replaced": 14
+          },
+          {
+            "tick": 90151,
+            "live": 13,
+            "history": 0,
+            "slots": 3,
+            "dropped": 0,
+            "replaced": 23
+          },
+          {
+            "tick": 120154,
+            "live": 13,
+            "history": 1,
+            "slots": 3,
+            "dropped": 0,
+            "replaced": 34
+          },
+          {
+            "tick": 150151,
+            "live": 14,
+            "history": 17,
+            "slots": 3,
+            "dropped": 0,
+            "replaced": 64
+          },
+          {
+            "tick": 180016,
+            "live": 16,
+            "history": 26,
+            "slots": 3,
+            "dropped": 0,
+            "replaced": 88
+          },
+          {
+            "tick": 210154,
+            "live": 13,
+            "history": 35,
+            "slots": 3,
+            "dropped": 0,
+            "replaced": 111
+          },
+          {
+            "tick": 240152,
+            "live": 13,
+            "history": 50,
+            "slots": 3,
+            "dropped": 0,
+            "replaced": 140
+          },
+          {
+            "tick": 270151,
+            "live": 14,
+            "history": 55,
+            "slots": 3,
+            "dropped": 9,
+            "replaced": 168
+          },
+          {
+            "tick": 300016,
+            "live": 16,
+            "history": 56,
+            "slots": 3,
+            "dropped": 17,
+            "replaced": 192
+          }
+        ],
+        "slots": {
+          "limit": 3,
+          "max": 3,
+          "samples": 14497,
+          "full": 12494,
+          "ack_delay_ms": 370
+        },
+        "log_sha256": "74fb13391e7f9ebcd5fb2dc1e08e62f8cff0dd253a9ecaa319f63c5dbb3710fe"
+      },
+      "3/pass-230400baud-30us-370ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1149
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1538
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1680
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 468
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1706
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1150
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1540
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1732
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5105
+          }
+        ],
+        "live_delivered_total": 3138,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "replay": 0,
+        "queue_samples": [
+          {
+            "tick": 30017,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 60018,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 90019,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 120021,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 150021,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 180021,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 210021,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 240021,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 270021,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 300021,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          }
+        ],
+        "slots": {
+          "limit": 3,
+          "max": 3,
+          "samples": 37326,
+          "full": 24175,
+          "ack_delay_ms": 370
+        },
+        "log_sha256": "1e7524d81b31de583052a5ec489a937f16441c428c69ab9680bb9a3500640440"
+      },
+      "4/pass-230400baud-0us-250ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1121
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1291
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1231
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5003
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 479
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1190
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1141
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1380
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5003
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5003
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1291
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5003
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5003
+          }
+        ],
+        "live_delivered_total": 3138,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "replay": 0,
+        "queue_samples": [
+          {
+            "tick": 30014,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 60016,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 90015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 120016,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 150015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 180016,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 210015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 240016,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 270015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 300016,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          }
+        ],
+        "slots": {
+          "limit": 4,
+          "max": 4,
+          "samples": 45982,
+          "full": 12058,
+          "ack_delay_ms": 250
+        },
+        "log_sha256": "79f86cecb8ffc4975334776792be141d957b4a18dd75dd8427ece51177efb25c"
+      },
+      "4/pass-230400baud-0us-370ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1120
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1470
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1410
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 482
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1369
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1140
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1619
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1475
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          }
+        ],
+        "live_delivered_total": 3138,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "replay": 0,
+        "queue_samples": [
+          {
+            "tick": 30015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 60013,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 90012,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 120015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 150014,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 180012,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 210016,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 240014,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 270013,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 300016,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          }
+        ],
+        "slots": {
+          "limit": 4,
+          "max": 4,
+          "samples": 45711,
+          "full": 18970,
+          "ack_delay_ms": 370
+        },
+        "log_sha256": "a18b708019587cccdfadadc33fd99c2ee72b2e7c2809a31eaf2e3278950d06fe"
+      },
+      "4/pass-230400baud-0us-500ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1125
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1541
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1501
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 479
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1500
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1120
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1940
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1622
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5105
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          }
+        ],
+        "live_delivered_total": 3138,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "replay": 0,
+        "queue_samples": [
+          {
+            "tick": 30015,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 60016,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 90013,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 120012,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 150013,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 180013,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 210013,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 240013,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 270013,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 300013,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          }
+        ],
+        "slots": {
+          "limit": 4,
+          "max": 4,
+          "samples": 44702,
+          "full": 28351,
+          "ack_delay_ms": 500
+        },
+        "log_sha256": "30354201d0767e4f729eaa3834d7a49fcd2511a06f586269f93b9fe323b7aab2"
+      },
+      "4/pass-230400baud-0us-700ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1127
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 11,
+            "max_gap_ms": 3482
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 10,
+            "max_gap_ms": 3262
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5492
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 461
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 213,
+            "max_gap_ms": 3617
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1107
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 71,
+            "max_gap_ms": 10000
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5492
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5492
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 15,
+            "max_gap_ms": 2300
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5492
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5492
+          }
+        ],
+        "live_delivered_total": 1963,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 602,
+        "replace": 521,
+        "late": 0,
+        "replay": 506,
+        "queue_samples": [
+          {
+            "tick": 30066,
+            "live": 23,
+            "history": 37,
+            "slots": 3,
+            "dropped": 0,
+            "replaced": 35
+          },
+          {
+            "tick": 60063,
+            "live": 23,
+            "history": 56,
+            "slots": 2,
+            "dropped": 50,
+            "replaced": 89
+          },
+          {
+            "tick": 90061,
+            "live": 23,
+            "history": 56,
+            "slots": 2,
+            "dropped": 119,
+            "replaced": 143
+          },
+          {
+            "tick": 120064,
+            "live": 23,
+            "history": 56,
+            "slots": 2,
+            "dropped": 188,
+            "replaced": 197
+          },
+          {
+            "tick": 150062,
+            "live": 23,
+            "history": 56,
+            "slots": 2,
+            "dropped": 257,
+            "replaced": 251
+          },
+          {
+            "tick": 180065,
+            "live": 23,
+            "history": 56,
+            "slots": 2,
+            "dropped": 326,
+            "replaced": 305
+          },
+          {
+            "tick": 210063,
+            "live": 23,
+            "history": 56,
+            "slots": 2,
+            "dropped": 395,
+            "replaced": 359
+          },
+          {
+            "tick": 240061,
+            "live": 23,
+            "history": 56,
+            "slots": 2,
+            "dropped": 464,
+            "replaced": 413
+          },
+          {
+            "tick": 270064,
+            "live": 23,
+            "history": 56,
+            "slots": 2,
+            "dropped": 533,
+            "replaced": 467
+          },
+          {
+            "tick": 300062,
+            "live": 23,
+            "history": 56,
+            "slots": 2,
+            "dropped": 602,
+            "replaced": 521
+          }
+        ],
+        "slots": {
+          "limit": 4,
+          "max": 4,
+          "samples": 44529,
+          "full": 17348,
+          "ack_delay_ms": 700
+        },
+        "log_sha256": "551b7a541dbd1711b8c5ceb3ce965c315b496f0cae0b74313c689d364a883eeb"
+      },
+      "4/pass-230400baud-60us-250ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1255
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1444
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1460
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 562
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1359
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1239
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1259
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1329
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5024
+          }
+        ],
+        "live_delivered_total": 3138,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "replay": 0,
+        "queue_samples": [
+          {
+            "tick": 30024,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 60024,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 90024,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 120026,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 150026,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 180023,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 210023,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 240025,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 270025,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 300027,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          }
+        ],
+        "slots": {
+          "limit": 4,
+          "max": 4,
+          "samples": 26481,
+          "full": 2650,
+          "ack_delay_ms": 250
+        },
+        "log_sha256": "747567957aaca1988e7dd32cd18fa4ea6eaf70092d7ef58f3136afd0d8af5ab1"
+      },
+      "4/pass-230400baud-60us-370ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1196
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1460
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1456
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 519
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1355
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1240
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1520
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1543
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5020
+          }
+        ],
+        "live_delivered_total": 3138,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "replay": 0,
+        "queue_samples": [
+          {
+            "tick": 30023,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 60025,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 90023,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 120025,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 150023,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 180025,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 210023,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 240025,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 270023,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 300025,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          }
+        ],
+        "slots": {
+          "limit": 4,
+          "max": 4,
+          "samples": 27855,
+          "full": 8600,
+          "ack_delay_ms": 370
+        },
+        "log_sha256": "a69cade08d4ea91d87e27a4f7a10e0c4c0016dbb2ff63d902465b9506a241508"
+      },
+      "4/pass-230400baud-60us-500ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1203
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1566
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1563
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5003
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 519
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1560
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1207
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1817
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5003
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5003
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1689
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5183
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5016
+          }
+        ],
+        "live_delivered_total": 3138,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "replay": 0,
+        "queue_samples": [
+          {
+            "tick": 30025,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 60026,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 90025,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 120024,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 150027,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 180025,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 210023,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 240024,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 270027,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 300025,
+            "live": 12,
+            "history": 0,
+            "slots": 2,
+            "dropped": 0,
+            "replaced": 0
+          }
+        ],
+        "slots": {
+          "limit": 4,
+          "max": 4,
+          "samples": 27059,
+          "full": 17475,
+          "ack_delay_ms": 500
+        },
+        "log_sha256": "cd4139fa298f4f6760d92d0464ebd133951c46e9a99daf1f9d2e24d1a7c49236"
+      },
+      "4/pass-230400baud-60us-700ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1248
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 7,
+            "max_gap_ms": 2841
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 6,
+            "max_gap_ms": 2461
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5182
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 510
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 293,
+            "max_gap_ms": 4003
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1225
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 10,
+            "max_gap_ms": 2401
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5102
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5203
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 10,
+            "max_gap_ms": 2739
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5199
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5160
+          }
+        ],
+        "live_delivered_total": 1969,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 613,
+        "replace": 529,
+        "late": 27,
+        "replay": 489,
+        "queue_samples": [
+          {
+            "tick": 30113,
+            "live": 23,
+            "history": 48,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 43
+          },
+          {
+            "tick": 60118,
+            "live": 23,
+            "history": 56,
+            "slots": 1,
+            "dropped": 61,
+            "replaced": 97
+          },
+          {
+            "tick": 90118,
+            "live": 23,
+            "history": 56,
+            "slots": 1,
+            "dropped": 130,
+            "replaced": 151
+          },
+          {
+            "tick": 120114,
+            "live": 23,
+            "history": 56,
+            "slots": 1,
+            "dropped": 199,
+            "replaced": 205
+          },
+          {
+            "tick": 150114,
+            "live": 23,
+            "history": 56,
+            "slots": 1,
+            "dropped": 268,
+            "replaced": 259
+          },
+          {
+            "tick": 180114,
+            "live": 23,
+            "history": 56,
+            "slots": 1,
+            "dropped": 337,
+            "replaced": 313
+          },
+          {
+            "tick": 210114,
+            "live": 23,
+            "history": 56,
+            "slots": 1,
+            "dropped": 406,
+            "replaced": 367
+          },
+          {
+            "tick": 240114,
+            "live": 23,
+            "history": 56,
+            "slots": 1,
+            "dropped": 475,
+            "replaced": 421
+          },
+          {
+            "tick": 270114,
+            "live": 23,
+            "history": 56,
+            "slots": 1,
+            "dropped": 544,
+            "replaced": 475
+          },
+          {
+            "tick": 300114,
+            "live": 23,
+            "history": 56,
+            "slots": 1,
+            "dropped": 613,
+            "replaced": 529
+          }
+        ],
+        "slots": {
+          "limit": 4,
+          "max": 4,
+          "samples": 28492,
+          "full": 5427,
+          "ack_delay_ms": 700
+        },
+        "log_sha256": "5f3c316ece46c6f7cf4a2162dc88b034026866b83c76775c02bbc8b73c1df4c9"
+      },
+      "6/pass-230400baud-0us-250ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1153
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1162
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1205
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 505
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1164
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1173
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1164
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1164
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          }
+        ],
+        "live_delivered_total": 3138,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "replay": 0,
+        "queue_samples": [
+          {
+            "tick": 30013,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 60012,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 90016,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 120015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 150012,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 180016,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 210013,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 240012,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 270015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 300014,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          }
+        ],
+        "slots": {
+          "limit": 6,
+          "max": 6,
+          "samples": 45931,
+          "full": 1551,
+          "ack_delay_ms": 250
+        },
+        "log_sha256": "0e52a181b10422307c54dec677c18d26789801cf78f3e3bd7d2a947bb870cd85"
+      },
+      "6/pass-230400baud-0us-370ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1152
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1162
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1312
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5000
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 505
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1331
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1172
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1331
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5000
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5000
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1331
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5000
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5000
+          }
+        ],
+        "live_delivered_total": 3138,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "replay": 0,
+        "queue_samples": [
+          {
+            "tick": 30015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 60015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 90015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 120015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 150015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 180015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 210015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 240015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 270015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 300015,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          }
+        ],
+        "slots": {
+          "limit": 6,
+          "max": 6,
+          "samples": 45796,
+          "full": 2560,
+          "ack_delay_ms": 370
+        },
+        "log_sha256": "8d28c70ea167f76391f81180ff04d2c34ce6adcfd7d588b9fca9fd58bebd19bd"
+      },
+      "6/pass-230400baud-0us-500ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1151
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1161
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1441
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5002
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 506
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1400
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1171
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1400
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5002
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5002
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1400
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5002
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5002
+          }
+        ],
+        "live_delivered_total": 3138,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "replay": 0,
+        "queue_samples": [
+          {
+            "tick": 30013,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 60012,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 90013,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 120012,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 150013,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 180012,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 210013,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 240012,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 270013,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 300012,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          }
+        ],
+        "slots": {
+          "limit": 6,
+          "max": 6,
+          "samples": 45051,
+          "full": 4109,
+          "ack_delay_ms": 500
+        },
+        "log_sha256": "d479aad6e52e3a01df541a2ce3313b5e86d906cd3ad9e50e72ba16f96a884a4c"
+      },
+      "6/pass-230400baud-0us-700ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1151
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1161
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1641
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5001
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 507
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1600
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1171
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1600
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5001
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5001
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1600
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5001
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5001
+          }
+        ],
+        "live_delivered_total": 3138,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "replay": 0,
+        "queue_samples": [
+          {
+            "tick": 30013,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 60013,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 90012,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 120013,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 150012,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 180013,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 210012,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 240013,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 270012,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 300013,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          }
+        ],
+        "slots": {
+          "limit": 6,
+          "max": 6,
+          "samples": 45544,
+          "full": 9840,
+          "ack_delay_ms": 700
+        },
+        "log_sha256": "c719f172d66c3d1c5e52857afb998fa48d19eca90ac5cb5a469351a6945308e6"
+      },
+      "6/pass-230400baud-60us-250ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1266
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1270
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1333
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 590
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1245
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1287
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1264
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1272
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          }
+        ],
+        "live_delivered_total": 3138,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "replay": 0,
+        "queue_samples": [
+          {
+            "tick": 30027,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 60024,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 90024,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 120026,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 150025,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 180027,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 210026,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 240023,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 270027,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 300023,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          }
+        ],
+        "slots": {
+          "limit": 6,
+          "max": 6,
+          "samples": 26421,
+          "full": 177,
+          "ack_delay_ms": 250
+        },
+        "log_sha256": "ca9ad14c904ff4c536a56e8ec3b8ceea11afca78a8d4a532784177d183be3995"
+      },
+      "6/pass-230400baud-60us-370ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1264
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1266
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1463
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 583
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1362
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1285
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1262
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1262
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5004
+          }
+        ],
+        "live_delivered_total": 3138,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "replay": 0,
+        "queue_samples": [
+          {
+            "tick": 30025,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 60026,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 90026,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 120023,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 150025,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 180023,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 210026,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 240027,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 270026,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 300027,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          }
+        ],
+        "slots": {
+          "limit": 6,
+          "max": 6,
+          "samples": 27408,
+          "full": 342,
+          "ack_delay_ms": 370
+        },
+        "log_sha256": "3d602261bf5bffb02e320352bce50b135ee74f8bc26dda564a9f663e0c061cbd"
+      },
+      "6/pass-230400baud-60us-500ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1264
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1267
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1468
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5003
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 583
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1367
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1285
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1323
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5003
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5003
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1325
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5003
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5003
+          }
+        ],
+        "live_delivered_total": 3138,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "replay": 0,
+        "queue_samples": [
+          {
+            "tick": 30027,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 60027,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 90027,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 120024,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 150027,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 180027,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 210027,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 240023,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 270023,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 300026,
+            "live": 12,
+            "history": 0,
+            "slots": 1,
+            "dropped": 0,
+            "replaced": 0
+          }
+        ],
+        "slots": {
+          "limit": 6,
+          "max": 6,
+          "samples": 27210,
+          "full": 1061,
+          "ack_delay_ms": 500
+        },
+        "log_sha256": "8da84e213238f2d768c31475be09b16e424ddacbf6ada83a58b97b27dd8c33b1"
+      },
+      "6/pass-230400baud-60us-700ack": {
+        "offered_total": {
+          "all": 3151,
+          "streams": {
+            "1/0": 300,
+            "1/1": 300,
+            "1/2": 300,
+            "1/9": 60,
+            "2/4": 750,
+            "2/5": 300,
+            "2/6": 300,
+            "2/7": 300,
+            "2/9": 60,
+            "3/11": 60,
+            "4/8": 300,
+            "4/9": 60,
+            "5/3": 1,
+            "5/9": 60
+          }
+        },
+        "streams": [
+          {
+            "node": 1,
+            "stream": 0,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1260
+          },
+          {
+            "node": 1,
+            "stream": 1,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1326
+          },
+          {
+            "node": 1,
+            "stream": 2,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1620
+          },
+          {
+            "node": 1,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5002
+          },
+          {
+            "node": 2,
+            "stream": 4,
+            "offered": 750,
+            "delivered": 749,
+            "max_gap_ms": 560
+          },
+          {
+            "node": 2,
+            "stream": 5,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1520
+          },
+          {
+            "node": 2,
+            "stream": 6,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1260
+          },
+          {
+            "node": 2,
+            "stream": 7,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1523
+          },
+          {
+            "node": 2,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5020
+          },
+          {
+            "node": 3,
+            "stream": 11,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5002
+          },
+          {
+            "node": 4,
+            "stream": 8,
+            "offered": 300,
+            "delivered": 299,
+            "max_gap_ms": 1545
+          },
+          {
+            "node": 4,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5102
+          },
+          {
+            "node": 5,
+            "stream": 3,
+            "offered": 1,
+            "delivered": 1,
+            "max_gap_ms": 0
+          },
+          {
+            "node": 5,
+            "stream": 9,
+            "offered": 60,
+            "delivered": 59,
+            "max_gap_ms": 5021
+          }
+        ],
+        "live_delivered_total": 3138,
+        "wave_delivered_offered": [
+          1347,
+          1350
+        ],
+        "drop": 0,
+        "replace": 0,
+        "late": 0,
+        "replay": 0,
+        "queue_samples": [
+          {
+            "tick": 30026,
+            "live": 12,
+            "history": 0,
+            "slots": 4,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 60023,
+            "live": 12,
+            "history": 0,
+            "slots": 3,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 90024,
+            "live": 12,
+            "history": 0,
+            "slots": 4,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 120025,
+            "live": 12,
+            "history": 0,
+            "slots": 3,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 150023,
+            "live": 12,
+            "history": 0,
+            "slots": 4,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 180025,
+            "live": 12,
+            "history": 0,
+            "slots": 3,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 210023,
+            "live": 12,
+            "history": 0,
+            "slots": 4,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 240025,
+            "live": 12,
+            "history": 0,
+            "slots": 3,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 270023,
+            "live": 12,
+            "history": 0,
+            "slots": 4,
+            "dropped": 0,
+            "replaced": 0
+          },
+          {
+            "tick": 300025,
+            "live": 12,
+            "history": 0,
+            "slots": 3,
+            "dropped": 0,
+            "replaced": 0
+          }
+        ],
+        "slots": {
+          "limit": 6,
+          "max": 6,
+          "samples": 26487,
+          "full": 5646,
+          "ack_delay_ms": 700
+        },
+        "log_sha256": "fde344cd6bf053aa5d0e6d1405ce844284f6794ec733875963ce138d98f9b24a"
+      }
+    }
+  },
+  "arm_slot_ram": {
+    "3": {
+      "publisher": 1752,
+      "transport": 48,
+      "coremqtt": 16,
+      "bench_ack": 36
+    },
+    "4": {
+      "publisher": 2184,
+      "transport": 64,
+      "coremqtt": 20,
+      "bench_ack": 48
+    },
+    "6": {
+      "publisher": 3056,
+      "transport": 96,
+      "coremqtt": 28,
+      "bench_ack": 72
+    }
+  }
+}

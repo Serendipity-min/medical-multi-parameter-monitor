@@ -1,0 +1,42 @@
+{
+  "scope": "C_B4_03_ONE_ATTACH_TWO_FULL_READS_NO_RESET_HALT_GO_WRITE",
+  "enabled": false,
+  "tools_sha256": {
+    "c_b4_readonly.py": "39b39643d710079968c0ffe494d642d4beab731c0cb329d2d90d53415d6db756",
+    "readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+    "runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+    "live_state_b.py": "bdf04c16f74e93028a55a7db244f0a2b6f683dfb987e61d41470f2bf3debde6c",
+    "resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+    "b4_recovery.py": "fa93222b833f2f010d068b0cac97c73db7430c7eb68316d84441d60539c76213"
+  },
+  "DLL_sha256": "632d0d78e72b8a55c65945a0c393a9f081082c725fff4ba3081b0a565fd58cff",
+  "full_flash_range": [
+    134217728,
+    135266304
+  ],
+  "flash_reads": 2,
+  "options_range": [
+    536854528,
+    536854544
+  ],
+  "options_reads": 2,
+  "private_root": "E:/medical-monitor-node-b-precan-private/20261023",
+  "session_timeout_s": 180,
+  "explicit_reset_halt_go_and_target_writes": 0,
+  "probe_sessions": 1,
+  "retries": 0,
+  "protected_regions": {
+    "sector3": [
+      134266880,
+      134283264
+    ],
+    "sector7": [
+      134610944,
+      134742016
+    ],
+    "sector11": [
+      135135232,
+      135266304
+    ]
+  }
+}

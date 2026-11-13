@@ -1,0 +1,61 @@
+{
+  "scope": "PI_CONTRACT_LOCAL_STOP_GUARD_ONLY",
+  "base": "37630aee2ef0af5bee9b13b827d21b38351d2445",
+  "before_targeted_test_process_exit_code": 1,
+  "before_tests": 2,
+  "before_failures": 2,
+  "before_capture_exit_codes": [
+    0,
+    0
+  ],
+  "before_pass_is_the_reproduced_bug": true,
+  "after_full_test_process_exit_code": 0,
+  "after_tests": 21,
+  "after_failures": 0,
+  "after_errors": 0,
+  "original19_preserved": true,
+  "new_targeted_tests": 2,
+  "after_capture_STOP_exit_codes": [
+    4,
+    4
+  ],
+  "after_counterexample_events": [
+    [
+      "STOP",
+      "Close"
+    ],
+    [
+      "STOP",
+      "Close"
+    ]
+  ],
+  "after_native_side_effects": "UNRESOLVED_NOT_PROVEN_BY_MOCK",
+  "after_target_post_Close": "UNKNOWN",
+  "after_log_sha256": "7607aba50345e175a10350c82e3c8893822164ace47f86bb292bef906f8e5c04",
+  "after_executed_sources": {
+    "node-b/tools/b5_m1_entry.py": "032b921b129fcac223c44f18d88e65ecbee536e772b1715e92fc13dadbd3eb86",
+    "node-b/tools/b5_m1_review.py": "98559f8948be4fed7a862baf06173d8f8327f54f3cd4ad24d71e9ae24d917e52",
+    "node-b/tests/test_b5_m1.py": "0525c18cd1c7a7ae556c398760c41d273c45c3810b4a78fdd1f51bf96af815ed",
+    "node-b/tests/run_b5_m1_mock.py": "e79ab26711473b07f29d98b93380db83be77d9fbb73f341f51f4e66652c23e5f"
+  },
+  "CLI_probes": [
+    {
+      "operation": "plan_CLI",
+      "actual_process_exit_code": 0,
+      "expected_exit_code": 0,
+      "log_sha256": "0820f5d0bf184e89bcd71117dd54be8c5911e2510652ab1c4042fc8c898fe8e9"
+    },
+    {
+      "operation": "field-denied_CLI",
+      "actual_process_exit_code": 2,
+      "expected_exit_code": 2,
+      "log_sha256": "c99e2f501930df112065b5eca6c3499d9419f2d46a03a3fdfea52a46b6b92d40"
+    }
+  ],
+  "new_target_SDK_COM_probe_enumeration": 0,
+  "new_power_wiring_RESET_HALT_GO_Flash_START": 0,
+  "new_field_captures": 0,
+  "new_cloud_actions": 0,
+  "new_production_PI_keys_signatures_or_nonces": 0,
+  "Git_commit_push_exit_codes": "Only recorded after actual operation in ignored final receipt and final response"
+}

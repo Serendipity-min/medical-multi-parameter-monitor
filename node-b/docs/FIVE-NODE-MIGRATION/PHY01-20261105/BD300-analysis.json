@@ -1,0 +1,54 @@
+{
+  "status": "THREE_NODE_41OHM_300S_OBSERVED",
+  "duration_ms": 300000,
+  "heartbeat": {
+    "2": {
+      "count": 600,
+      "states": {
+        "127": 600
+      },
+      "interarrival_ms_min_max": [
+        499,
+        503
+      ],
+      "over_1500ms": 0
+    },
+    "4": {
+      "count": 600,
+      "states": {
+        "5": 600
+      },
+      "interarrival_ms_min_max": [
+        499,
+        501
+      ],
+      "over_1500ms": 0
+    }
+  },
+  "valid_temperature_model_count": 298,
+  "invalid_model_offsets_ms": [],
+  "raw_invalid_temperature": [
+    {
+      "relative_ms": 70,
+      "TEMP_centi": 0,
+      "age_field": "INVALID_SENTINEL_65535"
+    }
+  ],
+  "valid_source_age_ms_min_max": [
+    1,
+    219
+  ],
+  "B_ECG_RESP_CAN_frames": 0,
+  "source_state_guard": {
+    "status": "SOURCE_STATE_GUARD_COMPLETE",
+    "reason": null,
+    "packets_checked": 6865
+  },
+  "analog_eye_voltage_margin": "NOT_MEASURED",
+  "B_D_TEC_REC_simultaneous": "NOT_READ",
+  "raw_SHA256": "c2b6db7e7ed599712b56ef078dff9e5147e7ce63ba863b528b0ff113d2d9c306",
+  "capture_SHA256": "7d4ea9912a95647f9430081fcf0bd3d4e562796f708ec7c17539ace75dd5d7f6",
+  "first_valid_model_relative_ms": 2075,
+  "last_valid_model_relative_ms": 299075,
+  "packet_count": 6865
+}

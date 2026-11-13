@@ -1,0 +1,516 @@
+{
+  "schema_version": 1,
+  "kind": "SYNTHETIC_DEMO",
+  "synthetic": true,
+  "comparison_scope": "CAN1_SILENT_LOOPBACK",
+  "baselines": {
+    "P4": {
+      "source_commit": "8dee339491cfd4edc468bb9451511d421f26db5e",
+      "production_bin_sha256": "5fd386b8bfe0bcf54d4f53ffb1ec6483d086a1c3287b4fe6c37a3ddeacd90547"
+    },
+    "P5": {
+      "source_commit": "e598fc63719acdf49a99c6da46c656dc8c607782",
+      "production_bin_sha256": "fd81076b9b34ad0a8f4ee35c08cd7ea14704f6d7b04620741cdf083c9c6c1069"
+    }
+  },
+  "runs": [
+    {
+      "firmware": "P4",
+      "run_id": "P4-demo-1",
+      "environment_id": "env-demo",
+      "workload_id": "can-demo",
+      "profile_id": "diag-demo-v1",
+      "measurement_bin_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "core_clock_hz": 16000000,
+      "valid": true,
+      "observations_complete": true,
+      "observer_paused_run": false,
+      "dropped_observations": 0,
+      "cycle_samples": [
+        {
+          "metric": "M01",
+          "scope": "publish_qos1",
+          "outcome": "SUCCESS",
+          "start": 4096,
+          "end": 20096,
+          "elapsed_upper_bound_us": 2000
+        },
+        {
+          "metric": "M02",
+          "scope": "scheduled_can_service",
+          "outcome": "SUCCESS",
+          "start": 4096,
+          "end": 4896,
+          "elapsed_upper_bound_us": 2000
+        },
+        {
+          "metric": "M03",
+          "scope": "foreground_inclusive",
+          "outcome": "SUCCESS",
+          "start": 4096,
+          "end": 16096,
+          "elapsed_upper_bound_us": 2000
+        }
+      ],
+      "network": {
+        "clock_domain": "MCU_MONOTONIC_US",
+        "resolution_us": 1,
+        "endpoint": "DEVICE_PUBLISH_SUCCESS",
+        "start_boundary": "GATEWAY_NETWORK_OPEN_ENTRY",
+        "fault_command_us": 1000000,
+        "pause_end_us": 31000000,
+        "recovery_start_us": 33000000,
+        "tls_ready_us": 33500000,
+        "connack_us": 33700000,
+        "first_valid_telemetry_us": 34000000,
+        "first_stream": "ECG",
+        "validity": "VALID",
+        "source": "MOCK",
+        "synthetic": true
+      },
+      "memory": {
+        "stack_reserved_bytes": 8192,
+        "stack_min_free_bytes": 6000,
+        "stack_method": "EARLY_RESET_SENTINEL",
+        "stack_region_verified": true,
+        "heap_limit_bytes": 24576,
+        "heap_peak_bytes": 18000,
+        "heap_failure_count": 0,
+        "heap_method": "SBRK_HIGH_WATER"
+      },
+      "cache": {
+        "capacity": 32,
+        "before": {
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "drop": 0
+        },
+        "after": {
+          "cache": 5,
+          "lost": 3,
+          "replay": 8,
+          "drop": 0
+        },
+        "drained_observed": false,
+        "first_live_us": 34000000,
+        "first_replay_us": 34500000
+      }
+    },
+    {
+      "firmware": "P4",
+      "run_id": "P4-demo-2",
+      "environment_id": "env-demo",
+      "workload_id": "can-demo",
+      "profile_id": "diag-demo-v1",
+      "measurement_bin_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "core_clock_hz": 16000000,
+      "valid": true,
+      "observations_complete": true,
+      "observer_paused_run": false,
+      "dropped_observations": 0,
+      "cycle_samples": [
+        {
+          "metric": "M01",
+          "scope": "publish_qos1",
+          "outcome": "SUCCESS",
+          "start": 4096,
+          "end": 20096,
+          "elapsed_upper_bound_us": 2000
+        },
+        {
+          "metric": "M02",
+          "scope": "scheduled_can_service",
+          "outcome": "SUCCESS",
+          "start": 4096,
+          "end": 4896,
+          "elapsed_upper_bound_us": 2000
+        },
+        {
+          "metric": "M03",
+          "scope": "foreground_inclusive",
+          "outcome": "SUCCESS",
+          "start": 4096,
+          "end": 16096,
+          "elapsed_upper_bound_us": 2000
+        }
+      ],
+      "network": {
+        "clock_domain": "MCU_MONOTONIC_US",
+        "resolution_us": 1,
+        "endpoint": "DEVICE_PUBLISH_SUCCESS",
+        "start_boundary": "GATEWAY_NETWORK_OPEN_ENTRY",
+        "fault_command_us": 1000000,
+        "pause_end_us": 31000000,
+        "recovery_start_us": 33000000,
+        "tls_ready_us": 33500000,
+        "connack_us": 33700000,
+        "first_valid_telemetry_us": 34000000,
+        "first_stream": "ECG",
+        "validity": "VALID",
+        "source": "MOCK",
+        "synthetic": true
+      },
+      "memory": {
+        "stack_reserved_bytes": 8192,
+        "stack_min_free_bytes": 6000,
+        "stack_method": "EARLY_RESET_SENTINEL",
+        "stack_region_verified": true,
+        "heap_limit_bytes": 24576,
+        "heap_peak_bytes": 18000,
+        "heap_failure_count": 0,
+        "heap_method": "SBRK_HIGH_WATER"
+      },
+      "cache": {
+        "capacity": 32,
+        "before": {
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "drop": 0
+        },
+        "after": {
+          "cache": 5,
+          "lost": 3,
+          "replay": 8,
+          "drop": 0
+        },
+        "drained_observed": false,
+        "first_live_us": 34000000,
+        "first_replay_us": 34500000
+      }
+    },
+    {
+      "firmware": "P4",
+      "run_id": "P4-demo-3",
+      "environment_id": "env-demo",
+      "workload_id": "can-demo",
+      "profile_id": "diag-demo-v1",
+      "measurement_bin_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "core_clock_hz": 16000000,
+      "valid": true,
+      "observations_complete": true,
+      "observer_paused_run": false,
+      "dropped_observations": 0,
+      "cycle_samples": [
+        {
+          "metric": "M01",
+          "scope": "publish_qos1",
+          "outcome": "SUCCESS",
+          "start": 4096,
+          "end": 20096,
+          "elapsed_upper_bound_us": 2000
+        },
+        {
+          "metric": "M02",
+          "scope": "scheduled_can_service",
+          "outcome": "SUCCESS",
+          "start": 4096,
+          "end": 4896,
+          "elapsed_upper_bound_us": 2000
+        },
+        {
+          "metric": "M03",
+          "scope": "foreground_inclusive",
+          "outcome": "SUCCESS",
+          "start": 4096,
+          "end": 16096,
+          "elapsed_upper_bound_us": 2000
+        }
+      ],
+      "network": {
+        "clock_domain": "MCU_MONOTONIC_US",
+        "resolution_us": 1,
+        "endpoint": "DEVICE_PUBLISH_SUCCESS",
+        "start_boundary": "GATEWAY_NETWORK_OPEN_ENTRY",
+        "fault_command_us": 1000000,
+        "pause_end_us": 31000000,
+        "recovery_start_us": 33000000,
+        "tls_ready_us": 33500000,
+        "connack_us": 33700000,
+        "first_valid_telemetry_us": 34000000,
+        "first_stream": "ECG",
+        "validity": "VALID",
+        "source": "MOCK",
+        "synthetic": true
+      },
+      "memory": {
+        "stack_reserved_bytes": 8192,
+        "stack_min_free_bytes": 6000,
+        "stack_method": "EARLY_RESET_SENTINEL",
+        "stack_region_verified": true,
+        "heap_limit_bytes": 24576,
+        "heap_peak_bytes": 18000,
+        "heap_failure_count": 0,
+        "heap_method": "SBRK_HIGH_WATER"
+      },
+      "cache": {
+        "capacity": 32,
+        "before": {
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "drop": 0
+        },
+        "after": {
+          "cache": 5,
+          "lost": 3,
+          "replay": 8,
+          "drop": 0
+        },
+        "drained_observed": false,
+        "first_live_us": 34000000,
+        "first_replay_us": 34500000
+      }
+    },
+    {
+      "firmware": "P5",
+      "run_id": "P5-demo-1",
+      "environment_id": "env-demo",
+      "workload_id": "can-demo",
+      "profile_id": "diag-demo-v1",
+      "measurement_bin_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "core_clock_hz": 16000000,
+      "valid": true,
+      "observations_complete": true,
+      "observer_paused_run": false,
+      "dropped_observations": 0,
+      "cycle_samples": [
+        {
+          "metric": "M01",
+          "scope": "publish_qos1",
+          "outcome": "SUCCESS",
+          "start": 4096,
+          "end": 20096,
+          "elapsed_upper_bound_us": 2000
+        },
+        {
+          "metric": "M02",
+          "scope": "scheduled_can_service",
+          "outcome": "SUCCESS",
+          "start": 4096,
+          "end": 4896,
+          "elapsed_upper_bound_us": 2000
+        },
+        {
+          "metric": "M03",
+          "scope": "foreground_inclusive",
+          "outcome": "SUCCESS",
+          "start": 4096,
+          "end": 16096,
+          "elapsed_upper_bound_us": 2000
+        }
+      ],
+      "network": {
+        "clock_domain": "MCU_MONOTONIC_US",
+        "resolution_us": 1,
+        "endpoint": "DEVICE_PUBLISH_SUCCESS",
+        "start_boundary": "GATEWAY_NETWORK_OPEN_ENTRY",
+        "fault_command_us": 1000000,
+        "pause_end_us": 31000000,
+        "recovery_start_us": 33000000,
+        "tls_ready_us": 33500000,
+        "connack_us": 33700000,
+        "first_valid_telemetry_us": 34100000,
+        "first_stream": "ECG",
+        "validity": "VALID",
+        "source": "MOCK",
+        "synthetic": true
+      },
+      "memory": {
+        "stack_reserved_bytes": 8192,
+        "stack_min_free_bytes": 6000,
+        "stack_method": "EARLY_RESET_SENTINEL",
+        "stack_region_verified": true,
+        "heap_limit_bytes": 24576,
+        "heap_peak_bytes": 18000,
+        "heap_failure_count": 0,
+        "heap_method": "SBRK_HIGH_WATER"
+      },
+      "cache": {
+        "capacity": 32,
+        "before": {
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "drop": 0
+        },
+        "after": {
+          "cache": 5,
+          "lost": 3,
+          "replay": 8,
+          "drop": 0
+        },
+        "drained_observed": false,
+        "first_live_us": 34100000,
+        "first_replay_us": 34600000
+      }
+    },
+    {
+      "firmware": "P5",
+      "run_id": "P5-demo-2",
+      "environment_id": "env-demo",
+      "workload_id": "can-demo",
+      "profile_id": "diag-demo-v1",
+      "measurement_bin_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "core_clock_hz": 16000000,
+      "valid": true,
+      "observations_complete": true,
+      "observer_paused_run": false,
+      "dropped_observations": 0,
+      "cycle_samples": [
+        {
+          "metric": "M01",
+          "scope": "publish_qos1",
+          "outcome": "SUCCESS",
+          "start": 4096,
+          "end": 20096,
+          "elapsed_upper_bound_us": 2000
+        },
+        {
+          "metric": "M02",
+          "scope": "scheduled_can_service",
+          "outcome": "SUCCESS",
+          "start": 4096,
+          "end": 4896,
+          "elapsed_upper_bound_us": 2000
+        },
+        {
+          "metric": "M03",
+          "scope": "foreground_inclusive",
+          "outcome": "SUCCESS",
+          "start": 4096,
+          "end": 16096,
+          "elapsed_upper_bound_us": 2000
+        }
+      ],
+      "network": {
+        "clock_domain": "MCU_MONOTONIC_US",
+        "resolution_us": 1,
+        "endpoint": "DEVICE_PUBLISH_SUCCESS",
+        "start_boundary": "GATEWAY_NETWORK_OPEN_ENTRY",
+        "fault_command_us": 1000000,
+        "pause_end_us": 31000000,
+        "recovery_start_us": 33000000,
+        "tls_ready_us": 33500000,
+        "connack_us": 33700000,
+        "first_valid_telemetry_us": 34100000,
+        "first_stream": "ECG",
+        "validity": "VALID",
+        "source": "MOCK",
+        "synthetic": true
+      },
+      "memory": {
+        "stack_reserved_bytes": 8192,
+        "stack_min_free_bytes": 6000,
+        "stack_method": "EARLY_RESET_SENTINEL",
+        "stack_region_verified": true,
+        "heap_limit_bytes": 24576,
+        "heap_peak_bytes": 18000,
+        "heap_failure_count": 0,
+        "heap_method": "SBRK_HIGH_WATER"
+      },
+      "cache": {
+        "capacity": 32,
+        "before": {
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "drop": 0
+        },
+        "after": {
+          "cache": 5,
+          "lost": 3,
+          "replay": 8,
+          "drop": 0
+        },
+        "drained_observed": false,
+        "first_live_us": 34100000,
+        "first_replay_us": 34600000
+      }
+    },
+    {
+      "firmware": "P5",
+      "run_id": "P5-demo-3",
+      "environment_id": "env-demo",
+      "workload_id": "can-demo",
+      "profile_id": "diag-demo-v1",
+      "measurement_bin_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "core_clock_hz": 16000000,
+      "valid": true,
+      "observations_complete": true,
+      "observer_paused_run": false,
+      "dropped_observations": 0,
+      "cycle_samples": [
+        {
+          "metric": "M01",
+          "scope": "publish_qos1",
+          "outcome": "SUCCESS",
+          "start": 4096,
+          "end": 20096,
+          "elapsed_upper_bound_us": 2000
+        },
+        {
+          "metric": "M02",
+          "scope": "scheduled_can_service",
+          "outcome": "SUCCESS",
+          "start": 4096,
+          "end": 4896,
+          "elapsed_upper_bound_us": 2000
+        },
+        {
+          "metric": "M03",
+          "scope": "foreground_inclusive",
+          "outcome": "SUCCESS",
+          "start": 4096,
+          "end": 16096,
+          "elapsed_upper_bound_us": 2000
+        }
+      ],
+      "network": {
+        "clock_domain": "MCU_MONOTONIC_US",
+        "resolution_us": 1,
+        "endpoint": "DEVICE_PUBLISH_SUCCESS",
+        "start_boundary": "GATEWAY_NETWORK_OPEN_ENTRY",
+        "fault_command_us": 1000000,
+        "pause_end_us": 31000000,
+        "recovery_start_us": 33000000,
+        "tls_ready_us": 33500000,
+        "connack_us": 33700000,
+        "first_valid_telemetry_us": 34100000,
+        "first_stream": "ECG",
+        "validity": "VALID",
+        "source": "MOCK",
+        "synthetic": true
+      },
+      "memory": {
+        "stack_reserved_bytes": 8192,
+        "stack_min_free_bytes": 6000,
+        "stack_method": "EARLY_RESET_SENTINEL",
+        "stack_region_verified": true,
+        "heap_limit_bytes": 24576,
+        "heap_peak_bytes": 18000,
+        "heap_failure_count": 0,
+        "heap_method": "SBRK_HIGH_WATER"
+      },
+      "cache": {
+        "capacity": 32,
+        "before": {
+          "cache": 0,
+          "lost": 0,
+          "replay": 0,
+          "drop": 0
+        },
+        "after": {
+          "cache": 5,
+          "lost": 3,
+          "replay": 8,
+          "drop": 0
+        },
+        "drained_observed": false,
+        "first_live_us": 34100000,
+        "first_replay_us": 34600000
+      }
+    }
+  ]
+}

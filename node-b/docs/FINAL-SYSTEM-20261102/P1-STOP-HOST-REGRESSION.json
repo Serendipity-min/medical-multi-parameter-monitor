@@ -1,0 +1,65 @@
+{
+  "scope": "OFFLINE_NOT_NATIVE_STOP_PROOF",
+  "baseline": {
+    "scope": "HOST_ONLY_NO_DEVICE",
+    "compile_native_exit": 0,
+    "test_native_exit": 3,
+    "expected_failure_reproduced": true,
+    "output": "STOP_QUERY_FAIL line=32",
+    "source_SHA256": {
+      "gateway/voice/tts_queue.c": "4e986f38968a861c9006beeb4be74e872231dd3ed264b824f3a78bdcc1569651",
+      "gateway/voice/tts_frame.c": "81e76cc50aedad7de1d558f970255e4b5e32635fbb8994cf8b50537c62c8fde9",
+      "gateway/voice/tests/test_stop_query.c": "6eb2a94c2748854c2975b1aaaa44c858cfb4a73808af0e7ef1d1460800225737"
+    }
+  },
+  "patched": {
+    "scope": "HOST_ONLY_HARDWARE_NOT_RUN",
+    "MinGW_ANSI_STDIO": true,
+    "tests": [
+      {
+        "test": "test_stop_query",
+        "compile_native_exit": 0,
+        "run_native_exit": 0,
+        "stdout": "STOP_QUERY_HOST_PASS cases=8 hardware=NOT_RUN",
+        "source_SHA256": {
+          "gateway/voice/tts_frame.c": "81e76cc50aedad7de1d558f970255e4b5e32635fbb8994cf8b50537c62c8fde9",
+          "gateway/voice/tts_queue.c": "8aa90e26a962b29376522c3992031dc3978d1d9f21c7a0f77d9cec00adab1496",
+          "gateway/voice/tests/test_stop_query.c": "6eb2a94c2748854c2975b1aaaa44c858cfb4a73808af0e7ef1d1460800225737"
+        }
+      },
+      {
+        "test": "test_voice",
+        "compile_native_exit": 0,
+        "run_native_exit": 0,
+        "stdout": "VOICE_HOST_PASS checks=3351 sizeof_queue=352 hardware=NOT_RUN",
+        "source_SHA256": {
+          "gateway/voice/tts_frame.c": "81e76cc50aedad7de1d558f970255e4b5e32635fbb8994cf8b50537c62c8fde9",
+          "gateway/voice/tts_queue.c": "8aa90e26a962b29376522c3992031dc3978d1d9f21c7a0f77d9cec00adab1496",
+          "gateway/voice/tests/test_voice.c": "27825dab6c96ea694f35eec36f4b234b256abbfd1329f16619fd84caf9fb98bb"
+        }
+      }
+    ]
+  },
+  "install_related_pytest": {
+    "native_exit": 0,
+    "passed": 44
+  },
+  "preserved_failures": [
+    {
+      "controller_native_exit": 1,
+      "stage": "syntax before test no hardware"
+    },
+    {
+      "test_native_exit": 3,
+      "stage": "first patch negative manual stop timeout could re-enable"
+    },
+    {
+      "compiler_native_exit": 1,
+      "stage": "MinGW percent zu requires ANSI STDIO build flag"
+    },
+    {
+      "plan_native_exit": 1,
+      "stage": "legacy adapter assumed three app sectors for small C image"
+    }
+  ]
+}

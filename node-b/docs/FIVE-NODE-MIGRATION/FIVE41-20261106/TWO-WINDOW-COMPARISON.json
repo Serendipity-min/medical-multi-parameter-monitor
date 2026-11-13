@@ -1,0 +1,47 @@
+{
+  "scope": "TWO_SUPERVISED_FIVE_NODE_DUAL_41OHM_WINDOWS_SAME_FIRMWARE",
+  "overall": "NOT_PASS_END_TO_END_COMPLETENESS",
+  "ECG60": {
+    "strict_relevant_wave_points": 69633,
+    "nominal_reference_points": 75000,
+    "PPG_valid_payload_points": 2913,
+    "real_time_queue_overflow_delta": 48,
+    "history_eviction_delta": 716,
+    "REPLAY_messages": 0,
+    "BP": [
+      106,
+      64
+    ],
+    "BP_web_expiry_ms": 90226,
+    "telemetry_browser_missing": 0,
+    "telemetry_value_mismatches": 0
+  },
+  "RR18": {
+    "strict_relevant_wave_points": 14303,
+    "nominal_reference_points": 15000,
+    "PPG_valid_payload_points": 2676,
+    "real_time_queue_overflow_delta": 50,
+    "history_eviction_delta": 709,
+    "REPLAY_messages": 0,
+    "BP": [
+      97,
+      66
+    ],
+    "BP_web_expiry_ms": 90713,
+    "telemetry_browser_missing": 0,
+    "telemetry_value_mismatches": 0
+  },
+  "CAN1_CAN2_sampled_errors_all_zero": true,
+  "four_source_identities_and_online_observed": true,
+  "formal_normal_termination_result": "NOT_RUN",
+  "A_full_raw_input_integrity": "NOT_PROVEN",
+  "firmware_changed_between_windows": false,
+  "firmware_modified_after_windows": false,
+  "PPG_partial_counter_semantics": "PRESERVED_SHORT_BATCH_SUBMISSIONS_NOT_DISCARDS",
+  "source_code_defects_offline_reproduced_not_fixed": [
+    "PPG_EARLY_COALESCING_DESPITE_FREE_FIFO_SPACE",
+    "HISTORY_QUOTA_BYPASSED_WHILE_LIVE_NONEMPTY"
+  ],
+  "physical_final": "ALL_OFF_JLINK_BOARD_B_YELLOW_LL_HARNESS_RETAINED",
+  "commit_push": false
+}

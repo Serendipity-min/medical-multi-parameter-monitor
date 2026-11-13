@@ -1,0 +1,97 @@
+{
+  "status": "INSTALLED_FULL_VERIFY_AND_LOCAL_ADC_PASS_FIELD_PENDING",
+  "field_prearm": "STOPPED_BEFORE_C_ARM",
+  "site_cause": "CAN_STARTUP_IRQ_RACE_STRONGLY_SUPPORTED_BY_PC_NOT_FULLY_PROVEN_WITHOUT_LIVE_RUNNING_FIFO_SNAPSHOTS",
+  "software_bug": "REPRODUCED_OLD_DRIVER_ENABLES_RX_IRQ_BEFORE_APPLICATION_READY",
+  "fix": "ENABLE_CAN_IRQ_ONLY_FROM_CO_CANsetNormalMode_AFTER_APP_RUNNING",
+  "comparison": {
+    "source_changed": [
+      "B4/CO_driver.c"
+    ],
+    "source_unchanged_count": 146,
+    "B_BIN_bytes": 40040,
+    "B_BIN_sha256": "f2276540bb8ca92551d08b78aecfdf31346597d9e273783f456be90c67014991",
+    "static_RAM_ABI_match": true,
+    "ABI": {
+      "s_stats": {
+        "address": "0x20000608",
+        "bytes": 48
+      },
+      "slots": {
+        "address": "0x20002160",
+        "bytes": 3072
+      },
+      "queue": {
+        "address": "0x20002d60",
+        "bytes": 2560
+      },
+      "clock_anchor": {
+        "address": "0x20003760",
+        "bytes": 16
+      },
+      "g_ads_readback": {
+        "address": "0x20000638",
+        "bytes": 12
+      },
+      "g_bio_v2": {
+        "address": "0x20001d14",
+        "bytes": 120
+      },
+      "g_b_can": {
+        "address": "0x20003770",
+        "bytes": 44
+      }
+    },
+    "ARM_native_exit": 0,
+    "ARM_status": "PASS",
+    "resources": [
+      36420,
+      3144,
+      1480,
+      18088
+    ]
+  },
+  "host_checks": {
+    "old_driver_counterfactual": {
+      "scope": "HOST_REAL_B_DRIVER_SPL_SIMULATED",
+      "compile_exit": 0,
+      "test_exit": 23,
+      "run_log_sha256": "e34e3b417c90f99f83ee4cd7bf65a47c980daaba486309855d1a0ed24fe7a306"
+    },
+    "fixed_driver": {
+      "scope": "HOST_REAL_B_DRIVER_SPL_SIMULATED",
+      "compile_exit": 0,
+      "test_exit": 0,
+      "run_log_sha256": "fe74a68f1a4d2e223d5ae1e6cb449291e850e689decd525022552bf3b6b06dc3"
+    }
+  },
+  "B_install_plan": "B-STARTUP-INSTALL-PLAN.json",
+  "source_capture_change": "SAVE_BOTH_PREARM_RAW_AND_DECODED_SNAPSHOTS_BEFORE_ASSESS",
+  "ECG_250_Hz_RESP_50_Hz_PPG_50_Hz": "UNCHANGED",
+  "C_420s_and_validity_timeouts": "UNCHANGED",
+  "B_candidate_installed": true,
+  "C_actual_install": "COUNTER_IMAGE_ALREADY_VERIFIED_UNCHANGED",
+  "hardware_operations_after_owner_power_off": 0,
+  "commit_push": false,
+  "local_readonly_check": {
+    "exit_code": 0,
+    "status": "B_ONLY_LOCAL_BIO_ADC_ADVANCE_PASS",
+    "scope": "B_ONLY_2S_BIO_ADC_READONLY_NO_CAN_ACCEPTANCE",
+    "explicit_Halt_Reset_Go_Flash_writes": 0,
+    "samples_advanced": 520,
+    "device_span_ms": 2080,
+    "nominal_sps": 250.0,
+    "ADC_irq_advanced": 520,
+    "ADC_captured_advanced": 520,
+    "ADC_delivered_advanced": 520,
+    "ADC_long_gap_delta": 0,
+    "ADC_queue_overflow_delta": 0,
+    "CAN1_ESR": 8388659,
+    "CAN_assessment": "NOT_RUN_PEERS_POWERED_OFF",
+    "B_image_bytes": 40040,
+    "B_image_sha256": "f2276540bb8ca92551d08b78aecfdf31346597d9e273783f456be90c67014991",
+    "Close_completed": true,
+    "native_exit": 0,
+    "executed_tool_sha256": "c911501edd3fee9a9a3baf86fe02e67a3371d2ed408ba1a14f097304ed875aaa"
+  }
+}

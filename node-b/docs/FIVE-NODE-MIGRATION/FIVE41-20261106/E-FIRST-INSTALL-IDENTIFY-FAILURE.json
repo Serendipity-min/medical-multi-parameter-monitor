@@ -1,0 +1,15 @@
+{
+  "status": "STOP_BEFORE_E_IDENTITY_NO_FLASH_CHANGE",
+  "native_exit": 1,
+  "error_type": "CommandError",
+  "ROM_command_phase": "GET_0x00_END_ACK",
+  "received_byte": "0xb9",
+  "expected_ACK": "0x79",
+  "identity_acquired": false,
+  "program_intent_created": false,
+  "erase_and_Flash_write_commands": 0,
+  "root_cause": "UNKNOWN",
+  "owner_requested_USB_reconnect_and_identify": true,
+  "reconnect_identify_native_exit": 0,
+  "reconnect_exact_E_identity_match": true
+}

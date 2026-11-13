@@ -1,0 +1,343 @@
+{
+  "B": {
+    "board": "B",
+    "status": "B_HISTORICAL_FLASH_OPTIONS_IDENTITY_MATCH",
+    "exit_code": 0,
+    "Close_attempted": true,
+    "Close_completed": true,
+    "last_known_target": "RUNNING_FLASH_OBSERVED_BEFORE_CLOSE",
+    "SDK_residual_risk": "UNRESOLVED",
+    "explicit_reset_halt_go_writes": 0,
+    "retries": 0,
+    "identity_matches": true,
+    "full_flash_sha256": "ceebec5a91835aed3cb70c683fd8de5142e5ba59a2163a1968cec182018b48ae",
+    "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+    "native_Close_expected": true,
+    "target_state_after_Close": "UNKNOWN_NOT_OBSERVED",
+    "elapsed_s": 26.141000000061467,
+    "supervisor": {
+      "reason": null,
+      "worker_exit_code": 0,
+      "supervisor_exit_code": 0,
+      "target_state": "SEE_WORKER_RECEIPT",
+      "automatic_retry_or_recovery": false
+    },
+    "authority": "CURRENT_AUTHENTICATED_OWNER_DIRECT_INSTRUCTION_NOT_SIGNED_PI_GATE",
+    "executed_sources": [
+      {
+        "file": "executed-thin-source.py",
+        "bytes": 7224,
+        "sha256": "79b59e21e4fff1b055af3faccb5eb9c7c111e7fb806890a180e224056e536021"
+      },
+      {
+        "file": "executed-worker-source.py",
+        "bytes": 1975,
+        "sha256": "a0ed5d2e58e186dbc76fc20ac3f553261de5ad6db06cead45fcb348ddce60b67"
+      }
+    ],
+    "native_api_inventory": {
+      "JLINKARM_Connect": {
+        "calls": 1,
+        "observed_integer_returns": [
+          0
+        ],
+        "non_integer_or_void_returns": 0
+      },
+      "JLINKARM_EMU_GetNumDevices": {
+        "calls": 1,
+        "observed_integer_returns": [
+          1
+        ],
+        "non_integer_or_void_returns": 0
+      },
+      "JLINKARM_ExecCommand": {
+        "calls": 17,
+        "observed_integer_returns": [
+          0,
+          1
+        ],
+        "non_integer_or_void_returns": 0
+      },
+      "JLINKARM_GetHWStatus": {
+        "calls": 1,
+        "observed_integer_returns": [
+          0
+        ],
+        "non_integer_or_void_returns": 0
+      },
+      "JLINKARM_IsConnected": {
+        "calls": 1,
+        "observed_integer_returns": [
+          0
+        ],
+        "non_integer_or_void_returns": 0
+      },
+      "JLINKARM_OpenEx": {
+        "calls": 1,
+        "observed_integer_returns": [],
+        "non_integer_or_void_returns": 1
+      },
+      "JLINKARM_ReadMemEx": {
+        "calls": 23,
+        "observed_integer_returns": [
+          2,
+          4,
+          12,
+          16,
+          1048576
+        ],
+        "non_integer_or_void_returns": 0
+      },
+      "JLINKARM_SelectUSB": {
+        "calls": 1,
+        "observed_integer_returns": [
+          0
+        ],
+        "non_integer_or_void_returns": 0
+      },
+      "JLINKARM_SetSpeed": {
+        "calls": 1,
+        "observed_integer_returns": [
+          0
+        ],
+        "non_integer_or_void_returns": 0
+      },
+      "JLINKARM_TIF_Select": {
+        "calls": 1,
+        "observed_integer_returns": [
+          0
+        ],
+        "non_integer_or_void_returns": 0
+      }
+    },
+    "Close_native_return": "VOID_ABI_NO_INTEGER_RETURN; completion heartbeat retained; no post-Close observation",
+    "read_whitelist_observed": [
+      [
+        "0x1fff7a10",
+        12
+      ],
+      [
+        "0x1fff7a22",
+        2
+      ],
+      [
+        "0x1fffc000",
+        16
+      ],
+      [
+        "0x40023c0c",
+        4
+      ],
+      [
+        "0x40023c14",
+        4
+      ],
+      [
+        "0x8000000",
+        1048576
+      ],
+      [
+        "0xe000101c",
+        4
+      ],
+      [
+        "0xe000ed00",
+        4
+      ],
+      [
+        "0xe000ed08",
+        4
+      ],
+      [
+        "0xe000ed28",
+        4
+      ],
+      [
+        "0xe000ed2c",
+        4
+      ],
+      [
+        "0xe000edf0",
+        4
+      ],
+      [
+        "0xe0042000",
+        4
+      ]
+    ],
+    "full_read_count": 1
+  },
+  "C": {
+    "board": "C",
+    "status": "C_HISTORICAL_FLASH_OPTIONS_IDENTITY_MATCH",
+    "exit_code": 0,
+    "Close_attempted": true,
+    "Close_completed": true,
+    "last_known_target": "RUNNING_FLASH_OBSERVED_BEFORE_CLOSE",
+    "SDK_residual_risk": "UNRESOLVED",
+    "explicit_reset_halt_go_writes": 0,
+    "retries": 0,
+    "identity_matches": true,
+    "full_flash_sha256": "9bba23b436f079183296fa98dcaeed047eb919ba8597d75a85bc144bc48417fd",
+    "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+    "native_Close_expected": true,
+    "target_state_after_Close": "UNKNOWN_NOT_OBSERVED",
+    "elapsed_s": 26.141000000061467,
+    "supervisor": {
+      "reason": null,
+      "worker_exit_code": 0,
+      "supervisor_exit_code": 0,
+      "target_state": "SEE_WORKER_RECEIPT",
+      "automatic_retry_or_recovery": false
+    },
+    "authority": "CURRENT_AUTHENTICATED_OWNER_DIRECT_INSTRUCTION_NOT_SIGNED_PI_GATE",
+    "executed_sources": [
+      {
+        "file": "executed-thin-source.py",
+        "bytes": 7224,
+        "sha256": "79b59e21e4fff1b055af3faccb5eb9c7c111e7fb806890a180e224056e536021"
+      },
+      {
+        "file": "executed-worker-source.py",
+        "bytes": 2054,
+        "sha256": "b06a8e7e2afb48ff9f03b604261f5e18540d586ae1c784f6be0d396945e130fd"
+      }
+    ],
+    "native_api_inventory": {
+      "JLINKARM_Connect": {
+        "calls": 1,
+        "observed_integer_returns": [
+          0
+        ],
+        "non_integer_or_void_returns": 0
+      },
+      "JLINKARM_EMU_GetNumDevices": {
+        "calls": 1,
+        "observed_integer_returns": [
+          1
+        ],
+        "non_integer_or_void_returns": 0
+      },
+      "JLINKARM_ExecCommand": {
+        "calls": 17,
+        "observed_integer_returns": [
+          0,
+          1
+        ],
+        "non_integer_or_void_returns": 0
+      },
+      "JLINKARM_GetHWStatus": {
+        "calls": 1,
+        "observed_integer_returns": [
+          0
+        ],
+        "non_integer_or_void_returns": 0
+      },
+      "JLINKARM_IsConnected": {
+        "calls": 1,
+        "observed_integer_returns": [
+          0
+        ],
+        "non_integer_or_void_returns": 0
+      },
+      "JLINKARM_OpenEx": {
+        "calls": 1,
+        "observed_integer_returns": [],
+        "non_integer_or_void_returns": 1
+      },
+      "JLINKARM_ReadMemEx": {
+        "calls": 24,
+        "observed_integer_returns": [
+          2,
+          4,
+          12,
+          16,
+          1048576
+        ],
+        "non_integer_or_void_returns": 0
+      },
+      "JLINKARM_SelectUSB": {
+        "calls": 1,
+        "observed_integer_returns": [
+          0
+        ],
+        "non_integer_or_void_returns": 0
+      },
+      "JLINKARM_SetSpeed": {
+        "calls": 1,
+        "observed_integer_returns": [
+          0
+        ],
+        "non_integer_or_void_returns": 0
+      },
+      "JLINKARM_TIF_Select": {
+        "calls": 1,
+        "observed_integer_returns": [
+          0
+        ],
+        "non_integer_or_void_returns": 0
+      }
+    },
+    "Close_native_return": "VOID_ABI_NO_INTEGER_RETURN; completion heartbeat retained; no post-Close observation",
+    "read_whitelist_observed": [
+      [
+        "0x1fff7a10",
+        12
+      ],
+      [
+        "0x1fff7a22",
+        2
+      ],
+      [
+        "0x1fffc000",
+        16
+      ],
+      [
+        "0x20001e6a",
+        4
+      ],
+      [
+        "0x40023c0c",
+        4
+      ],
+      [
+        "0x40023c14",
+        4
+      ],
+      [
+        "0x8000000",
+        1048576
+      ],
+      [
+        "0xe000101c",
+        4
+      ],
+      [
+        "0xe000ed00",
+        4
+      ],
+      [
+        "0xe000ed08",
+        4
+      ],
+      [
+        "0xe000ed28",
+        4
+      ],
+      [
+        "0xe000ed2c",
+        4
+      ],
+      [
+        "0xe000edf0",
+        4
+      ],
+      [
+        "0xe0042000",
+        4
+      ]
+    ],
+    "full_read_count": 1,
+    "flags_address": "0x20001e6a"
+  }
+}

@@ -1,0 +1,10 @@
+# 发布账号只可写各自 Gateway；Backend 只读两个已授权网关。
+user mock-publisher
+topic write mpm/v1/GW-DEV-001/#
+
+user gateway-c
+topic write mpm/v1/GW-C-001/#
+
+user backend-reader
+topic read mpm/v1/GW-DEV-001/#
+topic read mpm/v1/GW-C-001/#

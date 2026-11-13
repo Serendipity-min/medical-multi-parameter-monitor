@@ -1,0 +1,74 @@
+# 固定供应商文件字节换行，保证 Windows 与 CI 的 SHA-256 完整性核验一致。
+gateway/third_party/paho-embedded-c/** text eol=lf
+
+# Node-B归档的资料清单以实际字节SHA核对，源板工具与证据保持同样口径。
+ecg-source/g2s-usb/** -text
+artifacts/ecg-source/g2s/** -text
+# 三份导航/属性文件固定LF，保证不同签出环境的资料清单也可复核。
+/.gitattributes text eol=lf
+/README.md text eol=lf
+/doc/B/README.md text eol=lf
+
+# 实板候选的实际编译输入按原始字节归档。
+/gateway/b5/network_main.c -text
+
+/gateway/mqtt/src/gateway_transport.c -text
+/gateway/mqtt/src/core_mqtt_config.h -text
+
+# FINAL统一候选的真实源码/回执字节固定。
+/gateway/dual_can/b4_bxcan.c -text
+/gateway/dual_can/b4_resources.h -text
+/gateway/dual_can/build_arm.py -text
+/gateway/microphone/bench_main.c -text
+/gateway/microphone/mic_api.h -text
+/gateway/microphone/mic_format.c -text
+/gateway/microphone/mic_format.h -text
+/gateway/microphone/unified_audio.c -text
+/gateway/microphone/unified_audio.h -text
+/gateway/microphone/unified_install.py -text
+/gateway/microphone/test_unified.py -text
+/gateway/microphone/test_unified_audio.c -text
+/gateway/microphone/test_unified_control.c -text
+/gateway/microphone/test_unified_install.py -text
+/gateway/microphone/test_unified_transport.c -text
+/gateway/b5/egress.h -text
+/gateway/dual_can/b4_bxcan.h -text
+/gateway/microphone/field.py -text
+/gateway/microphone/test_unified_scheduler.c -text
+/gateway/microphone/test_unified_replay.c -text
+/cloud/microphone/protocol.py -text
+/cloud/microphone/test_protocol.py -text
+/gateway/microphone/README.md -text
+
+# M0实际执行与编译源码保持回执所记字节。
+/gateway/dual_can/b4_gateway.c -text
+/gateway/mqtt/src/gateway_transport.h -text
+/gateway/mqtt/tests/mocks/mock_esp.c -text
+/gateway/microphone/test_unified_clock.c -text
+/gateway/microphone/test_unified_contention.c -text
+/cloud/backend/app/hub.py -text
+/cloud/backend/app/main.py -text
+/cloud/backend/app/mqtt_adapter.py -text
+/cloud/backend/tests/test_monitor.py -text
+/cloud/microphone/worker.py -text
+/node-b/tools/b5_g3_cloud.py -text
+/node-b/tools/b5_g3_devices.py -text
+/node-b/tools/m0_cloud.py -text
+/node-b/tools/m0_field.py -text
+/node-b/tools/m0_review.py -text
+/node-b/tools/m0_stop_completion.py -text
+/node-b/tests/test_m0_entry.py -text
+
+# M1编译输入与交付制品按构建时字节保存，避免签出转换破坏清单哈希。
+/gateway/data_model/model.c -text
+/gateway/data_model/roles.h -text
+/gateway/dual_can/b4_gateway.h -text
+/gateway/storage/router.c -text
+/node-a/STM32F407_HOSPITAL/USER/main.c -text
+/node-a/STM32F407_HOSPITAL/USER/stm32f4xx_it.c -text
+/node-a/STM32F407_HOSPITAL/HARDWARE/CANopen/canopen_app.c -text
+/node-a/STM32F407_HOSPITAL/HARDWARE/app_bp.c -text
+/node-d/** -text
+/node-e/** -text
+/tools/build_five_node.py -text
+/node-b/docs/FIVE-NODE-MIGRATION/M1-20261104/** -text

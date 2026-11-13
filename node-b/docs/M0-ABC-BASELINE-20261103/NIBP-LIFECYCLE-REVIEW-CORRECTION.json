@@ -1,0 +1,53 @@
+{
+  "scope": "NEW_M0_ADAPTER_ONLY_OLD_FROZEN_EVALUATORS_UNCHANGED",
+  "original_evaluator_SHA256": "cf674926dc5c7d0814959eb36f6d0f6130ebad09d57964940859416c2b86767e",
+  "corrected_evaluator_SHA256": "1c05a96039776fd6e89acf7b60806595b5874823178bf454a515d5b96d3c116e",
+  "original_review_native_exit": 3,
+  "original_failures": [
+    "NIBP_NEW_SOURCE_OR_EXPIRY"
+  ],
+  "corrected_review_native_exit": 0,
+  "raw_WSS_log_SHA256": "752b8046cad82d99bb6e78c2dc957abdf0cdfa90a4dbf8b6e2cdc768a0f993c9",
+  "lifecycle": [
+    {
+      "value": [
+        127.0,
+        64.0
+      ],
+      "timestamp": 1793712330299,
+      "source_matches": 3,
+      "expiry_observed": false,
+      "superseded_before_expiry": true,
+      "successor_first_seen_UTC_ms": 1793712385585,
+      "resurrected": false,
+      "WSS_seen": true
+    },
+    {
+      "value": [
+        101.0,
+        64.0
+      ],
+      "timestamp": 1793712382793,
+      "source_matches": 18,
+      "expiry_observed": true,
+      "superseded_before_expiry": false,
+      "successor_first_seen_UTC_ms": null,
+      "resurrected": false,
+      "WSS_seen": true
+    }
+  ],
+  "NIBP_expiry_seconds_unchanged": 90,
+  "tests": {
+    "M0_entry_tests": 9,
+    "native_exit": 0,
+    "cases": [
+      "replacement_before_expiry",
+      "latest_result_expiry",
+      "old_result_resurrection",
+      "latest_still_valid_after_90s",
+      "duplicate_does_not_create_new_completion",
+      "same_value_new_timestamp_and_sequence"
+    ]
+  },
+  "old_raw_or_verdicts_rewritten": false
+}

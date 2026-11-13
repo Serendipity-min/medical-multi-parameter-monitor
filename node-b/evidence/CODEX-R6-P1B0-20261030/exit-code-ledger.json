@@ -1,0 +1,77 @@
+{
+  "scope": "This turn only; detailed receipts indexed separately",
+  "runs": [
+    {
+      "operation": "initial P1B Mock",
+      "exit_code": 0,
+      "tests": 12
+    },
+    {
+      "operation": "intermediate P1B Mock",
+      "exit_code": 0,
+      "tests": 12
+    },
+    {
+      "operation": "mock-final-03 guard run",
+      "exit_code": 0,
+      "tests": 15
+    },
+    {
+      "operation": "closeout runner initialisation",
+      "exit_code": 1,
+      "tests": 0,
+      "cause": "guard rejected pyserial kernel32 load; retained"
+    },
+    {
+      "operation": "mock-final-04 final guard run",
+      "exit_code": 0,
+      "tests": 16
+    },
+    {
+      "operation": "joint default dispatch AST check",
+      "exit_code": 0,
+      "type": "STATIC_ONLY"
+    },
+    {
+      "operation": "41012 install one Mock",
+      "exit_code": 0
+    },
+    {
+      "operation": "B initial read worker/supervisor",
+      "worker_exit_code": 0,
+      "supervisor_exit_code": 0
+    },
+    {
+      "operation": "C initial read worker/supervisor",
+      "worker_exit_code": 0,
+      "supervisor_exit_code": 0
+    },
+    {
+      "operation": "B install worker/supervisor",
+      "worker_exit_code": 0,
+      "supervisor_exit_code": 0
+    },
+    {
+      "operation": "existing isolated cloud resume",
+      "exit_code": 0,
+      "SSH_exit_code": 0
+    },
+    {
+      "operation": "RR15 capture worker/supervisor",
+      "worker_exit_code": 0,
+      "supervisor_exit_code": 0
+    },
+    {
+      "operation": "RR15 formal review one invocation",
+      "Python_exit_code": 3,
+      "JSON_exit_code": 3,
+      "initial_pwsh_wrapper_exit_code": 1
+    },
+    {
+      "operation": "forward saved review adjudication, no review rerun",
+      "shell_exit_code": 3
+    }
+  ],
+  "old_R5_replay_this_turn": "NOT_RUN_P1A_CLOSED",
+  "old_151_test_matrix_this_turn": "NOT_RUN_P1A_ACCEPTED"
+}

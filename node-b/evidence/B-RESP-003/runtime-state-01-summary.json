@@ -1,0 +1,166 @@
+{
+  "status": "RUNTIME_HOLD",
+  "worker_exit_code": 3,
+  "supervisor_exit_code": 1,
+  "elapsed_s": 61.81199999997625,
+  "attachment_count": 2,
+  "rounds": [
+    {
+      "attachment": 1,
+      "status": "RUNTIME_READS_SAVED",
+      "entry_PC": "0x1fff32f0",
+      "entry_MSP": "0x20001940",
+      "VTOR": [
+        "0x1fff0000",
+        "0x1fff0000",
+        "0x1fff0000"
+      ],
+      "DHCSR": [
+        "0x30003",
+        "0x30003",
+        "0x30003"
+      ],
+      "CFSR": [
+        0,
+        0,
+        0
+      ],
+      "HFSR": [
+        0,
+        0,
+        0
+      ],
+      "PCSR": [
+        [
+          4294967295,
+          4294967295,
+          4294967295,
+          4294967295,
+          4294967295
+        ],
+        [
+          4294967295,
+          4294967295,
+          4294967295,
+          4294967295,
+          4294967295
+        ],
+        [
+          4294967295,
+          4294967295,
+          4294967295,
+          4294967295,
+          4294967295
+        ]
+      ],
+      "PCSR_note": "0xffffffff unavailable while halted; actual R15 obtained via SDK only after S_HALT confirmed",
+      "alias_equals_flash": true,
+      "alias_equals_ROM": false,
+      "flash_sha256": "f713277a50a5ec8d8a93317f412d5ab1b754e5d619918e57e9efe9dceef24cbb",
+      "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+      "capture_gate": {
+        "status": "HOLD_RUNTIME_STATE",
+        "failures": [
+          "BIO_DIAG_ABI_NOT_READY",
+          "NOT_RUNNING",
+          "NO_BIO_V2_EXECUTION_PC_EVIDENCE",
+          "VTOR_NOT_BIO_V2_FLASH"
+        ],
+        "does_not_authorize_reset_or_capture": true
+      },
+      "sdk_calls": 244,
+      "sdk_close_attempts": 1,
+      "sdk_close_calls": 1,
+      "post_close_target_state": "NOT_OBSERVED_WITH_THIS_CONNECTION",
+      "record_sha256": "9fbcdc321cff4a14879692f488650ce20dae4654a296a40699f085c7dcfe3fed"
+    },
+    {
+      "attachment": 2,
+      "status": "RUNTIME_READS_SAVED",
+      "entry_PC": "0x1fff32f0",
+      "entry_MSP": "0x20001940",
+      "VTOR": [
+        "0x1fff0000",
+        "0x1fff0000",
+        "0x1fff0000"
+      ],
+      "DHCSR": [
+        "0x30003",
+        "0x30003",
+        "0x30003"
+      ],
+      "CFSR": [
+        0,
+        0,
+        0
+      ],
+      "HFSR": [
+        0,
+        0,
+        0
+      ],
+      "PCSR": [
+        [
+          4294967295,
+          4294967295,
+          4294967295,
+          4294967295,
+          4294967295
+        ],
+        [
+          4294967295,
+          4294967295,
+          4294967295,
+          4294967295,
+          4294967295
+        ],
+        [
+          4294967295,
+          4294967295,
+          4294967295,
+          4294967295,
+          4294967295
+        ]
+      ],
+      "PCSR_note": "0xffffffff unavailable while halted; actual R15 obtained via SDK only after S_HALT confirmed",
+      "alias_equals_flash": true,
+      "alias_equals_ROM": false,
+      "flash_sha256": "f713277a50a5ec8d8a93317f412d5ab1b754e5d619918e57e9efe9dceef24cbb",
+      "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+      "capture_gate": {
+        "status": "HOLD_RUNTIME_STATE",
+        "failures": [
+          "BIO_DIAG_ABI_NOT_READY",
+          "NOT_RUNNING",
+          "NO_BIO_V2_EXECUTION_PC_EVIDENCE",
+          "VTOR_NOT_BIO_V2_FLASH"
+        ],
+        "does_not_authorize_reset_or_capture": true
+      },
+      "sdk_calls": 244,
+      "sdk_close_attempts": 1,
+      "sdk_close_calls": 1,
+      "post_close_target_state": "NOT_OBSERVED_WITH_THIS_CONNECTION",
+      "record_sha256": "8bb38ba5790a04d344a2e4a552e684265250c14ed78c364b7e746c319359190e"
+    }
+  ],
+  "halt_requests": 0,
+  "go_requests": 0,
+  "reset_requests": 0,
+  "target_data_write_requests": 0,
+  "close_reconnect_inseparable": true,
+  "direct_current_finding": "CPU halted in system ROM; BIO_V2 not initialized at expected SRAM addresses; frozen Flash/options remain present",
+  "original_E1_PC": "NOT_READ; cannot retroactively assign exact PC or transition time",
+  "root_cause_of_entering_ROM": "NOT_ESTABLISHED; attach/disconnect effects remain under investigation; no owner board manipulation reported",
+  "runtime_card_sha256": "9e049f7396f2508b808f35848fa89311277a3781df97dc0d79f6e13891860b16",
+  "manifest_sha256": "a7b41bc8b4986182f4aa3e936c35cdb949cae2f32d8c46ed6b959c7cac9d8154",
+  "tools_sha256": {
+    "node-b/tools/runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+    "node-b/tools/supervise_runtime_state_b.py": "98587c514f8987e76851b87465259a0b3242cb4b222c2289c1b6de5b0f580b22",
+    "node-b/tools/readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+    "node-b/tools/resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77"
+  },
+  "next_reset_card_status": "PREPARED_PENDING_EXPLICIT_RESET_APPROVAL",
+  "next_capture": "NOT_RUN",
+  "historical_ECG_unchanged": true
+}

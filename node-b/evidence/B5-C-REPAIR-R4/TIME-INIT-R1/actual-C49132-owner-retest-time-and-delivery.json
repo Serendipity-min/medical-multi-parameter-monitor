@@ -1,0 +1,295 @@
+{
+  "B": {
+    "ADC_errors": {
+      "bad_status": 0,
+      "init_errors": 0,
+      "long_gap_count": 0,
+      "queue_overflow": 0,
+      "spi_errors": 0
+    },
+    "CAN_increments": {
+      "app_reset_rejected": 0,
+      "comm_reset": 0,
+      "discontinuities": 0,
+      "enqueued": 74992,
+      "error": 0,
+      "expired": 0,
+      "offered": 74991,
+      "overflow": 0,
+      "sent_ecg": 74992,
+      "sent_resp": 14998
+    },
+    "HR_invalid": 0,
+    "HR_valid": 601,
+    "device_domain_SPS": 250.0350086354634,
+    "invalid_observation_ranges_s": [],
+    "invalid_reason_names": {},
+    "saved": 601
+  },
+  "STOP": {
+    "note": "Residual live/cache at STOP and queue counters after hard STOP retained verbatim; not hidden or counted as steady-state zero-loss proof",
+    "observed_offset_s": 420.06299999996554,
+    "queue_records_after_hard_stop": [
+      {
+        "arm_offset_s": 420.23499999998603,
+        "line": "B5 QUEUE high=24 replaced=0 overflow=30 expired=0 phase=7 unsynced=0 budget_refused=0"
+      }
+    ],
+    "source": {
+      "armed_at": 705,
+      "business_elapsed_ms": 420000,
+      "cache": 28,
+      "live": 24,
+      "pending": 0,
+      "phase": 7,
+      "reason": 1,
+      "required": 194,
+      "tick": 420705,
+      "unsynced": 0,
+      "written": 194
+    }
+  },
+  "TIME_lines": [
+    "GW TIME_SAMPLE query=1 primary=0 parsed=1 epoch=288",
+    "GW TIME_SAMPLE query=2 primary=0 parsed=1 epoch=290",
+    "GW TIME_SAMPLE query=3 primary=0 parsed=1 epoch=1793268462",
+    "GW TIME_WAIT queries=3 elapsed=4012 valid=1 epoch=1793268462 tried=1",
+    "GW TIME_MATCH delta_ms=127 query_ms=6",
+    "GW SNTP_SAMPLE rtt_ms=55 uncertainty_ms=27 epoch=1793268462 fraction=207 server_index=0",
+    "GW SNTP_VALID epoch=1793268462 uptime=7697",
+    "GW OK TLS",
+    "GW MQTT_CONNECTED"
+  ],
+  "TIME_pass_this_window": true,
+  "delivery": {
+    "Backend_delta": {
+      "accepted": 2857,
+      "dropped": 0,
+      "rejected": 0
+    },
+    "Broker_messages": 2857,
+    "C_diagnostic_count": 60,
+    "C_diagnostic_max_gap_s": 5.094000000040978,
+    "C_error_delta": {
+      "dropped": 0,
+      "mqtt_fail": 0,
+      "overflow": 0,
+      "rx": 89988,
+      "txack": 618,
+      "txfail": 0,
+      "uart_err": 0
+    },
+    "ECG_batches": 750,
+    "ECG_invalid_batches": 0,
+    "ECG_source_coverage_has_gaps": false,
+    "ECG_source_points": 75012,
+    "ECG_valid_batches": 750,
+    "WSS_snapshots": 2972,
+    "all_valid_ECG_batches_seen_identical_in_WSS": true,
+    "max_MQTT_JSON_bytes": 848,
+    "scalars": {
+      "HR": {
+        "count": 300,
+        "validities": {
+          "VALID": 300
+        },
+        "values": {
+          "60.0": 300
+        }
+      },
+      "RR": {
+        "count": 300,
+        "validities": {
+          "INVALID": 300
+        },
+        "values": {
+          "None": 300
+        }
+      },
+      "TEMP": {
+        "count": 300,
+        "validities": {
+          "VALID": 300
+        }
+      }
+    },
+    "source_mapping_errors": {},
+    "valid_ECG_missing_from_WSS": 0
+  },
+  "execution": {
+    "B_exit_code": 0,
+    "START": 1,
+    "cloud_exit_code": 0,
+    "joint_exit_code": 0,
+    "supervisor_exit_code": 0
+  },
+  "formal_review_exit_code": 0,
+  "formal_review_unchanged": true,
+  "independent_C_readonly": {
+    "exit_code": 0,
+    "full_sha256": "9bba23b436f079183296fa98dcaeed047eb919ba8597d75a85bc144bc48417fd",
+    "status": "C_CURRENT_B5_CONFIG_DISARMED_READONLY_PASS"
+  },
+  "installation": {
+    "Close_completed": true,
+    "DISARMED": true,
+    "actions": {
+      "JLINKARM_BeginDownload": 1,
+      "JLINKARM_EndDownload": 1,
+      "JLINKARM_Go": 1,
+      "JLINKARM_Halt": 1,
+      "JLINKARM_Reset": 1,
+      "JLINKARM_WriteMem": 1
+    },
+    "double_full_options": true,
+    "exit_code": 0,
+    "full_flash_sha256": "9bba23b436f079183296fa98dcaeed047eb919ba8597d75a85bc144bc48417fd",
+    "status": "C_EGRESS_INSTALL_FULL_VERIFY_DISARMED_PASS"
+  },
+  "isolated_cloud": {
+    "cleanup_complete": true,
+    "cloud_config_writes": 0,
+    "elapsed_s": 8.811999999918044,
+    "exit_code": 0,
+    "expiry_unix": 1793286305.0,
+    "formal_services_unchanged": true,
+    "ready": true,
+    "remaining_s": 19568.942420244217,
+    "test_unit_start_actions": 0
+  },
+  "physical_final": "OWNER_CONFIRMED_ALL_BOARDS_ADS_SCREENS_ESP_DARK_USB_AND_PROBE_USB_REMOVED",
+  "private_field_manifest_sha256": "b996a9faa6239fff39bc9dafc1ab66e90702c95966fe22be876691dd85b716d4",
+  "quality_transition_evidence": {
+    "C_WAVE_records": [
+      {
+        "arm_offset_s": 10.702999999979511,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 23.70299999997951,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 36.70299999997951,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 51.64099999994505,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 63.68799999996554,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 78.73499999998603,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 92.73499999998603,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 107.5,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 121.60999999998603,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 133.625,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 147.48499999998603,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 163.625,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 178.5,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 188.71900000004098,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 206.65599999995902,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 223.60999999998603,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 238.65599999995902,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 257.625,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 272.719000000041,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 288.719000000041,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 308.344000000041,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 318.68799999996554,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 333.594000000041,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 352.655999999959,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 371.594000000041,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 386.655999999959,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 400.48499999998603,
+        "line": "B5 WAVE gaps=0 quality_resets=1 partial_discarded=82 unstamped=35"
+      },
+      {
+        "arm_offset_s": 420.10999999998603,
+        "line": "B5 WAVE gaps=0 quality_resets=2 partial_discarded=176 unstamped=35"
+      }
+    ],
+    "cause_limit": "B NO_CYCLES/UNSTABLE and overlapping mains fractions do not uniquely identify simulator/contact/power/interference cause",
+    "source_code": "gateway/dual_can/b4_gateway.c waveform(): valid/synthetic transition discards partial batch; gaps remain0 in observed WAVE counters"
+  },
+  "recovery": {
+    "R_APP_R_CFG_R_CLOUD_executed": false,
+    "original_C49068_restored": false,
+    "sector3_written": false
+  },
+  "residual": {
+    "CPU_ROM": "UNRESOLVED_PAUSED",
+    "RR15": "SEPARATE_FORMAL_WINDOW_NOT_RUN",
+    "TEMP_OBJECT": "SEPARATE_FORMAL_WINDOW_NOT_RUN",
+    "absolute_calibration": "NOT_CALIBRATED",
+    "test_accounts": "NOT_REVOKED_TEST_UNITS_REMAIN_UNTIL_ORIGINAL_RUNTIME_LIMIT"
+  },
+  "runtime_stack_used_upper_max": 2700,
+  "source_truth_scope": "Nonhuman MOCK ECG60 nominal; no absolute calibration claim",
+  "status": "B5_SEPARATE_ECG60_ENGINEERING_PASS"
+}

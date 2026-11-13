@@ -1,0 +1,52 @@
+{
+  "status": "HISTORICAL_NOT_PASS_REPRODUCED",
+  "exit_code": 3,
+  "runs": [
+    {
+      "profile": "ECG60",
+      "original_sha256": "1c8f98037cfba197b0ecc15c5bee2d5db4af8a24391e57f2bce8a55f209b08b3",
+      "status": "B5_SEPARATE_ECG60_NOT_PASS",
+      "exit_code": 3,
+      "failures": [
+        "BROKER_NOT_MOCK",
+        "C_DIAGNOSTIC_GAP",
+        "C_NEW_REALTIME_LOSS_OR_EXPIRY",
+        "ECG_WSS_BATCH_MISSING",
+        "WSS_TARGET_CHANNEL_INVALID"
+      ],
+      "original_failure_set_match": true,
+      "original_status_match": true,
+      "criteria_sha256": "1561cf21c7469e0fe3e987e0406e8b40bd3fb01ee4c3a9f2b8c2700eafbfb44b",
+      "wave_batches_observed_in_WSS": 741
+    },
+    {
+      "profile": "TEMP_OBJECT",
+      "original_sha256": "18da0b1ee89b6f50d04f42fa5fa17288ce2baabcb67d25f3fc449f1d92b9a4eb",
+      "status": "B5_SEPARATE_TEMP_OBJECT_NOT_PASS",
+      "exit_code": 3,
+      "failures": [
+        "B_TEMP_FRESH_SOURCE"
+      ],
+      "original_failure_set_match": true,
+      "original_status_match": true,
+      "criteria_sha256": "17bed53e16bf7f0977d74dd658356f75fb30ff503b6567970410e356e06c2c57",
+      "wave_batches_observed_in_WSS": 746
+    },
+    {
+      "profile": "RR15",
+      "original_sha256": "22e050163cf6cf772d9e62c7879b36f0c873c39c31e4bd8f21c51abbc5e64945",
+      "status": "B5_SEPARATE_RR15_NOT_PASS",
+      "exit_code": 3,
+      "failures": [
+        "B_RR_VALID15_HR_INVALID",
+        "HR_EXPECTED_INVALID",
+        "WSS_TARGET_CHANNEL_INVALID"
+      ],
+      "original_failure_set_match": true,
+      "original_status_match": true,
+      "criteria_sha256": "b4b2ec05a765fdbffc59451ccdb720201b1853b872d16b82944a1dbc8aa420bb",
+      "wave_batches_observed_in_WSS": 301
+    }
+  ],
+  "reviewer_sha256": "14838db66a5142f24a010109de6f67a76d4f386a0b3914afb5b32b9a751dda91"
+}

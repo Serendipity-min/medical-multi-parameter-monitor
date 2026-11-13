@@ -1,0 +1,18 @@
+test_close_error_or_timeout_is_not_pass (test_codex_p1b_gate.Capture.test_close_error_or_timeout_is_not_pass) ... ok
+test_kill_cannot_claim_close_or_recovery (test_codex_p1b_gate.Capture.test_kill_cannot_claim_close_or_recovery) ... ok
+test_open_policy_device_and_connect_failures (test_codex_p1b_gate.Capture.test_open_policy_device_and_connect_failures) ... ok
+test_read_faults_sigterm_and_no_retry (test_codex_p1b_gate.Capture.test_read_faults_sigterm_and_no_retry) ... ok
+test_readonly_positive_mock_and_close_once (test_codex_p1b_gate.Capture.test_readonly_positive_mock_and_close_once) ... ok
+test_rom_halt_stop_before_full_read (test_codex_p1b_gate.Capture.test_rom_halt_stop_before_full_read) ... ok
+test_bound_fields_and_scope_tampering_refused (test_codex_p1b_gate.Gate.test_bound_fields_and_scope_tampering_refused) ... ok
+test_cli_field_cannot_be_enabled_by_any_document (test_codex_p1b_gate.Gate.test_cli_field_cannot_be_enabled_by_any_document) ... ok
+test_fake_signature_wrong_key_and_untrusted_root (test_codex_p1b_gate.Gate.test_fake_signature_wrong_key_and_untrusted_root) ... ok
+test_parent_content_and_cross_board_replay_refused (test_codex_p1b_gate.Gate.test_parent_content_and_cross_board_replay_refused) ... ok
+test_plan_does_not_import_device_components (test_codex_p1b_gate.Gate.test_plan_does_not_import_device_components) ... ok
+test_signed_mock_only_positive_and_atomic_nonce (test_codex_p1b_gate.Gate.test_signed_mock_only_positive_and_atomic_nonce) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.396s
+
+OK
+{"status": "PASS_MOCK", "exit_code": 0, "tests_run": 12, "failures": 0, "errors": 0, "blocked_events": [], "native_target_calls": 0, "SDK_residual_risk": "UNRESOLVED"}

@@ -1,0 +1,336 @@
+{
+  "scope": "M0_READ_ONLY_INTERFACE_CONTEXT_NOT_T0_EXECUTION_OR_FIELD_PASS",
+  "refs": {
+    "base": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+    "A": "3fa14b00a0823d2855e9dd8bd1c6c8545abb8dc5",
+    "B4_dualbus": "ffa440b31b8b4993967f0e9aef1b3071a0d1dcfe",
+    "H3_AC": "a5cdd5b0b1ad48108fd631136e9de69e30582f2d",
+    "P5_final_review": "47e59a67c949255d35b3f1e7e0f12459407d0ebc",
+    "P6_text_tts": "77dd14d1ca761a488956f7a4ebf28cb3174835e4"
+  },
+  "sources": [
+    {
+      "ref": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+      "path": "gateway/dual_can/b4_bxcan.c",
+      "disk_bytes": 9555,
+      "disk_sha256": "a683c2661234ea88e5269dcb014f8b669b1e21db3517d0279f57a7a87ad6fc05",
+      "git_blob_sha256": "a683c2661234ea88e5269dcb014f8b669b1e21db3517d0279f57a7a87ad6fc05",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+      "path": "gateway/dual_can/b4_bus.c",
+      "disk_bytes": 4791,
+      "disk_sha256": "1c53e14f3264d6202e5bcf0e83f1f269f2696c997e0077caa81449560c66ed60",
+      "git_blob_sha256": "1c53e14f3264d6202e5bcf0e83f1f269f2696c997e0077caa81449560c66ed60",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+      "path": "gateway/dual_can/b4_gateway.c",
+      "disk_bytes": 12844,
+      "disk_sha256": "7dce371a8fa049ea18edc394ab109d9224c96d819d9c767447a2755d082853be",
+      "git_blob_sha256": "7dce371a8fa049ea18edc394ab109d9224c96d819d9c767447a2755d082853be",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+      "path": "gateway/dual_can/b4_resources.h",
+      "disk_bytes": 1043,
+      "disk_sha256": "de182771b364f9d2a3b28d30549d897f2f87645a48b18edf123f3254a3d2d71f",
+      "git_blob_sha256": "de182771b364f9d2a3b28d30549d897f2f87645a48b18edf123f3254a3d2d71f",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+      "path": "gateway/dual_can/build_arm.py",
+      "disk_bytes": 13128,
+      "disk_sha256": "203ce0e6c88adedf9383e6eec74913de3fa6b45d999a753c52e348dbf0cfff03",
+      "git_blob_sha256": "203ce0e6c88adedf9383e6eec74913de3fa6b45d999a753c52e348dbf0cfff03",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+      "path": "gateway/dual_can/tests/link_policy.c",
+      "disk_bytes": 468,
+      "disk_sha256": "0580661bd9882b71db72a9e6a808e59bf8517a90018501e65098070a1f72eb2e",
+      "git_blob_sha256": "0580661bd9882b71db72a9e6a808e59bf8517a90018501e65098070a1f72eb2e",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+      "path": "gateway/dual_can/tests/bxcan_retransmit.c",
+      "disk_bytes": 2650,
+      "disk_sha256": "f838eb55652ddf837f5a816135fa14bd43043c1d4522643c4b02ccd4d5e825e2",
+      "git_blob_sha256": "f838eb55652ddf837f5a816135fa14bd43043c1d4522643c4b02ccd4d5e825e2",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+      "path": "gateway/dual_can/tests/bxcan_mmio_shim.h",
+      "disk_bytes": 4305,
+      "disk_sha256": "2133203bda089d48e9d02142ed7d65ee0379412aef937ba2eaf7c7bf3905dc81",
+      "git_blob_sha256": "2133203bda089d48e9d02142ed7d65ee0379412aef937ba2eaf7c7bf3905dc81",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+      "path": "gateway/b5/network_main.c",
+      "disk_bytes": 14938,
+      "disk_sha256": "61f8a052daa4a45394383a86b8dde0d9eb8d914d87baf947f23f0a8ceffd3b34",
+      "git_blob_sha256": "61f8a052daa4a45394383a86b8dde0d9eb8d914d87baf947f23f0a8ceffd3b34",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+      "path": "gateway/b5/b5_policy.c",
+      "disk_bytes": 513,
+      "disk_sha256": "7125b9a29990acc62625beaa394ce2aa9759a36d7e0fff7c851dfa528bb01249",
+      "git_blob_sha256": "7125b9a29990acc62625beaa394ce2aa9759a36d7e0fff7c851dfa528bb01249",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+      "path": "gateway/canopen/src/mp_od.c",
+      "disk_bytes": 6507,
+      "disk_sha256": "687e3c58770a5f7ad0de96eeeda089515be44f4458fd854395811b852fb7c0fc",
+      "git_blob_sha256": "62f36bb59fc7bbbb1e86a4f22a88b422cb6a569c01114bd50e3731ed6a17b312",
+      "disk_equals_blob_bytes": false,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+      "path": "node-b/canopen/OD.c",
+      "disk_bytes": 52968,
+      "disk_sha256": "5aeadffde08d15970f566afcf0837532c00a719b99aff0c3a36183ccfcdd27e0",
+      "git_blob_sha256": "5aeadffde08d15970f566afcf0837532c00a719b99aff0c3a36183ccfcdd27e0",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+      "path": "node-b/canopen/OD.h",
+      "disk_bytes": 16340,
+      "disk_sha256": "b8f8b8bec593662668e584768f928db126c6c58b766fc94ffd80b88c9ff9ee52",
+      "git_blob_sha256": "b8f8b8bec593662668e584768f928db126c6c58b766fc94ffd80b88c9ff9ee52",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+      "path": "node-b/canopen/b_canopen_app.c",
+      "disk_bytes": 7734,
+      "disk_sha256": "00a7138087f4a78124d25fd4c180e933bdacc08e8703c3754fd28e9b9a159613",
+      "git_blob_sha256": "00a7138087f4a78124d25fd4c180e933bdacc08e8703c3754fd28e9b9a159613",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+      "path": "node-b/canopen/b_canopen_app.h",
+      "disk_bytes": 578,
+      "disk_sha256": "a73f0d8e2c5358e79f8ce3f63e7cadb7f02c4954add311cf89415b965d4dbb22",
+      "git_blob_sha256": "a73f0d8e2c5358e79f8ce3f63e7cadb7f02c4954add311cf89415b965d4dbb22",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+      "path": "node-b/canopen/ecg_units.h",
+      "disk_bytes": 917,
+      "disk_sha256": "78611650d6daaff9620275c9a55f9d0966b1be2d094704fc00080c231a612b43",
+      "git_blob_sha256": "78611650d6daaff9620275c9a55f9d0966b1be2d094704fc00080c231a612b43",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+      "path": "gateway/data_model/model.c",
+      "disk_bytes": 6214,
+      "disk_sha256": "29b54ab85700864169b9bf891626cdd5e816478be9ac79ac42c558518d5cc494",
+      "git_blob_sha256": "29b54ab85700864169b9bf891626cdd5e816478be9ac79ac42c558518d5cc494",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+      "path": "gateway/data_model/model.h",
+      "disk_bytes": 1555,
+      "disk_sha256": "74a63b8af6e29e56795182ed1b121cdb144cc72530c96cef4b546ee79f10cd6a",
+      "git_blob_sha256": "599afa922457cfc9d047cf7205242f00e899d40dcac4ed9b2784de44c8e1a836",
+      "disk_equals_blob_bytes": false,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+      "path": "gateway/storage/router.c",
+      "disk_bytes": 6618,
+      "disk_sha256": "40705d882fb48bc3effad2f7b1f0c6cdcd4b8f23ef13cc9d85d779b9f46e2e7e",
+      "git_blob_sha256": "401ebfad4a987f58b608e7247d46404d5a16a3618a39b4912042d7f80a892ae2",
+      "disk_equals_blob_bytes": false,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+      "path": "cloud/backend/app/hub.py",
+      "disk_bytes": 7047,
+      "disk_sha256": "5b17215626721ae524b9508ec3a40bb7d369f2b71f61f6cfb53bfbcb9b1b4ba1",
+      "git_blob_sha256": "5b17215626721ae524b9508ec3a40bb7d369f2b71f61f6cfb53bfbcb9b1b4ba1",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+      "path": "node-b/tools/run_b4.py",
+      "disk_bytes": 6112,
+      "disk_sha256": "aa12919a1be8d40bd8ec1950dc0460f8b4d98b57428649598dd38c356373b1e4",
+      "git_blob_sha256": "aa12919a1be8d40bd8ec1950dc0460f8b4d98b57428649598dd38c356373b1e4",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+      "path": "node-b/tools/run_b4_bench.py",
+      "disk_bytes": 4703,
+      "disk_sha256": "bafc07ccad4abafaf30830feefc82cdb90e4e1157d099673548db238a7758709",
+      "git_blob_sha256": "bafc07ccad4abafaf30830feefc82cdb90e4e1157d099673548db238a7758709",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "6669a855662f0655fc7d7b6fc4c9a45ee1ef13b0",
+      "path": "node-b/tests/b4_backend.py",
+      "disk_bytes": 1426,
+      "disk_sha256": "024cbe992a3101fca442e29ab602747e4cd145ed91b87e5b1f14c41bd46b033e",
+      "git_blob_sha256": "024cbe992a3101fca442e29ab602747e4cd145ed91b87e5b1f14c41bd46b033e",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "3fa14b00a0823d2855e9dd8bd1c6c8545abb8dc5",
+      "path": "node-a/STM32F407_HOSPITAL/HARDWARE/CANopen/OD.c",
+      "disk_bytes": 50463,
+      "disk_sha256": "2ead89afcfaba3f571c0af5256bc8bd37812f55419116ac6019feeeb3159ae49",
+      "git_blob_sha256": "2ead89afcfaba3f571c0af5256bc8bd37812f55419116ac6019feeeb3159ae49",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "3fa14b00a0823d2855e9dd8bd1c6c8545abb8dc5",
+      "path": "node-a/STM32F407_HOSPITAL/HARDWARE/CANopen/OD.h",
+      "disk_bytes": 16433,
+      "disk_sha256": "a57f6d2299b480f01cc16e6c836a41aab6daa510c4d83dbafd57a79b54875675",
+      "git_blob_sha256": "a57f6d2299b480f01cc16e6c836a41aab6daa510c4d83dbafd57a79b54875675",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "3fa14b00a0823d2855e9dd8bd1c6c8545abb8dc5",
+      "path": "node-a/STM32F407_HOSPITAL/HARDWARE/CANopen/canopen_app.c",
+      "disk_bytes": 7304,
+      "disk_sha256": "b9710086b796f0405e6dab4ee363943e6527398fe98d43a115dc046392c40323",
+      "git_blob_sha256": "b9710086b796f0405e6dab4ee363943e6527398fe98d43a115dc046392c40323",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "3fa14b00a0823d2855e9dd8bd1c6c8545abb8dc5",
+      "path": "node-a/STM32F407_HOSPITAL/HARDWARE/CANopen/canopen_app.h",
+      "disk_bytes": 3479,
+      "disk_sha256": "5cebe3a822c7a29ec84e64f26bea3f345c863fa495ddc2c22fbea9070f8f3652",
+      "git_blob_sha256": "5cebe3a822c7a29ec84e64f26bea3f345c863fa495ddc2c22fbea9070f8f3652",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    },
+    {
+      "ref": "3fa14b00a0823d2855e9dd8bd1c6c8545abb8dc5",
+      "path": "node-a/STM32F407_HOSPITAL/HARDWARE/CANopen/CO_driver.c",
+      "disk_bytes": 18042,
+      "disk_sha256": "87449f62bde69b42ddeddae0bfca10acc11ae1163e8e15a5a1102d5734bf3f8b",
+      "git_blob_sha256": "87449f62bde69b42ddeddae0bfca10acc11ae1163e8e15a5a1102d5734bf3f8b",
+      "disk_equals_blob_bytes": true,
+      "normalized_LF_text_equal": true,
+      "read_only": true
+    }
+  ],
+  "last_reported_artifacts": {
+    "B": {
+      "bytes": 41012,
+      "sha256": "1dbbf27177caa429f037ac72c43581a519e8ff70ac6224411c9c4ffe9529432d",
+      "provenance": "node-b/evidence/CODEX-R6-P1B0-20261030/live-B41012-install-summary.json",
+      "physical_identity_now": "UNKNOWN"
+    },
+    "C": {
+      "bytes": 49132,
+      "sha256": "72131dbb5ef6bc0e0d33e328925c685403bae928aea9447a81f8291c6ae5c1ab",
+      "provenance": "node-b/evidence/B5-C-REPAIR-R4/TIME-INIT-R1/candidate.json",
+      "physical_identity_now": "UNKNOWN",
+      "A_enabled_in_historical_candidate": false,
+      "full_current_source_to_91_build_inputs_byte_equivalence": "NOT_REPROVEN_THIS_M0"
+    },
+    "A": {
+      "bin_sha256": null,
+      "state": "UNKNOWN_CURRENT_BINARY_SOURCE_REF_ONLY"
+    }
+  },
+  "C_B5_source_macro_A_segment_enabled": false,
+  "dual_bus_physical_admission": "NOT_AUTHORIZED",
+  "current_cloud_deployment": "NOT_VERIFIED",
+  "SKX_QRS_OUTPUT": "UNKNOWN",
+  "tests_executed_by_this_reviewer": 0,
+  "SDK_COM_network_actions": 0,
+  "read_only_lookup_native_notes": [
+    {
+      "operation": "rg optional nonexistent build script paths",
+      "native_exit_code": 2,
+      "interpretation": "Path discovery only; corrected to gateway/dual_can/build_arm.py; no test executed"
+    },
+    {
+      "operation": "rg quoted literal wildcard candidate path",
+      "native_exit_code": 2,
+      "interpretation": "Windows literal wildcard path rejected; used known exact provenance instead; A binary remains UNKNOWN"
+    },
+    {
+      "operation": "initial strict disk-vs-Git blob hash collection",
+      "python_exit_code": 1,
+      "interpretation": "CRLF/LF difference in three current files; corrected provenance records distinct byte SHA and normalized text match, without changing source"
+    }
+  ]
+}

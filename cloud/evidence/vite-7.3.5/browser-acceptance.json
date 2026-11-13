@@ -1,0 +1,26 @@
+{
+  "passed": 16,
+  "checks": [
+    "Four modules plus TEMP and explicit MOCK source",
+    "RR numeric and received current RR trend render separately from RESP",
+    "NIBP SYS/DIA pair renders without an invented pressure waveform",
+    "Waveform window control changes the display scale",
+    "Fullscreen control enters and exits browser fullscreen",
+    "All four modules fit within a 1920x1080 screen",
+    "Local browser MOCK values and Canvas signal rendered",
+    "Invalid UI hides numeric values",
+    "Node-A offline UI isolation",
+    "Node-B offline UI isolation",
+    "REPLAY reaches separate panel and LIVE expires",
+    "Simulated broker offline/online state clears and restores UI",
+    "Silent stream expires and recovers",
+    "Page refresh and authenticated resubscription",
+    "Gateway selection isolates data sources",
+    "Mobile layout has no horizontal overflow"
+  ],
+  "simulation": true,
+  "timestamp": "2026-09-20T16:36:38Z",
+  "vite_version": "7.3.5",
+  "validated_code_commit": "45eb5c046da47911c451e4cd17d624e3c9a4a669",
+  "boundary": "Local built UI and actual Backend/Hub with synthetic in-process telemetry; no MQTT broker, hardware or public target."
+}

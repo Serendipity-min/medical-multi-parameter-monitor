@@ -1,0 +1,13 @@
+{
+  "status": "SERIAL_HANDLE_ERROR_AROUND_C_MANUAL_RESET_WITH_POWER_AND_JLINK_FIXED",
+  "exit_code": 1,
+  "reason": "GetOverlappedResult failed (PermissionError(13, '拒绝访问。', None, 5))",
+  "START_commands": 0,
+  "new_BOOT_captured": false,
+  "diagnostic_packets_before_error": 130,
+  "last_tick_before_error": 282001,
+  "all_recorded_vector_fault_diags_zero": true,
+  "B_second_runtime_attach": false,
+  "root_cause": "RESET_CORRELATED_SERIAL_HANDLE_INVALIDATION; ELECTRICAL_OR_DRIVER_MECHANISM_UNRESOLVED",
+  "workflow_correction": "MANUAL_RESET_WITH_PORT_CLOSED_THEN_RUNNING_ATTACH; NO_FAKE_BOOT"
+}

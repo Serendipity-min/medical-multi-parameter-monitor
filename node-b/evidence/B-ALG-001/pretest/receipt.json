@@ -1,0 +1,97 @@
+{
+  "utc": "2026-10-22T07:23:44.105261+00:00",
+  "scope": "B1_OFFLINE_ONLY",
+  "hardware_access": false,
+  "algorithm_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+  "before_sha256": "007d10dc254480814c2226815a4ba347bf4d7b3a4e934c26a3b730af4b61c25d",
+  "script_sha256": "2e593be1b0fd9ed06ae6dde7c0ac809a90dc86859d94506b796f167bbf0f78a7",
+  "cases": [
+    {
+      "case": "diag_120_bytes_host",
+      "pass": true
+    },
+    {
+      "case": "fixture_precondition_both_valid",
+      "pass": true
+    },
+    {
+      "case": "gap_100ms_inclusive_still_valid",
+      "pass": true
+    },
+    {
+      "case": "gap_101ms_drops_both_qualifications",
+      "pass": true
+    },
+    {
+      "case": "flags_invalidates_without_old_cycles",
+      "pass": true
+    },
+    {
+      "case": "sequence_invalidates_without_old_cycles",
+      "pass": true
+    },
+    {
+      "case": "time_reversal_invalidates_without_old_cycles",
+      "pass": true
+    },
+    {
+      "case": "timestamp_and_sequence_wrap_together",
+      "pass": true
+    },
+    {
+      "case": "normal_software_init_drops_old_qualification",
+      "pass": true
+    },
+    {
+      "case": "valid_requires_warmup_and_three_fresh_intervals",
+      "pass": true
+    },
+    {
+      "case": "historical_all_CH1_positive_rail",
+      "pass": true
+    },
+    {
+      "case": "historical_current_preserves_frames_old_early_return_reproduced",
+      "pass": true
+    },
+    {
+      "case": "historical_no_reference_no_accuracy_claim",
+      "pass": true
+    }
+  ],
+  "history": {
+    "raw8412": {
+      "status": "REPLAYED_CHARACTERIZATION_ONLY",
+      "source_sha256": "2dc6b0ac56c5d6901abfda4c0ea851b28d54e2c55b02b2d760740c43ad2b7ccf",
+      "source_kind": "HISTORICAL_OPEN_INPUT_NO_REFERENCE",
+      "frames": 8412,
+      "reference": "NONE",
+      "accuracy": "NOT_EVALUATED",
+      "results": {
+        "before": {
+          "hr_valid_samples": 0,
+          "rr_valid_samples": 0,
+          "samples_counter": 0,
+          "clipped_samples": 8412,
+          "last_sequence": 0,
+          "hr_reason": 32,
+          "rr_reason": 32
+        },
+        "current": {
+          "hr_valid_samples": 0,
+          "rr_valid_samples": 0,
+          "samples_counter": 8412,
+          "clipped_samples": 8412,
+          "last_sequence": 8412,
+          "hr_reason": 66,
+          "rr_reason": 34
+        }
+      }
+    },
+    "csv37169": {
+      "status": "NOT_RUN_EXACT_SHA_NOT_FOUND"
+    }
+  },
+  "pass": 13,
+  "total": 13
+}

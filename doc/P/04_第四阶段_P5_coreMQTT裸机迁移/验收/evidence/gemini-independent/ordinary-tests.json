@@ -1,0 +1,119 @@
+{
+  "audit_version": "MPM-P5-GEMINI-INDEPENDENT-AUDIT-20261009",
+  "generated_at_utc": "2026-10-09T11:58:00Z",
+  "target_commit": "d1e7388a91149a7c66e6cf1a5df7321bbb8eab12",
+  "base_commit": "8dee339491cfd4edc468bb9451511d421f26db5e",
+  "results": {
+    "F01": {
+      "name": "coreMQTT Vendor Integrity",
+      "command": "python gateway/third_party/verify_coremqtt_integrity.py",
+      "exit_code": 0,
+      "test_count": 9,
+      "status": "PASS",
+      "log": "logs/f01_coremqtt_integrity.log",
+      "log_sha256": "2d3cd937766cf1c76f4bc17eb585152e1db7645bce5e7499fbcdad5a2130199c"
+    },
+    "F02": {
+      "name": "P5 Source Contract Tests",
+      "command": "python -m unittest discover -s gateway/mqtt/tests -p 'test_p5_integrity.py' -v",
+      "exit_code": 0,
+      "test_count": 6,
+      "status": "PASS",
+      "log": "logs/f02_p5_integrity.log",
+      "log_sha256": "ec2619c6180d2571d61188d089e8daf2199e07a2244d05614346408ba8d91c27"
+    },
+    "F03": {
+      "name": "MQTT Host Tests",
+      "command": "python gateway/mqtt/tests/run_p5_host_tests.py",
+      "exit_code": 0,
+      "test_count": 42,
+      "status": "PASS",
+      "log": "logs/f03_p5_host_tests.log",
+      "log_sha256": "563e6b5db3b69f7b14c21635009ea60ffd828769623f1f8c3fbe68870f0feaca"
+    },
+    "F04": {
+      "name": "CANopen / Router / Restart Reliability",
+      "command": "python gateway/canopen/build_host.py",
+      "exit_code": 0,
+      "test_count": 40,
+      "breakdown": {
+        "canopen_protocol": 12,
+        "router_pipeline": 11,
+        "restart_reliability": 17
+      },
+      "status": "PASS",
+      "log": "logs/f04_canopen_build_host.log",
+      "log_sha256": "5e37734cbf37290f568ef2babedd01dd9b183c53cfe4888fc6f056dbd8175520"
+    },
+    "F05": {
+      "name": "Canonical Messages Contract",
+      "command": "python gateway/canopen/tools/check_canonical.py",
+      "exit_code": 0,
+      "test_count": 41,
+      "streams_count": 11,
+      "status": "PASS",
+      "log": "logs/f05_canonical_messages.log",
+      "log_sha256": "213096b2507e926911276c49c31d78ce61ff89824f4d98965fc9ddb69d928547"
+    },
+    "F06": {
+      "name": "Cloud Backend Regression",
+      "command": "python -m pytest cloud/backend/tests -q -p no:cacheprovider",
+      "exit_code": 0,
+      "test_count": 28,
+      "warnings": 2,
+      "status": "PASS",
+      "log": "logs/f06_backend_pytest.log",
+      "log_sha256": "6d4dddbf084deabbc03f164b60fb70ff561164104558891862241d4917b05163"
+    },
+    "F07": {
+      "name": "Cloud Web Suite",
+      "command": "npm ci --ignore-scripts --no-audit --no-fund && npm test && npm run build",
+      "exit_code": 0,
+      "test_count": 11,
+      "build_status": "SUCCESS",
+      "status": "PASS",
+      "log": "logs/f07_npm_test.log",
+      "log_sha256": "146fb6aaa923e4302f931a40911df2cc77798f6f0a8de7c358470424415952d9"
+    },
+    "F08": {
+      "name": "ARM Mandatory Compilation",
+      "command": "python gateway/mqtt/build.py",
+      "exit_code": 0,
+      "elf_bytes": 66820,
+      "bin_bytes": 35892,
+      "bin_sha256": "47e7b37ca870028c0efcfa75957993bac1376e8c5a8cacf81cffb5e8abcdf69d",
+      "status": "PASS",
+      "log": "logs/f08_arm_build.log",
+      "log_sha256": "722b329cac16768a35d2cddace1899ebe2720c3211e029c1191745f744595a94"
+    },
+    "F09": {
+      "name": "Isolated Mosquitto Integration",
+      "command": "python gateway/mqtt/tests/run_broker_integration.py --runtime /mnt/e/medical-monitor-p5/isolated-broker/runtime",
+      "exit_code": 0,
+      "test_count": 30,
+      "status": "PASS",
+      "log": "logs/f09_broker_integration.log",
+      "log_sha256": "0c90f60e6f90f514602377aab7363e65b2e7fa14b692960b977df504f6916106"
+    },
+    "F10": {
+      "name": "GitHub CI Read-only Check",
+      "command": "gh pr checks 6",
+      "exit_code": 0,
+      "checks": [
+        {
+          "name": "test-and-build",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 37906799859
+        },
+        {
+          "name": "semgrep-cloud-platform/scan",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 113742095807
+        }
+      ],
+      "status": "PASS"
+    }
+  }
+}

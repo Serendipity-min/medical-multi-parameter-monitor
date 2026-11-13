@@ -1,0 +1,17 @@
+[
+  {
+    "case": "startup",
+    "exit": 0,
+    "output": "HOST_FIVE_APPLIANCE_STARTUP_PASS checks=36099 config_missing_local_only=1 init_callback_safe=1 backoff_max_ms=30000 hardware=NOT_RUN"
+  },
+  {
+    "case": "keys-short-audio",
+    "exit": 0,
+    "output": "HOST_FIVE_KEY_AUDIO_PASS checks=1494 short_samples=16160 short_chunks=64 full_samples=32000 full_chunks=125 refusal_fixed=1 expired_STOP_QUERY_IDLE=1 hardware=NOT_RUN"
+  },
+  {
+    "case": "legacy-audio",
+    "exit": 0,
+    "output": "HOST_UNIFIED_AUDIO_PASS checks=1947 chunks=250 hash_slices=500 crc=2735321824 hardware=NOT_RUN"
+  }
+]

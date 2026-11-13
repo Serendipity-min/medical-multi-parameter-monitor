@@ -1,0 +1,87 @@
+{
+  "scope": "OFFLINE_READ_SKEW_DIAGNOSTIC_NOT_CRITERION_REPLACEMENT",
+  "matched_snapshots": 600,
+  "raw_violations": 22,
+  "BIO_to_TEMP_read_span_ms": {
+    "min": 15.0,
+    "median": 16.0,
+    "max": 516.0
+  },
+  "raw_violation_examples": [
+    {
+      "offset_s": 1.328,
+      "raw_age_ms": -20,
+      "BIO_to_TEMP_native_return_span_ms": 15.0,
+      "age_plus_host_read_span_estimate_ms": -5.0
+    },
+    {
+      "offset_s": 22.297,
+      "raw_age_ms": -18,
+      "BIO_to_TEMP_native_return_span_ms": 16.0,
+      "age_plus_host_read_span_estimate_ms": -2.0
+    },
+    {
+      "offset_s": 31.922,
+      "raw_age_ms": -14,
+      "BIO_to_TEMP_native_return_span_ms": 16.0,
+      "age_plus_host_read_span_estimate_ms": 2.0
+    },
+    {
+      "offset_s": 32.797,
+      "raw_age_ms": -14,
+      "BIO_to_TEMP_native_return_span_ms": 16.0,
+      "age_plus_host_read_span_estimate_ms": 2.0
+    },
+    {
+      "offset_s": 43.938,
+      "raw_age_ms": -13,
+      "BIO_to_TEMP_native_return_span_ms": 16.0,
+      "age_plus_host_read_span_estimate_ms": 3.0
+    },
+    {
+      "offset_s": 44.797,
+      "raw_age_ms": -16,
+      "BIO_to_TEMP_native_return_span_ms": 16.0,
+      "age_plus_host_read_span_estimate_ms": 0.0
+    },
+    {
+      "offset_s": 102.86,
+      "raw_age_ms": -22,
+      "BIO_to_TEMP_native_return_span_ms": 16.0,
+      "age_plus_host_read_span_estimate_ms": -6.0
+    },
+    {
+      "offset_s": 117.906,
+      "raw_age_ms": -17,
+      "BIO_to_TEMP_native_return_span_ms": 16.0,
+      "age_plus_host_read_span_estimate_ms": -1.0
+    },
+    {
+      "offset_s": 137.344,
+      "raw_age_ms": -12,
+      "BIO_to_TEMP_native_return_span_ms": 16.0,
+      "age_plus_host_read_span_estimate_ms": 4.0
+    },
+    {
+      "offset_s": 150.875,
+      "raw_age_ms": -19,
+      "BIO_to_TEMP_native_return_span_ms": 515.0,
+      "age_plus_host_read_span_estimate_ms": 496.0
+    },
+    {
+      "offset_s": 159.828,
+      "raw_age_ms": -11,
+      "BIO_to_TEMP_native_return_span_ms": 15.0,
+      "age_plus_host_read_span_estimate_ms": 4.0
+    },
+    {
+      "offset_s": 178.406,
+      "raw_age_ms": -14,
+      "BIO_to_TEMP_native_return_span_ms": 15.0,
+      "age_plus_host_read_span_estimate_ms": 1.0
+    }
+  ],
+  "violations_not_explained_by_span_plus_4ms": 3,
+  "estimator_violations_below_minus10": 0,
+  "limit": "Host read span is not a replacement MCU timestamp or proof of WCET. Preserve raw -22ms/22 cases and frozen failure. It tests a competing measurement-skew hypothesis."
+}

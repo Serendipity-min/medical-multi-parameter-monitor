@@ -1,0 +1,14 @@
+{
+  "status": "ECG60_PRECOMMON_HOST_READINESS_ERROR",
+  "exit_code": 1,
+  "reason": "Stale optional PPG from prior session incorrectly blocked readiness",
+  "B_HR": 60,
+  "B_HR_valid": true,
+  "A_node_online": true,
+  "current_A_SpO2_PR": "INVALID, correctly masked",
+  "evaluation_started": false,
+  "manual_NIBP_started": false,
+  "fix": "Ignore only STALE/OFFLINE A optional streams at readiness; current valid old sessions still rejected",
+  "host_tests_pass": 7,
+  "hardware_actions_in_fix": 0
+}

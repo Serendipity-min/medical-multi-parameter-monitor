@@ -1,0 +1,14 @@
+{
+  "status": "BUILD_AND_ACTUAL_CORE_REPLAY_PASS_NOT_INSTALLED",
+  "BIN_bytes": 29284,
+  "BIN_SHA256": "fa77b07590c764462314705af9fce2bd11b0cb90e31f83a921b878a4dccb1074",
+  "sectors": [
+    0,
+    1
+  ],
+  "fix": "MIC-only inbound QoS1 state record; previous publish-only MQTT context refused subscribe with MQTTBadParameter",
+  "pre_fix_replay_native_exit": 3,
+  "fixed_replay_compile_native_exit": 0,
+  "fixed_replay_native_exit": 0,
+  "covered": "whole/1byte/2byte SUBACK, downgraded/refused/wrongid rejection, real incoming QoS1 callback+PUBACK"
+}

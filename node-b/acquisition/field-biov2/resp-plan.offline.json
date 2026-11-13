@@ -1,0 +1,274 @@
+{
+  "schema": "BIO_V2_RESP_OFFLINE_PLAN_1",
+  "status": "DRAFT_NOT_APPROVABLE_SOURCE_AND_TOOL_GATES",
+  "enabled": false,
+  "hardware_actions": [],
+  "execution_entry_point": null,
+  "data_source": "ENGINEERING_NONHUMAN",
+  "expected_source_mode": "RESP_IMPEDANCE",
+  "operator_ready": false,
+  "firmware": {
+    "bin_sha256": "438a8120f6df06ce219cdc30c0e5b697ac0e993f98d5a80521b10361536ae3ae",
+    "bio_source_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+    "installed_full_flash_sha256": "f713277a50a5ec8d8a93317f412d5ab1b754e5d619918e57e9efe9dceef24cbb",
+    "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+    "identity_reference_sha256": "6807dc3c928c11b5ba3d2185286f2a7e18bc526485d7ac84edace59728dc0323",
+    "abi": 2,
+    "sample_hz_nominal": 250
+  },
+  "design_path": {
+    "module_network_pair": [
+      "ERA",
+      "ELA"
+    ],
+    "required_simulator_pair": [
+      "RA",
+      "LA"
+    ],
+    "leads": {
+      "R_red": "RA",
+      "L_yellow": "LA",
+      "F_green": "RL"
+    },
+    "F_role": "ACTIVE_RLD_OUTPUT_NOT_RESP_INPUT",
+    "LL_and_chest": "DISCONNECTED",
+    "design_confirmed": true,
+    "end_to_end_continuity_measured": false
+  },
+  "source_truth": {
+    "actual_dynamic_pair": null,
+    "R_unit": null,
+    "amplitude_definition": null,
+    "Z0_ohm": null,
+    "Zmin_ohm": null,
+    "Zmax_ohm": null,
+    "delta_Zpp_ohm": null,
+    "compatible_at_32khz": null,
+    "active_RLD_on_RL_compatible": null,
+    "evidence_sha256": null
+  },
+  "pilot_proposal": {
+    "sessions": 1,
+    "seconds": 10,
+    "reference_rpm": 12,
+    "reference_hr_bpm": 60,
+    "amplitude_menu_literal": "1.5R",
+    "base_impedance_manual_literal": "1kOhm",
+    "apnea_seconds_proposed": 0,
+    "battery_only": true,
+    "usb_disconnected": true,
+    "reset_requests": 0,
+    "halt_requests_max": 1,
+    "go_requests_max": 2,
+    "flash_option_gpio_spi_config_writes": 0,
+    "RR_acceptance": "NOT_EVALUATED_SHORT_INPUT_WINDOW_ONLY"
+  },
+  "formal_matrix_proposal_not_authorized": {
+    "references_rpm": [
+      12,
+      18,
+      24
+    ],
+    "windows_per_rate": 2,
+    "warmup_ms": 45000,
+    "evaluation_ms": 90000,
+    "tail_margin_ms": 2000,
+    "seconds": 137,
+    "RR_tolerance_rpm": 1,
+    "HR_reference_bpm": 60,
+    "HR_tolerance_bpm": 2,
+    "threshold_status": "PROPOSED_MUST_FREEZE_IN_SEPARATE_CARD"
+  },
+  "layout": {
+    "diag": {
+      "address": "0x20001ae4",
+      "bytes": 120,
+      "tag": "0x324f4942",
+      "abi_version": 2,
+      "fields": [
+        {
+          "name": "tag",
+          "offset": 0
+        },
+        {
+          "name": "abi_version",
+          "offset": 4
+        },
+        {
+          "name": "samples",
+          "offset": 8
+        },
+        {
+          "name": "last_sequence",
+          "offset": 12
+        },
+        {
+          "name": "last_sample_ms",
+          "offset": 16
+        },
+        {
+          "name": "segment",
+          "offset": 20
+        },
+        {
+          "name": "discontinuities",
+          "offset": 24
+        },
+        {
+          "name": "clipped_samples",
+          "offset": 28
+        },
+        {
+          "name": "ecg_raw",
+          "offset": 32
+        },
+        {
+          "name": "resp_raw",
+          "offset": 36
+        },
+        {
+          "name": "ecg_filtered",
+          "offset": 40
+        },
+        {
+          "name": "resp_filtered",
+          "offset": 44
+        },
+        {
+          "name": "hr",
+          "offset": 48
+        },
+        {
+          "name": "rpm",
+          "offset": 52
+        },
+        {
+          "name": "hr_valid",
+          "offset": 56
+        },
+        {
+          "name": "rpm_valid",
+          "offset": 60
+        },
+        {
+          "name": "hr_reason",
+          "offset": 64
+        },
+        {
+          "name": "rpm_reason",
+          "offset": 68
+        },
+        {
+          "name": "hr_candidates",
+          "offset": 72
+        },
+        {
+          "name": "hr_accepted",
+          "offset": 76
+        },
+        {
+          "name": "resp_candidates",
+          "offset": 80
+        },
+        {
+          "name": "resp_accepted",
+          "offset": 84
+        },
+        {
+          "name": "hr_last_cycle_ms",
+          "offset": 88
+        },
+        {
+          "name": "resp_last_cycle_ms",
+          "offset": 92
+        },
+        {
+          "name": "hr_fresh_intervals",
+          "offset": 96
+        },
+        {
+          "name": "resp_fresh_intervals",
+          "offset": 100
+        },
+        {
+          "name": "ecg_rms_codes",
+          "offset": 104
+        },
+        {
+          "name": "resp_rms_codes",
+          "offset": 108
+        },
+        {
+          "name": "ecg_mains_fraction",
+          "offset": 112
+        },
+        {
+          "name": "resp_mains_fraction",
+          "offset": 116
+        }
+      ]
+    },
+    "slots": {
+      "address": "0x20001f30",
+      "bytes": 3072,
+      "record_bytes": 24
+    },
+    "adc_stats": {
+      "address": "0x2000018c",
+      "bytes": 48
+    },
+    "register_readback": {
+      "address": "0x200001bc",
+      "bytes": 12
+    },
+    "head": {
+      "address": "0x20000140",
+      "bytes": 4
+    },
+    "tail": {
+      "address": "0x20000144",
+      "bytes": 4
+    }
+  },
+  "current_ECG_profile_sha256": "4e298cf97e55ea8c7d01aa9509b54ef682256fcad6c9ba30cca835ec1cde1a7f",
+  "current_tools_baseline_sha256": {
+    "node-b/tools/adc_path_b.py": "a80c1ed4ccddb8f0f569c3753c2659b78e01bb3c6b4f0b49bcaf3aa27a152d12",
+    "node-b/tools/analyze_capture_b.py": "6b30e6c13d1f13e3ddeda35404555d99ddf8b5e29b5136ad2bf1f204587879e0",
+    "node-b/tools/boot_check_b.py": "0c854ade1cc99807badbdbc8a9f0a5eb7dd24d6447f617356fcd2bcd42f100c0",
+    "node-b/tools/capture_b.py": "7c45589bff1099e20354b8dbe7db9bb2e32095bf67a904b9358cf4f4996800fa",
+    "node-b/tools/fault_snapshot_b.py": "96d0976b2dd18d5c9a982c4d8b8afe9f2822f0120bbe06ef4c48cb4461bc49a3",
+    "node-b/tools/install_b.py": "fda533019df8c314a4cd6c894628a042ac9f2929f41d48daac0ba47334a13778",
+    "node-b/tools/precheck_b.py": "3c490ecc99154aa857b0f2f9767951b5e6587844269983670a6ea53684ce4a81",
+    "node-b/tools/readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+    "node-b/tools/start_pulse_b.py": "f928f897cfe62dddec02002c0e58557163e0a4c81ad25f031c473a549b4534db",
+    "node-b/tools/supervise_readback.py": "4358e13e6de4a194166aeac3a9e315cdf98b9e890563771a255096a9bd897148",
+    "node-b/tools/JLinkPolicyProbe.cs": "9c0fb4983381ce775fd42c13e70838e3cbf671fc8b43a39b38e3ddce5c9890c6",
+    "node-b/docs/AUTH-B-ADC-PATH-001-R1.md": "bbd7a04af6b88ce7361fc55fda25cb37d2413b523345f22f43fcbc976a0f4f44",
+    "node-b/docs/AUTH-B-ADC-PATH-001-R2.md": "52bfd3d62c5cccebd1803e4668335f94bb1eb24c6366df130f860d0d4daa107f",
+    "node-b/docs/AUTH-B-BOOT-001-R1.md": "5823c3b14b5a37a43a20adf6b2850c4c068de20269dc52cd792fa0cdaeb4aed6",
+    "node-b/docs/AUTH-B-CAPTURE-OPEN-001-R1.md": "7ec33c752cf4ea5007b1b31490ee7b60617d1a43bf5101044d4db33fb47c71a7",
+    "node-b/docs/AUTH-B-ECG-MATRIX-001-R1.md": "09ac5988df14d1e64f4b253f7bf413497eed69f6c4923be1ab52401ded606584",
+    "node-b/docs/AUTH-B-ECG-PILOT-001-R1.md": "f4df4dfd9df03879aed5b297862b540772d85dfcf25e55052f1aa4af1f54f587",
+    "node-b/docs/AUTH-B-FAULT-001-R1.md": "75240aaf8906faba5352cfc0989a22bcdcd5bfdafc57d32c28d59a0ef9614016",
+    "node-b/docs/AUTH-B-INSTALL-001-R1.md": "6213f044bf72118195bb79711a9c185bdbacfb380a73558a5139bb4fb4af3ac1",
+    "node-b/docs/AUTH-B-PRECHECK-001-R1.md": "5265247b2979be393c351d793dc6a9bad2aba14f60df520a398d1ca1704a9060",
+    "node-b/docs/AUTH-B-PRECHECK-001-R2.md": "a54e013320f4b5eee06ddca645e797233cd6fec38123b69cddec6e887b5fc9de",
+    "node-b/docs/AUTH-B-READBACK-001-R1.md": "f006a0829bdd39c8a2c6c1652438fb71ebb8cd5dbf576cd2a37c29a0bc9b7d10",
+    "node-b/docs/AUTH-B-READBACK-001-R2.md": "ef50fa5f195e7c12a222655cfa37dcb079ce85d4f89688418ecad2ed996340bb",
+    "node-b/docs/AUTH-B-REPROBE-001-R1.md": "7165477c5260537e4c27c4c8b9e17820d06f75bed079d8420248ea9fa23027d1",
+    "node-b/docs/AUTH-B-START-PULSE-001-R1.md": "5e0f0a72428c380e72efec64d5692eb2ef164ea4c626226292d11e8b5e896163",
+    "node-b/docs/AUTH-B-START-PULSE-001-R2.md": "e583e52d982a370a9f4fff20c2444dad80d9b10d35dc1915ce5fcc99c4011168"
+  },
+  "RESP_tool_profile_source_bindings": null,
+  "gates": {
+    "S1": "BLOCKED_SOURCE_PAIR",
+    "S2": "BLOCKED_AMPLITUDE_DEFINITION",
+    "S3": "BLOCKED_32KHZ_RLD_COMPATIBILITY",
+    "S4": "BLOCKED_MATCHED_SOURCE_MENU_REFERENCE",
+    "T1": "NOT_IMPLEMENTED_RESP_SOURCE_GATE",
+    "T2": "NOT_IMPLEMENTED_RESP_DIAGNOSTICS_AND_EVALUATION",
+    "A1": "NOT_AUTHORIZED_R2_NOT_ISSUED"
+  },
+  "stop_on_unknown": true,
+  "legacy_ECG_mode_substitution_forbidden": true
+}

@@ -1,0 +1,15 @@
+{
+  "status": "STOP_TARGET_HOST_PREARM_TIMEOUT",
+  "C_candidate_bytes": 42844,
+  "C_install_PASS": true,
+  "C_preflight_PASS": true,
+  "B5START_attempts": 0,
+  "supervisor_exit_code": 1,
+  "worker_exit_code": 1,
+  "reason": "SUPERVISOR_DEADLINE",
+  "C_reset_owner_report_arrived_after_capture_exit": true,
+  "B_last_native_API_active_when_supervisor_ended": true,
+  "B_post_process_exit_state": "UNKNOWN_NOT_OBSERVED",
+  "no_automatic_Go_or_reset": true,
+  "proposed_repair": "Separate bounded owner preparation allowance and CPU-verified cancellation cleanup; no changes to deployed C or B algorithm"
+}

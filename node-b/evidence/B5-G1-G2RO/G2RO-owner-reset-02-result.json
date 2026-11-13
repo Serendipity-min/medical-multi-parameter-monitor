@@ -1,0 +1,73 @@
+{
+  "phase": "G2_RO_OWNER_NEW_REQUEST_AFTER_RESET",
+  "status": "PASS_FRESH_C24104_DOUBLE_READ",
+  "window": 2,
+  "attempts_this_authorization": 1,
+  "initial_ROM_window_retained": true,
+  "owner_manual_reset_before_window": true,
+  "worker_exit_code": 0,
+  "supervisor_exit_code": 0,
+  "actual_full_Flash_SHA256": "b460d917e1d454fdb0882d1f837d91c606363179b817a3896a1df6897b2dcb98",
+  "actual_options_SHA256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+  "independent_Flash_reads": 2,
+  "independent_options_reads": 2,
+  "actual_Flash_read_lengths": [
+    1048576,
+    1048576
+  ],
+  "actual_options_read_lengths": [
+    16,
+    16
+  ],
+  "C_identity_matches_reference": true,
+  "VTOR": "0x0",
+  "DWT_PCSR_samples": [
+    "0x8004ac2",
+    "0x8005244",
+    "0x80018ec"
+  ],
+  "real_PC": "NOT_OBSERVED_NO_HALT",
+  "real_MSP": "NOT_OBSERVED_NO_HALT",
+  "config_record": {
+    "header_committed_CRC_valid": true,
+    "CRC_matches": true,
+    "B5_identity_matches": false
+  },
+  "regions": {
+    "sector3": {
+      "bytes": 16384,
+      "sha256": "1698c8783b4fbdd1bc7fc5a8641babc7b499b58a65be54e7b36c65c6c5b88313",
+      "double_read_identical": true
+    },
+    "sector7": {
+      "bytes": 131072,
+      "sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "double_read_identical": true
+    },
+    "sector11": {
+      "bytes": 131072,
+      "sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "double_read_identical": true
+    }
+  },
+  "SDK_calls": 85,
+  "close_resume_policy": true,
+  "explicit_tool_reset_halt_go_writes": 0,
+  "automatic_retries": 0,
+  "candidate_BIN_bytes": 42552,
+  "candidate_BIN_SHA256": "d5b9624b3da1129b4e045d3b2f669c00d2d93cb7379b15293ff143fe9f130683",
+  "fresh_install_restore_manifest_SHA256": "3782fc9caa0f921cc51001191df0ac90e2633710e89f56bae017d2e3d35e73fc",
+  "fresh_binding_SHA256": "f614271c83b8b6f11992531537ea49ab6434f6f2a7c2481f1cced7ae55f1cad1",
+  "expected_after_app_install_full_SHA256": "3eaf583a703137b09665da5d2bfd7e860cd3a2208bf659b631d7ee4d0541545c",
+  "default_restore_full_SHA256": "b460d917e1d454fdb0882d1f837d91c606363179b817a3896a1df6897b2dcb98",
+  "app_sectors": [
+    0,
+    1,
+    2
+  ],
+  "app_erase_range": "[0x08000000,0x0800C000)",
+  "actual_install_restore_executions": 0,
+  "G2_A_authorized": false,
+  "G2_B_authorized": false,
+  "ROM_root_cause": "UNRESOLVED"
+}

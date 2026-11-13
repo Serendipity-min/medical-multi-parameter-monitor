@@ -1,0 +1,3 @@
+# 硬件观察工具额外依赖；MQTT/Backend依赖沿用项目锁定清单。
+-r ../../cloud/backend/requirements-dev.txt
+pyserial==3.5

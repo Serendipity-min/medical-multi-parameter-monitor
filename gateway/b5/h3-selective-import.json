@@ -1,0 +1,44 @@
+{
+  "reference": "a5cdd5b0b1ad48108fd631136e9de69e30582f2d",
+  "strategy": "SELECTED_FILES_ONLY_NO_BRANCH_MERGE",
+  "original_sha256": {
+    "gateway/mqtt/src/gateway_transport.c": "f8887c7c7e8f224d24427a87353239febe63d47531cdb4bf61d5ceb36cd669bf",
+    "gateway/mqtt/src/gateway_transport.h": "852ffb9877f6844dfa83e2e28902e0d4860f7ad8f61057d7668a5b5a373c9a5b",
+    "gateway/mqtt/src/gateway_platform.h": "972b04a6ae0a502024d1e9389c993d414c7fdd4f64d75f1f7eeb7f072ecd87aa",
+    "gateway/mqtt/src/gateway_config.h": "e2ffbf3c30c989434f566f44cd6e4b9799504df172319870df8c2f569d179b01",
+    "gateway/mqtt/src/persistent_config.h": "78907d32d3cfd59ebad11430d7cbbbe9207006095ba95349659dc80231727559",
+    "gateway/mqtt/src/sntp_sample.h": "43e911a6e3b710c78439946bd3297f6729385db6aaed695df82f0c3daa50371a",
+    "gateway/mqtt/src/at_version.h": "7b4bcacefb8f54a02e5d6d781e8143aab837160b363d887a76029158c5e5e048",
+    "gateway/mqtt/src/wifi_status.h": "c2e231036e703c88a99181dd2a2f7fbcf90c3a6ba0b821e4dc9515e72e3a33af",
+    "gateway/mqtt/src/esp_io_metrics.h": "b9a06c33867c99449e95eba4189926c1e4535406ecbf6a4de7b57d367cdd83f9",
+    "gateway/mqtt/src/platform.c": "e7bf612f30ce2b50bf4ecd1b952f7d6f655d5fed3f985d52a5556a0c7bcdcf9b",
+    "gateway/mqtt/src/mqtt_transport_adapter.c": "e9ea41b21ced0c9faa1cea8646562c69aa8e63e0506dfd4fa9f66f7bdf795028",
+    "gateway/mqtt/src/mqtt_transport_adapter.h": "778928348f18068e9195ea7590b9099bd375a662553b7ab4fc8a8c631c18a924",
+    "gateway/mqtt/src/core_mqtt_config.h": "53f3b0a749f5504fbf42119b0ada326db8dde1d107bf89b03dda42cc515103c9",
+    "cloud/backend/app/hub.py": "5b17215626721ae524b9508ec3a40bb7d369f2b71f61f6cfb53bfbcb9b1b4ba1",
+    "cloud/ai/__init__.py": "df9565a521153d8ea3f650b0dd8285939e0b3751b5df3a5d0cb1adcdcf1f138d",
+    "cloud/ai/facts.py": "2c1d4a0d64ff0beb9674af578ce362fc88069c3a8140c5d38b3894b8025df8a7",
+    "cloud/ai/snapshot.py": "5959bcbe888b8278cb21df3d228a659884f7266dc38d313ca9fbb80acbfaf516",
+    "cloud/backend/tests/test_ac_nibp.py": "88a7c5e01b352bc183095f4533663a148db9577e54482c71475d37ded60ad862",
+    "cloud/web/src/main.ts": "e8bfb0e5b11fb4837fb49cb7c4514527c8fc240df0e3b70d11416c0651dd1e73",
+    "cloud/web/src/router/hashRouter.ts": "02a9049ce9185b1b7c7fb9148571818fc236f2eeaa68641c6c725d7865050854",
+    "cloud/web/src/state/monitorStore.ts": "8c158d60caf232d31324c7cee41483a9ae32fc805db0faba88955e36a59c1503",
+    "cloud/web/src/style.css": "ed4e43bf3a691da89eb534799b1c489392a616780b0a909ed2e936dfb9aecd71",
+    "cloud/web/src/ui/aiPanel.css": "df017fd2fa6ef554c87b71bdeaa09a736f44bb997bb86ffa4963bdf3ca908372",
+    "cloud/web/src/ui/aiPanel.ts": "188a3270c696741733b4eaa3984bf83d3006cbb4b1254975862014676edb679d",
+    "cloud/web/src/ui/aiResponse.ts": "3650eab937b65f6cd435727350dd32cee1cd59d3287883c4c501cc99da0e55ff",
+    "cloud/web/src/ui/monitorView.ts": "0c6391537cadd8c283818a53144e2a1d95c6557a5a898c1a7bef0f7055a95998",
+    "cloud/web/src/ui/parameters.ts": "de1f79a08b69004c41bdd70c18185c1b26aa0af66642de9506ce2fa30cdf52aa",
+    "cloud/web/src/ui/sessionView.ts": "5ae6f3cbbadb9ebab3d1eea672f836548ff9d8ea1973b24f4d9bf52111d7d923",
+    "cloud/web/tests/ai.test.ts": "33748fe0307f75ba3b2f85e0b4afce0241ae917c69d7febeda60cd1d393d5bb7",
+    "cloud/web/tests/run.mjs": "de82e3566dc41bf9a393d94f5ef7c15622ce6d8c45532f734eceec2e53674aae",
+    "cloud/web/tests/state.test.ts": "7b642026f487cfc4813f0fa0288f24ce821d48c3a8107b882cf460bfede01048",
+    "cloud/web/vite.config.ts": "77794128a5fb3d3ad9558300a1d3288a71cc3369cca0979516cfe25ca2a78859"
+  },
+  "relocated_tests": {
+    "gateway\\b5\\tests\\sntp_sample.c": {
+      "original_path": "gateway/physical_can/tests/sntp_sample.c",
+      "sha256": "bcfafa340e0953255d2f7d1e32749af19613ec43ddf3692fd394dcdbca456a0d"
+    }
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "date": "2026-10-15 Asia/Shanghai",
+  "scope": "G2S_USB_ONLY_SOURCE_S",
+  "status": "WAITING_OPERATOR_MANUAL_BOOT",
+  "B2_base": "2ca744d2f06d49711863968aeef15b64891edd18",
+  "operator_reports": {
+    "port": "COM15",
+    "VOUT1_3V3_V": 3.33,
+    "VOUT2_5V_V": 4.87,
+    "DSO_battery_available": true,
+    "JLink_connection_plan": "FULLY_DISCONNECTED"
+  },
+  "backup": {
+    "status": "PASS",
+    "copies": 2,
+    "bytes_each": 1048576,
+    "sha256": "15102707af11cfb7f57bac250bd30e583274d9f992292f5db6576a4b69c37354",
+    "current_S_differs_from_historical_B_UID": true,
+    "UID_published": false
+  },
+  "candidate": {
+    "type": "NEW_USB_CONSOLE_ENTRY_G1_DRIVER_UNCHANGED",
+    "BIN_SHA256": "b61f4948fa0ff36fcc191c543841770e9ce9c97e65a614f6e086a8b3e8afc05e",
+    "BIN_bytes": 13172,
+    "AXF_SHA256": "cc66a79aa8734706dc8d540c6a1ac64b659630b18c49d29d9dc6484d6af21254",
+    "resources": {
+      "code": 4376,
+      "ro": 8760,
+      "rw": 36,
+      "zi": 9636
+    },
+    "ARM_exit": 0,
+    "ARM_errors": 0,
+    "ARM_warnings": 0,
+    "console_host_checks_passed": 34,
+    "ROM_model_checks_passed_latest": 19,
+    "app_reply_checks_passed": 11
+  },
+  "real_attempts": [
+    {
+      "action": "backup",
+      "status": "FAIL",
+      "run_directory": "backup-20261015T083314214133Z",
+      "error_type": "CommandError"
+    },
+    {
+      "action": "backup",
+      "status": "PASS",
+      "run_directory": "backup-20261015T083459020983Z"
+    },
+    {
+      "action": "flash",
+      "status": "FAIL",
+      "run_directory": "flash-20261015T084242060309Z",
+      "error_type": "CommandError"
+    },
+    {
+      "action": "flash",
+      "status": "FAIL",
+      "run_directory": "flash-20261015T084631782046Z",
+      "phase": "ROM_RESET",
+      "error_type": "CommandError"
+    },
+    {
+      "action": "probe",
+      "status": "PASS",
+      "run_directory": "probe-20261015T084608944530Z",
+      "phase": "BOUND_IDENTITY_AND_FLASH_OPERATION",
+      "ROM_restore_commands_verified": true
+    }
+  ],
+  "flash_erased": false,
+  "flash_written": false,
+  "original_restoration_executed": false,
+  "original_restoration_live_proven": false,
+  "DAC_modes_executed": [],
+  "BIAS_DC": "NOT_MEASURED",
+  "dynamic_waveform": "DYNAMIC_UNVERIFIED",
+  "Security_Gate": "NOT_RUN",
+  "PR": "NOT_CREATED",
+  "protected_original_files_unchanged": 99
+}

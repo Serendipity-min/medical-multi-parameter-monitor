@@ -1,0 +1,148 @@
+{
+  "scope": "TARGETED_MOCK_NO_NATIVE_SDK",
+  "cases": [
+    {
+      "moment": "final-state",
+      "before": {
+        "moment": "final-state",
+        "result": {
+          "status": "M1_CAPTURED_REVIEW_PENDING",
+          "exit_code": 0,
+          "Close_attempted": true,
+          "Close_completed": true,
+          "native_side_effects": "UNRESOLVED",
+          "post_Close_state": "UNKNOWN_NOT_OBSERVED",
+          "retries": 0,
+          "explicit_RESET_HALT_GO_Flash_START": 0,
+          "blocks": 3293,
+          "anchor": {
+            "seq": 2897,
+            "ms": 11588
+          },
+          "capture_host_s": 164.60200000000367,
+          "full_sha256": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58",
+          "elapsed_s": 166.6750000000038
+        },
+        "events": [
+          "STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "ordinary-read-after-STOP",
+          "resume-policy-after-STOP",
+          "Close"
+        ],
+        "Close_calls": 1,
+        "close_resume_enabled": true,
+        "real_SDK_calls": 0
+      },
+      "after": {
+        "moment": "final-state",
+        "result": {
+          "status": "M1_STOP",
+          "exit_code": 4,
+          "Close_attempted": true,
+          "Close_completed": true,
+          "native_side_effects": "UNRESOLVED",
+          "post_Close_state": "UNKNOWN_NOT_OBSERVED",
+          "retries": 0,
+          "explicit_RESET_HALT_GO_Flash_START": 0,
+          "reason": "M1_OPERATOR_STOP",
+          "error_type": "ValueError",
+          "error_sha256": "20ee44187f314977590d502185c532cb8622b82eca7ebe2db6183bbd1899c1c5",
+          "elapsed_s": 166.64900000000367
+        },
+        "events": [
+          "STOP",
+          "Close"
+        ],
+        "Close_calls": 1,
+        "close_resume_enabled": false,
+        "real_SDK_calls": 0
+      }
+    },
+    {
+      "moment": "resume-policy",
+      "before": {
+        "moment": "resume-policy",
+        "result": {
+          "status": "M1_CAPTURED_REVIEW_PENDING",
+          "exit_code": 0,
+          "Close_attempted": true,
+          "Close_completed": true,
+          "native_side_effects": "UNRESOLVED",
+          "post_Close_state": "UNKNOWN_NOT_OBSERVED",
+          "retries": 0,
+          "explicit_RESET_HALT_GO_Flash_START": 0,
+          "blocks": 3293,
+          "anchor": {
+            "seq": 2897,
+            "ms": 11588
+          },
+          "capture_host_s": 164.60200000000367,
+          "full_sha256": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58",
+          "elapsed_s": 166.6750000000038
+        },
+        "events": [
+          "STOP",
+          "resume-policy-after-STOP",
+          "Close"
+        ],
+        "Close_calls": 1,
+        "close_resume_enabled": true,
+        "real_SDK_calls": 0
+      },
+      "after": {
+        "moment": "resume-policy",
+        "result": {
+          "status": "M1_STOP",
+          "exit_code": 4,
+          "Close_attempted": true,
+          "Close_completed": true,
+          "native_side_effects": "UNRESOLVED",
+          "post_Close_state": "UNKNOWN_NOT_OBSERVED",
+          "retries": 0,
+          "explicit_RESET_HALT_GO_Flash_START": 0,
+          "reason": "M1_OPERATOR_STOP",
+          "error_type": "ValueError",
+          "error_sha256": "20ee44187f314977590d502185c532cb8622b82eca7ebe2db6183bbd1899c1c5",
+          "elapsed_s": 166.6750000000038
+        },
+        "events": [
+          "STOP",
+          "Close"
+        ],
+        "Close_calls": 1,
+        "close_resume_enabled": false,
+        "real_SDK_calls": 0
+      }
+    }
+  ],
+  "before_test_process_exit_code": 1,
+  "before_expected_failures": 2,
+  "after_test_process_exit_code": 0,
+  "after_tests_run": 21,
+  "interpretation": "Only the two specified STOP injection points; no physical SDK Close/state guarantee"
+}

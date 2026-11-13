@@ -1,0 +1,598 @@
+{
+  "status": "G1_EXISTING_TEST_BACKEND_TLS_RESUME_PASS",
+  "exit_code": 0,
+  "automatic_retry_or_rollback": false,
+  "service_start_actions": [
+    {
+      "service": "backend",
+      "attempt": 1,
+      "exit_code": 0
+    },
+    {
+      "service": "tls",
+      "attempt": 1,
+      "exit_code": 0
+    }
+  ],
+  "Broker_HUP_ACL_config_writes": 0,
+  "B5START": 0,
+  "MQTT_test_publications": 0,
+  "WSS_sessions": 0,
+  "before": {
+    "snapshot_utc": "2026-10-27T03:15:45.406879+00:00",
+    "server_timezone": "Asia/Shanghai",
+    "own_units": {
+      "backend": {
+        "Restart": "no",
+        "RuntimeMaxUSec": "6h",
+        "MainPID": "0",
+        "Result": "timeout",
+        "ExecMainExitTimestamp": "Tue 2026-10-27 01:59:19 CST",
+        "ExecMainCode": "2",
+        "ExecMainStatus": "15",
+        "ActiveState": "failed",
+        "SubState": "failed",
+        "ActiveEnterTimestamp": "Mon 2026-10-26 19:59:18 CST",
+        "ActiveEnterTimestampMonotonic": "9019206209",
+        "InactiveEnterTimestamp": "Tue 2026-10-27 01:59:19 CST",
+        "InactiveEnterTimestampMonotonic": "30619526813",
+        "InactiveEnterUTC": "2026-10-26T17:59:19+00:00",
+        "ExecMainExitUTC": "2026-10-26T17:59:19+00:00",
+        "ActiveEnterUTC": "2026-10-26T11:59:18+00:00",
+        "elapsed_active_to_inactive_seconds": 21600.320604
+      },
+      "tls": {
+        "Restart": "no",
+        "RuntimeMaxUSec": "6h",
+        "MainPID": "0",
+        "Result": "timeout",
+        "ExecMainExitTimestamp": "Tue 2026-10-27 01:59:19 CST",
+        "ExecMainCode": "1",
+        "ExecMainStatus": "0",
+        "ActiveState": "failed",
+        "SubState": "failed",
+        "ActiveEnterTimestamp": "Mon 2026-10-26 19:59:18 CST",
+        "ActiveEnterTimestampMonotonic": "9019228289",
+        "InactiveEnterTimestamp": "Tue 2026-10-27 01:59:19 CST",
+        "InactiveEnterTimestampMonotonic": "30619339965",
+        "InactiveEnterUTC": "2026-10-26T17:59:19+00:00",
+        "ExecMainExitUTC": "2026-10-26T17:59:19+00:00",
+        "ActiveEnterUTC": "2026-10-26T11:59:18+00:00",
+        "elapsed_active_to_inactive_seconds": 21600.111676
+      }
+    },
+    "formal_units": {
+      "medical-monitor-mqtt.service": {
+        "Restart": "on-failure",
+        "RuntimeMaxUSec": "infinity",
+        "MainPID": "3253",
+        "Result": "success",
+        "ExecMainExitTimestamp": "",
+        "ExecMainCode": "0",
+        "ExecMainStatus": "0",
+        "ActiveState": "active",
+        "SubState": "running",
+        "ActiveEnterTimestamp": "Mon 2026-10-26 17:29:07 CST",
+        "ActiveEnterTimestampMonotonic": "7268170",
+        "InactiveEnterTimestamp": "",
+        "InactiveEnterTimestampMonotonic": "0",
+        "InactiveEnterUTC": null,
+        "ExecMainExitUTC": null,
+        "ActiveEnterUTC": "2026-10-26T09:29:07+00:00",
+        "elapsed_active_to_inactive_seconds": null
+      },
+      "medical-monitor.service": {
+        "Restart": "on-failure",
+        "RuntimeMaxUSec": "infinity",
+        "MainPID": "3255",
+        "Result": "success",
+        "ExecMainExitTimestamp": "",
+        "ExecMainCode": "0",
+        "ExecMainStatus": "0",
+        "ActiveState": "active",
+        "SubState": "running",
+        "ActiveEnterTimestamp": "Mon 2026-10-26 17:29:07 CST",
+        "ActiveEnterTimestampMonotonic": "7279174",
+        "InactiveEnterTimestamp": "",
+        "InactiveEnterTimestampMonotonic": "0",
+        "InactiveEnterUTC": null,
+        "ExecMainExitUTC": null,
+        "ActiveEnterUTC": "2026-10-26T09:29:07+00:00",
+        "elapsed_active_to_inactive_seconds": null
+      },
+      "nginx.service": {
+        "Restart": "no",
+        "RuntimeMaxUSec": "infinity",
+        "MainPID": "3383",
+        "Result": "success",
+        "ExecMainExitTimestamp": "",
+        "ExecMainCode": "0",
+        "ExecMainStatus": "0",
+        "ActiveState": "active",
+        "SubState": "running",
+        "ActiveEnterTimestamp": "Mon 2026-10-26 17:29:07 CST",
+        "ActiveEnterTimestampMonotonic": "7611306",
+        "InactiveEnterTimestamp": "",
+        "InactiveEnterTimestampMonotonic": "0",
+        "InactiveEnterUTC": null,
+        "ExecMainExitUTC": null,
+        "ActiveEnterUTC": "2026-10-26T09:29:07+00:00",
+        "elapsed_active_to_inactive_seconds": null
+      },
+      "p6-ai.service": {
+        "Restart": "on-failure",
+        "RuntimeMaxUSec": "infinity",
+        "MainPID": "3264",
+        "Result": "success",
+        "ExecMainExitTimestamp": "",
+        "ExecMainCode": "0",
+        "ExecMainStatus": "0",
+        "ActiveState": "active",
+        "SubState": "running",
+        "ActiveEnterTimestamp": "Mon 2026-10-26 17:29:07 CST",
+        "ActiveEnterTimestampMonotonic": "7305304",
+        "InactiveEnterTimestamp": "",
+        "InactiveEnterTimestampMonotonic": "0",
+        "InactiveEnterUTC": null,
+        "ExecMainExitUTC": null,
+        "ActiveEnterUTC": "2026-10-26T09:29:07+00:00",
+        "elapsed_active_to_inactive_seconds": null
+      }
+    },
+    "config_sha256": {
+      "FORMAL_0": {
+        "sha256": "38e8b68fd904a53003a6dff6c85c8dc613436e590cdb0893822d8ed1e1eb5075",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "FORMAL_1": {
+        "sha256": "cfcbc741b26806f9616cc2199a80cea308652b51c42bc0908cc71fe92996c6f2",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "FORMAL_2": {
+        "sha256": "1006334e3ccf3523587d48c4482902ef6314c1549e0410fef11f1b934eccc8f2",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "FORMAL_4": {
+        "sha256": "738d54973d959acf1207746c761d42afa2b412daad1b59ac052f781aa5af078c",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "FORMAL_6": {
+        "sha256": "f46ef5cef28e10f401dbd1441d02134e7e1479a544649f785cf448154dad67f2",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "FORMAL_7": {
+        "sha256": "33d94a0e773efc11aa7fad055efe150ef74b8efde5467392804f4c076f4f52d5",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "FORMAL_8": {
+        "sha256": "e9f215332b5d6822984f4bf7f19d3b97a242eb897e5c97fe7ba9ea48608b1340",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "FORMAL_9": {
+        "sha256": "9ac3a7ed84adb483d8c19e23e26eb8f422869ab3dcd94ec26a3e7ff728ddbff7",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "FORMAL_10": {
+        "sha256": "6c759c229d4dacf65c1f98c1733646f8b979d3e75e13a98bfbcfe26f8a2f793c",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "ACL": {
+        "sha256": "71a311363832b2f656137aed64bc929c543bc07b653991538d7a9b4f9d7ac4c3",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "PASSWORD": {
+        "sha256": "e9452f93f47acba6216df5986936286b7b4030d94d45cc12b8b9ff0f5e9ce15b",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_CONFIG_backend.env": {
+        "sha256": "ec800e6d9b8b731ddba70af91a533600d6c4b51072daab4fa99fd607f09777da",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_CONFIG_backend.json": {
+        "sha256": "78557c821a66f5b1b3d281f98b4c4b0cc794c3cd68db32f971e407b729f51350",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_CONFIG_backend.service": {
+        "sha256": "83476853febba64e6d0e5420b8fda7f3f2a3d0d73dcdfd5ac38090c42c804217",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_CONFIG_nginx.conf": {
+        "sha256": "5a92f5acf78734f9d21e7525b20597d7d6b73b7eb63c808b9ea6ac540317f088",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_CONFIG_tls.service": {
+        "sha256": "23d92b14aa5392d9d26cd665b163977e9df08bf6c898401338d37e158725001c",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_SOURCE_0": {
+        "sha256": "44b7a1dd200886674507e014193cd2823f56a89d0dc88ad37535ce43f9596882",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_SOURCE_1": {
+        "sha256": "b4b9993d234741edffa420b81f49478fb32dbab7d8ae156e53cae793083afcde",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_SOURCE_2": {
+        "sha256": "5789b398732231f6c228b033da7023eb8e1909d5bbc92ed4e61b5c2a9644a461",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_SOURCE_3": {
+        "sha256": "5b17215626721ae524b9508ec3a40bb7d369f2b71f61f6cfb53bfbcb9b1b4ba1",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_SOURCE_4": {
+        "sha256": "3796a4ee4b3db9e96b02e8d3da783104d3bfaa8590779788de27a2beb4b51c37",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_SOURCE_5": {
+        "sha256": "827e89fd552b99a06d7634cbe07caff4588fc8902d054a264abec1171843c52c",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_SOURCE_6": {
+        "sha256": "9c213fd3fc6cc2070d5eb087b544e67cd1e3da385a1aca8c55540ad0eba3e17f",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_SOURCE_7": {
+        "sha256": "bcd8ed879fc36cf788a4b31abd43a06cba30a174e8bf03ee7e6968a2109d751c",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_SOURCE_8": {
+        "sha256": "b55e3faca578225f6bed7dfad57a2a930564eb5011019ad44d25cc6977583d47",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_SOURCE_9": {
+        "sha256": "a174771d38a6bbcb681c63f87a7139fb616d5c13a9a5ec2b82f4033211e7ce92",
+        "matches_last_approved_G1": true,
+        "exists": true
+      }
+    },
+    "test_identity_ACL_residual": {
+      "publisher_account_exists": true,
+      "observer_account_exists": true,
+      "publisher_exact_write_only_rule": true,
+      "observer_exact_read_only_rule": true
+    },
+    "listeners": {
+      "18775": false,
+      "8884": false
+    },
+    "both_test_units_stopped_with_RuntimeMax_timeout": true,
+    "formal_services_active": true,
+    "formal_service_PIDs_match_last_G1": true,
+    "test_account_cleanup_complete": false,
+    "cloud_mutations": 0,
+    "MQTT_connects_or_publishes": 0,
+    "WSS_sessions": 0,
+    "physical_board_access": false,
+    "TLS_private_key_read": false
+  },
+  "after": {
+    "snapshot_utc": "2026-10-27T03:15:46.534760+00:00",
+    "server_timezone": "Asia/Shanghai",
+    "own_units": {
+      "backend": {
+        "Restart": "no",
+        "RuntimeMaxUSec": "6h",
+        "MainPID": "245385",
+        "Result": "success",
+        "ExecMainExitTimestamp": "",
+        "ExecMainCode": "0",
+        "ExecMainStatus": "0",
+        "ActiveState": "active",
+        "SubState": "running",
+        "ActiveEnterTimestamp": "Tue 2026-10-27 11:15:45 CST",
+        "ActiveEnterTimestampMonotonic": "64005658273",
+        "InactiveEnterTimestamp": "Tue 2026-10-27 01:59:19 CST",
+        "InactiveEnterTimestampMonotonic": "30619526813",
+        "InactiveEnterUTC": "2026-10-26T17:59:19+00:00",
+        "ExecMainExitUTC": null,
+        "ActiveEnterUTC": "2026-10-27T03:15:45+00:00",
+        "elapsed_active_to_inactive_seconds": null
+      },
+      "tls": {
+        "Restart": "no",
+        "RuntimeMaxUSec": "6h",
+        "MainPID": "245387",
+        "Result": "success",
+        "ExecMainExitTimestamp": "",
+        "ExecMainCode": "0",
+        "ExecMainStatus": "0",
+        "ActiveState": "active",
+        "SubState": "running",
+        "ActiveEnterTimestamp": "Tue 2026-10-27 11:15:45 CST",
+        "ActiveEnterTimestampMonotonic": "64005669348",
+        "InactiveEnterTimestamp": "Tue 2026-10-27 01:59:19 CST",
+        "InactiveEnterTimestampMonotonic": "30619339965",
+        "InactiveEnterUTC": "2026-10-26T17:59:19+00:00",
+        "ExecMainExitUTC": null,
+        "ActiveEnterUTC": "2026-10-27T03:15:45+00:00",
+        "elapsed_active_to_inactive_seconds": null
+      }
+    },
+    "formal_units": {
+      "medical-monitor-mqtt.service": {
+        "Restart": "on-failure",
+        "RuntimeMaxUSec": "infinity",
+        "MainPID": "3253",
+        "Result": "success",
+        "ExecMainExitTimestamp": "",
+        "ExecMainCode": "0",
+        "ExecMainStatus": "0",
+        "ActiveState": "active",
+        "SubState": "running",
+        "ActiveEnterTimestamp": "Mon 2026-10-26 17:29:07 CST",
+        "ActiveEnterTimestampMonotonic": "7268170",
+        "InactiveEnterTimestamp": "",
+        "InactiveEnterTimestampMonotonic": "0",
+        "InactiveEnterUTC": null,
+        "ExecMainExitUTC": null,
+        "ActiveEnterUTC": "2026-10-26T09:29:07+00:00",
+        "elapsed_active_to_inactive_seconds": null
+      },
+      "medical-monitor.service": {
+        "Restart": "on-failure",
+        "RuntimeMaxUSec": "infinity",
+        "MainPID": "3255",
+        "Result": "success",
+        "ExecMainExitTimestamp": "",
+        "ExecMainCode": "0",
+        "ExecMainStatus": "0",
+        "ActiveState": "active",
+        "SubState": "running",
+        "ActiveEnterTimestamp": "Mon 2026-10-26 17:29:07 CST",
+        "ActiveEnterTimestampMonotonic": "7279174",
+        "InactiveEnterTimestamp": "",
+        "InactiveEnterTimestampMonotonic": "0",
+        "InactiveEnterUTC": null,
+        "ExecMainExitUTC": null,
+        "ActiveEnterUTC": "2026-10-26T09:29:07+00:00",
+        "elapsed_active_to_inactive_seconds": null
+      },
+      "nginx.service": {
+        "Restart": "no",
+        "RuntimeMaxUSec": "infinity",
+        "MainPID": "3383",
+        "Result": "success",
+        "ExecMainExitTimestamp": "",
+        "ExecMainCode": "0",
+        "ExecMainStatus": "0",
+        "ActiveState": "active",
+        "SubState": "running",
+        "ActiveEnterTimestamp": "Mon 2026-10-26 17:29:07 CST",
+        "ActiveEnterTimestampMonotonic": "7611306",
+        "InactiveEnterTimestamp": "",
+        "InactiveEnterTimestampMonotonic": "0",
+        "InactiveEnterUTC": null,
+        "ExecMainExitUTC": null,
+        "ActiveEnterUTC": "2026-10-26T09:29:07+00:00",
+        "elapsed_active_to_inactive_seconds": null
+      },
+      "p6-ai.service": {
+        "Restart": "on-failure",
+        "RuntimeMaxUSec": "infinity",
+        "MainPID": "3264",
+        "Result": "success",
+        "ExecMainExitTimestamp": "",
+        "ExecMainCode": "0",
+        "ExecMainStatus": "0",
+        "ActiveState": "active",
+        "SubState": "running",
+        "ActiveEnterTimestamp": "Mon 2026-10-26 17:29:07 CST",
+        "ActiveEnterTimestampMonotonic": "7305304",
+        "InactiveEnterTimestamp": "",
+        "InactiveEnterTimestampMonotonic": "0",
+        "InactiveEnterUTC": null,
+        "ExecMainExitUTC": null,
+        "ActiveEnterUTC": "2026-10-26T09:29:07+00:00",
+        "elapsed_active_to_inactive_seconds": null
+      }
+    },
+    "config_sha256": {
+      "FORMAL_0": {
+        "sha256": "38e8b68fd904a53003a6dff6c85c8dc613436e590cdb0893822d8ed1e1eb5075",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "FORMAL_1": {
+        "sha256": "cfcbc741b26806f9616cc2199a80cea308652b51c42bc0908cc71fe92996c6f2",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "FORMAL_2": {
+        "sha256": "1006334e3ccf3523587d48c4482902ef6314c1549e0410fef11f1b934eccc8f2",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "FORMAL_4": {
+        "sha256": "738d54973d959acf1207746c761d42afa2b412daad1b59ac052f781aa5af078c",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "FORMAL_6": {
+        "sha256": "f46ef5cef28e10f401dbd1441d02134e7e1479a544649f785cf448154dad67f2",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "FORMAL_7": {
+        "sha256": "33d94a0e773efc11aa7fad055efe150ef74b8efde5467392804f4c076f4f52d5",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "FORMAL_8": {
+        "sha256": "e9f215332b5d6822984f4bf7f19d3b97a242eb897e5c97fe7ba9ea48608b1340",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "FORMAL_9": {
+        "sha256": "9ac3a7ed84adb483d8c19e23e26eb8f422869ab3dcd94ec26a3e7ff728ddbff7",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "FORMAL_10": {
+        "sha256": "6c759c229d4dacf65c1f98c1733646f8b979d3e75e13a98bfbcfe26f8a2f793c",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "ACL": {
+        "sha256": "71a311363832b2f656137aed64bc929c543bc07b653991538d7a9b4f9d7ac4c3",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "PASSWORD": {
+        "sha256": "e9452f93f47acba6216df5986936286b7b4030d94d45cc12b8b9ff0f5e9ce15b",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_CONFIG_backend.env": {
+        "sha256": "ec800e6d9b8b731ddba70af91a533600d6c4b51072daab4fa99fd607f09777da",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_CONFIG_backend.json": {
+        "sha256": "78557c821a66f5b1b3d281f98b4c4b0cc794c3cd68db32f971e407b729f51350",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_CONFIG_backend.service": {
+        "sha256": "83476853febba64e6d0e5420b8fda7f3f2a3d0d73dcdfd5ac38090c42c804217",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_CONFIG_nginx.conf": {
+        "sha256": "5a92f5acf78734f9d21e7525b20597d7d6b73b7eb63c808b9ea6ac540317f088",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_CONFIG_tls.service": {
+        "sha256": "23d92b14aa5392d9d26cd665b163977e9df08bf6c898401338d37e158725001c",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_SOURCE_0": {
+        "sha256": "44b7a1dd200886674507e014193cd2823f56a89d0dc88ad37535ce43f9596882",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_SOURCE_1": {
+        "sha256": "b4b9993d234741edffa420b81f49478fb32dbab7d8ae156e53cae793083afcde",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_SOURCE_2": {
+        "sha256": "5789b398732231f6c228b033da7023eb8e1909d5bbc92ed4e61b5c2a9644a461",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_SOURCE_3": {
+        "sha256": "5b17215626721ae524b9508ec3a40bb7d369f2b71f61f6cfb53bfbcb9b1b4ba1",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_SOURCE_4": {
+        "sha256": "3796a4ee4b3db9e96b02e8d3da783104d3bfaa8590779788de27a2beb4b51c37",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_SOURCE_5": {
+        "sha256": "827e89fd552b99a06d7634cbe07caff4588fc8902d054a264abec1171843c52c",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_SOURCE_6": {
+        "sha256": "9c213fd3fc6cc2070d5eb087b544e67cd1e3da385a1aca8c55540ad0eba3e17f",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_SOURCE_7": {
+        "sha256": "bcd8ed879fc36cf788a4b31abd43a06cba30a174e8bf03ee7e6968a2109d751c",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_SOURCE_8": {
+        "sha256": "b55e3faca578225f6bed7dfad57a2a930564eb5011019ad44d25cc6977583d47",
+        "matches_last_approved_G1": true,
+        "exists": true
+      },
+      "B5_SOURCE_9": {
+        "sha256": "a174771d38a6bbcb681c63f87a7139fb616d5c13a9a5ec2b82f4033211e7ce92",
+        "matches_last_approved_G1": true,
+        "exists": true
+      }
+    },
+    "test_identity_ACL_residual": {
+      "publisher_account_exists": true,
+      "observer_account_exists": true,
+      "publisher_exact_write_only_rule": true,
+      "observer_exact_read_only_rule": true
+    },
+    "listeners": {
+      "18775": true,
+      "8884": false
+    },
+    "both_test_units_stopped_with_RuntimeMax_timeout": false,
+    "formal_services_active": true,
+    "formal_service_PIDs_match_last_G1": true,
+    "test_account_cleanup_complete": false,
+    "cloud_mutations": 0,
+    "MQTT_connects_or_publishes": 0,
+    "WSS_sessions": 0,
+    "physical_board_access": false,
+    "TLS_private_key_read": false
+  },
+  "TLS_CA_SNI_checked": true,
+  "independent_Backend_health_and_MQTT_subscription_ready": true,
+  "elapsed_s": 1.1760396879981272,
+  "SSH_exit_code": 0,
+  "total_elapsed_s": 2.1089999999385327,
+  "authorization_sha256": "6528365b911ca34f89c876c9ba81a296bab3a9059a4ea8c0e5f6ce6c3122b0ef",
+  "window_id": "G1_RESUME_01",
+  "source_commit": "7c961db042ea3547788766444cc7aceba5f5ac18",
+  "outer_exit_code": 0,
+  "outer_elapsed_s": 2.3429999999934807,
+  "tool_sha256": "73c0d4c7fba45f61414053f6c651435201bbc7014e4d4de6eb8df3b9bea5ba2f",
+  "scope": "B5_G1_RESUME_EXISTING_TEST_UNITS_ONLY",
+  "service_start_attempts_each": 1,
+  "hardware_sessions": 0,
+  "AT_commands": 0,
+  "Backend_has_actual_MQTT_subscription": true,
+  "G3_300s_real_cloud_window": "NOT_AUTHORIZED_NOT_RUN",
+  "test_accounts_and_ACL_still_present": true,
+  "test_environment_cleaned": false,
+  "planned_residency_expiry": {
+    "backend": {
+      "UTC": "2026-10-27T09:15:45+00:00",
+      "Asia_Shanghai": "2026-10-27T17:15:45+08:00",
+      "basis": "planned RuntimeMax=6h; may stop earlier, not an exact execution guarantee"
+    },
+    "tls": {
+      "UTC": "2026-10-27T09:15:45+00:00",
+      "Asia_Shanghai": "2026-10-27T17:15:45+08:00",
+      "basis": "planned RuntimeMax=6h; may stop earlier, not an exact execution guarantee"
+    }
+  }
+}

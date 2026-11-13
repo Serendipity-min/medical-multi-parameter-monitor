@@ -1,0 +1,20 @@
+[
+  {
+    "scope": "B5_G3_PREP_C_READONLY_AND_COLD_TRANSFER",
+    "real_process_exit_code": 1,
+    "expected_denial": true,
+    "stdout": "{\"status\": \"STOP\", \"exit_code\": 1, \"error_type\": \"ValueError\"}",
+    "stderr_bytes": 0,
+    "authorization_consumed": false,
+    "hardware_or_network_actions": 0
+  },
+  {
+    "scope": "B5_G3_ONE_ECG60_MOCK_CLOUD_WINDOW",
+    "real_process_exit_code": 1,
+    "expected_denial": true,
+    "stdout": "{\"status\": \"STOP\", \"exit_code\": 1, \"error_type\": \"ValueError\"}",
+    "stderr_bytes": 0,
+    "authorization_consumed": false,
+    "hardware_or_network_actions": 0
+  }
+]

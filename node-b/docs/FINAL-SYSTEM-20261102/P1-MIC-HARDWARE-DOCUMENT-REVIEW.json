@@ -1,0 +1,89 @@
+{
+  "scope": "OFFLINE_DOCUMENT_REVIEW_NOT_HARDWARE_ADMISSION",
+  "kit_files": {
+    "INMP441.pdf": {
+      "bytes": 477735,
+      "SHA256": "ddcc8ac55f9ff15e93760b5d01814bccbef0cebbb3857e0fb3954b2b4973d150"
+    },
+    "测试资料/esp32-i2s-mems-master/examples/InputSerialPlotter/InputSerialPlotter.ino": {
+      "bytes": 2125,
+      "SHA256": "f0a8b3581dd8457e3e1b57f57071a69563dae52f3146d1891f6a069f6e1682ac"
+    },
+    "测试资料/esp32-i2s-mems-master/examples/NoiseLevel/NoiseLevel.ino": {
+      "bytes": 2484,
+      "SHA256": "53800de164427ab9c90c101bac998164e125c85ce810e24b5928421b04ee799e"
+    },
+    "测试资料/esp32-i2s-mems-master/examples/VUMeterDemo/VUMeterDemo.ino": {
+      "bytes": 2797,
+      "SHA256": "d53b8c196b275af3698e28f55a2bd64c719920180c959c647b720e98cc8e00ac"
+    },
+    "测试资料/esp32-i2s-mems-master/Readme.md": {
+      "bytes": 2161,
+      "SHA256": "23758e7d226282639dffa125a59fcc636bd34df453b8b2c51699d658e13a0d25"
+    },
+    "测试资料/测试说明.doc": {
+      "bytes": 46080,
+      "SHA256": "1f7bc73e26f563092f7c18d80f8f79241fae3b9c3eee64b8b49a40e07b51d6ac"
+    }
+  },
+  "earlier_PDF_SHA256": "1c8c8fcd66fd73c965b78a395bdf12be42ceaba2571aad5c0a0d77292b0fa20d",
+  "owner_report": "Owner explicitly verified 0.1uF/100nF ceramic capacitor and 100kOhm resistor",
+  "component_types_connections_values": "CAPACITOR_TYPE_AND_VALUE_AND_RESISTOR_VALUE_OWNER_VERIFIED_CONNECTIONS_NOT_INDEPENDENTLY_MEASURED",
+  "wiring": {
+    "VCC": "C_3V3",
+    "GND": "C_GND",
+    "L/R": "GND_LEFT_SLOT",
+    "WS": "PA4_I2S3_WS",
+    "SCK": "PC10_I2S3_CK",
+    "SD": "PC12_I2S3_SD"
+  },
+  "chip_datasheet": {
+    "revision": "DS-INMP441-00 Rev1.1",
+    "pages": 21,
+    "nominal_supply_V": [
+      1.8,
+      3.3
+    ],
+    "LR_low": "LEFT",
+    "frame": "I2S_24BIT_TWOS_COMPLEMENT_MSB_FIRST_64_SCK_PER_STEREO_FRAME",
+    "WS_Hz": 16000,
+    "SCK_Hz": 1024000,
+    "SD_pulldown_reference_ohms": 100000,
+    "local_decoupling_reference_uF": 0.1,
+    "reference_capacitor_type": "X7R_or_better",
+    "pages_used": [
+      5,
+      8,
+      10,
+      11,
+      15
+    ]
+  },
+  "board_source": {
+    "filename": "STM32F407_原理图.pdf",
+    "SHA256": "7737115dc272d6daff1f3bb08b7c8c23c10415c10bca57c3d72979adf53b46b2",
+    "drawing_revision": "V2.0",
+    "page": 4,
+    "physical_board_revision": "UNKNOWN"
+  },
+  "current_software_SD_pulldown": "GPIO_PuPd_DOWN_CONFIRMED_IN_SOURCE_NOT_PROOF_OF_MODULE_EXTERNAL_RESISTOR",
+  "module_schematic_or_BOM": "NOT_IN_KIT",
+  "supplier_test_DOC": "Raw nine-pin chip-to-ESP32 mapping; embedded picture is chip bottom pinout, not six-pin module PCB",
+  "ESP32_examples": "Generic Adafruit example; README says actual sound validity unverified and channel selection ambiguous; not imported",
+  "MIC_reconnected_this_turn": "NOT_REPORTED",
+  "power_or_wiring_action_this_turn": 0,
+  "SDK_opens_this_turn": 0,
+  "Flash_writes_this_turn": 0,
+  "R12": "COMPONENT_TYPES_VALUES_OWNER_VERIFIED_PHYSICAL_PCB_REVISION_AND_COMPLETE_CONNECTION_AUDIT_STILL_UNRESOLVED",
+  "owner_verified_components": {
+    "decoupling_capacitor": {
+      "type": "ceramic",
+      "value_uF": 0.1,
+      "evidence": "OWNER_CURRENT_EXPLICIT_VERIFICATION"
+    },
+    "SD_pulldown_resistor": {
+      "ohms": 100000,
+      "evidence": "OWNER_CURRENT_EXPLICIT_VERIFICATION"
+    }
+  }
+}

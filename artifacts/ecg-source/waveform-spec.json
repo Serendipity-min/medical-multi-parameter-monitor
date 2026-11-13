@@ -1,0 +1,40 @@
+{
+  "scope": "SOFTWARE_DAC_CODES_NOT_MEASURED_VOLTAGE",
+  "sample_hz_nominal": 1000,
+  "bias_code": 2048,
+  "reference_voltage_measured": null,
+  "voltage_model": "code * assumed_VREF / 4096; local older RM0090 displays /4095; neither is calibration",
+  "shape": "fixed engineering P/Q/R/S/T Gaussian fixture, positive R",
+  "tables": {
+    "sine": {
+      "count": 1000,
+      "duration_s": 1.0,
+      "beats": 0,
+      "bpm": null,
+      "minimum": 1428,
+      "maximum": 2668,
+      "peak_to_peak_codes": 1240,
+      "codes_u16le_sha256": "3e56e8d0c3a72d3447f69fc90b6530ca605dccc893a8d4aff0dbca2aa2bd9c59"
+    },
+    "ecg60": {
+      "count": 1000,
+      "duration_s": 1.0,
+      "beats": 1,
+      "bpm": 60,
+      "minimum": 1860,
+      "maximum": 3100,
+      "peak_to_peak_codes": 1240,
+      "codes_u16le_sha256": "f5a4c3bd9b102ef73dc0a2c8a044e50d8d2c301d15b35e3249ddff48ef025b31"
+    },
+    "ecg90": {
+      "count": 2000,
+      "duration_s": 2.0,
+      "beats": 3,
+      "bpm": 90,
+      "minimum": 1860,
+      "maximum": 3100,
+      "peak_to_peak_codes": 1240,
+      "codes_u16le_sha256": "3f9f752ab0756c33b5c21d01f593d7d5c6c26233941c34c42ff7aedf81f6b8e2"
+    }
+  }
+}

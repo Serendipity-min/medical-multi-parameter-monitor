@@ -1,0 +1,65 @@
+{
+  "schema": "RESP_MANUAL_V22_PREPARATION_1",
+  "date_local": "2026-10-23",
+  "timezone": "Asia/Shanghai",
+  "base_commit": "1f5a70bf7996232c36f3650da811253e6bc2d92c",
+  "status": "STEPS_REVISED_NOT_EXECUTED",
+  "manual": {
+    "label": "SKX-2000D+ 操作手册 V2.2",
+    "pages": 21,
+    "bytes": 1258901,
+    "sha256": "8b264906747e76336e7a7221ab77b76e3697078f794b064e77081e7e56fc48aa",
+    "electrode_pair_page": 20,
+    "respiration_pair": "RA_LL",
+    "respiration_rate_documented_range_bpm": [
+      5,
+      120
+    ],
+    "waveform_period_documented_range_bpm": [
+      20,
+      120
+    ]
+  },
+  "owner_reported_minimum_bpm": 20,
+  "reported_minimum_field": "NOT_YET_INDEPENDENTLY_CONFIRMED",
+  "planned_menu": {
+    "mode_literal": "呼吸波形",
+    "respiration_rate_literal": "20bpm",
+    "amplitude_literal": "1.5R",
+    "waveform_period_literal": "20bpm",
+    "apnea_literal": "0s"
+  },
+  "resistance_measurements": "CANCELED_BY_OWNER",
+  "required_voltage_pairs": [
+    "RA-RL",
+    "LL-RL",
+    "RA-LL"
+  ],
+  "planned_future_external_leads": {
+    "R_red": "RA",
+    "L_yellow": "LL",
+    "F_green": "RL"
+  },
+  "topology_status": "PENDING_DC_REVIEW_AND_EXPLICIT_START",
+  "new_capture_profile": "NOT_PREPARED_OR_AUTHORIZED_BY_THIS_CARD",
+  "reference_rpm": null,
+  "Z0_ohm": null,
+  "delta_Zpp_ohm": null,
+  "hardware_calls": 0,
+  "new_acquisitions": 0,
+  "threshold_changes": 0,
+  "prior_R1_measurement_results": "NOT_RECEIVED",
+  "card": {
+    "path": "node-b/docs/AUTH-B-RESP-PATH-MEASURE-001-R2.md",
+    "sha256": "eb6cf0f33655eac26000cfeb17f75135586e20f1220a3f38ceedee521c8b5cc6"
+  },
+  "review": {
+    "path": "node-b/docs/RESP-MANUAL-V22-REVIEW-R1.md",
+    "sha256": "84a6642fd2512f72bd4925ec45e871f37529276941ec91f44c53fb4044ab808c"
+  },
+  "firmware": {
+    "path": "node-b/firmware/biov2/实验固件/HARDWARE/bio_v2.c",
+    "sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7"
+  },
+  "CPU_issue": "DEFERRED"
+}

@@ -1,0 +1,22 @@
+{
+  "status": "B4_INSTALL_FULL_VERIFY_AND_FLASH_BOOT_PASS",
+  "exit_code": 0,
+  "Close_completed": true,
+  "board": "C",
+  "sectors": [
+    0
+  ],
+  "full_flash_sha256": "9b029b79799c85f5ccb01e077b319f5192f45ecd2d9746aad4fd2bc08e301cd4",
+  "options_unchanged": true,
+  "outside_affected_sectors_unchanged": true,
+  "native_actions": {
+    "JLINKARM_Halt": 1,
+    "JLINKARM_BeginDownload": 1,
+    "JLINKARM_WriteMem": 1,
+    "JLINKARM_EndDownload": 1,
+    "JLINKARM_Reset": 1,
+    "JLINKARM_Go": 1
+  },
+  "initial_double_backup_repeated": false,
+  "independent_full_preflight_against_previous_readback": true
+}

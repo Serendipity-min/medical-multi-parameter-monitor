@@ -1,0 +1,17 @@
+{
+  "baseline_actual_read_wrapper": {
+    "exception_class": "ValueError",
+    "reason": "ESP_API_BUDGET",
+    "read_failed": true,
+    "verified_running_flash": false,
+    "new_native_calls": 0
+  },
+  "fixed_actual_read_wrapper": {
+    "exception_class": "HostBudgetExhausted",
+    "reason": "ESP_API_BUDGET",
+    "read_failed": false,
+    "verified_running_flash": true,
+    "new_native_calls": 0
+  },
+  "execution": "FAKE_NO_DLL_CREATED_OR_LOADED"
+}

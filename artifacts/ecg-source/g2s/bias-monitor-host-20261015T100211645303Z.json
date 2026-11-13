@@ -1,0 +1,17 @@
+{
+  "time_utc": "20261015T100211645303Z",
+  "scope": "HOST_ONLY_NO_HARDWARE_IO",
+  "HEAD": "2ca744d2f06d49711863968aeef15b64891edd18",
+  "host_test_exit": 0,
+  "host_output": "test_disconnect_preserves_unknown_off (__main__.BiasWindowTests.test_disconnect_preserves_unknown_off) ... ok\ntest_fault_error_and_missing_fields_stop (__main__.BiasWindowTests.test_fault_error_and_missing_fields_stop) ... ok\ntest_initial_non_off_never_enables (__main__.BiasWindowTests.test_initial_non_off_never_enables) ... ok\ntest_invalid_duration_has_no_io (__main__.BiasWindowTests.test_invalid_duration_has_no_io) ... ok\ntest_normal_window_then_off (__main__.BiasWindowTests.test_normal_window_then_off) ... ok\ntest_off_ack_must_confirm_off (__main__.BiasWindowTests.test_off_ack_must_confirm_off) ... ok\ntest_rejected_bias_stops (__main__.BiasWindowTests.test_rejected_bias_stops) ... ok\ntest_reset_to_off_is_failure_without_reapply (__main__.BiasWindowTests.test_reset_to_off_is_failure_without_reapply) ... ok\ntest_wrong_identity_sends_no_actuation (__main__.BiasWindowTests.test_wrong_identity_sends_no_actuation) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.000s\n\nOK\n",
+  "input_sha256": {
+    "ecg-source/g2s-usb/observe_bias.py": "73dfc9dc1ce43cf9feec0773521c93d86d74d0796fc97dbea32b408193e81870",
+    "ecg-source/g2s-usb/test_observe_bias.py": "c0c6e2a003a10971a111190b0d5635f3e110ca8bed62c14b022e35006ad4d7a4"
+  },
+  "protected_file_count": 99,
+  "protected_changed_count": 0,
+  "tracked_diff_exit": 0,
+  "diff_check_exit": 0,
+  "physical_BIAS": "HOLD",
+  "dynamic": "DYNAMIC_UNVERIFIED"
+}

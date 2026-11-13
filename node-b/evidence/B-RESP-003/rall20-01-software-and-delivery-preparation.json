@@ -1,0 +1,117 @@
+{
+  "stage": "RA_LL20_ZERO_RESET_ATTEMPT_AND_DISABLED_RECOVERY_PREPARATION",
+  "actual_exit_codes": {
+    "worker": 1,
+    "supervisor": 1,
+    "invoker": 1,
+    "analysis": null
+  },
+  "actual_acquisition_started": false,
+  "actual_control": {
+    "halt": 0,
+    "go": 0,
+    "reset": 0,
+    "flash_write": 0
+  },
+  "current_tests": 8,
+  "historical_tests": 7,
+  "recovery_tests": 6,
+  "disabled_CLI_negative_cases": 2,
+  "capture_tools_sha256": {
+    "node-b/tools/capture_resp_b.py": "6989a819a5f26c91074bf2cfdd769313fa543aa85e58c01d5198bd0670e309ae",
+    "node-b/tools/resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+    "node-b/tools/analyze_resp_b.py": "225e5ef46b8f450c3b4372d3fc102491c8f2e64ee8a5f9fd87a12074018e3360",
+    "node-b/tools/supervise_resp_b.py": "5019350e361f6ab999dc0fe9a09808b304228235d8c11b3abcf4e5e86f6f8a4d",
+    "node-b/tools/capture_b.py": "7c45589bff1099e20354b8dbe7db9bb2e32095bf67a904b9358cf4f4996800fa",
+    "node-b/tools/readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+    "node-b/tools/precheck_b.py": "3c490ecc99154aa857b0f2f9767951b5e6587844269983670a6ea53684ce4a81",
+    "node-b/tools/adc_path_b.py": "a80c1ed4ccddb8f0f569c3753c2659b78e01bb3c6b4f0b49bcaf3aa27a152d12",
+    "node-b/tools/boot_check_b.py": "0c854ade1cc99807badbdbc8a9f0a5eb7dd24d6447f617356fcd2bcd42f100c0",
+    "node-b/tools/fault_snapshot_b.py": "96d0976b2dd18d5c9a982c4d8b8afe9f2822f0120bbe06ef4c48cb4461bc49a3",
+    "node-b/tools/field_profile.py": "2cc386655e425d7f1ee57a8de956026cadd1057a27b2429ffa0f75a4bb1d9857",
+    "node-b/acquisition/工具/stable_slot_export.py": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2",
+    "node-b/tools/runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+    "node-b/tools/supervise_runtime_state_b.py": "98587c514f8987e76851b87465259a0b3242cb4b222c2289c1b6de5b0f580b22",
+    "node-b/tools/recover_resp_runtime_b.py": "0020bfc6f54bcddfbbaa8576801cab0e53f898a362249415082f95a51ea3b31b",
+    "node-b/tools/supervise_resp_recovery_b.py": "5f28aa9d627621d46f0df497eb460ac83b4ddb7c0cbcd21c2d35fdf9ebf5f4a9",
+    "node-b/tools/resp_rall20_b.py": "8478070d4a4b4c3d468c50a5f0259ce546aa986e95b08182767d74bf9200fa53",
+    "node-b/tools/analyze_resp_rall20_b.py": "030daff2c8e07249392ee9d2e7a12f873ad9cc3a5652b506d71b7db65da67697",
+    "node-b/tools/supervise_resp_rall20_b.py": "131cf822a27eff0b68d47a5de47bcb1920a369583270be12b9559d0601592ecb"
+  },
+  "actual_card_sha256": "efd6ae2d665bca58910a8dd6e511c68e9f61e4fcbc017d96e1ecd4297f991b56",
+  "recovery_card_sha256": "15559b3f49244b5ee55c6514c570563bc1ae54ee5de337f9681d1bfba91687f1",
+  "recovery_enabled": false,
+  "checks": "All bound bytes, local links, index historical bodies and firmware checked",
+  "test_evidence": [
+    {
+      "relative_private_path": "rall20-01-tests-private/disabled-cli-receipt.json",
+      "bytes": 246,
+      "sha256": "c2ee358fb1540f65fd5f1db9437d2e37fdec72aa67742e47fbbba26c0e5b1a2a"
+    },
+    {
+      "relative_private_path": "rall20-01-tests-private/disabled-cli.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_private_path": "rall20-01-tests-private/disabled-cli.stdout.log",
+      "bytes": 152,
+      "sha256": "141cb3f3f1c19e2414f05ce47cb368924109585f10a97ffeb99e490f0deea035"
+    },
+    {
+      "relative_private_path": "rall20-01-tests-private/receipt.json",
+      "bytes": 92,
+      "sha256": "9236eb703cec6453da0b514340f7f11151aa421b130d4f516b85338c2c444b9c"
+    },
+    {
+      "relative_private_path": "rall20-01-tests-private/test_resp_rall20_b.py.stderr.log",
+      "bytes": 1307,
+      "sha256": "2601d0f35ace9b59c1ec2dd41a4553f11c5251dc7da2dc93c6e5cf830a9f0083"
+    },
+    {
+      "relative_private_path": "rall20-01-tests-private/test_resp_rall20_b.py.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_private_path": "rall20-01-tests-private/test_resp_validity_b.py.stderr.log",
+      "bytes": 1192,
+      "sha256": "a1a725817ea8337c423e9fde07688b902045e720538c7369b16532c9cd21ffee"
+    },
+    {
+      "relative_private_path": "rall20-01-tests-private/test_resp_validity_b.py.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_private_path": "rall20-recovery-01-tests-private/disabled-cli-receipt.json",
+      "bytes": 104,
+      "sha256": "b74093f31782f0b04cc823993f8fcc04b06dbbf658060ecf6f4344c3a86e0bc3"
+    },
+    {
+      "relative_private_path": "rall20-recovery-01-tests-private/disabled-cli.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_private_path": "rall20-recovery-01-tests-private/disabled-cli.stdout.log",
+      "bytes": 137,
+      "sha256": "08fff1cb79b2f13546b122c3adefce3dc2db9aafdd16db636ba4a23a51dc91e5"
+    },
+    {
+      "relative_private_path": "rall20-recovery-01-tests-private/receipt.json",
+      "bytes": 63,
+      "sha256": "eb3f81f51a62e296181f29e39f159fb779d73f9e2640f3b21a5d323302532738"
+    },
+    {
+      "relative_private_path": "rall20-recovery-01-tests-private/tests.stderr.log",
+      "bytes": 829,
+      "sha256": "1f6d66ecc7122cd39ca01f506c6ca7c3a2f8244548e5b15948d2869ac17451db"
+    },
+    {
+      "relative_private_path": "rall20-recovery-01-tests-private/tests.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

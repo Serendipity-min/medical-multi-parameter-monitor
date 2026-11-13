@@ -1,0 +1,195 @@
+{
+  "date": "2026-10-22",
+  "data_source": "ENGINEERING_NONHUMAN",
+  "card_sha256": "09ac5988df14d1e64f4b253f7bf413497eed69f6c4923be1ab52401ded606584",
+  "profile_sha256": "4e298cf97e55ea8c7d01aa9509b54ef682256fcad6c9ba30cca835ec1cde1a7f",
+  "scope": "Nominal simulator rate agreement for tested setup; no clinical accuracy or per-beat sensitivity",
+  "changes": {
+    "firmware_algorithm": "UNCHANGED",
+    "thresholds": "UNCHANGED",
+    "flashing": false,
+    "reset_requests": 0,
+    "CAN_or_cloud_changes": false
+  },
+  "status": "B2_ECG_HR_ENGINEERING_RATE_PASS_FOR_TESTED_SETUP",
+  "formal_windows_passed": 6,
+  "windows": [
+    {
+      "summary_path": "matrix-ecg60-01-summary.json",
+      "summary_sha256": "db69fe7b64616b48252092d9c7342e9aabd40e73870a53a9195839314f5e346e",
+      "window": "matrix-ecg60-r3-01",
+      "formal": {
+        "status": "ENGINEERING_RATE_WINDOW_PASS",
+        "failures": [],
+        "nominal_reference_bpm": 60,
+        "tolerance_bpm": 2,
+        "raw_steady_frames": 14994,
+        "live_steady_observations": 76,
+        "live_steady_hr_values": [
+          60
+        ],
+        "replay_steady_hr_values": [
+          60
+        ],
+        "observed_host_sps": 249.92765769249235,
+        "warmup_ms": 30000,
+        "analysis_interval_ms": [
+          30000,
+          90000
+        ],
+        "anchor_device_ms": 37422,
+        "scope": "Nominal simulator rate agreement; no clinical accuracy or per-beat sensitivity"
+      }
+    },
+    {
+      "summary_path": "matrix-ecg60-02-summary.json",
+      "summary_sha256": "cd1b7e555d00ebc34c4ae030ee47a3cc95e069e8fe545470171926ae7fd0fa9e",
+      "window": "matrix-ecg60-r3-02",
+      "formal": {
+        "status": "ENGINEERING_RATE_WINDOW_PASS",
+        "failures": [],
+        "nominal_reference_bpm": 60,
+        "tolerance_bpm": 2,
+        "raw_steady_frames": 14995,
+        "live_steady_observations": 75,
+        "live_steady_hr_values": [
+          60
+        ],
+        "replay_steady_hr_values": [
+          60
+        ],
+        "observed_host_sps": 249.9127399652737,
+        "warmup_ms": 30000,
+        "analysis_interval_ms": [
+          30000,
+          90000
+        ],
+        "anchor_device_ms": 130042,
+        "scope": "Nominal simulator rate agreement; no clinical accuracy or per-beat sensitivity"
+      }
+    },
+    {
+      "summary_path": "matrix-ecg90-01-summary.json",
+      "summary_sha256": "e675765ae1703df63862795a79f07f86af2706a01c09af5ec04b305589f29315",
+      "window": "matrix-ecg90-r3-01",
+      "formal": {
+        "status": "ENGINEERING_RATE_WINDOW_PASS",
+        "failures": [],
+        "nominal_reference_bpm": 90,
+        "tolerance_bpm": 2,
+        "raw_steady_frames": 14996,
+        "live_steady_observations": 76,
+        "live_steady_hr_values": [
+          90
+        ],
+        "replay_steady_hr_values": [
+          90
+        ],
+        "observed_host_sps": 249.9221179545106,
+        "warmup_ms": 30000,
+        "analysis_interval_ms": [
+          30000,
+          90000
+        ],
+        "anchor_device_ms": 222591,
+        "scope": "Nominal simulator rate agreement; no clinical accuracy or per-beat sensitivity"
+      }
+    },
+    {
+      "summary_path": "matrix-ecg90-02-summary.json",
+      "summary_sha256": "cdfa8ba676d518906f2d514e5bfe4a5525d504bd4da443c4cbe5b5ee070c9afb",
+      "window": "matrix-ecg90-r3-02",
+      "formal": {
+        "status": "ENGINEERING_RATE_WINDOW_PASS",
+        "failures": [],
+        "nominal_reference_bpm": 90,
+        "tolerance_bpm": 2,
+        "raw_steady_frames": 14996,
+        "live_steady_observations": 76,
+        "live_steady_hr_values": [
+          90
+        ],
+        "replay_steady_hr_values": [
+          90
+        ],
+        "observed_host_sps": 249.95490250745303,
+        "warmup_ms": 30000,
+        "analysis_interval_ms": [
+          30000,
+          90000
+        ],
+        "anchor_device_ms": 315172,
+        "scope": "Nominal simulator rate agreement; no clinical accuracy or per-beat sensitivity"
+      }
+    },
+    {
+      "summary_path": "matrix-ecg120-01-summary.json",
+      "summary_sha256": "950a3071c63be7e7f27434efd1cb1d263b0d7e01741d29055933474ee278934c",
+      "window": "matrix-ecg120-r3-01",
+      "formal": {
+        "status": "ENGINEERING_RATE_WINDOW_PASS",
+        "failures": [],
+        "nominal_reference_bpm": 120,
+        "tolerance_bpm": 2,
+        "raw_steady_frames": 14997,
+        "live_steady_observations": 76,
+        "live_steady_hr_values": [
+          120
+        ],
+        "replay_steady_hr_values": [
+          120
+        ],
+        "observed_host_sps": 249.96584120809703,
+        "warmup_ms": 30000,
+        "analysis_interval_ms": [
+          30000,
+          90000
+        ],
+        "anchor_device_ms": 407748,
+        "scope": "Nominal simulator rate agreement; no clinical accuracy or per-beat sensitivity"
+      }
+    },
+    {
+      "summary_path": "matrix-ecg120-02-summary.json",
+      "summary_sha256": "a00675b3e2cb2bc21edb4a36ab18940e4091f9cdc7e6d22c1ba3aa39565284c9",
+      "window": "matrix-ecg120-r3-02",
+      "formal": {
+        "status": "ENGINEERING_RATE_WINDOW_PASS",
+        "failures": [],
+        "nominal_reference_bpm": 120,
+        "tolerance_bpm": 2,
+        "raw_steady_frames": 14997,
+        "live_steady_observations": 76,
+        "live_steady_hr_values": [
+          120
+        ],
+        "replay_steady_hr_values": [
+          120
+        ],
+        "observed_host_sps": 249.94397958126407,
+        "warmup_ms": 30000,
+        "analysis_interval_ms": [
+          30000,
+          90000
+        ],
+        "anchor_device_ms": 500347,
+        "scope": "Nominal simulator rate agreement; no clinical accuracy or per-beat sensitivity"
+      }
+    }
+  ],
+  "open_input_negative": {
+    "observations": 13,
+    "all_hr_invalid": true,
+    "capture_receipt_sha256": "95272ca608bc3dc1c70d2b3535ed26e4968703dcb3a57608c7ee80b0c1f8ecdb",
+    "input_accuracy": "NOT_EVALUATED"
+  },
+  "resp_rr": "BLOCKED_ELECTRODE_PAIR_AND_REFERENCE",
+  "outstanding_limits": [
+    "No synchronized per-beat source reference or calibrated lead-I amplitude",
+    "No synchronized source-switch timestamp for exact response latency",
+    "No end-to-end continuity or general RLD load compatibility measurement",
+    "Initialization RREG cache is not a fresh SPI read; live RAM observations are nonatomic",
+    "RUNNING_BEFORE_CLOSE does not prove post-close state"
+  ],
+  "authorization": "Six-session ECG matrix allowance exhausted; no extra hardware session or RESP under this card"
+}

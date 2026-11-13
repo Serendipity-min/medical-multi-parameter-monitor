@@ -1,0 +1,16 @@
+{
+  "BIN_bytes": 29684,
+  "BIN_SHA256": "6f2b910c276f4143261e8555dd778933493cb22a1fb7a651bacfd103912b05e5",
+  "checks_native_exit": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "sectors": [
+    0,
+    1
+  ],
+  "fixes": "Always consume configuration frame; explicit offline-ready handshake before CFG; STOP does not invalidate completed recording; V4 identity rejects old field tooling"
+}

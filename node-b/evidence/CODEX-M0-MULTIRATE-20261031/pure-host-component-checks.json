@@ -1,0 +1,144 @@
+{
+  "scope": "M0_EXISTING_PURE_HOST_COMPONENTS_ONLY",
+  "status": "PASS_COMPONENT_ONLY_NOT_T0_INTEGRATION",
+  "cases": [
+    {
+      "name": "gcc-version",
+      "actual_exit_code": 0,
+      "log_sha256": "6fd7cc88596832db1cc0e4cd1593c5ca63a027a9528cfd0d717c982484fb5b05",
+      "argv": [
+        "C:\\mingw64\\bin\\gcc.exe",
+        "--version"
+      ]
+    },
+    {
+      "name": "compile-link-policy-plain",
+      "actual_exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "argv": [
+        "C:\\mingw64\\bin\\gcc.exe",
+        "-std=c11",
+        "-O2",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-IREPO\\gateway\\dual_can",
+        "-DMP_FRAME_MAX_SAMPLES=100",
+        "-DMP_CACHE_CAPACITY=64",
+        "REPO\\gateway\\dual_can\\tests\\link_policy.c",
+        "-o",
+        "NEW_EFS_JOB\\component-host\\link-policy-plain.exe"
+      ]
+    },
+    {
+      "name": "link-policy-plain",
+      "actual_exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "argv": [
+        "NEW_EFS_JOB\\component-host\\link-policy-plain.exe"
+      ]
+    },
+    {
+      "name": "compile-link-policy-isolated",
+      "actual_exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "argv": [
+        "C:\\mingw64\\bin\\gcc.exe",
+        "-std=c11",
+        "-O2",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-IREPO\\gateway\\dual_can",
+        "-DB4_CAPTURE_SERIAL=1",
+        "-DMP_FRAME_MAX_SAMPLES=100",
+        "-DMP_CACHE_CAPACITY=64",
+        "REPO\\gateway\\dual_can\\tests\\link_policy.c",
+        "-o",
+        "NEW_EFS_JOB\\component-host\\link-policy-isolated.exe"
+      ]
+    },
+    {
+      "name": "link-policy-isolated",
+      "actual_exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "argv": [
+        "NEW_EFS_JOB\\component-host\\link-policy-isolated.exe"
+      ]
+    },
+    {
+      "name": "compile-bxcan-mmio",
+      "actual_exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "argv": [
+        "C:\\mingw64\\bin\\gcc.exe",
+        "-std=c11",
+        "-O2",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-IREPO\\gateway\\dual_can",
+        "-Wno-unused-parameter",
+        "-DB4_BXCAN_MMIO_TEST=1",
+        "-DB4_CAPTURE_SERIAL=1",
+        "-DCO_MULTIPLE_OD",
+        "-DMP_FRAME_MAX_SAMPLES=100",
+        "-DMP_CACHE_CAPACITY=64",
+        "-IREPO\\gateway\\canopen\\src",
+        "-IREPO\\gateway\\third_party\\CANopenNode",
+        "REPO\\gateway\\dual_can\\b4_bxcan.c",
+        "REPO\\gateway\\dual_can\\tests\\bxcan_retransmit.c",
+        "-o",
+        "NEW_EFS_JOB\\component-host\\bxcan-retransmit.exe"
+      ]
+    },
+    {
+      "name": "bxcan-mmio-ack-failure-stop",
+      "actual_exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "argv": [
+        "NEW_EFS_JOB\\component-host\\bxcan-retransmit.exe"
+      ]
+    }
+  ],
+  "gcc_executable_sha256": "c5f0953f7a71ddcdf0852e1e44a43cef9b8fe121beba4d4202bfe6d405de47c0",
+  "runner_sha256": "1ce83ed75548cf0d8133837bdfe13de1818b47e908a4e541013c73a6a08183c2",
+  "sources": [
+    {
+      "path": "gateway/dual_can/b4_resources.h",
+      "sha256": "de182771b364f9d2a3b28d30549d897f2f87645a48b18edf123f3254a3d2d71f"
+    },
+    {
+      "path": "gateway/dual_can/b4_bxcan.c",
+      "sha256": "a683c2661234ea88e5269dcb014f8b669b1e21db3517d0279f57a7a87ad6fc05"
+    },
+    {
+      "path": "gateway/dual_can/b4_bxcan.h",
+      "sha256": "3cfa1e10257cc3434ad77d4ff52126aa4f0c0470aa1d741b20160fc6bde29341"
+    },
+    {
+      "path": "gateway/dual_can/tests/link_policy.c",
+      "sha256": "0580661bd9882b71db72a9e6a808e59bf8517a90018501e65098070a1f72eb2e"
+    },
+    {
+      "path": "gateway/dual_can/tests/bxcan_retransmit.c",
+      "sha256": "f838eb55652ddf837f5a816135fa14bd43043c1d4522643c4b02ccd4d5e825e2"
+    },
+    {
+      "path": "gateway/dual_can/tests/bxcan_mmio_shim.h",
+      "sha256": "2133203bda089d48e9d02142ed7d65ee0379412aef937ba2eaf7c7bf3905dc81"
+    },
+    {
+      "path": "node-b/tools/run_b4_bench.py",
+      "sha256": "bafc07ccad4abafaf30830feefc82cdb90e4e1157d099673548db238a7758709"
+    }
+  ],
+  "component_tests": 3,
+  "compile_jobs": 3,
+  "SDK_DLL_COM_loads": 0,
+  "network_calls": 0,
+  "cloud_or_board_processes": 0,
+  "macro_scope": "B4_CAPTURE_SERIAL shared B-only resource policy; not exact MP_B5_CLOUD_CANDIDATE image/build validation",
+  "T0_dual_bus_integration": "NOT_RUN_REQUIRES_NEXT_SCOPE",
+  "old_65_and_17_tests": "NOT_RUN"
+}

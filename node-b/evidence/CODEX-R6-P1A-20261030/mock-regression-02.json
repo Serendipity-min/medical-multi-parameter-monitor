@@ -1,0 +1,31 @@
+{
+  "status": "PASS_MOCK",
+  "exit_code": 0,
+  "tests_run": 151,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "modules": [
+    "test_b5_channel_profiles",
+    "test_b5_channel_review",
+    "test_b5_g3_joint",
+    "test_readback_b",
+    "test_c_b4_readonly",
+    "test_c_b4_closeout_readonly",
+    "test_b5_c_rom_readonly",
+    "test_codex_r6_takeover"
+  ],
+  "guard_self_checks": [
+    "ctypes.dlopen",
+    "subprocess.Popen",
+    "socket.connect"
+  ],
+  "blocked_events": [
+    "ctypes.dlopen",
+    "subprocess.Popen",
+    "socket.connect"
+  ],
+  "real_hardware_sessions": 0,
+  "field_authorization": "NOT_GRANTED",
+  "guard_limit": "Python audit hook and constructor guards; not an adversarial OS sandbox"
+}

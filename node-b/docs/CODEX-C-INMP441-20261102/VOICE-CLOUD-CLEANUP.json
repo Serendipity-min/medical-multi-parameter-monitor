@@ -1,0 +1,84 @@
+{
+  "owned_stop": [
+    {
+      "unit": "mpm-mic-ingress-1883-r2-20261102",
+      "stop_native_exit": 0
+    },
+    {
+      "unit": "mpm-mic-ingress-1883-20261102",
+      "stop_native_exit": 0
+    },
+    {
+      "unit": "mpm-mic-worker-20261102",
+      "stop_native_exit": 0
+    },
+    {
+      "unit": "mpm-mic-mqtt-20261102",
+      "stop_native_exit": 0
+    }
+  ],
+  "owned_final_states": {
+    "mpm-mic-ingress-1883-r2-20261102": {
+      "native_exit": 4,
+      "state": "inactive"
+    },
+    "mpm-mic-ingress-1883-20261102": {
+      "native_exit": 3,
+      "state": "failed"
+    },
+    "mpm-mic-worker-20261102": {
+      "native_exit": 4,
+      "state": "inactive"
+    },
+    "mpm-mic-mqtt-20261102": {
+      "native_exit": 4,
+      "state": "inactive"
+    }
+  },
+  "ports": {
+    "1883": {
+      "native_exit": 0,
+      "listener_remains": false
+    },
+    "18884": {
+      "native_exit": 0,
+      "listener_remains": false
+    },
+    "18885": {
+      "native_exit": 0,
+      "listener_remains": false
+    }
+  },
+  "formal_config_hash_matches": {
+    "broker_config_ACL_passwords_all_match": true
+  },
+  "formal_unit_comparison": {
+    "medical-monitor-h3-webai.service": {
+      "PID_matches_initial": true,
+      "active_state": "active",
+      "native_exit": 0
+    },
+    "medical-monitor-h3-webbackend.service": {
+      "PID_matches_initial": true,
+      "active_state": "active",
+      "native_exit": 0
+    },
+    "medical-monitor-mock.service": {
+      "PID_matches_initial": true,
+      "active_state": "active",
+      "native_exit": 0
+    },
+    "medical-monitor-mqtt.service": {
+      "PID_matches_initial": true,
+      "active_state": "active",
+      "native_exit": 0
+    },
+    "medical-monitor.service": {
+      "PID_matches_initial": true,
+      "active_state": "active",
+      "native_exit": 0
+    }
+  },
+  "formal_restarts": 0,
+  "firewall_changes": 0
+}

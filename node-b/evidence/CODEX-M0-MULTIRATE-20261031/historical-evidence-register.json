@@ -1,0 +1,1711 @@
+{
+  "scope": "M0_READ_ONLY_EVIDENCE_REUSE",
+  "rows": [
+    {
+      "id": "matrix-ecg60-r3-01",
+      "generation": "B2_25284B",
+      "date": "2026-10-22",
+      "hardware": "Historical same B STM32F407 + ADS1292_V2.0 + SKX-2000D+; no current physical verification",
+      "firmware_bin_sha256": "438a8120f6df06ce219cdc30c0e5b697ac0e993f98d5a80521b10361536ae3ae",
+      "algorithm_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+      "target": 60,
+      "channel": "HR",
+      "menu": {
+        "mode": "ORDINARY_ECG",
+        "amplitude": "UNKNOWN_NOT_DECLARED_IN_ORIGINAL_SOURCE_RECORD",
+        "lead": "RA_LA_RLD_RL"
+      },
+      "capture_s": 92,
+      "warmup_s": 30,
+      "evaluation_s": 60,
+      "saved_live_observations": 76,
+      "observed_values": [
+        60
+      ],
+      "status": "ENGINEERING_RATE_WINDOW_PASS",
+      "source_record_sha256": "0a93909ef9796ab66689738bdb8ed5ec46d1ef7c606c2e139c8dcace4fd76105",
+      "profile_sha256": "4e298cf97e55ea8c7d01aa9509b54ef682256fcad6c9ba30cca835ec1cde1a7f",
+      "card_sha256": "09ac5988df14d1e64f4b253f7bf413497eed69f6c4923be1ab52401ded606584",
+      "capture_receipt_sha256": "abfbd2ba75cafa51086b26b2ceb61cb50e0799b01af3bd10bccbfe666a184fcf",
+      "raw_csv_sha256": "a5160a4f4e12425e8cd396faeab821c8b781d88de55e3b782448ef61e17a4177",
+      "criteria_sha256": "d8dc2b0ffe83c51c16942ffb26357abb10f5d35d5c174ea8175d47141efd36f2",
+      "criteria_hash_kind": "M0 canonical parameter subset; historical analyzer and original profile separately pinned; not claimed as original criteria file",
+      "tool_bindings_from_actual_profile": {
+        "node-b/tools/capture_b.py": "7c45589bff1099e20354b8dbe7db9bb2e32095bf67a904b9358cf4f4996800fa",
+        "node-b/tools/readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+        "node-b/tools/precheck_b.py": "3c490ecc99154aa857b0f2f9767951b5e6587844269983670a6ea53684ce4a81",
+        "node-b/tools/adc_path_b.py": "a80c1ed4ccddb8f0f569c3753c2659b78e01bb3c6b4f0b49bcaf3aa27a152d12",
+        "node-b/tools/boot_check_b.py": "0c854ade1cc99807badbdbc8a9f0a5eb7dd24d6447f617356fcd2bcd42f100c0",
+        "node-b/tools/fault_snapshot_b.py": "96d0976b2dd18d5c9a982c4d8b8afe9f2822f0120bbe06ef4c48cb4461bc49a3",
+        "node-b/tools/field_profile.py": "2cc386655e425d7f1ee57a8de956026cadd1057a27b2429ffa0f75a4bb1d9857",
+        "node-b/tools/supervise_readback.py": "4358e13e6de4a194166aeac3a9e315cdf98b9e890563771a255096a9bd897148",
+        "node-b/acquisition/工具/stable_slot_export.py": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2"
+      },
+      "historical_analysis_exit_code": 0,
+      "exit_code_basis": "accepted six-window report; public per-window formal PASS",
+      "usable_as": "KNOWN_NONBLIND_HISTORICAL_REGRESSION_NOT_B41012_FIELD_PASS",
+      "original_criteria_document": {
+        "path": "node-b/docs/AUTH-B-ECG-MATRIX-001-R1.md",
+        "sha256": "09ac5988df14d1e64f4b253f7bf413497eed69f6c4923be1ab52401ded606584"
+      },
+      "original_source_record_hash_rechecked": true
+    },
+    {
+      "id": "matrix-ecg60-r3-02",
+      "generation": "B2_25284B",
+      "date": "2026-10-22",
+      "hardware": "Historical same B STM32F407 + ADS1292_V2.0 + SKX-2000D+; no current physical verification",
+      "firmware_bin_sha256": "438a8120f6df06ce219cdc30c0e5b697ac0e993f98d5a80521b10361536ae3ae",
+      "algorithm_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+      "target": 60,
+      "channel": "HR",
+      "menu": {
+        "mode": "ORDINARY_ECG",
+        "amplitude": "UNKNOWN_NOT_DECLARED_IN_ORIGINAL_SOURCE_RECORD",
+        "lead": "RA_LA_RLD_RL"
+      },
+      "capture_s": 92,
+      "warmup_s": 30,
+      "evaluation_s": 60,
+      "saved_live_observations": 75,
+      "observed_values": [
+        60
+      ],
+      "status": "ENGINEERING_RATE_WINDOW_PASS",
+      "source_record_sha256": "0a93909ef9796ab66689738bdb8ed5ec46d1ef7c606c2e139c8dcace4fd76105",
+      "profile_sha256": "4e298cf97e55ea8c7d01aa9509b54ef682256fcad6c9ba30cca835ec1cde1a7f",
+      "card_sha256": "09ac5988df14d1e64f4b253f7bf413497eed69f6c4923be1ab52401ded606584",
+      "capture_receipt_sha256": "411706242db1aa0a4da4c298caace74ffe8a5d0fb4f94977cafaf6360b4fc90f",
+      "raw_csv_sha256": "437813bdc03e9eb27b09c25a9240d0bbff6757d3d06130760482b77d894fae9a",
+      "criteria_sha256": "d8dc2b0ffe83c51c16942ffb26357abb10f5d35d5c174ea8175d47141efd36f2",
+      "criteria_hash_kind": "M0 canonical parameter subset; historical analyzer and original profile separately pinned; not claimed as original criteria file",
+      "tool_bindings_from_actual_profile": {
+        "node-b/tools/capture_b.py": "7c45589bff1099e20354b8dbe7db9bb2e32095bf67a904b9358cf4f4996800fa",
+        "node-b/tools/readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+        "node-b/tools/precheck_b.py": "3c490ecc99154aa857b0f2f9767951b5e6587844269983670a6ea53684ce4a81",
+        "node-b/tools/adc_path_b.py": "a80c1ed4ccddb8f0f569c3753c2659b78e01bb3c6b4f0b49bcaf3aa27a152d12",
+        "node-b/tools/boot_check_b.py": "0c854ade1cc99807badbdbc8a9f0a5eb7dd24d6447f617356fcd2bcd42f100c0",
+        "node-b/tools/fault_snapshot_b.py": "96d0976b2dd18d5c9a982c4d8b8afe9f2822f0120bbe06ef4c48cb4461bc49a3",
+        "node-b/tools/field_profile.py": "2cc386655e425d7f1ee57a8de956026cadd1057a27b2429ffa0f75a4bb1d9857",
+        "node-b/tools/supervise_readback.py": "4358e13e6de4a194166aeac3a9e315cdf98b9e890563771a255096a9bd897148",
+        "node-b/acquisition/工具/stable_slot_export.py": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2"
+      },
+      "historical_analysis_exit_code": 0,
+      "exit_code_basis": "accepted six-window report; public per-window formal PASS",
+      "usable_as": "KNOWN_NONBLIND_HISTORICAL_REGRESSION_NOT_B41012_FIELD_PASS",
+      "original_criteria_document": {
+        "path": "node-b/docs/AUTH-B-ECG-MATRIX-001-R1.md",
+        "sha256": "09ac5988df14d1e64f4b253f7bf413497eed69f6c4923be1ab52401ded606584"
+      },
+      "original_source_record_hash_rechecked": true
+    },
+    {
+      "id": "matrix-ecg90-r3-01",
+      "generation": "B2_25284B",
+      "date": "2026-10-22",
+      "hardware": "Historical same B STM32F407 + ADS1292_V2.0 + SKX-2000D+; no current physical verification",
+      "firmware_bin_sha256": "438a8120f6df06ce219cdc30c0e5b697ac0e993f98d5a80521b10361536ae3ae",
+      "algorithm_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+      "target": 90,
+      "channel": "HR",
+      "menu": {
+        "mode": "ORDINARY_ECG",
+        "amplitude": "UNKNOWN_NOT_DECLARED_IN_ORIGINAL_SOURCE_RECORD",
+        "lead": "RA_LA_RLD_RL"
+      },
+      "capture_s": 92,
+      "warmup_s": 30,
+      "evaluation_s": 60,
+      "saved_live_observations": 76,
+      "observed_values": [
+        90
+      ],
+      "status": "ENGINEERING_RATE_WINDOW_PASS",
+      "source_record_sha256": "07459517d3ff963710ec588357c924b5797c1cdd99beecda15beb0b1852787d5",
+      "profile_sha256": "4e298cf97e55ea8c7d01aa9509b54ef682256fcad6c9ba30cca835ec1cde1a7f",
+      "card_sha256": "09ac5988df14d1e64f4b253f7bf413497eed69f6c4923be1ab52401ded606584",
+      "capture_receipt_sha256": "00fe49706c84a75fe047c5f9f3610a888314ac0cbeb54a12c62b820d2cd886e3",
+      "raw_csv_sha256": "5d7d0a6f95c24eed9560b1864f53dd8553ac713a305d3349a4e2d49aa6f44b9e",
+      "criteria_sha256": "d8dc2b0ffe83c51c16942ffb26357abb10f5d35d5c174ea8175d47141efd36f2",
+      "criteria_hash_kind": "M0 canonical parameter subset; historical analyzer and original profile separately pinned; not claimed as original criteria file",
+      "tool_bindings_from_actual_profile": {
+        "node-b/tools/capture_b.py": "7c45589bff1099e20354b8dbe7db9bb2e32095bf67a904b9358cf4f4996800fa",
+        "node-b/tools/readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+        "node-b/tools/precheck_b.py": "3c490ecc99154aa857b0f2f9767951b5e6587844269983670a6ea53684ce4a81",
+        "node-b/tools/adc_path_b.py": "a80c1ed4ccddb8f0f569c3753c2659b78e01bb3c6b4f0b49bcaf3aa27a152d12",
+        "node-b/tools/boot_check_b.py": "0c854ade1cc99807badbdbc8a9f0a5eb7dd24d6447f617356fcd2bcd42f100c0",
+        "node-b/tools/fault_snapshot_b.py": "96d0976b2dd18d5c9a982c4d8b8afe9f2822f0120bbe06ef4c48cb4461bc49a3",
+        "node-b/tools/field_profile.py": "2cc386655e425d7f1ee57a8de956026cadd1057a27b2429ffa0f75a4bb1d9857",
+        "node-b/tools/supervise_readback.py": "4358e13e6de4a194166aeac3a9e315cdf98b9e890563771a255096a9bd897148",
+        "node-b/acquisition/工具/stable_slot_export.py": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2"
+      },
+      "historical_analysis_exit_code": 0,
+      "exit_code_basis": "accepted six-window report; public per-window formal PASS",
+      "usable_as": "KNOWN_NONBLIND_HISTORICAL_REGRESSION_NOT_B41012_FIELD_PASS",
+      "original_criteria_document": {
+        "path": "node-b/docs/AUTH-B-ECG-MATRIX-001-R1.md",
+        "sha256": "09ac5988df14d1e64f4b253f7bf413497eed69f6c4923be1ab52401ded606584"
+      },
+      "original_source_record_hash_rechecked": true
+    },
+    {
+      "id": "matrix-ecg90-r3-02",
+      "generation": "B2_25284B",
+      "date": "2026-10-22",
+      "hardware": "Historical same B STM32F407 + ADS1292_V2.0 + SKX-2000D+; no current physical verification",
+      "firmware_bin_sha256": "438a8120f6df06ce219cdc30c0e5b697ac0e993f98d5a80521b10361536ae3ae",
+      "algorithm_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+      "target": 90,
+      "channel": "HR",
+      "menu": {
+        "mode": "ORDINARY_ECG",
+        "amplitude": "UNKNOWN_NOT_DECLARED_IN_ORIGINAL_SOURCE_RECORD",
+        "lead": "RA_LA_RLD_RL"
+      },
+      "capture_s": 92,
+      "warmup_s": 30,
+      "evaluation_s": 60,
+      "saved_live_observations": 76,
+      "observed_values": [
+        90
+      ],
+      "status": "ENGINEERING_RATE_WINDOW_PASS",
+      "source_record_sha256": "07459517d3ff963710ec588357c924b5797c1cdd99beecda15beb0b1852787d5",
+      "profile_sha256": "4e298cf97e55ea8c7d01aa9509b54ef682256fcad6c9ba30cca835ec1cde1a7f",
+      "card_sha256": "09ac5988df14d1e64f4b253f7bf413497eed69f6c4923be1ab52401ded606584",
+      "capture_receipt_sha256": "2c59ca8344fe9a5d40bdae3d29cdb0c8e3ff91c6e9c8a981f465a89b8808accf",
+      "raw_csv_sha256": "5f46fd6a838c4e3ddbee38f2f32342b49b62ff5d19edea71ebe81826c0c024ad",
+      "criteria_sha256": "d8dc2b0ffe83c51c16942ffb26357abb10f5d35d5c174ea8175d47141efd36f2",
+      "criteria_hash_kind": "M0 canonical parameter subset; historical analyzer and original profile separately pinned; not claimed as original criteria file",
+      "tool_bindings_from_actual_profile": {
+        "node-b/tools/capture_b.py": "7c45589bff1099e20354b8dbe7db9bb2e32095bf67a904b9358cf4f4996800fa",
+        "node-b/tools/readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+        "node-b/tools/precheck_b.py": "3c490ecc99154aa857b0f2f9767951b5e6587844269983670a6ea53684ce4a81",
+        "node-b/tools/adc_path_b.py": "a80c1ed4ccddb8f0f569c3753c2659b78e01bb3c6b4f0b49bcaf3aa27a152d12",
+        "node-b/tools/boot_check_b.py": "0c854ade1cc99807badbdbc8a9f0a5eb7dd24d6447f617356fcd2bcd42f100c0",
+        "node-b/tools/fault_snapshot_b.py": "96d0976b2dd18d5c9a982c4d8b8afe9f2822f0120bbe06ef4c48cb4461bc49a3",
+        "node-b/tools/field_profile.py": "2cc386655e425d7f1ee57a8de956026cadd1057a27b2429ffa0f75a4bb1d9857",
+        "node-b/tools/supervise_readback.py": "4358e13e6de4a194166aeac3a9e315cdf98b9e890563771a255096a9bd897148",
+        "node-b/acquisition/工具/stable_slot_export.py": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2"
+      },
+      "historical_analysis_exit_code": 0,
+      "exit_code_basis": "accepted six-window report; public per-window formal PASS",
+      "usable_as": "KNOWN_NONBLIND_HISTORICAL_REGRESSION_NOT_B41012_FIELD_PASS",
+      "original_criteria_document": {
+        "path": "node-b/docs/AUTH-B-ECG-MATRIX-001-R1.md",
+        "sha256": "09ac5988df14d1e64f4b253f7bf413497eed69f6c4923be1ab52401ded606584"
+      },
+      "original_source_record_hash_rechecked": true
+    },
+    {
+      "id": "matrix-ecg120-r3-01",
+      "generation": "B2_25284B",
+      "date": "2026-10-22",
+      "hardware": "Historical same B STM32F407 + ADS1292_V2.0 + SKX-2000D+; no current physical verification",
+      "firmware_bin_sha256": "438a8120f6df06ce219cdc30c0e5b697ac0e993f98d5a80521b10361536ae3ae",
+      "algorithm_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+      "target": 120,
+      "channel": "HR",
+      "menu": {
+        "mode": "ORDINARY_ECG",
+        "amplitude": "UNKNOWN_NOT_DECLARED_IN_ORIGINAL_SOURCE_RECORD",
+        "lead": "RA_LA_RLD_RL"
+      },
+      "capture_s": 92,
+      "warmup_s": 30,
+      "evaluation_s": 60,
+      "saved_live_observations": 76,
+      "observed_values": [
+        120
+      ],
+      "status": "ENGINEERING_RATE_WINDOW_PASS",
+      "source_record_sha256": "a03b54f12ef9487d1eebac9936cce9fa3a5c65f891a528bfd6e67ad2f53badbe",
+      "profile_sha256": "4e298cf97e55ea8c7d01aa9509b54ef682256fcad6c9ba30cca835ec1cde1a7f",
+      "card_sha256": "09ac5988df14d1e64f4b253f7bf413497eed69f6c4923be1ab52401ded606584",
+      "capture_receipt_sha256": "c916c93ba569d102c6e1de6df4389e15120e6de94f5296dfbc1db211e4b1ff1d",
+      "raw_csv_sha256": "95d2675bb8caf5cfe89b6595579e2bab743b6112a4cc891b1c6248941b629a9e",
+      "criteria_sha256": "d8dc2b0ffe83c51c16942ffb26357abb10f5d35d5c174ea8175d47141efd36f2",
+      "criteria_hash_kind": "M0 canonical parameter subset; historical analyzer and original profile separately pinned; not claimed as original criteria file",
+      "tool_bindings_from_actual_profile": {
+        "node-b/tools/capture_b.py": "7c45589bff1099e20354b8dbe7db9bb2e32095bf67a904b9358cf4f4996800fa",
+        "node-b/tools/readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+        "node-b/tools/precheck_b.py": "3c490ecc99154aa857b0f2f9767951b5e6587844269983670a6ea53684ce4a81",
+        "node-b/tools/adc_path_b.py": "a80c1ed4ccddb8f0f569c3753c2659b78e01bb3c6b4f0b49bcaf3aa27a152d12",
+        "node-b/tools/boot_check_b.py": "0c854ade1cc99807badbdbc8a9f0a5eb7dd24d6447f617356fcd2bcd42f100c0",
+        "node-b/tools/fault_snapshot_b.py": "96d0976b2dd18d5c9a982c4d8b8afe9f2822f0120bbe06ef4c48cb4461bc49a3",
+        "node-b/tools/field_profile.py": "2cc386655e425d7f1ee57a8de956026cadd1057a27b2429ffa0f75a4bb1d9857",
+        "node-b/tools/supervise_readback.py": "4358e13e6de4a194166aeac3a9e315cdf98b9e890563771a255096a9bd897148",
+        "node-b/acquisition/工具/stable_slot_export.py": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2"
+      },
+      "historical_analysis_exit_code": 0,
+      "exit_code_basis": "accepted six-window report; public per-window formal PASS",
+      "usable_as": "KNOWN_NONBLIND_HISTORICAL_REGRESSION_NOT_B41012_FIELD_PASS",
+      "original_criteria_document": {
+        "path": "node-b/docs/AUTH-B-ECG-MATRIX-001-R1.md",
+        "sha256": "09ac5988df14d1e64f4b253f7bf413497eed69f6c4923be1ab52401ded606584"
+      },
+      "original_source_record_hash_rechecked": true
+    },
+    {
+      "id": "matrix-ecg120-r3-02",
+      "generation": "B2_25284B",
+      "date": "2026-10-22",
+      "hardware": "Historical same B STM32F407 + ADS1292_V2.0 + SKX-2000D+; no current physical verification",
+      "firmware_bin_sha256": "438a8120f6df06ce219cdc30c0e5b697ac0e993f98d5a80521b10361536ae3ae",
+      "algorithm_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+      "target": 120,
+      "channel": "HR",
+      "menu": {
+        "mode": "ORDINARY_ECG",
+        "amplitude": "UNKNOWN_NOT_DECLARED_IN_ORIGINAL_SOURCE_RECORD",
+        "lead": "RA_LA_RLD_RL"
+      },
+      "capture_s": 92,
+      "warmup_s": 30,
+      "evaluation_s": 60,
+      "saved_live_observations": 76,
+      "observed_values": [
+        120
+      ],
+      "status": "ENGINEERING_RATE_WINDOW_PASS",
+      "source_record_sha256": "a03b54f12ef9487d1eebac9936cce9fa3a5c65f891a528bfd6e67ad2f53badbe",
+      "profile_sha256": "4e298cf97e55ea8c7d01aa9509b54ef682256fcad6c9ba30cca835ec1cde1a7f",
+      "card_sha256": "09ac5988df14d1e64f4b253f7bf413497eed69f6c4923be1ab52401ded606584",
+      "capture_receipt_sha256": "a8e30a3f065466f6e0290e424394872cc792b9d99f265214b6de893a5fe15ac9",
+      "raw_csv_sha256": "8f26c377700409b436738610c2a170db026872fc77e5f96a9e363c57d84edcfe",
+      "criteria_sha256": "d8dc2b0ffe83c51c16942ffb26357abb10f5d35d5c174ea8175d47141efd36f2",
+      "criteria_hash_kind": "M0 canonical parameter subset; historical analyzer and original profile separately pinned; not claimed as original criteria file",
+      "tool_bindings_from_actual_profile": {
+        "node-b/tools/capture_b.py": "7c45589bff1099e20354b8dbe7db9bb2e32095bf67a904b9358cf4f4996800fa",
+        "node-b/tools/readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+        "node-b/tools/precheck_b.py": "3c490ecc99154aa857b0f2f9767951b5e6587844269983670a6ea53684ce4a81",
+        "node-b/tools/adc_path_b.py": "a80c1ed4ccddb8f0f569c3753c2659b78e01bb3c6b4f0b49bcaf3aa27a152d12",
+        "node-b/tools/boot_check_b.py": "0c854ade1cc99807badbdbc8a9f0a5eb7dd24d6447f617356fcd2bcd42f100c0",
+        "node-b/tools/fault_snapshot_b.py": "96d0976b2dd18d5c9a982c4d8b8afe9f2822f0120bbe06ef4c48cb4461bc49a3",
+        "node-b/tools/field_profile.py": "2cc386655e425d7f1ee57a8de956026cadd1057a27b2429ffa0f75a4bb1d9857",
+        "node-b/tools/supervise_readback.py": "4358e13e6de4a194166aeac3a9e315cdf98b9e890563771a255096a9bd897148",
+        "node-b/acquisition/工具/stable_slot_export.py": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2"
+      },
+      "historical_analysis_exit_code": 0,
+      "exit_code_basis": "accepted six-window report; public per-window formal PASS",
+      "usable_as": "KNOWN_NONBLIND_HISTORICAL_REGRESSION_NOT_B41012_FIELD_PASS",
+      "original_criteria_document": {
+        "path": "node-b/docs/AUTH-B-ECG-MATRIX-001-R1.md",
+        "sha256": "09ac5988df14d1e64f4b253f7bf413497eed69f6c4923be1ab52401ded606584"
+      },
+      "original_source_record_hash_rechecked": true
+    },
+    {
+      "id": "12-r1",
+      "generation": "E3_PRECAN_BIO",
+      "date": "2026-10-23",
+      "hardware": "Historical B STM32F407 + ADS1292_V2.0 + SKX-2000D+; current physical identity UNKNOWN",
+      "firmware_bin_sha256": "438a8120f6df06ce219cdc30c0e5b697ac0e993f98d5a80521b10361536ae3ae",
+      "firmware_identity_anchor_sha256": "36bd57065035e91b461b24110e55de9ef929b73d2e5bee5e656ee4931d05616d",
+      "firmware_bin_hash_resolution": "Original E3 protocol line64 BIN25284B and original profile full-Flash anchor match; not a fresh device read",
+      "algorithm_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+      "channel": "RR",
+      "target": 12,
+      "menu": {
+        "mode_literal": "呼吸波形",
+        "amplitude_literal": "1.5R",
+        "waveform_period_literal": "20bpm",
+        "respiration_rate_literal": "12bpm",
+        "ecg_rate_literal": "60BPM",
+        "apnea_literal": "0s"
+      },
+      "capture_s": 137,
+      "warmup_s": 45,
+      "evaluation_s": 90,
+      "saved_live_observations": 113,
+      "valid_saved_observations": 113,
+      "observed_values": [
+        12
+      ],
+      "raw_period_estimate": {
+        "origin": "OFFLINE_RAW_CH1_ESTIMATE_NOT_BIO_NOT_REFERENCE",
+        "failures": [],
+        "impedance_calibration": "NOT_CALIBRATED",
+        "Z0_ohm": null,
+        "delta_Zpp_ohm": null,
+        "time_domain_rpm": 11.997600479904019,
+        "spectral_rpm": 12.0,
+        "autocorrelation_rpm": 11.997600479904019,
+        "periods_ms": [
+          5102.0,
+          4897.0,
+          5001.0,
+          5102.0,
+          4997.0,
+          4901.0,
+          5102.0,
+          4997.0,
+          5001.0,
+          5102.0,
+          4897.0,
+          5001.0,
+          5102.0,
+          4897.0,
+          5001.0,
+          5002.0,
+          4997.0
+        ],
+        "peak_device_offsets_ms": [
+          3349.0,
+          8451.0,
+          13348.0,
+          18349.0,
+          23451.0,
+          28448.0,
+          33349.0,
+          38451.0,
+          43448.0,
+          48449.0,
+          53551.0,
+          58448.0,
+          63449.0,
+          68551.0,
+          73448.0,
+          78449.0,
+          83451.0,
+          88448.0
+        ],
+        "raw_peak_to_peak_codes": 1457,
+        "duration_ms": 89996.0,
+        "period_relative_max_deviation": 0.020795840831833633,
+        "finite_window_resolution_rpm": 0.6688963210702341,
+        "autocorrelation_coefficient": 0.9997805996525504,
+        "status": "PERIOD_COHERENT_EXPLORATORY_ONLY",
+        "short_window_limit": "Few cycles and finite-window resolution; no calibrated frequency or L2 rate tracking proof"
+      },
+      "status": "E3_CELL_NOMINAL_RATE_MATCH",
+      "profile_sha256": "41beaf18b4c17defe321d9051f82aed61981337ed0d2ae000a1ca4c3348040ab",
+      "source_record_sha256": "a349b32a14deeeecf145357ab977ecb9e87d66cb26381ce9ac1644f8098bf7a7",
+      "card_sha256": "9020343cc455857aaaf6afcc52d1a0c8097c1bf58b3ec7823f54a15b38731a27",
+      "capture_receipt_sha256": "f3105455ab718f45d392eef9f03ab5d88e769d21bc510c951e61d26a691de245",
+      "raw_csv_sha256": "006b3905bbc9b65fe1a86c0b43b0957e989ed587e801f954cb0e173257debddc",
+      "criteria": {
+        "warmup_ms": [
+          0,
+          45000
+        ],
+        "evaluation_ms": [
+          45000,
+          135000
+        ],
+        "tail_ms": [
+          135000,
+          137000
+        ],
+        "rr_tolerance_rpm": 1,
+        "min_live_observations": 45,
+        "live_edge_tolerance_ms": 1500,
+        "max_live_gap_ms": 2000,
+        "required_live_valid_fraction": 1.0,
+        "sps_range": [
+          240,
+          260
+        ],
+        "steady_frame_edge_tolerance_ms": 12,
+        "repeat_raw_difference_rpm": 1,
+        "nominal_not_calibrated": true
+      },
+      "criteria_canonical_sha256": "9c96424917139843b4cd8790a453c92c38c2dc13f5950273a77ef4636ddd3cda",
+      "tool_bindings_from_actual_profile": {
+        "node-b/tools/capture_resp_b.py": "6989a819a5f26c91074bf2cfdd769313fa543aa85e58c01d5198bd0670e309ae",
+        "node-b/tools/resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+        "node-b/tools/analyze_resp_b.py": "225e5ef46b8f450c3b4372d3fc102491c8f2e64ee8a5f9fd87a12074018e3360",
+        "node-b/tools/supervise_resp_b.py": "5019350e361f6ab999dc0fe9a09808b304228235d8c11b3abcf4e5e86f6f8a4d",
+        "node-b/tools/capture_b.py": "7c45589bff1099e20354b8dbe7db9bb2e32095bf67a904b9358cf4f4996800fa",
+        "node-b/tools/readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+        "node-b/tools/precheck_b.py": "3c490ecc99154aa857b0f2f9767951b5e6587844269983670a6ea53684ce4a81",
+        "node-b/tools/adc_path_b.py": "a80c1ed4ccddb8f0f569c3753c2659b78e01bb3c6b4f0b49bcaf3aa27a152d12",
+        "node-b/tools/boot_check_b.py": "0c854ade1cc99807badbdbc8a9f0a5eb7dd24d6447f617356fcd2bcd42f100c0",
+        "node-b/tools/fault_snapshot_b.py": "96d0976b2dd18d5c9a982c4d8b8afe9f2822f0120bbe06ef4c48cb4461bc49a3",
+        "node-b/tools/field_profile.py": "2cc386655e425d7f1ee57a8de956026cadd1057a27b2429ffa0f75a4bb1d9857",
+        "node-b/acquisition/工具/stable_slot_export.py": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2",
+        "node-b/tools/runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+        "node-b/tools/supervise_runtime_state_b.py": "98587c514f8987e76851b87465259a0b3242cb4b222c2289c1b6de5b0f580b22",
+        "node-b/tools/recover_resp_runtime_b.py": "0020bfc6f54bcddfbbaa8576801cab0e53f898a362249415082f95a51ea3b31b",
+        "node-b/tools/supervise_resp_recovery_b.py": "5f28aa9d627621d46f0df497eb460ac83b4ddb7c0cbcd21c2d35fdf9ebf5f4a9",
+        "node-b/tools/resp_rall20_b.py": "8478070d4a4b4c3d468c50a5f0259ce546aa986e95b08182767d74bf9200fa53",
+        "node-b/tools/analyze_resp_rall20_b.py": "030daff2c8e07249392ee9d2e7a12f873ad9cc3a5652b506d71b7db65da67697",
+        "node-b/tools/supervise_resp_rall20_b.py": "131cf822a27eff0b68d47a5de47bcb1920a369583270be12b9559d0601592ecb",
+        "node-b/tools/recover_resp_rall20_b.py": "b57d75c52922b24cce0bc78ec53a636654cae53c7837ce597df904e72193b21d",
+        "node-b/tools/supervise_recover_resp_rall20_b.py": "dffbc700405780731d54e9a0a19f1070a13d1d16a0d7fc4432d98cf3c925c0c5",
+        "node-b/tools/resp_matrix_b.py": "55d933f19ccc8ffabaf5b92bbd77efef5d8940e8941b5338f7ab7d3a82a1b39d",
+        "node-b/tools/analyze_resp_matrix_b.py": "8208773ed890cc276d38144b99f023da68c7fb223d793acb6b76498244d746a5",
+        "node-b/tools/supervise_resp_matrix_b.py": "8286a91d01a5cbf87fb02b07165c77029f38eee895cbae524e317a8a573cee0a",
+        "node-b/tests/test_resp_matrix_b.py": "9ae45d58ec52a61d074726593dfc216572d2d992660ca8ae1a6012810241a0c3"
+      },
+      "historical_native_exit_codes": {
+        "invoker": 0,
+        "capture_worker": 0,
+        "capture_supervisor": 0,
+        "analysis_invoker": 0,
+        "C_replay_compile": 0
+      },
+      "HR_truth": "UNKNOWN_NOT_AN_E3_ACCEPTANCE",
+      "reference_rpm": null,
+      "Z0_ohm": null,
+      "delta_Zpp_ohm": null,
+      "usable_as": "KNOWN_NONBLIND_HISTORICAL_REGRESSION_PERIOD20_NOT_NEW_PERIOD30"
+    },
+    {
+      "id": "12-r2",
+      "generation": "E3_PRECAN_BIO",
+      "date": "2026-10-23",
+      "hardware": "Historical B STM32F407 + ADS1292_V2.0 + SKX-2000D+; current physical identity UNKNOWN",
+      "firmware_bin_sha256": "438a8120f6df06ce219cdc30c0e5b697ac0e993f98d5a80521b10361536ae3ae",
+      "firmware_identity_anchor_sha256": "36bd57065035e91b461b24110e55de9ef929b73d2e5bee5e656ee4931d05616d",
+      "firmware_bin_hash_resolution": "Original E3 protocol line64 BIN25284B and original profile full-Flash anchor match; not a fresh device read",
+      "algorithm_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+      "channel": "RR",
+      "target": 12,
+      "menu": {
+        "mode_literal": "呼吸波形",
+        "amplitude_literal": "1.5R",
+        "waveform_period_literal": "20bpm",
+        "respiration_rate_literal": "12bpm",
+        "ecg_rate_literal": "60BPM",
+        "apnea_literal": "0s"
+      },
+      "capture_s": 137,
+      "warmup_s": 45,
+      "evaluation_s": 90,
+      "saved_live_observations": 114,
+      "valid_saved_observations": 114,
+      "observed_values": [
+        12
+      ],
+      "raw_period_estimate": {
+        "origin": "OFFLINE_RAW_CH1_ESTIMATE_NOT_BIO_NOT_REFERENCE",
+        "failures": [],
+        "impedance_calibration": "NOT_CALIBRATED",
+        "Z0_ohm": null,
+        "delta_Zpp_ohm": null,
+        "time_domain_rpm": 11.995681554640331,
+        "spectral_rpm": 12.0,
+        "autocorrelation_rpm": 11.997600479904019,
+        "periods_ms": [
+          5001.0,
+          5098.0,
+          4901.0,
+          5001.5999999999985,
+          4897.4000000000015,
+          5001.0,
+          5102.0,
+          5097.0,
+          4901.0,
+          5002.0,
+          5097.0,
+          4901.0,
+          5102.0,
+          4797.0,
+          5101.0,
+          5002.0
+        ],
+        "peak_device_offsets_ms": [
+          5049.0,
+          10050.0,
+          15148.0,
+          20049.0,
+          25050.6,
+          29948.0,
+          34949.0,
+          40051.0,
+          45148.0,
+          50049.0,
+          55051.0,
+          60148.0,
+          65049.0,
+          70151.0,
+          74948.0,
+          80049.0,
+          85051.0
+        ],
+        "raw_peak_to_peak_codes": 1449,
+        "duration_ms": 89996.0,
+        "period_relative_max_deviation": 0.04094525970650552,
+        "finite_window_resolution_rpm": 0.6688963210702341,
+        "autocorrelation_coefficient": 0.999774801580156,
+        "status": "PERIOD_COHERENT_EXPLORATORY_ONLY",
+        "short_window_limit": "Few cycles and finite-window resolution; no calibrated frequency or L2 rate tracking proof"
+      },
+      "status": "E3_CELL_NOMINAL_RATE_MATCH",
+      "profile_sha256": "104ff52f78e900533fba1e5038a9dad656c9a7313a5e703bf695c7b1891979e3",
+      "source_record_sha256": "e7e1165d5be4966936ad9d089ba069b7188f27ff0c39d7109f31f68fa30a3e26",
+      "card_sha256": "a3027f0a8f04a3a7ffcb31a0f73d23d61e2456c31ca0b03064cc9e33f09ecf8e",
+      "capture_receipt_sha256": "26ccaf2ea2f6b183626f8c520117c923351c0eedd194caf8fd43e814cbc02276",
+      "raw_csv_sha256": "da5ec773c73924065ed107d5d5e8194ae15b1e6f48b08fde1a7e96278c5381bf",
+      "criteria": {
+        "warmup_ms": [
+          0,
+          45000
+        ],
+        "evaluation_ms": [
+          45000,
+          135000
+        ],
+        "tail_ms": [
+          135000,
+          137000
+        ],
+        "rr_tolerance_rpm": 1,
+        "min_live_observations": 45,
+        "live_edge_tolerance_ms": 1500,
+        "max_live_gap_ms": 2000,
+        "required_live_valid_fraction": 1.0,
+        "sps_range": [
+          240,
+          260
+        ],
+        "steady_frame_edge_tolerance_ms": 12,
+        "repeat_raw_difference_rpm": 1,
+        "nominal_not_calibrated": true
+      },
+      "criteria_canonical_sha256": "9c96424917139843b4cd8790a453c92c38c2dc13f5950273a77ef4636ddd3cda",
+      "tool_bindings_from_actual_profile": {
+        "node-b/tools/capture_resp_b.py": "6989a819a5f26c91074bf2cfdd769313fa543aa85e58c01d5198bd0670e309ae",
+        "node-b/tools/resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+        "node-b/tools/analyze_resp_b.py": "225e5ef46b8f450c3b4372d3fc102491c8f2e64ee8a5f9fd87a12074018e3360",
+        "node-b/tools/supervise_resp_b.py": "5019350e361f6ab999dc0fe9a09808b304228235d8c11b3abcf4e5e86f6f8a4d",
+        "node-b/tools/capture_b.py": "7c45589bff1099e20354b8dbe7db9bb2e32095bf67a904b9358cf4f4996800fa",
+        "node-b/tools/readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+        "node-b/tools/precheck_b.py": "3c490ecc99154aa857b0f2f9767951b5e6587844269983670a6ea53684ce4a81",
+        "node-b/tools/adc_path_b.py": "a80c1ed4ccddb8f0f569c3753c2659b78e01bb3c6b4f0b49bcaf3aa27a152d12",
+        "node-b/tools/boot_check_b.py": "0c854ade1cc99807badbdbc8a9f0a5eb7dd24d6447f617356fcd2bcd42f100c0",
+        "node-b/tools/fault_snapshot_b.py": "96d0976b2dd18d5c9a982c4d8b8afe9f2822f0120bbe06ef4c48cb4461bc49a3",
+        "node-b/tools/field_profile.py": "2cc386655e425d7f1ee57a8de956026cadd1057a27b2429ffa0f75a4bb1d9857",
+        "node-b/acquisition/工具/stable_slot_export.py": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2",
+        "node-b/tools/runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+        "node-b/tools/supervise_runtime_state_b.py": "98587c514f8987e76851b87465259a0b3242cb4b222c2289c1b6de5b0f580b22",
+        "node-b/tools/recover_resp_runtime_b.py": "0020bfc6f54bcddfbbaa8576801cab0e53f898a362249415082f95a51ea3b31b",
+        "node-b/tools/supervise_resp_recovery_b.py": "5f28aa9d627621d46f0df497eb460ac83b4ddb7c0cbcd21c2d35fdf9ebf5f4a9",
+        "node-b/tools/resp_rall20_b.py": "8478070d4a4b4c3d468c50a5f0259ce546aa986e95b08182767d74bf9200fa53",
+        "node-b/tools/analyze_resp_rall20_b.py": "030daff2c8e07249392ee9d2e7a12f873ad9cc3a5652b506d71b7db65da67697",
+        "node-b/tools/supervise_resp_rall20_b.py": "131cf822a27eff0b68d47a5de47bcb1920a369583270be12b9559d0601592ecb",
+        "node-b/tools/recover_resp_rall20_b.py": "b57d75c52922b24cce0bc78ec53a636654cae53c7837ce597df904e72193b21d",
+        "node-b/tools/supervise_recover_resp_rall20_b.py": "dffbc700405780731d54e9a0a19f1070a13d1d16a0d7fc4432d98cf3c925c0c5",
+        "node-b/tools/resp_matrix_b.py": "55d933f19ccc8ffabaf5b92bbd77efef5d8940e8941b5338f7ab7d3a82a1b39d",
+        "node-b/tools/analyze_resp_matrix_b.py": "8208773ed890cc276d38144b99f023da68c7fb223d793acb6b76498244d746a5",
+        "node-b/tools/supervise_resp_matrix_b.py": "8286a91d01a5cbf87fb02b07165c77029f38eee895cbae524e317a8a573cee0a",
+        "node-b/tests/test_resp_matrix_b.py": "9ae45d58ec52a61d074726593dfc216572d2d992660ca8ae1a6012810241a0c3"
+      },
+      "historical_native_exit_codes": {
+        "invoker": 0,
+        "capture_worker": 0,
+        "capture_supervisor": 0,
+        "analysis_invoker": 0,
+        "C_replay_compile": 0
+      },
+      "HR_truth": "UNKNOWN_NOT_AN_E3_ACCEPTANCE",
+      "reference_rpm": null,
+      "Z0_ohm": null,
+      "delta_Zpp_ohm": null,
+      "usable_as": "KNOWN_NONBLIND_HISTORICAL_REGRESSION_PERIOD20_NOT_NEW_PERIOD30"
+    },
+    {
+      "id": "18-r1",
+      "generation": "E3_PRECAN_BIO",
+      "date": "2026-10-23",
+      "hardware": "Historical B STM32F407 + ADS1292_V2.0 + SKX-2000D+; current physical identity UNKNOWN",
+      "firmware_bin_sha256": "438a8120f6df06ce219cdc30c0e5b697ac0e993f98d5a80521b10361536ae3ae",
+      "firmware_identity_anchor_sha256": "36bd57065035e91b461b24110e55de9ef929b73d2e5bee5e656ee4931d05616d",
+      "firmware_bin_hash_resolution": "Original E3 protocol line64 BIN25284B and original profile full-Flash anchor match; not a fresh device read",
+      "algorithm_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+      "channel": "RR",
+      "target": 18,
+      "menu": {
+        "mode_literal": "呼吸波形",
+        "amplitude_literal": "1.5R",
+        "waveform_period_literal": "20bpm",
+        "respiration_rate_literal": "18bpm",
+        "ecg_rate_literal": "60BPM",
+        "apnea_literal": "0s"
+      },
+      "capture_s": 137,
+      "warmup_s": 45,
+      "evaluation_s": 90,
+      "saved_live_observations": 114,
+      "valid_saved_observations": 114,
+      "observed_values": [
+        18
+      ],
+      "raw_period_estimate": {
+        "origin": "OFFLINE_RAW_CH1_ESTIMATE_NOT_BIO_NOT_REFERENCE",
+        "failures": [],
+        "impedance_calibration": "NOT_CALIBRATED",
+        "Z0_ohm": null,
+        "delta_Zpp_ohm": null,
+        "time_domain_rpm": 18.176310209027566,
+        "spectral_rpm": 18.0,
+        "autocorrelation_rpm": 18.176310209027566,
+        "periods_ms": [
+          3301.0,
+          3401.0,
+          3297.0,
+          3301.0,
+          3301.0,
+          3401.0,
+          3297.0,
+          3301.0,
+          3400.0,
+          3301.0,
+          3301.0,
+          3397.0,
+          3301.0,
+          3301.0,
+          3301.0,
+          3397.0,
+          3301.0,
+          3300.1600000000035,
+          3400.8399999999965,
+          3301.0,
+          3297.0,
+          3401.0,
+          3301.0,
+          3301.0,
+          3297.0
+        ],
+        "peak_device_offsets_ms": [
+          3449.0,
+          6750.0,
+          10151.0,
+          13448.0,
+          16749.0,
+          20050.0,
+          23451.0,
+          26748.0,
+          30049.0,
+          33449.0,
+          36750.0,
+          40051.0,
+          43448.0,
+          46749.0,
+          50050.0,
+          53351.0,
+          56748.0,
+          60049.0,
+          63349.16,
+          66750.0,
+          70051.0,
+          73348.0,
+          76749.0,
+          80050.0,
+          83351.0,
+          86648.0
+        ],
+        "raw_peak_to_peak_codes": 1355,
+        "duration_ms": 89997.0,
+        "period_relative_max_deviation": 0.030293850348379277,
+        "finite_window_resolution_rpm": 0.6688888641152273,
+        "autocorrelation_coefficient": 0.9981189780267383,
+        "status": "PERIOD_COHERENT_EXPLORATORY_ONLY",
+        "short_window_limit": "Few cycles and finite-window resolution; no calibrated frequency or L2 rate tracking proof"
+      },
+      "status": "E3_CELL_NOMINAL_RATE_MATCH",
+      "profile_sha256": "565ba5fb5659cab0fc4de0e4bb79b33fc692a2813b03ff4a81849a6b18dbd0c7",
+      "source_record_sha256": "53368c8885e19c6e65e8482f1af7a63da3993cb416e606f47317f2f381955b6c",
+      "card_sha256": "40fbe9c7c10d40cdb3f180dc344feb530dbc447398ef47d53eb3ea64d83a9cee",
+      "capture_receipt_sha256": "2b141f1e2ba78879cec1a634e5288ac3f8546b64d16ddd5d47f9b00700feb5e5",
+      "raw_csv_sha256": "13400869b86b58f6ab1237354b4fbddcd956d53a2a73c228fcf4e2a9f0c54ca5",
+      "criteria": {
+        "warmup_ms": [
+          0,
+          45000
+        ],
+        "evaluation_ms": [
+          45000,
+          135000
+        ],
+        "tail_ms": [
+          135000,
+          137000
+        ],
+        "rr_tolerance_rpm": 1,
+        "min_live_observations": 45,
+        "live_edge_tolerance_ms": 1500,
+        "max_live_gap_ms": 2000,
+        "required_live_valid_fraction": 1.0,
+        "sps_range": [
+          240,
+          260
+        ],
+        "steady_frame_edge_tolerance_ms": 12,
+        "repeat_raw_difference_rpm": 1,
+        "nominal_not_calibrated": true
+      },
+      "criteria_canonical_sha256": "9c96424917139843b4cd8790a453c92c38c2dc13f5950273a77ef4636ddd3cda",
+      "tool_bindings_from_actual_profile": {
+        "node-b/tools/capture_resp_b.py": "6989a819a5f26c91074bf2cfdd769313fa543aa85e58c01d5198bd0670e309ae",
+        "node-b/tools/resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+        "node-b/tools/analyze_resp_b.py": "225e5ef46b8f450c3b4372d3fc102491c8f2e64ee8a5f9fd87a12074018e3360",
+        "node-b/tools/supervise_resp_b.py": "5019350e361f6ab999dc0fe9a09808b304228235d8c11b3abcf4e5e86f6f8a4d",
+        "node-b/tools/capture_b.py": "7c45589bff1099e20354b8dbe7db9bb2e32095bf67a904b9358cf4f4996800fa",
+        "node-b/tools/readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+        "node-b/tools/precheck_b.py": "3c490ecc99154aa857b0f2f9767951b5e6587844269983670a6ea53684ce4a81",
+        "node-b/tools/adc_path_b.py": "a80c1ed4ccddb8f0f569c3753c2659b78e01bb3c6b4f0b49bcaf3aa27a152d12",
+        "node-b/tools/boot_check_b.py": "0c854ade1cc99807badbdbc8a9f0a5eb7dd24d6447f617356fcd2bcd42f100c0",
+        "node-b/tools/fault_snapshot_b.py": "96d0976b2dd18d5c9a982c4d8b8afe9f2822f0120bbe06ef4c48cb4461bc49a3",
+        "node-b/tools/field_profile.py": "2cc386655e425d7f1ee57a8de956026cadd1057a27b2429ffa0f75a4bb1d9857",
+        "node-b/acquisition/工具/stable_slot_export.py": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2",
+        "node-b/tools/runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+        "node-b/tools/supervise_runtime_state_b.py": "98587c514f8987e76851b87465259a0b3242cb4b222c2289c1b6de5b0f580b22",
+        "node-b/tools/recover_resp_runtime_b.py": "0020bfc6f54bcddfbbaa8576801cab0e53f898a362249415082f95a51ea3b31b",
+        "node-b/tools/supervise_resp_recovery_b.py": "5f28aa9d627621d46f0df497eb460ac83b4ddb7c0cbcd21c2d35fdf9ebf5f4a9",
+        "node-b/tools/resp_rall20_b.py": "8478070d4a4b4c3d468c50a5f0259ce546aa986e95b08182767d74bf9200fa53",
+        "node-b/tools/analyze_resp_rall20_b.py": "030daff2c8e07249392ee9d2e7a12f873ad9cc3a5652b506d71b7db65da67697",
+        "node-b/tools/supervise_resp_rall20_b.py": "131cf822a27eff0b68d47a5de47bcb1920a369583270be12b9559d0601592ecb",
+        "node-b/tools/recover_resp_rall20_b.py": "b57d75c52922b24cce0bc78ec53a636654cae53c7837ce597df904e72193b21d",
+        "node-b/tools/supervise_recover_resp_rall20_b.py": "dffbc700405780731d54e9a0a19f1070a13d1d16a0d7fc4432d98cf3c925c0c5",
+        "node-b/tools/resp_matrix_b.py": "55d933f19ccc8ffabaf5b92bbd77efef5d8940e8941b5338f7ab7d3a82a1b39d",
+        "node-b/tools/analyze_resp_matrix_b.py": "8208773ed890cc276d38144b99f023da68c7fb223d793acb6b76498244d746a5",
+        "node-b/tools/supervise_resp_matrix_b.py": "8286a91d01a5cbf87fb02b07165c77029f38eee895cbae524e317a8a573cee0a",
+        "node-b/tests/test_resp_matrix_b.py": "9ae45d58ec52a61d074726593dfc216572d2d992660ca8ae1a6012810241a0c3"
+      },
+      "historical_native_exit_codes": {
+        "invoker": 0,
+        "capture_worker": 0,
+        "capture_supervisor": 0,
+        "analysis_invoker": 0,
+        "C_replay_compile": 0
+      },
+      "HR_truth": "UNKNOWN_NOT_AN_E3_ACCEPTANCE",
+      "reference_rpm": null,
+      "Z0_ohm": null,
+      "delta_Zpp_ohm": null,
+      "usable_as": "KNOWN_NONBLIND_HISTORICAL_REGRESSION_PERIOD20_NOT_NEW_PERIOD30"
+    },
+    {
+      "id": "18-r2",
+      "generation": "E3_PRECAN_BIO",
+      "date": "2026-10-23",
+      "hardware": "Historical B STM32F407 + ADS1292_V2.0 + SKX-2000D+; current physical identity UNKNOWN",
+      "firmware_bin_sha256": "438a8120f6df06ce219cdc30c0e5b697ac0e993f98d5a80521b10361536ae3ae",
+      "firmware_identity_anchor_sha256": "36bd57065035e91b461b24110e55de9ef929b73d2e5bee5e656ee4931d05616d",
+      "firmware_bin_hash_resolution": "Original E3 protocol line64 BIN25284B and original profile full-Flash anchor match; not a fresh device read",
+      "algorithm_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+      "channel": "RR",
+      "target": 18,
+      "menu": {
+        "mode_literal": "呼吸波形",
+        "amplitude_literal": "1.5R",
+        "waveform_period_literal": "20bpm",
+        "respiration_rate_literal": "18bpm",
+        "ecg_rate_literal": "60BPM",
+        "apnea_literal": "0s"
+      },
+      "capture_s": 137,
+      "warmup_s": 45,
+      "evaluation_s": 90,
+      "saved_live_observations": 113,
+      "valid_saved_observations": 113,
+      "observed_values": [
+        18
+      ],
+      "raw_period_estimate": {
+        "origin": "OFFLINE_RAW_CH1_ESTIMATE_NOT_BIO_NOT_REFERENCE",
+        "failures": [],
+        "impedance_calibration": "NOT_CALIBRATED",
+        "Z0_ohm": null,
+        "delta_Zpp_ohm": null,
+        "time_domain_rpm": 18.176310209027566,
+        "spectral_rpm": 18.0,
+        "autocorrelation_rpm": 18.176310209027566,
+        "periods_ms": [
+          3301.0,
+          3301.0,
+          3397.0,
+          3301.0,
+          3301.0,
+          3300.16,
+          3300.84,
+          3397.0,
+          3301.0,
+          3401.0,
+          3301.0,
+          3297.0,
+          3301.0,
+          3401.0,
+          3301.0,
+          3297.0,
+          3401.0,
+          3301.0,
+          3301.0,
+          3397.0,
+          3201.0,
+          3401.0,
+          3301.0,
+          3397.0,
+          3301.0,
+          3301.0
+        ],
+        "peak_device_offsets_ms": [
+          2349.0,
+          5650.0,
+          8951.0,
+          12348.0,
+          15649.0,
+          18950.0,
+          22250.16,
+          25551.0,
+          28948.0,
+          32249.0,
+          35650.0,
+          38951.0,
+          42248.0,
+          45549.0,
+          48950.0,
+          52251.0,
+          55548.0,
+          58949.0,
+          62250.0,
+          65551.0,
+          68948.0,
+          72149.0,
+          75550.0,
+          78851.0,
+          82248.0,
+          85549.0,
+          88850.0
+        ],
+        "raw_peak_to_peak_codes": 1358,
+        "duration_ms": 89998.0,
+        "period_relative_max_deviation": 0.030293850348379277,
+        "finite_window_resolution_rpm": 0.668881407326481,
+        "autocorrelation_coefficient": 0.9979537489610443,
+        "status": "PERIOD_COHERENT_EXPLORATORY_ONLY",
+        "short_window_limit": "Few cycles and finite-window resolution; no calibrated frequency or L2 rate tracking proof"
+      },
+      "status": "E3_CELL_NOMINAL_RATE_MATCH",
+      "profile_sha256": "82773271031314c81db22ac8ff727b539ac72f70895bd52a85c6f23c919b0187",
+      "source_record_sha256": "0722d424cb7fcbe54054be8fb1a61821a39372d50749ae503bfde372dcd01f9e",
+      "card_sha256": "65ff5edd116cbfd928e7fbdebd0fbdbf8cc7f3b2cdf709a6e7a99f055927e13c",
+      "capture_receipt_sha256": "88147b620a6f6e3bb823743091df5ea3acfa5b9c078c49c616a8f2f1bf7e14d4",
+      "raw_csv_sha256": "b8a231dfb92105b11adc46136e6b181bb81447a2226d2de48243ec475d40100a",
+      "criteria": {
+        "warmup_ms": [
+          0,
+          45000
+        ],
+        "evaluation_ms": [
+          45000,
+          135000
+        ],
+        "tail_ms": [
+          135000,
+          137000
+        ],
+        "rr_tolerance_rpm": 1,
+        "min_live_observations": 45,
+        "live_edge_tolerance_ms": 1500,
+        "max_live_gap_ms": 2000,
+        "required_live_valid_fraction": 1.0,
+        "sps_range": [
+          240,
+          260
+        ],
+        "steady_frame_edge_tolerance_ms": 12,
+        "repeat_raw_difference_rpm": 1,
+        "nominal_not_calibrated": true
+      },
+      "criteria_canonical_sha256": "9c96424917139843b4cd8790a453c92c38c2dc13f5950273a77ef4636ddd3cda",
+      "tool_bindings_from_actual_profile": {
+        "node-b/tools/capture_resp_b.py": "6989a819a5f26c91074bf2cfdd769313fa543aa85e58c01d5198bd0670e309ae",
+        "node-b/tools/resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+        "node-b/tools/analyze_resp_b.py": "225e5ef46b8f450c3b4372d3fc102491c8f2e64ee8a5f9fd87a12074018e3360",
+        "node-b/tools/supervise_resp_b.py": "5019350e361f6ab999dc0fe9a09808b304228235d8c11b3abcf4e5e86f6f8a4d",
+        "node-b/tools/capture_b.py": "7c45589bff1099e20354b8dbe7db9bb2e32095bf67a904b9358cf4f4996800fa",
+        "node-b/tools/readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+        "node-b/tools/precheck_b.py": "3c490ecc99154aa857b0f2f9767951b5e6587844269983670a6ea53684ce4a81",
+        "node-b/tools/adc_path_b.py": "a80c1ed4ccddb8f0f569c3753c2659b78e01bb3c6b4f0b49bcaf3aa27a152d12",
+        "node-b/tools/boot_check_b.py": "0c854ade1cc99807badbdbc8a9f0a5eb7dd24d6447f617356fcd2bcd42f100c0",
+        "node-b/tools/fault_snapshot_b.py": "96d0976b2dd18d5c9a982c4d8b8afe9f2822f0120bbe06ef4c48cb4461bc49a3",
+        "node-b/tools/field_profile.py": "2cc386655e425d7f1ee57a8de956026cadd1057a27b2429ffa0f75a4bb1d9857",
+        "node-b/acquisition/工具/stable_slot_export.py": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2",
+        "node-b/tools/runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+        "node-b/tools/supervise_runtime_state_b.py": "98587c514f8987e76851b87465259a0b3242cb4b222c2289c1b6de5b0f580b22",
+        "node-b/tools/recover_resp_runtime_b.py": "0020bfc6f54bcddfbbaa8576801cab0e53f898a362249415082f95a51ea3b31b",
+        "node-b/tools/supervise_resp_recovery_b.py": "5f28aa9d627621d46f0df497eb460ac83b4ddb7c0cbcd21c2d35fdf9ebf5f4a9",
+        "node-b/tools/resp_rall20_b.py": "8478070d4a4b4c3d468c50a5f0259ce546aa986e95b08182767d74bf9200fa53",
+        "node-b/tools/analyze_resp_rall20_b.py": "030daff2c8e07249392ee9d2e7a12f873ad9cc3a5652b506d71b7db65da67697",
+        "node-b/tools/supervise_resp_rall20_b.py": "131cf822a27eff0b68d47a5de47bcb1920a369583270be12b9559d0601592ecb",
+        "node-b/tools/recover_resp_rall20_b.py": "b57d75c52922b24cce0bc78ec53a636654cae53c7837ce597df904e72193b21d",
+        "node-b/tools/supervise_recover_resp_rall20_b.py": "dffbc700405780731d54e9a0a19f1070a13d1d16a0d7fc4432d98cf3c925c0c5",
+        "node-b/tools/resp_matrix_b.py": "55d933f19ccc8ffabaf5b92bbd77efef5d8940e8941b5338f7ab7d3a82a1b39d",
+        "node-b/tools/analyze_resp_matrix_b.py": "8208773ed890cc276d38144b99f023da68c7fb223d793acb6b76498244d746a5",
+        "node-b/tools/supervise_resp_matrix_b.py": "8286a91d01a5cbf87fb02b07165c77029f38eee895cbae524e317a8a573cee0a",
+        "node-b/tests/test_resp_matrix_b.py": "9ae45d58ec52a61d074726593dfc216572d2d992660ca8ae1a6012810241a0c3"
+      },
+      "historical_native_exit_codes": {
+        "invoker": 0,
+        "capture_worker": 0,
+        "capture_supervisor": 0,
+        "analysis_invoker": 0,
+        "C_replay_compile": 0
+      },
+      "HR_truth": "UNKNOWN_NOT_AN_E3_ACCEPTANCE",
+      "reference_rpm": null,
+      "Z0_ohm": null,
+      "delta_Zpp_ohm": null,
+      "usable_as": "KNOWN_NONBLIND_HISTORICAL_REGRESSION_PERIOD20_NOT_NEW_PERIOD30"
+    },
+    {
+      "id": "24-r1",
+      "generation": "E3_PRECAN_BIO",
+      "date": "2026-10-23",
+      "hardware": "Historical B STM32F407 + ADS1292_V2.0 + SKX-2000D+; current physical identity UNKNOWN",
+      "firmware_bin_sha256": "438a8120f6df06ce219cdc30c0e5b697ac0e993f98d5a80521b10361536ae3ae",
+      "firmware_identity_anchor_sha256": "36bd57065035e91b461b24110e55de9ef929b73d2e5bee5e656ee4931d05616d",
+      "firmware_bin_hash_resolution": "Original E3 protocol line64 BIN25284B and original profile full-Flash anchor match; not a fresh device read",
+      "algorithm_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+      "channel": "RR",
+      "target": 24,
+      "menu": {
+        "mode_literal": "呼吸波形",
+        "amplitude_literal": "1.5R",
+        "waveform_period_literal": "20bpm",
+        "respiration_rate_literal": "24bpm",
+        "ecg_rate_literal": "60BPM",
+        "apnea_literal": "0s"
+      },
+      "capture_s": 137,
+      "warmup_s": 45,
+      "evaluation_s": 90,
+      "saved_live_observations": 113,
+      "valid_saved_observations": 113,
+      "observed_values": [
+        24
+      ],
+      "raw_period_estimate": {
+        "origin": "OFFLINE_RAW_CH1_ESTIMATE_NOT_BIO_NOT_REFERENCE",
+        "failures": [],
+        "impedance_calibration": "NOT_CALIBRATED",
+        "Z0_ohm": null,
+        "delta_Zpp_ohm": null,
+        "time_domain_rpm": 23.990403838464616,
+        "spectral_rpm": 24.0,
+        "autocorrelation_rpm": 23.990403838464616,
+        "periods_ms": [
+          2501.0,
+          2500.0,
+          2501.0,
+          2501.0,
+          2497.0,
+          2500.5200000000004,
+          2500.4799999999996,
+          2501.0,
+          2501.0,
+          2497.0,
+          2500.0,
+          2501.0,
+          2501.0,
+          2501.0,
+          2500.0,
+          2497.0,
+          2501.0,
+          2501.0,
+          2501.0,
+          2500.0,
+          2497.0,
+          2501.0,
+          2501.0,
+          2500.0,
+          2501.0,
+          2497.0,
+          2501.0,
+          2500.5599999999977,
+          2500.4400000000023,
+          2501.0,
+          2497.0,
+          2501.0,
+          2500.0,
+          2501.0,
+          2501.0
+        ],
+        "peak_device_offsets_ms": [
+          648.0,
+          3149.0,
+          5649.0,
+          8150.0,
+          10651.0,
+          13148.0,
+          15648.52,
+          18149.0,
+          20650.0,
+          23151.0,
+          25648.0,
+          28148.0,
+          30649.0,
+          33150.0,
+          35651.0,
+          38151.0,
+          40648.0,
+          43149.0,
+          45650.0,
+          48151.0,
+          50651.0,
+          53148.0,
+          55649.0,
+          58150.0,
+          60650.0,
+          63151.0,
+          65648.0,
+          68149.0,
+          70649.56,
+          73150.0,
+          75651.0,
+          78148.0,
+          80649.0,
+          83149.0,
+          85650.0,
+          88151.0
+        ],
+        "raw_peak_to_peak_codes": 1301,
+        "duration_ms": 89996.0,
+        "period_relative_max_deviation": 0.001599360255897641,
+        "finite_window_resolution_rpm": 0.6688739507039898,
+        "autocorrelation_coefficient": 0.9996881709594769,
+        "status": "PERIOD_COHERENT_EXPLORATORY_ONLY",
+        "short_window_limit": "Few cycles and finite-window resolution; no calibrated frequency or L2 rate tracking proof"
+      },
+      "status": "E3_CELL_NOMINAL_RATE_MATCH",
+      "profile_sha256": "9acd646e551e42b1a6bc7e2e7747b6274d6b3eef0df75d44a976a48d5ec27ac1",
+      "source_record_sha256": "efd66abf3ad1ff8bb226042031cfbb0cb2ef0bb189ee9afee119aaf4a648c26f",
+      "card_sha256": "7faa973aa96c60f217e109f2bbc1277c94fa44d2c9c2c4b649540cc000bbccdf",
+      "capture_receipt_sha256": "74d2ba6dfb5ba8308e83eeaac1f3be9b366e9d9bff55404936cdfac7e8b1d2b9",
+      "raw_csv_sha256": "f369108a900257eb9f470a8bc7b30438228f32c0c1c6b2d33d11f9e4cad0ba5f",
+      "criteria": {
+        "warmup_ms": [
+          0,
+          45000
+        ],
+        "evaluation_ms": [
+          45000,
+          135000
+        ],
+        "tail_ms": [
+          135000,
+          137000
+        ],
+        "rr_tolerance_rpm": 1,
+        "min_live_observations": 45,
+        "live_edge_tolerance_ms": 1500,
+        "max_live_gap_ms": 2000,
+        "required_live_valid_fraction": 1.0,
+        "sps_range": [
+          240,
+          260
+        ],
+        "steady_frame_edge_tolerance_ms": 12,
+        "repeat_raw_difference_rpm": 1,
+        "nominal_not_calibrated": true
+      },
+      "criteria_canonical_sha256": "9c96424917139843b4cd8790a453c92c38c2dc13f5950273a77ef4636ddd3cda",
+      "tool_bindings_from_actual_profile": {
+        "node-b/tools/capture_resp_b.py": "6989a819a5f26c91074bf2cfdd769313fa543aa85e58c01d5198bd0670e309ae",
+        "node-b/tools/resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+        "node-b/tools/analyze_resp_b.py": "225e5ef46b8f450c3b4372d3fc102491c8f2e64ee8a5f9fd87a12074018e3360",
+        "node-b/tools/supervise_resp_b.py": "5019350e361f6ab999dc0fe9a09808b304228235d8c11b3abcf4e5e86f6f8a4d",
+        "node-b/tools/capture_b.py": "7c45589bff1099e20354b8dbe7db9bb2e32095bf67a904b9358cf4f4996800fa",
+        "node-b/tools/readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+        "node-b/tools/precheck_b.py": "3c490ecc99154aa857b0f2f9767951b5e6587844269983670a6ea53684ce4a81",
+        "node-b/tools/adc_path_b.py": "a80c1ed4ccddb8f0f569c3753c2659b78e01bb3c6b4f0b49bcaf3aa27a152d12",
+        "node-b/tools/boot_check_b.py": "0c854ade1cc99807badbdbc8a9f0a5eb7dd24d6447f617356fcd2bcd42f100c0",
+        "node-b/tools/fault_snapshot_b.py": "96d0976b2dd18d5c9a982c4d8b8afe9f2822f0120bbe06ef4c48cb4461bc49a3",
+        "node-b/tools/field_profile.py": "2cc386655e425d7f1ee57a8de956026cadd1057a27b2429ffa0f75a4bb1d9857",
+        "node-b/acquisition/工具/stable_slot_export.py": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2",
+        "node-b/tools/runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+        "node-b/tools/supervise_runtime_state_b.py": "98587c514f8987e76851b87465259a0b3242cb4b222c2289c1b6de5b0f580b22",
+        "node-b/tools/recover_resp_runtime_b.py": "0020bfc6f54bcddfbbaa8576801cab0e53f898a362249415082f95a51ea3b31b",
+        "node-b/tools/supervise_resp_recovery_b.py": "5f28aa9d627621d46f0df497eb460ac83b4ddb7c0cbcd21c2d35fdf9ebf5f4a9",
+        "node-b/tools/resp_rall20_b.py": "8478070d4a4b4c3d468c50a5f0259ce546aa986e95b08182767d74bf9200fa53",
+        "node-b/tools/analyze_resp_rall20_b.py": "030daff2c8e07249392ee9d2e7a12f873ad9cc3a5652b506d71b7db65da67697",
+        "node-b/tools/supervise_resp_rall20_b.py": "131cf822a27eff0b68d47a5de47bcb1920a369583270be12b9559d0601592ecb",
+        "node-b/tools/recover_resp_rall20_b.py": "b57d75c52922b24cce0bc78ec53a636654cae53c7837ce597df904e72193b21d",
+        "node-b/tools/supervise_recover_resp_rall20_b.py": "dffbc700405780731d54e9a0a19f1070a13d1d16a0d7fc4432d98cf3c925c0c5",
+        "node-b/tools/resp_matrix_b.py": "55d933f19ccc8ffabaf5b92bbd77efef5d8940e8941b5338f7ab7d3a82a1b39d",
+        "node-b/tools/analyze_resp_matrix_b.py": "8208773ed890cc276d38144b99f023da68c7fb223d793acb6b76498244d746a5",
+        "node-b/tools/supervise_resp_matrix_b.py": "8286a91d01a5cbf87fb02b07165c77029f38eee895cbae524e317a8a573cee0a",
+        "node-b/tests/test_resp_matrix_b.py": "9ae45d58ec52a61d074726593dfc216572d2d992660ca8ae1a6012810241a0c3"
+      },
+      "historical_native_exit_codes": {
+        "invoker": 0,
+        "capture_worker": 0,
+        "capture_supervisor": 0,
+        "analysis_invoker": 0,
+        "C_replay_compile": 0
+      },
+      "HR_truth": "UNKNOWN_NOT_AN_E3_ACCEPTANCE",
+      "reference_rpm": null,
+      "Z0_ohm": null,
+      "delta_Zpp_ohm": null,
+      "usable_as": "KNOWN_NONBLIND_HISTORICAL_REGRESSION_PERIOD20_NOT_NEW_PERIOD30"
+    },
+    {
+      "id": "24-r2",
+      "generation": "E3_PRECAN_BIO",
+      "date": "2026-10-23",
+      "hardware": "Historical B STM32F407 + ADS1292_V2.0 + SKX-2000D+; current physical identity UNKNOWN",
+      "firmware_bin_sha256": "438a8120f6df06ce219cdc30c0e5b697ac0e993f98d5a80521b10361536ae3ae",
+      "firmware_identity_anchor_sha256": "36bd57065035e91b461b24110e55de9ef929b73d2e5bee5e656ee4931d05616d",
+      "firmware_bin_hash_resolution": "Original E3 protocol line64 BIN25284B and original profile full-Flash anchor match; not a fresh device read",
+      "algorithm_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+      "channel": "RR",
+      "target": 24,
+      "menu": {
+        "mode_literal": "呼吸波形",
+        "amplitude_literal": "1.5R",
+        "waveform_period_literal": "20bpm",
+        "respiration_rate_literal": "24bpm",
+        "ecg_rate_literal": "60BPM",
+        "apnea_literal": "0s"
+      },
+      "capture_s": 137,
+      "warmup_s": 45,
+      "evaluation_s": 90,
+      "saved_live_observations": 114,
+      "valid_saved_observations": 114,
+      "observed_values": [
+        24
+      ],
+      "raw_period_estimate": {
+        "origin": "OFFLINE_RAW_CH1_ESTIMATE_NOT_BIO_NOT_REFERENCE",
+        "failures": [],
+        "impedance_calibration": "NOT_CALIBRATED",
+        "Z0_ohm": null,
+        "delta_Zpp_ohm": null,
+        "time_domain_rpm": 23.990403838464616,
+        "spectral_rpm": 24.0,
+        "autocorrelation_rpm": 23.990403838464616,
+        "periods_ms": [
+          2501.0,
+          2501.0,
+          2500.6800000000003,
+          2500.3199999999997,
+          2497.0,
+          2501.0,
+          2501.0,
+          2500.0,
+          2501.0,
+          2497.0,
+          2501.0,
+          2500.0,
+          2501.0,
+          2501.0,
+          2497.0,
+          2500.0,
+          2501.0,
+          2501.0,
+          2501.0,
+          2500.0,
+          2497.0,
+          2501.0,
+          2501.0,
+          2501.0,
+          2500.0,
+          2497.0,
+          2501.0,
+          2501.0,
+          2500.0,
+          2501.0,
+          2497.0,
+          2501.0,
+          2500.0,
+          2501.0,
+          2501.0
+        ],
+        "peak_device_offsets_ms": [
+          348.0,
+          2849.0,
+          5350.0,
+          7850.68,
+          10351.0,
+          12848.0,
+          15349.0,
+          17850.0,
+          20350.0,
+          22851.0,
+          25348.0,
+          27849.0,
+          30349.0,
+          32850.0,
+          35351.0,
+          37848.0,
+          40348.0,
+          42849.0,
+          45350.0,
+          47851.0,
+          50351.0,
+          52848.0,
+          55349.0,
+          57850.0,
+          60351.0,
+          62851.0,
+          65348.0,
+          67849.0,
+          70350.0,
+          72850.0,
+          75351.0,
+          77848.0,
+          80349.0,
+          82849.0,
+          85350.0,
+          87851.0
+        ],
+        "raw_peak_to_peak_codes": 1285,
+        "duration_ms": 89996.0,
+        "period_relative_max_deviation": 0.001599360255897641,
+        "finite_window_resolution_rpm": 0.668884514301587,
+        "autocorrelation_coefficient": 0.9997399394633635,
+        "status": "PERIOD_COHERENT_EXPLORATORY_ONLY",
+        "short_window_limit": "Few cycles and finite-window resolution; no calibrated frequency or L2 rate tracking proof"
+      },
+      "status": "E3_CELL_NOMINAL_RATE_MATCH",
+      "profile_sha256": "1d00cea2dbe4c59b90e496515b5d394310b0ea2b78733f389847584adbc6282e",
+      "source_record_sha256": "4c40b724333471a5d86820d02e757b7ab5ae6d5290c1917b541e12c628c6845a",
+      "card_sha256": "326737d1e2b828b41988d0fb7a3038d8cc49d87f2c72785cd7190685779b2ff9",
+      "capture_receipt_sha256": "8a32a3243e364b1bd41b0d1d55a63735d49bf015731fbdb55325dcdb94359385",
+      "raw_csv_sha256": "4cf24ac02b17518f24aa172f81c55eb54b6c852adc8f5e840783be8c1a03b1a2",
+      "criteria": {
+        "warmup_ms": [
+          0,
+          45000
+        ],
+        "evaluation_ms": [
+          45000,
+          135000
+        ],
+        "tail_ms": [
+          135000,
+          137000
+        ],
+        "rr_tolerance_rpm": 1,
+        "min_live_observations": 45,
+        "live_edge_tolerance_ms": 1500,
+        "max_live_gap_ms": 2000,
+        "required_live_valid_fraction": 1.0,
+        "sps_range": [
+          240,
+          260
+        ],
+        "steady_frame_edge_tolerance_ms": 12,
+        "repeat_raw_difference_rpm": 1,
+        "nominal_not_calibrated": true
+      },
+      "criteria_canonical_sha256": "9c96424917139843b4cd8790a453c92c38c2dc13f5950273a77ef4636ddd3cda",
+      "tool_bindings_from_actual_profile": {
+        "node-b/tools/capture_resp_b.py": "6989a819a5f26c91074bf2cfdd769313fa543aa85e58c01d5198bd0670e309ae",
+        "node-b/tools/resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+        "node-b/tools/analyze_resp_b.py": "225e5ef46b8f450c3b4372d3fc102491c8f2e64ee8a5f9fd87a12074018e3360",
+        "node-b/tools/supervise_resp_b.py": "5019350e361f6ab999dc0fe9a09808b304228235d8c11b3abcf4e5e86f6f8a4d",
+        "node-b/tools/capture_b.py": "7c45589bff1099e20354b8dbe7db9bb2e32095bf67a904b9358cf4f4996800fa",
+        "node-b/tools/readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+        "node-b/tools/precheck_b.py": "3c490ecc99154aa857b0f2f9767951b5e6587844269983670a6ea53684ce4a81",
+        "node-b/tools/adc_path_b.py": "a80c1ed4ccddb8f0f569c3753c2659b78e01bb3c6b4f0b49bcaf3aa27a152d12",
+        "node-b/tools/boot_check_b.py": "0c854ade1cc99807badbdbc8a9f0a5eb7dd24d6447f617356fcd2bcd42f100c0",
+        "node-b/tools/fault_snapshot_b.py": "96d0976b2dd18d5c9a982c4d8b8afe9f2822f0120bbe06ef4c48cb4461bc49a3",
+        "node-b/tools/field_profile.py": "2cc386655e425d7f1ee57a8de956026cadd1057a27b2429ffa0f75a4bb1d9857",
+        "node-b/acquisition/工具/stable_slot_export.py": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2",
+        "node-b/tools/runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+        "node-b/tools/supervise_runtime_state_b.py": "98587c514f8987e76851b87465259a0b3242cb4b222c2289c1b6de5b0f580b22",
+        "node-b/tools/recover_resp_runtime_b.py": "0020bfc6f54bcddfbbaa8576801cab0e53f898a362249415082f95a51ea3b31b",
+        "node-b/tools/supervise_resp_recovery_b.py": "5f28aa9d627621d46f0df497eb460ac83b4ddb7c0cbcd21c2d35fdf9ebf5f4a9",
+        "node-b/tools/resp_rall20_b.py": "8478070d4a4b4c3d468c50a5f0259ce546aa986e95b08182767d74bf9200fa53",
+        "node-b/tools/analyze_resp_rall20_b.py": "030daff2c8e07249392ee9d2e7a12f873ad9cc3a5652b506d71b7db65da67697",
+        "node-b/tools/supervise_resp_rall20_b.py": "131cf822a27eff0b68d47a5de47bcb1920a369583270be12b9559d0601592ecb",
+        "node-b/tools/recover_resp_rall20_b.py": "b57d75c52922b24cce0bc78ec53a636654cae53c7837ce597df904e72193b21d",
+        "node-b/tools/supervise_recover_resp_rall20_b.py": "dffbc700405780731d54e9a0a19f1070a13d1d16a0d7fc4432d98cf3c925c0c5",
+        "node-b/tools/resp_matrix_b.py": "55d933f19ccc8ffabaf5b92bbd77efef5d8940e8941b5338f7ab7d3a82a1b39d",
+        "node-b/tools/analyze_resp_matrix_b.py": "8208773ed890cc276d38144b99f023da68c7fb223d793acb6b76498244d746a5",
+        "node-b/tools/supervise_resp_matrix_b.py": "8286a91d01a5cbf87fb02b07165c77029f38eee895cbae524e317a8a573cee0a",
+        "node-b/tests/test_resp_matrix_b.py": "9ae45d58ec52a61d074726593dfc216572d2d992660ca8ae1a6012810241a0c3"
+      },
+      "historical_native_exit_codes": {
+        "invoker": 0,
+        "capture_worker": 0,
+        "capture_supervisor": 0,
+        "analysis_invoker": 0,
+        "C_replay_compile": 0
+      },
+      "HR_truth": "UNKNOWN_NOT_AN_E3_ACCEPTANCE",
+      "reference_rpm": null,
+      "Z0_ohm": null,
+      "delta_Zpp_ohm": null,
+      "usable_as": "KNOWN_NONBLIND_HISTORICAL_REGRESSION_PERIOD20_NOT_NEW_PERIOD30"
+    },
+    {
+      "id": "R6_ECG60",
+      "generation": "B41012_C49132",
+      "date": "2026-10-30",
+      "hardware": "Last reported B/C setup; no new target read this M0",
+      "B_BIN_sha256": "1dbbf27177caa429f037ac72c43581a519e8ff70ac6224411c9c4ffe9529432d",
+      "C_BIN_sha256": "72131dbb5ef6bc0e0d33e328925c685403bae928aea9447a81f8291c6ae5c1ab",
+      "status": "B5_SEPARATE_ECG60_ENGINEERING_PASS",
+      "historical_review_exit_code": 0,
+      "reviewer_sha256": "14838db66a5142f24a010109de6f67a76d4f386a0b3914afb5b32b9a751dda91",
+      "evaluation_UTC_ms": [
+        1793353265031,
+        1793353565031
+      ],
+      "evaluation_observations": {
+        "diagnostics": 600,
+        "HR_values": {
+          "60": 600
+        },
+        "HR_invalid": 0,
+        "RR_values": {
+          "0": 600
+        },
+        "TEMP_age_min_ms": -20,
+        "TEMP_age_max_ms": 204,
+        "TEMP_age_outside_frozen_range": 23,
+        "TEMP_object_centi_min": 2575,
+        "TEMP_object_centi_max": 2601,
+        "TEMP_not_present": 0,
+        "TEMP_bracket_metadata_count": 0
+      },
+      "input_sha256": "05cc341141bc2c145c93a990f2772afab9de7dec7e4d1ccdc82e752dd1218022",
+      "bundle_sha256": "86ea7c651653f52f96fb5f9313b2a292eb068face9dbce62ed9a2450e41c32a7",
+      "menu": {
+        "ECG": "60bpm/1mV_owner_reported",
+        "leads": "RA_LA_RLD_RL",
+        "temperature": "NONHUMAN_DESK_NOT_CALIBRATED"
+      },
+      "usable_as": "CURRENT_GENERATION_HISTORICAL_SEPARATE_PROFILE_ENGINEERING_ANCHOR"
+    },
+    {
+      "id": "R6_TEMP_OBJECT",
+      "generation": "B41012_C49132",
+      "date": "2026-10-30",
+      "hardware": "Last reported B/C setup; no new target read this M0",
+      "B_BIN_sha256": "1dbbf27177caa429f037ac72c43581a519e8ff70ac6224411c9c4ffe9529432d",
+      "C_BIN_sha256": "72131dbb5ef6bc0e0d33e328925c685403bae928aea9447a81f8291c6ae5c1ab",
+      "status": "B5_SEPARATE_TEMP_OBJECT_ENGINEERING_PASS",
+      "historical_review_exit_code": 0,
+      "reviewer_sha256": "14838db66a5142f24a010109de6f67a76d4f386a0b3914afb5b32b9a751dda91",
+      "evaluation_UTC_ms": [
+        1793353817088,
+        1793354117088
+      ],
+      "evaluation_observations": {
+        "diagnostics": 600,
+        "HR_values": {
+          "60": 600
+        },
+        "HR_invalid": 0,
+        "RR_values": {
+          "0": 600
+        },
+        "TEMP_age_min_ms": 1,
+        "TEMP_age_max_ms": 220,
+        "TEMP_age_outside_frozen_range": 0,
+        "TEMP_object_centi_min": 2569,
+        "TEMP_object_centi_max": 2601,
+        "TEMP_not_present": 0,
+        "TEMP_bracket_metadata_count": 600
+      },
+      "input_sha256": "9ca0fd573f1bc13b18a948f08f136bd239bb1a3204beee97f013e1e9a5f114a9",
+      "bundle_sha256": "86ea7c651653f52f96fb5f9313b2a292eb068face9dbce62ed9a2450e41c32a7",
+      "menu": {
+        "ECG": "60bpm/1mV_owner_reported",
+        "leads": "RA_LA_RLD_RL",
+        "temperature": "NONHUMAN_DESK_NOT_CALIBRATED"
+      },
+      "usable_as": "CURRENT_GENERATION_HISTORICAL_SEPARATE_PROFILE_ENGINEERING_ANCHOR"
+    },
+    {
+      "id": "R6_RR15",
+      "generation": "B41012_C49132",
+      "date": "2026-10-30",
+      "B_BIN_sha256": "1dbbf27177caa429f037ac72c43581a519e8ff70ac6224411c9c4ffe9529432d",
+      "C_BIN_sha256": "72131dbb5ef6bc0e0d33e328925c685403bae928aea9447a81f8291c6ae5c1ab",
+      "menu": {
+        "RESP_rate": 15,
+        "amplitude": "1.5R",
+        "waveform_period_bpm": 30,
+        "apnea_s": 0,
+        "lead": "RA_LL_RLD_RL"
+      },
+      "status": "NOT_PASS",
+      "historical_review_exit_code": 3,
+      "diagnostic_count": 600,
+      "HR_valid_snapshots": 20,
+      "HR_clusters": 6,
+      "cloud_unexpected_HR_updates": 10,
+      "HR_truth": "SOURCE_UNKNOWN",
+      "root_cause": "ROOT_CAUSE_UNRESOLVED",
+      "criteria_and_tools": "Pinned in accepted RR15 review/provenance; not altered/re-executed",
+      "usable_as": "RATE_AND_TRANSPORT_SUBFUNCTION_ONLY_NOT_FULL_RR_PASS"
+    }
+  ],
+  "sources": [
+    {
+      "path": "node-b/evidence/B-ALG-002/field-r3/ecg-six-window-analysis.json",
+      "sha256": "334cdd073e0de04a370d19e6a3da34b0ac2a7b66ff2cb6e446449b2581cb2133",
+      "bytes": 6725
+    },
+    {
+      "path": "node-b/evidence/B-ALG-002/field-r3/matrix-ecg60-01-summary.json",
+      "sha256": "db69fe7b64616b48252092d9c7342e9aabd40e73870a53a9195839314f5e346e",
+      "bytes": 1994
+    },
+    {
+      "path": "node-b/evidence/B-ALG-002/field-r3/matrix-ecg60-02-summary.json",
+      "sha256": "cd1b7e555d00ebc34c4ae030ee47a3cc95e069e8fe545470171926ae7fd0fa9e",
+      "bytes": 1982
+    },
+    {
+      "path": "node-b/evidence/B-ALG-002/field-r3/matrix-ecg90-01-summary.json",
+      "sha256": "e675765ae1703df63862795a79f07f86af2706a01c09af5ec04b305589f29315",
+      "bytes": 2467
+    },
+    {
+      "path": "node-b/evidence/B-ALG-002/field-r3/matrix-ecg90-02-summary.json",
+      "sha256": "cdfa8ba676d518906f2d514e5bfe4a5525d504bd4da443c4cbe5b5ee070c9afb",
+      "bytes": 2468
+    },
+    {
+      "path": "node-b/evidence/B-ALG-002/field-r3/matrix-ecg120-01-summary.json",
+      "sha256": "950a3071c63be7e7f27434efd1cb1d263b0d7e01741d29055933474ee278934c",
+      "bytes": 2474
+    },
+    {
+      "path": "node-b/evidence/B-ALG-002/field-r3/matrix-ecg120-02-summary.json",
+      "sha256": "a00675b3e2cb2bc21edb4a36ab18940e4091f9cdc7e6d22c1ba3aa39565284c9",
+      "bytes": 2474
+    },
+    {
+      "path": "node-b/evidence/B-RESP-003/e3-12-r1-summary.json",
+      "sha256": "3551d9efef010352c606422efcf7538a5765337abfd9c4d7b6d09944212222b2",
+      "bytes": 7661
+    },
+    {
+      "path": "node-b/evidence/B-RESP-003/e3-12-r2-summary.json",
+      "sha256": "e5e87a3b45ecfa5c93d6e3d4661bd01ff172339d0ffbbbfaae733f6c37544787",
+      "bytes": 7725
+    },
+    {
+      "path": "node-b/evidence/B-RESP-003/e3-18-r1-summary.json",
+      "sha256": "4f0973ee472c2fa9a549d13037469a1096be8fe6631da5ca950ba14074b87d3d",
+      "bytes": 7828
+    },
+    {
+      "path": "node-b/evidence/B-RESP-003/e3-18-r2-summary.json",
+      "sha256": "25c807bc5e0c15d0eb8abd19e9fa29ff12ec4d05804b26c8e929fb754dad5e1b",
+      "bytes": 7994
+    },
+    {
+      "path": "node-b/evidence/B-RESP-003/e3-24-r1-summary.json",
+      "sha256": "0bbf905c499120026c01e87806f7dc609bb62ad366aa97a6159014d8376a3514",
+      "bytes": 8371
+    },
+    {
+      "path": "node-b/evidence/B-RESP-003/e3-24-r2-summary.json",
+      "sha256": "1da138e3dee84e04e63ee2b45248d70a8848469a8a84c606c12e7dbb7b25f835",
+      "bytes": 8409
+    },
+    {
+      "path": "node-b/evidence/CODEX-R6-ECG-TEMP-20261030/ECG60-review-summary.json",
+      "sha256": "c0901d575b6168247f3713b510766412b6a213aec84504ac05ab06956e9cdbdc",
+      "bytes": 6060
+    },
+    {
+      "path": "node-b/evidence/CODEX-R6-ECG-TEMP-20261030/ECG60-execution-summary.json",
+      "sha256": "8fd9738219bbd697a822f575ff0f37bf1fdb103c98bebf2b70d20a60446a720a",
+      "bytes": 2796
+    },
+    {
+      "path": "node-b/evidence/CODEX-R6-ECG-TEMP-20261030/TEMP_OBJECT-review-summary.json",
+      "sha256": "cd3d63e7b3a7821fc12e945500f9d8452ddbaff39dad017f47dd58576a7c43c1",
+      "bytes": 6077
+    },
+    {
+      "path": "node-b/evidence/CODEX-R6-ECG-TEMP-20261030/TEMP_OBJECT-execution-summary.json",
+      "sha256": "cfcadc2ec54bebd01ee1d62c32326f6826db1629b483e0a42ff6c0e6ab18b971",
+      "bytes": 2891
+    },
+    {
+      "path": "node-b/evidence/CODEX-R6-P1B0-20261030/live-RR15-review-summary.json",
+      "sha256": "f3c85c3b8c04e107d1bce4908c3487fbe889aa7f602ae07d421ac44daa9778d1",
+      "bytes": 1056
+    },
+    {
+      "path": "node-b/docs/B-ALG-002-ECG-MATRIX-RESULTS.md",
+      "sha256": "41263022f5e50390a1c82705c532a2b89120e0e1b737d02e94d9b54a045500a2",
+      "bytes": 3687
+    },
+    {
+      "path": "node-b/docs/AUTH-B-ECG-MATRIX-001-R1.md",
+      "sha256": "09ac5988df14d1e64f4b253f7bf413497eed69f6c4923be1ab52401ded606584",
+      "bytes": 4577
+    },
+    {
+      "path": "node-b/docs/B-ALG-002-FINAL-HANDOFF.md",
+      "sha256": "d7a2c328d93c6f28ecda8f2508811622d255f5858cbb8871c734ce2e8559174a",
+      "bytes": 22446
+    },
+    {
+      "path": "node-b/docs/RESP-E3-MATRIX-001-RESULTS-R1.md",
+      "sha256": "589ff0a9470c7f08250253bf3903a1955e7e16574e5c3d567029990e2eae74b9",
+      "bytes": 4182
+    },
+    {
+      "path": "node-b/docs/RESP-RR-ENGINEERING-MATRIX-R1.md",
+      "sha256": "a91e1e27e341feb8a258f04674df003fb2a98d8022e09de8578ea17381f6eadd",
+      "bytes": 12627
+    },
+    {
+      "path": "node-b/evidence/B-RESP-003/e3-matrix-r1-summary.json",
+      "sha256": "a9add18ec1d9b9da5f8491b55e55232d879b09840c6d751f642b4562a4be2113",
+      "bytes": 2394
+    },
+    {
+      "path": "node-b/evidence/B-RESP-003/e3-matrix-r1-original-hashes.json",
+      "sha256": "5bee1145abd842f47362fa68ed46a34927fa30f735aecaab74e663ee00c1653a",
+      "bytes": 634208
+    },
+    {
+      "path": "node-b/evidence/B-RESP-003/e3-matrix-r1-execution-receipt.json",
+      "sha256": "4a9dba7438fbb9c4fab53380f2dd980135d8b4d1b16cfb0f34423f72eb0939ed",
+      "bytes": 10724
+    },
+    {
+      "path": "node-b/docs/CODEX-R6-ECG-TEMP-20261030/RESULT-AND-HANDOFF.md",
+      "sha256": "12918916e2a8f33e5e24db5af064f216082138e1e9b9d2541fd63bc64ea0b85b",
+      "bytes": 6109
+    },
+    {
+      "path": "node-b/evidence/CODEX-R6-ECG-TEMP-20261030/final-site-owner-report.json",
+      "sha256": "e3ecb54c0563d78d39720081bc39d8eab91157bdb01d2da65694989c3661b328",
+      "bytes": 633
+    },
+    {
+      "path": "node-b/evidence/CODEX-R6-P1B0-20261030/live-B41012-install-summary.json",
+      "sha256": "f1c1afe3e18c0643d3740acb220a0a485656d4e6a08fc9551fc6bdfbd2ba44fc",
+      "bytes": 2962
+    },
+    {
+      "path": "node-b/evidence/CODEX-R6-P1B0-20261030/live-initial-B-C-read-summary.json",
+      "sha256": "418f7e532764349de4a74d11bf743ca81d50e76b25880dfffca3ea4040cfb179",
+      "bytes": 8144
+    },
+    {
+      "path": "node-b/docs/CODEX-R6-RR15-SOURCE-TRUTH-A0-20261030/RR15-SOURCE-TRUTH-FACT-MATRIX.md",
+      "sha256": "374bc3df4b203584b4928adf767f3aba37d9b002b74e564391291b50585298ae",
+      "bytes": 8359
+    },
+    {
+      "path": "node-b/docs/CODEX-R6-RR15-SOURCE-TRUTH-A0-20261030/EVIDENCE-HASHES.json",
+      "sha256": "164af3314ed2baa59906b08ad6009544cbac37aca82974c4a04be11f01723b6a",
+      "bytes": 3230
+    }
+  ],
+  "private_summary_checks": [
+    {
+      "alias": "B2/matrix-ecg60-r3-01/analysis-summary-private.json",
+      "sha256": "408f2260615efde81bfbdc16479652d3e590074f558f6116f4ab390757a9379a",
+      "bytes": 16587,
+      "public_formal_fields_match": true,
+      "original_EFS_encrypted": false,
+      "new_copy_EFS_encrypted": true
+    },
+    {
+      "alias": "B2/matrix-ecg60-r3-02/analysis-summary-private.json",
+      "sha256": "67531036c19f02e3cbd20a1a03b4247d99c6dc1d768b992a1d5a57fc3bdb89db",
+      "bytes": 16676,
+      "public_formal_fields_match": true,
+      "original_EFS_encrypted": false,
+      "new_copy_EFS_encrypted": true
+    },
+    {
+      "alias": "B2/matrix-ecg90-r3-01/analysis-summary-private.json",
+      "sha256": "08ffccccf6dfbe8c844d70658be723438553ad7d9fff9d3a88d7e1c0bbd3b838",
+      "bytes": 16680,
+      "public_formal_fields_match": true,
+      "original_EFS_encrypted": false,
+      "new_copy_EFS_encrypted": true
+    },
+    {
+      "alias": "B2/matrix-ecg90-r3-02/analysis-summary-private.json",
+      "sha256": "7ec95a5a5e3793bd48f536c73f5db82cd6d745d265c468b9a524bf4ec7e8e85a",
+      "bytes": 16680,
+      "public_formal_fields_match": true,
+      "original_EFS_encrypted": false,
+      "new_copy_EFS_encrypted": true
+    },
+    {
+      "alias": "B2/matrix-ecg120-r3-01/analysis-summary-private.json",
+      "sha256": "6353a894f95dfce5e4355dff31f8b9e39c881a78e8fa173fb74bb7e416685327",
+      "bytes": 16918,
+      "public_formal_fields_match": true,
+      "original_EFS_encrypted": false,
+      "new_copy_EFS_encrypted": true
+    },
+    {
+      "alias": "B2/matrix-ecg120-r3-02/analysis-summary-private.json",
+      "sha256": "84053a0c6b8bb8566423caada08608a5cc2a1f1d62e0c1f807a7a1af9867226b",
+      "bytes": 16919,
+      "public_formal_fields_match": true,
+      "original_EFS_encrypted": false,
+      "new_copy_EFS_encrypted": true
+    },
+    {
+      "alias": "E3/12-r1/analysis-summary-private.json",
+      "sha256": "a8b4b02cbf0afdec34592d58dae2c46dfbb8c412c7a926879658424b42491cfc",
+      "bytes": 553275,
+      "sealed_index_matches": true,
+      "original_EFS_encrypted": false,
+      "new_copy_EFS_encrypted": true
+    },
+    {
+      "alias": "E3/12-r2/analysis-summary-private.json",
+      "sha256": "f5e78e597c45398d919741a4116f78c3dac170bec6093125d1369a82085905e6",
+      "bytes": 554278,
+      "sealed_index_matches": true,
+      "original_EFS_encrypted": false,
+      "new_copy_EFS_encrypted": true
+    },
+    {
+      "alias": "E3/18-r1/analysis-summary-private.json",
+      "sha256": "044544757d533726012bff0befe36f507323588ba239dfd679e4d7720b20e844",
+      "bytes": 554064,
+      "sealed_index_matches": true,
+      "original_EFS_encrypted": false,
+      "new_copy_EFS_encrypted": true
+    },
+    {
+      "alias": "E3/18-r2/analysis-summary-private.json",
+      "sha256": "ccee0b45999b3fcad43ba471d06c565207e714bf6579275d37be5bcb7e7c0425",
+      "bytes": 553695,
+      "sealed_index_matches": true,
+      "original_EFS_encrypted": false,
+      "new_copy_EFS_encrypted": true
+    },
+    {
+      "alias": "E3/24-r1/analysis-summary-private.json",
+      "sha256": "cab1b7516a4dfd6a4d61e6189a3a69436512bfafe3e2764b545d11d93622a2f4",
+      "bytes": 553179,
+      "sealed_index_matches": true,
+      "original_EFS_encrypted": false,
+      "new_copy_EFS_encrypted": true
+    },
+    {
+      "alias": "E3/24-r2/analysis-summary-private.json",
+      "sha256": "47b8ee07cf993d06e26790b173e26543b8177443bdd7553596907405b8119938",
+      "bytes": 555034,
+      "sealed_index_matches": true,
+      "original_EFS_encrypted": false,
+      "new_copy_EFS_encrypted": true
+    }
+  ],
+  "accepted_A0_manifest_files_verified": 13,
+  "old_field_tests_repeated": 0,
+  "new_acquisitions": 0,
+  "cross_generation_pooling": "FORBIDDEN",
+  "known_data_holdout_role": "NONBLIND_REGRESSION_ONLY",
+  "manufacturer_contact": "DRAFT_ONLY_NOT_SENT",
+  "SKX_QRS_OUTPUT": "UNKNOWN",
+  "legacy_original_EFS_missing_count": 12
+}

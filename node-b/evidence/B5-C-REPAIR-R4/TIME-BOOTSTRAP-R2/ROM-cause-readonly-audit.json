@@ -1,0 +1,96 @@
+{
+  "BOOT0_reset_edge_latch": "NOT_OBSERVED_DEDICATED_PIN",
+  "BOOT1_current_low": true,
+  "Close_completed": true,
+  "MEMRMP_zero_is_boot_latch_proof": false,
+  "ROM_memory_capture_SDK_calls": 120,
+  "ROM_memory_capture_exit": 0,
+  "SYSCFG_clock_enabled": false,
+  "actual_C49048_full_sha256": "81b1808f9936b02f115cef99a47059417eec99eb80dff4ca4cf1f103392588d7",
+  "alias_matches_Flash": true,
+  "alias_matches_ROM": false,
+  "close_resume": false,
+  "core_SDK_calls": 254,
+  "core_read_exit": 0,
+  "current_target": "HALTED_IN_ROM_NO_AUTO_RESUME",
+  "disassembly_finding": "PC1FFF369E_tests_GPIOA_IDR_bit10_in_ROM_interface_autodetection; RAM_GPIO_context_and_MSP_match_ROM_execution",
+  "explicit_halt_reset_go_Flash_sector3_UART_writes": 0,
+  "host_serial_ordering": "Both current B5 joint and existing MCP set DTR/RTS before open; source-only, no real serial opened",
+  "main_possible_causes": [
+    {
+      "evidence": "Board page3 CH340 powered from board5V; Q1/D2 RESET and Q3/R44 BOOT0 paths; page4 BOOT0 jumper via R55 10k; USB unplug does not electrically isolate chip",
+      "name": "BOOT0_NRST_AUTO_DOWNLOAD_TRANSIENT",
+      "unproven": "No reset-edge BOOT0/NRST trace; current alias is Flash and must not be reinterpreted as boot latch"
+    },
+    {
+      "evidence": "Earlier entry running-ROM; subsequent read session first DHCSR30003; all explicit Halt calls0; DFSR1 and close_resume0. One Connect call per session.",
+      "name": "DEBUG_ATTACH_CLOSE_SIDE_EFFECT",
+      "unproven": "No independent CPU state immediately before each Connect/Close; sticky DFSR/RCC flags cannot time cause"
+    },
+    {
+      "evidence": "All37 actual compiled C inputs audited, no NVIC_SystemReset/ROM jump entry; actual BIN has no ROM entry literals; remaining AIRCR writes are NVIC priority configuration",
+      "name": "APPLICATION_INTENTIONAL_ROM_JUMP_OR_RESET",
+      "unproven": "Static audit does not prove absence of every indirect control corruption path"
+    }
+  ],
+  "new_B5START": 0,
+  "new_C49068_installation": "NOT_RUN",
+  "next_minimal_evidence": "Controlled independent startup/attach comparison with BOOT0 NRST edge capture or electrical isolation of automatic download control; requires separate active/electrical permission, not performed",
+  "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+  "raw_file_count": 36,
+  "raw_ledger_sha256": "62949fccd2e56834b75fa085f6f9c41c8e86bdbb5d58d54aa162ac2b089daac8",
+  "read_only_diagnostic_connections": 2,
+  "real_halted_PC_MSP": {
+    "CONTROL": "0x0",
+    "MSP": "0x20001d50",
+    "R14": "0x1fff14e1",
+    "R15": "0x1fff369e",
+    "XPSR": "0x61000000"
+  },
+  "rom_sha256": "ca1ae7213d01ce43f1f30d4e2751e2aec68cef16f7be62f856210104f583fc02",
+  "root_cause_fixed": false,
+  "sampled_PC_when_halted": "DWT_PCSR_FFFFFFFF_INVALID_NOT_REAL_PC",
+  "session_limit_s_each": 120,
+  "source_control_hits": [
+    "external-sdk/misc.c:124_NVIC_PRIORITY_WRITE",
+    "external-sdk/misc.c:148_PRIORITY_READ"
+  ],
+  "source_file_audit_count": 37,
+  "state": {
+    "CFSR": "0x0",
+    "DEMCR": "0x1000000",
+    "DFSR": "0x1",
+    "DHCSR": "0x30003",
+    "GPIOB_IDR": "0x3fb8",
+    "HFSR": "0x0",
+    "RCC_APB2ENR": "0x10",
+    "RCC_CSR": "0xe000000",
+    "SYSCFG_MEMRMP": "0x0",
+    "VTOR": "0x1fff0000"
+  },
+  "status": "CPU_ROM_ROOT_CAUSE_UNRESOLVED",
+  "tool_sha256": {
+    "b4_recovery.py": "fa93222b833f2f010d068b0cac97c73db7430c7eb68316d84441d60539c76213",
+    "b5_c_rom_readonly.py": "4ce348d4351476c6a6ca695b9076201ca68bc06e0a04094b3964a16de1e806b2",
+    "b5_g2ro.py": "e37944f04d35e24496215ac23021355811ef6af8e9fb7a4e4c6c15c4ae1ed0d3",
+    "b5_sector3_write_supervisor.py": "9b4a25a2eaaba0fa76e3491cdf587e9cb5c3b42da8a4604e184ef8e2822d4646",
+    "live_state_b.py": "bdf04c16f74e93028a55a7db244f0a2b6f683dfb987e61d41470f2bf3debde6c",
+    "readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+    "runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46"
+  },
+  "tool_tests_exit": 0,
+  "vector_words": {
+    "Flash": [
+      "0x20020000",
+      "0x8009681"
+    ],
+    "ROM": [
+      "0x20001d80",
+      "0x1fff3da1"
+    ],
+    "alias": [
+      "0x20020000",
+      "0x8009681"
+    ]
+  }
+}

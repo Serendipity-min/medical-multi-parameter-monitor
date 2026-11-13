@@ -1,0 +1,42 @@
+{
+  "window_id": "owner-observed-ECG60-R5-55d99a50",
+  "profile": "ECG60",
+  "scope": "B5_FINAL_ECG60_R5",
+  "attempts": {
+    "C_manual_reset": 1,
+    "B5START": 1,
+    "retries": 0
+  },
+  "monotonic": {
+    "SERIAL_READY": 1007145.046,
+    "B_READY": 1007174.031,
+    "NET_READY": 1007149.343,
+    "RESET_REQUESTED": 1007174.062,
+    "C_BANNER_READY": 1007194.812,
+    "Tarm": 1007195.187,
+    "T0": 1007205.781,
+    "C_STOP_BANNER": 1007615.25,
+    "offset_arm_to_stop_s": 420.063
+  },
+  "UTC_ms": {
+    "Tarm": 1793273149084,
+    "T0": 1793273158647,
+    "evaluation_window": [
+      1793273203647,
+      1793273503647
+    ]
+  },
+  "stop_state": {
+    "tick": 420563,
+    "armed_at": 563,
+    "reason": 1,
+    "phase": 7,
+    "required": 853,
+    "written": 853,
+    "unsynced": 0,
+    "pending": 0,
+    "live": 24,
+    "cache": 31,
+    "business_elapsed_ms": 420000
+  }
+}

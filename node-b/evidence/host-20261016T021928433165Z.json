@@ -1,0 +1,58 @@
+{
+  "scope": "ORDINARY_HOST_ONLY",
+  "hardware_access": false,
+  "results": [
+    {
+      "name": "queue",
+      "exit_code": 0,
+      "input_sha256": "f6dd10f469ec189ed23ec2fcc7d47b59ca23fe224fc27ea78618c392c42c54b3",
+      "log_sha256": "e93f83053cede8063e2544db2ed12ab3cf0ad908122b7ffa506e60822774c1ea"
+    },
+    {
+      "name": "algorithm",
+      "exit_code": 0,
+      "input_sha256": "69069bd9c002a4770e8295e0339406473bdb5f812e0b16672af6c807e97e174a",
+      "log_sha256": "56ad99c0fa0d8d159cc9a694e8b7895b3c850dd73effe530525e636027db0248"
+    },
+    {
+      "name": "channel-isolation",
+      "exit_code": 0,
+      "input_sha256": "9ad7ff3e04a33ca8e9c1fbcec1f3f707ed3bad4eff56215ddd9d58d1462bfcab",
+      "log_sha256": "c627f89a58bb6cb8e503fe38853addef83d706170dd412a14183691edcb41ad4"
+    },
+    {
+      "name": "acquisition",
+      "exit_code": 0,
+      "input_sha256": "5fd215cad258f1f1193e3c980688abf3a0b2640bef8112e00ad4eb188f44193a",
+      "log_sha256": "36c75e5999b866384de6a8da94040fc1ef07e65b046718e7d39bbbe0fe1a8fd3"
+    },
+    {
+      "name": "source-console",
+      "exit_code": 0,
+      "input_sha256": "067efb7c04aa423cdc49a6db7079cea9665cb008a330767b10db26f3af145439",
+      "log_sha256": "28fb8c580ca7ab6858c89711bdf404fe6307ddf9b80362b977b1841b5ac47037"
+    },
+    {
+      "name": "source-rom-model",
+      "exit_code": 0,
+      "input_sha256": "057079da09b3bf70f5b7209162aae91d894c13611cda6a4a1750952b84f934a7",
+      "log_sha256": "bb07ee1fcf8cb1ac5621c2a2b29d1a6b229695eafa67bf311ab41b99dc28bbeb"
+    },
+    {
+      "name": "bias-monitor",
+      "exit_code": 0,
+      "input_sha256": "c0c6e2a003a10971a111190b0d5635f3e110ca8bed62c14b022e35006ad4d7a4",
+      "log_sha256": "0b6734b0d59e9b4669af8e467fe96566edebf9dccc4ffdd9de001645c6010b55"
+    }
+  ],
+  "history_replay": "NOT_RUN_PRIVATE_RAW_NOT_INCLUDED",
+  "algorithm": {
+    "pass": 27,
+    "total": 27
+  },
+  "channel-isolation": {
+    "pass": 28,
+    "total": 28
+  },
+  "local_run_id": "host-20261016T021928433165Z"
+}

@@ -1,0 +1,32 @@
+{
+  "scope": "MEMAP_READONLY_02_PASS_REMOTE_DELIVERY",
+  "baseline": "d74f9ae7592e6d8d88bd29729b6c2837af4f884c",
+  "branch": "codex/node-b5-cloud-integration-20261026",
+  "verified_payload_commit": "51e1813a038a5c7a1df9afd4562ad5d910b1ba09",
+  "normal_SSH_push_exit_code": 0,
+  "independent_HTTPS_bare_fetch_exit_code": 0,
+  "all_changed_files_byte_identical": true,
+  "changed_files": 7,
+  "files_sha256": {
+    "node-b/docs/B5-G2A-SITE-ADMISSION-HANDOFF.md": "90ba1563d1394596bb1f855706f49fec20f7426700cbc41e4ac207e8c00f8155",
+    "node-b/docs/B5-MEMAP-SDK-ERROR-CAUSE-AUDIT.md": "0fa0fba7208ec489d2b9d7cdb34a77414cd5a383d38c0966618f4d66fae1200b",
+    "node-b/evidence/B5-MEMAP-READONLY-02/API-timing-review.json": "68e9aa1077c51e33bd08d3a23f8555a01c2cbe80083419e30a8ad4edd4a5bfe3",
+    "node-b/evidence/B5-MEMAP-READONLY-02/archive-receipt.json": "f177236160f988a96058a1e761780ff85d8416b8c47ed4055d16b9f811fb3a8e",
+    "node-b/evidence/B5-MEMAP-READONLY-02/bindings.json": "2b4dd87e34618640e4baa7a06158df463357329e95c0739205b272a2c560e657",
+    "node-b/evidence/B5-MEMAP-READONLY-02/frozen-authorization.json": "68e1169820d03e8f2fab8916ade0373af6d412cd015b9128bc8de9f0ce721680",
+    "node-b/evidence/B5-MEMAP-READONLY-02/result.json": "0ff33cf5d425428a4c13ffe82de0c9a435deacff3b1166bfd6b0d462a9261dc9"
+  },
+  "actual_hardware_windows": 1,
+  "MEMAP_readonly_status": "PASS",
+  "worker_supervisor_caller_exit_codes": [
+    0,
+    0,
+    0
+  ],
+  "G2B_config_writes": 0,
+  "G1_service_starts": 0,
+  "B5START": 0,
+  "tests_or_firmware_rebuilds": 0,
+  "final_metadata_tip_verification": "SEPARATE_EFS_RECEIPT",
+  "exit_code": 0
+}

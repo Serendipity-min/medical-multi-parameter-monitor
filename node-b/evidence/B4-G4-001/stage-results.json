@@ -1,0 +1,90 @@
+{
+  "stage": "B4-G4-001",
+  "status": "PARTIAL_ENGINEERING_RESULTS_CAN_WINDOW_NOT_EXECUTED",
+  "B_install_restore_reinstall": "PASS_FULL_IMAGE_OPTIONS_AND_ORIGINAL_TAIL",
+  "C_original_full_current_read": "PASS_IDENTICAL_ORIGINAL_OPTIONS",
+  "C_original_normal_reset_boot": "PASS_ONE_RESET_ONE_GO_NO_FLASH_WRITES",
+  "C_candidate_install_restore": "NOT_EXECUTED_ROM_EVENT_REVIEW_REQUIRED",
+  "C_CPU_ROM_ROOT_CAUSE": "UNRESOLVED",
+  "B_historical_CPU_ROM_ROOT_CAUSE": "UNRESOLVED",
+  "CAN_transport": "NOT_TESTED",
+  "HR_RR_simultaneous": "NOT_VALIDATED",
+  "impedance_amplitude": "NOT_CALIBRATED_INSTRUMENT_REQUIRED",
+  "C_candidate": {
+    "bytes": 23744,
+    "sha256": "73d1138f248188593f1be16e628b171a539e00867f324bcef36cdbe34310c0b6",
+    "manifest_sha256": "e32fdf3e5f66e6a089da53d245f493770ed3144f3985880d9fd97f87afbdaf33",
+    "sectors": [
+      0,
+      1
+    ],
+    "installed": false
+  },
+  "B_candidate": {
+    "bytes": 39948,
+    "sha256": "676eb7a46ad9cd15c7bf93db51a1931d7711d37c6f2fd636197dc4a85b339b82",
+    "full_installed_sha256": "a1abed50a4c4dbab142a2319d61c047bc43b6816dd62754a080e3f7e12415091",
+    "sectors": [
+      0,
+      1,
+      2
+    ],
+    "installed": true
+  },
+  "offline_validation": {
+    "Python_tests": 121,
+    "Python_exit": 0,
+    "Host_stages": 13,
+    "bench_Host_stages": 4,
+    "C_bench_ARM": "PASS",
+    "C_network_software_ARM": "PASS_NOT_HARDWARE_CANDIDATE",
+    "MQTT_max_publish_bytes": 1534,
+    "MQTT_capacity_bytes": 2048,
+    "capture_pressure_records": 3260,
+    "capture_pressure_drops": 0,
+    "overflow_negative_records": 257,
+    "overflow_negative_sequence_gaps": 1,
+    "real_host_model_synthetic_pipeline_records": 58315,
+    "synthetic_model_value_time_checks": 585,
+    "preserved_unexpected_failures": [
+      {
+        "case": "integration_compile_first_argv_duplicate_entry",
+        "exit_code": 1,
+        "fixed": "second invocation omitted old bench.c entry"
+      },
+      {
+        "case": "C_network_compile_optional_capture_unused_pointer",
+        "exit_code": 1,
+        "fixed": "use same controller pointer in all builds; subsequent bench/network ARM0"
+      }
+    ],
+    "expected_negative_exit_codes": [
+      1,
+      2
+    ]
+  },
+  "private_root": "E:\\medical-monitor-node-b-precan-private\\20261023\\b4-g4-20261023T120251414072Z",
+  "private_inventory_sha256": "05ba2e241cf764a2a5c9bc88d77ff7131aab9b1eaa0a0bae84ded3524c3075ac",
+  "private_inventory_files": 636,
+  "MCP_external_source_fix": {
+    "status": "OFFLINE_OPEN_ORDER_AND_REUSE_TEST_PASS",
+    "live_port_operations": 0,
+    "running_MCP_processes_reloaded": false,
+    "before_sha256": "6035a0c47362ce73936e2e53761f49490c9de28a12874983ec4a15cbda23f2a4",
+    "after_sha256": "4ecb4fcb79c6010ef790411d562ce683c44ac6d1ede84193725a90f416d4f6ea",
+    "external_path": "E:\\stm32\\ai_serial_console\\mcp\\stm32_console_mcp.py",
+    "checks": [
+      "DTR/RTS before open",
+      "no constructor port open",
+      "existing port reuse no changes"
+    ]
+  },
+  "no_cloud_or_security_gate_or_protected_branch_operations": true,
+  "next_action": "PI review C startup residual risk and authorize resuming C installation/recovery+isolated window; no automatic hardware continuation",
+  "C_actual_BOOT0_static_V": 0,
+  "C_last_runtime": "ORIGINAL_H3_FLASH_VERIFIED",
+  "C_normal_reset_budget_actual": {
+    "Reset": 1,
+    "Go": 1
+  }
+}

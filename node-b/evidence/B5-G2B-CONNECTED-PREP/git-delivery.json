@@ -1,0 +1,33 @@
+{
+  "status": "INDEPENDENT_HTTPS_REMOTE_READBACK_PASS",
+  "exit_code": 0,
+  "source_commit": "056791a38c6897d6cab66fe942d6ccf0d4a5f97a",
+  "branch": "codex/node-b5-cloud-integration-20261026",
+  "push_transport": "SSH",
+  "fetch_transport": "HTTPS",
+  "remote_head_equals_source": true,
+  "changed_file_count": 19,
+  "changed_files_sha256": {
+    "node-b/docs/AUTH-B5-G2B-SECTOR3-001-R3.md": "16b78e94809fe1175fc23ea9fb16443a5a486529f8f8c0c7329151acad074189",
+    "node-b/docs/AUTH-B5-G3-CLOUD-WINDOW-001-R3.md": "39ae51198e05d993359d948cd21c5fff6a463d2b5f1fbaafa0eb059224ec2757",
+    "node-b/docs/AUTH-B5-R-CFG-001-R3.md": "74f5bf34d26164667b481f558375bb0a02dbadb5b8acaf92ce387573331bffc0",
+    "node-b/docs/B5-G2A-SITE-ADMISSION-HANDOFF.md": "b87f611d4fe271b7403688685b73db70213fce7120832c54ae0396f00dccebd5",
+    "node-b/docs/B5-G2B-TO-G3-PREPARATION.md": "65d2669cb884d991843cea46258ceadd95b49ce5c34bf941931dff01e85712c8",
+    "node-b/evidence/B5-G2B-CONNECTED-PREP/archive-receipt.json": "9e77ba3556ba739d0c24628da2b5dd449a8e10609ba4788f8cf72a163b9d023d",
+    "node-b/evidence/B5-G2B-CONNECTED-PREP/bindings.json": "0f79221a502ac4cab61df9b5e63a12beee45208bb24000f2222eb30b05e59832",
+    "node-b/evidence/B5-G2B-CONNECTED-PREP/default-plan.json": "cd170f931e4301be510314bb0f12b22abdd364fc84af4f24022a0f45c3067eaf",
+    "node-b/evidence/B5-G2B-CONNECTED-PREP/offline-attempt-01.log": "d06d231f215e31bb92b3ac75b9a8c0be7d1964c3f0a118f3f053d6e9d054deb6",
+    "node-b/evidence/B5-G2B-CONNECTED-PREP/offline-attempt-02.log": "57c2a7bb52c92a4e11f45c9d2a5fa430a2de63df815158d64607535fe88a8630",
+    "node-b/evidence/B5-G2B-CONNECTED-PREP/offline-attempt-03.log": "583ff661b22105f1a7e96b8d4bde7134f480b74c6cbb790960807ed5e685f8c5",
+    "node-b/evidence/B5-G2B-CONNECTED-PREP/offline-attempt-04.log": "ff9edc9ced359688c06782bbb523d57d942efe5f7825f828e1d62275b703052f",
+    "node-b/evidence/B5-G2B-CONNECTED-PREP/offline-attempt-05.log": "b896935f757b5767752fb113e2326bd33e0c7f8f91bc02a5e97b38bc2f9f2625",
+    "node-b/evidence/B5-G2B-CONNECTED-PREP/offline-attempt-06.log": "d9262e55d05414c5ba13bba514d3390f737dbb49a1659a92737cf15c4d3b5374",
+    "node-b/evidence/B5-G2B-CONNECTED-PREP/offline-final-07.log": "7362f0065253e865a7fcf10e8d803a6dcffa8e6f90990c7205017c6c489bce9a",
+    "node-b/evidence/B5-G2B-CONNECTED-PREP/package-review.json": "5ad9aae1dd0cd1eb5d7e5603e1ea4523a154c3fa3631f8e8c6ce4a8bec35e8b0",
+    "node-b/evidence/B5-G2B-CONNECTED-PREP/result.json": "480cf00c9e142d3d91ec5562dbf09ca5ef88259c5fce0cfe37c3d4df3da0aaf4",
+    "node-b/tests/test_b5_sector3_connected.py": "5afbb1787e0701818bf178322fcf12337ac06167814200e7bac66319313b3fa3",
+    "node-b/tools/b5_sector3_write.py": "5464387e61ecbd1d109539996e06648a0e47d0ac601f674a3e1d449a045e0c3d"
+  },
+  "clean_after_delivery": true,
+  "hardware_or_cloud_actions": 0
+}

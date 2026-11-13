@@ -1,0 +1,66 @@
+{
+  "input": "Stitch ICU Patient Monitor UI supplied by owner",
+  "version_date": "2026-09-22",
+  "mapping": {
+    "home_overview": "#/overview",
+    "_1": "#/ecg",
+    "_2": "#/spo2",
+    "_3": "#/nibp",
+    "_4": "#/resp",
+    "_5": "#/temp"
+  },
+  "files": [
+    {
+      "path": "_1/code.html",
+      "sha256": "0b50bd2e7be99592458a438c2a89c8106821e48a8cba6551407958ebd7dfab1f"
+    },
+    {
+      "path": "_1/screen.png",
+      "sha256": "c06c9dd7bce509afa78035fee6b09a7088d419c245cf44db1fce3ccd4f229ffd"
+    },
+    {
+      "path": "_2/code.html",
+      "sha256": "9e30ee31bc0a51a7be894ebdf3baaa1e9ff81c3d3590f6d9183aa1fff152c33d"
+    },
+    {
+      "path": "_2/screen.png",
+      "sha256": "0d2e0b83932b83b1df889d1f50c7925b141682d0b8de35113a68ea9f7d3ee45a"
+    },
+    {
+      "path": "_3/code.html",
+      "sha256": "30b07e23a0205a8794d8dda3e6d9cce5c7dac23488aed6cc7a6c5085f5ca2c10"
+    },
+    {
+      "path": "_3/screen.png",
+      "sha256": "d88902687c0d36cfa0a428ed60a0137d5107d31891811ea726b4450f607cc9fa"
+    },
+    {
+      "path": "_4/code.html",
+      "sha256": "616ba6fc79633c2f1a0bcd65205563d30fdaa43f1e3f11bb9dc5997cc5a212f7"
+    },
+    {
+      "path": "_4/screen.png",
+      "sha256": "8c14137cbfa6a42f38e27d95307d795c1828cae61a77b4f668899e046b66340a"
+    },
+    {
+      "path": "_5/code.html",
+      "sha256": "898806f19bdbc2fb525dd0940ccfdd27f04258d18fec5d0db6da6107fef4665f"
+    },
+    {
+      "path": "_5/screen.png",
+      "sha256": "6a16660c8c5ddf417a877cf0871a87c2683768fce4affe3ff0d4a40ea63539e3"
+    },
+    {
+      "path": "clinical_monitor_core/DESIGN.md",
+      "sha256": "dc2bf73747defff5d4fcbad39252ec86815e165e09356f2b9553ac6cccfe2e95"
+    },
+    {
+      "path": "home_overview/code.html",
+      "sha256": "ac80b8ca66b7506cf6679e7b7c5da8802288a06d799899ccffe87b4b5043f17a"
+    },
+    {
+      "path": "home_overview/screen.png",
+      "sha256": "ee4b67cf1270ec8ca0b05985795c8e02d1d7ed27878dc2e0794943cede10ddb3"
+    }
+  ]
+}

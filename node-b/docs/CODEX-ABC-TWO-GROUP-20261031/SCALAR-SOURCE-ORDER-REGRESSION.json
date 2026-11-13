@@ -1,0 +1,27 @@
+{
+  "cases": [
+    {
+      "name": "old-order-compile",
+      "exit_code": 0
+    },
+    {
+      "name": "old-order",
+      "exit_code": 3,
+      "expected_failure": true,
+      "log_sha256": "6b0763514b06e60fb709c61b2db0df3350dd4ca8abf0e546973ea93cc8dd022a"
+    },
+    {
+      "name": "ABC-age-order-compile",
+      "exit_code": 0
+    },
+    {
+      "name": "ABC-age-order",
+      "exit_code": 0,
+      "expected_failure": false,
+      "log_sha256": "24626e995f3e4d0a99227d66a97835f456521d86b5ed712cc5bb36f886925102"
+    }
+  ],
+  "hardware_actions": 0,
+  "thresholds_changed": false,
+  "timestamps_changed": false
+}

@@ -1,0 +1,17 @@
+..F........................
+======================================================================
+FAIL: test_RCFG_stopped_state_still_requires_explicit_ESP_isolation (test_b5_sector3_write.Tests.test_RCFG_stopped_state_still_requires_explicit_ESP_isolation)
+----------------------------------------------------------------------
+ValueError: S3_TRANSACTION_ESP_EXCEPTION_REQUIRED
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\medical-monitor-node-b5-cloud\node-b\tests\test_b5_sector3_write.py", line 349, in test_RCFG_stopped_state_still_requires_explicit_ESP_isolation
+    with self.assertRaisesRegex(ValueError,'SITE_NOT_READY'):writer.authorize(a,self.out/'unused')
+AssertionError: "SITE_NOT_READY" does not match "S3_TRANSACTION_ESP_EXCEPTION_REQUIRED"
+
+----------------------------------------------------------------------
+Ran 27 tests in 0.651s
+
+FAILED (failures=1)

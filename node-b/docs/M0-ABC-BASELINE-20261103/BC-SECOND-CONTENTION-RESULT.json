@@ -1,0 +1,11 @@
+{
+  "status": "M0_BC_FAIRNESS_V1_NOT_PASS",
+  "maximum_audio_acked_chunks": 112,
+  "required_chunks": 125,
+  "capture_native_exit": 1,
+  "parent_native_exit": 1,
+  "B_native_exit": 0,
+  "full_300_seconds_completed": false,
+  "C_cleanup_STOP_native_exit": 1,
+  "next_fix": "Move audio admission to immediately after telemetry PUBACK; alternate with telemetry QoS1; reuse pending owner for QoS0 selection."
+}

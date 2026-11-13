@@ -1,0 +1,125 @@
+{
+  "status": "INDEPENDENT_REMOTE_FETCH_AND_BLOB_VERIFIED",
+  "payload_commit": "a858a69a2ca3010e7c0cf948fcd2acfd9e07d798",
+  "baseline": "bb9bc8e00860ff4f61fa3c4f315edfb76815a59b",
+  "branch": "codex/node-b-precan-closeout-20261023",
+  "fetch_isolated_bare_repository": true,
+  "checked_files": [
+    {
+      "file": "node-b/docs/AUTH-B-PREC-P0-DISCONNECT-001-R1.md",
+      "sha256": "08400a16825695c250ec015590b58b3bcecb42858a95fd5737fe383cf19cab56",
+      "bytes": 2749
+    },
+    {
+      "file": "node-b/docs/AUTH-B-PREC-P0-MANUAL-RESET-001-R1.md",
+      "sha256": "4c68ad029941e20b2293ea4b3384e7b2ed463492e992c965ffc8ca64f6df36f7",
+      "bytes": 2662
+    },
+    {
+      "file": "node-b/docs/AUTH-B-PREC-P0-STATE-001-R1.md",
+      "sha256": "ef768e4da8e964f58fba00291f838dde523c174457be7ed7435654924e9db969",
+      "bytes": 6669
+    },
+    {
+      "file": "node-b/docs/B-PRECAN-CLOSEOUT-FINAL-HANDOFF.md",
+      "sha256": "c9d28690126fa6283c1d7ac50c017dd97f953490ef25649c6ba907f87bc90d23",
+      "bytes": 6428
+    },
+    {
+      "file": "node-b/docs/PREC-CAN-FUTURE-DESIGN-MEMO.md",
+      "sha256": "628a2dfd73fc852aa8f6c965ce6c529b32ebc6bfe5d359cf2eb170045e6e6e4f",
+      "bytes": 797
+    },
+    {
+      "file": "node-b/docs/PREC-P0-FIELD-CONTROL-PLAN-R1.md",
+      "sha256": "53386d5e6a78b02ad95e1ad53603744039d6e7edc1f4c03f38c901b35829e405",
+      "bytes": 3053
+    },
+    {
+      "file": "node-b/docs/PREC-P0-HMI-PATH-AUDIT-R1.md",
+      "sha256": "58d358ba78b602a7a497f641546a5d881d5182a9be5c4d51664420f899ba9972",
+      "bytes": 3203
+    },
+    {
+      "file": "node-b/docs/PREC-P0-OFFLINE-AUDIT-R1.md",
+      "sha256": "064ce272e8aff8b2b19bb4b3c7d831eea1071d9f4ade4757f0bfdac734feaa9d",
+      "bytes": 7337
+    },
+    {
+      "file": "node-b/docs/PREC-P0-S0-D0-RESULT-R1.md",
+      "sha256": "015872853f4ed6e66df8962ce5b956262f2b6aead40bb6ff1c8776c09d0ee0a3",
+      "bytes": 3189
+    },
+    {
+      "file": "node-b/docs/PREC-P2-INSTRUMENT-ASSESSMENT-R1.md",
+      "sha256": "4dd91984093b33012f9e9be4db3a17eef98591b8cd5747d0a590996e8fa645a8",
+      "bytes": 1768
+    },
+    {
+      "file": "node-b/evidence/B-PREC-001/HMI-path-source-index.json",
+      "sha256": "86b0dd537a438352f33b8bf1679a9ca08a3fcbc42d82d022b2ee51c794a8b576",
+      "bytes": 1276
+    },
+    {
+      "file": "node-b/evidence/B-PREC-001/disconnect-d0-result.json",
+      "sha256": "91c257f12b80c5efe61a1b819921c556802bdfa1c47c682d4c32150f025dc009",
+      "bytes": 998
+    },
+    {
+      "file": "node-b/evidence/B-PREC-001/historical-receipt-index.json",
+      "sha256": "cfc3fc8833b363c81788cb1a98a5f60532868cb630342fd179f152e6c80769ad",
+      "bytes": 12831
+    },
+    {
+      "file": "node-b/evidence/B-PREC-001/manual-m0-result.json",
+      "sha256": "b717d8de4b3e49d3393618390b7fd2fb64ab19b66f9738e437d8778136e4acfd",
+      "bytes": 866
+    },
+    {
+      "file": "node-b/evidence/B-PREC-001/offline-audit-r1.json",
+      "sha256": "46098e9daf22245bc332a9ef6b5b4e4fc67afc5eb1cdd0f3c875d3915159fefc",
+      "bytes": 19674
+    },
+    {
+      "file": "node-b/evidence/B-PREC-001/restricted-archive-index.json",
+      "sha256": "673b4e7207d553184de5249f2476d366528b362689922f62895716672f437d1f",
+      "bytes": 16196
+    },
+    {
+      "file": "node-b/evidence/B-PREC-001/state-s0-preparation.json",
+      "sha256": "e10d24439f520b3431a6d82c099ce7725776a7ebf49e16c8f7cfe1b4fa78484e",
+      "bytes": 1288
+    },
+    {
+      "file": "node-b/evidence/B-PREC-001/state-s0-private-file-index.json",
+      "sha256": "22006ff1d52647ca2ecdf628db2f20dc464bdd155c83e6cdf9721bc5ca27a0a0",
+      "bytes": 7123
+    },
+    {
+      "file": "node-b/evidence/B-PREC-001/state-s0-result.json",
+      "sha256": "4fc74d54621c783cbfd4ad504b1b8c126187de9685730d15f6295bb6d1a87ab5",
+      "bytes": 5633
+    },
+    {
+      "file": "node-b/tests/test_precan_cpu_state_b.py",
+      "sha256": "592b361217698c9394e5ec1490cd9cc2bc6f3d52369e99fcad69eaa4337eb8c3",
+      "bytes": 5107
+    },
+    {
+      "file": "node-b/tools/precan_cpu_state_b.py",
+      "sha256": "5f31200849906799ed15b71223cdd0a87015f449d4e785bb3b5e0f74aae6d5b0",
+      "bytes": 11687
+    },
+    {
+      "file": "node-b/tools/supervise_precan_cpu_state_b.py",
+      "sha256": "fc4282e68b560e780a3d6b996884f5d0cf0c286b0cb03c6b0f0447b578054164",
+      "bytes": 2859
+    }
+  ],
+  "previous_remote_heads_unchanged": 14,
+  "firmware_change_count": 0,
+  "private_raw_files_committed": false,
+  "P0": "CPU_ROOT_CAUSE_UNRESOLVED",
+  "P1": "BLOCKED_BY_P0",
+  "P2": "IMPEDANCE_AMPLITUDE_NOT_CALIBRATED_INSTRUMENT_REQUIRED"
+}

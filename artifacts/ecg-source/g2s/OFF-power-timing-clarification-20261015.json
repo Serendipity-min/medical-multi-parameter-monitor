@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-15 Asia/Shanghai",
+  "scope": "OPERATOR_POWER_TIMING_CLARIFICATION_APPEND_ONLY",
+  "previous_DSO_photo_power_state": "OPERATOR_CONFIRMED_USB_DISCONNECTED",
+  "new_DSO_photo_power_state": "USB_DISCONNECTED_AS_REPORTED",
+  "operator_PA4_PA5_disconnected_readings_V_approx": 0.01,
+  "previous_PA4_0_19V_PA5_0_29V_supply_timing": "NOT_EXPLICITLY_RESOLVED_DO_NOT_RECLASSIFY_AS_POWERED_PASS",
+  "new_scope_photo": {
+    "filename": "a8cec7b0998188918b893c346c37d32e.jpg",
+    "sha256": "bc2727e9b11ec29b0cb5d81fe70b236fb00924f90ed0d4130107f67e74c84648",
+    "visible_settings": {
+      "vertical": "1V/div",
+      "probe": "X1",
+      "horizontal": "200ms/div",
+      "coupling": "DC",
+      "acquisition": "RUN"
+    },
+    "automatic_readouts": {
+      "frequency_Hz": 31.25,
+      "period_ms": 32.0,
+      "Vmax_mV": 80.0,
+      "Vmin_mV": -40.0,
+      "Vpp_mV": 120.0,
+      "Vavg_mV": 0.0
+    },
+    "trace_description": "Near-horizontal trace with USB disconnected; not evidence of firmware output or a 31.25Hz source."
+  },
+  "powered_OFF_analog": "PENDING_NEW_MEASUREMENT",
+  "BIAS_analog": "NOT_MEASURED",
+  "dynamic_analog": "DYNAMIC_UNVERIFIED",
+  "old_reports_or_images_overwritten": false,
+  "mode_command_sent_this_update": false
+}

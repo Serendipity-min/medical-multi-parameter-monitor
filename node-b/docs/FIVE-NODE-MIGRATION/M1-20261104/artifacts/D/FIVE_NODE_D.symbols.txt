@@ -1,0 +1,982 @@
+
+========================================================================
+
+** ELF Header Information
+
+    File Name: E:\medical-monitor-five-node\node-b\build\five-node-D-20261104T061845347216Z\FIVE_NODE_D.axf
+
+    Machine class: ELFCLASS32 (32-bit)
+    Data encoding: ELFDATA2LSB (Little endian)
+    Header version: EV_CURRENT (Current version)
+    Operating System ABI: none
+    ABI Version: 0
+    File Type: ET_EXEC (Executable) (2)
+    Machine: EM_ARM (ARM)
+
+    Image Entry point: 0x08000189
+    Flags: EF_ARM_HASENTRY (0x05000002)
+
+    ARM ELF revision: 5 (ABI version 2)
+
+    Conforms to Base float procedure-call standard
+
+    Built with
+    Component: ARM Compiler 5.06 update 7 (build 960) Tool: armasm [4d35fa]
+    Component: ARM Compiler 5.06 update 7 (build 960) Tool: armlink [4d3601]
+
+    Header size: 52 bytes (0x34)
+    Program header entry size: 32 bytes (0x20)
+    Section header entry size: 40 bytes (0x28)
+
+    Program header entries: 1
+    Section header entries: 16
+
+    Program header offset: 639948 (0x0009c3cc)
+    Section header offset: 639980 (0x0009c3ec)
+
+    Section header string table index: 15
+
+========================================================================
+
+** Program header #0 (PT_LOAD) [PF_X + PF_W + PF_R + PF_ARM_ENTRY]
+    Size : 31824 bytes (24544 bytes in file)
+    Virtual address: 0x08000000 (Alignment 8)
+
+
+========================================================================
+
+** Section #1 'ER_IROM1' (SHT_PROGBITS) [SHF_ALLOC + SHF_EXECINSTR]
+    Size   : 24104 bytes (alignment 4)
+    Address: 0x08000000
+
+
+** Section #2 'RW_IRAM1' (SHT_PROGBITS) [SHF_ALLOC + SHF_WRITE]
+    Size   : 440 bytes (alignment 4)
+    Address: 0x20000000
+
+
+** Section #3 'RW_IRAM1' (SHT_NOBITS) [SHF_ALLOC + SHF_WRITE]
+    Size   : 6476 bytes (alignment 8)
+    Address: 0x200004dc
+
+
+** Section #4 '.debug_abbrev' (SHT_PROGBITS)
+    Size   : 1476 bytes
+
+
+** Section #5 '.debug_frame' (SHT_PROGBITS)
+    Size   : 5756 bytes
+
+
+** Section #6 '.debug_info' (SHT_PROGBITS)
+    Size   : 147396 bytes
+
+
+** Section #7 '.debug_line' (SHT_PROGBITS)
+    Size   : 39232 bytes
+
+
+** Section #8 '.debug_loc' (SHT_PROGBITS)
+    Size   : 22956 bytes
+
+
+** Section #9 '.debug_macinfo' (SHT_PROGBITS)
+    Size   : 340852 bytes
+
+
+** Section #10 '.debug_pubnames' (SHT_PROGBITS)
+    Size   : 3811 bytes
+
+
+** Section #11 '.symtab' (SHT_SYMTAB)
+    Size   : 12544 bytes (alignment 4)
+    String table #12 '.strtab'
+    Last local symbol no. 508
+
+    Symbol table .symtab (783 symbols, 508 local)
+
+      #  Symbol Name                Value      Bind  Sec  Type  Vis  Size
+    ========================================================================
+
+      1  $d.realdata                0x08000000   Lc    1   --   De 
+      2  $t                         0x08000188   Lc    1   --   De 
+      3  $d                         0x08000194   Lc    1   --   De 
+      4  $t                         0x08000198   Lc    1   --   De 
+      5  $d                         0x0800019c   Lc    1   --   De 
+      6  $t                         0x080001a0   Lc    1   --   De 
+      7  $d                         0x080001bc   Lc    1   --   De 
+      8  $t                         0x080001c4   Lc    1   --   De 
+      9  $d                         0x08000280   Lc    1   --   De 
+     10  $t                         0x08000288   Lc    1   --   De 
+     11  $d                         0x080002f4   Lc    1   --   De 
+     12  $t                         0x080002fc   Lc    1   --   De 
+     13  $d                         0x080003ae   Lc    1   --   De 
+     14  $t                         0x080003c4   Lc    1   --   De 
+     15  $d                         0x08000436   Lc    1   --   De 
+     16  $t                         0x08000454   Lc    1   --   De 
+     17  $d                         0x08000474   Lc    1   --   De 
+     18  $t                         0x0800047c   Lc    1   --   De 
+     19  $d                         0x08000532   Lc    1   --   De 
+     20  $t                         0x0800054c   Lc    1   --   De 
+     21  $d                         0x080005e8   Lc    1   --   De 
+     22  $t                         0x08000600   Lc    1   --   De 
+     23  $d                         0x0800071a   Lc    1   --   De 
+     24  $t                         0x08000720   Lc    1   --   De 
+     25  $d                         0x08000cb2   Lc    1   --   De 
+     26  $t                         0x08000cc8   Lc    1   --   De 
+     27  $d                         0x08000cea   Lc    1   --   De 
+     28  $t                         0x08000cf0   Lc    1   --   De 
+     29  $d                         0x08000eaa   Lc    1   --   De 
+     30  $t                         0x08000eb4   Lc    1   --   De 
+     31  $d                         0x08000f3a   Lc    1   --   De 
+     32  $t                         0x08000f48   Lc    1   --   De 
+     33  $d                         0x08001102   Lc    1   --   De 
+     34  $t                         0x08001108   Lc    1   --   De 
+     35  $d                         0x0800121e   Lc    1   --   De 
+     36  $t                         0x08001224   Lc    1   --   De 
+     37  $d                         0x08001340   Lc    1   --   De 
+     38  $t                         0x08001344   Lc    1   --   De 
+     39  $d                         0x08001382   Lc    1   --   De 
+     40  $t                         0x08001388   Lc    1   --   De 
+     41  $d                         0x0800152c   Lc    1   --   De 
+     42  $t                         0x08001540   Lc    1   --   De 
+     43  $d                         0x080018ac   Lc    1   --   De 
+     44  $t                         0x080018b0   Lc    1   --   De 
+     45  $d                         0x08001ab0   Lc    1   --   De 
+     46  $t                         0x08001aba   Lc    1   --   De 
+     47  $d                         0x08001af2   Lc    1   --   De 
+     48  $t                         0x08001afe   Lc    1   --   De 
+     49  $d                         0x08001b3c   Lc    1   --   De 
+     50  $t                         0x08001b4a   Lc    1   --   De 
+     51  $d                         0x08001d70   Lc    1   --   De 
+     52  $t                         0x08001d7c   Lc    1   --   De 
+     53  $d                         0x08002124   Lc    1   --   De 
+     54  $t                         0x08002128   Lc    1   --   De 
+     55  $d                         0x08002532   Lc    1   --   De 
+     56  $t                         0x08002538   Lc    1   --   De 
+     57  $d                         0x08002708   Lc    1   --   De 
+     58  $t                         0x0800270e   Lc    1   --   De 
+     59  $d                         0x08002718   Lc    1   --   De 
+     60  $t                         0x0800272e   Lc    1   --   De 
+     61  $d                         0x080029b4   Lc    1   --   De 
+     62  $t                         0x080029c8   Lc    1   --   De 
+     63  $d                         0x08002a12   Lc    1   --   De 
+     64  $t                         0x08002a18   Lc    1   --   De 
+     65  $d                         0x08002a22   Lc    1   --   De 
+     66  $t                         0x08002a38   Lc    1   --   De 
+     67  $d                         0x08002c98   Lc    1   --   De 
+     68  $t                         0x08002c9c   Lc    1   --   De 
+     69  $d                         0x08002ddc   Lc    1   --   De 
+     70  $t                         0x08002de0   Lc    1   --   De 
+     71  $d                         0x08002fc0   Lc    1   --   De 
+     72  $t                         0x08002fc4   Lc    1   --   De 
+     73  $d                         0x08003064   Lc    1   --   De 
+     74  $t                         0x08003068   Lc    1   --   De 
+     75  $d                         0x08003642   Lc    1   --   De 
+     76  $t                         0x08003680   Lc    1   --   De 
+     77  $d                         0x08003966   Lc    1   --   De 
+     78  $t                         0x08003980   Lc    1   --   De 
+     79  $d                         0x08003b18   Lc    1   --   De 
+     80  $t                         0x08003b40   Lc    1   --   De 
+     81  $d                         0x08003c92   Lc    1   --   De 
+     82  $t                         0x08003ca0   Lc    1   --   De 
+     83  $d                         0x08003caa   Lc    1   --   De 
+     84  $t                         0x08003cb4   Lc    1   --   De 
+     85  $d                         0x08003dc8   Lc    1   --   De 
+     86  $t                         0x08003dcc   Lc    1   --   De 
+     87  $d                         0x08003efc   Lc    1   --   De 
+     88  $t                         0x08003f0c   Lc    1   --   De 
+     89  $d                         0x080043b6   Lc    1   --   De 
+     90  $t                         0x080043bc   Lc    1   --   De 
+     91  $d                         0x08004600   Lc    1   --   De 
+     92  $t                         0x08004608   Lc    1   --   De 
+     93  $d                         0x08004622   Lc    1   --   De 
+     94  $t                         0x08004628   Lc    1   --   De 
+     95  $d                         0x08004642   Lc    1   --   De 
+     96  $t                         0x08004648   Lc    1   --   De 
+     97  $d                         0x08004662   Lc    1   --   De 
+     98  $t                         0x08004668   Lc    1   --   De 
+     99  $d                         0x08004682   Lc    1   --   De 
+    100  $t                         0x08004688   Lc    1   --   De 
+    101  $d                         0x0800475e   Lc    1   --   De 
+    102  $t                         0x08004770   Lc    1   --   De 
+    103  $d                         0x0800478c   Lc    1   --   De 
+    104  $t                         0x08004790   Lc    1   --   De 
+    105  $d                         0x080048d4   Lc    1   --   De 
+    106  $t                         0x080048e4   Lc    1   --   De 
+    107  $d                         0x08004990   Lc    1   --   De 
+    108  $t                         0x080049a0   Lc    1   --   De 
+    109  $d                         0x080049c0   Lc    1   --   De 
+    110  $t                         0x080049c4   Lc    1   --   De 
+    111  $d                         0x08004a80   Lc    1   --   De 
+    112  $t                         0x08004a9c   Lc    1   --   De 
+    113  $d                         0x08004aa2   Lc    1   --   De 
+    114  $t                         0x08004aa8   Lc    1   --   De 
+    115  $d                         0x08004b96   Lc    1   --   De 
+    116  $t                         0x08004bb0   Lc    1   --   De 
+    117  $d                         0x08004c96   Lc    1   --   De 
+    118  $t                         0x08004cb8   Lc    1   --   De 
+    119  $d                         0x08004de8   Lc    1   --   De 
+    120  $t                         0x08004df0   Lc    1   --   De 
+    121  $d                         0x08004e32   Lc    1   --   De 
+    122  $t                         0x08004e38   Lc    1   --   De 
+    123  $d                         0x08004fa8   Lc    1   --   De 
+    124  $t                         0x08004fac   Lc    1   --   De 
+    125  $d                         0x08005086   Lc    1   --   De 
+    126  $t                         0x0800508c   Lc    1   --   De 
+    127  $d                         0x0800511a   Lc    1   --   De 
+    128  $t                         0x08005120   Lc    1   --   De 
+    129  $d                         0x08005142   Lc    1   --   De 
+    130  $t                         0x08005148   Lc    1   --   De 
+    131  $d                         0x080051ba   Lc    1   --   De 
+    132  $t                         0x080051d0   Lc    1   --   De 
+    133  $d                         0x080052ba   Lc    1   --   De 
+    134  $t                         0x080052c0   Lc    1   --   De 
+    135  $d                         0x080053ae   Lc    1   --   De 
+    136  $t                         0x080053dc   Lc    1   --   De 
+    137  $d                         0x0800541c   Lc    1   --   De 
+    138  $t                         0x08005420   Lc    1   --   De 
+    139  $d                         0x0800556a   Lc    1   --   De 
+    140  $d.realdata                0x08005570   Lc    1   --   De 
+    141  $d.realdata                0x20000000   Lc    2   --   De 
+    142  main.c                     0x00000000   Lc  Abs  File  De 
+    143  main.c                     0x00000000   Lc  Abs  File  De 
+    144  i.SendChar                 0x08004770   Lc    1  Sect  De 
+    145  i.main                     0x080050be   Lc    1  Sect  De 
+    146  system_stm32f4xx.c         0x00000000   Lc  Abs  File  De 
+    147  system_stm32f4xx.c         0x00000000   Lc  Abs  File  De 
+    148  i.SetSysClock              0x080047f8   Lc    1  Sect  De 
+    149  SetSysClock                0x080047f9   Lc    1  Code  De   0xdc
+    150  i.SystemInit               0x08004938   Lc    1  Sect  De 
+    151  ..\\FWLIB\\src\\misc.c     0x00000000   Lc  Abs  File  De 
+    152  ..\FWLIB\src\misc.c        0x00000000   Lc  Abs  File  De 
+    153  i.NVIC_Init                0x08003c28   Lc    1  Sect  De 
+    154  i.NVIC_PriorityGroupConfig 0x08003ca0   Lc    1  Sect  De 
+    155  ..\\FWLIB\\src\\stm32f4xx_exti.c
+                                    0x00000000   Lc  Abs  File  De 
+    156  ..\FWLIB\src\stm32f4xx_exti.c
+                                    0x00000000   Lc  Abs  File  De 
+    157  ..\\FWLIB\\src\\stm32f4xx_gpio.c
+                                    0x00000000   Lc  Abs  File  De 
+    158  ..\FWLIB\src\stm32f4xx_gpio.c
+                                    0x00000000   Lc  Abs  File  De 
+    159  i.GPIO_Init                0x08003b40   Lc    1  Sect  De 
+    160  i.GPIO_PinAFConfig         0x08003bd0   Lc    1  Sect  De 
+    161  i.GPIO_StructInit          0x08003c16   Lc    1  Sect  De 
+    162  ..\\FWLIB\\src\\stm32f4xx_rcc.c
+                                    0x00000000   Lc  Abs  File  De 
+    163  ..\FWLIB\src\stm32f4xx_rcc.c
+                                    0x00000000   Lc  Abs  File  De 
+    164  i.RCC_AHB1PeriphClockCmd   0x08004608   Lc    1  Sect  De 
+    165  i.RCC_APB1PeriphClockCmd   0x08004628   Lc    1  Sect  De 
+    166  i.RCC_APB1PeriphResetCmd   0x08004648   Lc    1  Sect  De 
+    167  i.RCC_APB2PeriphResetCmd   0x08004668   Lc    1  Sect  De 
+    168  i.RCC_GetClocksFreq        0x08004688   Lc    1  Sect  De 
+    169  .data                      0x20000000   Lc    2  Sect  De   0x10
+    170  APBAHBPrescTable           0x20000000   Lc    2  Data  De   0x10
+    171  ..\\FWLIB\\src\\stm32f4xx_spi.c
+                                    0x00000000   Lc  Abs  File  De 
+    172  ..\FWLIB\src\stm32f4xx_spi.c
+                                    0x00000000   Lc  Abs  File  De 
+    173  ..\\FWLIB\\src\\stm32f4xx_syscfg.c
+                                    0x00000000   Lc  Abs  File  De 
+    174  ..\FWLIB\src\stm32f4xx_syscfg.c
+                                    0x00000000   Lc  Abs  File  De 
+    175  ..\\FWLIB\\src\\stm32f4xx_tim.c
+                                    0x00000000   Lc  Abs  File  De 
+    176  ..\FWLIB\src\stm32f4xx_tim.c
+                                    0x00000000   Lc  Abs  File  De 
+    177  i.TIM_ClearITPendingBit    0x080049c4   Lc    1  Sect  De 
+    178  i.TIM_Cmd                  0x080049ca   Lc    1  Sect  De 
+    179  i.TIM_GetITStatus          0x080049e2   Lc    1  Sect  De 
+    180  i.TIM_ITConfig             0x08004a04   Lc    1  Sect  De 
+    181  i.TIM_TimeBaseInit         0x08004a18   Lc    1  Sect  De 
+    182  ..\\FWLIB\\src\\stm32f4xx_usart.c
+                                    0x00000000   Lc  Abs  File  De 
+    183  ..\FWLIB\src\stm32f4xx_usart.c
+                                    0x00000000   Lc  Abs  File  De 
+    184  i.USART_Cmd                0x08004bb0   Lc    1  Sect  De 
+    185  i.USART_DeInit             0x08004bc8   Lc    1  Sect  De 
+    186  i.USART_GetFlagStatus      0x08004cb8   Lc    1  Sect  De 
+    187  i.USART_ITConfig           0x08004cd2   Lc    1  Sect  De 
+    188  i.USART_Init               0x08004d1c   Lc    1  Sect  De 
+    189  i.USART_SendData           0x08004df0   Lc    1  Sect  De 
+    190  i.USART_StructInit         0x08004df8   Lc    1  Sect  De 
+    191  ..\\FWLIB\\src\\stm32f4xx_can.c
+                                    0x00000000   Lc  Abs  File  De 
+    192  ..\FWLIB\src\stm32f4xx_can.c
+                                    0x00000000   Lc  Abs  File  De 
+    193  i.CAN_FilterInit           0x08000618   Lc    1  Sect  De 
+    194  i.CAN_ITConfig             0x08000720   Lc    1  Sect  De 
+    195  i.CAN_Init                 0x08000732   Lc    1  Sect  De 
+    196  i.CAN_Receive              0x08000846   Lc    1  Sect  De 
+    197  i.CAN_Transmit             0x08000936   Lc    1  Sect  De 
+    198  ..\CORE\startup_stm32f40_41xxx.s
+                                    0x00000000   Lc  Abs  File  De 
+    199  STACK                      0x20001a28   Lc    3  Sect  De   0x400
+    200  RESET                      0x08000000   Lc    1  Sect  De   0x188
+    201  .text                      0x080001a0   Lc    1  Sect  De   0x24
+    202  $v0                        0x080001a0   Lc    1   --   De 
+    203  ..\\HARDWARE\\timer.c      0x00000000   Lc  Abs  File  De 
+    204  ..\HARDWARE\timer.c        0x00000000   Lc  Abs  File  De 
+    205  i.TIM2_IRQHandler          0x080049a0   Lc    1  Sect  De 
+    206  i.TimeBase_GetMs           0x08004a9c   Lc    1  Sect  De 
+    207  i.TimeBase_Init            0x08004aa8   Lc    1  Sect  De 
+    208  .data                      0x20000010   Lc    2  Sect  De   0x4
+    209  s_ms_tick                  0x20000010   Lc    2  Data  De   0x4
+    210  ..\\SCREEN\\hmi_driver.c   0x00000000   Lc  Abs  File  De 
+    211  ..\SCREEN\hmi_driver.c     0x00000000   Lc  Abs  File  De 
+    212  i.SendStrings              0x08004790   Lc    1  Sect  De 
+    213  i.SetControlVisiable       0x080047a6   Lc    1  Sect  De 
+    214  i.SetTextValue             0x080048e4   Lc    1  Sect  De 
+    215  ..\\B4\\b_canopen_app.c    0x00000000   Lc  Abs  File  De 
+    216  ..\B4\b_canopen_app.c      0x00000000   Lc  Abs  File  De 
+    217  i.BCan_Interrupt           0x080002e0   Lc    1  Sect  De 
+    218  i.CAN1_RX0_IRQHandler      0x08000600   Lc    1  Sect  De 
+    219  i.CAN1_SCE_IRQHandler      0x08000608   Lc    1  Sect  De 
+    220  i.CAN1_TX_IRQHandler       0x08000610   Lc    1  Sect  De 
+    221  i.CanOpen_Init             0x08003914   Lc    1  Sect  De 
+    222  i.CanOpen_Task             0x08003980   Lc    1  Sect  De 
+    223  i.node_clock_set           0x08005148   Lc    1  Sect  De 
+    224  node_clock_set             0x08005149   Lc    1  Code  De   0x72
+    225  i.stack_init               0x080052c0   Lc    1  Sect  De 
+    226  stack_init                 0x080052c1   Lc    1  Code  De   0xee
+    227  i.time_received            0x080053dc   Lc    1  Sect  De 
+    228  time_received              0x080053dd   Lc    1  Code  De   0x40
+    229  .bss                       0x200004dc   Lc    3  Sect  De   0x3c
+    230  clock_anchor               0x200004dc   Lc    3  Data  De   0x10
+    231  .data                      0x20000014   Lc    2  Sect  De   0x12
+    232  co                         0x20000014   Lc    2  Data  De   0x4
+    233  generation                 0x20000018   Lc    2  Data  De   0x4
+    234  last_tick                  0x2000001c   Lc    2  Data  De   0x4
+    235  last_flags                 0x20000020   Lc    2  Data  De   0x4
+    236  running                    0x20000024   Lc    2  Data  De   0x1
+    237  first                      0x20000025   Lc    2  Data  De   0x1
+    238  ..\\B4\\CO_driver.c        0x00000000   Lc  Abs  File  De 
+    239  ..\B4\CO_driver.c          0x00000000   Lc  Abs  File  De 
+    240  i.CO_CANclearPendingSyncPDOs
+                                    0x08000a5c   Lc    1  Sect  De 
+    241  i.CO_CANinterrupt          0x08000ae0   Lc    1  Sect  De 
+    242  i.CO_CANmodule_disable     0x08000cc8   Lc    1  Sect  De 
+    243  i.CO_CANmodule_init        0x08000cf0   Lc    1  Sect  De 
+    244  i.CO_CANmodule_process     0x08000eb4   Lc    1  Sect  De 
+    245  i.CO_CANrxBufferInit       0x08001224   Lc    1  Sect  De 
+    246  i.CO_CANsend               0x08001280   Lc    1  Sect  De 
+    247  i.CO_CANsetConfigurationMode
+                                    0x08001344   Lc    1  Sect  De 
+    248  i.CO_CANsetNormalMode      0x08001388   Lc    1  Sect  De 
+    249  i.CO_CANtxBufferInit       0x08001390   Lc    1  Sect  De 
+    250  i.node_can_lock            0x080050f8   Lc    1  Sect  De 
+    251  i.node_can_unlock          0x08005120   Lc    1  Sect  De 
+    252  .data                      0x20000028   Lc    2  Sect  De   0xd
+    253  irq_state                  0x20000028   Lc    2  Data  De   0x8
+    254  rxErrors                   0x20000030   Lc    2  Data  De   0x2
+    255  txErrors                   0x20000032   Lc    2  Data  De   0x2
+    256  overflow                   0x20000034   Lc    2  Data  De   0x1
+    257  ..\B4\OD.c                 0x00000000   Lc  Abs  File  De 
+    258  .constdata                 0x08005570   Lc    1  Sect  De   0x818
+    259  ODObjs                     0x08005570   Lc    1  Data  De   0x818
+    260  .data                      0x20000038   Lc    2  Sect  De   0x494
+    261  ODList                     0x200002d4   Lc    2  Data  De   0x1ec
+    262  _OD                        0x200004c0   Lc    2  Data  De   0x8
+    263  ..\CANopenNode\CANopen.c   0x00000000   Lc  Abs  File  De 
+    264  i.CO_CANinit               0x08000aaa   Lc    1  Sect  De 
+    265  i.CO_CANopenInit           0x08000f48   Lc    1  Sect  De 
+    266  i.CO_CANopenInitPDO        0x08001108   Lc    1  Sect  De 
+    267  i.CO_NMT_getInternalState  0x08001c48   Lc    1  Sect  De 
+    268  CO_NMT_getInternalState    0x08001c49   Lc    1  Code  De   0xe
+    269  i.CO_isError               0x080035ba   Lc    1  Sect  De 
+    270  CO_isError                 0x080035bb   Lc    1  Code  De   0x24
+    271  i.CO_new                   0x08003604   Lc    1  Sect  De 
+    272  i.CO_process               0x08003680   Lc    1  Sect  De 
+    273  i.CO_process_RPDO          0x080037e8   Lc    1  Sect  De 
+    274  i.CO_process_SYNC          0x0800384e   Lc    1  Sect  De 
+    275  i.CO_process_TPDO          0x080038b6   Lc    1  Sect  De 
+    276  .bss                       0x20000518   Lc    3  Sect  De   0x10d0
+    277  COO                        0x20000518   Lc    3  Data  De   0x3c
+    278  COO_CANmodule              0x20000554   Lc    3  Data  De   0x2c
+    279  COO_CANmodule_rxArray      0x20000580   Lc    3  Data  De   0xc0
+    280  COO_CANmodule_txArray      0x20000640   Lc    3  Data  De   0xc0
+    281  COO_NMT                    0x20000700   Lc    3  Data  De   0x30
+    282  COO_HBcons                 0x20000730   Lc    3  Data  De   0x20
+    283  COO_HBconsMonitoredNodes   0x20000750   Lc    3  Data  De   0x80
+    284  COO_EM                     0x200007d0   Lc    3  Data  De   0x54
+    285  COO_EM_FIFO                0x20000824   Lc    3  Data  De   0x88
+    286  COO_SDOserver              0x200008ac   Lc    3  Data  De   0x8c
+    287  COO_TIME                   0x20000938   Lc    3  Data  De   0x24
+    288  COO_SYNC                   0x2000095c   Lc    3  Data  De   0x24
+    289  COO_RPDO                   0x20000980   Lc    3  Data  De   0x590
+    290  COO_TPDO                   0x20000f10   Lc    3  Data  De   0x6cc
+    291  COO_LEDs                   0x200015dc   Lc    3  Data  De   0xc
+    292  ..\CANopenNode\301\CO_Emergency.c
+                                    0x00000000   Lc  Abs  File  De 
+    293  i.CO_EM_init               0x080013d4   Lc    1  Sect  De 
+    294  i.CO_EM_process            0x08001540   Lc    1  Sect  De 
+    295  i.CO_error                 0x080034ec   Lc    1  Sect  De 
+    296  i.CO_setUint32             0x08003902   Lc    1  Sect  De 
+    297  CO_setUint32               0x08003903   Lc    1  Code  De   0x12
+    298  i.OD_extension_init        0x08003cb4   Lc    1  Sect  De 
+    299  OD_extension_init          0x08003cb5   Lc    1  Code  De   0xe
+    300  i.OD_getIndex              0x08003d2a   Lc    1  Sect  De 
+    301  OD_getIndex                0x08003d2b   Lc    1  Code  De   0xc
+    302  i.OD_read_1003             0x08004044   Lc    1  Sect  De 
+    303  OD_read_1003               0x08004045   Lc    1  Code  De   0x96
+    304  i.OD_read_1014             0x080040da   Lc    1  Sect  De 
+    305  OD_read_1014               0x080040db   Lc    1  Code  De   0x5c
+    306  i.OD_write_1003            0x08004270   Lc    1  Sect  De 
+    307  OD_write_1003              0x08004271   Lc    1  Code  De   0x48
+    308  i.OD_write_1014            0x080042b8   Lc    1  Sect  De 
+    309  OD_write_1014              0x080042b9   Lc    1  Code  De   0xfe
+    310  ..\CANopenNode\301\CO_fifo.c
+                                    0x00000000   Lc  Abs  File  De 
+    311  ..\CANopenNode\301\CO_HBconsumer.c
+                                    0x00000000   Lc  Abs  File  De 
+    312  i.CO_HBcons_receive        0x080016e6   Lc    1  Sect  De 
+    313  CO_HBcons_receive          0x080016e7   Lc    1  Code  De   0x1a
+    314  i.CO_HBconsumer_init       0x08001700   Lc    1  Sect  De 
+    315  i.CO_HBconsumer_initEntry  0x080017e0   Lc    1  Sect  De 
+    316  CO_HBconsumer_initEntry    0x080017e1   Lc    1  Code  De   0xcc
+    317  i.CO_HBconsumer_process    0x080018b0   Lc    1  Sect  De 
+    318  i.OD_getIndex              0x08003d36   Lc    1  Sect  De 
+    319  OD_getIndex                0x08003d37   Lc    1  Code  De   0xc
+    320  ..\CANopenNode\301\CO_NMT_Heartbeat.c
+                                    0x00000000   Lc  Abs  File  De 
+    321  i.CO_NMT_init              0x08001c58   Lc    1  Sect  De 
+    322  i.CO_NMT_process           0x08001d7c   Lc    1  Sect  De 
+    323  i.CO_NMT_receive           0x08001efc   Lc    1  Sect  De 
+    324  CO_NMT_receive             0x08001efd   Lc    1  Code  De   0x1c
+    325  i.CO_isError               0x080035de   Lc    1  Sect  De 
+    326  CO_isError                 0x080035df   Lc    1  Code  De   0x24
+    327  i.OD_getIndex              0x08003d42   Lc    1  Sect  De 
+    328  OD_getIndex                0x08003d43   Lc    1  Code  De   0xc
+    329  i.OD_write_1017            0x080043bc   Lc    1  Sect  De 
+    330  OD_write_1017              0x080043bd   Lc    1  Code  De   0x50
+    331  ..\CANopenNode\301\CO_Node_Guarding.c
+                                    0x00000000   Lc  Abs  File  De 
+    332  ..\CANopenNode\301\CO_ODinterface.c
+                                    0x00000000   Lc  Abs  File  De 
+    333  i.OD_find                  0x08003cc2   Lc    1  Sect  De 
+    334  i.OD_getPtr                0x08003d66   Lc    1  Sect  De 
+    335  i.OD_getSDOabCode          0x08003db0   Lc    1  Sect  De 
+    336  i.OD_getSub                0x08003dcc   Lc    1  Sect  De 
+    337  i.OD_get_value             0x08003f74   Lc    1  Sect  De 
+    338  i.OD_readDisabled          0x08003fcc   Lc    1  Sect  De 
+    339  OD_readDisabled            0x08003fcd   Lc    1  Code  De   0x8
+    340  i.OD_readOriginal          0x08003fd4   Lc    1  Sect  De 
+    341  i.OD_set_value             0x08004180   Lc    1  Sect  De 
+    342  i.OD_writeDisabled         0x080041d8   Lc    1  Sect  De 
+    343  OD_writeDisabled           0x080041d9   Lc    1  Code  De   0x8
+    344  i.OD_writeOriginal         0x080041e0   Lc    1  Sect  De 
+    345  .constdata                 0x08005d88   Lc    1  Sect  De   0x68
+    346  abortCodes                 0x08005d88   Lc    1  Data  De   0x68
+    347  ..\CANopenNode\301\CO_PDO.c
+                                    0x00000000   Lc  Abs  File  De 
+    348  i.CO_PDO_receive           0x08001f18   Lc    1  Sect  De 
+    349  CO_PDO_receive             0x08001f19   Lc    1  Code  De   0x8c
+    350  i.CO_RPDO_init             0x08001fa4   Lc    1  Sect  De 
+    351  i.CO_RPDO_process          0x08002128   Lc    1  Sect  De 
+    352  i.CO_TPDO_init             0x0800309c   Lc    1  Sect  De 
+    353  i.CO_TPDO_process          0x08003270   Lc    1  Sect  De 
+    354  i.CO_TPDOsend              0x080033d8   Lc    1  Sect  De 
+    355  CO_TPDOsend                0x080033d9   Lc    1  Code  De   0x114
+    356  i.OD_getIndex              0x08003d4e   Lc    1  Sect  De 
+    357  OD_getIndex                0x08003d4f   Lc    1  Code  De   0xc
+    358  i.OD_get_u16               0x08003f0c   Lc    1  Sect  De 
+    359  OD_get_u16                 0x08003f0d   Lc    1  Code  De   0x1a
+    360  i.OD_get_u32               0x08003f26   Lc    1  Sect  De 
+    361  OD_get_u32                 0x08003f27   Lc    1  Code  De   0x1a
+    362  i.OD_get_u8                0x08003f5a   Lc    1  Sect  De 
+    363  OD_get_u8                  0x08003f5b   Lc    1  Code  De   0x1a
+    364  i.OD_read_dummy            0x08004136   Lc    1  Sect  De 
+    365  OD_read_dummy              0x08004137   Lc    1  Code  De   0x2e
+    366  i.OD_write_dummy           0x0800440c   Lc    1  Sect  De 
+    367  OD_write_dummy             0x0800440d   Lc    1  Code  De   0xc
+    368  i.PDO_initMapping          0x08004418   Lc    1  Sect  De 
+    369  PDO_initMapping            0x08004419   Lc    1  Code  De   0xf2
+    370  i.PDOconfigMap             0x0800450c   Lc    1  Sect  De 
+    371  PDOconfigMap               0x0800450d   Lc    1  Code  De   0xf4
+    372  ..\CANopenNode\301\CO_SDOclient.c
+                                    0x00000000   Lc  Abs  File  De 
+    373  ..\CANopenNode\301\CO_SDOserver.c
+                                    0x00000000   Lc  Abs  File  De 
+    374  i.CO_SDO_receive           0x08002306   Lc    1  Sect  De 
+    375  CO_SDO_receive             0x08002307   Lc    1  Code  De   0x3c
+    376  i.CO_SDOserver_init        0x08002342   Lc    1  Sect  De 
+    377  i.CO_SDOserver_init_canRxTx
+                                    0x080024a4   Lc    1  Sect  De 
+    378  CO_SDOserver_init_canRxTx  0x080024a5   Lc    1  Code  De   0x8e
+    379  i.CO_SDOserver_process     0x08002538   Lc    1  Sect  De 
+    380  i.OD_get_u32               0x08003f40   Lc    1  Sect  De 
+    381  OD_get_u32                 0x08003f41   Lc    1  Code  De   0x1a
+    382  i.OD_set_u32               0x08004164   Lc    1  Sect  De 
+    383  OD_set_u32                 0x08004165   Lc    1  Code  De   0x1c
+    384  i.readFromOd               0x080051d0   Lc    1  Sect  De 
+    385  readFromOd                 0x080051d1   Lc    1  Code  De   0xea
+    386  i.validateAndWriteToOD     0x08005420   Lc    1  Sect  De 
+    387  validateAndWriteToOD       0x08005421   Lc    1  Code  De   0x14a
+    388  ..\CANopenNode\301\CO_SYNC.c
+                                    0x00000000   Lc  Abs  File  De 
+    389  i.CO_SYNC_init             0x08002c9c   Lc    1  Sect  De 
+    390  i.CO_SYNC_process          0x08002de0   Lc    1  Sect  De 
+    391  i.CO_SYNC_receive          0x08002eca   Lc    1  Sect  De 
+    392  CO_SYNC_receive            0x08002ecb   Lc    1  Code  De   0x48
+    393  i.OD_getIndex              0x08003d5a   Lc    1  Sect  De 
+    394  OD_getIndex                0x08003d5b   Lc    1  Code  De   0xc
+    395  ..\CANopenNode\301\CO_TIME.c
+                                    0x00000000   Lc  Abs  File  De 
+    396  i.CO_TIME_init             0x08002f14   Lc    1  Sect  De 
+    397  i.CO_TIME_initCallbackPre  0x08002fc4   Lc    1  Sect  De 
+    398  i.CO_TIME_process          0x08002fcc   Lc    1  Sect  De 
+    399  i.CO_TIME_receive          0x08003068   Lc    1  Sect  De 
+    400  CO_TIME_receive            0x08003069   Lc    1  Code  De   0x34
+    401  ..\CANopenNode\301\crc16-ccitt.c
+                                    0x00000000   Lc  Abs  File  De 
+    402  ..\CANopenNode\303\CO_LEDs.c
+                                    0x00000000   Lc  Abs  File  De 
+    403  i.CO_LEDs_init             0x080019c8   Lc    1  Sect  De 
+    404  i.CO_LEDs_process          0x080019de   Lc    1  Sect  De 
+    405  ..\B5_TEMP\gy641.c         0x00000000   Lc  Abs  File  De 
+    406  i.gy641_feed               0x08004fb8   Lc    1  Sect  De 
+    407  i.gy641_object             0x0800508c   Lc    1  Sect  De 
+    408  .constdata                 0x08005df0   Lc    1  Sect  De   0x4
+    409  header                     0x08005df0   Lc    1  Data  De   0x4
+    410  ..\\B5_TEMP\\b_temperature.c
+                                    0x00000000   Lc  Abs  File  De 
+    411  ..\B5_TEMP\b_temperature.c 0x00000000   Lc  Abs  File  De 
+    412  i.BTemp_Get                0x08000454   Lc    1  Sect  De 
+    413  i.BTemp_Init               0x0800047c   Lc    1  Sect  De 
+    414  i.BTemp_Task               0x0800054c   Lc    1  Sect  De 
+    415  i.UART4_IRQHandler         0x08004b14   Lc    1  Sect  De 
+    416  .bss                       0x200015e8   Lc    3  Sect  De   0x440
+    417  rx                         0x200015e8   Lc    3  Data  De   0x400
+    418  .data                      0x200004cc   Lc    2  Sect  De   0xc
+    419  head                       0x200004cc   Lc    2  Data  De   0x4
+    420  tail                       0x200004d0   Lc    2  Data  De   0x4
+    421  broken                     0x200004d4   Lc    2  Data  De   0x4
+    422  ..\\B5_TEMP\\b_temp_screen.c
+                                    0x00000000   Lc  Abs  File  De 
+    423  ..\B5_TEMP\b_temp_screen.c 0x00000000   Lc  Abs  File  De 
+    424  i.BTempScreen_Init         0x080002fc   Lc    1  Sect  De 
+    425  i.BTempScreen_Refresh      0x080003c4   Lc    1  Sect  De 
+    426  .constdata                 0x08005df4   Lc    1  Sect  De   0x12
+    427  object_label               0x08005df4   Lc    1  Data  De   0x9
+    428  invalid_label              0x08005dfd   Lc    1  Data  De   0x9
+    429  .data                      0x200004d8   Lc    2  Sect  De   0x1
+    430  selected                   0x200004d8   Lc    2  Data  De   0x1
+    431  ../clib/microlib/init/entry.s
+                                    0x00000000   Lc  Abs  File  De 
+    432  .ARM.Collect$$$$00000000   0x08000188   Lc    1  Sect  De 
+    433  dc.s                       0x00000000   Lc  Abs  File  De 
+    434  ../clib/microlib/string/memcpy.c
+                                    0x00000000   Lc  Abs  File  De 
+    435  ../clib/microlib/string/memcpy.c
+                                    0x00000000   Lc  Abs  File  De 
+    436  .text                      0x080001c4   Lc    1  Sect  De 
+    437  ../clib/microlib/string/memset.c
+                                    0x00000000   Lc  Abs  File  De 
+    438  .text                      0x08000204   Lc    1  Sect  De 
+    439  ../clib/microlib/string/strlen.c
+                                    0x00000000   Lc  Abs  File  De 
+    440  .text                      0x08000228   Lc    1  Sect  De 
+    441  ../clib/microlib/string/memcpy.c
+                                    0x00000000   Lc  Abs  File  De 
+    442  ../clib/microlib/string/memcpy.c
+                                    0x00000000   Lc  Abs  File  De 
+    443  ../clib/microlib/printf/printf.c
+                                    0x00000000   Lc  Abs  File  De 
+    444  ../clib/microlib/printf/printf.c
+                                    0x00000000   Lc  Abs  File  De 
+    445  ../clib/microlib/printf/printf.c
+                                    0x00000000   Lc  Abs  File  De 
+    446  i.__0sprintf$1             0x08004e10   Lc    1  Sect  De 
+    447  i._printf_core             0x08004e58   Lc    1  Sect  De 
+    448  _printf_core               0x08004e59   Lc    1  Code  De   0x150
+    449  i._sputc                   0x08004fac   Lc    1  Sect  De 
+    450  _sputc                     0x08004fad   Lc    1  Code  De   0xa
+    451  ../clib/microlib/printf/printf.c
+                                    0x00000000   Lc  Abs  File  De 
+    452  ../clib/microlib/printf/printf.c
+                                    0x00000000   Lc  Abs  File  De 
+    453  ../clib/microlib/printf/printf.c
+                                    0x00000000   Lc  Abs  File  De 
+    454  ../clib/microlib/printf/printf.c
+                                    0x00000000   Lc  Abs  File  De 
+    455  ../clib/microlib/printf/printf.c
+                                    0x00000000   Lc  Abs  File  De 
+    456  ../clib/microlib/printf/printf.c
+                                    0x00000000   Lc  Abs  File  De 
+    457  ../clib/microlib/printf/printf.c
+                                    0x00000000   Lc  Abs  File  De 
+    458  ../clib/microlib/printf/printf.c
+                                    0x00000000   Lc  Abs  File  De 
+    459  ../clib/microlib/printf/stubs.s
+                                    0x00000000   Lc  Abs  File  De 
+    460  ../clib/microlib/init/entry.s
+                                    0x00000000   Lc  Abs  File  De 
+    461  .ARM.Collect$$$$00000001   0x08000188   Lc    1  Sect  De   0x4
+    462  .ARM.Collect$$$$00002712   0x0800019c   Lc    1  Sect  De   0x4
+    463  __lit__00000000            0x0800019c   Lc    1  Data  De   0x4
+    464  ../clib/microlib/init/entry.s
+                                    0x00000000   Lc  Abs  File  De 
+    465  .ARM.Collect$$$$00000004   0x0800018c   Lc    1  Sect  De   0x4
+    466  ../clib/microlib/init/entry.s
+                                    0x00000000   Lc  Abs  File  De 
+    467  ../clib/microlib/init/entry.s
+                                    0x00000000   Lc  Abs  File  De 
+    468  .ARM.Collect$$$$00000008   0x08000190   Lc    1  Sect  De 
+    469  ../clib/microlib/init/entry.s
+                                    0x00000000   Lc  Abs  File  De 
+    470  ../clib/microlib/init/entry.s
+                                    0x00000000   Lc  Abs  File  De 
+    471  .ARM.Collect$$$$0000000A   0x08000190   Lc    1  Sect  De 
+    472  ../clib/microlib/init/entry.s
+                                    0x00000000   Lc  Abs  File  De 
+    473  .ARM.Collect$$$$0000000B   0x08000190   Lc    1  Sect  De   0x8
+    474  ../clib/microlib/init/entry.s
+                                    0x00000000   Lc  Abs  File  De 
+    475  ../clib/microlib/init/entry.s
+                                    0x00000000   Lc  Abs  File  De 
+    476  .ARM.Collect$$$$0000000F   0x0800019c   Lc    1  Sect  De 
+    477  ../clib/microlib/init/entry.s
+                                    0x00000000   Lc  Abs  File  De 
+    478  ../clib/microlib/init/entry.s
+                                    0x00000000   Lc  Abs  File  De 
+    479  .ARM.Collect$$$$00000011   0x0800019c   Lc    1  Sect  De 
+    480  ../clib/microlib/init/entry.s
+                                    0x00000000   Lc  Abs  File  De 
+    481  ../clib/microlib/init/entry.s
+                                    0x00000000   Lc  Abs  File  De 
+    482  ../clib/microlib/init/entry.s
+                                    0x00000000   Lc  Abs  File  De 
+    483  .ARM.Collect$$$$0000000E   0x08000198   Lc    1  Sect  De   0x4
+    484  ../clib/microlib/stdio/fputc.c
+                                    0x00000000   Lc  Abs  File  De 
+    485  ../clib/microlib/stdio/streams.c
+                                    0x00000000   Lc  Abs  File  De 
+    486  ../clib/microlib/division.c
+                                    0x00000000   Lc  Abs  File  De 
+    487  .text                      0x08000236   Lc    1  Sect  De 
+    488  ../clib/microlib/division.c
+                                    0x00000000   Lc  Abs  File  De 
+    489  ../clib/microlib/stubs.s   0x00000000   Lc  Abs  File  De 
+    490  ../fplib/microlib/fpadd.c  0x00000000   Lc  Abs  File  De 
+    491  ../fplib/microlib/fpmul.c  0x00000000   Lc  Abs  File  De 
+    492  ../fplib/microlib/fpdiv.c  0x00000000   Lc  Abs  File  De 
+    493  ../fplib/microlib/fpfix.c  0x00000000   Lc  Abs  File  De 
+    494  cdrcmple.s                 0x00000000   Lc  Abs  File  De 
+    495  init.s                     0x00000000   Lc  Abs  File  De 
+    496  .text                      0x08000264   Lc    1  Sect  De   0x24
+    497  ../clib/microlib/stdio/semi.s
+                                    0x00000000   Lc  Abs  File  De 
+    498  ../clib/microlib/longlong.c
+                                    0x00000000   Lc  Abs  File  De 
+    499  ../clib/microlib/longlong.c
+                                    0x00000000   Lc  Abs  File  De 
+    500  ../clib/microlib/longlong.c
+                                    0x00000000   Lc  Abs  File  De 
+    501  ../clib/microlib/stubs.s   0x00000000   Lc  Abs  File  De 
+    502  ../fplib/microlib/fpepilogue.c
+                                    0x00000000   Lc  Abs  File  De 
+    503  handlers.s                 0x00000000   Lc  Abs  File  De 
+    504  i.__scatterload_copy       0x08004e38   Lc    1  Sect  De   0xe
+    505  i.__scatterload_null       0x08004e46   Lc    1  Sect  De   0x2
+    506  i.__scatterload_zeroinit   0x08004e48   Lc    1  Sect  De   0xe
+    507  ../clib/../cmprslib/zerorunl2.c
+                                    0x00000000   Lc  Abs  File  De 
+    508  .text                      0x08000288   Lc    1  Sect  De 
+    509  BuildAttributes$$THM_ISAv4$E$P$D$K$B$S$7EM$VFPi3$EXTD16$VFPS$VFMA$PE$A:L22UL41UL21$X:L11$S22US41US21$IEEE1$IW$USESV6$~STKCKD$USESV7$~SHL$OSPACE$ROPI$EBA8$MICROLIB$REQ8$PRES8$EABIv2
+                                    0x00000000   Gb  Abs   --   Hi 
+    510  __ARM_use_no_argv          0x00000000   Gb  Abs   --   Hi 
+    511  _printf_a                  0x00000000   Gb  Abs   --   Hi 
+    512  _printf_c                  0x00000000   Gb  Abs   --   Hi 
+    513  _printf_charcount          0x00000000   Gb  Abs   --   Hi 
+    514  _printf_d                  0x00000000   Gb  Abs   --   Hi 
+    515  _printf_e                  0x00000000   Gb  Abs   --   Hi 
+    516  _printf_f                  0x00000000   Gb  Abs   --   Hi 
+    517  _printf_flags              0x00000000   Gb  Abs   --   Hi 
+    518  _printf_fp_dec             0x00000000   Gb  Abs   --   Hi 
+    519  _printf_fp_hex             0x00000000   Gb  Abs   --   Hi 
+    520  _printf_g                  0x00000000   Gb  Abs   --   Hi 
+    521  _printf_i                  0x00000000   Gb  Abs   --   Hi 
+    522  _printf_int_dec            0x00000000   Gb  Abs   --   Hi 
+    523  _printf_l                  0x00000000   Gb  Abs   --   Hi 
+    524  _printf_lc                 0x00000000   Gb  Abs   --   Hi 
+    525  _printf_ll                 0x00000000   Gb  Abs   --   Hi 
+    526  _printf_lld                0x00000000   Gb  Abs   --   Hi 
+    527  _printf_lli                0x00000000   Gb  Abs   --   Hi 
+    528  _printf_llo                0x00000000   Gb  Abs   --   Hi 
+    529  _printf_llu                0x00000000   Gb  Abs   --   Hi 
+    530  _printf_llx                0x00000000   Gb  Abs   --   Hi 
+    531  _printf_longlong_dec       0x00000000   Gb  Abs   --   Hi 
+    532  _printf_longlong_hex       0x00000000   Gb  Abs   --   Hi 
+    533  _printf_longlong_oct       0x00000000   Gb  Abs   --   Hi 
+    534  _printf_ls                 0x00000000   Gb  Abs   --   Hi 
+    535  _printf_mbtowc             0x00000000   Gb  Abs   --   Hi 
+    536  _printf_n                  0x00000000   Gb  Abs   --   Hi 
+    537  _printf_o                  0x00000000   Gb  Abs   --   Hi 
+    538  _printf_p                  0x00000000   Gb  Abs   --   Hi 
+    539  _printf_percent            0x00000000   Gb  Abs   --   Hi 
+    540  _printf_pre_padding        0x00000000   Gb  Abs   --   Hi 
+    541  _printf_return_value       0x00000000   Gb  Abs   --   Hi 
+    542  _printf_s                  0x00000000   Gb  Abs   --   Hi 
+    543  _printf_sizespec           0x00000000   Gb  Abs   --   Hi 
+    544  _printf_str                0x00000000   Gb  Abs   --   Hi 
+    545  _printf_truncate_signed    0x00000000   Gb  Abs   --   Hi 
+    546  _printf_truncate_unsigned  0x00000000   Gb  Abs   --   Hi 
+    547  _printf_u                  0x00000000   Gb  Abs   --   Hi 
+    548  _printf_wc                 0x00000000   Gb  Abs   --   Hi 
+    549  _printf_wctomb             0x00000000   Gb  Abs   --   Hi 
+    550  _printf_widthprec          0x00000000   Gb  Abs   --   Hi 
+    551  _printf_x                  0x00000000   Gb  Abs   --   Hi 
+    552  __Vectors_Size             0x00000188   Gb  Abs   --   Hi 
+    553  __Vectors                  0x08000000   Gb    1  Data  Hi   0x4
+    554  __Vectors_End              0x08000188   Gb    1  Data  Hi 
+    555  __main                     0x08000189   Gb    1  Code  Hi 
+    556  _main_stk                  0x08000189   Gb    1  Code  Hi 
+    557  _main_scatterload          0x0800018d   Gb    1  Code  Hi 
+    558  __main_after_scatterload   0x08000191   Gb    1  Code  Hi 
+    559  _main_clock                0x08000191   Gb    1  Code  Hi 
+    560  _main_cpp_init             0x08000191   Gb    1  Code  Hi 
+    561  _main_init                 0x08000191   Gb    1  Code  Hi 
+    562  __rt_lib_shutdown_fini     0x08000199   Gb    1  Code  Hi 
+    563  __rt_final_cpp             0x0800019d   Gb    1  Code  Hi 
+    564  __rt_final_exit            0x0800019d   Gb    1  Code  Hi 
+    565  Reset_Handler              0x080001a1   Wk    1  Code  Hi   0x8
+    566  NMI_Handler                0x080001a9   Wk    1  Code  Hi   0x2
+    567  HardFault_Handler          0x080001ab   Wk    1  Code  Hi   0x2
+    568  MemManage_Handler          0x080001ad   Wk    1  Code  Hi   0x2
+    569  BusFault_Handler           0x080001af   Wk    1  Code  Hi   0x2
+    570  UsageFault_Handler         0x080001b1   Wk    1  Code  Hi   0x2
+    571  SVC_Handler                0x080001b3   Wk    1  Code  Hi   0x2
+    572  DebugMon_Handler           0x080001b5   Wk    1  Code  Hi   0x2
+    573  PendSV_Handler             0x080001b7   Wk    1  Code  Hi   0x2
+    574  SysTick_Handler            0x080001b9   Wk    1  Code  Hi   0x2
+    575  ADC_IRQHandler             0x080001bb   Wk    1  Code  Hi 
+    576  CAN1_RX1_IRQHandler        0x080001bb   Wk    1  Code  Hi 
+    577  CAN2_RX0_IRQHandler        0x080001bb   Wk    1  Code  Hi 
+    578  CAN2_RX1_IRQHandler        0x080001bb   Wk    1  Code  Hi 
+    579  CAN2_SCE_IRQHandler        0x080001bb   Wk    1  Code  Hi 
+    580  CAN2_TX_IRQHandler         0x080001bb   Wk    1  Code  Hi 
+    581  CRYP_IRQHandler            0x080001bb   Wk    1  Code  Hi 
+    582  DCMI_IRQHandler            0x080001bb   Wk    1  Code  Hi 
+    583  DMA1_Stream0_IRQHandler    0x080001bb   Wk    1  Code  Hi 
+    584  DMA1_Stream1_IRQHandler    0x080001bb   Wk    1  Code  Hi 
+    585  DMA1_Stream2_IRQHandler    0x080001bb   Wk    1  Code  Hi 
+    586  DMA1_Stream3_IRQHandler    0x080001bb   Wk    1  Code  Hi 
+    587  DMA1_Stream4_IRQHandler    0x080001bb   Wk    1  Code  Hi 
+    588  DMA1_Stream5_IRQHandler    0x080001bb   Wk    1  Code  Hi 
+    589  DMA1_Stream6_IRQHandler    0x080001bb   Wk    1  Code  Hi 
+    590  DMA1_Stream7_IRQHandler    0x080001bb   Wk    1  Code  Hi 
+    591  DMA2_Stream0_IRQHandler    0x080001bb   Wk    1  Code  Hi 
+    592  DMA2_Stream1_IRQHandler    0x080001bb   Wk    1  Code  Hi 
+    593  DMA2_Stream2_IRQHandler    0x080001bb   Wk    1  Code  Hi 
+    594  DMA2_Stream3_IRQHandler    0x080001bb   Wk    1  Code  Hi 
+    595  DMA2_Stream4_IRQHandler    0x080001bb   Wk    1  Code  Hi 
+    596  DMA2_Stream5_IRQHandler    0x080001bb   Wk    1  Code  Hi 
+    597  DMA2_Stream6_IRQHandler    0x080001bb   Wk    1  Code  Hi 
+    598  DMA2_Stream7_IRQHandler    0x080001bb   Wk    1  Code  Hi 
+    599  ETH_IRQHandler             0x080001bb   Wk    1  Code  Hi 
+    600  ETH_WKUP_IRQHandler        0x080001bb   Wk    1  Code  Hi 
+    601  EXTI0_IRQHandler           0x080001bb   Wk    1  Code  Hi 
+    602  EXTI15_10_IRQHandler       0x080001bb   Wk    1  Code  Hi 
+    603  EXTI1_IRQHandler           0x080001bb   Wk    1  Code  Hi 
+    604  EXTI2_IRQHandler           0x080001bb   Wk    1  Code  Hi 
+    605  EXTI3_IRQHandler           0x080001bb   Wk    1  Code  Hi 
+    606  EXTI4_IRQHandler           0x080001bb   Wk    1  Code  Hi 
+    607  EXTI9_5_IRQHandler         0x080001bb   Wk    1  Code  Hi 
+    608  FLASH_IRQHandler           0x080001bb   Wk    1  Code  Hi 
+    609  FPU_IRQHandler             0x080001bb   Wk    1  Code  Hi 
+    610  FSMC_IRQHandler            0x080001bb   Wk    1  Code  Hi 
+    611  HASH_RNG_IRQHandler        0x080001bb   Wk    1  Code  Hi 
+    612  I2C1_ER_IRQHandler         0x080001bb   Wk    1  Code  Hi 
+    613  I2C1_EV_IRQHandler         0x080001bb   Wk    1  Code  Hi 
+    614  I2C2_ER_IRQHandler         0x080001bb   Wk    1  Code  Hi 
+    615  I2C2_EV_IRQHandler         0x080001bb   Wk    1  Code  Hi 
+    616  I2C3_ER_IRQHandler         0x080001bb   Wk    1  Code  Hi 
+    617  I2C3_EV_IRQHandler         0x080001bb   Wk    1  Code  Hi 
+    618  OTG_FS_IRQHandler          0x080001bb   Wk    1  Code  Hi 
+    619  OTG_FS_WKUP_IRQHandler     0x080001bb   Wk    1  Code  Hi 
+    620  OTG_HS_EP1_IN_IRQHandler   0x080001bb   Wk    1  Code  Hi 
+    621  OTG_HS_EP1_OUT_IRQHandler  0x080001bb   Wk    1  Code  Hi 
+    622  OTG_HS_IRQHandler          0x080001bb   Wk    1  Code  Hi 
+    623  OTG_HS_WKUP_IRQHandler     0x080001bb   Wk    1  Code  Hi 
+    624  PVD_IRQHandler             0x080001bb   Wk    1  Code  Hi 
+    625  RCC_IRQHandler             0x080001bb   Wk    1  Code  Hi 
+    626  RTC_Alarm_IRQHandler       0x080001bb   Wk    1  Code  Hi 
+    627  RTC_WKUP_IRQHandler        0x080001bb   Wk    1  Code  Hi 
+    628  SDIO_IRQHandler            0x080001bb   Wk    1  Code  Hi 
+    629  SPI1_IRQHandler            0x080001bb   Wk    1  Code  Hi 
+    630  SPI2_IRQHandler            0x080001bb   Wk    1  Code  Hi 
+    631  SPI3_IRQHandler            0x080001bb   Wk    1  Code  Hi 
+    632  TAMP_STAMP_IRQHandler      0x080001bb   Wk    1  Code  Hi 
+    633  TIM1_BRK_TIM9_IRQHandler   0x080001bb   Wk    1  Code  Hi 
+    634  TIM1_CC_IRQHandler         0x080001bb   Wk    1  Code  Hi 
+    635  TIM1_TRG_COM_TIM11_IRQHandler
+                                    0x080001bb   Wk    1  Code  Hi 
+    636  TIM1_UP_TIM10_IRQHandler   0x080001bb   Wk    1  Code  Hi 
+    637  TIM3_IRQHandler            0x080001bb   Wk    1  Code  Hi 
+    638  TIM4_IRQHandler            0x080001bb   Wk    1  Code  Hi 
+    639  TIM5_IRQHandler            0x080001bb   Wk    1  Code  Hi 
+    640  TIM6_DAC_IRQHandler        0x080001bb   Wk    1  Code  Hi 
+    641  TIM7_IRQHandler            0x080001bb   Wk    1  Code  Hi 
+    642  TIM8_BRK_TIM12_IRQHandler  0x080001bb   Wk    1  Code  Hi 
+    643  TIM8_CC_IRQHandler         0x080001bb   Wk    1  Code  Hi 
+    644  TIM8_TRG_COM_TIM14_IRQHandler
+                                    0x080001bb   Wk    1  Code  Hi 
+    645  TIM8_UP_TIM13_IRQHandler   0x080001bb   Wk    1  Code  Hi 
+    646  UART5_IRQHandler           0x080001bb   Wk    1  Code  Hi 
+    647  USART1_IRQHandler          0x080001bb   Wk    1  Code  Hi 
+    648  USART2_IRQHandler          0x080001bb   Wk    1  Code  Hi 
+    649  USART3_IRQHandler          0x080001bb   Wk    1  Code  Hi 
+    650  USART6_IRQHandler          0x080001bb   Wk    1  Code  Hi 
+    651  WWDG_IRQHandler            0x080001bb   Wk    1  Code  Hi 
+    652  ___aeabi_memcpy8$move      0x080001c5   Gb    1  Code  Hi 
+    653  __aeabi_memcpy             0x080001c5   Gb    1  Code  Hi   0x40
+    654  __aeabi_memcpy4            0x080001c5   Gb    1  Code  Hi 
+    655  __aeabi_memmove            0x080001c5   Gb    1  Code  Hi 
+    656  __aeabi_memmove4           0x080001c5   Gb    1  Code  Hi 
+    657  __aeabi_memmove8           0x080001c5   Gb    1  Code  Hi 
+    658  __aeabi_memset             0x08000205   Gb    1  Code  Hi   0xe
+    659  __aeabi_memset4            0x08000205   Gb    1  Code  Hi 
+    660  __aeabi_memset8            0x08000205   Gb    1  Code  Hi 
+    661  __aeabi_memclr             0x08000213   Gb    1  Code  Hi   0x4
+    662  __aeabi_memclr4            0x08000213   Gb    1  Code  Hi 
+    663  __aeabi_memclr8            0x08000213   Gb    1  Code  Hi 
+    664  _memset$wrapper            0x08000217   Gb    1  Code  Hi   0x12
+    665  strlen                     0x08000229   Gb    1  Code  Hi   0xe
+    666  __aeabi_uidiv              0x08000237   Gb    1  Code  Hi 
+    667  __aeabi_uidivmod           0x08000237   Gb    1  Code  Hi   0x2c
+    668  __scatterload              0x08000265   Gb    1  Code  Hi   0x1c
+    669  __scatterload_rt2          0x08000265   Gb    1  Code  Hi 
+    670  __decompress               0x08000289   Gb    1  Code  Hi 
+    671  __decompress1              0x08000289   Gb    1  Code  Hi   0x56
+    672  BCan_Interrupt             0x080002e1   Gb    1  Code  Hi   0x14
+    673  BTempScreen_Init           0x080002fd   Gb    1  Code  Hi   0xb2
+    674  BTempScreen_Refresh        0x080003c5   Gb    1  Code  Hi   0x72
+    675  BTemp_Get                  0x08000455   Gb    1  Code  Hi   0x20
+    676  BTemp_Init                 0x0800047d   Gb    1  Code  Hi   0xb6
+    677  BTemp_Task                 0x0800054d   Gb    1  Code  Hi   0x9c
+    678  CAN1_RX0_IRQHandler        0x08000601   Gb    1  Code  Hi   0x8
+    679  CAN1_SCE_IRQHandler        0x08000609   Gb    1  Code  Hi   0x8
+    680  CAN1_TX_IRQHandler         0x08000611   Gb    1  Code  Hi   0x8
+    681  CAN_FilterInit             0x08000619   Gb    1  Code  Hi   0x102
+    682  CAN_ITConfig               0x08000721   Gb    1  Code  Hi   0x12
+    683  CAN_Init                   0x08000733   Gb    1  Code  Hi   0x114
+    684  CAN_Receive                0x08000847   Gb    1  Code  Hi   0xf0
+    685  CAN_Transmit               0x08000937   Gb    1  Code  Hi   0x126
+    686  CO_CANclearPendingSyncPDOs 0x08000a5d   Gb    1  Code  Hi   0x4e
+    687  CO_CANinit                 0x08000aab   Gb    1  Code  Hi   0x36
+    688  CO_CANinterrupt            0x08000ae1   Gb    1  Code  Hi   0x1d2
+    689  CO_CANmodule_disable       0x08000cc9   Gb    1  Code  Hi   0x22
+    690  CO_CANmodule_init          0x08000cf1   Gb    1  Code  Hi   0x1ba
+    691  CO_CANmodule_process       0x08000eb5   Gb    1  Code  Hi   0x86
+    692  CO_CANopenInit             0x08000f49   Gb    1  Code  Hi   0x1ba
+    693  CO_CANopenInitPDO          0x08001109   Gb    1  Code  Hi   0x116
+    694  CO_CANrxBufferInit         0x08001225   Gb    1  Code  Hi   0x5a
+    695  CO_CANsend                 0x08001281   Gb    1  Code  Hi   0xc0
+    696  CO_CANsetConfigurationMode 0x08001345   Gb    1  Code  Hi   0x3e
+    697  CO_CANsetNormalMode        0x08001389   Gb    1  Code  Hi   0x8
+    698  CO_CANtxBufferInit         0x08001391   Gb    1  Code  Hi   0x42
+    699  CO_EM_init                 0x080013d5   Gb    1  Code  Hi   0x158
+    700  CO_EM_process              0x08001541   Gb    1  Code  Hi   0x1a6
+    701  CO_HBconsumer_init         0x08001701   Gb    1  Code  Hi   0xde
+    702  CO_HBconsumer_process      0x080018b1   Gb    1  Code  Hi   0x118
+    703  CO_LEDs_init               0x080019c9   Gb    1  Code  Hi   0x16
+    704  CO_LEDs_process            0x080019df   Gb    1  Code  Hi   0x26a
+    705  CO_NMT_init                0x08001c59   Gb    1  Code  Hi   0x118
+    706  CO_NMT_process             0x08001d7d   Gb    1  Code  Hi   0x180
+    707  CO_RPDO_init               0x08001fa5   Gb    1  Code  Hi   0x180
+    708  CO_RPDO_process            0x08002129   Gb    1  Code  Hi   0x1de
+    709  CO_SDOserver_init          0x08002343   Gb    1  Code  Hi   0x160
+    710  CO_SDOserver_process       0x08002539   Gb    1  Code  Hi   0x760
+    711  CO_SYNC_init               0x08002c9d   Gb    1  Code  Hi   0x140
+    712  CO_SYNC_process            0x08002de1   Gb    1  Code  Hi   0xea
+    713  CO_TIME_init               0x08002f15   Gb    1  Code  Hi   0xac
+    714  CO_TIME_initCallbackPre    0x08002fc5   Gb    1  Code  Hi   0x8
+    715  CO_TIME_process            0x08002fcd   Gb    1  Code  Hi   0x98
+    716  CO_TPDO_init               0x0800309d   Gb    1  Code  Hi   0x1d4
+    717  CO_TPDO_process            0x08003271   Gb    1  Code  Hi   0x168
+    718  CO_error                   0x080034ed   Gb    1  Code  Hi   0xce
+    719  CO_new                     0x08003605   Gb    1  Code  Hi   0x3e
+    720  CO_process                 0x08003681   Gb    1  Code  Hi   0x168
+    721  CO_process_RPDO            0x080037e9   Gb    1  Code  Hi   0x66
+    722  CO_process_SYNC            0x0800384f   Gb    1  Code  Hi   0x68
+    723  CO_process_TPDO            0x080038b7   Gb    1  Code  Hi   0x4c
+    724  CanOpen_Init               0x08003915   Gb    1  Code  Hi   0x52
+    725  CanOpen_Task               0x08003981   Gb    1  Code  Hi   0x198
+    726  GPIO_Init                  0x08003b41   Gb    1  Code  Hi   0x90
+    727  GPIO_PinAFConfig           0x08003bd1   Gb    1  Code  Hi   0x46
+    728  GPIO_StructInit            0x08003c17   Gb    1  Code  Hi   0x12
+    729  NVIC_Init                  0x08003c29   Gb    1  Code  Hi   0x6a
+    730  NVIC_PriorityGroupConfig   0x08003ca1   Gb    1  Code  Hi   0xa
+    731  OD_find                    0x08003cc3   Gb    1  Code  Hi   0x68
+    732  OD_getPtr                  0x08003d67   Gb    1  Code  Hi   0x48
+    733  OD_getSDOabCode            0x08003db1   Gb    1  Code  Hi   0x18
+    734  OD_getSub                  0x08003dcd   Gb    1  Code  Hi   0x130
+    735  OD_get_value               0x08003f75   Gb    1  Code  Hi   0x58
+    736  OD_readOriginal            0x08003fd5   Gb    1  Code  Hi   0x70
+    737  OD_set_value               0x08004181   Gb    1  Code  Hi   0x58
+    738  OD_writeOriginal           0x080041e1   Gb    1  Code  Hi   0x90
+    739  RCC_AHB1PeriphClockCmd     0x08004609   Gb    1  Code  Hi   0x1a
+    740  RCC_APB1PeriphClockCmd     0x08004629   Gb    1  Code  Hi   0x1a
+    741  RCC_APB1PeriphResetCmd     0x08004649   Gb    1  Code  Hi   0x1a
+    742  RCC_APB2PeriphResetCmd     0x08004669   Gb    1  Code  Hi   0x1a
+    743  RCC_GetClocksFreq          0x08004689   Gb    1  Code  Hi   0xd6
+    744  SendChar                   0x08004771   Gb    1  Code  Hi   0x1c
+    745  SendStrings                0x08004791   Gb    1  Code  Hi   0x16
+    746  SetControlVisiable         0x080047a7   Gb    1  Code  Hi   0x52
+    747  SetTextValue               0x080048e5   Gb    1  Code  Hi   0x52
+    748  SystemInit                 0x08004939   Gb    1  Code  Hi   0x58
+    749  TIM2_IRQHandler            0x080049a1   Gb    1  Code  Hi   0x20
+    750  TIM_ClearITPendingBit      0x080049c5   Gb    1  Code  Hi   0x6
+    751  TIM_Cmd                    0x080049cb   Gb    1  Code  Hi   0x18
+    752  TIM_GetITStatus            0x080049e3   Gb    1  Code  Hi   0x22
+    753  TIM_ITConfig               0x08004a05   Gb    1  Code  Hi   0x12
+    754  TIM_TimeBaseInit           0x08004a19   Gb    1  Code  Hi   0x68
+    755  TimeBase_GetMs             0x08004a9d   Gb    1  Code  Hi   0x6
+    756  TimeBase_Init              0x08004aa9   Gb    1  Code  Hi   0x6a
+    757  UART4_IRQHandler           0x08004b15   Gb    1  Code  Hi   0x82
+    758  USART_Cmd                  0x08004bb1   Gb    1  Code  Hi   0x18
+    759  USART_DeInit               0x08004bc9   Gb    1  Code  Hi   0xce
+    760  USART_GetFlagStatus        0x08004cb9   Gb    1  Code  Hi   0x1a
+    761  USART_ITConfig             0x08004cd3   Gb    1  Code  Hi   0x4a
+    762  USART_Init                 0x08004d1d   Gb    1  Code  Hi   0xcc
+    763  USART_SendData             0x08004df1   Gb    1  Code  Hi   0x8
+    764  USART_StructInit           0x08004df9   Gb    1  Code  Hi   0x18
+    765  __0sprintf$1               0x08004e11   Gb    1  Code  Hi   0x22
+    766  __1sprintf$1               0x08004e11   Gb    1  Code  Hi 
+    767  __2sprintf                 0x08004e11   Gb    1  Code  Hi 
+    768  __scatterload_copy         0x08004e39   Gb    1  Code  Hi   0xe
+    769  __scatterload_null         0x08004e47   Gb    1  Code  Hi   0x2
+    770  __scatterload_zeroinit     0x08004e49   Gb    1  Code  Hi   0xe
+    771  gy641_feed                 0x08004fb9   Gb    1  Code  Hi   0xce
+    772  gy641_object               0x0800508d   Gb    1  Code  Hi   0x32
+    773  main                       0x080050bf   Gb    1  Code  Hi   0x3a
+    774  node_can_lock              0x080050f9   Gb    1  Code  Hi   0x22
+    775  node_can_unlock            0x08005121   Gb    1  Code  Hi   0x22
+    776  Region$$Table$$Base        0x08005e08   Gb    1   --   Hi 
+    777  Region$$Table$$Limit       0x08005e28   Gb    1   --   Hi 
+    778  OD_PERSIST_COMM            0x20000038   Gb    2  Data  Hi   0x22c
+    779  OD_RAM                     0x20000264   Gb    2  Data  Hi   0x70
+    780  OD                         0x200004c8   Gb    2  Data  Hi   0x4
+    781  g_b_can                    0x200004ec   Gb    3  Data  Hi   0x2c
+    782  g_b_temp                   0x200019e8   Gb    3  Data  Hi   0x40
+    783  __initial_sp               0x20001e28   Gb    3  Data  Hi 
+
+
+** Section #12 '.strtab' (SHT_STRTAB)
+    Size   : 10284 bytes
+
+
+** Section #13 '.note' (SHT_NOTE)
+    Size   : 28 bytes (alignment 4)
+
+
+** Section #14 '.comment' (SHT_PROGBITS)
+    Size   : 30860 bytes
+
+
+** Section #15 '.shstrtab' (SHT_STRTAB)
+    Size   : 156 bytes
+
+

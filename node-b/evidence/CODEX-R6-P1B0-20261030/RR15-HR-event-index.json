@@ -1,0 +1,99 @@
+{
+  "formal_status": "B5_SEPARATE_RR15_NOT_PASS",
+  "formal_exit_code": 3,
+  "shell_implicit_failure_code_first_review": 1,
+  "B_evaluation_diagnostics": 600,
+  "B_HR_valid_diagnostics": 20,
+  "cloud_unexpected_HR_valid": [
+    {
+      "evaluation_offset_s": 13.93,
+      "value": 52.0,
+      "seq": 83
+    },
+    {
+      "evaluation_offset_s": 53.93,
+      "value": 64.0,
+      "seq": 123
+    },
+    {
+      "evaluation_offset_s": 54.93,
+      "value": 64.0,
+      "seq": 124
+    },
+    {
+      "evaluation_offset_s": 88.93,
+      "value": 82.0,
+      "seq": 158
+    },
+    {
+      "evaluation_offset_s": 89.93,
+      "value": 73.0,
+      "seq": 159
+    },
+    {
+      "evaluation_offset_s": 90.93,
+      "value": 73.0,
+      "seq": 160
+    },
+    {
+      "evaluation_offset_s": 114.93,
+      "value": 38.0,
+      "seq": 184
+    },
+    {
+      "evaluation_offset_s": 165.93,
+      "value": 58.0,
+      "seq": 235
+    },
+    {
+      "evaluation_offset_s": 166.93,
+      "value": 58.0,
+      "seq": 236
+    },
+    {
+      "evaluation_offset_s": 177.93,
+      "value": 39.0,
+      "seq": 247
+    }
+  ],
+  "B_bio_available_diagnostic_fields": [
+    "abi_version",
+    "adc",
+    "clipped_samples",
+    "discontinuities",
+    "ecg_filtered",
+    "ecg_mains_fraction",
+    "ecg_raw",
+    "ecg_rms_codes",
+    "hr",
+    "hr_accepted",
+    "hr_candidates",
+    "hr_fresh_intervals",
+    "hr_last_cycle_ms",
+    "hr_reason",
+    "hr_reason_names",
+    "hr_valid",
+    "last_sample_ms",
+    "last_sequence",
+    "registers_hex",
+    "resp_accepted",
+    "resp_candidates",
+    "resp_filtered",
+    "resp_fresh_intervals",
+    "resp_last_cycle_ms",
+    "resp_mains_fraction",
+    "resp_raw",
+    "resp_rms_codes",
+    "rpm",
+    "rpm_reason",
+    "rpm_reason_names",
+    "rpm_valid",
+    "samples",
+    "segment",
+    "tag"
+  ],
+  "RR_values": [
+    15
+  ],
+  "source": "current raw sealed window only; no new hardware access"
+}

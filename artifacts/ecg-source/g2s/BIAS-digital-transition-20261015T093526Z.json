@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-15 Asia/Shanghai",
+  "scope": "REAL_UART_BIAS_TRANSITION_DIGITAL_ONLY",
+  "operator_probe_short_removed_confirmed": true,
+  "prior_stale_serial_handle_failure_preserved": true,
+  "startup": {
+    "time_utc": "2026-10-15T09:35:02.433108+00:00",
+    "command": "info",
+    "reply": {
+      "ok": true,
+      "fw": "ecg-source-usb-1",
+      "mode": 0,
+      "state": 0,
+      "faults": 0,
+      "console_errors": 0,
+      "core_hz": 168000000,
+      "timer_hz": 84000000,
+      "psc": 0,
+      "arr": 0,
+      "table_length": 0,
+      "completed_tables": 0,
+      "completed_dma_samples": 0,
+      "last_dma_flags": 0,
+      "last_dac_flags": 0
+    }
+  },
+  "BIAS_ack": {
+    "time_utc": "2026-10-15T09:35:26.493566+00:00",
+    "command": "bias",
+    "reply": {
+      "ok": true,
+      "fw": "ecg-source-usb-1",
+      "mode": 1,
+      "state": 1,
+      "faults": 0,
+      "console_errors": 0,
+      "core_hz": 168000000,
+      "timer_hz": 84000000,
+      "psc": 0,
+      "arr": 0,
+      "table_length": 0,
+      "completed_tables": 0,
+      "completed_dma_samples": 0,
+      "last_dma_flags": 0,
+      "last_dac_flags": 0
+    }
+  },
+  "expected_DC_V_conditionally": {
+    "assumed_reference_V": 3.33,
+    "DAC_code": 2048,
+    "calculation": "2048/4096*3.33",
+    "nominal_result_V": 1.665
+  },
+  "physical_DC": "PENDING_OPERATOR_MEASUREMENT",
+  "scope_photo": "PENDING",
+  "not_a_static_analog_PASS": true,
+  "dynamic_modes_started": false
+}

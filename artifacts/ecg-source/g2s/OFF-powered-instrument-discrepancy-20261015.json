@@ -1,0 +1,33 @@
+{
+  "scope": "POWERED_OFF_OPERATOR_INSTRUMENT_DISCREPANCY",
+  "date": "2026-10-15 Asia/Shanghai",
+  "operator_DMM_V": {
+    "PA4_GND": 0.44,
+    "PA5_GND": 0.45
+  },
+  "scope_photo": {
+    "file": "a7cb271155b60a994e463d68dd3f78b0.jpg",
+    "sha256": "9b6353c2ac4027c937b4447f657d4d742a10144abd7efe5d279a90f1ec1172bc",
+    "settings": {
+      "vertical": "1V/div",
+      "probe": "X1",
+      "timebase": "200ms/div",
+      "coupling": "DC",
+      "acquisition": "RUN"
+    },
+    "displayed_values_transcribed_not_validated": {
+      "Vmax_V": 3.36,
+      "Vmin_V": 3.2,
+      "Vpp_mV": 160.0,
+      "Vavg_V": -2.96,
+      "Vrms_V": 4.7,
+      "automatic_frequency_Hz": 10.79,
+      "automatic_period_ms": 116.0
+    }
+  },
+  "interpretation": "DMM and DSO not consistent if same node/reference/time. DSO automatic values also internally inconsistent for near-horizontal trace. No rail or DAC fault conclusion drawn.",
+  "next_step": "Keep source OFF; verify actual measurement nodes and probe reference, then DSO tip-to-ground baseline with input leads detached from source.",
+  "BIAS_started": false,
+  "old_evidence_unchanged": true,
+  "G2S_state": "HOLD_FOR_MEASUREMENT_CHAIN_CHECK"
+}

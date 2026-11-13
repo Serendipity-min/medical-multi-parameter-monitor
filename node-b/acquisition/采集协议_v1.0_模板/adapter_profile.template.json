@@ -1,0 +1,36 @@
+{
+  "protocol_version": "1.0",
+  "record_status": "TEMPLATE_NOT_VERIFIED",
+  "adapter_id": null,
+  "adapter_version": null,
+  "transport_kind": null,
+  "firmware_binding": {
+    "device_model": null,
+    "bin_sha256": null,
+    "elf_sha256": null,
+    "symbol_file_sha256": null,
+    "flash_1mib_sha256": null
+  },
+  "slot_ring": {
+    "slots_addr": null,
+    "slot_bytes": null,
+    "capacity": null,
+    "chunk_bytes": null,
+    "head_addr": null,
+    "tail_addr": null,
+    "status_mask": null,
+    "status_expected": null,
+    "published_tail_window": null
+  },
+  "state_regions": [],
+  "symbol_table": [],
+  "wire_profile": {
+    "profile_id": null,
+    "magic": null,
+    "wire_version": null,
+    "max_payload_len": null,
+    "sample_record_bytes": null,
+    "max_records_per_frame": null
+  },
+  "notes": "待填写的适配配置模板；必须绑定实际核对的 BIN、ELF 与符号文件 SHA-256，严禁将旧固件地址表自动迁移到新固件。"
+}

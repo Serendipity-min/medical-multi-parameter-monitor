@@ -1,0 +1,73 @@
+{
+  "status": "RESTRICTED_EFS_ARCHIVE_PASS",
+  "exit_code": 0,
+  "files": {
+    "frozen-AUTH-B5-G1-RESUME-001-R2.md": {
+      "bytes": 2926,
+      "sha256": "00e8dfe6c1c78467fba137efd0887cd6a13fb611e4c33fbf2a0c71c4143fcc88"
+    },
+    "frozen-b4_recovery.py": {
+      "bytes": 10594,
+      "sha256": "fa93222b833f2f010d068b0cac97c73db7430c7eb68316d84441d60539c76213"
+    },
+    "frozen-b5_g0_readonly.py": {
+      "bytes": 12898,
+      "sha256": "27e743f943e22eb7997c39de4c732f5281552f7717421e43b3173bc42eda58c2"
+    },
+    "frozen-b5_g1_lifecycle_readonly.py": {
+      "bytes": 8163,
+      "sha256": "95b4a581fcb6168e9d366fbbca19c6768e1f2ee9caf5b86e3416c3b216156b00"
+    },
+    "frozen-b5_g1_resume.py": {
+      "bytes": 11758,
+      "sha256": "73c0d4c7fba45f61414053f6c651435201bbc7014e4d4de6eb8df3b9bea5ba2f"
+    },
+    "G1-resume-outer-private.log": {
+      "bytes": 72,
+      "sha256": "4af4c0486da6c258a46cbc28f4aa6539c55173544bc99c2a7ec73754e9c31b64"
+    },
+    "G1-resume-outer-result-private.json": {
+      "bytes": 165,
+      "sha256": "af2ccb76cd085f826e2ba5976902a5b5932535f6312fdd91ec61211db20b56f4"
+    },
+    "G1-RESUME-R2-approved-private.json": {
+      "bytes": 1570,
+      "sha256": "6528365b911ca34f89c876c9ba81a296bab3a9059a4ea8c0e5f6ce6c3122b0ef"
+    },
+    "G1-RESUME-R2-approved-private.used": {
+      "bytes": 129,
+      "sha256": "f29baefd6b0c9fcbf188fbc9a9773b54d90e7a997439e24136a48ec751a053f5"
+    },
+    "public-bindings.json": {
+      "bytes": 2692,
+      "sha256": "afd73ee6201005097c79b25668104357b57953916489e107e95d728e335b91cb"
+    },
+    "resume-DISABLED-authorization-private.json": {
+      "bytes": 1365,
+      "sha256": "410365e9f179e866ae82abd274abf6158beba212fee9d701464d72b4bdb408f9"
+    },
+    "resume-inputs-private.json": {
+      "bytes": 7596,
+      "sha256": "f0679ca3757064f6c843291ee5fb3667ab80f2a6391aa970aff4f6033d4b5a39"
+    },
+    "G1-resume-01/executed-remote-private.py": {
+      "bytes": 8433,
+      "sha256": "a26b1bce597e08005a78ef65809726cd7f8f0b79c875853af7a33b2fc951f0f5"
+    },
+    "G1-resume-01/receipt-private.json": {
+      "bytes": 20561,
+      "sha256": "acf737d57e9ef2f38c8f09877a886773d3b2823c7f4dc80df38070d4ef6f97c9"
+    },
+    "G1-resume-01/SSH-stderr-private.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "G1-resume-01/SSH-stdout-private.json": {
+      "bytes": 16272,
+      "sha256": "d0ed9bdf2b829338b817284d1fe3703baa4c15fa98148b49c44d6eea16ffc00a"
+    }
+  },
+  "all_encrypted": true,
+  "private_pointer": "node-b/build/b5-g1-resume-01-private-pointer.json",
+  "credentials_and_server_inputs_in_Git": false
+}

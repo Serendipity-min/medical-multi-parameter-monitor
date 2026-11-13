@@ -1,0 +1,46 @@
+{
+  "status": "B5_SEPARATE_RR15_NOT_PASS",
+  "exit_code": 3,
+  "failures": [
+    "B_RR_VALID15_HR_INVALID",
+    "HR_EXPECTED_INVALID",
+    "WSS_TARGET_CHANNEL_INVALID"
+  ],
+  "ECG_source_points": 74226,
+  "RESP_source_points": 14994,
+  "Broker_messages": 2774,
+  "Backend_delta": {
+    "accepted": 2774,
+    "rejected": 0,
+    "dropped": 0
+  },
+  "WSS_snapshots": 2974,
+  "wave_batches_observed_in_WSS": 301,
+  "C_diagnostic_max_gap_s": 6.140999999828637,
+  "STOP_observed_offset_s": 420.06199999991804,
+  "CPU_ROM_ROOT_CAUSE": "UNRESOLVED",
+  "B_HR_values": {
+    "0": 580,
+    "52": 2,
+    "64": 5,
+    "82": 2,
+    "73": 4,
+    "38": 2,
+    "58": 4,
+    "39": 1
+  },
+  "B_HR_values_summary": null,
+  "B_failures": [
+    "B_RR_VALID15_HR_INVALID"
+  ],
+  "C_error_delta": {
+    "rx": 89982,
+    "txack": 620,
+    "txfail": 0,
+    "overflow": 0,
+    "uart_err": 0,
+    "dropped": 0,
+    "mqtt_fail": 0
+  },
+  "private_formal_review_sha256": "deb0c703a5d25c72c6fe737358fcbf9603d098f20861ac2f56df7df0398654c3"
+}

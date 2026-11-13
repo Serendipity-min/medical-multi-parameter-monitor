@@ -1,0 +1,71 @@
+{
+  "audit_type": "GEMINI_INDEPENDENT_CALCULATION_PATH",
+  "window_id": "owner-observed-RR15-R5-5bb61eef",
+  "scope": "B5_FINAL_RR15_R5",
+  "T0_UTC_ms": 1793325618580,
+  "eval_window_UTC_ms": [
+    1793325663580,
+    1793325963580
+  ],
+  "stop_offset_s": 420.0629999998491,
+  "mcu_hard_stop": {
+    "tick": 420772,
+    "armed_at": 772,
+    "reason": 1,
+    "phase": 7,
+    "required": 724,
+    "written": 724,
+    "unsynced": 0,
+    "pending": 0,
+    "live": 24,
+    "cache": 31,
+    "business_elapsed_ms": 420000
+  },
+  "rr_metrics": {
+    "total_broker_rr_messages": 300,
+    "all_rr_values_equal_15_rpm": true,
+    "rr_validity_all_valid": true,
+    "rr_reason_mask_all_zero": true,
+    "resp_source_points": 14994,
+    "resp_points_min_required": 14850,
+    "resp_seq_stride_strict_5": true
+  },
+  "hr_metrics": {
+    "total_broker_hr_messages": 300,
+    "hr_invalid_expected": 300,
+    "hr_actually_invalid": 294,
+    "hr_spurious_valid": 6,
+    "spurious_hr_values": [
+      73.0,
+      73.0,
+      115.0,
+      115.0,
+      64.0,
+      64.0
+    ]
+  },
+  "broker_backend_wss": {
+    "broker_total_messages": 2845,
+    "backend_accepted": 2845,
+    "backend_rejected": 0,
+    "backend_dropped": 0,
+    "wss_eval_snapshots": 2974
+  },
+  "gateway_c_egress": {
+    "rx": 89953,
+    "txack": 622,
+    "txfail": 0,
+    "overflow": 0,
+    "uart_err": 0,
+    "dropped": 0,
+    "mqtt_fail": 0
+  },
+  "independent_findings": {
+    "cold_usb_sync": "PASS (sntp_sample delta < 300ms, zero ntp retries)",
+    "respiration_channel": "PERFECT (14994 RESP points >= 14850, exact stride=5, 300/300 RR scalar messages exactly 15.0 rpm)",
+    "transport_and_cloud": "PERFECT (2845 accepted, 0 rejected, 0 dropped, 2974 WSS snapshots >= 2900)",
+    "mcu_hard_stop": "PERFECT (420000ms, reason 1, phase 7 CLOSED, unsynced 0, pending 0)",
+    "failure_cause_analysis": "RR15 profile strictly demands HR channel to be INVALID (synthetic RR-only test bench). During 6 seconds out of 300s (seq 139, 140, 144, 145, 168, 169), analog/bench lead artifacts caused Node-B QRS detector to output transient valid HR values (73, 115, 64 bpm). This triggered B_RR_VALID15_HR_INVALID, HR_EXPECTED_INVALID, and WSS_TARGET_CHANNEL_INVALID. No criteria relaxation applied per contract.",
+    "verdict": "NOT_PASS_exit_3"
+  }
+}

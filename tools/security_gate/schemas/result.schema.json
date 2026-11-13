@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["result", "mode", "exit_code", "commit", "dirty", "mandatory_tools", "coverage_gaps", "blockers", "warnings", "sbom_sha256"],
+  "properties": {
+    "result": {"enum": ["PASS", "FAIL", "CONDITIONAL PASS", "TOOL / COVERAGE ERROR"]},
+    "mode": {"enum": ["doctor", "quick", "pr", "release"]},
+    "exit_code": {"enum": [0, 1, 2, 3]},
+    "commit": {"type": ["string", "null"]},
+    "dirty": {"type": ["boolean", "null"]},
+    "mandatory_tools": {"type": "object"},
+    "coverage_gaps": {"type": "array"},
+    "blockers": {"type": "array"},
+    "warnings": {"type": "array"},
+    "sbom_sha256": {"type": ["string", "null"]}
+  }
+}

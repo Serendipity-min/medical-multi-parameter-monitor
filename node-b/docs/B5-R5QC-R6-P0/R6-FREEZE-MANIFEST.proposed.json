@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "manifest_name": "MPM-B5-R6-FREEZE-MANIFEST",
+  "status": "PROPOSED",
+  "status_declaration": "THIS IS A PROPOSED PRE-REGISTRATION DRAFT ONLY. NOT APPROVED, NOT FROZEN, NO LIVE EXECUTION AUTHORIZED.",
+  "generated_at_utc": "2026-10-30T03:15:00Z",
+  "batch_id": "MPM-B5-R6-20261030-PRE01",
+  "git_baseline": {
+    "commit_sha": "2854d3581658a91d65c1aa30d827ff489ff0f081",
+    "audit_branch": "audit/b5-r5qc-r6p0-20261030"
+  },
+  "scope": [
+    "ECG60",
+    "TEMP_OBJECT",
+    "RR15"
+  ],
+  "hardware_and_firmware_baselines": {
+    "node_b": {
+      "mcu": "STM32F407ZGT6",
+      "firmware_role": "Acquisition and CANopen Node 0x02",
+      "sensors": [
+        "ADS1292R (ECG / Resp)",
+        "GY-641 MLX90614 (Infrared Object Temp)"
+      ],
+      "expected_full_flash_sha256": "a1abed50a4c4dbab142a2319d61c047bc43b6816dd62754a080e3f7e12415091",
+      "identity_record_sha256": "9d7023af7d76ac45a9ab6cd3070102ea1c55036ed77f626d27b17f65519694a3"
+    },
+    "gateway_c": {
+      "mcu": "STM32F103C8T6",
+      "firmware_role": "CANopen to MQTT Gateway Node 0x01",
+      "network_module": "ESP-01S (ESP8266EX, ESP-AT firmware)",
+      "application_free_flash_bytes": "< 20 bytes",
+      "startup_banner": "B5 DISARMED MOCK B_ONLY NO_FLASH_WRITE",
+      "expected_full_flash_sha256": "9bba23b436f079183296fa98dcaeed047eb919ba8597d75a85bc144bc48417fd",
+      "identity_record_sha256": "0e1392ac80a96ecf719636a7c27b5ded120378b40f9e52de05b6772d26640e67"
+    }
+  },
+  "tools_and_dependencies_sha256": {
+    "node-b/tools/b5_channel_review.py": "14838db66a5142f24a010109de6f67a76d4f386a0b3914afb5b32b9a751dda91",
+    "node-b/tools/b5_channel_profiles.py": "d7b55caf5bde19cfa94b693925fa97bcef6807fc67c8e6eb4492c7b774530a0e"
+  },
+  "criteria_files_sha256": {
+    "ECG60": "962a830ff5f28e8f46e376ab2db11208561a41500d884701fe9d834b5a7b22c6",
+    "TEMP_OBJECT": "92b94f9a5491d88ac87500f99f6fb6dc2423388dcbf7f8f883cddcaa3cc02def",
+    "RR15": "172227b905524397c7c7ab17b237e0a8d1f07892c7997d58285d64e40bb724ee"
+  },
+  "preflight_and_synchronization_gates": {
+    "gateway_c_preflight_validity_seconds_max": 3600,
+    "r5_86400s_waiver_status": "EXPIRED_AND_FORBIDDEN_IN_R6",
+    "power_cycle_requirement": "FULL_COLD_REBOOT_REQUIRED_BEFORE_PREFLIGHT",
+    "sntp_freshness_max_skew_ms": 1500,
+    "token_consumption_policy": "ATOMIC_ONE_TIME_USE_ONLY"
+  },
+  "profile_operating_matrix": {
+    "ECG60": {
+      "simulator_model": "SKX-2000D+",
+      "simulator_setting": "Heart Rate 60 bpm, Respiration OFF (0 bpm)",
+      "lead_wiring": "5-lead standard (RA, LA, LL, RL, V1) with shielded cable",
+      "expected_hr_range": [58, 62],
+      "expected_rr_state": "INVALID_OR_NULL",
+      "evaluation_window_seconds": 300,
+      "c_diagnostic_gap_max_seconds": 8.0,
+      "network_bench": "Dedicated 2.4GHz Wi-Fi AP, channel 6, <1m proximity, clean_session=true"
+    },
+    "TEMP_OBJECT": {
+      "simulator_model": "NONE",
+      "simulator_setting": "Non-human object surface at ambient room temperature",
+      "probe_wiring": "GY-641 (MLX90614) to Node-B UART4, fixed 2-3cm above object surface",
+      "expected_temperature_centi_range": [0, 10000],
+      "temperature_accuracy_claim": "NOT_CALIBRATED_ENGINEERING_OBJECT_ONLY",
+      "evaluation_window_seconds": 300,
+      "remediation_decision_pending_pi": "PATH-A (PI adjusts age tolerance to [-35, 2500] ms) vs PATH-B (firmware timestamp patch)"
+    },
+    "RR15": {
+      "simulator_model": "SKX-2000D+",
+      "simulator_setting": "Respiration Rate 15 bpm, Heart Rate OFF (Lead Off / Flatline)",
+      "lead_wiring": "4-lead (RA, LA, LL, RL) with metal braid shield, RL grounded to simulator ref",
+      "expected_rr_range": [14, 16],
+      "expected_hr_state": "STRICTLY_INVALID_OR_NULL_FULL_WINDOW_ZERO_TOLERANCE",
+      "evaluation_window_seconds": 300,
+      "lead_isolation_rule": "Physical lead separation from power and USB cables"
+    }
+  },
+  "stop_and_safety_invariants": {
+    "max_resets_per_attempt": 1,
+    "max_b5start_per_attempt": 1,
+    "second_reset_action": "G3_C_UNEXPECTED_REBOOT_TRIGGER_IMMEDIATE_HALT",
+    "unauthorized_retries": "STRICTLY_FORBIDDEN",
+    "criteria_modification_without_pi_signature": "STRICTLY_FORBIDDEN",
+    "code_modification_in_p0": "STRICTLY_FORBIDDEN"
+  },
+  "pi_authorization_gates_required_for_progression": {
+    "to_r6_freeze": "PI signature approving all manifest hashes and PATH-A/B choice",
+    "to_r6_p1": "Separate written read-only hardware preflight authorization",
+    "to_r6_p2_ecg60": "Separate single-use execution token and approval",
+    "to_r6_p2_temp_object": "Separate single-use execution token and approval",
+    "to_r6_p2_rr15": "Separate single-use execution token and approval"
+  }
+}

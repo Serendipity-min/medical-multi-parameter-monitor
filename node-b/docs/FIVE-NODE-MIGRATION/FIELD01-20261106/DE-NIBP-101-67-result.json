@@ -1,0 +1,308 @@
+{
+  "scope": "FIELD01_E_SINGLE_NONHUMAN_NIBP_D_REFERENCE_60OHM",
+  "status": "E_LOCAL_CAN_BROKER_BROWSER_MATCH_AND_90S_EXPIRY_SCOPED_PASS_TTS_UNRESOLVED",
+  "owner_screen": {
+    "SYS": 101,
+    "DIA": 67,
+    "unit": "mmHg"
+  },
+  "owner_power_off_confirmed": true,
+  "owner_abnormal_heat_reset_pump_screen": "NOT_REPORTED",
+  "owner_measured_ohms": {
+    "C1_E1": 61,
+    "C2_D1": 60.9
+  },
+  "T0": {
+    "monotonic": 342909.015,
+    "UTC_ms": 1793949573318,
+    "duration_bound_s": 395,
+    "scope": "DE_NIBP_POINT_TO_POINT_NOT_FIVE_BOARD_ACCEPTANCE",
+    "operator_start_budget_s": 150.0,
+    "completion_wait_after_start_s": 120,
+    "after_completion_observe_s": 95,
+    "stop_deadline_monotonic": 343274.75
+  },
+  "actual_observe_s": 145.9529999999795,
+  "native_process_exit_codes": {
+    "C_controller": 1,
+    "receiver": 0
+  },
+  "controller_status": "DE_NIBP_CAPTURE_COMPLETE_REQUIRES_LAYERED_REVIEW",
+  "C_STOP_banner": true,
+  "TTS_STOP_ACK_QUERY_IDLE": false,
+  "all_processes_exited": true,
+  "broker_result": {
+    "gateway_id": "GW-B5-001",
+    "node_id": "NODE-E",
+    "stream": "NIBP",
+    "timestamp": 1793949622314,
+    "seq": 1,
+    "session_id": "can-2948209266-3",
+    "validity": "VALID",
+    "source": "MOCK",
+    "synthetic": true,
+    "value": [
+      101.0,
+      67.0
+    ],
+    "samples": [],
+    "sample_rate": 0,
+    "unit": "mmHg"
+  },
+  "broker_arrival_utc_ms": 1793949623313,
+  "streams": [
+    {
+      "node": "NODE-D",
+      "stream": "TEMP",
+      "messages": 146,
+      "browser_exact_matches": 145,
+      "value_range": [
+        27.13,
+        27.45
+      ],
+      "seq_first_last": [
+        32,
+        177
+      ],
+      "validity": {
+        "VALID": 146
+      }
+    },
+    {
+      "node": "NODE-E",
+      "stream": "NIBP",
+      "messages": 1,
+      "browser_exact_matches": 1,
+      "value_range": null,
+      "seq_first_last": [
+        1,
+        1
+      ],
+      "validity": {
+        "VALID": 1
+      }
+    }
+  ],
+  "web_unique_exact_matches": 146,
+  "broker_unique_telemetry_in_arrival_window": 147,
+  "browser_mismatches": [],
+  "broker_decode_errors": [],
+  "E_CAN_source": {
+    "first_measuring": {
+      "monotonic": 342922.14,
+      "UTC_ms": 1793949586451,
+      "boot": 3,
+      "gen": 1,
+      "flags": 544,
+      "completion": 0,
+      "packed": 0,
+      "emitted": 0,
+      "emitted_tick": 0,
+      "nibp_seq": 0
+    },
+    "first_completed": {
+      "monotonic": 342962.156,
+      "UTC_ms": 1793949626457,
+      "boot": 3,
+      "gen": 1,
+      "flags": 520,
+      "completion": 157006,
+      "packed": 43910130,
+      "emitted": 1,
+      "emitted_tick": 157006,
+      "nibp_seq": 1
+    },
+    "first_expired": {
+      "monotonic": 343052.156,
+      "UTC_ms": 1793949716457,
+      "boot": 3,
+      "gen": 1,
+      "flags": 512,
+      "completion": 157006,
+      "packed": 0,
+      "emitted": 1,
+      "emitted_tick": 157006,
+      "nibp_seq": 1
+    },
+    "completion_tick": 157006,
+    "packed_SYS_DIA": 43910130,
+    "SYS_DIA_packed_units": "0.1_mmHg",
+    "emitted_seq_values": [
+      0,
+      1
+    ],
+    "full_E_raw_module_UART_capture": false,
+    "E_internal_result_generation_not_read": true,
+    "first_expired_source_age_ms": 94143
+  },
+  "first_web_valid_snapshot": {
+    "arrival_utc_ms": 1793949623407,
+    "source_age_ms": 1093,
+    "validity": "VALID",
+    "value": [
+      101.0,
+      67.0
+    ],
+    "E_node_state": "ONLINE",
+    "gateway_state": "ONLINE"
+  },
+  "last_web_valid_snapshot": {
+    "arrival_utc_ms": 1793949712297,
+    "source_age_ms": 89983,
+    "validity": "VALID",
+    "value": [
+      101.0,
+      67.0
+    ],
+    "E_node_state": "ONLINE",
+    "gateway_state": "ONLINE"
+  },
+  "first_web_stale_snapshot": {
+    "arrival_utc_ms": 1793949712388,
+    "source_age_ms": 90074,
+    "validity": "STALE",
+    "value": null,
+    "E_node_state": "ONLINE",
+    "gateway_state": "ONLINE"
+  },
+  "first_valid_DOM": {
+    "arrival_utc_ms": 1793949623832,
+    "source_age_ms": 1518,
+    "display": {
+      "pressure-sys": "101",
+      "pressure-dia": "67",
+      "state-NIBP": "VALID \u00b7 MOCK",
+      "source-NIBP": "NODE-E",
+      "value-TEMP": "27.2",
+      "source-TEMP": "NODE-D",
+      "node-e": "Node-E \u00b7 ONLINE",
+      "node-d": "Node-D \u00b7 ONLINE"
+    }
+  },
+  "last_valid_DOM": {
+    "arrival_utc_ms": 1793949712006,
+    "source_age_ms": 89692,
+    "display": {
+      "pressure-sys": "101",
+      "pressure-dia": "67",
+      "state-NIBP": "VALID \u00b7 MOCK",
+      "source-NIBP": "NODE-E",
+      "value-TEMP": "27.3",
+      "source-TEMP": "NODE-D",
+      "node-e": "Node-E \u00b7 ONLINE",
+      "node-d": "Node-D \u00b7 ONLINE"
+    }
+  },
+  "first_stale_DOM": {
+    "arrival_utc_ms": 1793949713007,
+    "source_age_ms": 90693,
+    "display": {
+      "pressure-sys": "--",
+      "pressure-dia": "--",
+      "state-NIBP": "STALE \u00b7 MOCK",
+      "source-NIBP": "NODE-E",
+      "value-TEMP": "27.4",
+      "source-TEMP": "NODE-D",
+      "node-e": "Node-E \u00b7 ONLINE",
+      "node-d": "Node-D \u00b7 ONLINE"
+    }
+  },
+  "valid_revivals_after_expiry": 0,
+  "E_valid_NIBP_publications": 1,
+  "replay_messages": 0,
+  "fault_messages": 0,
+  "C_CAN": {
+    "B5 DIAG": {
+      "observations": 31,
+      "TEC_peak": 0,
+      "REC_peak": 0,
+      "tx_fail_max": 0,
+      "FIFO_overflow_max": 0
+    },
+    "ABC A_CAN": {
+      "observations": 31,
+      "TEC_peak": 0,
+      "REC_peak": 0,
+      "tx_fail_max": 0,
+      "FIFO_overflow_max": 0
+    }
+  },
+  "router": {
+    "high": 4,
+    "overflow": 0,
+    "replaced": 0,
+    "expired": 0,
+    "unsynced": 0
+  },
+  "nodes_states": {
+    "NODE-A": [
+      "OFFLINE"
+    ],
+    "NODE-B": [
+      "OFFLINE"
+    ],
+    "NODE-D": [
+      "ONLINE",
+      "STALE"
+    ],
+    "NODE-E": [
+      "ONLINE",
+      "STALE"
+    ]
+  },
+  "receiver": {
+    "status": "RECEIVER_STOPPED_REQUIRES_DATA_REVIEW",
+    "exit_code": 0,
+    "node_profile": "five",
+    "hardware_operations": 0,
+    "MQTT_publications": 0,
+    "remote_service_changes": 0,
+    "MQTT_received": 301,
+    "browser_snapshots": 2155,
+    "browser_errors": [],
+    "all_own_children_exited": true,
+    "tool_sha256": "b9a462144fb997e4b6f34a33a42a72b24f40ef688ca6fbb10f96d8dbb09638da"
+  },
+  "recording_commands": 0,
+  "pump_commands": 0,
+  "Flash_writes": 0,
+  "scope_limits": {
+    "formal_five300": "NOT_RUN",
+    "ECG_RESP_PPG_this_window": "NOT_RUN",
+    "voice": "NOT_RUN_TTS_ACK_UNRESOLVED",
+    "appliance_auto_boot": "NOT_RUN",
+    "analog_CAN_margin": "NOT_MEASURED",
+    "absolute_NIBP_accuracy": "NOT_PROVEN_NONHUMAN_VALUE_CONSISTENCY_ONLY",
+    "E_own_TEC_REC": "NOT_CAPTURED",
+    "A_PPG_integrity": "REMAINS_OPEN"
+  },
+  "no_commit_push": true,
+  "evidence_sha256": {
+    "C-observation/executed-controller.py": "11879a03221a70a2cf8c9d25bfbb9d26823309c9f0ad13feaa68c023badbfa31",
+    "C-observation/serial-rx-private.bin": "851ccf3f9e1ff865040d2ad181b9ef794ecf0527f87eb7f087e99a73d369fc04",
+    "C-observation/lines-private.jsonl": "8a5881ca2be18388d338e7f7b36cc05326afb5a2962c7d77e9e0b6ea815656d3",
+    "receiver/executed-receiver.py": "b9a462144fb997e4b6f34a33a42a72b24f40ef688ca6fbb10f96d8dbb09638da",
+    "receiver/MQTT-private.jsonl": "4c423dd8786193bfead66ea51409bb2674008e039ce2e8fba74ede3fe57e7670",
+    "receiver/browser-snapshots-private.jsonl": "8873eec6a8f3002d46125cb841bd26e201a667e8eaee024a34a83d5acab25e5e",
+    "receiver/browser-display-private.jsonl": "b216fe11094d2dbbe67166e8ab2cff29aff34a994ed86abc4a288a27ae553eec",
+    "native-process-exits.json": "1308c402940bf2283441e487f9e14ad5e7f76219ea51af298520793fb9acd320"
+  },
+  "D_startup_masked_temperature": {
+    "seq": 32,
+    "broker_value_C": 27.25,
+    "broker_arrival_T0_offset_ms": 64,
+    "browser_first_T0_offset_ms": 117,
+    "browser_validity": "STALE",
+    "browser_value": null,
+    "D_node_state_at_arrival": "STALE",
+    "key_observed_in_browser": true,
+    "reason": "INITIAL_D_NODE_STATUS_NOT_YET_FRESH_MASK_APPLIED",
+    "valid_temperature_web_matches": 145,
+    "all_temperature_broker_messages": 146
+  },
+  "public_browser_evidence": {
+    "E-101-67-valid.png": "f6fae78bba3aead27e9611658f377cedf2d2a62da37849da0c16ca9363b38a60",
+    "E-90s-stale.png": "8eccb22bf5b9895a0edbfafd744a106dae68fced5349d98950674ee85dec95ec"
+  },
+  "evidence_visual_review": "VALID_101_67_AND_STALE_DASHES_NODE_E_ONLINE_REVIEWED"
+}

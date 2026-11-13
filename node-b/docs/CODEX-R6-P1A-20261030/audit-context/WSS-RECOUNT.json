@@ -1,0 +1,82 @@
+{
+  "version": "CODEX-R6-WSS-RECOUNT-R1",
+  "mode": "READONLY_OFFLINE_RECOUNT",
+  "execution_exit_code": 0,
+  "inputs": {
+    "cloud_events": {
+      "bytes": 17148813,
+      "sha256": "8d69e22a21fb41421f74598bb7b3cb1747d1b5cdcff4e0dcd57b1e93cb1d5a84"
+    },
+    "t0": {
+      "bytes": 458,
+      "sha256": "e94e859bf772aadecb1fa427a65c847b460a4e092cc2fbd8269d96d78a608ee0"
+    },
+    "arm": {
+      "bytes": 275,
+      "sha256": "4ade3273ba3983be48c90ccbf0c4fa191bfa68d94022b5e145ed9017d7ffdf57"
+    },
+    "b_block_index": {
+      "bytes": 641220,
+      "sha256": "4c058ea5a8c746c23e9ce0028171d3ed436baad3bc7a5fccb7091673276b1f6e"
+    },
+    "b_block_bytes": {
+      "bytes": 14878888,
+      "sha256": "d0f4e7f72f751535fb1d0325a3f5e5340066af2e604689e0cd8ae5d64f32be69"
+    }
+  },
+  "code_sha256": {
+    "node-b/tools/b5_channel_review.py": "14838db66a5142f24a010109de6f67a76d4f386a0b3914afb5b32b9a751dda91",
+    "node-b/tools/b5_g3_review.py": "79e4a732a12b988a322eb0cb656088f129717c6bacd85bc9cc55c06a8efac729",
+    "node-b/tools/b5_g3_contract.py": "d42216953dbac1e17c442e113e6e42b7779550ce3d556cadd9a26aa51f2cf86b",
+    "cloud/backend/app/adapters.py": "b4b9993d234741edffa420b81f49478fb32dbab7d8ae156e53cae793083afcde",
+    "cloud/backend/app/models.py": "827e89fd552b99a06d7634cbe07caff4588fc8902d054a264abec1171843c52c"
+  },
+  "evaluation_UTC_ms": [
+    1793273203647,
+    1793273503647
+  ],
+  "formal_seen_rule": "WSS server_time in [evaluation_start, evaluation_end + 15000); exact telemetry_key plus VALID and exact payload values/samples match",
+  "counts": {
+    "broker_messages": 2867,
+    "eligible_ecg_keys": 751,
+    "source_matched_expected_ecg_keys": 751,
+    "source_mapping_errors": {},
+    "expected_intersection_seen_evaluation_only": 739,
+    "expected_intersection_seen_frozen_15s_tail": 741,
+    "expected_intersection_seen_whole_capture": 741,
+    "missing_evaluation_only": 12,
+    "missing_frozen_15s_tail": 10,
+    "new_keys_after_evaluation_within_frozen_tail": 2,
+    "all_matching_ecg_keys_observed_evaluation_only": 740,
+    "all_matching_ecg_keys_observed_frozen_tail": 778,
+    "evaluation_observed_ecg_keys_outside_expected": 1,
+    "expected_batch_end_timestamp_in_evaluation": 750,
+    "expected_batch_end_timestamp_at_or_after_evaluation_end": 1
+  },
+  "sets_sha256": {
+    "expected": "59bf02d70980c56a524ae513416398b7cad435b18dfb71df781de8a880364990",
+    "observed_in_evaluation": "c95ba7e4be28a46cfcfb7a51bfcecfd1b32dd00ad37280593f908183979027b9",
+    "observed_frozen_tail": "13e4c791c3e5a5a8066ec0f07fa2e3ad27563bab7c62c5eba13ef6bfc2a2f558",
+    "missing_evaluation": "a9e49144655432f2a22990e53bef9903dc140d5c5464f1f9c14a9fc2f49076e8",
+    "missing_frozen_tail": "31919607a4abf989fde7a724a093c209702d992b2401847c16e891fa43aae82e",
+    "added_in_tail": "f72b0546b8941e94005372633e5fb495a87876066dc454f7962258fc67971c4e"
+  },
+  "added_tail_key_summaries": [
+    {
+      "telemetry_key_sha256": "bddc022612839e188566d3dca4fd59299feeb38e4b71852d73f6866c8eb86754",
+      "first_seen_server_offset_after_evaluation_end_ms": 40
+    },
+    {
+      "telemetry_key_sha256": "5232a02b5c71afe70ac7f6dcdee2819f28487ebfdaa5b10de72c71c5758b6703",
+      "first_seen_server_offset_after_evaluation_end_ms": 544
+    }
+  ],
+  "conclusion": "Frozen evaluator expects 751 source-matched ECG batch keys, sees 741 within its evaluation-plus-15s-tail window, and misses 10. During evaluation only it sees 739 expected keys; one additional observed ECG key is outside expected and has a batch-end timestamp before evaluation start, giving 740 all ECG keys. Two expected keys are first observed in the allowed tail (+40ms,+544ms). Therefore 750 expected and 740+1 is not the frozen set arithmetic. Preserve formal 741 and NOT_PASS.",
+  "edge_summaries": {
+    "expected_first_batch_end_offset_from_evaluation_start_ms": 230,
+    "expected_last_batch_end_offset_from_evaluation_end_ms": 213,
+    "evaluation_seen_keys_outside_expected_timestamp_offsets_ms": [
+      -170
+    ]
+  }
+}

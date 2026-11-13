@@ -1,0 +1,63 @@
+{
+  "scope": "B4_03_SYNC_NORMAL_ECG60_RESP20_RA_LL_137S_READONLY",
+  "enabled": false,
+  "source_type": "ECG_RESP_SIMULTANEOUS_MANUAL_NOMINAL",
+  "menu_required": {
+    "mode": "NORMAL_ECG",
+    "HR_bpm": 60,
+    "ECG_amplitude_menu_mV": 2,
+    "RESP_amplitude_literal": "1.5R",
+    "apnea_literal": "0s",
+    "waveform_period_literal": "20bpm"
+  },
+  "source_nominal_HR": 60,
+  "source_nominal_RR": 20,
+  "independent_reference_HR_RR": null,
+  "Z0_ohm": null,
+  "delta_Zpp_ohm": null,
+  "leads": {
+    "R_red": "RA",
+    "L_yellow": "LL",
+    "F_green": "RL",
+    "LA": "EMPTY"
+  },
+  "current_firmware_bytes": 25488,
+  "current_firmware_sha256": "b8e74577dae7a5a1f6caa27687193f5128f89bd70781f06a1d80b0c74d409b44",
+  "criteria": {
+    "warmup_ms": 45000,
+    "evaluation_ms": 90000,
+    "tail_ms": 2000,
+    "HR_range_bpm": [
+      58,
+      62
+    ],
+    "RR_range_rpm": [
+      19,
+      21
+    ],
+    "minimum_joint_observations": 90,
+    "maximum_observation_gap_ms": 1500,
+    "minimum_raw_frames": 22000,
+    "device_domain_sps_range": [
+      247.5,
+      252.5
+    ],
+    "required_joint_saved_validity_fraction": 1.0
+  },
+  "duration_s": 137,
+  "hard_timeout_s": 180,
+  "reset_halt_go_writes": 0,
+  "slot_block_limit": 2741,
+  "poll_interval_s": 0.05,
+  "diagnostic_semantics": "SAVED_NONATOMIC_JOINT_OBSERVATION_NOT_CONTINUOUS_SAMPLE_VALIDITY",
+  "tools_sha256": {
+    "b4_sync.py": "737d0c2407f7ef0e83a5ea67b1b5b14717379e1237c2235ab75a8c54403578ba",
+    "precan_last_round_b.py": "1e24dc4c608f2611640d4c6cfcf4c67a4cd8711180ab266c0d1082aebb000c62",
+    "live_state_b.py": "bdf04c16f74e93028a55a7db244f0a2b6f683dfb987e61d41470f2bf3debde6c",
+    "runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+    "readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+    "resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+    "b4_recovery.py": "fa93222b833f2f010d068b0cac97c73db7430c7eb68316d84441d60539c76213",
+    "stable_slot_export.py": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2"
+  }
+}

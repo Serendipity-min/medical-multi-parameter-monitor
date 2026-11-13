@@ -1,0 +1,27 @@
+{
+  "status": "ABC_A_APP012_FULL_VERIFY_BOOT_PASS",
+  "exit_code": 0,
+  "board": "A",
+  "sectors": [
+    0,
+    1,
+    2
+  ],
+  "full_flash_sha256": "47cde6b842ac3bb92f8e4771f62387fa4c316a8b8338920acd21afcab5726d1a",
+  "options_unchanged": true,
+  "outside_affected_sectors_unchanged": true,
+  "Close_completed": true,
+  "native_actions": {
+    "JLINKARM_Halt": 1,
+    "JLINKARM_BeginDownload": 1,
+    "JLINKARM_WriteMem": 1,
+    "JLINKARM_EndDownload": 1,
+    "JLINKARM_Reset": 1,
+    "JLINKARM_Go": 1
+  },
+  "debug_IWDG_freeze_writes": 2,
+  "debug_IWDG_freeze_restored": true,
+  "native_process_exit": 0,
+  "candidate_bytes": 33444,
+  "candidate_sha256": "b20bfdb877aa89576ee12abaabeb8b9b8ef425135b6061392475096bb2fbe5d0"
+}

@@ -1,0 +1,1339 @@
+{
+  "date": "2026-10-16",
+  "branch": "B",
+  "base": "2ca744d2f06d49711863968aeef15b64891edd18",
+  "self_excluded": true,
+  "scope": "NODE_B_SOURCE_DOCS_AND_SANITIZED_EVIDENCE",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 483,
+      "sha256": "2a8d4b01f67fbdb8deeaa9c534440fd4e2ca101fb969af25288937f6f2049d2a"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/BIAS-digital-transition-20261015T093526Z.json",
+      "bytes": 1519,
+      "sha256": "e1f126ceaa70a392818726d19f97b56a63acbffe7c5aab989817cc4c0435193c"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/BIAS-instrument-and-mode-continuity-hold-20261015.json",
+      "bytes": 3014,
+      "sha256": "10fb5971cc86527c446e3f136aef20df5118fb58c77a1f82f59e0a3149fa9191"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/bias-monitor-host-20261015T100211645303Z.json",
+      "bytes": 1664,
+      "sha256": "7062185c883dd3ba6aefdf3616d44eaa060c0f8da44806a9a8e4af5e2ab4b7a1"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/BIAS同连接观测说明_20261015.md",
+      "bytes": 1524,
+      "sha256": "77b72d1c7ac74ef70fba4d9c745130b49a11bb9004e0f414b0f9242d3f7d7585"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/OFF-digital-and-scope-check-20261015T092616Z.json",
+      "bytes": 1303,
+      "sha256": "92a301283e6a2b52c4f7e43e3fb410a43580213e7113e40f71e0224f79849d88"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/OFF-DMM-only-operator-followup-20261015.json",
+      "bytes": 693,
+      "sha256": "c82892a8c2e91278a2f36d42914d81f9f5902b2e5b62b430bfa3fac872d48858"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/OFF-operator-review-20261015.json",
+      "bytes": 1067,
+      "sha256": "729bf750f31fe2c446798ea444ab6b1213ad02284a9e594e40410bbab2418fbb"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/OFF-power-timing-clarification-20261015.json",
+      "bytes": 1293,
+      "sha256": "25f53469e1add21ed206b6a751eda548a74bcda1f2a32f2318894cc631f93eb0"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/OFF-powered-instrument-discrepancy-20261015.json",
+      "bytes": 1220,
+      "sha256": "364dd0099a9893084e978dfac724e334fa85071ae976d7a5041193fca7273227"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/OFF-reconnected-20261015T091626Z.json",
+      "bytes": 970,
+      "sha256": "e57526c931416e4c379dedf3a2388d2bff5431186708e865fca8afee9bdb2192"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/S0照片与JLink参考线核验补充.md",
+      "bytes": 3741,
+      "sha256": "f77cd1b21e8cab8a631d6273ea855aecf0fe9711537303b407e1d88211b6d02e"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/S0现场操作与记录清单.md",
+      "bytes": 5364,
+      "sha256": "e20762c49e9213583eb3166302d2eb98678b6b4606793b749cb1d26c3e848a39"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/scope-zero-input-and-OFF-repeat-20261015.json",
+      "bytes": 1491,
+      "sha256": "bb9b6870fbc87a8c451ad417b6f304987321bf88722ba7b58acfeb3fa92a7980"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-app-reply-tests.json",
+      "bytes": 120,
+      "sha256": "393c1322485c83930f863cd298611f0a19f8279561c495007fa3dec773f6f7a2"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-application-OFF-start-20261015T085827Z.json",
+      "bytes": 789,
+      "sha256": "92e5cfae8c7eba66ba7019c02963e841057fc3b30729a5994db4fd3b17bf3a73"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-arm-20261015T082914023821Z.json",
+      "bytes": 751,
+      "sha256": "33344445a5b6cacaf70bd3bae1f86ffde41471c8310dac64b9f4d6c2a4155203"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-console-host-20261015T082913974002Z.json",
+      "bytes": 3207,
+      "sha256": "3cd6a67dc7595324f7f8a3141ca9a9d594ea2dd077f68bef30ea23340c5c0da1"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-console-host-20261015T083007703807Z.json",
+      "bytes": 3333,
+      "sha256": "b4800c94dadecb71c250c6aab1d31fdf83f0c3a188ec81d4a713f330c1eb5149"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-console-host-20261016T021829152712Z.json",
+      "bytes": 3333,
+      "sha256": "0304e13612869e9c2424adeb72928544bd164515e043ef8936afe5af2866ca1d"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-console-host-20261016T021937124958Z.json",
+      "bytes": 3333,
+      "sha256": "0304e13612869e9c2424adeb72928544bd164515e043ef8936afe5af2866ca1d"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-manual-flash-20261015T085200Z.json",
+      "bytes": 1476,
+      "sha256": "cbb52efd91881d22c54c4090c491a00114f1222f05ec318c755667d2a12075ff"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-rom-host-20261015T083243980957Z.json",
+      "bytes": 127,
+      "sha256": "b63e19c67bf8a97cc4c9babb75ef8b670de73f1ccb4e57597ca0b1d2699b4121"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-rom-host-20261015T083444005082Z.json",
+      "bytes": 127,
+      "sha256": "3c3eb4fa4bcb821cd252b6b7d0c88f954bb81e0dbe97842a3d54700eae557e7f"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-rom-host-20261015T084210439339Z.json",
+      "bytes": 127,
+      "sha256": "c0ab25f880c317ad4515cacfc459e6f134c655dea9c2893db6db0d61374e0afa"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-rom-host-20261015T084930627610Z.json",
+      "bytes": 127,
+      "sha256": "6e66ebbccf0a7cd7043df476420e9459617f9db72a5d1eb1c29be5ca55966529"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-rom-host-20261016T021830608504Z.json",
+      "bytes": 127,
+      "sha256": "6e66ebbccf0a7cd7043df476420e9459617f9db72a5d1eb1c29be5ca55966529"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-rom-host-20261016T021938572294Z.json",
+      "bytes": 127,
+      "sha256": "6e66ebbccf0a7cd7043df476420e9459617f9db72a5d1eb1c29be5ca55966529"
+    },
+    {
+      "path": "artifacts/ecg-source/g2s/usb-window-progress-20261015.json",
+      "bytes": 2419,
+      "sha256": "cf64b2dbe4c5ed96845eeb1431e16cc6702e2a8757dfb06d5a5168a117979c60"
+    },
+    {
+      "path": "doc/B/README.md",
+      "bytes": 1207,
+      "sha256": "5b624e9c38a461603f36e8818bb836cb8962f1cc14b78b4a98b539958576c7d3"
+    },
+    {
+      "path": "ecg-source/g2s-usb/app_session.py",
+      "bytes": 3765,
+      "sha256": "a0b6ca57bbcfde30496faf3b08ee63e00cdf0ceaba854d04e761c1e559a04455"
+    },
+    {
+      "path": "ecg-source/g2s-usb/build_usb.py",
+      "bytes": 5274,
+      "sha256": "0df0b7fe546d396fca900d6bfd5ff1ac32c49699967bb59805ab6f1a1248f785"
+    },
+    {
+      "path": "ecg-source/g2s-usb/console.c",
+      "bytes": 3204,
+      "sha256": "8013c1496aceacc14de90da959afa681b70c14af3b2468c9b802834b67812961"
+    },
+    {
+      "path": "ecg-source/g2s-usb/console.h",
+      "bytes": 366,
+      "sha256": "260de264fd72372106178d3d23a986ccd6cf402e0dc450a4526a5b28ddf988ff"
+    },
+    {
+      "path": "ecg-source/g2s-usb/main_usb.c",
+      "bytes": 2447,
+      "sha256": "191618a043e9529a039a4b6696e29621195d0fad2cd1bb06cbb9cda71cf12fc2"
+    },
+    {
+      "path": "ecg-source/g2s-usb/observe_bias.py",
+      "bytes": 4757,
+      "sha256": "73dfc9dc1ce43cf9feec0773521c93d86d74d0796fc97dbea32b408193e81870"
+    },
+    {
+      "path": "ecg-source/g2s-usb/README.md",
+      "bytes": 5203,
+      "sha256": "b471dc0ab9a2f52715e1e767f6865c2f724614be3dc00381447f2de6b0c4536c"
+    },
+    {
+      "path": "ecg-source/g2s-usb/test_console.py",
+      "bytes": 6430,
+      "sha256": "067efb7c04aa423cdc49a6db7079cea9665cb008a330767b10db26f3af145439"
+    },
+    {
+      "path": "ecg-source/g2s-usb/test_observe_bias.py",
+      "bytes": 3722,
+      "sha256": "c0c6e2a003a10971a111190b0d5635f3e110ca8bed62c14b022e35006ad4d7a4"
+    },
+    {
+      "path": "ecg-source/g2s-usb/test_usb_rom.py",
+      "bytes": 9097,
+      "sha256": "057079da09b3bf70f5b7209162aae91d894c13611cda6a4a1750952b84f934a7"
+    },
+    {
+      "path": "ecg-source/g2s-usb/usb_rom.py",
+      "bytes": 13825,
+      "sha256": "1b3eb2943d1172bee53a2826d1d7fb2d309d87cbc07b1bad42766696c702ac4d"
+    },
+    {
+      "path": "node-b/.gitattributes",
+      "bytes": 95,
+      "sha256": "e5159fd7955ba8fbd8d8dc69891bf97eb296497eed8b3f85df37e5125ea6bb99"
+    },
+    {
+      "path": "node-b/.gitignore",
+      "bytes": 157,
+      "sha256": "ac2ca200be22a5933c80337051f0c884490dee361fdfa66aa51bdd7ca62972ba"
+    },
+    {
+      "path": "node-b/acquisition/工具/acq.py",
+      "bytes": 8749,
+      "sha256": "bfb7b45b91c4169c792aec78b02f2fd0f033234ec82ac6c08f30506294cfba12"
+    },
+    {
+      "path": "node-b/acquisition/工具/acq_processing.py",
+      "bytes": 26649,
+      "sha256": "03af01331ae98241748c36b2656bbb43f16deab0c6d05ffaa9ba9fc091d31188"
+    },
+    {
+      "path": "node-b/acquisition/工具/acq_protocol.py",
+      "bytes": 26212,
+      "sha256": "356674eb8d6affca4364a906ce5521bbb34286490f152f36376836d025237092"
+    },
+    {
+      "path": "node-b/acquisition/工具/acq_storage.py",
+      "bytes": 15710,
+      "sha256": "49aba8024207bb010b9992db80f622c56b8ee6d25a8c546ef157c225ac1a10f8"
+    },
+    {
+      "path": "node-b/acquisition/工具/acq_swd.py",
+      "bytes": 18849,
+      "sha256": "e4f06b79e11a658cd30605fe49be15e5d7c96aff4b19486d3e26b87e18c4d3a2"
+    },
+    {
+      "path": "node-b/acquisition/工具/ecap_wire.py",
+      "bytes": 13345,
+      "sha256": "3c4d4cf62f19a8aa194743ea81d43bc65db40e02ef2e5ccc9083c6f44fce9d16"
+    },
+    {
+      "path": "node-b/acquisition/工具/profiles/ads1292r_ecap_wire_v1.json",
+      "bytes": 1004,
+      "sha256": "34ac7be7c24917b5d598c73e037e7c212b49b8f4c43d8dcda28fbe6c5fb6f851"
+    },
+    {
+      "path": "node-b/acquisition/工具/profiles/ads1292r_swd_ring24_v1_9f58a890.json",
+      "bytes": 26622,
+      "sha256": "44448cc01ee5934910b5853fadbb8ddbd048153f86a48470c6d892341419ed14"
+    },
+    {
+      "path": "node-b/acquisition/工具/stable_slot_export.py",
+      "bytes": 26313,
+      "sha256": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2"
+    },
+    {
+      "path": "node-b/acquisition/工具/tests/test_acq.py",
+      "bytes": 20016,
+      "sha256": "5fd215cad258f1f1193e3c980688abf3a0b2640bef8112e00ad4eb188f44193a"
+    },
+    {
+      "path": "node-b/acquisition/采集协议_v1.0_模板/adapter_profile.template.json",
+      "bytes": 968,
+      "sha256": "da4e68835662b09cec0e2e23346ba8c776bcb1e404e5d767a11331ce40142c66"
+    },
+    {
+      "path": "node-b/acquisition/采集协议_v1.0_模板/analysis_config.template.json",
+      "bytes": 1135,
+      "sha256": "a5edaea330a69ac0c605dcdb729a08fb9c5b62aae342acd4a2cd6c421285f8e8"
+    },
+    {
+      "path": "node-b/acquisition/采集协议_v1.0_模板/channels.template.json",
+      "bytes": 1608,
+      "sha256": "3bdfd44d1281a00bb0509d060395352e4a84447409f08830e981828190002685"
+    },
+    {
+      "path": "node-b/acquisition/采集协议_v1.0_模板/condition.template.json",
+      "bytes": 1186,
+      "sha256": "3a647054d6e6a38aa9532fa91d2e3cd524734ff07cb19e3f0e885310b855ca3c"
+    },
+    {
+      "path": "node-b/acquisition/采集协议_v1.0_模板/dataset_index.template.csv",
+      "bytes": 191,
+      "sha256": "7e4080dadf78df3f1572753d913d243ed2fb5a464d804197198ed7b3c7ee00a8"
+    },
+    {
+      "path": "node-b/acquisition/采集协议_v1.0_模板/README.md",
+      "bytes": 3359,
+      "sha256": "7ead71be66bf275fad73c1e8e83556a7db32eb0a0d72513ddd1ccf81bee97b7c"
+    },
+    {
+      "path": "node-b/acquisition/采集协议_v1.0_模板/session.template.json",
+      "bytes": 2384,
+      "sha256": "4b1f79038293cf417e39bb1c87c1e680fc2c338963430e3f08afb17f79d3dbca"
+    },
+    {
+      "path": "node-b/docs/01_综合复盘.md",
+      "bytes": 5218,
+      "sha256": "4ac0e3166ea754d858467377d24d6e8461acdb53f4176006eccd2170fa55cc33"
+    },
+    {
+      "path": "node-b/docs/02_模块资料与接线.md",
+      "bytes": 3972,
+      "sha256": "6331538dcbc188b70f2ca589056a0e05533f02bf4b5a81d459ed290fd8024912"
+    },
+    {
+      "path": "node-b/docs/03_新旧算法对比.md",
+      "bytes": 4736,
+      "sha256": "116525aa05209b525db9ea7dfe53224c8734fb026a7acffe7f2198805b85ee91"
+    },
+    {
+      "path": "node-b/docs/04_证据矩阵与后续路线.md",
+      "bytes": 6737,
+      "sha256": "5b7f8387ca26638980bcd635e884bd0b0841edb3c86f44ca8395c2a2e225e256"
+    },
+    {
+      "path": "node-b/docs/05_代码与复现.md",
+      "bytes": 4335,
+      "sha256": "598c87c6eb8e1fa6c640bd9433ebf5ede000be07a58f4fa9b1d51300cd65c4f5"
+    },
+    {
+      "path": "node-b/docs/06_源板S进度.md",
+      "bytes": 2779,
+      "sha256": "a01cf5dece9a75ac5d4ab0fea7753321dc0a479d06e624cb293175be7527c853"
+    },
+    {
+      "path": "node-b/evidence/arm-20261016T021838499663Z.json",
+      "bytes": 1048,
+      "sha256": "904f8594540daac3f6f33aa07a920950dea691c2a773c32a8f0a8291d84dcba5"
+    },
+    {
+      "path": "node-b/evidence/B2-snapshot-consistency.json",
+      "bytes": 2039,
+      "sha256": "7f55a6572e054a856196b050a3b6f4f2133c3de21a46d83e60425ad1d7f1506a"
+    },
+    {
+      "path": "node-b/evidence/current-algorithm.json",
+      "bytes": 20352,
+      "sha256": "6c53d8c5017f6c3284ebc24c3b7dd7791bb16a7540467d9205564c973c69745f"
+    },
+    {
+      "path": "node-b/evidence/current-channel-isolation.json",
+      "bytes": 3857,
+      "sha256": "c46266b750737abfb6ccdafba925285b7bb73ea8f4547a810da50da838226d81"
+    },
+    {
+      "path": "node-b/evidence/external-build-dependencies.json",
+      "bytes": 292,
+      "sha256": "40974ccf47ad200c8d0cadb8686ea4a5fe61834357692a4c4b08a7ff8fa13963"
+    },
+    {
+      "path": "node-b/evidence/first-public-host-failure.json",
+      "bytes": 510,
+      "sha256": "83e5fb03b99cb649903b83b22105ee6f4f3286ba9686dcd82dfeccf659b35fb0"
+    },
+    {
+      "path": "node-b/evidence/host-20261016T021820579259Z.json",
+      "bytes": 1815,
+      "sha256": "666eadc75a82408109e44b11a1cd50763fcab5f61f2c589f6b28123d0a209b69"
+    },
+    {
+      "path": "node-b/evidence/host-20261016T021928433165Z.json",
+      "bytes": 2056,
+      "sha256": "80fd43b9796f42b98031f040f6ac07f62b96f65a017e52f0112b8562551d6832"
+    },
+    {
+      "path": "node-b/evidence/host-component-counts.json",
+      "bytes": 1300,
+      "sha256": "ee561adf13ae875a2789437cca55627d5a95fc57d9402ff547c813a3ef1fccf7"
+    },
+    {
+      "path": "node-b/evidence/inherited-whitespace-classification.json",
+      "bytes": 293,
+      "sha256": "dcc341e0b359c07cb33ea6122743646b746e6aee1754c01190d64c4a631f1b69"
+    },
+    {
+      "path": "node-b/evidence/original-protection-check.json",
+      "bytes": 294,
+      "sha256": "404865cc74c728991fffa6495f459ff28f940299962975f81dcad9f8aa25a8d7"
+    },
+    {
+      "path": "node-b/evidence/packaging-checks.json",
+      "bytes": 467,
+      "sha256": "d9544b027538d2c3b3117f9a1a32fcb4cda587ee8346f57cd0c863ecd22d5d51"
+    },
+    {
+      "path": "node-b/evidence/source-provenance.json",
+      "bytes": 98200,
+      "sha256": "ed6e108352a08cbd1b3230ad69a12c59177230e7cf0c5072fc8c57697ca0de9c"
+    },
+    {
+      "path": "node-b/firmware/biov2/tests/run_channel_isolation.py",
+      "bytes": 8206,
+      "sha256": "9ad7ff3e04a33ca8e9c1fbcec1f3f707ed3bad4eff56215ddd9d58d1462bfcab"
+    },
+    {
+      "path": "node-b/firmware/biov2/tests/run_host.py",
+      "bytes": 7641,
+      "sha256": "69069bd9c002a4770e8295e0339406473bdb5f812e0b16672af6c807e97e174a"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/CORE/arm_common_tables.h",
+      "bytes": 7253,
+      "sha256": "126517411c54094b6d350853b997e7414b4a77711d801811b6750208bed63537"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/CORE/arm_const_structs.h",
+      "bytes": 3942,
+      "sha256": "7b5f63fa5ed80a98068c4157c5f9073cdc1a432016c3916ae3028140c617583c"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/CORE/arm_math.h",
+      "bytes": 252177,
+      "sha256": "ad247f1cec31c9d33b41288c8eb3b771bc446a5889df28e4e15ec291022f6004"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/CORE/core_cm4.h",
+      "bytes": 109142,
+      "sha256": "9b7fea7bd9d781849b22130db320b5946b73a4ccb1b297b179cff7e85447c2d9"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/CORE/core_cm4_simd.h",
+      "bytes": 22735,
+      "sha256": "767a6d37afba9850afaf090faa2ff14730cb61beed8516ab9f3e72853c93a0e0"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/CORE/core_cmFunc.h",
+      "bytes": 17146,
+      "sha256": "77ac1af1083cc8f62ea260578108e22d6474cd2f9a1c398cad9988768bd29052"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/CORE/core_cmInstr.h",
+      "bytes": 20513,
+      "sha256": "198df99902af512ffb2a54a7aa3bce7642e8825a30b46b93b5fb6df88851c472"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/CORE/startup_stm32f40_41xxx.s",
+      "bytes": 29605,
+      "sha256": "fee2962668dbef36f1b03863ce488490738cafcc6f17a89f56dabdd551f73a9d"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/misc.h",
+      "bytes": 6924,
+      "sha256": "fe0b20dc5129ec5dbfeefdc0b552b6fd5f208e0fab3f64a0aac70819dcd08037"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_adc.h",
+      "bytes": 32880,
+      "sha256": "f5d6218c383f4c426f32d36c4263276c4baa11fac55e73a55420bc9c55182c13"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_can.h",
+      "bytes": 27318,
+      "sha256": "a3eebee84d8e739789de599b8fa90c608db7c2d28d04d1ef0199317930717120"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_crc.h",
+      "bytes": 2416,
+      "sha256": "a458fe147e54f913fdb8d9aac05248d96f2d7e1349ebfbbbf8078bba2c670fb4"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_cryp.h",
+      "bytes": 14481,
+      "sha256": "0da14dc2577ca24411dd476ff35cbc341e5d19760a13e642499b54298a21b23e"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_dac.h",
+      "bytes": 14946,
+      "sha256": "2c2eeb87b713a4d21a37b59685b9da057665cb793dc822c9a7b5139be7b3b84e"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_dbgmcu.h",
+      "bytes": 4296,
+      "sha256": "0db3db80fe1aa17e1f7cae45cc016a3023a7554f1653bc47ee96a25b0116b91a"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_dcmi.h",
+      "bytes": 12977,
+      "sha256": "cb9e75b2042d47a5ca20fc5102ffe2626faf8cab6bc7f29f42a24851347ac748"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_dma.h",
+      "bytes": 28882,
+      "sha256": "02341e80f9a541076afff5f63600926a687b8b56c5f934ae0236bbbf1fe54633"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_dma2d.h",
+      "bytes": 19692,
+      "sha256": "e482dc75e4239757fbaa35337d4c04072963a0716918058666249fa18cd1dbe1"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_exti.h",
+      "bytes": 8012,
+      "sha256": "2de6a414a32404eba150f6f06177a38fdd427e3b3eb35caf10f69927f4c055ff"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_flash.h",
+      "bytes": 24467,
+      "sha256": "186476404dc1aada0e990770dabc6545f9961503e5ae39890fdabfa92e8adf18"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_flash_ramfunc.h",
+      "bytes": 3275,
+      "sha256": "905ba4fcc88b977882b543f6f90583ad9f1e13c00962e21763bd5a603c1da494"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_fmc.h",
+      "bytes": 44924,
+      "sha256": "c29f56f845e699f12b020bf7e72aa404c5b5c2bd6bf9a5038b3e7c7e15f0be71"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_fsmc.h",
+      "bytes": 27181,
+      "sha256": "c2d804ef66ce58b29f4d2c0865cd6abdc7e56fa4c027059d48190bf8f9e1c2a0"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_gpio.h",
+      "bytes": 23548,
+      "sha256": "8ec09c73453016095f18f263da39ea1a8559419584bd2090740cebd69a67f867"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_hash.h",
+      "bytes": 10084,
+      "sha256": "ec91e634d86846684da5c52601dd396e61c66d6ed2ebac7f26056961ec4e8a04"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_i2c.h",
+      "bytes": 31939,
+      "sha256": "42e56d9bb2b111fdcd45e23a3b0ef4575f5a89198f5139a94f52526f5ab536f5"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_iwdg.h",
+      "bytes": 4323,
+      "sha256": "26ecc2a4b5bb925262181d7bd220ebaa5126bc928e6fb76c01e8f4a4664af47f"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_ltdc.h",
+      "bytes": 21191,
+      "sha256": "890de684fa058e3db1d516c613dba8258af56b5dafcd5eb6514bafa16393c6f0"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_pwr.h",
+      "bytes": 7728,
+      "sha256": "da06bc8d0e93935066b5528b8e90586569675af3ac508539dd58d474e98aacf7"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_rcc.h",
+      "bytes": 30063,
+      "sha256": "49a6285869951e419e529cdc33a431abf85c99168484f0bcd06e40a797137fbe"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_rng.h",
+      "bytes": 3958,
+      "sha256": "4ecdbb3008a0c1cdd9316df38d36306f823d2848d462609b748805f3d6b2d651"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_rtc.h",
+      "bytes": 40546,
+      "sha256": "5245d8b11c02355dfded024c7340258c9def3d1be7f9ea7e02572d80adc65aa1"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_sai.h",
+      "bytes": 25470,
+      "sha256": "b6469d9e0d3536aabd85962dda8b9caf9945c5a9717c170af908465f69d5e693"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_sdio.h",
+      "bytes": 22777,
+      "sha256": "81c9af6c0f4e5d0c9138ce830db23642896ea809240b42c12e83a138e7198c78"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_spi.h",
+      "bytes": 21178,
+      "sha256": "86785aa59c7ee4c0270493121f9fb5f24235f8dcdb199aee795078b7f7c4a6d1"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_syscfg.h",
+      "bytes": 8974,
+      "sha256": "d2c9dad92e7f50848b70c6b688c5d7e0ae76bbc4a2afd426e7994357cd8e29c3"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_tim.h",
+      "bytes": 51689,
+      "sha256": "01714c33a0fdbbd3f08c530684999765ed4843601aa1f29b2310e835a293c8df"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_usart.h",
+      "bytes": 17935,
+      "sha256": "41ab3ee4f6e7ed6d0afcbbbe9905ae6345fccd9b1deffa1346781806fb5a7c7d"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/inc/stm32f4xx_wwdg.h",
+      "bytes": 3542,
+      "sha256": "2267624089c093cffe2915ef049a094374dc694a9752b59a0a31f38715d1ddff"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/src/misc.c",
+      "bytes": 11443,
+      "sha256": "4d0b131e42b44e8ad0de1630acf5dccfa7800d2bd952933ea639d79faf3f08c9"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/src/stm32f4xx_can.c",
+      "bytes": 60150,
+      "sha256": "ee493be61736abf05c1adfc2d0fdfa9a17d01cc8301bf3536a039e8731a5d09f"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/src/stm32f4xx_exti.c",
+      "bytes": 9828,
+      "sha256": "5332622af20155911e12a2db864654876c85aeab2a20cd7d61b1534f97c18b6e"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/src/stm32f4xx_gpio.c",
+      "bytes": 25202,
+      "sha256": "3043fe9e52501fad9cea9afa95e741f0697d658471d930610447623784e80bf8"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/src/stm32f4xx_rcc.c",
+      "bytes": 98839,
+      "sha256": "4169568c167d701fada6c2366d2537c62d194dbe9a311e513fc9ff80061dc998"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/src/stm32f4xx_spi.c",
+      "bytes": 52522,
+      "sha256": "d170e859aa5bba0bf09c28104dbe2c724f225cc0252ebe6a7327c2b0c0321224"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/src/stm32f4xx_syscfg.c",
+      "bytes": 9575,
+      "sha256": "50df08b1fa5afa13bc0e41eff85d2d40193a6992a5775f442cba99548d88a695"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/src/stm32f4xx_tim.c",
+      "bytes": 124732,
+      "sha256": "5148767f785e72eb404d137d9d9198e8a4458c4eca936cc449bcd86e1aa1c7e9"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/FWLIB/src/stm32f4xx_usart.c",
+      "bytes": 57949,
+      "sha256": "f76877834c69e6f44f6a5daa61191ae06c17ef19c80318b3e05542f7bd6d869c"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/ads1292.c",
+      "bytes": 15092,
+      "sha256": "f99c3d567338f95b4cbae5579554d15e3af4928f8b1a39e0f18b9dbd30192ced"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/ads1292.h",
+      "bytes": 4799,
+      "sha256": "fa5eaf065b6015d15865a783d5b64444fdacaa77c1fbed5f8a14061c2a8bbf28"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/beep.c",
+      "bytes": 2061,
+      "sha256": "9bcdfb8baee1c4d7a0f956ca0551b830d56a3dd34276e33ac566ffdabf982d80"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/beep.h",
+      "bytes": 127,
+      "sha256": "4b7960c58bca4069638d6ab42d002a767788223517e1fcbc949c4432777e2a6b"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/bio_v2.c",
+      "bytes": 12391,
+      "sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/bio_v2.h",
+      "bytes": 1729,
+      "sha256": "76198016006ab8de6126a7cb051aeb3ab296c5655152c74cf5565bd85aba0913"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/can.c",
+      "bytes": 6392,
+      "sha256": "6fd10608a11e7bd23a155a2f594686f1c81e4390d917314d5be2cb587819da8c"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/can.h",
+      "bytes": 1300,
+      "sha256": "ef5215dcd0bfb3f963160eac48ae2a6a7c6dfc55389a2f91ec22a5a57b8bce14"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/canopen.c",
+      "bytes": 20422,
+      "sha256": "447d2ff2ec32eb10fda4be0ce94bdaeea992c8db5d778ff4afdae07210ae1157"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/canopen.h",
+      "bytes": 4773,
+      "sha256": "338e99155f71bbd20b7e500953ea25055e0dfc52b3f0c9a39429369daf6b2aef"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/ecg_frame_queue.c",
+      "bytes": 1481,
+      "sha256": "cab4719c4151386acbac422f28af517a5b54c8c3c933a52a9207b1c0140e319f"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/ecg_frame_queue.h",
+      "bytes": 876,
+      "sha256": "c6922d907966865586acd4c1427b34653d4e93d9a5a6d3d1f68278f98ffafc72"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/hr_page.c",
+      "bytes": 39937,
+      "sha256": "b531140946aba2ee8ef037cf1939c81784df0810075669055233a830e2c28741"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/hr_page.h",
+      "bytes": 4253,
+      "sha256": "e604d984105492124fcfa5a703c52ab238ae7952a04b845950a907764f25617d"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/spi.c",
+      "bytes": 3718,
+      "sha256": "5e09707c47cec710172a4e78e7ca21c15c7359d964d0fbe8bf5c2498243a8ec0"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/spi.h",
+      "bytes": 333,
+      "sha256": "fcc45addcce5a791b345404f77af2327ed5b6cb7167e432e46db8e9bf1815363"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/systick.c",
+      "bytes": 1063,
+      "sha256": "bd0666b7c8cd31448d7791fc51866873283a0649648c57a339c8b52908e31a50"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/systick.h",
+      "bytes": 405,
+      "sha256": "c51d0250c353e48068cf34de4d04a4a21c12d86a51e4ee429d9c7671a3e65172"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/timer.c",
+      "bytes": 2429,
+      "sha256": "a06d7c4ef0e4a38cc355a6829bedf744436258e8e340b026a966cfcadf6ecaf1"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/HARDWARE/timer.h",
+      "bytes": 130,
+      "sha256": "57ba5444ffa77b72c89562496ac12c37055040fb0e47321588f8f0e0b41fa99c"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/SCREEN/cmd_process.c",
+      "bytes": 4976,
+      "sha256": "1e6458e19fe61922815a6d0fc0d7a8d5aa2faedba7a303bcb95e440ce5161d0d"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/SCREEN/cmd_process.h",
+      "bytes": 7337,
+      "sha256": "608a6a38607ff9333ea732f889a073277889d4315b99c097719f8df2ea82b423"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/SCREEN/cmd_queue.c",
+      "bytes": 5071,
+      "sha256": "70226503db0972c91c4490a307f3d4d8d1023049b279867717157a3212604b2c"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/SCREEN/cmd_queue.h",
+      "bytes": 923,
+      "sha256": "b48301640a6cc8bc4ef8715a30772ab76c7193c0198dd6ab8c0e8b4710f68123"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/SCREEN/hmi_driver.c",
+      "bytes": 44723,
+      "sha256": "0cf00eaf0b032f20ead1f172a253c2765816be80264f3026fd7c5ea81e7fd287"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/SCREEN/hmi_driver.h",
+      "bytes": 25490,
+      "sha256": "ee9a7de81e69f265290fe03c147f0a2df2391db6ebd2b24f0f76d039b1de9738"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/SCREEN/hmi_user_uart.c",
+      "bytes": 3986,
+      "sha256": "5e8ddf6fde70675bacc84fbbc513a01c2000725a2eb7945c463af436b43c027a"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/SCREEN/hmi_user_uart.h",
+      "bytes": 1483,
+      "sha256": "aaf15d2cdee3815cac454417a7b7a74e8a4f122e27e37c27472cff4c0efdef93"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/SCREEN/hw_config.c",
+      "bytes": 1200,
+      "sha256": "ab225cf8477bd4a0cfabc988f26713a9656592bfb91e26c86a0e01a9e8b28490"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/SCREEN/hw_config.h",
+      "bytes": 610,
+      "sha256": "3910e830cf87cf9d26b087d9150254543e20001b61d3202dfd04690913b9f0ac"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/SCREEN/ulitity.c",
+      "bytes": 1206,
+      "sha256": "d5e9eb07cb657e9d9e635099b02413c671158afd5ea38807d0363dd0f18c1075"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/SCREEN/ulitity.h",
+      "bytes": 469,
+      "sha256": "44f6f81885dffa53b5c0e21e79f84dfc28b330c0c13a16a989e36e1711e0d299"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/USER/BIO_V2.uvprojx",
+      "bytes": 20068,
+      "sha256": "5ea0360e81402057d68d80139116d9efef3e37dc2ecf7220cd987907bc9e3fb7"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/USER/main.c",
+      "bytes": 3314,
+      "sha256": "b8bffcefd8520b20ec81a6e0805a9cfd629ce636ba73b390675e1f6e5911a3e6"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/USER/stm32f4xx.h",
+      "bytes": 704100,
+      "sha256": "f646cccb5b0bbc917be824fff049167a83956169b0e114acdb8c0484985dc26c"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/USER/stm32f4xx_conf.h",
+      "bytes": 4593,
+      "sha256": "1de02ba948488f61e50a0d217390ec90c0459ed63944acb9854426904469152b"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/USER/stm32f4xx_it.c",
+      "bytes": 1620,
+      "sha256": "7efb4c9dd77744869ccdc7333f8cf0faa6a1d29b31c8151956f36b4297ea00e7"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/USER/stm32f4xx_it.h",
+      "bytes": 2063,
+      "sha256": "e7f9b4ad495d3b8ba24e65b3445d135964c10f895a4691c2bd5f50b6c2d14752"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/USER/system_stm32f4xx.c",
+      "bytes": 47787,
+      "sha256": "b530011f741dfeae02f182a08ea11bfc670d42795c9dec0d98a70041cdcaf54a"
+    },
+    {
+      "path": "node-b/firmware/biov2/实验固件/USER/system_stm32f4xx.h",
+      "bytes": 2233,
+      "sha256": "50f5887a8d62d774e1bc3d0a2e8892dd43b5d200a2f6d9266f5b747d5810cb0f"
+    },
+    {
+      "path": "node-b/HANDOFF_20261016.md",
+      "bytes": 5025,
+      "sha256": "d4d7b4f4e6b84a0cfff7edecb2fc01d084492596247bc5034a337bc603a5a40e"
+    },
+    {
+      "path": "node-b/hardware/ADS1292.pdf",
+      "bytes": 3020097,
+      "sha256": "61b75558717059aa2866c2bb65cf9faae99deb09592c3d9adf616d13e25742ab"
+    },
+    {
+      "path": "node-b/hardware/ADS1292模块电路原理图.pdf",
+      "bytes": 358092,
+      "sha256": "dd8a66e9019d4a958adb0dc83741261daf8cd45a0a46faea93cb9dbdca14c069"
+    },
+    {
+      "path": "node-b/hardware/STM32F407_原理图.pdf",
+      "bytes": 226861,
+      "sha256": "7737115dc272d6daff1f3bb08b7c8c23c10415c10bca57c3d72979adf53b46b2"
+    },
+    {
+      "path": "node-b/history/02_ECG_ADS1292R数据采集故障静态排查分析报告_v1.0.md",
+      "bytes": 22940,
+      "sha256": "e186730b9ba1fe778e57af5b713ab9529f1908dd224ed5208d9a9be1ccd1690f"
+    },
+    {
+      "path": "node-b/history/ECG_Gemini假人采样离线复核与下轮验证方案_20261012.md",
+      "bytes": 12778,
+      "sha256": "905fef59bff4181dd71383340c2aaf372dddfde14937db15ac5da961d919bd6e"
+    },
+    {
+      "path": "node-b/history/ECG心率呼吸同步采集核验_20261012.md",
+      "bytes": 16570,
+      "sha256": "3308c14db6b7084b0ca13aa048d0e67376898ade08cb4701f661448ee99adb3e"
+    },
+    {
+      "path": "node-b/history/ECG本轮连续采样与未检出心率原因复核_20261012.md",
+      "bytes": 11163,
+      "sha256": "f331b49bc16a75337ac73e53d2f7917f84e830c64e9913abcd7ff6d65f88b28f"
+    },
+    {
+      "path": "node-b/history/ECG模拟器连续采样与心率核验_20261012.md",
+      "bytes": 17124,
+      "sha256": "bfbaecb21d04ebf38c0779c77b369fb5b7abb31b211b67e948f7f746f157ab6b"
+    },
+    {
+      "path": "node-b/history/ECG真机排查与修改决策_20261010.md",
+      "bytes": 30051,
+      "sha256": "bf8c6753230377bbe2aa02fbf2b111342c2031f5cfc98b0a77243cf7b7f59efd"
+    },
+    {
+      "path": "node-b/history/ECG采集异常_代码排查报告_20261010.md",
+      "bytes": 27478,
+      "sha256": "25f1800d6f2cf4ac0766a4cd78e06289e64ca78bfcac333992eedf762c1bb7ab"
+    },
+    {
+      "path": "node-b/history/ECG采集连续性修复与START_DRDY根因验证_20261010.md",
+      "bytes": 17640,
+      "sha256": "79fe9c9fa2dd522376e0f7988f9a16ea1ed610aa27f301cb5f3c0679e65701c4"
+    },
+    {
+      "path": "node-b/history/ECG阶段性原因复盘与未排除因素_20261015.md",
+      "bytes": 14905,
+      "sha256": "83e8bb6e6399e30a3f2a0e51be0b9d23a71073b7d1d10b1cf5fb565df6d51a2d"
+    },
+    {
+      "path": "node-b/history/ECG首拍恢复修复与断开电极复测回执_20261012.md",
+      "bytes": 9916,
+      "sha256": "959754dff5424b7e1a93519040e0f69c9f0cb33234380ad87d5f089b295db16b"
+    },
+    {
+      "path": "node-b/history/内部对照诊断_20261013/内部对照真机实测与恢复综合回执_20261013.md",
+      "bytes": 10243,
+      "sha256": "a610664491b748cae5b0a0746ca7236479f9baad7439b2d3871b884a262a4a2c"
+    },
+    {
+      "path": "node-b/history/内部对照诊断_20261013/内部短接与测试信号对照方案及接线说明.md",
+      "bytes": 10888,
+      "sha256": "d51fab360744d2e3fb61812f685e55d45e340fb02091fa1c59674ca087b0ec94"
+    },
+    {
+      "path": "node-b/history/实测数据/R7_心率呼吸_20261012T1930/复核_20261012/R7_独立离线复核与原因定位_20261012.md",
+      "bytes": 14023,
+      "sha256": "fa8f96bd9c842f29552fbbf30015a20e090b7daeade85b62298a8093346c8fb2"
+    },
+    {
+      "path": "node-b/history/工具/标准采样工具使用说明_v1.0.md",
+      "bytes": 10970,
+      "sha256": "d5f0afacbf58b051212da55f41e13aeaeab4cbe2a89cbef3c2ee5ef725a3e3cc"
+    },
+    {
+      "path": "node-b/history/工频单变量诊断_20261013/单变量排查方案与接线调整条件.md",
+      "bytes": 4273,
+      "sha256": "9b93121825345c566768e9f3d217ce2a90dc819a5ac5d56646eafed44f27a281"
+    },
+    {
+      "path": "node-b/history/工频单变量诊断_20261013/工频干扰单变量实测综合回执_20261013.md",
+      "bytes": 11313,
+      "sha256": "7781f3edf1028c98e375c5f676df1694f3db25590ae3ad751e92f0e3e0c55691"
+    },
+    {
+      "path": "node-b/history/新算法_v2/USB烧录与去JLink对照准备_20261013.md",
+      "bytes": 4285,
+      "sha256": "633fe9e992b4d4fbb8bb2cc6764f01c7aa1148d63b1d5ee8519bc12d3f178789"
+    },
+    {
+      "path": "node-b/history/新算法_v2/双通道独立削顶最小修复与脱机验证_20261013.md",
+      "bytes": 7880,
+      "sha256": "7a32fbbb8fdb857d2b5162755b419f76ea84e01431275ed31a890016d0178036"
+    },
+    {
+      "path": "node-b/history/新算法_v2/新算法设计与烧录实测综合回执_20261013.md",
+      "bytes": 10712,
+      "sha256": "95274b5f1cd8cd745c87eb977991e739ffaa3964e6efddbaf13ddb71ce063f8b"
+    },
+    {
+      "path": "node-b/history/新算法_v2/正常采集RLD核对最小修复与一轮验证_20261013.md",
+      "bytes": 6788,
+      "sha256": "674ba4ee64ae7a62d5343b4a7d5ed26bd9f878793661c063bffd5195723342cc"
+    },
+    {
+      "path": "node-b/history/新算法_v2/真机验证准备_20261015/ECG独立与RLD呼吸单变量真机验证方案.md",
+      "bytes": 17098,
+      "sha256": "fc9adaa433a9f0628a71c17b76ff7c529a821124c5068ce8f2e43908ade311c1"
+    },
+    {
+      "path": "node-b/history/新算法_v2/真机验证准备_20261015/第二块F407自制ECG工程源方案.md",
+      "bytes": 8919,
+      "sha256": "bcbc2b1e0c3d3871f6a71d052b7f60c09d2288acbb791c3e490abfffafc09966"
+    },
+    {
+      "path": "node-b/history/标准采样工具实现与脱机验收回执_20261013.md",
+      "bytes": 5250,
+      "sha256": "55acda7012339a472109ca8b2c7deebc83c183ecc4abb0e0fd342b00a234b006"
+    },
+    {
+      "path": "node-b/history/标准采集本轮数据离线复核_20261013.md",
+      "bytes": 10766,
+      "sha256": "dbd7d94cee15fbc647a45c05c6cb3b6cbb479c4f5f4ee73a236fd487e4d5661a"
+    },
+    {
+      "path": "node-b/history/第二轮模拟源数据分析与厂商算法对照_20261013.md",
+      "bytes": 16987,
+      "sha256": "4556bb4a0c8cef7475609c2ed76752b7264e8b1aa3250559c681769103e5979d"
+    },
+    {
+      "path": "node-b/history/通用多样本采集工具与数据协议设计_v1.0_20261013.md",
+      "bytes": 27120,
+      "sha256": "1c6ad393b68ef620e26dabda5e407f29ddd1ec16e026a08d4c7bdd31157ca2f9"
+    },
+    {
+      "path": "node-b/history/采集工具问题清单与重新采集要求_20261012.md",
+      "bytes": 13122,
+      "sha256": "f83f3f0e7e3f37d35d2e950192fd2e15ac69289303cf2456b7d588f563fdaf4e"
+    },
+    {
+      "path": "node-b/README.md",
+      "bytes": 2687,
+      "sha256": "efdd969b572b2a21cbbebe7c300f010f1de7759e7a3c5e8e86bc73c600f39b86"
+    },
+    {
+      "path": "node-b/reference/biov2-before-isolation/HARDWARE/bio_v2.c",
+      "bytes": 11300,
+      "sha256": "007d10dc254480814c2226815a4ba347bf4d7b3a4e934c26a3b730af4b61c25d"
+    },
+    {
+      "path": "node-b/reference/biov2-before-isolation/HARDWARE/bio_v2.h",
+      "bytes": 1499,
+      "sha256": "313ad6226aeebec09e5d827f67a1d43322fbb2e69c05fb5a5e93fc643274ba1b"
+    },
+    {
+      "path": "node-b/reference/biov2-local-tools/build_arm.py.txt",
+      "bytes": 2652,
+      "sha256": "5de998ce6b1e5a0611ad6140168c411464abf67f8bb1b66abba9d38723c910d3"
+    },
+    {
+      "path": "node-b/reference/biov2-local-tools/capture_v2.py.txt",
+      "bytes": 10949,
+      "sha256": "77f5219340ab21d7380cc774a34ef7424b215712e7c847f8f00fac3b44fd1af4"
+    },
+    {
+      "path": "node-b/reference/biov2-local-tools/install_and_bootcheck.py.txt",
+      "bytes": 6766,
+      "sha256": "a66caf0220a7f30979e2b862af6db5541c1b17c874b1f16c106f14bdd0986cf6"
+    },
+    {
+      "path": "node-b/reference/biov2-local-tools/make_profile.py.txt",
+      "bytes": 2810,
+      "sha256": "4929ceadce2dd5ed895de872e00bc65f601b94b12170cc4ed63693c522611f2e"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/ads1292.c",
+      "bytes": 14668,
+      "sha256": "7f6f58fe24e97de248937f864b26554c8793a5d6d4b170a2f9b10b5e3e3ebf1f"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/ads1292.h",
+      "bytes": 4555,
+      "sha256": "3bd1e01219991536fe23daf22f6640f5c9ed851152c94b5699207d4787af82d4"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/beep.c",
+      "bytes": 2061,
+      "sha256": "9bcdfb8baee1c4d7a0f956ca0551b830d56a3dd34276e33ac566ffdabf982d80"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/beep.h",
+      "bytes": 127,
+      "sha256": "4b7960c58bca4069638d6ab42d002a767788223517e1fcbc949c4432777e2a6b"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/can.c",
+      "bytes": 6392,
+      "sha256": "6fd10608a11e7bd23a155a2f594686f1c81e4390d917314d5be2cb587819da8c"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/can.h",
+      "bytes": 1300,
+      "sha256": "ef5215dcd0bfb3f963160eac48ae2a6a7c6dfc55389a2f91ec22a5a57b8bce14"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/canopen.c",
+      "bytes": 20422,
+      "sha256": "447d2ff2ec32eb10fda4be0ce94bdaeea992c8db5d778ff4afdae07210ae1157"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/canopen.h",
+      "bytes": 4773,
+      "sha256": "338e99155f71bbd20b7e500953ea25055e0dfc52b3f0c9a39429369daf6b2aef"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/ecg_filter.c",
+      "bytes": 4253,
+      "sha256": "2cb6f31142a695ddd65d2392f40e6a4ca6fc5e2a6402e2dd94bcf4f3b7514a95"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/ecg_filter.h",
+      "bytes": 803,
+      "sha256": "02ef66af4936154835dcc4fd660f8aef1198d6c0600d7fd2e133a37705fd29f1"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/ecg_frame_queue.c",
+      "bytes": 1481,
+      "sha256": "cab4719c4151386acbac422f28af517a5b54c8c3c933a52a9207b1c0140e319f"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/ecg_frame_queue.h",
+      "bytes": 876,
+      "sha256": "c6922d907966865586acd4c1427b34653d4e93d9a5a6d3d1f68278f98ffafc72"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/hr_page.c",
+      "bytes": 43704,
+      "sha256": "972b71d9026bb9d1d20434340fe72a32647bef181644f1625bf17c238daac387"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/hr_page.h",
+      "bytes": 4253,
+      "sha256": "e604d984105492124fcfa5a703c52ab238ae7952a04b845950a907764f25617d"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/pan_tompkins.c",
+      "bytes": 20556,
+      "sha256": "faee8e201d8d7ff02ee4cb428ba321b3b154ce86febac1ee2735c4d7aafab364"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/pan_tompkins.h",
+      "bytes": 2292,
+      "sha256": "14f138e58cc8f19d5fbe387ef6a46abc62632a35813104379c3dfb66bc381e19"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/resp_rate.c",
+      "bytes": 9738,
+      "sha256": "86fd53daafe3f046abcadf6be92e8bbc069eba22ca3aca1d1936c30eb022aef4"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/resp_rate.h",
+      "bytes": 1152,
+      "sha256": "c70c9fd97b2503f676984cbd130f37bca5ab357a7f394633d4e9b884caccf54f"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/spi.c",
+      "bytes": 3694,
+      "sha256": "fe3f0a1f80cd7c6b2fa07935082e658bb83aac0baf6f61a18c15616185057fdc"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/spi.h",
+      "bytes": 333,
+      "sha256": "fcc45addcce5a791b345404f77af2327ed5b6cb7167e432e46db8e9bf1815363"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/systick.c",
+      "bytes": 1063,
+      "sha256": "bd0666b7c8cd31448d7791fc51866873283a0649648c57a339c8b52908e31a50"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/systick.h",
+      "bytes": 405,
+      "sha256": "c51d0250c353e48068cf34de4d04a4a21c12d86a51e4ee429d9c7671a3e65172"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/timer.c",
+      "bytes": 2429,
+      "sha256": "a06d7c4ef0e4a38cc355a6829bedf744436258e8e340b026a966cfcadf6ecaf1"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/HARDWARE/timer.h",
+      "bytes": 130,
+      "sha256": "57ba5444ffa77b72c89562496ac12c37055040fb0e47321588f8f0e0b41fa99c"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/SCREEN/cmd_process.c",
+      "bytes": 4976,
+      "sha256": "1e6458e19fe61922815a6d0fc0d7a8d5aa2faedba7a303bcb95e440ce5161d0d"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/SCREEN/cmd_process.h",
+      "bytes": 7337,
+      "sha256": "608a6a38607ff9333ea732f889a073277889d4315b99c097719f8df2ea82b423"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/SCREEN/cmd_queue.c",
+      "bytes": 5071,
+      "sha256": "70226503db0972c91c4490a307f3d4d8d1023049b279867717157a3212604b2c"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/SCREEN/cmd_queue.h",
+      "bytes": 923,
+      "sha256": "b48301640a6cc8bc4ef8715a30772ab76c7193c0198dd6ab8c0e8b4710f68123"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/SCREEN/hmi_driver.c",
+      "bytes": 44723,
+      "sha256": "0cf00eaf0b032f20ead1f172a253c2765816be80264f3026fd7c5ea81e7fd287"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/SCREEN/hmi_driver.h",
+      "bytes": 25490,
+      "sha256": "ee9a7de81e69f265290fe03c147f0a2df2391db6ebd2b24f0f76d039b1de9738"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/SCREEN/hmi_user_uart.c",
+      "bytes": 3986,
+      "sha256": "5e8ddf6fde70675bacc84fbbc513a01c2000725a2eb7945c463af436b43c027a"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/SCREEN/hmi_user_uart.h",
+      "bytes": 1483,
+      "sha256": "aaf15d2cdee3815cac454417a7b7a74e8a4f122e27e37c27472cff4c0efdef93"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/SCREEN/hw_config.c",
+      "bytes": 1200,
+      "sha256": "ab225cf8477bd4a0cfabc988f26713a9656592bfb91e26c86a0e01a9e8b28490"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/SCREEN/hw_config.h",
+      "bytes": 610,
+      "sha256": "3910e830cf87cf9d26b087d9150254543e20001b61d3202dfd04690913b9f0ac"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/SCREEN/ulitity.c",
+      "bytes": 1206,
+      "sha256": "d5e9eb07cb657e9d9e635099b02413c671158afd5ea38807d0363dd0f18c1075"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/SCREEN/ulitity.h",
+      "bytes": 469,
+      "sha256": "44f6f81885dffa53b5c0e21e79f84dfc28b330c0c13a16a989e36e1711e0d299"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/USER/HR_TFT.uvprojx",
+      "bytes": 20532,
+      "sha256": "10b476b9d0ccd0fb4bb054be16233d1dbea00f49fb17f58deeb84166546d9dce"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/USER/main.c",
+      "bytes": 3499,
+      "sha256": "c02b761d68c687d78c1797cf50b368077d591dfa3905a031d650b90c3102269a"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/USER/stm32f4xx.h",
+      "bytes": 704100,
+      "sha256": "f646cccb5b0bbc917be824fff049167a83956169b0e114acdb8c0484985dc26c"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/USER/stm32f4xx_conf.h",
+      "bytes": 4593,
+      "sha256": "1de02ba948488f61e50a0d217390ec90c0459ed63944acb9854426904469152b"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/USER/stm32f4xx_it.c",
+      "bytes": 1620,
+      "sha256": "7efb4c9dd77744869ccdc7333f8cf0faa6a1d29b31c8151956f36b4297ea00e7"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/USER/stm32f4xx_it.h",
+      "bytes": 2063,
+      "sha256": "e7f9b4ad495d3b8ba24e65b3445d135964c10f895a4691c2bd5f50b6c2d14752"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/USER/system_stm32f4xx.c",
+      "bytes": 47787,
+      "sha256": "b530011f741dfeae02f182a08ea11bfc670d42795c9dec0d98a70041cdcaf54a"
+    },
+    {
+      "path": "node-b/reference/legacy-postfix/USER/system_stm32f4xx.h",
+      "bytes": 2233,
+      "sha256": "50f5887a8d62d774e1bc3d0a2e8892dd43b5d200a2f6d9266f5b747d5810cb0f"
+    },
+    {
+      "path": "node-b/reference/vendor-f407-local-port/Project/DSP_FIR.uvprojx",
+      "bytes": 23942,
+      "sha256": "0fb3b334564c650afe8611a1c78761652128ebfd913bf2b63576037d403e884e"
+    },
+    {
+      "path": "node-b/reference/vendor-f407-local-port/Project/main.c",
+      "bytes": 17116,
+      "sha256": "673a269a35ea0bc0b32100a024fbc919fee8548b4ab058dd442f0622d6a1bd99"
+    },
+    {
+      "path": "node-b/reference/vendor-f407-local-port/README_F407移植说明.md",
+      "bytes": 1354,
+      "sha256": "6f755b9161db6b260695a4d4d4851caf3043e9ce4e709e28716d9242bab3b3dc"
+    },
+    {
+      "path": "node-b/reference/vendor-f407-local-port/User/ADS1292/ads1292.c",
+      "bytes": 7663,
+      "sha256": "2ed5d286dc06acafcd64c138ca1805fe6bd4020e55888ad360e9c039e80a2dc4"
+    },
+    {
+      "path": "node-b/reference/vendor-f407-local-port/User/ADS1292/ads1292.h",
+      "bytes": 3013,
+      "sha256": "7cab0d59388ac5a2e4a4d1138698bfa608245fa4b7476f63756a26d7303cd688"
+    },
+    {
+      "path": "node-b/reference/vendor-f407-local-port/User/EXTI/exti.c",
+      "bytes": 3432,
+      "sha256": "07641831b5c59ac1e79d267acee8db185d99b6e2a0c111a629d0520a5f2c234f"
+    },
+    {
+      "path": "node-b/reference/vendor-f407-local-port/User/EXTI/exti.h",
+      "bytes": 2264,
+      "sha256": "d10b370bb2072aad2a8a824255eb1754d437ba3845051aa89ec8e51ed12a75f9"
+    },
+    {
+      "path": "node-b/reference/vendor-f407-local-port/User/SPI/spi.c",
+      "bytes": 6475,
+      "sha256": "74044e8ac916907d021d65656364bfde9cb0e4e241430ccc4c3317b66f0201ef"
+    },
+    {
+      "path": "node-b/reference/vendor-f407-local-port/User/SPI/spi.h",
+      "bytes": 1237,
+      "sha256": "a1454578280d6bda49dd5ac89b4b9bf8de9f3256d9b15c5171cbe289cf8455df"
+    },
+    {
+      "path": "node-b/tests/run_queue.py",
+      "bytes": 941,
+      "sha256": "f6dd10f469ec189ed23ec2fcc7d47b59ca23fe224fc27ea78618c392c42c54b3"
+    },
+    {
+      "path": "node-b/tests/test_production_queue.c",
+      "bytes": 2196,
+      "sha256": "3df11013f39b8d1e7c4760aeb5cbb38d547b57b053c7e5fceb54d5590742965d"
+    },
+    {
+      "path": "node-b/tools/build_arm.py",
+      "bytes": 4140,
+      "sha256": "bbeb55e24f42642a0846a4f2678b87ad1b2898608caea3d3e31478bce8ef77c4"
+    },
+    {
+      "path": "node-b/tools/run_host.py",
+      "bytes": 2505,
+      "sha256": "3bb3eb39f8a710fbc608a72dfed277972de9f1a56ebc9ec19d0d44c68f31402d"
+    },
+    {
+      "path": "node-b/tools/verify_bundle.py",
+      "bytes": 1141,
+      "sha256": "19542fda0a0bdec9f6ed848c4c22b044ccd0672c8776f620748bbac637468744"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2648,
+      "sha256": "5a3c50895d5b633daacb61e95f5c1db742af84f4c419df009579163049f1cdac"
+    }
+  ]
+}

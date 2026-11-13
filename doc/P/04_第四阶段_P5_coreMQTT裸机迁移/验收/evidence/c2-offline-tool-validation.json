@@ -1,0 +1,38 @@
+{
+  "validated_at_utc": "2026-10-08T09:20:45.368200+00:00",
+  "kind": "OFFLINE_TOOL_VALIDATION",
+  "synthetic": true,
+  "hardware_tests_executed": false,
+  "tests_passed": 22,
+  "parser_test_exit": 0,
+  "demo_cli_exit": 0,
+  "overwrite_guard_exit": 2,
+  "existing_output_unchanged": true,
+  "demo_verdict": "SIMULATION_ONLY",
+  "H16_acceptance": "NOT_GRANTED",
+  "test_command": [
+    "C:\\Users\\Serendipity\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "gateway\\mqtt\\tests\\measurement",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "demo_command": [
+    "C:\\Users\\Serendipity\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "gateway\\mqtt\\tests\\measurement\\analyze_h16.py",
+    "gateway\\mqtt\\tests\\measurement\\fixtures\\h16-synthetic-demo.json",
+    "--output",
+    "gateway\\mqtt\\build\\closeout-c2-20261008\\synthetic-demo-summary-verified.json"
+  ],
+  "test_log_sha256": "52d0bd2db6c33f66cf7f5e7d73735c610361a227e42bfd4d003ed16af983f9fa",
+  "demo_summary_sha256": "03da9e4cde5e4b8539260d74678ec015db2e9e363b97f2359ed552c158f6e3e0",
+  "source_sha256": {
+    "gateway/mqtt/tests/measurement/analyze_h16.py": "6123aefc59795332ac7fa608205e65784d07145177828b9851dd1fcda1b3c23d",
+    "gateway/mqtt/tests/measurement/test_analyze_h16.py": "7c6f2f099142bb5a9ab98f72768b4f3029f142bbb45fd61c80bfe4799fdcda35"
+  },
+  "fixture_sha256": "ac0021f0d68486a5d1c5323f83beadc9b1989de466de1c26ce7127ee0a630779"
+}

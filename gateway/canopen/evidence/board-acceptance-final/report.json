@@ -1,0 +1,36 @@
+{
+  "checks": [
+    "F407 CANopenNode / bxCAN loopback / TLS MQTT dual node startup",
+    "OD fixed point mapping and reserved RR INVALID",
+    "NODE-A loss isolated from other node",
+    "NODE-A heartbeat recovered",
+    "NODE-B loss isolated from other node",
+    "NODE-B heartbeat recovered",
+    "EMCY arrived at MQTT"
+  ],
+  "elapsed_s": 44.09,
+  "received": {
+    "GATEWAY_STATUS": 8,
+    "NODE_STATUS": 18,
+    "ECG": 20,
+    "SPO2": 15,
+    "PR": 15,
+    "NIBP": 15,
+    "HR": 14,
+    "RR": 14,
+    "TEMP": 14,
+    "RESP": 21,
+    "PPG": 20,
+    "FAULT": 2
+  },
+  "decode_errors": {},
+  "synthetic_only": true,
+  "limitations": [
+    "Single-board internal loopback uses two CANopenNode test producers; no physical A/B acceptance",
+    "RAM cache is finite and volatile; overflow is counted"
+  ],
+  "last_metrics": {
+    "elapsed_s": 43.64,
+    "message": "GW METRICS can=13379 drop=0 cache=21 lost=0 replay=0 nodes=11"
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "C49068_independent_readonly": {
+    "exit_code": 0,
+    "full_sha256": "75db57c038c021b40f36fa1ee627f410d26061e18e0f59a8465c73af0216bc25",
+    "status": "C_CURRENT_B5_CONFIG_DISARMED_READONLY_PASS"
+  },
+  "C49068_install": {
+    "Close_completed": true,
+    "DISARMED": true,
+    "actions": {
+      "JLINKARM_BeginDownload": 1,
+      "JLINKARM_EndDownload": 1,
+      "JLINKARM_Go": 1,
+      "JLINKARM_Halt": 1,
+      "JLINKARM_Reset": 1,
+      "JLINKARM_WriteMem": 1
+    },
+    "double_full_options": true,
+    "exit_code": 0,
+    "full_sha256": "75db57c038c021b40f36fa1ee627f410d26061e18e0f59a8465c73af0216bc25",
+    "status": "C_EGRESS_INSTALL_FULL_VERIFY_DISARMED_PASS"
+  },
+  "CPU_ROM": "UNRESOLVED_PAUSED",
+  "ECG60": {
+    "AT_events": [
+      "B5 AT_EVENT tick=3467 phase=0 written=0 reply=6 reason=1 flags=0",
+      "B5 AT_EVENT tick=3468 phase=1 written=0 reply=6 reason=1 flags=0",
+      "B5 AT_EVENT tick=3469 phase=1 written=0 reply=6 reason=1 flags=0",
+      "B5 AT_EVENT tick=3474 phase=0 written=0 reply=21 reason=1 flags=0"
+    ],
+    "B_close_resume": true,
+    "B_exit_code": 1,
+    "B_host_cancel_running_verified": true,
+    "B_reason": "G3_STOP_REQUESTED",
+    "C_stop": {
+      "armed_at": 530,
+      "business_elapsed_ms": 2951,
+      "cache": 0,
+      "live": 0,
+      "pending": 0,
+      "phase": 0,
+      "reason": 3,
+      "required": 0,
+      "tick": 3481,
+      "unsynced": 0,
+      "written": 0
+    },
+    "MQTT_started": false,
+    "START": 1,
+    "T0_present": false,
+    "TIME_WAIT": "GW TIME_WAIT queries=0 elapsed=6 valid=0 epoch=0 tried=0",
+    "TLS_started": false,
+    "cloud_cleanup_complete": true,
+    "cloud_exit_code": 0,
+    "evaluation_300s_started": false,
+    "joint_exit_code": 1,
+    "raw_observer_counts_not_fresh_device_delivery": {
+      "BROKER_RAW": 3,
+      "WSS_RAW": 542
+    },
+    "reason": "G3_C_NETWORK_STEP_FAILED"
+  },
+  "historical_reply": {
+    "current_raw_ESP_UART_reply_not_saved": true,
+    "disabled_no_server_list": true,
+    "raw_sha256": "d96033b6fbbd0dd20cdb109fca086161e7ff508b204048793051b6ac5f1d2b85",
+    "without_echo_bytes": 21,
+    "without_echo_sha256": "2f97d2a4ef5f2f26642960df21193cd6a499c51e1393b01f57c69616a4f31d77"
+  },
+  "isolated_cloud": {
+    "cleanup_complete": true,
+    "cloud_config_writes": 0,
+    "elapsed_s": 8.093999999924563,
+    "exit_code": 0,
+    "expiry_unix": 1793286305.0,
+    "formal_services_unchanged": true,
+    "ready": true,
+    "remaining_s": 21592.53896188736,
+    "test_unit_start_actions": 2
+  },
+  "new_C49132_installation": "NOT_RUN",
+  "physical_final": "OWNER_CONFIRMED_ALL_POWER_OFF",
+  "private_field_manifest_sha256": "1e69cc856046046247126141ef742ae433f1b534aec61c923b151c97dec6d180",
+  "status": "TIME_GATE_NOT_PASS_NO_COMMON_EVALUATION"
+}

@@ -1,0 +1,39 @@
+{
+  "date_local": "2026-10-23",
+  "status": "AWAITING_EXPLICIT_RESET_AUTHORIZATION",
+  "enabled": false,
+  "owner_reset_authorized": false,
+  "new_hardware_calls": 0,
+  "card": {
+    "path": "node-b/docs/AUTH-B-RESP-RA-LL20-RECOVERY-001-R1.md",
+    "sha256": "15559b3f49244b5ee55c6514c570563bc1ae54ee5de337f9681d1bfba91687f1"
+  },
+  "profile_sha256": "44c13ba74331421e2ab01b65b7eb80b2d5235eb5cdac8fbc44fb268504496e9a",
+  "source_sha256": "4c01a79ace48ce1aa5e90932238994f2f268ff184a5bfe0402122b9036704f8f",
+  "tools_sha256": {
+    "node-b/tools/capture_resp_b.py": "6989a819a5f26c91074bf2cfdd769313fa543aa85e58c01d5198bd0670e309ae",
+    "node-b/tools/resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+    "node-b/tools/analyze_resp_b.py": "225e5ef46b8f450c3b4372d3fc102491c8f2e64ee8a5f9fd87a12074018e3360",
+    "node-b/tools/supervise_resp_b.py": "5019350e361f6ab999dc0fe9a09808b304228235d8c11b3abcf4e5e86f6f8a4d",
+    "node-b/tools/capture_b.py": "7c45589bff1099e20354b8dbe7db9bb2e32095bf67a904b9358cf4f4996800fa",
+    "node-b/tools/readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+    "node-b/tools/precheck_b.py": "3c490ecc99154aa857b0f2f9767951b5e6587844269983670a6ea53684ce4a81",
+    "node-b/tools/adc_path_b.py": "a80c1ed4ccddb8f0f569c3753c2659b78e01bb3c6b4f0b49bcaf3aa27a152d12",
+    "node-b/tools/boot_check_b.py": "0c854ade1cc99807badbdbc8a9f0a5eb7dd24d6447f617356fcd2bcd42f100c0",
+    "node-b/tools/fault_snapshot_b.py": "96d0976b2dd18d5c9a982c4d8b8afe9f2822f0120bbe06ef4c48cb4461bc49a3",
+    "node-b/tools/field_profile.py": "2cc386655e425d7f1ee57a8de956026cadd1057a27b2429ffa0f75a4bb1d9857",
+    "node-b/acquisition/工具/stable_slot_export.py": "7be6c02292e04894aa12b6eece5a439db49137517b2032ece31dd2c9e3825ae2",
+    "node-b/tools/runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+    "node-b/tools/supervise_runtime_state_b.py": "98587c514f8987e76851b87465259a0b3242cb4b222c2289c1b6de5b0f580b22",
+    "node-b/tools/recover_resp_runtime_b.py": "0020bfc6f54bcddfbbaa8576801cab0e53f898a362249415082f95a51ea3b31b",
+    "node-b/tools/supervise_resp_recovery_b.py": "5f28aa9d627621d46f0df497eb460ac83b4ddb7c0cbcd21c2d35fdf9ebf5f4a9",
+    "node-b/tools/resp_rall20_b.py": "8478070d4a4b4c3d468c50a5f0259ce546aa986e95b08182767d74bf9200fa53",
+    "node-b/tools/analyze_resp_rall20_b.py": "030daff2c8e07249392ee9d2e7a12f873ad9cc3a5652b506d71b7db65da67697",
+    "node-b/tools/supervise_resp_rall20_b.py": "131cf822a27eff0b68d47a5de47bcb1920a369583270be12b9559d0601592ecb",
+    "node-b/tools/recover_resp_rall20_b.py": "b57d75c52922b24cce0bc78ec53a636654cae53c7837ce597df904e72193b21d",
+    "node-b/tools/supervise_recover_resp_rall20_b.py": "dffbc700405780731d54e9a0a19f1070a13d1d16a0d7fc4432d98cf3c925c0c5"
+  },
+  "offline_tests": 6,
+  "disabled_cli_real_worker_exit": 1,
+  "disabled_cli_SDK_opened": false
+}

@@ -1,0 +1,30 @@
+{
+  "scope": "P0_REPRODUCIBLE_BUILD_ONLY_NO_DEVICE_OPS",
+  "images": {
+    "A": {
+      "native_exit": 0,
+      "fromelf_native_exit": 0,
+      "bytes": 42608,
+      "BIN_SHA256": "953c6acc23dcbfcd5a30f138b03f8a6de9430637b0da5477afb2f09b3f431eeb",
+      "binary_matches_previous_installed_candidate": true
+    },
+    "B": {
+      "native_exit": 0,
+      "bytes": 41516,
+      "BIN_SHA256": "e452c2eafd07868c642c530c09c7ec31b07f919cb41886c849fe84b817644fcd",
+      "binary_matches_previous_installed_candidate": true
+    },
+    "C": {
+      "native_exit": 0,
+      "bytes": 44520,
+      "BIN_SHA256": "5f4690eca0a00334ff1a9b653be2a0b99cba034b869ae4592dd36a042a147442",
+      "binary_matches_previous_installed_candidate": true
+    }
+  },
+  "A_AXF_SHA_changed": true,
+  "AXF_note": "Fresh build debug artifact differs; BIN matches. Use matching fresh symbols, not assumed old absolute addresses.",
+  "SDK_opens": 0,
+  "serial_opens": 0,
+  "Flash_writes": 0,
+  "formal_cloud_changes": 0
+}

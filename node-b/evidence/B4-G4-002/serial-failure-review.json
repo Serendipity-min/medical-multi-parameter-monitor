@@ -1,0 +1,54 @@
+{
+  "status": "HOST_FALSE_POSITIVE_NOT_CAN_PASS",
+  "original_exit_code": 1,
+  "original_reason": "CAPTURE_C_VECTOR_FAULT",
+  "START_commands": 0,
+  "raw_bytes": 6487,
+  "raw_sha256": "d6c7ba2fab71d2a742ade10bfcdd59506d082a8bd001ced44bd8824bb8b8e515",
+  "post_BOOT_packets": 6,
+  "CRC_errors": 0,
+  "pre_BOOT_prefix_bytes": 6295,
+  "C_diagnostic": {
+    "VTOR": 0,
+    "CFSR": 0,
+    "HFSR": 0
+  },
+  "installation_alias_proof": "c_b4_readonly.check_running enforced 0-address64B==Flash64B and actual Flash PC for each running snapshot",
+  "last_install_runtime": [
+    {
+      "VTOR": "0x0",
+      "pc_samples": [
+        "0x8004e60",
+        "0x8005050",
+        "0x8004a48"
+      ],
+      "CFSR": 0,
+      "HFSR": 0,
+      "DHCSR": "0x1010001"
+    },
+    {
+      "VTOR": "0x0",
+      "pc_samples": [
+        "0x8005114",
+        "0x8004a22",
+        "0x8005112"
+      ],
+      "CFSR": 0,
+      "HFSR": 0,
+      "DHCSR": "0x1010001"
+    },
+    {
+      "VTOR": "0x0",
+      "pc_samples": [
+        "0x8004a24",
+        "0x80018a2",
+        "0x8001884"
+      ],
+      "CFSR": 0,
+      "HFSR": 0,
+      "DHCSR": "0x1010001"
+    }
+  ],
+  "new_hardware_retry": false,
+  "CAN_acceptance": false
+}

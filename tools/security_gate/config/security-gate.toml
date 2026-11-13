@@ -1,0 +1,12 @@
+# 通用安全门策略。项目的范围与命令由 profile 声明，禁止自动猜测服务器目标。
+schema_version = 1
+default_timeout = 300
+scan_requires_explicit_authorization = true
+release_requires_clean_tree = true
+zap_mode = "baseline-only"
+zap_default = "disabled"
+critical = "fail"
+high = "fail"
+moderate = "review"
+unknown_severity = "review"
+raw_output = "outside-repository"

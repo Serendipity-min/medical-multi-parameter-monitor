@@ -1,0 +1,93 @@
+{
+  "status": "C_CURRENT_DOUBLE_FULL_READ_PASS",
+  "native_exit_code": 0,
+  "sdk_calls": 79,
+  "close_resume_enabled": true,
+  "device_id": "0x10076413",
+  "cpuid": "0x410fc241",
+  "capacity_kib": 1024,
+  "RDP_level": 0,
+  "UID_B_excluded_and_C_pair_matched": true,
+  "encrypted_files_verified": 44,
+  "flash_bytes": 1048576,
+  "options_bytes": 16,
+  "actual_full_sha256": "1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390",
+  "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+  "protected_region_sha256": {
+    "sector3": "1698c8783b4fbdd1bc7fc5a8641babc7b499b58a65be54e7b36c65c6c5b88313",
+    "sector7": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+    "sector11": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260"
+  },
+  "historical_H3_application_match": true,
+  "historical_H3_sector3_record_match": true,
+  "H3_restore_identity_eligible": true,
+  "restore_exercised": false,
+  "application_vector": {
+    "MSP": "0x20020000",
+    "reset_entry": "0x80080c9"
+  },
+  "entry": {
+    "DHCSR": "0x1010001",
+    "VTOR": "0x8000000",
+    "CFSR": "0x0",
+    "HFSR": "0x0",
+    "FLASH_CR": "0x80000000",
+    "FLASH_SR": "0x0",
+    "RCC_CSR": "0xe000000"
+  },
+  "entry_pc_samples": [
+    "0x80044c8",
+    "0x800257e",
+    "0x800628a"
+  ],
+  "after": {
+    "DHCSR": "0x1010001",
+    "VTOR": "0x8000000",
+    "CFSR": "0x0",
+    "HFSR": "0x0",
+    "FLASH_CR": "0x80000000",
+    "FLASH_SR": "0x0",
+    "RCC_CSR": "0xe000000"
+  },
+  "after_pc_samples": [
+    "0x8006310",
+    "0x8000ce6",
+    "0x8004512"
+  ],
+  "ROM_root_cause": "CPU_ROM_ROOT_CAUSE_UNRESOLVED",
+  "network_isolation_validated": false,
+  "CAN_bench_authorized": false,
+  "explicit_reset_halt_go_target_writes": 0,
+  "archive": "E:\\medical-monitor-node-b-precan-private\\20261023\\c-current-readback-20261023T113154137272Z",
+  "scope": "REAL_C_READONLY_BACKUP_PASS_NOT_CAN_ADMISSION_OR_RESTORE_EXERCISE",
+  "owner_authorization_basis": "Latest explicit user request: C J-Link current-state identity and two full Flash/options reads; no power/network/wiring changes.",
+  "tools_sha256": {
+    "c_b4_readonly.py": "614d23736ea8569d4098d33e26fe762fcb00c1be646c0e0ea4ba1f9ad40afb09",
+    "readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+    "runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+    "live_state_b.py": "bdf04c16f74e93028a55a7db244f0a2b6f683dfb987e61d41470f2bf3debde6c",
+    "resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+    "b4_recovery.py": "fa93222b833f2f010d068b0cac97c73db7430c7eb68316d84441d60539c76213"
+  },
+  "DLL_sha256": "632d0d78e72b8a55c65945a0c393a9f081082c725fff4ba3081b0a565fd58cff",
+  "offline_validation": {
+    "receipt_sha256": "f444378ffd972502b64aee672de47656cd3fcfbc3c09ff615ae88eb5dc6297a8",
+    "C_readonly_tests": 18,
+    "sync_guard_tests": 15,
+    "all_six_stages_expected_exit_pass": true
+  },
+  "C_offline_recovery": {
+    "status": "OFFLINE_PACKAGE_PREPARED_NOT_AUTHORIZED",
+    "manifest_sha256": "7c45912d4eead456fc49f46df8c9439ff8b1a96bbe97c53bf4d192cbc467b298",
+    "board_role": "C",
+    "sectors": [
+      0,
+      1
+    ],
+    "hardware_operations": 0,
+    "process_exit_code": 0,
+    "restore_exercised": false,
+    "actual_hardware_install_authorized": false
+  },
+  "network_scope": "ESP present; current-state backup does not claim wireless isolation or authorize any cloud/network command."
+}

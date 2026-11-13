@@ -1,0 +1,36 @@
+{
+  "status": "B5_TEMP_OBJECT_PRE_EVALUATION_ABORTED",
+  "exit_code": 1,
+  "profile": "TEMP_OBJECT",
+  "criteria_preserved": {
+    "profile": "TEMP_OBJECT",
+    "temperature_quantity": "NONHUMAN_OBJECT_SURFACE",
+    "temperature_reference": null,
+    "temperature_accuracy": "NOT_CALIBRATED",
+    "temperature_wire_time": "NODE_SCALAR_REPORT_UTC_SECONDS",
+    "temperature_frame_age_max_ms": 2500,
+    "scalar_min_messages": 295,
+    "warmup_s": 45,
+    "evaluation_s": 300,
+    "tail_s": 15,
+    "arm_hard_s": 420
+  },
+  "failures": [
+    "GW_FAIL_SNTP_FRESH_SAMPLE",
+    "SNTP_REJECT_REASON_10_MODULE_VS_FRESH_UTC_MISMATCH",
+    "G3_C_STOPPED_BEFORE_EVALUATION_END"
+  ],
+  "stop_state": {
+    "tick": 1861,
+    "armed_at": 697,
+    "reason": 3,
+    "phase": 7,
+    "required": 48,
+    "written": 48,
+    "unsynced": 0,
+    "pending": 0,
+    "business_elapsed_ms": 1164
+  },
+  "c_flash_writes": 0,
+  "repeated_b5start_attempts": 0
+}

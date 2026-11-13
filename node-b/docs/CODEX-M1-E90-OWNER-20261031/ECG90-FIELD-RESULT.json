@@ -1,0 +1,63 @@
+{
+  "status": "OWNER_AUTHORIZED_ECG90_ENGINEERING_METRICS_PASS",
+  "authority": "OWNER_DIRECT_NOT_PI",
+  "field_source_commit": "73d07c70f8e5184a27cddc99f371b76058f38152",
+  "field_source_tree": "5694d45ec595daf54969a6ea9ed219d971162a3a",
+  "parent_actual_process_exit_code": 0,
+  "worker_actual_native_exit_code": 0,
+  "supervisor_result_code": 0,
+  "capture_exit_code": 0,
+  "review_actual_process_exit_code": 0,
+  "correct_valid_slots": 120,
+  "denominator": 120,
+  "missing_slots": 0,
+  "valid_HR_values": [
+    90
+  ],
+  "integrity_failures": [],
+  "engineering_failures": [],
+  "raw_sample_rate_SPS": 249.89242359044601,
+  "raw_window_frames": 41233,
+  "evaluation_raw_frames": 29987,
+  "derived_RESP50_evaluation_frames": 5997,
+  "stable_slot_integrity": {
+    "blocks": 1060,
+    "stable": 41234,
+    "unqualified_sequences": 82,
+    "invalid_status_sequences": 0,
+    "nonzero_flags_frames": 0,
+    "sequence_gaps": [],
+    "IRQ_ms_step_histogram": {
+      "4": 41162,
+      "5": 71
+    },
+    "IRQ_cycles_step_min": 672072,
+    "IRQ_cycles_step_max": 672500,
+    "raw_status_values": [
+      12582912,
+      12591104,
+      12599296,
+      12607488
+    ],
+    "blocks_sha256": "13e0a628ead9f3ec7e84af9decbe9b997cf6ccbc21f2205c61056e6cf2bab17f",
+    "index_sha256": "2c66dd05061288cc1eb88a6c3096b2a4ff42fef47d32b712d6b98963ae301f71"
+  },
+  "capture_host_s": 164.9529999999795,
+  "session_elapsed_s": 194.25,
+  "blocks": 1060,
+  "Close_completed": true,
+  "post_Close_state": "UNKNOWN_NOT_OBSERVED",
+  "native_SDK_side_effects": "UNRESOLVED",
+  "current_identity_matches_reference": true,
+  "full_sha256": "9ff8133d06330a4b05cb15d26bfb51b6f7e1197014692c5267d178d744f4287d",
+  "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+  "original_review_status": "M1_OFFLINE_RATE_METRICS_ONLY_UNVERIFIED_PI_ROOT",
+  "original_PI_trust_root_verified": false,
+  "original_field_scope_PASS": false,
+  "signature_math_verified": true,
+  "parent_worker_nonce_claims_consumed": true,
+  "explicit_RESET_HALT_GO_Flash_START": 0,
+  "ECG120_status": "OWNER_CONFIRMED_NORMAL_ECG120_1mV_READY_B_C_OFF_NOT_RUN",
+  "final_power_state": "OWNER_CONFIRMED_B_C_OFF_ALL_DARK",
+  "RR15_source_and_root_cause": "SOURCE_UNKNOWN_ROOT_CAUSE_UNRESOLVED_UNCHANGED"
+}

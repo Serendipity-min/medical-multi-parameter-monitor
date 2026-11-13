@@ -1,0 +1,72 @@
+{
+  "algorithm_source_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+  "candidate": {
+    "BIN": {
+      "sha256": "438a8120f6df06ce219cdc30c0e5b697ac0e993f98d5a80521b10361536ae3ae",
+      "bytes": 25284
+    },
+    "ELF": {
+      "sha256": "5a3fbbc13fe57a6b3a5fdaf6ead7f80320bff6d622e0e0980fc089a8bcea18bc",
+      "bytes": 576176
+    },
+    "host_tests_previous": {
+      "passed": 56,
+      "total": 56
+    },
+    "ARM_exit_previous": 0
+  },
+  "current_B_flash_read_this_turn": false,
+  "currently_running_candidate_identity": "NOT_VERIFIED_NO_HARDWARE_ACCESS",
+  "last_normal_hardware_record": "2026-10-13, external inputs disconnected, 8412 frames; candidate then differed from latest channel-isolation BIN",
+  "source_configuration": {
+    "CONFIG1": 1,
+    "CONFIG2": 224,
+    "CH1SET": 64,
+    "CH2SET": 64,
+    "RLD_SENS": 236,
+    "LOFF_SENS": 0,
+    "RESP1": 234,
+    "RESP2": 3,
+    "GPIO_configuration": 12,
+    "SPI_divider": 128,
+    "sample_hz_nominal": 250
+  },
+  "last_normal_register_readback_previous": {
+    "ID": 115,
+    "CONFIG1": 1,
+    "CONFIG2": 224,
+    "CH1SET": 64,
+    "CH2SET": 64,
+    "RLD_SENS": 236,
+    "LOFF_SENS": 0,
+    "RESP1": 234,
+    "RESP2": 3,
+    "GPIO_observed": 13
+  },
+  "previous_limited_failure_summary": {
+    "open_input_frames": 8412,
+    "resp_rail_frames": 8412,
+    "post_fix_offline_ECG_processed": 8412,
+    "post_fix_end_hr_reason": 66,
+    "post_fix_hr_valid_frames": 0,
+    "new_hardware_result": false
+  },
+  "G3_proposed_configuration_NOT_APPLIED": {
+    "RLD_SENS": 204,
+    "RESP1": 42,
+    "purpose": "NONHUMAN_COMMON_GROUND_ECG_ONLY_RL_DISCONNECTED",
+    "approval_and_B_candidate_build": "PENDING"
+  },
+  "unknown": {
+    "B_actual_FLASH": null,
+    "S_UID": null,
+    "S_current_FLASH": null,
+    "S_P11_jumpers": null,
+    "adapter_polarity_measured": null,
+    "ADS_AVDD_AVSS_measured": null,
+    "actual_VREF_measured": null,
+    "bias_allowed_window_measured": null,
+    "BOM_measured": null,
+    "instruments": null
+  }
+}

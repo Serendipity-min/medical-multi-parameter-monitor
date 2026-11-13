@@ -1,0 +1,25 @@
+{
+  "checks": [],
+  "elapsed_s": 100.34,
+  "received": {
+    "GATEWAY_STATUS": 11,
+    "NODE_STATUS": 22,
+    "RESP": 87,
+    "ECG": 60,
+    "PPG": 98,
+    "NIBP": 30,
+    "HR": 30,
+    "RR": 30,
+    "TEMP": 50
+  },
+  "decode_errors": {},
+  "synthetic_only": true,
+  "limitations": [
+    "Single-board internal loopback uses two CANopenNode test producers; no physical A/B acceptance",
+    "RAM cache is finite and volatile; overflow is counted"
+  ],
+  "last_metrics": {
+    "elapsed_s": 96.688,
+    "message": "GW METRICS can=39201 drop=0 cache=32 lost=190 replay=2 nodes=11"
+  }
+}

@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "E:\medical-monitor-node-b5-cloud\node-b\tools\b5_codex_p1a_audit.py", line 104, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "E:\medical-monitor-node-b5-cloud\node-b\tools\b5_codex_p1a_audit.py", line 81, in main
+    import b5_channel_review as review
+  File "E:\medical-monitor-node-b5-cloud\node-b\tools\b5_channel_review.py", line 7, in <module>
+    import b5_g3_contract as g
+  File "E:\medical-monitor-node-b5-cloud\node-b\tools\b5_g3_contract.py", line 15, in <module>
+    from b5_g0_readonly import write_private
+  File "E:\medical-monitor-node-b5-cloud\node-b\tools\b5_g0_readonly.py", line 3, in <module>
+    import ctypes
+  File "C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\ctypes\__init__.py", line 473, in <module>
+    GetLastError = windll.kernel32.GetLastError
+                   ^^^^^^^^^^^^^^^
+  File "C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\ctypes\__init__.py", line 446, in __getattr__
+    dll = self._dlltype(name)
+          ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\ctypes\__init__.py", line 376, in __init__
+    self._handle = _dlopen(self._name, mode)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\medical-monitor-node-b5-cloud\node-b\tools\b5_codex_p1a_audit.py", line 62, in guard
+    raise RuntimeError('P1A_OFFLINE_FORBIDDEN_'+event)
+RuntimeError: P1A_OFFLINE_FORBIDDEN_ctypes.dlopen

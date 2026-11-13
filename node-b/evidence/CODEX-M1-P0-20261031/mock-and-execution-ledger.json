@@ -1,0 +1,162 @@
+{
+  "scope": "M1_P0_OFFLINE_ONLY",
+  "base": "025839a2fc272232141b557bfce8aa10952ca682",
+  "attempts": [
+    {
+      "attempt": "mock-01",
+      "actual_exit_code": 1,
+      "tests_run": 17,
+      "failures": 19,
+      "errors": 0,
+      "blocked_events": [
+        "ctypes.dlopen",
+        "ctypes.dlopen",
+        "ctypes.dlopen",
+        "ctypes.dlopen",
+        "ctypes.dlopen",
+        "ctypes.dlopen",
+        "ctypes.dlopen",
+        "ctypes.dlopen",
+        "ctypes.dlopen",
+        "ctypes.dlopen",
+        "ctypes.dlopen",
+        "ctypes.dlopen",
+        "ctypes.dlopen",
+        "ctypes.dlopen",
+        "ctypes.dlopen",
+        "ctypes.dlopen",
+        "ctypes.dlopen",
+        "ctypes.dlopen",
+        "ctypes.dlopen"
+      ],
+      "receipt_sha256": "388e03c64f6cc422eb4d556277927cecdcf64b5bafd940f02530fc370ba6150c",
+      "log_sha256": "6284285d32f03275f5c96e55c3545141b171d135aaf97cdbf12bc4355a5eecd5",
+      "source_sha256": {
+        "node-b/tools/b5_m1_entry.py": "9974d1f245dc790ba8e74a832c375e78aacd8cb130d82d59459ebd70f75793eb",
+        "node-b/tools/b5_m1_review.py": "f177715b006f01737bf6dbbf2160b7fab2e217feeb8813fc68166c1a1d8217e5",
+        "node-b/tests/test_b5_m1.py": "84987ed60dd3b8f570fe05c833e7a1de7bfba33359236d469c412c48b9eae595",
+        "node-b/tests/run_b5_m1_mock.py": "5a8037cc5175ad8d11f684147e0f761004b743d12d6f3ce433852c53580fba80"
+      }
+    },
+    {
+      "attempt": "mock-02",
+      "actual_exit_code": 1,
+      "tests_run": 17,
+      "failures": 0,
+      "errors": 3,
+      "blocked_events": [],
+      "receipt_sha256": "62c3c47013a3c20afa972880f67e387644a2662fa845cbf6d2c75c82079fcd93",
+      "log_sha256": "fbaf39104f27e9b5841cda8732c5e8dde9d6a1df827490e6829e541f55b20de3",
+      "source_sha256": {
+        "node-b/tools/b5_m1_entry.py": "9974d1f245dc790ba8e74a832c375e78aacd8cb130d82d59459ebd70f75793eb",
+        "node-b/tools/b5_m1_review.py": "f177715b006f01737bf6dbbf2160b7fab2e217feeb8813fc68166c1a1d8217e5",
+        "node-b/tests/test_b5_m1.py": "85274927a037f49f0c481be5a4875d3066b884ebb4f0f22c302f41d1dc190ccc",
+        "node-b/tests/run_b5_m1_mock.py": "e79ab26711473b07f29d98b93380db83be77d9fbb73f341f51f4e66652c23e5f"
+      }
+    },
+    {
+      "attempt": "mock-03",
+      "actual_exit_code": 0,
+      "tests_run": 17,
+      "failures": 0,
+      "errors": 0,
+      "blocked_events": [],
+      "receipt_sha256": "b300bbb1de621ac5c8bdb45c9a196be3f72f77f3a5575a130d7ad95279782f5c",
+      "log_sha256": "4c0d898dc5057d07004d9257fab93ae4330d90477078d69c4db200ab5c0ba26f",
+      "source_sha256": {
+        "node-b/tools/b5_m1_entry.py": "7395c5ac40c3c555408ef58571597dc65f439d02c93c4cf88c4fad1be1957f66",
+        "node-b/tools/b5_m1_review.py": "e36a17abdfd63f1a1af60efc9cfc57fdf7936d44f9ff05764622117ec8fef105",
+        "node-b/tests/test_b5_m1.py": "e06b0f8d4cfa385b7c48e395cccbae438af33708349797f95216a275543ff134",
+        "node-b/tests/run_b5_m1_mock.py": "e79ab26711473b07f29d98b93380db83be77d9fbb73f341f51f4e66652c23e5f"
+      }
+    },
+    {
+      "attempt": "mock-delivered",
+      "actual_exit_code": 0,
+      "tests_run": 18,
+      "failures": 0,
+      "errors": 0,
+      "blocked_events": [],
+      "receipt_sha256": "3e9b136b6671faf5c4908d42f0ba8d1cab8abba9219622c5c478de2325850543",
+      "log_sha256": "68e8ae73589248c57d7197cac2c0a2bcccba6cd18afa68fed16dc017792c13b8",
+      "source_sha256": {
+        "node-b/tools/b5_m1_entry.py": "23458bf02224c43e8b15116897b0be4de5b380281763ee296c23ae22ff6ea4e4",
+        "node-b/tools/b5_m1_review.py": "d0cecbcb58c5c50582813b109fbcf98c64fb957f2f81f4272446d6a5e9e1ab96",
+        "node-b/tests/test_b5_m1.py": "2087d4b116bcfd437806fe9b867b99099d28003e4c88487bd90e9d497e60e0c3",
+        "node-b/tests/run_b5_m1_mock.py": "e79ab26711473b07f29d98b93380db83be77d9fbb73f341f51f4e66652c23e5f"
+      }
+    },
+    {
+      "attempt": "mock-final",
+      "actual_exit_code": 0,
+      "tests_run": 17,
+      "failures": 0,
+      "errors": 0,
+      "blocked_events": [],
+      "receipt_sha256": "087c661fd62f60c5d185cf1dbf92a8f318c548421aef82785c8a1ab659b66060",
+      "log_sha256": "902e0cb0207a1879c39396f7c9490685d1c3d389f4d73a73ca017c359cea81b9",
+      "source_sha256": {
+        "node-b/tools/b5_m1_entry.py": "e474151d278a92136d18f0b3f9f74c25339da58dc3346eca864deec95b2727f0",
+        "node-b/tools/b5_m1_review.py": "d0cecbcb58c5c50582813b109fbcf98c64fb957f2f81f4272446d6a5e9e1ab96",
+        "node-b/tests/test_b5_m1.py": "81100485876f8776fdef05cea1cad6a2d2249ca09cd2fad24b1049d21028a98e",
+        "node-b/tests/run_b5_m1_mock.py": "e79ab26711473b07f29d98b93380db83be77d9fbb73f341f51f4e66652c23e5f"
+      }
+    },
+    {
+      "attempt": "mock-release",
+      "actual_exit_code": 0,
+      "tests_run": 19,
+      "failures": 0,
+      "errors": 0,
+      "blocked_events": [],
+      "receipt_sha256": "cea528e80ef4c46c375f365f5e85114d8271233754c11a380fd83f7f54357875",
+      "log_sha256": "4879082bd9bfd2f4ac67351de4e71e26add9b967ff8bbed96d48d5d2ace17916",
+      "source_sha256": {
+        "node-b/tools/b5_m1_entry.py": "3eb8c7a6fb684e5be1e2955a06c9172854a0fc4478ea30301b7a17664ecb6de6",
+        "node-b/tools/b5_m1_review.py": "98559f8948be4fed7a862baf06173d8f8327f54f3cd4ad24d71e9ae24d917e52",
+        "node-b/tests/test_b5_m1.py": "4212e539f29f88d960e08fcf2a41dfdadad7d3ec298b37533a74bf6993afe8f3",
+        "node-b/tests/run_b5_m1_mock.py": "e79ab26711473b07f29d98b93380db83be77d9fbb73f341f51f4e66652c23e5f"
+      }
+    },
+    {
+      "attempt": "mock-sealed-final",
+      "actual_exit_code": 0,
+      "tests_run": 18,
+      "failures": 0,
+      "errors": 0,
+      "blocked_events": [],
+      "receipt_sha256": "30f65dc146eda389999cf97b35c572cdba7510edd7e2df0fec38d7899adeb6c9",
+      "log_sha256": "a009974253eb4fc6853f6bf64942fa3fbf609d103e22ca001cfffac70ca3b849",
+      "source_sha256": {
+        "node-b/tools/b5_m1_entry.py": "3eb8c7a6fb684e5be1e2955a06c9172854a0fc4478ea30301b7a17664ecb6de6",
+        "node-b/tools/b5_m1_review.py": "7c41c8a8f490a3012b3ddb4008531ce0e3f33e89acfec38f9be69644d5d24f93",
+        "node-b/tests/test_b5_m1.py": "2087d4b116bcfd437806fe9b867b99099d28003e4c88487bd90e9d497e60e0c3",
+        "node-b/tests/run_b5_m1_mock.py": "e79ab26711473b07f29d98b93380db83be77d9fbb73f341f51f4e66652c23e5f"
+      }
+    }
+  ],
+  "final_status": "PASS_MOCK",
+  "final_actual_exit_code": 0,
+  "final_tests_run": 19,
+  "final_sources": {
+    "node-b/tools/b5_m1_entry.py": "3eb8c7a6fb684e5be1e2955a06c9172854a0fc4478ea30301b7a17664ecb6de6",
+    "node-b/tools/b5_m1_review.py": "98559f8948be4fed7a862baf06173d8f8327f54f3cd4ad24d71e9ae24d917e52",
+    "node-b/tests/test_b5_m1.py": "4212e539f29f88d960e08fcf2a41dfdadad7d3ec298b37533a74bf6993afe8f3",
+    "node-b/tests/run_b5_m1_mock.py": "e79ab26711473b07f29d98b93380db83be77d9fbb73f341f51f4e66652c23e5f"
+  },
+  "executed_and_delivered_sources_same_bytes": true,
+  "failure_explanations": {
+    "mock-01": "Guard stopped stdlib ctypes kernel32 initialization, not a JLink attempt",
+    "mock-02": "Tests incorrectly expected RuntimeError; inherited library correctly raised ValueError; old library not modified"
+  },
+  "new_board_SDK_COM_Flash_RESET_START_actions": 0,
+  "new_cloud_actions": 0,
+  "new_T0_runs": 0,
+  "prior65_plus17_algorithm_regressions": "NOT_RUN",
+  "actual_B_field_runs": "NOT_RUN_NOT_AUTHORIZED",
+  "entry_signed_worker_and_supervision": "IMPLEMENTED_CURRENT_FIXED_PI_ROOT_UNCONFIGURED",
+  "capture_mock_result_is_not_native_side_effect_proof": true,
+  "first_ECG60_card": "DISABLED_0_SESSIONS",
+  "final_static_delivery_check": "Caller records actual script completion; no hardware meaning",
+  "Git_commit_push_exit_codes": "Recorded after actual operation in ignored receipt and final response"
+}

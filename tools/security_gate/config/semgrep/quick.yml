@@ -1,0 +1,28 @@
+rules:
+  - id: python-shell-true
+    languages: [python]
+    severity: ERROR
+    message: Review subprocess shell execution and input trust boundary.
+    metadata: {confidence: HIGH, category: security}
+    pattern: subprocess.$FUNC(..., shell=True, ...)
+  - id: python-tls-verification-disabled
+    languages: [python]
+    severity: ERROR
+    message: TLS peer verification must be reviewed.
+    metadata: {confidence: HIGH, category: security}
+    pattern: $CLIENT.$METHOD(..., verify=False, ...)
+  - id: c-unbounded-copy
+    languages: [c]
+    severity: ERROR
+    message: Review unbounded string copy against destination bounds.
+    metadata: {confidence: HIGH, category: security}
+    pattern-either:
+      - pattern: strcpy(...)
+      - pattern: strcat(...)
+      - pattern: gets(...)
+  - id: javascript-eval
+    languages: [javascript, typescript]
+    severity: WARNING
+    message: Review dynamic evaluation and input trust boundary.
+    metadata: {confidence: MEDIUM, category: security}
+    pattern: eval(...)

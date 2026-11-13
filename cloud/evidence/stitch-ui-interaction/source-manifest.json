@@ -1,0 +1,91 @@
+{
+  "source_head": "1a85d5c48b6930c6f00be1022dfb0a5938bbb421",
+  "uncommitted_preview": true,
+  "files": [
+    {
+      "path": "cloud/tools/stitch_ui_acceptance.py",
+      "sha256": "3e91c9f452a81734fb33b5b2f16c9bf6877b052a12275a08fd1f743e422aee0a"
+    },
+    {
+      "path": "cloud/tools/stitch_ui_interaction_acceptance.py",
+      "sha256": "8c1fc7cd4dcbc0de2a862fd8d10d1d9cbb68fa623cfc52341e0ecc3a1ccb6657"
+    },
+    {
+      "path": "cloud/web/dist/assets/index-BLVnE1QP.css",
+      "sha256": "f45d25b75e3523c011a9504ce95be65ade4ea1801f2703fd493a7aacb72a7eb0"
+    },
+    {
+      "path": "cloud/web/dist/assets/index-DwBqwWJA.js",
+      "sha256": "82beaec189a9ed9a2d9847186bfda3e0ccdf6c3f0de9593c8a566ff7ccdbe2fe"
+    },
+    {
+      "path": "cloud/web/dist/index.html",
+      "sha256": "d9425b2a554c9b05af4a609ea70030bb76b4e125089e0b5003f8c4bc1e996d34"
+    },
+    {
+      "path": "cloud/web/src/main.ts",
+      "sha256": "4ee1515a1a196b41ca48ffe005edcf44d5a1152b582ec9e48d77011d68f30879"
+    },
+    {
+      "path": "cloud/web/src/model/viewModel.ts",
+      "sha256": "b938fe14103fdddabc714bada7fef669a59fed68e5098a6cd2dd15ebf864dba9"
+    },
+    {
+      "path": "cloud/web/src/router/hashRouter.ts",
+      "sha256": "57107bc602c220d730d2d3f926ba173751a82809a713ca49ef9b56928651376e"
+    },
+    {
+      "path": "cloud/web/src/state/monitorStore.ts",
+      "sha256": "dbafae243234aa415d69295c1722cc772d9669dabf6fc441950d6e4278b8c80d"
+    },
+    {
+      "path": "cloud/web/src/state/sessionHistory.ts",
+      "sha256": "bec970572a724186c2647c98db3fa2c58495f84f5cadc1010053749594814707"
+    },
+    {
+      "path": "cloud/web/src/style.css",
+      "sha256": "4a603c301662a5645cc5f1f0de0c34234a01726405309290b3af99186b31203a"
+    },
+    {
+      "path": "cloud/web/src/transport/monitorSocket.ts",
+      "sha256": "10d37021fcfcdf0f352019d2ac544fe2f8f3634c4f66d8d50125ad680644c899"
+    },
+    {
+      "path": "cloud/web/src/types.ts",
+      "sha256": "3ccef9aa46b53a1ce53e06abda7e82eca14d6dbfae53f28bad0098ef935ad859"
+    },
+    {
+      "path": "cloud/web/src/ui/accessDialog.ts",
+      "sha256": "b00272d8a04e2a79e85274b4351965e6cf591c6977000b1fc617629decd540d2"
+    },
+    {
+      "path": "cloud/web/src/ui/monitorView.ts",
+      "sha256": "2176e46940e404435ee4ae24fafa61b400928a3ddc494c2743ff3b2ba96cdc42"
+    },
+    {
+      "path": "cloud/web/src/ui/numerics.ts",
+      "sha256": "378678b3c824e8d378acc5e12458a1ab415406a48be2af554b18047dc2b807e2"
+    },
+    {
+      "path": "cloud/web/src/ui/parameters.ts",
+      "sha256": "001d135c504aa77f53c373b4bb800a321a515f528051a2f1017b63208c7e9be4"
+    },
+    {
+      "path": "cloud/web/src/ui/sessionView.ts",
+      "sha256": "3e95716a58950f406d11cb1bb4bb11c96c1d366b1f7450de792304984e9b5492"
+    },
+    {
+      "path": "cloud/web/src/ui/statusBar.ts",
+      "sha256": "8ad0a414de9869a4d20f8cfe04aa7633c42a81121031b80e08075d4815950bed"
+    },
+    {
+      "path": "cloud/web/src/waveform/renderer.ts",
+      "sha256": "a1d561e8bf8172d3ac5359721308839056a1607e648151ac048118932a0515d2"
+    }
+  ],
+  "checks": {
+    "typescript_vite_build": "passed",
+    "frontend_state_tests_passed": 9,
+    "git_diff_check": "passed"
+  }
+}

@@ -1,0 +1,19 @@
+test_115200_register_baud_uses_actual_APB_divider (test_b5_esp_gmr.Tests.test_115200_register_baud_uses_actual_APB_divider) ... ok
+test_HALT_reset_go_WriteMem_and_reconfigure_API_denied_before_DLL (test_b5_esp_gmr.Tests.test_HALT_reset_go_WriteMem_and_reconfigure_API_denied_before_DLL) ... ok
+test_RAM_Flash_control_GPIO_and_wrong_UART_byte_denied (test_b5_esp_gmr.Tests.test_RAM_Flash_control_GPIO_and_wrong_UART_byte_denied) ... ok
+test_ROM_entry_closes_without_extra_snapshot_query_or_recovery (test_b5_esp_gmr.Tests.test_ROM_entry_closes_without_extra_snapshot_query_or_recovery) ... ok
+test_capture_uses_running_RX_ring_and_fails_on_ERROR (test_b5_esp_gmr.Tests.test_capture_uses_running_RX_ring_and_fails_on_ERROR) ... ok
+test_default_plan_never_loads_native_or_executes (test_b5_esp_gmr.Tests.test_default_plan_never_loads_native_or_executes) ... ok
+test_disabled_or_wrong_scope_stops_first (test_b5_esp_gmr.Tests.test_disabled_or_wrong_scope_stops_first) ... ok
+test_missing_GMR_or_OK_never_reports_version_PASS (test_b5_esp_gmr.Tests.test_missing_GMR_or_OK_never_reports_version_PASS) ... ok
+test_native_DAP_guard_denies_Flash_even_with_forged_parent_grant (test_b5_esp_gmr.Tests.test_native_DAP_guard_denies_Flash_even_with_forged_parent_grant) ... ok
+test_native_negative_write_is_preserved_and_latches_no_retry (test_b5_esp_gmr.Tests.test_native_negative_write_is_preserved_and_latches_no_retry) ... ok
+test_native_read_error_preserved_and_prevents_any_second_call (test_b5_esp_gmr.Tests.test_native_read_error_preserved_and_prevents_any_second_call) ... ok
+test_old_and_new_version_strings_parse_without_inferring_module_age (test_b5_esp_gmr.Tests.test_old_and_new_version_strings_parse_without_inferring_module_age) ... ok
+test_only_exact_AT_then_GMR_bytes_are_granted (test_b5_esp_gmr.Tests.test_only_exact_AT_then_GMR_bytes_are_granted) ... ok
+test_ring_wrap_preserves_exact_reply_bytes (test_b5_esp_gmr.Tests.test_ring_wrap_preserves_exact_reply_bytes) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.034s
+
+OK

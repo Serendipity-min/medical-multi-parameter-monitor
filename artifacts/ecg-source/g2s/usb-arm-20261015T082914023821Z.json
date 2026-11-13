@@ -1,0 +1,29 @@
+{
+  "scope": "ORDINARY_USB_VARIANT_ARM_BUILD",
+  "hardware_operations": [],
+  "status": "PASS",
+  "exit_code": 0,
+  "errors": 0,
+  "warnings": 0,
+  "resources": {
+    "code": 4376,
+    "ro": 8760,
+    "rw": 36,
+    "zi": 9636
+  },
+  "dma_buffer_address": "0x2000006c",
+  "outputs": {
+    "MPM_ECG_SOURCE_USB.axf": {
+      "bytes": 312356,
+      "sha256": "cc66a79aa8734706dc8d540c6a1ac64b659630b18c49d29d9dc6484d6af21254"
+    },
+    "MPM_ECG_SOURCE_USB.bin": {
+      "bytes": 13172,
+      "sha256": "b61f4948fa0ff36fcc191c543841770e9ce9c97e65a614f6e086a8b3e8afc05e"
+    },
+    "MPM_ECG_SOURCE_USB.map": {
+      "bytes": 76036,
+      "sha256": "e664f5926b7a3896261c25a32a7229cdd37eb71d1dd1c42beedd424821583eed"
+    }
+  }
+}

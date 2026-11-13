@@ -1,0 +1,210 @@
+{
+  "enabled": false,
+  "authorized_field_sessions": 0,
+  "M0_matrix_sha256": "327c4fb345c7bd6810b47c7789de73a1337c907d2a78acab37ccef297094d62c",
+  "basis": "PI latest request: ECG60 pilot, first-rate batches, then complete three independent repeats before field starts",
+  "original_M0_files_modified": false,
+  "schedule_change": "Grouping/order only; no old result/criterion changed",
+  "batches": [
+    {
+      "batch": 0,
+      "run_ids": [
+        "M1-E60-R1"
+      ],
+      "status": "NOT_AUTHORIZED_NOT_RUN",
+      "proposed_independent_cold_boot_per_run": true
+    },
+    {
+      "batch": 1,
+      "run_ids": [
+        "M1-E90-R1",
+        "M1-E120-R1"
+      ],
+      "status": "NOT_AUTHORIZED_NOT_RUN",
+      "proposed_independent_cold_boot_per_run": true
+    },
+    {
+      "batch": 2,
+      "run_ids": [
+        "M1-R12-R1",
+        "M1-R15-R1",
+        "M1-R18-R1",
+        "M1-R24-R1",
+        "M1-R30-R1"
+      ],
+      "status": "NOT_AUTHORIZED_NOT_RUN",
+      "proposed_independent_cold_boot_per_run": true
+    },
+    {
+      "batch": 3,
+      "run_ids": [
+        "M1-E120-R2",
+        "M1-E90-R2",
+        "M1-E60-R2"
+      ],
+      "status": "NOT_AUTHORIZED_NOT_RUN",
+      "proposed_independent_cold_boot_per_run": true
+    },
+    {
+      "batch": 4,
+      "run_ids": [
+        "M1-R30-R2",
+        "M1-R24-R2",
+        "M1-R18-R2",
+        "M1-R15-R2",
+        "M1-R12-R2"
+      ],
+      "status": "NOT_AUTHORIZED_NOT_RUN",
+      "proposed_independent_cold_boot_per_run": true
+    },
+    {
+      "batch": 5,
+      "run_ids": [
+        "M1-E90-R3",
+        "M1-E60-R3",
+        "M1-E120-R3"
+      ],
+      "status": "NOT_AUTHORIZED_NOT_RUN",
+      "proposed_independent_cold_boot_per_run": true
+    },
+    {
+      "batch": 6,
+      "run_ids": [
+        "M1-R18-R3",
+        "M1-R30-R3",
+        "M1-R15-R3",
+        "M1-R24-R3",
+        "M1-R12-R3"
+      ],
+      "status": "NOT_AUTHORIZED_NOT_RUN",
+      "proposed_independent_cold_boot_per_run": true
+    }
+  ],
+  "M0_card_references": [
+    {
+      "run_id": "M1-E60-R1",
+      "path": "node-b/docs/CODEX-M0-MULTIRATE-20261031/disabled-cards/M1-E60-R1.disabled.json",
+      "sha256": "bd7587793ceeab48307b03464de9927dea2e3c78ff5fc8b8b4a8811ccedd31b2"
+    },
+    {
+      "run_id": "M1-E90-R1",
+      "path": "node-b/docs/CODEX-M0-MULTIRATE-20261031/disabled-cards/M1-E90-R1.disabled.json",
+      "sha256": "34adf97ea313d109803399b4467f3aefc09b3c6a59c1b5c83949e98c6031a7ca"
+    },
+    {
+      "run_id": "M1-E120-R1",
+      "path": "node-b/docs/CODEX-M0-MULTIRATE-20261031/disabled-cards/M1-E120-R1.disabled.json",
+      "sha256": "19d69c29d693c52a3997bde990933b1bc356a0caae7899efbb70613797dc9213"
+    },
+    {
+      "run_id": "M1-E120-R2",
+      "path": "node-b/docs/CODEX-M0-MULTIRATE-20261031/disabled-cards/M1-E120-R2.disabled.json",
+      "sha256": "f09ed4b99a43b7f08fa1091a7d6ff298946cc952d3ed0fec032bf455ca28a0c2"
+    },
+    {
+      "run_id": "M1-E90-R2",
+      "path": "node-b/docs/CODEX-M0-MULTIRATE-20261031/disabled-cards/M1-E90-R2.disabled.json",
+      "sha256": "678a4061934102d3473e88493131c859263ce740be23888480045a5f0cd47545"
+    },
+    {
+      "run_id": "M1-E60-R2",
+      "path": "node-b/docs/CODEX-M0-MULTIRATE-20261031/disabled-cards/M1-E60-R2.disabled.json",
+      "sha256": "2f418c15805aa0c99c3227c61c86da6918b2b92ba22b77629ddf14e49afce8c7"
+    },
+    {
+      "run_id": "M1-E90-R3",
+      "path": "node-b/docs/CODEX-M0-MULTIRATE-20261031/disabled-cards/M1-E90-R3.disabled.json",
+      "sha256": "e2c76aa287ee7b591dad0ff2ee979b3af85aa650ebda8640d3025718fcdc645a"
+    },
+    {
+      "run_id": "M1-E60-R3",
+      "path": "node-b/docs/CODEX-M0-MULTIRATE-20261031/disabled-cards/M1-E60-R3.disabled.json",
+      "sha256": "e8d4992c0fc3e082a75f2080422242e77bea1562e0e7e241c8cdca343b62c37c"
+    },
+    {
+      "run_id": "M1-E120-R3",
+      "path": "node-b/docs/CODEX-M0-MULTIRATE-20261031/disabled-cards/M1-E120-R3.disabled.json",
+      "sha256": "dc8d25a04b0b6b841d0b741511fccc896dbd401857ed3ce7ab8effdd86306ae9"
+    },
+    {
+      "run_id": "M1-R12-R1",
+      "path": "node-b/docs/CODEX-M0-MULTIRATE-20261031/disabled-cards/M1-R12-R1.disabled.json",
+      "sha256": "b2db9e242c7c22e033a94227e4c3a5b0a0054b3aec1e5a78a453edd034901554"
+    },
+    {
+      "run_id": "M1-R15-R1",
+      "path": "node-b/docs/CODEX-M0-MULTIRATE-20261031/disabled-cards/M1-R15-R1.disabled.json",
+      "sha256": "a6dc54c9e87182c48b66812ec2b151f46e2d9c94b99259c54aa92043a27bd9f8"
+    },
+    {
+      "run_id": "M1-R18-R1",
+      "path": "node-b/docs/CODEX-M0-MULTIRATE-20261031/disabled-cards/M1-R18-R1.disabled.json",
+      "sha256": "56be02e56d0a4c3124c9711c8ed48851ba4cdad096d1b584d963d8edac6b0b05"
+    },
+    {
+      "run_id": "M1-R24-R1",
+      "path": "node-b/docs/CODEX-M0-MULTIRATE-20261031/disabled-cards/M1-R24-R1.disabled.json",
+      "sha256": "6cecd98f7de1490035c746a5c6ac08482b24da424a5de40a29cc1d3cff38cc35"
+    },
+    {
+      "run_id": "M1-R30-R1",
+      "path": "node-b/docs/CODEX-M0-MULTIRATE-20261031/disabled-cards/M1-R30-R1.disabled.json",
+      "sha256": "ffecd25faefd56023a20841f8438ab28b27d8329d235095166469b1e915ba8e0"
+    },
+    {
+      "run_id": "M1-R30-R2",
+      "path": "node-b/docs/CODEX-M0-MULTIRATE-20261031/disabled-cards/M1-R30-R2.disabled.json",
+      "sha256": "c935f07ebe0cc0c32f013afc653d685d2e9618118bc7b2ec75f0192d93ec98f6"
+    },
+    {
+      "run_id": "M1-R24-R2",
+      "path": "node-b/docs/CODEX-M0-MULTIRATE-20261031/disabled-cards/M1-R24-R2.disabled.json",
+      "sha256": "6799145e10fdbe28b7940366a9d327fc0f3a80178679c4132408bd4be361940f"
+    },
+    {
+      "run_id": "M1-R18-R2",
+      "path": "node-b/docs/CODEX-M0-MULTIRATE-20261031/disabled-cards/M1-R18-R2.disabled.json",
+      "sha256": "91a9ec2a18241300e57e758744be9ae48bb5839f7861707e8837357d6c663b47"
+    },
+    {
+      "run_id": "M1-R15-R2",
+      "path": "node-b/docs/CODEX-M0-MULTIRATE-20261031/disabled-cards/M1-R15-R2.disabled.json",
+      "sha256": "4d9a2e490df2482cdd0853e9c2e35bda37aaa1ac5d2e4a8de9f3faf41d1c40d3"
+    },
+    {
+      "run_id": "M1-R12-R2",
+      "path": "node-b/docs/CODEX-M0-MULTIRATE-20261031/disabled-cards/M1-R12-R2.disabled.json",
+      "sha256": "a9c9484a85bee2dc73abc1a51ba0e9263252003cf1f8ecf1ea6683f3d727dc5e"
+    },
+    {
+      "run_id": "M1-R18-R3",
+      "path": "node-b/docs/CODEX-M0-MULTIRATE-20261031/disabled-cards/M1-R18-R3.disabled.json",
+      "sha256": "0c066303fd4214adca9be33856ac4ef2e8427dcff71e74fa1efbda1b5760574c"
+    },
+    {
+      "run_id": "M1-R30-R3",
+      "path": "node-b/docs/CODEX-M0-MULTIRATE-20261031/disabled-cards/M1-R30-R3.disabled.json",
+      "sha256": "99c1344afea40ee86d50189745fb8bc4fe108a7e1652fd7f8827cddb5b7dd117"
+    },
+    {
+      "run_id": "M1-R15-R3",
+      "path": "node-b/docs/CODEX-M0-MULTIRATE-20261031/disabled-cards/M1-R15-R3.disabled.json",
+      "sha256": "df0ac82edb59aafb1eefbbe120adeb8f277ca04f16e964b322a3e411d5941401"
+    },
+    {
+      "run_id": "M1-R24-R3",
+      "path": "node-b/docs/CODEX-M0-MULTIRATE-20261031/disabled-cards/M1-R24-R3.disabled.json",
+      "sha256": "4e701435b743368354e116417612c297db6e53e28a42ffcfe8b85a3fcfa44a21"
+    },
+    {
+      "run_id": "M1-R12-R3",
+      "path": "node-b/docs/CODEX-M0-MULTIRATE-20261031/disabled-cards/M1-R12-R3.disabled.json",
+      "sha256": "89d5f2ba1b62bb7f5edd2117338300b1b8540fb98d9a475331d396b9ba4c89c1"
+    }
+  ],
+  "retries": 0,
+  "stop_on_any_failure": true,
+  "trial_counts_as_E60_R1_if_complete_and_accepted": true,
+  "RR_source_truth": "UNKNOWN_ROOT_CAUSE_UNRESOLVED",
+  "T1_T2_T3_scope": "NOT_INCLUDED"
+}

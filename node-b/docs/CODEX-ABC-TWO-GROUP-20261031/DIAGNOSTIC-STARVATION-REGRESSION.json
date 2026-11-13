@@ -1,0 +1,49 @@
+{
+  "cases": [
+    {
+      "name": "before-compile",
+      "exit_code": 0
+    },
+    {
+      "name": "before-4",
+      "exit_code": 3,
+      "expected_failure": true,
+      "log_sha256": "009ca23c19143bc317fb41dbde1a4eb23d5fefbcfeba2b75e4a8edb2bafc6efe"
+    },
+    {
+      "name": "after-compile",
+      "exit_code": 0
+    },
+    {
+      "name": "after-0",
+      "exit_code": 0,
+      "expected_failure": false,
+      "log_sha256": "c5d218a6547eb2f3b7863a131c2b87d5b756572f8f614788342b00a0aa499c94"
+    },
+    {
+      "name": "after-1",
+      "exit_code": 0,
+      "expected_failure": false,
+      "log_sha256": "22690719469c38455623fd1b4e188d1e54515bb74291af75f3955cb409a89df1"
+    },
+    {
+      "name": "after-4",
+      "exit_code": 0,
+      "expected_failure": false,
+      "log_sha256": "311b2a9d8f51e88ca53d4b8f02e5b07dc9e778a01fe7cd542e6ddb8d60b910be"
+    },
+    {
+      "name": "B-only-compile",
+      "exit_code": 0
+    },
+    {
+      "name": "B-only-0",
+      "exit_code": 0,
+      "expected_failure": false,
+      "log_sha256": "c5d218a6547eb2f3b7863a131c2b87d5b756572f8f614788342b00a0aa499c94"
+    }
+  ],
+  "hardware_actions": 0,
+  "network_actions": 0,
+  "initial_compile_wrapper_warning_exit": 1
+}

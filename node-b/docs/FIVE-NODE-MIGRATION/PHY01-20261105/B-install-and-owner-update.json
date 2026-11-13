@@ -1,0 +1,100 @@
+{
+  "B_current_M0_check": {
+    "status": "CURRENT_B_M0_APPLICATION_MATCH",
+    "board": "B",
+    "application_bytes": 41516,
+    "M0_application_matched": true,
+    "expected_M0_sha256": "e452c2eafd07868c642c530c09c7ec31b07f919cb41886c849fe84b817644fcd",
+    "current_application_sha256": "e452c2eafd07868c642c530c09c7ec31b07f919cb41886c849fe84b817644fcd",
+    "originals_EFS_only": true,
+    "explicit_target_Halt_Reset_Go_Flash_writes": 0
+  },
+  "B_M1_install_plan": {
+    "board": "B",
+    "candidate_bytes": 40032,
+    "candidate_SHA256": "d0401d96a4a051f964b4d8dce17f7630095ddb5ee8469bc84c3020b828531cd6",
+    "sectors": [
+      0,
+      1,
+      2
+    ],
+    "Options_and_sector3_onward": "PRESERVE",
+    "image_checked_against_M1_manifest": true
+  },
+  "B_M1_install": {
+    "status": "ABC_B_APP012_FULL_VERIFY_BOOT_PASS",
+    "exit_code": 0,
+    "board": "B",
+    "automatic_reflash_or_rollback": false,
+    "phase": "install",
+    "sectors": [
+      0,
+      1,
+      2
+    ],
+    "full_flash_sha256": "1bae95119a71b3fbcd0ed3360017c22a65606e044b997b1c038d3267d982814f",
+    "options_unchanged": true,
+    "outside_affected_sectors_unchanged": true,
+    "reset_requests": 1,
+    "CAN_or_physiology_acceptance": false,
+    "Close_completed": true,
+    "native_actions": {
+      "JLINKARM_Halt": 1,
+      "JLINKARM_BeginDownload": 1,
+      "JLINKARM_WriteMem": 1,
+      "JLINKARM_EndDownload": 1,
+      "JLINKARM_Reset": 1,
+      "JLINKARM_Go": 1
+    },
+    "download_started": true,
+    "debug_IWDG_freeze_writes": 0,
+    "debug_IWDG_freeze_restored": true
+  },
+  "B_backup": {
+    "double_read_match": true,
+    "known_B_UID_match": true,
+    "private_evidence_pointer": "node-b/build/phy01-current-pointer.json"
+  },
+  "D_screen_record_recovered": {
+    "USART": "USART3",
+    "TX": "PB10",
+    "old_RX_wire": "PB11",
+    "baud": 115200,
+    "RX_interaction_enabled": false,
+    "owner": "same complete wiring as original B; COM2 interface",
+    "source": "node-b/docs/CODEX-ABC-TWO-GROUP-20261031/B-TEMP-SCREEN-CANDIDATE.json"
+  },
+  "TJA1050_physical_marking_owner_confirmed": true,
+  "T1_B_same_original_image_identified_after_power_cycle": true,
+  "M1_B_CAN_retest": "NOT_RUN",
+  "D_install": "NOT_RUN",
+  "40ohm": "NOT_RUN",
+  "executed_task_tool_SHA256": {
+    "backup_b_phy01.py": "12d61621bb3f29fd1527c219d8fd8494bc2c77914a06df3f2d6d75e6d1050af0",
+    "install_b_phy01.py": "74c407aa2d5c787c003b1a0f65772595395a31ab4b877597e00302abb39ddce0",
+    "observe_b_phy01.py": "6bdcb57e3725c3c269656bfc901b91050beac2469277202082b5485cf8cb09dc"
+  },
+  "B_M1_local15": {
+    "status": "B_M1_LOCAL_ADC_HR_ENGINEERING_PASS",
+    "exit_code": 0,
+    "scope": "B_M1_LOCAL_ADC_HR_ONLY_C_D_OFF",
+    "target_Halt_Reset_Go_Flash_UART_writes": 0,
+    "CAN_link_qualification": "NOT_RUN_NO_POWERED_PEER",
+    "observations": 26,
+    "ADC_SPS": 250.08444234276837,
+    "HR_values": [
+      60
+    ],
+    "B_CAN1_ESR_isolated_no_peer": [
+      8388659
+    ],
+    "ADC_error_increments": {
+      "bad_status": 0,
+      "spi_errors": 0,
+      "queue_overflow": 0,
+      "init_errors": 0,
+      "long_gap_count": 0
+    },
+    "Close_completed": true
+  }
+}

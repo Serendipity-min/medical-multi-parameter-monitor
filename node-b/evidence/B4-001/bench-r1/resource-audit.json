@@ -1,0 +1,28 @@
+{
+  "scope": "DOCUMENT_AND_SOURCE_RESOURCE_AUDIT_NOT_PHYSICAL_PINOUT_ACCEPTANCE",
+  "C_MCU_owner_confirmed": "STM32F407ZGT6",
+  "references": {
+    "origin/P4": "67f5f57bd82c6e326e9e78ec9540481c80105e5f",
+    "origin/P5-coremqtt-baremetal": "88a993cb2dad828d2d13438445a67324e10f71d0",
+    "origin/dev/p6-cloud-ai-text-tts-v1": "1a5d7d16a1df00a1195a6754c35d33f4380324a6",
+    "codex/c-voice-cloud-20261022": "ba61ae2c97204f240d8fa6f316eb700aff70d29e"
+  },
+  "source_files": {
+    "E:\\Chrome\\INMP441 INMP441全向麦克风模块 MEMS 高精度模块 低功耗I2S接口支持ESP32 (1).pdf": "1c8c8fcd66fd73c965b78a395bdf12be42ceaba2571aad5c0a0d77292b0fa20d",
+    "E:\\stm32\\stm32文件\\STM32F407_原理图.pdf": "7737115dc272d6daff1f3bb08b7c8c23c10415c10bca57c3d72979adf53b46b2",
+    "E:\\stm32\\stm32文件\\STM32F407-数据手册.pdf": "c1b81d52821418979aa3b84038f25231597f14cf850104aaf63b450affe0dcf4"
+  },
+  "findings": {
+    "board_drawing": "STM32F4神舟号 V2.0, page4 MCU/page5 CAN/page6 WM8978; actual board revision and jumper positions not inferred",
+    "CAN2": "PB12 RX/PB13 TX AF9; P4 1-2 RX/3-4 TX logical route; U2 TJA1050 5V, CAN2 external2 H/1 L, R1 120R, RS GND per reference page5",
+    "CAN1": "PA11 RX/PA12 TX AF9; P6 USB/CAN1 route requires actual board check",
+    "shared_resources": "CAN2 depends CAN1 clock; filter split14; preserve clock, no individual CAN1 reset",
+    "I2S2": "PB12 WS/PB13 SCK conflicts CAN2; board WM8978 SDOUT PC3/SDIN PC2/MCLK PC6 per page4/6; provisional PB15 SD is not verified physical module wiring",
+    "INMP441_PDF": "chip datasheet with store watermark, not a board-specific wiring schematic; page8 VDD1.8-3.3V, L/R, CHIPEN, SD pulldown100k; page11 24bit I2S/64SCK per stereo frame, one-clock MSB delay; page5 SCK0.5-3.2MHz/WS7.8-50kHz",
+    "P4_P5_search": "No INMP441/I2S2/PB12/PB13 matches in scoped doc/gateway project files (vendor/evidence/build excluded)",
+    "P6_search": "PIN_RESOURCE_MAP.md and VOICE-T0-PIN-POWER-AUDIT.md explicitly reserve I2S2; no INMP441 connection/PCM driver in reviewed implementation; existing UART TTS does not enable I2S",
+    "decision": "Reserve CAN2 PB12/13 for isolated C bench; no microphone driver, DMA/PLLI2S or voice branch changes; actual external wiring still not proven"
+  },
+  "hardware_operations": 0,
+  "security_gate_run": false
+}

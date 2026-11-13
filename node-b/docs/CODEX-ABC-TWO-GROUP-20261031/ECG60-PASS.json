@@ -1,0 +1,182 @@
+{
+  "status": "ABC_ECG60_ENGINEERING_PASS",
+  "exit_code": 0,
+  "profile": "ECG60",
+  "failures": [],
+  "evaluation_UTC_ms": [
+    1793437817611,
+    1793438117611
+  ],
+  "B": {
+    "failures": [],
+    "saved": 600,
+    "device_domain_SPS": 249.97495475158453,
+    "CAN_evaluation_increments": {
+      "offered": 74857,
+      "enqueued": 74857,
+      "sent_ecg": 74857,
+      "sent_resp": 14972,
+      "overflow": 0,
+      "expired": 0,
+      "comm_reset": 0,
+      "app_reset_rejected": 0,
+      "error": 0,
+      "discontinuities": 0
+    },
+    "ADC_evaluation_increments": {
+      "bad_status": 0,
+      "spi_errors": 0,
+      "queue_overflow": 0,
+      "init_errors": 0,
+      "long_gap_count": 0
+    },
+    "HR_values": {
+      "60": 600
+    },
+    "RR_reason_masks": {
+      "2": 335,
+      "130": 75,
+      "10": 171,
+      "6": 19
+    },
+    "clipped_counter_increment": 0,
+    "temperature_errors": {
+      "overflow": 0,
+      "uart_errors": 0,
+      "checksum_errors": 0
+    },
+    "temperature_new_frames": 1374,
+    "profile": "ECG60"
+  },
+  "source_reconstruction": {
+    "blocks": 2986,
+    "raw_stable": 128677,
+    "CAN_stable": 128660,
+    "raw_unqualified_sequences": 101,
+    "CAN_unqualified_sequences": 119,
+    "raw_version_conflicts": 314,
+    "CAN_version_conflicts": 204
+  },
+  "ECG_source_points": 74993,
+  "RESP_source_points": 14998,
+  "mapping_errors": {},
+  "UART_source": {
+    "blocks": 995,
+    "stable_bytes": 28370,
+    "unqualified_bytes": 62,
+    "valid_frames": 2363
+  },
+  "TEMP_Broker_count": 300,
+  "TEMP_source_matched": 300,
+  "NIBP": [
+    {
+      "session_id": "can-2436407957-1",
+      "seq": 1,
+      "timestamp": 1793438012497,
+      "value": [
+        111.0,
+        72.0
+      ],
+      "source_states_matched": 18,
+      "WSS_seen": true,
+      "expiry_states_observed": {
+        "STALE": 599,
+        "OFFLINE": 278
+      }
+    }
+  ],
+  "Broker_messages": 3496,
+  "Broker_duplicates": 0,
+  "Backend_delta": {
+    "accepted": 3496,
+    "rejected": 0,
+    "dropped": 0
+  },
+  "WSS_snapshots": 2967,
+  "WSS_both_nodes_online": 2967,
+  "primary_batches_WSS_seen": 751,
+  "node_sessions": {
+    "NODE-A": [
+      "can-2436407957-1"
+    ],
+    "NODE-B": [
+      "can-2436407957-1"
+    ]
+  },
+  "C_counter_increments": {
+    "B_CAN": {
+      "rx": 89950,
+      "txack": 620,
+      "txfail": 0,
+      "overflow": 0
+    },
+    "A_CAN": {
+      "rx": 8730,
+      "txack": 620,
+      "txfail": 0,
+      "overflow": 0
+    }
+  },
+  "prior_session_masked_snapshots": 3547,
+  "history_messages": 3,
+  "max_MQTT_JSON_bytes": 849,
+  "actual_webpage_observations": 452,
+  "actual_child_exit_codes": {
+    "B/receipt-private.json": 0,
+    "cloud-receipt-private.json": 0
+  },
+  "webpage_simultaneous_readings": [
+    {
+      "NIBP_seq": 1,
+      "UTC_ms": 1793438015283,
+      "values": {
+        "value-HR": "60",
+        "state-HR": "VALID · MOCK",
+        "value-RR": "--",
+        "state-RR": "INVALID · MOCK",
+        "value-TEMP": "24.7",
+        "state-TEMP": "VALID · MOCK",
+        "pressure-sys": "111",
+        "pressure-dia": "72",
+        "state-NIBP": "VALID · MOCK",
+        "bp-updated": "17:13:32",
+        "value-SpO2": "96",
+        "state-SpO2": "VALID · MOCK",
+        "value-PR": "72",
+        "state-PR": "VALID · MOCK",
+        "gateway": "Gateway · ONLINE",
+        "node-a": "Node-A · ONLINE",
+        "node-b": "Node-B · ONLINE",
+        "connection": "监护通道已连接",
+        "received-at": "最后通信：17:13:35 · 已收 3745 帧",
+        "source-banner": "MOCK 模拟数据",
+        "source-note": "含合成数据，用于系统联调",
+        "quality-ECG": "VALID · MOCK",
+        "quality-RESP": "INVALID · MOCK",
+        "quality-PPG": "VALID · MOCK"
+      }
+    }
+  ],
+  "owner_screen_comparison": {
+    "owner_report": "111 72",
+    "SYS_mmHg": 111,
+    "DIA_mmHg": 72,
+    "received_UTC_ms": 1793438032948
+  },
+  "source_STOP": {
+    "tick": 420601,
+    "armed_at": 601,
+    "reason": 1,
+    "phase": 7,
+    "required": 194,
+    "written": 194,
+    "unsynced": 0,
+    "pending": 0,
+    "live": 24,
+    "cache": 56,
+    "business_elapsed_ms": 420000
+  },
+  "absolute_BP_TEMP_accuracy": "NOT_CALIBRATED_REQUIRES_OWNER_SCREEN_COMPARISON",
+  "RR_HR_source_truth": "SOURCE_UNKNOWN_ROOT_CAUSE_UNRESOLVED",
+  "old_verdicts_rewritten": false
+}

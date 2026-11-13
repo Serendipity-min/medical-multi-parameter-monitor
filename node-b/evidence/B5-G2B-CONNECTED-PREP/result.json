@@ -1,0 +1,73 @@
+{
+  "status": "G2B_CONNECTED_WRITER_OFFLINE_PASS_WRITE_PENDING",
+  "baseline": "0140c98dda6c923ce805584dd0c46bb9d1a6a499",
+  "final_test_count": 16,
+  "final_test_exit_code": 0,
+  "test_attempts": [
+    {
+      "log": "offline-attempt-01.log",
+      "tests": 12,
+      "exit_code": 1
+    },
+    {
+      "log": "offline-attempt-02.log",
+      "tests": 12,
+      "exit_code": 1
+    },
+    {
+      "log": "offline-attempt-03.log",
+      "tests": 12,
+      "exit_code": 1
+    },
+    {
+      "log": "offline-attempt-04.log",
+      "tests": 12,
+      "exit_code": 1
+    },
+    {
+      "log": "offline-attempt-05.log",
+      "tests": 12,
+      "exit_code": 0
+    },
+    {
+      "log": "offline-attempt-06.log",
+      "tests": 16,
+      "exit_code": 0
+    },
+    {
+      "log": "offline-final-07.log",
+      "tests": 16,
+      "exit_code": 0
+    }
+  ],
+  "first_four_test_failures": "Synthetic MEMAP/NOR adapter grant, duplicate guard, sector read routing and counter issues; no native calls",
+  "package_review_attempts": [
+    {
+      "exit_code": 1,
+      "reason": "Invalid Python encoding name utf8-sig before reading package"
+    },
+    {
+      "exit_code": 0
+    }
+  ],
+  "writer_sha256": "5464387e61ecbd1d109539996e06648a0e47d0ac601f674a3e1d449a045e0c3d",
+  "previous_writer_sha256": "39befcee1c7426c0b74222509fbe86759da0f3d4d18521f6729bb95ac2a52107",
+  "DLL_sha256": "632d0d78e72b8a55c65945a0c393a9f081082c725fff4ba3081b0a565fd58cff",
+  "firmware_changed": false,
+  "BIO_V2_changed": false,
+  "native_DLL_loaded": false,
+  "hardware_sessions": 0,
+  "sector3_writes": 0,
+  "resets_halts_go": 0,
+  "AT_commands": 0,
+  "cloud_connections_actions": 0,
+  "B5START": 0,
+  "restores": 0,
+  "ESP_isolated": false,
+  "ESP_autonomous_network": "UNKNOWN",
+  "write_waiver": "PENDING_TRANSACTION_SPECIFIC_OWNER_APPROVAL",
+  "raw_Flash_programming_hardware_validation": "NOT_RUN",
+  "cloud_resume": "NOT_RUN_LAST_OBSERVED_STOPPED_ACCOUNTS_NOT_REVOKED",
+  "G3": "NOT_RUN_TOOL_AND_REAL_ESP_PREREQUISITES_PENDING",
+  "old_accepted_matrices_rerun": false
+}

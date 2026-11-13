@@ -1,0 +1,44 @@
+{
+  "scope": "NEW_REAL_G2B_RECORD_VIA_FROZEN_FIRMWARE_C_VALIDATOR_ONLY",
+  "cases": [
+    {
+      "case": "compile-new-record-auditor",
+      "exit_code": 0
+    },
+    {
+      "case": "original-H3-identity-refused",
+      "exit_code": 0,
+      "result": {
+        "bytes": 336,
+        "record_valid": 1,
+        "B5_identity": 0
+      }
+    },
+    {
+      "case": "new-B5-committed-accepted",
+      "exit_code": 0,
+      "result": {
+        "bytes": 336,
+        "record_valid": 1,
+        "B5_identity": 1
+      }
+    },
+    {
+      "case": "new-B5-uncommitted-refused",
+      "exit_code": 0,
+      "result": {
+        "bytes": 336,
+        "record_valid": 0,
+        "B5_identity": 0
+      }
+    }
+  ],
+  "old_Host_ARM_TLS_UI_suites_rerun": false,
+  "hardware_operations": 0,
+  "DLL_loaded": false,
+  "auditor_source_sha256": "f9fd78290431b7d034ecd90793b1da51c9db7082640ef942882ba978be9bfe98",
+  "frozen_persistent_config_header_sha256": "78907d32d3cfd59ebad11430d7cbbbe9207006095ba95349659dc80231727559",
+  "frozen_B5_policy_source_sha256": "7125b9a29990acc62625beaa394ce2aa9759a36d7e0fff7c851dfa528bb01249",
+  "real_package_binding_sha256": "20cba97d9587fd50f6ad9a98a19efc2812c62675e1304c646d88e771b9d2c73f",
+  "exit_code": 0
+}

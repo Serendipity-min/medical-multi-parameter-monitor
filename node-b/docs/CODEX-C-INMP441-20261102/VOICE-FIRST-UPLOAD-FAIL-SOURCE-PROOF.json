@@ -1,0 +1,23 @@
+{
+  "exit_code": 0,
+  "source": "failed actual C upload session1793608678",
+  "PCM_SHA256": "eaf44ee34456bacdd33d4d8aece70d8d1c9b0833f16724261e6db6ff796ccf47",
+  "proof": {
+    "status": "MIC_RECORD_INTEGRITY_PASS_NOT_FULL_LOCAL_ACCEPTANCE",
+    "duration_s": 2.0,
+    "RMS_PCM16": 1153.3973436927536,
+    "mean_PCM16": -1041.019375,
+    "peak_PCM16": 2043,
+    "RMS_dBFS": -29.069419761527335,
+    "IRQ_rate_from_declared_HSE_Hz": 16000.0,
+    "IRQ_gap_min_s": 0.00999975,
+    "IRQ_gap_max_s": 0.01000025,
+    "clock_measurement": "REGISTER_AND_CYCLE_EVIDENCE_NOT_INDEPENDENT_FREQUENCY_METER",
+    "zero24_fraction": 0.0,
+    "clip24_count": 0,
+    "left_right_abs_ratio": 33681276.0,
+    "PCM_SHA256": "eaf44ee34456bacdd33d4d8aece70d8d1c9b0833f16724261e6db6ff796ccf47",
+    "acceptance": "REQUIRES_QUIET_TONE_SPEECH_COMPARISON_AND_OWNER_LISTENING"
+  },
+  "cloud_uplink": "FAIL_NOT_ASR_PROOF"
+}

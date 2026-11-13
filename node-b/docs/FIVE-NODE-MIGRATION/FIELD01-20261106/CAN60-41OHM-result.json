@@ -1,0 +1,176 @@
+{
+  "status": "NOT_PASS_SOURCE_A_CAN_TX_OVERFLOW_EARLY_ABORT",
+  "actual_controller_exit": 1,
+  "authorized_limit_ms": 60000,
+  "emergency_at_ms": 44005,
+  "last_record_at_ms": 44230,
+  "emergency": {
+    "node": 1,
+    "bus": 1,
+    "COB_ID": "0x081",
+    "code": "0x8110",
+    "register": "0x10",
+    "error_bit": "0x14",
+    "meaning_from_installed_source": "CO_EM_CAN_TX_OVERFLOW"
+  },
+  "START_attempts": 1,
+  "abort_bytes": 1,
+  "STOP_packet_observed": false,
+  "MCU_stop_ACK_proven": false,
+  "owner_all_power_off_confirmed": true,
+  "end_abnormality_report": "NOT_REPORTED",
+  "input_interruption_report": "NOT_REPORTED",
+  "raw_evidence": {
+    "bytes": 565632,
+    "sha256": "a8fa868149c32186fc17555b8e12ee40c63b52f9147ebe1034847d4450019d7b",
+    "decoded_packets": 17676,
+    "CRC_errors": 0,
+    "discarded_bytes": 0,
+    "truncated_bytes": 0,
+    "sequence_gaps": 0
+  },
+  "C_peak_TEC_REC": {
+    "CAN1": [
+      0,
+      0
+    ],
+    "CAN2": [
+      0,
+      0
+    ]
+  },
+  "C_last_diagnostics": {
+    "CAN1": {
+      "last_ESR": 0,
+      "received": 4359,
+      "overflow": 0
+    },
+    "CAN2": {
+      "last_ESR": 0,
+      "received": 14726,
+      "overflow": 0
+    }
+  },
+  "PPG_partial_model_diagnostics": {
+    "short_batches": 12,
+    "short_samples": 75,
+    "quality_resets": 13
+  },
+  "A_quality_flags": {
+    "0x397": 27,
+    "0x200": 14,
+    "0x216": 4,
+    "0x393": 11,
+    "0x212": 1
+  },
+  "partial_window_assessment": {
+    "status": "NOT_PASS",
+    "failures": [
+      "SOURCE_EMCY_ERROR",
+      "SOURCE_HEARTBEAT_COVERAGE",
+      "START_OR_STOP_EVIDENCE"
+    ],
+    "source_OP5_heartbeat_counts": {
+      "1": 89,
+      "5": 88,
+      "2": 88,
+      "4": 88
+    },
+    "raw_CAN_counts": {
+      "CAN1:0x181": 1686,
+      "CAN1:0x701": 89,
+      "CAN1:0x681": 57,
+      "CAN2:0x682": 45,
+      "CAN2:0x684": 45,
+      "CAN2:0x182": 11020,
+      "CAN2:0x282": 2204,
+      "CAN2:0x382": 44,
+      "CAN2:0x482": 44,
+      "CAN2:0x702": 88,
+      "CAN1:0x705": 88,
+      "CAN2:0x704": 88,
+      "CAN2:0x384": 44,
+      "CAN2:0x484": 44,
+      "CAN1:0x285": 44,
+      "CAN1:0x385": 44,
+      "CAN1:0x485": 44,
+      "CAN1:0x685": 44,
+      "CAN1:0x381": 44,
+      "CAN1:0x481": 44,
+      "CAN1:0x081": 1
+    },
+    "raw_wave_cadence": {
+      "NODE1:stream0": {
+        "raw_CAN_points": 1686,
+        "tick_deltas": {
+          "20": 1677,
+          "2121": 1,
+          "40": 3,
+          "-20": 1,
+          "4202": 1,
+          "2114": 1,
+          "2126": 1
+        },
+        "outside_step_plus_minus_1": 8
+      },
+      "NODE2:stream4": {
+        "raw_CAN_points": 11020,
+        "tick_deltas": {
+          "4": 11009,
+          "3": 10
+        },
+        "outside_step_plus_minus_1": 0
+      },
+      "NODE2:stream6": {
+        "raw_CAN_points": 2204,
+        "tick_deltas": {
+          "20": 2193,
+          "19": 10
+        },
+        "outside_step_plus_minus_1": 0
+      }
+    },
+    "model_samples": {
+      "NODE1:stream9": 10,
+      "NODE5:stream9": 10,
+      "NODE2:stream9": 10,
+      "NODE4:stream9": 10,
+      "NODE2:stream4": 10800,
+      "NODE2:stream6": 2200,
+      "NODE2:stream5": 43,
+      "NODE2:stream7": 43,
+      "NODE4:stream8": 43,
+      "NODE1:stream0": 1624,
+      "NODE1:stream1": 43,
+      "NODE1:stream2": 43,
+      "NODE1:stream10": 1
+    },
+    "valid_model_batches": {
+      "NODE1:stream9": 9,
+      "NODE5:stream9": 9,
+      "NODE2:stream9": 9,
+      "NODE4:stream9": 9,
+      "NODE2:stream4": 108,
+      "NODE2:stream6": 0,
+      "NODE2:stream5": 43,
+      "NODE2:stream7": 0,
+      "NODE4:stream8": 43,
+      "NODE1:stream0": 38,
+      "NODE1:stream1": 33,
+      "NODE1:stream2": 25,
+      "NODE1:stream10": 1
+    },
+    "waveform_model_hash_matches": 194,
+    "waveform_model_unmatched": 0,
+    "formal_five_CAN_300s": "NOT_RUN",
+    "cloud_web_voice": "NOT_RUN",
+    "analog_signal_quality": "NOT_MEASURED",
+    "time_policy": "LOCAL_TEST_EPOCH_NOT_REAL_UTC",
+    "source_original_samples_before_CAN": "NOT_CAPTURED"
+  },
+  "source_frame_generation_changes": "NOT_YET_REVIEWED",
+  "formal_300s": "NOT_RUN",
+  "cloud_web_voice": "NOT_RUN",
+  "analog_differential_signal_quality": "NOT_MEASURED",
+  "current_C_image": "TEMPORARY_CAN60_DIAGNOSTIC_NORMAL_M1_RESTORE_PENDING"
+}

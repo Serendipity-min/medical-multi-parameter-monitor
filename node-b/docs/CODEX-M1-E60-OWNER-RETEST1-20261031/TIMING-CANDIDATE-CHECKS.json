@@ -1,0 +1,31 @@
+{
+  "regression": {
+    "tests": 36,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "blocked_events": [],
+    "exit_code": 0,
+    "field_connections": 0,
+    "actual_raw_timing_trace_replayed": true,
+    "raw_window_ms": 165000,
+    "warmup_ms": 45000,
+    "evaluation_ms": 120000,
+    "owner_host_IO_budget_s": 180,
+    "total_budget_s": 260,
+    "supervisor_budget_s": 265
+  },
+  "additional_no_exact_clock_test": {
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "blocked_events": [],
+    "exit_code": 0,
+    "exact_power_on_time_required": false,
+    "field_connections": 0
+  },
+  "total_distinct_tests": 37,
+  "replayed_boundary_receipts_not_field_retests": true,
+  "raw_evaluator_unchanged": true,
+  "candidate_field_retest": "NOT_RUN"
+}

@@ -1,0 +1,261 @@
+{
+  "schema": "FIELD01_PREFLIGHT_R3_FIELD_RECEIPT_V1",
+  "approval_commit": "52d48ca3ae6b6636bf355b55095428306bfe958b",
+  "candidate_commit": "7312518a3e28c574220d6f247b877460fc2b3b27",
+  "result": "STOPPED_AFTER_R3_S1_COLD_CONFIRM_UART_MISMATCH",
+  "wifi_configuration": {
+    "separate_owner_authorization": true,
+    "sectors": [
+      3
+    ],
+    "changed_fields": [
+      "ssid",
+      "wifi_password",
+      "generation",
+      "record_crc32"
+    ],
+    "native_exit": 0,
+    "independent_full_and_options_reads_match": true,
+    "mqtt_and_other_configuration_bytes_preserved": true,
+    "tool_sha256": "42734dbe6a8e87639003254362283daa0210434914ec47d1a0b54e77ab3c4ad9",
+    "hotspot_parameters_2_4ghz_visible_and_no_idle_shutdown": "OWNER_CONFIRMED",
+    "power_off": "CONFIRMED"
+  },
+  "sessions": [
+    {
+      "stage": "S1",
+      "power_gate_utc": "2026-11-09T06:11:43.336225+00:00",
+      "pre_attempt_utc": "2026-11-09T06:11:57.008729+00:00",
+      "power_off_confirmed": true,
+      "recorder_receipt": {
+        "transaction_id": "e26da6591c904d75bc0f46dea6610e39",
+        "image_sha256": "f90540e1e28cf0ba88b0d6e18a5f6a6a3db5771cf9a55283d7a4c09d9134b3f4",
+        "target": 115200,
+        "boot_ms": 148,
+        "records": {
+          "BEGIN": {
+            "boot_ms": 148,
+            "target": 115200
+          },
+          "AT": {
+            "ok": 1
+          },
+          "GMR": {
+            "ver": "2.3.0.0"
+          },
+          "UART_CUR": {
+            "baud": 115273,
+            "data": 8,
+            "stop": 1,
+            "parity": 0,
+            "flow": 1
+          },
+          "WIFI": {
+            "ok": 1,
+            "code": "NONE",
+            "ms": 2587
+          },
+          "WIFI_SIGNAL": {
+            "channel": 1,
+            "rssi": -37
+          },
+          "IPV4": {
+            "ready": 1
+          },
+          "NEGOTIATE": {
+            "target": 115200,
+            "result": "MISMATCH",
+            "actual": 115273
+          },
+          "STRESS": {
+            "rate": 115200,
+            "n": 0,
+            "fail": 0,
+            "uart_err": 0,
+            "rx_high": 0,
+            "ms": 0
+          },
+          "RESTORE": {
+            "result": "FAIL"
+          },
+          "END": {
+            "result": "BLOCKED",
+            "reason": "NEED_POWER_CYCLE",
+            "uart_err": 0
+          }
+        },
+        "result": "BLOCKED",
+        "reason": "NEED_POWER_CYCLE",
+        "native_exit": 2,
+        "sent": true,
+        "raw_sha256": "d70bca9ad624747cb071d46e6893729db54eac9a6f8e6997a5c7b03ca18d361a",
+        "power_off": "PENDING",
+        "tool": {
+          "python": "3.11.9",
+          "pyserial": "3.5",
+          "script_sha256": "25d7112cc55e93b9284322ead49e6a20de29fcbfebbc006a92e6bbc43d8a845d"
+        }
+      },
+      "power_off_confirmation": "CONFIRMED"
+    },
+    {
+      "stage": "S1-cold-confirm",
+      "power_gate_utc": "2026-11-09T06:12:48.895706+00:00",
+      "pre_attempt_utc": "2026-11-09T06:13:00.099849+00:00",
+      "power_off_confirmed": true,
+      "recorder_receipt": {
+        "transaction_id": "7631847a9dec4b4bbe89c184d44b17aa",
+        "image_sha256": "f90540e1e28cf0ba88b0d6e18a5f6a6a3db5771cf9a55283d7a4c09d9134b3f4",
+        "target": 115200,
+        "boot_ms": 149,
+        "records": {
+          "BEGIN": {
+            "boot_ms": 149,
+            "target": 115200
+          },
+          "AT": {
+            "ok": 1
+          },
+          "GMR": {
+            "ver": "2.3.0.0"
+          },
+          "UART_CUR": {
+            "baud": 115273,
+            "data": 8,
+            "stop": 1,
+            "parity": 0,
+            "flow": 1
+          },
+          "WIFI": {
+            "ok": 1,
+            "code": "NONE",
+            "ms": 2590
+          },
+          "WIFI_SIGNAL": {
+            "channel": 1,
+            "rssi": -41
+          },
+          "IPV4": {
+            "ready": 1
+          },
+          "NEGOTIATE": {
+            "target": 115200,
+            "result": "MISMATCH",
+            "actual": 115273
+          },
+          "STRESS": {
+            "rate": 115200,
+            "n": 0,
+            "fail": 0,
+            "uart_err": 0,
+            "rx_high": 0,
+            "ms": 0
+          },
+          "RESTORE": {
+            "result": "FAIL"
+          },
+          "END": {
+            "result": "BLOCKED",
+            "reason": "NEED_POWER_CYCLE",
+            "uart_err": 0
+          }
+        },
+        "result": "BLOCKED",
+        "reason": "NEED_POWER_CYCLE",
+        "native_exit": 2,
+        "sent": true,
+        "raw_sha256": "15a7950e1641ee7fea7281b6bdc971ea0256c166c757af106e7c30e3879b60d3",
+        "power_off": "PENDING",
+        "tool": {
+          "python": "3.11.9",
+          "pyserial": "3.5",
+          "script_sha256": "25d7112cc55e93b9284322ead49e6a20de29fcbfebbc006a92e6bbc43d8a845d"
+        }
+      },
+      "power_off_confirmation": "CONFIRMED"
+    }
+  ],
+  "gate": {
+    "required_uart_cur": [
+      115200,
+      8,
+      1,
+      0,
+      0
+    ],
+    "observed_uart_cur": [
+      115273,
+      8,
+      1,
+      0,
+      1
+    ],
+    "candidate_firmware_accepts_baud_rounding_but_requires_flow_zero": true,
+    "retime_and_stress": "NOT_RUN",
+    "S2": "NOT_RUN_R3_GATE_BLOCKED",
+    "S3": "NOT_RUN_R3_GATE_BLOCKED",
+    "original_wifi_failure": "UNRESOLVED_ORIGINAL_PROFILE_UNAVAILABLE"
+  },
+  "rollback": {
+    "status": "R3_ORIGINAL_APP_FULL_VERIFY_PASS",
+    "native_exit": 0,
+    "sectors": [
+      0,
+      4
+    ],
+    "original_images": [
+      {
+        "address": 134217728,
+        "bytes": 392,
+        "SHA256": "0ac74b0de14294f9cfc8f83e1dd22f22840ace744affb06cea63984dfceaa155"
+      },
+      {
+        "address": 134283264,
+        "bytes": 56072,
+        "SHA256": "b92a232d124947e07c129a238b4ff86a75432a6ad18bf4787729d13580ab217f"
+      }
+    ],
+    "verified_against_archived_full_except_authorized_sector3": true,
+    "wifi_sector3_preserved": true,
+    "options_unchanged": true,
+    "original_app_boot": "NOT_RUN",
+    "tool_sha256": "b2ae7f267bdd4c70c607e95a07155049dd972de9f4ee6ff3914eeb50794e86db",
+    "power_off": "CONFIRMED",
+    "stock_overlay_only_difference": {
+      "byte_count": 1519,
+      "actual_readback_differs_from_archive_in_these_ranges": false,
+      "actual_and_archive_fill": "0xFF",
+      "absolute_address_ranges_end_exclusive": [
+        [
+          "0x0801DB08",
+          "0x0801E096"
+        ],
+        [
+          "0x0801E097",
+          "0x0801E09C"
+        ],
+        [
+          "0x0801E0A0",
+          "0x0801E0FC"
+        ]
+      ]
+    }
+  },
+  "budget": {
+    "recorded_power_sessions": 6,
+    "candidate_installs": 1,
+    "sector3_updates": 1,
+    "pre_attempts": 2,
+    "application_rollbacks": 1,
+    "START": 0,
+    "KEY": 0,
+    "TLS_MQTT_commands_issued_by_test": 0,
+    "unexpected_supply_events": 1,
+    "total_counted_power_events": 7
+  },
+  "evidence_index": "PREFLIGHT-R3-FIELD-SUMMARY-20261109.md",
+  "private_ledger": {
+    "sha256": "81801eb47e6413e5704b935014cc6cf3c21c423148c44666d1395a101435b5a2",
+    "entry_count": 33
+  }
+}

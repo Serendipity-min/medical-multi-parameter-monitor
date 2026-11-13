@@ -1,0 +1,48 @@
+# MQTT 升级部署与回滚
+
+入口复用主域名 `/medical-monitor/`、既有 Nginx 和 HTTPS；Backend 仅监听 127.0.0.1:18765。
+项目独立目录 `/opt/medical-monitor/`。用户已开放 TCP 8883；不开放后端端口。
+
+## 离线升级（由旧 WSS 发布迁移一次）
+
+1. 本机测试并构建 web/dist，下载锁定 Python 依赖的 Linux CPython 3.12 wheels 到 `E:/Server_file/<本次任务>/wheels`。
+   命令参数：`pip download --only-binary=:all: --platform manylinux2014_x86_64 --python-version 312 --implementation cp --abi cp312 -r cloud/backend/requirements.lock -d <暂存目录>`。
+2. 本机组装 zip，根目录为 backend、web/dist、deploy、broker、tools/mock_mqtt、wheels；不包含任何凭据。
+3. 仓库外生成升级 JSON：host、certificate（服务器已有证书路径）、private_key（已有密钥路径），
+   roles 下有 backend/mock/gateway，每项含 username、password、client_id，mock 另含 gateway_id。
+   用户名须与 broker/acl 一致：backend-reader、mock-publisher、gateway-c。
+4. 用 SSH 别名上传 zip、upgrade_mqtt.py、私有 JSON 到项目 incoming；本机和远端核对字节数及 SHA-256。
+   所有文件必须经 `E:/Server_file`，≤1GB 才可传输；核验成功只删除本次精确暂存文件。服务器不得下载依赖。
+5. 服务器需已有 Mosquitto 2、Python venv、Nginx。若缺包，先按同样规则本机取得匹配安装包。
+6. 运行：`sudo python3 /opt/medical-monitor/incoming/upgrade_mqtt.py --bundle <zip> --sha256 <校验值> --config <私有JSON> --release <唯一编号>`。
+
+脚本拒绝已有 broker 目录、占用的 8883、重复发布编号；它是一次性迁移工具，不用于重复覆盖部署。
+Python 依赖使用 --no-index；保留旧 current、backend.env、服务文件和 Nginx 备份。
+Backend 配置单独放在 ubuntu 可遍历的 mqtt-config（700，JSON 600），避免 root-only 目录导致服务读配置失败。
+启动 TLS Broker、切换 current、检查后端 MQTT 订阅健康、nginx -t/reload，再启动服务器 Mock 和证书定时器。
+失败回滚旧 current/env 并停止新服务。保留失败目录用于排错，不自动递归清理。
+
+## 当前发布与运维
+
+- current：`releases/mqtt-v07-review1-20260920-01`；本轮前版：`releases/mqtt-v07-20260920-01`；WSS 历史版继续保留。
+- 项目服务：medical-monitor（Backend）、medical-monitor-mqtt（Broker）、medical-monitor-mock（服务器合成源）。
+- medical-monitor-certificate.timer 每天检查现有证书文件并更新 Broker 副本；它不执行申请或续签、不下载。
+- 原系统 mosquitto 服务未启用，项目使用独立配置；TLS 不降级为明文，禁用匿名。
+- Broker 保留 error/warning/notice，原始文本经白名单代理转为错误类别和数字码，写入 journald 与持久轮转 JSONL。Backend 同步保存状态事件及每分钟计数。每组件 5MiB × 8 文件；不保存地址、口令或载荷。详见 [日志与排障](../../doc/P/90_维护/运行日志与排障.md)。
+- 查看 `systemctl is-active` 与 loopback `/api/health`，勿把真实主机、口令或完整日志复制进项目文档。
+- 删除上传的临时私有 JSON；长期凭据保留在受限配置目录。
+
+## 回滚 MQTT 升级
+
+停止 medical-monitor-mock 和证书 timer；将 current 原子切回备份记录的旧发布，恢复该次 backend.env，
+重启 medical-monitor，然后停止项目 medical-monitor-mqtt。旧版依赖与代码保留在原发布目录。
+本次升级没有改变 Nginx 路由；若后续需改动，仅改本项目 include，nginx -t 后 reload，不覆盖其他任务改动。
+备份目录为 `backups/mqtt-v07-20260920-01`，整份 Nginx 配置只留服务器本机受限备份。
+首次升级曾因配置目录权限失败，已触发并验证自动回滚；更正后部署成功。
+旧 install.py 仅为历史首次 WSS 部署工具，不再适用于当前代码。
+
+## 首轮整改发布回滚
+
+本轮日志修改另建 release，备份在 backups/mqtt-v07-review1-20260920-01。回退须同时恢复该备份中的 mosquitto.conf、medical-monitor.service、medical-monitor-mqtt.service 与 previous-current；随后 daemon-reload、重启项目 Broker/Backend 并检查 health。日志目录保持不动。旧的一次性 upgrade_mqtt.py 不用于重跑本轮补丁。
+
+升级前置条件使用显式 RuntimeError；在 python -O 下仍检查 root、release 名、SHA-256、已有目录、ZIP 穿越/绝对路径/符号链接。CI 已包含优化模式回归。

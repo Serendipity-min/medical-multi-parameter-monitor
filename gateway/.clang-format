@@ -1,0 +1,17 @@
+# 自有 C/H 代码：展开函数和控制流；上游 third_party 文件不参与格式化。
+BasedOnStyle: LLVM
+IndentWidth: 4
+ColumnLimit: 100
+UseTab: Never
+BreakBeforeBraces: Allman
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortBlocksOnASingleLine: Never
+SeparateDefinitionBlocks: Always
+SortIncludes: Never
+ReflowComments: false
+BreakStringLiterals: false
+PointerAlignment: Right
+DerivePointerAlignment: false
+LineEnding: LF

@@ -1,0 +1,28 @@
+{
+  "status": "D_LOCAL_GY641_FRESH_SOURCE_ENGINEERING_PASS",
+  "exit_code": 0,
+  "scope": "D_LOCAL_GY641_READONLY_C_B_OFF",
+  "target_Halt_Reset_Go_Flash_UART_writes": 0,
+  "screen_visual": "PENDING_OWNER",
+  "CAN_link": "NOT_RUN_NO_POWERED_PEER",
+  "observations": 30,
+  "qualified_observations": 30,
+  "valid_observations": 30,
+  "temperature_C_range": [
+    24.97,
+    25.14
+  ],
+  "expected_screen_values_C": [
+    "25.0",
+    "25.1"
+  ],
+  "GY641_new_frames": 67,
+  "new_errors": {
+    "overflow": 0,
+    "uart_errors": 0,
+    "checksum_errors": 0,
+    "header_errors": 0
+  },
+  "D_CAN1_ESR_isolated_no_peer": 8388659,
+  "Close_completed": true
+}

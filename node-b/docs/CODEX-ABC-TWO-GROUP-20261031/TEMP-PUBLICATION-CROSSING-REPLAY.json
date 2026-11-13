@@ -1,0 +1,30 @@
+{
+  "exit_code": 0,
+  "hardware_actions": 0,
+  "cases": [
+    {
+      "label": "d1637",
+      "original_read_SHA256": [
+        "d454c1fbcc262791392cafa25693543211d44c21fc00e6844a16d066b005d494",
+        "7c2d5205e81f1cef2c3bc64fa7a0ef79d3591b6fcc561c1b05bfe271f1f4c672",
+        "bc6ecd423f5030f24f9957053fa6e584e1b419f46397641989f028d05f698cc2"
+      ],
+      "fourth_read": "Explicit offline repeat of third blob; not a new hardware observation",
+      "qualified": true,
+      "read_count": 4,
+      "selected_complete_blob_is_original_third": true
+    },
+    {
+      "label": "d2012",
+      "original_read_SHA256": [
+        "8b06eb729b092b69a6141302781bc2ba50ad418e155da1917dd8c76f20413757",
+        "d3438eeabc476cef927e7035cc5d42f020311fb5053baad0e41dbf60895bccf5",
+        "cf90fb9b7aa9b50dbf0257ab15913f4d36af9fc9609e7ea1f56c34f0f7c6792b"
+      ],
+      "fourth_read": "Explicit offline repeat of third blob; not a new hardware observation",
+      "qualified": true,
+      "read_count": 4,
+      "selected_complete_blob_is_original_third": true
+    }
+  ]
+}

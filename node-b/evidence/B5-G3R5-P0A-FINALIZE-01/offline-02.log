@@ -1,0 +1,19 @@
+test_API_reserve_stops_before_native_read_latch (test_b5_g3r5_time_precheck.Tests.test_API_reserve_stops_before_native_read_latch) ... ok
+test_DNS_command_injection_and_unbounded_list_rejected (test_b5_g3r5_time_precheck.Tests.test_DNS_command_injection_and_unbounded_list_rejected) ... ok
+test_ROM_prevents_any_UART_or_enable (test_b5_g3r5_time_precheck.Tests.test_ROM_prevents_any_UART_or_enable) ... ok
+test_cleanup_can_only_jump_to_off_not_enable (test_b5_g3r5_time_precheck.Tests.test_cleanup_can_only_jump_to_off_not_enable) ... ok
+test_cleanup_may_use_reserved_budget_but_not_change_commands (test_b5_g3r5_time_precheck.Tests.test_cleanup_may_use_reserved_budget_but_not_change_commands) ... ok
+test_default_refuses_execution (test_b5_g3r5_time_precheck.Tests.test_default_refuses_execution) ... ok
+test_enable_ERROR_skips_time_and_DNS_but_disables_once (test_b5_g3r5_time_precheck.Tests.test_enable_ERROR_skips_time_and_DNS_but_disables_once) ... ok
+test_enabled_observation_cleans_up_once_and_passes_only_first_gate (test_b5_g3r5_time_precheck.Tests.test_enabled_observation_cleans_up_once_and_passes_only_first_gate) ... ok
+test_finalize_has_zero_enable_and_only_remaining_work (test_b5_g3r5_time_precheck.Tests.test_finalize_has_zero_enable_and_only_remaining_work) ... ok
+test_low_time_is_BLOCKED_even_with_OK_and_DNS (test_b5_g3r5_time_precheck.Tests.test_low_time_is_BLOCKED_even_with_OK_and_DNS) ... ok
+test_network_name_and_2_4_channel_are_checked (test_b5_g3r5_time_precheck.Tests.test_network_name_and_2_4_channel_are_checked) ... ok
+test_partial_UART_command_cannot_skip_to_cleanup (test_b5_g3r5_time_precheck.Tests.test_partial_UART_command_cannot_skip_to_cleanup) ... ok
+test_plan_has_one_enable_no_manual_NTP_or_time_setter (test_b5_g3r5_time_precheck.Tests.test_plan_has_one_enable_no_manual_NTP_or_time_setter) ... ok
+test_time_parse_and_first_gate_do_not_use_host_time (test_b5_g3r5_time_precheck.Tests.test_time_parse_and_first_gate_do_not_use_host_time) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.059s
+
+OK

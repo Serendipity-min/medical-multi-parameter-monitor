@@ -1,0 +1,232 @@
+[
+  {
+    "monotonic": 1008367.718,
+    "UTC_ms": 1793274321612,
+    "data": "GW CLOCK hse=1 core_hz=8000000"
+  },
+  {
+    "monotonic": 1008367.828,
+    "UTC_ms": 1793274321720,
+    "data": "B5 DISARMED MOCK B_ONLY NO_FLASH_WRITE"
+  },
+  {
+    "monotonic": 1008368.453,
+    "UTC_ms": 1793274322340,
+    "data": "GW OK AT"
+  },
+  {
+    "monotonic": 1008368.453,
+    "UTC_ms": 1793274322340,
+    "data": "GW OK ECHO"
+  },
+  {
+    "monotonic": 1008368.453,
+    "UTC_ms": 1793274322340,
+    "data": "GW OK VOLATILE"
+  },
+  {
+    "monotonic": 1008368.453,
+    "UTC_ms": 1793274322340,
+    "data": "GW OK STA"
+  },
+  {
+    "monotonic": 1008368.453,
+    "UTC_ms": 1793274322340,
+    "data": "GW AT_VERSION value=2.3.0.0"
+  },
+  {
+    "monotonic": 1008369.484,
+    "UTC_ms": 1793274323365,
+    "data": "GW OK WIFI"
+  },
+  {
+    "monotonic": 1008369.484,
+    "UTC_ms": 1793274323365,
+    "data": "GW WIFI_SIGNAL channel=7 rssi=-63"
+  },
+  {
+    "monotonic": 1008369.484,
+    "UTC_ms": 1793274323365,
+    "data": "GW WIFI_SLEEP before=0 after=0"
+  },
+  {
+    "monotonic": 1008369.484,
+    "UTC_ms": 1793274323365,
+    "data": "GW OK SINGLE"
+  },
+  {
+    "monotonic": 1008369.484,
+    "UTC_ms": 1793274323365,
+    "data": "GW OK PASSIVE"
+  },
+  {
+    "monotonic": 1008369.484,
+    "UTC_ms": 1793274323365,
+    "data": "GW TIME_SAMPLE query=1 primary=0 parsed=1 epoch=1793274320"
+  },
+  {
+    "monotonic": 1008369.484,
+    "UTC_ms": 1793274323366,
+    "data": "GW TIME_WAIT queries=1 elapsed=50 valid=1 epoch=1793274320 tried=1"
+  },
+  {
+    "monotonic": 1008369.562,
+    "UTC_ms": 1793274323456,
+    "data": "GW SNTP_REJECT reason=10 received=48 rtt_ms=55 server_index=0"
+  },
+  {
+    "monotonic": 1008369.562,
+    "UTC_ms": 1793274323456,
+    "data": "GW FAIL SNTP_FRESH_SAMPLE"
+  },
+  {
+    "monotonic": 1008369.562,
+    "UTC_ms": 1793274323456,
+    "data": "B5 STOPPED NO_AUTOREARM"
+  },
+  {
+    "monotonic": 1008369.578,
+    "UTC_ms": 1793274323459,
+    "data": "B5 STOP_STATE tick=1861 armed_at=697 reason=3 phase=7 required=48 written=48 unsynced=0 pending=0 live=0 cache=0"
+  },
+  {
+    "monotonic": 1008369.578,
+    "UTC_ms": 1793274323459,
+    "data": "GW CLOSE_NOT_CONFIRMED_MANUAL_POWER_REQUIRED"
+  },
+  {
+    "monotonic": 1008369.578,
+    "UTC_ms": 1793274323459,
+    "data": "B5 TX_CONTEXT id=0 at=0 qos=0 stream=0 seq=0 pending=0 age=0 budget=0 required=48 written=48"
+  },
+  {
+    "monotonic": 1008369.578,
+    "UTC_ms": 1793274323459,
+    "data": "B5 AT_EVENT tick=1844 phase=0 written=48 reply=70 reason=1 flags=0"
+  },
+  {
+    "monotonic": 1008369.578,
+    "UTC_ms": 1793274323459,
+    "data": "B5 AT_EVENT tick=1845 phase=1 written=48 reply=70 reason=1 flags=0"
+  },
+  {
+    "monotonic": 1008369.625,
+    "UTC_ms": 1793274323505,
+    "data": "B5 AT_EVENT tick=1846 phase=1 written=48 reply=70 reason=1 flags=0"
+  },
+  {
+    "monotonic": 1008369.625,
+    "UTC_ms": 1793274323505,
+    "data": "B5 AT_EVENT tick=1853 phase=7 written=48 reply=14 reason=1 flags=1"
+  },
+  {
+    "monotonic": 1008369.625,
+    "UTC_ms": 1793274323505,
+    "data": "B5 DIAG tick=1917 session=0 rx=10 txack=5 txfail=0 overflow=0 esr=0 uart_err=0 live=0 cache=0 dropped=0 q0_transport=0 q1_puback=0 mqtt_fail=0 stop=1"
+  },
+  {
+    "monotonic": 1008369.625,
+    "UTC_ms": 1793274323506,
+    "data": "B5 WAVE gaps=0 quality_resets=0 partial_discarded=0 unstamped=6"
+  },
+  {
+    "monotonic": 1008369.625,
+    "UTC_ms": 1793274323506,
+    "data": "B5 IO tx_calls=1 tx_ok=1 tx_ms=18 rx_queries=3 rx_empty=2 rx_reads=1"
+  },
+  {
+    "monotonic": 1008369.625,
+    "UTC_ms": 1793274323506,
+    "data": "B5 LAT stage=0 n=24 p50_upper=10 p95_upper=50 p99_upper=1000 max=926"
+  },
+  {
+    "monotonic": 1008369.671,
+    "UTC_ms": 1793274323561,
+    "data": "B5 LAT stage=1 n=1 p50_upper=5 p95_upper=5 p99_upper=5 max=3"
+  },
+  {
+    "monotonic": 1008369.671,
+    "UTC_ms": 1793274323561,
+    "data": "B5 LAT stage=2 n=1 p50_upper=5 p95_upper=5 p99_upper=5 max=5"
+  },
+  {
+    "monotonic": 1008369.671,
+    "UTC_ms": 1793274323561,
+    "data": "B5 LAT stage=3 n=1 p50_upper=10 p95_upper=10 p99_upper=10 max=9"
+  },
+  {
+    "monotonic": 1008369.671,
+    "UTC_ms": 1793274323561,
+    "data": "B5 LAT stage=4 n=0 p50_upper=0 p95_upper=0 p99_upper=0 max=0"
+  },
+  {
+    "monotonic": 1008369.671,
+    "UTC_ms": 1793274323561,
+    "data": "B5 LAT stage=5 n=0 p50_upper=0 p95_upper=0 p99_upper=0 max=0"
+  },
+  {
+    "monotonic": 1008369.671,
+    "UTC_ms": 1793274323561,
+    "data": "B5 LAT stage=6 n=0 p50_upper=0 p95_upper=0 p99_upper=0 max=0"
+  },
+  {
+    "monotonic": 1008369.671,
+    "UTC_ms": 1793274323561,
+    "data": "B5 LAT stage=7 n=0 p50_upper=0 p95_upper=0 p99_upper=0 max=0"
+  },
+  {
+    "monotonic": 1008369.671,
+    "UTC_ms": 1793274323561,
+    "data": "B5 LAT stage=8 n=0 p50_upper=0 p95_upper=0 p99_upper=0 max=0"
+  },
+  {
+    "monotonic": 1008369.781,
+    "UTC_ms": 1793274323663,
+    "data": "B5 QUEUE high=0 replaced=0 overflow=0 expired=0 phase=0 unsynced=0 budget_refused=0"
+  },
+  {
+    "monotonic": 1008369.781,
+    "UTC_ms": 1793274323663,
+    "data": "B5 FLOW stream=4 put=0 take=0 history=0"
+  },
+  {
+    "monotonic": 1008369.781,
+    "UTC_ms": 1793274323663,
+    "data": "B5 FLOW stream=6 put=0 take=0 history=0"
+  },
+  {
+    "monotonic": 1008369.781,
+    "UTC_ms": 1793274323663,
+    "data": "B5 FLOW stream=5 put=0 take=0 history=0"
+  },
+  {
+    "monotonic": 1008369.781,
+    "UTC_ms": 1793274323663,
+    "data": "B5 FLOW stream=7 put=0 take=0 history=0"
+  },
+  {
+    "monotonic": 1008369.781,
+    "UTC_ms": 1793274323663,
+    "data": "B5 FLOW stream=8 put=0 take=0 history=0"
+  },
+  {
+    "monotonic": 1008369.781,
+    "UTC_ms": 1793274323663,
+    "data": "B5 FLOW stream=9 put=0 take=0 history=0"
+  },
+  {
+    "monotonic": 1008369.781,
+    "UTC_ms": 1793274323663,
+    "data": "B5 FLOW stream=11 put=0 take=0 history=0"
+  },
+  {
+    "monotonic": 1008369.781,
+    "UTC_ms": 1793274323663,
+    "data": "B5 RAM stack_used_upper=2352"
+  },
+  {
+    "monotonic": 1008369.781,
+    "UTC_ms": 1793274323663,
+    "data": "B5 SCHED service_gap=10 console_ms=13 rx_high=6"
+  }
+]

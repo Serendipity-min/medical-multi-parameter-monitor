@@ -1,0 +1,564 @@
+{
+  "status": "OFFLINE_AUDIT_COMPLETED_ROOT_CAUSE_UNRESOLVED",
+  "baseline": "bb9bc8e00860ff4f61fa3c4f315edfb76815a59b",
+  "historical_sdk_logs_reviewed": 37,
+  "cases": [
+    {
+      "historical_private_folder": "adc-path-r3-01",
+      "sdk_log_sha256": "fa9033a5edd3b1ebc97d0bf0d47a6c9242fc952a7977cc5caab0cca47869ed74",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 0,
+        "Go": 0,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 31,
+      "SetSkipDebugDeInit_before_Open": false,
+      "SetSkipDebugDeInit_before_Device": false,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "adc-path-r3-02",
+      "sdk_log_sha256": "9ad651c6f4d29614d7332a905838f728ab6a842404cded59fc78da9090b82d41",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 0,
+        "Go": 1,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 255,
+      "SetSkipDebugDeInit_before_Open": false,
+      "SetSkipDebugDeInit_before_Device": false,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "boot-r3-01",
+      "sdk_log_sha256": "4c732792715b3798189cb26dd5224264a711e76edf9bfdb2d6044162c2172921",
+      "explicit_controls": {
+        "Reset": 1,
+        "Halt": 0,
+        "Go": 1,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 201,
+      "SetSkipDebugDeInit_before_Open": false,
+      "SetSkipDebugDeInit_before_Device": false,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "capture-ecg60-r3-01",
+      "sdk_log_sha256": "f183f6622733bc6dc00e0d0e4676282ac545fc88ee0fc39b5210852eedb5061c",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 1,
+        "Go": 2,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 463,
+      "SetSkipDebugDeInit_before_Open": false,
+      "SetSkipDebugDeInit_before_Device": false,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "capture-open-r3-01",
+      "sdk_log_sha256": "927c37bd846481796ede06bc902da2655a8d7a4ddeddb49065b8bc3392f08a13",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 1,
+        "Go": 2,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 463,
+      "SetSkipDebugDeInit_before_Open": false,
+      "SetSkipDebugDeInit_before_Device": false,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "fault-r3-01",
+      "sdk_log_sha256": "52d09f174c3ee91c730031d6d29efb14bbf1e0376436b423a69ceedaf3085baa",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 0,
+        "Go": 0,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 179,
+      "SetSkipDebugDeInit_before_Open": false,
+      "SetSkipDebugDeInit_before_Device": false,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "install-r3-01",
+      "sdk_log_sha256": "9f0e40024f96fee3a68b83065fa2ef7b8e0f3278536455128970f5e7235eb6e9",
+      "explicit_controls": {
+        "Reset": 1,
+        "Halt": 1,
+        "Go": 1,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 50,
+      "SetSkipDebugDeInit_before_Open": false,
+      "SetSkipDebugDeInit_before_Device": false,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "matrix-ecg120-r3-01",
+      "sdk_log_sha256": "65b8b73adf17cbd74316a81894be75171cc2507a86a453f27ffcbd0b0a444186",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 1,
+        "Go": 2,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 2834,
+      "SetSkipDebugDeInit_before_Open": false,
+      "SetSkipDebugDeInit_before_Device": false,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "matrix-ecg120-r3-02",
+      "sdk_log_sha256": "74cccc45e643ee7b6049a90d4990ea4e3ca52334f6dbe614665f9372f3605c79",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 1,
+        "Go": 2,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 2834,
+      "SetSkipDebugDeInit_before_Open": false,
+      "SetSkipDebugDeInit_before_Device": false,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "matrix-ecg60-r3-01",
+      "sdk_log_sha256": "d5f4c0f2bae0ef24c32400b9b395f60344a1cfdeadc70f22ec540b41957c754b",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 1,
+        "Go": 2,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 2832,
+      "SetSkipDebugDeInit_before_Open": false,
+      "SetSkipDebugDeInit_before_Device": false,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "matrix-ecg60-r3-02",
+      "sdk_log_sha256": "bff36fd152c8fb6f7433b4d8c7c1f2d0ff03794e724b56b997a4f02696e1cc56",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 1,
+        "Go": 2,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 2828,
+      "SetSkipDebugDeInit_before_Open": false,
+      "SetSkipDebugDeInit_before_Device": false,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "matrix-ecg90-r3-01",
+      "sdk_log_sha256": "6da37f294c96f7cc51396f71f25f822890934a84c1b2cd56cfe76999ed267736",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 1,
+        "Go": 2,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 2834,
+      "SetSkipDebugDeInit_before_Open": false,
+      "SetSkipDebugDeInit_before_Device": false,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "matrix-ecg90-r3-02",
+      "sdk_log_sha256": "a32edb2399a3c7d47a9e19ed46122631b33e349b5e2929f78cc89137e05d5e37",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 1,
+        "Go": 2,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 2834,
+      "SetSkipDebugDeInit_before_Open": false,
+      "SetSkipDebugDeInit_before_Device": false,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "policy-final-offline",
+      "sdk_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 0,
+        "Go": 0,
+        "Close": 0
+      },
+      "sdk_calls_with_heartbeat": 0,
+      "SetSkipDebugDeInit_before_Open": false,
+      "SetSkipDebugDeInit_before_Device": false,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "policy-final-offline-r2",
+      "sdk_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 0,
+        "Go": 0,
+        "Close": 0
+      },
+      "sdk_calls_with_heartbeat": 0,
+      "SetSkipDebugDeInit_before_Open": false,
+      "SetSkipDebugDeInit_before_Device": false,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "precheck-r3-01",
+      "sdk_log_sha256": "4b0e608ba1202ffe4ff9d9d9ab971c048213a5d5424c976e038cce140be65b13",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 0,
+        "Go": 0,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 30,
+      "SetSkipDebugDeInit_before_Open": false,
+      "SetSkipDebugDeInit_before_Device": false,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "precheck-r3-02",
+      "sdk_log_sha256": "edf44f0463a8b4f49497dd45f72653161491d3e220d72971fed9fc7e2d03390f",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 0,
+        "Go": 1,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 206,
+      "SetSkipDebugDeInit_before_Open": false,
+      "SetSkipDebugDeInit_before_Device": false,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "readback-r3-01",
+      "sdk_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 0,
+        "Go": 0,
+        "Close": 0
+      },
+      "sdk_calls_with_heartbeat": 0,
+      "SetSkipDebugDeInit_before_Open": false,
+      "SetSkipDebugDeInit_before_Device": false,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "readback-r3-02",
+      "sdk_log_sha256": "39d2e64df3f28865eb7ca66cf7fc7e2785d00cc2e92a7b0bed5d7bd4adc172d7",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 1,
+        "Go": 1,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 67,
+      "SetSkipDebugDeInit_before_Open": false,
+      "SetSkipDebugDeInit_before_Device": false,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "reprobe-r3-01",
+      "sdk_log_sha256": "bb2b06cf6739d4c9596b530d9297163e4859c62d9c760e3af9bf166ab8f2ed90",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 0,
+        "Go": 0,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 186,
+      "SetSkipDebugDeInit_before_Open": false,
+      "SetSkipDebugDeInit_before_Device": false,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "resp-003/e1-01",
+      "sdk_log_sha256": "dcd824e333ded95108338d1b50c9f642a2e3f5f61f1a6c2925846c655f5c257d",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 0,
+        "Go": 0,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 38,
+      "SetSkipDebugDeInit_before_Open": false,
+      "SetSkipDebugDeInit_before_Device": false,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "resp-003/e1-02",
+      "sdk_log_sha256": "045631dacb6460a58fdc33e7d6c447182e757fc18f63c044c859af8e75e934f3",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 0,
+        "Go": 0,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 35,
+      "SetSkipDebugDeInit_before_Open": true,
+      "SetSkipDebugDeInit_before_Device": true,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "resp-003/e1-03",
+      "sdk_log_sha256": "b95e88d8992b1caf71ff5620388ee3a43fe2d8e0610c227bcf3b4587d97ae4cb",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 1,
+        "Go": 1,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 397,
+      "SetSkipDebugDeInit_before_Open": true,
+      "SetSkipDebugDeInit_before_Device": true,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "resp-003/e3-matrix-r1/capture-12-r1",
+      "sdk_log_sha256": "7aefb94dccf087f898b916ee1f5837d913115e6d05fc17b41e3e74b6f78390c2",
+      "explicit_controls": {
+        "Reset": 1,
+        "Halt": 1,
+        "Go": 2,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 4192,
+      "SetSkipDebugDeInit_before_Open": true,
+      "SetSkipDebugDeInit_before_Device": true,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "resp-003/e3-matrix-r1/capture-12-r2",
+      "sdk_log_sha256": "1f4c82570d12ccacff8839fb658af881e1b29f59dd1b0e7d266248381a35f9fa",
+      "explicit_controls": {
+        "Reset": 1,
+        "Halt": 1,
+        "Go": 2,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 4196,
+      "SetSkipDebugDeInit_before_Open": true,
+      "SetSkipDebugDeInit_before_Device": true,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "resp-003/e3-matrix-r1/capture-18-r1",
+      "sdk_log_sha256": "298af9ce371b027f0cfa0ae7850ccfdda54d79608f382895b8a0e97a80a187d6",
+      "explicit_controls": {
+        "Reset": 1,
+        "Halt": 1,
+        "Go": 2,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 4196,
+      "SetSkipDebugDeInit_before_Open": true,
+      "SetSkipDebugDeInit_before_Device": true,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "resp-003/e3-matrix-r1/capture-18-r2",
+      "sdk_log_sha256": "ee401e5902f08788d964ed56f300034973fbd853e9924867590549aa9b73ae6c",
+      "explicit_controls": {
+        "Reset": 1,
+        "Halt": 1,
+        "Go": 2,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 4190,
+      "SetSkipDebugDeInit_before_Open": true,
+      "SetSkipDebugDeInit_before_Device": true,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "resp-003/e3-matrix-r1/capture-24-r1",
+      "sdk_log_sha256": "e3cc1c421dc0ce2a0edc7b91c91c75fcef6f1ff8818fcf1f71244d69f861ef13",
+      "explicit_controls": {
+        "Reset": 1,
+        "Halt": 1,
+        "Go": 2,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 4190,
+      "SetSkipDebugDeInit_before_Open": true,
+      "SetSkipDebugDeInit_before_Device": true,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "resp-003/e3-matrix-r1/capture-24-r2",
+      "sdk_log_sha256": "a8f4ef0fac3159d2c004ede0ebb31cad0e5a5a0635f68efbd8a304fb589026ad",
+      "explicit_controls": {
+        "Reset": 1,
+        "Halt": 1,
+        "Go": 2,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 4196,
+      "SetSkipDebugDeInit_before_Open": true,
+      "SetSkipDebugDeInit_before_Device": true,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "resp-003/rall20-01",
+      "sdk_log_sha256": "f62bcfbb2dc9a12e97a9f7860dff601070450a2b3c7dbfe3bd32ae599c7215f6",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 0,
+        "Go": 0,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 48,
+      "SetSkipDebugDeInit_before_Open": true,
+      "SetSkipDebugDeInit_before_Device": true,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "resp-003/rall20-recovery-01",
+      "sdk_log_sha256": "da4ee6d850814e4844e3d02b70bc9ccc9e8d0ef1b418a4cbe3138131f47b7312",
+      "explicit_controls": {
+        "Reset": 1,
+        "Halt": 1,
+        "Go": 2,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 1530,
+      "SetSkipDebugDeInit_before_Open": true,
+      "SetSkipDebugDeInit_before_Device": true,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "resp-003/rall30-01",
+      "sdk_log_sha256": "ffeb85f5cc0c26f5c92e666ff2dbcd24851eb31baeda1d1fe9e63135c452098b",
+      "explicit_controls": {
+        "Reset": 1,
+        "Halt": 1,
+        "Go": 2,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 1530,
+      "SetSkipDebugDeInit_before_Open": true,
+      "SetSkipDebugDeInit_before_Device": true,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "resp-003/runtime-state-01/attachment-01",
+      "sdk_log_sha256": "355df463697325efe2db785b321302a7efbdfc20ea657195173edad298c08748",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 0,
+        "Go": 0,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 245,
+      "SetSkipDebugDeInit_before_Open": true,
+      "SetSkipDebugDeInit_before_Device": true,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "resp-003/runtime-state-01/attachment-02",
+      "sdk_log_sha256": "81ffbc7e0bba0026949de9ac1ce8aceb562bda2613ed92830daedebfc79c0925",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 0,
+        "Go": 0,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 245,
+      "SetSkipDebugDeInit_before_Open": true,
+      "SetSkipDebugDeInit_before_Device": true,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "resp-003/validity45-01",
+      "sdk_log_sha256": "f9f5aa7f841b4957e957f5603cfce6c6407d11d3b425f8bf48ba065a5164d504",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 1,
+        "Go": 2,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 1524,
+      "SetSkipDebugDeInit_before_Open": true,
+      "SetSkipDebugDeInit_before_Device": true,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "start-pulse-r3-01",
+      "sdk_log_sha256": "4ed65a9c4e0e201fd460a9c3f29807d5938a896da1e016e119c0fb21c71f1f2a",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 0,
+        "Go": 0,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 34,
+      "SetSkipDebugDeInit_before_Open": false,
+      "SetSkipDebugDeInit_before_Device": false,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    },
+    {
+      "historical_private_folder": "start-pulse-r3-02",
+      "sdk_log_sha256": "391e7cc6877eead7aa84b4f5e935d0cfa0f954c60910542f8c96b49cc11e5948",
+      "explicit_controls": {
+        "Reset": 0,
+        "Halt": 0,
+        "Go": 1,
+        "Close": 1
+      },
+      "sdk_calls_with_heartbeat": 161,
+      "SetSkipDebugDeInit_before_Open": false,
+      "SetSkipDebugDeInit_before_Device": false,
+      "no_explicit_reset_is_not_no_physical_reset": true
+    }
+  ],
+  "audited_source_sha256": {
+    "node-b/firmware/biov2/实验固件/USER/main.c": "b8bffcefd8520b20ec81a6e0805a9cfd629ce636ba73b390675e1f6e5911a3e6",
+    "node-b/firmware/biov2/实验固件/USER/system_stm32f4xx.c": "b530011f741dfeae02f182a08ea11bfc670d42795c9dec0d98a70041cdcaf54a",
+    "node-b/firmware/biov2/实验固件/CORE/startup_stm32f40_41xxx.s": "fee2962668dbef36f1b03863ce488490738cafcc6f17a89f56dabdd551f73a9d",
+    "node-b/firmware/biov2/实验固件/HARDWARE/systick.c": "bd0666b7c8cd31448d7791fc51866873283a0649648c57a339c8b52908e31a50",
+    "node-b/firmware/biov2/实验固件/SCREEN/cmd_queue.c": "70226503db0972c91c4490a307f3d4d8d1023049b279867717157a3212604b2c",
+    "node-b/firmware/biov2/实验固件/SCREEN/hmi_driver.h": "ee9a7de81e69f265290fe03c147f0a2df2391db6ebd2b24f0f76d039b1de9738",
+    "node-b/firmware/biov2/实验固件/HARDWARE/hr_page.c": "b531140946aba2ee8ef037cf1939c81784df0810075669055233a830e2c28741",
+    "node-b/tools/readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+    "node-b/tools/runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46"
+  },
+  "linked_candidate_BIN_sha256": "438a8120f6df06ce219cdc30c0e5b697ac0e993f98d5a80521b10361536ae3ae",
+  "linked_main_SYSRESETREQ_instruction": "0x08005AD0",
+  "linked_main_reset_input": "Complete HMI frame with second byte0x07, CRC16 disabled",
+  "runtime_ROM": {
+    "PC": "0x1FFF32F0",
+    "VTOR": "0x1FFF0000",
+    "MSP": "0x20001940",
+    "DHCSR": "0x00030003",
+    "RCC_CSR": "0x0E000000",
+    "SFTRSTF": false,
+    "BORRSTF": true,
+    "PINRSTF": true,
+    "PORRSTF": true,
+    "reset_flags_are_sticky_not_event_timestamps": true
+  },
+  "current_source_owner_correction": {
+    "mode": "ORDINARY_ECG",
+    "nominal_bpm": 60,
+    "HMI_connected": true,
+    "HMI_no_wave_change_reported": true,
+    "board_USB_connected": false
+  },
+  "P0": "CPU_ROOT_CAUSE_UNRESOLVED",
+  "P1": "BLOCKED_BY_P0",
+  "P2": "IMPEDANCE_AMPLITUDE_NOT_CALIBRATED_INSTRUMENT_REQUIRED",
+  "hardware_actions_this_task": 0,
+  "firmware_rebuilt_or_changed": false,
+  "CAN_integration": "PAUSED_NOT_IMPLEMENTED"
+}

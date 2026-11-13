@@ -1,0 +1,46 @@
+{
+  "purpose": "only named handoff manual path lookup; no hardware query",
+  "sources": [
+    {
+      "path": "doc\\B\\SKX2000D+说明书.pdf",
+      "exists": false
+    },
+    {
+      "path": "E:\\多参数心电监护仪系统-样机开发\\doc\\B\\SKX2000D+说明书.pdf",
+      "exists": true,
+      "sha256": "27fe9e4a37a761ab7df939bf49693942dbf3e5692f09e2e10311106053503cc8",
+      "pages": 12,
+      "text_hits": [
+        {
+          "page": 5,
+          "text": "参数  呼吸波形  呼吸率  心率范围：5 rbpm-120 rbpm  "
+        },
+        {
+          "page": 5,
+          "text": "呼吸波形  呼吸率  心率范围：5 rbpm-120 rbpm   幅度 "
+        },
+        {
+          "page": 5,
+          "text": "幅度范围：0.3R-3.0R  窒息时间  时间范围：0 秒-120 秒  波形周期 "
+        },
+        {
+          "page": 6,
+          "text": "适用范围：测试简单信号功能，各个导联波形是否与模拟仪波形一致  注：在此波形下,同步产生20bpm 的呼吸波形,呼吸波形的幅度请在呼吸波中更改呼吸波 幅度。  注：以下波形只对应正常窦性心电波形，其他种类波形请对应II 导联波形 "
+        },
+        {
+          "page": 11,
+          "text": " 100Hz  7、呼吸波形：  心率范围：60 bpm  呼吸  率：5-120 rbpm           默认 15 bpm "
+        },
+        {
+          "page": 11,
+          "text": "呼吸  率：5-120 rbpm           默认 15 bpm  呼吸幅度：0.3R-3.0R            默认 1.5R 改变呼吸阻抗的大小  基线阻抗： 1K  适用范围：测试呼吸频率，呼吸增益 "
+        },
+        {
+          "page": 11,
+          "text": "适用范围：测试呼吸频率，呼吸增益  基线阻抗： 1K 时的呼吸波形 "
+        }
+      ]
+    }
+  ],
+  "interpretation": "Manual separates RR/amplitude/apnea/period; current menu values and QRS absence remain unverified; no physical unit conversion for 1.5R"
+}

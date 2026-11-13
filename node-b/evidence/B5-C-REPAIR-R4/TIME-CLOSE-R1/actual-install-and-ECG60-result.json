@@ -1,0 +1,177 @@
+{
+  "status": "B5_SEPARATE_ECG60_NOT_PASS",
+  "exit_code": 3,
+  "candidate_bytes": 48988,
+  "BIN_sha256": "7bf11c191c785cc8529be8b26fb83ce429d330a8238175f44add53384c8b4daa",
+  "actual_full_sha256": "9799f39c731ce0dd33eba00749f945db1255a887939f88a924b6908405392873",
+  "failures": [
+    "CHANNEL_C_DIAGNOSTICS",
+    "C_DIAGNOSTIC_GAP",
+    "C_EGRESS_QUEUE_EVIDENCE"
+  ],
+  "B": {
+    "failures": [],
+    "saved": 600,
+    "device_domain_SPS": 250.04005928774586,
+    "CAN_evaluation_increments": {
+      "offered": 74900,
+      "enqueued": 74900,
+      "sent_ecg": 74900,
+      "sent_resp": 14980,
+      "overflow": 0,
+      "expired": 0,
+      "comm_reset": 0,
+      "app_reset_rejected": 0,
+      "error": 0,
+      "discontinuities": 0
+    },
+    "ADC_evaluation_increments": {
+      "bad_status": 0,
+      "spi_errors": 0,
+      "queue_overflow": 0,
+      "init_errors": 0,
+      "long_gap_count": 0
+    },
+    "HR_values": {
+      "60": 600
+    },
+    "RR_reason_masks": {
+      "130": 600
+    },
+    "clipped_counter_increment": 0,
+    "temperature_errors": {
+      "overflow": 0,
+      "uart_errors": 0,
+      "checksum_errors": 0
+    },
+    "temperature_new_frames": 1372,
+    "profile": "ECG60"
+  },
+  "ECG_source_points": 75012,
+  "RESP_source_points": 15003,
+  "source_mapping_errors": {},
+  "Broker_messages": 2838,
+  "Backend_delta": {
+    "accepted": 2838,
+    "rejected": 0,
+    "dropped": 0
+  },
+  "Broker_duplicates": 0,
+  "WSS_snapshots": 2974,
+  "wave_batches_observed_in_WSS": 751,
+  "max_MQTT_JSON_bytes": 849,
+  "C_diagnostic_count": 19,
+  "C_diagnostic_max_gap_s": 18.375,
+  "C_error_delta": {
+    "rx": 87626,
+    "txack": 602,
+    "txfail": 0,
+    "overflow": 0,
+    "uart_err": 0,
+    "dropped": 0,
+    "mqtt_fail": 0
+  },
+  "STOP_offset_s": 420.06299999996554,
+  "STOP_source": {
+    "tick": 420711,
+    "armed_at": 711,
+    "reason": 1,
+    "phase": 7,
+    "required": 878,
+    "written": 878,
+    "unsynced": 0,
+    "pending": 0,
+    "live": 24,
+    "cache": 28,
+    "business_elapsed_ms": 420000
+  },
+  "runtime_stack_used_upper": 2748,
+  "service_gap_max_ms": 23,
+  "console_max_ms": 24,
+  "RX_ring_high_water": 25,
+  "ECG_STARTs": 1,
+  "TEMP_STARTs": 0,
+  "RR_STARTs": 0,
+  "source": "MOCK",
+  "synthetic": true,
+  "physical_power_off": "OWNER_CONFIRMED_ALL_OFF",
+  "app_restored": false,
+  "cloud_test_accounts_revoked": false,
+  "formal_cloud_mutations": 0,
+  "wrong_route_install_downloads": 0,
+  "corrected_route_install_downloads": 1,
+  "restricted_original_references": {
+    "I": {
+      "bytes": 955,
+      "sha256": "17a2f4b13411d9f3335d41b68875ca2a3680b5545a0dff1351c5f70343f02c06"
+    },
+    "C_RO": {
+      "bytes": 321,
+      "sha256": "691d3c8e9693092b75dd7786ff76b3611a18f5848e921275e90ba8396a28f910"
+    },
+    "C_LINES": {
+      "bytes": 149503,
+      "sha256": "0fd2529ca4cf5e71d0bf6a550a4f9f20c374800a1cc08dadca64b37bdad5618e"
+    },
+    "C_UART": {
+      "bytes": 77304,
+      "sha256": "e573740f84e0f303c611191861d383c8e2300d3d36c9639b0d697f13af4da3d5"
+    },
+    "B_DIAG": {
+      "bytes": 1733308,
+      "sha256": "03e80aea2958c673034b692ac1b80a318055c6b2a1cfd566cf7213e7888f4478"
+    },
+    "CLOUD_RAW": {
+      "bytes": 15945944,
+      "sha256": "2142c55f6ad11a942617b6af4fd20f95ff99cfeb56a092ab790527d46c205bd7"
+    },
+    "JOINT": {
+      "bytes": 628,
+      "sha256": "c480724c3d15a377d8d4ef1c0a342cd0907c7222505107d1692bc9b60e516a53"
+    },
+    "CLOUD": {
+      "bytes": 358,
+      "sha256": "035ac20305a4e2d5ccbc7a4f42bdf9d3bb8b56bd5ee5bd7469313c3dab208a55"
+    },
+    "B_RECEIPT": {
+      "bytes": 183,
+      "sha256": "67cd25be6b98105bfc3090d37acbe03ca4d98f14a2981520d5f2387c1d4b2f1d"
+    },
+    "SUPERVISOR": {
+      "bytes": 205,
+      "sha256": "ed466cbd45055472cfbf8317c86cd94a4933c75aeaa6d8cefa0dd7694d6c9aa6"
+    },
+    "REVIEW": {
+      "bytes": 3453,
+      "sha256": "19e0c7d0e005bd64cb2e9864b609e8402b6150b93b68cfa8fb846ba51722ea43"
+    },
+    "B_SLOTS": {
+      "bytes": 14543060,
+      "sha256": "0d633bcb69d2cb65f3795053e92316a84b3c075fd3e3584f4f34d5b7952252bd"
+    },
+    "B_SLOT_INDEX": {
+      "bytes": 619157,
+      "sha256": "072b0d4f7a35ac1ae3175b9e601633aba9dc9ce8ec159e83eeea0f9e9eabcf9e"
+    },
+    "B_UART_RING": {
+      "bytes": 925888,
+      "sha256": "75deb33fabc11e326926c8327fb8084bd0ca118d1f189bbf6fd5b26b02d27fe2"
+    },
+    "B_UART_RING_INDEX": {
+      "bytes": 185009,
+      "sha256": "7f91890115935a7fea2935c4a047313eaa7851959041b993e9c954d5ab74159d"
+    },
+    "B_FLASH": {
+      "bytes": 1048576,
+      "sha256": "ceebec5a91835aed3cb70c683fd8de5142e5ba59a2163a1968cec182018b48ae"
+    },
+    "B_OPTIONS": {
+      "bytes": 16,
+      "sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687"
+    }
+  },
+  "complete_restricted_original_ledger": {
+    "files": 5366,
+    "sha256": "5bc826d09a9732572e5a9e8aba2f556e04c5fcd911ac3d6224fe78586e1d1c31"
+  }
+}

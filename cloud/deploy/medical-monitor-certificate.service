@@ -1,0 +1,8 @@
+[Unit]
+Description=Refresh monitor MQTT certificate from existing local certificate
+After=medical-monitor-mqtt.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /opt/medical-monitor/current/deploy/refresh_broker_certificate.py
+UMask=0077

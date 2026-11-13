@@ -1,0 +1,26 @@
+[
+  {
+    "case": "reject-old-ecg-profile",
+    "supervisor_or_parser_exit_code": 1,
+    "expected": 1,
+    "hardware_access": false,
+    "worker_exit_code": 1,
+    "reason": "RuntimeError: RESP_PROFILE_SCHEMA_NO_ECG_REUSE",
+    "board_open_attempted": false
+  },
+  {
+    "case": "reject-pending-source",
+    "supervisor_or_parser_exit_code": 1,
+    "expected": 1,
+    "hardware_access": false,
+    "worker_exit_code": 1,
+    "reason": "RuntimeError: RESP_SOURCE_NOT_READY",
+    "board_open_attempted": false
+  },
+  {
+    "case": "reject-duration-92",
+    "supervisor_or_parser_exit_code": 2,
+    "expected": 2,
+    "hardware_access": false
+  }
+]

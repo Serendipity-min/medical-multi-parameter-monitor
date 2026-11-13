@@ -1,0 +1,25 @@
+{
+  "unit_checks": {
+    "tests": 7,
+    "failures": 0,
+    "errors": 0,
+    "blocked_events": [],
+    "exit_code": 0,
+    "hardware_actions": 0
+  },
+  "original_replay": {
+    "status": "OFFLINE_OBSERVATION_ADAPTER_REPLAY_PASS",
+    "exit_code": 0,
+    "real_input_from_original_TEMP180_snapshots": [
+      212,
+      213
+    ],
+    "input_bad_sha256": "bd8c7407beab1f3480ac691378e72edc4ad8f0739ca3b9e71cd51bc006e9d99d",
+    "read_schedule": "SYNTHETIC_BAD_THEN_ORIGINAL_GOOD_TWICE",
+    "first_bad_original_preserved": true,
+    "qualified_after_reads": 3,
+    "new_device_actions": 0,
+    "physical_root_cause_proven": false,
+    "old_TEMP180_status_unchanged": "NOT_PASS_EXIT3"
+  }
+}

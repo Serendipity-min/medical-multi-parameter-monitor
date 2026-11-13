@@ -1,0 +1,53 @@
+Traceback (most recent call last):
+  File "E:\medical-monitor-node-b5-cloud\node-b\tools\b5_codex_offline_tests.py", line 79, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "E:\medical-monitor-node-b5-cloud\node-b\tools\b5_codex_offline_tests.py", line 59, in main
+    suite = unittest.TestSuite(unittest.defaultTestLoader.loadTestsFromName(name) for name in MODULES)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\unittest\suite.py", line 24, in __init__
+    self.addTests(tests)
+  File "C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\unittest\suite.py", line 57, in addTests
+    for test in tests:
+  File "E:\medical-monitor-node-b5-cloud\node-b\tools\b5_codex_offline_tests.py", line 59, in <genexpr>
+    suite = unittest.TestSuite(unittest.defaultTestLoader.loadTestsFromName(name) for name in MODULES)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\unittest\loader.py", line 162, in loadTestsFromName
+    module = __import__(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\medical-monitor-node-b5-cloud\node-b\tests\test_b5_channel_profiles.py", line 12, in <module>
+    import b5_g3_cloud as c
+  File "E:\medical-monitor-node-b5-cloud\node-b\tools\b5_g3_cloud.py", line 14, in <module>
+    import b5_g1_smoke as prior
+  File "E:\medical-monitor-node-b5-cloud\node-b\tools\b5_g1_smoke.py", line 15, in <module>
+    import paho.mqtt.client as mqtt
+  File "C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\site-packages\paho\mqtt\client.py", line 123, in <module>
+    if platform.system() == 'Windows':
+       ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\platform.py", line 921, in system
+    return uname().system
+           ^^^^^^^
+  File "C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\platform.py", line 856, in uname
+    release, version, csd, ptype = win32_ver()
+                                   ^^^^^^^^^^^
+  File "C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\platform.py", line 371, in win32_ver
+    major, minor, build = map(int, _syscmd_ver()[2].split('.'))
+                                   ^^^^^^^^^^^^^
+  File "C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\platform.py", line 284, in _syscmd_ver
+    info = subprocess.check_output(cmd,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\subprocess.py", line 548, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "C:\Users\Serendipity\AppData\Local\Programs\Python\Python311\Lib\subprocess.py", line 1534, in _execute_child
+    sys.audit("subprocess.Popen", executable, args, cwd, env)
+  File "E:\medical-monitor-node-b5-cloud\node-b\tools\b5_codex_offline_tests.py", line 37, in audit
+    deny(event)
+  File "E:\medical-monitor-node-b5-cloud\node-b\tools\b5_codex_offline_tests.py", line 31, in deny
+    raise RuntimeError('P1A_OFFLINE_FORBIDDEN_' + kind)
+RuntimeError: P1A_OFFLINE_FORBIDDEN_subprocess.Popen

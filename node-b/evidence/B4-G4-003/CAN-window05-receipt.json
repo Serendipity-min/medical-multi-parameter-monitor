@@ -1,0 +1,54 @@
+{
+  "status": "CAN_SAVED_BASELINE_PASS_B_ADC_REVIEW_REQUIRED",
+  "failures": [],
+  "raw_packet_count": 59047,
+  "sequence_errors": 0,
+  "CRC_errors": 0,
+  "discarded_bytes_after_BOOT": 0,
+  "capture_drops": 0,
+  "C_RX_overflow": 0,
+  "C_CAN2_peak_TEC": 0,
+  "C_CAN2_peak_REC": 0,
+  "evaluation_counts": {
+    "1:bus1:0x182": 22491,
+    "1:bus1:0x282": 4499,
+    "1:bus1:0x382": 90,
+    "1:bus1:0x482": 90,
+    "1:bus1:0x682": 90,
+    "1:bus1:0x702": 180,
+    "2:bus1:0x100": 9,
+    "2:bus1:0x703": 180,
+    "3:bus1:0x100": 9,
+    "3:bus1:0x703": 180
+  },
+  "model_value_time_checks_passed": 585,
+  "model_value_time_checks_failed": 0,
+  "model_valid_observations": {
+    "4:False": 225,
+    "5:False": 90,
+    "6:False": 90,
+    "7:False": 90,
+    "8:False": 90,
+    "9:False": 18,
+    "9:True": 18
+  },
+  "HR_RR_simultaneous_engineering_pass": false,
+  "source_absolute_impedance_calibrated": false,
+  "flash_alias_verified_by_installation": true,
+  "startup_evidence": "INSTALL_RECEIPT_AND_RUNNING_DIAGNOSTICS_NO_BOOT_CAPTURE",
+  "window": {
+    "warmup_ms": 45000,
+    "evaluation_ms": 90000,
+    "CAN_limit_ms": 180000
+  },
+  "diagnostic_only": {
+    "last_quality_flags": 0,
+    "vitals_rows_in_evaluation": 90
+  },
+  "serial_bytes": 1889504,
+  "host_elapsed_seconds": 199.3279999999795,
+  "start_commands_attempted": 1,
+  "target_reset_or_download_commands": 0,
+  "exit_code": 0,
+  "C_candidate_sha256": "d30a35e7f7729c16f580c67e660f1f01a76e111606474f6b5e2a4eff8f44ac12"
+}

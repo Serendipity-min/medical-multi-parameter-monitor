@@ -1,0 +1,71 @@
+{
+  "date": "2026-11-09",
+  "timezone": "Asia/Shanghai",
+  "phase": "PREFLIGHT_R3",
+  "authorization_commit": "52d48ca3ae6b6636bf355b55095428306bfe958b",
+  "candidate_source_commit": "7312518a3e28c574220d6f247b877460fc2b3b27",
+  "status": "S0_PASS_HISTORICAL_CHECKPOINT",
+  "s0": {
+    "readonly_backup": "PASS",
+    "checked": [
+      "C identity",
+      "two independent full Flash reads",
+      "two independent Options reads",
+      "installed FIELD01 archive match",
+      "sector3 CRC",
+      "debug session close"
+    ],
+    "readonly_comparison_sha256": "96b2b0cdee436ef6b3a8a61153bd87332869107d4323c78befb5c1f9bced0b57",
+    "install": "UNIFIED_C_INSTALL_FULL_VERIFY_PASS",
+    "native_exit": 0,
+    "verified_local_time": "2026-11-09T11:40:28+08:00",
+    "written_sectors": [
+      0,
+      4
+    ],
+    "full_readback_verified": true,
+    "sector3_unchanged": true,
+    "options_unchanged": true,
+    "other_flash_unchanged": true,
+    "post_install_comparison_sha256": "7a089fa23ae8bddef55e32bb6c1bffd56abe825653cc3a5b97265f9b6408c539",
+    "verified_install_supply": "J5; J-Link for programming; USB_UART disconnected",
+    "earlier_power_exception": "C power LED remained on with USB_UART removed and J-Link connected; target operation stopped, no installation attempted in that state.",
+    "power_off": "OWNER_CONFIRMED_J5_OFF_AND_C_LED_DARK",
+    "paused_local_time": "2026-11-09T11:41:44+08:00"
+  },
+  "current_c_image": {
+    "target": "FIVE_FIELD01_C",
+    "boot_bytes": 392,
+    "code_bytes": 61616,
+    "boot_sha256": "92d4657796f7073aea69d593d0ee3baa3e81331041a1e91f2bf1d5224c9c1089",
+    "code_sha256": "f90540e1e28cf0ba88b0d6e18a5f6a6a3db5771cf9a55283d7a4c09d9134b3f4",
+    "hex_sha256": "f57027f20f5e964abc9254fba386651c4833b61b9f8b743283ec4a009006b295"
+  },
+  "consumption": {
+    "ledger_recorded_power_sessions": 2,
+    "successful_candidate_installations": 1,
+    "rollback_executions": 0,
+    "pre_commands": 0,
+    "start_commands": 0,
+    "key_commands": 0,
+    "unexpected_supply_events": 1,
+    "total_counted_power_events_through_s0": 3
+  },
+  "field_validation": {
+    "S1": "NOT_RUN",
+    "S2": "NOT_RUN",
+    "S3": "NOT_RUN",
+    "S4": "NOT_RUN",
+    "mqtt_tls": "NOT_RUN",
+    "capacity": "NOT_RUN"
+  },
+  "resume": {
+    "gate": "OWNER_NOTIFICATION_REQUIRED",
+    "first_phase": "S1",
+    "start_with_fresh_c_boot": true,
+    "hotspot": "Use the profile currently in C sector3 under R3. The owner-proposed profile differs. Any sector3 write requires separate authorization.",
+    "rollback": "Use unified_install.py --phase install, fresh S0-readback as backup, S0-install as current-install and the archived original five-board C segmented image. Compare full readback against prior."
+  },
+  "private_evidence_index": "The ignored local pointer node-b/build/preflight-r3-active-private.txt resolves to the EFS batch ledger and native archives.",
+  "evidence_index": "PREFLIGHT-R3-FIELD-SUMMARY-20261109.md"
+}

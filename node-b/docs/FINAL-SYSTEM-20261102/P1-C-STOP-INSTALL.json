@@ -1,0 +1,26 @@
+{
+  "status": "ABC_C_APP0_FULL_VERIFY_BOOT_PASS",
+  "exit_code": 0,
+  "board": "C",
+  "phase": "install",
+  "sectors": [
+    0
+  ],
+  "full_flash_sha256": "de3048cd57de080d702200fa3f320bc945a3810a91099ac3ce7cbd0101e67ec5",
+  "options_unchanged": true,
+  "outside_affected_sectors_unchanged": true,
+  "reset_requests": 1,
+  "native_actions": {
+    "JLINKARM_Halt": 1,
+    "JLINKARM_BeginDownload": 1,
+    "JLINKARM_WriteMem": 1,
+    "JLINKARM_EndDownload": 1,
+    "JLINKARM_Reset": 1,
+    "JLINKARM_Go": 1
+  },
+  "download_started": true,
+  "Close_completed": true,
+  "error_type": null,
+  "error_sha256": null,
+  "controller_native_exit": 0
+}

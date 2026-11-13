@@ -1,0 +1,379 @@
+{
+  "status": "CPU_ROM_ROOT_CAUSE_UNRESOLVED",
+  "deployed": "C49048; B40928 unchanged",
+  "new_C49068_installations": 0,
+  "original_Flash_not_repeated": "Only64B vectors/16B options and UID checked per connection; previous full image retained",
+  "target_actions": {
+    "explicit_Halt": 0,
+    "explicit_Go": 0,
+    "software_Reset": 0,
+    "Flash_writes": 0,
+    "sector3_writes": 0,
+    "UART_writes": 0,
+    "B5START": 0
+  },
+  "rounds": [
+    {
+      "index": 0,
+      "supervisor": {
+        "reason": null,
+        "worker_exit_code": 1,
+        "supervisor_exit_code": 1,
+        "target_state": "SEE_WORKER_RECEIPT",
+        "automatic_retry_or_recovery": false
+      },
+      "stages": [
+        {
+          "stage": "attach-1",
+          "receipt_exists": true,
+          "sample_count": 0,
+          "receipt": {
+            "status": "STOP",
+            "SDK_calls": 23,
+            "native_read_failed": false,
+            "Close_completed": true,
+            "close_resume": false
+          },
+          "explicit_Close_completed": true
+        }
+      ],
+      "executed_monitor_sha256": "dbd92626e295bc056edb1902c9ad52179c10091342212a4a34f36a149d8cacb0",
+      "popup_shown": false,
+      "reset_observed": false
+    },
+    {
+      "index": 1,
+      "supervisor": {
+        "reason": null,
+        "worker_exit_code": 0,
+        "supervisor_exit_code": 0,
+        "target_state": "SEE_WORKER_RECEIPT",
+        "automatic_retry_or_recovery": false
+      },
+      "stages": [
+        {
+          "stage": "attach-1",
+          "receipt_exists": true,
+          "sample_count": 553,
+          "receipt": {
+            "status": "MONITOR_LIMIT",
+            "samples": 553,
+            "reset_event": null,
+            "last_kind": "FLASH",
+            "app_clock_advanced": true,
+            "SDK_calls": 3264,
+            "native_read_failed": false,
+            "Close_completed": true,
+            "close_resume": true
+          },
+          "first": {
+            "DHCSR": 16842753,
+            "VTOR": 134217728,
+            "DWT_PCSR": 134224246,
+            "uptime": 380632,
+            "kind": "FLASH"
+          },
+          "last": {
+            "DHCSR": 16842753,
+            "VTOR": 134217728,
+            "DWT_PCSR": 134240256,
+            "uptime": 440540,
+            "kind": "FLASH"
+          },
+          "explicit_Close_completed": true
+        }
+      ],
+      "executed_monitor_sha256": "782603aa39de4927017b2aea4b6357035a9374be117483473d0f29169d459b31",
+      "popup_shown": false,
+      "reset_observed": false
+    },
+    {
+      "index": 2,
+      "supervisor": {
+        "reason": null,
+        "worker_exit_code": 0,
+        "supervisor_exit_code": 0,
+        "target_state": "SEE_WORKER_RECEIPT",
+        "automatic_retry_or_recovery": false
+      },
+      "stages": [
+        {
+          "stage": "attach-1",
+          "receipt_exists": true,
+          "sample_count": 184,
+          "receipt": {
+            "status": "RESET_INVITATION_EXPIRED_NO_CONFIRMED_EVENT",
+            "samples": 184,
+            "reset_event": null,
+            "last_kind": "FLASH",
+            "app_clock_advanced": true,
+            "SDK_calls": 1123,
+            "native_read_failed": false,
+            "Close_completed": true,
+            "close_resume": true
+          },
+          "first": {
+            "DHCSR": 16842753,
+            "VTOR": 134217728,
+            "DWT_PCSR": 134224216,
+            "uptime": 891647,
+            "kind": "FLASH"
+          },
+          "last": {
+            "DHCSR": 16842753,
+            "VTOR": 134217728,
+            "DWT_PCSR": 134240278,
+            "uptime": 911758,
+            "kind": "FLASH"
+          },
+          "explicit_Close_completed": true
+        }
+      ],
+      "executed_monitor_sha256": "8f33a2e57ee53456e0a6b8d9b5f34d2a054fae2494f0e40fb53cfba44aa0b061",
+      "popup_shown": true,
+      "reset_observed": false
+    },
+    {
+      "index": 3,
+      "supervisor": {
+        "reason": null,
+        "worker_exit_code": 0,
+        "supervisor_exit_code": 0,
+        "target_state": "SEE_WORKER_RECEIPT",
+        "automatic_retry_or_recovery": false
+      },
+      "stages": [
+        {
+          "stage": "attach-1",
+          "receipt_exists": true,
+          "sample_count": 101,
+          "receipt": {
+            "status": "UNKNOWN_OBSERVED",
+            "samples": 101,
+            "reset_event": null,
+            "last_kind": "UNKNOWN",
+            "app_clock_advanced": true,
+            "SDK_calls": 631,
+            "native_read_failed": false,
+            "Close_completed": true,
+            "close_resume": false
+          },
+          "first": {
+            "DHCSR": 16842753,
+            "VTOR": 134217728,
+            "DWT_PCSR": 134224252,
+            "uptime": 43778,
+            "kind": "FLASH"
+          },
+          "last": {
+            "DHCSR": 33619969,
+            "VTOR": 0,
+            "DWT_PCSR": 0,
+            "uptime": 0,
+            "kind": "UNKNOWN"
+          },
+          "explicit_Close_completed": true
+        }
+      ],
+      "executed_monitor_sha256": "805a34c0a48bb35ecc4f8d7feba0ec2acd5f2dd8d09284271456a909be5f1afa",
+      "popup_shown": true,
+      "reset_observed": false
+    },
+    {
+      "index": 4,
+      "supervisor": {
+        "reason": null,
+        "worker_exit_code": 0,
+        "supervisor_exit_code": 0,
+        "target_state": "SEE_WORKER_RECEIPT",
+        "automatic_retry_or_recovery": false
+      },
+      "stages": [
+        {
+          "stage": "attach-1",
+          "receipt_exists": true,
+          "sample_count": 181,
+          "receipt": {
+            "status": "UNKNOWN_OBSERVED",
+            "samples": 181,
+            "reset_event": "DHCSR_RESET_STICKY_OBSERVED",
+            "last_kind": "UNKNOWN",
+            "app_clock_advanced": true,
+            "SDK_calls": 1095,
+            "native_read_failed": false,
+            "Close_completed": true,
+            "close_resume": false
+          },
+          "first": {
+            "DHCSR": 16842753,
+            "VTOR": 134217728,
+            "DWT_PCSR": 134248230,
+            "uptime": 101122,
+            "kind": "FLASH"
+          },
+          "last": {
+            "DHCSR": 50397185,
+            "VTOR": 134217728,
+            "DWT_PCSR": 134259096,
+            "uptime": 23,
+            "kind": "UNKNOWN"
+          },
+          "explicit_Close_completed": true
+        }
+      ],
+      "executed_monitor_sha256": "6651dd3c7d7c915bcb49c42703460fa57b1ea5cb93b9756a93503d139205c42e",
+      "popup_shown": true,
+      "reset_observed": true
+    },
+    {
+      "index": 5,
+      "supervisor": {
+        "reason": null,
+        "worker_exit_code": 0,
+        "supervisor_exit_code": 0,
+        "target_state": "SEE_WORKER_RECEIPT",
+        "automatic_retry_or_recovery": false
+      },
+      "stages": [
+        {
+          "stage": "attach-1",
+          "receipt_exists": true,
+          "sample_count": 1,
+          "receipt": {
+            "status": "HALT_OBSERVED",
+            "samples": 1,
+            "reset_event": null,
+            "last_kind": "HALT",
+            "app_clock_advanced": false,
+            "SDK_calls": 189,
+            "native_read_failed": false,
+            "Close_completed": true,
+            "close_resume": false
+          },
+          "first": {
+            "DHCSR": 196611,
+            "VTOR": 134217728,
+            "DWT_PCSR": 4294967295,
+            "uptime": 29,
+            "kind": "HALT"
+          },
+          "last": {
+            "DHCSR": 196611,
+            "VTOR": 134217728,
+            "DWT_PCSR": 4294967295,
+            "uptime": 29,
+            "kind": "HALT"
+          },
+          "explicit_Close_completed": true
+        }
+      ],
+      "executed_monitor_sha256": "333b3e71dca1fb6bfae3f72f3d5fdfe54b239d7303574e7ad776e63698131ae0",
+      "popup_shown": false,
+      "reset_observed": false
+    },
+    {
+      "index": 6,
+      "supervisor": {
+        "reason": null,
+        "worker_exit_code": 1,
+        "supervisor_exit_code": 1,
+        "target_state": "SEE_WORKER_RECEIPT",
+        "automatic_retry_or_recovery": false
+      },
+      "stages": [
+        {
+          "stage": "attach-1",
+          "receipt_exists": true,
+          "sample_count": 138,
+          "receipt": {
+            "status": "NORMAL_FLASH_REATTACH_MONITOR_COMPLETE",
+            "samples": 138,
+            "reset_event": null,
+            "last_kind": "FLASH",
+            "app_clock_advanced": true,
+            "SDK_calls": 853,
+            "native_read_failed": false,
+            "Close_completed": true,
+            "close_resume": true
+          },
+          "first": {
+            "DHCSR": 16842753,
+            "VTOR": 134217728,
+            "DWT_PCSR": 134224208,
+            "uptime": 17327,
+            "kind": "FLASH"
+          },
+          "last": {
+            "DHCSR": 16842753,
+            "VTOR": 134217728,
+            "DWT_PCSR": 134240544,
+            "uptime": 32295,
+            "kind": "FLASH"
+          },
+          "explicit_Close_completed": true
+        },
+        {
+          "stage": "attach-2",
+          "receipt_exists": false,
+          "sample_count": 138,
+          "first": {
+            "DHCSR": 16842753,
+            "VTOR": 134217728,
+            "DWT_PCSR": 134248230,
+            "uptime": 34638,
+            "kind": "FLASH"
+          },
+          "last": {
+            "DHCSR": 16842753,
+            "VTOR": 134217728,
+            "DWT_PCSR": 134248210,
+            "uptime": 49613,
+            "kind": "FLASH"
+          },
+          "explicit_Close_completed": false
+        }
+      ],
+      "executed_monitor_sha256": "8518a78f9f2e3949a4a45d2043611bba0c63178c0328b6814f0a6953b0cd7e3b",
+      "popup_shown": false,
+      "reset_observed": false
+    }
+  ],
+  "final_state": "Last sample FLASH; second close/final receipt absent after host FileExistsError. Post-process target state UNKNOWN; no further target actions.",
+  "current_tool_sha256": {
+    "b5_c_boot_watch.py": "bbcca670716f91a5daeaa2096cb80db8a73a8b1c82358b034843b7a652fe7a72",
+    "readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+    "runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+    "live_state_b.py": "bdf04c16f74e93028a55a7db244f0a2b6f683dfb987e61d41470f2bf3debde6c",
+    "b4_recovery.py": "fa93222b833f2f010d068b0cac97c73db7430c7eb68316d84441d60539c76213",
+    "b5_sector3_write_supervisor.py": "9b4a25a2eaaba0fa76e3491cdf587e9cb5c3b42da8a4604e184ef8e2822d4646",
+    "b5_g2ro.py": "e37944f04d35e24496215ac23021355811ef6af8e9fb7a4e4c6c15c4ae1ed0d3",
+    "b5_g3_contract.py": "0b82fbf9c0cb8d1f252bddc9c8965d3cb303032b9a6d90edc3f13dcaf0162133",
+    "b5_g0_readonly.py": "27e743f943e22eb7997c39de4c732f5281552f7717421e43b3173bc42eda58c2",
+    "c_b4_closeout_readonly.py": "407102391e3319d4bddf5d6d34a5a0a1a69ddc4a4490096865bd06e6dd2eaaf7",
+    "c_b4_readonly.py": "614d23736ea8569d4098d33e26fe762fcb00c1be646c0e0ea4ba1f9ad40afb09"
+  },
+  "offline_tests": {
+    "passed": 36,
+    "exit_code": 0,
+    "log_sha256": "c40f1f47f5ab1b8de3d12c52be4c730f08c0a511e07391e7ccebe7b86e37ebe7"
+  },
+  "private_manifest_sha256": "e0a176e829cc5b0881389bf0ebf58104ec32a8a22c14473797ed2dec3304daed",
+  "fixes": [
+    "Unsupported optional SDK logging policy removed",
+    "Host-native popup with bounded lease",
+    "Authorized reset-zero transition read-only up to2s",
+    "Explicit Flash VTOR does not depend on transient zero alias",
+    "Popup end marker idempotent after mandatory Close"
+  ],
+  "latest_fix_hardware_verified": false,
+  "BOOT0_NRST_edges": "NOT_OBSERVED",
+  "pre_connect_CPU_state": "UNKNOWN",
+  "HALT_in_Flash": {
+    "DHCSR": "0x00030003",
+    "PC": "0x0800A3A0",
+    "VTOR": "0x08000000",
+    "function": "__ssputs_r",
+    "ELF_binding_matches_deployed": true
+  },
+  "causal_limit": "Flash->Close0->next HALT is temporal association, not unique API attribution; historical ROM remains separate."
+}

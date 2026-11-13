@@ -1,0 +1,12 @@
+{
+  "audit_type": "GEMINI_INDEPENDENT_CALCULATION_PATH",
+  "window_id": "owner-observed-TEMP_OBJECT-R5-75cf9999",
+  "scope": "B5_FINAL_TEMP_OBJECT_R5",
+  "findings": {
+    "hardware_state": "SAFE_STOPPED_ZERO_FLASH_WRITES",
+    "esp32_residual_state_cause": "ESP32 was not power-cycled after Window 1 (only STM32 physical RESET was pressed). AT+SYSTIMESTAMP? returned cached epoch 1793274320 on query 1, whereas true UTC wall clock from NTP server pool.ntp.org was 1793274323.456 (+3406ms delta).",
+    "rejection_mechanism": "sntp_time_consistent(sample, tick, rtt) computed coarse = 1793274320050. The difference (3406ms) exceeded tolerance (1000ms + query_ms + uncertainty = ~1030ms). Reason 10 fired.",
+    "safety_interlock": "Zero retry loop. Zero unsynced AT commands. C cleanly called stop() and executed phase 7 CLOSED cleanly.",
+    "verdict": "INCOMPLETE_CAPTURE_PRE_EVALUATION_ABORT"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "Flash_limit_bytes": 49152,
+  "IRQ_vectors_verified": true,
+  "actual_BIN_bytes": 46456,
+  "baseline_total_MpFrame_slots": 80,
+  "bss_bytes": 73612,
+  "data_bytes": 88,
+  "extra_RAM_margin_bytes": 24600,
+  "heap_reserved_bytes": 24576,
+  "history_frames": 56,
+  "largest_static_frames": [
+    {
+      "bytes": 960,
+      "function": "diagnostic",
+      "kind": "static"
+    },
+    {
+      "bytes": 776,
+      "function": "gateway_mqtt_publish",
+      "kind": "static"
+    },
+    {
+      "bytes": 776,
+      "function": "gateway_network_open",
+      "kind": "static"
+    },
+    {
+      "bytes": 768,
+      "function": "gateway_mqtt_open",
+      "kind": "static"
+    },
+    {
+      "bytes": 504,
+      "function": "b4_gateway_receive",
+      "kind": "static"
+    },
+    {
+      "bytes": 496,
+      "function": "scalars",
+      "kind": "static"
+    },
+    {
+      "bytes": 480,
+      "function": "b4_gateway_tick",
+      "kind": "static"
+    },
+    {
+      "bytes": 456,
+      "function": "service.part.0",
+      "kind": "static"
+    }
+  ],
+  "live_frames": 24,
+  "max_static_single_frame": 960,
+  "runtime_stack_high_water": "NOT_RUN_REQUIRES_FUTURE_BOARD_WINDOW",
+  "runtime_watermark_in_BIN": true,
+  "stack_reserved_bytes": 8192,
+  "total_MpFrame_slots": 80
+}

@@ -1,0 +1,124 @@
+{
+  "stage": "B4-CLOSEOUT-24104-001",
+  "date": "2026-10-26",
+  "firmware_source_commit": "f577c67febbff5f6a97bd98375df8ae78283d110",
+  "current_B": {
+    "bytes": 39948,
+    "sha256": "676eb7a46ad9cd15c7bf93db51a1931d7711d37c6f2fd636197dc4a85b339b82",
+    "BIO_source_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+    "algorithm_threshold_changes": 0,
+    "B_flash_writes": 0
+  },
+  "current_C": {
+    "bytes": 24104,
+    "sha256": "127ba765b8144e8f8ae98ef826ac2a98f45f8facb4021ce1888c004e5ca46547",
+    "full_flash_sha256": "b460d917e1d454fdb0882d1f837d91c606363179b817a3896a1df6897b2dcb98",
+    "sectors_written": [
+      0,
+      1
+    ],
+    "current_port": "COM6"
+  },
+  "gates": {
+    "C_fresh_backup": "PASS",
+    "C_install_restore_reinstall": "PASS",
+    "CAN_nominal_transport_three_windows": "PASS_NO_TX_FAILURE_CRC_SEQUENCE_DROP_TEC_REC",
+    "ECG_valid_value_and_INVALID_propagation": "OBSERVED_PASS_BUT_LATEST90S_STEADY_NOT_PASS",
+    "RR_latest_stable15_measurement_and_transport": "PASS_COM6",
+    "ECG_RESP_same_window_both_valid": "NOT_VALIDATED",
+    "CPU_ROM_root_cause": "UNRESOLVED",
+    "independent_cold_boot": "NOT_VALIDATED_COUNTER_OBSERVATION_DISCREPANCY",
+    "impedance_amplitude": "NOT_CALIBRATED_INSTRUMENT_REQUIRED",
+    "controlled_CAN_fault_injection_recovery": "NOT_TESTED",
+    "formal_deployment": "NOT_APPROVED"
+  },
+  "latest_RR": {
+    "B_local_frames": 22495,
+    "B_saved_valid": 110,
+    "B_saved_total": 110,
+    "C_RR_model_rows": {
+      "rows": 90,
+      "valid": 90
+    },
+    "C_RESP_points": 4499,
+    "C_RESP_source_ticks_matched": 4499,
+    "raw_period_rpm": 14.996250937265684,
+    "new_clipped_samples": 0,
+    "model_value_time_checks": 584
+  },
+  "localization": {
+    "current_CAN_digital_or_gateway_corruption": "NOT_OBSERVED",
+    "prior_disturbance": "ALREADY_PRESENT_IN_B_RAW_ADC_SLOTS_BEFORE_CAN_SERIALIZATION",
+    "specific_upstream_cause": "UNDETERMINED_SOURCE_CONTACT_FRONTEND_COMMON_MODE_OR_COUPLING_NOT_SEPARATED",
+    "CAN_electrical_coupling": "NOT_EXCLUDED_BY_DIGITAL_TRANSPORT_PASS",
+    "comparison_limit": "Owner changed USB interface/port fromCOM15 toCOM6; not a strict single-variable SKX-only comparison"
+  },
+  "software_checks": {
+    "new_python_tests": [
+      {
+        "pattern": "test_c_b4_closeout_readonly.py",
+        "tests": 5,
+        "exit_code": 0
+      },
+      {
+        "pattern": "test_b4_swd_install.py",
+        "tests": 20,
+        "exit_code": 0
+      },
+      {
+        "pattern": "test_b4_resp_rall_can_current.py",
+        "tests": 8,
+        "exit_code": 0
+      },
+      {
+        "pattern": "test_analyze_b4_resp_rall_can_current.py",
+        "tests": 3,
+        "exit_code": 0
+      },
+      {
+        "pattern": "test_review_b4_resp_can_common.py",
+        "tests": 5,
+        "exit_code": 0
+      }
+    ],
+    "total_python_tests": 41,
+    "firmware_build_and_host_regression": "FROZEN_f577c67_14_STAGE_HOST_TWO_ARM_PASS_REUSED_NO_NEW_FIRMWARE_SOURCE_CHANGE"
+  },
+  "exit_codes": {
+    "C_backup": 0,
+    "C_four_install_restore_phases": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "B_ROM_prestart_attempt": 1,
+    "ECG_C_capture": 0,
+    "ECG_B_capture": 0,
+    "ECG_steady_analysis": 3,
+    "ECG_common_steady_analysis": 3,
+    "RR_initial_C_capture": 0,
+    "RR_initial_B_capture": 0,
+    "RR_initial_steady_analysis": 3,
+    "RR_initial_common_steady_analysis": 3,
+    "RR_COM15_preflight": 1,
+    "RR_COM6_C_capture": 0,
+    "RR_COM6_B_capture": 0,
+    "RR_COM6_steady_analysis": 0,
+    "RR_COM6_common_analysis": 0
+  },
+  "final_state": "ALL_SERIAL_DEBUG_SESSIONS_CLOSED_C180S_STOPPED_RR15_RALL_SOURCE_RETAINED_JLINK_B_USB_C_COM6_ESP_A_ISOLATED_NO_CLOUD",
+  "private_archive_manifest_sha256": "ee3286b2fceb5d62a815150a3ca3b90ab56ca2e5ae766386c155789f3be691e3",
+  "new_tool_sha256": {
+    "node-b/tools/c_b4_closeout_readonly.py": "407102391e3319d4bddf5d6d34a5a0a1a69ddc4a4490096865bd06e6dd2eaaf7",
+    "node-b/tools/b4_resp_rall_can_current.py": "90efb1c3b69354fd12701722b3362f4f4272ad9dd2f6aaeeb8270381a796e99a",
+    "node-b/tools/analyze_b4_resp_rall_can_current.py": "1bff200d4f4ea545753102f68a123b8265a161ec0b9a850ba63ff5c51008ee75",
+    "node-b/tools/review_b4_resp_can_common.py": "49a2eb457c293eee18527c710b7eeb3e9f50c963279ffefbafdcea74b7e4ebea",
+    "node-b/tests/test_c_b4_closeout_readonly.py": "569275fbe811fd5a2168d42bc3040ded4ccee832a5e277dc900d64b37bd432c8",
+    "node-b/tests/test_b4_resp_rall_can_current.py": "0d4ac15e6a7614ee229be3fc556528634508cc6301e4254e71ab159e0717be40",
+    "node-b/tests/test_analyze_b4_resp_rall_can_current.py": "11269114ea97a7bb287589a68a5d6b2468ac8892c9c7d6509d9f74e51e753b63",
+    "node-b/tests/test_review_b4_resp_can_common.py": "4359ef4954a98a3d038ffa6bc61c6619695d33d58669fc0c33afa5bd0fdcae95"
+  },
+  "raw_data_and_identity_configuration": "RESTRICTED_NTFS_EFS_ONLY_NOT_GITHUB",
+  "prior_raw_failures_and_ecg_rr_six_windows": "RETAINED_IMMUTABLE"
+}

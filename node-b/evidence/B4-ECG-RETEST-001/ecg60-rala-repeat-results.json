@@ -1,0 +1,376 @@
+{
+  "stage": "B4-ECG-RETEST-001",
+  "date": "2026-10-26",
+  "source_commit_at_capture": "81e2f6abe779536d29f08740d4aaddf2de59f43e",
+  "owner_actions_before_capture": {
+    "L_lead": "LL_TO_LA",
+    "B_manual_RESET": 1,
+    "C_manual_RESET": 1,
+    "display_HR": 60,
+    "display_RR": "INVALID",
+    "other_conditions": "UNCHANGED"
+  },
+  "source_profile": {
+    "scope": "B4_ECG60_RALA_CAN_JOINT_READONLY_150S",
+    "menu": {
+      "mode": "NORMAL_ECG",
+      "HR_bpm": 60,
+      "ECG_amplitude_menu_mV": 1.0,
+      "stored_RESP_bpm": 15,
+      "RESP_amplitude_literal": "1.5R",
+      "stored_waveform_period_literal": "30bpm",
+      "apnea_literal": "0s"
+    },
+    "criteria": {
+      "warmup_ms": 45000,
+      "evaluation_ms": 90000,
+      "HR_nominal_range": [
+        58,
+        62
+      ],
+      "minimum_raw_frames": 22000,
+      "maximum_diagnostic_gap_ms": 1500,
+      "minimum_saved_observations": 90,
+      "SPS_range": [
+        247.5,
+        252.5
+      ],
+      "required_HR_saved_valid_fraction": 1.0,
+      "CH2_required_near_rail_frames": 0,
+      "RR": "CHARACTERIZATION_ONLY",
+      "CAN_reference": "C_START_PLUS_45_TO_135_SECONDS",
+      "common_raw_selection": "B_SAMPLE_TICKS_ACTUALLY_RECEIVED_BY_C_ECG_PDO"
+    },
+    "tools_sha256": {
+      "b4_ecg_rala_can_current.py": "04876b43afc34d147b6c9c22447b0e3f92ed117d7fabe26b4cb05189ecfd32f0",
+      "b4_runtime.py": "e89c7dc5adc51242c3b7bb51224b7336e6d06c2e8110155e35111d35f37d6710",
+      "c_b4_readonly.py": "614d23736ea8569d4098d33e26fe762fcb00c1be646c0e0ea4ba1f9ad40afb09",
+      "readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+      "runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+      "live_state_b.py": "bdf04c16f74e93028a55a7db244f0a2b6f683dfb987e61d41470f2bf3debde6c",
+      "resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+      "b4_recovery.py": "fa93222b833f2f010d068b0cac97c73db7430c7eb68316d84441d60539c76213"
+    },
+    "image_sha256": "676eb7a46ad9cd15c7bf93db51a1931d7711d37c6f2fd636197dc4a85b339b82",
+    "duration_s": 150,
+    "hard_limit_s": 180,
+    "explicit_reset_halt_go_writes": 0,
+    "probe_sessions": 1,
+    "retries": 0,
+    "Z0_ohm": null,
+    "delta_Zpp_ohm": null,
+    "source_case_model": "SKX-2000+",
+    "manual_model": "SKX-2000D+ V2.2",
+    "model_equivalence": "NOT_PROVEN",
+    "new_C_receive_window": true,
+    "leads": {
+      "R": "RA",
+      "L": "LA",
+      "F": "RL",
+      "LL": "EMPTY"
+    }
+  },
+  "actual_operations": {
+    "B_probe_sessions": 1,
+    "B_SDK_calls": 6884,
+    "agent_reset_halt_go_flash_write_requests": 0,
+    "C_START_commands": 1,
+    "C_STOP_observed": 1,
+    "C_limit_ms": 180000,
+    "C_port": "COM6",
+    "C_USB_control_lines": "DTR_RTS_FALSE_BEFORE_OPEN",
+    "A_ESP_isolated": true,
+    "cloud_operations": 0
+  },
+  "firmware": {
+    "B_bytes": 39948,
+    "B_sha256": "676eb7a46ad9cd15c7bf93db51a1931d7711d37c6f2fd636197dc4a85b339b82",
+    "C_bytes": 24104,
+    "C_last_install_sha256": "127ba765b8144e8f8ae98ef826ac2a98f45f8facb4021ce1888c004e5ca46547",
+    "C_identity_basis": "PRIOR_FULL_INSTALL_READBACK_PLUS_CURRENT_RUNNING_VECTOR_DIAGNOSTICS_NOT_FRESH_SWD_FLASH_READ",
+    "BIO_source_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+    "algorithm_threshold_changes": 0
+  },
+  "B_local": {
+    "HR_engineering_status": "ECG60_NOMINAL_ENGINEERING_PASS",
+    "capture_integrity": "PASS",
+    "evaluation_raw_frames": 22493,
+    "saved_observations": 110,
+    "HR_valid_observations": 110,
+    "HR_values": {
+      "60": 110
+    },
+    "HR_reason_masks": {
+      "0": 110
+    },
+    "RR_valid_observations": 0,
+    "RR_reason_masks": {
+      "130": 110
+    },
+    "sequence_gaps": 0,
+    "device_domain_SPS_not_calibrated": 249.92499583310183,
+    "CH2_raw": {
+      "min_codes": 4859,
+      "max_codes": 9597,
+      "p2p_codes": 4738,
+      "p01_p99_codes": [
+        5764.0,
+        9214.159999999996
+      ],
+      "mean_codes": 8678.71946827902,
+      "ac_rms_codes": 546.2849108608958,
+      "near_rail_frames": 0,
+      "spectral_fraction": {
+        "49_51Hz": 0.13113003164591425,
+        "0_1_1Hz": 0.049465928325265994,
+        "0_5_20Hz": 0.7435830327586664,
+        "20_100Hz": 0.25467029682075637
+      },
+      "prominent_event_descriptions_not_BIO": {
+        "-1": {
+          "count": 90,
+          "median_interval_ms": 1000.0,
+          "median_width_ms": 24.435676197767847
+        },
+        "1": {
+          "count": 83,
+          "median_interval_ms": 1000.0,
+          "median_width_ms": 975.5247148184202
+        }
+      }
+    },
+    "input_quality": {
+      "status": "NO_RAW_CLIPPING_OBSERVED",
+      "clipped_frames": 0,
+      "diagnostic_clipped_increment_whole_capture": 0,
+      "clipped_first_last_offsets_ms": null
+    },
+    "CPU_saved_states": {
+      "RCC_CSR": [
+        234881024
+      ],
+      "VTOR": [
+        134217728
+      ],
+      "DHCSR": [
+        16842753
+      ],
+      "CFSR": [
+        0
+      ],
+      "HFSR": [
+        0
+      ]
+    },
+    "ADC_counter_increments_whole_capture": {
+      "captured": 38014,
+      "delivered": 38012,
+      "bad_status": 0,
+      "spi_errors": 0,
+      "queue_overflow": 0,
+      "init_errors": 0,
+      "long_gap_count": 0
+    },
+    "CAN_counter_increments_whole_capture": {
+      "offered": 38010,
+      "enqueued": 38010,
+      "sent_ecg": 37451,
+      "sent_resp": 7490,
+      "overflow": 0,
+      "expired": 559,
+      "comm_reset": 0,
+      "app_reset_rejected": 0,
+      "error": 0,
+      "discontinuities": 0
+    },
+    "CAN1_ESR_nonzero_observations": 0,
+    "HOST_replay_not_live": {
+      "DLL_sha256": "618c1f0dc7b00343abbe5b5a93ed04e2bf9debfde42db8aebc2b52e569a40593",
+      "HR_valid_samples": 22493,
+      "RR_valid_samples": 0,
+      "ecg_filtered_UI_minmax": [
+        -244,
+        235
+      ],
+      "resp_filtered_UI_minmax": [
+        -2,
+        7
+      ],
+      "initial_state": "RESET_HOST_STATE_AT_FIRST_RETAINED_FRAME_NOT_ARM_BIT_IDENTICAL"
+    }
+  },
+  "B_capture": {
+    "status": "READONLY_WINDOW_CAPTURED_ANALYSIS_PENDING",
+    "exit_code": 0,
+    "chunks": 1835,
+    "elapsed_host_s": 150.06200000003446,
+    "device_sps": 249.92603404406398,
+    "samples_advanced": 38013,
+    "new_C_receive_window": true,
+    "explicit_reset_halt_go_writes": 0,
+    "sdk_calls": 6884,
+    "close_resume": true
+  },
+  "C_capture": {
+    "status": "CAN_SAVED_BASELINE_PASS_B_ADC_REVIEW_REQUIRED",
+    "failures": [],
+    "raw_packet_count": 58997,
+    "sequence_errors": 0,
+    "CRC_errors": 0,
+    "discarded_bytes_after_BOOT": 0,
+    "capture_drops": 0,
+    "C_RX_overflow": 0,
+    "C_CAN2_peak_TEC": 0,
+    "C_CAN2_peak_REC": 0,
+    "evaluation_counts": {
+      "1:bus1:0x182": 22493,
+      "1:bus1:0x282": 4499,
+      "1:bus1:0x382": 90,
+      "1:bus1:0x482": 90,
+      "1:bus1:0x682": 90,
+      "1:bus1:0x702": 180,
+      "2:bus1:0x100": 9,
+      "2:bus1:0x703": 180,
+      "3:bus1:0x100": 9,
+      "3:bus1:0x703": 180
+    },
+    "model_value_time_checks_passed": 585,
+    "model_value_time_checks_failed": 0,
+    "model_valid_observations": {
+      "4:True": 225,
+      "5:True": 90,
+      "6:False": 90,
+      "7:False": 90,
+      "8:False": 90,
+      "9:False": 18,
+      "9:True": 18
+    },
+    "HR_RR_simultaneous_engineering_pass": false,
+    "source_absolute_impedance_calibrated": false,
+    "flash_alias_verified_by_installation": true,
+    "startup_evidence": "INSTALL_RECEIPT_AND_RUNNING_DIAGNOSTICS_NO_BOOT_CAPTURE",
+    "window": {
+      "warmup_ms": 45000,
+      "evaluation_ms": 90000,
+      "CAN_limit_ms": 180000
+    },
+    "diagnostic_only": {
+      "last_quality_flags": 5,
+      "vitals_rows_in_evaluation": 90
+    },
+    "serial_bytes": 1887904,
+    "host_elapsed_seconds": 187.125,
+    "start_commands_attempted": 1,
+    "target_reset_or_download_commands": 0,
+    "exit_code": 0,
+    "C_candidate_sha256": "127ba765b8144e8f8ae98ef826ac2a98f45f8facb4021ce1888c004e5ca46547"
+  },
+  "common_review": {
+    "status": "ECG60_B_TO_C_VALID_TRANSPORT_ENGINEERING_PASS",
+    "failures": [],
+    "analysis_exit_code": 0,
+    "C_evaluation_relative_ms": [
+      45000,
+      135000
+    ],
+    "C_START_tick": 153339,
+    "C_received_ECG_wave_points": 22493,
+    "matched_B_raw_points": 22493,
+    "B_sample_tick_first_last": [
+      196390,
+      286386
+    ],
+    "B_saved_common_observations": 110,
+    "B_HR_values": {
+      "60": 110
+    },
+    "B_HR_valid_observations": 110,
+    "C_vitals_rows": 90,
+    "C_HR_centi_bpm_values": {
+      "6000": 90
+    },
+    "C_RR_centi_rpm_values_characterization_only": {
+      "0": 90
+    },
+    "C_quality_flags": {
+      "5": 90
+    },
+    "C_model_validity": {
+      "4": {
+        "rows": 225,
+        "valid": 225
+      },
+      "5": {
+        "rows": 90,
+        "valid": 90
+      }
+    },
+    "HR_RR_simultaneous_engineering_pass": false,
+    "RR_valid_transport_pass": false,
+    "absolute_accuracy": "NOT_CALIBRATED_NOMINAL60_REFERENCE_ONLY",
+    "mapping": "C_START_WINDOW_WITH_ACTUALLY_RECEIVED_B_SAMPLE_TICKS_NO_C_B_UPTIME_EQUALITY_ASSUMPTION",
+    "originals_sha256": {
+      "C-serial": "7ae53a343513cb2245496e512ee1f52d474e728bdeaba642f093691b3f19fe02",
+      "C-packets": "765a3b7b6d814f386b4ec31ca93b15df3780f76a07cc4a3c402ec335c262dace",
+      "C-receipt": "720bebb909e3058304154cf506d56d974d1eeec76d19254351224f05127b9b90",
+      "B-slots": "db28fd4b6691317f71e1ca0032cf5ee573035e89a1094ffa6689715f4f79bd9b",
+      "B-diagnostics": "c33547760f4cddd101c2e2cabda8b7523de583472e8990c74c71c13a8fd0e436",
+      "B-analysis": "99b8d5c272815de569f05bb2dad5f3663ee67916643facc65007048e51738f66"
+    }
+  },
+  "C_heartbeat_whole_capture_queued_ACK": [
+    361,
+    361
+  ],
+  "C_heartbeat_evaluation_queued_ACK": [
+    180,
+    180
+  ],
+  "C_all_TX_failures": 0,
+  "C_NMT_acked": 1,
+  "C_TIME_acked": 18,
+  "C_HR_models_all_valid60": true,
+  "C_RR_models_all_INVALID_zero": true,
+  "exit_codes": {
+    "B_capture": 0,
+    "C_capture": 0,
+    "B_steady_analysis": 0,
+    "common_analysis": 0,
+    "host_pointer_preflight": 1
+  },
+  "preflight_negative": {
+    "reason": "Exclusive JSON writer refused existing ignored pointer",
+    "serial_opened": false,
+    "B_SDK_started": false,
+    "START_sent": false,
+    "same_output_continued_after_pointer_only_correction": true,
+    "no_additional_board_reset": true
+  },
+  "limits": {
+    "saved_observations_not_continuous_live_per_sample_validity": true,
+    "HOST_replay_not_ARM_bit_identical": true,
+    "no_absolute_voltage_calibration": true,
+    "separate_ECG_RR_modes_not_same_window_simultaneous_PASS": true,
+    "historical_failures_retained": true,
+    "CPU_ROM_root_cause": "UNRESOLVED",
+    "independent_cold_boot": "NOT_VALIDATED_OBSERVATION_COUNTER_DISCREPANCY",
+    "controlled_CAN_fault_injection": "NOT_TESTED",
+    "formal_CAN_deployment": "NOT_APPROVED"
+  },
+  "archive_manifest_sha256": "86fdb7517336b900974555031824ff4e17fb4a7de71d80d58ed4aae5fc8befe8",
+  "tool_snapshot_sha256": {
+    "analyze_b4_ecg_rala_can_current.py": "8670e4500094b0afd5587c4c21fe654f171c9939620d541aabbe0d67ec5f25d5",
+    "analyze_resp_b.py": "225e5ef46b8f450c3b4372d3fc102491c8f2e64ee8a5f9fd87a12074018e3360",
+    "b4_capture_decode.py": "434457734ca50517d0017553149a2ebf46661d149d5f451b5fbd0822c1476c1a",
+    "b4_ecg_rala_can_current.py": "04876b43afc34d147b6c9c22447b0e3f92ed117d7fabe26b4cb05189ecfd32f0",
+    "b4_recovery.py": "fa93222b833f2f010d068b0cac97c73db7430c7eb68316d84441d60539c76213",
+    "b4_runtime.py": "e89c7dc5adc51242c3b7bb51224b7336e6d06c2e8110155e35111d35f37d6710",
+    "b4_serial_capture.py": "fa566c900614fb6060ba545da3e697f94e203aa45200e4e6b0784164d78e4f56",
+    "live_state_b.py": "bdf04c16f74e93028a55a7db244f0a2b6f683dfb987e61d41470f2bf3debde6c",
+    "readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+    "resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+    "review_b4_ecg_can_common.py": "94d7d0a53123053459a085f038d9c9b6cb7722afd4bee4b3abc102cd019f0588",
+    "runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46"
+  },
+  "final_state": "ALL_SERIAL_DEBUG_SESSIONS_CLOSED_C_180S_STOPPED_B_SAMPLING_ECG60_1mV_RALA_JLINK_B_COM6_NO_ADDITIONAL_RESET_NO_CLOUD"
+}

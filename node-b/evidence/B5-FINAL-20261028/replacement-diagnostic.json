@@ -1,0 +1,177 @@
+{
+  "B": {
+    "ADC_evaluation_increments": {
+      "bad_status": 0,
+      "init_errors": 0,
+      "long_gap_count": 0,
+      "queue_overflow": 0,
+      "spi_errors": 0
+    },
+    "CAN_evaluation_increments": {
+      "app_reset_rejected": 0,
+      "comm_reset": 0,
+      "discontinuities": 0,
+      "enqueued": 74885,
+      "error": 0,
+      "expired": 0,
+      "offered": 74885,
+      "overflow": 0,
+      "sent_ecg": 74885,
+      "sent_resp": 14977
+    },
+    "HR_values": {
+      "60": 600
+    },
+    "RR_reason_masks": {
+      "10": 81,
+      "130": 297,
+      "2": 222
+    },
+    "clipped_counter_increment": 0,
+    "device_domain_SPS": 249.98748126362455,
+    "failures": [],
+    "saved": 600
+  },
+  "B5START_total_this_contract": 2,
+  "B_C_power": "REMAINS_ON_OWNER_DIRECTION_NOT_PHYSICALLY_SEALED",
+  "Backend_counter_delta": {
+    "accepted": 1194,
+    "dropped": 0,
+    "rejected": 0
+  },
+  "Broker_identical_duplicates": 0,
+  "Broker_source_counts": {
+    "MOCK": 1062,
+    "REPLAY": 132
+  },
+  "Broker_unique_messages_after_arm": 1194,
+  "C_cache_final": 64,
+  "C_dropped_final": 1690,
+  "C_evaluation_counter_delta": {
+    "dropped": 1251,
+    "mqtt_fail": 0,
+    "overflow": 0,
+    "q0_transport": 245,
+    "q1_puback": 599,
+    "rx": 89973,
+    "txack": 619,
+    "txfail": 0,
+    "uart_err": 0
+  },
+  "C_evaluation_diagnostics": 60,
+  "MCU_Source_unchanged": true,
+  "MQTT_max_payload_bytes": 844,
+  "STOP_event_file_created": false,
+  "STOP_raw_banner_in_last_1024": true,
+  "STOP_raw_banner_occurrences": 1,
+  "WSS_Broker_checks": {
+    "valid_comparisons": 5544
+  },
+  "WSS_gateway_states": {
+    "ONLINE": 2974
+  },
+  "WSS_nodeB_states": {
+    "ONLINE": 2974
+  },
+  "WSS_snapshots_during_evaluation": 2974,
+  "WSS_validities_by_stream": {
+    "ECG": {
+      "VALID": 2974
+    },
+    "HR": {
+      "STALE": 404,
+      "VALID": 2570
+    },
+    "RESP": {
+      "INVALID": 2974
+    },
+    "RR": {
+      "INVALID": 2482,
+      "STALE": 492
+    },
+    "TEMP": {
+      "INVALID": 2432,
+      "STALE": 542
+    }
+  },
+  "cloud_test_accounts_revoked": false,
+  "coverage": {
+    "ECG": {
+      "matched_batches": 177,
+      "required": 74250,
+      "sequence_gaps": 150,
+      "source_points": 17651
+    },
+    "RESP": {
+      "matched_batches": 136,
+      "required": 14850,
+      "sequence_gaps": 110,
+      "source_points": 6789
+    }
+  },
+  "diagnostic_only_not_a_replacement_for_capture_receipts": true,
+  "evaluation_UTC_ms": [
+    1793157794958,
+    1793158094958
+  ],
+  "evaluation_s": 300,
+  "first_window_failure_preserved": true,
+  "formal_frozen_review": "G3_REVIEW_STOP_CAPTURE_END_INCOMPLETE",
+  "mapping_errors": {},
+  "new_target_writes_by_this_analysis": 0,
+  "original_C24104_restored": false,
+  "parsed_terminal_stop_diag_observed_offset_s": 422.125,
+  "raw_reconstruction": {
+    "CAN_stable": 123894,
+    "CAN_unqualified_sequences": 91,
+    "CAN_version_conflicts": 228,
+    "blocks": 3174,
+    "raw_stable": 123893,
+    "raw_unqualified_sequences": 75,
+    "raw_version_conflicts": 349
+  },
+  "scalars": {
+    "HR": {
+      "messages": 125,
+      "sources": {
+        "MOCK": 115,
+        "REPLAY": 10
+      },
+      "validities": {
+        "VALID": 125
+      },
+      "values": {
+        "60.0": 125
+      }
+    },
+    "RR": {
+      "messages": 124,
+      "sources": {
+        "MOCK": 113,
+        "REPLAY": 11
+      },
+      "validities": {
+        "INVALID": 124
+      },
+      "values": {
+        "None": 124
+      }
+    },
+    "TEMP": {
+      "messages": 116,
+      "sources": {
+        "MOCK": 106,
+        "REPLAY": 10
+      },
+      "validities": {
+        "INVALID": 116
+      },
+      "values": {
+        "None": 116
+      }
+    }
+  },
+  "status": "B5_E2E_ENGINEERING_NOT_PASS",
+  "target_business_stop_exact_time": "NOT_PROVEN_BY_LATE_CONSOLE_OBSERVATION",
+  "terminal_observation_deadline_s": 422
+}

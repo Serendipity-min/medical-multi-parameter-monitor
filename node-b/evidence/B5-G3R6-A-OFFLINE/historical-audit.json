@@ -1,0 +1,99 @@
+{
+  "first": {
+    "recorded_native_calls": 6000,
+    "negative_native_returns": 0,
+    "short_ReadMemEx": 0,
+    "UART_bytes": 446,
+    "CRLF_complete_commands": 26,
+    "unterminated_tail_bytes": 14,
+    "wire_sha256": "dab2974a5a04e8d188e08be2b1110868c259729cb9fc955680bb102d61f50c66",
+    "host_ExecCommand_sequence": [
+      "SuppressGUI 1",
+      "DisableAutoUpdateFW = 1",
+      "SetRestartOnClose 0",
+      "InhibitConnectRetries = 1",
+      "ForceAttachTarget = 1",
+      "SetSkipDebugDeInit = 1",
+      "SuppressGUI 1",
+      "DisableAutoUpdateFW = 1",
+      "SetRestartOnClose 0",
+      "InhibitConnectRetries = 1",
+      "ForceAttachTarget = 1",
+      "ExcludeFlashCacheRange 0x08000000-0x080FFFFF",
+      "ExcludeFlashCacheRange 0x1FFFC000-0x1FFFC00F",
+      "SetSkipDebugDeInit = 1",
+      "Device = STM32F407ZG"
+    ],
+    "explicit_control_API_calls": 0,
+    "Close_active_events": 1,
+    "Close_inactive_events": 1,
+    "receipt": {
+      "exit_code": 1,
+      "reason": "ESP_API_BUDGET",
+      "SDK_calls": 6000,
+      "close_resume": false,
+      "SNTP_enable_attempts": 1,
+      "SNTP_disable_attempts": 0,
+      "SNTP_stop_verified": false
+    },
+    "sources_sha256": {
+      "io-private.jsonl": "fd15881b35ff1aa0e88b056ee145e989d87ea182ae8879bdfacdefc8b71414ac",
+      "heartbeat-events.jsonl": "78a5ef28fc8c9d2d59e5cc701fd341a87bd918dbebfb75d5ed02fdef7ce14eca",
+      "receipt-private.json": "1a23ff638b7a2e2405cf09e8537fd86c88347859be44a9077b351efad7968973"
+    }
+  },
+  "later": {
+    "recorded_native_calls": 37,
+    "negative_native_returns": 0,
+    "short_ReadMemEx": 0,
+    "UART_bytes": 0,
+    "CRLF_complete_commands": 0,
+    "unterminated_tail_bytes": 0,
+    "wire_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "host_ExecCommand_sequence": [
+      "SuppressGUI 1",
+      "DisableAutoUpdateFW = 1",
+      "SetRestartOnClose 0",
+      "InhibitConnectRetries = 1",
+      "ForceAttachTarget = 1",
+      "SetSkipDebugDeInit = 1",
+      "SuppressGUI 1",
+      "DisableAutoUpdateFW = 1",
+      "SetRestartOnClose 0",
+      "InhibitConnectRetries = 1",
+      "ForceAttachTarget = 1",
+      "ExcludeFlashCacheRange 0x08000000-0x080FFFFF",
+      "ExcludeFlashCacheRange 0x1FFFC000-0x1FFFC00F",
+      "SetSkipDebugDeInit = 1",
+      "Device = STM32F407ZG"
+    ],
+    "explicit_control_API_calls": 0,
+    "Close_active_events": 1,
+    "Close_inactive_events": 1,
+    "receipt": {
+      "exit_code": 1,
+      "reason": "UDP_CPU_STATE_STOP",
+      "SDK_calls": 37,
+      "close_resume": false,
+      "SNTP_enable_attempts": 0,
+      "SNTP_disable_attempts": 0,
+      "SNTP_stop_verified": false
+    },
+    "sources_sha256": {
+      "io-private.jsonl": "1fda8c15275888578353ecaca7780b98d17fa43b1b472cf3ff8096fd4ca2d489",
+      "heartbeat-events.jsonl": "48840e499868b59a803c30be683e3d01170dded0d1dc53b49e15686c50839aad",
+      "receipt-private.json": "216bd17852858176ff251e229c7531bc6c2767ed848085ec9e509cfaaef657b6"
+    }
+  },
+  "later_state": {
+    "DHCSR": 196611,
+    "VTOR": 134217728,
+    "CFSR": 0,
+    "HFSR": 0,
+    "DWT_PCSR": 4294967295
+  },
+  "real_PC_MSP_available": false,
+  "unique_HALT_cause": "UNRESOLVED",
+  "new_target_sessions": 0,
+  "new_target_writes": 0
+}

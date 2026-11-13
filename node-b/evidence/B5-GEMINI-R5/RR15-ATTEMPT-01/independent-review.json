@@ -1,0 +1,11 @@
+{
+  "audit_type": "GEMINI_INDEPENDENT_CALCULATION_PATH",
+  "window_id": "owner-observed-RR15-R5-7058a3bd",
+  "scope": "B5_FINAL_RR15_R5",
+  "findings": {
+    "hardware_and_network": "ALL_HEALTHY",
+    "root_cause": "Simulator was configured with respiration rate = 30 bpm instead of 15 bpm. Node-B correctly calculated RR = 30.0 rpm. Supervisor requires RR in [14, 16] to confirm pre-warmup baseline readiness before writing T0.json. Because RR was 30.0 != [14, 16], T0 was never established and supervisor timed out at 60s (COMMON_READY_DEADLINE).",
+    "correction": "Set SKX simulator menu: \u547c\u5438\u7387 = 15 bpm (\u6ce2\u5f62\u5468\u671f remains 30 bpm, \u963b\u6297 1.5R, \u7a92\u606f 0s).",
+    "verdict": "INCOMPLETE_CAPTURE_PRE_T0_RATE_MISMATCH"
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "PUBACK_5000ms_timeout_not_proven_from_4091ms": true,
+  "RR": "NOT_RUN",
+  "TEMP": "NOT_RUN",
+  "formal_300s_evaluation": "NOT_STARTED",
+  "latest_owner_state": "B_AND_C_POWERED_JLINK_B_USB_C_UNCHANGED",
+  "physical_power_off": "NOT_CONFIRMED",
+  "raw_C_serial_sha256": "e9f90a1987799ba8d43c7b608b10c0d257d4d8fcd651301147ad2168f76b7a59",
+  "raw_bytes": 19093,
+  "raw_last_failure_lines": [
+    "GW WRITE_SEND_FAIL",
+    "B5 STOP_STATE tick=54500 armed_at=581 reason=2 phase=6 required=854 written=854 unsynced=1 pending=1 live=24 cache=7"
+  ],
+  "retained_source_files_sha256": [
+    {
+      "name": "ARM_ATTEMPT.json",
+      "sha256": "66bd9e3dd561fd70680e7bb74d437146e036489c7d9944454b0c186edcb3d1c1"
+    },
+    {
+      "name": "ARM_BACKEND_BASELINE.json",
+      "sha256": "f6f3a87b4a41b3832610dd81e68dba789b26237902b81ca3af08133311020e4a"
+    },
+    {
+      "name": "ARM_PREPARE.json",
+      "sha256": "f497b7221eab9d5503ca42ab1e0f049ea741b97a2cc51be506d89707bfcf6b9a"
+    },
+    {
+      "name": "B_FAULT.json",
+      "sha256": "80409f8e05c8629399140e5693418ac491329a7ea64d2f4152003c71ac38f27a"
+    },
+    {
+      "name": "B_READY.json",
+      "sha256": "2b1fe534eb1ca470453f91825161e1a16066ac99ede8fc06d8c2272dbac354f8"
+    },
+    {
+      "name": "CLOUD_COMMON.json",
+      "sha256": "da7f981e004134ef4cf1f433a9b0e7a906d6b4517c5223180f7c594d1d8c4e00"
+    },
+    {
+      "name": "C_BANNER_READY.json",
+      "sha256": "0be2360b162ee366cf38f78d25872d1200e361b9debb703924817a66e583be52"
+    },
+    {
+      "name": "C_RESET_OWNER_DONE.json",
+      "sha256": "0b92f74b8e9ba915388ec6c7ffff902a209c7e387bde5de2f73234fcf8e3ed8d"
+    },
+    {
+      "name": "C_STOP_BANNER.json",
+      "sha256": "0249a891a043e65a8cfce9ae1cea1147f319d620583c8372cb0138f2e16953ef"
+    },
+    {
+      "name": "C_STOP_SOURCE_STATE.json",
+      "sha256": "a18036d53d818934a75031dd86d4ad9f3959b4aef888cb14a1cc80f0a1380ee3"
+    },
+    {
+      "name": "joint-receipt-private.json",
+      "sha256": "f941634c9154f5d890ff3a01941895e23e89fb520c4d9d0dad1261ded22ee95d"
+    },
+    {
+      "name": "NET_READY.json",
+      "sha256": "4fb9323789548e04258f502623877675a3bf4e2cab1e08b608cd169e81a68af9"
+    },
+    {
+      "name": "RESET_REQUESTED.json",
+      "sha256": "7976a88cfded5962f9727bd1eb66157fd5fb7bfcbd2cf7e4d65ac5989534447b"
+    },
+    {
+      "name": "SERIAL_READY.json",
+      "sha256": "11f4cc63cbdea84286628514a4cdfa7d99a5953067271cda73e3048b8a92dae5"
+    },
+    {
+      "name": "supervisor-private.json",
+      "sha256": "6f2754580dd0ed369fd54196572470cf90e9cce8282f2e561e8904fe1e1c6864"
+    },
+    {
+      "name": "T0.json",
+      "sha256": "f40c9dc0a2079e9d0490f9e9a4ce24f93488a704165e93f85343b8d8f82362f5"
+    }
+  ],
+  "source_stop": {
+    "monotonic": 970785.921,
+    "raw_line_sha256": "22bdabc44257918e89fb706a57222bb4dcc95a08b1ba05f53e0cde48ec999f78",
+    "source": {
+      "armed_at": 581,
+      "business_elapsed_ms": 53919,
+      "cache": 7,
+      "live": 24,
+      "pending": 1,
+      "phase": 6,
+      "reason": 2,
+      "required": 854,
+      "tick": 54500,
+      "unsynced": 1,
+      "written": 854
+    }
+  },
+  "status": "HISTORICAL_ECG_NOT_PASS",
+  "unknown": [
+    "failed_frame_stream",
+    "failed_frame_sequence",
+    "failed_frame_QoS",
+    "pending_identifier",
+    "pending_age_at_send",
+    "CIPSEND_input_budget",
+    "prompt_timestamp",
+    "data_timestamp",
+    "SEND_OK_raw_terminal"
+  ]
+}

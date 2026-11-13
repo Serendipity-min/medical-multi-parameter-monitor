@@ -1,0 +1,351 @@
+{
+  "base": "10a0a0c3468f6d75ad335b681959c00ffd54d8b7",
+  "branch": "codex/five-appliance-integration-v1",
+  "refs": {
+    "HEAD": "10a0a0c3468f6d75ad335b681959c00ffd54d8b7",
+    "codex/five-node-single-module-v1": "f9bdff8a6d73993390baf59abc8a52bdc992f16c",
+    "baseline/abc-unified-pre-split-v1^{}": "26e695ffda43a7a76aa54d1c4e3a5631ac0dc42e",
+    "codex/abc-voice-appliance-v1": "12d3161b59fb88d9c9fed01b26d601df69c25b2a",
+    "main": "50699048010c57ba10f8573461844c525b022a07"
+  },
+  "joint": {
+    "duration_s": 91.29700000002049,
+    "counts": {
+      "gateway_status": 19,
+      "node_status": 76,
+      "ecg": 229,
+      "resp": 92,
+      "ppg": 92,
+      "spo2": 92,
+      "pr": 92,
+      "hr": 92,
+      "rr": 92,
+      "temp": 92,
+      "nibp": 1
+    },
+    "backend_accepted": 969,
+    "backend_rejected": 0,
+    "backend_dropped": 0,
+    "ws_unique_wave_batches": {
+      "ECG": 229,
+      "RESP": 92,
+      "PPG": 92
+    },
+    "bp_expiry_age_ms": 90538,
+    "bp_readable_before_completion": false,
+    "audio_turns": [
+      {
+        "blocks": 64,
+        "upload_pacing_ms": 250,
+        "pcm_bytes": 32320,
+        "mqtt_publish_bytes": 36096,
+        "c_status": 0,
+        "answer_kind": "SINGLE_VALUE",
+        "source_age_ms": 15770,
+        "assemble_s": 15.735000000044238,
+        "final_to_mr02_s": 0.030999999959021807,
+        "first_send_to_c_s": 15.76600000000326,
+        "valid_remaining_ms": 14982,
+        "source_seq": 1,
+        "mock_source": true,
+        "fact_streams": [
+          "NIBP"
+        ]
+      },
+      {
+        "blocks": 125,
+        "upload_pacing_ms": 250,
+        "pcm_bytes": 64000,
+        "mqtt_publish_bytes": 70500,
+        "c_status": 0,
+        "answer_kind": "SINGLE_VALUE",
+        "source_age_ms": 853,
+        "assemble_s": 30.96899999998277,
+        "final_to_mr02_s": 0.01600000000325963,
+        "first_send_to_c_s": 31.01600000000326,
+        "valid_remaining_ms": 4147,
+        "source_seq": 48,
+        "mock_source": true,
+        "fact_streams": [
+          "TEMP"
+        ]
+      },
+      {
+        "blocks": 64,
+        "upload_pacing_ms": 0,
+        "pcm_bytes": 32320,
+        "mqtt_publish_bytes": 36096,
+        "c_status": 5,
+        "answer_kind": "GENERAL_ADVICE",
+        "source_age_ms": null,
+        "assemble_s": 0.031000000017229468,
+        "final_to_mr02_s": 0.014999999955762178,
+        "first_send_to_c_s": 0.045999999972991645,
+        "valid_remaining_ms": 14984,
+        "source_seq": 0,
+        "mock_source": false,
+        "fact_streams": []
+      },
+      {
+        "blocks": 64,
+        "upload_pacing_ms": 0,
+        "pcm_bytes": 32320,
+        "mqtt_publish_bytes": 36096,
+        "c_status": 6,
+        "answer_kind": "MULTI_VALUE",
+        "source_age_ms": null,
+        "assemble_s": 0.0470000000204891,
+        "final_to_mr02_s": 0.030999999959021807,
+        "first_send_to_c_s": 0.0779999999795109,
+        "valid_remaining_ms": 14986,
+        "source_seq": 0,
+        "mock_source": false,
+        "fact_streams": [
+          "HR",
+          "NIBP"
+        ]
+      },
+      {
+        "blocks": 64,
+        "upload_pacing_ms": 0,
+        "pcm_bytes": 32320,
+        "mqtt_publish_bytes": 36096,
+        "c_status": 2,
+        "answer_kind": "SINGLE_VALUE",
+        "source_age_ms": 90198,
+        "assemble_s": 0.0470000000204891,
+        "final_to_mr02_s": 0.01600000000325963,
+        "first_send_to_c_s": 0.0779999999795109,
+        "valid_remaining_ms": 14985,
+        "source_seq": 1,
+        "mock_source": true,
+        "fact_streams": [
+          "NIBP"
+        ]
+      }
+    ],
+    "telemetry_frames_per_s": 10.613711293906508,
+    "telemetry_mqtt_bytes": 431029,
+    "mqtt_size_by_stream": {
+      "gateway_status": {
+        "min": 181,
+        "max": 182,
+        "mean": 181.52631578947367
+      },
+      "node_status": {
+        "min": 188,
+        "max": 189,
+        "mean": 188.52631578947367
+      },
+      "ecg": {
+        "min": 866,
+        "max": 868,
+        "mean": 867.528384279476
+      },
+      "resp": {
+        "min": 697,
+        "max": 698,
+        "mean": 697.9021739130435
+      },
+      "ppg": {
+        "min": 671,
+        "max": 672,
+        "mean": 671.9021739130435
+      },
+      "spo2": {
+        "min": 189,
+        "max": 190,
+        "mean": 189.90217391304347
+      },
+      "pr": {
+        "min": 189,
+        "max": 190,
+        "mean": 189.90217391304347
+      },
+      "hr": {
+        "min": 189,
+        "max": 190,
+        "mean": 189.90217391304347
+      },
+      "rr": {
+        "min": 197,
+        "max": 198,
+        "mean": 197.90217391304347
+      },
+      "temp": {
+        "min": 192,
+        "max": 193,
+        "mean": 192.90217391304347
+      },
+      "nibp": {
+        "min": 199,
+        "max": 199,
+        "mean": 199.0
+      }
+    },
+    "p1_rate_projection": {
+      "service_frames_s": 8.08,
+      "telemetry_only_over_5s": 817,
+      "tail_service_debt_s": 28.7377425932209,
+      "audio_residual": "NONE"
+    },
+    "scope": "LOOPBACK_MOSQUITTO_MOCK_ASR_C_PARSER",
+    "acl_denied_puback": {
+      "five-c": 135,
+      "five-backend": 135,
+      "five-audio-worker": 135
+    },
+    "dependencies": {
+      "fastapi": "0.141.1",
+      "pydantic": "2.12.5",
+      "uvicorn": "0.40.0",
+      "websockets": "16.0",
+      "paho-mqtt": "2.1.0",
+      "httpx": "0.28.1"
+    },
+    "script_sha256": "22585f249d0338eaa21e16fd16e89bf54814a54c3826b38624d905c330be988e",
+    "functional": "PASS",
+    "loopback_deadlines": "PASS",
+    "device_throughput": "NOT_PASS_P1_CAPACITY_EVIDENCE",
+    "real_asr_tts": "NOT_RUN"
+  },
+  "native": [
+    {
+      "case": "startup",
+      "exit": 0,
+      "output": "HOST_FIVE_APPLIANCE_STARTUP_PASS checks=36099 config_missing_local_only=1 init_callback_safe=1 backoff_max_ms=30000 hardware=NOT_RUN"
+    },
+    {
+      "case": "keys-short-audio",
+      "exit": 0,
+      "output": "HOST_FIVE_KEY_AUDIO_PASS checks=2134 short_samples=16160 short_chunks=64 full_samples=32000 full_chunks=125 refusal_fixed=1 advice_fixed=1 expired_STOP_QUERY_IDLE=1 changed_STOP_QUERY_IDLE=1 hardware=NOT_RUN"
+    },
+    {
+      "case": "legacy-audio",
+      "exit": 0,
+      "output": "HOST_UNIFIED_AUDIO_PASS checks=1947 chunks=250 hash_slices=500 crc=2735321824 hardware=NOT_RUN"
+    }
+  ],
+  "pytest_passed": 64,
+  "backend_boundary_note": "Initial legacy fixture asserted speech valid at exactly 90s; separated existing Backend inclusive and facts exclusive expectations.",
+  "arm": {
+    "path": "node-b/build/b4-c-arm-20261107T032612399566Z",
+    "flash_load": 58392,
+    "flash_delta": 256,
+    "sector4_load": 58000,
+    "sector4_remaining": 7536,
+    "SRAM_reserved": 115772,
+    "SRAM_delta": 0,
+    "CCM_pcm": 64000,
+    "CCM_delta": 0,
+    "images": [
+      {
+        "address": 134217728,
+        "bytes": 392,
+        "file": "FIVE_APPLIANCE_C_2S_V1-boot.bin",
+        "SHA256": "8db7ea92486b5d79ed1266e9838c3c6fbb4dcedae5a3a3c49aeed4529a9622fa"
+      },
+      {
+        "address": 134283264,
+        "bytes": 58000,
+        "file": "FIVE_APPLIANCE_C_2S_V1-code.bin",
+        "SHA256": "ed25d801be8c46d5ae95470d47738148f82aa45115907aa13b25d4e6f5897dc4"
+      }
+    ],
+    "IRQ_vectors_verified": true
+  },
+  "lock_comparison": {
+    "annotated-doc": {
+      "locked": "0.0.5",
+      "local": "0.0.4"
+    },
+    "annotated-types": {
+      "locked": "0.8.0",
+      "local": "0.7.0"
+    },
+    "anyio": {
+      "locked": "4.15.1",
+      "local": "4.12.1"
+    },
+    "click": {
+      "locked": "8.5.0",
+      "local": "8.3.1"
+    },
+    "colorama": {
+      "locked": "0.4.6",
+      "local": "0.4.6"
+    },
+    "fastapi": {
+      "locked": "0.135.1",
+      "local": "0.141.1"
+    },
+    "h11": {
+      "locked": "0.16.0",
+      "local": "0.16.0"
+    },
+    "idna": {
+      "locked": "3.20",
+      "local": "3.11"
+    },
+    "pydantic": {
+      "locked": "2.12.5",
+      "local": "2.12.5"
+    },
+    "pydantic_core": {
+      "locked": "2.41.5",
+      "local": "2.41.5"
+    },
+    "starlette": {
+      "locked": "1.6.0",
+      "local": "0.52.1"
+    },
+    "typing-inspection": {
+      "locked": "0.4.4",
+      "local": "0.4.2"
+    },
+    "typing_extensions": {
+      "locked": "4.16.0",
+      "local": "4.15.0"
+    },
+    "uvicorn": {
+      "locked": "0.40.0",
+      "local": "0.40.0"
+    },
+    "websockets": {
+      "locked": "16.0",
+      "local": "16.0"
+    },
+    "paho-mqtt": {
+      "locked": "2.1.0",
+      "local": "2.1.0"
+    }
+  },
+  "broker_shutdown_and_ephemeral_credentials_removed": true,
+  "source_sha256": {
+    "cloud/ai/app.py": "8c74485a86395ba1d22406e55c659f5e9edec4c424757cf53ac9d5f094d21831",
+    "cloud/ai/appliance_reply.py": "49487eb5dd11b6390013808b9c815f49f209f84d61a053ca4c106ce800f040ae",
+    "cloud/ai/facts.py": "df87c974f335bfe779bd7a570a6a5041cd5a45d260ccd9556344b47fc054ad14",
+    "cloud/ai/snapshot.py": "39af73b7d1317b4c355781cd16a96025bfb009d18138c5434bee00afbd835758",
+    "cloud/ai/tests/test_five_appliance.py": "14d6eab0aa57bd3ee9a19656c7077df6b8e09b65564cbaaf594468eb9bf6da58",
+    "cloud/backend/tests/test_five_node.py": "5effc5e33ea485d4549e9cf5f8906e124891ab1ecc3fbe844aed0a737e2b341f",
+    "cloud/deploy/five-appliance.env.example": "6c1d651e958fb7876a83121b65aff5e905e94949bc0b947862cf618b67283d90",
+    "gateway/microphone/mic_protocol.c": "8d036fe2dc6b9eb36e49e395eb64df28e00fe669e20b96531094a01556817703",
+    "gateway/microphone/mic_protocol.h": "d272933e4acf4a1b12a18dd69ac44aff732a2ba9dda7b9c74ebd8424b55767ac",
+    "gateway/microphone/test_five_appliance_audio.c": "e72d662a32bb094d394559defd6234947d5f505c18e4c2f15f86eaca14d45071",
+    "gateway/microphone/unified_audio.c": "ccfe2f9fe20dae912d1ba184b0f0406cbb78ae51b22313f0e8175867965622dc",
+    "node-b/tools/five_appliance_p2.py": "22585f249d0338eaa21e16fd16e89bf54814a54c3826b38624d905c330be988e"
+  },
+  "not_run": [
+    "flash",
+    "hardware_power",
+    "patient",
+    "ESP_AT",
+    "target_TLS",
+    "true_ASR_TTS",
+    "real_model",
+    "formal_cloud",
+    "FreeRTOS",
+    "300s_field"
+  ],
+  "raw_joint_receipt_sha256": "0f03ce7aab13cd726cad5a9f4c2c75c48fb6b4207b1f7acf2036157e4db317ed"
+}

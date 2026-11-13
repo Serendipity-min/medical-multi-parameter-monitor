@@ -50,6 +50,7 @@ setup.exe
 *.d
 *.crf
 *.axf
+*.elf
 *.hex
 *.bin
 *.map
@@ -90,3 +91,24 @@ Desktop.ini
 .vscode/
 .idea/
 *.swp
+
+# 云端依赖、运行凭据与构建缓存仅保存在本机，不进入仓库。
+.venv/
+__pycache__/
+.pytest_cache/
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+*.local.json
+
+# 原始静态分析结果留在本机证据目录；仓库只保存经脱敏的结论和固定回归。
+static_analysis_semgrep_*/
+semgrep_raw/
+security_scan_raw/
+*.sarif
+
+# 实板交付仅纳入构建/读回摘要，完整符号表保留本机。
+/node-b/docs/FIVE-NODE-MIGRATION/FIELD01-20261106/artifacts/**/*.txt
+/node-b/docs/FIVE-NODE-MIGRATION/FIVE41-20261106/artifacts/**/*.txt

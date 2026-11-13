@@ -1,0 +1,52 @@
+{
+  "attempts": [
+    {
+      "attempt": "arm-20261015T025747933868Z",
+      "status": "FAIL",
+      "exit_code": 2,
+      "errors": 3,
+      "warnings": 0,
+      "raw_build_log_sha256": "9001918a043a285eadd2d200778a0820ed64c1acdd84d66b5afac145b70890a0",
+      "original_receipt_sha256": "b3fef6075b916f1ac566ffe3f8a4a5ea818cc6e402d788ea1b07016425de9083"
+    },
+    {
+      "attempt": "arm-20261015T025857134804Z",
+      "status": "FAIL",
+      "exit_code": 2,
+      "errors": 7,
+      "warnings": 0,
+      "raw_build_log_sha256": "28725ddfcd49a5f2bb7e24e3e24d0e4eca755eda302da7768193de687e769925",
+      "original_receipt_sha256": "e90395b3087c6cd4cbd7ef354b159b4dd2b50ae7e051ebb6ad72c00693f8085b"
+    },
+    {
+      "attempt": "arm-20261015T030019040367Z",
+      "status": "FAIL",
+      "exit_code": 2,
+      "errors": 2,
+      "warnings": 0,
+      "raw_build_log_sha256": "fd28ae3953453e9b31dae6edb3b8805c27ac97a56e023307c5f3f9ed890e190f",
+      "original_receipt_sha256": "028d55da7ca3544cd7ec5b37eb187d1b0c1ef3092c60a523eee9308c4c886527"
+    },
+    {
+      "attempt": "arm-20261015T030107490954Z",
+      "status": "PASS",
+      "exit_code": 0,
+      "errors": 0,
+      "warnings": 0,
+      "raw_build_log_sha256": "d6fd523b8dffa18d0edcf06bebb6147c75da71d5c4d46ed389738587456a130f",
+      "original_receipt_sha256": "dabf79204562b894d44c18499b730064db56e36de9e6246ed78798b7b2c6bfa8"
+    },
+    {
+      "attempt": "arm-20261015T031659928560Z",
+      "status": "PASS",
+      "exit_code": 0,
+      "errors": 0,
+      "warnings": 0,
+      "raw_build_log_sha256": "592f71ad369597518415fb36c24ed5afef4a16d48e8cd273110d50a396aa5c00",
+      "original_receipt_sha256": "7867a81727fd3968079d8beb23d744bfad3fa17ab1ccb08ed686e400851a4d56"
+    }
+  ],
+  "failures_preserved": true,
+  "raw_logs": "LOCAL_ONLY_ecg-source/build/",
+  "hardware_operations": []
+}

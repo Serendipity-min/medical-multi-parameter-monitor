@@ -1,0 +1,16 @@
+test_default_never_executes (test_b5_esp_sntp.Tests.test_default_never_executes) ... ok
+test_disabled_scope_stops_before_file_access (test_b5_esp_sntp.Tests.test_disabled_scope_stops_before_file_access) ... ok
+test_enable_error_or_disabled_readback_cannot_pass (test_b5_esp_sntp.Tests.test_enable_error_or_disabled_readback_cannot_pass) ... ok
+test_exact_plan_rejects_extra_server_setting_and_fake_time (test_b5_esp_sntp.Tests.test_exact_plan_rejects_extra_server_setting_and_fake_time) ... ok
+test_no_valid_time_is_none_not_fabricated (test_b5_esp_sntp.Tests.test_no_valid_time_is_none_not_fabricated) ... ok
+test_observed_time_progress_pass_does_not_claim_TLS_or_nonce (test_b5_esp_sntp.Tests.test_observed_time_progress_pass_does_not_claim_TLS_or_nonce) ... ok
+test_plan_uses_actual_record_credentials_only_in_private_command (test_b5_esp_sntp.Tests.test_plan_uses_actual_record_credentials_only_in_private_command) ... ok
+test_store_readback_not_zero_stops_before_WIFI (test_b5_esp_sntp.Tests.test_store_readback_not_zero_stops_before_WIFI) ... ok
+test_timeout_extension_is_bounded_before_any_UART_write (test_b5_esp_sntp.Tests.test_timeout_extension_is_bounded_before_any_UART_write) ... ok
+test_uptime_or_static_or_incorrect_clock_does_not_pass (test_b5_esp_sntp.Tests.test_uptime_or_static_or_incorrect_clock_does_not_pass) ... ok
+test_wrong_reference_image_denied (test_b5_esp_sntp.Tests.test_wrong_reference_image_denied) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.032s
+
+OK

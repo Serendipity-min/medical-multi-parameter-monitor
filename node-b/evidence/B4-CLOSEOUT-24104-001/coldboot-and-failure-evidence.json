@@ -1,0 +1,66 @@
+{
+  "coldboot": {
+    "status": "INDEPENDENT_COLD_BOOT_NOT_VALIDATED_OBSERVATION_COUNTER_DISCREPANCY",
+    "owner_observed_all_lights_off": true,
+    "ECG_last_device_ms": 250346,
+    "RR_next_entry_device_ms": 703874,
+    "ECG_last_BIO_samples": 62241,
+    "RR_next_entry_BIO_samples": 175543,
+    "host_interval_ms": 453547.0000000205,
+    "note": "Reported full extinction and continuing counters retained together; no conclusion about hidden power paths or RESET/BOOT mechanism; no new hardware test"
+  },
+  "negatives": {
+    "B_ROM_prestart": {
+      "B_receipt": {
+        "status": "STOP",
+        "exit_code": 1,
+        "sdk_calls": 46,
+        "close_resume": false
+      },
+      "B_failure": {
+        "reason": "C_RO_ROM_STOP",
+        "type": "ValueError"
+      },
+      "B_state": {
+        "DHCSR": 16842753,
+        "VTOR": 536805376,
+        "CFSR": 0,
+        "HFSR": 0,
+        "RCC_CSR": 234881024,
+        "DWT_PCSR": 536818418,
+        "RCC_APB2ENR": 0,
+        "SYSCFG_MEMRMP": 0,
+        "FLASH_CR": 2147483648,
+        "FLASH_SR": 0,
+        "pc_samples": [
+          536818418,
+          536818418,
+          536818414
+        ]
+      },
+      "C_receipt": {
+        "status": "STOP",
+        "exit_code": 1,
+        "reason": "CAPTURE_OWNER_STOP",
+        "type": "ValueError",
+        "C_candidate_sha256": "127ba765b8144e8f8ae98ef826ac2a98f45f8facb4021ce1888c004e5ca46547"
+      },
+      "START_sent": false,
+      "recovery": "OWNER_APPROVED_AND_REPORTED_ONE_MANUAL_B_RESET_AND_ONE_C_RESET; NO_FLASH_RETRY"
+    },
+    "COM15_preflight": {
+      "C_receipt": {
+        "status": "STOP",
+        "exit_code": 1,
+        "reason": "CAPTURE_C_PORT_NOT_PRESENT",
+        "type": "ValueError",
+        "C_candidate_sha256": "127ba765b8144e8f8ae98ef826ac2a98f45f8facb4021ce1888c004e5ca46547"
+      },
+      "B_SDK_started": false,
+      "serial_opened_or_data_received": false,
+      "START_sent": false,
+      "owner_correction": "C_on_COM6_after_USB_interface_change; driver VID/PID1a86:7523 verified before open; no additional reset"
+    }
+  },
+  "CPU_ROM_root_cause": "UNRESOLVED"
+}

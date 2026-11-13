@@ -1,0 +1,409 @@
+{
+  "client_date": "2026-10-26",
+  "baseline_commit": "76530b8e1aabe72063a701ecf5ac81580fd55c78",
+  "branch": "codex/node-b4-dualbus-software-20261023",
+  "C_install_restore_reinstall": "PASS",
+  "C_operations": [
+    {
+      "status": "B4_INSTALL_FULL_VERIFY_AND_FLASH_BOOT_PASS",
+      "exit_code": 0,
+      "phase": "install",
+      "board": "C",
+      "sectors": [
+        0,
+        1
+      ],
+      "full_flash_sha256": "b1832459ed8dbf22a0b5e3b6163b93e1dc05a2dbf1adbe1c41ef02ff3dacb370",
+      "options_unchanged": true,
+      "outside_affected_sectors_unchanged": true,
+      "reset_requests": 1,
+      "sdk_calls": 263,
+      "actions": {
+        "JLINKARM_Halt": 1,
+        "JLINKARM_BeginDownload": 1,
+        "JLINKARM_WriteMem": 1,
+        "JLINKARM_EndDownload": 1,
+        "JLINKARM_Reset": 1,
+        "JLINKARM_Go": 1
+      },
+      "download_started": true,
+      "close_resume": true,
+      "operation": "C-install-01",
+      "protected_regions": {
+        "sector3": {
+          "before_sha256": "1698c8783b4fbdd1bc7fc5a8641babc7b499b58a65be54e7b36c65c6c5b88313",
+          "after_sha256": "1698c8783b4fbdd1bc7fc5a8641babc7b499b58a65be54e7b36c65c6c5b88313",
+          "unchanged": true
+        },
+        "sector7": {
+          "before_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+          "after_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+          "unchanged": true
+        },
+        "sector11": {
+          "before_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+          "after_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+          "unchanged": true
+        }
+      }
+    },
+    {
+      "status": "B4_RESTORE_FULL_VERIFY_AND_FLASH_BOOT_PASS",
+      "exit_code": 0,
+      "phase": "restore",
+      "board": "C",
+      "sectors": [
+        0,
+        1
+      ],
+      "full_flash_sha256": "1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390",
+      "options_unchanged": true,
+      "outside_affected_sectors_unchanged": true,
+      "reset_requests": 1,
+      "sdk_calls": 261,
+      "actions": {
+        "JLINKARM_Halt": 1,
+        "JLINKARM_BeginDownload": 1,
+        "JLINKARM_WriteMem": 1,
+        "JLINKARM_EndDownload": 1,
+        "JLINKARM_Reset": 1,
+        "JLINKARM_Go": 1
+      },
+      "download_started": true,
+      "close_resume": true,
+      "operation": "C-restore-01",
+      "protected_regions": {
+        "sector3": {
+          "before_sha256": "1698c8783b4fbdd1bc7fc5a8641babc7b499b58a65be54e7b36c65c6c5b88313",
+          "after_sha256": "1698c8783b4fbdd1bc7fc5a8641babc7b499b58a65be54e7b36c65c6c5b88313",
+          "unchanged": true
+        },
+        "sector7": {
+          "before_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+          "after_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+          "unchanged": true
+        },
+        "sector11": {
+          "before_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+          "after_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+          "unchanged": true
+        }
+      }
+    },
+    {
+      "status": "B4_INSTALL_FULL_VERIFY_AND_FLASH_BOOT_PASS",
+      "exit_code": 0,
+      "phase": "install",
+      "board": "C",
+      "sectors": [
+        0,
+        1
+      ],
+      "full_flash_sha256": "b1832459ed8dbf22a0b5e3b6163b93e1dc05a2dbf1adbe1c41ef02ff3dacb370",
+      "options_unchanged": true,
+      "outside_affected_sectors_unchanged": true,
+      "reset_requests": 1,
+      "sdk_calls": 263,
+      "actions": {
+        "JLINKARM_Halt": 1,
+        "JLINKARM_BeginDownload": 1,
+        "JLINKARM_WriteMem": 1,
+        "JLINKARM_EndDownload": 1,
+        "JLINKARM_Reset": 1,
+        "JLINKARM_Go": 1
+      },
+      "download_started": true,
+      "close_resume": true,
+      "operation": "C-install-02",
+      "protected_regions": {
+        "sector3": {
+          "before_sha256": "1698c8783b4fbdd1bc7fc5a8641babc7b499b58a65be54e7b36c65c6c5b88313",
+          "after_sha256": "1698c8783b4fbdd1bc7fc5a8641babc7b499b58a65be54e7b36c65c6c5b88313",
+          "unchanged": true
+        },
+        "sector7": {
+          "before_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+          "after_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+          "unchanged": true
+        },
+        "sector11": {
+          "before_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+          "after_sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+          "unchanged": true
+        }
+      }
+    }
+  ],
+  "C_original_boot_recovery": {
+    "status": "C_ORIGINAL_FLASH_BOOT_AFTER_ONE_NORMAL_RESET_PASS",
+    "exit_code": 0,
+    "root_cause": "UNRESOLVED",
+    "original_full_sha256": "1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390",
+    "ROM_root_cause_closed": false,
+    "flash_options_or_core_register_writes": 0,
+    "C_candidate_installed": false,
+    "actions": {
+      "JLINKARM_Reset": 1,
+      "JLINKARM_Go": 1
+    },
+    "sdk_calls": 253,
+    "close_resume": true
+  },
+  "serial_failure_review": {
+    "status": "HOST_FALSE_POSITIVE_NOT_CAN_PASS",
+    "original_exit_code": 1,
+    "original_reason": "CAPTURE_C_VECTOR_FAULT",
+    "START_commands": 0,
+    "raw_bytes": 6487,
+    "raw_sha256": "d6c7ba2fab71d2a742ade10bfcdd59506d082a8bd001ced44bd8824bb8b8e515",
+    "post_BOOT_packets": 6,
+    "CRC_errors": 0,
+    "pre_BOOT_prefix_bytes": 6295,
+    "C_diagnostic": {
+      "VTOR": 0,
+      "CFSR": 0,
+      "HFSR": 0
+    },
+    "installation_alias_proof": "c_b4_readonly.check_running enforced 0-address64B==Flash64B and actual Flash PC for each running snapshot",
+    "last_install_runtime": [
+      {
+        "VTOR": "0x0",
+        "pc_samples": [
+          "0x8004e60",
+          "0x8005050",
+          "0x8004a48"
+        ],
+        "CFSR": 0,
+        "HFSR": 0,
+        "DHCSR": "0x1010001"
+      },
+      {
+        "VTOR": "0x0",
+        "pc_samples": [
+          "0x8005114",
+          "0x8004a22",
+          "0x8005112"
+        ],
+        "CFSR": 0,
+        "HFSR": 0,
+        "DHCSR": "0x1010001"
+      },
+      {
+        "VTOR": "0x0",
+        "pc_samples": [
+          "0x8004a24",
+          "0x80018a2",
+          "0x8001884"
+        ],
+        "CFSR": 0,
+        "HFSR": 0,
+        "DHCSR": "0x1010001"
+      }
+    ],
+    "new_hardware_retry": false,
+    "CAN_acceptance": false
+  },
+  "current_C_candidate": {
+    "bytes": 23744,
+    "sha256": "73d1138f248188593f1be16e628b171a539e00867f324bcef36cdbe34310c0b6",
+    "full_flash_sha256": "b1832459ed8dbf22a0b5e3b6163b93e1dc05a2dbf1adbe1c41ef02ff3dacb370",
+    "scope": "ISOLATED_BENCH_ONLY"
+  },
+  "B_this_turn": "IDENTITY_AND_39948B_VERIFIED; ONE_OWNER_RESET_AFTER_ROM; 150S_249.9639SPS_PASS",
+  "site": {
+    "C_power": "J5",
+    "C_USB_UART_owner_confirmed": "COM15",
+    "JLink": "B",
+    "B_power": "J5",
+    "ESP_and_speaker_isolated": true,
+    "A_disconnected": true,
+    "CAN_topology": "B_CAN1_C_CAN2",
+    "termination_ohms_historical_owner_measurement": 60.8
+  },
+  "software_validation": {
+    "python_tests": 132,
+    "python_exit": 0,
+    "bench_Host_cases": 12,
+    "B4_Host_cases": 13,
+    "C_bench_ARM": "PASS",
+    "C_network_ARM": "PASS",
+    "B_BIN_changed": false,
+    "C_new_BIN_installed": false
+  },
+  "source_sha256": {
+    "gateway/dual_can/arm_link.c": "b0bb93e9be69127c97043ef2aa590387ca823a15ba405c01c67874be0b9cb37f",
+    "gateway/dual_can/b4_bench.c": "7253c892e516fe06b899942d96f92b8aafaaad1505839d953a827dfe87163ae7",
+    "gateway/dual_can/b4_bus.c": "1c53e14f3264d6202e5bcf0e83f1f269f2696c997e0077caa81449560c66ed60",
+    "gateway/dual_can/b4_bxcan.c": "19dbe0e6bf5f0e81ca0cdc45acd757fb80bb279fde85db00aa4dec6453d9daeb",
+    "gateway/dual_can/b4_capture.c": "1d1e493da5915223923affa1759d948c34802b1340003173413c86cbc339bc2b",
+    "gateway/dual_can/b4_capture_uart.c": "3d124f9a8acbd56d2e1f27ba256e69a1f7584ac37c3f467df6e8301b701e4882",
+    "gateway/dual_can/b4_gateway.c": "a2dd6a9554381ee087aaa4a5ba9fe61413c59829c44853e15016afb71a6c5958",
+    "gateway/dual_can/bench_main.c": "8b221ce09a1d68af58249ac0d2b8469fd4c02f5071500174fad6cd3f6c66d537",
+    "gateway/dual_can/network_main.c": "2bcadc1071d56a34644fc395728b4dec5f5cf75ef7a53b8e50d207f8c64edb07",
+    "gateway/dual_can/system_hse.c": "5192e6351edae0ce2b5ad90e1dced3e38af944ae50645131a54e75fba22a04db",
+    "gateway/dual_can/b4_bench.h": "30dff20fc48bfaa40ac8424f0bbebf41812ae6bd5fb3c60b6635b62fd700b1f4",
+    "gateway/dual_can/b4_bus.h": "38af12b57f6d2a803c3f04036f8dedf981c6228e5d50203755294d9e4bb5f98b",
+    "gateway/dual_can/b4_bxcan.h": "d924422562891bf96df85b91331d13b1b6da8368ef8812d975e5053d4aa9b30a",
+    "gateway/dual_can/b4_capture.h": "38edfdf47a52f2d24927fe4de5e906a8d41310c27153ef0670947dab02d4945b",
+    "gateway/dual_can/b4_gateway.h": "d88ef86ce6fbd56b673f24d234ba14fc8d36eb2fba932f1618c3f94fde7864d5",
+    "gateway/dual_can/b4_resources.h": "61e5b9a522f808f6d65a7390d68e3a4521baf712e102d4e907c9a5c4df4453ea",
+    "gateway/dual_can/hse_clock.h": "b9c54d39afd41b1c00e99fa93e108c4d45f1013cee927d15bbcb85192f401e32",
+    "gateway/dual_can/build_arm.py": "875e90bc09fcf3485cc016b275e41510910160f5990d775620c10009fb20ec7f",
+    "gateway/dual_can/tests/capture.c": "f1c5308830329f22e63104d00c558297c9a54c033a2b3a6b3e004fa9f7106bf6",
+    "gateway/dual_can/tests/link_policy.c": "0580661bd9882b71db72a9e6a808e59bf8517a90018501e65098070a1f72eb2e",
+    "node-b/tools/b4_serial_capture.py": "fa566c900614fb6060ba545da3e697f94e203aa45200e4e6b0784164d78e4f56",
+    "node-b/tools/b4_capture_decode.py": "434457734ca50517d0017553149a2ebf46661d149d5f451b5fbd0822c1476c1a",
+    "node-b/tools/b4_swd_install.py": "145cb367bf54d778a58f452ed8781fca7a53769dd73bd65b6018653575b59510",
+    "node-b/tools/c_b4_boot_once.py": "d3b25ce80de4cea0f3640d78cf9ddd7624d21913fb6674f7d3f0bceae6a3201f",
+    "node-b/tests/test_b4_serial_capture.py": "8f5b0874cbd9b7daaa5870e88c5a69445164202e9e37a2d14a8271566f5b0ec1",
+    "node-b/tests/test_b4_capture_decode.py": "63836862bf50bb07bdac4b791886d349558d1a6059d992361acc480d634a8bcf",
+    "node-b/tests/test_b4_swd_install.py": "99c90e349d45a3755d9c1fea21b4ffaf894f970d2d2d0d33d40522d1eed94f31",
+    "node-b/tests/test_c_b4_boot_once.py": "706c949d872bcc07996e7b87a982877746c3c56fce0ecb8f93fa4434dcdfcd93",
+    "node-b/tools/run_b4_bench.py": "11a62615122b587e98e19ae824e6a7282cd9639fb4620e8d60c06b7b04ba5c5a"
+  },
+  "private_archive": "E:\\medical-monitor-node-b-precan-private\\20261023\\b4-g4-20261023T120251414072Z\\resume-client20261026-3cb523b4ae",
+  "CAN_window": "WINDOW04_STARTED_PHYSICAL_RX_AND_NMT_ACK_OBSERVED_CAPTURE_INCOMPLETE_NOT_PASS",
+  "CPU_ROM_root_cause": "UNRESOLVED_B_RECURRED_AND_RECOVERED_BY_ONE_OWNER_MANUAL_RESET",
+  "HR_RR_simultaneous": "NOT_VALIDATED",
+  "fault_recovery": "NOT_VALIDATED",
+  "next_window": "NEW_C_23952B_REQUIRES_EXPLICIT_INSTALL_ADMISSION; NO_AUTOMATIC_FLASH",
+  "BIO_threshold_or_ADS_register_change": false,
+  "cloud_or_Security_Gate": false,
+  "second_serial_window": {
+    "status": "STOP_USB_SERIAL_HANDLE_ERROR_BEFORE_START",
+    "exit_code": 1,
+    "exception_type": "SerialException",
+    "reason": "GetOverlappedResult failed (PermissionError(13, '拒绝访问。', None, 5))",
+    "raw_bytes": 13152,
+    "raw_sha256": "953f9b87d2a86380d86ece812292b334a6c8dc3ad95170bc0598853b696c1db8",
+    "packets": 411,
+    "post_reset_packets": 221,
+    "last_post_reset_tick_ms": 44001,
+    "CRC_errors": 0,
+    "post_reset_sequence_gaps": 0,
+    "C_post_reset_BOOT_packets": 1,
+    "START_commands": 0,
+    "CAN_RX_records": 0,
+    "C_POST_RESET_VTOR_values": [
+      0
+    ],
+    "Fault_nonzero": false,
+    "B_readonly_launch": {
+      "exit_code": 1,
+      "reason": "SERIAL_ALREADY_STOPPED_NO_B_ATTACH",
+      "SDK_connections": 0,
+      "reset_halt_go_writes": 0
+    },
+    "COM15_still_OS_enumerated_after_error": true,
+    "automatic_retry": false,
+    "CAN_180s_acceptance": false,
+    "CPU_root_cause_inference": "NOT_ESTABLISHED_BY_SERIAL_EXCEPTION"
+  },
+  "C_new_software_candidate": {
+    "bytes": 23952,
+    "sha256": "d30a35e7f7729c16f580c67e660f1f01a76e111606474f6b5e2a4eff8f44ac12",
+    "full_expected_sha256": "1f56dd2ec1eb8002b52b77eb3faf5986bb0336694ac993923c9a7575ba264a10",
+    "manifest_sha256": "e02514e64da5414ffa34249102cc2e11aece1d1979812aa492a83ef6a5766898",
+    "sectors": [
+      0,
+      1
+    ],
+    "IRQ_vector_verified": true,
+    "installed": false,
+    "recovery_package": "OFFLINE_VERIFIED_NOT_ACTUALLY_INSTALLED_OR_RESTORED_NEW_CANDIDATE",
+    "current_C_still_old_23744B": true,
+    "hardware_eligible": false,
+    "original_full_sha256": "1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390"
+  },
+  "actual_window": {
+    "status": "B_CAN1_C_CAN2_PHYSICAL_RX_AND_NMT_ACK_OBSERVED_NOT_FULL_ACCEPTANCE",
+    "START_commands": 1,
+    "C_start_tick": 31564,
+    "NMT_TX_ACK_count": 1,
+    "raw_parts": [
+      {
+        "name": "C-serial-180s-04",
+        "bytes": 11072,
+        "sha256": "884b2160275919fb0f8a1a14d8990fb9221414b279ffdb95614568c419cfacf6",
+        "packets": 346,
+        "CRC_errors": 0,
+        "tail_bytes": 0,
+        "seq_gaps_within_part": 0,
+        "first_seq": 67,
+        "last_seq": 412,
+        "kind_counts": {
+          "5": 95,
+          "9": 1,
+          "2": 9,
+          "3": 5,
+          "8": 3,
+          "10": 3,
+          "4": 4,
+          "1": 226
+        },
+        "RX_COB_ID_counts": {
+          "0x182": 184,
+          "0x282": 37,
+          "0x382": 1,
+          "0x482": 1,
+          "0x682": 1,
+          "0x702": 2
+        },
+        "STOP_packets": 0
+      },
+      {
+        "name": "C-window04-passive-remainder",
+        "bytes": 466003,
+        "sha256": "66ffd25a1499893e7f5f9d06e9992526054d504bec1ac61f7e553a406915a300",
+        "packets": 14562,
+        "CRC_errors": 0,
+        "tail_bytes": 0,
+        "seq_gaps_within_part": 14131,
+        "first_seq": 16081,
+        "last_seq": 59879,
+        "kind_counts": {
+          "1": 14430,
+          "5": 24,
+          "4": 21,
+          "2": 49,
+          "8": 38
+        },
+        "RX_COB_ID_counts": {
+          "0x182": 14236,
+          "0x282": 126,
+          "0x382": 28,
+          "0x702": 34,
+          "0x682": 6
+        },
+        "STOP_packets": 0
+      }
+    ],
+    "B_runtime": {
+      "status": "B4_B_ADC_RUNTIME_OBSERVED_PASS",
+      "exit_code": 0,
+      "snapshots": 282,
+      "device_sps": 249.96390270795322,
+      "samples_advanced": 38086,
+      "clipped_samples_advanced": 0,
+      "HR_RR_simultaneous_acceptance": false,
+      "CPU_ROM_root_cause": "UNRESOLVED",
+      "explicit_target_reset_halt_go_writes": 0,
+      "sdk_calls": 4829,
+      "close_resume": true
+    },
+    "B_CAN1_ESR_nonzero_observations": 2,
+    "recording_gap_between_parts": true,
+    "full_180s_acceptance": false,
+    "HR_RR_simultaneous_acceptance": false,
+    "C_STOP_captured": false,
+    "observed_problem": "C_CAPTURE_SCHEDULING_STARVATION_AND_A_PORT_ADMIN_DISABLE_OVERRIDDEN; NEW_C_SOFTWARE_CANDIDATE_NOT_INSTALLED"
+  },
+  "physiology": {
+    "saved_observations": 168,
+    "HR_valid_observations": 0,
+    "RR_valid_observations": 0,
+    "same_observation_both_valid": 0,
+    "source_settings_this_window": "NOT_INDEPENDENTLY_REFROZEN_NO_ACCURACY_CLAIM",
+    "simultaneous_acceptance": false
+  }
+}

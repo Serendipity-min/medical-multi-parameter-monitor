@@ -1,0 +1,33 @@
+{
+  "scope": "ORDINARY_ARM_BUILD_NO_DOWNLOAD",
+  "exit_code": 0,
+  "zero_errors_observed": true,
+  "zero_warnings_observed": true,
+  "CMSIS_library_sha256": "ba416f23efb992105c36b67d9002d8142e38877d1010c0e0a1d0f74b83325ab7",
+  "outputs": {
+    "BIO_V2.axf": {
+      "bytes": 576180,
+      "sha256": "6c3f9497d821df82c07bc499b6ced7d96fe1d5d0a6283dbb6fa18c14e081f580"
+    },
+    "BIO_V2.bin": {
+      "bytes": 25284,
+      "sha256": "438a8120f6df06ce219cdc30c0e5b697ac0e993f98d5a80521b10361536ae3ae"
+    },
+    "symbols.txt": {
+      "bytes": 91767,
+      "sha256": "62d191709b0eec491cf66f4accd6c96ddc8701f86ad2c05c6dd8a7feb38bf6dc"
+    }
+  },
+  "tool_sha256": {
+    "UV4": "d5e1f1cbcdd06fb27ac19a72b9f21a7286e6b8d79f58c21f43a7b9dc617874d8",
+    "fromelf": "65145272c817c19d9fc3c498a8ff26765e09a86ed82b307bb0cccf65767a8b51"
+  },
+  "resources": {
+    "code": 24232,
+    "ro": 968,
+    "rw": 332,
+    "zi": 11748
+  },
+  "old_algorithm_symbols": [],
+  "status": "PASS"
+}

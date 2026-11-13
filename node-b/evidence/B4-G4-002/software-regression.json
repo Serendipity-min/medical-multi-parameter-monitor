@@ -1,0 +1,260 @@
+{
+  "C_bench": {
+    "status": "PASS",
+    "artifact_sha256": {
+      "B4_GATEWAY_BENCH.bin": "d30a35e7f7729c16f580c67e660f1f01a76e111606474f6b5e2a4eff8f44ac12",
+      "B4_GATEWAY_BENCH.elf": "40763a9d87197f643bf88071c1601ee292f4356984fcb89ed6f1bc38805c1242"
+    },
+    "bench_UART_IRQ_vector_verified": true,
+    "bench_forbidden_symbols_absent": true,
+    "source_sha256": {
+      "gateway\\dual_can\\system_hse.c": "5192e6351edae0ce2b5ad90e1dced3e38af944ae50645131a54e75fba22a04db",
+      "gateway\\dual_can\\b4_bus.c": "1c53e14f3264d6202e5bcf0e83f1f269f2696c997e0077caa81449560c66ed60",
+      "gateway\\dual_can\\b4_gateway.c": "a2dd6a9554381ee087aaa4a5ba9fe61413c59829c44853e15016afb71a6c5958",
+      "gateway\\dual_can\\b4_bxcan.c": "19dbe0e6bf5f0e81ca0cdc45acd757fb80bb279fde85db00aa4dec6453d9daeb",
+      "gateway\\canopen\\src\\mp_od.c": "687e3c58770a5f7ad0de96eeeda089515be44f4458fd854395811b852fb7c0fc",
+      "gateway\\data_model\\model.c": "5b7cf8b601af68558447bad8335fd2653f7e9d0c86e02823e003995151dcdc1e",
+      "gateway\\storage\\router.c": "66565a7cd649f8bcad0c3d8ccda20aa08dbb79cc5d29b3143e8dd09688227462",
+      "gateway\\mqtt\\src\\heap.c": "20bf6b3b9c5ddc276ba4d85016ce14ae1425c18e24e5f020bea011d9168b2923",
+      "gateway\\esp_at_probe\\src\\syscalls.c": "796e258d6c2e20e2d1f629c43d7d6ea17b32d3040c466055ae9a2a084caf9ead",
+      "gateway\\third_party\\CANopenNode\\CANopen.c": "880ce212a88b13d00d88cc3ad2bd0361e8eff904645f8d67c85f215805a9b658",
+      "gateway\\third_party\\CANopenNode\\301\\CO_Emergency.c": "be85a4515c3b5b0c0da37e9025a4f60d8eae4fef739d7b4df463c16705bb06cb",
+      "gateway\\third_party\\CANopenNode\\301\\CO_fifo.c": "f7bd28caa6af90bd243fddf500058113dd9cf0a22e46638c4b6f0c331fb6c3fc",
+      "gateway\\third_party\\CANopenNode\\301\\CO_HBconsumer.c": "8507404f1fcf5e66680699cb3f698ea805d337a6f5c01e7688a780ac54ca0a8e",
+      "gateway\\third_party\\CANopenNode\\301\\CO_NMT_Heartbeat.c": "2ad2b2f92ea1198de0ca3b28465d50039a8de09f6f33587ee9735c7b63e2589d",
+      "gateway\\third_party\\CANopenNode\\301\\CO_Node_Guarding.c": "08549daae43832074b2c5e9f454d7d5793666621f69d37c27ebc6497cd9b9922",
+      "gateway\\third_party\\CANopenNode\\301\\CO_ODinterface.c": "af3672c73c8b2e6141fb59a21d0f8b757240fc77dc25720b446a21a96fc1dd75",
+      "gateway\\third_party\\CANopenNode\\301\\CO_PDO.c": "4791d3acaa044fbe4c05b3b9cd4cbe76c07d9534b04adda3f3df12fdc71a2252",
+      "gateway\\third_party\\CANopenNode\\301\\CO_SDOclient.c": "2c5a779e4ec9e65215e3ebd119dfddcee98bac4d6ea59574e6f6d90d1f3b5529",
+      "gateway\\third_party\\CANopenNode\\301\\CO_SDOserver.c": "27d3e86c519bd99e388f57f5b44192a44d75aaf3247aae9e00db13a17fddd00b",
+      "gateway\\third_party\\CANopenNode\\301\\CO_SYNC.c": "f140a45ea032cbf360a2fb8429ed7498a37c1e9ecedcb2b5d6dc387ea21c78a9",
+      "gateway\\third_party\\CANopenNode\\301\\CO_TIME.c": "bea365c4d56bcd83182018c54fa4c2bf921dd835d10f3332ef191a148ff17bdc",
+      "gateway\\third_party\\CANopenNode\\301\\crc16-ccitt.c": "bc9a9278008276eefd264e6724b906230f7f8b3c32183c50443201c4ff4f25b8",
+      "external-sdk/stm32f4xx_rcc.c": "4169568c167d701fada6c2366d2537c62d194dbe9a311e513fc9ff80061dc998",
+      "external-sdk/stm32f4xx_gpio.c": "3043fe9e52501fad9cea9afa95e741f0697d658471d930610447623784e80bf8",
+      "external-sdk/stm32f4xx_can.c": "ee493be61736abf05c1adfc2d0fdfa9a17d01cc8301bf3536a039e8731a5d09f",
+      "external-sdk/misc.c": "4d0b131e42b44e8ad0de1630acf5dccfa7800d2bd952933ea639d79faf3f08c9",
+      "gateway\\dual_can\\bench_main.c": "8b221ce09a1d68af58249ac0d2b8469fd4c02f5071500174fad6cd3f6c66d537",
+      "gateway\\dual_can\\b4_bench.c": "7253c892e516fe06b899942d96f92b8aafaaad1505839d953a827dfe87163ae7",
+      "gateway\\dual_can\\b4_capture.c": "1d1e493da5915223923affa1759d948c34802b1340003173413c86cbc339bc2b",
+      "gateway\\dual_can\\b4_capture_uart.c": "3d124f9a8acbd56d2e1f27ba256e69a1f7584ac37c3f467df6e8301b701e4882",
+      "external-sdk/stm32f4xx_usart.c": "f76877834c69e6f44f6a5daa61191ae06c17ef19c80318b3e05542f7bd6d869c"
+    },
+    "log_sha256": "c6c5ec1774a1b70e853057930cc9303cc8b386a35c5ec2e1a6a427bbec21602c"
+  },
+  "C_network": {
+    "status": "PASS",
+    "artifact_sha256": {
+      "B4_GATEWAY_NETWORK_SOFTWARE.bin": "0661fa91db8f0a50d9853d230f741c3a555dafa5bd740c628a313e9bc2e38860",
+      "B4_GATEWAY_NETWORK_SOFTWARE.elf": "6422f8f580735bc26d501c7ff300581534a3f5c147cb01c7b916d401eac9b930"
+    },
+    "bench_forbidden_symbols_absent": false,
+    "source_sha256": {
+      "gateway\\dual_can\\system_hse.c": "5192e6351edae0ce2b5ad90e1dced3e38af944ae50645131a54e75fba22a04db",
+      "gateway\\dual_can\\b4_bus.c": "1c53e14f3264d6202e5bcf0e83f1f269f2696c997e0077caa81449560c66ed60",
+      "gateway\\dual_can\\b4_gateway.c": "a2dd6a9554381ee087aaa4a5ba9fe61413c59829c44853e15016afb71a6c5958",
+      "gateway\\dual_can\\b4_bxcan.c": "19dbe0e6bf5f0e81ca0cdc45acd757fb80bb279fde85db00aa4dec6453d9daeb",
+      "gateway\\canopen\\src\\mp_od.c": "687e3c58770a5f7ad0de96eeeda089515be44f4458fd854395811b852fb7c0fc",
+      "gateway\\data_model\\model.c": "5b7cf8b601af68558447bad8335fd2653f7e9d0c86e02823e003995151dcdc1e",
+      "gateway\\storage\\router.c": "66565a7cd649f8bcad0c3d8ccda20aa08dbb79cc5d29b3143e8dd09688227462",
+      "gateway\\third_party\\CANopenNode\\CANopen.c": "880ce212a88b13d00d88cc3ad2bd0361e8eff904645f8d67c85f215805a9b658",
+      "gateway\\third_party\\CANopenNode\\301\\CO_Emergency.c": "be85a4515c3b5b0c0da37e9025a4f60d8eae4fef739d7b4df463c16705bb06cb",
+      "gateway\\third_party\\CANopenNode\\301\\CO_fifo.c": "f7bd28caa6af90bd243fddf500058113dd9cf0a22e46638c4b6f0c331fb6c3fc",
+      "gateway\\third_party\\CANopenNode\\301\\CO_HBconsumer.c": "8507404f1fcf5e66680699cb3f698ea805d337a6f5c01e7688a780ac54ca0a8e",
+      "gateway\\third_party\\CANopenNode\\301\\CO_NMT_Heartbeat.c": "2ad2b2f92ea1198de0ca3b28465d50039a8de09f6f33587ee9735c7b63e2589d",
+      "gateway\\third_party\\CANopenNode\\301\\CO_Node_Guarding.c": "08549daae43832074b2c5e9f454d7d5793666621f69d37c27ebc6497cd9b9922",
+      "gateway\\third_party\\CANopenNode\\301\\CO_ODinterface.c": "af3672c73c8b2e6141fb59a21d0f8b757240fc77dc25720b446a21a96fc1dd75",
+      "gateway\\third_party\\CANopenNode\\301\\CO_PDO.c": "4791d3acaa044fbe4c05b3b9cd4cbe76c07d9534b04adda3f3df12fdc71a2252",
+      "gateway\\third_party\\CANopenNode\\301\\CO_SDOclient.c": "2c5a779e4ec9e65215e3ebd119dfddcee98bac4d6ea59574e6f6d90d1f3b5529",
+      "gateway\\third_party\\CANopenNode\\301\\CO_SDOserver.c": "27d3e86c519bd99e388f57f5b44192a44d75aaf3247aae9e00db13a17fddd00b",
+      "gateway\\third_party\\CANopenNode\\301\\CO_SYNC.c": "f140a45ea032cbf360a2fb8429ed7498a37c1e9ecedcb2b5d6dc387ea21c78a9",
+      "gateway\\third_party\\CANopenNode\\301\\CO_TIME.c": "bea365c4d56bcd83182018c54fa4c2bf921dd835d10f3332ef191a148ff17bdc",
+      "gateway\\third_party\\CANopenNode\\301\\crc16-ccitt.c": "bc9a9278008276eefd264e6724b906230f7f8b3c32183c50443201c4ff4f25b8",
+      "external-sdk/stm32f4xx_rcc.c": "4169568c167d701fada6c2366d2537c62d194dbe9a311e513fc9ff80061dc998",
+      "external-sdk/stm32f4xx_gpio.c": "3043fe9e52501fad9cea9afa95e741f0697d658471d930610447623784e80bf8",
+      "external-sdk/stm32f4xx_can.c": "ee493be61736abf05c1adfc2d0fdfa9a17d01cc8301bf3536a039e8731a5d09f",
+      "external-sdk/misc.c": "4d0b131e42b44e8ad0de1630acf5dccfa7800d2bd952933ea639d79faf3f08c9",
+      "gateway\\dual_can\\network_main.c": "2bcadc1071d56a34644fc395728b4dec5f5cf75ef7a53b8e50d207f8c64edb07",
+      "node-b\\build\\b4-c-arm-20261026T015620189951Z\\reference-h3\\gateway\\mqtt\\src\\gateway_assert.c": "87dbe88014694a220f3e167afc19314aa3a1e96d2cbbd0619e6dbbd405b5dca3",
+      "node-b\\build\\b4-c-arm-20261026T015620189951Z\\reference-h3\\gateway\\mqtt\\src\\gateway_transport.c": "f8887c7c7e8f224d24427a87353239febe63d47531cdb4bf61d5ceb36cd669bf",
+      "node-b\\build\\b4-c-arm-20261026T015620189951Z\\reference-h3\\gateway\\mqtt\\src\\heap.c": "bdb5d77427981fec79d6d8f5db2be1bd25571eb69d43243e738cd593712b1c84",
+      "node-b\\build\\b4-c-arm-20261026T015620189951Z\\reference-h3\\gateway\\mqtt\\src\\mqtt_transport_adapter.c": "e9ea41b21ced0c9faa1cea8646562c69aa8e63e0506dfd4fa9f66f7bdf795028",
+      "node-b\\build\\b4-c-arm-20261026T015620189951Z\\reference-h3\\gateway\\mqtt\\src\\platform.c": "e7bf612f30ce2b50bf4ecd1b952f7d6f655d5fed3f985d52a5556a0c7bcdcf9b",
+      "node-b\\build\\b4-c-arm-20261026T015620189951Z\\reference-h3\\gateway\\esp_at_probe\\src\\syscalls.c": "deaead7c0589a041d64df8972f1febf2cc7257e52421bed4cd1089b70c5a8ff5",
+      "node-b\\build\\b4-c-arm-20261026T015620189951Z\\reference-h3\\gateway\\esp_at_probe\\src\\stm32f4xx_it.c": "7f03813037c03e0608f0ac3594898d498b428cad607a84e41ffa7a0b87f63496",
+      "external-sdk/stm32f4xx_usart.c": "f76877834c69e6f44f6a5daa61191ae06c17ef19c80318b3e05542f7bd6d869c",
+      "gateway\\third_party\\coreMQTT\\source\\core_mqtt.c": "98cfdd1651acd725296164e9a865c51d0cd137b531a54e2e0c937846c202de0c",
+      "gateway\\third_party\\coreMQTT\\source\\core_mqtt_serializer.c": "1e4bf5a2b307f37f3cbc83a898e9c6b89b873daf93968fddb81eac06bb113c0b",
+      "gateway\\third_party\\coreMQTT\\source\\core_mqtt_state.c": "af5c215f11692c7ced8a90b9d6f9c9c23d2476538ff77a38952945f642fbc8cf"
+    },
+    "log_sha256": "e051fa9373df7b00c1d37caa39cc4964eec960d4f8973e625ce04bf21bd462e0"
+  },
+  "bench_Host": {
+    "status": "PASS",
+    "cases": [
+      {
+        "name": "compile-bench-host",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "passed": true
+      },
+      {
+        "name": "bench-protocol",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "passed": true
+      },
+      {
+        "name": "recovery-nor-and-negative-cases",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "passed": true
+      },
+      {
+        "name": "bench-network-mutually-exclusive",
+        "exit_code": 2,
+        "expected_exit": 2,
+        "passed": true
+      },
+      {
+        "name": "compile-capture",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "passed": true
+      },
+      {
+        "name": "capture-polled-host",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "passed": true
+      },
+      {
+        "name": "capture-explicit-overflow",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "passed": true
+      },
+      {
+        "name": "capture-independent-IRQ-service",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "passed": true
+      },
+      {
+        "name": "compile-link-policy-network",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "passed": true
+      },
+      {
+        "name": "link-policy-network",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "passed": true
+      },
+      {
+        "name": "compile-link-policy-isolated",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "passed": true
+      },
+      {
+        "name": "link-policy-isolated",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "passed": true
+      }
+    ]
+  },
+  "B4_Host": {
+    "status": "PASS",
+    "cases": [
+      {
+        "name": "compile-node-b",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "passed": true
+      },
+      {
+        "name": "node-b-protocol",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "passed": true
+      },
+      {
+        "name": "node-b-jitter-protocol",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "passed": true
+      },
+      {
+        "name": "compile-ecg-gain4",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "passed": true
+      },
+      {
+        "name": "ecg-gain4-wire-and-json",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "passed": true
+      },
+      {
+        "name": "ecg-gain4-existing-backend",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "passed": true
+      },
+      {
+        "name": "compile-dual-gateway",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "passed": true
+      },
+      {
+        "name": "dual-gateway",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "passed": true
+      },
+      {
+        "name": "dual-gateway-5s-mqtt-pressure",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "passed": true
+      },
+      {
+        "name": "dual-gateway-jitter",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "passed": true
+      },
+      {
+        "name": "c-to-existing-backend",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "passed": true
+      },
+      {
+        "name": "i2s2-conflict-negative",
+        "exit_code": 1,
+        "expected_exit": 1,
+        "passed": true
+      },
+      {
+        "name": "mixed-model-abi-negative",
+        "exit_code": 1,
+        "expected_exit": 1,
+        "passed": true
+      }
+    ]
+  },
+  "python_tools": {
+    "tests": 132,
+    "exit_code": 0
+  },
+  "BIO_source_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+  "MQTT_worst_complete_packet_bytes": 1534,
+  "MQTT_capacity": 2048,
+  "hardware_acceptance": false
+}

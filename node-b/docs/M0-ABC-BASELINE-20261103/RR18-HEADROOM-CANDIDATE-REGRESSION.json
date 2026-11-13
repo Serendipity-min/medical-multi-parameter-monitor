@@ -1,0 +1,43 @@
+{
+  "status": "CANDIDATE_HOST_PASS_FIELD_NOT_RUN",
+  "scheduler_counterexample_before_native_exit": 3,
+  "scheduler_counterexample_after_native_exit": 0,
+  "rule": "fixed live capacity margin plus <=3500ms queued source age, no mode condition; old5000ms medical expiry unchanged",
+  "default_host_cases": 10,
+  "default_host_native_exit": 0,
+  "exploratory_payload_300ms_ACK": {
+    "native_exit": 3,
+    "runner_native_exit": 1,
+    "B_ECG_points": 75000,
+    "B_RESP_points": 15000,
+    "B_HR": 300,
+    "B_TEMP": 300,
+    "stale": 0,
+    "source_gaps": 0,
+    "voice_ms": 116896,
+    "audio_blocks": 125,
+    "live_overflow": 0,
+    "expired": 0,
+    "A_history_overwrites": 219,
+    "A_latest_replacements": 275,
+    "verdict": "NOT_PASS_HISTORY_RETENTION"
+  },
+  "B_RR_source_issue": {
+    "time_s": [
+      141,
+      154
+    ],
+    "reasons": [
+      "NO_CYCLES",
+      "EXPIRED"
+    ],
+    "raw_ADC_errors": 0,
+    "clipped_samples": 0,
+    "source_RMS_codes": [
+      1069.7734375,
+      727.3551025390625
+    ],
+    "cause": "UNRESOLVED",
+    "algorithm_changed": false
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "status": "G3_STOP_AT_HANDSHAKE_BEFORE_COMMON_WINDOW",
+  "exit_code": 1,
+  "supervisor": {
+    "supervisor_reason": null,
+    "worker_exit_code": 1,
+    "supervisor_exit_code": 1,
+    "automatic_retry_or_recovery": false,
+    "process_tree_killed_is_not_MCU_stop": true,
+    "G3_B5START_attempted": true
+  },
+  "B5START_attempts": 1,
+  "START_write_bytes": 8,
+  "START_command_sha256": "a3749dc530005c1da18ac057f4782dfee4556aef3ccce669b68dd4fab2023db2",
+  "first_failure": "GW FAIL AT",
+  "time_START_to_failure_s": 2.078,
+  "fresh_T0": false,
+  "formal_evaluation_seconds": 0,
+  "actual_AT_version": "UNKNOWN_GMR_NOT_REACHED",
+  "root_cause": "ESP_AT_HANDSHAKE_UNRESOLVED",
+  "P5_route": "OWNER_CONFIRMED_CORRECT_AFTER_FAILURE",
+  "B_failure_is_stop_propagation": true,
+  "observations": {
+    "B_saved_diagnostics_before_stop": 94,
+    "B_observed_device_SPS": 250.0,
+    "B_HR_observed": [
+      60
+    ],
+    "B_HR_all_observed_valid": true,
+    "B_RR_valid_observations": 0,
+    "B_current_ADC_errors": {
+      "bad_status": 0,
+      "spi_errors": 0,
+      "queue_overflow": 0,
+      "init_errors": 0,
+      "long_gap_count": 0
+    },
+    "cloud_event_kinds": {
+      "BACKEND_HEALTH_BEFORE": 1,
+      "OBSERVER_CONNACK": 1,
+      "OBSERVER_SUBACK": 1,
+      "WSS_RAW": 714,
+      "BACKEND_HEALTH": 54,
+      "BACKEND_ARM_BASELINE": 1,
+      "BACKEND_HEALTH_AFTER": 1
+    },
+    "observer_CONNACK": [
+      {
+        "code": 0
+      }
+    ],
+    "observer_SUBACK": [
+      {
+        "mid": 1,
+        "codes": [
+          1
+        ]
+      }
+    ],
+    "Broker_raw_after_arm": 0,
+    "Backend_health_statuses": [
+      {
+        "kind": "BACKEND_HEALTH_BEFORE",
+        "status": "ok",
+        "mqtt_connected": true,
+        "accepted": 0,
+        "rejected": 0,
+        "dropped": 0
+      },
+      {
+        "kind": "BACKEND_HEALTH_AFTER",
+        "status": "ok",
+        "mqtt_connected": true,
+        "accepted": 0,
+        "rejected": 0,
+        "dropped": 0
+      }
+    ],
+    "fresh_G3_T0": false
+  },
+  "hard_deadline_CST": "2026-10-27T14:12:54.661+08:00",
+  "MCU_STOP_receipt": "NOT_OBSERVED_RECORDERS_CLOSED_AFTER_FAILURE",
+  "physical_poweroff": "NOT_CONFIRMED_OWNER_REQUESTED_ANALYSIS_BEFORE_DECISION",
+  "Flash_options_sector3_GPIO_threshold_writes": 0,
+  "new_hardware_connections_after_failure": 0,
+  "raw_EFS_files": 506,
+  "raw_manifest_sha256": "926b5432e8e8d1f0a3ef824d94e7d40bf1bae7465b541392ff9c8f9444441d64",
+  "owner_scope_card_sha256": "fde00af32c1b05b64c9574782c01bc8b699221d5aa40ce549efc97e5a8c40e84",
+  "CPU_ROM_ROOT_CAUSE": "UNRESOLVED",
+  "host_automatic_retries_or_recovery": 0,
+  "host_new_AT_or_START_after_failure": 0,
+  "C_autonomous_network_after_recorders_closed": "NOT_OBSERVED_UNTIL_OWNER_LATER_COLD_POWER_REMOVAL",
+  "Broker_0_acceptance_scope": "Captured interval after single START, not an observation of the entire remaining 420 seconds"
+}

@@ -1,0 +1,54 @@
+{
+  "baseline": "010706e2b196b59e489c2dfde557301dae0d0337",
+  "branch": "codex/abc-two-group-integration-20261031",
+  "A_source_base": "3fa14b00a0823d2855e9dd8bd1c6c8545abb8dc5",
+  "A_reused_H3_completion_extension": "b57f5464391174ca2bf45d0ed3453bd1cfe42093",
+  "A_candidate": {
+    "compiler_optimization": "ARMCC_O1_PROJECT_Optim2",
+    "BIN_bytes": 42608,
+    "BIN_sha256": "953c6acc23dcbfcd5a30f138b03f8a6de9430637b0da5477afb2f09b3f431eeb",
+    "AXF_sha256": "9cd015cdfa59fc77e06b18b5d87407126d087f00da152d2f14bf8d2589fe4a18",
+    "application_start": "0x08000000",
+    "application_end_exclusive": "0x800a670",
+    "fits48KiB": true,
+    "erase_sectors": [
+      0,
+      1,
+      2
+    ],
+    "sector3_must_be_preserved": true,
+    "Keil_actual_exit_code": 0,
+    "fromelf_actual_exit_code": 0
+  },
+  "C_candidate": {
+    "bytes": 44408,
+    "sha256": "67c0000786a392d35c03ca17e897bf3803967a1a8a4e9da7cbf71250483f313d",
+    "sectors": [
+      0,
+      1,
+      2
+    ],
+    "LTO": true,
+    "original_B_only_build_default_retained": true,
+    "A_nibp_completion_trace": true
+  },
+  "A_host_compile_exit": 0,
+  "A_host_test_exit": 0,
+  "T0_core_runner_exit": 0,
+  "T0_core_checks": 14,
+  "ABC_components_exit": 0,
+  "ABC_components_checks": 18,
+  "install_adapter_tests_exit": 0,
+  "A_backup_exit": 0,
+  "A_initial_ROM_stop_preserved": true,
+  "owner_BOOT_change_then_Flash_running_proven": true,
+  "cloud_test_units_resumed": true,
+  "formal_cloud_config_or_ACL_writes": 0,
+  "field_two_group_tests": "NOT_RUN_YET",
+  "PI_signature_nonce_execution_cards": "NOT_USED_BY_CURRENT_OWNER_INSTRUCTION",
+  "restricted_locator": "node-b/build/abc-two-group-pointer.json",
+  "A_install_exit": 0,
+  "C_backup_exit": 0,
+  "C_initial_ROM_stop_preserved": true,
+  "C_owner_BOOT_change_then_Flash_running_proven": true
+}

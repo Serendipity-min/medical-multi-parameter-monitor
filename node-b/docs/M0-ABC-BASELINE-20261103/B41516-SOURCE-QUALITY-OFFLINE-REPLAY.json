@@ -1,0 +1,47 @@
+{
+  "scope": "SAME_B41516_C_SOURCE_HOST_REPLAY_NOT_PHYSICAL_ROOT_CAUSE",
+  "compiler_native_exit": 0,
+  "source_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+  "header_sha256": "76198016006ab8de6126a7cb051aeb3ab296c5655152c74cf5565bd85aba0913",
+  "host_artifact_sha256": "9789de04fe0b65de83a98e9ca151b7325c4595042247fe3ecb53347b5a497758",
+  "private_receipt_sha256": "38aad31882ecfe0d8d49c91fd1e269d2dfc26c74548f50a7fdf95ea8ebb0508d",
+  "live_HR_invalid_sequence_range": [
+    63008,
+    65119
+  ],
+  "host_HR_valid_episode_gaps": [
+    {
+      "after_seq": 62978,
+      "before_seq": 65151,
+      "duration_ms": 8693
+    }
+  ],
+  "unqualified_raw_gaps_near_live_event": [],
+  "results": {
+    "CURRENT_ECG60_WITH_HR_INVALID": {
+      "verified_input_samples": 122797,
+      "hr_valid_fraction": 0.980529,
+      "hr_rates_while_valid": {
+        "60": 109376
+      },
+      "rr_valid_samples": 2500
+    },
+    "CURRENT_RR18_ENTRY_INVALID": {
+      "verified_input_samples": 21678,
+      "hr_valid_fraction": 0.0,
+      "hr_rates_while_valid": {},
+      "rr_valid_samples": 0
+    },
+    "PRIOR_ECG60_PASSED_POSITIVE": {
+      "verified_input_samples": 114660,
+      "hr_valid_fraction": 1.0,
+      "hr_rates_while_valid": {
+        "60": 103411
+      },
+      "rr_valid_samples": 0
+    }
+  },
+  "physical_cause": "ROOT_CAUSE_UNRESOLVED",
+  "algorithm_changes": false,
+  "old_frozen_results_modified": false
+}

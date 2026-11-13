@@ -1,0 +1,95 @@
+{
+  "installation": {
+    "board": "D",
+    "exit_code": 0,
+    "status": "D_M1_SECTOR01_FULL_VERIFY_BOOT_PASS",
+    "sectors": [
+      0,
+      1
+    ],
+    "original_application_backup_required": false,
+    "automatic_retry_or_restore": false,
+    "full_flash_sha256": "431d155c7e56f449487e19cad24e09fc96de1557fc6c17aeb492d5316ae6497a",
+    "candidate_sha256": "a9fb8437adfc5e2dd35e4941688fc84b632651d94bf39c98d42555701984500b",
+    "candidate_bytes": 24544,
+    "options_unchanged": true,
+    "outside_affected_sectors_unchanged": true,
+    "Close_completed": true,
+    "native_actions": {
+      "JLINKARM_Halt": 1,
+      "JLINKARM_BeginDownload": 1,
+      "JLINKARM_WriteMem": 1,
+      "JLINKARM_EndDownload": 1,
+      "JLINKARM_Reset": 1,
+      "JLINKARM_Go": 1
+    }
+  },
+  "local_temperature": {
+    "status": "D_LOCAL_GY641_FRESH_SOURCE_ENGINEERING_PASS",
+    "exit_code": 0,
+    "scope": "D_LOCAL_GY641_READONLY_C_B_OFF",
+    "target_Halt_Reset_Go_Flash_UART_writes": 0,
+    "screen_visual": "PENDING_OWNER",
+    "CAN_link": "NOT_RUN_NO_POWERED_PEER",
+    "observations": 30,
+    "qualified_observations": 30,
+    "valid_observations": 30,
+    "temperature_C_range": [
+      23.23,
+      23.47
+    ],
+    "expected_screen_values_C": [
+      "23.2",
+      "23.3",
+      "23.4",
+      "23.5"
+    ],
+    "GY641_new_frames": 67,
+    "new_errors": {
+      "overflow": 0,
+      "uart_errors": 0,
+      "checksum_errors": 0,
+      "header_errors": 0
+    },
+    "D_CAN1_ESR_isolated_no_peer": 1140850773,
+    "Close_completed": true
+  },
+  "screen_registers": {
+    "status": "D_SCREEN_USART3_REGISTER_CONFIGURATION_OBSERVED",
+    "exit_code": 0,
+    "target_writes": 0,
+    "registers_hex": {
+      "RCC_CFGR": "0x940a",
+      "RCC_APB1ENR": "0x120c0001",
+      "GPIOB_MODER": "0x200280",
+      "GPIOB_PUPDR": "0x100100",
+      "GPIOB_IDR": "0x718",
+      "GPIOB_AFRH": "0x700",
+      "USART3_SR": "0xc0",
+      "USART3_BRR": "0x16c",
+      "USART3_CR1": "0x2008",
+      "USART3_CR2": "0x0",
+      "USART3_CR3": "0x0",
+      "UART4_BRR": "0x1117",
+      "D_tick": "0x2968f"
+    },
+    "PB10_mode_AF": true,
+    "PB10_AF7": true,
+    "USART3_TX_enabled": true,
+    "timebase_progressed": true,
+    "Close_completed": true
+  },
+  "operator_screen_after_M1": {
+    "value": "36.5",
+    "refresh": false,
+    "status": "NOT_PASS"
+  },
+  "D_CAN_pending": {
+    "ESR_hex": "0x44000055",
+    "BOFF": true,
+    "REC": 68,
+    "TEC": 0,
+    "scope": "single snapshot with D standalone; cause not established; no CAN PASS; inspect route before further testing"
+  },
+  "status": "OWNER_PAUSED_NO_FURTHER_TARGET_ACTIONS"
+}

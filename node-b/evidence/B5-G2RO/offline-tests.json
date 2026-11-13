@@ -1,0 +1,38 @@
+{
+  "scope": "G2RO_NEW_TOOL_AND_SUPERVISOR_OFFLINE",
+  "attempt1": {
+    "actual_exit_code": 1,
+    "tests": 20,
+    "failures": 1,
+    "errors": 1,
+    "reason": "synthetic fixture inserted 17-byte text into 16-byte slice; length guard added",
+    "raw_original": "INTERACTIVE_TOOL_TRANSCRIPT_RETAINED"
+  },
+  "attempt2": {
+    "actual_exit_code": 0,
+    "raw_log_sha256": "7996d1169c6516826c197ab6d7595c16652f28e8940b9ff37b09c9a577491e7d",
+    "tests": 20
+  },
+  "DLL_loaded": false,
+  "hardware_operations": 0,
+  "cloud_operations": 0,
+  "existing_Host_ARM_UI_TLS_rerun": false,
+  "attempt3": {
+    "actual_exit_code": 0,
+    "raw_log_sha256": "59e8f1f155dbbc12132aa8c75327a1e2f4799419b3205447886fd12b78aa86c7",
+    "test_file_sha256": "50e210453efb02de517fc8a2795a7e4255e597eac2d45d1e8f7e1488343fea7f",
+    "tests": 24
+  },
+  "attempt4": {
+    "actual_exit_code": 0,
+    "tests": 25,
+    "raw_log_sha256": "10ce65e7a237826e2f80a905c221bc9db58d0bba7767fee7e6a79518fa30c93a",
+    "test_file_sha256": "dbdedb9686bbc71ba3598e923a6af777ab0c4ff59d638579fb7ec5b7a72c4471"
+  },
+  "attempt5": {
+    "actual_exit_code": 0,
+    "tests": 26,
+    "raw_log_sha256": "f9dae7d0b27eeed035eee2a3a99d0d91abaf90825eee6364c0840d80ca95730d",
+    "test_file_sha256": "0fa9fb16f1e96abcb454a0d510e078ad064a3976856b090687ef3cc385f68fad"
+  }
+}

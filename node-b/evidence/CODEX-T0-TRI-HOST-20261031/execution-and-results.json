@@ -1,0 +1,161 @@
+{
+  "status": "T0_HOST_INTERFACE_INTEGRATION_PASS",
+  "base": "e78cd19197bda2f9986355e28ecf05ce5cf02fb9",
+  "first_full_process_exit_code": 1,
+  "first_full_failure": "Final path print only; all14 native cases already expected; original retained",
+  "final_full_process_exit_code": 0,
+  "full_run_count": 2,
+  "additional_full_runs_after_known_failure": 1,
+  "cases": [
+    {
+      "name": "compile-node-b",
+      "actual_exit_code": 0,
+      "expected_exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "node-b-protocol",
+      "actual_exit_code": 0,
+      "expected_exit_code": 0,
+      "log_sha256": "7094aeca649ba975be92cf1c236ec77124300d6d219b89c7d3ffb30faa1686d4"
+    },
+    {
+      "name": "node-b-jitter-protocol",
+      "actual_exit_code": 0,
+      "expected_exit_code": 0,
+      "log_sha256": "48dc0d4290f007ccfc310970f1fb5b7bc8a8bb03d812068e7cbfa31b4a480705"
+    },
+    {
+      "name": "compile-ecg-gain4",
+      "actual_exit_code": 0,
+      "expected_exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "ecg-gain4-wire-and-json",
+      "actual_exit_code": 0,
+      "expected_exit_code": 0,
+      "log_sha256": "e9b09cfcfbc5c62860a0bbf5a153993ee2e2d01d6f14356e426bc9c98b15045d"
+    },
+    {
+      "name": "ecg-gain4-existing-backend",
+      "actual_exit_code": 0,
+      "expected_exit_code": 0,
+      "log_sha256": "99aa42547b3b9cfb1e72008df66fb4c7b2b72fb26e907ed9aabf1a9e571e06d8"
+    },
+    {
+      "name": "compile-dual-gateway",
+      "actual_exit_code": 0,
+      "expected_exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "dual-gateway",
+      "actual_exit_code": 0,
+      "expected_exit_code": 0,
+      "log_sha256": "4639ba54bab835756f7a34a36e8be1f30dfa8500748f0d226da99fbb5ae621c5"
+    },
+    {
+      "name": "dual-gateway-5s-mqtt-pressure",
+      "actual_exit_code": 0,
+      "expected_exit_code": 0,
+      "log_sha256": "6fd4f64305efed5edbcd5043947b1f99d4e23a1d795817e94e41664ed383b660"
+    },
+    {
+      "name": "dual-gateway-jitter",
+      "actual_exit_code": 0,
+      "expected_exit_code": 0,
+      "log_sha256": "4639ba54bab835756f7a34a36e8be1f30dfa8500748f0d226da99fbb5ae621c5"
+    },
+    {
+      "name": "c-to-existing-backend",
+      "actual_exit_code": 0,
+      "expected_exit_code": 0,
+      "log_sha256": "335f53772b017db5778f04d7eee821c0eae2202cc0695d239872de1f34773e30"
+    },
+    {
+      "name": "existing-ui-from-Hub-snapshots",
+      "actual_exit_code": 0,
+      "expected_exit_code": 0,
+      "log_sha256": "37be8199d5df5e47c7645f2559a270b6a10daf26bfef250d1e1da526b0bdfc92"
+    },
+    {
+      "name": "i2s2-conflict-negative",
+      "actual_exit_code": 1,
+      "expected_exit_code": 1,
+      "log_sha256": "275c3751ee9adb9dd3f1d5cd51a1dc0ded2c65a598848176c411e8a14ff86872"
+    },
+    {
+      "name": "mixed-model-abi-negative",
+      "actual_exit_code": 1,
+      "expected_exit_code": 1,
+      "log_sha256": "7dfd6ea37e9ec8dbd09d89332bacce179fd5301e877988232fd58d3cfcedf1cd"
+    }
+  ],
+  "native_negative_1_is_expected": [
+    "i2s2-conflict-negative",
+    "mixed-model-abi-negative"
+  ],
+  "targeted_legacy_operations": 4,
+  "targeted_legacy_runner_exit_code": 0,
+  "backend": {
+    "c_to_backend": 976,
+    "ecg_100_sample_batches": 222,
+    "temperature_records": 88,
+    "valid_temperature_records": 83,
+    "invalid_temperature_records": 5,
+    "Hub_UI_scenarios": 8,
+    "streams": [
+      "ECG",
+      "FAULT",
+      "HR",
+      "NIBP",
+      "NODE_STATUS",
+      "PPG",
+      "PR",
+      "RESP",
+      "RR",
+      "SPO2",
+      "TEMP"
+    ],
+    "schema_version": 1,
+    "network_access": false
+  },
+  "UI_subtests": 3,
+  "ordinary_temperature": {
+    "valid": 83,
+    "invalid": 5,
+    "value_degC": 33.07
+  },
+  "simulated_pressure": {
+    "consumer_pause_s": 5,
+    "router_dropped": 0,
+    "replayed": 50
+  },
+  "nominal_node_B": {
+    "ECG_samples": 22500,
+    "RESP_samples": 4500,
+    "duration_ms": 90000
+  },
+  "source_boundary": "A protocol model; real B producer/parser; real generic dual-CAN C/router/serializer; actual in-memory Hub/UI",
+  "runtime_versions": {
+    "gcc": {
+      "actual_exit_code": 0,
+      "version_first_line": "gcc.exe (x86_64-posix-seh-rev0, Built by MinGW-W64 project) 8.1.0",
+      "log_sha256": "6fd7cc88596832db1cc0e4cd1593c5ca63a027a9528cfd0d717c982484fb5b05",
+      "executable_sha256": "c5f0953f7a71ddcdf0852e1e44a43cef9b8fe121beba4d4202bfe6d405de47c0"
+    },
+    "node": {
+      "actual_exit_code": 0,
+      "version_first_line": "v24.11.1",
+      "log_sha256": "d3418c43c24a028c4774f8771e03c578ccc9021a4098708b6aa0b7f6686b5bbe"
+    }
+  },
+  "new_SDK_DLL_COM_loads": 0,
+  "network_and_cloud_service_actions": 0,
+  "hardware_Flash_RESET_START_actions": 0,
+  "old_65_plus_17_regressions": "NOT_RUN",
+  "real_RR15_source_truth": "UNKNOWN_ROOT_CAUSE_UNRESOLVED",
+  "T1_T2_T3_M1_M2_field": "NOT_AUTHORIZED",
+  "physical_sdk_side_effects": "UNRESOLVED_NOT_PROVEN_BY_HOST"
+}

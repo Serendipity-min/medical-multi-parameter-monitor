@@ -1,0 +1,55 @@
+{
+  "window": "matrix-ecg60-r3-01",
+  "capture_receipt_sha256": "abfbd2ba75cafa51086b26b2ceb61cb50e0799b01af3bd10bccbfe666a184fcf",
+  "capture_status": "CAPTURE_FILES_SAVED",
+  "profile_sha256": "4e298cf97e55ea8c7d01aa9509b54ef682256fcad6c9ba30cca835ec1cde1a7f",
+  "card_sha256": "09ac5988df14d1e64f4b253f7bf413497eed69f6c4923be1ab52401ded606584",
+  "source_record_sha256": "0a93909ef9796ab66689738bdb8ed5ec46d1ef7c606c2e139c8dcace4fd76105",
+  "raw_csv_sha256": "a5160a4f4e12425e8cd396faeab821c8b781d88de55e3b782448ef61e17a4177",
+  "window_elapsed_s": 92.06300000002375,
+  "export": {
+    "stable_frames": 23109,
+    "first_sequence": 6828,
+    "last_sequence": 29936,
+    "source_missing_within_span": 0,
+    "pending": 26,
+    "multi_repeat_conflicts": 0,
+    "paused_conflicts": 0,
+    "boot_count": 1,
+    "ch2_near_rail_fraction": 0.0,
+    "ch1_near_rail_fraction": 0.0,
+    "input_accuracy": "NOT_EVALUATED",
+    "peak_events": "NOT_LIVE_PER_BEAT_OFFLINE_REPLAY_REQUIRED"
+  },
+  "formal": {
+    "status": "ENGINEERING_RATE_WINDOW_PASS",
+    "failures": [],
+    "nominal_reference_bpm": 60,
+    "tolerance_bpm": 2,
+    "raw_steady_frames": 14994,
+    "live_steady_observations": 76,
+    "live_steady_hr_values": [
+      60
+    ],
+    "replay_steady_hr_values": [
+      60
+    ],
+    "observed_host_sps": 249.92765769249235,
+    "warmup_ms": 30000,
+    "analysis_interval_ms": [
+      30000,
+      90000
+    ],
+    "anchor_device_ms": 37422,
+    "scope": "Nominal simulator rate agreement; no clinical accuracy or per-beat sensitivity"
+  },
+  "halt_requests": 1,
+  "go_requests": 2,
+  "reset_requests": 0,
+  "tail_halt_confirmed": true,
+  "resume_confirmed": true,
+  "target_end_state": "RUNNING_BEFORE_CLOSE",
+  "bio_source_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+  "host_replay_dll_sha256": "d1b52e6bbb74fbb13dc68491e6d6b5d8d75a116e7b6aee5d80ad640d104c4584",
+  "rr_acceptance": "NOT_EVALUATED"
+}

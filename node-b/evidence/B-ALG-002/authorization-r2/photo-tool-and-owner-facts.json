@@ -1,0 +1,67 @@
+{
+  "scope": "OFFLINE_DOCUMENT_AND_IMAGE_REVIEW",
+  "hardware_access": false,
+  "owner_same_model_confirmation": true,
+  "owner_current_colors": {
+    "F": "green",
+    "R": "red",
+    "L": "yellow"
+  },
+  "design_mapping": "F -> third module RLD path; evidence-based inference, not continuity measurement",
+  "physical_continuity": "NOT_MEASURED",
+  "probe_target": "B_OWNER_LATEST",
+  "photos": [
+    {
+      "restricted_copy": "simulator-and-boards.jpg",
+      "bytes": 393514,
+      "sha256": "95fdda225ce2578b798564cc2b69626f4330aa43514a343b4bb85bf22af4395c"
+    },
+    {
+      "restricted_copy": "lead-clips.jpg",
+      "bytes": 543873,
+      "sha256": "dc4643bc8c463a1e2b2e81368c70d490c954b613285149c2434b3b3bf408a208"
+    }
+  ],
+  "visible_mcu_marking": "STM32F407ZGT6; B role of pictured board awaits confirmation",
+  "probe_policy_static_check": {
+    "InhibitConnectRetries_string_found": false,
+    "ForceAttachTarget_string_found": false,
+    "SetRestartOnClose_string_found": true,
+    "DisableAutoUpdateFW_string_found": true,
+    "conclusion": "V5.12 support not established; do not run to discover on attached B"
+  },
+  "created_utc": "2026-10-22T08:10:47.673820+00:00",
+  "owner_followup": {
+    "board_confirmed": "pictured STM32F407ZGT6 is B",
+    "powered": false,
+    "power_description_verbatim": "电源有J5，和jlink（可以供电3.3V）",
+    "boot_description_verbatim": "BOOT1,2均与GND短接",
+    "module_connected": true,
+    "no_human": true,
+    "probe_header_description_verbatim": "开发板KTAG模块",
+    "exclusive_operator": "Codex",
+    "other_debug_or_auto_flash_programs": false,
+    "simulator_lead_connection": null,
+    "only_one_physical_probe": null
+  },
+  "prior_review_status": "Design-level mapping resolved; actual continuity not measured; hardware still untouched",
+  "local_manual": {
+    "name": "UM08001_JLink.pdf",
+    "bytes": 4373708,
+    "sha256": "d18ec385626fd742c665581a99249146ab9fa27e6835bad5ec43045348f95773",
+    "reviewed_pages": [
+      84,
+      87,
+      94,
+      98,
+      99,
+      101,
+      395
+    ],
+    "probe_started": false
+  },
+  "preparation_notes": [
+    "First PDF excerpt print hit Windows GBK console encoding; repeated with explicit UTF-8. No device access.",
+    "Direct official RM0090 PDF retrieval failed; official ST indexed table and local CMSIS used for register offset evidence. No target reads."
+  ]
+}

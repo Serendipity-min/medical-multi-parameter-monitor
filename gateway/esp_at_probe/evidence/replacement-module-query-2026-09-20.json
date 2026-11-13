@@ -1,0 +1,82 @@
+{
+  "date": "2026-09-20",
+  "replacement_module": true,
+  "target_identity_matches_previous": true,
+  "backup_double_read_match": true,
+  "original_matches_previous": true,
+  "original_flash_sha256": "852d7618f8fc46c80cbe035ebd41f4e21e4d5a76a26cf10a39e0600f7a89ffb8",
+  "flash_bytes": 1048576,
+  "esp_firmware_changed": false,
+  "server_changed": false,
+  "completed": true,
+  "queries": [
+    {
+      "command": "AT",
+      "bytes": 10,
+      "receive_errors": 0,
+      "overflow": 0,
+      "result": "OK"
+    },
+    {
+      "command": "AT+GMR",
+      "bytes": 189,
+      "receive_errors": 0,
+      "overflow": 0,
+      "result": "OK",
+      "version_lines": [
+        "AT version:2.3.0.0-dev(s-bcd64d2 - ESP8266 - Jun 23 2021 11:42:05)",
+        "SDK version:v3.4-22-g967752e2",
+        "compile time(b498b58):Jun 30 2021 11:28:20",
+        "Bin version:2.2.0(ESP8266_1MB)"
+      ]
+    },
+    {
+      "command": "AT+UART_CUR?",
+      "bytes": 46,
+      "receive_errors": 0,
+      "overflow": 0,
+      "result": "OK"
+    },
+    {
+      "command": "AT+CIPSSLCCONF?",
+      "bytes": 133,
+      "receive_errors": 0,
+      "overflow": 0,
+      "result": "OK"
+    },
+    {
+      "command": "AT+CIPSSLCCN?",
+      "bytes": 21,
+      "receive_errors": 0,
+      "overflow": 0,
+      "result": "OK"
+    },
+    {
+      "command": "AT+CIPSSLCSNI?",
+      "bytes": 22,
+      "receive_errors": 0,
+      "overflow": 0,
+      "result": "OK"
+    },
+    {
+      "command": "AT+CIPRECVMODE?",
+      "bytes": 39,
+      "receive_errors": 0,
+      "overflow": 0,
+      "result": "OK"
+    }
+  ],
+  "original_flash_full_restore_verified": true,
+  "original_dma_adc_resumed": true,
+  "comparison_previous_evidence": "hardware-query.json",
+  "same_at_version_as_previous": false,
+  "tls_handshake_tested": false,
+  "physical_esp_flash_capacity_measured": false,
+  "queried_ssl_auth_modes": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ]
+}

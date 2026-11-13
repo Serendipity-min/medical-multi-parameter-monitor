@@ -1,0 +1,82 @@
+{
+  "status": "NORMAL_FLASH_EXIT_COMPARISON_PASS_AFTER_OWNER_RESET",
+  "exit_code": 0,
+  "owner_reported_C_manual_RESET": 1,
+  "agent_RESET": 0,
+  "total_batch_connections": 3,
+  "continuation_connections": 2,
+  "remaining_connections": 0,
+  "Go_consumed": 0,
+  "exit_resume_policy_applications": 2,
+  "after_close_session2_task_advance_ms": 883,
+  "post_close_session3_state": "NOT_OBSERVED_CONNECTION_BUDGET_EXHAUSTED",
+  "UART_Flash_sector3_B5START_cloud_actions": 0,
+  "ROM_HALT_unique_root_cause": "UNRESOLVED",
+  "first_ROM_failure_preserved": true,
+  "sessions": [
+    {
+      "session": 2,
+      "status": "RUNNING_AND_EXIT_VERIFIED",
+      "worker_exit_code": 0,
+      "supervisor_reason": null,
+      "elapsed_s": 1.077999999979511,
+      "SDK_calls": 92,
+      "entry_VTOR": "0x8000000",
+      "entry_DHCSR": "0x1010001",
+      "entry_DWT_PCSR": "0x80063de",
+      "entry_uptime_ms": 65926,
+      "exit_uptime_ms": 66086,
+      "DISARMED_entry_exit": [
+        true,
+        true
+      ],
+      "identity_header64_config336_options16_match": true,
+      "full_image_not_reread": true,
+      "host_fake_budget_rejection_verified": true,
+      "close_resume": true,
+      "Close_completed": true,
+      "explicit_Go": 0,
+      "negative_native_returns": 0,
+      "short_ReadMemEx": 0,
+      "sources_sha256": {
+        "entry-private.json": "3d3ba98a1580b077b1e8a8996801d28cb99406e25f10aa2200ec22331c538635",
+        "exit-private.json": "fe58462d19e8ba41122e1e51c2308953fff3afe9bbe3cdfe4d62202327993f49",
+        "io-private.jsonl": "7bca219ab654611f011569398f13f9e9b51dbd94d3021dd89f80bdf52452e177",
+        "heartbeat-events.jsonl": "47df844041ae455fee72cf2ad7c2dab7aede7299e8514010ddcad38e7bbc1d22",
+        "receipt-private.json": "43769d38eae4057b3a0567fc4564ed88d2307bc6d1096fab3f2a060888a4dcd6"
+      }
+    },
+    {
+      "session": 3,
+      "status": "RUNNING_AND_EXIT_VERIFIED",
+      "worker_exit_code": 0,
+      "supervisor_reason": null,
+      "elapsed_s": 1.015999999945052,
+      "SDK_calls": 92,
+      "entry_VTOR": "0x8000000",
+      "entry_DHCSR": "0x1010001",
+      "entry_DWT_PCSR": "0x80063dc",
+      "entry_uptime_ms": 66969,
+      "exit_uptime_ms": 67128,
+      "DISARMED_entry_exit": [
+        true,
+        true
+      ],
+      "identity_header64_config336_options16_match": true,
+      "full_image_not_reread": true,
+      "host_fake_budget_rejection_verified": true,
+      "close_resume": true,
+      "Close_completed": true,
+      "explicit_Go": 0,
+      "negative_native_returns": 0,
+      "short_ReadMemEx": 0,
+      "sources_sha256": {
+        "entry-private.json": "ced6a5ba05695d3b89764dca89ab410db60b2ca2b28e4649ddfa7a6b03bbef7e",
+        "exit-private.json": "c0e9f269a68085372feaaaf2b2c008542183577ad3ea77b6b7c8057e32f5159e",
+        "io-private.jsonl": "34a15d6b9f0cec9cf142c850a7febed02fc4884ae88d996f11f08842e4e2a009",
+        "heartbeat-events.jsonl": "c06ca4fca1e9351bda61eda287a9ba5546e96be9555700bd9646a958e2fad560",
+        "receipt-private.json": "b831acfb17c5971b68fee8108ed5ea52cc8c6fb24956258edb089d68c65cff2c"
+      }
+    }
+  ]
+}

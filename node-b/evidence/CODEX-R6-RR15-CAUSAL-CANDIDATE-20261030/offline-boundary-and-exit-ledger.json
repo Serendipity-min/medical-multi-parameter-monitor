@@ -1,0 +1,102 @@
+{
+  "root_cause": "ROOT_CAUSE_UNRESOLVED",
+  "algorithm_patch": "NOT_IMPLEMENTED",
+  "firmware_source_unchanged": true,
+  "target_hardware_access": "NOT_PERFORMED",
+  "target_SDK_COM_RESET_B5START_Flash": "NOT_RUN",
+  "cloud_business_actions": 0,
+  "VCS_network": "Explicitly authorized Git fetch/push only; not a cloud test/service mutation",
+  "user_reported_power": "NOT_POWERED",
+  "runs": [
+    {
+      "operation": "initial C replay",
+      "exit_code": 0
+    },
+    {
+      "operation": "causal trace and original C equivalence",
+      "exit_code": 0
+    },
+    {
+      "operation": "locked real/synthetic/holdout corpus",
+      "exit_code": 0
+    },
+    {
+      "operation": "waveform render initial",
+      "exit_code": 0
+    },
+    {
+      "operation": "waveform title review fix",
+      "exit_code": 0
+    },
+    {
+      "operation": "final audited tool C replay",
+      "exit_code": 0
+    }
+  ],
+  "regression_runs": [
+    {
+      "operation": "node-b/firmware/biov2/tests/run_host.py",
+      "exit_code": 0,
+      "pass": 27,
+      "total": 27
+    },
+    {
+      "operation": "node-b/firmware/biov2/tests/run_channel_isolation.py",
+      "exit_code": 0,
+      "pass": 28,
+      "total": 28
+    },
+    {
+      "operation": "node-b/tests/run_pretest.py",
+      "exit_code": 0,
+      "pass": 10,
+      "total": 10
+    }
+  ],
+  "tool_unit_initial_agent_run": {
+    "exit_code": 1,
+    "tests": 17,
+    "failures": 0,
+    "errors": 1,
+    "cause": "Synthetic single-copy fixture lowered high sequence watermark; guard correctly rejected; fixture corrected, no tool bypass",
+    "log": "Agent confirmed original stdout/stderr was not saved to a file; original tool conversation retained; do not recreate failure",
+    "passed": 16
+  },
+  "tool_unit_final_guard_run": {
+    "status": "PASS_MOCK",
+    "exit_code": 0,
+    "tests": 17,
+    "failures": 0,
+    "errors": 0,
+    "blocked_events": [],
+    "target_or_network_calls": 0
+  },
+  "semantic_corrections": [
+    {
+      "operation": "original-vs-fixed rates comparison",
+      "process_exit_code": 0,
+      "first_comparison": "FALSE_FROM_PYTHON_INT_VS_JSON_STRING_KEYS",
+      "normalized_result": "IDENTICAL",
+      "original_retained": true
+    },
+    {
+      "operation": "first waveform review",
+      "render_process_exit_code": 0,
+      "visual_QA": "LONG_TITLE_CLIPPING",
+      "resolution": "Reviewed output directory with two-line title, old artifacts preserved"
+    },
+    {
+      "operation": "coverage criterion wording",
+      "correction": "Withdraw claim that .95 was pre-registered; original registration unchanged, no threshold tuning or algorithm acceptance; two .944 results remain descriptive limitations"
+    }
+  ],
+  "packaging_failure_retained": {
+    "first_exit_code": 1,
+    "git_show_exit_code": 128,
+    "cause": "Absolute criteria path supplied to git show; corrected to repository-relative path",
+    "raw_tool_trace": "Preserved in chat tool output; no analysis/C replay rerun"
+  },
+  "old_formal_reviewer_rerun": "NOT_RUN",
+  "R5_and_R6_formal_NOT_PASS": "PRESERVED",
+  "metadata_label_correction": "Input corpus split HELD_OUT_NOT_REPLAYED describes agent seal phase; public evaluated results now HOLDOUT with original label retained, no numerical data/replay changed"
+}

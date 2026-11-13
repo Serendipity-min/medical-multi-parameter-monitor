@@ -1,0 +1,159 @@
+{
+  "status": "STATE_RECORDED_NOT_ROOT_CAUSE_PASS",
+  "root_cause": "CPU_ROOT_CAUSE_UNRESOLVED",
+  "P0_closeout_pass": false,
+  "field_source": "ORDINARY_ECG_60_BPM_OWNER_CONFIRMED",
+  "worker_exit_code": 3,
+  "supervisor_exit_code": 1,
+  "invoker_exit_code": 1,
+  "elapsed_s": 40.672,
+  "card_sha256": "ef768e4da8e964f58fba00291f838dde523c174457be7ed7435654924e9db969",
+  "tools_sha256": {
+    "node-b/tools/runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+    "node-b/tools/supervise_runtime_state_b.py": "98587c514f8987e76851b87465259a0b3242cb4b222c2289c1b6de5b0f580b22",
+    "node-b/tools/readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+    "node-b/tools/resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+    "node-b/tools/precan_cpu_state_b.py": "5f31200849906799ed15b71223cdd0a87015f449d4e785bb3b5e0f74aae6d5b0",
+    "node-b/tools/supervise_precan_cpu_state_b.py": "fc4282e68b560e780a3d6b996884f5d0cf0c286b0cb03c6b0f0447b578054164",
+    "node-b/tests/test_precan_cpu_state_b.py": "592b361217698c9394e5ec1490cd9cc2bc6f3d52369e99fcad69eaa4337eb8c3"
+  },
+  "flash_sha256": "f713277a50a5ec8d8a93317f412d5ab1b754e5d619918e57e9efe9dceef24cbb",
+  "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+  "flash_matches_installed_baseline": true,
+  "options_match_baseline": true,
+  "explicit_sdk_call_counts": {
+    "JLINKARM_OpenEx": 1,
+    "JLINKARM_Connect": 1,
+    "JLINKARM_Close": 1,
+    "JLINKARM_Reset": 0,
+    "JLINKARM_Halt": 0,
+    "JLINKARM_Go": 0,
+    "JLINKARM_WriteMem": 0,
+    "JLINKARM_WriteReg": 0
+  },
+  "journal_before_after_pairs": 109,
+  "snapshots": [
+    {
+      "label": "attach-entry",
+      "system": {
+        "DHCSR": "0x01010001",
+        "VTOR": "0x1FFF0000",
+        "RCC_CSR": "0x0E000000",
+        "CFSR": "0x00000000",
+        "HFSR": "0x00000000",
+        "DFSR": "0x00000001",
+        "RCC_APB2ENR": "0x00000000",
+        "SYSCFG_MEMRMP": "0x00000000",
+        "DWT_CTRL": "0x40000001",
+        "DWT_CYCCNT": "0x000E557E"
+      },
+      "pcsr_samples": [
+        "0x1FFF32EE",
+        "0x1FFF32EE",
+        "0x1FFF32F0",
+        "0x1FFF32EA",
+        "0x1FFF32EE"
+      ],
+      "pc_regions": [
+        "SYSTEM_ROM",
+        "SYSTEM_ROM",
+        "SYSTEM_ROM",
+        "SYSTEM_ROM",
+        "SYSTEM_ROM"
+      ],
+      "core_PC": null,
+      "core_PC_reason": "RUNNING_NO_HALT_REQUESTED_PCSR_USED",
+      "BIO_ABI_valid": false,
+      "BIO_decode_error": "RESP_DIAG_ABI",
+      "application_sampling_progress_evidence": false
+    },
+    {
+      "label": "after-image",
+      "system": {
+        "DHCSR": "0x01010001",
+        "VTOR": "0x1FFF0000",
+        "RCC_CSR": "0x0E000000",
+        "CFSR": "0x00000000",
+        "HFSR": "0x00000000",
+        "DFSR": "0x00000001",
+        "RCC_APB2ENR": "0x00000000",
+        "SYSCFG_MEMRMP": "0x00000000",
+        "DWT_CTRL": "0x40000001",
+        "DWT_CYCCNT": "0x000E557E"
+      },
+      "pcsr_samples": [
+        "0x1FFF32F0",
+        "0x1FFF32F2",
+        "0x1FFF32EA",
+        "0x1FFF32F2",
+        "0x1FFF32EE"
+      ],
+      "pc_regions": [
+        "SYSTEM_ROM",
+        "SYSTEM_ROM",
+        "SYSTEM_ROM",
+        "SYSTEM_ROM",
+        "SYSTEM_ROM"
+      ],
+      "core_PC": null,
+      "core_PC_reason": "RUNNING_NO_HALT_REQUESTED_PCSR_USED",
+      "BIO_ABI_valid": false,
+      "BIO_decode_error": "RESP_DIAG_ABI",
+      "application_sampling_progress_evidence": false
+    },
+    {
+      "label": "before-close",
+      "system": {
+        "DHCSR": "0x01010001",
+        "VTOR": "0x1FFF0000",
+        "RCC_CSR": "0x0E000000",
+        "CFSR": "0x00000000",
+        "HFSR": "0x00000000",
+        "DFSR": "0x00000001",
+        "RCC_APB2ENR": "0x00000000",
+        "SYSCFG_MEMRMP": "0x00000000",
+        "DWT_CTRL": "0x40000001",
+        "DWT_CYCCNT": "0x000E557E"
+      },
+      "pcsr_samples": [
+        "0x1FFF32EE",
+        "0x1FFF32EE",
+        "0x1FFF32EE",
+        "0x1FFF32EC",
+        "0x1FFF32EE"
+      ],
+      "pc_regions": [
+        "SYSTEM_ROM",
+        "SYSTEM_ROM",
+        "SYSTEM_ROM",
+        "SYSTEM_ROM",
+        "SYSTEM_ROM"
+      ],
+      "core_PC": null,
+      "core_PC_reason": "RUNNING_NO_HALT_REQUESTED_PCSR_USED",
+      "BIO_ABI_valid": false,
+      "BIO_decode_error": "RESP_DIAG_ABI",
+      "application_sampling_progress_evidence": false
+    }
+  ],
+  "assessment": {
+    "application_observed_running": false,
+    "reasons": [
+      "BIO_ABI_NOT_READY",
+      "NO_APPLICATION_PCSR_EVIDENCE",
+      "VTOR_NOT_APPLICATION"
+    ],
+    "root_cause": "CPU_ROOT_CAUSE_UNRESOLVED",
+    "P0_closeout_pass": false
+  },
+  "post_close_target_state": "UNKNOWN_NOT_RECONNECTED",
+  "before_first_connect_state": "NOT_OBSERVED",
+  "reset_flags_note": "STICKY_NOT_CLEARED; DHCSR RESET_ST MAY_HAVE_BEEN_READ_BY_SDK",
+  "boot_latch_evidence": "NOT_OBSERVED",
+  "target_modification_note": "NO_EXPLICIT_RESET_HALT_GO_OR_TARGET_DATA_WRITE; SDK_ATTACH_IS_NOT_PROOF_OF_NO_PHYSICAL_RESET",
+  "D0_authorized": true,
+  "D0_observation_result": "OWNER_REPORT_NO_WAVEFORM_NO_INDICATOR_CHANGE_NO_OTHER_ABNORMALITY",
+  "sdk_calls_excluding_separately_guarded_Close": 109,
+  "Close_evidence": "Separate inherited close heartbeat: active true/false; SDK OnDisconnectTarget start/end; not forwarded through call journal",
+  "sdk_call_journal_scope": "109 calls paired; Close is separately heartbeated, without identical index/monotonic fields"
+}

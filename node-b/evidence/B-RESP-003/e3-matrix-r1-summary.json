@@ -1,0 +1,52 @@
+{
+  "status": "E3_NOMINAL_RR_ENGINEERING_PASS",
+  "matrix_exit_code": 0,
+  "repeat_raw_difference_rpm": {
+    "12": 0.001918925263687754,
+    "18": 0.0,
+    "24": 0.0
+  },
+  "cell_statuses": {
+    "12-r1": {
+      "status": "E3_CELL_NOMINAL_RATE_MATCH",
+      "analysis_exit_code": 0
+    },
+    "12-r2": {
+      "status": "E3_CELL_NOMINAL_RATE_MATCH",
+      "analysis_exit_code": 0
+    },
+    "18-r1": {
+      "status": "E3_CELL_NOMINAL_RATE_MATCH",
+      "analysis_exit_code": 0
+    },
+    "18-r2": {
+      "status": "E3_CELL_NOMINAL_RATE_MATCH",
+      "analysis_exit_code": 0
+    },
+    "24-r1": {
+      "status": "E3_CELL_NOMINAL_RATE_MATCH",
+      "analysis_exit_code": 0
+    },
+    "24-r2": {
+      "status": "E3_CELL_NOMINAL_RATE_MATCH",
+      "analysis_exit_code": 0
+    }
+  },
+  "reference_rpm": null,
+  "Z0_ohm": null,
+  "delta_Zpp_ohm": null,
+  "scope": "NOMINAL_RATE_MATCH_NOT_CALIBRATED_RESP_IMPEDANCE_OR_CLINICAL_ACCURACY",
+  "summary_sha256": {
+    "E:\\medical-monitor-node-b-field-private\\field-r3\\resp-003\\e3-matrix-r1\\analysis-12-r1\\analysis-summary-private.json": "a8b4b02cbf0afdec34592d58dae2c46dfbb8c412c7a926879658424b42491cfc",
+    "E:\\medical-monitor-node-b-field-private\\field-r3\\resp-003\\e3-matrix-r1\\analysis-12-r2\\analysis-summary-private.json": "f5e78e597c45398d919741a4116f78c3dac170bec6093125d1369a82085905e6",
+    "E:\\medical-monitor-node-b-field-private\\field-r3\\resp-003\\e3-matrix-r1\\analysis-18-r1\\analysis-summary-private.json": "044544757d533726012bff0befe36f507323588ba239dfd679e4d7720b20e844",
+    "E:\\medical-monitor-node-b-field-private\\field-r3\\resp-003\\e3-matrix-r1\\analysis-18-r2\\analysis-summary-private.json": "ccee0b45999b3fcad43ba471d06c565207e714bf6579275d37be5bcb7e7c0425",
+    "E:\\medical-monitor-node-b-field-private\\field-r3\\resp-003\\e3-matrix-r1\\analysis-24-r1\\analysis-summary-private.json": "cab1b7516a4dfd6a4d61e6189a3a69436512bfafe3e2764b545d11d93622a2f4",
+    "E:\\medical-monitor-node-b-field-private\\field-r3\\resp-003\\e3-matrix-r1\\analysis-24-r2\\analysis-summary-private.json": "47b8ee07cf993d06e26790b173e26543b8177443bdd7553596907405b8119938"
+  },
+  "matrix_invoker_exit_code": 0,
+  "private_summary_sha256": "5a5fb3e04128a96a9cd61503c39d31fa4debeb7af047105409fb3053a82fdb4f",
+  "total_steady_saved_observations": 681,
+  "total_steady_valid_observations": 681,
+  "total_retained_frames": 206025
+}

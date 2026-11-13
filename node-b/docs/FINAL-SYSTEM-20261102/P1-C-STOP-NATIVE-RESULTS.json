@@ -1,0 +1,610 @@
+{
+  "scope": "C_ONLY_TTS_STOP_NATIVE_NOT_THREE_BOARD",
+  "status": "C_TTS_STOP_ACK_QUERY_IDLE_NATIVE_PASS",
+  "runs": [
+    {
+      "exit_code": 0,
+      "scope": "C_ONLY_TTS_STOP",
+      "playing": false,
+      "SDK_opens": 0,
+      "Flash_writes": 0,
+      "MCU_RESET_commands": 0,
+      "network_operations": 0,
+      "hardware_concurrency": "NOT_RUN",
+      "status": "C_TTS_STOP_ACK_QUERY_IDLE_PASS_NOT_CONCURRENCY",
+      "TTS_TX_bytes": 8,
+      "STOP_packets": 1,
+      "QUERY_packets": 1,
+      "final_state": {
+        "ms": 66165,
+        "state": 0,
+        "enabled": 0,
+        "stopping": 0,
+        "stop_sent": 1,
+        "stop_ack": 1,
+        "query_sent": 1,
+        "stop_idle": 1,
+        "stop_failed": 0,
+        "ack": 1,
+        "done": 0,
+        "uart_errors": 0,
+        "uart_overflow": 0
+      },
+      "events": [
+        {
+          "kind": "TX",
+          "ms": 66094,
+          "byte": 253
+        },
+        {
+          "kind": "TX",
+          "ms": 66112,
+          "byte": 0
+        },
+        {
+          "kind": "TX",
+          "ms": 66114,
+          "byte": 1
+        },
+        {
+          "kind": "TX",
+          "ms": 66117,
+          "byte": 2
+        },
+        {
+          "kind": "RX",
+          "ms": 66120,
+          "byte": 65
+        },
+        {
+          "kind": "TX",
+          "ms": 66137,
+          "byte": 253
+        },
+        {
+          "kind": "TX",
+          "ms": 66140,
+          "byte": 0
+        },
+        {
+          "kind": "TX",
+          "ms": 66143,
+          "byte": 1
+        },
+        {
+          "kind": "TX",
+          "ms": 66145,
+          "byte": 33
+        },
+        {
+          "kind": "RX",
+          "ms": 66148,
+          "byte": 79
+        }
+      ],
+      "observed_states": [
+        {
+          "ms": 66038,
+          "state": 2,
+          "enabled": 1,
+          "stopping": 0,
+          "stop_sent": 0,
+          "stop_ack": 0,
+          "query_sent": 0,
+          "stop_idle": 0,
+          "stop_failed": 0,
+          "ack": 0,
+          "done": 0,
+          "uart_errors": 0,
+          "uart_overflow": 0
+        },
+        {
+          "ms": 66078,
+          "state": 5,
+          "enabled": 1,
+          "stopping": 0,
+          "stop_sent": 0,
+          "stop_ack": 0,
+          "query_sent": 0,
+          "stop_idle": 0,
+          "stop_failed": 0,
+          "ack": 1,
+          "done": 0,
+          "uart_errors": 0,
+          "uart_overflow": 0
+        },
+        {
+          "ms": 66097,
+          "state": 0,
+          "enabled": 0,
+          "stopping": 1,
+          "stop_sent": 0,
+          "stop_ack": 0,
+          "query_sent": 0,
+          "stop_idle": 0,
+          "stop_failed": 0,
+          "ack": 1,
+          "done": 0,
+          "uart_errors": 0,
+          "uart_overflow": 0
+        },
+        {
+          "ms": 66123,
+          "state": 0,
+          "enabled": 0,
+          "stopping": 1,
+          "stop_sent": 1,
+          "stop_ack": 1,
+          "query_sent": 0,
+          "stop_idle": 0,
+          "stop_failed": 0,
+          "ack": 1,
+          "done": 0,
+          "uart_errors": 0,
+          "uart_overflow": 0
+        },
+        {
+          "ms": 66151,
+          "state": 0,
+          "enabled": 0,
+          "stopping": 1,
+          "stop_sent": 1,
+          "stop_ack": 1,
+          "query_sent": 1,
+          "stop_idle": 1,
+          "stop_failed": 0,
+          "ack": 1,
+          "done": 0,
+          "uart_errors": 0,
+          "uart_overflow": 0
+        },
+        {
+          "ms": 66165,
+          "state": 0,
+          "enabled": 0,
+          "stopping": 0,
+          "stop_sent": 1,
+          "stop_ack": 1,
+          "query_sent": 1,
+          "stop_idle": 1,
+          "stop_failed": 0,
+          "ack": 1,
+          "done": 0,
+          "uart_errors": 0,
+          "uart_overflow": 0
+        }
+      ],
+      "transcript_SHA256": "f592c076cb358631857d0063709d7ea9a2df4f779b1156da9eeebb96502cb8dc",
+      "run": "P1-C-stop-idle-r2",
+      "controller_native_exit": 0,
+      "JLink": "PHYSICALLY_ATTACHED_SDK_NOT_OPENED",
+      "independent_cold_boot": "NOT_CONFIRMED"
+    },
+    {
+      "exit_code": 0,
+      "scope": "C_ONLY_TTS_STOP",
+      "playing": true,
+      "SDK_opens": 0,
+      "Flash_writes": 0,
+      "MCU_RESET_commands": 0,
+      "network_operations": 0,
+      "hardware_concurrency": "NOT_RUN",
+      "pre_stop_TTS_state": 3,
+      "playback_scope": "ACK_ACCEPTED_REQUIRES_OWNER_HEARING_NOT_4E_PROOF",
+      "status": "C_TTS_STOP_ACK_QUERY_IDLE_PASS_NOT_CONCURRENCY",
+      "TTS_TX_bytes": 8,
+      "STOP_packets": 1,
+      "QUERY_packets": 1,
+      "final_state": {
+        "ms": 98301,
+        "state": 0,
+        "enabled": 0,
+        "stopping": 0,
+        "stop_sent": 1,
+        "stop_ack": 1,
+        "query_sent": 1,
+        "stop_idle": 1,
+        "stop_failed": 0,
+        "ack": 3,
+        "done": 0,
+        "uart_errors": 0,
+        "uart_overflow": 0
+      },
+      "events": [
+        {
+          "kind": "TX",
+          "ms": 98229,
+          "byte": 253
+        },
+        {
+          "kind": "TX",
+          "ms": 98247,
+          "byte": 0
+        },
+        {
+          "kind": "TX",
+          "ms": 98249,
+          "byte": 1
+        },
+        {
+          "kind": "TX",
+          "ms": 98252,
+          "byte": 2
+        },
+        {
+          "kind": "RX",
+          "ms": 98255,
+          "byte": 65
+        },
+        {
+          "kind": "TX",
+          "ms": 98272,
+          "byte": 253
+        },
+        {
+          "kind": "TX",
+          "ms": 98275,
+          "byte": 0
+        },
+        {
+          "kind": "TX",
+          "ms": 98278,
+          "byte": 1
+        },
+        {
+          "kind": "TX",
+          "ms": 98281,
+          "byte": 33
+        },
+        {
+          "kind": "RX",
+          "ms": 98283,
+          "byte": 79
+        }
+      ],
+      "observed_states": [
+        {
+          "ms": 97371,
+          "state": 2,
+          "enabled": 1,
+          "stopping": 0,
+          "stop_sent": 1,
+          "stop_ack": 1,
+          "query_sent": 1,
+          "stop_idle": 1,
+          "stop_failed": 0,
+          "ack": 1,
+          "done": 0,
+          "uart_errors": 0,
+          "uart_overflow": 0
+        },
+        {
+          "ms": 97410,
+          "state": 5,
+          "enabled": 1,
+          "stopping": 0,
+          "stop_sent": 1,
+          "stop_ack": 1,
+          "query_sent": 1,
+          "stop_idle": 1,
+          "stop_failed": 0,
+          "ack": 2,
+          "done": 0,
+          "uart_errors": 0,
+          "uart_overflow": 0
+        },
+        {
+          "ms": 97430,
+          "state": 2,
+          "enabled": 1,
+          "stopping": 0,
+          "stop_sent": 1,
+          "stop_ack": 1,
+          "query_sent": 1,
+          "stop_idle": 1,
+          "stop_failed": 0,
+          "ack": 2,
+          "done": 0,
+          "uart_errors": 0,
+          "uart_overflow": 0
+        },
+        {
+          "ms": 97712,
+          "state": 3,
+          "enabled": 1,
+          "stopping": 0,
+          "stop_sent": 1,
+          "stop_ack": 1,
+          "query_sent": 1,
+          "stop_idle": 1,
+          "stop_failed": 0,
+          "ack": 3,
+          "done": 0,
+          "uart_errors": 0,
+          "uart_overflow": 0
+        },
+        {
+          "ms": 98232,
+          "state": 0,
+          "enabled": 0,
+          "stopping": 1,
+          "stop_sent": 0,
+          "stop_ack": 0,
+          "query_sent": 0,
+          "stop_idle": 0,
+          "stop_failed": 0,
+          "ack": 3,
+          "done": 0,
+          "uart_errors": 0,
+          "uart_overflow": 0
+        },
+        {
+          "ms": 98258,
+          "state": 0,
+          "enabled": 0,
+          "stopping": 1,
+          "stop_sent": 1,
+          "stop_ack": 1,
+          "query_sent": 0,
+          "stop_idle": 0,
+          "stop_failed": 0,
+          "ack": 3,
+          "done": 0,
+          "uart_errors": 0,
+          "uart_overflow": 0
+        },
+        {
+          "ms": 98286,
+          "state": 0,
+          "enabled": 0,
+          "stopping": 1,
+          "stop_sent": 1,
+          "stop_ack": 1,
+          "query_sent": 1,
+          "stop_idle": 1,
+          "stop_failed": 0,
+          "ack": 3,
+          "done": 0,
+          "uart_errors": 0,
+          "uart_overflow": 0
+        },
+        {
+          "ms": 98301,
+          "state": 0,
+          "enabled": 0,
+          "stopping": 0,
+          "stop_sent": 1,
+          "stop_ack": 1,
+          "query_sent": 1,
+          "stop_idle": 1,
+          "stop_failed": 0,
+          "ack": 3,
+          "done": 0,
+          "uart_errors": 0,
+          "uart_overflow": 0
+        }
+      ],
+      "transcript_SHA256": "1fb1a05f775c2429ef5244f69c254e5dca5a83b0fad66b3f110ac554f30b27b5",
+      "run": "P1-C-stop-phrase-r2-1",
+      "controller_native_exit": 0,
+      "JLink": "PHYSICALLY_ATTACHED_SDK_NOT_OPENED",
+      "independent_cold_boot": "NOT_CONFIRMED"
+    },
+    {
+      "exit_code": 0,
+      "scope": "C_ONLY_TTS_STOP",
+      "playing": true,
+      "SDK_opens": 0,
+      "Flash_writes": 0,
+      "MCU_RESET_commands": 0,
+      "network_operations": 0,
+      "hardware_concurrency": "NOT_RUN",
+      "pre_stop_TTS_state": 3,
+      "playback_scope": "ACK_ACCEPTED_REQUIRES_OWNER_HEARING_NOT_4E_PROOF",
+      "status": "C_TTS_STOP_ACK_QUERY_IDLE_PASS_NOT_CONCURRENCY",
+      "TTS_TX_bytes": 8,
+      "STOP_packets": 1,
+      "QUERY_packets": 1,
+      "final_state": {
+        "ms": 129894,
+        "state": 0,
+        "enabled": 0,
+        "stopping": 0,
+        "stop_sent": 1,
+        "stop_ack": 1,
+        "query_sent": 1,
+        "stop_idle": 1,
+        "stop_failed": 0,
+        "ack": 5,
+        "done": 0,
+        "uart_errors": 0,
+        "uart_overflow": 0
+      },
+      "events": [
+        {
+          "kind": "TX",
+          "ms": 129822,
+          "byte": 253
+        },
+        {
+          "kind": "TX",
+          "ms": 129840,
+          "byte": 0
+        },
+        {
+          "kind": "TX",
+          "ms": 129842,
+          "byte": 1
+        },
+        {
+          "kind": "TX",
+          "ms": 129845,
+          "byte": 2
+        },
+        {
+          "kind": "RX",
+          "ms": 129848,
+          "byte": 65
+        },
+        {
+          "kind": "TX",
+          "ms": 129866,
+          "byte": 253
+        },
+        {
+          "kind": "TX",
+          "ms": 129868,
+          "byte": 0
+        },
+        {
+          "kind": "TX",
+          "ms": 129871,
+          "byte": 1
+        },
+        {
+          "kind": "TX",
+          "ms": 129874,
+          "byte": 33
+        },
+        {
+          "kind": "RX",
+          "ms": 129877,
+          "byte": 79
+        }
+      ],
+      "observed_states": [
+        {
+          "ms": 128953,
+          "state": 2,
+          "enabled": 1,
+          "stopping": 0,
+          "stop_sent": 1,
+          "stop_ack": 1,
+          "query_sent": 1,
+          "stop_idle": 1,
+          "stop_failed": 0,
+          "ack": 3,
+          "done": 0,
+          "uart_errors": 0,
+          "uart_overflow": 0
+        },
+        {
+          "ms": 128993,
+          "state": 5,
+          "enabled": 1,
+          "stopping": 0,
+          "stop_sent": 1,
+          "stop_ack": 1,
+          "query_sent": 1,
+          "stop_idle": 1,
+          "stop_failed": 0,
+          "ack": 4,
+          "done": 0,
+          "uart_errors": 0,
+          "uart_overflow": 0
+        },
+        {
+          "ms": 129013,
+          "state": 2,
+          "enabled": 1,
+          "stopping": 0,
+          "stop_sent": 1,
+          "stop_ack": 1,
+          "query_sent": 1,
+          "stop_idle": 1,
+          "stop_failed": 0,
+          "ack": 4,
+          "done": 0,
+          "uart_errors": 0,
+          "uart_overflow": 0
+        },
+        {
+          "ms": 129305,
+          "state": 3,
+          "enabled": 1,
+          "stopping": 0,
+          "stop_sent": 1,
+          "stop_ack": 1,
+          "query_sent": 1,
+          "stop_idle": 1,
+          "stop_failed": 0,
+          "ack": 5,
+          "done": 0,
+          "uart_errors": 0,
+          "uart_overflow": 0
+        },
+        {
+          "ms": 129825,
+          "state": 0,
+          "enabled": 0,
+          "stopping": 1,
+          "stop_sent": 0,
+          "stop_ack": 0,
+          "query_sent": 0,
+          "stop_idle": 0,
+          "stop_failed": 0,
+          "ack": 5,
+          "done": 0,
+          "uart_errors": 0,
+          "uart_overflow": 0
+        },
+        {
+          "ms": 129851,
+          "state": 0,
+          "enabled": 0,
+          "stopping": 1,
+          "stop_sent": 1,
+          "stop_ack": 1,
+          "query_sent": 0,
+          "stop_idle": 0,
+          "stop_failed": 0,
+          "ack": 5,
+          "done": 0,
+          "uart_errors": 0,
+          "uart_overflow": 0
+        },
+        {
+          "ms": 129880,
+          "state": 0,
+          "enabled": 0,
+          "stopping": 1,
+          "stop_sent": 1,
+          "stop_ack": 1,
+          "query_sent": 1,
+          "stop_idle": 1,
+          "stop_failed": 0,
+          "ack": 5,
+          "done": 0,
+          "uart_errors": 0,
+          "uart_overflow": 0
+        },
+        {
+          "ms": 129894,
+          "state": 0,
+          "enabled": 0,
+          "stopping": 0,
+          "stop_sent": 1,
+          "stop_ack": 1,
+          "query_sent": 1,
+          "stop_idle": 1,
+          "stop_failed": 0,
+          "ack": 5,
+          "done": 0,
+          "uart_errors": 0,
+          "uart_overflow": 0
+        }
+      ],
+      "transcript_SHA256": "0616c0a0b4ce437238e8875c466b13efde53ba7b8fd38d0843852ce61e90e4b8",
+      "run": "P1-C-stop-phrase-r2-2",
+      "controller_native_exit": 0,
+      "JLink": "PHYSICALLY_ATTACHED_SDK_NOT_OPENED",
+      "independent_cold_boot": "NOT_CONFIRMED"
+    }
+  ],
+  "owner_heard": "Heard start of stop-test phrase then playback stopped",
+  "owner_confirmation_received": true,
+  "network_abort": "NOT_RUN",
+  "SDK_native_side_effects": "UNRESOLVED",
+  "SDK_during_UART_tests": 0,
+  "R1_failure_preserved": true
+}

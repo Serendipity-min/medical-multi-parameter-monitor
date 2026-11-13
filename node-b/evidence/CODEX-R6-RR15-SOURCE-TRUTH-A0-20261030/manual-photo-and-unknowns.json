@@ -1,0 +1,45 @@
+{
+  "manual_page_review": {
+    "M12": [
+      3,
+      5,
+      6,
+      11
+    ],
+    "M22": [
+      4,
+      5,
+      9,
+      11,
+      20
+    ]
+  },
+  "M12_SHA256": "27fe9e4a37a761ab7df939bf49693942dbf3e5692f09e2e10311106053503cc8",
+  "M22_SHA256": "8b264906747e76336e7a7221ab77b76e3697078f794b064e77081e7e56fc48aa",
+  "documented_RESP_section_HR_bpm": 60,
+  "documented_waveform_period_default_bpm": 30,
+  "RESP_rate_is_distinct_from_period": true,
+  "period_as_carrier_frequency": "NOT_SUPPORTED",
+  "actual_device_ECG_in_RESP15": "UNKNOWN",
+  "ECG_OFF_while_RESP_capability": "UNKNOWN",
+  "nominal_reference_impedance_text": "1K; not measured ECG source impedance",
+  "amplitude_1_5R_to_absolute_ohms": "NOT_CALIBRATED",
+  "photos": [
+    {
+      "file": "simulator-and-boards.jpg",
+      "bytes": 393514,
+      "sha256": "95fdda225ce2578b798564cc2b69626f4330aa43514a343b4bb85bf22af4395c",
+      "current_A0_viewed": true,
+      "interpretation": "Historical terminal/clip appearance only; no validated current menu, QRS, cable continuity or qualified reference instrument"
+    },
+    {
+      "file": "lead-clips.jpg",
+      "bytes": 543873,
+      "sha256": "dc4643bc8c463a1e2b2e81368c70d490c954b613285149c2434b3b3bf408a208",
+      "current_A0_viewed": true,
+      "interpretation": "Historical terminal/clip appearance only; no validated current menu, QRS, cable continuity or qualified reference instrument"
+    }
+  ],
+  "current_independent_reference_instrument": "UNKNOWN",
+  "measurement_readiness": "MEASUREMENT_NOT_READY"
+}

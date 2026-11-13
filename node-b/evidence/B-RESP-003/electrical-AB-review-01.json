@@ -1,0 +1,46 @@
+{
+  "status": "CONFIRMED_FOR_BOUNDED_E1_ONLY",
+  "A": {
+    "mode": "ordinary ECG120",
+    "range": "DC200mV",
+    "values_mV": [
+      2.3,
+      0.7,
+      1.7
+    ],
+    "pair_order": [
+      "RA-RL",
+      "LA-RL",
+      "RA-LA"
+    ],
+    "signs": "not independently confirmed",
+    "range_deviation": "R1 proposed20V; owner changed200mV; original20V no-data is not assumed zero",
+    "repeats": "one representative per pair; no triplicates invented"
+  },
+  "B": {
+    "mode": "呼吸波形",
+    "nominal_menu_rate": "15bpm",
+    "amplitude_literal": "1.5R",
+    "range": "DC20V",
+    "display_literals": [
+      "0",
+      "0",
+      "0"
+    ],
+    "precision_limit": "coarse indicated zeros, not exact0V",
+    "apnea": "not found, not changed"
+  },
+  "meter": "DLX-YQ2915 battery powered; input impedance/calibration unknown",
+  "meter_removed_and_OFF_owner_confirmed": true,
+  "same_ECG_wiring_retained": true,
+  "USB_CAN_A_C_human_disconnected": true,
+  "stop_threshold_abs_V": 0.2,
+  "basis_scope": "same ECG-tested setup, battery source/meter, nominal schematic limiting branches and reported A/B values; bounded10s nonhuman only",
+  "not_proven": [
+    "32kHz/transient compatibility",
+    "general RLD compatibility",
+    "source current",
+    "absolute impedance calibration"
+  ],
+  "safety_record_sha256": "f1a58e00850a88e64b4d8d1d2716fddd14e3e2fc871c3c3d704a6829262b3065"
+}

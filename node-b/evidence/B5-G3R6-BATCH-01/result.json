@@ -1,0 +1,53 @@
+{
+  "status": "BLOCKED_ROM",
+  "exit_code": 1,
+  "sessions_consumed": 1,
+  "sessions_max": 3,
+  "session_timeout_s": 120,
+  "explicit_Go_attempts": 0,
+  "exit_resume_policy_applied": 0,
+  "UART_AT_bytes": 0,
+  "new_Flash_sector3_reset_B5START_cloud_actions": 0,
+  "SDK_calls": 51,
+  "Close_completed": true,
+  "negative_native_returns": 0,
+  "short_ReadMemEx": 0,
+  "registers_hex": {
+    "DHCSR": "0x1010001",
+    "DHCSR_after": "0x1010001",
+    "VTOR": "0x1fff0000",
+    "DWT_PCSR": "0x1fff32ee",
+    "RCC_CSR": "0xe000000",
+    "DFSR": "0x1",
+    "DEMCR": "0x1000000",
+    "MEMRMP": "0x0",
+    "FP_CTRL": "0x260",
+    "FLASH_CR": "0x80000000",
+    "FLASH_SR": "0x0"
+  },
+  "DWT_samples_hex": [
+    "0x1fff32ee",
+    "0x1fff32ee",
+    "0x1fff32ee"
+  ],
+  "FP_COMP": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "real_PC_MSP": "NOT_READ_RUNNING_ROM_NO_HALT_REQUEST",
+  "fresh_UID_image_options": "NOT_READ_STOPPED_AT_ROM",
+  "application_uptime_DISARMED": "NOT_VALID_APPLICATION_STATE_ROM_RAM_NOT_INTERPRETED",
+  "HALT_ROM_unique_root_cause": "UNRESOLVED",
+  "sources_sha256": {
+    "entry-private.json": "904d0d00193f93d7a4712e6342234cabf7829e0fa4fef6eb864ce189aaeb2e08",
+    "sticky-private.json": "5ad668ee79d301bf70bba928822b290345eb00f62e91662456823b4624024c94",
+    "io-private.jsonl": "68f4436ed06cd239a0d4d6bb062eb6f2917602a4e547a4d73f97efb8532e7194",
+    "heartbeat-events.jsonl": "a59e888a1acdf0e7614d35de4dbd594ff598170784a28516c678a45693b175d3",
+    "receipt-private.json": "50f1a0ff9d354e511ea89b2d6d561aa7d12cb2711e3e9da32f63d0e89dcc6d54"
+  },
+  "SDK_active_timeline_span_s": 0.1720000000204891
+}

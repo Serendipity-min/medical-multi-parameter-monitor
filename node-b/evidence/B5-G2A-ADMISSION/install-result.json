@@ -1,0 +1,71 @@
+{
+  "status": "G2A_INSTALL_VERIFIED_DISARMED_PASS",
+  "exit_code": 0,
+  "phase": "install",
+  "board": "C",
+  "sectors": [
+    0,
+    1,
+    2
+  ],
+  "full_flash_sha256": "3eaf583a703137b09665da5d2bfd7e860cd3a2208bf659b631d7ee4d0541545c",
+  "options_unchanged": true,
+  "outside_affected_sectors_unchanged": true,
+  "reset_requests": 1,
+  "CAN_or_physiology_acceptance": false,
+  "DISARMED": true,
+  "sdk_calls": 262,
+  "actions": {
+    "JLINKARM_Halt": 1,
+    "JLINKARM_BeginDownload": 1,
+    "JLINKARM_WriteMem": 1,
+    "JLINKARM_EndDownload": 1,
+    "JLINKARM_Reset": 1,
+    "JLINKARM_Go": 1
+  },
+  "close_resume_policy": true,
+  "scope": "B5_G2A_C012_OWNER_ESP_PRESENT_POWERED_EXCEPTION",
+  "ESP_isolated": false,
+  "ESP_isolation_waived_by_owner": true,
+  "ESP_autonomous_network": "UNKNOWN_NO_AT_COMMANDS",
+  "B5START": 0,
+  "cloud_service_actions": 0,
+  "supervisor": {
+    "reason": null,
+    "worker_exit_code": 0,
+    "supervisor_exit_code": 0,
+    "target_state": "SEE_WORKER_RECEIPT",
+    "automatic_retry_or_recovery": false
+  },
+  "outer_process_exit_code": 0,
+  "source_before_full_sha256": "b460d917e1d454fdb0882d1f837d91c606363179b817a3896a1df6897b2dcb98",
+  "after_full_sha256": "3eaf583a703137b09665da5d2bfd7e860cd3a2208bf659b631d7ee4d0541545c",
+  "candidate_BIN_bytes": 42552,
+  "candidate_BIN_sha256": "d5b9624b3da1129b4e045d3b2f669c00d2d93cb7379b15293ff143fe9f130683",
+  "programmed_image_bytes": 49152,
+  "preserved_BIN_tail_bytes": 6600,
+  "protected_regions_logical_preservation": {
+    "sector3": {
+      "sha256": "1698c8783b4fbdd1bc7fc5a8641babc7b499b58a65be54e7b36c65c6c5b88313",
+      "before_equals_after": true
+    },
+    "sector7": {
+      "sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "before_equals_after": true
+    },
+    "sector11": {
+      "sha256": "b5a41c3758763bbec72769fab4a2533bf2db0b6312d93d25a695f9e4b9e02260",
+      "before_equals_after": true
+    }
+  },
+  "options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+  "reset_real_PC": "0x80080dc",
+  "reset_real_MSP": "0x20020000",
+  "expected_entry_PC": "0x80080dc",
+  "expected_entry_MSP": "0x20020000",
+  "real_PC_MSP_vector_match": true,
+  "post_boot_RAM4_hex": "00000000",
+  "authorizations_consumed_once": true,
+  "restore_exercised": false,
+  "G2B_sector3_write": "NOT_AUTHORIZED_NOT_RUN"
+}

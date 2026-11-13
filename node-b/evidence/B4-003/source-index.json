@@ -1,0 +1,192 @@
+{
+  "baseline_commit": "9a55547f8721a665bf6e6595db69b8ef48cf3935",
+  "scope": "MPM-B4-0.3_SOFTWARE_AND_FIELD_CARD_PREPARATION",
+  "hardware_operations": 0,
+  "raw_logs": "Original bytes preserved; public JSON summaries use LF; original full receipts in EFS",
+  "files": {
+    "gateway/dual_can/README.md": {
+      "bytes": 11053,
+      "git_blob_sha256": "19aba273635ed2dce0629ff1987f8df0cba5ecd3e70253d93a18a9f37dfec9e8"
+    },
+    "node-b/canopen/b_canopen_app.c": {
+      "bytes": 7054,
+      "git_blob_sha256": "82ab9aea4b2b4f9332ec44d7d6562d8b43bf051cffb39a4c08006509945ee019"
+    },
+    "node-b/canopen/ecg_units.h": {
+      "bytes": 917,
+      "git_blob_sha256": "78611650d6daaff9620275c9a55f9d0966b1be2d094704fc00080c231a612b43"
+    },
+    "node-b/deployment/current.json": {
+      "bytes": 1558,
+      "git_blob_sha256": "ee99fe4d247feb2228cffbcbd3b2e54c620d020dcd11f1f69fb702b1753b8e15"
+    },
+    "node-b/docs/B-PRECAN-CLOSEOUT-FINAL-HANDOFF.md": {
+      "bytes": 19362,
+      "git_blob_sha256": "fd516a574886853d9008cca1867cf3a2843c92f97448c91adfec5c99d50e684d"
+    },
+    "node-b/docs/B4-HARDWARE-ADMISSION-REVIEW.md": {
+      "bytes": 13903,
+      "git_blob_sha256": "ad088b2105be59608fdb78fbb10e78d53b60bcb670d1ac0fd80a8b3e41509beb"
+    },
+    "node-b/docs/B4-03-PIN-POWER-CHECKLIST.md": {
+      "bytes": 3207,
+      "git_blob_sha256": "53811ae40864fbcfddb21cee395220b3eec22dda4e01746d2b33266fd414da8e"
+    },
+    "node-b/docs/AUTH-C-B4-03-READONLY-001-R1.md": {
+      "bytes": 5176,
+      "git_blob_sha256": "da619cecd8c38977463d1382902bd79b996717abd613f7eee0d7a921d2fb2352"
+    },
+    "node-b/docs/AUTH-B-B4-03-SYNC-001-R1.md": {
+      "bytes": 4602,
+      "git_blob_sha256": "9592379a399964cac1c020ecc8f7186a94b9f69c86e8e40ecc89b9e3c34190bd"
+    },
+    "node-b/tools/build_b4_arm.py": {
+      "bytes": 6531,
+      "git_blob_sha256": "66f50be363043334493cb0096912e0d2ee6cc8ff6c27e7cf9f13b3082559ff1d"
+    },
+    "node-b/tools/run_b4.py": {
+      "bytes": 6112,
+      "git_blob_sha256": "aa12919a1be8d40bd8ec1950dc0460f8b4d98b57428649598dd38c356373b1e4"
+    },
+    "node-b/tools/c_b4_readonly.py": {
+      "bytes": 12759,
+      "git_blob_sha256": "39b39643d710079968c0ffe494d642d4beab731c0cb329d2d90d53415d6db756"
+    },
+    "node-b/tools/b4_sync.py": {
+      "bytes": 13975,
+      "git_blob_sha256": "737d0c2407f7ef0e83a5ea67b1b5b14717379e1237c2235ab75a8c54403578ba"
+    },
+    "node-b/tools/run_b4_03.py": {
+      "bytes": 2222,
+      "git_blob_sha256": "1a52554f2edecc9941f88c13a80f9302e821dad08c68d7f3a904d06bdc5bc92e"
+    },
+    "node-b/tests/b4_ecg_units.c": {
+      "bytes": 5266,
+      "git_blob_sha256": "06828d8ee3192bf113364acaa0cf9acfd360f89a9dfda17c5d2243a2eefb1fc8"
+    },
+    "node-b/tests/b4_ecg_json.py": {
+      "bytes": 1104,
+      "git_blob_sha256": "2c42748ecce844257598d6302881ad87c6655b7ce7bb5452fef9bf24465a42a7"
+    },
+    "node-b/tests/test_c_b4_readonly.py": {
+      "bytes": 6552,
+      "git_blob_sha256": "32b056da631949aa3d3be04d4a83c3646d0eb870d70ad251adfa2a650c3cdf35"
+    },
+    "node-b/tests/test_b4_sync.py": {
+      "bytes": 5845,
+      "git_blob_sha256": "f0f1c22813bd7636a75f4670eea535297c1f71d0f0276c91d847bad45bdac0a1"
+    },
+    "node-b/evidence/B4-003/B-arm.json": {
+      "bytes": 15781,
+      "git_blob_sha256": "c14bbf0c2ec48cf33a611d83a68387f984b9941bd15c4df1affb4749e8429700"
+    },
+    "node-b/evidence/B4-003/B4-host-c-to-existing-backend.log": {
+      "bytes": 236,
+      "git_blob_sha256": "95278753c99d749c875a6b521566abd6ecacc08418881cf352c90185674fa15a"
+    },
+    "node-b/evidence/B4-003/B4-host-compile-dual-gateway.log": {
+      "bytes": 0,
+      "git_blob_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "node-b/evidence/B4-003/B4-host-compile-ecg-gain4.log": {
+      "bytes": 0,
+      "git_blob_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "node-b/evidence/B4-003/B4-host-compile-node-b.log": {
+      "bytes": 0,
+      "git_blob_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "node-b/evidence/B4-003/B4-host-dual-gateway-5s-mqtt-pressure.log": {
+      "bytes": 326,
+      "git_blob_sha256": "1e3fee2825e48b5ed9e987f147d8fe6c19140ace69eb17edd23817c8aff15483"
+    },
+    "node-b/evidence/B4-003/B4-host-dual-gateway-jitter.log": {
+      "bytes": 325,
+      "git_blob_sha256": "51a7efd71060f1ea55d6c699d9e90198995d31dee384ba0eda4844f1eede18e2"
+    },
+    "node-b/evidence/B4-003/B4-host-dual-gateway.log": {
+      "bytes": 325,
+      "git_blob_sha256": "51a7efd71060f1ea55d6c699d9e90198995d31dee384ba0eda4844f1eede18e2"
+    },
+    "node-b/evidence/B4-003/B4-host-ecg-gain4-existing-backend.log": {
+      "bytes": 126,
+      "git_blob_sha256": "99aa42547b3b9cfb1e72008df66fb4c7b2b72fb26e907ed9aabf1a9e571e06d8"
+    },
+    "node-b/evidence/B4-003/B4-host-ecg-gain4-wire-and-json.log": {
+      "bytes": 170,
+      "git_blob_sha256": "e9b09cfcfbc5c62860a0bbf5a153993ee2e2d01d6f14356e426bc9c98b15045d"
+    },
+    "node-b/evidence/B4-003/B4-host-i2s2-conflict-negative.log": {
+      "bytes": 391,
+      "git_blob_sha256": "591eb9130a56d9213b7be8ed23482c7662d9cb16bfe990c7c1c24ad16347059b"
+    },
+    "node-b/evidence/B4-003/B4-host-mixed-model-abi-negative.log": {
+      "bytes": 382,
+      "git_blob_sha256": "5759f067b698652435416116ab01e954ff889a85361534ebaf7c4e8be3e5ef3d"
+    },
+    "node-b/evidence/B4-003/B4-host-node-b-jitter-protocol.log": {
+      "bytes": 107,
+      "git_blob_sha256": "48dc0d4290f007ccfc310970f1fb5b7bc8a8bb03d812068e7cbfa31b4a480705"
+    },
+    "node-b/evidence/B4-003/B4-host-node-b-protocol.log": {
+      "bytes": 107,
+      "git_blob_sha256": "7094aeca649ba975be92cf1c236ec77124300d6d219b89c7d3ffb30faa1686d4"
+    },
+    "node-b/evidence/B4-003/B4-host.json": {
+      "bytes": 17993,
+      "git_blob_sha256": "bcfca13746ceb69c1b133548af70814a464e44c28c0f00cb52d636eefb6833d8"
+    },
+    "node-b/evidence/B4-003/c-readonly-disabled-plan.json": {
+      "bytes": 1296,
+      "git_blob_sha256": "0c5e2bd32373da3097b049fc82757ce99c895fdfd48779f0eed41290a823a469"
+    },
+    "node-b/evidence/B4-003/cards-registry.json": {
+      "bytes": 498,
+      "git_blob_sha256": "f6199c86da3e85ce10395f103d66a65c6f417aecf4370bd8a4def5b692865ade"
+    },
+    "node-b/evidence/B4-003/gain-and-source-audit.json": {
+      "bytes": 2665,
+      "git_blob_sha256": "c570cd2051755615de0578503336cf4303ae35e1319ed02b232a0d4016dde0ba"
+    },
+    "node-b/evidence/B4-003/readonly-sync-offline-c-disabled-plan.log": {
+      "bytes": 1338,
+      "git_blob_sha256": "b56d64c65d203af409a7abe3d5ca61c17c3a0caaead685be63a877629495e4fa"
+    },
+    "node-b/evidence/B4-003/readonly-sync-offline-c-no-authorization-negative.log": {
+      "bytes": 59,
+      "git_blob_sha256": "8d299a712b29cad8f3a2e744f6e47bbb121175f8e0adbcbb8e8301ea20bf1baf"
+    },
+    "node-b/evidence/B4-003/readonly-sync-offline-c-readonly-fakes.log": {
+      "bytes": 1449,
+      "git_blob_sha256": "0bafdbfb82520f12432dbf1eb457681e296648f260e11d7f35c9e26d5e50223e"
+    },
+    "node-b/evidence/B4-003/readonly-sync-offline-sync-criteria-fakes.log": {
+      "bytes": 1415,
+      "git_blob_sha256": "71b667909204c388fc776dadb536dd92839ccc7c0f5bfe2b02d6c6fbc4811f0f"
+    },
+    "node-b/evidence/B4-003/readonly-sync-offline-sync-disabled-plan.log": {
+      "bytes": 2184,
+      "git_blob_sha256": "165ca625b6c2b68244b91da5ba5ab48e28e4468395988b4a5335325501b9be39"
+    },
+    "node-b/evidence/B4-003/readonly-sync-offline-sync-no-authorization-negative.log": {
+      "bytes": 59,
+      "git_blob_sha256": "8d299a712b29cad8f3a2e744f6e47bbb121175f8e0adbcbb8e8301ea20bf1baf"
+    },
+    "node-b/evidence/B4-003/readonly-sync-offline.json": {
+      "bytes": 1911,
+      "git_blob_sha256": "fca98716570c8f91cf513deae22ddb57cd2bc53b064db0d4c08c5afe298a07ad"
+    },
+    "node-b/evidence/B4-003/site-facts.json": {
+      "bytes": 517,
+      "git_blob_sha256": "58a5694167c1cc9ff43d8ad324ecfc1f1b1ba4b18565eda3df9a86d86e612818"
+    },
+    "node-b/evidence/B4-003/stage-results.json": {
+      "bytes": 8570,
+      "git_blob_sha256": "5aec2017a55941ea231759c59482d6c22f23d532b8246a15b0d0e1879c53d344"
+    },
+    "node-b/evidence/B4-003/sync-disabled-plan.json": {
+      "bytes": 2121,
+      "git_blob_sha256": "16668ba83e72c833372bc30a1a757cd6ee8e108574cab8e2f161ca35ba02cb9a"
+    }
+  }
+}

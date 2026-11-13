@@ -1,0 +1,72 @@
+{
+  "scope": "IDEAL_ASSUMED_TRANSFER_MODEL_ONLY",
+  "hardware_operations": [],
+  "measured_VREF_or_attenuation": false,
+  "resistor_values_approved_for_assembly": false,
+  "assumptions": {
+    "DAC_VREF_V": 3.3,
+    "DAC_divisor": 4096,
+    "attenuation": 0.000999000999000999,
+    "ADS_VREF_V": 2.42,
+    "ADS_gain": 4,
+    "ADC_sampling_sps": 250,
+    "no_ADS_digital_filter_or_loading_model": true
+  },
+  "checks": [
+    {
+      "mode": "BIAS",
+      "pass": true,
+      "expected_HR": null,
+      "steady_valid_fraction": 0.0,
+      "valid_HR_values": [],
+      "reason_counts": {
+        "3": 15000
+      },
+      "resp_end_valid": 0,
+      "resp_end_reason": 34
+    },
+    {
+      "mode": "sine",
+      "pass": true,
+      "expected_HR": null,
+      "steady_valid_fraction": 0.0,
+      "valid_HR_values": [],
+      "reason_counts": {
+        "3": 15000
+      },
+      "resp_end_valid": 0,
+      "resp_end_reason": 34
+    },
+    {
+      "mode": "ecg60",
+      "pass": true,
+      "expected_HR": 60,
+      "steady_valid_fraction": 1.0,
+      "valid_HR_values": [
+        60
+      ],
+      "reason_counts": {
+        "0": 15000
+      },
+      "resp_end_valid": 0,
+      "resp_end_reason": 34
+    },
+    {
+      "mode": "ecg90",
+      "pass": true,
+      "expected_HR": 90,
+      "steady_valid_fraction": 1.0,
+      "valid_HR_values": [
+        90
+      ],
+      "reason_counts": {
+        "0": 15000
+      },
+      "resp_end_valid": 0,
+      "resp_end_reason": 34
+    }
+  ],
+  "compile_exit": 0,
+  "status": "PASS_IDEAL_MODEL",
+  "BIO_source_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7"
+}

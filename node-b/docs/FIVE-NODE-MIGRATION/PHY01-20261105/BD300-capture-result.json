@@ -1,0 +1,39 @@
+{
+  "profile": "BD300",
+  "window_ms": 300000,
+  "CAN_RX_counts": {
+    "0x704": 600,
+    "0x384": 300,
+    "0x484": 300,
+    "0x684": 301,
+    "0x702": 600
+  },
+  "CRC_errors": 0,
+  "discarded_bytes": 0,
+  "truncated_bytes": 0,
+  "scope": "REAL_CAN_ONLY_NOT_CLOUD_OR_ANALOG_EYE",
+  "D_valid_models": 298,
+  "D_raw_model_matches": 298,
+  "D_received_temperature_C_range": [
+    23.92,
+    24.19
+  ],
+  "D_raw_max_age_ms": 65535,
+  "C_peak_TEC": 0,
+  "C_peak_REC": 0,
+  "C_TX": {
+    "acked": 633,
+    "failed": 0,
+    "busoff": 0
+  },
+  "C_capture_drop": 0,
+  "C_RX_overflow": 0,
+  "failures": [],
+  "status": "CAPTURE_PASS",
+  "exit_code": 0,
+  "START_attempts": 1,
+  "abort_attempts": 0,
+  "elapsed_host_seconds": 301.4059999999881,
+  "target_reset_flash_commands": 0,
+  "serial_closed": true
+}

@@ -1,0 +1,131 @@
+{
+  "deployed": {
+    "commit": "dca9a23f357a391c232b0e5248b5685562bf1c98",
+    "build_source_note": "B4-003 gain4 source frozen before this G4 tools-only work",
+    "bytes": 39948,
+    "bin_sha256": "676eb7a46ad9cd15c7bf93db51a1931d7711d37c6f2fd636197dc4a85b339b82",
+    "full_flash_sha256": "a1abed50a4c4dbab142a2319d61c047bc43b6816dd62754a080e3f7e12415091",
+    "archive": "E:\\medical-monitor-node-b-precan-private\\20261023\\b4-g4-20261023T120251414072Z\\B-package\\candidate-private.bin",
+    "scope": "ISOLATED_B4_BENCH_ONLY_NOT_FORMAL_CAN_DEPLOYMENT"
+  },
+  "restore_full_flash_sha256": "d2ea7cbf7081b20f82a4a6ca6dde4918b9c4d4b194a3c6c358c2d74012993316",
+  "old_25284B": "HISTORICAL_ONLY_NEVER_NEW_DEPLOYMENT_CANDIDATE",
+  "b4_can_software_candidate": {
+    "version": "B4-0.3",
+    "bytes": 39948,
+    "sha256": "676eb7a46ad9cd15c7bf93db51a1931d7711d37c6f2fd636197dc4a85b339b82",
+    "CH2_gain": 4,
+    "nominal_Vref_V": 2.42,
+    "absolute_voltage_calibrated": false,
+    "hardware_eligible": false,
+    "TI_LSB_denominator": 8388607,
+    "BIO_UI_denominator": 8388608,
+    "conversion_numerator": 126877696,
+    "conversion_denominator": 209715175,
+    "hardware_eligibility_scope": "FORMAL_CAN_NOT_APPROVED",
+    "installation_status": "INSTALLED_OWNER_AUTHORIZED_ISOLATED_BENCH_ONLY"
+  },
+  "hardware_deployment_authorized": true,
+  "requires_pi_admission": true,
+  "superseded_gain6_B4_candidate": {
+    "bytes": 39948,
+    "sha256": "ea3e94121473f6ba2a705e812ccc0dff4f4deaae1656b04fa7e5deb97dcb8073",
+    "status": "HISTORICAL_SOFTWARE_ONLY_NOT_A_DEPLOYMENT_CANDIDATE"
+  },
+  "superseded_gain4_UI_only_interim": {
+    "version": "B4-0.3",
+    "bytes": 39944,
+    "sha256": "4312f7ebf93bf1a85a645c63a43a3d2a498a2fadc6d079e5079a3a573289f8be",
+    "CH2_gain": 4,
+    "nominal_Vref_V": 2.42,
+    "absolute_voltage_calibrated": false,
+    "hardware_eligible": false,
+    "status": "INTERIM_SUPERSEDED_BEFORE_DEPLOYMENT"
+  },
+  "restore_deployed_25488B": {
+    "commit": "9988d37cd5470d6857bb535aab1d821cf2581302",
+    "bytes": 25488,
+    "bin_sha256": "b8e74577dae7a5a1f6caa27687193f5128f89bd70781f06a1d80b0c74d409b44",
+    "archive": "E:\\medical-monitor-node-b-precan-private\\20261023\\b4-software-20261023T093613216574Z\\L1-current\\BIO_V2-25488B.bin"
+  },
+  "authorization_scope": "Owner-approved isolated B+C install/restore/bench only; no cloud/protected branch changes",
+  "C_current": "C24104B_ARBITRATION_RETRY_FIX_INSTALLED_RESTORED_H3_REINSTALLED_FULL_VERIFY_PASS; FOUR180S_NOMINAL_CAN_PASS; ECG60_RALA_AND_RR15_RALL_SEPARATE_STEADY_VALID_TRANSPORT_PASS_COM6; SIMULTANEOUS_CPU_COLDBOOT_GATES_REMAIN",
+  "C_last_verified_full_flash_sha256": "b460d917e1d454fdb0882d1f837d91c606363179b817a3896a1df6897b2dcb98",
+  "C_boot_recovery": {
+    "reset_requests": 1,
+    "go_requests": 1,
+    "PC_at_reset": "0x080080C8",
+    "MSP_at_reset": "0x20020000",
+    "VTOR_running": "0x08000000",
+    "Fault": 0,
+    "root_cause_closed": false,
+    "scope": "HISTORICAL_ORIGINAL_H3_RECOVERY_NOT_CURRENT_C24104_VECTOR",
+    "is_current_C_reset_vector": false
+  },
+  "C_isolated_candidate": {
+    "bytes": 24104,
+    "sha256": "127ba765b8144e8f8ae98ef826ac2a98f45f8facb4021ce1888c004e5ca46547",
+    "full_expected_sha256": "b460d917e1d454fdb0882d1f837d91c606363179b817a3896a1df6897b2dcb98",
+    "manifest_sha256": "0ee3721462a33ae9a21d5c444eca4656265dab98ac0fc26b4b5e1a9c3cc1b178",
+    "sectors": [
+      0,
+      1
+    ],
+    "IRQ_vector_verified": true,
+    "installed": true,
+    "recovery_package": "NEW_CANDIDATE_ACTUALLY_RESTORED_ORIGINAL_H3_AND_REINSTALLED",
+    "hardware_eligible": false,
+    "original_full_sha256": "1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390",
+    "window_status": "ECG60_B_TO_C_VALID_TRANSPORT_ENGINEERING_PASS_COM6; RR15_SEPARATE_WINDOW_STEADY_VALID_TRANSPORT_PASS"
+  },
+  "B_last_turn_readback_note": "B39948B BIN/options/identity verified; ECG repeat all110 saved observations valid60, CH2 near-rail0, clipped increment0, ADC error increments0; healthy Flash close_resume. No additional agent reset/halt/go/Flash writes; historical ROM mechanism unresolved.",
+  "latest_CAN_window": "ECG60_B_TO_C_VALID_TRANSPORT_ENGINEERING_PASS",
+  "formal_CAN_release_authorized": false,
+  "C_previous_23952B": {
+    "bytes": 23952,
+    "sha256": "d30a35e7f7729c16f580c67e660f1f01a76e111606474f6b5e2a4eff8f44ac12",
+    "full_expected_sha256": "1f56dd2ec1eb8002b52b77eb3faf5986bb0336694ac993923c9a7575ba264a10",
+    "manifest_sha256": "e02514e64da5414ffa34249102cc2e11aece1d1979812aa492a83ef6a5766898",
+    "sectors": [
+      0,
+      1
+    ],
+    "IRQ_vector_verified": true,
+    "installed": true,
+    "recovery_package": "NEW_CANDIDATE_ACTUALLY_RESTORED_ORIGINAL_H3_AND_REINSTALLED",
+    "current_C_still_old_23744B": false,
+    "hardware_eligible": false,
+    "original_full_sha256": "1c7ea80359892a96a68503f9a0f054d16d860088f3831b0749b4eb7226549390",
+    "window_status": "B_CAN1_C_CAN2_180S_NOMINAL_TRANSPORT_ENGINEERING_PASS",
+    "historical_window_status": "B_CAN1_C_CAN2_180S_NOMINAL_TRANSPORT_ENGINEERING_PASS"
+  },
+  "latest_CAN_transport_validation": {
+    "C_bytes": 24104,
+    "completed180s_windows": 4,
+    "CAN_TX_failures": 0,
+    "CRC_errors": 0,
+    "packet_sequence_errors": 0,
+    "current_port": "COM6",
+    "evidence": "node-b/evidence/B4-ECG-RETEST-001/ecg60-rala-repeat-results.json"
+  },
+  "current_physiology_gates": {
+    "RR15_current_COM6": "STEADY_VALID_AND_TRANSPORT_PASS",
+    "ECG60_latest_C24104_window": "STEADY_VALID_AND_TRANSPORT_PASS_COM6_ECG_RETEST_001",
+    "same_window_ECG_RESP": "NOT_VALIDATED",
+    "cold_boot_current_B4": "NOT_VALIDATED_OBSERVATION_COUNTER_DISCREPANCY",
+    "impedance_amplitude": "NOT_CALIBRATED_INSTRUMENT_REQUIRED"
+  },
+  "latest_source_state": {
+    "mode": "NORMAL_ECG",
+    "HR_bpm": 60,
+    "amplitude_menu_mV": 1.0,
+    "leads": {
+      "R": "RA",
+      "L": "LA",
+      "F": "RL",
+      "LL": "EMPTY"
+    },
+    "RR_current": "INVALID_PROPAGATED_AS_ZERO",
+    "prior_RR15_RALL_PASS": "SEPARATE_SOURCE_MODE_WINDOW_NOT_SIMULTANEOUS_PASS"
+  }
+}

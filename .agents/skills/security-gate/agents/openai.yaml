@@ -1,0 +1,6 @@
+interface:
+  display_name: "统一安全门"
+  short_description: "明确授权后调用跨项目安全门，输出确定性结果、覆盖矩阵与脱敏报告"
+  default_prompt: "使用 $security-gate 对我明确指定的仓库执行已授权模式并汇报覆盖缺口。"
+policy:
+  allow_implicit_invocation: false

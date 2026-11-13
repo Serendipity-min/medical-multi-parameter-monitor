@@ -1,0 +1,15 @@
+{
+  "status": "M0_BC_NOT_PASS_INCOMPLETE_300_SECOND_WINDOW",
+  "reason": "REAL_CAN_CONTINUOUS_TELEMETRY_AUDIO_EMPTY_QUEUE_GATE_STARVATION_120_SECOND_AUDIO_LIMIT",
+  "maximum_audio_acked_chunks": 87,
+  "required_chunks": 125,
+  "capture_native_exit": 1,
+  "parent_native_exit": 1,
+  "B_native_exit": 0,
+  "STOP_cleanup_native_exit": 0,
+  "last_CAN_diag": "B5 DIAG tick=460236 session=2686439699 rx=69667 txack=504 txfail=0 overflow=0 esr=0 uart_err=0 live=4 cache=0 dropped=0 q0_transport=796 q1_puback=816 mqtt_fail=0 stop=0",
+  "actual_IRQ": "UNI IRQ group=3 can_a=0 can_b=3 dma=8 calls_a=0 calls_b=69677",
+  "elapsed_C_evaluation_logged_s": 120.23399999999674,
+  "A_B_Flash_writes": 0,
+  "source_truth_unchanged": true
+}

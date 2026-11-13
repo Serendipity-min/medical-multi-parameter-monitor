@@ -1,0 +1,40 @@
+{
+  "status": "B4_B_ADC_RUNTIME_OBSERVED_PASS",
+  "exit_code": 0,
+  "snapshots": 281,
+  "device_sps": 249.89312655788595,
+  "samples_advanced": 37996,
+  "clipped_samples_advanced": 0,
+  "HR_RR_simultaneous_acceptance": false,
+  "CPU_ROM_root_cause": "UNRESOLVED",
+  "explicit_target_reset_halt_go_writes": 0,
+  "sdk_calls": 4812,
+  "close_resume": true,
+  "CAN_before": {
+    "offered": 8781,
+    "enqueued": 8781,
+    "sent_ecg": 0,
+    "sent_resp": 0,
+    "overflow": 0,
+    "expired": 8781,
+    "comm_reset": 0,
+    "app_reset_rejected": 0,
+    "high_water": 1,
+    "error": 0,
+    "discontinuities": 0
+  },
+  "CAN_after": {
+    "offered": 46777,
+    "enqueued": 46777,
+    "sent_ecg": 37420,
+    "sent_resp": 7484,
+    "overflow": 0,
+    "expired": 9357,
+    "comm_reset": 0,
+    "app_reset_rejected": 0,
+    "high_water": 1,
+    "error": 0,
+    "discontinuities": 0
+  },
+  "CAN1_ESR_nonzero_observations": 0
+}

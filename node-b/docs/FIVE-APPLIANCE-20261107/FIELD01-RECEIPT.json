@@ -1,0 +1,317 @@
+{
+  "issue": 8,
+  "status": "PRECONDITION_BLOCKED",
+  "blocked_by": [
+    "ESP_AT_WIFI_JOIN_FAILED_BEFORE_T0"
+  ],
+  "start_budget_consumed": true,
+  "evaluation_window_started": false,
+  "field_attempt": {
+    "status": "PRECONDITION_BLOCKED",
+    "reason": "ESP_AT_WIFI_JOIN_FAILED_BEFORE_T0",
+    "C_usb_uart_supplies_power": true,
+    "fresh_C_boot_banner": true,
+    "START_sent": 1,
+    "START_accepted": true,
+    "start_budget_consumed": true,
+    "evaluation_window_started": false,
+    "K1_cue_sent": false,
+    "C_stop_seen": true,
+    "accepted_start_to_wifi_failure_s": 15.125,
+    "wifi_failure_subcode": "NOT_EXPORTED",
+    "tls_mqtt_attempted": false,
+    "uart_attach_failures": 292,
+    "MQTT_received": 0,
+    "audio_metadata_received": 0,
+    "native_exits": {
+      "observer_exit": 0,
+      "controller_exit": 2,
+      "start_marker": true
+    },
+    "owner_power_off_confirmation": "PENDING",
+    "raw_sha256": {
+      "C-uart-private.jsonl": "83c46527c0438f64273d7d6c655310d732f20825cab8ed6a688e58afaf2da308",
+      "START_SENT.json": "c409c94a0c1a6deb7094b183948de0118ebe0597d9339d9f527edaa2adba73a6",
+      "HOST_ENDED.json": "d0c9ad678f495db0938fc12aa57a178099f4fe32de808534eb79925f7be0e576",
+      "process-exits-public.json": "9390a244d8d649e7c7a1db161f3b4cba2fc5f224521764fd1023ca5e89ad1b1c",
+      "receiver/receipt-public.json": "cbd778d125df291b30570019a4ff3a2e61ca946912b9485bfdb89d5ead0eda03"
+    }
+  },
+  "wifi_comparison": {
+    "ECG60": {
+      "ssid_matches_persisted_sector3": false,
+      "password_matches_persisted_sector3": false,
+      "source_mentions_external_or_phone": true,
+      "source_mentions_windows": true
+    },
+    "RR18": {
+      "ssid_matches_persisted_sector3": false,
+      "password_matches_persisted_sector3": false,
+      "source_mentions_external_or_phone": true,
+      "source_mentions_windows": true
+    },
+    "prior_two_profiles_match_each_other": true,
+    "current_field_credential_selection": "PERSISTED_SECTOR3",
+    "prior_successful_window_credential_selection": "HOST_RAM_OVERRIDE",
+    "current_hotspot_live_parameters_verified": false,
+    "esp_at_wifi_failure_subcode": "NOT_EXPORTED"
+  },
+  "C_readback": {
+    "exit_code": 0,
+    "status": "ABC_BOARD_DOUBLE_READ_BACKUP_PASS",
+    "known_reference_identity_matched": true,
+    "independent_reads_match": true,
+    "Close_completed": true,
+    "target_writes": 0,
+    "full_flash_matches_last_installed": true,
+    "options_match_last_installed": true,
+    "sector3_matches_verified_tls_config": true,
+    "sector3_crc_valid": true,
+    "worker_native_exit_code": 0,
+    "supervisor_stop_reason": null
+  },
+  "C_install": {
+    "native_exit_code": 0,
+    "stop_reason": null,
+    "status": "UNIFIED_C_INSTALL_FULL_VERIFY_PASS",
+    "exit_code": 0,
+    "sectors": [
+      0,
+      4
+    ],
+    "options_unchanged": true,
+    "all_other_sectors_unchanged": true,
+    "Close_completed": true,
+    "error_type": null,
+    "sector3_unchanged": true,
+    "boot_sha256": "107762c526e3529f7c4ff1eb910efe23a25af8a0064985903bcf26d8432ddc16",
+    "sector4_image_sha256": "74a985d56bd3d6605b0c1623167b49d4982e093ad5e95497deb3d497fb1b03ea"
+  },
+  "owner_reported_CAN_HL_ohms": {
+    "C1_A_E": 40.0,
+    "C2_B_D": 40.9
+  },
+  "isolation_preflight": {
+    "archived_C_sector3_crc_pass": true,
+    "external_tls": {
+      "version": "TLSv1.2",
+      "hostname_verified": true,
+      "chain_and_validity_verified": true
+    },
+    "observer_suback_topics": 3,
+    "archived_C_mqtt311_connack": true,
+    "synthetic_c_to_observer_telemetry_and_audio_topic": true,
+    "acl_denied_gateway_reply_puback": 135,
+    "acl_denied_observer_publish_puback": 135,
+    "synthetic_reply_gateway_and_observer": true,
+    "invalid_gateway_password_rejected": true,
+    "status": "ISOLATION_SERVER_PREFLIGHT_PASS"
+  },
+  "prestart_attempts": [
+    {
+      "status": "PRECONDITION_BLOCKED",
+      "reason": "COM15_NOT_OPENED_WITHIN_HOST_PRESTART_ATTACH_BOUND",
+      "physical_power_attempt_issued": true,
+      "owner_power_off_confirmation": "PENDING",
+      "host_uart_attach_budget_s": 15,
+      "uart_open_exception_detail": "NOT_CAPTURED_BY_CONTROLLER",
+      "COM15_OS_enumerated_after_attempt": true,
+      "start_commands": 0,
+      "T0_seen": false,
+      "window_consumed": false,
+      "K1_cue_sent": false,
+      "C_uart_lines": 0,
+      "broker_telemetry": 0,
+      "broker_audio_metadata": 0,
+      "controller_native_exit": 2,
+      "observer_native_exit": 0,
+      "all_observer_children_exited": true,
+      "C_candidate_installed": true,
+      "rollback_executed": false,
+      "tool_sha256": {
+        "field01_receiver.py": "766cc9a3295499bc8d854e25e24d80baeea998cb79fe1b2894e67ad67477ea1a",
+        "field01_short_window.py": "df1fc4c328ef5cd34e13091b071c80505315a9b14119565271f8f6dd98176349"
+      },
+      "raw_sha256": {
+        "HOST_READY.json": "79513591a581e0444fd6f44d3b2d7d8c837f8ed31250adca38f951818c7e440d",
+        "HOST_ENDED.json": "fb188b3417bac0f975d1d2b5d4f10e91bbe9c8ae5d2493f8a17be410738675c1",
+        "C-uart-private.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "process-exits-public.json": "db58c8164484210a9457fd7685bb6934da8d76b13ae39f176061649074b96c46",
+        "receiver/receipt-public.json": "ce4aa87c4740f4d1058bf6a44be25f5cbcabcd2a6dfbbf4bbdcaa47331db82d5"
+      }
+    },
+    {
+      "status": "PRECONDITION_BLOCKED",
+      "host_reason": "C_BOOT_BANNER_NOT_SEEN",
+      "COM15_preopened": true,
+      "C_fresh_boot_banner_seen": false,
+      "C_stop_seen_in_raw_uart": true,
+      "C_stop_tick_ms": 45000,
+      "C_stop_relative_to_host_ready_s": 13.828,
+      "start_commands": 0,
+      "window_consumed": false,
+      "MQTT_received": 0,
+      "audio_metadata_received": 0,
+      "native_exits": {
+        "observer_exit": 0,
+        "controller_exit": 2,
+        "start_marker": false
+      },
+      "raw_sha256": {
+        "HOST_READY.json": "f2d1effab7c76e3159664cd4af830f923a8282f0b3daafc0aadf85dcb3eb87e6",
+        "HOST_ENDED.json": "b1c65d2a901ff746a6509e8f0c5835d58c5751a694e21530288ac7ee506f3f40",
+        "C-uart-private.jsonl": "6575b92183f9250325505ce76e72371586486ad42c935d54971a432aa2d3efdb",
+        "process-exits-public.json": "db58c8164484210a9457fd7685bb6934da8d76b13ae39f176061649074b96c46"
+      }
+    }
+  ],
+  "USB_passive_observation": {
+    "enumerated": true,
+    "open": true,
+    "serial_writes": 0,
+    "C_boot_banner": true,
+    "C_stop": false,
+    "rx_bytes": 88,
+    "status": "TARGET_ACTIVITY"
+  },
+  "initial_preflight": {
+    "window_consumed": false,
+    "blocked_by": [
+      "ISOLATED_TLS_LISTENER_ABSENT",
+      "ISOLATED_OBSERVER_LISTENER_ABSENT"
+    ],
+    "isolated_precondition": {
+      "check": "AUTHORIZED_ISOLATED_SERVICE_HOST_LOCAL_TCP_LISTENERS_READ_ONLY",
+      "ssh_exit_code": 0,
+      "tcp_listener_counts": {
+        "1883": 0,
+        "18885": 0,
+        "28895": 0
+      },
+      "historical_units": [
+        "failed",
+        "failed"
+      ],
+      "tls_handshake_cert_acl_device_role_match": "NOT_RUN"
+    },
+    "reported_site": {
+      "debug_probe_board": "C",
+      "usb_serial": "COM15",
+      "fresh_board_identity_and_wiring": "NOT_RUN"
+    },
+    "physical": {
+      "start_commands": 0,
+      "diagnostic_windows": 0,
+      "new_power_actions": 0,
+      "flash_writes": 0,
+      "board_readbacks": 0,
+      "K1_recordings": 0,
+      "pump_operations": 0,
+      "result": "NOT_RUN"
+    },
+    "runtime_evidence": {
+      "network_at_phases": "NOT_RUN",
+      "broker_frames": "NOT_RUN",
+      "CAN_NMT_errors": "NOT_RUN",
+      "audio_64_blocks": "NOT_RUN",
+      "TTS_ACK_DONE_STOP_IDLE": "NOT_RUN",
+      "throughput_and_source_age": "NOT_RUN"
+    },
+    "status": "PRECONDITION_BLOCKED"
+  },
+  "work_branch": "codex/field01-egress-probe",
+  "base": "4616c30f03b00ad6bf47527a525b6f029de2143d",
+  "offline_build": {
+    "status": "PASS",
+    "exit_code": 0,
+    "target": "FIVE_FIELD01_C",
+    "directory": "node-b/build/b4-c-arm-20261107T082730582664Z",
+    "boot_bytes": 392,
+    "sector4_load_bytes": 57596,
+    "flash_load_bytes": 57988,
+    "sector4_remaining_bytes": 7940,
+    "sram_static_bytes": 82432,
+    "heap_and_stack_reserve_bytes": 32768,
+    "sram_static_and_reserved_bytes": 115200,
+    "stack_reserved_min_bytes": 8192,
+    "stack_to_heap_boundary_bytes": 24064,
+    "snapshot_static_stack_frame_bytes": 1264,
+    "runtime_stack_watermark": "NOT_RUN",
+    "ccm_bytes": 64000,
+    "ccm_remaining_bytes": 1536,
+    "irq_vectors_verified": true,
+    "artifact_sha256": {
+      "FIVE_FIELD01_C-boot.bin": "107762c526e3529f7c4ff1eb910efe23a25af8a0064985903bcf26d8432ddc16",
+      "FIVE_FIELD01_C-code.bin": "74a985d56bd3d6605b0c1623167b49d4982e093ad5e95497deb3d497fb1b03ea",
+      "FIVE_FIELD01_C.elf": "4569cc95c4def304ac3611b937c1403538890df27f03e5dfc9b58854ae02c56c",
+      "FIVE_FIELD01_C.hex": "df640444f8ac3bc8981a4201e750011495ee9dbf360c9d39f4c0ca0528ef23f8"
+    },
+    "build_receipt_sha256": "48a525e2c2b30e54789dac89081b1c7f1642e5b271b5021f77fa7a921ed9e595",
+    "map_sha256": "eae5ccef7ed2b9fafe6666837ff7c242fd7a56f276fd77a3c2d013a83f8c9121"
+  },
+  "host": {
+    "result": "PASS",
+    "exit_code": 0,
+    "cases": [
+      {
+        "case": "startup",
+        "exit": 0
+      },
+      {
+        "case": "keys-short-audio",
+        "exit": 0
+      },
+      {
+        "case": "legacy-audio",
+        "exit": 0
+      },
+      {
+        "case": "field01-probe",
+        "exit": 0
+      }
+    ],
+    "test_source_sha256": "7796301c8e4185ffed63131992a9284402c3aa7bc90c2a51a0bdfb1fbbb061fc"
+  },
+  "planned_window": {
+    "max_power_ms": 210000,
+    "ready_ms": 45000,
+    "observe_ms": 150000,
+    "key_open_ms_from_t0": 35000,
+    "key_close_ms_from_t0": 40000,
+    "pcm_samples": 16160,
+    "MC01_chunks": 64
+  },
+  "flash_plan": {
+    "status": "PASS",
+    "scope": "ARCHIVE_AND_OFFLINE_PLAN_ONLY",
+    "exit_code": 0,
+    "original_archived_flash_sha256": "02e45d16adf6cb2b9716fd9cede010b50c3c2b6643ef997ffbb55329f77ad3dc",
+    "original_build_tls_port": 1883,
+    "original_application_sizes_bytes": [
+      392,
+      56072
+    ],
+    "write_ranges": [
+      {
+        "sector": 0,
+        "address": 134217728,
+        "bytes": 16384
+      },
+      {
+        "sector": 4,
+        "address": 134283264,
+        "bytes": 65536
+      }
+    ],
+    "rollback_exact_full_flash": true,
+    "original_options_match_archived_install": true,
+    "outside_sectors_0_4_preserved": true,
+    "fresh_board_readback": "NOT_RUN"
+  },
+  "capacity": {
+    "status": "CAPACITY_NOT_PASS",
+    "scope": "PRIOR_P1_P3_EVIDENCE",
+    "egress_batches_s": 8.08,
+    "source_lower_bound_batches_s": 10.45
+  }
+}

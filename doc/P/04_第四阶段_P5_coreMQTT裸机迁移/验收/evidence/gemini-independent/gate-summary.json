@@ -1,0 +1,54 @@
+{
+  "mode": "pr",
+  "target_sha": "d1e7388a91149a7c66e6cf1a5df7321bbb8eab12",
+  "base_sha": "8dee339491cfd4edc468bb9451511d421f26db5e",
+  "gate_result": "CONDITIONAL PASS",
+  "gate_exit_code": 2,
+  "blockers_count": 0,
+  "warnings_count": 114,
+  "tool_errors_count": 0,
+  "accepted_findings_count": 6,
+  "coverage_gaps_count": 9,
+  "files_sha256": {
+    "gate_result_json": "e81d9dfd50ce06151ba0db0a3823f2fec63b901a62a3fa6f4c08684d3f850637",
+    "coverage_json": "6e90f150964bc9f3e045fbef815a47c8ee33f36fd1a16451b133a9d97c9f296d",
+    "normalized_findings_json": "2e2d281dc59363b0902218f30fc3d30a6bf36c77868c1415a5e008024fc8c1f9",
+    "report_integrity_json": "0c475102fda10ca86b29397d4b1d0921b3b829e19a2196d609952a699dd7b566",
+    "gate_report_md": "1b91d9126737ce04482c5d4da87abebb4e56c8264daaa435e4af31ac7bcab0a1",
+    "doctor_json": "b671949af5acf4fc1bd38cfbf0cff0bba515215de2b1f108b77c91817c25b00b"
+  },
+  "mandatory_tools": {
+    "doctor": "OK",
+    "semgrep-pro-validation": "OK",
+    "semgrep": "OK",
+    "gitleaks": "OK",
+    "trivy": "OK",
+    "pip-audit-0": "OK",
+    "npm-audit-0": "OK",
+    "clang-tidy": "OK",
+    "npm-ci-0": "OK",
+    "p5-coremqtt-asan-ubsan": "OK",
+    "backend-tests": "OK",
+    "canopen-host-tests": "OK",
+    "c-backend-test": "OK",
+    "coremqtt-integrity": "OK",
+    "p5-source-contract-tests": "OK",
+    "p5-coremqtt-ordinary": "OK",
+    "web-build": "OK",
+    "gateway-build": "OK"
+  },
+  "arm_binary": {
+    "elf": {
+      "bytes": 66820,
+      "sha256": "4c20bb677293cafe9cb91b4ff7f81fc49e9c03add7faaaf3800769b900e99c47"
+    },
+    "bin": {
+      "bytes": 35892,
+      "sha256": "47e7b37ca870028c0efcfa75957993bac1376e8c5a8cacf81cffb5e8abcdf69d"
+    },
+    "map": {
+      "bytes": 274973,
+      "sha256": "b2812ed4f72c12e19eac714b7e2f6b23091779bef5b094ff373cfd32654dbfcc"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "status": "OFFLINE_PASS_NOT_INSTALLED",
+  "BIN_bytes": 29224,
+  "BIN_SHA256": "d840ad7b74337932467a02619be5f3174d0bb3a8ba882dc4e24abc1a204bd714",
+  "checks": [
+    {
+      "tool": "gcc.exe",
+      "native_exit": 0
+    },
+    {
+      "tool": "test_protocol.exe",
+      "native_exit": 0
+    },
+    {
+      "tool": "python",
+      "native_exit": 0
+    }
+  ],
+  "UTC_source": "SSH authenticated server; NTP synchronized; original B5 SNTP source unchanged",
+  "configuration": "WIFI_RAM_V3_SSH_UTC,249-byteMCF3",
+  "sectors": [
+    0,
+    1
+  ]
+}

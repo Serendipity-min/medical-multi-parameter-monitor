@@ -1,0 +1,35 @@
+{
+  "status": "SNTP_CLEAN_PASS_PUBLIC_REPLY_RECEIVED_FROZEN_RTT_BLOCKED",
+  "exit_code": 1,
+  "round_sessions": 3,
+  "SNTP_enable_total": 1,
+  "manual_packets_total": 1,
+  "SDK_calls_by_session": [
+    930,
+    7245,
+    4005
+  ],
+  "SDK_calls_total": 12180,
+  "first_protocol_ERROR_preserved": true,
+  "first_failure_no_join_no_SNTP_enable": true,
+  "SNTP_clean_pass": true,
+  "SNTP_cleanup_verified": true,
+  "SNTP_valid_time_progression": true,
+  "UDP_cleanup_verified": true,
+  "UDP_return_bytes": 48,
+  "UDP_nonce_LI_mode_stratum_epoch_fields_pass": true,
+  "frozen_full_interval_ms": 2578,
+  "frozen_1000ms_C_gate_pass": false,
+  "physical_stop_required": false,
+  "NVM_Flash_sector3_Reset_Go_B5START_cloud_actions": 0,
+  "gen5": "NOT_GENERATED_OR_WRITTEN_FULL_GATE_NOT_PASS",
+  "G3": "NOT_RUN",
+  "historical_CPU_ROM_and_HALT": "UNRESOLVED",
+  "raw_sources_sha256": {
+    "first_receipt": "c38881ca8a038df7f215d73a0990ad73a23481155f56551df7ab4b1ac31bcd0d",
+    "SNTP_receipt": "6bca6d021fd4f6c7f715d2c894e2d847dd7699153d512739063ba27aa707c911",
+    "UDP_receipt": "9448c36e3bb927e4403712a1b80eea542cacf2ca3d804119030f57fe55a2c852",
+    "UDP_passive_wire": "ece2a6f9cf362f0ec747845a5f6f9947e8d4ecf35aa20e51d91f21b87146c11a",
+    "UDP_packet48": "54e4b03294825b0c87e003d4adb07a384b6c4f58bc75769bb16ef0e7117938bc"
+  }
+}

@@ -1,0 +1,313 @@
+{
+  "version": "B4-0.3",
+  "scope": "HOST_OFFLINE_SYNTHETIC_NOT_HARDWARE",
+  "cases": [
+    {
+      "name": "compile-node-b",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "passed": true,
+      "command": [
+        "C:/mingw64/bin/gcc.exe",
+        "-std=c99",
+        "-O2",
+        "-DB4_HOST",
+        "-Wall",
+        "-Wextra",
+        "-Wno-unused-parameter",
+        "-IE:\\medical-monitor-node-b4-software\\node-b\\canopen",
+        "-IE:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode",
+        "-IE:\\medical-monitor-node-b4-software\\node-b\\firmware\\biov2\\实验固件\\HARDWARE",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\CANopen.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_Emergency.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_fifo.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_HBconsumer.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_NMT_Heartbeat.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_Node_Guarding.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_ODinterface.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_PDO.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_SDOclient.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_SDOserver.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_SYNC.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_TIME.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\crc16-ccitt.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\303\\CO_LEDs.c",
+        "E:\\medical-monitor-node-b4-software\\node-b\\canopen\\OD.c",
+        "E:\\medical-monitor-node-b4-software\\node-b\\canopen\\b_canopen_app.c",
+        "E:\\medical-monitor-node-b4-software\\node-b\\tests\\b4_host_driver.c",
+        "E:\\medical-monitor-node-b4-software\\node-b\\tests\\b4_node_protocol.c",
+        "E:\\medical-monitor-node-b4-software\\node-b\\firmware\\biov2\\实验固件\\HARDWARE\\bio_v2.c",
+        "-lm",
+        "-o",
+        "E:\\medical-monitor-node-b4-software\\node-b\\build\\b4-host-20261023T122616559758Z\\b4_node.exe"
+      ],
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "node-b-protocol",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "passed": true,
+      "command": [
+        "E:\\medical-monitor-node-b4-software\\node-b\\build\\b4-host-20261023T122616559758Z\\b4_node.exe",
+        "E:\\medical-monitor-node-b4-software\\node-b\\build\\b4-host-20261023T122616559758Z\\b2-synthetic-wire.txt"
+      ],
+      "log_sha256": "7094aeca649ba975be92cf1c236ec77124300d6d219b89c7d3ffb30faa1686d4"
+    },
+    {
+      "name": "node-b-jitter-protocol",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "passed": true,
+      "command": [
+        "E:\\medical-monitor-node-b4-software\\node-b\\build\\b4-host-20261023T122616559758Z\\b4_node.exe",
+        "E:\\medical-monitor-node-b4-software\\node-b\\build\\b4-host-20261023T122616559758Z\\b2-jitter-wire.txt",
+        "jitter"
+      ],
+      "log_sha256": "48dc0d4290f007ccfc310970f1fb5b7bc8a8bb03d812068e7cbfa31b4a480705"
+    },
+    {
+      "name": "compile-ecg-gain4",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "passed": true,
+      "command": [
+        "C:/mingw64/bin/gcc.exe",
+        "-std=c99",
+        "-O2",
+        "-DB4_HOST",
+        "-DMP_FRAME_MAX_SAMPLES=100",
+        "-Wall",
+        "-Wextra",
+        "-Wno-unused-parameter",
+        "-IE:\\medical-monitor-node-b4-software\\node-b\\canopen",
+        "-IE:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode",
+        "-IE:\\medical-monitor-node-b4-software\\node-b\\firmware\\biov2\\实验固件\\HARDWARE",
+        "-IE:\\medical-monitor-node-b4-software\\gateway\\data_model",
+        "-IE:\\medical-monitor-node-b4-software\\gateway\\third_party\\coreMQTT\\source\\include",
+        "-IE:\\medical-monitor-node-b4-software\\gateway\\third_party\\coreMQTT\\source\\interface",
+        "-IE:\\medical-monitor-node-b4-software\\gateway\\mqtt\\src",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\CANopen.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_Emergency.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_fifo.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_HBconsumer.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_NMT_Heartbeat.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_Node_Guarding.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_ODinterface.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_PDO.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_SDOclient.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_SDOserver.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_SYNC.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_TIME.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\crc16-ccitt.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\303\\CO_LEDs.c",
+        "E:\\medical-monitor-node-b4-software\\node-b\\canopen\\OD.c",
+        "E:\\medical-monitor-node-b4-software\\node-b\\canopen\\b_canopen_app.c",
+        "E:\\medical-monitor-node-b4-software\\node-b\\tests\\b4_host_driver.c",
+        "E:\\medical-monitor-node-b4-software\\node-b\\firmware\\biov2\\实验固件\\HARDWARE\\bio_v2.c",
+        "E:\\medical-monitor-node-b4-software\\node-b\\tests\\b4_ecg_units.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\data_model\\model.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\coreMQTT\\source\\core_mqtt_serializer.c",
+        "-lm",
+        "-o",
+        "E:\\medical-monitor-node-b4-software\\node-b\\build\\b4-host-20261023T122616559758Z\\b4_units.exe"
+      ],
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "ecg-gain4-wire-and-json",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "passed": true,
+      "command": [
+        "E:\\medical-monitor-node-b4-software\\node-b\\build\\b4-host-20261023T122616559758Z\\b4_units.exe",
+        "E:\\medical-monitor-node-b4-software\\node-b\\build\\b4-host-20261023T122616559758Z\\gain4-mv.jsonl"
+      ],
+      "log_sha256": "e9b09cfcfbc5c62860a0bbf5a153993ee2e2d01d6f14356e426bc9c98b15045d"
+    },
+    {
+      "name": "ecg-gain4-existing-backend",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "passed": true,
+      "command": [
+        "C:\\Users\\Serendipity\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "E:\\medical-monitor-node-b4-software\\node-b\\tests\\b4_ecg_json.py",
+        "E:\\medical-monitor-node-b4-software\\node-b\\build\\b4-host-20261023T122616559758Z\\gain4-mv.jsonl"
+      ],
+      "log_sha256": "99aa42547b3b9cfb1e72008df66fb4c7b2b72fb26e907ed9aabf1a9e571e06d8"
+    },
+    {
+      "name": "compile-dual-gateway",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "passed": true,
+      "command": [
+        "C:/mingw64/bin/gcc.exe",
+        "-std=c11",
+        "-O2",
+        "-DCO_MULTIPLE_OD",
+        "-DMP_FRAME_MAX_SAMPLES=100",
+        "-DMP_CACHE_CAPACITY=64",
+        "-Wall",
+        "-Wextra",
+        "-Wno-unused-parameter",
+        "-Werror",
+        "-IE:\\medical-monitor-node-b4-software\\gateway\\dual_can",
+        "-IE:\\medical-monitor-node-b4-software\\gateway\\canopen\\src",
+        "-IE:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode",
+        "-IE:\\medical-monitor-node-b4-software\\gateway\\third_party\\coreMQTT\\source\\include",
+        "-IE:\\medical-monitor-node-b4-software\\gateway\\third_party\\coreMQTT\\source\\interface",
+        "-IE:\\medical-monitor-node-b4-software\\gateway\\mqtt\\src",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\CANopen.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_Emergency.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_fifo.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_HBconsumer.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_NMT_Heartbeat.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_Node_Guarding.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_ODinterface.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_PDO.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_SDOclient.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_SDOserver.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_SYNC.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\CO_TIME.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\CANopenNode\\301\\crc16-ccitt.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\canopen\\src\\mp_od.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\dual_can\\b4_bus.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\dual_can\\b4_gateway.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\data_model\\model.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\storage\\router.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\dual_can\\tests\\simulator.c",
+        "E:\\medical-monitor-node-b4-software\\gateway\\third_party\\coreMQTT\\source\\core_mqtt_serializer.c",
+        "-o",
+        "E:\\medical-monitor-node-b4-software\\node-b\\build\\b4-host-20261023T122616559758Z\\b4_gateway.exe"
+      ],
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "dual-gateway",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "passed": true,
+      "command": [
+        "E:\\medical-monitor-node-b4-software\\node-b\\build\\b4-host-20261023T122616559758Z\\b4_gateway.exe",
+        "E:\\medical-monitor-node-b4-software\\node-b\\build\\b4-host-20261023T122616559758Z\\b2-synthetic-wire.txt"
+      ],
+      "log_sha256": "51a7efd71060f1ea55d6c699d9e90198995d31dee384ba0eda4844f1eede18e2"
+    },
+    {
+      "name": "dual-gateway-5s-mqtt-pressure",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "passed": true,
+      "command": [
+        "E:\\medical-monitor-node-b4-software\\node-b\\build\\b4-host-20261023T122616559758Z\\b4_gateway.exe",
+        "E:\\medical-monitor-node-b4-software\\node-b\\build\\b4-host-20261023T122616559758Z\\b2-synthetic-wire.txt",
+        "pressure"
+      ],
+      "log_sha256": "1e3fee2825e48b5ed9e987f147d8fe6c19140ace69eb17edd23817c8aff15483"
+    },
+    {
+      "name": "dual-gateway-jitter",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "passed": true,
+      "command": [
+        "E:\\medical-monitor-node-b4-software\\node-b\\build\\b4-host-20261023T122616559758Z\\b4_gateway.exe",
+        "E:\\medical-monitor-node-b4-software\\node-b\\build\\b4-host-20261023T122616559758Z\\b2-jitter-wire.txt"
+      ],
+      "log_sha256": "51a7efd71060f1ea55d6c699d9e90198995d31dee384ba0eda4844f1eede18e2"
+    },
+    {
+      "name": "c-to-existing-backend",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "passed": true,
+      "command": [
+        "C:\\Users\\Serendipity\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "E:\\medical-monitor-node-b4-software\\node-b\\tests\\b4_backend.py",
+        "E:\\medical-monitor-node-b4-software\\node-b\\build\\b4-host-20261023T122616559758Z\\dual-gateway-canonical.jsonl"
+      ],
+      "log_sha256": "95278753c99d749c875a6b521566abd6ecacc08418881cf352c90185674fa15a"
+    },
+    {
+      "name": "i2s2-conflict-negative",
+      "exit_code": 1,
+      "expected_exit": 1,
+      "passed": true,
+      "command": [
+        "C:/mingw64/bin/gcc.exe",
+        "-E",
+        "-x",
+        "c",
+        "-IE:\\medical-monitor-node-b4-software\\gateway\\dual_can",
+        "-include",
+        "b4_resources.h",
+        "-DMP_FRAME_MAX_SAMPLES=100",
+        "-DMP_CACHE_CAPACITY=64",
+        "-DB4_I2S2_PB12_PB13=1",
+        "-"
+      ],
+      "log_sha256": "591eb9130a56d9213b7be8ed23482c7662d9cb16bfe990c7c1c24ad16347059b"
+    },
+    {
+      "name": "mixed-model-abi-negative",
+      "exit_code": 1,
+      "expected_exit": 1,
+      "passed": true,
+      "command": [
+        "C:/mingw64/bin/gcc.exe",
+        "-E",
+        "-x",
+        "c",
+        "-IE:\\medical-monitor-node-b4-software\\gateway\\dual_can",
+        "-include",
+        "b4_resources.h",
+        "-DMP_FRAME_MAX_SAMPLES=250",
+        "-DMP_CACHE_CAPACITY=64",
+        "-"
+      ],
+      "log_sha256": "5759f067b698652435416116ab01e954ff889a85361534ebaf7c4e8be3e5ef3d"
+    }
+  ],
+  "status": "PASS",
+  "source_sha256": {
+    "gateway\\third_party\\CANopenNode\\CANopen.c": "880ce212a88b13d00d88cc3ad2bd0361e8eff904645f8d67c85f215805a9b658",
+    "gateway\\third_party\\CANopenNode\\301\\CO_Emergency.c": "be85a4515c3b5b0c0da37e9025a4f60d8eae4fef739d7b4df463c16705bb06cb",
+    "gateway\\third_party\\CANopenNode\\301\\CO_fifo.c": "f7bd28caa6af90bd243fddf500058113dd9cf0a22e46638c4b6f0c331fb6c3fc",
+    "gateway\\third_party\\CANopenNode\\301\\CO_HBconsumer.c": "8507404f1fcf5e66680699cb3f698ea805d337a6f5c01e7688a780ac54ca0a8e",
+    "gateway\\third_party\\CANopenNode\\301\\CO_NMT_Heartbeat.c": "2ad2b2f92ea1198de0ca3b28465d50039a8de09f6f33587ee9735c7b63e2589d",
+    "gateway\\third_party\\CANopenNode\\301\\CO_Node_Guarding.c": "08549daae43832074b2c5e9f454d7d5793666621f69d37c27ebc6497cd9b9922",
+    "gateway\\third_party\\CANopenNode\\301\\CO_ODinterface.c": "af3672c73c8b2e6141fb59a21d0f8b757240fc77dc25720b446a21a96fc1dd75",
+    "gateway\\third_party\\CANopenNode\\301\\CO_PDO.c": "4791d3acaa044fbe4c05b3b9cd4cbe76c07d9534b04adda3f3df12fdc71a2252",
+    "gateway\\third_party\\CANopenNode\\301\\CO_SDOclient.c": "2c5a779e4ec9e65215e3ebd119dfddcee98bac4d6ea59574e6f6d90d1f3b5529",
+    "gateway\\third_party\\CANopenNode\\301\\CO_SDOserver.c": "27d3e86c519bd99e388f57f5b44192a44d75aaf3247aae9e00db13a17fddd00b",
+    "gateway\\third_party\\CANopenNode\\301\\CO_SYNC.c": "f140a45ea032cbf360a2fb8429ed7498a37c1e9ecedcb2b5d6dc387ea21c78a9",
+    "gateway\\third_party\\CANopenNode\\301\\CO_TIME.c": "bea365c4d56bcd83182018c54fa4c2bf921dd835d10f3332ef191a148ff17bdc",
+    "gateway\\third_party\\CANopenNode\\301\\crc16-ccitt.c": "bc9a9278008276eefd264e6724b906230f7f8b3c32183c50443201c4ff4f25b8",
+    "gateway\\third_party\\CANopenNode\\303\\CO_LEDs.c": "d9147ae486e050d889e00ed1d4565ac5f1899a1cd287e4629e84dff5c0bbe637",
+    "node-b\\canopen\\OD.c": "5aeadffde08d15970f566afcf0837532c00a719b99aff0c3a36183ccfcdd27e0",
+    "node-b\\canopen\\b_canopen_app.c": "82ab9aea4b2b4f9332ec44d7d6562d8b43bf051cffb39a4c08006509945ee019",
+    "node-b\\tests\\b4_host_driver.c": "e2fc956d4f880974030023a2a98d9719fbc4189197a43aed3da4ed4399d2a0c2",
+    "node-b\\tests\\b4_node_protocol.c": "f961dede2ac24c5e7327c7a70b1d06da8fdb992de890f06344b780c5ff211839",
+    "node-b\\firmware\\biov2\\实验固件\\HARDWARE\\bio_v2.c": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+    "node-b\\tests\\b4_ecg_units.c": "06828d8ee3192bf113364acaa0cf9acfd360f89a9dfda17c5d2243a2eefb1fc8",
+    "gateway\\data_model\\model.c": "5b7cf8b601af68558447bad8335fd2653f7e9d0c86e02823e003995151dcdc1e",
+    "gateway\\third_party\\coreMQTT\\source\\core_mqtt_serializer.c": "1e4bf5a2b307f37f3cbc83a898e9c6b89b873daf93968fddb81eac06bb113c0b",
+    "gateway\\canopen\\src\\mp_od.c": "687e3c58770a5f7ad0de96eeeda089515be44f4458fd854395811b852fb7c0fc",
+    "gateway\\dual_can\\b4_bus.c": "1c53e14f3264d6202e5bcf0e83f1f269f2696c997e0077caa81449560c66ed60",
+    "gateway\\dual_can\\b4_gateway.c": "a2dd6a9554381ee087aaa4a5ba9fe61413c59829c44853e15016afb71a6c5958",
+    "gateway\\storage\\router.c": "66565a7cd649f8bcad0c3d8ccda20aa08dbb79cc5d29b3143e8dd09688227462",
+    "gateway\\dual_can\\tests\\simulator.c": "3c04c0e769a931c9423bed907c410c36aeaee41a0ba4ccd77d599bb36a1ab281",
+    "node-b\\canopen\\ecg_units.h": "78611650d6daaff9620275c9a55f9d0966b1be2d094704fc00080c231a612b43",
+    "node-b\\tests\\b4_ecg_json.py": "2c42748ecce844257598d6302881ad87c6655b7ce7bb5452fef9bf24465a42a7"
+  },
+  "fixture_sha256": {
+    "b2-jitter-wire.txt": "49d7be74b737b726cfb828c9b13a1e9f8414b5b0bdca4367afcfa0f9c871174c",
+    "b2-synthetic-wire.txt": "69df6de0108fb020870cc776930aea51ab1420b8db3119ce9b15495a4e75bc3d",
+    "dual-gateway-5s-mqtt-pressure-canonical.jsonl": "52b89081b18568cee53d18fa7ed17361ac18dac747e8ac3fa28f3e4e98c9fda4",
+    "dual-gateway-canonical.jsonl": "45217ebb2e971fbc8ff21287accbd5fd57927c5d268da7807260f703bc9d415a",
+    "dual-gateway-jitter-canonical.jsonl": "1f686a492d701bb9b9a0a7ada37758cc3d8ff9a30cf02cafbc08a346bad97d1e",
+    "gain4-mv.jsonl": "22c3ae1cbd16d2e479ef4eb725b24473320d3f61dac1515fd3abaeb49555e47f"
+  }
+}

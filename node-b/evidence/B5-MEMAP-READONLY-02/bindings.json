@@ -1,0 +1,48 @@
+{
+  "scope": "CORRECTED_MEMAP_READONLY_02_ACTUAL_HARDWARE_PASS",
+  "baseline": "d74f9ae7592e6d8d88bd29729b6c2837af4f884c",
+  "files": {
+    "node-b/docs/B5-G2A-SITE-ADMISSION-HANDOFF.md": "90ba1563d1394596bb1f855706f49fec20f7426700cbc41e4ac207e8c00f8155",
+    "node-b/docs/B5-MEMAP-SDK-ERROR-CAUSE-AUDIT.md": "0fa0fba7208ec489d2b9d7cdb34a77414cd5a383d38c0966618f4d66fae1200b",
+    "node-b/evidence/B5-MEMAP-READONLY-02/API-timing-review.json": "68e9aa1077c51e33bd08d3a23f8555a01c2cbe80083419e30a8ad4edd4a5bfe3",
+    "node-b/evidence/B5-MEMAP-READONLY-02/frozen-authorization.json": "68e1169820d03e8f2fab8916ade0373af6d412cd015b9128bc8de9f0ce721680",
+    "node-b/evidence/B5-MEMAP-READONLY-02/result.json": "0ff33cf5d425428a4c13ffe82de0c9a435deacff3b1166bfd6b0d462a9261dc9"
+  },
+  "executed_tools_sha256": {
+    "b4_swd_install.py": "f8d5a213129f881044c07bb78202f919d2d29feb52adea16abd66b274b155f1f",
+    "b4_recovery.py": "fa93222b833f2f010d068b0cac97c73db7430c7eb68316d84441d60539c76213",
+    "c_b4_readonly.py": "614d23736ea8569d4098d33e26fe762fcb00c1be646c0e0ea4ba1f9ad40afb09",
+    "readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+    "runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+    "live_state_b.py": "bdf04c16f74e93028a55a7db244f0a2b6f683dfb987e61d41470f2bf3debde6c",
+    "resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+    "b5_sector3_write.py": "39befcee1c7426c0b74222509fbe86759da0f3d4d18521f6729bb95ac2a52107",
+    "b5_sector3_write_protocol.py": "d5705c619add19262e328f74513f1335142457afb80362b20ce61eada2df4e90",
+    "b5_sector3_write_supervisor.py": "3f2fb998c758eac68d4312c6f5961a29610372578669ccaf1f1b18f9019e1197",
+    "b5_sector3_plan.py": "ff9118d3b6303bc8bd15b64cd5203339c8abff778d33e4d19cfe69e2d0962ef1",
+    "b5_g2ro.py": "e37944f04d35e24496215ac23021355811ef6af8e9fb7a4e4c6c15c4ae1ed0d3",
+    "b5_g2ro_supervisor.py": "07c72f280fc0f3860132765f04204965b53ca76f62420d65cc26821449d09347",
+    "c_b4_closeout_readonly.py": "407102391e3319d4bddf5d6d34a5a0a1a69ddc4a4490096865bd06e6dd2eaaf7",
+    "b5_g2_site.py": "44751b86728c5fb75c6960135c99470d5297d3b83a60d468ec53aafee14a949c"
+  },
+  "DLL_sha256": "632d0d78e72b8a55c65945a0c393a9f081082c725fff4ba3081b0a565fd58cff",
+  "executed_source_sha256": "44751b86728c5fb75c6960135c99470d5297d3b83a60d468ec53aafee14a949c",
+  "actual_execution_count": 1,
+  "worker_supervisor_caller_exit_codes": [
+    0,
+    0,
+    0
+  ],
+  "SDK_and_raw_read_match": true,
+  "full_Flash_options_and_private_UID_preserved": true,
+  "ESP_isolated": false,
+  "ESP_present_powered_waiver": true,
+  "hardware_connections_or_power_changed": false,
+  "Configure_calls": 0,
+  "explicit_reset_halt_go_and_target_memory_writes": 0,
+  "Flash_config_erase_program": 0,
+  "G1_RESUME_G3_restore_and_B5START": 0,
+  "old_software_matrices_rerun": false,
+  "CPU_ROM_root_cause": "UNRESOLVED",
+  "Security_Gate_run": false
+}

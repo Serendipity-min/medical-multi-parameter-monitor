@@ -1,0 +1,472 @@
+{
+  "legacy_b4": {
+    "path": "node-b/build/b4-host-20261104T062312931435Z",
+    "receipt_sha256": "4f490ca1e51a03a05c3d0ae49c8cd09df24ab9b3eff5c66777ebe07c367fd947",
+    "result": {
+      "version": "B4-0.3",
+      "scope": "HOST_OFFLINE_SYNTHETIC_NOT_HARDWARE",
+      "cases": [
+        {
+          "name": "compile-node-b",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "passed": true,
+          "command": [
+            "C:/mingw64/bin/gcc.exe",
+            "-std=c99",
+            "-O2",
+            "-DB4_HOST",
+            "-Wall",
+            "-Wextra",
+            "-Wno-unused-parameter",
+            "-IE:\\medical-monitor-five-node\\node-b\\canopen",
+            "-IE:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode",
+            "-IE:\\medical-monitor-five-node\\node-b\\firmware\\biov2\\实验固件\\HARDWARE",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\CANopen.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_Emergency.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_fifo.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_HBconsumer.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_NMT_Heartbeat.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_Node_Guarding.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_ODinterface.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_PDO.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_SDOclient.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_SDOserver.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_SYNC.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_TIME.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\crc16-ccitt.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\303\\CO_LEDs.c",
+            "E:\\medical-monitor-five-node\\node-b\\canopen\\OD.c",
+            "E:\\medical-monitor-five-node\\node-b\\canopen\\b_canopen_app.c",
+            "E:\\medical-monitor-five-node\\node-b\\tests\\b4_host_driver.c",
+            "E:\\medical-monitor-five-node\\node-b\\tests\\b4_node_protocol.c",
+            "E:\\medical-monitor-five-node\\node-b\\firmware\\biov2\\实验固件\\HARDWARE\\bio_v2.c",
+            "-lm",
+            "-o",
+            "E:\\medical-monitor-five-node\\node-b\\build\\b4-host-20261104T062312931435Z\\b4_node.exe"
+          ],
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "node-b-protocol",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "passed": true,
+          "command": [
+            "E:\\medical-monitor-five-node\\node-b\\build\\b4-host-20261104T062312931435Z\\b4_node.exe",
+            "E:\\medical-monitor-five-node\\node-b\\build\\b4-host-20261104T062312931435Z\\b2-synthetic-wire.txt"
+          ],
+          "log_sha256": "7094aeca649ba975be92cf1c236ec77124300d6d219b89c7d3ffb30faa1686d4"
+        },
+        {
+          "name": "node-b-jitter-protocol",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "passed": true,
+          "command": [
+            "E:\\medical-monitor-five-node\\node-b\\build\\b4-host-20261104T062312931435Z\\b4_node.exe",
+            "E:\\medical-monitor-five-node\\node-b\\build\\b4-host-20261104T062312931435Z\\b2-jitter-wire.txt",
+            "jitter"
+          ],
+          "log_sha256": "48dc0d4290f007ccfc310970f1fb5b7bc8a8bb03d812068e7cbfa31b4a480705"
+        },
+        {
+          "name": "compile-ecg-gain4",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "passed": true,
+          "command": [
+            "C:/mingw64/bin/gcc.exe",
+            "-std=c99",
+            "-O2",
+            "-DB4_HOST",
+            "-DMP_FRAME_MAX_SAMPLES=100",
+            "-Wall",
+            "-Wextra",
+            "-Wno-unused-parameter",
+            "-IE:\\medical-monitor-five-node\\node-b\\canopen",
+            "-IE:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode",
+            "-IE:\\medical-monitor-five-node\\node-b\\firmware\\biov2\\实验固件\\HARDWARE",
+            "-IE:\\medical-monitor-five-node\\gateway\\data_model",
+            "-IE:\\medical-monitor-five-node\\gateway\\third_party\\coreMQTT\\source\\include",
+            "-IE:\\medical-monitor-five-node\\gateway\\third_party\\coreMQTT\\source\\interface",
+            "-IE:\\medical-monitor-five-node\\gateway\\mqtt\\src",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\CANopen.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_Emergency.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_fifo.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_HBconsumer.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_NMT_Heartbeat.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_Node_Guarding.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_ODinterface.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_PDO.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_SDOclient.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_SDOserver.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_SYNC.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_TIME.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\crc16-ccitt.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\303\\CO_LEDs.c",
+            "E:\\medical-monitor-five-node\\node-b\\canopen\\OD.c",
+            "E:\\medical-monitor-five-node\\node-b\\canopen\\b_canopen_app.c",
+            "E:\\medical-monitor-five-node\\node-b\\tests\\b4_host_driver.c",
+            "E:\\medical-monitor-five-node\\node-b\\firmware\\biov2\\实验固件\\HARDWARE\\bio_v2.c",
+            "E:\\medical-monitor-five-node\\node-b\\tests\\b4_ecg_units.c",
+            "E:\\medical-monitor-five-node\\gateway\\data_model\\model.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\coreMQTT\\source\\core_mqtt_serializer.c",
+            "-lm",
+            "-o",
+            "E:\\medical-monitor-five-node\\node-b\\build\\b4-host-20261104T062312931435Z\\b4_units.exe"
+          ],
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "ecg-gain4-wire-and-json",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "passed": true,
+          "command": [
+            "E:\\medical-monitor-five-node\\node-b\\build\\b4-host-20261104T062312931435Z\\b4_units.exe",
+            "E:\\medical-monitor-five-node\\node-b\\build\\b4-host-20261104T062312931435Z\\gain4-mv.jsonl"
+          ],
+          "log_sha256": "e9b09cfcfbc5c62860a0bbf5a153993ee2e2d01d6f14356e426bc9c98b15045d"
+        },
+        {
+          "name": "ecg-gain4-existing-backend",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "passed": true,
+          "command": [
+            "C:\\Users\\Serendipity\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+            "E:\\medical-monitor-five-node\\node-b\\tests\\b4_ecg_json.py",
+            "E:\\medical-monitor-five-node\\node-b\\build\\b4-host-20261104T062312931435Z\\gain4-mv.jsonl"
+          ],
+          "log_sha256": "99aa42547b3b9cfb1e72008df66fb4c7b2b72fb26e907ed9aabf1a9e571e06d8"
+        },
+        {
+          "name": "compile-dual-gateway",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "passed": true,
+          "command": [
+            "C:/mingw64/bin/gcc.exe",
+            "-std=c11",
+            "-O2",
+            "-DCO_MULTIPLE_OD",
+            "-DMP_FRAME_MAX_SAMPLES=100",
+            "-DMP_CACHE_CAPACITY=64",
+            "-Wall",
+            "-Wextra",
+            "-Wno-unused-parameter",
+            "-Werror",
+            "-IE:\\medical-monitor-five-node\\gateway\\dual_can",
+            "-IE:\\medical-monitor-five-node\\gateway\\canopen\\src",
+            "-IE:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode",
+            "-IE:\\medical-monitor-five-node\\gateway\\third_party\\coreMQTT\\source\\include",
+            "-IE:\\medical-monitor-five-node\\gateway\\third_party\\coreMQTT\\source\\interface",
+            "-IE:\\medical-monitor-five-node\\gateway\\mqtt\\src",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\CANopen.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_Emergency.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_fifo.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_HBconsumer.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_NMT_Heartbeat.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_Node_Guarding.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_ODinterface.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_PDO.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_SDOclient.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_SDOserver.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_SYNC.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\CO_TIME.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\CANopenNode\\301\\crc16-ccitt.c",
+            "E:\\medical-monitor-five-node\\gateway\\canopen\\src\\mp_od.c",
+            "E:\\medical-monitor-five-node\\gateway\\dual_can\\b4_bus.c",
+            "E:\\medical-monitor-five-node\\gateway\\dual_can\\b4_gateway.c",
+            "E:\\medical-monitor-five-node\\gateway\\data_model\\model.c",
+            "E:\\medical-monitor-five-node\\gateway\\storage\\router.c",
+            "E:\\medical-monitor-five-node\\gateway\\dual_can\\tests\\simulator.c",
+            "E:\\medical-monitor-five-node\\gateway\\third_party\\coreMQTT\\source\\core_mqtt_serializer.c",
+            "-o",
+            "E:\\medical-monitor-five-node\\node-b\\build\\b4-host-20261104T062312931435Z\\b4_gateway.exe"
+          ],
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "dual-gateway",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "passed": true,
+          "command": [
+            "E:\\medical-monitor-five-node\\node-b\\build\\b4-host-20261104T062312931435Z\\b4_gateway.exe",
+            "E:\\medical-monitor-five-node\\node-b\\build\\b4-host-20261104T062312931435Z\\b2-synthetic-wire.txt",
+            "normal"
+          ],
+          "log_sha256": "49a2efb9efaa8cdc00b83d139fbfff9850f2deb08b76cbd1532340060079859a"
+        },
+        {
+          "name": "dual-gateway-5s-mqtt-pressure",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "passed": true,
+          "command": [
+            "E:\\medical-monitor-five-node\\node-b\\build\\b4-host-20261104T062312931435Z\\b4_gateway.exe",
+            "E:\\medical-monitor-five-node\\node-b\\build\\b4-host-20261104T062312931435Z\\b2-synthetic-wire.txt",
+            "pressure"
+          ],
+          "log_sha256": "b9fa80e643252224f4f56fbe27a8eeae33f37552a2e33ce17e311e48ffd9e9d6"
+        },
+        {
+          "name": "dual-gateway-jitter",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "passed": true,
+          "command": [
+            "E:\\medical-monitor-five-node\\node-b\\build\\b4-host-20261104T062312931435Z\\b4_gateway.exe",
+            "E:\\medical-monitor-five-node\\node-b\\build\\b4-host-20261104T062312931435Z\\b2-jitter-wire.txt",
+            "normal"
+          ],
+          "log_sha256": "49a2efb9efaa8cdc00b83d139fbfff9850f2deb08b76cbd1532340060079859a"
+        },
+        {
+          "name": "c-to-existing-backend",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "passed": true,
+          "command": [
+            "C:\\Users\\Serendipity\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+            "E:\\medical-monitor-five-node\\node-b\\tests\\b4_backend.py",
+            "E:\\medical-monitor-five-node\\node-b\\build\\b4-host-20261104T062312931435Z\\dual-gateway-canonical.jsonl"
+          ],
+          "log_sha256": "ec84e5ca2e5e95f72a1976e3350b3e052cdbcffd4dc7e3be076286fc9c32f284"
+        },
+        {
+          "name": "i2s2-conflict-negative",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "passed": true,
+          "command": [
+            "C:/mingw64/bin/gcc.exe",
+            "-E",
+            "-x",
+            "c",
+            "-IE:\\medical-monitor-five-node\\gateway\\dual_can",
+            "-include",
+            "b4_resources.h",
+            "-DMP_FRAME_MAX_SAMPLES=100",
+            "-DMP_CACHE_CAPACITY=64",
+            "-DB4_I2S2_PB12_PB13=1",
+            "-"
+          ],
+          "log_sha256": "fcbbf8cda456187705176f087e75e7a2a09dc42bc63672ba0947877220e68635"
+        },
+        {
+          "name": "mixed-model-abi-negative",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "passed": true,
+          "command": [
+            "C:/mingw64/bin/gcc.exe",
+            "-E",
+            "-x",
+            "c",
+            "-IE:\\medical-monitor-five-node\\gateway\\dual_can",
+            "-include",
+            "b4_resources.h",
+            "-DMP_FRAME_MAX_SAMPLES=250",
+            "-DMP_CACHE_CAPACITY=64",
+            "-"
+          ],
+          "log_sha256": "c12a7802fa742eadbd80e1a0a83c2f7e26081dfb45fe62b9bd8728a44d70226e"
+        }
+      ],
+      "temperature_enabled": false,
+      "status": "PASS",
+      "source_sha256": {
+        "gateway\\third_party\\CANopenNode\\CANopen.c": "880ce212a88b13d00d88cc3ad2bd0361e8eff904645f8d67c85f215805a9b658",
+        "gateway\\third_party\\CANopenNode\\301\\CO_Emergency.c": "be85a4515c3b5b0c0da37e9025a4f60d8eae4fef739d7b4df463c16705bb06cb",
+        "gateway\\third_party\\CANopenNode\\301\\CO_fifo.c": "f7bd28caa6af90bd243fddf500058113dd9cf0a22e46638c4b6f0c331fb6c3fc",
+        "gateway\\third_party\\CANopenNode\\301\\CO_HBconsumer.c": "8507404f1fcf5e66680699cb3f698ea805d337a6f5c01e7688a780ac54ca0a8e",
+        "gateway\\third_party\\CANopenNode\\301\\CO_NMT_Heartbeat.c": "2ad2b2f92ea1198de0ca3b28465d50039a8de09f6f33587ee9735c7b63e2589d",
+        "gateway\\third_party\\CANopenNode\\301\\CO_Node_Guarding.c": "08549daae43832074b2c5e9f454d7d5793666621f69d37c27ebc6497cd9b9922",
+        "gateway\\third_party\\CANopenNode\\301\\CO_ODinterface.c": "af3672c73c8b2e6141fb59a21d0f8b757240fc77dc25720b446a21a96fc1dd75",
+        "gateway\\third_party\\CANopenNode\\301\\CO_PDO.c": "4791d3acaa044fbe4c05b3b9cd4cbe76c07d9534b04adda3f3df12fdc71a2252",
+        "gateway\\third_party\\CANopenNode\\301\\CO_SDOclient.c": "2c5a779e4ec9e65215e3ebd119dfddcee98bac4d6ea59574e6f6d90d1f3b5529",
+        "gateway\\third_party\\CANopenNode\\301\\CO_SDOserver.c": "27d3e86c519bd99e388f57f5b44192a44d75aaf3247aae9e00db13a17fddd00b",
+        "gateway\\third_party\\CANopenNode\\301\\CO_SYNC.c": "f140a45ea032cbf360a2fb8429ed7498a37c1e9ecedcb2b5d6dc387ea21c78a9",
+        "gateway\\third_party\\CANopenNode\\301\\CO_TIME.c": "bea365c4d56bcd83182018c54fa4c2bf921dd835d10f3332ef191a148ff17bdc",
+        "gateway\\third_party\\CANopenNode\\301\\crc16-ccitt.c": "bc9a9278008276eefd264e6724b906230f7f8b3c32183c50443201c4ff4f25b8",
+        "gateway\\third_party\\CANopenNode\\303\\CO_LEDs.c": "d9147ae486e050d889e00ed1d4565ac5f1899a1cd287e4629e84dff5c0bbe637",
+        "node-b\\canopen\\OD.c": "5aeadffde08d15970f566afcf0837532c00a719b99aff0c3a36183ccfcdd27e0",
+        "node-b\\canopen\\b_canopen_app.c": "00a7138087f4a78124d25fd4c180e933bdacc08e8703c3754fd28e9b9a159613",
+        "node-b\\tests\\b4_host_driver.c": "e2fc956d4f880974030023a2a98d9719fbc4189197a43aed3da4ed4399d2a0c2",
+        "node-b\\tests\\b4_node_protocol.c": "6caaa39e60ffca3886e264b447db56e1c0e43dfd0c3af9fb50c8c6bb01078f31",
+        "node-b\\firmware\\biov2\\实验固件\\HARDWARE\\bio_v2.c": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+        "node-b\\tests\\b4_ecg_units.c": "06828d8ee3192bf113364acaa0cf9acfd360f89a9dfda17c5d2243a2eefb1fc8",
+        "gateway\\data_model\\model.c": "1ef9a0b4982b1fe55933dbedd3bbd14032a11f4ccaf20298f20e47121f3fe13a",
+        "gateway\\third_party\\coreMQTT\\source\\core_mqtt_serializer.c": "1e4bf5a2b307f37f3cbc83a898e9c6b89b873daf93968fddb81eac06bb113c0b",
+        "gateway\\canopen\\src\\mp_od.c": "687e3c58770a5f7ad0de96eeeda089515be44f4458fd854395811b852fb7c0fc",
+        "gateway\\dual_can\\b4_bus.c": "1c53e14f3264d6202e5bcf0e83f1f269f2696c997e0077caa81449560c66ed60",
+        "gateway\\dual_can\\b4_gateway.c": "683cafed010b44bd920b0f9b0707b067aca7c9df964846b1f50c053e81bb5930",
+        "gateway\\storage\\router.c": "fec52af6ac50ae77811890ebb719598ff91fbfe075362c605098b1218a366c7c",
+        "gateway\\dual_can\\tests\\simulator.c": "3b36419ccd67431c8ee2caefe592557a8e2078a07133e9860448c070644c4ecd",
+        "node-b\\canopen\\ecg_units.h": "78611650d6daaff9620275c9a55f9d0966b1be2d094704fc00080c231a612b43",
+        "node-b\\temperature\\gy641.h": "1fda5a2c1d2ccf61e4353870d166e37c6791cd23a4e2e1906651b6df38e4060d",
+        "node-b\\temperature\\b_temperature.h": "aa68c78ed38f3da63fafe971abd583d59cc2e8defc8bfd25ccef71f4771cead6",
+        "node-b\\tests\\b4_backend.py": "f844b7d87c29eaf27f57a36cd903a97aaab1a2242ba1de47b1c6c705f65c516d",
+        "node-b\\tests\\b4_ecg_json.py": "2c42748ecce844257598d6302881ad87c6655b7ce7bb5452fef9bf24465a42a7",
+        "cloud\\backend\\app\\adapters.py": "b4b9993d234741edffa420b81f49478fb32dbab7d8ae156e53cae793083afcde",
+        "cloud\\backend\\app\\hub.py": "decd9320540426b8eba9de6643c8d67660214db8772ce91b950f6fddf39456a6",
+        "cloud\\backend\\app\\models.py": "6cb8fba5054c4bf3b0d7731545978fa7a54387778cff52e2eaebbc39b246afd7",
+        "cloud\\web\\tests\\tri-host-run.mjs": "b129e3bb10a2706063f29a59ed242ea74c9bfad7bffe767e991d7330a16721e8",
+        "cloud\\web\\tests\\tri-host.test.ts": "7508aab109fbe04c321c14b831c3853dca63d4238e8a924d55fe56c1c5f50a68",
+        "cloud\\web\\src\\model\\viewModel.ts": "3bc01132827f8d8d280ad53d7496cb1d566deb74f65e3cf9820d14508543a602",
+        "cloud\\web\\src\\state\\monitorStore.ts": "a26cbc1aef740c8f9674df605586c44d4073fb1cd805f2921e12bcca51f28afb",
+        "cloud\\web\\src\\state\\sessionHistory.ts": "d9357676a2e29e00925f82f8fd657284f7d0cc26a2e5bd2ac48e9da96e2a590e",
+        "cloud\\web\\src\\types.ts": "93e8921ee4cd6100b770d636e14091f0856c30b91fc23c6ed9c518dee425c378",
+        "node-b\\tools\\run_b4.py": "9cf95f3d9adb36161e2a60eb2563347816c0efc123bef3b7785e3efe65c58406"
+      },
+      "fixture_sha256": {
+        "b2-jitter-wire.txt": "49d7be74b737b726cfb828c9b13a1e9f8414b5b0bdca4367afcfa0f9c871174c",
+        "b2-synthetic-wire.txt": "69df6de0108fb020870cc776930aea51ab1420b8db3119ce9b15495a4e75bc3d",
+        "dual-gateway-5s-mqtt-pressure-canonical.jsonl": "383610764cba2c664b19542dc23a957749f13e86ba50c2722731b9b8e815e29f",
+        "dual-gateway-canonical.jsonl": "085866909c945e6855eced84d05b1e4da8b95bb11d3127f498571198ea07d6a7",
+        "dual-gateway-jitter-canonical.jsonl": "36296b043160d09836e2c4fecb1a177e29d414371499b2bd2b630c5684af15ea",
+        "gain4-mv.jsonl": "22c3ae1cbd16d2e479ef4eb725b24473320d3f61dac1515fd3abaeb49555e47f"
+      }
+    }
+  },
+  "legacy_abc": {
+    "path": "node-b/build/abc-core-host-20261104T062321399295",
+    "receipt_sha256": "c03fa29d498bc83b6a2b7b028886067dcc7d9dfbd16e5519ec9fe381f7a1b894",
+    "result": {
+      "exit_code": 0,
+      "status": "HOST_COMPONENT_PASS",
+      "hardware_actions": 0,
+      "cases": [
+        {
+          "name": "compile-link-bench",
+          "actual_exit_code": 0,
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "link-bench",
+          "actual_exit_code": 0,
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "compile-link-B5-only",
+          "actual_exit_code": 0,
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "link-B5-only",
+          "actual_exit_code": 0,
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "compile-link-ABC",
+          "actual_exit_code": 0,
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "link-ABC",
+          "actual_exit_code": 0,
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "compile-real-dual-driver",
+          "actual_exit_code": 0,
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "real-dual-driver-clock-filter-routing-busoff-stop",
+          "actual_exit_code": 0,
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "compile-actual-ABC-entry",
+          "actual_exit_code": 0,
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "link-entry",
+          "actual_exit_code": 0,
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "entry-normal",
+          "actual_exit_code": 0,
+          "log_sha256": "754da2c96904e45bccbeb4d6c35a081742674c0ec8fed98e3fc530a32ac8fa66"
+        },
+        {
+          "name": "entry-overflow",
+          "actual_exit_code": 0,
+          "log_sha256": "e1538dd9833c0be53636e5ed56aa6b7d4c195162b424c653955022d450079f50"
+        },
+        {
+          "name": "entry-A-overflow",
+          "actual_exit_code": 0,
+          "log_sha256": "e1538dd9833c0be53636e5ed56aa6b7d4c195162b424c653955022d450079f50"
+        },
+        {
+          "name": "entry-inflight",
+          "actual_exit_code": 0,
+          "log_sha256": "7614d7ce3a16ddb8b7eab279481ef74e52018b0f7256767858e17903bf468cd9"
+        },
+        {
+          "name": "entry-wrap",
+          "actual_exit_code": 0,
+          "log_sha256": "b592230ef03bf04e244eeb664b8df9c1d1c2004f817743637d37806c568c72d7"
+        },
+        {
+          "name": "entry-openfail",
+          "actual_exit_code": 0,
+          "log_sha256": "dfd2ec9f0f0f55c8facef2328f726b9b98982eae96e2deef58eb1bd3d1dcc25d"
+        },
+        {
+          "name": "entry-retry-pass",
+          "actual_exit_code": 0,
+          "log_sha256": "289f1d983def1e299bb57e54ee7d25aabc7d8cc5fe33780c09a711f45e12b6ec"
+        },
+        {
+          "name": "entry-retry-exhaust",
+          "actual_exit_code": 0,
+          "log_sha256": "89d5d0a52897e8c5c2da724667cd4ccf1ed86169202ed07626f18eb24cca383b"
+        }
+      ]
+    }
+  },
+  "five_gateway": {
+    "path": "node-b/build/five-node-m1/host-20261104T062310668874Z",
+    "result": {
+      "scope": "HOST_ONLY_REAL_PROTOCOL_IO_SIMULATED",
+      "compile_exit": 0,
+      "test_exit": 0
+    }
+  },
+  "DE_producers": {
+    "path": "node-b/build/five-node-m1/producers-20261104T061717868194Z",
+    "result": [
+      {
+        "role": "D",
+        "compile_exit": 0,
+        "test_exit": 0
+      },
+      {
+        "role": "E",
+        "compile_exit": 0,
+        "test_exit": 0
+      }
+    ]
+  },
+  "backend_five": {
+    "command": "MPM_NODE_PROFILE=five python -m pytest cloud/backend/tests/test_five_node.py -q",
+    "passed": 6
+  },
+  "backend_three": {
+    "command": "MPM_NODE_PROFILE=three python -m pytest cloud/backend/tests/test_ac_nibp.py cloud/backend/tests/test_monitor.py -q",
+    "passed": 26
+  },
+  "web": {
+    "build": "PASS",
+    "tests_passed": 16,
+    "browser": "PASS_SYNTHETIC_WEBSOCKET_BOUNDARY"
+  }
+}

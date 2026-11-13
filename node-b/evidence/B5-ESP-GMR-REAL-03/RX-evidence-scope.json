@@ -1,0 +1,8 @@
+{
+  "actual_saved_Flash_USART3_vector": "0x8006535",
+  "matches_frozen_ELF_strong_ISR": true,
+  "evidence_limit": "Vector match does not establish actual NVIC enable, pending, GPIO alternate function, USART SR flags or physical RX signal",
+  "RX_zero_scope": "No newly captured bytes in the C software RX ring; not direct proof ESP produced no electrical signal",
+  "new_hardware_connections": 0,
+  "new_target_reads": 0
+}

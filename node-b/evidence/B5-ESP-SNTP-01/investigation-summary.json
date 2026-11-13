@@ -1,0 +1,74 @@
+{
+  "status": "TIME_SYNC_ADMISSION_BLOCKED_G3_NOT_STARTED",
+  "owner_wifi_kind": "ROUTER",
+  "owner_router_UDP123_policy": "UNKNOWN",
+  "source_HEAD": "f5dbc1b5d67d389738b5c46ac3dfde9b9357021b",
+  "default_SNTP_enable_OK": true,
+  "default_SNTP_readback_enabled": true,
+  "default_time_epochs": [
+    1513,
+    1518,
+    1528,
+    1543
+  ],
+  "module_DNS_queries": 3,
+  "module_DNS_all_resolved": true,
+  "first_NTP_DNS_target_RFC1918": true,
+  "PC_reference_valid_packets_by_index": [
+    false,
+    true,
+    true
+  ],
+  "PC_reference_not_ESP_path_proof": true,
+  "selected_existing_second_server_enable_OK": true,
+  "selected_time_epochs": [
+    2526,
+    2531,
+    2541,
+    2556
+  ],
+  "exact_G3_default_enable_replaces_selected_primary": true,
+  "original_enabled_config_reply_restored_byte_equal": true,
+  "all_three_hardware_workers_exit": 0,
+  "all_three_hardware_supervisors_exit": 0,
+  "SNTP_disabled_at_end": true,
+  "C_DISARMED": true,
+  "C_full_options_unchanged": true,
+  "new_G3_START_attempts": 0,
+  "G3_gate_TIME_SYNC": "BLOCKED",
+  "G3_gate_TEST_SERVICE_BUDGET": "BLOCKED_LT_625S_AT_FINAL_QUERY",
+  "service_lifecycle_after": {
+    "exit_code": 0,
+    "snapshot_utc": "2026-10-27T09:10:17.256835+00:00",
+    "test_units": {
+      "backend": "active",
+      "tls": "active"
+    },
+    "formal_active": true,
+    "formal_PIDs_unchanged": true,
+    "all_config_hashes_match": true,
+    "listeners": {
+      "18775": true,
+      "8884": false
+    },
+    "test_expiry_unix": 1793092545.0,
+    "residency_remaining_s_at_query": 327.3872604370117,
+    "G3_min_625s_remaining": false,
+    "cloud_mutations": 0,
+    "test_accounts_ACL_not_revoked": true
+  },
+  "candidate_C_BIN_SHA256": "d5b9624b3da1129b4e045d3b2f669c00d2d93cb7379b15293ff143fe9f130683",
+  "BIO_V2_threshold_changes": 0,
+  "Flash_config_writes": 0,
+  "formal_cloud_changes": 0,
+  "CPU_ROM_ROOT_CAUSE": "UNRESOLVED",
+  "next_required_evidence": "One ESP-side raw UDP123 request with frozen existing second server, nonce matched response, explicit socket closure, zero timestamp injection; needs protocol tool/negative tests and precise scope, not run this turn. Then determine network path versus builtin SNTP behavior before firmware correction.",
+  "no_speculative_firmware_fix": true,
+  "conditional_G3_owner_approval_retained_not_consumed": true,
+  "current_route": "JLink_C_C_J5_B_OFF_C_USB_UART_DISCONNECTED",
+  "all_host_sessions_closed": true,
+  "official_command_docs": [
+    "https://docs.espressif.com/projects/esp-at/en/release-v2.3.0.0_esp8266/AT_Command_Set/TCP-IP_AT_Commands.html",
+    "https://docs.espressif.com/projects/esp-at/en/release-v2.3.0.0_esp8266/AT_Command_Set/Basic_AT_Commands.html"
+  ]
+}

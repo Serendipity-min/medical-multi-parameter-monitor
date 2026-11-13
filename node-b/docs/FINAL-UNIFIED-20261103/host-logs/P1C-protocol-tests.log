@@ -1,0 +1,12 @@
+test_bounds_header_and_whole_crc (__main__.ProtocolChecks.test_bounds_header_and_whole_crc) ... ok
+test_completed_replay_stays_rejected_after_partial_is_replaced (__main__.ProtocolChecks.test_completed_replay_stays_rejected_after_partial_is_replaced) ... ok
+test_duplicate_does_not_renew_expiry_and_old_start_is_rejected (__main__.ProtocolChecks.test_duplicate_does_not_renew_expiry_and_old_start_is_rejected) ... ok
+test_exact_complete_and_duplicate (__main__.ProtocolChecks.test_exact_complete_and_duplicate) ... ok
+test_host_separate_and_reply (__main__.ProtocolChecks.test_host_separate_and_reply) ... ok
+test_missing_reordered_expired_changed_duplicate (__main__.ProtocolChecks.test_missing_reordered_expired_changed_duplicate) ... ok
+test_new_start_replaces_interrupted_session_before_and_after_expiry (__main__.ProtocolChecks.test_new_start_replaces_interrupted_session_before_and_after_expiry) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.004s
+
+OK

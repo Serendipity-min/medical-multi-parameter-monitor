@@ -1,0 +1,51 @@
+{
+  "scope": "B5_G2RO_C24104_DOUBLE_BACKUP_NO_TARGET_ACTION",
+  "enabled": false,
+  "owner_approved": false,
+  "tools_sha256": {
+    "b5_g2ro.py": "e37944f04d35e24496215ac23021355811ef6af8e9fb7a4e4c6c15c4ae1ed0d3",
+    "b5_g2ro_supervisor.py": "07c72f280fc0f3860132765f04204965b53ca76f62420d65cc26821449d09347",
+    "c_b4_closeout_readonly.py": "407102391e3319d4bddf5d6d34a5a0a1a69ddc4a4490096865bd06e6dd2eaaf7",
+    "readback_b.py": "a095665739454398e359accca3cf67e885de1fa51bff756b7f6b5192b0c00116",
+    "runtime_state_b.py": "39554d2292b50a604c2b28c7aaa31b442a348e2ab65a77f281ae0b56b3b8ad46",
+    "live_state_b.py": "bdf04c16f74e93028a55a7db244f0a2b6f683dfb987e61d41470f2bf3debde6c",
+    "resp_exploratory.py": "2b6a176b3568403fc8ba2e8ede92f537833d654112603a0b221e00e775762d77",
+    "b4_recovery.py": "fa93222b833f2f010d068b0cac97c73db7430c7eb68316d84441d60539c76213"
+  },
+  "DLL_sha256": "632d0d78e72b8a55c65945a0c393a9f081082c725fff4ba3081b0a565fd58cff",
+  "expected_full_sha256": "b460d917e1d454fdb0882d1f837d91c606363179b817a3896a1df6897b2dcb98",
+  "expected_options_sha256": "52d5979da03bd7be45e385920ec7d5901793bab3f6bc1daa0c1c1997f9e91687",
+  "session_timeout_s": 180,
+  "probe_sessions": 1,
+  "flash_read_bytes": 1048576,
+  "flash_read_count": 2,
+  "options_read_bytes": 16,
+  "options_read_count": 2,
+  "explicit_reset_halt_go_and_target_writes": 0,
+  "retries": 0,
+  "policy_before_Device": [
+    "SuppressGUI 1",
+    "DisableAutoUpdateFW = 1",
+    "SetRestartOnClose 0",
+    "InhibitConnectRetries = 1",
+    "ForceAttachTarget = 1",
+    "ExcludeFlashCacheRange 0x08000000-0x080FFFFF",
+    "ExcludeFlashCacheRange 0x1FFFC000-0x1FFFC00F",
+    "SetSkipDebugDeInit = 1"
+  ],
+  "SetRestartOnClose_0_native_calls_max": 6,
+  "SetRestartOnClose_1_native_calls_max": 1,
+  "previous_value_policy_confirmation_is_not_a_retry": true,
+  "close_resume_only_after_verified_running_flash": true,
+  "PC_MSP": "NOT_OBSERVED_RUNNING_NONINTRUSIVE_DWT_PCSR_SAMPLES_ONLY",
+  "offline_tests": {
+    "tests": 26,
+    "actual_exit_code": 0,
+    "prior_fixture_failure_retained": true
+  },
+  "DLL_file_present": true,
+  "DLL_on_disk_sha256": "632d0d78e72b8a55c65945a0c393a9f081082c725fff4ba3081b0a565fd58cff",
+  "hardware_execution_count": 0,
+  "SDK_loaded": false,
+  "DLL_on_disk_matches": true
+}

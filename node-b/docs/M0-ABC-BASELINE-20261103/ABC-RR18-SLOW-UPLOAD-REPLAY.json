@@ -1,0 +1,41 @@
+{
+  "scope": "OFFLINE_REAL_ARRIVAL_REPLAY_NOT_HARDWARE_PASS",
+  "source_MQTT_log_SHA256": "c9d2ab9449f1407e4162b894a11a19275819da1e74b2c8831218af8f3b0eb6d9",
+  "audio_blocks": 125,
+  "span_s": 192.897924,
+  "results": [
+    {
+      "assembly_seconds": 180,
+      "native_exit": 3,
+      "failure": {
+        "reason": "MIC_SESSION_OR_EXPIRY",
+        "seq": 120,
+        "elapsed_s": 182.025167
+      },
+      "complete_chunks": 0,
+      "PCM_SHA256": null
+    },
+    {
+      "assembly_seconds": 240,
+      "native_exit": 0,
+      "failure": null,
+      "complete_chunks": 125,
+      "PCM_SHA256": "da50559fbc7a52cec13b242c3eb41882570510e3f4a26760d722f7c70349c582"
+    },
+    {
+      "C_turn_budget_case": "before",
+      "compile_native_exit": 0,
+      "run_native_exit": 3,
+      "output": "FAIL line=102"
+    },
+    {
+      "C_turn_budget_case": "after",
+      "compile_native_exit": 0,
+      "run_native_exit": 0,
+      "output": "HOST_UNIFIED_AUDIO_PASS checks=1947 chunks=250 hash_slices=500 crc=2735321824 hardware=NOT_RUN"
+    }
+  ],
+  "medical_TTL_ms": 5000,
+  "NIBP_TTL_ms": 90000,
+  "evaluation_s": 300
+}

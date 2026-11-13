@@ -1,0 +1,100 @@
+{
+  "scope": "P0_CURRENT_READONLY_SNAPSHOTS_AND_OFFLINE_ELF",
+  "historical_recovery_snapshots": {
+    "A": {
+      "exists": true,
+      "bytes": 1048576,
+      "SHA256": "f31d7dfed10249d89ff221fa6984aa3a8709282b906b0dca1c655c46c68b43cb",
+      "sector3_SHA256": "9f193b36b5fbb89c699581caa86fbbd9715d23387601fd716444ff50318bfb36",
+      "today_board_read": "PASS",
+      "current_full_SHA256": "f31d7dfed10249d89ff221fa6984aa3a8709282b906b0dca1c655c46c68b43cb"
+    },
+    "B": {
+      "exists": true,
+      "bytes": 1048576,
+      "SHA256": "4c276ce987e20c22d4768dd4a2eb090601e687f90d3577b7337b682b7556f9c8",
+      "sector3_SHA256": "cdcf9e5a7cdee3616fbdfcd9d772ecd337ffe8dd1f7e1708c33e5065d74f8994",
+      "today_board_read": "PASS",
+      "current_full_SHA256": "4c276ce987e20c22d4768dd4a2eb090601e687f90d3577b7337b682b7556f9c8"
+    },
+    "C": {
+      "exists": true,
+      "bytes": 1048576,
+      "SHA256": "423a805860e2300a03de87471ba69ac9ec439a74b19dd76f561b7dce16d7fcdf",
+      "sector3_SHA256": "25ad0fab2d6c3ed65f78021db4fc81dd0b29e9f89411ffb9946d74eb136f4878",
+      "today_board_read": "PASS",
+      "sector4_all_FF_historical": true,
+      "current_full_SHA256": "423a805860e2300a03de87471ba69ac9ec439a74b19dd76f561b7dce16d7fcdf",
+      "sector4_all_FF_current_observed": true,
+      "sector4_write_permission": false
+    }
+  },
+  "layouts": {
+    "C44520": {
+      "ELF_SHA256": "5b198faeaa87bffe5e026a067c19e23db20d1cfb8612a951087551bc4ed18599",
+      "load_segments": [
+        {
+          "RAM_start": "0x8000000",
+          "load_start": "0x8000000",
+          "load_bytes": 44428,
+          "memory_bytes": 44428
+        },
+        {
+          "RAM_start": "0x20000000",
+          "load_start": "0x800ad8c",
+          "load_bytes": 92,
+          "memory_bytes": 92
+        },
+        {
+          "RAM_start": "0x20000060",
+          "load_start": "0x800ade8",
+          "load_bytes": 0,
+          "memory_bytes": 74192
+        },
+        {
+          "RAM_start": "0x20012230",
+          "load_start": "0x800ade8",
+          "load_bytes": 0,
+          "memory_bytes": 32768
+        }
+      ],
+      "normal_SRAM_including_linker_reservations_bytes": 107052,
+      "normal_SRAM_remaining_link_time_bytes": 24016,
+      "normal_SRAM_end_span_bytes_including_alignment": 107056
+    },
+    "MIC_R9": {
+      "ELF_SHA256": "41810e4785e0953eeb46b0a53187c9d6317693185c325b87c24bd9855954176f",
+      "load_segments": [
+        {
+          "RAM_start": "0x8000000",
+          "load_start": "0x8000000",
+          "load_bytes": 29592,
+          "memory_bytes": 29592
+        },
+        {
+          "RAM_start": "0x20000000",
+          "load_start": "0x8007398",
+          "load_bytes": 92,
+          "memory_bytes": 86932
+        },
+        {
+          "RAM_start": "0x20015394",
+          "load_start": "0x80073f4",
+          "load_bytes": 0,
+          "memory_bytes": 32772
+        }
+      ],
+      "normal_SRAM_including_linker_reservations_bytes": 119704,
+      "normal_SRAM_remaining_link_time_bytes": 11368,
+      "normal_SRAM_end_span_bytes_including_alignment": 119704
+    }
+  },
+  "sector4_historical_FF_is_not_current_write_permission": true,
+  "candidate_design": "CPU PCM may use dedicated CCM; DMA stays normal SRAM. Any segmented Flash layout must preserve sector3 and prove fresh target contents before installation.",
+  "current_C_readonly": {
+    "exit_code": 0,
+    "full_SHA256": "423a805860e2300a03de87471ba69ac9ec439a74b19dd76f561b7dce16d7fcdf",
+    "sector4_all_FF": true,
+    "writes_authorized_by_this_observation": false
+  }
+}

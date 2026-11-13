@@ -1,0 +1,40 @@
+{
+  "algorithm_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+  "header_sha256": "76198016006ab8de6126a7cb051aeb3ab296c5655152c74cf5565bd85aba0913",
+  "host_libraries": {
+    "initial_host": {
+      "source_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+      "header_sha256": "76198016006ab8de6126a7cb051aeb3ab296c5655152c74cf5565bd85aba0913",
+      "compiler_sha256": "c5f0953f7a71ddcdf0852e1e44a43cef9b8fe121beba4d4202bfe6d405de47c0",
+      "compiler_version": "gcc.exe (x86_64-posix-seh-rev0, Built by MinGW-W64 project) 8.1.0",
+      "ABI_proof_source_sha256": "9c90bfc003e99e975e071f2421cdde06adb1cd523f1d9d958b7d8ac183bd2ca0",
+      "artifact_sha256": "7114075d8e08e99cd10889531ed3893091878c3991103d56cb6126749289d155",
+      "compiler_exit_code": 0
+    },
+    "final_host": {
+      "source_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+      "header_sha256": "76198016006ab8de6126a7cb051aeb3ab296c5655152c74cf5565bd85aba0913",
+      "compiler_sha256": "c5f0953f7a71ddcdf0852e1e44a43cef9b8fe121beba4d4202bfe6d405de47c0",
+      "compiler_version": "gcc.exe (x86_64-posix-seh-rev0, Built by MinGW-W64 project) 8.1.0",
+      "ABI_proof_source_sha256": "9c90bfc003e99e975e071f2421cdde06adb1cd523f1d9d958b7d8ac183bd2ca0",
+      "artifact_sha256": "fb9d85a6e5d83c5d54c00e825d9a92f43c18acb2da02eb995fa727ce8447c0ad",
+      "compiler_exit_code": 0
+    },
+    "trace_host": {
+      "source_sha256": "c34c3775ccf9c03935597e5484d1c6a56111e7d581c4734a5bb2678ce8a231c4",
+      "header_sha256": null,
+      "compiler_sha256": "c5f0953f7a71ddcdf0852e1e44a43cef9b8fe121beba4d4202bfe6d405de47c0",
+      "compiler_version": "gcc.exe (x86_64-posix-seh-rev0, Built by MinGW-W64 project) 8.1.0",
+      "ABI_proof_source_sha256": "9c90bfc003e99e975e071f2421cdde06adb1cd523f1d9d958b7d8ac183bd2ca0",
+      "artifact_sha256": "a7df0d27fc557b2d99af2c0725dda0a80e8fe7fd5673690bbc52969100940bb4",
+      "compiler_exit_code": 0,
+      "translation_unit_is_readonly_wrapper": true,
+      "included_algorithm_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+      "included_header_sha256": "76198016006ab8de6126a7cb051aeb3ab296c5655152c74cf5565bd85aba0913"
+    }
+  },
+  "ABI": "Native C sizeof120 and 30 offsetof values checked before Init, trace vs original all120 bytes equal per actual frame",
+  "MCU_build": "NOT_RUN",
+  "MCU_binary_candidate": "NOT_CREATED",
+  "loaded_libraries": "Locally compiled pure C host math libraries; no J-Link SDK load"
+}

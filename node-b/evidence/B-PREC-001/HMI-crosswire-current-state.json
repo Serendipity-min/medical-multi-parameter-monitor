@@ -1,0 +1,60 @@
+{
+  "source": "OWNER_NEW_REPORT_AFTER_M0",
+  "two_independent_screens": true,
+  "P3_reported": [
+    "COM1_T-PD2",
+    "COM1_R-PD6"
+  ],
+  "P5_reported": [
+    "COM2_T-PB11_RX",
+    "COM2_R-PB10_TX"
+  ],
+  "PD2_or_PD5": "PD2_OWNER_CONFIRMED",
+  "screen_level": "UNKNOWN",
+  "screen_exact_models": "UNKNOWN",
+  "JTAG_currently_connected_to_B_and_PC": true,
+  "JTAG_reconnect_time": "UNKNOWN",
+  "new_SDK_sessions_after_S0": 0,
+  "root_cause": "CPU_ROOT_CAUSE_UNRESOLVED",
+  "owner_record_sha256": "c6c4c73f454cbe9f65cb23f1990948b27a255c64e4b170b5e18a84503320ab58",
+  "manufacturer_protocol_manual": {
+    "document": "2. 大彩串口屏指令集V5.1 .pdf",
+    "sha256": "a897c82bbbfc80e947865392e86693b845476bfa4037803b0e5fdfe60de8a819",
+    "pages": 93,
+    "matches": [
+      {
+        "page": 17,
+        "terms": [
+          "115200"
+        ]
+      },
+      {
+        "page": 41,
+        "terms": [
+          "115200"
+        ]
+      }
+    ],
+    "packet_hardware_model_datasheet_found": false
+  },
+  "PD2_confirmation_sha256": "ff81816a394f0da95c581823932f203d1a1cad95dbafdd853259114af18192c4",
+  "photo_model": "DC80480DN050_1111_0C",
+  "photo_screen_assignment": "TEMPERATURE_SCREEN_OWNER_CONFIRMED",
+  "photo_sha256": "e54d19a3ae4557c5bf9b8dd513e3767a3ec705e9c875f414ed0c56c19913174b",
+  "photo_private_original": true,
+  "screen_J5_legend": {
+    "OFF": "RS232",
+    "ON": "TTL"
+  },
+  "screen_J5_actual_continuity": "NOT_MEASURED_NO_MODIFICATION",
+  "official_level_reference": "https://doc.gz-dc.com/FAQ/VisualTFT/02_online.html",
+  "P7_actual_state": {
+    "PA9_RXD": "SHORTED_OWNER_CONFIRMED",
+    "PA10_TXD": "SHORTED_OWNER_CONFIRMED"
+  },
+  "COM1_T_R_to_T1IN_R1OUT_mapping": "OWNER_UNABLE_TO_CONFIRM_SCHEMATIC_MATCH_NOT_VERIFIED",
+  "heart_rate_screen_configuration": "SAME_AS_TEMPERATURE_SCREEN_OWNER_REPORTED",
+  "new_owner_record_sha256": "558c38108c4a3d409614ebcae6d9dd0b8fe908820971631b0027e01ad0134f70",
+  "next_required_evidence": "ACTUAL_P3_P7_PHOTO_OR_MATCHING_BOARD_REVISION_PINOUT",
+  "new_hardware_actions_authorized": false
+}

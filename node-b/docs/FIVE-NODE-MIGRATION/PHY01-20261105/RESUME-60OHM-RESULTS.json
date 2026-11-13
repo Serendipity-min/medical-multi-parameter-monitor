@@ -1,0 +1,261 @@
+{
+  "status": "RESUMED_60OHM_CONTROLS_COMPLETE_40OHM_NOT_RUN",
+  "no_new_commit_no_push": true,
+  "owner_D_P5_screen_fixed": {
+    "owner_confirmed": true,
+    "refresh": true,
+    "range_C": [
+      23.6,
+      23.8
+    ],
+    "fixed_36_5": false
+  },
+  "D_P6_corrected_from_USB_to_CAN": true,
+  "D61_control": {
+    "status": "TWO_NODE_60OHM_CAPTURE_AND_SOURCE_PASS",
+    "role": "D",
+    "profile": "D60",
+    "C_START": 1,
+    "40ohm": "NOT_RUN",
+    "capture_native_exit": 0,
+    "source_native_exit": 0,
+    "C": {
+      "profile": "D60",
+      "window_ms": 60000,
+      "CAN_RX_counts": {
+        "0x684": 60,
+        "0x704": 120,
+        "0x384": 60,
+        "0x484": 60
+      },
+      "CRC_errors": 0,
+      "discarded_bytes": 0,
+      "truncated_bytes": 0,
+      "scope": "REAL_CAN_ONLY_NOT_CLOUD_OR_ANALOG_EYE",
+      "D_valid_models": 59,
+      "D_raw_model_matches": 59,
+      "D_received_temperature_C_range": [
+        24.01,
+        24.2
+      ],
+      "D_raw_max_age_ms": 219,
+      "C_peak_TEC": 0,
+      "C_peak_REC": 0,
+      "C_TX": {
+        "acked": 128,
+        "failed": 0,
+        "busoff": 0
+      },
+      "C_capture_drop": 0,
+      "C_RX_overflow": 0,
+      "failures": [],
+      "status": "CAPTURE_PASS",
+      "exit_code": 0,
+      "START_attempts": 1,
+      "abort_attempts": 0,
+      "elapsed_host_seconds": 62.21799999999348,
+      "target_reset_flash_commands": 0,
+      "serial_closed": true
+    },
+    "source": {
+      "status": "SOURCE_READONLY_WINDOW_COMPLETE",
+      "exit_code": 0,
+      "role": "D",
+      "target_writes": 0,
+      "observations": 85,
+      "CAN1_ESR_values": [
+        0
+      ],
+      "application_sha256": "a9fb8437adfc5e2dd35e4941688fc84b632651d94bf39c98d42555701984500b",
+      "temperature_C_range": [
+        23.98,
+        24.23
+      ],
+      "valid_observations": 83,
+      "Close_completed": true
+    }
+  },
+  "B60_control": {
+    "status": "TWO_NODE_60OHM_CAPTURE_AND_SOURCE_PASS",
+    "role": "B",
+    "profile": "B60",
+    "C_START": 1,
+    "40ohm": "NOT_RUN",
+    "capture_native_exit": 0,
+    "source_native_exit": 0,
+    "C": {
+      "profile": "B60",
+      "window_ms": 60000,
+      "CAN_RX_counts": {
+        "0x182": 14968,
+        "0x682": 60,
+        "0x282": 2994,
+        "0x382": 60,
+        "0x482": 60,
+        "0x702": 120
+      },
+      "CRC_errors": 0,
+      "discarded_bytes": 0,
+      "truncated_bytes": 0,
+      "scope": "REAL_CAN_ONLY_NOT_CLOUD_OR_ANALOG_EYE",
+      "B_capture_review": {
+        "status": "CAN_SAVED_BASELINE_PASS_B_ADC_REVIEW_REQUIRED",
+        "failures": [],
+        "raw_packet_count": 19768,
+        "sequence_errors": 0,
+        "CRC_errors": 0,
+        "discarded_bytes_after_BOOT": 0,
+        "capture_drops": 0,
+        "C_RX_overflow": 0,
+        "C_CAN2_peak_TEC": 0,
+        "C_CAN2_peak_REC": 0,
+        "evaluation_counts": {
+          "1:bus1:0x182": 8753,
+          "1:bus1:0x282": 1751,
+          "1:bus1:0x382": 35,
+          "1:bus1:0x482": 35,
+          "1:bus1:0x682": 35,
+          "1:bus1:0x702": 70,
+          "2:bus1:0x100": 4,
+          "2:bus1:0x703": 70,
+          "3:bus1:0x100": 4,
+          "3:bus1:0x703": 70
+        },
+        "model_value_time_checks_passed": 193,
+        "model_value_time_checks_failed": 0,
+        "model_valid_observations": {
+          "4:True": 88,
+          "5:True": 35,
+          "6:False": 35,
+          "7:False": 35,
+          "9:False": 21,
+          "9:True": 7
+        },
+        "HR_RR_simultaneous_engineering_pass": false,
+        "source_absolute_impedance_calibrated": false,
+        "flash_alias_verified_by_installation": true,
+        "startup_evidence": "INSTALL_RECEIPT_AND_RUNNING_DIAGNOSTICS_NO_BOOT_CAPTURE",
+        "window": {
+          "warmup_ms": 20000,
+          "evaluation_ms": 35000,
+          "CAN_limit_ms": 60000
+        },
+        "diagnostic_only": {
+          "last_quality_flags": 5,
+          "vitals_rows_in_evaluation": 35
+        }
+      },
+      "HR_centi_bpm_values": {
+        "6000": 35
+      },
+      "C_peak_TEC": 0,
+      "C_peak_REC": 0,
+      "C_TX": {
+        "acked": 128,
+        "failed": 0,
+        "busoff": 0
+      },
+      "C_capture_drop": 0,
+      "C_RX_overflow": 0,
+      "failures": [],
+      "status": "CAPTURE_PASS",
+      "exit_code": 0,
+      "START_attempts": 1,
+      "abort_attempts": 0,
+      "elapsed_host_seconds": 61.328000000008615,
+      "target_reset_flash_commands": 0,
+      "serial_closed": true
+    },
+    "source": {
+      "status": "SOURCE_READONLY_WINDOW_COMPLETE",
+      "exit_code": 0,
+      "role": "B",
+      "target_writes": 0,
+      "observations": 82,
+      "CAN1_ESR_values": [
+        0
+      ],
+      "application_sha256": "d0401d96a4a051f964b4d8dce17f7630095ddb5ee8469bc84c3020b828531cd6",
+      "ADC_SPS": 250.08567931456548,
+      "HR_values": [
+        60
+      ],
+      "Close_completed": true
+    }
+  },
+  "D_startup_preflight_TEC75_retained": true,
+  "D_prior_CAN_counter_trend": {
+    "exit_code": 0,
+    "target_writes": 0,
+    "status": "READONLY_TREND_SAVED",
+    "samples": [
+      {
+        "tick": 116518,
+        "ESR": "0x0",
+        "TEC": 0,
+        "REC": 0,
+        "BOFF": false,
+        "TSR": "0x1c000000"
+      },
+      {
+        "tick": 117022,
+        "ESR": "0x0",
+        "TEC": 0,
+        "REC": 0,
+        "BOFF": false,
+        "TSR": "0x1c000000"
+      },
+      {
+        "tick": 117526,
+        "ESR": "0x0",
+        "TEC": 0,
+        "REC": 0,
+        "BOFF": false,
+        "TSR": "0x1c000000"
+      },
+      {
+        "tick": 118030,
+        "ESR": "0x0",
+        "TEC": 0,
+        "REC": 0,
+        "BOFF": false,
+        "TSR": "0x1c000000"
+      },
+      {
+        "tick": 118535,
+        "ESR": "0x0",
+        "TEC": 0,
+        "REC": 0,
+        "BOFF": false,
+        "TSR": "0x1c000000"
+      },
+      {
+        "tick": 119039,
+        "ESR": "0x0",
+        "TEC": 0,
+        "REC": 0,
+        "BOFF": false,
+        "TSR": "0x1c000000"
+      }
+    ],
+    "Close_completed": true
+  },
+  "wrong_probe_B_halt_preserved": {
+    "status": "STOP_TARGET_PRESERVATION",
+    "exit_code": 0,
+    "explicit_Halt_Reset_Go_Flash_UART_writes": 0,
+    "B_UID_matched": true,
+    "core_status": "READ_ALREADY_HALTED_NO_CONTROL",
+    "PC": "0x1fff37b8",
+    "MSP": "0x20001d50",
+    "VTOR": "0x1fff0000",
+    "CFSR": 0,
+    "HFSR": 0,
+    "Close_completed": true
+  },
+  "wrong_probe_owner_correction": "was B; changed to D before actual D control",
+  "B_later_normal_power_readonly_check": "B60 current Flash state and M1 image verified; historical ROM root cause not claimed closed",
+  "C15_install": "NOT_RUN",
+  "40ohm": "NOT_RUN",
+  "actual_analog_eye_signal_quality": "NOT_RUN_NO_OSCILLOSCOPE"
+}

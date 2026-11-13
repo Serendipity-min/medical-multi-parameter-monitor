@@ -1,0 +1,40 @@
+{
+  "protocol_version": "1.0",
+  "record_status": "TEMPLATE_NOT_VERIFIED",
+  "condition_id": null,
+  "dataset_id": null,
+  "group_kind": null,
+  "description": null,
+  "input_expectation": {
+    "declared_kind": "UNKNOWN",
+    "active_output_required": null,
+    "model": null,
+    "ecg_hr_setpoint_bpm": null,
+    "ecg_amplitude_value": null,
+    "ecg_amplitude_unit": null,
+    "ecg_amplitude_definition": null,
+    "resp_setpoint_per_min": null,
+    "resp_amplitude_value": null,
+    "resp_amplitude_unit": null,
+    "noise_settings": null
+  },
+  "channel_expectation": {
+    "expected_channels": ["resp", "ecg"],
+    "nominal_sample_rate_hz": null,
+    "resp_gain": null,
+    "ecg_gain": null,
+    "reference_voltage_v": null
+  },
+  "plan_expectation": {
+    "min_repeats": 3,
+    "warmup_s": 30,
+    "analysis_window_s": 120
+  },
+  "comparability_rules": {
+    "allow_link_comparison": true,
+    "allow_waveform_comparison": false,
+    "allow_algorithm_ab_comparison": false,
+    "allow_accuracy_evaluation": false
+  },
+  "notes": "实验条件不可变配置模板；条件变化（如增益、参考电压、输入幅值、模拟器档位改变）必须新建 condition_id。"
+}

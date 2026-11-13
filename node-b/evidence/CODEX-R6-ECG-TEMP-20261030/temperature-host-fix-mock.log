@@ -1,0 +1,22 @@
+test_250 (test_b4_runtime.Tests.test_250) ... ok
+test_RAM_failure_after_healthy_CPU_keeps_close_resume (test_b4_runtime.Tests.test_RAM_failure_after_healthy_CPU_keeps_close_resume) ... ok
+test_bad_sps (test_b4_runtime.Tests.test_bad_sps) ... ok
+test_clipping_is_separate_from_sampling_continuity (test_b4_runtime.Tests.test_clipping_is_separate_from_sampling_continuity) ... ok
+test_denied_control (test_b4_runtime.Tests.test_denied_control) ... ok
+test_disabled (test_b4_runtime.Tests.test_disabled) ... ok
+test_each_new_adc_error_stops (test_b4_runtime.Tests.test_each_new_adc_error_stops) ... ok
+test_historical_adc_error_preserved_but_no_new_error (test_b4_runtime.Tests.test_historical_adc_error_preserved_but_no_new_error) ... ok
+test_new_gap (test_b4_runtime.Tests.test_new_gap) ... ok
+test_no_unknown_RAM (test_b4_runtime.Tests.test_no_unknown_RAM) ... ok
+test_preserved_historical_counts_not_zeroed (test_b4_runtime.Tests.test_preserved_historical_counts_not_zeroed) ... ok
+test_reset (test_b4_runtime.Tests.test_reset) ... ok
+test_short_nonatomic_no_false_rate_verdict (test_b4_runtime.Tests.test_short_nonatomic_no_false_rate_verdict) ... ok
+test_stopped (test_b4_runtime.Tests.test_stopped) ... ok
+test_genuine_future_timestamp_is_not_repaired_or_hidden (test_b4_temperature_observation.TemperatureObservation.test_genuine_future_timestamp_is_not_repaired_or_hidden) ... ok
+test_stale_temperature_is_preserved_for_the_frozen_reviewer (test_b4_temperature_observation.TemperatureObservation.test_stale_temperature_is_preserved_for_the_frozen_reviewer) ... ok
+test_update_between_reads_is_bracketed_without_clamping_ticks (test_b4_temperature_observation.TemperatureObservation.test_update_between_reads_is_bracketed_without_clamping_ticks) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.002s
+
+OK

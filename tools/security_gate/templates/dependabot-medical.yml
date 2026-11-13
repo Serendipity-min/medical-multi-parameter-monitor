@@ -1,0 +1,15 @@
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: /cloud/backend
+    schedule: {interval: weekly}
+    open-pull-requests-limit: 5
+  - package-ecosystem: npm
+    directory: /cloud/web
+    schedule: {interval: weekly}
+    open-pull-requests-limit: 5
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: {interval: weekly}
+    open-pull-requests-limit: 5
+# 不配置自动合并。启用 Alerts/Malware Alerts/Security Updates 仍须确认仓库设置。

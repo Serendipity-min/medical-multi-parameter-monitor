@@ -1,0 +1,42 @@
+{
+  "status": "OFFLINE_READY_HARDWARE_NOT_RUN",
+  "build_native_exit": 0,
+  "plan_native_exit": 0,
+  "BIN_bytes": 7164,
+  "BIN_SHA256": "949ff303e3c3df5e334e10b62e49e064057d4831545cccf359232dbc43a46aba",
+  "ELF_SHA256": "fc2f2d2c5d01fd6c86763269cd309c342c7ff5436ed46d3a0e750e4ad4e3ca4d",
+  "target": "KNOWN_C_ONLY",
+  "actual_erase_sectors": [
+    0
+  ],
+  "written_range": [
+    "0x08000000",
+    "0x08004000"
+  ],
+  "candidate_tail_from_current_backup": true,
+  "sector3_and_all_other_Flash": "PRESERVED",
+  "Options": "PRESERVED",
+  "MIC_CAN_ESP": "NOT_LINKED",
+  "native_SDK_effects": "UNRESOLVED",
+  "source_SHA256": {
+    "gateway\\dual_can\\system_hse.c": "5192e6351edae0ce2b5ad90e1dced3e38af944ae50645131a54e75fba22a04db",
+    "gateway\\esp_at_probe\\src\\syscalls.c": "796e258d6c2e20e2d1f629c43d7d6ea17b32d3040c466055ae9a2a084caf9ead",
+    "external/stm32f4xx_rcc.c": "4169568c167d701fada6c2366d2537c62d194dbe9a311e513fc9ff80061dc998",
+    "external/stm32f4xx_gpio.c": "3043fe9e52501fad9cea9afa95e741f0697d658471d930610447623784e80bf8",
+    "external/stm32f4xx_usart.c": "f76877834c69e6f44f6a5daa61191ae06c17ef19c80318b3e05542f7bd6d869c",
+    "external/startup_stm32f40_41xxx.s": "7130bda839175b88ae9b13c03f2e0e993139b253eebd03f1f1ef23840dc569a4",
+    "gateway\\voice\\stop_bench.c": "d775dbab519c741c10683387acd844788ed01b71b42ceb13016e1e15a48a1a41",
+    "gateway\\voice\\tts_frame.c": "81e76cc50aedad7de1d558f970255e4b5e32635fbb8994cf8b50537c62c8fde9",
+    "gateway\\voice\\tts_queue.c": "8aa90e26a962b29376522c3992031dc3978d1d9f21c7a0f77d9cec00adab1496",
+    "gateway\\voice\\tts_uart_port.c": "90f23fcdeb94d64cf1c5158c26c344cf439be5ce29cf70b12bc4d433aa4df1c2"
+  },
+  "install_tools_SHA256": {
+    "node-b/tools/abc_board_install.py": "6bd8a6b63c9f87f144e6f937e07491e070f2b9da2616a05f8db4337cc97e7157",
+    "node-b/tools/b4_swd_install.py": "e290cbcd334140d93d4c1008ef351fe45ecffa0eb0069e330581057adf08a456",
+    "node-b/tools/b4_recovery.py": "fa93222b833f2f010d068b0cac97c73db7430c7eb68316d84441d60539c76213",
+    "gateway/voice/stop_bench.c": "d775dbab519c741c10683387acd844788ed01b71b42ceb13016e1e15a48a1a41",
+    "gateway/voice/tts_queue.c": "8aa90e26a962b29376522c3992031dc3978d1d9f21c7a0f77d9cec00adab1496",
+    "gateway/voice/tts_queue.h": "5cf629465b411b4cc908053a01873f0c3c27d4ec16be41224c56509a37ac1476",
+    "gateway/microphone/build.py": "b3dc24f43ca76f93750a49f3d5e81f48f45305b69b2ef7083079369a268d6821"
+  }
+}

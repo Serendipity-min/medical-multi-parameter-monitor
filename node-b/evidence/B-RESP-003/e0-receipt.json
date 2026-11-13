@@ -1,0 +1,138 @@
+{
+  "schema": "MPM_B_RESP_003_E0_1",
+  "date": "2026-10-22",
+  "basis_commit": "2d34b848d5946d38b6f942fa61c4fc7c05138a40",
+  "E0": "E0_SOFTWARE_PREPARATION_PASS",
+  "E1": "HOLD_FOR_SAFE_FIELD_GATE_AND_ACTUAL_MENU",
+  "E2": "NOT_RUN",
+  "E3": "NOT_RUN",
+  "source_type": "RESP_EXPLORATORY",
+  "Z0_ohm": null,
+  "delta_Zpp_ohm": null,
+  "dynamic_pair": "UNVERIFIED",
+  "impedance_calibration": "NOT_CALIBRATED",
+  "unknown_factory_Z_or_pair_is_absolute_exploration_blocker": false,
+  "factory_photo_sha256": "c5f1ff3d1ea514b1780c6c424c7a426baf9882eb1da252f041fbbb24483a70c8",
+  "factory_visible_resp_entries_rpm": [
+    15,
+    30,
+    45,
+    60
+  ],
+  "factory_report_scope": "Functional source provenance, no voltage/current/32kHz/RLD or delta-ohm calibration evidence visible",
+  "profile_sha256": "3ff2e6b95ade0a1f35db97ce608a04fe7b2c303f460a0748f66a48362ce98857",
+  "card_sha256": "9ebdefa66b6cd89a753f4f61c716b6620b8d315cb24537f6ef5581f2669c3356",
+  "source_template_sha256": "6d8a7d79229d059f8048442668db4b49b1c505b45218319e8ad70568289827e5",
+  "actual_source_record_sha256": null,
+  "safety_record_sha256": null,
+  "launch_plan_enabled": false,
+  "test_count": 13,
+  "unit_test_exit_code": 0,
+  "tests_hardware_access": false,
+  "CLI_negative_actual_exit_codes": [
+    {
+      "case": "reject-old-ecg-profile",
+      "supervisor_or_parser_exit_code": 1,
+      "expected": 1,
+      "hardware_access": false,
+      "worker_exit_code": 1,
+      "reason": "RuntimeError: RESP_PROFILE_SCHEMA_NO_ECG_REUSE",
+      "board_open_attempted": false
+    },
+    {
+      "case": "reject-pending-source",
+      "supervisor_or_parser_exit_code": 1,
+      "expected": 1,
+      "hardware_access": false,
+      "worker_exit_code": 1,
+      "reason": "RuntimeError: RESP_SOURCE_NOT_READY",
+      "board_open_attempted": false
+    },
+    {
+      "case": "reject-duration-92",
+      "supervisor_or_parser_exit_code": 2,
+      "expected": 2,
+      "hardware_access": false
+    }
+  ],
+  "initial_test_exit_code": 1,
+  "initial_test_failures_preserved": [
+    "GCC UTF8 include literal path",
+    "Host ctypes DLL resource lifetime"
+  ],
+  "current_hardware_actions": {
+    "probe_open": 0,
+    "board_read": 0,
+    "capture": 0,
+    "source_mode_change": 0,
+    "wire_change": 0,
+    "halt": 0,
+    "go": 0,
+    "reset": 0,
+    "flash_write": 0
+  },
+  "limits": {
+    "stage": "E1",
+    "seconds": 10,
+    "managed_sdk_calls_max": 4000,
+    "additional_Close_max": 1,
+    "slot_blocks_max": 201,
+    "diag_groups_max": 21,
+    "halt_max": 1,
+    "go_max": 2,
+    "reset": 0
+  },
+  "historical_ECG_preserved": [
+    {
+      "summary_path": "node-b/evidence/B-ALG-002/field-r3/matrix-ecg60-01-summary.json",
+      "summary_sha256": "db69fe7b64616b48252092d9c7342e9aabd40e73870a53a9195839314f5e346e",
+      "raw_csv_sha256": "a5160a4f4e12425e8cd396faeab821c8b781d88de55e3b782448ef61e17a4177"
+    },
+    {
+      "summary_path": "node-b/evidence/B-ALG-002/field-r3/matrix-ecg60-02-summary.json",
+      "summary_sha256": "cd1b7e555d00ebc34c4ae030ee47a3cc95e069e8fe545470171926ae7fd0fa9e",
+      "raw_csv_sha256": "437813bdc03e9eb27b09c25a9240d0bbff6757d3d06130760482b77d894fae9a"
+    },
+    {
+      "summary_path": "node-b/evidence/B-ALG-002/field-r3/matrix-ecg90-01-summary.json",
+      "summary_sha256": "e675765ae1703df63862795a79f07f86af2706a01c09af5ec04b305589f29315",
+      "raw_csv_sha256": "5d7d0a6f95c24eed9560b1864f53dd8553ac713a305d3349a4e2d49aa6f44b9e"
+    },
+    {
+      "summary_path": "node-b/evidence/B-ALG-002/field-r3/matrix-ecg90-02-summary.json",
+      "summary_sha256": "cdfa8ba676d518906f2d514e5bfe4a5525d504bd4da443c4cbe5b5ee070c9afb",
+      "raw_csv_sha256": "5f46fd6a838c4e3ddbee38f2f32342b49b62ff5d19edea71ebe81826c0c024ad"
+    },
+    {
+      "summary_path": "node-b/evidence/B-ALG-002/field-r3/matrix-ecg120-01-summary.json",
+      "summary_sha256": "950a3071c63be7e7f27434efd1cb1d263b0d7e01741d29055933474ee278934c",
+      "raw_csv_sha256": "95d2675bb8caf5cfe89b6595579e2bab743b6112a4cc891b1c6248941b629a9e"
+    },
+    {
+      "summary_path": "node-b/evidence/B-ALG-002/field-r3/matrix-ecg120-02-summary.json",
+      "summary_sha256": "a00675b3e2cb2bc21edb4a36ab18940e4091f9cdc7e6d22c1ba3aa39565284c9",
+      "raw_csv_sha256": "8f26c377700409b436738610c2a170db026872fc77e5f96a9e363c57d84edcfe"
+    }
+  ],
+  "firmware_thresholds_changed": false,
+  "existing_ECG_tools_changed": false,
+  "report_sha256": "3b468031222cb8e26b3d0704be78e18f3ba3258e0b6f0392042a30432ab84ecd",
+  "raw_failure_logs_private_sha256": {
+    "tests-before-fix.stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests-before-fix.stderr.log": "3e45284bd87ecb944bae5915f6334f426ec8304e3c7d716d2c0c67bed479b9ad",
+    "tests-final-source-guard.stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests-final-source-guard.stderr.log": "1a235f079958e4727d2d5313d893872aff8972140be6569355e7c80d7a7ed905"
+  },
+  "missing_electrical_information": "Actual DC readings and condition review not yet completed; first screen card prepared",
+  "missing_actual_source_setting": "Independent respiration 15/1.5R and actual apnea display not confirmed",
+  "next": "Close electrical review, freeze actual ready source and card execution manifest, then only one E1 10s window",
+  "DMM_available_owner_confirmed": true,
+  "DMM_model_and_power_input_details": "Photo supports DC20V and voltage sockets; input impedance/calibration unknown",
+  "DMM_model": "DLX-YQ2915",
+  "DMM_power": "BATTERY_OWNER_CONFIRMED",
+  "DMM_photo_sha256": "f6290db67f3298d167ac566548c80aba48203f39e54dae6ef38fd7521f5a7603",
+  "DMM_input_impedance_ohm": null,
+  "electrical_card_sha256": "3f41bce18afeaaee767aff76f256fc8600ebeaa7eaca2432881a523374be341a",
+  "electrical_measurements_status": "FIRST_DC_SCREEN_NOT_RUN",
+  "electrical_DC_stop_abs_voltage": 0.2
+}

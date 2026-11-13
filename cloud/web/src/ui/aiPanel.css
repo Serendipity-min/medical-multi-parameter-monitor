@@ -1,0 +1,50 @@
+/* AI 页沿用主界面黑底与中性色，强调色用浅灰，不占用通道色和报警色。 */
+.ai-page { --ai-accent: #d6d9de; height: 100%; display: flex; flex-direction: column; gap: 1em; padding: 1em 1.2em; }
+.ai-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 1em; }
+.ai-heading h1 { margin: 0; font-size: 1.6em; font-weight: 600; }
+.ai-heading p { margin: .3em 0 0; color: var(--muted); }
+.ai-layout { min-height: 0; flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) 30em; gap: 1em; }
+.ai-conversation { min-height: 0; display: flex; flex-direction: column; border: 1px solid var(--line); background: var(--panel); }
+.ai-section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: .8em; }
+.ai-section-heading h2 { margin: 0; font-size: 1.1em; font-weight: 600; }
+.ai-section-heading > span { color: var(--muted); font-size: .9em; }
+.ai-conversation > .ai-section-heading { padding: .9em 1.2em; border-bottom: 1px solid var(--line); }
+.ai-history { flex: 1; min-height: 8em; overflow: auto; padding: 0 1.6em; overscroll-behavior: contain; }
+.ai-empty { max-width: 40em; margin: 4em auto; }
+.ai-empty h2 { font-size: 1.4em; font-weight: 500; margin: 0 0 .6em; }
+.ai-empty p { color: var(--muted); line-height: 1.8; }
+.ai-suggestions { display: flex; flex-wrap: wrap; gap: .5em; margin-top: 1.2em; }
+.ai-turn { padding: 1.2em 0; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.ai-turn h3 { margin: 0 0 .8em; font-size: 1em; font-weight: 500; color: var(--muted); white-space: pre-wrap; }
+.ai-answer { margin: 0; white-space: pre-wrap; line-height: 1.8; font-size: 1.15em; }
+.ai-turn-label { display: block; margin-top: .9em; font-size: .9em; font-weight: 500; color: var(--ai-accent); }
+.ai-receipt { margin-top: .6em; color: var(--muted); font-size: .85em; }
+.ai-receipt summary { cursor: pointer; padding: .3em 0; }
+.ai-receipt p { margin: .4em 0; line-height: 1.6; }
+.ai-composer { padding: 1em 1.2em; border-top: 1px solid var(--line); background: var(--surface); }
+.ai-composer label { display: block; margin-bottom: .5em; color: var(--muted); }
+.ai-composer textarea { display: block; width: 100%; max-height: 10em; min-height: 4.5em; resize: vertical; border: 1px solid #2a2e35; background: #000; padding: .7em; line-height: 1.5; }
+.ai-compose-meta { display: flex; justify-content: space-between; gap: .5em; font-size: .85em; color: var(--muted); margin-top: .5em; }
+#ai-status { line-height: 1.6; color: var(--ai-accent); margin: .6em 0; }
+.ai-actions { display: flex; gap: .6em; justify-content: flex-end; }
+#ai-send { background: #e8e8e8; color: #000; border-color: #e8e8e8; font-weight: 600; }
+.ai-aside { overflow: auto; min-height: 0; display: flex; flex-direction: column; gap: .8em; }
+.ai-aside section { padding: .9em 1.1em; background: var(--surface); border: 1px solid var(--line); flex-shrink: 0; }
+.ai-aside strong { display: block; margin-top: .7em; overflow-wrap: anywhere; }
+#ai-mode { color: var(--ai-accent); }
+.ai-aside p { color: var(--muted); font-size: .9em; line-height: 1.7; margin: .5em 0 0; overflow-wrap: anywhere; }
+.ai-access { margin-top: .7em; border-top: 1px solid var(--line); padding-top: .7em; }
+.ai-access summary { cursor: pointer; }
+.ai-label { display: block; margin: .7em 0 .4em; color: var(--muted); font-size: .9em; }
+#ai-token { width: 100%; background: #000; border: 1px solid #2a2e35; padding: .6em; }
+.ai-fact-row { display: grid; grid-template-columns: auto 1fr; gap: .2em .8em; padding: .5em 0; border-bottom: 1px solid var(--line); }
+.ai-fact-row > strong { margin: 0; text-align: right; font: 1.15em var(--num); }
+.ai-fact-row small { grid-column: span 2; font-size: .8em; color: var(--muted); overflow-wrap: anywhere; }
+.ai-voice { display: flex; align-items: center; gap: .5em; margin-top: .8em; line-height: 1.6; }
+.ai-voice input { width: 1.1em; height: 1.1em; accent-color: #e8e8e8; }
+@media (max-width: 1000px) {
+  .ai-page { height: auto; }
+  .ai-layout { grid-template-columns: minmax(0, 1fr); }
+  .ai-aside { overflow: visible; }
+  .ai-history { max-height: 30em; }
+}

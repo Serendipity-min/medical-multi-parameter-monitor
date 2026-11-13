@@ -1,0 +1,20 @@
+TTS_STOP_BENCH_ID V1 QUERY_AFTER_STOP_ACK NO_MIC_CAN_ESP
+TTS_EVT TX ms=44949 byte=fd
+TTS_STATE ms=44952 state=2 enabled=1 stopping=0 stop_sent=0 stop_ack=0 query_sent=0 stop_idle=0 stop_failed=0 ack=0 done=0 uart_errors=0 uart_overflow=0
+TTS_EVT TX ms=44967 byte=00
+TTS_EVT TX ms=44969 byte=06
+TTS_EVT TX ms=44972 byte=01
+TTS_EVT TX ms=44975 byte=01
+TTS_EVT TX ms=44978 byte=5b
+TTS_EVT TX ms=44980 byte=76
+TTS_EVT TX ms=44983 byte=31
+TTS_EVT TX ms=44986 byte=5d
+TTS_EVT RX ms=44988 byte=41
+TTS_STATE ms=44991 state=6 enabled=0 stopping=1 stop_sent=0 stop_ack=0 query_sent=0 stop_idle=0 stop_failed=0 ack=0 done=0 uart_errors=0 uart_overflow=0
+TTS_EVT TX ms=45006 byte=fd
+TTS_EVT TX ms=45009 byte=00
+TTS_EVT TX ms=45012 byte=01
+TTS_EVT TX ms=45014 byte=02
+TTS_EVT RX ms=45017 byte=41
+TTS_STATE ms=45020 state=6 enabled=0 stopping=1 stop_sent=1 stop_ack=0 query_sent=0 stop_idle=0 stop_failed=0 ack=0 done=0 uart_errors=0 uart_overflow=0
+TTS_STATE ms=46491 state=6 enabled=0 stopping=0 stop_sent=1 stop_ack=0 query_sent=0 stop_idle=0 stop_failed=1 ack=0 done=0 uart_errors=0 uart_overflow=0

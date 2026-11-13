@@ -1,0 +1,583 @@
+{
+  "base": "e8804f8a8092a38a8a5ff9be2f7162dfbcd091e3",
+  "script_sha256": "127f75710d7875fc68d266598c37a24b48a4b20db277b1b251b8af5a371fe9b3",
+  "scope": "P1_OFFLINE_ONLY",
+  "hardware_operations": 0,
+  "network_operations": 0,
+  "builds": {
+    "before": {
+      "native_exit": 0,
+      "router_sha256": "651ed6ad5f297b70f16e14cbc89e044651779eb7335894dd06e5c77ce5690666"
+    },
+    "after": {
+      "native_exit": 0,
+      "router_sha256": "a0708627e342fbf5983c0535875c6c5a325e04ee69cfc3da9040a192807686b9"
+    }
+  },
+  "unit_results": {
+    "before": [
+      {
+        "case": "fifo",
+        "native_exit": 3,
+        "log_sha256": "2631f761a92ea0a45cb0f25307c16cbea44de8f0fd3ae692cce4e70e43adc895"
+      },
+      {
+        "case": "history",
+        "native_exit": 3,
+        "log_sha256": "84143040b2e866b2583e87c872e4c59ec57add58ac8d77620ece190b3cdcfdab"
+      },
+      {
+        "case": "deadline",
+        "native_exit": 3,
+        "log_sha256": "69d48c256b84bed29a167fec2874a738ea45987601e67ff80599e89dcdeffdb6"
+      },
+      {
+        "case": "publisher",
+        "native_exit": 3,
+        "log_sha256": "bb32d25116da46153bdc3dd738107910e304a3b4a7ac5e22be301b20432f9fad"
+      }
+    ],
+    "after": [
+      {
+        "case": "fifo",
+        "native_exit": 0,
+        "log_sha256": "834e3bdc8ae30f1ce17635cce119d9d69ad7726ea0e5d3472706b680e7c046b6"
+      },
+      {
+        "case": "history",
+        "native_exit": 0,
+        "log_sha256": "66042e2c7106b772410901c3613323d346c9a24db91f0d03634ecbfc66a4dc57"
+      },
+      {
+        "case": "deadline",
+        "native_exit": 0,
+        "log_sha256": "40d2786189c94ada114645b016f077f19337a68cbe499bcb6cd03641f4615e08"
+      },
+      {
+        "case": "publisher",
+        "native_exit": 0,
+        "log_sha256": "94914534dd3009068b6e6174623437271405467d1ead1126bd86657b176edf89"
+      }
+    ]
+  },
+  "windows": {
+    "ECG60": {
+      "scope": "READ_ONLY_RECORDED_BROKER_ORDER_AND_C_COUNTERS_NOT_FULL_C_INGRESS",
+      "input_evidence": {
+        "T0.json": {
+          "bytes": 225,
+          "sha256": "27d921da7a0f45f86c6432cd57febdaa272379fd8258c204ed1215b98b2aefc6"
+        },
+        "C-observation/lines-private.jsonl": {
+          "bytes": 450452,
+          "sha256": "d428636aae406b0553e141f444e68bbde9ca7fdabf1f5a01a2f1ed5c1c9c3c5a"
+        },
+        "receiver/MQTT-private.jsonl": {
+          "bytes": 2725650,
+          "sha256": "d13d604bcfc885df9f00b042f2e85960fa86bb556c30d285506c3eda82e6ce24"
+        }
+      },
+      "before": {
+        "observed_wave_batches": 1046,
+        "observed_wave_points": {
+          "ppg": 2914,
+          "ecg": 69700,
+          "resp": 14450
+        },
+        "field_mismatches": 0,
+        "PPG_recorded_payload_synthetic_burst": {
+          "input": 12,
+          "live": 1,
+          "replaced": 11,
+          "FIFO_identity_equal": false
+        }
+      },
+      "after": {
+        "observed_wave_batches": 1046,
+        "observed_wave_points": {
+          "ppg": 2914,
+          "ecg": 69700,
+          "resp": 14450
+        },
+        "field_mismatches": 0,
+        "PPG_recorded_payload_synthetic_burst": {
+          "input": 12,
+          "live": 12,
+          "replaced": 0,
+          "FIFO_identity_equal": true
+        }
+      },
+      "observed_service": {
+        "interval_s": 294.899,
+        "diagnostic_observations": 60,
+        "Q0": 1043,
+        "Q1_puback": 1337,
+        "frames_per_s": 8.070559750965584,
+        "live_min": 20,
+        "live_max": 23,
+        "historical_evictions": 716,
+        "overflow": 48,
+        "MQTT_packet_bytes_source_window": 1098504,
+        "MQTT_bytes_per_s_source_window": 3661.68
+      },
+      "input_count_lower_bound": {
+        "ecg": 740,
+        "resp": 296,
+        "hr": 296,
+        "rr": 295,
+        "temp": 295,
+        "ppg": 295,
+        "spo2": 294,
+        "pr": 294,
+        "node_status": 240,
+        "gateway_status": 60,
+        "nibp": 1
+      },
+      "input_counter_intervals_s": {
+        "ecg": 296.069,
+        "resp": 295.999,
+        "hr": 296.106,
+        "rr": 295.571,
+        "temp": 295.535,
+        "ppg": 300,
+        "spo2": 300,
+        "pr": 300,
+        "node_status": 300,
+        "gateway_status": 300,
+        "nibp": 300
+      },
+      "input_rates_per_s": {
+        "ecg": 2.499417365546545,
+        "resp": 1.0000033783897917,
+        "hr": 0.9996420200874011,
+        "rr": 0.998068146063044,
+        "temp": 0.9981897237213866,
+        "ppg": 0.9833333333333333,
+        "spo2": 0.98,
+        "pr": 0.98,
+        "node_status": 0.8,
+        "gateway_status": 0.2,
+        "nibp": 0.0033333333333333335
+      },
+      "total_input_lower_bound_per_s": 10.441987300474835,
+      "observed_service_margin_per_s": -2.371427549509251,
+      "accumulated_deficit_300s": 711.4282648527753,
+      "packet_sizes": {
+        "gateway_status": {
+          "count": 60,
+          "min": 182,
+          "mean": 182,
+          "max": 182
+        },
+        "ppg": {
+          "count": 60,
+          "min": 233,
+          "mean": 660.0166666666667,
+          "max": 673
+        },
+        "pr": {
+          "count": 78,
+          "min": 190,
+          "mean": 190.92307692307693,
+          "max": 192
+        },
+        "temp": {
+          "count": 296,
+          "min": 193,
+          "mean": 193.89527027027026,
+          "max": 194
+        },
+        "ecg": {
+          "count": 697,
+          "min": 844,
+          "mean": 866.3945480631277,
+          "max": 888
+        },
+        "node_status": {
+          "count": 240,
+          "min": 189,
+          "mean": 189,
+          "max": 189
+        },
+        "hr": {
+          "count": 296,
+          "min": 190,
+          "mean": 190.89864864864865,
+          "max": 191
+        },
+        "resp": {
+          "count": 289,
+          "min": 675,
+          "mean": 675.8200692041522,
+          "max": 676
+        },
+        "rr": {
+          "count": 296,
+          "min": 199,
+          "mean": 199.89864864864865,
+          "max": 200
+        },
+        "spo2": {
+          "count": 80,
+          "min": 190,
+          "mean": 190.925,
+          "max": 192
+        },
+        "nibp": {
+          "count": 1,
+          "min": 199,
+          "mean": 199,
+          "max": 199
+        }
+      },
+      "projected_input_MQTT_bytes_per_s": 4636.681819524763,
+      "projected_UART_115200_8N1_payload_fraction": 0.40248974127819126,
+      "byte_budget_note": "Missing-frame sizes estimated from same-stream survivors; not directly measured missing payload bytes. AT commands/replies/ACK/polls extra.",
+      "actual_AT_MQTT_latency_buckets": {
+        "0": {
+          "stage": 0,
+          "n": 4410,
+          "p50_upper": 10,
+          "p95_upper": 25,
+          "p99_upper": 25,
+          "max": 3804
+        },
+        "1": {
+          "stage": 1,
+          "n": 2809,
+          "p50_upper": 5,
+          "p95_upper": 10,
+          "p99_upper": 10,
+          "max": 12
+        },
+        "2": {
+          "stage": 2,
+          "n": 2810,
+          "p50_upper": 25,
+          "p95_upper": 250,
+          "p99_upper": 250,
+          "max": 113
+        },
+        "3": {
+          "stage": 3,
+          "n": 2811,
+          "p50_upper": 25,
+          "p95_upper": 50,
+          "p99_upper": 50,
+          "max": 45
+        },
+        "4": {
+          "stage": 4,
+          "n": 2769,
+          "p50_upper": 5,
+          "p95_upper": 25,
+          "p99_upper": 25,
+          "max": 19
+        },
+        "5": {
+          "stage": 5,
+          "n": 2770,
+          "p50_upper": 50,
+          "p95_upper": 250,
+          "p99_upper": 250,
+          "max": 159
+        },
+        "6": {
+          "stage": 6,
+          "n": 1556,
+          "p50_upper": 250,
+          "p95_upper": 500,
+          "p99_upper": 500,
+          "max": 370
+        },
+        "7": {
+          "stage": 7,
+          "n": 2775,
+          "p50_upper": 1500,
+          "p95_upper": 4641,
+          "p99_upper": 4641,
+          "max": 4641
+        },
+        "8": {
+          "stage": 8,
+          "n": 2776,
+          "p50_upper": 4647,
+          "p95_upper": 4647,
+          "p99_upper": 4647,
+          "max": 4647
+        }
+      },
+      "actual_AT_tx_ms_periodic": {
+        "min": 41,
+        "max": 149
+      },
+      "replay_limitations": [
+        "No complete ordered C ingress capture, especially A UART/PPG.",
+        "Broker rows are survivors; interarrival gaps include network/TLS/observer effects, not per-transaction AT timings.",
+        "Invalid scalar hidden values cannot be recovered from null; only wave payload identity is asserted.",
+        "A seq-span and B put counters prove produced volume, not missing payload values or exact within-bin order.",
+        "No fabricated missing samples, sequence numbers, qualities, timestamps, or exact-field overflow count reproduction."
+      ],
+      "capacity_result": "INSUFFICIENT_OBSERVED_SERVICE_NO_FIELD_CANDIDATE"
+    },
+    "RR18": {
+      "scope": "READ_ONLY_RECORDED_BROKER_ORDER_AND_C_COUNTERS_NOT_FULL_C_INGRESS",
+      "input_evidence": {
+        "T0.json": {
+          "bytes": 222,
+          "sha256": "69e26bdb7dda170d7055ba1752db5f7487076cfe71e7eba1dceb66de34f65568"
+        },
+        "C-observation/lines-private.jsonl": {
+          "bytes": 452474,
+          "sha256": "ba29188e95602d19a63ae174e2edfbceecad1c20d19c63e7a8e2f445a869a4aa"
+        },
+        "receiver/MQTT-private.jsonl": {
+          "bytes": 2739981,
+          "sha256": "37ffd96179bbf8101ce701191692f5793b658e8234f4cc0f7b810f4366c81d52"
+        }
+      },
+      "before": {
+        "observed_wave_batches": 1048,
+        "observed_wave_points": {
+          "ppg": 2676,
+          "resp": 14350,
+          "ecg": 70700
+        },
+        "field_mismatches": 0,
+        "PPG_recorded_payload_synthetic_burst": {
+          "input": 12,
+          "live": 1,
+          "replaced": 11,
+          "FIFO_identity_equal": false
+        }
+      },
+      "after": {
+        "observed_wave_batches": 1048,
+        "observed_wave_points": {
+          "ppg": 2676,
+          "resp": 14350,
+          "ecg": 70700
+        },
+        "field_mismatches": 0,
+        "PPG_recorded_payload_synthetic_burst": {
+          "input": 12,
+          "live": 12,
+          "replaced": 0,
+          "FIFO_identity_equal": true
+        }
+      },
+      "observed_service": {
+        "interval_s": 295.089,
+        "diagnostic_observations": 60,
+        "Q0": 1044,
+        "Q1_puback": 1340,
+        "frames_per_s": 8.078918563552014,
+        "live_min": 19,
+        "live_max": 22,
+        "historical_evictions": 709,
+        "overflow": 50,
+        "MQTT_packet_bytes_source_window": 1105366,
+        "MQTT_bytes_per_s_source_window": 3684.5533333333333
+      },
+      "input_count_lower_bound": {
+        "ecg": 733,
+        "resp": 300,
+        "hr": 300,
+        "rr": 299,
+        "temp": 299,
+        "ppg": 295,
+        "spo2": 296,
+        "pr": 296,
+        "node_status": 240,
+        "gateway_status": 60,
+        "nibp": 1
+      },
+      "input_counter_intervals_s": {
+        "ecg": 294.257,
+        "resp": 299.237,
+        "hr": 299.194,
+        "rr": 299.101,
+        "temp": 299.098,
+        "ppg": 300,
+        "spo2": 300,
+        "pr": 300,
+        "node_status": 300,
+        "gateway_status": 300,
+        "nibp": 300
+      },
+      "input_rates_per_s": {
+        "ecg": 2.4910197548401567,
+        "resp": 1.0025498183713912,
+        "hr": 1.0026939042895244,
+        "rr": 0.9996623214231982,
+        "temp": 0.9996723481935686,
+        "ppg": 0.9833333333333333,
+        "spo2": 0.9866666666666667,
+        "pr": 0.9866666666666667,
+        "node_status": 0.8,
+        "gateway_status": 0.2,
+        "nibp": 0.0033333333333333335
+      },
+      "total_input_lower_bound_per_s": 10.45559814711784,
+      "observed_service_margin_per_s": -2.376679583565826,
+      "accumulated_deficit_300s": 713.0038750697478,
+      "packet_sizes": {
+        "hr": {
+          "count": 298,
+          "min": 191,
+          "mean": 191.85906040268458,
+          "max": 192
+        },
+        "rr": {
+          "count": 297,
+          "min": 198,
+          "mean": 198.85858585858585,
+          "max": 199
+        },
+        "gateway_status": {
+          "count": 60,
+          "min": 182,
+          "mean": 182,
+          "max": 182
+        },
+        "temp": {
+          "count": 297,
+          "min": 193,
+          "mean": 193.85858585858585,
+          "max": 194
+        },
+        "pr": {
+          "count": 80,
+          "min": 190,
+          "mean": 190.9375,
+          "max": 192
+        },
+        "ppg": {
+          "count": 54,
+          "min": 457,
+          "mean": 668.8333333333334,
+          "max": 673
+        },
+        "spo2": {
+          "count": 81,
+          "min": 190,
+          "mean": 190.87654320987653,
+          "max": 192
+        },
+        "resp": {
+          "count": 287,
+          "min": 673,
+          "mean": 698.4181184668989,
+          "max": 724
+        },
+        "node_status": {
+          "count": 240,
+          "min": 189,
+          "mean": 189,
+          "max": 189
+        },
+        "ecg": {
+          "count": 707,
+          "min": 849,
+          "mean": 859.6577086280057,
+          "max": 874
+        },
+        "nibp": {
+          "count": 1,
+          "min": 198,
+          "mean": 198,
+          "max": 198
+        }
+      },
+      "projected_input_MQTT_bytes_per_s": 4649.255006486339,
+      "projected_UART_115200_8N1_payload_fraction": 0.4035811637574947,
+      "byte_budget_note": "Missing-frame sizes estimated from same-stream survivors; not directly measured missing payload bytes. AT commands/replies/ACK/polls extra.",
+      "actual_AT_MQTT_latency_buckets": {
+        "0": {
+          "stage": 0,
+          "n": 4405,
+          "p50_upper": 10,
+          "p95_upper": 25,
+          "p99_upper": 25,
+          "max": 3803
+        },
+        "1": {
+          "stage": 1,
+          "n": 2797,
+          "p50_upper": 5,
+          "p95_upper": 10,
+          "p99_upper": 10,
+          "max": 16
+        },
+        "2": {
+          "stage": 2,
+          "n": 2798,
+          "p50_upper": 25,
+          "p95_upper": 250,
+          "p99_upper": 250,
+          "max": 111
+        },
+        "3": {
+          "stage": 3,
+          "n": 2799,
+          "p50_upper": 25,
+          "p95_upper": 50,
+          "p99_upper": 50,
+          "max": 43
+        },
+        "4": {
+          "stage": 4,
+          "n": 2796,
+          "p50_upper": 5,
+          "p95_upper": 25,
+          "p99_upper": 25,
+          "max": 24
+        },
+        "5": {
+          "stage": 5,
+          "n": 2797,
+          "p50_upper": 50,
+          "p95_upper": 250,
+          "p99_upper": 250,
+          "max": 158
+        },
+        "6": {
+          "stage": 6,
+          "n": 1570,
+          "p50_upper": 250,
+          "p95_upper": 500,
+          "p99_upper": 500,
+          "max": 348
+        },
+        "7": {
+          "stage": 7,
+          "n": 2799,
+          "p50_upper": 1500,
+          "p95_upper": 4506,
+          "p99_upper": 4506,
+          "max": 4506
+        },
+        "8": {
+          "stage": 8,
+          "n": 2801,
+          "p50_upper": 4515,
+          "p95_upper": 4515,
+          "p99_upper": 4515,
+          "max": 4515
+        }
+      },
+      "actual_AT_tx_ms_periodic": {
+        "min": 40,
+        "max": 151
+      },
+      "replay_limitations": [
+        "No complete ordered C ingress capture, especially A UART/PPG.",
+        "Broker rows are survivors; interarrival gaps include network/TLS/observer effects, not per-transaction AT timings.",
+        "Invalid scalar hidden values cannot be recovered from null; only wave payload identity is asserted.",
+        "A seq-span and B put counters prove produced volume, not missing payload values or exact within-bin order.",
+        "No fabricated missing samples, sequence numbers, qualities, timestamps, or exact-field overflow count reproduction."
+      ],
+      "capacity_result": "INSUFFICIENT_OBSERVED_SERVICE_NO_FIELD_CANDIDATE"
+    }
+  }
+}

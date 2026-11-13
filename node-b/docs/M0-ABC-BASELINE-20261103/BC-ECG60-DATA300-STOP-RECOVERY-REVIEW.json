@@ -1,0 +1,148 @@
+{
+  "status": "M0_BC_ECG60_ENGINEERING_PASS_WITH_STOP_COMPLETION_RECOVERY",
+  "original_capture_native_exit": 1,
+  "post_STOP_completion_recovery": true,
+  "exit_code": 0,
+  "failures": [],
+  "evaluation_UTC_ms": [
+    1793702017142,
+    1793702317142
+  ],
+  "B": {
+    "failures": [],
+    "saved": 600,
+    "device_domain_SPS": 249.96912106877824,
+    "CAN_evaluation_increments": {
+      "offered": 74880,
+      "enqueued": 74880,
+      "sent_ecg": 74880,
+      "sent_resp": 14976,
+      "overflow": 0,
+      "expired": 0,
+      "comm_reset": 0,
+      "app_reset_rejected": 0,
+      "error": 0,
+      "discontinuities": 0
+    },
+    "ADC_evaluation_increments": {
+      "bad_status": 0,
+      "spi_errors": 0,
+      "queue_overflow": 0,
+      "init_errors": 0,
+      "long_gap_count": 0
+    },
+    "HR_values": {
+      "60": 600
+    },
+    "RR_reason_masks": {
+      "130": 581,
+      "2": 19
+    },
+    "clipped_counter_increment": 0,
+    "temperature_errors": {
+      "overflow": 0,
+      "uart_errors": 0,
+      "checksum_errors": 0
+    },
+    "temperature_new_frames": 1373,
+    "profile": "ECG60"
+  },
+  "source_reconstruction": {
+    "blocks": 4831,
+    "raw_stable": 114660,
+    "CAN_stable": 114661,
+    "raw_unqualified_sequences": 73,
+    "CAN_unqualified_sequences": 72,
+    "raw_version_conflicts": 157,
+    "CAN_version_conflicts": 137
+  },
+  "source_points": {
+    "ECG": 74867,
+    "RESP": 14961
+  },
+  "mapping_errors": {},
+  "UART_source": {
+    "blocks": 1610,
+    "stable_bytes": 25276,
+    "unqualified_bytes": 15,
+    "valid_frames": 2105
+  },
+  "TEMP_messages": 297,
+  "TEMP_source_matches": 297,
+  "TEMP_max_WSS_age_ms": 4086,
+  "NIBP": [],
+  "webpage_simultaneous_readings": [],
+  "Broker_messages": 3026,
+  "Broker_duplicates": 0,
+  "Backend_delta": {
+    "accepted": 3026,
+    "rejected": 0,
+    "dropped": 0
+  },
+  "WSS_snapshots": 4017,
+  "C_CAN_delta": {
+    "B_CAN": {
+      "rx": 89962,
+      "txack": 618,
+      "txfail": 0,
+      "overflow": 0
+    },
+    "A_CAN": {
+      "rx": 0,
+      "txack": 0,
+      "txfail": 0,
+      "overflow": 0
+    }
+  },
+  "actual_IRQ_first_last": [
+    {
+      "group": 3,
+      "can_a": 0,
+      "can_b": 3,
+      "dma": 8,
+      "calls_a": 0,
+      "calls_b": 40130
+    },
+    {
+      "group": 3,
+      "can_a": 0,
+      "can_b": 3,
+      "dma": 8,
+      "calls_a": 0,
+      "calls_b": 130091
+    }
+  ],
+  "browser": {
+    "exit_code": 0,
+    "sensor_data_injected": false,
+    "TLS_errors_ignored": false,
+    "browser_context": "TASK_ONLY",
+    "observations": 428,
+    "NIBP_screenshot_taken": false
+  },
+  "old_results_modified": false,
+  "field_job": "BC-ECG60-20261103T103055067355Z",
+  "original_receipt_native_exit": 1,
+  "recovery_native_exit": 0,
+  "review_native_exit": 0,
+  "scope_note": "Original capture/cleanup failure retained; complete 300s data plus distinct post-STOP I/Q/D proof; no new recording, no RESET, same source PCM and cloud125blocks",
+  "owner_temperature_screen_followup": {
+    "owner_reported_screen_C": [
+      25.6,
+      25.7
+    ],
+    "reported_after_BC_window": true,
+    "last_30s_Broker_display_rounded_C": [
+      25.5,
+      25.6,
+      25.7,
+      26.7
+    ],
+    "owner_values_present_in_saved_window": [
+      true,
+      true
+    ],
+    "absolute_accuracy": "NOT_CALIBRATED",
+    "recorded_UTC_ms": 1793702819875
+  }
+}

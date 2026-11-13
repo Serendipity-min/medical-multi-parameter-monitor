@@ -1,0 +1,107 @@
+"""只读核对C共同90秒实收的RESP源tick、RR有效位/数值和原码周期，保留稳定性失败。"""
+from collections import Counter
+import json
+from pathlib import Path
+import struct
+import sys
+
+import b4_capture_decode as codec
+import b4_recovery as pkg
+from readback_b import require, write_json, sha
+from analyze_b4_resp_rall_can_current import offset
+from resp_exploratory import estimate_period
+
+
+def review(rows, b_raw, diagnostics, transport):
+    start = next(r for r in rows if r['kind'] == 9)
+    selected = [r for r in rows if 45000 <= codec.signed_delta(r['tick'], start['tick']) < 135000]
+    waves = [r for r in selected if r['kind'] == 1 and r['bus'] == 1 and r['id'] == 0x282]
+    ticks = [struct.unpack('<iI', bytes.fromhex(r['data']))[1] for r in waves]
+    raw_by_tick = {r['device_ms']: r for r in b_raw}
+    matches = [raw_by_tick[t] for t in ticks if t in raw_by_tick]
+    failures = list(transport['failures'])
+    if len(ticks) < 4455 or len(matches) != len(ticks): failures.append('C_RESP_B_RAW_TICK_MISSING')
+    common_raw = [r for r in b_raw if ticks and 0 <= codec.signed_delta(r['device_ms'], ticks[0]) <= codec.signed_delta(ticks[-1], ticks[0])]
+    if len(common_raw) < 22000: failures.append('B_COMMON_RAW_INSUFFICIENT')
+    if any(b['source_seq'] != a['source_seq'] + 1 for a, b in zip(common_raw, common_raw[1:])):
+        failures.append('C_RESP_B_RAW_SEQUENCE_GAP')
+    if any(r['flags_raw'] or abs(r['ch1_raw']) >= 8220835 for r in common_raw):
+        failures.append('B_RAW_FLAGS_OR_CH1_NEAR_RAIL')
+    saved = [d['bio'] for d in diagnostics if ticks and
+             0 <= codec.signed_delta(d['bio']['last_sample_ms'], ticks[0]) <= codec.signed_delta(ticks[-1], ticks[0])]
+    if len(saved) < 90 or any(not d['rpm_valid'] or d['rpm_reason'] or not 14 <= d['rpm'] <= 16 for d in saved):
+        failures.append('B_COMMON_RR_NOT_ALL_VALID15')
+    if not saved or codec.signed_delta(saved[0]['last_sample_ms'], ticks[0]) > 1500 or codec.signed_delta(ticks[-1], saved[-1]['last_sample_ms']) > 1500:
+        failures.append('B_COMMON_DIAGNOSTIC_COVERAGE')
+    if any(not 0 < codec.signed_delta(b['last_sample_ms'], a['last_sample_ms']) <= 1500 for a, b in zip(saved, saved[1:])):
+        failures.append('B_COMMON_DIAGNOSTIC_GAP')
+    vitals = [struct.unpack('<4H', bytes.fromhex(r['data'])) for r in selected
+              if r['kind'] == 1 and r['bus'] == 1 and r['id'] == 0x382]
+    if len(vitals) < 85 or any(not 1400 <= v[1] <= 1600 for v in vitals):
+        failures.append('C_VITALS_RR_NOT_VALID15')
+    quality = [struct.unpack('<II', bytes.fromhex(r['data']))[0] for r in selected
+               if r['kind'] == 1 and r['bus'] == 1 and r['id'] == 0x682]
+    if len(quality) < 85 or any(q & 10 != 10 for q in quality): failures.append('C_RESP_RR_VALID_BITS')
+    model_counts = {}
+    for stream, minimum in ((6, 85), (7, 85)):
+        models = [r for r in selected if r['kind'] == 8 and r['id'] == stream]
+        model_counts[str(stream)] = {'rows': len(models), 'valid': sum(bool(r['flags'] & 256) for r in models)}
+        if len(models) < minimum or any(not r['flags'] & 256 or r['flags'] & 0x600 for r in models):
+            failures.append('C_MODEL_VALIDITY_' + str(stream))
+        if stream == 7 and any(not 1400 <= struct.unpack('<iI', bytes.fromhex(r['data']))[0] <= 1600 for r in models):
+            failures.append('C_MODEL_RR_NOT_15')
+    period = estimate_period(common_raw) if len(common_raw) > 1 else {'status': 'INSUFFICIENT_RAW', 'time_domain_rpm': None}
+    nominal = period.get('time_domain_rpm')
+    if period['status'] != 'PERIOD_COHERENT_EXPLORATORY_ONLY' or nominal is None or not 14 <= nominal <= 16:
+        failures.append('RAW_PERIOD_NOT_COHERENT_NOMINAL15')
+    valid_rr_models = [r for r in selected if r['kind'] == 8 and r['id'] == 7 and r['flags'] & 256]
+    # “曾收到有效RR”也必须有正确网关值与原码来源，不能仅因有效位为1就宣称收对了。
+    received_valid = bool(not transport['failures'] and ticks and len(matches) == len(ticks)
+                          and any(d['rpm_valid'] and not d['rpm_reason'] and 14<=d['rpm']<=16 for d in saved)
+                          and any(1400<=v[1]<=1600 for v in vitals) and any(q&10==10 for q in quality)
+                          and valid_rr_models and model_counts.get('6',{}).get('valid',0)>0
+                          and all(1400 <= struct.unpack('<iI', bytes.fromhex(r['data']))[0] <= 1600
+                                  for r in valid_rr_models))
+    # 共同窗由C的实际START及实收B源tick界定；不将两个设备的开机时钟强行相减。
+    return {'status': 'RR15_B_TO_C_STEADY_VALID_TRANSPORT_ENGINEERING_PASS' if not failures else 'RR15_B_TO_C_STEADY_NOT_PASS',
+            'failures': sorted(set(failures)), 'analysis_exit_code': 0 if not failures else 3,
+            'C_evaluation_relative_ms': [45000, 135000], 'C_START_tick': start['tick'],
+            'C_received_RESP_wave_points': len(ticks), 'matched_B_raw_points': len(matches),
+            'B_sample_tick_first_last': [ticks[0], ticks[-1]] if ticks else None,
+            'B_saved_common_observations': len(saved), 'B_RR_values': dict(Counter(str(d['rpm']) for d in saved)),
+            'B_RR_valid_observations': sum(bool(d['rpm_valid']) and not d['rpm_reason'] for d in saved),
+            'C_vitals_rows': len(vitals), 'C_RR_centi_rpm_values': dict(Counter(str(v[1]) for v in vitals)),
+            'C_HR_centi_bpm_values_characterization_only': dict(Counter(str(v[0]) for v in vitals)),
+            'C_quality_flags': dict(Counter(str(q) for q in quality)), 'C_model_validity': model_counts,
+            'HR_RR_simultaneous_engineering_pass': False, 'RR_valid_data_received': received_valid, 'CAN_transport_pass': not transport['failures'],
+            'B_common_raw_frames': len(common_raw), 'CH1_independent_period': period,
+            'absolute_accuracy': 'NOT_CALIBRATED_NOMINAL15_REFERENCE_ONLY',
+            'mapping': 'C_START_WINDOW_WITH_ACTUALLY_RECEIVED_B_SAMPLE_TICKS_NO_C_B_UPTIME_EQUALITY_ASSUMPTION'}
+
+
+def main():
+    root = Path(__file__).resolve().parents[2]
+    pointer = json.loads((root / 'node-b/build/c-com15-can2-review/current-resp-can-pointer.json').read_text())
+    base = pkg.protected(Path(pointer['base']), False); c = Path(pointer['C']); b = Path(pointer['B'])
+    # 完整结束但判据不通过的负例也必须分析，沿用全部原始failures，不能改写成PASS。
+    receipt = json.loads((c/'receipt-private.json').read_text())
+    require(receipt['exit_code'] in (0, 3), 'C_WINDOW_INCOMPLETE')
+    require(json.loads((b/'receipt-private.json').read_text())['exit_code'] == 0, 'B_CAPTURE_INCOMPLETE')
+    rows = [json.loads(s) for s in (c/'packets-private.jsonl').read_text().splitlines()]
+    require(sum(r['kind'] == 9 for r in rows) == 1 and sum(r['kind'] == 6 for r in rows) == 1,
+            'C_START_STOP_EVIDENCE_INCOMPLETE')
+    b_raw = json.loads((base/'analysis/stable-raw-private.json').read_text())
+    diagnostics = [json.loads(s) for s in (b/'diagnostics-private.jsonl').read_text().splitlines()]
+    transport = json.loads((c/'receipt-private.json').read_text())
+    result = review(rows, b_raw, diagnostics, transport)
+    result['originals_sha256'] = {name: sha(path) for name, path in (
+        ('C-serial', c/'serial-raw-private.bin'), ('C-packets', c/'packets-private.jsonl'),
+        ('C-receipt', c/'receipt-private.json'), ('B-slots', b/'slots-private.bin'),
+        ('B-diagnostics', b/'diagnostics-private.jsonl'), ('B-analysis', base/'analysis/analysis-private.json'))}
+    write_json(base/'common-review-private.json', result); pkg.protected(base/'common-review-private.json', False)
+    print(json.dumps({k: result[k] for k in ('status', 'failures', 'C_received_RESP_wave_points', 'matched_B_raw_points')}))
+    return result['analysis_exit_code']
+
+
+if __name__ == '__main__':
+    sys.exit(main())

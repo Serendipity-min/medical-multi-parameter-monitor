@@ -1,0 +1,163 @@
+{
+  "review": {
+    "status": "B5_SEPARATE_ECG60_NOT_PASS",
+    "exit_code": 3,
+    "profile": "ECG60",
+    "criteria": {
+      "prearm_s": 120,
+      "readiness_s": 60,
+      "warmup_s": 45,
+      "evaluation_s": 300,
+      "tail_s": 15,
+      "arm_hard_s": 420,
+      "passive_after_hard_s": 20,
+      "cleanup_s": 5,
+      "HR_range": [
+        58,
+        62
+      ],
+      "HR_valid_fraction": 1.0,
+      "RR": "INVALID",
+      "TEMP": "OBSERVE_INDEPENDENTLY",
+      "A": "OFFLINE",
+      "source": "MOCK",
+      "synthetic": true,
+      "ECG_batch": 100,
+      "ECG_rate": 250,
+      "RESP_batch": 50,
+      "RESP_rate": 50,
+      "ECG_min_points": 74250,
+      "RESP_min_points": 14850,
+      "B_min_saved": 590,
+      "WSS_min_saved": 2900,
+      "scalar_min_messages": 295,
+      "nominal_grid_phase_max_ms": 2,
+      "host_server_T0_max_skew_ms": 1500,
+      "manual_reset_ack_max_s": 30,
+      "profile": "ECG60",
+      "expected_valid": [
+        "ECG",
+        "HR"
+      ],
+      "RR_range": null,
+      "temperature_quantity": "NONHUMAN_OBJECT_SURFACE",
+      "temperature_reference": null,
+      "temperature_accuracy": "NOT_CALIBRATED",
+      "temperature_wire_time": "NODE_SCALAR_REPORT_UTC_SECONDS",
+      "temperature_frame_age_max_ms": 2500
+    },
+    "failures": [
+      "BROKER_NOT_MOCK",
+      "ECG_WSS_BATCH_MISSING",
+      "WSS_OFFLINE",
+      "WSS_TARGET_CHANNEL_INVALID"
+    ],
+    "B": {
+      "failures": [],
+      "saved": 600,
+      "device_domain_SPS": 249.97162637612075,
+      "CAN_evaluation_increments": {
+        "offered": 74886,
+        "enqueued": 74886,
+        "sent_ecg": 74886,
+        "sent_resp": 14977,
+        "overflow": 0,
+        "expired": 0,
+        "comm_reset": 0,
+        "app_reset_rejected": 0,
+        "error": 0,
+        "discontinuities": 0
+      },
+      "ADC_evaluation_increments": {
+        "bad_status": 0,
+        "spi_errors": 0,
+        "queue_overflow": 0,
+        "init_errors": 0,
+        "long_gap_count": 0
+      },
+      "HR_values": {
+        "60": 600
+      },
+      "RR_reason_masks": {
+        "130": 546,
+        "2": 40,
+        "10": 14
+      },
+      "clipped_counter_increment": 0,
+      "temperature_errors": {
+        "overflow": 0,
+        "uart_errors": 0,
+        "checksum_errors": 0
+      },
+      "temperature_new_frames": 1373,
+      "profile": "ECG60"
+    },
+    "source_reconstruction": {
+      "blocks": 2722,
+      "raw_stable": 114741,
+      "CAN_stable": 114744,
+      "raw_unqualified_sequences": 105,
+      "CAN_unqualified_sequences": 101,
+      "raw_version_conflicts": 331,
+      "CAN_version_conflicts": 206
+    },
+    "ECG_source_points": 74993,
+    "RESP_source_points": 14999,
+    "source_mapping_errors": {},
+    "UART_source": {
+      "blocks": 907,
+      "stable_bytes": 25252,
+      "unqualified_bytes": 60,
+      "valid_frames": 2103
+    },
+    "temperature_message_candidate_counts": [],
+    "temperature_source_proof": "raw UART checksum/value plus source report-second interval; not unique frame identity or absolute calibration",
+    "Broker_messages": 2893,
+    "Broker_duplicates": 0,
+    "Backend_delta": {
+      "accepted": 2893,
+      "rejected": 0,
+      "dropped": 0
+    },
+    "WSS_snapshots": 2972,
+    "wave_batches_observed_in_WSS": 730,
+    "C_error_delta": {
+      "rx": 90001,
+      "txack": 621,
+      "txfail": 0,
+      "overflow": 0,
+      "uart_err": 0,
+      "dropped": 0,
+      "mqtt_fail": 0
+    },
+    "STOP_observed_offset_s": 420.0929999999935,
+    "evaluation_UTC_ms": [
+      1793179518126,
+      1793179818126
+    ],
+    "max_MQTT_JSON_bytes": 841,
+    "original_G3_verdict_rewritten": false,
+    "CPU_ROM_ROOT_CAUSE": "UNRESOLVED",
+    "temperature_absolute_accuracy": "NOT_CALIBRATED"
+  },
+  "source_counts": {
+    "MOCK": 2845,
+    "REPLAY": 48
+  },
+  "REPLAY_by_stream": {
+    "hr": 6,
+    "rr": 10,
+    "temp": 10,
+    "ecg": 17,
+    "resp": 5
+  },
+  "WSS_bad_node_snapshots": 19,
+  "WSS_ECG_HR_invalid_snapshots": 72,
+  "max_Broker_observed_delivery_gap_s": 2.5160000000614673,
+  "capture_exit_codes": {
+    "joint-receipt-private.json": 0,
+    "B/receipt-private.json": 0,
+    "cloud-receipt-private.json": 0
+  },
+  "supervisor_exit_code": 0
+}

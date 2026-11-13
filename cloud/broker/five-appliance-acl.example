@@ -1,0 +1,12 @@
+# 仅供独立Broker评审；不是正式ACL。公网入口需独立TLS/认证，loopback后端不对外开放。
+user five-c
+topic write mpm/v1/GW-B5-001/#
+topic write mpm/mic/v1/in
+topic read mpm/mic/v1/out
+
+user five-backend
+topic read mpm/v1/GW-B5-001/#
+
+user five-audio-worker
+topic read mpm/mic/v1/in
+topic write mpm/mic/v1/out

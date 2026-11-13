@@ -1,0 +1,101 @@
+{
+  "date": "2026-10-15 Asia/Shanghai",
+  "scope": "BIAS_OPERATOR_ANALOG_DISCREPANCY_STOP_DYNAMIC_TESTS",
+  "photo": {
+    "filename": "010e5b7972d10501b6e67f7cf610d08b.jpg",
+    "sha256": "ede47ee4b0ebf548d8424821e96f112321c46c20da951ed3e59576901e18268e"
+  },
+  "operator_DMM_V": {
+    "PA4_GND": 0.26,
+    "PA5_GND": 0.28
+  },
+  "DSO_display_unvalidated": {
+    "Vmax_V": 1.76,
+    "Vmin_V": 1.6,
+    "Vpp_mV": 160.0,
+    "Vavg_V": 1.12,
+    "Vrms_V": 1.38,
+    "automatic_frequency_Hz": 17.86,
+    "period_ms": 56.0
+  },
+  "measurement_chain_state": "DMM_vs_DSO_NOT_RECONCILED",
+  "static_analog_acceptance": "HOLD",
+  "BIAS_mode_at_measurement_time": "NOT_CONTINUOUSLY_PROVEN",
+  "known_prior_BIAS_ack_UTC": "2026-10-15T09:35:26.493566+00:00",
+  "new_connection_before_OFF": {
+    "time_utc": "2026-10-15T09:50:03.860510+00:00",
+    "command": "info",
+    "reply": {
+      "ok": true,
+      "fw": "ecg-source-usb-1",
+      "mode": 0,
+      "state": 0,
+      "faults": 0,
+      "console_errors": 0,
+      "core_hz": 168000000,
+      "timer_hz": 84000000,
+      "psc": 0,
+      "arr": 0,
+      "table_length": 0,
+      "completed_tables": 0,
+      "completed_dma_samples": 0,
+      "last_dma_flags": 0,
+      "last_dac_flags": 0
+    }
+  },
+  "explicit_OFF_ack": {
+    "time_utc": "2026-10-15T09:50:03.884004+00:00",
+    "command": "off",
+    "reply": {
+      "ok": true,
+      "fw": "ecg-source-usb-1",
+      "mode": 0,
+      "state": 0,
+      "faults": 0,
+      "console_errors": 0,
+      "core_hz": 168000000,
+      "timer_hz": 84000000,
+      "psc": 0,
+      "arr": 0,
+      "table_length": 0,
+      "completed_tables": 0,
+      "completed_dma_samples": 0,
+      "last_dma_flags": 0,
+      "last_dac_flags": 0
+    }
+  },
+  "OFF_status_after": {
+    "time_utc": "2026-10-15T09:50:03.907663+00:00",
+    "command": "status",
+    "reply": {
+      "ok": true,
+      "fw": "ecg-source-usb-1",
+      "mode": 0,
+      "state": 0,
+      "faults": 0,
+      "console_errors": 0,
+      "core_hz": 168000000,
+      "timer_hz": 84000000,
+      "psc": 0,
+      "arr": 0,
+      "table_length": 0,
+      "completed_tables": 0,
+      "completed_dma_samples": 0,
+      "last_dma_flags": 0,
+      "last_dac_flags": 0
+    }
+  },
+  "interpretation": [
+    "Scope trace height supports a qualitative near-bias observation only.",
+    "DMM low values and scope automatic average/RMS do not establish a calibrated DC result.",
+    "Fresh connection reports OFF before the OFF command. Reset could precede or result from connection; no cause asserted.",
+    "No sine/ECG mode executed. Do not change DAC or BIO algorithms based on this discrepancy."
+  ],
+  "next_checks": [
+    "DMM display, actual range, HOLD indicator and probe sockets",
+    "Same-node simultaneous reference/measurement",
+    "Whether USB/reset changed during measurements"
+  ],
+  "dynamic_result": "DYNAMIC_UNVERIFIED",
+  "final_source_state": "OFF_CONFIRMED"
+}

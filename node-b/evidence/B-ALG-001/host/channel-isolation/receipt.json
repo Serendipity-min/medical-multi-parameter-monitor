@@ -1,0 +1,167 @@
+{
+  "hardware_access": false,
+  "scope": "ORDINARY_HOST_SYNTHETIC_ONLY",
+  "pass": 28,
+  "total": 28,
+  "cases": [
+    {
+      "case": "no_clip_both_channels_identical_to_old",
+      "pass": true,
+      "details": null
+    },
+    {
+      "case": "old_failure_reproduced",
+      "pass": true,
+      "details": {
+        "old_valid_hr_samples": 0,
+        "reference_final_hr": 60,
+        "old_clipped_frames": 17500
+      }
+    },
+    {
+      "case": "resp_clip_ECG_identical_8388607",
+      "pass": true,
+      "details": {
+        "final_hr": 60,
+        "accepted_frames": 17500,
+        "clipped_frames": 17500
+      }
+    },
+    {
+      "case": "ECG_clip_resp_identical_8388607",
+      "pass": true,
+      "details": {
+        "final_rpm": 15
+      }
+    },
+    {
+      "case": "resp_clip_ECG_identical_-8388608",
+      "pass": true,
+      "details": {
+        "final_hr": 60,
+        "accepted_frames": 17500,
+        "clipped_frames": 17500
+      }
+    },
+    {
+      "case": "ECG_clip_resp_identical_-8388608",
+      "pass": true,
+      "details": {
+        "final_rpm": 15
+      }
+    },
+    {
+      "case": "both_clip_protection_and_frame_evidence",
+      "pass": true,
+      "details": null
+    },
+    {
+      "case": "resp_transition_healthy_channel_unchanged",
+      "pass": true,
+      "details": null
+    },
+    {
+      "case": "resp_fault_clears_only_own_history",
+      "pass": true,
+      "details": null
+    },
+    {
+      "case": "resp_recovery_requires_new_warmup",
+      "pass": true,
+      "details": null
+    },
+    {
+      "case": "resp_fresh_cycles_restore",
+      "pass": true,
+      "details": null
+    },
+    {
+      "case": "ecg_transition_healthy_channel_unchanged",
+      "pass": true,
+      "details": null
+    },
+    {
+      "case": "ecg_fault_clears_only_own_history",
+      "pass": true,
+      "details": null
+    },
+    {
+      "case": "ecg_recovery_requires_new_warmup",
+      "pass": true,
+      "details": null
+    },
+    {
+      "case": "ecg_fresh_cycles_restore",
+      "pass": true,
+      "details": null
+    },
+    {
+      "case": "ECG_threshold_inclusive_8304721",
+      "pass": true,
+      "details": null
+    },
+    {
+      "case": "resp_threshold_inclusive_8304721",
+      "pass": true,
+      "details": null
+    },
+    {
+      "case": "ECG_threshold_inclusive_-8304721",
+      "pass": true,
+      "details": null
+    },
+    {
+      "case": "resp_threshold_inclusive_-8304721",
+      "pass": true,
+      "details": null
+    },
+    {
+      "case": "just_below_threshold_not_clipped_8304720",
+      "pass": true,
+      "details": null
+    },
+    {
+      "case": "just_below_threshold_not_clipped_-8304720",
+      "pass": true,
+      "details": null
+    },
+    {
+      "case": "shared_sequence_still_invalidates",
+      "pass": true,
+      "details": null
+    },
+    {
+      "case": "shared_flags_still_invalidates",
+      "pass": true,
+      "details": null
+    },
+    {
+      "case": "shared_time_still_invalidates",
+      "pass": true,
+      "details": null
+    },
+    {
+      "case": "input_timeout_still_invalidates_both",
+      "pass": true,
+      "details": null
+    },
+    {
+      "case": "independent_warmup_u32_wrap",
+      "pass": true,
+      "details": null
+    },
+    {
+      "case": "healthy_DC_not_falsely_valid_with_other_clip",
+      "pass": true,
+      "details": null
+    },
+    {
+      "case": "ABI_size_preserved",
+      "pass": true,
+      "details": null
+    }
+  ],
+  "before_source_sha256": "007d10dc254480814c2226815a4ba347bf4d7b3a4e934c26a3b730af4b61c25d",
+  "after_source_sha256": "3adca55cb1eb1fa3ed8e4148f837287d0454bcc2c08ae77a8f73deb1dac156a7",
+  "historical_real_input_replay": "NOT_RUN_PRIVATE_RAW_NOT_INCLUDED"
+}

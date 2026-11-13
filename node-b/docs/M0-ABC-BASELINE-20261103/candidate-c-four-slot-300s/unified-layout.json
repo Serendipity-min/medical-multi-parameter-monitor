@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "target": "ABC_UNIFIED_C_V1",
+  "erase_sectors": [
+    0,
+    4
+  ],
+  "sector4_owner_approval_required": true,
+  "images": [
+    {
+      "address": 134217728,
+      "bytes": 392,
+      "file": "ABC_UNIFIED_C_V1-boot.bin",
+      "SHA256": "80dbce8c2231c9383117f822a5089614345ce7bf0e3a3e7a765ebcc46c53085c"
+    },
+    {
+      "address": 134283264,
+      "bytes": 54240,
+      "file": "ABC_UNIFIED_C_V1-code.bin",
+      "SHA256": "3a777e21354f3a8085a302a1ad99c454695d226252622164457075ca47391869"
+    }
+  ],
+  "HEX": {
+    "file": "ABC_UNIFIED_C_V1.hex",
+    "SHA256": "d7f3e8ea2afffe9d598a8fe957860697c032cf9e3e996a1c082097518b25ea34"
+  },
+  "ELF": {
+    "file": "ABC_UNIFIED_C_V1.elf",
+    "SHA256": "a6096f1a900eaea29f61e6abb0d9094916b4faeca47cd214642e4b9694c42c45"
+  },
+  "TLS_port": 1883,
+  "time_policy": "B5_FRESH_SNTP_UNCHANGED",
+  "normal_runtime_limit": "UNISTART manual-stop; B5START retains420s",
+  "sector3_options_and_all_other_sectors": "PRESERVE"
+}

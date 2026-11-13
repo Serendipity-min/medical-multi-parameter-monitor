@@ -1,0 +1,152 @@
+{
+  "method": "order-index zip of each BIO native read with matching diagnostic, next TEMP native read; equal monotonic timestamps allowed",
+  "supersedes": "RR15-TEMP-read-skew-analysis.json timestamp strict-less matcher can select previous diagnostic when timestamp ties",
+  "all_BIO_reads": 995,
+  "all_diagnostics": 995,
+  "evaluation_matched": 600,
+  "raw_violations": 22,
+  "native_return_span_ms": {
+    "min": 0.0,
+    "median": 16.0,
+    "max": 32.0
+  },
+  "host_monotonic_reported_resolution_ms": 15.625,
+  "violation_examples": [
+    {
+      "offset_s": 1.328,
+      "raw_age_ms": -20,
+      "ordered_BIO_to_TEMP_return_span_ms": 15.0,
+      "age_plus_observed_span_ms": -5.0
+    },
+    {
+      "offset_s": 22.297,
+      "raw_age_ms": -18,
+      "ordered_BIO_to_TEMP_return_span_ms": 16.0,
+      "age_plus_observed_span_ms": -2.0
+    },
+    {
+      "offset_s": 31.922,
+      "raw_age_ms": -14,
+      "ordered_BIO_to_TEMP_return_span_ms": 16.0,
+      "age_plus_observed_span_ms": 2.0
+    },
+    {
+      "offset_s": 32.797,
+      "raw_age_ms": -14,
+      "ordered_BIO_to_TEMP_return_span_ms": 16.0,
+      "age_plus_observed_span_ms": 2.0
+    },
+    {
+      "offset_s": 43.938,
+      "raw_age_ms": -13,
+      "ordered_BIO_to_TEMP_return_span_ms": 16.0,
+      "age_plus_observed_span_ms": 3.0
+    },
+    {
+      "offset_s": 44.797,
+      "raw_age_ms": -16,
+      "ordered_BIO_to_TEMP_return_span_ms": 16.0,
+      "age_plus_observed_span_ms": 0.0
+    },
+    {
+      "offset_s": 102.86,
+      "raw_age_ms": -22,
+      "ordered_BIO_to_TEMP_return_span_ms": 16.0,
+      "age_plus_observed_span_ms": -6.0
+    },
+    {
+      "offset_s": 117.906,
+      "raw_age_ms": -17,
+      "ordered_BIO_to_TEMP_return_span_ms": 16.0,
+      "age_plus_observed_span_ms": -1.0
+    },
+    {
+      "offset_s": 137.344,
+      "raw_age_ms": -12,
+      "ordered_BIO_to_TEMP_return_span_ms": 16.0,
+      "age_plus_observed_span_ms": 4.0
+    },
+    {
+      "offset_s": 150.875,
+      "raw_age_ms": -19,
+      "ordered_BIO_to_TEMP_return_span_ms": 0.0,
+      "age_plus_observed_span_ms": -19.0
+    },
+    {
+      "offset_s": 159.828,
+      "raw_age_ms": -11,
+      "ordered_BIO_to_TEMP_return_span_ms": 15.0,
+      "age_plus_observed_span_ms": 4.0
+    },
+    {
+      "offset_s": 178.406,
+      "raw_age_ms": -14,
+      "ordered_BIO_to_TEMP_return_span_ms": 15.0,
+      "age_plus_observed_span_ms": 1.0
+    },
+    {
+      "offset_s": 185.391,
+      "raw_age_ms": -15,
+      "ordered_BIO_to_TEMP_return_span_ms": 15.0,
+      "age_plus_observed_span_ms": 0.0
+    },
+    {
+      "offset_s": 191.297,
+      "raw_age_ms": -15,
+      "ordered_BIO_to_TEMP_return_span_ms": 16.0,
+      "age_plus_observed_span_ms": 1.0
+    },
+    {
+      "offset_s": 200.922,
+      "raw_age_ms": -13,
+      "ordered_BIO_to_TEMP_return_span_ms": 16.0,
+      "age_plus_observed_span_ms": 3.0
+    },
+    {
+      "offset_s": 203.313,
+      "raw_age_ms": -13,
+      "ordered_BIO_to_TEMP_return_span_ms": 31.0,
+      "age_plus_observed_span_ms": 18.0
+    },
+    {
+      "offset_s": 236.297,
+      "raw_age_ms": -11,
+      "ordered_BIO_to_TEMP_return_span_ms": 32.0,
+      "age_plus_observed_span_ms": 21.0
+    },
+    {
+      "offset_s": 237.813,
+      "raw_age_ms": -20,
+      "ordered_BIO_to_TEMP_return_span_ms": 15.0,
+      "age_plus_observed_span_ms": -5.0
+    },
+    {
+      "offset_s": 251.36,
+      "raw_age_ms": -16,
+      "ordered_BIO_to_TEMP_return_span_ms": 15.0,
+      "age_plus_observed_span_ms": -1.0
+    },
+    {
+      "offset_s": 280.86,
+      "raw_age_ms": -17,
+      "ordered_BIO_to_TEMP_return_span_ms": 16.0,
+      "age_plus_observed_span_ms": -1.0
+    },
+    {
+      "offset_s": 287.406,
+      "raw_age_ms": -11,
+      "ordered_BIO_to_TEMP_return_span_ms": 16.0,
+      "age_plus_observed_span_ms": 5.0
+    },
+    {
+      "offset_s": 296.797,
+      "raw_age_ms": -16,
+      "ordered_BIO_to_TEMP_return_span_ms": 16.0,
+      "age_plus_observed_span_ms": 0.0
+    }
+  ],
+  "age_plus_span_below_minus10_count": 1,
+  "raw_minus22_preserved": -22,
+  "no_criterion_change": true,
+  "conclusion": "BIO and TEMP are read at different native-call times; frozen age is cross-snapshot and can include observer skew. Data do not uniquely establish UI scheduling as the cause. Need bracketed/same-epoch observation before another firmware fix; do not rejudge this window."
+}

@@ -1,0 +1,136 @@
+{
+  "accepted_findings": [
+    {
+      "id": "90dfeb4769e0bf1ca5f2aed2",
+      "tool": "gitleaks",
+      "path": "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/c1-audit-manifest.json",
+      "rule": "generic-api-key",
+      "historical_commit": "d4583c5bb4e72a90a2f851a7bf4538d03074bbbc",
+      "line": 98,
+      "reason": "该项仅为历史C1审计清单的公开Git blob SHA-1身份；历史对象OID及Git blob格式重算值逐项完全一致，不是凭据。项目负责人本轮明确批准仅该精确finding的限期误报接受。",
+      "owner": "Serendipity-min (项目负责人，本轮用户明确授权)",
+      "accepted_at": "2026-10-09",
+      "expires_at": "2026-11-08",
+      "review_issue": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/issues/7",
+      "disposition": "false_positive",
+      "evidence": {
+        "review": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/issues/7",
+        "object_spec": "d4583c5bb4e72a90a2f851a7bf4538d03074bbbc:cloud/evidence/stitch-ui-auth/local/invalid-token-fullscreen.png",
+        "blob_content_sha256": "311565002bfcebe2dd4088e8c37d35389d1cd575364cb5653fbafa4184a46dc6",
+        "hit_equals_git_rev_parse": true,
+        "hit_equals_recomputed_git_hash_object": true,
+        "matched_literal_disclosed": false
+      }
+    },
+    {
+      "id": "d4d9d91de1a76116f54f18c8",
+      "tool": "gitleaks",
+      "path": "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/c1-audit-manifest.json",
+      "rule": "generic-api-key",
+      "historical_commit": "d4583c5bb4e72a90a2f851a7bf4538d03074bbbc",
+      "line": 99,
+      "reason": "该项仅为历史C1审计清单的公开Git blob SHA-1身份；历史对象OID及Git blob格式重算值逐项完全一致，不是凭据。项目负责人本轮明确批准仅该精确finding的限期误报接受。",
+      "owner": "Serendipity-min (项目负责人，本轮用户明确授权)",
+      "accepted_at": "2026-10-09",
+      "expires_at": "2026-11-08",
+      "review_issue": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/issues/7",
+      "disposition": "false_positive",
+      "evidence": {
+        "review": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/issues/7",
+        "object_spec": "d4583c5bb4e72a90a2f851a7bf4538d03074bbbc:cloud/evidence/stitch-ui-auth/local/invalid-token-normal.png",
+        "blob_content_sha256": "903ecad8d25c966dba7c5b220d0a24abe73031dd4bc7f3a28f99b1a0debcadce",
+        "hit_equals_git_rev_parse": true,
+        "hit_equals_recomputed_git_hash_object": true,
+        "matched_literal_disclosed": false
+      }
+    },
+    {
+      "id": "e827c02bcbe8e7262eb53e92",
+      "tool": "gitleaks",
+      "path": "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/c1-audit-manifest.json",
+      "rule": "generic-api-key",
+      "historical_commit": "d4583c5bb4e72a90a2f851a7bf4538d03074bbbc",
+      "line": 104,
+      "reason": "该项仅为历史C1审计清单的公开Git blob SHA-1身份；历史对象OID及Git blob格式重算值逐项完全一致，不是凭据。项目负责人本轮明确批准仅该精确finding的限期误报接受。",
+      "owner": "Serendipity-min (项目负责人，本轮用户明确授权)",
+      "accepted_at": "2026-10-09",
+      "expires_at": "2026-11-08",
+      "review_issue": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/issues/7",
+      "disposition": "false_positive",
+      "evidence": {
+        "review": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/issues/7",
+        "object_spec": "d4583c5bb4e72a90a2f851a7bf4538d03074bbbc:cloud/evidence/stitch-ui-auth/server/invalid-token-fullscreen.png",
+        "blob_content_sha256": "e4abdc3412a8325f0ec572cbc5ee7c0c226272fe31cc933bbcbc485126c2d487",
+        "hit_equals_git_rev_parse": true,
+        "hit_equals_recomputed_git_hash_object": true,
+        "matched_literal_disclosed": false
+      }
+    },
+    {
+      "id": "3fbb83e6287469ef1144eeaa",
+      "tool": "gitleaks",
+      "path": "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/c1-audit-manifest.json",
+      "rule": "generic-api-key",
+      "historical_commit": "d4583c5bb4e72a90a2f851a7bf4538d03074bbbc",
+      "line": 105,
+      "reason": "该项仅为历史C1审计清单的公开Git blob SHA-1身份；历史对象OID及Git blob格式重算值逐项完全一致，不是凭据。项目负责人本轮明确批准仅该精确finding的限期误报接受。",
+      "owner": "Serendipity-min (项目负责人，本轮用户明确授权)",
+      "accepted_at": "2026-10-09",
+      "expires_at": "2026-11-08",
+      "review_issue": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/issues/7",
+      "disposition": "false_positive",
+      "evidence": {
+        "review": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/issues/7",
+        "object_spec": "d4583c5bb4e72a90a2f851a7bf4538d03074bbbc:cloud/evidence/stitch-ui-auth/server/invalid-token-normal.png",
+        "blob_content_sha256": "7c0927792bae0077aa366d0ec671c5e03674104af8694f6e061d037cdbacf695",
+        "hit_equals_git_rev_parse": true,
+        "hit_equals_recomputed_git_hash_object": true,
+        "matched_literal_disclosed": false
+      }
+    },
+    {
+      "id": "07a8bb3978fbcdcf602fae0f",
+      "tool": "gitleaks",
+      "path": "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/c1-audit-manifest.json",
+      "rule": "generic-api-key",
+      "historical_commit": "d4583c5bb4e72a90a2f851a7bf4538d03074bbbc",
+      "line": 111,
+      "reason": "该项仅为历史C1审计清单的公开Git blob SHA-1身份；历史对象OID及Git blob格式重算值逐项完全一致，不是凭据。项目负责人本轮明确批准仅该精确finding的限期误报接受。",
+      "owner": "Serendipity-min (项目负责人，本轮用户明确授权)",
+      "accepted_at": "2026-10-09",
+      "expires_at": "2026-11-08",
+      "review_issue": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/issues/7",
+      "disposition": "false_positive",
+      "evidence": {
+        "review": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/issues/7",
+        "object_spec": "d4583c5bb4e72a90a2f851a7bf4538d03074bbbc:cloud/evidence/stitch-ui-final/auth/invalid-token-normal.png",
+        "blob_content_sha256": "66776447c6fa976fc43d0611c66f9067fcf0b1466561e55e0b147b6bf8af2466",
+        "hit_equals_git_rev_parse": true,
+        "hit_equals_recomputed_git_hash_object": true,
+        "matched_literal_disclosed": false
+      }
+    },
+    {
+      "id": "323e9cbff5bc67b5b4f6ad6a",
+      "tool": "gitleaks",
+      "path": "doc/P/04_第四阶段_P5_coreMQTT裸机迁移/验收/evidence/c1-audit-manifest.json",
+      "rule": "generic-api-key",
+      "historical_commit": "d4583c5bb4e72a90a2f851a7bf4538d03074bbbc",
+      "line": 274,
+      "reason": "该项仅为历史C1审计清单的公开Git blob SHA-1身份；历史对象OID及Git blob格式重算值逐项完全一致，不是凭据。项目负责人本轮明确批准仅该精确finding的限期误报接受。",
+      "owner": "Serendipity-min (项目负责人，本轮用户明确授权)",
+      "accepted_at": "2026-10-09",
+      "expires_at": "2026-11-08",
+      "review_issue": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/issues/7",
+      "disposition": "false_positive",
+      "evidence": {
+        "review": "https://github.com/Serendipity-min/medical-multi-parameter-monitor/issues/7",
+        "object_spec": "d4583c5bb4e72a90a2f851a7bf4538d03074bbbc:cloud/web/src/ui/accessDialog.ts",
+        "blob_content_sha256": "6f4238ee7c2159d22c23f47373494916d22b180066ca7a774965d98844895ba0",
+        "hit_equals_git_rev_parse": true,
+        "hit_equals_recomputed_git_hash_object": true,
+        "matched_literal_disclosed": false
+      }
+    }
+  ]
+}
