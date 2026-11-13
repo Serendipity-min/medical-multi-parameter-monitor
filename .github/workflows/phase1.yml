@@ -1,9 +1,9 @@
 name: Gateway and cloud checks
 on:
   push:
-    branches: [dev/p-gateway-cloud-v07, fix/p4-security-closeout, P5-coremqtt-baremetal]
+    branches: [main]
   pull_request:
-    branches: [main, integration/v0.7, P4]
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
@@ -14,9 +14,6 @@ jobs:
   test-and-build:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    env:
-      # 用户在 P5 预检裁定中授权该分支仅跑普通测试；不把 PR 当安全门授权。
-      P5_SCOPE: ${{ github.head_ref == 'P5-coremqtt-baremetal' || github.ref_name == 'P5-coremqtt-baremetal' }}
     steps:
       # 固定 Action 提交；CI 仅做无凭据测试和构建，不连接服务器或开发板。
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -32,17 +29,8 @@ jobs:
         run: python -m pip install -r cloud/backend/requirements-dev.txt -c cloud/backend/requirements.lock
       - name: Backend and operations regressions
         run: python -m pytest cloud/backend/tests -q
-      - name: Test-only Paho integrity and active Gateway sources
-        if: env.P5_SCOPE != 'true'
-        run: |
-          python gateway/third_party/verify_paho_integrity.py
-          python -m unittest discover -s gateway/third_party/tests -p 'test_*.py'
-      # 固定本机输入与现有 ASan/UBSan 用例；不进行随机输入、网络测试或自动扫描。
-      - name: Fixed MQTT sanitizer regressions
-        if: env.P5_SCOPE != 'true'
-        run: python gateway/canopen/run_security_regression.py
-      - name: P5 pinned coreMQTT and ordinary MQTT regressions
-        if: env.P5_SCOPE == 'true'
+      # 正式设备端已使用 coreMQTT；这里只跑普通功能回归，不启用扫描器或 sanitizer。
+      - name: Pinned coreMQTT and ordinary MQTT regressions
         run: |
           python gateway/third_party/verify_coremqtt_integrity.py
           python gateway/mqtt/tests/run_p5_host_tests.py
@@ -52,10 +40,18 @@ jobs:
         run: python gateway/canopen/build_host.py
       - name: C canonical frames accepted by Backend
         run: python gateway/canopen/tools/check_canonical.py
+      - name: Five-node freshness and formal WebAI gateway regressions
+        env:
+          MPM_NODE_PROFILE: five
+        run: |
+          python -m pytest -q \
+            cloud/backend/tests/test_five_node.py::test_completion_age_is_not_extended_by_duplicate \
+            cloud/ai/tests/test_five_appliance.py::test_real_api_default_voice_disabled_and_auth \
+            cloud/ai/tests/test_five_appliance.py::test_formal_gateway_requires_explicit_configuration
       - name: Build monitoring UI
         working-directory: cloud/web
         run: |
           npm ci --no-audit --no-fund
-          # 六页面共用状态与真实会话历史的固定回归，无网络目标。
+          # 总览、趋势与问答共用状态的固定回归，无网络目标。
           npm test
           npm run build

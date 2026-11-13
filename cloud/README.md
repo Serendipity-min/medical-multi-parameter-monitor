@@ -1,3 +1,5 @@
+> **历史阶段文档。** 最终五板基线、启用功能与当前构建请先读[结项技术架构](../docs/closeout/02-ARCHITECTURE-AND-STACK.md)。本文保留原阶段记录；其中旧分支名、Paho 固件、主频、Flash 分区和功能状态不作为最终版本依据。
+
 # P 第一阶段：MQTT/TLS 云端与监护大屏
 
 执行 [P 合同 v0.2](../doc/P/01_第一阶段_MQTT云端/合同/P_第一阶段_GatewayC云端Web执行方案合同_v0.2.md)，分支 `dev/p-gateway-cloud-v07`。

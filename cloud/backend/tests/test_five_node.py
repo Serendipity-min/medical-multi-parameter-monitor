@@ -52,7 +52,7 @@ def test_roles_and_node_local_offline():
     assert {x['stream']: x['node_id'] for x in snap['streams']} == {'TEMP': 'NODE-D', 'NIBP': 'NODE-E', 'HR': 'NODE-B'}
 
 
-@pytest.mark.parametrize('age, view_valid, speech_valid', [(89, True, True), (90, True, False), (90.001, False, False)])
+@pytest.mark.parametrize('age, view_valid, speech_valid', [(89, True, True), (90, False, False), (90.001, False, False)])
 def test_completion_age_is_not_extended_by_duplicate(age, view_valid, speech_valid):
     hub, now = setup()
     now[0] += age

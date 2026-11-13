@@ -1,3 +1,5 @@
+> **历史阶段文档。** 最终五板基线、启用功能与当前构建请先读[结项技术架构](../docs/closeout/02-ARCHITECTURE-AND-STACK.md)。本文保留原阶段记录；其中旧分支名、Paho 固件、主频、Flash 分区和功能状态不作为最终版本依据。
+
 # Node-B：ECG / 呼吸采集与算法复盘
 
 更新：2026-10-16，Asia/Shanghai。分支 `B`，基于 `B2@2ca744d2f06d49711863968aeef15b64891edd18`。

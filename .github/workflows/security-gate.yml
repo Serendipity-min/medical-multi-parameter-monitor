@@ -33,10 +33,12 @@ jobs:
   gate:
     runs-on: ubuntu-24.04
     timeout-minutes: 35
-    env:
-      SECURITY_GATE_OUTPUT_ROOT: ${{ runner.temp }}/security-gate-output
-      SECURITY_GATE_TOOL_ROOT: ${{ runner.temp }}/security-gate-tools
     steps:
+      # runner 上下文仅在步骤可用，不能放在 jobs.gate.env 中。
+      - name: Set isolated tool directories
+        run: |
+          printf 'SECURITY_GATE_OUTPUT_ROOT=%s/security-gate-output\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
+          printf 'SECURITY_GATE_TOOL_ROOT=%s/security-gate-tools\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6, Node 24
         with:
           ref: ${{ inputs.ref }}

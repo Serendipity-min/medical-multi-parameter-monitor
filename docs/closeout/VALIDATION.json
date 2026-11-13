@@ -1,0 +1,116 @@
+{
+  "report_date": "2026-11-12",
+  "report_timezone": "America/Chicago",
+  "scope": "Repository integration and offline regressions; no hardware, production deployment or Security Gate execution.",
+  "sources": {
+    "firmware_backend": "7c94cc1ceb83b1f00097272563e30f6b17a9b616",
+    "cloud_ui": "1945c9cc7273e352a5f3d219c8d7a3fdc99d5e19",
+    "pi_review": "01df885ebdb3ee1ac874a562a60ac301a4eb3b04",
+    "installed_firmware_source": "2c97094"
+  },
+  "results": [
+    {
+      "suite": "Unified firmware Host",
+      "command": "python gateway/microphone/test_unified.py",
+      "result": "PASS",
+      "groups": 32,
+      "scope": "coreMQTT/CANopen/ESP substitute, passthrough, retention, resilience, formal mapping and TTS; not real hardware"
+    },
+    {
+      "suite": "Frontend",
+      "command": "npm test; npm run build",
+      "result": "PASS",
+      "tests": 28,
+      "profiles": [
+        "production",
+        "five-appliance"
+      ]
+    },
+    {
+      "suite": "Default backend",
+      "command": "python -m pytest cloud/backend/tests -q",
+      "result": "PASS",
+      "passed": 108,
+      "skipped": 6
+    },
+    {
+      "suite": "Five-node and broadcast",
+      "command": "MPM_NODE_PROFILE=five python -m pytest cloud/backend/tests/test_five_node.py cloud/backend/tests/test_broadcast.py -q",
+      "before_patch": {
+        "passed": 64,
+        "failed": 1
+      },
+      "result": "PASS",
+      "passed": 65,
+      "change": "Old NIBP exactly-90-second assertion corrected; production expiry logic unchanged"
+    },
+    {
+      "suite": "AI gateway configuration",
+      "command": "MPM_NODE_PROFILE=five python -m pytest cloud/ai/tests/test_five_appliance.py -k \"formal_gateway_requires_explicit_configuration or real_api_default_voice_disabled_and_auth\" -q",
+      "result": "PASS",
+      "passed": 2,
+      "deselected": 48,
+      "scope": "In-process synthetic snapshot; not deployed"
+    },
+    {
+      "suite": "coreMQTT pinned sources",
+      "result": "PASS",
+      "files": 9,
+      "version": "2.3.1"
+    },
+    {
+      "suite": "coreMQTT ordinary Host",
+      "result": "PASS",
+      "tests": 42
+    },
+    {
+      "suite": "coreMQTT integrity unit tests",
+      "result": "PASS",
+      "tests": 6
+    },
+    {
+      "suite": "EMCY console",
+      "result": "PASS",
+      "tests": 5
+    },
+    {
+      "suite": "CAN host",
+      "result": "PASS",
+      "protocol_tests": 12,
+      "pipeline_tests": 11,
+      "restart_tests": 17,
+      "live_allocations_after_close": 0
+    },
+    {
+      "suite": "C canonical frames to backend",
+      "result": "PASS",
+      "messages": 41,
+      "streams": 11,
+      "schema": 1
+    },
+    {
+      "suite": "Security workflow configuration only",
+      "result": "PASS",
+      "manual_trigger_unchanged": true,
+      "permissions_unchanged": true,
+      "authorization_checks_unchanged": true,
+      "historical_zero_job_run": 43207125057,
+      "scan_executed": false
+    },
+    {
+      "suite": "Branch cleanup script review",
+      "result": "PASS",
+      "method": "Independent static review and Python syntax validation; archive before deletion; explicit SHA leases; atomic deletion; preserve unrecognized new branches"
+    }
+  ],
+  "not_run": [
+    "Real hardware tests",
+    "ARM image rebuild",
+    "Production deployment",
+    "Paid model calls",
+    "Security Gate",
+    "Clinical accuracy tests"
+  ],
+  "github_ci": "Pending initial consolidation PR; final result is recorded in the PR and cleanup receipt.",
+  "note": "Counts use different units and overlapping suites; do not sum them as independent end-to-end tests."
+}

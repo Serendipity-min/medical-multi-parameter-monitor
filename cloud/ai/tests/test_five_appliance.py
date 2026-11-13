@@ -172,9 +172,42 @@ def test_real_api_default_voice_disabled_and_auth(monkeypatch):
     with client() as c:
         data=request(c).json()
         assert data['voice_status']=='DISABLED' and '118' in data['answer'] and '物体温度' not in data['answer']
-        assert request(c,gateway_id='GW-C-001').status_code==422
+        assert request(c,gateway_id='GW-C-001').status_code==403
         assert request(c,measurement=999).status_code==422
         assert c.post('/medical-monitor/ai/api/v1/text',json={}).status_code==401
+
+
+def test_formal_gateway_requires_explicit_configuration(monkeypatch):
+    monkeypatch.setenv('P6_AI_TOKEN', 'x' * 32)
+    monkeypatch.delenv('P6_GATEWAY_IDS', raising=False)
+    monkeypatch.delenv('P6_MQTT_MODE', raising=False)
+    assert Settings.from_env().gateways == ('GW-B5-001',)
+    monkeypatch.setenv('P6_GATEWAY_IDS', 'GW-C-001')
+    settings = Settings.from_env()
+    assert settings.gateways == ('GW-C-001',)
+    reads = []
+
+    class FormalReader:
+        async def read(self, gateway):
+            reads.append(gateway)
+            data = await SnapshotReader('MOCK').read(gateway)
+            for item in data['streams']:
+                item.update(source='LIVE', synthetic=False)
+            return data
+
+    with TestClient(create_app(settings, reader=FormalReader())) as c:
+        for question, stream, node in [('当前温度多少', 'TEMP', 'NODE-D'), ('当前高压多少', 'NIBP', 'NODE-E')]:
+            response = request(c, gateway_id='GW-C-001', question=question, voice=False)
+            assert response.status_code == 200
+            data = response.json()
+            assert data['gateway_id'] == 'GW-C-001' and data['voice_status'] == 'PAUSED'
+            assert len(data['facts']) == 1
+            fact = data['facts'][0]
+            assert (fact['stream'], fact['node_id'], fact['source']) == (stream, node, 'LIVE')
+            assert fact['value'] is not None
+        assert request(c).status_code == 403
+        assert request(c, gateway_id='unlisted').status_code == 422
+    assert reads == ['GW-C-001', 'GW-C-001']
 
 
 def test_audio_asr_api_mr02_flow(native):

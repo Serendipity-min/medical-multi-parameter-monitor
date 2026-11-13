@@ -32,6 +32,18 @@ export interface Snapshot {
   streams: Signal[];
   replay: Signal | null;
   event: { value: string } | null;
+  // WP-AY 云端播报（可选字段）：未升级或未开启播报的后端不发送，页面据此隐藏播报条。
+  broadcast?: Broadcast | null;
+  broadcast_history?: Broadcast[];
+}
+
+export interface Broadcast {
+  id: string;
+  ts: number;
+  param: string;
+  level: 'info' | 'notice';
+  text: string;
+  disclaimer: string;
 }
 
 export interface Point {

@@ -29,13 +29,16 @@ class Settings:
 
     @classmethod
     def from_env(cls):
-        return cls(os.environ.get('P6_AI_TOKEN', ''), os.environ.get('P6_MODEL_MODE', 'MOCK'), os.environ.get('P6_SNAPSHOT_MODE', 'MOCK'))
+        # 默认仍隔离；正式五板服务须显式配置 P6_GATEWAY_IDS=GW-C-001。
+        gateways = tuple(item.strip() for item in os.environ.get('P6_GATEWAY_IDS', 'GW-B5-001').split(',') if item.strip())
+        return cls(os.environ.get('P6_AI_TOKEN', ''), os.environ.get('P6_MODEL_MODE', 'MOCK'),
+                   os.environ.get('P6_SNAPSHOT_MODE', 'MOCK'), gateways)
 
 
 class Question(BaseModel):
     model_config = ConfigDict(extra='forbid', strict=True)
     session_id: str = Field(pattern='^[0-9a-f]{32}$')
-    gateway_id: str = Field(pattern='^GW-B5-001$')
+    gateway_id: str = Field(pattern='^GW-(B5|C)-001$')
     question: str = Field(min_length=1, max_length=500)
     voice: bool = False
 

@@ -1,3 +1,5 @@
+> **历史阶段文档。** 最终五板基线、启用功能与当前构建请先读[结项技术架构](../../docs/closeout/02-ARCHITECTURE-AND-STACK.md)。本文保留原阶段记录；其中旧分支名、Paho 固件、主频、Flash 分区和功能状态不作为最终版本依据。
+
 # Gateway-C MQTT 传输与阶段二 CANopen 汇聚
 
 P5 分支的 STM32F407ZG 裸机运行固定 coreMQTT v2.3.1 / MQTT 3.1.1；ESP8266 原厂 AT
