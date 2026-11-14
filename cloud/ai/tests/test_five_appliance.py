@@ -303,6 +303,10 @@ def test_backend_isolated_gateway_profile_and_wss(monkeypatch):
         with c.websocket_connect('/ws/v1/monitor',headers={'origin':'http://127.0.0.1:5173'}) as ws:
             ws.send_json({'token':'v'*32,'gateway_id':GW})
             data=ws.receive_json()
+            # 与后端conftest一致：等服务端清理订阅并发送关闭帧，再退出TestClient的取消作用域。
+            ws.close()
+            while ws.receive()['type']=='websocket.send':
+                pass
             assert data['gateway_id']==GW and data['node_profile']=='five'
             assert {'NODE-A','NODE-B','NODE-D','NODE-E'}<=data['nodes'].keys()
 
