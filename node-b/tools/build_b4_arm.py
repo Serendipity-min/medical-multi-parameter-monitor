@@ -53,13 +53,102 @@ def inject_r6(text):
     return text
 
 
+DIAG_REASON_ANCHOR = 'TxtGB(HP_SCR_PROBE, HP_TXT5_ADVICE, adv);'
+HOME_QUALITY_WRITE = '    SetTextValue(HP_SCR_HOME, HP_TXT_QUAL, (uchar *)buf);\n'
+HOME_CAPTURE_WRITE = '        TxtGB(HP_SCR_HOME, HP_TXT_CAP, STR_CAP);\n    }\n'
+VALUE_TICK = '        ValueRefresh(now_ms);                    // 1s：瞬时心率/呼吸率 + 报警'
+
+
+def inject_diag_reason(text):
+    return replace_once(text, DIAG_REASON_ANCHOR, '''{
+        const float ecg = g_bio_v2.ecg_mains_fraction;
+        const float resp = g_bio_v2.resp_mains_fraction;
+        const float rms = g_bio_v2.ecg_rms_codes;
+        const unsigned ecg_pct = ecg >= 1.0f ? 100u : ecg > 0.0f ? (unsigned)(ecg * 100.0f + 0.5f) : 0u;
+        const unsigned resp_pct = resp >= 1.0f ? 100u : resp > 0.0f ? (unsigned)(resp * 100.0f + 0.5f) : 0u;
+        const unsigned long codes = rms >= 999999.0f ? 999999ul : rms > 0.0f ? (unsigned long)rms : 0ul;
+        (void)adv;
+        snprintf(buf, sizeof(buf), "H%lu R%lu M%u/%u E%lu",
+                 (unsigned long)(g_bio_v2.hr_reason & 0xffu),
+                 (unsigned long)(g_bio_v2.rpm_reason & 0xffu), ecg_pct, resp_pct, codes);
+        TxtGB(HP_SCR_PROBE, HP_TXT5_ADVICE, (const uint8_t *)buf);
+    }''')
+
+
+def inject_capture_diag_reason(text):
+    return replace_once(text, HOME_CAPTURE_WRITE, '''        {
+            char diag[sizeof("H255 R255 M100")];
+            const float ecg = g_bio_v2.ecg_mains_fraction;
+            const unsigned pct = ecg >= 1.0f ? 100u : ecg > 0.0f ? (unsigned)(ecg * 100.0f + 0.5f) : 0u;
+            snprintf(diag, sizeof(diag), "H%lu R%lu M%u",
+                     (unsigned long)(g_bio_v2.hr_reason & 0xffu),
+                     (unsigned long)(g_bio_v2.rpm_reason & 0xffu), pct);
+            TxtGB(HP_SCR_HOME, HP_TXT_CAP, (const uint8_t *)diag);
+        }
+    }
+''')
+
+
+def inject_home_diag_reason(text):
+    text = inject_capture_diag_reason(replace_once(text, HOME_QUALITY_WRITE, ''))
+    return replace_once(text, VALUE_TICK, VALUE_TICK + '''
+        if (s_cur == HP_SCR_HOME)
+        {
+            char diag[sizeof("H255 M100")];
+            const float ecg = g_bio_v2.ecg_mains_fraction;
+            const unsigned pct = ecg >= 1.0f ? 100u : ecg > 0.0f ? (unsigned)(ecg * 100.0f + 0.5f) : 0u;
+            snprintf(diag, sizeof(diag), "H%lu M%u", (unsigned long)(g_bio_v2.hr_reason & 0xffu), pct);
+            SetTextValue(HP_SCR_HOME, HP_TXT_QUAL, (uchar *)diag);
+        }''')
+
+
+def inject_algo_c1(text):
+    replacements = (
+        ('    uint32_t count, index, candidate_rate, reason;\n',
+         '    uint32_t count, index, candidate_rate, reason, required;\n'),
+        ('static uint8_t have_sample;\n', '''static uint8_t have_sample;
+#ifndef HEART_REQUIRED
+#define HEART_REQUIRED 5u
+#endif
+#ifndef MAINS_ABS_POWER
+#define MAINS_ABS_POWER 9.6e11f /* 约100 mV峰值工频 */
+#endif
+'''),
+        ('    c->periods.reason=BIO_V2_WARMUP;\n',
+         '    c->periods.reason=BIO_V2_WARMUP;\n    c->periods.required=respiration ? 3u : HEART_REQUIRED;\n'),
+        ('if (p->count<3u) return 1;', 'if (p->count<p->required) return 1;'),
+        ('if(fraction>.95f && c->raw_power>10000.0f)reason|=BIO_V2_MAINS;',
+         'if(c->line_power>MAINS_ABS_POWER)reason|=BIO_V2_MAINS;'),
+        ('if(good_h && heart.raw_power>10000.0f && heart.line_power>heart.raw_power*.95f) {',
+         'if(good_h && heart.line_power>MAINS_ABS_POWER) {'),
+        ('if(good_r && breathing.raw_power>10000.0f && breathing.line_power>breathing.raw_power*.95f) {',
+         'if(good_r && breathing.line_power>MAINS_ABS_POWER) {'),
+    )
+    for anchor, replacement in replacements:
+        text = replace_once(text, anchor, replacement)
+    return text
+
+
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--temp',action='store_true',help='离线构建UART4温度物表工程变体；不下载')
     parser.add_argument('--candidate-r6',action='store_true',help='离线构建带有R6微调度补偿的Node-B候选镜像；不下载')
     parser.add_argument('--temp-screen',action='store_true',help='复用旧USART3独立温度屏，仅构建显示绑定候选；不下载')
+    parser.add_argument('--diag-reason', action='store_true', help='仅在构建副本的 B 屏探头页显示诊断原因码')
+    parser.add_argument('--diag-home', action='store_true', help='在构建副本的主页信号质量和采集状态控件显示诊断')
+    parser.add_argument('--diag-cap', action='store_true', help='只在主页采集状态控件显示诊断，保留质量数字')
+    parser.add_argument('--algo-c1', action='store_true', help='在构建副本应用 R83 C1 算法')
+    parser.add_argument('--dsp-library', type=Path, help='指定与冻结记录 SHA-256 一致的 CMSIS DSP 库')
     args=parser.parse_args()
     if args.temp_screen and not(args.temp and args.candidate_r6):parser.error('--temp-screen requires --temp --candidate-r6')
+    if args.diag_reason and (not args.candidate_r6 or args.temp):
+        parser.error('--diag-reason requires --candidate-r6 without --temp')
+    if args.diag_home and not args.diag_reason:
+        parser.error('--diag-home requires --diag-reason')
+    if args.diag_cap and (not args.diag_reason or args.diag_home):
+        parser.error('--diag-cap requires --diag-reason without --diag-home')
+    if args.algo_c1 and not args.diag_cap:
+        parser.error('--algo-c1 requires --diag-cap')
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     out = ROOT / 'node-b/build' / ('b4-arm-' + stamp)
     project = out / 'firmware'
@@ -72,7 +161,7 @@ def main():
     if args.temp:
         shutil.copytree(ROOT / 'node-b/temperature', project / 'B5_TEMP')
     shutil.copytree(ROOT / 'gateway/third_party/CANopenNode', project / 'CANopenNode')
-    dsp = Path('E:/medical-monitor-node-b-precan-closeout/node-b/build/arm-20261022T074340122429Z/firmware/CORE/arm_cortexM4lf_math.lib')
+    dsp = args.dsp_library or Path('E:/medical-monitor-node-b-precan-closeout/node-b/build/arm-20261022T074340122429Z/firmware/CORE/arm_cortexM4lf_math.lib')
     expected = json.loads((ROOT / 'node-b/evidence/external-build-dependencies.json').read_text(encoding='utf-8'))['CMSIS_DSP_ARMCC_library']['sha256']
     assert sha(dsp) == expected
     shutil.copyfile(dsp, project / 'CORE/arm_cortexM4lf_math.lib')
@@ -91,7 +180,16 @@ def main():
     if args.temp_screen:
         text='#include "b_temp_screen.h"\n'+text
         text=replace_once(text,'ValueRefresh(now_ms);','ValueRefresh(now_ms);\n        BTempScreen_Refresh(TimeBase_GetMs());\n        FrameFeed(TimeBase_GetMs());')
+    if args.diag_reason:
+        text = inject_diag_reason(text)
+    if args.diag_home:
+        text = inject_home_diag_reason(text)
+    if args.diag_cap:
+        text = inject_capture_diag_reason(text)
     page.write_text(text, encoding='utf-8')
+    bio = project / 'HARDWARE/bio_v2.c'
+    if args.algo_c1:
+        bio.write_text(inject_algo_c1(bio.read_text(encoding='utf-8')), encoding='utf-8')
     main_c = project / 'USER/main.c'
     text = main_c.read_text(encoding='utf-8').replace('#include "canopen.h"', '#include "b_canopen_app.h"')
     # 屏10ms时基和算法TIM2时基不混用，避免两次CAN任务之间出现假回绕/假过期。
@@ -158,6 +256,10 @@ def main():
     report['temperature_variant']=args.temp
     report['candidate_r6_variant']=args.candidate_r6
     report['temperature_screen_variant']=args.temp_screen
+    report['diag_reason_variant'] = args.diag_reason
+    report['diag_home_variant'] = args.diag_home
+    report['diag_cap_variant'] = args.diag_cap
+    report['algo_c1_variant'] = args.algo_c1
     report['compiled_page_sha256']=sha(page)
     report['temperature_quantity']='nonhuman_object_surface_uncalibrated' if args.temp else 'INVALID'
     # 输出实际编译副本的头文件/工程输入SHA，覆盖屏幕钩子和C99选项，不只列出C文件。
@@ -166,7 +268,7 @@ def main():
     (out / 'executed-builder.py').write_bytes(Path(__file__).read_bytes())
     success = result.returncode == 0 and resource and '0 Error(s)' in log
     if success:
-        binary = out / ('B5_TEMP_SCREEN_NODE_B.bin' if args.temp_screen else 'B5_TEMP_NODE_B.bin' if args.temp else 'B4_NODE_B.bin')
+        binary = out / ('R83_C1_NODE_B.bin' if args.algo_c1 else 'R80_HOME_DIAG_NODE_B.bin' if args.diag_home else 'R78_DIAG_REASON_NODE_B.bin' if args.diag_reason else 'B5_TEMP_SCREEN_NODE_B.bin' if args.temp_screen else 'B5_TEMP_NODE_B.bin' if args.temp else 'B4_NODE_B.bin')
         axf = project / 'OBJ/BIO_V2.axf'
         symbols = out / 'symbols.txt'
         for mode, target in [('--bin', binary), ('-s', symbols)]:
@@ -180,6 +282,9 @@ def main():
             report['map_status'] = 'PRESENT' if mapfile.is_file() else 'UNKNOWN_MISSING'
             if mapfile.is_file():
                 report['artifacts'][mapfile.name] = {'bytes': mapfile.stat().st_size, 'sha256': sha(mapfile)}
+        if success and args.diag_reason and binary.stat().st_size > 49152:
+            success = False
+            report['failure'] = 'DIAG_REASON_EXCEEDS_SECTOR0_2'
     report['status'] = 'PASS' if success else 'FAIL'
     (out / 'receipt.json').write_text(json.dumps(report, indent=2) + '\n')
     print(str(out.relative_to(ROOT)), report['status'])

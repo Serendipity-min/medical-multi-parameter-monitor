@@ -1,5 +1,6 @@
 """独立算法普通Host验证：已知合成输入、失效恢复及原始历史回放，不连接硬件。"""
 from pathlib import Path
+import argparse
 import ctypes as C
 import hashlib
 import json
@@ -10,13 +11,18 @@ import struct
 import subprocess
 
 root=Path(__file__).resolve().parent.parent
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--source',type=Path,default=root/'实验固件/HARDWARE/bio_v2.c')
+parser.add_argument('--c1-cases',action='store_true')
+args=parser.parse_args()
 # 每次普通回归使用独立目录，不覆盖历史验收。
 evidence=Path(os.environ['NODE_B_TEST_OUT'])/'algorithm'
 evidence.mkdir(parents=True,exist_ok=False)
-source=root/'实验固件/HARDWARE/bio_v2.c'
-dll=evidence/'bio_v2_host.dll'
-cmd=['C:/mingw64/bin/gcc.exe','-std=c99','-O2','-Wall','-Wextra','-Werror',
-     '-ffp-contract=off','-shared',str(source),'-o',str(dll),'-lm']
+source=args.source.resolve()
+dll=evidence/('bio_v2_host.dll' if os.name=='nt' else 'bio_v2_host.so')
+cmd=['gcc','-std=c99','-O2','-Wall','-Wextra','-Werror','-ffp-contract=off','-shared']
+if os.name!='nt':cmd.append('-fPIC')
+cmd.extend([str(source),'-o',str(dll),'-lm'])
 compiled=subprocess.run(cmd,capture_output=True)
 (evidence/'host_compile.stdout.log').write_bytes(compiled.stdout)
 (evidence/'host_compile.stderr.log').write_bytes(compiled.stderr)
@@ -45,10 +51,17 @@ def sample(t,hr=60,rpm=15,noise=0,mains=0):
     return int(round(ecg)),int(round(resp))
 def run(name,seconds,feed,check,start=1000):
     lib.BioV2_Init(start);valid_h=valid_r=0
+    streak=longest=0;first_valid=None
     for i in range(int(seconds*250)):
         t=i/250;h,r=feed(t)
         lib.BioV2_Process(h,r,(start+i*4)&0xffffffff,i+1,0)
         valid_h+=int(bool(d.hr_valid));valid_r+=int(bool(d.rpm_valid))
+        if d.hr_valid:
+            if first_valid is None:
+                first_valid={'sample_ms':i*4,'accepted':d.hr_accepted,'fresh':d.hr_fresh_intervals}
+            streak+=1;longest=max(longest,streak)
+        else:
+            streak=0
         if not all(math.isfinite(getattr(d,k)) for k in flt):
             raise AssertionError('非有限状态 '+name)
         if d.hr_valid and not 30<=d.hr<=220:raise AssertionError('心率越界')
@@ -56,7 +69,8 @@ def run(name,seconds,feed,check,start=1000):
     passed=bool(check(d,valid_h,valid_r))
     result={'case':name,'pass':passed,'final_hr':d.hr,'final_hr_valid':d.hr_valid,'final_resp':d.rpm,
             'final_resp_valid':d.rpm_valid,'hr_valid_samples':valid_h,'resp_valid_samples':valid_r,
-            'hr_reason':d.hr_reason,'resp_reason':d.rpm_reason,'diag':{k:getattr(d,k) for k in more+flt}}
+            'hr_reason':d.hr_reason,'resp_reason':d.rpm_reason,'diag':{k:getattr(d,k) for k in more+flt},
+            'first_hr_valid':first_valid,'longest_hr_valid_ms':longest*4}
     results.append(result);return result
 for hr in [40,60,90,120,180]:
     run(f'qrs_{hr}',65,lambda t,hr=hr:sample(t,hr),lambda d,h,r,hr=hr:d.hr_valid and abs(d.hr-hr)<=2)
@@ -93,6 +107,26 @@ results.append({'case':'clip_invalidates','pass':not d.hr_valid and not d.rpm_va
 lib.BioV2_Tick(1000+40501*4+200)
 results.append({'case':'getter_without_new_input_invalid','pass':not d.hr_valid and not d.rpm_valid})
 
+legacy_total=len(results)
+if args.c1_cases:
+    for amplitude in (5000,10000,30000,100000,1000000):
+        run(f'c1_qrs_mains_{amplitude}',65,lambda t,a=amplitude:sample(t,mains=a),
+            lambda d,h,r:d.hr_valid and abs(d.hr-60)<=2)
+    run('c1_extreme_mains_2000000',65,lambda t:sample(t,mains=2000000),
+        lambda d,h,r:not d.hr_valid and bool(d.hr_reason&64))
+    for amplitude in (0,70000):
+        for seed in (1,2,3,4,5,6):
+            noise=random.Random(seed)
+            def noise_only(t):
+                return (int(round(200000+noise.gauss(0,2000)+amplitude*math.sin(2*math.pi*50*t))),
+                        int(round(640000+noise.gauss(0,2000))))
+            result=run(f'c1_noise_mains_{amplitude}_seed_{seed}',180,noise_only,
+                       lambda d,h,r:h*100<=2*180*250)
+            result['hr_valid_pct']=100*result['hr_valid_samples']/(180*250)
+    result=run('c1_first_valid_five_intervals',65,sample,lambda d,h,r:bool(h))
+    first=result['first_hr_valid']
+    result['pass']=bool(first and first['sample_ms']>=5000 and first['accepted']>=5 and first['fresh']>=5)
+
 # 冻结原始历史样本回放只作表征：没有真值，不以输出数值正常作为PASS门槛。
 base=root.parent
 # 历史原始样本不公开；本入口固定只执行合成夹具，不误用本机原件。
@@ -112,6 +146,7 @@ if historic.exists():
 else:history=None
 receipt={'compile_exit':compiled.returncode,'cases':results,'pass':sum(r['pass'] for r in results),
          'total':len(results),'historic':history,'diag_size':C.sizeof(Diag),
+          'legacy_total':legacy_total,'legacy_pass':sum(r['pass'] for r in results[:legacy_total]),
          'algorithm_sha256':hashlib.sha256(source.read_bytes()).hexdigest()}
 (evidence/'host_receipt.json').write_text(json.dumps(receipt,ensure_ascii=False,indent=2),encoding='utf-8')
 print(json.dumps({'pass':receipt['pass'],'total':receipt['total'],
