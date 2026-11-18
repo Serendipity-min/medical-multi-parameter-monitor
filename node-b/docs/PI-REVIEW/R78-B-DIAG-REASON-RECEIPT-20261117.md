@@ -20,7 +20,9 @@
 
 ## 实板状态
 
-负责人授权 R78 回退一次，并指定使用现有 `ai_serial_console` MCP 经 USB_232 烧录。查阅本机实现确认其下载入口固定为 COM15 和 `ai_serial_console.bin`。它所调用的 `stm32loader 0.7.1` 未收到擦除长度时执行整片擦除，`--verify` 只读回所下载的 BIN 长度。该入口无法执行 R78 的 sector0–2 限定、写前两次整片读回和写后全片、options、身份核对。R78 安装器 scope 待确定现场使用的安装路径。
+负责人授权 R78 回退一次。最初指定的 `ai_serial_console` MCP 固定使用 COM15 和 `ai_serial_console.bin`，执行整片擦除，回读范围为所下载的 BIN 长度，因此未执行。
+
+负责人随后确认 J-Link 已接 B、C 断电，并授权按 R78 原卡烧录。已准备 J-Link 安装 scope `R78_B_DIAG_REASON_APP012_INSTALL`（提交 `49e3be8`），默认只做离线核对。候选、B 启动修复归档的整片原件和 J-Link DLL 校验通过。根据归档原件和新 BIN 计算的写后整片预期 SHA-256 为 `8b2cd047e9b09b715ef340591c2ae9b051b6bf84691697071e75fa4863d6ee60`。离线模拟验证了双读一致通过、双读相异停止和一致但基线错误停止。Windows 已识别 J-Link，等待现场确认只有 B 上电、模拟器已接和安装前屏幕基线。
 
 | 项目 | 状态 |
 | --- | --- |
@@ -29,5 +31,5 @@
 | options、身份、sector3–11 对照 | NOT_RUN |
 | S3 模拟器、屏幕照片及诊断串原文 | NOT_RUN |
 | S4 可选云端 | NOT_RUN |
-| S5 硬件状态 | 现场报告五板断电、J-Link 未连接、USB-TTL 留在 C 板。本次仅操作主机文件 |
+| 硬件状态 | J-Link 已接 B，C 未上电。本次尚未启动原生 J-Link 会话。S5 收尾待现场验收 |
 | 回退一次 | 已授权，NOT_RUN，次数未使用 |
