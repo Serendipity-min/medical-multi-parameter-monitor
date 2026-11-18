@@ -53,13 +53,36 @@ def inject_r6(text):
     return text
 
 
+DIAG_REASON_ANCHOR = 'TxtGB(HP_SCR_PROBE, HP_TXT5_ADVICE, adv);'
+
+
+def inject_diag_reason(text):
+    return replace_once(text, DIAG_REASON_ANCHOR, '''{
+        const float ecg = g_bio_v2.ecg_mains_fraction;
+        const float resp = g_bio_v2.resp_mains_fraction;
+        const float rms = g_bio_v2.ecg_rms_codes;
+        const unsigned ecg_pct = ecg >= 1.0f ? 100u : ecg > 0.0f ? (unsigned)(ecg * 100.0f + 0.5f) : 0u;
+        const unsigned resp_pct = resp >= 1.0f ? 100u : resp > 0.0f ? (unsigned)(resp * 100.0f + 0.5f) : 0u;
+        const unsigned long codes = rms >= 999999.0f ? 999999ul : rms > 0.0f ? (unsigned long)rms : 0ul;
+        (void)adv;
+        snprintf(buf, sizeof(buf), "H%lu R%lu M%u/%u E%lu",
+                 (unsigned long)(g_bio_v2.hr_reason & 0xffu),
+                 (unsigned long)(g_bio_v2.rpm_reason & 0xffu), ecg_pct, resp_pct, codes);
+        TxtGB(HP_SCR_PROBE, HP_TXT5_ADVICE, (const uint8_t *)buf);
+    }''')
+
+
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--temp',action='store_true',help='离线构建UART4温度物表工程变体；不下载')
     parser.add_argument('--candidate-r6',action='store_true',help='离线构建带有R6微调度补偿的Node-B候选镜像；不下载')
     parser.add_argument('--temp-screen',action='store_true',help='复用旧USART3独立温度屏，仅构建显示绑定候选；不下载')
+    parser.add_argument('--diag-reason', action='store_true', help='仅在构建副本的 B 屏探头页显示诊断原因码')
+    parser.add_argument('--dsp-library', type=Path, help='指定与冻结记录 SHA-256 一致的 CMSIS DSP 库')
     args=parser.parse_args()
     if args.temp_screen and not(args.temp and args.candidate_r6):parser.error('--temp-screen requires --temp --candidate-r6')
+    if args.diag_reason and (not args.candidate_r6 or args.temp):
+        parser.error('--diag-reason requires --candidate-r6 without --temp')
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     out = ROOT / 'node-b/build' / ('b4-arm-' + stamp)
     project = out / 'firmware'
@@ -72,7 +95,7 @@ def main():
     if args.temp:
         shutil.copytree(ROOT / 'node-b/temperature', project / 'B5_TEMP')
     shutil.copytree(ROOT / 'gateway/third_party/CANopenNode', project / 'CANopenNode')
-    dsp = Path('E:/medical-monitor-node-b-precan-closeout/node-b/build/arm-20261022T074340122429Z/firmware/CORE/arm_cortexM4lf_math.lib')
+    dsp = args.dsp_library or Path('E:/medical-monitor-node-b-precan-closeout/node-b/build/arm-20261022T074340122429Z/firmware/CORE/arm_cortexM4lf_math.lib')
     expected = json.loads((ROOT / 'node-b/evidence/external-build-dependencies.json').read_text(encoding='utf-8'))['CMSIS_DSP_ARMCC_library']['sha256']
     assert sha(dsp) == expected
     shutil.copyfile(dsp, project / 'CORE/arm_cortexM4lf_math.lib')
@@ -91,6 +114,8 @@ def main():
     if args.temp_screen:
         text='#include "b_temp_screen.h"\n'+text
         text=replace_once(text,'ValueRefresh(now_ms);','ValueRefresh(now_ms);\n        BTempScreen_Refresh(TimeBase_GetMs());\n        FrameFeed(TimeBase_GetMs());')
+    if args.diag_reason:
+        text = inject_diag_reason(text)
     page.write_text(text, encoding='utf-8')
     main_c = project / 'USER/main.c'
     text = main_c.read_text(encoding='utf-8').replace('#include "canopen.h"', '#include "b_canopen_app.h"')
@@ -158,6 +183,7 @@ def main():
     report['temperature_variant']=args.temp
     report['candidate_r6_variant']=args.candidate_r6
     report['temperature_screen_variant']=args.temp_screen
+    report['diag_reason_variant'] = args.diag_reason
     report['compiled_page_sha256']=sha(page)
     report['temperature_quantity']='nonhuman_object_surface_uncalibrated' if args.temp else 'INVALID'
     # 输出实际编译副本的头文件/工程输入SHA，覆盖屏幕钩子和C99选项，不只列出C文件。
@@ -166,7 +192,7 @@ def main():
     (out / 'executed-builder.py').write_bytes(Path(__file__).read_bytes())
     success = result.returncode == 0 and resource and '0 Error(s)' in log
     if success:
-        binary = out / ('B5_TEMP_SCREEN_NODE_B.bin' if args.temp_screen else 'B5_TEMP_NODE_B.bin' if args.temp else 'B4_NODE_B.bin')
+        binary = out / ('R78_DIAG_REASON_NODE_B.bin' if args.diag_reason else 'B5_TEMP_SCREEN_NODE_B.bin' if args.temp_screen else 'B5_TEMP_NODE_B.bin' if args.temp else 'B4_NODE_B.bin')
         axf = project / 'OBJ/BIO_V2.axf'
         symbols = out / 'symbols.txt'
         for mode, target in [('--bin', binary), ('-s', symbols)]:
@@ -180,6 +206,9 @@ def main():
             report['map_status'] = 'PRESENT' if mapfile.is_file() else 'UNKNOWN_MISSING'
             if mapfile.is_file():
                 report['artifacts'][mapfile.name] = {'bytes': mapfile.stat().st_size, 'sha256': sha(mapfile)}
+        if success and args.diag_reason and binary.stat().st_size > 49152:
+            success = False
+            report['failure'] = 'DIAG_REASON_EXCEEDS_SECTOR0_2'
     report['status'] = 'PASS' if success else 'FAIL'
     (out / 'receipt.json').write_text(json.dumps(report, indent=2) + '\n')
     print(str(out.relative_to(ROOT)), report['status'])
