@@ -54,6 +54,8 @@ def inject_r6(text):
 
 
 DIAG_REASON_ANCHOR = 'TxtGB(HP_SCR_PROBE, HP_TXT5_ADVICE, adv);'
+HOME_QUALITY_WRITE = '    SetTextValue(HP_SCR_HOME, HP_TXT_QUAL, (uchar *)buf);\n'
+VALUE_TICK = '        ValueRefresh(now_ms);                    // 1s：瞬时心率/呼吸率 + 报警'
 
 
 def inject_diag_reason(text):
@@ -72,17 +74,33 @@ def inject_diag_reason(text):
     }''')
 
 
+def inject_home_diag_reason(text):
+    text = replace_once(text, HOME_QUALITY_WRITE, '')
+    return replace_once(text, VALUE_TICK, VALUE_TICK + '''
+        if (s_cur == HP_SCR_HOME)
+        {
+            char diag[sizeof("H255 M100")];
+            const float ecg = g_bio_v2.ecg_mains_fraction;
+            const unsigned pct = ecg >= 1.0f ? 100u : ecg > 0.0f ? (unsigned)(ecg * 100.0f + 0.5f) : 0u;
+            snprintf(diag, sizeof(diag), "H%lu M%u", (unsigned long)(g_bio_v2.hr_reason & 0xffu), pct);
+            SetTextValue(HP_SCR_HOME, HP_TXT_QUAL, (uchar *)diag);
+        }''')
+
+
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--temp',action='store_true',help='离线构建UART4温度物表工程变体；不下载')
     parser.add_argument('--candidate-r6',action='store_true',help='离线构建带有R6微调度补偿的Node-B候选镜像；不下载')
     parser.add_argument('--temp-screen',action='store_true',help='复用旧USART3独立温度屏，仅构建显示绑定候选；不下载')
     parser.add_argument('--diag-reason', action='store_true', help='仅在构建副本的 B 屏探头页显示诊断原因码')
+    parser.add_argument('--diag-home', action='store_true', help='在构建副本的主页信号质量控件显示简短诊断')
     parser.add_argument('--dsp-library', type=Path, help='指定与冻结记录 SHA-256 一致的 CMSIS DSP 库')
     args=parser.parse_args()
     if args.temp_screen and not(args.temp and args.candidate_r6):parser.error('--temp-screen requires --temp --candidate-r6')
     if args.diag_reason and (not args.candidate_r6 or args.temp):
         parser.error('--diag-reason requires --candidate-r6 without --temp')
+    if args.diag_home and not args.diag_reason:
+        parser.error('--diag-home requires --diag-reason')
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     out = ROOT / 'node-b/build' / ('b4-arm-' + stamp)
     project = out / 'firmware'
@@ -116,6 +134,8 @@ def main():
         text=replace_once(text,'ValueRefresh(now_ms);','ValueRefresh(now_ms);\n        BTempScreen_Refresh(TimeBase_GetMs());\n        FrameFeed(TimeBase_GetMs());')
     if args.diag_reason:
         text = inject_diag_reason(text)
+    if args.diag_home:
+        text = inject_home_diag_reason(text)
     page.write_text(text, encoding='utf-8')
     main_c = project / 'USER/main.c'
     text = main_c.read_text(encoding='utf-8').replace('#include "canopen.h"', '#include "b_canopen_app.h"')
@@ -184,6 +204,7 @@ def main():
     report['candidate_r6_variant']=args.candidate_r6
     report['temperature_screen_variant']=args.temp_screen
     report['diag_reason_variant'] = args.diag_reason
+    report['diag_home_variant'] = args.diag_home
     report['compiled_page_sha256']=sha(page)
     report['temperature_quantity']='nonhuman_object_surface_uncalibrated' if args.temp else 'INVALID'
     # 输出实际编译副本的头文件/工程输入SHA，覆盖屏幕钩子和C99选项，不只列出C文件。
@@ -192,7 +213,7 @@ def main():
     (out / 'executed-builder.py').write_bytes(Path(__file__).read_bytes())
     success = result.returncode == 0 and resource and '0 Error(s)' in log
     if success:
-        binary = out / ('R78_DIAG_REASON_NODE_B.bin' if args.diag_reason else 'B5_TEMP_SCREEN_NODE_B.bin' if args.temp_screen else 'B5_TEMP_NODE_B.bin' if args.temp else 'B4_NODE_B.bin')
+        binary = out / ('R79_HOME_DIAG_NODE_B.bin' if args.diag_home else 'R78_DIAG_REASON_NODE_B.bin' if args.diag_reason else 'B5_TEMP_SCREEN_NODE_B.bin' if args.temp_screen else 'B5_TEMP_NODE_B.bin' if args.temp else 'B4_NODE_B.bin')
         axf = project / 'OBJ/BIO_V2.axf'
         symbols = out / 'symbols.txt'
         for mode, target in [('--bin', binary), ('-s', symbols)]:
