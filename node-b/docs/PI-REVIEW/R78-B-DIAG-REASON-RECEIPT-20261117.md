@@ -1,6 +1,6 @@
 # R78 · B 屏诊断原因码执行回执
 
-2026-11-18（北京时间）。离线构建 **PASS**，实板安装 **NOT_RUN**。分支 `codex/r78-b-diag-reason`。
+2026-11-18（北京时间）。离线构建 **PASS**，B 板安装与整片核对 **PASS**，模拟器验收待现场回报。分支 `codex/r78-b-diag-reason`。
 
 ## 来源与验证
 
@@ -22,14 +22,17 @@
 
 负责人授权 R78 回退一次。最初指定的 `ai_serial_console` MCP 固定使用 COM15 和 `ai_serial_console.bin`，执行整片擦除，回读范围为所下载的 BIN 长度，因此未执行。
 
-负责人随后确认 J-Link 已接 B、C 断电，并授权按 R78 原卡烧录。已准备 J-Link 安装 scope `R78_B_DIAG_REASON_APP012_INSTALL`（提交 `49e3be8`），默认只做离线核对。候选、B 启动修复归档的整片原件和 J-Link DLL 校验通过。根据归档原件和新 BIN 计算的写后整片预期 SHA-256 为 `8b2cd047e9b09b715ef340591c2ae9b051b6bf84691697071e75fa4863d6ee60`。离线模拟验证了双读一致通过、双读相异停止和一致但基线错误停止。Windows 已识别 J-Link，等待现场确认只有 B 上电、模拟器已接和安装前屏幕基线。
+负责人随后确认 J-Link 已接 B、C 断电，并授权按 R78 原卡烧录。安装器 `R78_B_DIAG_REASON_APP012_INSTALL`（提交 `49e3be8`）验证了候选、B 启动修复归档的整片原件和 J-Link DLL。离线模拟验证了双读一致通过、双读相异停止和一致但基线错误停止。负责人确认 ECG 模拟器已接，B 屏在安装前显示 ECG 60 bpm。
+
+唯一一次 J-Link 会话于北京时间 09:30:51 开始，09:32:14 写出关闭回执。写前两次 1 MiB 读回逐字节一致，均匹配签发卡的整片基线，前 40,040 B 匹配现行应用镜像。写后独立核对确认整片等于候选加原件尾部，sector3–11、options 和身份记录相同。回执和原始读回保存在受限 EFS。
 
 | 项目 | 状态 |
 | --- | --- |
-| S0–S2 实板准备、写前两次整片读回、写入、写后核对 | NOT_RUN，端口打开、读回、下载、Reset/Go 均为 0，无安装器退出码 |
-| 写前整片预期 SHA-256 | `328d48e3567e2fa18a2fee9b0cca831578cdb44364caf8ef575c1d5bbbef99ae`，来源为签发卡 |
-| options、身份、sector3–11 对照 | NOT_RUN |
-| S3 模拟器、屏幕照片及诊断串原文 | NOT_RUN |
+| S0–S2 实板准备、写前两次整片读回、写入、写后核对 | PASS，单次会话。Halt、BeginDownload、WriteMem、EndDownload、Reset、Go 各 1 次，Close 完成，SDK 共 258 次调用，worker 与监督器退出码均为 0 |
+| 写前两次整片 SHA-256 | `328d48e3567e2fa18a2fee9b0cca831578cdb44364caf8ef575c1d5bbbef99ae` |
+| 写后整片 SHA-256 | `8b2cd047e9b09b715ef340591c2ae9b051b6bf84691697071e75fa4863d6ee60` |
+| options、身份、sector3–11 对照 | PASS |
+| S3 模拟器、屏幕照片及诊断串原文 | 现场确认安装后屏幕正常刷新，ECG 仍显示 60 bpm。物理拔除 J-Link、冷启动、波形和三段诊断串待完整回报 |
 | S4 可选云端 | NOT_RUN |
-| 硬件状态 | J-Link 已接 B，C 未上电。本次尚未启动原生 J-Link 会话。S5 收尾待现场验收 |
+| 硬件状态 | J-Link 软件会话已关闭。S3 要求物理拔下 J-Link 后仅 B 断电再上电。S5 收尾待现场验收 |
 | 回退一次 | 已授权，NOT_RUN，次数未使用 |
