@@ -1,6 +1,6 @@
 # R80 · B 主页诊断 v2 执行回执
 
-2026-11-18（北京时间）。离线门槛 **PASS**，现场安装及验收待执行。分支 `codex/r79-b-home-diag`。
+2026-11-18（北京时间）。离线门槛及实板安装 **PASS**，模拟器验收待现场回报。分支 `codex/r79-b-home-diag`。
 
 ## 离线门槛
 
@@ -21,12 +21,16 @@
 
 ## 现场
 
+负责人确认仅 B 上电、J-Link 只接 B、ECG 模拟器已接。唯一一次 J-Link 会话于北京时间 10:19:52 开始，10:21:15 写出关闭回执。独立核对两次写前整片读回等于 R78 归档，且写后整片等于预期。19 份会话原始文件已核对在受限 EFS。
+
 | 项目 | 状态 |
 | --- | --- |
-| B 安装 S0–S2 | NOT_RUN，等待 B 单独上电、ECG 模拟器和 J-Link 仅连接 B 的现场确认 |
-| 写前双读、写后整片、options、身份及 sector3–11 | NOT_RUN |
-| 原生动作计数、退出码 | NOT_RUN，尚未启动 J-Link 会话 |
-| S3 主页、两处诊断显示及断接恢复 | NOT_RUN |
+| B 安装 S0–S2 | PASS，单次会话写入 sector0–2，写后通过后 Reset/Go，Close 完成 |
+| 写前两次整片 SHA-256 | `8b2cd047e9b09b715ef340591c2ae9b051b6bf84691697071e75fa4863d6ee60`，逐字节一致 |
+| 写后整片 SHA-256 | `7d0e617ed609585e216a8aa258da63767ae8d289d2ec0da11cb7d539756d7d44`，与预期逐字节一致 |
+| options、身份及 sector3–11 | PASS |
+| 原生动作计数、退出码 | Halt、BeginDownload、WriteMem、EndDownload、Reset、Go 各 1 次。SDK 调用共 258 次，worker 和监督器退出码均为 0 |
+| S3 主页、两处诊断显示及断接恢复 | 待现场物理拔除 J-Link、冷启动和模拟器反馈 |
 | S4 云端 | NOT_RUN |
 | S5 收尾 | NOT_RUN |
 | 回退至本轮写前 R78 | 已授权一次，NOT_RUN |
