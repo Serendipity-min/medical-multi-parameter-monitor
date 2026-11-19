@@ -165,5 +165,25 @@
     }
   ],
   "note": "Counts use different units and overlapping suites; do not sum them as independent end-to-end tests.",
-  "github_ci_scope": "Ordinary GitHub Actions regression workflow, configured Python 3.12 and Node 22. No manual Security Gate run."
+  "github_ci_scope": "Ordinary GitHub Actions regression workflow, configured Python 3.12 and Node 22. No manual Security Gate run.",
+  "post_closeout_pi_review": {
+    "base": "10b6880f62d4ac635e23d6e85598e6bd29be6f01",
+    "finding": "cloud/ai/tests test_backend_isolated_gateway_profile_and_wss intermittently raised CancelledError (10 runs: websockets 17.4 failed 1, 16.0 failed 3); d30f7e7 fixture fix covered cloud/backend/tests only",
+    "fix": "Close the WebSocket and drain until the server close frame before leaving TestClient; test-only change",
+    "after_fix": {
+      "repeat_30_websockets_17_4": "30/30 PASS",
+      "repeat_30_websockets_16_0": "30/30 PASS",
+      "ai_full": {
+        "passed": 50
+      },
+      "default_backend": {
+        "passed": 108,
+        "skipped": 6
+      },
+      "five_backend_broadcast": {
+        "passed": 65
+      }
+    },
+    "ai_full_prerequisite": "python gateway/microphone/run_five_appliance_tests.py --out <dir>; FIVE_APPLIANCE_NATIVE_OUT=<dir> MPM_NODE_PROFILE=five"
+  }
 }

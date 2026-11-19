@@ -1,0 +1,104 @@
+--- a/HARDWARE/bio_v2.c
++++ b/HARDWARE/bio_v2.c
+@@ -8,8 +8,8 @@
+ typedef struct { float b0,b1,b2,a1,a2,z1,z2; } Section;
+ typedef struct {
+     uint32_t anchor, last_good, minimum, maximum, timeout, intervals[5];
+-    uint32_t count, index, candidate_rate, reason, required;
+-    uint8_t anchored;
++    uint32_t count, index, candidate_rate, reason, required, tolerance;
++    uint8_t anchored, bridge, bridged;
+ } Periods;
+ typedef struct {
+     Section notch1, notch2, hp, lp;
+@@ -27,6 +27,9 @@
+ #ifndef HEART_REQUIRED
+ #define HEART_REQUIRED 5u
+ #endif
++#ifndef HEART_TOLERANCE
++#define HEART_TOLERANCE 30u /* 心搏窗口相对中位数的允许偏差，百分比 */
++#endif
+ #ifndef MAINS_ABS_POWER
+ #define MAINS_ABS_POWER 9.6e11f /* 约100 mV峰值工频 */
+ #endif
+@@ -50,7 +53,7 @@
+ static void forget_periods(Periods *p,uint32_t reason)
+ {
+     /* 失效清除资格和全部旧间隔；仅保留配置，不重置滤波制造新的阶跃。 */
+-    p->count=0;p->index=0;p->candidate_rate=0;p->anchored=0;p->last_good=0;
++    p->count=0;p->index=0;p->candidate_rate=0;p->anchored=0;p->bridged=0;p->last_good=0;
+     memset(p->intervals,0,sizeof(p->intervals));p->reason=reason;
+ }
+ static void configure(Channel *c,uint8_t respiration)
+@@ -67,6 +70,8 @@
+     c->periods.timeout=respiration ? 12000u : 4000u;
+     c->periods.reason=BIO_V2_WARMUP;
+     c->periods.required=respiration ? 3u : HEART_REQUIRED;
++    c->periods.tolerance=respiration ? 20u : HEART_TOLERANCE;
++    c->periods.bridge=!respiration;
+ }
+ static uint8_t accept_input(Channel *c,int32_t raw,uint8_t resp,uint32_t now)
+ {
+@@ -99,36 +104,53 @@
+ }
+ static void expire(Periods *p,uint32_t now)
+ {
++    /* 可桥接漏检时锚点最长等两个最大间隔，否则慢心率下漏检一拍会先被判过期。 */
++    uint32_t limit=(p->bridge && !p->bridged && p->count>=3u) ? 2u*p->maximum : p->maximum;
+     if ((p->count!=0 && (uint32_t)(now-p->last_good)>p->timeout) ||
+-        (p->anchored && (uint32_t)(now-p->anchor)>p->maximum))
++        (p->anchored && (uint32_t)(now-p->anchor)>limit))
+         forget_periods(p,BIO_V2_EXPIRED);
+ }
++static uint32_t window_median(const Periods *p,uint32_t sorted[5])
++{
++    uint32_t i,j,swap;
++    for (i=0;i<p->count;i++) sorted[i]=p->intervals[i];
++    for (i=0;i<p->count;i++) for(j=i+1;j<p->count;j++)
++        if(sorted[j]<sorted[i]) {swap=sorted[i];sorted[i]=sorted[j];sorted[j]=swap;}
++    return sorted[p->count/2u];
++}
+ static uint8_t accept_cycle(Periods *p,uint32_t at)
+ {
+-    uint32_t elapsed, sorted[5],i,j,swap,median,largest;
++    uint32_t elapsed, sorted[5],i,median,largest,tolerance;
+     /* 候选时刻与最后合法周期分开。非法候选不能更新合法周期的有效期。 */
+     expire(p,at);
+     if (!p->anchored) { p->anchor=at;p->anchored=1;p->reason=BIO_V2_NO_CYCLES;return 0; }
+     elapsed=(uint32_t)(at-p->anchor);
+     if (elapsed<p->minimum) return 0;
++    /* 漏检一拍：间隔为窗口中位数1.75–2.25倍时只前移锚点，不入窗、不改率值；
++       不连续桥接，真实减半时下一间隔照常入窗并判不稳定。 */
++    if (p->bridge && !p->bridged && p->count>=3u) {
++        median=window_median(p,sorted);
++        if (elapsed*4u>=median*7u && elapsed*4u<=median*9u) {
++            p->anchor=at;p->last_good=at;p->bridged=1;return 0;
++        }
++    }
+     if (elapsed>p->maximum) {
+         forget_periods(p,BIO_V2_EXPIRED);p->anchor=at;p->anchored=1;return 0;
+     }
+-    p->anchor=at;p->last_good=at;
++    p->anchor=at;p->last_good=at;p->bridged=0;
++    /* 滞回：上一判定有效才用放宽容差维持，首次锁定仍按20%，噪声难以偶然成锁。 */
++    tolerance=p->candidate_rate ? p->tolerance : 20u;
+     p->intervals[p->index]=elapsed;p->index=(p->index+1u)%5u;
+     if (p->count<5u) p->count++;
+     p->candidate_rate=0;p->reason=BIO_V2_NO_CYCLES;
+     if (p->count<p->required) return 1;
+-    for (i=0;i<p->count;i++) sorted[i]=p->intervals[i];
+-    for (i=0;i<p->count;i++) for(j=i+1;j<p->count;j++)
+-        if(sorted[j]<sorted[i]) {swap=sorted[i];sorted[i]=sorted[j];sorted[j]=swap;}
+-    median=sorted[p->count/2u];largest=0;
++    median=window_median(p,sorted);largest=0;
+     for(i=0;i<p->count;i++) {
+         uint32_t difference=sorted[i]>median ? sorted[i]-median : median-sorted[i];
+         if(difference>largest)largest=difference;
+     }
+-    /* 最近窗口每个间隔都需在中位周期的20%内；不是只看数值是否在量程内。 */
+-    if(largest*100u>median*20u) {p->reason=BIO_V2_UNSTABLE;return 1;}
++    /* 最近窗口每个间隔都需在中位周期的容差内（首次锁定20%，已有效的心搏按HEART_TOLERANCE维持）；不是只看数值是否在量程内。 */
++    if(largest*100u>median*tolerance) {p->reason=BIO_V2_UNSTABLE;return 1;}
+     p->candidate_rate=(60000u+median/2u)/median;p->reason=0;return 1;
+ }
+ static float filter_channel(Channel *c,int32_t raw,uint8_t respiration)
