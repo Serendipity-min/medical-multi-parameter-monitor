@@ -1,0 +1,12 @@
+step         | window   | n     | sine amp (r) | p-p (r) | residual SD | amp/ΔR (r/Ω) | 30s band RMS (r) | peak /min
+20/min 1.5R  | +10..90  |  2717 |          515 |    1030 |          95 |          343 | 349              | 20
+20/min 1.5R  | +30..90  |  2017 |          517 |    1034 |         108 |          345 | 349              | 20
+20/min 1.0R  | +10..90  |  3118 |          296 |     592 |         638 |          296 | 435 612 469      | 12 6 6
+20/min 1.0R  | +30..90  |  2350 |          327 |     654 |         680 |          327 | 435 612 469      | 12 6 6
+20/min 0.5R  | +10..90  |  2773 |        11704 |   23408 |       77330 |        23408 | 707 54           | 6 20
+20/min 0.5R  | +30..90  |  2022 |          182 |     364 |        2891 |          364 | 707 54           | 6 20
+12/min 1.0R  | +10..90  |  2982 |          292 |     584 |         164 |          292 | 213 225 215      | 12 12 12
+12/min 1.0R  | +30..90  |  2250 |          326 |     653 |          26 |          326 | 213 225 215      | 12 12 12
+20/min amplitude vs ΔR: through-origin slope 341 r/Ω; free fit slope 335, intercept 7 r
+R87 P2 human 30s band RMS (0.1–0.7 Hz): median 228 r, range 160–1948; total SD median 255
+human equivalent sinusoid amplitude: median 322 r → ΔR ≈ 0.94 Ω (range 0.66–8.08) using 341 r/Ω
