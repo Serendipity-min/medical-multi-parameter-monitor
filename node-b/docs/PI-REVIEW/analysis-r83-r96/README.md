@@ -16,6 +16,7 @@ R83–R96 复核文档所用的离线分析脚本和计算结果。工程口径�
 | `r91human-20261119T072140Z-node-ab.jsonl` | P2 复测（两次贴片） | `f6bfe1d30a92e74641886a979d869677300d9462f54c9e41e0e218f0d2cd1904` |
 | `r92sim-20261119T082651Z-node-ab.jsonl` | 模拟器链路自检 | `3b3ec69a535296dd0e720ab5cbfad780c641ce926d911d0ada64b389ffd0b524` |
 | `r94human-20261119T090428Z-node-ab.jsonl` | P2 复测（志愿者乙） | `eee4fa8fc5161f5c1d6fe81de94cb1ed2237808a0fed7b4fafdddb8634bdd2fd` |
+| `r100rr-20261119T112442Z-node-ab.jsonl` | RR 真值采集（节拍 10、15、20 次/分） | `0734d690ad5cc0fa7ae46999b7b1815a5a19a131bed31f27cc54e7483f6c696e` |
 
 ## 目录
 - `scripts/`：R83–R88 的基础脚本，入口是 `load.py`（MQTT 解析与量纲换算）。
@@ -58,5 +59,6 @@ R83–R96 复核文档所用的离线分析脚本和计算结果。工程口径�
 | `c3_*.txt` | R96 |
 | `r98_*.txt`（脚本在 `scripts/r98/`；`load2.py` 已按批末时间戳修正时间轴） | R99 |
 | `r100_synthetic_controls.txt`（冻结版 PPG-RR：`scripts/r98/rr_frozen.py`） | R100 |
+| `r100_eval.txt`、`r100_diag.txt`、`r100_resp_explore.txt` | R101 |
 
 **注意**：`r89_rounds.txt` 用的是 R91 时的 PPG 去趋势方法，滑动均值在两端补零。R92 起改为按实际点数归一。两种方法对 R87 的结果分别为 588 µV 和 601 µV，结论不受影响；R91 那份录制只能用修正后的方法（见 `r91_min.py`）。
