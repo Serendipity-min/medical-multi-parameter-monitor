@@ -1,0 +1,125 @@
+##### Q_MIN = 0.35
+=== positives (simulator, truth known)
+sim 1.5R@20        windows  14 output   0 (  0.0%) | single-window reasons {'coverage': 14} => FAIL
+sim 1.0R@20        windows   0 output   0 (  0.0%) | single-window reasons {} => FAIL
+sim 1.0R@12        windows  14 output  11 ( 78.6%) values p10/50/90 [12.0, 12.0, 12.0] | within±1 100% | single-window reasons {'coverage': 1, 'ok': 13} => FAIL
+sim 0.5R@20        windows   2 output   0 (  0.0%) | single-window reasons {'coverage': 2} => record
+=== negatives (must be 0%)
+R92 ECG-mode rest  windows  69 output   2 (  2.9%) values p10/50/90 [11.0, 11.0, 11.0] | single-window reasons {'amplitude': 14, 'ok': 6, 'quality': 14, 'edge': 35} => FAIL
+R92 wiggle/pull    windows 229 output   4 (  1.7%) values p10/50/90 [12.0, 13.2, 14.5] | single-window reasons {'ok': 15, 'quality': 26, 'edge': 131, 'transient': 40, 'amplitude': 17} => FAIL
+R83 leads-off      windows  97 output   0 (  0.0%) | single-window reasons {'amplitude': 85, 'transient': 1, 'edge': 11} => PASS
+R89cal transient 1 windows   1 output   0 (  0.0%) | single-window reasons {'coverage': 1} => PASS
+R89cal transient 2 windows  19 output   0 (  0.0%) | single-window reasons {'coverage': 13, 'edge': 6} => PASS
+synthetic noise 20 seeds: output mean 7.78% max 21.48% => FAIL
+=== dev set R100 (seen before; not independent)
+R100 P10           windows  24 output   0 (  0.0%) | single-window reasons {'quality': 1, 'edge': 23} => record
+R100 P15           windows  24 output  17 ( 70.8%) values p10/50/90 [14.6, 14.9, 15.2] | within±2 100% | single-window reasons {'edge': 4, 'ok': 19, 'quality': 1} => PASS
+R100 P20           windows  24 output  16 ( 66.7%) values p10/50/90 [12.3, 18.2, 18.5] | within±2 56% | single-window reasons {'ok': 23, 'transient': 1} => FAIL
+=== natural breathing (no truth; report only)
+R87 P2             windows 160 output  80 ( 50.0%) values p10/50/90 [15.6, 22.3, 24.5] | single-window reasons {'ok': 103, 'quality': 44, 'edge': 13}
+R89 S5             windows 299 output 157 ( 52.5%) values p10/50/90 [11.8, 16.1, 19.5] | single-window reasons {'edge': 66, 'ok': 194, 'quality': 35, 'transient': 1, 'coverage': 3}
+R91                windows 884 output  60 (  6.8%) values p10/50/90 [8.2, 9.7, 11.1] | single-window reasons {'edge': 465, 'ok': 117, 'quality': 116, 'gap': 11, 'coverage': 109, 'transient': 43, 'amplitude': 23}
+R94                windows 584 output  50 (  8.6%) values p10/50/90 [8.2, 9.4, 23.3] | single-window reasons {'coverage': 4, 'gap': 2, 'edge': 283, 'quality': 196, 'ok': 90, 'transient': 9}
+R100 N0            windows  44 output  25 ( 56.8%) values p10/50/90 [8.1, 8.5, 14.7] | single-window reasons {'quality': 14, 'ok': 29, 'transient': 1}
+R100 N1-N5         windows 249 output 121 ( 48.6%) values p10/50/90 [11.9, 14.5, 15.5] | single-window reasons {'edge': 65, 'transient': 18, 'quality': 23, 'ok': 143}
+OVERALL R102 offline gate: FAIL
+##### Q_MIN = 0.40
+=== positives (simulator, truth known)
+sim 1.5R@20        windows  14 output   0 (  0.0%) | single-window reasons {'coverage': 14} => FAIL
+sim 1.0R@20        windows   0 output   0 (  0.0%) | single-window reasons {} => FAIL
+sim 1.0R@12        windows  14 output  11 ( 78.6%) values p10/50/90 [12.0, 12.0, 12.0] | within±1 100% | single-window reasons {'coverage': 1, 'ok': 13} => FAIL
+sim 0.5R@20        windows   2 output   0 (  0.0%) | single-window reasons {'coverage': 2} => record
+=== negatives (must be 0%)
+R92 ECG-mode rest  windows  69 output   2 (  2.9%) values p10/50/90 [11.0, 11.0, 11.0] | single-window reasons {'amplitude': 14, 'ok': 5, 'quality': 15, 'edge': 35} => FAIL
+R92 wiggle/pull    windows 229 output   0 (  0.0%) | single-window reasons {'quality': 39, 'edge': 131, 'transient': 40, 'ok': 2, 'amplitude': 17} => PASS
+R83 leads-off      windows  97 output   0 (  0.0%) | single-window reasons {'amplitude': 85, 'transient': 1, 'edge': 11} => PASS
+R89cal transient 1 windows   1 output   0 (  0.0%) | single-window reasons {'coverage': 1} => PASS
+R89cal transient 2 windows  19 output   0 (  0.0%) | single-window reasons {'coverage': 13, 'edge': 6} => PASS
+synthetic noise 20 seeds: output mean 3.07% max 11.85% => FAIL
+=== dev set R100 (seen before; not independent)
+R100 P10           windows  24 output   0 (  0.0%) | single-window reasons {'quality': 1, 'edge': 23} => record
+R100 P15           windows  24 output  16 ( 66.7%) values p10/50/90 [14.7, 15.0, 15.2] | within±2 100% | single-window reasons {'edge': 4, 'ok': 18, 'quality': 2} => PASS
+R100 P20           windows  24 output  14 ( 58.3%) values p10/50/90 [12.3, 18.2, 18.5] | within±2 57% | single-window reasons {'ok': 21, 'quality': 2, 'transient': 1} => FAIL
+=== natural breathing (no truth; report only)
+R87 P2             windows 160 output  62 ( 38.8%) values p10/50/90 [15.3, 22.7, 24.5] | single-window reasons {'ok': 84, 'quality': 63, 'edge': 13}
+R89 S5             windows 299 output 138 ( 46.2%) values p10/50/90 [12.0, 16.1, 19.1] | single-window reasons {'edge': 66, 'ok': 171, 'quality': 58, 'transient': 1, 'coverage': 3}
+R91                windows 884 output  42 (  4.8%) values p10/50/90 [8.2, 9.8, 10.8] | single-window reasons {'edge': 465, 'ok': 80, 'quality': 153, 'gap': 11, 'coverage': 109, 'transient': 43, 'amplitude': 23}
+R94                windows 584 output  22 (  3.8%) values p10/50/90 [8.3, 10.1, 23.4] | single-window reasons {'coverage': 4, 'gap': 2, 'edge': 283, 'quality': 234, 'ok': 52, 'transient': 9}
+R100 N0            windows  44 output  22 ( 50.0%) values p10/50/90 [8.1, 8.4, 14.8] | single-window reasons {'quality': 17, 'ok': 26, 'transient': 1}
+R100 N1-N5         windows 249 output 102 ( 41.0%) values p10/50/90 [12.0, 14.8, 15.6] | single-window reasons {'edge': 65, 'transient': 18, 'quality': 40, 'ok': 126}
+OVERALL R102 offline gate: FAIL
+##### Q_MIN = 0.45
+=== positives (simulator, truth known)
+sim 1.5R@20        windows  14 output   0 (  0.0%) | single-window reasons {'coverage': 14} => FAIL
+sim 1.0R@20        windows   0 output   0 (  0.0%) | single-window reasons {} => FAIL
+sim 1.0R@12        windows  14 output  11 ( 78.6%) values p10/50/90 [12.0, 12.0, 12.0] | within±1 100% | single-window reasons {'coverage': 1, 'ok': 13} => FAIL
+sim 0.5R@20        windows   2 output   0 (  0.0%) | single-window reasons {'coverage': 2} => record
+=== negatives (must be 0%)
+R92 ECG-mode rest  windows  69 output   0 (  0.0%) | single-window reasons {'amplitude': 14, 'quality': 18, 'edge': 35, 'ok': 2} => PASS
+R92 wiggle/pull    windows 229 output   0 (  0.0%) | single-window reasons {'quality': 41, 'edge': 131, 'transient': 40, 'amplitude': 17} => PASS
+R83 leads-off      windows  97 output   0 (  0.0%) | single-window reasons {'amplitude': 85, 'transient': 1, 'edge': 11} => PASS
+R89cal transient 1 windows   1 output   0 (  0.0%) | single-window reasons {'coverage': 1} => PASS
+R89cal transient 2 windows  19 output   0 (  0.0%) | single-window reasons {'coverage': 13, 'edge': 6} => PASS
+synthetic noise 20 seeds: output mean 0.89% max 5.93% => PASS
+=== dev set R100 (seen before; not independent)
+R100 P10           windows  24 output   0 (  0.0%) | single-window reasons {'quality': 1, 'edge': 23} => record
+R100 P15           windows  24 output  15 ( 62.5%) values p10/50/90 [14.9, 15.1, 15.2] | within±2 100% | single-window reasons {'edge': 4, 'ok': 17, 'quality': 3} => PASS
+R100 P20           windows  24 output  11 ( 45.8%) values p10/50/90 [12.3, 18.2, 18.5] | within±2 64% | single-window reasons {'ok': 14, 'quality': 9, 'transient': 1} => FAIL
+=== natural breathing (no truth; report only)
+R87 P2             windows 160 output  38 ( 23.8%) values p10/50/90 [14.6, 22.7, 24.5] | single-window reasons {'ok': 58, 'quality': 89, 'edge': 13}
+R89 S5             windows 299 output 121 ( 40.5%) values p10/50/90 [13.3, 16.1, 18.9] | single-window reasons {'edge': 66, 'ok': 152, 'quality': 77, 'transient': 1, 'coverage': 3}
+R91                windows 884 output  31 (  3.5%) values p10/50/90 [8.5, 9.8, 10.3] | single-window reasons {'edge': 465, 'ok': 61, 'quality': 172, 'gap': 11, 'coverage': 109, 'transient': 43, 'amplitude': 23}
+R94                windows 584 output   6 (  1.0%) values p10/50/90 [8.3, 9.2, 19.5] | single-window reasons {'coverage': 4, 'gap': 2, 'edge': 283, 'quality': 270, 'ok': 16, 'transient': 9}
+R100 N0            windows  44 output  15 ( 34.1%) values p10/50/90 [8.1, 14.2, 14.7] | single-window reasons {'quality': 22, 'ok': 21, 'transient': 1}
+R100 N1-N5         windows 249 output  86 ( 34.5%) values p10/50/90 [12.3, 14.9, 15.7] | single-window reasons {'edge': 65, 'transient': 18, 'quality': 62, 'ok': 104}
+OVERALL R102 offline gate: FAIL
+##### Q_MIN = 0.50
+=== positives (simulator, truth known)
+sim 1.5R@20        windows  14 output   0 (  0.0%) | single-window reasons {'coverage': 14} => FAIL
+sim 1.0R@20        windows   0 output   0 (  0.0%) | single-window reasons {} => FAIL
+sim 1.0R@12        windows  14 output  11 ( 78.6%) values p10/50/90 [12.0, 12.0, 12.0] | within±1 100% | single-window reasons {'coverage': 1, 'ok': 13} => FAIL
+sim 0.5R@20        windows   2 output   0 (  0.0%) | single-window reasons {'coverage': 2} => record
+=== negatives (must be 0%)
+R92 ECG-mode rest  windows  69 output   0 (  0.0%) | single-window reasons {'amplitude': 14, 'quality': 20, 'edge': 35} => PASS
+R92 wiggle/pull    windows 229 output   0 (  0.0%) | single-window reasons {'quality': 41, 'edge': 131, 'transient': 40, 'amplitude': 17} => PASS
+R83 leads-off      windows  97 output   0 (  0.0%) | single-window reasons {'amplitude': 85, 'transient': 1, 'edge': 11} => PASS
+R89cal transient 1 windows   1 output   0 (  0.0%) | single-window reasons {'coverage': 1} => PASS
+R89cal transient 2 windows  19 output   0 (  0.0%) | single-window reasons {'coverage': 13, 'edge': 6} => PASS
+synthetic noise 20 seeds: output mean 0.19% max 2.96% => PASS
+=== dev set R100 (seen before; not independent)
+R100 P10           windows  24 output   0 (  0.0%) | single-window reasons {'quality': 1, 'edge': 23} => record
+R100 P15           windows  24 output  14 ( 58.3%) values p10/50/90 [14.9, 15.1, 15.2] | within±2 100% | single-window reasons {'edge': 4, 'ok': 16, 'quality': 4} => FAIL
+R100 P20           windows  24 output   5 ( 20.8%) values p10/50/90 [18.2, 18.2, 18.4] | within±2 100% | single-window reasons {'ok': 8, 'quality': 15, 'transient': 1} => FAIL
+=== natural breathing (no truth; report only)
+R87 P2             windows 160 output  28 ( 17.5%) values p10/50/90 [14.3, 22.5, 24.5] | single-window reasons {'ok': 42, 'quality': 105, 'edge': 13}
+R89 S5             windows 299 output  95 ( 31.8%) values p10/50/90 [13.6, 16.0, 18.4] | single-window reasons {'edge': 66, 'ok': 121, 'quality': 108, 'transient': 1, 'coverage': 3}
+R91                windows 884 output  23 (  2.6%) values p10/50/90 [8.6, 9.8, 10.0] | single-window reasons {'edge': 465, 'quality': 197, 'ok': 36, 'gap': 11, 'coverage': 109, 'transient': 43, 'amplitude': 23}
+R94                windows 584 output   2 (  0.3%) values p10/50/90 [9.1, 9.2, 9.2] | single-window reasons {'coverage': 4, 'gap': 2, 'edge': 283, 'quality': 278, 'ok': 8, 'transient': 9}
+R100 N0            windows  44 output   5 ( 11.4%) values p10/50/90 [14.2, 14.4, 14.4] | single-window reasons {'quality': 36, 'ok': 7, 'transient': 1}
+R100 N1-N5         windows 249 output  68 ( 27.3%) values p10/50/90 [12.6, 14.9, 15.5] | single-window reasons {'edge': 65, 'transient': 18, 'quality': 78, 'ok': 88}
+OVERALL R102 offline gate: FAIL
+##### Q_MIN = 0.55
+=== positives (simulator, truth known)
+sim 1.5R@20        windows  14 output   0 (  0.0%) | single-window reasons {'coverage': 14} => FAIL
+sim 1.0R@20        windows   0 output   0 (  0.0%) | single-window reasons {} => FAIL
+sim 1.0R@12        windows  14 output  11 ( 78.6%) values p10/50/90 [12.0, 12.0, 12.0] | within±1 100% | single-window reasons {'coverage': 1, 'ok': 13} => FAIL
+sim 0.5R@20        windows   2 output   0 (  0.0%) | single-window reasons {'coverage': 2} => record
+=== negatives (must be 0%)
+R92 ECG-mode rest  windows  69 output   0 (  0.0%) | single-window reasons {'amplitude': 14, 'quality': 20, 'edge': 35} => PASS
+R92 wiggle/pull    windows 229 output   0 (  0.0%) | single-window reasons {'quality': 41, 'edge': 131, 'transient': 40, 'amplitude': 17} => PASS
+R83 leads-off      windows  97 output   0 (  0.0%) | single-window reasons {'amplitude': 85, 'transient': 1, 'edge': 11} => PASS
+R89cal transient 1 windows   1 output   0 (  0.0%) | single-window reasons {'coverage': 1} => PASS
+R89cal transient 2 windows  19 output   0 (  0.0%) | single-window reasons {'coverage': 13, 'edge': 6} => PASS
+synthetic noise 20 seeds: output mean 0.04% max 0.74% => PASS
+=== dev set R100 (seen before; not independent)
+R100 P10           windows  24 output   0 (  0.0%) | single-window reasons {'quality': 1, 'edge': 23} => record
+R100 P15           windows  24 output  13 ( 54.2%) values p10/50/90 [14.9, 15.1, 15.2] | within±2 100% | single-window reasons {'edge': 4, 'quality': 5, 'ok': 15} => FAIL
+R100 P20           windows  24 output   3 ( 12.5%) values p10/50/90 [18.2, 18.2, 18.3] | within±2 100% | single-window reasons {'quality': 18, 'ok': 5, 'transient': 1} => FAIL
+=== natural breathing (no truth; report only)
+R87 P2             windows 160 output  25 ( 15.6%) values p10/50/90 [14.3, 22.7, 24.5] | single-window reasons {'ok': 32, 'quality': 115, 'edge': 13}
+R89 S5             windows 299 output  76 ( 25.4%) values p10/50/90 [13.7, 15.9, 17.7] | single-window reasons {'edge': 66, 'quality': 130, 'ok': 99, 'transient': 1, 'coverage': 3}
+R91                windows 884 output  21 (  2.4%) values p10/50/90 [8.5, 9.8, 10.0] | single-window reasons {'edge': 465, 'quality': 202, 'ok': 31, 'gap': 11, 'coverage': 109, 'transient': 43, 'amplitude': 23}
+R94                windows 584 output   0 (  0.0%) | single-window reasons {'coverage': 4, 'gap': 2, 'edge': 283, 'quality': 283, 'ok': 3, 'transient': 9}
+R100 N0            windows  44 output   2 (  4.5%) values p10/50/90 [14.4, 14.4, 14.4] | single-window reasons {'quality': 39, 'ok': 4, 'transient': 1}
+R100 N1-N5         windows 249 output  55 ( 22.1%) values p10/50/90 [12.8, 15.1, 15.4] | single-window reasons {'edge': 65, 'transient': 18, 'quality': 93, 'ok': 73}
+OVERALL R102 offline gate: FAIL

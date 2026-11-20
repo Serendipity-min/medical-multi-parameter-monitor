@@ -60,5 +60,7 @@ R83–R96 复核文档所用的离线分析脚本和计算结果。工程口径�
 | `r98_*.txt`（脚本在 `scripts/r98/`；`load2.py` 已按批末时间戳修正时间轴） | R99 |
 | `r100_synthetic_controls.txt`（冻结版 PPG-RR：`scripts/r98/rr_frozen.py`） | R100 |
 | `r100_eval.txt`、`r100_diag.txt`、`r100_resp_explore.txt` | R101 |
+| `r102_resp_r1.txt`、`r102_resp_r1_amended.txt`；`r102_resp_qsens.txt`（q 敏感性，`scripts/r98/resp_qsens.py`） | R102；q 敏感性见 R103 §1 |
+| `r103_clock_beat.txt`（`clock_beat.py`）、`r103_alc_equiv.txt`（`alc_equiv.py` + `drv_alc.c`）、`r103_alc_host_noise.txt`（`alc_host_noise.py`） | R103 |
 
 **注意**：`r89_rounds.txt` 用的是 R91 时的 PPG 去趋势方法，滑动均值在两端补零。R92 起改为按实际点数归一。两种方法对 R87 的结果分别为 588 µV 和 601 µV，结论不受影响；R91 那份录制只能用修正后的方法（见 `r91_min.py`）。
