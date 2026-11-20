@@ -3,6 +3,11 @@
 
 #include "stm32f4xx.h"
 
+/* 1=CH2（心电）两端开 DC 导联脱落检测（6 nA），脱落帧只计数，不参与心率判据；0 与 C2 一致 */
+#ifndef ADS_LOFF_DC
+#define ADS_LOFF_DC 0
+#endif
+
 /* ============================================================================
  * 本轮修复接线：START 已迁移 PG15
  *   PA0 = PWDN/RESET   PG15 = START；PA1 释放为输入   PA2 = CS(软件片选)   PA3 = DRDY(EXTI3)
@@ -88,6 +93,9 @@ typedef struct {
     uint32_t irq_count, captured, delivered, bad_status, spi_errors;
     uint32_t queue_overflow, queue_peak, init_errors, long_gap_count;
     uint32_t min_irq_gap_cycles, max_irq_gap_cycles, max_read_cycles;
+#if ADS_LOFF_DC
+    uint32_t ch2_lead_off_frames, last_loff_bits; /* last_loff_bits = STATUS 中 LOFF_STAT[4:1] */
+#endif
 } ADS1292Stats;
 uint32_t ADS1292_GetLastFrameMs(void);
 uint32_t ADS1292_GetLastFrameSequence(void);

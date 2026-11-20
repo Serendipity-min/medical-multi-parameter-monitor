@@ -1,0 +1,14 @@
+=== human: coverage of observation seconds | PR-paired within ±10%
+R87 P2    | C2  65.5% 186/226 | ALC+C2  64.4% 182/222 | NK  60.1% 153/210 | bSQI  19.1% 49/67 | bSQI+M   4.8% 12/17 | ALC+bSQI+M   5.4% 13/19
+R89 S5    | C2   4.0% 1/3 | ALC+C2   2.1% 3/3 | NK   3.7% 9/17 | bSQI   0.2% 0/1 | bSQI+M   0.0% 0/0 | ALC+bSQI+M   0.0% 0/0
+R91       | C2   6.1% 88/104 | ALC+C2   8.8% 121/133 | NK  14.4% 109/176 | bSQI   0.2% 0/0 | bSQI+M   0.0% 0/0 | ALC+bSQI+M   0.0% 0/0
+R94       | C2   0.7% 8/8 | ALC+C2   2.2% 25/25 | NK   5.5% 31/56 | bSQI   0.0% 0/0 | bSQI+M   0.0% 0/0 | ALC+bSQI+M   0.0% 0/0
+R85 wrist | C2   2.7% 3/8 | ALC+C2   2.7% 5/8 | NK   3.3% 10/10 | bSQI   0.0% 0/0 | bSQI+M   0.0% 0/0 | ALC+bSQI+M   0.0% 0/0
+R83 ankle | C2  48.7% 0/0 | ALC+C2  61.3% 0/0 | NK  30.3% 0/0 | bSQI  11.0% 0/0 | bSQI+M   9.4% 0/0 | ALC+bSQI+M  19.4% 0/0
+TOTAL PR agreement: C2 82% (286/349) | ALC+C2 86% (336/391) | NK 67% (312/469) | bSQI 72% (49/68) | bSQI+M 71% (12/17) | ALC+bSQI+M 68% (13/19)
+=== negatives (coverage, longest s, values) / positives (vs 60)
+R83 leads-off | C2   0.0% 0s [] | ALC+C2   0.0% 0s [] | NK  20.9% 10s [60, 65, 72] | bSQI   0.0% 0s [] | bSQI+M   0.0% 0s [] | ALC+bSQI+M   0.0% 0s []
+R89 reconnect | C2   0.0% 0s [] | ALC+C2   0.0% 0s [] | NK  13.3% 4s [60] | bSQI   6.7% 4s [60] | bSQI+M   6.7% 4s [60] | ALC+bSQI+M   5.0% 3s [60]
+R83 sim60     | C2  87.2% 41s [60] ok 41/41 | ALC+C2  87.2% 41s [60] ok 41/41 | NK  80.9% 38s [60] ok 38/38 | bSQI  76.6% 36s [60] ok 36/36 | bSQI+M  76.6% 36s [60] ok 36/36 | ALC+bSQI+M  76.6% 36s [60] ok 36/36
+R89 sim60     | C2  28.1% 14s [60] ok 59/59 | ALC+C2  28.1% 14s [60] ok 59/59 | NK  19.0% 8s [60] ok 40/40 | bSQI  17.6% 8s [60] ok 37/37 | bSQI+M  10.0% 5s [60] ok 21/21 | ALC+bSQI+M  10.0% 5s [60] ok 21/21
+R92 sim60     | C2 100.0% 170s [60] ok 170/170 | ALC+C2 100.0% 170s [60] ok 170/170 | NK  92.9% 125s [60] ok 158/158 | bSQI  92.9% 125s [60] ok 158/158 | bSQI+M  90.6% 125s [60] ok 154/154 | ALC+bSQI+M  90.6% 125s [60] ok 154/154

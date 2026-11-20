@@ -5,11 +5,14 @@
 #include <math.h>
 #include <string.h>
 
+#ifndef BIO_V2_ALC
+#define BIO_V2_ALC 0 /* 1=心搏检测前加 50 Hz 自适应工频抵消（R99 ALC）；0 时与 C2 逐条一致 */
+#endif
 typedef struct { float b0,b1,b2,a1,a2,z1,z2; } Section;
 typedef struct {
     uint32_t anchor, last_good, minimum, maximum, timeout, intervals[5];
-    uint32_t count, index, candidate_rate, reason;
-    uint8_t anchored;
+    uint32_t count, index, candidate_rate, reason, required, tolerance;
+    uint8_t anchored, bridge, bridged;
 } Periods;
 typedef struct {
     Section notch1, notch2, hp, lp;
@@ -19,11 +22,24 @@ typedef struct {
     uint8_t seeded, in_peak, armed_trough, clipped;
     Periods periods;
     uint32_t valid_start_ms; /* 单通道恢复预热起点，不因另一路削顶而重置。 */
+#if BIO_V2_ALC
+    float line_a, line_b, line_var, wave; /* 工频抵消权重/误差方差；wave 为抵消前的检测带波形 */
+    uint8_t line_seeded;
+#endif
 } Channel;
 BioV2Diag g_bio_v2;
 static Channel heart, breathing;
 static uint32_t previous_ms, previous_sequence;
 static uint8_t have_sample;
+#ifndef HEART_REQUIRED
+#define HEART_REQUIRED 5u
+#endif
+#ifndef HEART_TOLERANCE
+#define HEART_TOLERANCE 30u /* 心搏窗口相对中位数的允许偏差，百分比 */
+#endif
+#ifndef MAINS_ABS_POWER
+#define MAINS_ABS_POWER 9.6e11f /* 约100 mV峰值工频 */
+#endif
 
 static float absolute(float x) { return x<0.0f ? -x : x; }
 static float greater(float a,float b) { return a>b ? a : b; }
@@ -44,7 +60,7 @@ static float section_step(Section *s,float x)
 static void forget_periods(Periods *p,uint32_t reason)
 {
     /* 失效清除资格和全部旧间隔；仅保留配置，不重置滤波制造新的阶跃。 */
-    p->count=0;p->index=0;p->candidate_rate=0;p->anchored=0;p->last_good=0;
+    p->count=0;p->index=0;p->candidate_rate=0;p->anchored=0;p->bridged=0;p->last_good=0;
     memset(p->intervals,0,sizeof(p->intervals));p->reason=reason;
 }
 static void configure(Channel *c,uint8_t respiration)
@@ -60,6 +76,9 @@ static void configure(Channel *c,uint8_t respiration)
     c->periods.maximum=respiration ? 10000u : 2000u;
     c->periods.timeout=respiration ? 12000u : 4000u;
     c->periods.reason=BIO_V2_WARMUP;
+    c->periods.required=respiration ? 3u : HEART_REQUIRED;
+    c->periods.tolerance=respiration ? 20u : HEART_TOLERANCE;
+    c->periods.bridge=!respiration;
 }
 static uint8_t accept_input(Channel *c,int32_t raw,uint8_t resp,uint32_t now)
 {
@@ -92,38 +111,73 @@ void BioV2_Init(uint32_t now_ms)
 }
 static void expire(Periods *p,uint32_t now)
 {
+    /* 可桥接漏检时锚点最长等两个最大间隔，否则慢心率下漏检一拍会先被判过期。 */
+    uint32_t limit=(p->bridge && !p->bridged && p->count>=3u) ? 2u*p->maximum : p->maximum;
     if ((p->count!=0 && (uint32_t)(now-p->last_good)>p->timeout) ||
-        (p->anchored && (uint32_t)(now-p->anchor)>p->maximum))
+        (p->anchored && (uint32_t)(now-p->anchor)>limit))
         forget_periods(p,BIO_V2_EXPIRED);
+}
+static uint32_t window_median(const Periods *p,uint32_t sorted[5])
+{
+    uint32_t i,j,swap;
+    for (i=0;i<p->count;i++) sorted[i]=p->intervals[i];
+    for (i=0;i<p->count;i++) for(j=i+1;j<p->count;j++)
+        if(sorted[j]<sorted[i]) {swap=sorted[i];sorted[i]=sorted[j];sorted[j]=swap;}
+    return sorted[p->count/2u];
 }
 static uint8_t accept_cycle(Periods *p,uint32_t at)
 {
-    uint32_t elapsed, sorted[5],i,j,swap,median,largest;
+    uint32_t elapsed, sorted[5],i,median,largest,tolerance;
     /* 候选时刻与最后合法周期分开。非法候选不能更新合法周期的有效期。 */
     expire(p,at);
     if (!p->anchored) { p->anchor=at;p->anchored=1;p->reason=BIO_V2_NO_CYCLES;return 0; }
     elapsed=(uint32_t)(at-p->anchor);
     if (elapsed<p->minimum) return 0;
+    /* 漏检一拍：间隔为窗口中位数1.75–2.25倍时只前移锚点，不入窗、不改率值；
+       不连续桥接，真实减半时下一间隔照常入窗并判不稳定。 */
+    if (p->bridge && !p->bridged && p->count>=3u) {
+        median=window_median(p,sorted);
+        if (elapsed*4u>=median*7u && elapsed*4u<=median*9u) {
+            p->anchor=at;p->last_good=at;p->bridged=1;return 0;
+        }
+    }
     if (elapsed>p->maximum) {
         forget_periods(p,BIO_V2_EXPIRED);p->anchor=at;p->anchored=1;return 0;
     }
-    p->anchor=at;p->last_good=at;
+    p->anchor=at;p->last_good=at;p->bridged=0;
+    /* 滞回：上一判定有效才用放宽容差维持，首次锁定仍按20%，噪声难以偶然成锁。 */
+    tolerance=p->candidate_rate ? p->tolerance : 20u;
     p->intervals[p->index]=elapsed;p->index=(p->index+1u)%5u;
     if (p->count<5u) p->count++;
     p->candidate_rate=0;p->reason=BIO_V2_NO_CYCLES;
-    if (p->count<3u) return 1;
-    for (i=0;i<p->count;i++) sorted[i]=p->intervals[i];
-    for (i=0;i<p->count;i++) for(j=i+1;j<p->count;j++)
-        if(sorted[j]<sorted[i]) {swap=sorted[i];sorted[i]=sorted[j];sorted[j]=swap;}
-    median=sorted[p->count/2u];largest=0;
+    if (p->count<p->required) return 1;
+    median=window_median(p,sorted);largest=0;
     for(i=0;i<p->count;i++) {
         uint32_t difference=sorted[i]>median ? sorted[i]-median : median-sorted[i];
         if(difference>largest)largest=difference;
     }
-    /* 最近窗口每个间隔都需在中位周期的20%内；不是只看数值是否在量程内。 */
-    if(largest*100u>median*20u) {p->reason=BIO_V2_UNSTABLE;return 1;}
+    /* 最近窗口每个间隔都需在中位周期的容差内（首次锁定20%，已有效的心搏按HEART_TOLERANCE维持）；不是只看数值是否在量程内。 */
+    if(largest*100u>median*tolerance) {p->reason=BIO_V2_UNSTABLE;return 1;}
     p->candidate_rate=(60000u+median/2u)/median;p->reason=0;return 1;
 }
+#if BIO_V2_ALC
+static uint32_t line_ms; /* 当前样本时刻，供工频参考取相位 */
+static float cancel_line(Channel *c,float y)
+{
+    /* 50 Hz 参考按毫秒时刻取相位（周期 20 ms 查表，sin 由 cos 错位 5 格）；μ=0.01，
+       |e|>3σ 时冻结更新，免得 QRS 把权重拉偏。参考跟着实际采样时刻走，ADS 时钟偏差不影响相位。 */
+    static const float k_cos[20]={1.0f,.951056516f,.809016994f,.587785252f,.309016994f,0.0f,-.309016994f,
+        -.587785252f,-.809016994f,-.951056516f,-1.0f,-.951056516f,-.809016994f,-.587785252f,-.309016994f,
+        0.0f,.309016994f,.587785252f,.809016994f,.951056516f};
+    uint32_t i=line_ms%20u;
+    float co=k_cos[i],si=k_cos[(i+15u)%20u];
+    float e=y-(c->line_a*co+c->line_b*si);
+    c->line_var=c->line_seeded ? c->line_var+.002f*(e*e-c->line_var) : e*e;
+    c->line_seeded=1;
+    if(e*e<=9.0f*c->line_var) {c->line_a+=.01f*e*co;c->line_b+=.01f*e*si;}
+    return e;
+}
+#endif
 static float filter_channel(Channel *c,int32_t raw,uint8_t respiration)
 {
     float ac,notched,y,removed;
@@ -137,6 +191,9 @@ static float filter_channel(Channel *c,int32_t raw,uint8_t respiration)
     c->line_power+=.001f*(removed*removed-c->line_power);
     c->clean_power+=.004f*(notched*notched-c->clean_power);
     y=respiration ? section_step(&c->lp,notched) : section_step(&c->lp,section_step(&c->hp,notched));
+#if BIO_V2_ALC
+    if(!respiration) {c->wave=y;y=cancel_line(c,y);} /* 带内功率与峰检都用抵消后的波形 */
+#endif
     c->band_power+=.004f*(y*y-c->band_power);
     return y;
 }
@@ -183,7 +240,7 @@ static void publish(Channel *c,uint8_t resp,uint32_t now)
     if(c->clipped)reason|=BIO_V2_CLIPPED;
     else if((uint32_t)(now-c->valid_start_ms)<(resp ? 10000u : 5000u))reason|=BIO_V2_WARMUP;
     /* 原始干扰很强时保留滤波波形，但不通过制造量程内数字宣告可信。 */
-    if(fraction>.95f && c->raw_power>10000.0f)reason|=BIO_V2_MAINS;
+    if(c->line_power>MAINS_ABS_POWER)reason|=BIO_V2_MAINS;
     if(!rate)reason|=BIO_V2_NO_CYCLES;
     if(resp) {
         g_bio_v2.rpm_valid=reason==0;g_bio_v2.rpm=reason==0 ? rate : 0;g_bio_v2.rpm_reason=reason;
@@ -199,6 +256,9 @@ void BioV2_Process(int32_t ecg,int32_t resp,uint32_t now,uint32_t sequence,uint8
 {
     float h,r;
     uint8_t good_h,good_r;
+#if BIO_V2_ALC
+    line_ms=now;
+#endif
     if(flags || (have_sample && ((uint32_t)(now-previous_ms)>BIO_V2_GAP_MS ||
                                 sequence!=(uint32_t)(previous_sequence+1u)))) {
         g_bio_v2.discontinuities++;new_segment(now);
@@ -210,10 +270,10 @@ void BioV2_Process(int32_t ecg,int32_t resp,uint32_t now,uint32_t sequence,uint8
     r=good_r ? filter_channel(&breathing,resp,1) : 0.0f;
     /* 先判本次周期的输入资格，再建立周期历史，避免干扰结束后复活噪声历史。
        呼吸低通会把白噪声变成慢起伏，必须有足够低频能量占比才能候选判周期。 */
-    if(good_h && heart.raw_power>10000.0f && heart.line_power>heart.raw_power*.95f) {
+    if(good_h && heart.line_power>MAINS_ABS_POWER) {
         forget_periods(&heart.periods,BIO_V2_MAINS);heart.in_peak=0;
     } else if(good_h)heartbeat(h,now);
-    if(good_r && breathing.raw_power>10000.0f && breathing.line_power>breathing.raw_power*.95f) {
+    if(good_r && breathing.line_power>MAINS_ABS_POWER) {
         forget_periods(&breathing.periods,BIO_V2_MAINS);breathing.armed_trough=0;
         breathing.previous2=breathing.previous;breathing.previous=r;
     } else if(good_r && breathing.clean_power>1.0f && breathing.band_power<breathing.clean_power*.05f) {
@@ -226,7 +286,12 @@ void BioV2_Process(int32_t ecg,int32_t resp,uint32_t now,uint32_t sequence,uint8
     publish(&heart,0,now);publish(&breathing,1,now);
     g_bio_v2.ecg_raw=ecg;g_bio_v2.resp_raw=resp;
     /* UI尺度只作兼容换算；计算和原始证据均保留ADC码，不输出未经校准的mV/欧姆。 */
+#if BIO_V2_ALC
+    /* 上传波形仍为抵消前的检测带，与 C2 录制口径一致，便于离线对照。 */
+    g_bio_v2.ecg_filtered=(int32_t)((good_h ? heart.wave : 0.0f)*.11920928955f);
+#else
     g_bio_v2.ecg_filtered=(int32_t)(h*.11920928955f);
+#endif
     g_bio_v2.resp_filtered=(int32_t)(r*.11920928955f);
     g_bio_v2.last_sequence=sequence;g_bio_v2.last_sample_ms=now;g_bio_v2.samples++;
 }
