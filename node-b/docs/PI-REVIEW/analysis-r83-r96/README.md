@@ -63,5 +63,6 @@ R83–R96 复核文档所用的离线分析脚本和计算结果。工程口径�
 | `r102_resp_r1.txt`、`r102_resp_r1_amended.txt`；`r102_resp_qsens.txt`（q 敏感性，`scripts/r98/resp_qsens.py`） | R102；q 敏感性见 R103 §1 |
 | `r103_clock_beat.txt`（`clock_beat.py`）、`r103_alc_equiv.txt`（`alc_equiv.py` + `drv_alc.c`）、`r103_alc_host_noise.txt`（`alc_host_noise.py`） | R103 |
 | `r106_polarity_existing.txt`（`qrs_polarity.py`，QRS 主峰极性） | R106 |
+| `r107_polarity_r106sim.txt`（`qrs_polarity.py`，R106 模拟器换色各段） | R107 |
 
 **注意**：`r89_rounds.txt` 用的是 R91 时的 PPG 去趋势方法，滑动均值在两端补零。R92 起改为按实际点数归一。两种方法对 R87 的结果分别为 588 µV 和 601 µV，结论不受影响；R91 那份录制只能用修正后的方法（见 `r91_min.py`）。
