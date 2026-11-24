@@ -20,7 +20,7 @@ def sim_check(F):
 def r1_paced(F, P):
     f, d = F['capture'], F['day']; w, sc, _ = get(f)
     print('=== R1 判定（R121 §5.2 口径：覆盖率 ≥40%；有输出窗 ≥90% 在真值 ±2/min 内；三段各自满足为 PASS）')
-    rt = np.array([x[0] for x in w['resp']]); rv = np.array([x[1] * K for x in w['resp']]); res = []
+    rt = np.array([x[0] for x in w['resp']]); rv = np.array([x[1] * K for x in w['resp']]); res, brd = [], []
     for k, c in P:
         a = at(d, c['start']); b = a + 120000; cnt = c['counts30']
         truth = cnt[3] / 2 if len(cnt) == 4 and cnt[3] is not None else None
@@ -40,8 +40,16 @@ def r1_paced(F, P):
             if k == '20': print(f'   计数核对（R121 §5.3，只记录）：计数 {truth:.1f} − 主峰 {r:.1f} = {truth - r:+.1f}/min{"，超过 3，需分析" if abs(truth - r) > 3 else ""}')
         bok = sum(abs(x - truth) <= 2 for x in bv) if truth is not None else '—'
         print(f'   板上 RR：有效 {len(bv)}/{len(rr)}（{100 * len(bv) / max(len(rr), 1):.0f}%），±2 内 {bok}/{len(bv)}，值 {sorted(set(bv))}')
+        # 板上 R1（R123 §6，烧录 R1 后才适用）：只取窗口完全落在段内的帧（段起 +32 s 起），门槛同离线 R1
+        rb = frames(sc['rr'], a + 32000, b); vb = [x[1] for x in rb if x[2] == 'VALID']
+        if truth is None: brd.append('NOT_EVALUATED')
+        else:
+            ob = sum(abs(x - truth) <= 2 for x in vb); brd.append('PASS' if len(vb) >= .4 * max(len(rb), 1) and len(vb) and ob >= .9 * len(vb) else 'FAIL')
+            print(f'   板上 R1 判定：段起 +32 s 起有效 {len(vb)}/{len(rb)}（{100 * len(vb) / max(len(rb), 1):.0f}%），±2 内 {ob}/{len(vb)} → {brd[-1]}')
     allr = 'PASS' if res == ['PASS'] * 3 else ('NOT_EVALUATED' if 'NOT_EVALUATED' in res and 'FAIL' not in res else 'FAIL')
     print(f'R1 三段 {dict(zip([k for k, _ in P], res))} → {allr}')
+    alb = 'PASS' if brd == ['PASS'] * 3 else ('NOT_EVALUATED' if 'NOT_EVALUATED' in brd and 'FAIL' not in brd else 'FAIL')
+    print(f'板上 R1 三段 {dict(zip([k for k, _ in P], brd))} → {alb}（烧录前的录制为时域 RR，本行不适用）')
     return allr
 if __name__ == '__main__':
     F = json.load(open(sys.argv[1], encoding='utf-8')); f = F['capture']; d = F['day']
