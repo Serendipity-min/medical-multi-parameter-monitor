@@ -14,6 +14,7 @@ def at(day, s): h, m, x = map(int, s.split(':')); return ms(day, h, m, x)
 def hhmmss(t): s = (t // 1000 + 8 * 3600) % 86400; return f'{s // 3600:02d}:{s // 60 % 60:02d}:{s % 60:02d}'
 def sim_check(F):
     f, d = F['capture'], F['day']
+    if not F.get('sim'): print('=== 模拟器心电核对 NOT_RUN'); return
     print('=== 模拟器心电核对（绿→RA、黄→LA、红→RL）')
     a, b = (at(d, x) for x in F['sim']); t, v = ecg_arrays(f, a, b); n, p, mp, mn = polarity(list(zip(t, v / 1000)))
     print(f'{F["sim"][0]}–{F["sim"][1]} 峰 {n}，主峰正向 {p:.1f}%，正峰中位 {mp:.0f} µV')
