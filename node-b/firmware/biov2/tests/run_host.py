@@ -15,6 +15,7 @@ parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--source',type=Path,default=root/'实验固件/HARDWARE/bio_v2.c')
 parser.add_argument('--c1-cases',action='store_true')
 parser.add_argument('--c2-cases',action='store_true')
+parser.add_argument('--define',action='append',default=[],help='追加编译宏，如 BIO_V2_RR_R1=0')
 args=parser.parse_args()
 # 每次普通回归使用独立目录，不覆盖历史验收。
 evidence=Path(os.environ['NODE_B_TEST_OUT'])/'algorithm'
@@ -23,7 +24,9 @@ source=args.source.resolve()
 dll=evidence/('bio_v2_host.dll' if os.name=='nt' else 'bio_v2_host.so')
 cmd=['gcc','-std=c99','-O2','-Wall','-Wextra','-Werror','-ffp-contract=off','-shared']
 if os.name!='nt':cmd.append('-fPIC')
-cmd.extend([str(source),'-o',str(dll),'-lm'])
+cmd.extend(['-D'+x for x in args.define]+[str(source),'-o',str(dll),'-lm'])
+r1='BIO_V2_RR_R1=0' not in args.define
+not_applicable=[]
 compiled=subprocess.run(cmd,capture_output=True)
 (evidence/'host_compile.stdout.log').write_bytes(compiled.stdout)
 (evidence/'host_compile.stderr.log').write_bytes(compiled.stderr)
@@ -76,7 +79,9 @@ def run(name,seconds,feed,check,start=1000):
 for hr in [40,60,90,120,180]:
     run(f'qrs_{hr}',65,lambda t,hr=hr:sample(t,hr),lambda d,h,r,hr=hr:d.hr_valid and abs(d.hr-hr)<=2)
 for rpm in [6,12,15,24,30,40]:
-    run(f'breath_{rpm}',90,lambda t,rpm=rpm:sample(t,60,rpm),lambda d,h,r,rpm=rpm:d.rpm_valid and abs(d.rpm-rpm)<=1)
+    # R1 只在 8–39 次/分之间出值（R102 §1.4），范围外应全程无效。
+    run(f'breath_{rpm}',90,lambda t,rpm=rpm:sample(t,60,rpm),
+        lambda d,h,r,rpm=rpm:(d.rpm_valid and abs(d.rpm-rpm)<=1) if not r1 or 8<rpm<39 else not r)
 run('zero',40,lambda t:(0,0),lambda d,h,r:not h and not r)
 run('constant_large_dc',40,lambda t:(200000,640000),lambda d,h,r:not h and not r)
 for hz in [1,8,25,50,100]:
@@ -97,7 +102,8 @@ for i in range(21500,23000):
     r=int(640000+1200*math.exp(-.5*((t-2)/.6)**2))
     lib.BioV2_Process(200000,r,1000+i*4,i+1,0)
 no_revival=(d.hr_valid==0 and d.rpm_valid==0)
-results.append({'case':'expire_then_isolated_peak_no_old_rate','pass':stale_invalid and no_revival})
+if r1:not_applicable.append('expire_then_isolated_peak_no_old_rate')  # R1 新鲜度为 32 s 窗，16 s 停顿仍在窗内；见 r1_apnea
+else:results.append({'case':'expire_then_isolated_peak_no_old_rate','pass':stale_invalid and no_revival})
 for i in range(23000,40500):
     h,r=sample((i-23000)/250);lib.BioV2_Process(h,r,1000+i*4,i+1,0)
 results.append({'case':'fresh_cycles_restore','pass':bool(d.hr_valid and d.rpm_valid)})
@@ -109,6 +115,19 @@ lib.BioV2_Tick(1000+40501*4+200)
 results.append({'case':'getter_without_new_input_invalid','pass':not d.hr_valid and not d.rpm_valid})
 
 legacy_total=len(results)
+if r1:
+    for rpm in (10,20):
+        run(f'r1_breath_{rpm}',90,lambda t,rpm=rpm:sample(t,60,rpm),lambda d,h,r,rpm=rpm:d.rpm_valid and abs(d.rpm-rpm)<=1)
+    # 有效后呼吸停止（直流保持），应在一个 32 s 窗加两个步长内失效；恢复呼吸后重新出值。
+    run('r1_apnea_initial',70,lambda t:sample(t),lambda d,h,r:d.rpm_valid)
+    stop=70*250;lost=None
+    for i in range(stop,stop+50*250):
+        lib.BioV2_Process(200000,640000,1000+i*4,i+1,0)
+        if lost is None and not d.rpm_valid:lost=(i-stop)/250
+    results.append({'case':'r1_apnea_invalid_within_36s','lost_after_s':lost,'pass':lost is not None and lost<=36})
+    for i in range(stop+50*250,stop+110*250):
+        h,r=sample((i-stop-50*250)/250);lib.BioV2_Process(h,r,1000+i*4,i+1,0)
+    results.append({'case':'r1_resume_after_apnea','final_resp':d.rpm,'pass':bool(d.rpm_valid and abs(d.rpm-15)<=1)})
 if args.c1_cases:
     for amplitude in (5000,10000,30000,100000,1000000):
         run(f'c1_qrs_mains_{amplitude}',65,lambda t,a=amplitude:sample(t,mains=a),
@@ -202,8 +221,9 @@ else:history=None
 receipt={'compile_exit':compiled.returncode,'cases':results,'pass':sum(r['pass'] for r in results),
          'total':len(results),'historic':history,'diag_size':C.sizeof(Diag),
           'legacy_total':legacy_total,'legacy_pass':sum(r['pass'] for r in results[:legacy_total]),
-         'algorithm_sha256':hashlib.sha256(source.read_bytes()).hexdigest()}
+         'algorithm_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),
+         'defines':args.define,'rr_r1':r1,'not_applicable':not_applicable}
 (evidence/'host_receipt.json').write_text(json.dumps(receipt,ensure_ascii=False,indent=2),encoding='utf-8')
-print(json.dumps({'pass':receipt['pass'],'total':receipt['total'],
+print(json.dumps({'pass':receipt['pass'],'total':receipt['total'],'not_applicable':not_applicable,
                   'failed':[r for r in results if not r['pass']],'historic':history},ensure_ascii=True,indent=2))
 raise SystemExit(0 if receipt['pass']==receipt['total'] else 1)

@@ -8,6 +8,13 @@
 #ifndef BIO_V2_ALC
 #define BIO_V2_ALC 0 /* 1=心搏检测前加 50 Hz 自适应工频抵消（R99 ALC）；0 时与 C2 逐条一致 */
 #endif
+#ifndef BIO_V2_RR_R1
+#define BIO_V2_RR_R1 1 /* 1=RR 由 R102 R1 窗内谱峰给出；0 时用时域周期，与 C2 逐条一致 */
+#endif
+#if BIO_V2_RR_R1
+static void r1_tables(void);
+static void r1_reset(void);
+#endif
 typedef struct { float b0,b1,b2,a1,a2,z1,z2; } Section;
 typedef struct {
     uint32_t anchor, last_good, minimum, maximum, timeout, intervals[5];
@@ -100,6 +107,9 @@ static void new_segment(uint32_t now)
     configure(&heart,0);configure(&breathing,1);
     heart.valid_start_ms=breathing.valid_start_ms=now;
     g_bio_v2.segment++;have_sample=0;
+#if BIO_V2_RR_R1
+    r1_reset();
+#endif
     g_bio_v2.hr=g_bio_v2.rpm=g_bio_v2.hr_valid=g_bio_v2.rpm_valid=0;
     g_bio_v2.hr_reason=g_bio_v2.rpm_reason=BIO_V2_WARMUP;
 }
@@ -107,6 +117,9 @@ void BioV2_Init(uint32_t now_ms)
 {
     memset(&g_bio_v2,0,sizeof(g_bio_v2));
     g_bio_v2.tag=0x324f4942u;g_bio_v2.abi_version=2;
+#if BIO_V2_RR_R1
+    r1_tables();
+#endif
     new_segment(now_ms);
 }
 static void expire(Periods *p,uint32_t now)
@@ -232,10 +245,169 @@ static void respiration(float y,uint32_t now)
     }
     breathing.previous2=breathing.previous;breathing.previous=y;
 }
+#if BIO_V2_RR_R1
+/* R102 候选 R1：50 Hz RESP（与 CAN 上传同一批点、同一量化）32 s 窗内谱峰，步长 2 s。
+   参数自 R102 冻结，逐项对应 resp_r1.py；时域周期仍运行，只保留诊断计数。 */
+#define R1_WINDOW_MS 32000u
+#define R1_STEP_MS 2000u
+#define R1_RING 1800u     /* 36 s × 50 Hz */
+#define R1_GRID 320u      /* 32 s 重采样到 10 Hz */
+#define R1_BIN_LO 41u     /* 4096 点补零谱的 0.1–0.7 Hz：k×10/4096 Hz，k=41..286 */
+#define R1_BINS 246u
+#define R1_PEAK_BINS 12   /* ±0.03 Hz */
+typedef struct {
+    uint32_t ms[R1_RING], head, count, next_end;
+    float v[R1_RING], hist[3];
+    uint8_t hist_ok[3], hist_n, started;
+    uint32_t rate, reason, valid;
+} R1State;
+static R1State r1;
+static float r1_sorted[R1_RING], r1_grid[R1_GRID], r1_hann[R1_GRID], r1_coeff[R1_BINS], r1_power[R1_BINS];
+#ifdef BIO_V2_HOST_TEST
+static uint32_t *trace_end, trace_n, trace_cap;
+static float *trace_est, *trace_val;
+static uint8_t *trace_why;
+#endif
+static void r1_tables(void)
+{
+    uint32_t i;
+    for(i=0;i<R1_GRID;i++)r1_hann[i]=.5f-.5f*cosf(6.283185307f*(float)i/(float)(R1_GRID-1u));
+    for(i=0;i<R1_BINS;i++)r1_coeff[i]=2.0f*cosf(6.283185307f*(float)(R1_BIN_LO+i)/4096.0f);
+}
+static void r1_reset(void)
+{
+    r1.head=r1.count=0;r1.hist_n=0;r1.started=0;r1.valid=0;r1.rate=0;r1.reason=BIO_V2_WARMUP;
+}
+static float r1_select(float *a,int32_t n,int32_t k)
+{
+    /* Hoare 选择：返回第 k 小，a 被部分重排；a[k+1..] 均不小于返回值。 */
+    int32_t lo=0,hi=n-1,i,j;
+    float pivot,t;
+    while(lo<hi) {
+        pivot=a[(lo+hi)/2];i=lo;j=hi;
+        while(i<=j) {
+            while(a[i]<pivot)i++;
+            while(a[j]>pivot)j--;
+            if(i<=j) {t=a[i];a[i]=a[j];a[j]=t;i++;j--;}
+        }
+        if(k<=j)hi=j; else if(k>=i)lo=i; else break;
+    }
+    return a[k];
+}
+static float r1_percentile(int32_t n,float q)
+{
+    /* numpy 默认线性插值：位置 q×(n−1)。 */
+    float pos=q*(float)(n-1),t,lo,hi;
+    int32_t k=(int32_t)pos,i;
+    lo=r1_select(r1_sorted,n,k);t=pos-(float)k;hi=lo;
+    if(k+1<n) {hi=r1_sorted[k+1];for(i=k+2;i<n;i++)if(r1_sorted[i]<hi)hi=r1_sorted[i];}
+    return t<.5f ? lo+(hi-lo)*t : hi-(hi-lo)*(1.0f-t);
+}
+static uint8_t r1_window(uint32_t end,float *rpm)
+{
+    /* 返回 0=合格，1 覆盖不足、2 缺口、3 瞬变、4 幅度、5 贴边、6 谱峰占比，顺序同 resp_r1.window。 */
+    uint32_t a=end-R1_WINDOW_MS,i,idx,first=0,prev=a,d,j,gap=0;
+    int32_t n=0;
+    float base=0,lo=0,hi=0,p5,p95,mean=0,slope=0,best=-1,total=0,peak=0,s0,s1,s2,c;
+    uint32_t kp=0,k;
+    for(i=0;i<r1.count;i++) {
+        idx=(r1.head+R1_RING-r1.count+i)%R1_RING;d=r1.ms[idx]-a;
+        if((int32_t)d<0 || d>=R1_WINDOW_MS)continue;
+        if(!n) {first=i;base=r1.v[idx];}
+        if(r1.ms[idx]-prev>gap)gap=r1.ms[idx]-prev;
+        prev=r1.ms[idx];r1_sorted[n]=r1.v[idx]-base; /* 去掉首值，大基线下保留 float 精度 */
+        if(!n || r1_sorted[n]<lo)lo=r1_sorted[n];
+        if(!n || r1_sorted[n]>hi)hi=r1_sorted[n];
+        n++;
+    }
+    if(n<1440)return 1u;
+    if(a+R1_WINDOW_MS-prev>gap)gap=a+R1_WINDOW_MS-prev;
+    if(gap>1000u)return 2u;
+    p5=r1_percentile(n,.05f);p95=r1_percentile(n,.95f);
+    if(hi-lo>3.0f*(p95-p5))return 3u;
+    if((p95-p5)*.5f<60.0f)return 4u;
+    /* 线性插值到 10 Hz 网格（两端取端值），再去线性趋势、加 Hann 窗。 */
+    for(i=first,j=0;j<R1_GRID;j++) {
+        uint32_t g=a+100u*j,i0,i1;
+        while(i+1u<r1.count) {
+            i1=(r1.head+R1_RING-r1.count+i+1u)%R1_RING;
+            if((int32_t)(r1.ms[i1]-g)>0 || (int32_t)(r1.ms[i1]-end)>=0)break;
+            i++;
+        }
+        i0=(r1.head+R1_RING-r1.count+i)%R1_RING;i1=(i0+1u)%R1_RING;
+        if((int32_t)(g-r1.ms[i0])<=0 || i+1u>=r1.count || (int32_t)(r1.ms[i1]-end)>=0)r1_grid[j]=r1.v[i0]-base;
+        else r1_grid[j]=r1.v[i0]-base+(r1.v[i1]-r1.v[i0])*(float)(g-r1.ms[i0])/(float)(r1.ms[i1]-r1.ms[i0]);
+        mean+=r1_grid[j];
+    }
+    mean/=(float)R1_GRID;
+    for(j=0;j<R1_GRID;j++)slope+=((float)j-159.5f)*(r1_grid[j]-mean);
+    slope/=(float)R1_GRID*((float)R1_GRID*(float)R1_GRID-1.0f)/12.0f;
+    for(j=0;j<R1_GRID;j++)r1_grid[j]=(r1_grid[j]-mean-slope*((float)j-159.5f))*r1_hann[j];
+    /* Goertzel 逐点求功率，等于补零 4096 点 rfft 的 |X|²。 */
+    for(k=0;k<R1_BINS;k++) {
+        c=r1_coeff[k];s1=s2=0;
+        for(j=0;j<R1_GRID;j++) {s0=r1_grid[j]+c*s1-s2;s2=s1;s1=s0;}
+        r1_power[k]=s1*s1+s2*s2-c*s1*s2;total+=r1_power[k];
+        if(r1_power[k]>best) {best=r1_power[k];kp=k;}
+    }
+    *rpm=(float)(R1_BIN_LO+kp)*600.0f/4096.0f;
+    if(!(*rpm>8.0f && *rpm<39.0f))return 5u;
+    for(k=kp-R1_PEAK_BINS;k<=kp+R1_PEAK_BINS;k++)peak+=r1_power[k];
+    if(peak<.5f*total)return 6u;
+    return 0u;
+}
+static void r1_step(uint32_t end)
+{
+    float e=0,lo,hi,mid=0;
+    uint8_t why=r1_window(end,&e),i;
+    for(i=0;i<2u;i++) {r1.hist[i]=r1.hist[i+1u];r1.hist_ok[i]=r1.hist_ok[i+1u];}
+    r1.hist[2]=e;r1.hist_ok[2]=why==0u;
+    if(r1.hist_n<3u)r1.hist_n++;
+    r1.valid=0;r1.rate=0;
+    if(r1.hist_n<3u)r1.reason=BIO_V2_WARMUP;
+    else if(!r1.hist_ok[0] || !r1.hist_ok[1] || !r1.hist_ok[2])r1.reason=BIO_V2_NO_CYCLES;
+    else {
+        lo=hi=r1.hist[0];
+        for(i=1;i<3u;i++) {if(r1.hist[i]<lo)lo=r1.hist[i];if(r1.hist[i]>hi)hi=r1.hist[i];}
+        mid=r1.hist[0]+r1.hist[1]+r1.hist[2]-lo-hi;
+        if(hi-lo>2.0f)r1.reason=BIO_V2_UNSTABLE;
+        else {r1.valid=1;r1.rate=(uint32_t)(mid+.5f);r1.reason=0;}
+    }
+#ifdef BIO_V2_HOST_TEST
+    if(trace_n<trace_cap) {
+        trace_end[trace_n]=end;trace_est[trace_n]=why ? 0.0f : e;trace_why[trace_n]=why;
+        trace_val[trace_n]=r1.valid ? mid : -1.0f;trace_n++;
+    }
+#endif
+}
+static void r1_feed(uint32_t ms,float v)
+{
+    if(!r1.started) {r1.next_end=ms+R1_WINDOW_MS;r1.started=1;}
+    while((int32_t)(ms-r1.next_end)>=0) {r1_step(r1.next_end);r1.next_end+=R1_STEP_MS;}
+    r1.ms[r1.head]=ms;r1.v[r1.head]=v;r1.head=(r1.head+1u)%R1_RING;
+    if(r1.count<R1_RING)r1.count++;
+}
+#ifdef BIO_V2_HOST_TEST
+/* 仅主机重放：直接喂 50 Hz RESP（r 单位）；first_end 非 0 时对齐首窗末端，逐窗结果写入数组。 */
+uint32_t BioV2_R1Replay(const uint32_t *ms,const float *v,uint32_t n,uint32_t first_end,
+                        uint32_t *end,float *est,uint8_t *why,float *val,uint32_t cap)
+{
+    uint32_t i;
+    r1_tables();r1_reset();
+    trace_end=end;trace_est=est;trace_why=why;trace_val=val;trace_cap=cap;trace_n=0;
+    if(first_end) {r1.next_end=first_end;r1.started=1;}
+    for(i=0;i<n;i++)r1_feed(ms[i],v[i]);
+    trace_cap=0;return trace_n;
+}
+#endif
+#endif
 static void publish(Channel *c,uint8_t resp,uint32_t now)
 {
     uint32_t reason=c->periods.reason,rate=c->periods.candidate_rate;
     float fraction=c->raw_power>1.0f ? c->line_power/c->raw_power : 0.0f;
+#if BIO_V2_RR_R1
+    if(resp) {reason=r1.reason;rate=r1.valid ? r1.rate : 0;}
+#endif
     if(fraction>1.0f)fraction=1.0f;
     if(c->clipped)reason|=BIO_V2_CLIPPED;
     else if((uint32_t)(now-c->valid_start_ms)<(resp ? 10000u : 5000u))reason|=BIO_V2_WARMUP;
@@ -283,6 +455,11 @@ void BioV2_Process(int32_t ecg,int32_t resp,uint32_t now,uint32_t sequence,uint8
     /* 削顶帧也保留源序号/时间和原始码；公共缺口/超时判断仍覆盖整个输入流。 */
     previous_ms=now;previous_sequence=sequence;have_sample=1;
     expire(&heart.periods,now);expire(&breathing.periods,now);
+#if BIO_V2_RR_R1
+    /* 与 CAN 上传相同：序号逢 5 取一点、按上传量化；削顶时窗口作废重来。 */
+    if(!good_r)r1_reset();
+    else if(sequence%5u==0u)r1_feed(now,(float)(int32_t)(r*.11920928955f)/.11920928955f);
+#endif
     publish(&heart,0,now);publish(&breathing,1,now);
     g_bio_v2.ecg_raw=ecg;g_bio_v2.resp_raw=resp;
     /* UI尺度只作兼容换算；计算和原始证据均保留ADC码，不输出未经校准的mV/欧姆。 */
@@ -300,6 +477,9 @@ void BioV2_Tick(uint32_t now)
     if(!have_sample || (uint32_t)(now-previous_ms)>BIO_V2_GAP_MS) {
         forget_periods(&heart.periods,BIO_V2_DISCONTINUITY);
         forget_periods(&breathing.periods,BIO_V2_DISCONTINUITY);
+#if BIO_V2_RR_R1
+        r1.valid=0;r1.rate=0;r1.reason=BIO_V2_DISCONTINUITY;
+#endif
     } else {expire(&heart.periods,now);expire(&breathing.periods,now);}
     publish(&heart,0,now);publish(&breathing,1,now);
 }
