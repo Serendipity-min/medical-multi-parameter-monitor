@@ -2,7 +2,7 @@
 用法：python3 -s -E r122_eval.py <现场记录.json>。JSON 字段（时刻为北京时间 hh:mm:ss，现场报告值，误差约 ±3 s）：
   capture  MQTT 原件文件名（放在 r83-capture/）；day  11 月的日期；
   sim      模拟器核对窗 [起, 止]；t0  两臂放好的时刻；
-  paced    {"12"|"15"|"20": {"start": 节拍器开始时刻, "counts30": 30/60/90/120 s 累计数，缺失写 null}}；
+  paced    {"12"|"15"|"20": {"start": 节拍器开始时刻, "dur": 段长秒（缺省 120）, "counts30": 每 30 s 累计数，缺失写 null}}；
   offcard  卡外动作时刻列表（站起、换姿势、碰电极或导联线），没有写 []。
 复用 r109_eval、r111_eval 的函数；R1 判定与 R117 相同（R121 §5.2 不改）。"""
 import json, sys, numpy as np
@@ -19,11 +19,11 @@ def sim_check(F):
     print(f'{F["sim"][0]}–{F["sim"][1]} 峰 {n}，主峰正向 {p:.1f}%，正峰中位 {mp:.0f} µV')
 def r1_paced(F, P):
     f, d = F['capture'], F['day']; w, sc, _ = get(f)
-    print('=== R1 判定（R121 §5.2 口径：覆盖率 ≥40%；有输出窗 ≥90% 在真值 ±2/min 内；三段各自满足为 PASS）')
+    print('=== R1 判定（R121 §5.2 口径：覆盖率 ≥40%；有输出窗 ≥90% 在真值 ±2/min 内；各段都满足为 PASS）')
     rt = np.array([x[0] for x in w['resp']]); rv = np.array([x[1] * K for x in w['resp']]); res, brd = [], []
     for k, c in P:
-        a = at(d, c['start']); b = a + 120000; cnt = c['counts30']
-        truth = cnt[3] / 2 if len(cnt) == 4 and cnt[3] is not None else None
+        dur = c.get('dur', 120); a = at(d, c['start']); b = a + dur * 1000; cnt = c['counts30']
+        truth = cnt[-1] / (dur / 60) if len(cnt) == dur // 30 and cnt[-1] is not None else None
         m = (rt >= a - 40000) & (rt < b)
         o = [x for x in resp_r1.run(rt[m] / 1000, rv[m], (a - 36000) / 1000, b / 1000) if x[0] * 1000 - resp_r1.W * 1000 >= a - 1]
         vals = [round(x[1], 1) for x in o if x[1] is not None]; cov = len(vals) / max(len(o), 1)
@@ -46,10 +46,10 @@ def r1_paced(F, P):
         else:
             ob = sum(abs(x - truth) <= 2 for x in vb); brd.append('PASS' if len(vb) >= .4 * max(len(rb), 1) and len(vb) and ob >= .9 * len(vb) else 'FAIL')
             print(f'   板上 R1 判定：段起 +32 s 起有效 {len(vb)}/{len(rb)}（{100 * len(vb) / max(len(rb), 1):.0f}%），±2 内 {ob}/{len(vb)} → {brd[-1]}')
-    allr = 'PASS' if res == ['PASS'] * 3 else ('NOT_EVALUATED' if 'NOT_EVALUATED' in res and 'FAIL' not in res else 'FAIL')
-    print(f'R1 三段 {dict(zip([k for k, _ in P], res))} → {allr}')
-    alb = 'PASS' if brd == ['PASS'] * 3 else ('NOT_EVALUATED' if 'NOT_EVALUATED' in brd and 'FAIL' not in brd else 'FAIL')
-    print(f'板上 R1 三段 {dict(zip([k for k, _ in P], brd))} → {alb}（烧录前的录制为时域 RR，本行不适用）')
+    allr = 'PASS' if res == ['PASS'] * len(P) else ('NOT_EVALUATED' if 'NOT_EVALUATED' in res and 'FAIL' not in res else 'FAIL')
+    print(f'R1 各段 {dict(zip([k for k, _ in P], res))} → {allr}')
+    alb = 'PASS' if brd == ['PASS'] * len(P) else ('NOT_EVALUATED' if 'NOT_EVALUATED' in brd and 'FAIL' not in brd else 'FAIL')
+    print(f'板上 R1 各段 {dict(zip([k for k, _ in P], brd))} → {alb}（烧录前的录制为时域 RR，本行不适用）')
     return allr
 if __name__ == '__main__':
     F = json.load(open(sys.argv[1], encoding='utf-8')); f = F['capture']; d = F['day']
@@ -70,5 +70,5 @@ if __name__ == '__main__':
           f'{"；窗内卡外动作 " + "、".join(hit) if hit else ""} → {verdict}')
     print('=== S6 各段 HR（只记录，每段开头 10 s 不计）')
     P = sorted(F['paced'].items(), key=lambda kv: int(kv[0]))
-    for k, c in P: a = at(d, c['start']); human_row(f'节拍{k}', f, a + 10000, a + 120000)
+    for k, c in P: a = at(d, c['start']); human_row(f'节拍{k}', f, a + 10000, a + c.get('dur', 120) * 1000)
     r1_paced(F, P)

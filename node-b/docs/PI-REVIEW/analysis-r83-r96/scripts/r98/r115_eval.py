@@ -27,5 +27,5 @@ if __name__ == '__main__':
     P = sorted(F['paced'].items(), key=lambda kv: int(kv[0]))
     if not P: print('=== 节拍呼吸 NOT_RUN'); sys.exit()
     print('=== 节拍各段 HR（只记录，每段开头 10 s 不计）')
-    for k, c in P: a = at(d, c['start']); human_row(f'节拍{k}', f, a + 10000, a + 120000)
+    for k, c in P: a = at(d, c['start']); human_row(f'节拍{k}', f, a + 10000, a + c.get('dur', 120) * 1000)
     r1_paced(F, P)
