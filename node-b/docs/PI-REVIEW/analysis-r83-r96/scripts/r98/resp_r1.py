@@ -1,6 +1,7 @@
 """R102 候选 R1：B 阻抗 RESP（滤波后 r，50 Hz）窗内谱峰 RR。参数见 R102 §1，写定后不改。"""
 import numpy as np
 W, STEP, AMP_MIN, Q_MIN, AGREE = 32.0, 2.0, 60.0, .50, 2.0
+RPM_MIN = 8.0   # R125 固件改为 9.5；默认保持 R102 冻结值
 def window(t, v, a):
     m = (t >= a) & (t < a + W)
     if m.sum() < W * 50 * .9: return None, 'coverage'
@@ -12,7 +13,7 @@ def window(t, v, a):
     g = np.arange(a, a + W, .1); y = np.interp(g, tt, x); y = y - np.polyval(np.polyfit(g - a, y, 1), g - a); y *= np.hanning(len(y))
     X = abs(np.fft.rfft(y, 4096)) ** 2; f = np.fft.rfftfreq(4096, .1); band = (f >= .1) & (f <= .7)
     fp = f[band][np.argmax(X[band])]; rpm = 60 * fp
-    if not (8 < rpm < 39): return None, 'edge'
+    if not (RPM_MIN < rpm < 39): return None, 'edge'
     q = X[abs(f - fp) <= .03].sum() / X[band].sum()
     if q < Q_MIN: return None, 'quality'
     return rpm, 'ok'

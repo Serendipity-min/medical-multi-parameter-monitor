@@ -75,6 +75,7 @@ R83–R96 复核文档所用的离线分析脚本和计算结果。工程口径�
 | `r123_dryrun_r116.txt`（`r98/r122_eval.py` + `r98/r123_dryrun_r116.json`：R123 §10 的 3 分钟 HR + 3 分钟节拍 15 次/分格式，计数留空只验代码路径，不是结果） | R123 §10 预注册 |
 | `r124_sim_dryrun_r108.txt`（`r98/r124_sim_eval.py` + `r98/r124_sim_dryrun_r108.json`：R123 §5 模拟器验收判读口径采集前提交，用 R108 时域 RR 录制试跑，只验代码路径） | R123 §5 预注册 |
 | `r124_sim.txt`、`r124_human.txt`、`r124_human_secondary.txt`（`r98/r124_sim_eval.py`、`r98/r122_eval.py` + `r124_sim.json`、`r124_human.json`；secondary 为非预注册分析） | R124 |
+| `r125_r1_equiv.txt`（`r98/r125_r1_equiv.py`：R125 修复版 R1 与 `resp_r1.py`（`RPM_MIN=9.5`）逐窗对照，18 份录制）；`r126_sim_dryrun_r108.txt`、`r126_sim_dryrun_r123sim.txt`（`r98/r126_sim_eval.py`：R125 §5 新增三项门槛，C2 对照 PASS、R1 首版 FAIL）；`r126_dryrun_r123human.txt`（3 分钟单窗格式，只验代码路径） | R125 预注册 |
 | `r123_r1_equiv.txt`（`r98/r123_r1_equiv.py`：主线 `bio_v2.c` 的 R1 C 实现与 `resp_r1.py` 逐窗对照，16 份录制 + 9 个节拍段判定复现） | R123 |
 
 **注意**：`r89_rounds.txt` 用的是 R91 时的 PPG 去趋势方法，滑动均值在两端补零。R92 起改为按实际点数归一。两种方法对 R87 的结果分别为 588 µV 和 601 µV，结论不受影响；R91 那份录制只能用修正后的方法（见 `r91_min.py`）。

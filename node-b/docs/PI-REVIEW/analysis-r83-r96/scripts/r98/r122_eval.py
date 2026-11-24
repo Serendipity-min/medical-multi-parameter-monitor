@@ -2,7 +2,8 @@
 用法：python3 -s -E r122_eval.py <现场记录.json>。JSON 字段（时刻为北京时间 hh:mm:ss，现场报告值，误差约 ±3 s）：
   capture  MQTT 原件文件名（放在 r83-capture/）；day  11 月的日期；
   sim      模拟器核对窗 [起, 止]；t0  两臂放好的时刻；
-  paced    {"12"|"15"|"20": {"start": 节拍器开始时刻, "dur": 段长秒（缺省 120）, "counts30": 每 30 s 累计数，缺失写 null}}；
+  paced    {"12"|"15"|"20": {"start": 节拍器开始时刻, "dur": 段长秒（缺省 120）, "rr_from": 板上 R1 判定从段起第几秒起（缺省 32）,
+            "counts30": 每 30 s 累计数，缺失写 null}}；
   offcard  卡外动作时刻列表（站起、换姿势、碰电极或导联线），没有写 []。
 复用 r109_eval、r111_eval 的函数；R1 判定与 R117 相同（R121 §5.2 不改）。"""
 import json, sys, numpy as np
@@ -41,12 +42,12 @@ def r1_paced(F, P):
             if k == '20': print(f'   计数核对（R121 §5.3，只记录）：计数 {truth:.1f} − 主峰 {r:.1f} = {truth - r:+.1f}/min{"，超过 3，需分析" if abs(truth - r) > 3 else ""}')
         bok = sum(abs(x - truth) <= 2 for x in bv) if truth is not None else '—'
         print(f'   板上 RR：有效 {len(bv)}/{len(rr)}（{100 * len(bv) / max(len(rr), 1):.0f}%），±2 内 {bok}/{len(bv)}，值 {sorted(set(bv))}')
-        # 板上 R1（R123 §6，烧录 R1 后才适用）：只取窗口完全落在段内的帧（段起 +32 s 起），门槛同离线 R1
-        rb = frames(sc['rr'], a + 32000, b); vb = [x[1] for x in rb if x[2] == 'VALID']
+        # 板上 R1（R123 §6，烧录 R1 后才适用）：缺省只取窗口完全落在段内的帧（段起 +32 s 起），门槛同离线 R1
+        rf = c.get('rr_from', 32); rb = frames(sc['rr'], a + rf * 1000, b); vb = [x[1] for x in rb if x[2] == 'VALID']
         if truth is None: brd.append('NOT_EVALUATED')
         else:
             ob = sum(abs(x - truth) <= 2 for x in vb); brd.append('PASS' if len(vb) >= .4 * max(len(rb), 1) and len(vb) and ob >= .9 * len(vb) else 'FAIL')
-            print(f'   板上 R1 判定：段起 +32 s 起有效 {len(vb)}/{len(rb)}（{100 * len(vb) / max(len(rb), 1):.0f}%），±2 内 {ob}/{len(vb)} → {brd[-1]}')
+            print(f'   板上 R1 判定：段起 +{rf} s 起有效 {len(vb)}/{len(rb)}（{100 * len(vb) / max(len(rb), 1):.0f}%），±2 内 {ob}/{len(vb)} → {brd[-1]}')
     allr = 'PASS' if res == ['PASS'] * len(P) else ('NOT_EVALUATED' if 'NOT_EVALUATED' in res and 'FAIL' not in res else 'FAIL')
     print(f'R1 各段 {dict(zip([k for k, _ in P], res))} → {allr}')
     alb = 'PASS' if brd == ['PASS'] * len(P) else ('NOT_EVALUATED' if 'NOT_EVALUATED' in brd and 'FAIL' not in brd else 'FAIL')
