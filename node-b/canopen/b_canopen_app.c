@@ -112,9 +112,10 @@ static uint8_t produce(uint32_t now) {
 #endif
     uint32_t flags = 0;
     if (epoch && g_bio_v2.samples && (uint32_t)(now - g_bio_v2.last_sample_ms) <= 100u) {
-        /* CAN有效波形采用本通道算法资格，噪声/无周期仍传原值但标INVALID。 */
-        if (hr_ok && !g_bio_v2.hr_reason) flags |= 1u;
-        if (rr_ok && !g_bio_v2.rpm_reason) flags |= 2u;
+        /* 波形有效只看信号本身：样本新鲜、有时间锚、本通道未削顶；与HR/RR算法资格无关（R125），
+           网页波形不再随数值无效而消失。削顶判据与bio_v2.c的accept_input一致。 */
+        if (g_bio_v2.ecg_raw < 8304721 && g_bio_v2.ecg_raw > -8304721) flags |= 1u;
+        if (g_bio_v2.resp_raw < 8304721 && g_bio_v2.resp_raw > -8304721) flags |= 2u;
         if (hr_ok) flags |= 4u;
         if (rr_ok) flags |= 8u;
     }
