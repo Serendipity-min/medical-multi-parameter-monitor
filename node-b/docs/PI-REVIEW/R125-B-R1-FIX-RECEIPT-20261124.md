@@ -116,7 +116,31 @@ B4 对照使用现有 R123 回执工作树 `872d5a4`，核对其运行器、测�
 
 ## §5 模拟器 MQTT 录制启动
 
-负责人指示先启动 MQTT，稍后开启 WSS。事务 `r125sim-20261126T115404Z` 四项只读订阅于北京时间 **19:54:07.339** 全部确认，上限 60 分钟。录前 MQTT 与 Web 后端的 `mmpm-control status` 均返回 0，服务状态均为 `active`。等待现场拔下 J-Link、B 板断电及 PI 的 WSS 就绪信号。模拟器分段验收待现场数据。
+负责人指示先启动 MQTT，稍后开启 WSS。事务 `r125sim-20261126T115404Z` 四项只读订阅于北京时间 **19:54:07.339** 全部确认，上限 60 分钟。录前 MQTT 与 Web 后端的 `mmpm-control status` 均返回 0，服务状态均为 `active`。录制收尾见下节。
+
+## §5 MQTT 原件封存和 C 串口核对
+
+2026-11-26，北京时间。根据负责人指令，于 **20:15:58.832** 向 `r125sim-20261126T115404Z` 录制进程发出停止信号，得到 `OPERATOR_END`，于 **20:15:58.851** 封存。录制器及 SSH 均退出 0。独立核对录制进程已退出。
+
+- 原件 **4,086 行、2,574,072 字节**，JSON 解析错误 0。A 172 行，B 3,914 行。首末记录 **19:54:07.383–20:13:00.729**，B 遥测实收 **19:57:43.546–20:13:00.729**。
+- 采集服务器暂存文件和交付文件、本机受限副本、PI VPS 落盘文件的字节数与 SHA-256 一致。两个服务器交付文件权限为 0600，PI 副本位于 Git 忽略路径。
+- 采集服务器 `/home/mmpm-deploy/r83-capture/r125sim-20261126T115404Z-node-ab.jsonl`
+- PI VPS `/home/claudedev/workspaces/mmpm-review/node-b/build/r83-capture/r125sim-20261126T115404Z-node-ab.jsonl`
+- SHA-256 `f015253b7b906a69bd0e46e41e21ff0aee226de8a9ccf4f2cf4b7fb458fce990`
+
+| 服务 | 录前 | 停录前 | 停录后 |
+| --- | --- | --- | --- |
+| `medical-monitor-mqtt.service` | `mmpm-control status` 返回 0，active | 返回 0，active | 返回 0，active |
+| `medical-monitor-h3-webbackend.service` | `mmpm-control status` 返回 0，active | 返回 0，active | 返回 0，active |
+
+本轮采集目录、本机常用串口归档及 PI 工作区均未找到覆盖指定时刻的 C 串口日志。USB-TTL 留待下一轮。MQTT 原件中，指定时刻两侧最近的 B 遥测收包如下。
+
+| 指定时刻 | 前一包 | 后一包 | 两包间隔 |
+| --- | --- | --- | ---: |
+| 20:07:04 | 20:07:03.562 | 20:07:37.615 | 34.053 s |
+| 20:12:07 | 20:12:06.346 | 20:12:27.242 | 20.896 s |
+
+间隔以录制服务器的接收时间计算。C 在两段内的运行状态和间隔成因均为 UNKNOWN。MQTT 录制交付为 PASS。§5 功能验收待 PI 按现场分段起止和屏显记录判读。
 
 <details>
 <summary>K0、K3、K1、K5 完整编译清单</summary>
