@@ -15,17 +15,19 @@
   G6 波形：各模拟器段 +10 s 起，本段信号（ECG 段看 ECG，RESP 段看 RESP）样本 VALID ≥95%；ECG 段与 RESP 段 +45 s 起、剔除 G2 中断（前后各 5 s）后，
      ECG 丢失 ≤7%，缺口 ≥20 个时相邻缺口间隔 2.00±0.05 s 的比例 ≤5%（不足 20 个只记录）；
   G7 NIBP 链路：nibp 所列每次读数在其时刻 ±120 s 内有 MQTT NIBP 有效帧，SYS/DIA 与屏上一致（±1 mmHg）。
-只记录：SpO₂/PR/TEMP 有效率与分位数、NIBP 次数、各次中断起止、C 串口覆盖范围与中断前后 ±30 s 的日志行。"""
+只记录：SpO₂/PR/TEMP 有效率与分位数、NIBP 次数、语音下行帧数、各次中断起止、C 串口覆盖范围与中断前后 ±30 s 的日志行。
+修订 2（采集前）：通配订阅会收到 voice/broadcast 的 MPB1 二进制帧，解析时跳过并计数；判据不变。"""
 import json, sys, numpy as np
 from collections import defaultdict
 from r122_eval import at, hhmmss
 CAP = '../../r83-capture/'
 def load(path):
     """(node, stream) -> [(收包 ms, timestamp, seq, session, validity, value, source, samples, sample_rate)]；status 另存。"""
-    d = defaultdict(list)
+    d = defaultdict(list); load.voice = 0
     for line in open(path, encoding='utf-8'):
         r = json.loads(line); parts = r['topic'].split('/')
         if len(parts) < 5: continue
+        if parts[3] == 'voice': load.voice += 1; continue   # MPB1 二进制下行帧（R127 修订 2），只计数
         node, kind = parts[3], parts[4]; stream = parts[5] if len(parts) > 5 else kind
         p = json.loads(r['payload'])
         d[(node, stream if kind in ('telemetry', 'replay') else kind)].append(
@@ -112,6 +114,7 @@ if __name__ == '__main__':
     ok['G7'] = g7 and bool(F.get('nibp')); print(f'G7 → {"PASS" if ok["G7"] else ("NOT_RUN" if not F.get("nibp") else "FAIL")}；MQTT NIBP 有效结果共 {len(set((r[1], tuple(r[5])) for r in nb if A <= r[1] <= B))} 次')
     # 只记录
     print('=== 只记录')
+    print(f'语音下行 MPB1 帧（voice/broadcast）：{load.voice} 条')
     for node, s in (('NODE-A', 'spo2'), ('NODE-A', 'pr'), ('NODE-D', 'temp')):
         fr = [r for r in D.get((node, s), []) if A <= r[1] <= B and r[9] == 'telemetry']; v = [r[5] for r in fr if r[4] == 'VALID']
         q = np.percentile(v, [5, 50, 95]).round(1).tolist() if v else []
