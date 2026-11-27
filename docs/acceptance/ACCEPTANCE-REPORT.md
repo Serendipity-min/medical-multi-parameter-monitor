@@ -110,13 +110,14 @@
 
 | 组成 | 身份 | 依据 |
 |---|---|---|
-| A | 应用 33,444 B，SHA 前 12 位 `b20bfdb877aa` | FIVE41 安装回执（11-06），之后的记录中未见重刷；本报告未重新读回 |
+| A | 应用 33,444 B，`b20bfdb877aa89576ee12abaabeb8b9b8ef425135b6061392475096bb2fbe5d0`；归档整片 `47cde6b842ac3bb92f8e4771f62387fa4c316a8b8338920acd21afcab5726d1a` | FIVE41 安装回执（11-06）；Codex 11-27 按归档复算。实物未重新读回 |
 | B | **R125 K5**：应用 44,200 B，`9619761bec634fdc061f2fe61e123341e0c79bd0fb60fd47559624f4cb3022c2`；写后整片 `effd37922418fc1977565b1582c42c4a8efdb1a91821a339f29816d392ea901a` | R125 写入回执 `413f9f0`，PI 复核 |
-| C | **WP-AZ**：boot `ef85ab637e5de088e26403eeed1dd26528f8457cb52dc11ad7ddc403a3a2a841`，code `9d1902461e340a20672be54ef255215ddb95a3936d0030fc4cdb5db818a9d083`（源码 `2c97094`）；sector3 正式配置 `471baff4…` | R64/R65 |
-| D | 应用 24,552 B，`ae4e6d11770c` | FIVE41 安装回执，同 A |
-| E | 应用 29,424 B，`da890a5e9eb1` | FIVE41 安装回执，同 A |
+| C | **WP-AZ**：boot `ef85ab637e5de088e26403eeed1dd26528f8457cb52dc11ad7ddc403a3a2a841`，code `9d1902461e340a20672be54ef255215ddb95a3936d0030fc4cdb5db818a9d083`（源码 `2c97094`）；sector3 正式配置 `471baff4…`；归档整片 `659dc636e6aee84e468bb4846f721d124fc15cde3a5eee6289124b42442addad` | R64/R65；Codex 11-27 复算 |
+| D | 应用 24,552 B，`ae4e6d11770c07bd941a3ffdee196e06cf1a82648d050f7e2429431afb348c6a`；归档整片 `993d7b742fde80feacdbaf57ad5fce6301bfb6bbe85ec94818569456e962c8f5` | 同 A |
+| E | 应用 29,424 B，`da890a5e9eb1b7a7f9f7fcb1338b338996f4bb5a5d52c4119dfb19c4882b64a8`；**整片 SHA 缺**（只有分段校验记录） | 同 A |
 | 云端 | 后端 closeout 环境（websockets 17.4）；网页 `web-20261112-03`；WebAI 为 main 整包，网关 `GW-C-001` | R66/R67 |
 | 回退点 | B：R123 K3 `cbbafe29…` 或 C2 `f81063c9…`；C：WP-AY0 | R125 卡、R65 |
+| 硬件身份 | 五块板在受限归档中各有硬件 UID，为 5 个不同的 UID；设备码均为 `0x413`，Flash 均为 1 MiB。UID 不写入仓库 | Codex 11-27 核对归档 |
 
 ---
 
