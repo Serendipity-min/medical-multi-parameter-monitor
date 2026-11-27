@@ -1,0 +1,38 @@
+=== 窗口 14:28:00–15:28:00（60.0 min）；主题 ['NODE-A/ppg', 'NODE-A/pr', 'NODE-A/spo2', 'NODE-A/status', 'NODE-B/ecg', 'NODE-B/hr', 'NODE-B/resp', 'NODE-B/rr', 'NODE-B/status', 'NODE-D/status', 'NODE-D/temp', 'NODE-E/nibp', 'NODE-E/status']
+G2 断链：1 次，15:14:52 起 13.0 s；合计 13.0 s（≤180 s）→ PASS
+G1 NODE-A：会话变化 0 次，其中未登记 0 次 []
+G1 NODE-B：会话变化 1 次，其中未登记 0 次 []
+G1 NODE-D：会话变化 0 次，其中未登记 0 次 []
+G1 NODE-E：会话变化 0 次，其中未登记 0 次 []
+G1 → PASS
+G3 NODE-B/hr：2 s 格覆盖 1675/1709（98.0%，≥90%）；seq 完整 3403/3414（只记录）
+G3 NODE-B/rr：2 s 格覆盖 1675/1709（98.0%，≥90%）；seq 完整 3403/3414（只记录）
+G3 NODE-A/spo2：2 s 格覆盖 1788/1788（100.0%，≥99%）；seq 完整 3600/3600（只记录）
+G3 NODE-A/pr：2 s 格覆盖 1788/1788（100.0%，≥99%）；seq 完整 3600/3600（只记录）
+G3 NODE-D/temp：2 s 格覆盖 1557/1788（87.1%，≥99%）；seq 完整 2695/2906（只记录）
+G3 → FAIL
+G4 ECG 段 14:28:00–14:54:55：HR 有效 1464/1500，值 [60.0] → PASS
+G5 ECG 段 RR 有效 0 帧 []
+G4 RESP 20 次/分 14:55:35–15:19:30：RR 有效 1314/1328，值 [20.0] → PASS
+G4 RESP 12 次/分 15:19:30–15:28:00：RR 有效 444/446，值 [12.0] → PASS
+G4 → PASS；G5 → PASS
+G6 ECG 段 14:28:00–14:54:55：本段波形 VALID 392232/392432（99.9%）；ECG 丢失 2.0%，缺口 183，2 s 周期 0.0% → PASS
+G6 RESP 段 14:55:35–15:19:30：本段波形 VALID 70201/70201（100.0%）；ECG 丢失 2.6%，缺口 178，2 s 周期 0.6% → PASS
+G6 RESP 段 15:19:30–15:28:00：本段波形 VALID 24951/24951（100.0%）；ECG 丢失 1.4%，缺口 48，2 s 周期 0.0% → PASS
+G6 → PASS
+G7 NIBP 14:33:56 屏 135/74：MQTT 一致 14:33:55
+G7 NIBP 14:43:40 屏 124/84：MQTT 一致 14:43:39
+G7 NIBP 14:53:46 屏 119/75：MQTT 一致 14:53:44
+G7 NIBP 15:03:48 屏 114/76：MQTT 一致 15:03:46
+G7 NIBP 15:13:37 屏 127/76：MQTT 一致 15:13:35
+G7 NIBP 15:17:38 屏 112/66：MQTT 一致 15:17:36
+G7 NIBP 15:29:46 屏 127/77：MQTT 一致 15:29:45
+G7 → PASS；MQTT NIBP 有效结果共 6 次
+=== 只记录
+语音下行 MPB1 帧（voice/broadcast）：14 条
+NODE-A/spo2：有效 617/3587（17%），5/50/95 分位 [85.0, 96.0, 98.0]
+NODE-A/pr：有效 576/3587（16%），5/50/95 分位 [65.0, 83.0, 111.2]
+NODE-D/temp：有效 2687/2687（100%），5/50/95 分位 [23.0, 24.5, 31.2]
+C 串口：3803233 B，接收 14:14:16–15:34:28，>10 s 无数据 0 次；窗口覆盖 100%
+  中断 15:14:52 前后 ±30 s 日志：B5 TEMP_ENTRY seq=2622 epoch=463711187 boot=1 report_utc=1795763661000 arrival_utc=1795763662672 centi=2389 valid=1 lost=0 | B5 TEMP_ENTRY seq=2623 epoch=463711187 boot=1 report_utc=1795763663000 arrival_utc=1795763663675 centi=2380 valid=1 lost=0 | B5 WAVE gaps=480 quality_resets=372 partial_discarded=28374 unstamped=418 | B5 IO tx_calls=29779 tx_ok=1 tx_ms=25 rx_queries=8 rx_empty=7 rx_reads=1 | B5 LAT stage=0 n=41 p50_upper=5 p95_upper=25 p99_upper=3804 max=3804 | B5 LAT stage=1 n=2 p50_upper=5 p95_upper=5 p99_upper=5 max=4 | B5 LAT stage=2 n=1 p50_upper=5 p95_upper=5 p99_upper=5 max=5 | B5 LAT stage=3 n=1 p50_upper=10 p95_upper=10 p99_upper=10 max=9 | B5 LAT stage=4 n=29765 p50_upper=5 p95_upper=10 p99_upper=25 max=21 | B5 LAT stage=5 n=29766 p50_upper=25 p95_upper=250 p99_upper=250 max=112 | B5 LAT stage=6 n=18545 p50_upper=500 p95_upper=1000 p99_upper=1000 max=1003 | B5 LAT stage=7 n=29766 p50_upper=50 p95_upper=500 p99_upper=1000 max=1006 | B5 LAT stage=8 n=29766 p50_upper=500 p95_upper=2516 p99_upper=2516 max=2484 | B5 FLOW stream=4 put=7667 take=7667 history=0 | B5 FLOW stream=6 put=3087 take=3087 history=0 | B5 FLOW stream=5 put=2986 take=2986 history=0 | B5 TEMP_ENTRY seq=2624 epoch=463711187 boot=1 report_utc=1795763664000 arrival_utc=1795763664675 centi=2392 valid=1 lost=0 | B5 DIAG tick=3635082 session=463711187 rx=993643 txack=6946 txfail=0 overflow=0 esr=0 uart_err=223 live=3 cache=0 dropped=0 q0_transport=11220 q1_puback=18547 mqtt_fail=0 stop=0 | UNI CAN wat
+=== R127 判定 → FAIL（G1 PASS，G2 PASS，G3 FAIL，G4 PASS，G5 PASS，G6 PASS，G7 PASS）
