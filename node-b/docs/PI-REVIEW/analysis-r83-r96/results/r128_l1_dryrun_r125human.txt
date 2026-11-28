@@ -1,0 +1,26 @@
+=== 窗口 10:20:00–10:32:00（12.0 min）；主题 ['NODE-A/ppg', 'NODE-A/pr', 'NODE-A/spo2', 'NODE-A/status', 'NODE-B/ecg', 'NODE-B/hr', 'NODE-B/resp', 'NODE-B/rr', 'NODE-B/status']
+G2 断链：0 次，；合计 0.0 s（≤36 s）→ PASS
+G1 NODE-A：会话变化 0 次，其中未登记 0 次 []
+G1 NODE-B：会话变化 0 次，其中未登记 0 次 []
+G1 NODE-D：会话变化 0 次，其中未登记 0 次 []
+G1 NODE-E：会话变化 0 次，其中未登记 0 次 []
+G1 → PASS
+G3 NODE-B/hr：2 s 格覆盖 336/360（93.3%，≥90%）；seq 完整 615/630（只记录）
+G3 NODE-B/rr：2 s 格覆盖 336/360（93.3%，≥90%）；seq 完整 615/630（只记录）
+G3 NODE-A/spo2：2 s 格覆盖 360/360（100.0%，≥99%）；seq 完整 720/720（只记录）
+G3 NODE-A/pr：2 s 格覆盖 360/360（100.0%，≥99%）；seq 完整 720/720（只记录）
+G3 NODE-D/temp：2 s 格覆盖 0/360（0.0%，≥99%）；seq 完整 0/0（只记录）
+G3 → FAIL
+G4 ECG 段 10:20:26–10:21:30：HR 有效 3/3，值 [60.0] → PASS
+G5 ECG 段 RR 有效 0 帧 []
+G4 → PASS；G5 → PASS
+G6 ECG 段 10:20:26–10:21:30：本段波形 VALID 11600/11600（100.0%）；ECG 丢失 11.6%，缺口 3，2 s 周期 0.0%（不足 20 个，只记录） → FAIL
+G6 → FAIL
+G7 → NOT_RUN；MQTT NIBP 有效结果共 0 次
+=== 只记录
+语音下行 MPB1 帧（voice/broadcast）：0 条
+NODE-A/spo2：有效 472/721（65%），5/50/95 分位 [93.0, 97.0, 98.0]
+NODE-A/pr：有效 460/721（64%），5/50/95 分位 [74.0, 88.0, 98.0]
+NODE-D/temp：有效 0/0（0%），5/50/95 分位 []
+C 串口：558 B，接收 10:16:47–10:18:32，>10 s 无数据 5 次；窗口覆盖 0%
+=== R127 判定 → FAIL（G1 PASS，G2 PASS，G3 FAIL，G4 PASS，G5 PASS，G6 FAIL，G7 FAIL）

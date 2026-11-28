@@ -1,5 +1,6 @@
 """独立算法普通Host验证：已知合成输入、失效恢复及原始历史回放，不连接硬件。"""
 from pathlib import Path
+import argparse
 import ctypes as C
 import hashlib
 import json
@@ -10,13 +11,22 @@ import struct
 import subprocess
 
 root=Path(__file__).resolve().parent.parent
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--source',type=Path,default=root/'实验固件/HARDWARE/bio_v2.c')
+parser.add_argument('--c1-cases',action='store_true')
+parser.add_argument('--c2-cases',action='store_true')
+parser.add_argument('--define',action='append',default=[],help='追加编译宏，如 BIO_V2_RR_R1=0')
+args=parser.parse_args()
 # 每次普通回归使用独立目录，不覆盖历史验收。
 evidence=Path(os.environ['NODE_B_TEST_OUT'])/'algorithm'
 evidence.mkdir(parents=True,exist_ok=False)
-source=root/'实验固件/HARDWARE/bio_v2.c'
-dll=evidence/'bio_v2_host.dll'
-cmd=['C:/mingw64/bin/gcc.exe','-std=c99','-O2','-Wall','-Wextra','-Werror',
-     '-ffp-contract=off','-shared',str(source),'-o',str(dll),'-lm']
+source=args.source.resolve()
+dll=evidence/('bio_v2_host.dll' if os.name=='nt' else 'bio_v2_host.so')
+cmd=['gcc','-std=c99','-O2','-Wall','-Wextra','-Werror','-ffp-contract=off','-shared']
+if os.name!='nt':cmd.append('-fPIC')
+cmd.extend(['-D'+x for x in args.define]+[str(source),'-o',str(dll),'-lm'])
+r1='BIO_V2_RR_R1=0' not in args.define
+not_applicable=[]
 compiled=subprocess.run(cmd,capture_output=True)
 (evidence/'host_compile.stdout.log').write_bytes(compiled.stdout)
 (evidence/'host_compile.stderr.log').write_bytes(compiled.stderr)
@@ -45,10 +55,17 @@ def sample(t,hr=60,rpm=15,noise=0,mains=0):
     return int(round(ecg)),int(round(resp))
 def run(name,seconds,feed,check,start=1000):
     lib.BioV2_Init(start);valid_h=valid_r=0
+    streak=longest=0;first_valid=None
     for i in range(int(seconds*250)):
         t=i/250;h,r=feed(t)
         lib.BioV2_Process(h,r,(start+i*4)&0xffffffff,i+1,0)
         valid_h+=int(bool(d.hr_valid));valid_r+=int(bool(d.rpm_valid))
+        if d.hr_valid:
+            if first_valid is None:
+                first_valid={'sample_ms':i*4,'accepted':d.hr_accepted,'fresh':d.hr_fresh_intervals}
+            streak+=1;longest=max(longest,streak)
+        else:
+            streak=0
         if not all(math.isfinite(getattr(d,k)) for k in flt):
             raise AssertionError('非有限状态 '+name)
         if d.hr_valid and not 30<=d.hr<=220:raise AssertionError('心率越界')
@@ -56,12 +73,15 @@ def run(name,seconds,feed,check,start=1000):
     passed=bool(check(d,valid_h,valid_r))
     result={'case':name,'pass':passed,'final_hr':d.hr,'final_hr_valid':d.hr_valid,'final_resp':d.rpm,
             'final_resp_valid':d.rpm_valid,'hr_valid_samples':valid_h,'resp_valid_samples':valid_r,
-            'hr_reason':d.hr_reason,'resp_reason':d.rpm_reason,'diag':{k:getattr(d,k) for k in more+flt}}
+            'hr_reason':d.hr_reason,'resp_reason':d.rpm_reason,'diag':{k:getattr(d,k) for k in more+flt},
+            'first_hr_valid':first_valid,'longest_hr_valid_ms':longest*4}
     results.append(result);return result
 for hr in [40,60,90,120,180]:
     run(f'qrs_{hr}',65,lambda t,hr=hr:sample(t,hr),lambda d,h,r,hr=hr:d.hr_valid and abs(d.hr-hr)<=2)
 for rpm in [6,12,15,24,30,40]:
-    run(f'breath_{rpm}',90,lambda t,rpm=rpm:sample(t,60,rpm),lambda d,h,r,rpm=rpm:d.rpm_valid and abs(d.rpm-rpm)<=1)
+    # R1 只在 8–39 次/分之间出值（R102 §1.4），范围外应全程无效。
+    run(f'breath_{rpm}',90,lambda t,rpm=rpm:sample(t,60,rpm),
+        lambda d,h,r,rpm=rpm:(d.rpm_valid and abs(d.rpm-rpm)<=1) if not r1 or 8<rpm<39 else not r)
 run('zero',40,lambda t:(0,0),lambda d,h,r:not h and not r)
 run('constant_large_dc',40,lambda t:(200000,640000),lambda d,h,r:not h and not r)
 for hz in [1,8,25,50,100]:
@@ -82,7 +102,8 @@ for i in range(21500,23000):
     r=int(640000+1200*math.exp(-.5*((t-2)/.6)**2))
     lib.BioV2_Process(200000,r,1000+i*4,i+1,0)
 no_revival=(d.hr_valid==0 and d.rpm_valid==0)
-results.append({'case':'expire_then_isolated_peak_no_old_rate','pass':stale_invalid and no_revival})
+if r1:not_applicable.append('expire_then_isolated_peak_no_old_rate')  # R1 新鲜度为 32 s 窗，16 s 停顿仍在窗内；见 r1_apnea
+else:results.append({'case':'expire_then_isolated_peak_no_old_rate','pass':stale_invalid and no_revival})
 for i in range(23000,40500):
     h,r=sample((i-23000)/250);lib.BioV2_Process(h,r,1000+i*4,i+1,0)
 results.append({'case':'fresh_cycles_restore','pass':bool(d.hr_valid and d.rpm_valid)})
@@ -92,6 +113,93 @@ lib.BioV2_Process(8388607,640000,1000+40501*4,40511,0)
 results.append({'case':'clip_invalidates','pass':not d.hr_valid and not d.rpm_valid and d.clipped_samples==1})
 lib.BioV2_Tick(1000+40501*4+200)
 results.append({'case':'getter_without_new_input_invalid','pass':not d.hr_valid and not d.rpm_valid})
+
+legacy_total=len(results)
+if r1:
+    for rpm in (10,20):
+        run(f'r1_breath_{rpm}',90,lambda t,rpm=rpm:sample(t,60,rpm),lambda d,h,r,rpm=rpm:d.rpm_valid and abs(d.rpm-rpm)<=1)
+    # 有效后呼吸停止（直流保持），应在一个 32 s 窗加两个步长内失效；恢复呼吸后重新出值。
+    run('r1_apnea_initial',70,lambda t:sample(t),lambda d,h,r:d.rpm_valid)
+    stop=70*250;lost=None
+    for i in range(stop,stop+50*250):
+        lib.BioV2_Process(200000,640000,1000+i*4,i+1,0)
+        if lost is None and not d.rpm_valid:lost=(i-stop)/250
+    results.append({'case':'r1_apnea_invalid_within_36s','lost_after_s':lost,'pass':lost is not None and lost<=36})
+    for i in range(stop+50*250,stop+110*250):
+        h,r=sample((i-stop-50*250)/250);lib.BioV2_Process(h,r,1000+i*4,i+1,0)
+    results.append({'case':'r1_resume_after_apnea','final_resp':d.rpm,'pass':bool(d.rpm_valid and abs(d.rpm-15)<=1)})
+if args.c1_cases:
+    for amplitude in (5000,10000,30000,100000,1000000):
+        run(f'c1_qrs_mains_{amplitude}',65,lambda t,a=amplitude:sample(t,mains=a),
+            lambda d,h,r:d.hr_valid and abs(d.hr-60)<=2)
+    run('c1_extreme_mains_2000000',65,lambda t:sample(t,mains=2000000),
+        lambda d,h,r:not d.hr_valid and bool(d.hr_reason&64))
+    for amplitude in (0,70000):
+        for seed in (1,2,3,4,5,6):
+            noise=random.Random(seed)
+            def noise_only(t):
+                return (int(round(200000+noise.gauss(0,2000)+amplitude*math.sin(2*math.pi*50*t))),
+                        int(round(640000+noise.gauss(0,2000))))
+            result=run(f'c1_noise_mains_{amplitude}_seed_{seed}',180,noise_only,
+                       lambda d,h,r:h*100<=2*180*250)
+            result['hr_valid_pct']=100*result['hr_valid_samples']/(180*250)
+    result=run('c1_first_valid_five_intervals',65,sample,lambda d,h,r:bool(h))
+    first=result['first_hr_valid']
+    result['pass']=bool(first and first['sample_ms']>=5000 and first['accepted']>=5 and first['fresh']>=5)
+
+
+if args.c2_cases:
+    import bisect
+    def beat_feed(beats,rpm=15):
+        # 按给定心搏时刻合成 QRS/T，幅度与 sample() 相同；beats 为秒
+        def feed(t):
+            i=bisect.bisect_left(beats,t-.5);ecg=200000.0
+            for b in beats[i:i+4]:
+                ph=t-b;ecg+=10000*math.exp(-.5*(ph/.012)**2)+1800*math.exp(-.5*((ph-.23)/.055)**2)
+            return int(round(ecg)),int(round(640000+1200*math.sin(2*math.pi*rpm/60*t)))
+        return feed
+    def regular(hr,seconds,start=.3):
+        n=int(seconds*hr/60)+2;return [start+k*60/hr for k in range(n)]
+    def track(seconds,beats):
+        # 逐样本记录 (时刻, 有效HR或0)
+        lib.BioV2_Init(1000);rows=[]
+        feed=beat_feed(beats)
+        for i in range(int(seconds*250)):
+            t=i/250;h,r=feed(t);lib.BioV2_Process(h,r,1000+i*4,i+1,0)
+            rows.append((t,d.hr if d.hr_valid else 0))
+        return rows
+    def summary(name,rows,after,ok_value,need_pct):
+        part=[v for t,v in rows if t>=after];valid=[v for v in part if v]
+        pct=100*len(valid)/len(part)
+        res={'case':name,'hr_valid_pct':round(pct,1),'hr_min':min(valid) if valid else 0,'hr_max':max(valid) if valid else 0,
+             'pass':pct>=need_pct and all(ok_value(v) for v in valid)}
+        results.append(res);return res
+    for hr in (40,50,60,75,100):
+        b=regular(hr,120);b=[x for k,x in enumerate(b) if k%6!=5]
+        summary(f'c2_missed_every_6th_hr_{hr}',track(120,b),20,lambda v,hr=hr:abs(v-hr)<=2,90)
+    for amp in (.10,.15):
+        b=[.3]
+        while b[-1]<122:b.append(b[-1]+60/65*(1+amp*math.sin(2*math.pi*.25*b[-1])))
+        summary(f'c2_rsa_{int(amp*100)}pct_hr_65',track(120,b),20,lambda v:abs(v-65)<=10,80)
+    b=[.3]
+    while b[-1]<122:
+        k=len(b);b.append(b[-1]+(.7 if k%10==0 else 1.3 if k%10==1 else 1.0))
+    summary('c2_ectopic_every_10_hr_60',track(120,b),20,lambda v:abs(v-60)<=3,50)
+    for a,c in ((120,60),(60,120)):
+        b=regular(a,40);b=[x for x in b if x<40];b+=[b[-1]+60/c*(k+1) for k in range(int(40*c/60)+2)]
+        switch=max(x for x in b if x<40);rows=track(80,b)  # switch 为旧节律最后一拍
+        stale=[t-switch for t,v in rows if t>switch and v and abs(v-a)<=10]
+        fin=[v for t,v in rows if t>=75]
+        res={'case':f'c2_rate_{a}_to_{c}','stale_old_rate_s':round(max(stale),3) if stale else 0,
+             'final_valid_pct':round(100*sum(1 for v in fin if v)/len(fin),1),'final':fin[-1],
+             'pass':(max(stale) if stale else 0)<=2.5 and fin[-1] and abs(fin[-1]-c)<=2}
+        results.append(res)
+    b=[x for x in regular(60,40) if x<40]
+    rows=track(60,b);last=b[-1]
+    held=[t-last for t,v in rows if t>last and v]
+    results.append({'case':'c2_asystole_after_60','invalid_after_last_beat_s':round(max(held),3) if held else 0,
+                    'held_values':sorted(set(v for t,v in rows if t>last and v)),
+                    'pass':(max(held) if held else 0)<=4.3})
 
 # 冻结原始历史样本回放只作表征：没有真值，不以输出数值正常作为PASS门槛。
 base=root.parent
@@ -112,8 +220,10 @@ if historic.exists():
 else:history=None
 receipt={'compile_exit':compiled.returncode,'cases':results,'pass':sum(r['pass'] for r in results),
          'total':len(results),'historic':history,'diag_size':C.sizeof(Diag),
-         'algorithm_sha256':hashlib.sha256(source.read_bytes()).hexdigest()}
+          'legacy_total':legacy_total,'legacy_pass':sum(r['pass'] for r in results[:legacy_total]),
+         'algorithm_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),
+         'defines':args.define,'rr_r1':r1,'not_applicable':not_applicable}
 (evidence/'host_receipt.json').write_text(json.dumps(receipt,ensure_ascii=False,indent=2),encoding='utf-8')
-print(json.dumps({'pass':receipt['pass'],'total':receipt['total'],
+print(json.dumps({'pass':receipt['pass'],'total':receipt['total'],'not_applicable':not_applicable,
                   'failed':[r for r in results if not r['pass']],'historic':history},ensure_ascii=True,indent=2))
 raise SystemExit(0 if receipt['pass']==receipt['total'] else 1)

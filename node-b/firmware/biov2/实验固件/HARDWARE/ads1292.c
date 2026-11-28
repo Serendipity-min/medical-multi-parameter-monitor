@@ -71,8 +71,10 @@ static const ads_reg_cfg_t k_regs[] = {
 
     /* LOFF_SENS (07h) = 0x00  —— 关断线检测电流
        （电极经模块 56K 接入，6uA 电流压降 336mV 会把通道顶轨；
-         电流关掉后 STATUS 脱落位仅作参考，不再作为脱落判据） */
-    { ADS_REG_LOFF_SENS, 0x00, "LOFF_SENS" },
+         电流关掉后 STATUS 脱落位仅作参考，不再作为脱落判据）
+       ADS_LOFF_DC=1 时 = 0x0C：LOFF2N|LOFF2P，只给 CH2 心电加电流。LOFF 的 ILEAD_OFF=00 是 6nA 档，
+       56K 上压降约 0.34mV，不会顶轨；CH1 呼吸通道不开。 */
+    { ADS_REG_LOFF_SENS, ADS_LOFF_DC ? 0x0C : 0x00, "LOFF_SENS" },
 
     /* RESP1 (09h) = 0xEA   —— 仅 ADS1292R，呼吸调制/解调
        bit7   RESP_DEMOD_EN1=1  解调使能
@@ -206,6 +208,11 @@ void EXTI3_IRQHandler(void)
         s_stats.bad_status++; s_miss_cnt++; return;
     }
     s_stats.captured++;
+#if ADS_LOFF_DC
+    /* STATUS 首字节低 4 位 = RLD/IN2N/IN2P/IN1N 脱落；只认 CH2 两位，RLD 未开感测。 */
+    s_stats.last_loff_bits=frame.bytes[0]&0x0Fu;
+    if (frame.bytes[0]&0x06u) { s_stats.ch2_lead_off_frames++; }
+#endif
     /* 缓冲满只丢新帧并计数，保持旧帧顺序；消费者用序号断段，不隐藏溢出。 */
     if (!EcgQueue_Push(&frame)) { s_stats.queue_overflow++; s_miss_cnt++; }
     queued=EcgQueue_Count();
@@ -264,6 +271,9 @@ void ADS1292_Init(void)
     s_stats.bad_status=s_stats.spi_errors=s_stats.queue_overflow=0;
     s_stats.queue_peak=s_stats.init_errors=s_stats.long_gap_count=0;
     s_stats.min_irq_gap_cycles=0xFFFFFFFFu; s_stats.max_irq_gap_cycles=s_stats.max_read_cycles=0;
+#if ADS_LOFF_DC
+    s_stats.ch2_lead_off_frames=s_stats.last_loff_bits=0;
+#endif
     s_drdy_cnt=s_frame_cnt=s_miss_cnt=0;
     s_last_frame_ms=s_last_sequence=0; s_last_frame_flags=0;
     ads_gpio_init();

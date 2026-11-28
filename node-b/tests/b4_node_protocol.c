@@ -38,6 +38,7 @@ static void sample(uint32_t now, uint32_t sequence) {
     int32_t ecg = (int32_t)(200000 + 10000 * exp(-.5 * pow(phase / .012, 2)) +
         1800 * exp(-.5 * pow((phase - .23) / .055, 2)) + 700 * exp(-.5 * pow((phase + .16) / .035, 2)));
     int32_t resp = (int32_t)(640000 + 1200 * sin(2 * 3.141592653589793 * .25 * t));
+    if (now >= 60000u && now < 60200u) ecg = 8400000; /* ECG削顶200 ms：只撤ECG波形资格，RESP照常。 */
     BioV2_Process(ecg, resp, now, sequence, 0); BCan_Sample(now, sequence, 0);
 }
 int main(int argc, char **argv) {
@@ -56,6 +57,9 @@ int main(int argc, char **argv) {
             next_sample += 4u + (jitter && seq % 900u == 0); /* 约278ppm，与历史非4ms间隔量级相符。 */
         }
         CanOpen_Task(now);
+        /* R125：波形资格只看信号，预热期HR/RR尚无效时波形照常有效；削顶期只撤本通道波形。 */
+        if (now == 3000u) assert((OD_RAM.x2130_validity_generation.data_valid_flags & 15u) == 3u);
+        if (now == 60100u) assert((OD_RAM.x2130_validity_generation.data_valid_flags & 3u) == 2u);
     }
     assert(g_bio_v2.samples == seq && g_bio_v2.discontinuities == 0);
     assert(g_bio_v2.hr_valid && g_bio_v2.rpm_valid);

@@ -26,6 +26,8 @@ static CO_t *co;
 static NodeClock clock_anchor;
 static uint32_t generation, last_task, last_flags, last_sequence;
 static uint8_t running, first, have_sequence;
+static uint16_t hr_last, rr_last;     /* 最近一次有效值×100 */
+static uint32_t hr_ok_ms, rr_ok_ms;   /* 最近一次有效的时刻 */
 BCanDiag g_b_can;
 extern void CO_CANinterrupt(CO_CANmodule_t *module);
 
@@ -91,8 +93,12 @@ static uint8_t produce(uint32_t now) {
     OD_RAM.x2100_epoch_tick.epoch = epoch; OD_RAM.x2100_epoch_tick.tick = anchor;
     uint16_t hr = 0, rr = 0;
     uint8_t hr_ok = BioV2_GetHeart(&hr, now), rr_ok = BioV2_GetResp(&rr, now);
-    OD_RAM.x2120_vitals.HR = hr_ok ? (uint16_t)(hr * 100u) : 0;
-    OD_RAM.x2120_vitals.RR = rr_ok ? (uint16_t)(rr * 100u) : 0;
+    /* 网关在数值帧（TPDO2，1 s 定时）到达时配用最近收到的标志帧（TPDO4，变化即发）。失效时若数值帧先发，
+       新值 0 会配上旧的有效位，成为“有效的 0”（R124 §3.2）。失效后 1.1 s 内数值沿用上一有效值，覆盖一个定时周期。 */
+    if (hr_ok) { hr_last = (uint16_t)(hr * 100u); hr_ok_ms = now; }
+    if (rr_ok) { rr_last = (uint16_t)(rr * 100u); rr_ok_ms = now; }
+    OD_RAM.x2120_vitals.HR = hr_ok || (uint32_t)(now - hr_ok_ms) <= 1100u ? hr_last : 0;
+    OD_RAM.x2120_vitals.RR = rr_ok || (uint32_t)(now - rr_ok_ms) <= 1100u ? rr_last : 0;
     OD_RAM.x2120_vitals.TEMP = 0;
 #ifdef B_TEMP_ENABLED
     uint16_t temperature=0;
@@ -106,9 +112,10 @@ static uint8_t produce(uint32_t now) {
 #endif
     uint32_t flags = 0;
     if (epoch && g_bio_v2.samples && (uint32_t)(now - g_bio_v2.last_sample_ms) <= 100u) {
-        /* CAN有效波形采用本通道算法资格，噪声/无周期仍传原值但标INVALID。 */
-        if (hr_ok && !g_bio_v2.hr_reason) flags |= 1u;
-        if (rr_ok && !g_bio_v2.rpm_reason) flags |= 2u;
+        /* 波形有效只看信号本身：样本新鲜、有时间锚、本通道未削顶；与HR/RR算法资格无关（R125），
+           网页波形不再随数值无效而消失。削顶判据与bio_v2.c的accept_input一致。 */
+        if (g_bio_v2.ecg_raw < 8304721 && g_bio_v2.ecg_raw > -8304721) flags |= 1u;
+        if (g_bio_v2.resp_raw < 8304721 && g_bio_v2.resp_raw > -8304721) flags |= 2u;
         if (hr_ok) flags |= 4u;
         if (rr_ok) flags |= 8u;
     }

@@ -1,0 +1,54 @@
+C 收到的各节点 PDO 增量（14:28–15:28；心跳 / PDO1 / PDO2 / PDO3 标量 / PDO4 时间锚 / PDO5 标志）
+ A（node 1）：心跳 7164，PDO1 31367，PDO2 0，PDO3 3583，PDO4 3583，PDO5 3655；PDO3/PDO5 = 0.980，PDO4/PDO5 = 0.980
+ E（node 5）：心跳 7150，PDO1 0，PDO2 3579，PDO3 3579，PDO4 3579，PDO5 3583；PDO3/PDO5 = 0.999，PDO4/PDO5 = 0.999
+ B（node 2）：心跳 7079，PDO1 884586，PDO2 176943，PDO3 3403，PDO4 3516，PDO5 3581；PDO3/PDO5 = 0.950，PDO4/PDO5 = 0.982
+ D（node 4）：心跳 7009，PDO1 0，PDO2 0，PDO3 2892，PDO4 3130，PDO5 3583；PDO3/PDO5 = 0.807，PDO4/PDO5 = 0.874
+15:14:40–15:15:10 关键日志：
+  B5 DIAG tick=3650034 session=463711187 rx=998272 txack=6976 txfail=0 overflow=0 esr=0 uart_err=223 live=1 cache=0 dropped=0 q0_transport=11279 q1_puback=18632 mqtt_fail=0 stop=0
+  B5 TXCHK tick=3650099 bytes=12621614 packets=29926 short=0 txe_to=0 gap_ms=8 reentry=0 ack_gap_ms=3717 req=191 wr=191
+  B5 DIAG tick=3655109 session=463711187 rx=999845 txack=6987 txfail=0 overflow=0 esr=0 uart_err=223 live=2 cache=0 dropped=0 q0_transport=11296 q1_puback=18662 mqtt_fail=0 stop=0
+  B5 TXCHK tick=3655174 bytes=12641776 packets=29973 short=0 txe_to=0 gap_ms=8 reentry=0 ack_gap_ms=3717 req=846 wr=846
+  B5 DIAG tick=3660075 session=463711187 rx=1001382 txack=6997 txfail=0 overflow=0 esr=0 uart_err=223 live=3 cache=0 dropped=0 q0_transport=11318 q1_puback=18688 mqtt_fail=0 stop=0
+  B5 TXCHK tick=3660143 bytes=12663683 packets=30022 short=0 txe_to=0 gap_ms=8 reentry=0 ack_gap_ms=3717 req=856 wr=856
+  B5 DIAG tick=3665000 session=463711187 rx=1002909 txack=7008 txfail=0 overflow=0 esr=0 uart_err=223 live=17 cache=0 dropped=0 q0_transport=11340 q1_puback=18700 mqtt_fail=0 stop=0
+  B5 TXCHK tick=3665069 bytes=12682405 packets=30055 short=0 txe_to=0 gap_ms=8 reentry=0 ack_gap_ms=3717 req=847 wr=847
+  B5 TXCHK tick=3666972 bytes=12682405 packets=30055 short=0 txe_to=0 gap_ms=8 reentry=0 ack_gap_ms=3717 req=847 wr=847
+  B5 TXEXIT tick=3666972 packet_n=16 ack_n=64 ack_overwritten=18444
+  GW PASS_ESCAPE_SENT
+  GW PASS_AT_OK
+  GW PASS_CLOSE_UNCONFIRMED
+  GW PASS_SOCKET_ABSENT
+  GW PASS_REENTRY_BACKOFF
+  GW PASS_REENTRY_ATTEMPT
+  GW OK AT
+  GW OK ECHO
+  GW OK VOLATILE
+  GW OK STA
+  GW OK PASS_NORMAL
+  GW AT_VERSION value=2.3.0.0
+  GW OK WIFI
+  GW WIFI_SIGNAL channel=11 rssi=-50
+  GW WIFI_SLEEP before=0 after=0
+  GW OK SINGLE
+  GW OK PASSIVE
+  GW TIME_SAMPLE query=1 primary=0 parsed=1 epoch=1795763702
+  GW TIME_WAIT queries=1 elapsed=48 valid=1 epoch=1795763702 tried=1
+  GW TIME_MATCH delta_ms=577 query_ms=8
+  GW SNTP_SAMPLE rtt_ms=121 uncertainty_ms=60 epoch=1795763702 fraction=727 server_index=0
+  GW SNTP_VALID epoch=1795763702 uptime=3673059
+  GW OK CA_VERIFY
+  GW OK CERT_NAME
+  GW OK SNI
+  GW OK ACTIVE
+  GW OK PASS_RECONNECT
+  GW OK TLS
+  GW OK PASS_MODE
+  GW MQTT_CONNECTED
+  GW PASS_REENTRY_OK
+  B5 DIAG tick=3675829 session=467375720 rx=1006253 txack=7031 txfail=0 overflow=0 esr=0 uart_err=223 live=0 cache=49 dropped=0 q0_transport=11340 q1_puback=18700 mqtt_fail=1 stop=0
+  B5 TXCHK tick=3675901 bytes=12682890 packets=30059 short=0 txe_to=0 gap_ms=8 reentry=0 ack_gap_ms=3717 req=181 wr=181
+窗口末 PUBACK 累计最大延迟 ms： ['1632']
+=== 时间分辨（每 5 分钟增量）：PDO3/PDO5、PDO4/PDO5、心跳 次/s
+ D：14:28 0.80/0.85/1.96  14:33 0.79/0.87/1.95  14:38 0.80/0.87/1.96  14:43 0.80/0.89/1.95  14:48 0.80/0.87/1.97  14:53 0.83/0.90/1.96  14:58 0.80/0.88/1.95  15:03 0.80/0.86/1.96  15:08 0.81/0.87/1.95  15:13 0.82/0.89/1.94  15:18 0.80/0.86/1.96  15:23 0.82/0.88/1.96
+ B：14:28 0.84/0.87/1.99  14:33 0.97/1.00/2.00  14:38 0.97/1.00/2.00  14:43 0.96/1.00/2.00  14:48 0.98/1.00/2.00  14:53 0.94/0.95/1.73  14:58 0.94/0.97/2.00  15:03 0.99/1.01/1.99  15:08 0.93/1.00/2.00  15:13 0.98/1.00/2.00  15:18 0.97/1.00/2.00  15:23 0.95/1.00/2.00
+ A：14:28 1.00/1.00/2.00  14:33 0.98/0.98/2.00  14:38 1.00/1.00/2.00  14:43 0.97/0.97/2.00  14:48 1.00/1.00/2.00  14:53 1.00/1.00/2.00  14:58 1.00/1.00/2.00  15:03 1.00/1.00/2.00  15:08 0.95/0.95/2.00  15:13 0.89/0.89/2.00  15:18 1.00/1.00/2.00  15:23 1.00/1.00/2.00

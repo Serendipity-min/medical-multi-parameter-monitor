@@ -16,6 +16,7 @@ R83–R96 复核文档所用的离线分析脚本和计算结果。工程口径�
 | `r91human-20261119T072140Z-node-ab.jsonl` | P2 复测（两次贴片） | `f6bfe1d30a92e74641886a979d869677300d9462f54c9e41e0e218f0d2cd1904` |
 | `r92sim-20261119T082651Z-node-ab.jsonl` | 模拟器链路自检 | `3b3ec69a535296dd0e720ab5cbfad780c641ce926d911d0ada64b389ffd0b524` |
 | `r94human-20261119T090428Z-node-ab.jsonl` | P2 复测（志愿者乙） | `eee4fa8fc5161f5c1d6fe81de94cb1ed2237808a0fed7b4fafdddb8634bdd2fd` |
+| `r100rr-20261119T112442Z-node-ab.jsonl` | RR 真值采集（节拍 10、15、20 次/分） | `0734d690ad5cc0fa7ae46999b7b1815a5a19a131bed31f27cc54e7483f6c696e` |
 
 ## 目录
 - `scripts/`：R83–R88 的基础脚本，入口是 `load.py`（MQTT 解析与量纲换算）。
@@ -56,5 +57,25 @@ R83–R96 复核文档所用的离线分析脚本和计算结果。工程口径�
 | `r89_r92_sim.txt` | R93 |
 | `r89_r94_snap.txt` | R95 §2 |
 | `c3_*.txt` | R96 |
+| `r98_*.txt`（脚本在 `scripts/r98/`；`load2.py` 已按批末时间戳修正时间轴） | R99 |
+| `r100_synthetic_controls.txt`（冻结版 PPG-RR：`scripts/r98/rr_frozen.py`） | R100 |
+| `r100_eval.txt`、`r100_diag.txt`、`r100_resp_explore.txt` | R101 |
+| `r102_resp_r1.txt`、`r102_resp_r1_amended.txt`；`r102_resp_qsens.txt`（q 敏感性，`scripts/r98/resp_qsens.py`） | R102；q 敏感性见 R103 §1 |
+| `r103_clock_beat.txt`（`clock_beat.py`）、`r103_alc_equiv.txt`（`alc_equiv.py` + `drv_alc.c`）、`r103_alc_host_noise.txt`（`alc_host_noise.py`） | R103 |
+| `r106_polarity_existing.txt`（`qrs_polarity.py`，QRS 主峰极性） | R106 |
+| `r107_polarity_r106sim.txt`（`qrs_polarity.py`，R106 模拟器换色各段） | R107 |
+| `r109_eval.txt`（`r109_eval.py`：RESP 重新定标、真人 HR/极性/集合平均/分带、RR） | R109 |
+| `r111_eval.txt`（`r111_eval.py`，复用 r109_eval：志愿者丙） | R111 |
+| `r113_eval.txt`（`r113_eval.py`，复用 r109_eval、r111_eval：志愿者丁，RR 首次有人工计数） | R113 |
+| `r117_eval.txt`（`r117_eval.py`，复用 r109_eval、r111_eval：志愿者甲，含坐—躺—坐与 R87 对照） | R117 |
+| `r118_c4.txt`（`c4/eval4.py` + `c4/drv4.c`：C2 门限口径预注册比较）、`r118_c4_explore.txt`（`c4/explore4.py`：k 扫描，探索） | R118 |
+| `r120_eval.txt`（`r98/r120_eval.py`：R119 甲静止、手臂交替、20 次/分） | R120 |
+| `r122_dryrun_r116.txt`（`r98/r122_eval.py` + `r98/r122_dryrun_r116.json`：R121 判定逻辑采集前提交，用 R116 时刻试跑，不是 R122 结果） | R121 预注册 |
+| `r115_dryrun_r116.txt`（`r98/r115_eval.py` + `r98/r115_dryrun_r116.json`：R114 §8 先躺后坐判定逻辑采集前提交，用 R116 平躺、坐姿 B 时刻试跑，不是 R115 结果） | R114 §8 预注册 |
+| `r123_dryrun_r116.txt`（`r98/r122_eval.py` + `r98/r123_dryrun_r116.json`：R123 §10 的 3 分钟 HR + 3 分钟节拍 15 次/分格式，计数留空只验代码路径，不是结果） | R123 §10 预注册 |
+| `r124_sim_dryrun_r108.txt`（`r98/r124_sim_eval.py` + `r98/r124_sim_dryrun_r108.json`：R123 §5 模拟器验收判读口径采集前提交，用 R108 时域 RR 录制试跑，只验代码路径） | R123 §5 预注册 |
+| `r124_sim.txt`、`r124_human.txt`、`r124_human_secondary.txt`（`r98/r124_sim_eval.py`、`r98/r122_eval.py` + `r124_sim.json`、`r124_human.json`；secondary 为非预注册分析） | R124 |
+| `r125_r1_equiv.txt`（`r98/r125_r1_equiv.py`：R125 修复版 R1 与 `resp_r1.py`（`RPM_MIN=9.5`）逐窗对照，18 份录制）；`r126_sim_dryrun_r108.txt`、`r126_sim_dryrun_r123sim.txt`（`r98/r126_sim_eval.py`：R125 §5 新增三项门槛，C2 对照 PASS、R1 首版 FAIL）；`r126_dryrun_r123human.txt`（3 分钟单窗格式，只验代码路径） | R125 预注册 |
+| `r123_r1_equiv.txt`（`r98/r123_r1_equiv.py`：主线 `bio_v2.c` 的 R1 C 实现与 `resp_r1.py` 逐窗对照，16 份录制 + 9 个节拍段判定复现） | R123 |
 
 **注意**：`r89_rounds.txt` 用的是 R91 时的 PPG 去趋势方法，滑动均值在两端补零。R92 起改为按实际点数归一。两种方法对 R87 的结果分别为 588 µV 和 601 µV，结论不受影响；R91 那份录制只能用修正后的方法（见 `r91_min.py`）。
