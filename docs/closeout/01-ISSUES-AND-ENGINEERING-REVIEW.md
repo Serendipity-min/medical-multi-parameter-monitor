@@ -1,5 +1,7 @@
 # 多参数监护系统结项审查
 
+> **已被取代（2026-11-28）**：本文写于 R65 之后、R125 之前，ECG/RR 算法、真人结果和长测部分已过时。问题档案见 `docs/handbook/09-ISSUE-ARCHIVE.md`，最终结论见 `docs/acceptance/ACCEPTANCE-REPORT.md`。本文保留作历史记录，正文未改。
+
 ## 问题闭环、遗留事项与答辩技术难点
 
 **审查日期：2026-11-12（America/Chicago）**  
