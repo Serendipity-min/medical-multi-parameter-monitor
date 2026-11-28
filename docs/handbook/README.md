@@ -9,19 +9,21 @@
 | `docs/acceptance/ACCEPTANCE-REPORT.md` | 合同逐条结论与证据 |
 | **本目录** | 设计理由、实现细节、问题档案、维护要点 |
 
+入口：[00-INDEX.md](00-INDEX.md)（含按任务的阅读路线）。
+
 ## 篇目
 
 | 编号 | 文档 | 状态 |
 |---|---|---|
-| 00 | 索引与阅读路线 | 待写（第三批） |
+| 00 | [索引与阅读路线](00-INDEX.md) | 第三批 |
 | 01 | [硬件与接线](01-HARDWARE-AND-WIRING.md) | 第二批 |
 | 02 | [节点 A、D、E 固件](02-NODES-A-D-E.md) | 第二批 |
 | 03 | [节点 B：采集链路与算法](03-NODE-B-ACQUISITION-AND-ALGORITHMS.md) | 第一批 |
 | 04 | [CANopen 细节](04-CANOPEN-DETAILS.md) | 第二批 |
 | 05 | [网关 C](05-GATEWAY-C.md) | 第二批 |
-| 06 | 云端与网页 | 待写（第三批） |
-| 07 | 构建、烧录与回滚 | 待写（第三批） |
-| 08 | 测试与验收方法 | 待写（第三批） |
+| 06 | [云端与网页](06-CLOUD-AND-WEB.md) | 第三批 |
+| 07 | [构建、烧录与回滚](07-BUILD-FLASH-ROLLBACK.md) | 第三批 |
+| 08 | [测试与验收方法](08-TESTING-AND-ACCEPTANCE.md) | 第三批 |
 | 09 | [问题档案与排障速查](09-ISSUE-ARCHIVE.md) | 第一批 |
 | 10 | [设计决策记录](10-DESIGN-DECISIONS.md) | 第一批 |
 | 12 | [数字速查与项目时间线](12-NUMBERS-AND-TIMELINE.md) | 第一批 |
